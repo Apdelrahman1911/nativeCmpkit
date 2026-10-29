@@ -30,6 +30,7 @@ import runtime_context
 import native_test_policy
 import daemon_jvm
 import desktop_media_context
+import picker_dialog_context
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -511,6 +512,16 @@ def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
     return len(actual) == len(BROWSER_COIL_READ_METHODS) and set(actual) == set(BROWSER_COIL_READ_METHODS)
 
 
+PICKER_LIFETIME_FOCUS = "picker-native-lifetime"
+PICKER_LIFETIME_CLASS = native_test_policy.PICKER_COMPOSE_CLASS
+PICKER_LIFETIME_SOURCE = native_test_policy.PICKER_COMPOSE_SOURCE
+PICKER_LIFETIME_METHODS = native_test_policy.PICKER_COMPOSE_METHODS
+
+
+def picker_lifetime_identities() -> list[dict]:
+    return [{"classname": PICKER_LIFETIME_CLASS, "name": method + "[desktop]"} for method in PICKER_LIFETIME_METHODS]
+
+
 WEBVIEW_LIFETIME_FOCUS = "webview-native-lifetime"
 WEBVIEW_MEDIA_FOCUS = "webview-native-media"
 WEBVIEW_ANDROID_MEDIA_FOCUS = "webview-android-native-media"
@@ -607,7 +618,8 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
-    return ((focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
+    return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
              modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == WEBVIEW_ANDROID_MEDIA_FOCUS and suite == "android-device" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
@@ -858,6 +870,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         for item in selected:
             if item["module"] == native_test_policy.MODULE and native_test_policy.SOURCE not in item["test_source_files"]:
                 raise ValueError("Required native share scenario source is missing; do not silently reduce native coverage")
+            if item["module"] == "calf-file-picker" and PICKER_LIFETIME_SOURCE not in item["test_source_files"]:
+                raise ValueError("Required picker Compose/JNI scenario source is missing; do not silently reduce native coverage")
     result = {"schema_version": 1, "suite": suite, "inherited_test_source_sets": list(inherited),
             "expected": selected, "uncovered": uncovered,
             "complete_suite_requested": not bool(only_modules), "explicit_module_subset": list(only_modules or ()),
@@ -997,6 +1011,17 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                            if suite == "desktop" else
                            "Three exact real Android Activity/provider/Compose lifetime, media/slow socket and serialized-state methods only; "
                            "direct throwing-release boundary and ownership handoff are controlled; no OS process death, physical-device or minimum-API certification")
+    elif focus == PICKER_LIFETIME_FOCUS:
+        source = safe_path(root, PICKER_LIFETIME_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(PICKER_LIFETIME_METHODS) or set(methods) != set(PICKER_LIFETIME_METHODS) or
+                "class NativePickerComposeLifetimeTest" not in source or
+                "package com.mohamedrejeb.calf.picker" not in source or PICKER_LIFETIME_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Picker Compose/JNI declarations changed; review the exact six-method batch")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = PICKER_LIFETIME_CLASS
+        selected[0]["required_testcases"] = picker_lifetime_identities()
+        result["scope"] = "Six exact related Compose/JNI ownership/cancellation/settings methods; three actual private GTK dialogs only on Linux, explicitly N/A elsewhere; raw-parent/Wayland/AppKit/Windows-dialog acquisition remains independent IO-023"
     elif focus == BROWSER_COIL_READ_FOCUS:
         source = safe_path(root, BROWSER_COIL_READ_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1049,6 +1074,15 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == PICKER_LIFETIME_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
+                expected[0].get("test_filter") != PICKER_LIFETIME_CLASS or
+                expected[0].get("required_testcases") != picker_lifetime_identities() or
+                PICKER_LIFETIME_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite related picker lifetime batch plan")
+        return True
     if focus == BROWSER_COIL_READ_FOCUS:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
@@ -1374,6 +1408,12 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == PICKER_LIFETIME_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            scenarios, policy_errors = native_test_policy.picker_compose_cases(module_cases, host_system or platform.system())
+            if len(module_cases) != len(required) or actual != required:
+                policy_errors.append("Picker XML must contain exactly all six selected methods, no duplicate/foreign/missing methods")
         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_LIFETIME_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -1821,6 +1861,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
     lock = allowed / ".library-tests.lock"
     # Do not auto-remove an existing lock: another coordinated run may own it.
     audio = None
+    picker_portal = None
     descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
         os.write(descriptor, f"{os.getpid()}\n".encode())
@@ -1843,6 +1884,14 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         if audio.environment is not None:
             execution_environment = audio.environment
             context["desktop_audio"] = dict(audio.receipt)
+        picker_portal = picker_dialog_context.OwnedPickerPortal(root, output, test_plan)
+        picker_portal.start()
+        if picker_portal.environment is not None:
+            # Current finite focus never combines WebView/media and picker dialogs.
+            # Full suites retain both owned contexts instead of losing audio settings.
+            execution_environment = picker_dialog_context.merge_owned_environments(
+                dict(os.environ), execution_environment, picker_portal.environment)
+            context["desktop_picker_portal"] = dict(picker_portal.receipt)
         write_json(output / "runtime.json", context)
         moved = quarantine_reports(root, output, test_plan)
         started_ns = time.time_ns()
@@ -1851,7 +1900,10 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
             execution = execute(root, command, output / "gradle.log", timeout, reserve_mib,
                                 **({"env": execution_environment} if execution_environment is not None else {}))
         finally:
-            audio.close()
+            try:
+                picker_portal.close()
+            finally:
+                audio.close()
         ended_ns = time.time_ns()
         receipt = {"schema_version": 1, "suite": suite, "started_at_utc": started_utc, "finished_at_utc": utc_now(),
                    "source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
@@ -1865,6 +1917,10 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         if audio.receipt is not None:
             receipt["desktop_audio"] = audio.receipt
             write_json(output / "desktop-audio" / "receipt.json", audio.receipt)
+        if picker_portal.receipt is not None:
+            receipt["desktop_picker_portal"] = picker_portal.receipt
+            (output / "desktop-picker-portal").mkdir(exist_ok=True)
+            write_json(output / "desktop-picker-portal" / "receipt.json", picker_portal.receipt)
         if focus is not None:
             receipt["explicit_test_focus"] = focus
             receipt["required_focused_testcases"] = test_plan["expected"][0]["required_testcases"]
@@ -1905,6 +1961,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
             receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
         if audio.requested and not audio.passed():
             receipt["errors"].append({"error": "Owned clocked audio context/configuration/cleanup failed"})
+        if picker_portal.requested and not picker_portal.receipt.get("clean_owned_shutdown"):
+            receipt["errors"].append({"error": "Owned real picker portal startup/runtime/shutdown failed"})
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
                              and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
                              and not receipt.get("device_context_error"))
@@ -1912,8 +1970,16 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         return receipt
     finally:
         try:
-            if audio is not None:
-                audio.close()
+            try:
+                if picker_portal is not None:
+                    picker_portal.close()
+                    if picker_portal.receipt is not None:
+                        folder = output / "desktop-picker-portal"
+                        folder.mkdir(exist_ok=True)
+                        write_json(folder / "receipt.json", picker_portal.receipt)
+            finally:
+                if audio is not None:
+                    audio.close()
         finally:
             os.close(descriptor)
             lock.unlink()
@@ -1929,7 +1995,7 @@ def main() -> int:
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
-                                           BROWSER_COIL_READ_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

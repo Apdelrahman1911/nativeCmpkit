@@ -47,6 +47,10 @@ PROFILES = {
     "webview-lifetime-macos-x64": ("desktop-macos-x64",),
     "webview-lifetime-macos-media": ("desktop-macos-x64",),
     "webview-lifetime-windows": ("desktop-windows-x64",),
+    "picker-batch": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
+    "picker-batch-linux": ("desktop-linux-x64",),
+    "picker-batch-macos": ("desktop-macos-arm64",),
+    "picker-batch-windows": ("desktop-windows-x64",),
     "desktop-data-safety": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "android-resource-safety": ("android-host",),
     "android-coil-resource": ("android-host",),
@@ -128,6 +132,10 @@ MODULE_SUBSETS = {
     "webview-lifetime-macos-x64": "calf-webview",
     "webview-lifetime-macos-media": "calf-webview",
     "webview-lifetime-windows": "calf-webview",
+    "picker-batch": "calf-file-picker",
+    "picker-batch-linux": "calf-file-picker",
+    "picker-batch-macos": "calf-file-picker",
+    "picker-batch-windows": "calf-file-picker",
     # Changed interruptible file-copy and no-open share policy: actual JVM tests
     # on all three desktop OS families, not unrelated browser/mobile/sample jobs.
     "desktop-data-safety": "calf-file-picker,calf-share",
@@ -187,6 +195,9 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = ("webview-native-media" if profile == "webview-lifetime-macos-media" else
                                  "webview-android-native-media" if profile == "webview-lifetime-android-media" else "webview-native-lifetime")
+    if profile.startswith("picker-batch"):
+        for row in rows:
+            row["test-focus"] = "picker-native-lifetime"
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"

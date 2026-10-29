@@ -8,11 +8,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.window.FrameWindowScope
+import androidx.compose.ui.awt.ComposeWindow
 import com.mohamedrejeb.calf.io.KmpFile
 import com.mohamedrejeb.calf.picker.platform.PlatformFilePicker
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.isActive
+import java.io.File
 
 // Retain the original platform file-facade entry point as well as its common signature.
 @Composable
@@ -37,6 +39,7 @@ actual fun rememberFilePickerLauncher(
     val resolvedSettings = remember(
         settings.title,
         settings.initialDirectory,
+        settings.imageRepresentationMode,
         settings.parentWindow,
         localWindow,
     ) {
@@ -92,6 +95,7 @@ fun FrameWindowScope.rememberFilePickerLauncher(
     val resolvedSettings = remember(
         settings.title,
         settings.initialDirectory,
+        settings.imageRepresentationMode,
         settings.parentWindow,
         window,
     ) {
@@ -117,6 +121,23 @@ private fun rememberFilePickerLauncherInternal(
     settings: FilePickerSettings,
     onError: (FilePickerException) -> Unit,
     onResult: (List<KmpFile>) -> Unit,
+): FilePickerLauncher = rememberDesktopFilePickerLauncher(
+    type, selectionMode, settings, onError, onResult, PlatformFilePicker::pick,
+)
+
+/**
+ * One retained Compose session owns each operation. The per-instance operation boundary
+ * permits deterministic dispatcher/JNI handoff tests without global native hooks or
+ * replacing the public factory's real [PlatformFilePicker] implementation.
+ */
+@Composable
+internal fun rememberDesktopFilePickerLauncher(
+    type: FilePickerFileType,
+    selectionMode: FilePickerSelectionMode,
+    settings: FilePickerSettings,
+    onError: (FilePickerException) -> Unit,
+    onResult: (List<KmpFile>) -> Unit,
+    pickFiles: suspend (String?, FilePickerFileType, FilePickerSelectionMode, String?, ComposeWindow?) -> List<File>,
 ): FilePickerLauncher {
     val scope = rememberCoroutineScope()
     val currentOnResult by rememberUpdatedState(onResult)
@@ -124,6 +145,7 @@ private fun rememberFilePickerLauncherInternal(
     val currentType by rememberUpdatedState(type)
     val currentMode by rememberUpdatedState(selectionMode)
     val currentSettings by rememberUpdatedState(settings)
+    val currentPickFiles by rememberUpdatedState(pickFiles)
     val busy = remember { java.util.concurrent.atomic.AtomicBoolean(false) }
     return remember {
         FilePickerLauncher(type, selectionMode) launch@{
@@ -136,14 +158,15 @@ private fun rememberFilePickerLauncherInternal(
             val launchType = currentType
             val launchMode = currentMode
             val launchSettings = currentSettings
+            val launchPickFiles = currentPickFiles
             scope.launch {
                 val result = try {
-                    Result.success(PlatformFilePicker.pick(
-                        initialDirectory = launchSettings.initialDirectory,
-                        type = launchType,
-                        selectionMode = launchMode,
-                        title = launchSettings.title,
-                        parentWindow = launchSettings.parentWindow,
+                    Result.success(launchPickFiles(
+                        launchSettings.initialDirectory,
+                        launchType,
+                        launchMode,
+                        launchSettings.title,
+                        launchSettings.parentWindow,
                     ).limitedTo(launchMode).map(::KmpFile))
                 } catch (cancelled: CancellationException) {
                     throw cancelled

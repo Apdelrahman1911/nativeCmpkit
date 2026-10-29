@@ -15,6 +15,10 @@ jni = "=0.21.1"
 rfd = "=0.17.2"
 raw-window-handle = "=0.6.2"
 
+[dev-dependencies]
+# Real embedded JVM/JNI tests only; production does not enable JVM invocation.
+jni = { version = "=0.21.1", features = ["invocation"] }
+
 [target.'cfg(target_os = "macos")'.dependencies]
 objc2 = "0.6"
 objc2-app-kit = { version = "0.3", features = ["NSWindow", "NSView", "NSResponder"] }

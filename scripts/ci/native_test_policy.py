@@ -107,8 +107,49 @@ def canonical_host(system: str) -> str:
     return aliases[system.strip().lower()]
 
 
+PICKER_COMPOSE_CLASS = "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest"
+PICKER_COMPOSE_SOURCE = "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt"
+PICKER_COMPOSE_METHODS = (
+    "composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow",
+    "composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce",
+    "retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession",
+    "firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog",
+    "closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership",
+    "closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid",
+)
+PICKER_LINUX_PORTAL_METHODS = set(PICKER_COMPOSE_METHODS[3:])
+
+
+def picker_compose_cases(cases: list[dict], system: str) -> tuple[list[dict], list[str]]:
+    host = canonical_host(system)
+    scenarios, errors = [], []
+    for method in PICKER_COMPOSE_METHODS:
+        matching = [c for c in cases if c["classname"] == PICKER_COMPOSE_CLASS and c["name"] == method + "[desktop]"]
+        applicable = host == "linux" or method not in PICKER_LINUX_PORTAL_METHODS
+        scenario = {"classname": PICKER_COMPOSE_CLASS, "method": method, "source": PICKER_COMPOSE_SOURCE,
+                    "host": host, "required_on_host": applicable, "task": "desktopTest"}
+        if len(matching) != 1:
+            errors.append(f"Picker native lifetime method {method} must appear exactly once")
+            scenario["disposition"] = "missing-or-duplicate"
+        elif not applicable:
+            if matching[0]["status"] != "skipped":
+                errors.append(f"Linux-only real GTK portal method {method} must be explicit N/A on this host")
+                scenario["disposition"] = "invalid-host-outcome"
+            else:
+                matching[0].update(disposition="not-applicable", not_applicable_reason="Linux private GTK/FileChooser portal scenario, not a Windows/AppKit UI test")
+                scenario["disposition"] = "not-applicable"
+        else:
+            scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" else "required-not-passed"
+            if matching[0]["status"] != "passed":
+                errors.append(f"Required actual Compose/JNI lifetime method {method} failed/errored/skipped; no missing-native waiver")
+        scenarios.append(scenario)
+    return scenarios, errors
+
+
 def apply(module: str, suite: str, cases: list[dict], system: str,
           native_ui_opt_in: bool) -> tuple[list[dict], list[str]]:
+    if module == "calf-file-picker" and suite == "desktop":
+        return picker_compose_cases(cases, system)
     if suite == "ios" and module in IOS_IO_CASES:
         return ios_io_cases(module, cases, system)
     if module == "calf-webview" and suite == "desktop":

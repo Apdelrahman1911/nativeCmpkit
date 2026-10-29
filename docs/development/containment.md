@@ -30,6 +30,16 @@ mandatory SHA-pinning and routine-verification approval instructions. Historical
 receipts and checkpoints retain their actual observations; they are not current
 policy. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
+### Related-issue batches — owner decision, 2026-10-29
+
+Fix related issues in a shared owning patch, run the important new/changed tests
+together, and review the original criteria for every proposed closure. Close all
+verified issues in that batch immediately; do not wait for unrelated issue fixes,
+full documentation preflights or whole-release gates. Reuse valid unchanged
+evidence without calling it a fresh run. A batch is not permission to close its
+unverified members. Read back and document the exact closed subset afterward.
+Single-agent containment and all publishing/security restrictions remain.
+
 ### Authorized now
 
 - Repair source/tests/build tooling; acquire necessary dependencies and run

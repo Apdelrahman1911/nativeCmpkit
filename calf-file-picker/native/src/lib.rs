@@ -10,6 +10,8 @@ use std::path::PathBuf;
 #[cfg(target_os = "macos")]
 use std::ptr::NonNull;
 use std::sync::{Arc, OnceLock};
+#[cfg(test)]
+mod jni_path_tests;
 mod path_encoding;
 mod registry;
 use path_encoding::unicode_path;
@@ -50,6 +52,9 @@ fn paths_to_jstring_array(
 ) -> Result<jobjectArray, jni::errors::Error> {
     let string_class = env.find_class("java/lang/String")?;
     let array = env.new_object_array(paths.len() as i32, &string_class, JString::default())?;
+    // Test-only weak observer of the real result array; no production JNI export/hook.
+    #[cfg(test)]
+    jni_path_tests::observe_array_if_requested(env, &array)?;
 
     for (i, path) in paths.iter().enumerate() {
         let path_str = match unicode_path(path) {

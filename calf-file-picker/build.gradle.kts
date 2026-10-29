@@ -36,6 +36,12 @@ kotlin {
         implementation(libs.kotlin.test)
     }
 
+    sourceSets.desktopTest.dependencies {
+        // Real Compose-window library tests need the actual host renderer.
+        // Test-only: never publish a host-classified Skiko runtime to consumers.
+        implementation(compose.desktop.currentOs)
+    }
+
     sourceSets.androidMain.dependencies {
         implementation(libs.activity.compose)
     }

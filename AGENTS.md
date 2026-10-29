@@ -1,5 +1,16 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related-issue batch execution — owner decision, 2026-10-29
+
+Work by related owning subsystem/patch, not one issue at a time. Implement the
+shared fixes, execute only the important new/changed acceptance tests, review
+each original issue against those results, and close the entire verified subset
+together immediately. Reuse reviewed unchanged results safely; never count them
+as fresh executions. An unrelated open issue or whole-release gate must not
+delay a verified batch's closure. Document/read back closures afterward. Missing
+native/device criteria still keep that particular issue open. Single-agent,
+minimum read-only verification permissions and publication/security gates remain.
+
 ## Verified WebView lifetime closure — 2026-10-29
 
 **NATIVE-002/#10 CLOSED/completed** after all three original criteria/source/results

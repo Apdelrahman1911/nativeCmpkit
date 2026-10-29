@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `722a4beb9adef71eb5d15977ece9036e738c2a187ea36613479c139f5f228cbe`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `64eb565aa3f39815f64e3fabc9447752dee1857df39c67d92ad95a2eea9dc23b`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 49 |
-| partially-verified | 53 |
-| verified | 55 |
+| implemented | 48 |
+| partially-verified | 52 |
+| verified | 57 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -95,7 +95,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 2 |
 | 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 2 |
 | 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 2 |
-| 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | partially-verified | — | 3 / 2 |
+| 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
 | 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | implemented | BUILD-001 | 3 / 1 |
@@ -103,7 +103,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | implemented | BUILD-005 | 3 / 1 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
 | 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 8 |
-| 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | implemented | — | 6 / 7 |
+| 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | verified | — | 6 / 0 |
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
@@ -1209,7 +1209,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 50. UI-030 — Liquid Glass switch can visually diverge from its controlled checked value
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #134](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #134](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -1221,8 +1221,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Link/execute real iOS read-only, accepted/rejected/delayed owner, full-track tap and drag tests, including visual thumb return.
-- Physical threshold-cross-and-return, second pointer, external checked update and disabled transitions still need native execution.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
 
@@ -1230,7 +1229,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · partially-verified · original effort M** — [nativeCmpkit #35](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (partially-verified; original order 50).
+**Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (verified; original order 50).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1250,7 +1249,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · verified · original effort M** — [nativeCmpkit #36](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (partially-verified; original order 50).
+**Original dependencies:** [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) (verified; original order 50).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1369,7 +1368,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 58. IO-009 — Browser file reads treat DONE as success and do not cancel or propagate FileReader failures
 
-**Medium · implemented · original effort M** — [nativeCmpkit #46](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort M** — [nativeCmpkit #46](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -1384,13 +1383,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Readable empty/nonempty files
-- FileReader NotReadableError and SecurityError
-- Abort before completion and after onload
-- Dispose image request during large read
-- Exactly one resume and handlers removed
-- JS/Wasm parity
-- Browser004 narrows the earlier unexecuted-at-checkpoint JS/Wasm note to a Chrome153 fixture/runtime pass. Still require real OS read denial/permission errors, broader binary/large-file and late-onload/abort races, decoder disposal, other browsers and immutable-source reruns.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing suspend signatures retained; errors/abort now throw instead of appearing as successful empty reads. Browser source still buffers.
 
@@ -3631,12 +3624,12 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `e0a1fa882dc56606644c53ef5a2ec295ff6bcbe7ed196c281f9fa87bed6f11bd` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `1ade0c8ff93f72e4091dcb94d4ba80d05c5de0f0f440e65d565d2ac52cbeae03` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `e818f7d81b5f401f47bd780115608eab25a3ff9e113a70edea0d0be433156789` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |

@@ -1128,7 +1128,7 @@
   },
   {
     "id": "IO-009",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Share cancellable FileReader ownership between JS/Wasm; register load/error/abort before reading.",
       "Abort on coroutine cancellation, detach handlers before completion and reject missing successful-read results."
@@ -1183,18 +1183,23 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/wasm-full-004-context/context-review.json"
         ]
+      },
+      {
+        "command": "Actual immutable40789123690/53f237af :calf-file-picker-coil:jsBrowserTest and :wasmJsBrowserTest --tests BrowserFileReadCoilAcceptanceTest; independently review original6 criteria and one unchanged nativeAbortIsAnErrorNotAnEmptyFile result per target; close/readback #46 and operational #172 before documentation",
+        "result": "VERIFIED original six owning criteria. Chrome156/Linuxx64/JDK17 JS4/4/0/297.09s and Wasm4/4/0/299.09s, two fresh XML/0failure-error-skip, all820 before/after own-Git inputs match per target and32 current owning files unchanged. Empty/65537 all-byte preservation, captured late load/abort exactly once, actual8MiB LOADING ImageLoader.dispose/job join/native abort/handler cleanup/one onCancel, controlled name-only NotReadableError/SecurityError and pre-read cap. Two unchanged native-abort executions from held dirty js-full-004/wasm-full-004 reused, not called fresh/immutable:8fresh+2reused=10 accepted executions/four new authored methods. IO/picker existing browser0.5.0 exported api,12 actual target metadata outputs accepted; no direct Coil test dependency. Original failures and negative post-await calibration retained; false discarded-promise suspicion withdrawn. Readback CLOSED/completed/body-title-labels preserved. Not OS-grant/full decoding/other-browser/packaged-ABI/security/release certificate.",
+        "evidence": [
+          "docs/development/evidence/browser-read-coil-important-20261028/browser003/lead-independent-review.json",
+          "docs/development/evidence/browser-read-coil-important-20261028/browser003/closure-46/verified-readback.json",
+          "docs/development/evidence/browser-read-coil-important-20261028/browser003/closure-172/verified-readback.json",
+          "docs/development/evidence/browser-read-coil-important-20261028/browser003/archive.json",
+          "docs/development/evidence/browser-read-coil-important-20261028/metadata001/accepted-metadata-review.json",
+          "docs/development/evidence/browser-read-coil-important-20261028/metadata002/accepted-metadata-review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Readable empty/nonempty files",
-      "FileReader NotReadableError and SecurityError",
-      "Abort before completion and after onload",
-      "Dispose image request during large read",
-      "Exactly one resume and handlers removed",
-      "JS/Wasm parity",
-      "Browser004 narrows the earlier unexecuted-at-checkpoint JS/Wasm note to a Chrome153 fixture/runtime pass. Still require real OS read denial/permission errors, broader binary/large-file and late-onload/abort races, decoder disposal, other browsers and immutable-source reruns."
-    ],
-    "compatibility": "Existing suspend signatures retained; errors/abort now throw instead of appearing as successful empty reads. Browser source still buffers."
+    "remaining": [],
+    "compatibility": "Existing suspend signatures retained; errors/abort now throw instead of appearing as successful empty reads. Browser source still buffers.",
+    "residual_gate_scope": "Other browsers/OS-grant revocation/full image decoding, packaged KMP/minimum-platform/ABI/dependency/legal/security/release requirements remain independent under BUILD-006/007 and the release checklist; this record certifies the original FileReader/Coil important contract only."
   },
   {
     "id": "IO-010",

@@ -44,26 +44,26 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7",
-    "docs/development/resolutions/IO.json": "e0a1fa882dc56606644c53ef5a2ec295ff6bcbe7ed196c281f9fa87bed6f11bd",
+    "docs/development/resolutions/IO.json": "090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105",
     "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "1ade0c8ff93f72e4091dcb94d4ba80d05c5de0f0f440e65d565d2ac52cbeae03",
+    "docs/development/resolutions/UI-controls.json": "e818f7d81b5f401f47bd780115608eab25a3ff9e113a70edea0d0be433156789",
     "docs/development/resolutions/UI-native.json": "6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "722a4beb9adef71eb5d15977ece9036e738c2a187ea36613479c139f5f228cbe",
+  "input_fingerprint": "64eb565aa3f39815f64e3fabc9447752dee1857df39c67d92ad95a2eea9dc23b",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 49,
-      "partially-verified": 53,
-      "verified": 55,
+      "implemented": 48,
+      "partially-verified": 52,
+      "verified": 57,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -8307,12 +8307,12 @@
         "mapping_key": "audit:UI-030",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "107d8f2b5b47cbd27761d991e020745e69af8e3144c8607d298cce3d69401899",
+      "owner_record_sha256": "ccc794cb825ea6dc7980a38e348eceb92994ae5d8b54b8d75f119536e1f7de43",
       "owner_record": {
         "id": "UI-030",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "ControlledSwitchDragState owns only nullable in-gesture preview; finish/cancel always clear it, so rejected/null/delayed owner proposals do not become local accepted state.",
           "checked/enabled/geometry/RTL/source changes recreate the preview/input session immediately.",
@@ -8409,13 +8409,21 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "Actual immutable40787364174/85d6d83b :calf-ui:iosSimulatorArm64ApplicationTest --tests three LiquidGlassSwitchOwnershipTest methods; reuse four unchanged original UIKit control methods40522929974 attempt2/20205909; review original3 criteria and close/readback #134 before documentation",
+            "result": "VERIFIED original three owning criteria. Fresh genuine UIKit/Compose3/3/one XML/0failure-error-skip/Gradle0/1632.85s/all820 own-Git before-after inputs/actual JDK17/iPhoneiOS26.5/Xcode26.6; measured delayed authoritative thumb/semantics before and after applying owner proposal, thumb and both track ends each exactly once, live measured threshold cross-and-return does not commit, disabled tap/drag measured visual/semantics unchanged. Four original null/accept/reject/external-update methods reused with exact body/owning-production/catalog equality, not replayed;3fresh+4reused=7 accepted executions. Actual protocol/XML/runtime/distinct Worker completion/owned app cleanup independently agree; reports-only offline review does not recreate absent live binary/MachO/mtime checks. Readback CLOSED/completed/body-title-labels preserved. All broader hardware/assistive/minimum/heap/ABI/consumer/dependency/legal/security/release gates and prior evidence retained.",
+            "evidence": [
+              "docs/development/evidence/switch-ownership-important-20261028/native001/lead-independent-review.json",
+              "docs/development/evidence/switch-ownership-important-20261028/native001/closure/verified-readback.json",
+              "docs/development/evidence/switch-ownership-important-20261028/native001/archive.json",
+              "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
           }
         ],
-        "remaining": [
-          "Link/execute real iOS read-only, accepted/rejected/delayed owner, full-track tap and drag tests, including visual thumb return.",
-          "Physical threshold-cross-and-return, second pointer, external checked update and disabled transitions still need native execution."
-        ],
-        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+        "remaining": [],
+        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+        "residual_gate_scope": "Physical pointer hardware, VoiceOver/Switch Control, older/minimum-platform, heap/profiling/ABI/consumer/dependency/legal/security/release checks remain under UI-029/UI-040 and BUILD-006/007; actual UIKit/Compose simulator automation certifies the original switch ownership contract, not these broader gates."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -8462,7 +8470,7 @@
         {
           "id": "UI-030",
           "original_order": 50,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/134"
         }
       ],
@@ -8634,7 +8642,7 @@
         {
           "id": "UI-030",
           "original_order": 50,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/134"
         }
       ],
@@ -9584,12 +9592,12 @@
         "mapping_key": "audit:IO-009",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "5681a0ca6564ebc84da440bbef19cb7be4d2470227c89b29c93a022017757468",
+      "owner_record_sha256": "4c64867fac64f2920bd14a33edec4c808adaaf9ae5be7eb8fffe585dd328b41c",
       "owner_record": {
         "id": "IO-009",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Share cancellable FileReader ownership between JS/Wasm; register load/error/abort before reading.",
           "Abort on coroutine cancellation, detach handlers before completion and reject missing successful-read results."
@@ -9644,18 +9652,23 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/wasm-full-004-context/context-review.json"
             ]
+          },
+          {
+            "command": "Actual immutable40789123690/53f237af :calf-file-picker-coil:jsBrowserTest and :wasmJsBrowserTest --tests BrowserFileReadCoilAcceptanceTest; independently review original6 criteria and one unchanged nativeAbortIsAnErrorNotAnEmptyFile result per target; close/readback #46 and operational #172 before documentation",
+            "result": "VERIFIED original six owning criteria. Chrome156/Linuxx64/JDK17 JS4/4/0/297.09s and Wasm4/4/0/299.09s, two fresh XML/0failure-error-skip, all820 before/after own-Git inputs match per target and32 current owning files unchanged. Empty/65537 all-byte preservation, captured late load/abort exactly once, actual8MiB LOADING ImageLoader.dispose/job join/native abort/handler cleanup/one onCancel, controlled name-only NotReadableError/SecurityError and pre-read cap. Two unchanged native-abort executions from held dirty js-full-004/wasm-full-004 reused, not called fresh/immutable:8fresh+2reused=10 accepted executions/four new authored methods. IO/picker existing browser0.5.0 exported api,12 actual target metadata outputs accepted; no direct Coil test dependency. Original failures and negative post-await calibration retained; false discarded-promise suspicion withdrawn. Readback CLOSED/completed/body-title-labels preserved. Not OS-grant/full decoding/other-browser/packaged-ABI/security/release certificate.",
+            "evidence": [
+              "docs/development/evidence/browser-read-coil-important-20261028/browser003/lead-independent-review.json",
+              "docs/development/evidence/browser-read-coil-important-20261028/browser003/closure-46/verified-readback.json",
+              "docs/development/evidence/browser-read-coil-important-20261028/browser003/closure-172/verified-readback.json",
+              "docs/development/evidence/browser-read-coil-important-20261028/browser003/archive.json",
+              "docs/development/evidence/browser-read-coil-important-20261028/metadata001/accepted-metadata-review.json",
+              "docs/development/evidence/browser-read-coil-important-20261028/metadata002/accepted-metadata-review.json"
+            ]
           }
         ],
-        "remaining": [
-          "Readable empty/nonempty files",
-          "FileReader NotReadableError and SecurityError",
-          "Abort before completion and after onload",
-          "Dispose image request during large read",
-          "Exactly one resume and handlers removed",
-          "JS/Wasm parity",
-          "Browser004 narrows the earlier unexecuted-at-checkpoint JS/Wasm note to a Chrome153 fixture/runtime pass. Still require real OS read denial/permission errors, broader binary/large-file and late-onload/abort races, decoder disposal, other browsers and immutable-source reruns."
-        ],
-        "compatibility": "Existing suspend signatures retained; errors/abort now throw instead of appearing as successful empty reads. Browser source still buffers."
+        "remaining": [],
+        "compatibility": "Existing suspend signatures retained; errors/abort now throw instead of appearing as successful empty reads. Browser source still buffers.",
+        "residual_gate_scope": "Other browsers/OS-grant revocation/full image decoding, packaged KMP/minimum-platform/ABI/dependency/legal/security/release requirements remain independent under BUILD-006/007 and the release checklist; this record certifies the original FileReader/Coil important contract only."
       },
       "closure_or_release_authorized_by_index": false
     },

@@ -1,0 +1,324 @@
+{
+  "accepted_method_executions": 10,
+  "authored_new_methods": 4,
+  "checks": [
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker-coil:jsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+      ],
+      "actual_fresh_testcases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-28T23:43:16.983199+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "53f237affe9d030b9eead1cc8c983ca4e4b38750",
+        "source_tree_dirty": false
+      },
+      "all_inputs_before_after_and_own_Git_match": true,
+      "exact_plan_source_current": true,
+      "execution": {
+        "elapsed_seconds": 297.09,
+        "exit_code": 0
+      },
+      "fresh_report_count": 1,
+      "fresh_totals": {
+        "errors": 0,
+        "executed": 4,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 4,
+        "skipped": 0,
+        "tests": 4,
+        "unexpected_skipped": 0
+      },
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.21",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.21+9",
+        "schema_version": 1
+      },
+      "input_count": 820,
+      "suite": "js",
+      "unchanged_current_owning_input_count": 32
+    },
+    {
+      "actual_command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker-coil:wasmJsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+      ],
+      "actual_fresh_testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest",
+          "name": "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-28T23:49:03.089801+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "53f237affe9d030b9eead1cc8c983ca4e4b38750",
+        "source_tree_dirty": false
+      },
+      "all_inputs_before_after_and_own_Git_match": true,
+      "exact_plan_source_current": true,
+      "execution": {
+        "elapsed_seconds": 299.09,
+        "exit_code": 0
+      },
+      "fresh_report_count": 1,
+      "fresh_totals": {
+        "errors": 0,
+        "executed": 4,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 4,
+        "skipped": 0,
+        "tests": 4,
+        "unexpected_skipped": 0
+      },
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.21",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.21+9",
+        "schema_version": 1
+      },
+      "input_count": 820,
+      "suite": "wasm",
+      "unchanged_current_owning_input_count": 32
+    }
+  ],
+  "criteria_172": [
+    {
+      "requirement": "No-extra-browser-dependency consumer compiles real public types in JS and Wasm",
+      "result": "accepted actual immutable test bundle compilation and real runtime of separate Coil project; no direct browser dependency"
+    },
+    {
+      "requirement": "Generated browser API metadata exact0.5.0; JVM/native isolates browser dependency",
+      "result": "accepted12 generated IO/picker target outputs in metadata001/002 with real commands/held inputs/JDK17; eight earlier outputs reused"
+    },
+    {
+      "requirement": "Real reads/Coil cancellation/error/exactly-once/cap on JS/Wasm; preserve failures",
+      "result": "accepted eight fresh immutable executions, original compiler/tooling/runtime failures retained"
+    }
+  ],
+  "criteria_IO009": [
+    {
+      "evidence": "Fresh public empty and 65537 all-byte values read exactly; cap separate preflight remains explicit.",
+      "requirement": "Readable empty/nonempty files",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    },
+    {
+      "evidence": "Fresh real DOMException NotReadableError/SecurityError names through public Coil errors, exact name-only diagnostics and no repeated terminal; controlled native error-event injection, NOT OS grants.",
+      "requirement": "FileReader NotReadableError and SecurityError",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    },
+    {
+      "evidence": "Reused original real reader.abort before completion throws IOException and detaches; fresh captured late onload/onabort after completion does not resume again.",
+      "requirement": "Abort before completion and after onload",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    },
+    {
+      "evidence": "Fresh actual ImageLoader.enqueue and dispose during real 8MiB FileReader LOADING, job cancellation joins, one onCancel/no error-success, native abort and detached handlers.",
+      "requirement": "Dispose image request during large read",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    },
+    {
+      "evidence": "Fresh actual captured late callbacks and real error events, plus early cancellation, assert exactly once and every load/error/abort listener null.",
+      "requirement": "Exactly one resume and handlers removed",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    },
+    {
+      "evidence": "Same four compiled public methods on actual Chrome156 JS/Wasm; early native abort reuse also on both. Not other-browser/minimum/OS-grant certification.",
+      "requirement": "JS/Wasm parity",
+      "result": "accepted-real-JS-and-Wasm-owning-contract"
+    }
+  ],
+  "decision": "Close #46 and #172 directly after this review, then document/update the baseline resolution ledger",
+  "fresh_method_executions": 8,
+  "limitations": [
+    "Controlled DOMException/error injection is not real OS grant revocation or a browser/platform defect reproduction",
+    "Native abort results are unchanged source-held Chrome153 diagnostics reused, not new immutable tests",
+    "Existing Emscripten Node os/path diagnostic branches were not suppressed; full image decoding/browser bundle/packaged KMP/ABI/minimum-platform/native/legal/dependency/security/release gates remain independent",
+    "One expected negative async assertion validates actual await propagation and original test restored byte-identically; early promise suspicion was withdrawn, no vulnerability/runner mutation",
+    "No release/package/deployment, unrelated successful suite replay or subagents"
+  ],
+  "result": "PASS all six original IO-009/#46 criteria and all three original operational #172 criteria in the documented important scope",
+  "reused_native_abort_executions": [
+    {
+      "current_unchanged_owning_sources": [
+        "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+        "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+        "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+        "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+        "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+        "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+        "gradle/libs.versions.toml"
+      ],
+      "method": {
+        "classname": "jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+        "name": "nativeAbortIsAnErrorNotAnEmptyFile[js, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        "status": "passed"
+      },
+      "scope": "One actual native FileReader abort-before-completion result reused per target, not a new run or immutable release certificate",
+      "sha256": "d16cb1cb4f0b2aecf1b85796ae1b5024346fa0a91256f3a24bac48807dec5218",
+      "source_held_inputs": 693,
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "suite": "js",
+      "xml": "docs/development/evidence/js-full-004/reports/calf-io/TEST-jsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml"
+    },
+    {
+      "current_unchanged_owning_sources": [
+        "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/BrowserFileRead.kt",
+        "calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt",
+        "calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt",
+        "calf-io/src/webTest/kotlin/com/mohamedrejeb/calf/io/BrowserFileReadTest.kt",
+        "calf-io/src/jsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.js.kt",
+        "calf-io/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/io/BrowserFixtures.wasmJs.kt",
+        "gradle/libs.versions.toml"
+      ],
+      "method": {
+        "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest",
+        "name": "nativeAbortIsAnErrorNotAnEmptyFile[wasmJs, browser, ChromeHeadless153.0.0.0, Linux0.0.0]",
+        "status": "passed"
+      },
+      "scope": "One actual native FileReader abort-before-completion result reused per target, not a new run or immutable release certificate",
+      "sha256": "939137bc15d1ccf6ced3729de40f9b5ed0da832a4425347bae987312655ab426",
+      "source_held_inputs": 693,
+      "source_revision": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+      "source_tree_dirty": true,
+      "suite": "wasm",
+      "xml": "docs/development/evidence/wasm-full-004/reports/calf-io/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.io.BrowserFileReadTest.xml"
+    }
+  ],
+  "reviewed_utc": "2026-10-29T00:00:03.763597+00:00",
+  "revision": "53f237affe9d030b9eead1cc8c983ca4e4b38750",
+  "run": 40789123690,
+  "workflow_conclusion": "success"
+}

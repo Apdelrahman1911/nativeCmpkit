@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct browser and controlled-switch closures — 2026-10-29
+
+Closed **IO-009/#46, browser API export #172, UI-030/#134** directly after
+focused important tests/source/original criteria review, then archived readbacks.
+Browser immutable40789123690/53f237af succeeds JS4/4 (0/297.09s) + Wasm4/4
+(0/299.09s), two fresh XML/820 own-Git inputs per target; two unchanged native-
+abort results reused =10 accepted executions, not10 authored methods. UIKit
+40787364174/85d6d83b succeeds3/3/one fresh XML/0/1632.85s/820 own-Git inputs;
+four unchanged original controls reused =7 accepted executions. Runtime/JDK17/
+XML/protocol/distinct Worker/owned cleanup and original body/title/labels checked.
+**60 closed /112 open /172 total;48 implemented /52 partial /57 verified /7 unresolved.**
+Browser controlled errors are not OS grants; simulator injection is not hardware/
+VoiceOver/minimum-platform. Reports-only archives cannot rerun live binary probes;
+no fabricated executable/mtime or relaxed acceptance. Current browser metadata
+12 outputs and seven Coil outputs are not full packaged/ABI equivalence.
+Numeric UIKit40790707874/887df6f0 is running, not accepted; #135 stays open.
+All dependency/native-provider/minimum/legal/ABI/full-consumer/security/release
+gates remain. Single-agent; important tests→review→close directly→document, no
+packages/releases/deployment. See the browser and switch dated evidence reviews.
+
 ## Focused browser runtime repair — 2026-10-28, 23:40 UTC
 
 [Browser evidence](docs/development/evidence/browser-read-coil-important-20261028/README.md) retains both immutable40785281886 failures/zero methods,

@@ -1,5 +1,23 @@
 # Important browser IO/Coil verification — 2026-10-28
 
+## Direct acceptance/closures — 2026-10-29
+
+**#46/IO-009 and operational #172 are readback CLOSED/completed**, original
+bodies/titles/labels preserved; closure followed source/results/all original
+criteria review, before this documentation update.
+[Immutable40789123690](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40789123690)
+at53f237af **SUCCESS**: real Chrome156/Linuxx64/JDK17 JS4/4 (0/297.09s),
+Wasm4/4 (0/299.09s), two fresh XML/no failure-error-skip,820 held own-Git inputs
+per target,32 current owning inputs unchanged. Eight fresh plus two unchanged
+native-abort executions reused from held dirty browser004 = **10 accepted
+executions**, four new authored methods. All six original IO-009 and three #172
+criteria reviewed in [browser003/lead-independent-review.json](browser003/lead-independent-review.json).
+12 IO/picker dependency metadata outputs remain accepted (eight reused/four newly
+selected); seven Coil outputs are NOT same-version plugin/payload/ABI equivalence.
+Controlled errors are not OS-grant revocation; no other-browser/full decode/
+packaged KMP/ABI/minimum/security/legal/release gates cleared. Raw ZIP digests
+match API, JSON/XML only; prior failures/async correction remain. No publication.
+
 **IO-009/#46 and new operational #172 remain open until actual JS/Wasm results
 and their original important criteria are reviewed.** No package/release/deploy.
 

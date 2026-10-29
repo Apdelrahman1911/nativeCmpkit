@@ -1,0 +1,11 @@
+<!-- nativecmpkit-resolution:IO-009-important-20261029 -->
+Implemented and verified; closing immediately after review of all **six original acceptance criteria**, the owning reader/Coil source, current hashes and actual results.
+
+- Immutable `53f237affe9d030b9eead1cc8c983ca4e4b38750`, [CI run40789123690](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40789123690) **SUCCESS**: actual Chrome156/Linux x64/JDK17, JS **4/4** (Gradle0/297.09s) and Wasm **4/4** (0/299.09s), two fresh XML reports, no failures/errors/skips. All820 inputs on each host match before/after and their own Git revision;32 current owning inputs remain unchanged.
+- Real public IO reads preserve empty and65,537 all-byte files; captured late load/abort cannot resume twice. Actual ImageLoader.enqueue/dispose during8MiB FileReader LOADING stops the real reader, joins cancellation, detaches all handlers and reports exactly one onCancel.
+- Controlled real DOMException NotReadableError/SecurityError through Coil propagate name-only IOException rather than empty success; no late/repeated terminal. Public cap rejects before a reader exists.
+- Reuse one unchanged actual native-abort-before-completion method per target from js-full-004/wasm-full-004 (Chrome153, held dirty-source diagnostics), explicitly **not** fresh immutable executions. **8fresh+2reused=10 accepted executions**, four new authored methods.
+
+Source repair uses cancellable suspension, success-only onload, explicit error/abort, cancellation-owned abort and exactly-once cleanup. Existing public APIs/packages/native names remain. [Evidence and review](https://github.com/Apdelrahman1911/nativeCmpkit/tree/development/preview-hardening/docs/development/evidence/browser-read-coil-important-20261028) retain original compiler/tooling/runtime failures and the expected failing post-await calibration; the initial promise-wrapper suspicion was withdrawn after exact code/negative execution review.
+
+Controlled errors are not OS-grant revocation. Other browsers, full decoding/bundling, packaged KMP/ABI/minimum-platform/dependency/legal/security/release gates remain independent. No release/package/deployment or replay of unrelated successful suites.

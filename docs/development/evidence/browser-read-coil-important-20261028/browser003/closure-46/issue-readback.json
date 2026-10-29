@@ -1,0 +1,50 @@
+{
+  "body": "<!-- nativecmpkit-item:audit:IO-009 -->\n## Classification\n- **Finding:** IO-009\n- **Priority:** Medium\n- **Evidence status:** `confirmed-source` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-io`\n- **Estimated complexity:** M\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt:11-28`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/jsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.js.kt#L11-L28) \u2014 `readFileAsBytes`\n- [`calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt:12-34`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.wasmJs.kt#L12-L34) \u2014 `readFileAsBytes/getResult`\n- [`calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt:7-8`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt#L7-L8) \u2014 `source`\n\n## Root cause\nBoth implementations use suspendCoroutine, only onloadend, and readyState==DONE as the success test. FileReader reaches DONE on errors/abort too; result can be null. They never inspect error, install onerror/onabort handlers, or abort the reader on coroutine cancellation.\n\n## Impact and preconditions\nRead failures can be returned as empty bytes (or fail in interop/callback code) instead of an exception, making corrupt/missing content indistinguishable from a valid empty file. Cancelled screen/request work continues reading and allocating the whole file; source() inherits the behavior.\n\n## Supporting evidence\n- Both files branch solely on readyState at their onloadend handler and call continuation.resume.\n- FileReader DONE denotes completion rather than successful completion. No error or cancellation branch exists in the source.\n- No real-browser FileReader failure was executed in this review.\n\n## Recommended solution\nUse a cancellable suspension with exactly-once completion, onload success handling, explicit error/abort propagation, cancellation-triggered FileReader.abort, and listener cleanup. Register handlers before starting the read.\n\n## Risks and compatibility\nAbort from cancellation must not cause a second resume. JS and Wasm interop need separate browser tests; a Node typed-array example alone would not prove compiled Kotlin browser behavior.\n\n## Required tests / acceptance criteria\n- Readable empty/nonempty files\n- FileReader NotReadableError and SecurityError\n- Abort before completion and after onload\n- Dispose image request during large read\n- Exactly one resume and handlers removed\n- JS/Wasm parity\n\n## Dependencies\n- None identified.\n\n## Historical context\n- None identified.\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/IO.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/IO.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+  "comments": [
+    {
+      "id": "IC_kwDOVV8PH88AAAABgno6xA",
+      "author": {
+        "login": "Apdelrahman1911"
+      },
+      "authorAssociation": "OWNER",
+      "body": "<!-- nativecmpkit-resolution:IO-009-important-20261029 -->\nImplemented and verified; closing immediately after review of all **six original acceptance criteria**, the owning reader/Coil source, current hashes and actual results.\n\n- Immutable `53f237affe9d030b9eead1cc8c983ca4e4b38750`, [CI run40789123690](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40789123690) **SUCCESS**: actual Chrome156/Linux x64/JDK17, JS **4/4** (Gradle0/297.09s) and Wasm **4/4** (0/299.09s), two fresh XML reports, no failures/errors/skips. All820 inputs on each host match before/after and their own Git revision;32 current owning inputs remain unchanged.\n- Real public IO reads preserve empty and65,537 all-byte files; captured late load/abort cannot resume twice. Actual ImageLoader.enqueue/dispose during8MiB FileReader LOADING stops the real reader, joins cancellation, detaches all handlers and reports exactly one onCancel.\n- Controlled real DOMException NotReadableError/SecurityError through Coil propagate name-only IOException rather than empty success; no late/repeated terminal. Public cap rejects before a reader exists.\n- Reuse one unchanged actual native-abort-before-completion method per target from js-full-004/wasm-full-004 (Chrome153, held dirty-source diagnostics), explicitly **not** fresh immutable executions. **8fresh+2reused=10 accepted executions**, four new authored methods.\n\nSource repair uses cancellable suspension, success-only onload, explicit error/abort, cancellation-owned abort and exactly-once cleanup. Existing public APIs/packages/native names remain. [Evidence and review](https://github.com/Apdelrahman1911/nativeCmpkit/tree/development/preview-hardening/docs/development/evidence/browser-read-coil-important-20261028) retain original compiler/tooling/runtime failures and the expected failing post-await calibration; the initial promise-wrapper suspicion was withdrawn after exact code/negative execution review.\n\nControlled errors are not OS-grant revocation. Other browsers, full decoding/bundling, packaged KMP/ABI/minimum-platform/dependency/legal/security/release gates remain independent. No release/package/deployment or replay of unrelated successful suites.",
+      "createdAt": "2026-10-29T00:04:28Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/46#issuecomment-6484015812",
+      "viewerDidAuthor": true
+    }
+  ],
+  "labels": [
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHmZw",
+      "name": "area:io",
+      "description": "nativeCmpkit audit classification: area:io",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+      "name": "audit",
+      "description": "nativeCmpkit audit classification: audit",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHyfg",
+      "name": "evidence:confirmed-source",
+      "description": "nativeCmpkit audit classification: evidence:confirmed-source",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DIABA",
+      "name": "priority:medium",
+      "description": "nativeCmpkit audit classification: priority:medium",
+      "color": "fbca04"
+    }
+  ],
+  "number": 46,
+  "state": "CLOSED",
+  "title": "[Medium][IO-009] Browser file reads treat DONE as success and do not cancel or propagate FileReader failures",
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/46"
+}

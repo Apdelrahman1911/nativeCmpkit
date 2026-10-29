@@ -1,0 +1,50 @@
+{
+  "body": "<!-- nativecmpkit-item:audit:UI-030 -->\n## Classification\n- **Finding:** UI-030\n- **Priority:** Medium\n- **Evidence status:** `confirmed-source` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-ui`\n- **Estimated complexity:** M\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt:87-139,150-178`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/toggle/LiquidGlassSwitch.kt#L87-L139) \u2014 `fraction / DampedDragAnimation callbacks / LaunchedEffect`\n\n## Root cause\nThe switch updates an internal fraction before optionally invoking onCheckedChange. Synchronization back to checked runs only in LaunchedEffect(checked). If the callback is null or the owner rejects the change and keeps checked unchanged, that effect does not restart; the independent fraction remains toggled.\n\n## Impact and preconditions\nA nominally read-only switch can animate to a different value, or a vetoed change looks accepted while semantics still report the original checked state. Only the thumb is clickable by the custom gesture path; tapping the empty track does nothing.\n\n## Supporting evidence\n- All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.\n- onDragStopped writes fraction.value before currentOnCheckedChange?.invoke.\n- LaunchedEffect is keyed only by checked; an unchanged value does not trigger reconciliation.\n\n## Recommended solution\nTreat checked as the authoritative state, distinguish preview from committed value and reconcile after every gesture, including rejected/null-callback cases. Attach toggle behavior to the full control with explicit read-only/disabled semantics.\n\n## Risks and compatibility\nPreserve smooth drag preview without silently making the control internally stateful. UI automation on iOS is required to prove final animation/semantics consistency.\n\n## Required tests / acceptance criteria\n- onCheckedChange=null, callback accepts, callback rejects, delayed owner update.\n- Tap thumb and either end of track, drag across threshold then back, external checked update mid-gesture.\n- Disabled gestures leave both visual and semantic state unchanged.\n\n## Dependencies\n- None identified.\n\n## Historical context\n- None identified.\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/UI.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/UI.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+  "comments": [
+    {
+      "id": "IC_kwDOVV8PH88AAAABgnsJcg",
+      "author": {
+        "login": "Apdelrahman1911"
+      },
+      "authorAssociation": "OWNER",
+      "body": "<!-- nativecmpkit-resolution:UI-030-important-20261029 -->\nImplemented and verified; closing immediately after reviewing **all three original criteria**, authoritative-state/gesture source, actual fresh results and unchanged earlier acceptance methods.\n\n[Immutable UIKit run40787364174](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40787364174) at `85d6d83b973bc36f0800ff231d6f97a16a3df08c` **SUCCESS**: **3/3** fresh genuine Compose/UIKit methods, one XML, zero failures/errors/skips, Gradle **0/1632.85s**. All820 before/after inputs match their own Git revision; actual JDK17, iPhone iOS26.5/Xcode26.6, source/runtime/XML/protocol, distinct main/generated Worker completion and owned app cleanup reviewed.\n\n- Delayed owner: proposed checked value does not become library-owned state. Measured thumb and authoritative Off semantics restore before acceptance; applying the delayed update moves exactly the20dp drag distance and On semantics, without another callback.\n- Actual thumb and both track ends each propose once. Measured live preview crosses the threshold without changing owner/semantics; return then release emits no toggle and restores the measured thumb.\n- Disabled tap/drag leave thumb, Disabled/On semantics and zero-callback state unchanged.\n- Four unchanged original actual UIKit acceptance methods from40522929974 attempt2/20205909 cover null callback, accepting/rejecting owner and external checked/disabled update mid-gesture. Exact method bodies, four owning production files and catalog match; these successful methods were **reused, not replayed**. **3fresh+4reused=7 accepted executions.**\n\nRepair separates transient drag preview from authoritative checked state, reconciles after every outcome and attaches full-control toggle semantics/gestures. Public APIs/packages/native names remain. [Evidence](https://github.com/Apdelrahman1911/nativeCmpkit/tree/development/preview-hardening/docs/development/evidence/switch-ownership-important-20261028) preserves local KLIB-only results and prior failures. The reports-only offline review does not pretend to rerun the producer's absent executable/MachO/mtime checks; retained live bindings and independent XML/protocol/runtime/cleanup are explicitly distinguished.\n\nSimulator pointer injection is not physical hardware, VoiceOver/Switch Control or older/minimum-OS/heap/profiling/ABI/consumer/dependency/legal/security/release certification. Those independent gates remain open. No package/release/deployment or unrelated full-suite replay.",
+      "createdAt": "2026-10-29T00:07:37Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/134#issuecomment-6484068722",
+      "viewerDidAuthor": true
+    }
+  ],
+  "labels": [
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHuiA",
+      "name": "area:ui",
+      "description": "nativeCmpkit audit classification: area:ui",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+      "name": "audit",
+      "description": "nativeCmpkit audit classification: audit",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHyfg",
+      "name": "evidence:confirmed-source",
+      "description": "nativeCmpkit audit classification: evidence:confirmed-source",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DIABA",
+      "name": "priority:medium",
+      "description": "nativeCmpkit audit classification: priority:medium",
+      "color": "fbca04"
+    }
+  ],
+  "number": 134,
+  "state": "CLOSED",
+  "title": "[Medium][UI-030] Liquid Glass switch can visually diverge from its controlled checked value",
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/134"
+}

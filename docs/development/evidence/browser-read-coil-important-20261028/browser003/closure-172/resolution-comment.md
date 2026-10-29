@@ -1,0 +1,9 @@
+<!-- nativecmpkit-resolution:browser-dom-api-important-20261029 -->
+Implemented and verified; closing directly after review of all **three original important requirements**, owning source, generated metadata and actual runtime results.
+
+- IO and picker webMain export the **existing exact** `org.jetbrains.kotlinx:kotlinx-browser:0.5.0` with `api`, retaining public File/Blob APIs, coordinates/versions/platforms/native names. Coil has **no additional direct browser dependency**.
+- Real separate-project public API use compiles and executes on immutable `53f237affe9d030b9eead1cc8c983ca4e4b38750`: [CI40789123690](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40789123690) **SUCCESS**, actual Chrome156/Linux x64/JDK17, JS4/4 and Wasm4/4, two fresh XML reports/no failures/errors/skips;820 own-Git/before/after inputs held per host.
+- Actual generated IO/picker API metadata checked on **12target outputs**: exact browser coordinate on browser API, absent from every selected JVM/native variant. Eight unchanged earlier outputs reused; four missing Android/iOS-device outputs newly generated0/51.01s. Seven separate Coil outputs validate owning official Compose browser resource wiring with production transformations excluded, not a DOM stub/test-only dependency.
+- Binary empty/all-byte reads,8MiB real FileReader disposal/cleanup/exactly-once cancellation, controlled name-only DOMException handling and pre-read cap all execute on JS/Wasm. Original failing compiler/tooling/runtime and stale metadata evidence remain [archived](https://github.com/Apdelrahman1911/nativeCmpkit/tree/development/preview-hardening/docs/development/evidence/browser-read-coil-important-20261028).
+
+This is separate-project API and generated dependency-metadata verification, **not a complete packaged KMP/ABI/payload equivalence or OS-grant certificate**. Full consumer/minimum-platform/dependency/legal/security/release gates remain open. No release/package/deployment.

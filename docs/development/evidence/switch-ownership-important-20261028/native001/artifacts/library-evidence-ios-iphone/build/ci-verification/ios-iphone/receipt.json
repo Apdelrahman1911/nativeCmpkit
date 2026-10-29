@@ -1,0 +1,212 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest.delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest.thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest.disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1632.85,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-switch-ownership",
+  "finished_at_utc": "2026-10-28T23:59:17.878312+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "daffe8a6e9944faac9c35d647345e0f0684f14021f0b399b24842f9c1962faa7",
+  "inputs_before_sha256": "daffe8a6e9944faac9c35d647345e0f0684f14021f0b399b24842f9c1962faa7",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "bea5cc22ee181a77111434e7a82e37d3d46bfd8bcf00b1169934ae3f8a81f2b8",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r85d6d83b973b.t92c80e575c214338bd5e27a520e80161",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/92c80e575c214338bd5e27a520e80161/receipt.json",
+      "receipt_sha256": "da02661c1d7473871b11d269b28cea3ecdd12bf03c17295c0d10ef4bf42b8712",
+      "required_native_cases_found": 3,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "disposition": "required-executed",
+          "name": "delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "disposition": "required-executed",
+          "name": "thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "disposition": "required-executed",
+          "name": "disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest.xml",
+          "sha256": "822cfb294c94570a48957c6f2ce3410e652e545838d52aa010364f0dc83d56f2",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "name": "delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "name": "thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+          "name": "disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+      "name": "delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+      "name": "thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest",
+      "name": "disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "3d2c693fe576016789f03fe8d63e69d43988fe3b14e17c870125d3f4aa1a479b",
+  "schema_version": 1,
+  "scope": "Three new genuine UIKit/Compose delayed-owner/full-track/threshold-return/disabled-visual methods only; accepted control methods not replayed, no hardware/assistive/release certification",
+  "source_revision": "85d6d83b973bc36f0800ff231d6f97a16a3df08c",
+  "source_revision_after": "85d6d83b973bc36f0800ff231d6f97a16a3df08c",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-28T23:32:05.009628+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

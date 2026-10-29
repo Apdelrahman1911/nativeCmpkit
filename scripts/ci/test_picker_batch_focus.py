@@ -48,6 +48,7 @@ class PickerBatchFocusTests(unittest.TestCase):
             self.assertEqual("desktop", row["suite"])
         for profile, slot in zip(("picker-batch-linux", "picker-batch-macos", "picker-batch-windows"), slots):
             self.assertEqual([slot], [row["slot"] for row in matrix.matrix(profile)["include"]])
+        self.assertEqual(slots[:2], [row["slot"] for row in matrix.matrix("picker-batch-recovery")["include"]])
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
         self.assertTrue(all("test-focus" not in row for row in matrix.matrix("all")["include"]))
 

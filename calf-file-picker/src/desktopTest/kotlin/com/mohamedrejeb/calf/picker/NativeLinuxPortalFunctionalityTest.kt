@@ -66,7 +66,7 @@ class NativeLinuxPortalFunctionalityTest {
                 val saveTitle = title()
                 val destination = File(root, "$name.bin")
                 val saved = dialog(saveTitle, {
-                    PlatformFilePicker.save(root.path, name, ".bin", saveTitle, null, null, content)
+                    PlatformFilePicker.save(root.path, name, "bin", saveTitle, null, null, content)
                 }) { selectPath(it, destination) }
                 assertEquals(destination.canonicalFile, saved?.canonicalFile)
                 assertTrue(destination.isFile)
@@ -91,7 +91,7 @@ class NativeLinuxPortalFunctionalityTest {
             }
             val saveTitle = title()
             assertNull(dialog(saveTitle, {
-                PlatformFilePicker.save(root.path, "must-not-exist", ".bin", saveTitle, null, source, null)
+                PlatformFilePicker.save(root.path, "must-not-exist", "bin", saveTitle, null, source, null)
             }) { escape(it) })
             assertTrue(!File(root, "must-not-exist.bin").exists())
             assertEquals(setOf("source.bin"), root.listFiles()!!.map { it.name }.toSet())

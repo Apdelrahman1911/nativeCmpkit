@@ -1,0 +1,238 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest"
+  ],
+  "complete_suite_requested": false,
+  "desktop_picker_portal": {
+    "actual_filechooser_version": 3,
+    "authentication": "EXTERNAL",
+    "auto_activation_service_directories": false,
+    "backend_pid": 15621,
+    "clean_owned_shutdown": true,
+    "closed": true,
+    "existing_user_bus_used": false,
+    "mock_portal": false,
+    "owned_service_pids": [
+      15620,
+      15621,
+      15622
+    ],
+    "ready": true,
+    "real_backend": "/usr/libexec/xdg-desktop-portal-gtk",
+    "real_frontend": "/usr/libexec/xdg-desktop-portal",
+    "real_private_bus": true,
+    "requested": true,
+    "shutdown": [
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 15622
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 15621
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": 0,
+        "forced": false,
+        "pid": 15620
+      }
+    ]
+  },
+  "errors": [
+    {
+      "error": "Real GTK functionality method folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles must pass; missing UI/bus is not N/A",
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "Real GTK functionality method cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen must pass; missing UI/bus is not N/A",
+      "module": "calf-file-picker"
+    },
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-file-picker"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 37.01,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-linux-portal-functionality",
+  "finished_at_utc": "2026-10-29T11:47:15.807276+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "fdc46a2c4a914d35486508b0c79c0e4e921165a1a912c08ae766300eae0cdf36",
+  "inputs_before_sha256": "fdc46a2c4a914d35486508b0c79c0e4e921165a1a912c08ae766300eae0cdf36",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 2,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "disposition": "required-executed",
+          "host": "linux",
+          "method": "singleAndMultipleOpenReturnExactRealFilesWithoutChangingTheirBytes",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeLinuxPortalFunctionalityTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "disposition": "required-not-passed",
+          "host": "linux",
+          "method": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeLinuxPortalFunctionalityTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "disposition": "required-not-passed",
+          "host": "linux",
+          "method": "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeLinuxPortalFunctionalityTest.kt",
+          "task": "desktopTest"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 2,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-file-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.xml",
+          "sha256": "f81a53a0a9bda65a26c55f927cbede682253411afa271ab8322c361bfa13af5e",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "name": "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "name": "singleAndMultipleOpenReturnExactRealFilesWithoutChangingTheirBytes[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [
+    "calf-file-picker/build/test-results/desktopTest"
+  ],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "singleAndMultipleOpenReturnExactRealFilesWithoutChangingTheirBytes[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "4ae06c4d648653f92275cee9b4e8a4946b74127fe62218f3c47aee048dc0e772",
+  "schema_version": 1,
+  "scope": "Three exact real Linux GTK portal/JNI owning open/multiple/folder/save/cancel methods; no accepted Compose/lifetime replay, native parent/Wayland/other backend or full dependency/consumer/security/release claim",
+  "source_revision": "8f52a47350e5965826d7425c65dfabd8f215a9a7",
+  "source_revision_after": "8f52a47350e5965826d7425c65dfabd8f215a9a7",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T11:46:38.776983+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-file-picker:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

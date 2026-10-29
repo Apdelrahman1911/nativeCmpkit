@@ -97,6 +97,8 @@ class LinuxPickerPortalFocusTests(unittest.TestCase):
         self.assertNotIn("ComposeWindow()", source)
         self.assertNotIn("Thread.sleep", source)
         self.assertNotIn("mock", source.lower())
+        self.assertIn('save(root.path, name, "bin",', source)
+        self.assertIn('save(root.path, "must-not-exist", "bin",', source)
 
 
 if __name__ == "__main__": unittest.main()

@@ -66,7 +66,7 @@ jobs:
           matrix = json.load(open("build/ci-plan/matrix.json"))
           sample_matrix = sample_platform_verification.workflow_matrix(os.environ["PROFILE"])
           for row in sample_matrix["include"]:
-              sample_plan = sample_platform_verification.plan(workflow_matrix.ROOT, row["mode"])
+              sample_plan = sample_platform_verification.plan(sample_platform_verification.ROOT, row["mode"])
               with open("build/ci-plan/sample-" + row["mode"] + ".json", "w") as receipt:
                   json.dump(sample_plan, receipt, indent=2, sort_keys=True)
                   receipt.write("\n")

@@ -1,5 +1,6 @@
 """Sample-specific verification contracts, never library or device substitutes."""
 import hashlib
+import ast
 from pathlib import Path
 import tempfile
 import unittest
@@ -12,6 +13,21 @@ CODEC = "sample/common/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/sample/ut
 
 
 class SamplePlatformVerificationTests(unittest.TestCase):
+    def test_actual_workflow_preflight_passes_the_sample_helpers_existing_root(self):
+        import sample_platform_verification as sample
+        text = (ROOT / ".github/workflows/gradle.yml").read_text()
+        call = text.split("sample_plan = ", 1)[1].split("\n", 1)[0]
+        node = ast.parse(call, mode="eval").body
+        self.assertEqual("sample_platform_verification", node.func.value.id)
+        self.assertEqual("plan", node.func.attr)
+        self.assertIsInstance(node.args[0], ast.Attribute)
+        self.assertEqual("ROOT", node.args[0].attr)
+        owners = {"sample_platform_verification": sample, "workflow_matrix": libraries_matrix}
+        owner = owners[node.args[0].value.id]
+        self.assertEqual(ROOT, getattr(owner, node.args[0].attr))
+        for row in sample.workflow_matrix("sample-platforms-linux")["include"]:
+            self.assertEqual("linux", sample.plan(getattr(owner, node.args[0].attr), row["mode"])["mode"])
+
     def test_actual_codec_cases_are_shared_with_web_and_native_without_replaying_desktop(self):
         self.assertTrue((ROOT / CODEC).is_file(), "Actual codec cases must belong to nonAndroidTest, not desktop only")
         old = ROOT / CODEC.replace("nonAndroidTest", "desktopTest")

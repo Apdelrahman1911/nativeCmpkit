@@ -1,0 +1,285 @@
+{
+  "reviewed_utc": "2026-10-29T00:19:10.381356+00:00",
+  "issue": 135,
+  "finding": "UI-032",
+  "result": "PASS all three original acceptance criteria in actual UIKit/Compose numeric and geometry scope",
+  "run": 40790707874,
+  "revision": "887df6f0c18793cb040dbe43aa2739bc620a3ed8",
+  "workflow_conclusion": "success",
+  "input_count": 822,
+  "all_inputs_before_after_and_own_Git_match": true,
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-29T00:00:19.772153+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE"
+    },
+    "source_revision": "887df6f0c18793cb040dbe43aa2739bc620a3ed8",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "actual_task_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest.constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest.rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite"
+  ],
+  "execution": {
+    "elapsed_seconds": 914.8,
+    "exit_code": 0
+  },
+  "fresh_report_count": 1,
+  "fresh_totals": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 2,
+    "executed": 2,
+    "not_applicable": 0,
+    "unexpected_skipped": 0
+  },
+  "actual_fresh_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+      "name": "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+      "name": "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite[iosSimulatorArm64]",
+      "status": "passed"
+    }
+  ],
+  "recorded_producer_live_binary_gate_and_offline_limit": "Successful producer live binary/MachO/freshness gate retained; reports-only offline review does NOT recreate absent executable/hash/mtime/MachO probe. Native binary/source/runtime, actual XML/protocol/Worker and exact owned cleanup bindings independently reviewed.",
+  "independent_XML_protocol_runtime_Worker_owned_cleanup_checks": true,
+  "current_and_prior_owning_production_hashes": {
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt": "fe81de87ba66e964f81cfc7d8560373d217a748b2553fc133827ddb883b346b4",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderInput.kt": "8240a8fbda905b86f92c9f0f13b8b92a2d17c38a30216a2dab956f89396841e6",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt": "7955f40a910a1a07721200ac2005aad4e87cdf0b780ceac7a75d503a006d3949",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt": "cc477560f42e84f80220dd8e0d13de212b84618252d11048b97cd617d4b0b681",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "8d5a5c4b89f4a56feaeb258958dff4953f3d277125a8ce00250503a52660b4f8",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt": "51cc75257f584bbc2e675fa09e2b0d2bd27a777d11de357ff1b5f0d6dd86eca5"
+  },
+  "complete_original_two_numeric_test_files_unchanged": true,
+  "reused_relevant_acceptance_methods": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "negativeAccessibilityTargetSnapsToNearestStep[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "allNegativeRangesAndTiesUseTheSameRule[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "continuousAndDiscreteEndpointsStayInRange[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "zeroRangeAndZeroWidthNeverProduceNonFiniteValues[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "finiteExtremeEndpointsDoNotOverflowTheSpan[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "invalidDomainsAndValuesFailBeforeLayout[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "pointerGeometryUsesTheCurrentWidthThumbAndDirection[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest",
+      "name": "denseTickRenderingDoesNotAllocatePerStep[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml",
+      "xml_sha256": "3fdee737168075e0dbc27dfd5dc768400a5cce4a23b54a18019e08797de21270"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "rapidReleaseRepressCannotReleaseTheNewPress[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "highFrequencyValueUpdatesKeepOnlyTwoOwnedJobLanes[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "newPressInterruptsProgrammaticValueAnimationWithoutAStaleRelease[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "constantAndExtremeFiniteRangesNeverGenerateNonFiniteValues[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "invalidValuesAreRejectedBeforeCreatingAnimationWork[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "cancellingTheActualDragModifierDoesNotInvokeDragStopped[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    }
+  ],
+  "excluded_unrelated_highlight_methods": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "hundredGestureOnlyHighlightsDoNotConstructRuntimeShaders[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest",
+      "name": "drawingHighlightCompilesLazilyAndDisposesOnlyItsOwnWork[iosSimulatorArm64]",
+      "status": "passed",
+      "source_zip": "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip",
+      "xml": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.DragAnimationAndHighlightTest.xml",
+      "xml_sha256": "cd609fdd418a0295505410daafd5083eaee31a0f29d1743a207d5c317b7153b7"
+    }
+  ],
+  "accepted_method_executions": 16,
+  "reused_method_executions": 14,
+  "fresh_method_executions": 2,
+  "count_scope_correction": "Planned class-level16 reuse included two unrelated highlight methods. They stay passing archived evidence but are NOT counted for UI-032;14 relevant reused+2 fresh=16 accepted executions. No old suite replay.",
+  "criteria": [
+    {
+      "requirement": "0..0, negative/reversed domains, NaN/infinite values/endpoints and out-of-range initial values",
+      "result": "accepted-owning-real-UIKit-and-compiled-native-contract",
+      "evidence": "Fresh public 0..0 at initial9 clamps0 and inert semantics. Unchanged eight domain/six Damped methods cover all-negative/constant/extreme finite spans, explicit reversed/nonfinite rejection before layout/jobs, out-of-range initial clamp; actual Kotlin Native/Compose clocks, not stubs."
+    },
+    {
+      "requirement": "Zero/narrow/unbounded constraints, RTL, range change mid-animation",
+      "result": "accepted-real-public-UIKit-Compose",
+      "evidence": "Fresh public RTL measured exact0dp/1dp/144dp fallback under real0/1/unbounded parents. Proven live drag/press animation and actual range -1..1 to -10..-2,240dp to1dp and RTL replacement; exactly one Cancel/no stale callback/finish and80 finite actual frame/layout/progress observations. New valid domain semantic action remains operational."
+    },
+    {
+      "requirement": "No NaN/Infinity reaches layout or velocity state",
+      "result": "accepted-owning-real-UIKit-Compose",
+      "evidence": "New measured layout/progress frames plus unchanged constant/extreme Damped80-frame values/progress/velocity/scales and finite interpolation/invalid precondition methods; Double span intermediates, normalized animations and finite velocity fallback. This is observed finite cases, not universal profiling/proof."
+    }
+  ],
+  "limitations": [
+    "Actual public UIKit/Compose simulator injection and numeric helpers, not physical hardware, minimum/older-OS, sustained heap/frame/sanitizer/consumer/API-ABI/dependency/legal/security/release certification",
+    "Finite observed frame/progress/velocity tests do not measure a performance improvement or all caller inputs",
+    "No packages/releases/deployments; prior failures and local KLIB-only results retained"
+  ],
+  "decision": "Close #135 directly after this review; document/update ledger afterward"
+}

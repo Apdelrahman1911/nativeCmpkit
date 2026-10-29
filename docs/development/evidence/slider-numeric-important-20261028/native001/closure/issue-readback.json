@@ -1,0 +1,50 @@
+{
+  "body": "<!-- nativecmpkit-item:audit:UI-032 -->\n## Classification\n- **Finding:** UI-032\n- **Priority:** Medium\n- **Evidence status:** `confirmed-source` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-ui`\n- **Estimated complexity:** M\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt:43-59,95-102,134-140`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt#L43-L59) \u2014 `valueAnimation / progress / release / updateVelocity`\n- [`calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt:95-108,140-149,188-203`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt#L95-L108) \u2014 `LiquidGlassSlider geometry`\n\n## Root cause\nprogress and normalized velocity divide by end-start without a zero-span guard; initialValue is not coerced before Animatable construction. Track calculations also divide by available width and assume finite bounded dimensions.\n\n## Impact and preconditions\nA valid degenerate range such as0f..0f yields0/0=NaN and feeds layout rounding/translation; invalid/reversed/nonfinite ranges and unbounded/zero width can propagate invalid geometry or throw. Exact renderer failure mode has not been run on iOS.\n\n## Supporting evidence\n- All cited source locations refer to immutable upstream baseline af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6.\n- progress=(value-start)/(end-start); updateVelocity divides by the same span.\n- The width of the active-track layout is computed from progress.fastRoundToInt with no finite check.\n\n## Recommended solution\nSpecify numeric input policy and handle equal endpoints as a fixed value without division. Validate finite ordered ranges, coerce initial/external values consistently, and guard zero/unbounded layout width before producing sizes or callbacks.\n\n## Risks and compatibility\nMaterial/Cupertino behavior for degenerate ranges should guide compatibility. Do not classify caller-supplied NaN as a remote security issue.\n\n## Required tests / acceptance criteria\n- 0..0, negative range, reversed range, NaN/infinite value/endpoints and out-of-range initial values.\n- Zero-width, very narrow and unbounded horizontal constraints, RTL, range change mid-animation.\n- No NaN/Infinity reaches layout or velocity state.\n\n## Dependencies\n- None identified.\n\n## Historical context\n- None identified.\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/UI.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/UI.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+  "comments": [
+    {
+      "id": "IC_kwDOVV8PH88AAAABgn47cQ",
+      "author": {
+        "login": "Apdelrahman1911"
+      },
+      "authorAssociation": "OWNER",
+      "body": "<!-- nativecmpkit-resolution:UI-032-important-20261029 -->\nImplemented and verified; closing directly after source/results review against **all three original numeric/layout acceptance criteria**.\n\n[Immutable UIKit40790707874](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40790707874) at `887df6f0c18793cb040dbe43aa2739bc620a3ed8` **SUCCESS**: **2/2** new public LiquidGlassSlider methods, one fresh XML, zero failures/errors/skips, Gradle **0/914.8s**. All822 before/after inputs match own Git revision; actual JDK17/iPhoneiOS26.5/Xcode26.6, native source/runtime/XML/protocol/distinct Worker completion and owned cleanup agree.\n\n- Public0..0/initial9 controls clamp0 and remain inert under measured exact zero,1dp narrow and144dp unbounded fallback geometry in RTL; no nonfinite semantics/layout or false callbacks.\n- Proven live pointer/press animation, range/width/RTL replacement and80 actual finite frame/layout/progress observations; one paired Cancel, no stale value/finish after replacement. Valid new-domain semantic request succeeds once; nonfinite requests are rejected.\n- **14 unchanged relevant** prior actual Native/Compose methods (eight numeric-domain, six Damped animation) reused from40522929974 attempt2/20205909: constant/all-negative/extreme finite ranges, invalid/reversed/NaN/infinite inputs, clamped initial values, finite normalized progress/velocity/scales, input geometry, animation/cancellation ownership. Exact complete test files, six owning production files and catalog match. Two unrelated highlight methods remain preserved passing evidence but are **not counted** here; **2fresh+14reused=16 accepted executions**, not18 or a replayed121-case suite.\n\nRepair validates finite ordered ranges, uses Double span intermediates, handles constant ranges without division, clamps values, normalizes Damped animations/velocity and bounds zero/narrow/unbounded layout. Public signatures/native names/packages remain. [Evidence](https://github.com/Apdelrahman1911/nativeCmpkit/tree/development/preview-hardening/docs/development/evidence/slider-numeric-important-20261028) preserves KLIB-only/tooling results and prior failures. Reports-only offline review cannot recreate an absent executable/MachO/mtime; producer successful live checks and independent report bindings are explicitly distinguished.\n\nThese finite simulator/native observations are not universal hardware/profiling/sanitizer/minimum-platform/ABI/consumer/dependency/legal/security/release certification. Broader independent gates stay open; no packages/releases/deployment.",
+      "createdAt": "2026-10-29T00:19:58Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/135#issuecomment-6484278129",
+      "viewerDidAuthor": true
+    }
+  ],
+  "labels": [
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHuiA",
+      "name": "area:ui",
+      "description": "nativeCmpkit audit classification: area:ui",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+      "name": "audit",
+      "description": "nativeCmpkit audit classification: audit",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DHyfg",
+      "name": "evidence:confirmed-source",
+      "description": "nativeCmpkit audit classification: evidence:confirmed-source",
+      "color": "c5def5"
+    },
+    {
+      "id": "LA_kwDOVV8PH88AAAAC_DIABA",
+      "name": "priority:medium",
+      "description": "nativeCmpkit audit classification: priority:medium",
+      "color": "fbca04"
+    }
+  ],
+  "number": 135,
+  "state": "CLOSED",
+  "title": "[Medium][UI-032] Liquid Glass slider arithmetic does not guard zero-length or invalid numeric ranges",
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/135"
+}

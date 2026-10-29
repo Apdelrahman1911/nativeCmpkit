@@ -1,0 +1,193 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest.constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest.rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 914.8,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-slider-numeric",
+  "finished_at_utc": "2026-10-29T00:15:38.947274+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "d049ae8b75f2d0bd2325e37136697e3084621db6f0f9710b62c488eaaad53e4d",
+  "inputs_before_sha256": "d049ae8b75f2d0bd2325e37136697e3084621db6f0f9710b62c488eaaad53e4d",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "46ba495c1f2baacc9c8bb9e1ea860330e6b5a3a1cf2b15b88a945766838e60fa",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r887df6f0c187.te42c9e88af16465e953d462e88f8327d",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/e42c9e88af16465e953d462e88f8327d/receipt.json",
+      "receipt_sha256": "b50fae34862c4707d5d32faf2595fbc3e9d54a526144d9489632b878c47da31b",
+      "required_native_cases_found": 2,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+          "disposition": "required-executed",
+          "name": "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSliderNumericTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+          "disposition": "required-executed",
+          "name": "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSliderNumericTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest.xml",
+          "sha256": "9b319205101acb3a5ff73f828147b92c34911e822ec063200e868e3ef6c249ec",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+          "name": "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+          "name": "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+      "name": "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest",
+      "name": "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "a949aba76414ca4b79ee891e37ca4636943a558a16dbab3402337a3555da1d88",
+  "schema_version": 1,
+  "scope": "Two new actual UIKit public Liquid slider degenerate/unbounded/RTL/live-range-replacement methods only; 16 accepted numeric/animation methods not replayed, no hardware/profiling/release certification",
+  "source_revision": "887df6f0c18793cb040dbe43aa2739bc620a3ed8",
+  "source_revision_after": "887df6f0c18793cb040dbe43aa2739bc620a3ed8",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T00:00:24.138465+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

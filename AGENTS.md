@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct numeric safety closure — 2026-10-29
+
+**UI-032/#135 closed/completed** after all3 original criteria/source/results
+review: genuine UIKit40790707874/887df6f0 **2/2**, one fresh XML/no failures/
+errors/skips,0/914.8s/822 own-Git inputs/JDK17/iPhoneiOS26.5/Xcode26.6.
+14 unchanged relevant domain/Damped methods reused =16 accepted executions;
+two unrelated highlight results are explicitly excluded, not18/121-case replay.
+Exact constant0/1/unbounded144dp geometry and80 live replacement finite frames/
+progress plus paired cancellation pass; XML/protocol/runtime/Worker/owned cleanup
+agree. Four direct closures this continuation (#46/#172/#134/#135).
+**61 closed /111 open /172 total;48 implemented /51 partial /58 verified /7 unresolved.**
+All original technical bodies/labels/history and independent hardware/minimum/
+heap/profiling/ABI/consumer/dependency/legal/security/release gates remain.
+Continue important resource/ownership tests→review→close directly→document,
+single-agent, no packages/releases/deployment. See dated numeric evidence.
+
 ## Direct browser and controlled-switch closures — 2026-10-29
 
 Closed **IO-009/#46, browser API export #172, UI-030/#134** directly after

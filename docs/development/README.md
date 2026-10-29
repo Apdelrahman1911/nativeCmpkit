@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Shared slider ownership batch pending actual native verification — 2026-10-29
+
+[Six-method owning batch](evidence/slider-lifecycle-batch-important-20261029/README.md)
+prepares UI-027/#34 andUI-034/#137 together: production Liquid/Cupertino renderers,
+idle/drag enablement and current callbacks, eachwidth/density/RTL/range/steps/source
+replacement, atomic tap/drag/opposite tap, exactCancel/dragobserver and no latewriter.
+Five new finite guards pass; heldtestKLIB0/36.01s/865inputs, ZEROlocalnative tests.
+Onlysixnew native methods planned, noaccepted controls/hosts replay; no source
+repair/refactor required beyond existing shared contract. Bothissues remainOPEN.
+[One-time recovery40861258740/f241](evidence/ui-state-batch-important-20261029/time-recovery002/native-ci002/README.md)
+is queued; seven accepted state methods are source/function-bound/reused, not fresh.
+70closed/102open/172;39implemented/50partial/68verified/seven unresolved; single-agent.
+No publishing/release/deployment/Pages/main/history or independent native/minimum/
+ABI/full-consumer/dependency/provenance/legal/security release-gate changes.
+
 ## Related state verified subset and one-test recovery — 2026-10-29
 
 **UI-019/#127 CLOSED/completed**, immediately after both original criteria pass:

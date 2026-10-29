@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "7af3a52be265faebf66f63d772dff1908b78bb6a73ddb89bab17b80ced4888c0",
+    "docs/development/resolutions/UI-controls.json": "cdf103d4a18f5bf0fcd86f1b6a27af99e60bf73ec2d080c03af1fd8e7ea63bf9",
     "docs/development/resolutions/UI-native.json": "5ff11f7e249b798a3857795f77a5b953faab1b141ea9ead3f85e18b2b975c24c",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "7d626123f69f8140a52f1d8825bd7e0918b498a95eb3aa3747707f0d6cf867b7",
+  "input_fingerprint": "bc10604ff09ba808a261ac98987ac272b993f1279c00bac877d2ed94c4ecd8d3",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -4670,14 +4670,15 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "e6addf864a39fb8542b9a3e1a82c890996e035168b0e18063fa6fb55ef1fa73f",
+      "owner_record_sha256": "f15cd3abda557eb35cbc3daffd7421a5bab1a995b8e43c597584d5e77bdbe7b0",
       "owner_record": {
         "id": "UI-027",
         "status": "partially-verified",
         "changes": [
           "Liquid and Cupertino controls use an internal shared slider contract with current value/callback state and input keys for enabled/range/steps/measured width/thumb width/RTL/interaction source.",
           "Disabled changes cancel existing pointer ownership; obsolete tap animations no longer write caller state; taps are atomic and drag-local state is recreated for each gesture.",
-          "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered."
+          "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered.",
+          "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -4685,7 +4686,8 @@
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt",
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt",
-          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -4775,6 +4777,11 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m; five new finite focus/receipt guards",
+            "result": "COMPILE ONLY: actual changedtestKLIB0/36.01s; all865source/recipe inputs heldbefore/after. Newguard5/5/0.757s pass; ZEROlocalnative input/runtime tests. Sixexact methods ononegenuine application planned, no accepted numeric/control/host/time/native suites replay. UI027/UI034 original-criteria review and actual immutable native execution pending; directCupertino is not an old-OS adaptive/minimum/hardware/performance/ABI/security/release claim.",
+            "evidence": "docs/development/evidence/slider-lifecycle-batch-important-20261029/local001/review.json"
           }
         ],
         "remaining": [
@@ -24128,14 +24135,15 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "78d61ba9f343d9f95bbcebdb5726f6aa30e3596309afc206eb4092a9272c6f62",
+      "owner_record_sha256": "376f8c8c7f1752a539170c11ed231408f0f43ad1c4edfa682b042def4ccbe4d6",
       "owner_record": {
         "id": "UI-034",
         "status": "partially-verified",
         "changes": [
           "Cupertino uses shared input with complete range/steps/geometry/source keys and updated callbacks.",
           "Removed the old competing tap mutation animation/private slider gesture engine; taps no longer keep issuing callbacks after a new gesture.",
-          "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain."
+          "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain.",
+          "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -24143,7 +24151,8 @@
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt",
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt",
-          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -24225,6 +24234,11 @@
               "docs/development/evidence/js-full-004-context/context-review.json",
               "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
             ]
+          },
+          {
+            "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m; five new finite focus/receipt guards",
+            "result": "COMPILE ONLY: actual changedtestKLIB0/36.01s; all865source/recipe inputs heldbefore/after. Newguard5/5/0.757s pass; ZEROlocalnative input/runtime tests. Sixexact methods ononegenuine application planned, no accepted numeric/control/host/time/native suites replay. UI027/UI034 original-criteria review and actual immutable native execution pending; directCupertino is not an old-OS adaptive/minimum/hardware/performance/ABI/security/release claim.",
+            "evidence": "docs/development/evidence/slider-lifecycle-batch-important-20261029/local001/review.json"
           }
         ],
         "remaining": [

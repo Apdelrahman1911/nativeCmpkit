@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `7d626123f69f8140a52f1d8825bd7e0918b498a95eb3aa3747707f0d6cf867b7`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `bc10604ff09ba808a261ac98987ac272b993f1279c00bac877d2ed94c4ecd8d3`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -3608,7 +3608,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `7af3a52be265faebf66f63d772dff1908b78bb6a73ddb89bab17b80ced4888c0` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `cdf103d4a18f5bf0fcd86f1b6a27af99e60bf73ec2d080c03af1fd8e7ea63bf9` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `5ff11f7e249b798a3857795f77a5b953faab1b141ea9ead3f85e18b2b975c24c` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |

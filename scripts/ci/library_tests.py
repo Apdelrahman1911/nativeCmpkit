@@ -517,6 +517,23 @@ UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
     "scope": "Only the failed identical-state/native zone/locale/current-owner method after repairing its composition epoch witness. Seven completed host/sheet/controller methods are explicitly reused, not replayed; all genuine protocol/XML/Worker/runtime/binary/cleanup gates remain. No physical OS Settings/hour-cycle/minimum-platform/ABI/release certification.",
 }
 
+IOS_SLIDER_LIFECYCLE_FOCUS = "ios-native-slider-input-lifecycle"
+IOS_SLIDER_LIFECYCLE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
+IOS_SLIDER_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest"
+IOS_SLIDER_LIFECYCLE_METHODS = (
+    "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_LIFECYCLE_FOCUS] = {
+    "groups": ({"classname": IOS_SLIDER_LIFECYCLE_CLASS, "source": IOS_SLIDER_LIFECYCLE_SOURCE,
+                "methods": IOS_SLIDER_LIFECYCLE_METHODS},),
+    "scope": "Six new actual UIKit-hosted production Liquid/Cupertino input-owner methods: live callbacks, idle/drag enablement, individually replaced geometry/density/RTL/range/steps/source, cancellation and atomic tap/drag cleanup. Accepted controls/host/state/time suites are not replayed. Direct Cupertino is not adaptive pre-26 OS selection, hardware accessibility or physical/minimum/performance/ABI/release certification.",
+}
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
@@ -2173,6 +2190,7 @@ def main() -> int:
                                            IOS_SLIDER_NUMERIC_FOCUS,
                                            IOS_UI_STATE_FOCUS,
                                            IOS_TIME_STATE_RECOVERY_FOCUS,
+                                           IOS_SLIDER_LIFECYCLE_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,

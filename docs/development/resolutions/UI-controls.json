@@ -5,7 +5,8 @@
     "changes": [
       "Liquid and Cupertino controls use an internal shared slider contract with current value/callback state and input keys for enabled/range/steps/measured width/thumb width/RTL/interaction source.",
       "Disabled changes cancel existing pointer ownership; obsolete tap animations no longer write caller state; taps are atomic and drag-local state is recreated for each gesture.",
-      "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered."
+      "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered.",
+      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -13,7 +14,8 @@
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt",
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
     ],
     "tests": [
       {
@@ -103,6 +105,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m; five new finite focus/receipt guards",
+        "result": "COMPILE ONLY: actual changedtestKLIB0/36.01s; all865source/recipe inputs heldbefore/after. Newguard5/5/0.757s pass; ZEROlocalnative input/runtime tests. Sixexact methods ononegenuine application planned, no accepted numeric/control/host/time/native suites replay. UI027/UI034 original-criteria review and actual immutable native execution pending; directCupertino is not an old-OS adaptive/minimum/hardware/performance/ABI/security/release claim.",
+        "evidence": "docs/development/evidence/slider-lifecycle-batch-important-20261029/local001/review.json"
       }
     ],
     "remaining": [
@@ -712,7 +719,7 @@
       },
       {
         "command": "Immutable40790707874/887df6f0 :calf-ui:iosSimulatorArm64ApplicationTest --tests two public LiquidGlassSliderNumericTest methods; reuse14 exact unchanged relevant Native domain/Damped methods from40522929974 attempt2/20205909; review original3 criteria, close/readback #135 directly before documentation",
-        "result": "VERIFIED original3 numeric/layout criteria: fresh publicUIKit2/2/one XML/zero failure-error-skip/Gradle0/914.8s/822 before-after own-Git inputs/JDK17/iPhoneiOS26.5/Xcode26.6; actual exact0dp/1dp/144dp constant initial9→0 RTL/inert controls; proven live drag/range-width-RTL replacement,80 finite layout/progress observations and exactly one Cancel/no stale callback/finish; valid new-domain request once, nonfinite requests refused. Eight domain and six Damped methods reused with six owning production files/full two test files/catalog unchanged, covering negative/constant/extreme/invalid/clamped inputs and finite normalized velocity/progress/scales.2fresh+14reused=16 accepted executions; two unrelated highlight methods preserved but excluded from counts, not18 or121-case replay. Actual XML/protocol/runtime/distinct Worker/owned cleanup independently agree; absent reports-only binary live check is not recreated/faked. Readback CLOSED/completed/body-title-labels retained; broader hardware/profiling/ABI/consumer/security/release gates unchanged.",
+        "result": "VERIFIED original3 numeric/layout criteria: fresh publicUIKit2/2/one XML/zero failure-error-skip/Gradle0/914.8s/822 before-after own-Git inputs/JDK17/iPhoneiOS26.5/Xcode26.6; actual exact0dp/1dp/144dp constant initial9\u21920 RTL/inert controls; proven live drag/range-width-RTL replacement,80 finite layout/progress observations and exactly one Cancel/no stale callback/finish; valid new-domain request once, nonfinite requests refused. Eight domain and six Damped methods reused with six owning production files/full two test files/catalog unchanged, covering negative/constant/extreme/invalid/clamped inputs and finite normalized velocity/progress/scales.2fresh+14reused=16 accepted executions; two unrelated highlight methods preserved but excluded from counts, not18 or121-case replay. Actual XML/protocol/runtime/distinct Worker/owned cleanup independently agree; absent reports-only binary live check is not recreated/faked. Readback CLOSED/completed/body-title-labels retained; broader hardware/profiling/ABI/consumer/security/release gates unchanged.",
         "evidence": [
           "docs/development/evidence/slider-numeric-important-20261028/native001/lead-independent-review.json",
           "docs/development/evidence/slider-numeric-important-20261028/native001/closure/verified-readback.json",
@@ -846,7 +853,8 @@
     "changes": [
       "Cupertino uses shared input with complete range/steps/geometry/source keys and updated callbacks.",
       "Removed the old competing tap mutation animation/private slider gesture engine; taps no longer keep issuing callbacks after a new gesture.",
-      "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain."
+      "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain.",
+      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -854,7 +862,8 @@
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderLayout.kt",
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSlider.ios.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
     ],
     "tests": [
       {
@@ -936,6 +945,11 @@
           "docs/development/evidence/js-full-004-context/context-review.json",
           "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.slider.SliderValueDomainTest.xml"
         ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m; five new finite focus/receipt guards",
+        "result": "COMPILE ONLY: actual changedtestKLIB0/36.01s; all865source/recipe inputs heldbefore/after. Newguard5/5/0.757s pass; ZEROlocalnative input/runtime tests. Sixexact methods ononegenuine application planned, no accepted numeric/control/host/time/native suites replay. UI027/UI034 original-criteria review and actual immutable native execution pending; directCupertino is not an old-OS adaptive/minimum/hardware/performance/ABI/security/release claim.",
+        "evidence": "docs/development/evidence/slider-lifecycle-batch-important-20261029/local001/review.json"
       }
     ],
     "remaining": [

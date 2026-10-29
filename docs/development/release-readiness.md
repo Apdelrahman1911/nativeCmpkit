@@ -1,5 +1,17 @@
 # First Preview Release readiness
 
+## 2026-10-29: individual lifetime gate accepted, release still blocked
+
+[NATIVE-002/#10](evidence/webview-lifetime-important-20261029/README.md) closed after
+all three original scoped criteria/source/results review. Current Android3/3,
+20 accepted desktop executions reused and3 fresh host regressions prove the
+Android/Desktop owning cleanup contracts; original failed matrices and private
+ART root failure remain failed. This does not promote any complete gate row:
+Apple WKWebView, physical/minimum/OS-process-death/accessibility/IME, native
+allocation/sanitizer, whole API/ABI/full-consumer/dependency/provenance/legal/
+security gates remain. Fresh16-issue upstream reconciliation has no missing or
+changed import. No publication, release or deployment is authorized by closure.
+
 **Status: NOT RELEASE-READY.** The owner authorized a first verified preview on
 2026-10-24, not publication of unverified artifacts or silent acceptance of open
 findings. `0.1.0-preview.1` is the **draft candidate version**, not a published

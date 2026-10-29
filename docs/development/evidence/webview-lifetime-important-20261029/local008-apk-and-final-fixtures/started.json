@@ -1,0 +1,25 @@
+{
+  "started_ns": 1793236853080767553,
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+    ":calf-webview:assembleAndroidDeviceTest",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ]
+}

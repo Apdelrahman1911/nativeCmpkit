@@ -1,0 +1,316 @@
+{
+  "reviewed_at_utc": "2026-10-29T03:00:04.451129+00:00",
+  "finding": "NATIVE-002",
+  "source_revision": "b3831693d968d6cd8ef80ba2729a000cca0374a6",
+  "all_three_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "original_requirement": "Retain state, mount/unmount repeatedly and verify Activity/native view collectability with weak references/profilers.",
+      "status": "accepted",
+      "evidence": "Repeated real Compose mounts/unmounts retain state but collect native WebView/engine on all four desktop hosts. Current Android native method collects repeated real Activity/WebView owners with retained state. Failure-only real JVM/ART root evidence locates the two owning causes, not a synthetic GC probe."
+    },
+    {
+      "original_requirement": "Verify teardown cancels a slow request and media and does not clear a replacement instance.",
+      "status": "accepted",
+      "evidence": "Real previously-playing authored WAV/media clock, pending native slow connections and timers stop on all four desktop hosts and current Android. Android unmount collects the native view while Activity remains RESUMED; real content fills wrapper bounds. Native throwing-release handoff does not clear/stop the live replacement, with exactly-once callback and cleanup."
+    },
+    {
+      "original_requirement": "Test onDispose throwing, delayed Platform.runLater initialization, process-state save and multiwindow operation.",
+      "status": "accepted",
+      "evidence": "Actual FX uncaught application disposal failure is preserved and all native references released without stopping second window; native queued Platform.runLater creation cannot resurrect disposed state. Real Android public Saver/Parcel serialization restores native history in a new real Activity; two distinct live tasks/replacement still execute. This is process-state serialization/restoration, not an OS process-death claim."
+    }
+  ],
+  "fresh_android_native": {
+    "run_id": 40808466133,
+    "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40808466133",
+    "source_revision": "b3831693d968d6cd8ef80ba2729a000cca0374a6",
+    "run_conclusion": "success",
+    "slot": "android-device-api35",
+    "job_id": 123233240896,
+    "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40808466133/job/123233240896",
+    "artifact_id": 12870085456,
+    "artifact_sha256": "sha256:1048fdc826c9ddd4248402b2db7d15371c5620cbe7848b88a242f15a1d1e228d",
+    "selected_inputs_equal_own_git_and_held": 831,
+    "exact_filtered_command_checked": true,
+    "actual_setup_and_daemon_jdk17_checked": true,
+    "fresh_report_scope": "Immutable producer checks actual task markers/report mtime boundaries; extraction mtime is not claimed as fresh execution",
+    "reports": [
+      {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-3e9842e899aa(AVD) - 15.xml",
+        "sha256": "22a966db66b29ae3e20530bf8dbde26bfc62f0483d57487486f7636c104c38b5",
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      }
+    ],
+    "execution": {
+      "elapsed_seconds": 70.03,
+      "exit_code": 0
+    },
+    "counts": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 3,
+      "executed": 3,
+      "not_applicable": 0,
+      "unexpected_skipped": 0
+    },
+    "testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+        "status": "passed"
+      }
+    ],
+    "receipt_passed": true,
+    "whole_target_accepted": true,
+    "issue_10_closed_by_this_record": false,
+    "physical_minimum_abi_security_release_certification": false,
+    "apk_assembly": {
+      "elapsed_seconds": 289.08,
+      "exit_code": 0
+    },
+    "owned_enforcing_emulator_clean_unforced_shutdown_checked": true,
+    "individual_passes_preserved_for_scoped_reuse": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+        "name": "retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+        "status": "passed"
+      }
+    ],
+    "failed_methods": []
+  },
+  "reused_desktop_slots": [
+    {
+      "slot": "desktop-windows-x64",
+      "accepted": 5,
+      "runs": [
+        40800212182
+      ],
+      "original_reports": [
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+          "sha256": "31e6cd3d5783031606fcccb36dc042247248b255f0109d1f8dbe45f16065437e"
+        },
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+          "sha256": "37dd594c3fd44fa5a830acc554c668920e88a43037f5d12d78340a7b840fb43d"
+        }
+      ]
+    },
+    {
+      "slot": "desktop-macos-x64",
+      "accepted": 5,
+      "runs": [
+        40800212182,
+        40804208284
+      ],
+      "original_reports": [
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+          "sha256": "652674b50e0886fa78004a38cded8f955b6c048f6963649e65a8b75cbd466848"
+        },
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+          "sha256": "fe7fd35fc467e6610340b4923acb954c71c2d40de3a91b9af3ba9093c6d72c3c"
+        }
+      ]
+    },
+    {
+      "slot": "desktop-linux-x64",
+      "accepted": 5,
+      "runs": [
+        40800212182
+      ],
+      "original_reports": [
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+          "sha256": "53535a3b63400aeddcdd20e16418f336ec4d62595fddc1310dbbd880278b1c8b"
+        },
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+          "sha256": "92d8601d47719854f67943ee454b36effa66a89c406de674b1d257eab1834037"
+        }
+      ]
+    },
+    {
+      "slot": "desktop-macos-arm64",
+      "accepted": 5,
+      "runs": [
+        40800212182
+      ],
+      "original_reports": [
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+          "sha256": "b24aa1431b094e6c799d660ec87d91c3563af521ddccb59fef03063120258b73"
+        },
+        {
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+          "sha256": "bdf52c950ab62f08b26f93021ab827fa73999d75c704d9b20e733e6b3c41350f"
+        }
+      ]
+    }
+  ],
+  "reused_desktop_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+      "status": "passed",
+      "slot": "desktop-windows-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+      "status": "passed",
+      "slot": "desktop-windows-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+      "status": "passed",
+      "slot": "desktop-windows-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+      "status": "passed",
+      "slot": "desktop-windows-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+      "status": "passed",
+      "slot": "desktop-windows-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+      "status": "passed",
+      "slot": "desktop-linux-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+      "status": "passed",
+      "slot": "desktop-linux-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+      "status": "passed",
+      "slot": "desktop-linux-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+      "status": "passed",
+      "slot": "desktop-linux-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+      "status": "passed",
+      "slot": "desktop-linux-x64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-arm64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-arm64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-arm64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-arm64"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+      "status": "passed",
+      "slot": "desktop-macos-arm64"
+    }
+  ],
+  "accepted_native_target_executions": 23,
+  "fresh_Android_host_ownership_methods": 3,
+  "accepted_native_plus_host_executions": 26,
+  "authored_native_methods": 8,
+  "source_review": "Desktop/common/core/build inputs unchanged from accepted results except reviewed reinforcing media diagnostics; no changed Android runtime result is reused. Fresh current Android3/3 validates the detachable-container production repair. Native state signatures/JVM descriptors retained; no framework cache reflection/accessibility mutation or callback/collection skip.",
+  "original_failed_matrix_and_heap_run_preserved": true,
+  "prior_remaining_preserved": "pre-closure-owner-remaining.json",
+  "limitations": [
+    "Nearest heap paths are not all roots or native allocation/sanitizer measurements. Linux software audio is not audible hardware.",
+    "Android API35 software-GPU/owned enforcing emulator and Saver/Parcel round trip are not minimum/physical device or OS process death.",
+    "Apple WKWebView, accessibility/IME/custom/native animation, broader runtime/minimum/ABI/full consumer/dependency/provenance/legal/security/release gates remain independent; no publishing or deployment."
+  ],
+  "release_readiness_certified": false
+}

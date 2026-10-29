@@ -1,5 +1,19 @@
 # Native features: current implementation and verification ledger
 
+## 2026-10-29: native Android/Desktop lifetime acceptance
+
+[NATIVE-002/#10](evidence/webview-lifetime-important-20261029/README.md) is now
+closed/completed after all three original criteria/source/results review.
+Current immutableAndroid40808466133/b3831693 passes3/3, one fresh XML/exit0/70.03s,
+831 held own-Git inputs/JDK17/owned Enforcing API35 emulator/clean shutdown.
+Actual JVM/ART roots led to current-only native state and a detachable Android
+container; live-Activity composition-only native collection/media/network/timers,
+repeated retained-state collection, Saver/Parcel restore and throwing disposal/
+replacement pass. Desktop20 unchanged accepted executions reused; host3/3 fresh.
+23 native executions of8 authored methods plus3host, not a fresh whole matrix.
+All failed earlier matrices/roots and independent Apple/minimum/physical/native-
+allocation/ABI/full-consumer/dependency/legal/security/release gates remain.
+
 **2026-10-28 direct security closure:** [NATIVE-010/#11](evidence/browser-security-20261028/README.md)
 closes after all3 original criteria pass: JS40 reused + corrected Wasm40 fresh,7
 actual security methods each. Whole original Wasm failure retained; new Wasm-only

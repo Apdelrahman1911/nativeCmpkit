@@ -1,0 +1,33 @@
+{
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+    ":calf-webview:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest",
+    ":calf-webview:compileAndroidDeviceTest",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-29T00:56:11.554933+00:00",
+  "free_bytes_before": 23598309376,
+  "exit_code": 1,
+  "elapsed_seconds": 79.02,
+  "free_bytes_after": 23588179968
+}

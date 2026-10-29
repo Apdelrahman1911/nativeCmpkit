@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7",
     "docs/development/resolutions/IO.json": "090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105",
-    "docs/development/resolutions/NATIVE.json": "d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48",
+    "docs/development/resolutions/NATIVE.json": "88630c75233ae9c1ab1d3c6473d635d028025ff83740345b5e5d42a7e26280eb",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "d2f81d52fd9bcefb031b5510736e49f0e4e589423a894662d80f761bcfe11470",
+  "input_fingerprint": "3bc9e5ce0beb5662015b16fb2fc0b0ba510dbd35a91f8b4a01ad67e0e5417ff4",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 48,
+      "implemented": 47,
       "partially-verified": 51,
-      "verified": 58,
+      "verified": 59,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -1918,16 +1918,18 @@
         "mapping_key": "audit:NATIVE-002",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "06b2abc218bb9ce8d18f89252a6b280c0c079bfbdda1906ca15ab45befc9eead",
+      "owner_record_sha256": "31d2d331b4b055acea085085ea1c951225cca7059b07495481080ef36399c0cf",
       "owner_record": {
         "id": "NATIVE-002",
         "title": "Android and Desktop WebViews retain live native views after composition disposal",
         "priority": "High",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
-          "Android/Desktop native owners stop/detach/clear on release; failed factory/creation callbacks unwind partial owners. Independent cleanup stages preserve the first failure and attempt all later releases."
+          "Android/Desktop native owners stop/detach/clear on release; failed factory/creation callbacks unwind partial owners. Independent cleanup stages preserve the first failure and attempt all later releases.",
+          "2026-10-29: Android/Desktop native state uses a private current AtomicReference plus an observable primitive attachment token, avoiding predecessor Compose snapshot ownership while preserving public JVM state descriptors.",
+          "2026-10-29: AndroidView retains only a detachable private FrameLayout owner; release clears its native field and actual child even after failure. Creation unwinds once, native callbacks/state retain their existing public contract, and a distinct live replacement is untouched."
         ],
         "affected_paths": [
           "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
@@ -2142,18 +2144,31 @@
               "docs/development/evidence/native/first-wasm-share-timer-correction.json"
             ],
             "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+          },
+          {
+            "checkpoint": "webview-lifetime-important-20261029",
+            "command": "Hosted40808466133 current Android: ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts --no-parallel --stacktrace -PnativecmpkitAndroidDeviceSerial=emulator-5588 -Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000 -Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest :calf-webview:connectedAndroidDeviceTest; reuse reviewed unchanged desktop positive methods from40800212182 and40804208284, plus focused local three-method ownership regression recorded in android019.",
+            "result": "All three original NATIVE-002 criteria accepted before direct GitHub#10 completed closure. Immutableb3831693 current Android3/3, one fresh XML/zero failure-error-skip, Gradle0/70.03s/831 own-Git inputs held, JDK17/API35 Enforcing owned emulator/clean unforced shutdown; APK assembly0/289.08s. Reused desktop20 accepted native executions across Linuxx64/Windowsx64/macOSarm64/x64, not a replay or green original matrix. Three fresh host container-ownership methods0/56.01s/831 held inputs/public state descriptors unchanged. Total23 native target executions of8 authored native methods +3 host =26 accepted executions. Actual JVM and private ART heaps establish both retaining causes; all previous failed matrices/fixtures/root diagnostics remain failed.",
+            "test_count": 26,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "evidence": [
+              "docs/development/evidence/webview-lifetime-important-20261029/README.md",
+              "docs/development/evidence/webview-lifetime-important-20261029/android020/lead-target-source-results-review.json",
+              "docs/development/evidence/webview-lifetime-important-20261029/android020/closure/acceptance.json",
+              "docs/development/evidence/webview-lifetime-important-20261029/android020/closure/verified-readback.json",
+              "docs/development/evidence/webview-lifetime-important-20261029/android019-container-host/important-result-review.json",
+              "docs/development/evidence/webview-lifetime-important-20261029/android018-private-root-diagnostic/lead-heap-owning-root-review.json"
+            ],
+            "scope": "Repeated actual Activity/native collection with retained state; real Saver/Parcel/native-history restoration in a new Activity (not OS process death); real previously-playing media/slow requests/timers stop; native collects after composition-only unmount while Activity stays RESUMED; real wrapper bounds; throwing disposal and live replacement; delayed actual FX creation and multiwindow. Broader Apple WKWebView, physical/minimum devices/accessibility/IME, native allocations/sanitizers, API/ABI/whole consumers/dependency/provenance/legal/security/release gates are independent and not certified."
           }
         ],
-        "remaining": [
-          "Actual Activity/WebEngine collectability, media shutdown and multiwindow profiler evidence remain unavailable.",
-          "Original required test pending full target verification: Retain state, mount/unmount repeatedly and verify Activity/native view collectability with weak references/profilers.",
-          "Original required test pending full target verification: Verify teardown cancels a slow request and media and does not clear a replacement instance.",
-          "Original required test pending full target verification: Test onDispose throwing, delayed Platform.runLater initialization, process-state save and multiwindow operation.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-        ],
+        "remaining": [],
         "compatibility": "Same lifecycle API; resource release is library-owned and an application exception remains observable after cleanup.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
-        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-002"
+        "verification_scope": "Repeated actual Activity/native collection with retained state; real Saver/Parcel/native-history restoration in a new Activity (not OS process death); real previously-playing media/slow requests/timers stop; native collects after composition-only unmount while Activity stays RESUMED; real wrapper bounds; throwing disposal and live replacement; delayed actual FX creation and multiwindow. Broader Apple WKWebView, physical/minimum devices/accessibility/IME, native allocations/sanitizers, API/ABI/whole consumers/dependency/provenance/legal/security/release gates are independent and not certified.",
+        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-002",
+        "required_tests_review": "All three original criteria accepted in android020/closure/acceptance.json, reviewed before one additive comment and one state-only PATCH. Readback confirms CLOSED/completed with original title/body/labels intact. Prior remaining prose is preserved in pre-closure-owner-remaining.json; independent risks belong to verification_scope, not outstanding accepted criteria."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -17581,7 +17596,7 @@
         {
           "id": "NATIVE-002",
           "original_order": 12,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/10"
         },
         {

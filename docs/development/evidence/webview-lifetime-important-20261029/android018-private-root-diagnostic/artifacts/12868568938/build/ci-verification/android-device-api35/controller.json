@@ -1,0 +1,218 @@
+{
+  "changed_inputs": [],
+  "complete_suite_requested": false,
+  "emulator_shutdown": {
+    "clean_shutdown": true,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-29T02:40:22.497395+00:00",
+    "forced_owned_group": false,
+    "graceful_kill_requested": true,
+    "requested_at_utc": "2026-10-29T02:40:20.722708+00:00"
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-android-native-media",
+  "finished_at_utc": "2026-10-29T02:40:22.619991+00:00",
+  "heap_diagnostics": {
+    "analysis": {
+      "raw_ids_or_values_exported": false,
+      "schema_version": 1,
+      "scope": "Nearest heap root paths only; not all paths or native allocations",
+      "targets": [
+        {
+          "nearest_path": [
+            {
+              "child_class": "android.webkit.WebView",
+              "fields": [
+                "androidx.compose.ui.viewinterop.ViewFactoryHolder.typedView",
+                "androidx.compose.ui.viewinterop.AndroidViewHolder.view"
+              ],
+              "parent_class": "androidx.compose.ui.viewinterop.ViewFactoryHolder"
+            },
+            {
+              "child_class": "androidx.compose.ui.viewinterop.ViewFactoryHolder",
+              "fields": [
+                "androidx.compose.ui.node.LayoutNode.interopViewFactoryHolder"
+              ],
+              "parent_class": "androidx.compose.ui.node.LayoutNode"
+            },
+            {
+              "child_class": "androidx.compose.ui.node.LayoutNode",
+              "fields": [
+                "array-element"
+              ],
+              "parent_class": "androidx.compose.ui.node.LayoutNode[]"
+            },
+            {
+              "child_class": "androidx.compose.ui.node.LayoutNode[]",
+              "fields": [
+                "androidx.compose.runtime.collection.MutableVector.content"
+              ],
+              "parent_class": "androidx.compose.runtime.collection.MutableVector"
+            },
+            {
+              "child_class": "androidx.compose.runtime.collection.MutableVector",
+              "fields": [
+                "androidx.compose.ui.node.LayoutNode._unfoldedChildren"
+              ],
+              "parent_class": "androidx.compose.ui.node.LayoutNode"
+            },
+            {
+              "child_class": "androidx.compose.ui.node.LayoutNode",
+              "fields": [
+                "array-element"
+              ],
+              "parent_class": "androidx.compose.ui.node.LayoutNode[]"
+            },
+            {
+              "child_class": "androidx.compose.ui.node.LayoutNode[]",
+              "fields": [
+                "androidx.compose.runtime.collection.MutableVector.content"
+              ],
+              "parent_class": "androidx.compose.runtime.collection.MutableVector"
+            },
+            {
+              "child_class": "androidx.compose.runtime.collection.MutableVector",
+              "fields": [
+                "androidx.compose.ui.node.LayoutNode._zSortedChildren"
+              ],
+              "parent_class": "androidx.compose.ui.node.LayoutNode"
+            },
+            {
+              "child_class": "androidx.compose.ui.node.LayoutNode",
+              "fields": [
+                "androidx.compose.ui.platform.AndroidComposeView.root"
+              ],
+              "parent_class": "androidx.compose.ui.platform.AndroidComposeView"
+            },
+            {
+              "child_class": "androidx.compose.ui.platform.AndroidComposeView",
+              "fields": [
+                "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.view"
+              ],
+              "parent_class": "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat"
+            },
+            {
+              "child_class": "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat",
+              "fields": [
+                "array-element"
+              ],
+              "parent_class": "java.lang.Object[]"
+            },
+            {
+              "child_class": "java.lang.Object[]",
+              "fields": [
+                "android.util.ArrayMap.mArray"
+              ],
+              "parent_class": "android.util.ArrayMap"
+            },
+            {
+              "child_class": "android.util.ArrayMap",
+              "fields": [
+                "android.view.accessibility.AccessibilityManager.mAccessibilityStateChangeListeners"
+              ],
+              "parent_class": "android.view.accessibility.AccessibilityManager"
+            },
+            {
+              "child_class": "android.view.accessibility.AccessibilityManager",
+              "fields": [
+                "android.view.accessibility.AccessibilityManager.sInstance"
+              ],
+              "parent_class": "java.lang.Class"
+            }
+          ],
+          "root_kinds": [
+            "unknown",
+            "sticky class"
+          ],
+          "root_reached": true,
+          "target_class": "android.webkit.WebView",
+          "weak_reference_edge": false
+        },
+        {
+          "nearest_path": [
+            {
+              "child_class": "com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity",
+              "fields": [
+                "androidx.test.core.app.ActivityScenario.currentActivity"
+              ],
+              "parent_class": "androidx.test.core.app.ActivityScenario"
+            },
+            {
+              "child_class": "androidx.test.core.app.ActivityScenario",
+              "fields": [
+                "java.util.concurrent.atomic.AtomicReference.value"
+              ],
+              "parent_class": "java.util.concurrent.atomic.AtomicReference"
+            },
+            {
+              "child_class": "java.util.concurrent.atomic.AtomicReference",
+              "fields": [
+                "com.mohamedrejeb.calf.ui.web.ActivityLease.scenario"
+              ],
+              "parent_class": "com.mohamedrejeb.calf.ui.web.ActivityLease"
+            }
+          ],
+          "root_kinds": [
+            "Java frame",
+            "Java frame"
+          ],
+          "root_reached": true,
+          "target_class": "com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity",
+          "weak_reference_edge": false
+        }
+      ]
+    },
+    "analysis_attempted": true,
+    "capture_found": true,
+    "clean_monitor_shutdown": true,
+    "dump_bytes": 45840672,
+    "dump_sha256": "c06504b96e2bbb36a318e519b84ba479aabfb1b4378685b9d87e94af23e42704",
+    "installed_converter_sha256": "f0b41063a4420667d52689cf7739899a23d5a88653037be12d9106023f670e02",
+    "owned_avd_verified_before_and_after": true,
+    "package": "com.mohamedrejeb.calf.calfwebview.test",
+    "parser_bytes": 339684,
+    "parser_provenance": "Earlier registry-observed exact bytes; not independent trust",
+    "parser_sha256": "f34e6c97d3d5ff6fe5a6e206f2e6983ef8c8d23af6afd520bac9540d85a33dae",
+    "profiler_source_sha256": "70d5e52542f9337ea27c2c9732c21839bd030a492e2bec35c47d2be4582f0525",
+    "raw_heap_or_parser_uploaded": false,
+    "requested": true,
+    "schema_version": 1,
+    "scope": "Failure diagnostic only; never a passing native/memory/release gate"
+  },
+  "packages_published": false,
+  "passed": false,
+  "release_readiness_certified": false,
+  "setup_stages": {
+    "apk-assembly": {
+      "elapsed_seconds": 271.09,
+      "exit_code": 0
+    },
+    "owned-avd-create": {
+      "elapsed_seconds": 2.0,
+      "exit_code": 0
+    }
+  },
+  "source_revision": "1735ab8c6775b6243bc567fec76efa58023605d6",
+  "source_revision_after": "1735ab8c6775b6243bc567fec76efa58023605d6",
+  "source_tree_dirty": false,
+  "source_unchanged": true,
+  "started_at_utc": "2026-10-29T02:33:37.007492+00:00",
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "test_suite_passed": false,
+  "test_totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  }
+}

@@ -1,0 +1,81 @@
+from pathlib import Path
+import datetime as dt, hashlib, json, subprocess, sys
+root=Path('/root/projects/nativeCmpKit');sys.path.insert(0,str(root/'scripts/ci'));import library_tests as r
+base=Path('/dev/shm/nativecmpkit-webview-lifetime-important-20261029');out=base/'android020/closure';out.mkdir()
+repo='Apdelrahman1911/nativeCmpkit';current='b3831693d968d6cd8ef80ba2729a000cca0374a6';marker='<!-- nativecmpkit-resolution:NATIVE-002-important-20261029 -->'
+def read(p):return json.loads(p.read_bytes())
+def write(n,x):(out/n).write_text(json.dumps(x,indent=2)+'\n')
+def api(n,path,method='GET',body=None):
+ command=['gh','api','repos/'+repo+'/'+path,'--method',method]
+ if body is not None:command+=['--input','-']
+ result=subprocess.run(command,input=None if body is None else json.dumps(body).encode(),capture_output=True,timeout=120)
+ (out/(n+'.json')).write_bytes(result.stdout)
+ if result.returncode:
+  (out/(n+'.stderr')).write_bytes(result.stderr);raise RuntimeError('API request failed; reconcile its marker/state before any retry')
+ return json.loads(result.stdout)
+assert r.git_revision(root)==current
+native=read(base/'android020/lead-target-source-results-review.json')
+assert native['source_revision']==current and native['run_id']==40808466133 and native['run_conclusion']=='success' and native['whole_target_accepted'] and native['counts']['tests']==native['counts']['passed']==3
+assert native['owned_enforcing_emulator_clean_unforced_shutdown_checked'] and native['selected_inputs_equal_own_git_and_held']==831
+initial=read(base/'native001/lead-completed-source-results-review.json');intel=read(base/'macos014/lead-target-source-results-review.json')
+assert initial['artifact_json_xml_archive_hashes_verified'] and initial['verified_own_git_inputs']==828 and initial['run_conclusion']=='failure'
+assert intel['whole_target_accepted'] and intel['counts']['passed']==intel['counts']['tests']==1 and intel['selected_inputs_equal_own_git_and_held']==828
+slots=[];accepted=[]
+for h in initial['hosts']:
+ if not h['slot'].startswith('desktop-'):continue
+ folder=base/'native001/artifacts'/str(h['artifact_id']);cases=[]
+ for report in h['reports']:
+  payload=(folder/report['path']).read_bytes();assert hashlib.sha256(payload).hexdigest()==report['sha256'];cases+=r.junit_cases(payload)
+ assert len(cases)==5 and len({(c['classname'],c['name']) for c in cases})==5
+ if h['slot']=='desktop-macos-x64':
+  failed=[c for c in cases if c['status']!='passed'];assert len(failed)==1 and failed[0]['name']==intel['testcases'][0]['name']
+  cases=[c for c in cases if c['status']=='passed']+intel['testcases'];runs=[40800212182,40804208284]
+ else:
+  assert h['whole_host_accepted'] and h['execution']['exit_code']==0 and all(c['status']=='passed' for c in cases);runs=[40800212182]
+ assert all(c['status']=='passed' for c in cases)
+ assert {(c['classname'],c['name']) for c in cases}=={(c['classname'],c['name']) for c in r.webview_lifetime_identities('desktop')}
+ slots.append({'slot':h['slot'],'accepted':5,'runs':runs,'original_reports':h['reports']})
+ accepted.extend([dict(c,slot=h['slot']) for c in cases])
+assert len(slots)==4 and len(accepted)==20
+paths=['calf-webview/src/commonMain','calf-webview/src/commonTest','calf-webview/src/desktopMain','calf-webview/src/desktopTest','calf-webview/build.gradle.kts','calf-core/src/commonMain','calf-core/src/desktopMain','calf-core/build.gradle.kts','build.gradle.kts','settings.gradle.kts','gradle','gradle.properties','convention-plugins']
+changed=subprocess.check_output(['git','diff','--name-only',initial['source_revision'],current,'--',*paths],text=True).splitlines()
+assert changed==['calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt']
+assert not subprocess.check_output(['git','diff','--name-only',intel['source_revision'],current,'--',*paths],text=True).strip()
+# The complete earlier/current fixture diff was personally reviewed: only extra actual on-screen
+# assertion, bounded diagnostic observations/trace and unused helper; no media predicate/WAV/
+# cleanup or other method/host behavior was weakened.
+host=read(root/'docs/development/evidence/webview-lifetime-important-20261029/android019-container-host/important-result-review.json')
+assert host['actual_host_passes']==host['actual_host_methods']==3 and host['selected_inputs_equal_own_Git']==831
+assert host['public_Android_WebViewState_descriptors_equal_previous_compiled_class']
+finding=next(x for x in read(root/'docs/audit/findings/NATIVE.json') if x['id']=='NATIVE-002');assert len(finding['required_tests'])==3
+prior=next(x for x in read(root/'docs/development/resolutions/NATIVE.json') if x['id']=='NATIVE-002')
+write('pre-closure-owner-remaining.json',{'id':prior['id'],'previous_status':prior['status'],'remaining':prior['remaining'],'previous_verification_scope':prior['verification_scope'],'scope':'Original three Android/Desktop criteria accepted; independent residual release/native/API gates remain. Original ledger tests and audit history preserved.'})
+rows=[{'original_requirement':finding['required_tests'][0],'status':'accepted','evidence':'Repeated real Compose mounts/unmounts retain state but collect native WebView/engine on all four desktop hosts. Current Android native method collects repeated real Activity/WebView owners with retained state. Failure-only real JVM/ART root evidence locates the two owning causes, not a synthetic GC probe.'},
+ {'original_requirement':finding['required_tests'][1],'status':'accepted','evidence':'Real previously-playing authored WAV/media clock, pending native slow connections and timers stop on all four desktop hosts and current Android. Android unmount collects the native view while Activity remains RESUMED; real content fills wrapper bounds. Native throwing-release handoff does not clear/stop the live replacement, with exactly-once callback and cleanup.'},
+ {'original_requirement':finding['required_tests'][2],'status':'accepted','evidence':'Actual FX uncaught application disposal failure is preserved and all native references released without stopping second window; native queued Platform.runLater creation cannot resurrect disposed state. Real Android public Saver/Parcel serialization restores native history in a new real Activity; two distinct live tasks/replacement still execute. This is process-state serialization/restoration, not an OS process-death claim.'}]
+write('acceptance.json',{'reviewed_at_utc':dt.datetime.now(dt.timezone.utc).isoformat(),'finding':'NATIVE-002','source_revision':current,'all_three_original_criteria_accepted':True,'criteria':rows,'fresh_android_native':native,'reused_desktop_slots':slots,'reused_desktop_cases':accepted,'accepted_native_target_executions':23,'fresh_Android_host_ownership_methods':3,'accepted_native_plus_host_executions':26,'authored_native_methods':8,'source_review':'Desktop/common/core/build inputs unchanged from accepted results except reviewed reinforcing media diagnostics; no changed Android runtime result is reused. Fresh current Android3/3 validates the detachable-container production repair. Native state signatures/JVM descriptors retained; no framework cache reflection/accessibility mutation or callback/collection skip.','original_failed_matrix_and_heap_run_preserved':True,'prior_remaining_preserved':'pre-closure-owner-remaining.json','limitations':['Nearest heap paths are not all roots or native allocation/sanitizer measurements. Linux software audio is not audible hardware.','Android API35 software-GPU/owned enforcing emulator and Saver/Parcel round trip are not minimum/physical device or OS process death.','Apple WKWebView, accessibility/IME/custom/native animation, broader runtime/minimum/ABI/full consumer/dependency/provenance/legal/security/release gates remain independent; no publishing or deployment.'],'release_readiness_certified':False})
+issue=api('issue-before','issues/10');assert issue['number']==10 and issue['state']=='open' and '<!-- nativecmpkit-item:audit:NATIVE-002 -->' in issue['body'] and all(c in issue['body'] for c in finding['required_tests'])
+comments=api('comments-before','issues/10/comments?per_page=100');assert len(comments)<100 and not any(marker in c['body'] for c in comments)
+main=api('main-before','git/ref/heads/main');assert main['object']['sha']=='94d2492e99d5cbc060409d94d9f88febd06222d5'
+body=f'''{marker}
+Implemented and verified; closing directly after review against **all three original Android/Desktop lifecycle criteria**.
+
+Two actual owning causes were fixed: a disposed native view persisted through predecessor Compose snapshot records, then the Android interop holder remained reachable through Compose's cached LayoutNode children. Current native handles now live outside snapshot history; AndroidView now owns a lightweight detachable FrameLayout, not the native WebView. Release severs its native field/child, saves the matching native state, stops/detaches/destroys and clears only that owner. Throwing application/native cleanup preserves the first failure and attempts remaining stages. No reflection, accessibility-listener/cache mutation, renderer stub or weakened collection assertion.
+
+**Current immutable Android [40808466133](https://github.com/{repo}/actions/runs/40808466133)** at `{current}`: **3/3**, one fresh XML, no failures/errors/skips, Gradle **0/70.03s**, all **831** own-Git inputs held, actual JDK17/Enforcing API35 and clean unforced owned emulator shutdown. Repeated real Activity/native collection + public Saver/Parcel/native-history restoration pass. Composition-only unmount now collects the previously-playing native view while its Activity stays **RESUMED**, closes the real slow connection and stops timer/network work; native content still fills actual Compose-owned bounds. Throwing release preserves a distinct live native replacement.
+
+**20 accepted desktop target executions reused, not replayed:** Linux x64, Windows x64 and macOS arm64 **5/5 each**, plus four original Intel positives from [40800212182](https://github.com/{repo}/actions/runs/40800212182); the failed Intel media method alone was recovered **1/1 / 0/443.29s** in [40804208284](https://github.com/{repo}/actions/runs/40804208284). Actual Compose/JavaFX/WebKit mounts, weak collection, decoded/clocked media/slow-request shutdown, second-window safety after throwing disposal, queued initialization cancellation and native URL/history/save contracts are exercised. Desktop/common/build production bytes are unchanged; only reinforcing media diagnostics were added. Original failed matrix and failed real ART heap run remain failures in the archive.
+
+**23 native target executions** (eight authored native methods across hosts), plus **3/3 fresh owning-container Android-host regressions** for retained holders, creation failure and throwing cleanup/replacement; host Gradle **0/56.01s** and real test APK assembly pass. Android WebViewState public JVM descriptors/native public references/callback signatures remain; the private native parent hierarchy gains a FrameLayout.
+
+[Reviewed evidence](https://github.com/{repo}/tree/development/preview-hardening/docs/development/evidence/webview-lifetime-important-20261029) preserves exact source/results and privacy boundaries; raw heaps/parser/APKs are never uploaded. Only necessary changed Android tests reran; unchanged desktop successes were retained.
+
+These checks do not certify Apple WKWebView, audible/physical/minimum-device behavior, OS process death, sustained native allocation/sanitizer, accessibility/IME/custom-animation, full API/ABI/consumer/dependency/provenance/legal/security or release gates. Those independent requirements remain open. Original issue body/title/labels/history remain intact. No packages, releases, deployment or Pages.
+'''
+(out/'resolution-comment.md').write_text(body)
+posted=api('comment-response','issues/10/comments','POST',{'body':body});assert posted['body']==body
+closed=api('close-response','issues/10','PATCH',{'state':'closed','state_reason':'completed'});assert closed['state']=='closed'
+again=api('issue-readback','issues/10');comment=api('comment-readback','issues/comments/'+str(posted['id']))
+assert again['state']=='closed' and again['state_reason']=='completed' and again['body']==issue['body'] and again['title']==issue['title'] and sorted(x['name'] for x in again['labels'])==sorted(x['name'] for x in issue['labels']) and comment['body']==body
+write('verified-readback.json',{'passed':True,'finding':'NATIVE-002','issue_number':10,'issue_url':again['html_url'],'closed_at':again['closed_at'],'state':'closed','state_reason':'completed','comment_id':posted['id'],'comment_url':posted['html_url'],'one_POST_one_state_only_PATCH':True,'all_three_original_criteria_accepted':True,'original_body_title_labels_preserved':True,'native_target_executions_accepted':23,'new_host_owning_regressions':3,'source_revision':current,'publishing_or_deployment':False,'release_readiness_certified':False})
+print('CLOSED #10 / NATIVE-002: original3 criteria accepted,23 scoped native target executions +3 owning host regressions; body/title/labels preserved. No release gate cleared.',flush=True)

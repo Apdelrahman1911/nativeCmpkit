@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d2f81d52fd9bcefb031b5510736e49f0e4e589423a894662d80f761bcfe11470`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `3bc9e5ce0beb5662015b16fb2fc0b0ba510dbd35a91f8b4a01ad67e0e5417ff4`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 48 |
+| implemented | 47 |
 | partially-verified | 51 |
-| verified | 58 |
+| verified | 59 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -57,7 +57,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | verified | — | 6 / 0 |
 | 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | verified | — | 2 / 0 |
-| 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | implemented | — | 3 / 5 |
+| 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
 | 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 6 |
@@ -441,7 +441,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 12. NATIVE-002 — Android and Desktop WebViews retain live native views after composition disposal
 
-**High · implemented · original effort M** — [nativeCmpkit #10](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**High · verified · original effort M** — [nativeCmpkit #10](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -453,13 +453,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual Activity/WebEngine collectability, media shutdown and multiwindow profiler evidence remain unavailable.
-- Original required test pending full target verification: Retain state, mount/unmount repeatedly and verify Activity/native view collectability with weak references/profilers.
-- Original required test pending full target verification: Verify teardown cancels a slow request and media and does not clear a replacement instance.
-- Original required test pending full target verification: Test onDispose throwing, delayed Platform.runLater initialization, process-state save and multiwindow operation.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Repeated actual Activity/native collection with retained state; real Saver/Parcel/native-history restoration in a new Activity (not OS process death); real previously-playing media/slow requests/timers stop; native collects after composition-only unmount while Activity stays RESUMED; real wrapper bounds; throwing disposal and live replacement; delayed actual FX creation and multiwindow. Broader Apple WKWebView, physical/minimum devices/accessibility/IME, native allocations/sanitizers, API/ABI/whole consumers/dependency/provenance/legal/security/release gates are independent and not certified.
 
 **Compatibility / scope:** Same lifecycle API; resource release is library-owned and an application exception remains observable after cleanup.
 
@@ -2375,7 +2371,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort M** — [nativeCmpkit #89](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
-**Original dependencies:** [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) (implemented; original order 12), [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) (verified; original order 77).
+**Original dependencies:** [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) (verified; original order 12), [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) (verified; original order 77).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3624,7 +3620,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d3d4a8100426e218cbdb410ab92aacff72fc2aad592de4095f71ecc4542b3d48` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `88630c75233ae9c1ab1d3c6473d635d028025ff83740345b5e5d42a7e26280eb` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

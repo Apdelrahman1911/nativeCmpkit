@@ -1,0 +1,30 @@
+{
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "/dev/shm/nativecmpkit-webview-lifetime-important-20261029/local-profiler/heap-diagnostic.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-29T00:39:40.987570+00:00",
+  "free_bytes_before": 23606894592,
+  "exit_code": 1,
+  "elapsed_seconds": 81.02,
+  "free_bytes_after": 23605288960
+}

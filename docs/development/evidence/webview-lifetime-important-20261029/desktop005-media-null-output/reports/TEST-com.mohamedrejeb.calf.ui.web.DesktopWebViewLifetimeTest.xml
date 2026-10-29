@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="DesktopWebViewLifetimeTest[desktop]" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-10-29T00:51:16.785Z" hostname="(none)" time="4.06">
+  <properties/>
+  <testcase name="disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]" classname="com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest" time="4.057">
+    <failure message="java.lang.AssertionError: expected:&lt;true&gt; but was:&lt;false&gt;" type="java.lang.AssertionError">java.lang.AssertionError: expected:&lt;true&gt; but was:&lt;false&gt;
+	at _COROUTINE._BOUNDARY._(CoroutineDebugging.kt:42)
+	at com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest$disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument$1.invokeSuspend(DesktopWebViewLifetimeTest.kt:190)
+Caused by: java.lang.AssertionError: expected:&lt;true&gt; but was:&lt;false&gt;
+	at org.junit.Assert.fail(Assert.java:89)
+	at org.junit.Assert.failNotEquals(Assert.java:835)
+	at org.junit.Assert.assertEquals(Assert.java:120)
+	at kotlin.test.junit.JUnitAsserter.assertEquals(JUnitSupport.kt:32)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals(Assertions.kt:83)
+	at kotlin.test.AssertionsKt.assertEquals(Unknown Source)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertEquals$default(Assertions.kt:82)
+	at kotlin.test.AssertionsKt.assertEquals$default(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest$disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument$1.invokeSuspend$lambda$9(DesktopWebViewLifetimeTest.kt:192)
+	at com.mohamedrejeb.calf.ui.web.WebView_desktopKt$onFxThread$2$1.run(WebView.desktop.kt:90)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$10(PlatformImpl.java:456)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$11(PlatformImpl.java:455)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.gtk.GtkApplication._runLoop(Native Method)
+	at com.sun.glass.ui.gtk.GtkApplication.lambda$runLoop$10(GtkApplication.java:265)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+</failure>
+  </testcase>
+  <system-out><![CDATA[[SKIKO] warn: Fallback to next API
+org.jetbrains.skiko.RenderException: Cannot create Linux GL context
+]]></system-out>
+  <system-err><![CDATA[Oct 29, 2026 12:51:17 AM com.sun.javafx.application.PlatformImpl startup
+WARNING: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @2b13fac2'
+]]></system-err>
+</testsuite>

@@ -9,6 +9,7 @@
 - [0007 — Owned proven detached Gradle fixture processes](0007-owned-gradle-fixture-processes.md)
 - [0008 — NativeCmpKit display identity and retained compatible public names](0008-library-display-name.md)
 - [0009 — Independent fallback coordinates at metadata generation](0009-publication-coordinate-normalization.md)
+- [0010 — Detachable Android WebView ownership outside Compose caches](0010-detachable-android-webview-owner.md)
 
 Future architectural changes should add a decision with context, alternatives,
 platform consequences, migration/compatibility strategy, risks and required tests.

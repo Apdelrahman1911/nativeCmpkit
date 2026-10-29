@@ -1,0 +1,31 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-webview:testAndroidHostTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest.retainedInteropContainerHasNoNativeOwnerOrChildAfterRelease",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest.containerUnwindsThrowingCreationWithoutASecondNativeDestruction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifecycleTest.containerClearsEveryOwningEdgeEvenAfterDisposalAndNativeCleanupThrow",
+    ":calf-webview:assembleAndroidDeviceTest",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-29T02:45:39.962424+00:00",
+  "free_bytes_before": 17920348160,
+  "exit_code": 0,
+  "elapsed_seconds": 56.01,
+  "free_bytes_after": 17918709760
+}

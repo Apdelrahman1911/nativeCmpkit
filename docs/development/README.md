@@ -1,5 +1,29 @@
 # NativeCmpKit development after the audit
 
+## Verified WebView lifetime closure — 2026-10-29
+
+**NATIVE-002/#10 is CLOSED/completed** after original three criteria/source/results
+review. [Lifetime evidence](evidence/webview-lifetime-important-20261029/README.md)
+retains both real owning roots, all failed diagnostics and additive closure
+readbacks. Currentb3831693/run40808466133 **Android3/3**, fresh XML/Gradle0/70.03s,
+831 held own-Git inputs/JDK17/owned Enforcing API35 emulator/clean shutdown proves
+actual native collection after composition unmount while Activity stays RESUMED,
+media/slow-request/timer shutdown, retained-state repeated lifecycle, Saver/Parcel
+history restoration and throwing disposal/live replacement. All three Android
+methods reran for the changed container owner. Desktop20 accepted unchanged
+executions reused; three fresh local host ownership methods also pass. **23 native
+executions of8 authored methods +3 host =26 accepted executions**, not a fresh
+whole matrix or Apple/physical/minimum/ABI/full-consumer/security/release gate.
+
+Fresh [upstream reconciliation](upstream-sync-20261029T012644Z/README.md) finds all16
+currently open Calf contexts already current, no missing/duplicate/changed import
+and zero proposed GitHub mutations; original metadata remains immutable. Current
+**62closed/110open/172**, **47implemented/51partial/59verified/seven unresolved**.
+Continue high-priority Compose/JNI picker cancellation and resource ownership;
+native parent IO-023 remains independently unresolved. Important tests→review→
+close directly→document, single-agent; main/history/attribution and publication,
+native/minimum/ABI/full-consumer/dependency/legal/security gates remain.
+
 ## Direct numeric safety closure — 2026-10-29
 
 **UI-032/#135 closed/completed** after all3 original criteria/source/results

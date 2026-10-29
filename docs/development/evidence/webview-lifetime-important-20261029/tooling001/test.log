@@ -1,0 +1,26 @@
+........E.........................................................................................................................................
+======================================================================
+ERROR: test_valid_source_calibration_precedes_missing_renamed_ignored_or_extra_method_rejection (test_webview_lifetime_focus.WebViewLifetimeFocusTests.test_valid_source_calibration_precedes_missing_renamed_ignored_or_extra_method_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_webview_lifetime_focus.py", line 141, in test_valid_source_calibration_precedes_missing_renamed_ignored_or_extra_method_rejection
+    with self.assertRaises(ValueError): self.plan(suite, root)
+                                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_webview_lifetime_focus.py", line 18, in plan
+    return r.plan(root, suite, only_modules=("calf-webview",), focus=r.WEBVIEW_LIFETIME_FOCUS)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 955, in plan
+    source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp2dl5siz3/calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt'
+
+----------------------------------------------------------------------
+Ran 146 tests in 1.929s
+
+FAILED (errors=1)

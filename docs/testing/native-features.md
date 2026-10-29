@@ -1,5 +1,20 @@
 # Testing camera, sharing and WebView
 
+## 2026-10-29: scoped WebView lifetime regression results
+
+The [current development evidence](../development/evidence/webview-lifetime-important-20261029/README.md)
+closes NATIVE-002/#10 after reviewing its three original criteria. Actual current
+Android3/3 in40808466133/b3831693 (exit0/70.03s,831 held own-Git inputs/JDK17,
+owned Enforcing API35 emulator) plus20 reused desktop executions and3 fresh host
+ownership methods are accepted. Native collection while Activity remains RESUMED,
+real decoded media/network/timer shutdown, retained-state repeated collection,
+public Saver/Parcel restoration, throwing disposal/replacement and delayed FX
+creation/multiwindow are exercised. Eight authored native methods yield23 target
+executions, not23 distinct methods. Previous failed runs remain failed; no local
+Android device run, Apple/physical/minimum/OS-process-death/native-allocation/
+API-ABI/full-consumer/security/release certification follows. Baseline probes
+below deliberately remain historical defect reproductions, not current tests.
+
 ## What was actually run
 
 Reviewed source: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6` (2026-10-24 audit). There are **no baseline Kotlin test sources or Rust test functions in these six modules**. A Kotlin-test dependency or empty Gradle test task is not behavioral coverage. Repository-wide build attempts and limitations are recorded by the build reviewer in [testing overview](README.md) and `docs/testing/evidence/`; this reviewer did not run a competing Gradle or Cargo build.

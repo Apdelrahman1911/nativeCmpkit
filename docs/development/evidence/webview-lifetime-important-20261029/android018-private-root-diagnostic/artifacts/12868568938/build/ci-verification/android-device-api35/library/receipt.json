@@ -1,0 +1,148 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest#compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 77.03,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-android-native-media",
+  "finished_at_utc": "2026-10-29T02:40:03.873264+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "9ecbe4b79ecdd93e209803338b3fd90ef97a9b873d8503bbc911e58b47f8b13a",
+  "inputs_before_sha256": "9ecbe4b79ecdd93e209803338b3fd90ef97a9b873d8503bbc911e58b47f8b13a",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+          "disposition": "required-not-passed",
+          "name": "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-10dbe7168f69(AVD) - 15.xml",
+          "sha256": "c1295e62d8efc2d14f318dcaabfc588c87a55e2997e971311fdf65409d8fa408",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+          "name": "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+          "status": "failed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+      "name": "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument"
+    }
+  ],
+  "runtime_receipt_sha256": "b05125a24ab647b634dce0ad46d53a735e30f11732a8738301cab04db05f0b81",
+  "schema_version": 1,
+  "scope": "One failed real Android unmounted media/native-collection method only; optional private failure heap capture never supplies a passing result, no replay of two accepted methods or physical/minimum-device/release certification",
+  "source_revision": "1735ab8c6775b6243bc567fec76efa58023605d6",
+  "source_revision_after": "1735ab8c6775b6243bc567fec76efa58023605d6",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T02:38:46.845009+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-webview:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

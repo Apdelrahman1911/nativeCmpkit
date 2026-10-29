@@ -1,0 +1,63 @@
+{
+  "reviewed_at_utc": "2026-10-29T03:11:23.037091+00:00",
+  "source_revision_observed": "b3831693d968d6cd8ef80ba2729a000cca0374a6",
+  "source_tree_dirty": true,
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.3,
+      "log_sha256": "31f53acc79fb14294f824f72c6fb2e6df8eb86bb58454d9fce0c1fc7b0d89dfa"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/audit/validate_audit.py"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.6,
+      "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.11,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-docs-venv/bin/mkdocs",
+        "build",
+        "--strict",
+        "--site-dir",
+        "/tmp/nativecmpkit-lifetime-closure-docs-reviewed-20261029"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.42,
+      "log_sha256": "c9f4560e22ce8224d494de4fdde2099338e3742a75d805bacd7cc67385566ce1"
+    }
+  ],
+  "upstream_snapshot_sha256_files_verified": 172,
+  "actual_MkDocs_output_targets": [
+    "development/index.html",
+    "development/status/index.html",
+    "development/release-readiness/index.html",
+    "decisions/0010-detachable-android-webview-owner/index.html",
+    "testing/native-features/index.html"
+  ],
+  "issue_counts_at_closure_readback": {
+    "CLOSED": 62,
+    "OPEN": 110
+  },
+  "baseline_findings_modified": false,
+  "runtime_or_release_certified_by_tooling": false,
+  "passed": true
+}

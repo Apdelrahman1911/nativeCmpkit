@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="3" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-29T02:04:34" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" tests="3" failures="1" errors="0" skipped="0" time="32.878" timestamp="2026-10-29T02:04:34" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="16.652">
+      <failure>java.lang.AssertionError: Retained native/Activity references: [android.webkit.WebView]
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1555)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertTrue(Assertions.kt:44)
+	at kotlin.test.AssertionsKt.assertTrue(Unknown Source:1)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.assertCollected(AndroidWebViewLifetimeDeviceTest.kt:223)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument(AndroidWebViewLifetimeDeviceTest.kt:146)
+</failure>
+    </testcase>
+    <testcase name="throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="3.836" />
+    <testcase name="retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="12.390" />
+  </testsuite>
+</testsuites>

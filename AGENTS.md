@@ -1,5 +1,39 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Verified WebView lifetime closure — 2026-10-29
+
+**NATIVE-002/#10 CLOSED/completed** after all three original criteria/source/results
+review, before documentation; original title/body/labels/history preserved.
+[Accepted evidence](docs/development/evidence/webview-lifetime-important-20261029/README.md)
+retains the original FAILED five-host matrix19/23, Android recovery2/3 and actual
+private ART diagnostic0/1. Actual JVM/ART roots identified predecessor Compose
+snapshot native handles and cached Compose interop holders. Compatible private
+AtomicReference + observable token and detachable Android FrameLayout ownership
+repair both roots; no framework reflection/accessibility disabling/GC waiver.
+
+Current immutableb3831693/run40808466133 **Android3/3**, one fresh XML/no failures/
+errors/skips, Gradle0/70.03s/831 held own-Git inputs/JDK17/owned API35x64 Enforcing
+emulator/clean unforced shutdown. Actual native bounds, repeated Activity/native
+collection, real Saver/Parcel/history restoration, playing media/slow-request/
+timer shutdown, composition-only collection while Activity stays RESUMED and
+throwing release/live replacement pass. New local host3/3/0/56.01s/831 held inputs
+and state JVM descriptors match; zero local device executions. Desktop20 accepted
+executions reused (original Linux/Windows/macOSarm645/5 each, Intel four positives
+plus1/1 recovery40804208284), unchanged production/required predicates. **23 native
+executions of8 authored methods +3 host =26 accepted executions**, not a fresh
+whole matrix or release certification. Raw heaps/parser binaries/audio credentials/
+APKs are never evidence archives. Closure receipts archive prior remaining prose.
+
+Fresh upstream20261029T012644Z finds16 current open Calf contexts already imported,
+no missing/duplicate/changed imports and zero proposed GitHub mutations; all172
+snapshot files hash-verified. Current GitHub **62closed/110open/172**; ledger
+**47implemented/51partial/59verified/seven unresolved**. All Apple WKWebView,
+physical/minimum/OS-process-death/accessibility/IME/native-allocation/sanitizer/
+whole-ABI/full-consumer/dependency/provenance/legal/security/release gates remain.
+Single-agent; important tests→review→close directly→document; no publication.
+Next prioritize actual Compose/JNI file-picker cancellation/ownership (#6), without
+misrepresenting unresolved native parent acquisition/thread/backend IO-023.
+
 ## Direct numeric safety closure — 2026-10-29
 
 **UI-032/#135 closed/completed** after all3 original criteria/source/results

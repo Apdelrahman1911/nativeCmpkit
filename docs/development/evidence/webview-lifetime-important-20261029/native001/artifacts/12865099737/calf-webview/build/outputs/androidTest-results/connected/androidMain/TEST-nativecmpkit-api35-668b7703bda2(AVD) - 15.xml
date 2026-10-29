@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="3" failures="3" errors="0" skipped="0" time="0.000" timestamp="2026-10-29T01:35:01" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" tests="3" failures="3" errors="0" skipped="0" time="40.123" timestamp="2026-10-29T01:35:01" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="16.131">
+      <failure>java.lang.AssertionError: Retained native/Activity references: [android.webkit.WebView]
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1555)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertTrue(Assertions.kt:44)
+	at kotlin.test.AssertionsKt.assertTrue(Unknown Source:1)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.assertCollected(AndroidWebViewLifetimeDeviceTest.kt:216)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument(AndroidWebViewLifetimeDeviceTest.kt:145)
+</failure>
+    </testcase>
+    <testcase name="throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="3.748">
+      <failure>java.lang.NullPointerException: Cannot run onActivity since Activity has been destroyed already
+	at androidx.test.internal.util.Checks.checkNotNull(Checks.java:50)
+	at androidx.test.core.app.ActivityScenario.lambda$onActivity$2$androidx-test-core-app-ActivityScenario(ActivityScenario.java:792)
+	at androidx.test.core.app.ActivityScenario$$ExternalSyntheticLambda2.run(D8$$SyntheticClass:0)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:487)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at android.app.Instrumentation$SyncRunnable.run(Instrumentation.java:2612)
+	at android.os.Handler.handleCallback(Handler.java:959)
+	at android.os.Handler.dispatchMessage(Handler.java:100)
+	at android.os.Looper.loopOnce(Looper.java:232)
+	at android.os.Looper.loop(Looper.java:317)
+	at android.app.ActivityThread.main(ActivityThread.java:8705)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:580)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:886)
+</failure>
+    </testcase>
+    <testcase name="retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState" classname="com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest" time="20.244">
+      <failure>java.lang.AssertionError: Retained native/Activity references: [com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity, android.webkit.WebView]
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1555)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertTrue(Assertions.kt:44)
+	at kotlin.test.AssertionsKt.assertTrue(Unknown Source:1)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.assertCollected(AndroidWebViewLifetimeDeviceTest.kt:216)
+	at com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState(AndroidWebViewLifetimeDeviceTest.kt:79)
+</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,15 @@
+{
+  "started_ns": 1793238730683443504,
+  "command": [
+    "./gradlew",
+    ":calf-webview:assembleAndroidDeviceTest",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ]
+}

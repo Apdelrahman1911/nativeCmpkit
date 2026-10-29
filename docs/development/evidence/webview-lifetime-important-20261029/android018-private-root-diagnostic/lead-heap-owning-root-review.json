@@ -1,0 +1,146 @@
+{
+  "run_id": 40806868678,
+  "source_revision": "1735ab8c6775b6243bc567fec76efa58023605d6",
+  "native_method_failed": true,
+  "test_counts": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "gradle_exit_code": 1,
+  "gradle_elapsed_seconds": 77.03,
+  "selected_own_Git_inputs_held": 831,
+  "profiler_source_matches_own_Git": true,
+  "converted_real_owned_ART_heap": true,
+  "hash_size_and_owned_AVD_reverification": true,
+  "raw_heap_parser_or_values_archived": false,
+  "actual_nearest_strong_native_path": {
+    "nearest_path": [
+      {
+        "child_class": "android.webkit.WebView",
+        "fields": [
+          "androidx.compose.ui.viewinterop.ViewFactoryHolder.typedView",
+          "androidx.compose.ui.viewinterop.AndroidViewHolder.view"
+        ],
+        "parent_class": "androidx.compose.ui.viewinterop.ViewFactoryHolder"
+      },
+      {
+        "child_class": "androidx.compose.ui.viewinterop.ViewFactoryHolder",
+        "fields": [
+          "androidx.compose.ui.node.LayoutNode.interopViewFactoryHolder"
+        ],
+        "parent_class": "androidx.compose.ui.node.LayoutNode"
+      },
+      {
+        "child_class": "androidx.compose.ui.node.LayoutNode",
+        "fields": [
+          "array-element"
+        ],
+        "parent_class": "androidx.compose.ui.node.LayoutNode[]"
+      },
+      {
+        "child_class": "androidx.compose.ui.node.LayoutNode[]",
+        "fields": [
+          "androidx.compose.runtime.collection.MutableVector.content"
+        ],
+        "parent_class": "androidx.compose.runtime.collection.MutableVector"
+      },
+      {
+        "child_class": "androidx.compose.runtime.collection.MutableVector",
+        "fields": [
+          "androidx.compose.ui.node.LayoutNode._unfoldedChildren"
+        ],
+        "parent_class": "androidx.compose.ui.node.LayoutNode"
+      },
+      {
+        "child_class": "androidx.compose.ui.node.LayoutNode",
+        "fields": [
+          "array-element"
+        ],
+        "parent_class": "androidx.compose.ui.node.LayoutNode[]"
+      },
+      {
+        "child_class": "androidx.compose.ui.node.LayoutNode[]",
+        "fields": [
+          "androidx.compose.runtime.collection.MutableVector.content"
+        ],
+        "parent_class": "androidx.compose.runtime.collection.MutableVector"
+      },
+      {
+        "child_class": "androidx.compose.runtime.collection.MutableVector",
+        "fields": [
+          "androidx.compose.ui.node.LayoutNode._zSortedChildren"
+        ],
+        "parent_class": "androidx.compose.ui.node.LayoutNode"
+      },
+      {
+        "child_class": "androidx.compose.ui.node.LayoutNode",
+        "fields": [
+          "androidx.compose.ui.platform.AndroidComposeView.root"
+        ],
+        "parent_class": "androidx.compose.ui.platform.AndroidComposeView"
+      },
+      {
+        "child_class": "androidx.compose.ui.platform.AndroidComposeView",
+        "fields": [
+          "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat.view"
+        ],
+        "parent_class": "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat"
+      },
+      {
+        "child_class": "androidx.compose.ui.platform.AndroidComposeViewAccessibilityDelegateCompat",
+        "fields": [
+          "array-element"
+        ],
+        "parent_class": "java.lang.Object[]"
+      },
+      {
+        "child_class": "java.lang.Object[]",
+        "fields": [
+          "android.util.ArrayMap.mArray"
+        ],
+        "parent_class": "android.util.ArrayMap"
+      },
+      {
+        "child_class": "android.util.ArrayMap",
+        "fields": [
+          "android.view.accessibility.AccessibilityManager.mAccessibilityStateChangeListeners"
+        ],
+        "parent_class": "android.view.accessibility.AccessibilityManager"
+      },
+      {
+        "child_class": "android.view.accessibility.AccessibilityManager",
+        "fields": [
+          "android.view.accessibility.AccessibilityManager.sInstance"
+        ],
+        "parent_class": "java.lang.Class"
+      }
+    ],
+    "root_kinds": [
+      "unknown",
+      "sticky class"
+    ],
+    "root_reached": true,
+    "target_class": "android.webkit.WebView",
+    "weak_reference_edge": false
+  },
+  "remaining_activity_expected_live": true,
+  "activity_root": "Actual RESUMED Activity remains owned by the test ActivityScenario/ActivityLease as expected; not an Activity leak at this composition-only assertion.",
+  "root_cause_scope": "Actual retained native WebView via cached Compose LayoutNode vectors -> AndroidView holder immutable native fields. The active Compose/accessibility owner is expected to live. This is one nearest retaining path, not proof of every root or native allocations.",
+  "repair_contract": "Give AndroidView a library-owned lightweight container, detach both its native field and actual native child on every release/creation failure. Preserve original native state, callback, save, cleanup and replacement identity; do not mutate Compose caches/accessibility listeners or invoke reflection.",
+  "clean_unforced_emulator_shutdown": {
+    "clean_shutdown": true,
+    "exit_code": 0,
+    "finished_at_utc": "2026-10-29T02:40:22.497395+00:00",
+    "forced_owned_group": false,
+    "graceful_kill_requested": true,
+    "requested_at_utc": "2026-10-29T02:40:20.722708+00:00"
+  },
+  "issue_10_closed": false,
+  "release_gate_cleared": false
+}

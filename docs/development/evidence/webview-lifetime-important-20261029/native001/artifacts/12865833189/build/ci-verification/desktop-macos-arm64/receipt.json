@@ -1,0 +1,231 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.disposalBeforeQueuedCreationCannotResurrectState",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 321.49,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-native-lifetime",
+  "finished_at_utc": "2026-10-29T01:37:13.037570+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "5b6a22bea23c1bdaf2fc72c54194464d40fd283cad1826983e2a0d90c7e4cca5",
+  "inputs_before_sha256": "5b6a22bea23c1bdaf2fc72c54194464d40fd283cad1826983e2a0d90c7e4cca5",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "disposition": "required-executed",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "disposition": "required-executed",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "disposition": "required-executed",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "disposition": "required-executed",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "disposition": "required-executed",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+          "sha256": "b24aa1431b094e6c799d660ec87d91c3563af521ddccb59fef03063120258b73",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+          "sha256": "bdf52c950ab62f08b26f93021ab827fa73999d75c704d9b20e733e6b3c41350f",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+      "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+      "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "8903f86143ae1e0341a7d581025e8b2c0eceb9a73a25086ae96458b6fa8b03ee",
+  "schema_version": 1,
+  "scope": "Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; Linux audio uses an owned clocked software sink, not an engine/decoder mock or audible hardware check",
+  "source_revision": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+  "source_revision_after": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T01:31:51.523758+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-webview:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

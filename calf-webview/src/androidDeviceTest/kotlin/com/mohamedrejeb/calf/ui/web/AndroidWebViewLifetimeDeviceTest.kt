@@ -303,7 +303,10 @@ internal class ActivityLease(val fixture: AndroidLifetimeFixture) : AutoCloseabl
         try {
             // Test-core 1.7.0's invoker adds NEW_TASK | CLEAR_TASK. MULTIPLE_TASK prevents
             // a second same-affinity fixture from destroying the first owner's task.
+            // ActivityScenario matches action/data/type, not extras: a unique action also
+            // prevents both scenarios from following the newest same-component Activity.
             val intent = Intent(context, WebViewLifetimeActivity::class.java)
+                .setAction("com.mohamedrejeb.calf.ui.web.NATIVE_LIFETIME.$key")
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
                 .putExtra("nativecmpkit-lifetime", key)
             scenario.set(ActivityScenario.launch(intent))
@@ -314,7 +317,12 @@ internal class ActivityLease(val fixture: AndroidLifetimeFixture) : AutoCloseabl
     fun awaitCreated() = await("Real attached native view and Compose attachment notification") {
         fixture.created.get() == 1 && fixture.observedAttachment.get() && onMain { fixture.state.webView?.isAttachedToWindow == true }
     }
-    fun onActivity(body: (WebViewLifetimeActivity) -> Unit) { assertNotNull(scenario.get()).onActivity { body(it) } }
+    fun onActivity(body: (WebViewLifetimeActivity) -> Unit) {
+        assertNotNull(scenario.get()).onActivity {
+            check(it.intent.getStringExtra("nativecmpkit-lifetime") == key) { "Scenario followed another native fixture owner" }
+            body(it)
+        }
+    }
     fun taskId(): Int {
         val result = AtomicInteger(-1)
         onActivity { result.set(it.taskId) }

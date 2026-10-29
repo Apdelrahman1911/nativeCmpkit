@@ -262,6 +262,8 @@ class WebViewLifetimeFocusTests(unittest.TestCase):
         self.assertIn("fixture.activityReferences.single().wasCollected()", device)
         self.assertIn("bFixture.nativeReferences.single().wasCollected()", device)
         self.assertIn("Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK", device)
+        self.assertIn('.setAction("com.mohamedrejeb.calf.ui.web.NATIVE_LIFETIME.$key")', device)
+        self.assertIn('it.intent.getStringExtra("nativecmpkit-lifetime") == key', device)
         self.assertIn("assertNotEquals(a.taskId(), activeSecond.taskId()", device)
         workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
         self.assertIn("pulseaudio libasound2-plugins", workflow)

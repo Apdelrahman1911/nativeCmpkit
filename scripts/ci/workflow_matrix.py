@@ -41,6 +41,7 @@ PROFILES = {
     "webview-desktop": ("desktop-linux-x64",),
     "webview-lifetime": ("android-device-api35", "desktop-linux-x64", "desktop-macos-arm64", "desktop-macos-x64", "desktop-windows-x64"),
     "webview-lifetime-android": ("android-device-api35",),
+    "webview-lifetime-android-media": ("android-device-api35",),
     "webview-lifetime-linux": ("desktop-linux-x64",),
     "webview-lifetime-macos-arm64": ("desktop-macos-arm64",),
     "webview-lifetime-macos-x64": ("desktop-macos-x64",),
@@ -121,6 +122,7 @@ MODULE_SUBSETS = {
     "webview-desktop": "calf-webview",
     "webview-lifetime": "calf-webview",
     "webview-lifetime-android": "calf-webview",
+    "webview-lifetime-android-media": "calf-webview",
     "webview-lifetime-linux": "calf-webview",
     "webview-lifetime-macos-arm64": "calf-webview",
     "webview-lifetime-macos-x64": "calf-webview",
@@ -183,7 +185,8 @@ def matrix(profile: str) -> dict:
                  "desktop-macos-x64": 3, "desktop-windows-x64": 4}
         rows.sort(key=lambda row: order[row["slot"]])
         for row in rows:
-            row["test-focus"] = ("webview-native-media" if profile == "webview-lifetime-macos-media" else "webview-native-lifetime")
+            row["test-focus"] = ("webview-native-media" if profile == "webview-lifetime-macos-media" else
+                                 "webview-android-native-media" if profile == "webview-lifetime-android-media" else "webview-native-lifetime")
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"

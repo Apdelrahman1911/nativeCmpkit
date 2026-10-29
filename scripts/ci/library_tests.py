@@ -513,7 +513,8 @@ def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
 
 WEBVIEW_LIFETIME_FOCUS = "webview-native-lifetime"
 WEBVIEW_MEDIA_FOCUS = "webview-native-media"
-WEBVIEW_LIFETIME_FOCUSES = {WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS}
+WEBVIEW_ANDROID_MEDIA_FOCUS = "webview-android-native-media"
+WEBVIEW_LIFETIME_FOCUSES = {WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS}
 WEBVIEW_LIFETIME_MODULE = "calf-webview"
 WEBVIEW_DEVICE_FIXTURES = (
     "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
@@ -555,6 +556,9 @@ WEBVIEW_LIFETIME_SPECS = {
 def webview_lifetime_groups(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> tuple[dict, ...]:
     if focus == WEBVIEW_LIFETIME_FOCUS:
         return WEBVIEW_LIFETIME_SPECS[suite]
+    if focus == WEBVIEW_ANDROID_MEDIA_FOCUS and suite == "android-device":
+        group = WEBVIEW_LIFETIME_SPECS[suite][0]
+        return ({**group, "methods": (group["methods"][1],), "declared_methods": group["methods"]},)
     if focus != WEBVIEW_MEDIA_FOCUS or suite != "desktop":
         raise ValueError("The failure-only real media focus is desktop-only")
     group = WEBVIEW_LIFETIME_SPECS["desktop"][0]
@@ -571,7 +575,7 @@ def webview_lifetime_filter(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> 
     groups = webview_lifetime_groups(suite, focus)
     if suite == "android-device":
         # One real class avoids AGP9.4.0/ATE1.0.1's lossy comma-map transport.
-        return groups[0]["classname"]
+        return groups[0]["classname"] + ("#" + groups[0]["methods"][0] if focus == WEBVIEW_ANDROID_MEDIA_FOCUS else "")
     return ",".join(group["classname"] + "." + method
                     for group in groups for method in group["methods"])
 
@@ -606,6 +610,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
     return ((focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
              modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == WEBVIEW_ANDROID_MEDIA_FOCUS and suite == "android-device" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
@@ -984,6 +989,9 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["scope"] = ("One failed real Compose/JavaFX media/slow connection method only; no replay or certification of four accepted same-host methods, "
                            "no engine/decoder/clock substitution or missing-native waiver"
                            if focus == WEBVIEW_MEDIA_FOCUS else
+                           "One failed real Android unmounted media/native-collection method only; optional private failure heap capture never supplies a passing result, "
+                           "no replay of two accepted methods or physical/minimum-device/release certification"
+                           if focus == WEBVIEW_ANDROID_MEDIA_FOCUS else
                            "Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; "
                            "Linux audio uses an owned clocked software sink, not an engine/decoder mock or audible hardware check"
                            if suite == "desktop" else
@@ -1475,6 +1483,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             item = test_plan["expected"][0]
             argument = "annotation" if test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES else "class"
             command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
+            if test_plan["explicit_test_focus"] == WEBVIEW_ANDROID_MEDIA_FOCUS:
+                command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true")
             if test_plan["explicit_test_focus"] == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS:
                 command.append("-Pandroid.testInstrumentationRunnerArguments.notAnnotation=" + ANDROID_SAVE_CALIBRATION_ANNOTATION)
     if kotlin_user_home is not None:
@@ -1919,7 +1929,7 @@ def main() -> int:
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
-                                           BROWSER_COIL_READ_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

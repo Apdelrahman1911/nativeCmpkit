@@ -245,6 +245,31 @@ class ControllerReceipts(unittest.TestCase):
                   focus=c.lt.DATE_TRANSACTION_FOCUS)
         host.assert_not_called()
 
+    def test_one_failed_webview_media_focus_observes_only_owned_private_heap_and_still_runs_actual_suite(self):
+        with self.controlled() as mocks, patch.object(c.android_webview_heap, "OwnedHeap") as factory:
+            owner = factory.return_value
+            owner.prepare.return_value = owner
+            owner.close.return_value = {"clean_monitor_shutdown": True, "capture_found": False}
+            result = c.run(self.root, self.relative, only_modules=("calf-webview",), focus=c.lt.WEBVIEW_ANDROID_MEDIA_FOCUS)
+        self.assertTrue(result["passed"])
+        owner.prepare.assert_called_once(); owner.start.assert_called_once(); owner.close.assert_called_once()
+        self.assertEqual(c.SERIAL, factory.call_args.args[3])
+        self.assertIs(mocks["popen"].return_value, factory.call_args.args[4])
+        self.assertEqual(c.lt.WEBVIEW_ANDROID_MEDIA_FOCUS, mocks["tests"].call_args.kwargs["focus"])
+        self.assertTrue(result["emulator_shutdown"]["clean_shutdown"])
+
+    def test_heap_cleanup_error_cannot_skip_owned_emulator_shutdown_or_claim_success(self):
+        with self.controlled() as mocks, patch.object(c.android_webview_heap, "OwnedHeap") as factory:
+            owner = factory.return_value
+            owner.prepare.return_value = owner
+            owner.close.side_effect = ValueError("synthetic private failure, not exported")
+            result = c.run(self.root, self.relative, only_modules=("calf-webview",), focus=c.lt.WEBVIEW_ANDROID_MEDIA_FOCUS)
+        mocks["shutdown"].assert_called_once()
+        self.assertTrue(result["emulator_shutdown"]["clean_shutdown"])
+        self.assertFalse(result["passed"])
+        self.assertEqual("ValueError", result["heap_diagnostics"]["capture_error"])
+        self.assertNotIn("synthetic private failure", json.dumps(result))
+
     def test_setup_is_serial_and_owned_environment_does_not_mutate_parent(self):
         with self.controlled() as mocks:
             before = os.environ.copy()

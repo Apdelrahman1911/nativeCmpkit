@@ -118,6 +118,38 @@ class WebViewLifetimeFocusTests(unittest.TestCase):
                 r.main()
             self.assertEqual(2, failure.exception.code)
 
+    def test_android_media_recovery_transports_one_exact_failed_method_and_private_diagnostic_only(self):
+        row, = matrix.matrix("webview-lifetime-android-media")["include"]
+        self.assertEqual("android-device-api35", row["slot"])
+        self.assertEqual(r.WEBVIEW_ANDROID_MEDIA_FOCUS, row["test-focus"])
+        focus = r.WEBVIEW_ANDROID_MEDIA_FOCUS
+        plan = self.plan("android-device", focus=focus)
+        self.assertEqual(1, len(plan["expected"][0]["required_testcases"]))
+        expected = r.WEBVIEW_LIFETIME_SPECS["android-device"][0]
+        command = r.gradle_command("android-device", plan, android_serial="emulator-5588")
+        self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + expected["classname"] + "#" + expected["methods"][1], command)
+        self.assertIn("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true", command)
+        self.assertNotIn("--tests", command)
+        self.assertNotIn("nativecmpkitWebViewHeapDiagnostic", " ".join(r.gradle_command("android-device", self.plan("android-device"), android_serial="emulator-5588")))
+        args = ["library_tests.py", "plan", "--suite", "android-device", "--module", "calf-webview", "--focus", focus]
+        stream = io.StringIO()
+        with patch("sys.argv", args), patch("sys.stdout", stream): self.assertEqual(0, r.main())
+        self.assertEqual(focus, json.loads(stream.getvalue())["explicit_test_focus"])
+        for suite in ("desktop", "android-host", "ios", "js", "wasm"):
+            with self.assertRaises(ValueError): self.plan(suite, focus=focus)
+        self.assertEqual([], self.collect("android-device", focus=focus)["errors"])
+        for invalid in ({"cases": []}, {"cases": r.webview_lifetime_identities("android-device")},
+                        {"outcome": "failure"}, {"outcome": "error"}, {"outcome": "skipped"}, {"stale": True}, {"duplicate": True}):
+            self.assertTrue(self.collect("android-device", focus=focus, **invalid)["errors"])
+        source = (r.ROOT / expected["source"]).read_text()
+        self.assertIn("Debug.dumpHprofData(dump.path)", source)
+        self.assertIn("temporary.renameTo(complete)", source)
+        self.assertIn("throw failure", source)
+        workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
+        self.assertNotIn("private-webview-heap/**", workflow)
+        self.assertNotIn("*.hprof", workflow)
+        self.assertNotIn("*.jar", workflow[workflow.index("- name: Keep receipts and actual selected-task XML"):workflow.index("  consumer-core-io:")])
+
     def test_current_exact_nonzero_xml_is_accepted_in_its_disclosed_native_scope(self):
         for suite, count in (("desktop", 5), ("android-device", 3)):
             result = self.collect(suite)

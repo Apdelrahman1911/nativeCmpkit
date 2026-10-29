@@ -2,6 +2,7 @@ package com.mohamedrejeb.calf.ui.web
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Debug
 import android.os.Looper
 import android.os.Parcel
 import android.os.SystemClock
@@ -31,6 +32,7 @@ import kotlinx.coroutines.cancel
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
+import java.io.File
 import java.io.IOException
 import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference
@@ -39,6 +41,7 @@ import java.net.ServerSocket
 import java.net.Socket
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.security.MessageDigest
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -220,7 +223,40 @@ class AndroidWebViewLifetimeDeviceTest {
             Thread.sleep(100)
         }
         val uncollected = references.filterNot { it.wasCollected() }.map { it.label }
-        assertTrue(uncollected.isEmpty(), "Retained native/Activity references: $uncollected")
+        if (uncollected.isNotEmpty()) {
+            val failure = AssertionError("Retained native/Activity references: $uncollected")
+            if (InstrumentationRegistry.getArguments().getString("nativecmpkitWebViewHeapDiagnostic") == "true") {
+                // Failure-only: never reclassify a failed collection after the profiler's additional GC.
+                runCatching { captureOwnedFailureHeap() }.exceptionOrNull()?.let { failure.addSuppressed(it) }
+            }
+            throw failure
+        }
+    }
+
+    private fun captureOwnedFailureHeap() {
+        val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.cacheDir,
+            "nativecmpkit-owned-webview-heap")
+        check(directory.mkdirs() || directory.isDirectory)
+        val dump = File(directory, "unmounted-media.hprof")
+        val complete = File(directory, "unmounted-media.complete.json")
+        check(!dump.exists() && !complete.exists()) { "Never overwrite an earlier owned heap diagnostic" }
+        Debug.dumpHprofData(dump.path) // Own test process only; no target dereference or other app inspection.
+        check(dump.length() in 32..(256L * 1024 * 1024))
+        val digest = MessageDigest.getInstance("SHA-256")
+        dump.inputStream().use { stream ->
+            val buffer = ByteArray(8192)
+            while (true) {
+                val read = stream.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+            }
+        }
+        val hash = digest.digest().joinToString("") { "%02x".format(it) }
+        val temporary = File(directory, "unmounted-media.complete.tmp")
+        check(!temporary.exists())
+        temporary.writeText("{\"file\":\"unmounted-media.hprof\",\"bytes\":${dump.length()},\"sha256\":\"$hash\"}")
+        check(temporary.renameTo(complete)) // Publish only a complete marker, not a partial JSON write.
+        Thread.sleep(5000) // Failure-only window for owned ADB capture before the test APK is uninstalled.
     }
 }
 

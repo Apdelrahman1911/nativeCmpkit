@@ -24,6 +24,7 @@ import uuid
 
 import library_tests as lt
 import runtime_context as runtime
+import android_webview_heap
 
 API = 35
 PORT = 5588
@@ -187,6 +188,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if focus is not None:
         result["explicit_test_focus"] = focus
     process = None
+    heap = None
     verified = False
     log = None
     try:
@@ -202,6 +204,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         identity = wait_for_owned_boot(home, process, name, root)
         verified = True
         lt.write_json(output / "boot.json", identity)
+        if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
+            heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
+            heap.prepare().start()
         receipt = lt.run(root, "android-device", (output / "library").relative_to(root).as_posix(),
                          None, 1800, RESERVE_MIB, android_serial=SERIAL, only_modules=only_modules, **focus_options)
         result["test_suite_passed"] = receipt["passed"]
@@ -217,8 +222,15 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             for number in (signal.SIGINT, signal.SIGTERM):
                 previous_handlers[number] = signal.signal(number, signal.SIG_IGN)
         try:
-            if process is not None:
-                result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
+            try:
+                if heap is not None:
+                    try:
+                        result["heap_diagnostics"] = heap.close()
+                    except (OSError, ValueError, subprocess.SubprocessError) as error:
+                        result["heap_diagnostics"] = {"clean_monitor_shutdown": False, "capture_error": type(error).__name__}
+            finally:
+                if process is not None:
+                    result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
             result["emulator_shutdown"] = {"clean_shutdown": False, "controller_cleanup_error": True}
         finally:
@@ -236,7 +248,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             result["source_unchanged"] = False
         result["passed"] = (result["test_suite_passed"] and result["source_unchanged"]
                             and result.get("emulator_shutdown", {}).get("clean_shutdown") is True
-                            and not result.get("controller_error"))
+                            and not result.get("controller_error") and
+                            (heap is None or (result.get("heap_diagnostics", {}).get("clean_monitor_shutdown") is True and
+                             not result["heap_diagnostics"].get("capture_error"))))
         result["finished_at_utc"] = lt.utc_now()
         lt.write_json(output / "controller.json", result)
     return result
@@ -268,7 +282,8 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,
+                                            lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()
     modules = tuple(args.module) if args.module else None

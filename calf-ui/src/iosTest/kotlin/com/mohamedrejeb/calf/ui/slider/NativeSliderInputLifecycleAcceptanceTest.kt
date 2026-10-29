@@ -154,6 +154,13 @@ class NativeSliderInputLifecycleAcceptanceTest {
                     down(center); pointerOutstanding = true; moveBy(Offset(width * .4f, 0f))
                 }
                 waitForIdle()
+                // Scene idle alone does not flush an asynchronously collected
+                // interaction and its SideEffect. Require the actual live
+                // observer; timing cannot substitute for this positive witness.
+                waitUntil(timeoutMillis = 5_000) {
+                    observedDragging && changes > changesBeforeDrag &&
+                        events.any { it is DragInteraction.Start }
+                }
                 structuralPhase(renderer, axis, "dragged")
                 val starts = events.filterIsInstance<DragInteraction.Start>()
                 // Observe before assertions: an assertion with a held pointer must
@@ -172,6 +179,10 @@ class NativeSliderInputLifecycleAcceptanceTest {
                     moveBy(Offset(-15f, 0f)); up(); pointerOutstanding = false
                 }
                 waitForIdle()
+                waitUntil(timeoutMillis = 5_000) {
+                    !observedDragging && events.filterIsInstance<DragInteraction.Cancel>()
+                        .count { it.start === start } == 1
+                }
                 structuralPhase(renderer, axis, "stale-released")
                 assertEquals(changesBeforeReplacement, changes, "$name cannot leave an obsolete writer")
                 assertEquals(finishesBeforeReplacement, finished, "$name cancellation is not completion")
@@ -234,6 +245,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
         val source = MutableInteractionSource()
         val events = mutableListOf<Interaction>(); val values = mutableListOf<Float>()
         var finished = 0; var observedDragging = false
+        tapPhase(renderer, "before-content")
         setContent {
             LaunchedEffect(source) { source.interactions.collect { events += it } }
             val dragging by source.collectIsDraggedAsState()
@@ -241,36 +253,63 @@ class NativeSliderInputLifecycleAcceptanceTest {
             renderer.control(value, { value = it; values += it }, range = -1f..1f, steps = 3,
                 source = source, finished = { finished++ })
         }
+        tapPhase(renderer, "content-installed")
+        tapPhase(renderer, "before-tap")
         onNodeWithTag("slider").performTouchInput { click(Offset(width - 2f, centerY)) }
+        tapPhase(renderer, "tapped")
+        tapPhase(renderer, "before-drag")
         onNodeWithTag("slider").performTouchInput {
             swipe(Offset(width - 2f, centerY), Offset(2f, centerY), 150)
         }
+        tapPhase(renderer, "dragged")
         assertEquals(-1f, value); assertEquals(2, finished)
+        tapPhase(renderer, "first-input-verified")
+        tapPhase(renderer, "before-opposite-taps")
         onNodeWithTag("slider").performTouchInput { click(Offset(width - 2f, centerY)); click(Offset(2f, centerY)) }
+        tapPhase(renderer, "opposite-taps")
         waitForIdle()
         assertEquals(-1f, value); assertEquals(4, finished)
+        tapPhase(renderer, "successful-input-verified")
         val countAfterSuccessfulInput = values.size
+        tapPhase(renderer, "before-writer-clock")
         mainClock.advanceTimeBy(512)
+        tapPhase(renderer, "writer-clock-advanced")
         waitForIdle()
         assertEquals(countAfterSuccessfulInput, values.size, "Tap/drag cannot retain a delayed caller-state writer")
         assertEquals(-1f, value)
+        tapPhase(renderer, "writer-cleared")
 
+        tapPhase(renderer, "before-cancelled-drag")
         onNodeWithTag("slider").performTouchInput { down(center); moveBy(Offset(width * .35f, 0f)); cancel() }
+        tapPhase(renderer, "cancelled-injector")
         cancelScenePointerInput() // Real scene cancellation; test input cancel alone was historically a no-op.
+        tapPhase(renderer, "scene-cancelled")
         waitForIdle()
+        tapPhase(renderer, "cancellation-idle")
         val cancelled = events.filterIsInstance<DragInteraction.Start>().last()
         assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === cancelled })
         assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === cancelled })
         assertFalse(observedDragging)
         assertEquals(4, finished)
+        tapPhase(renderer, "cancellation-verified")
         val countAtCancellation = values.size
+        tapPhase(renderer, "before-cancelled-writer-clock")
         mainClock.advanceTimeBy(512)
+        tapPhase(renderer, "cancelled-writer-clock-advanced")
         waitForIdle()
         assertEquals(countAtCancellation, values.size)
         assertTrue(values.all { it in setOf(-1f, -.5f, 0f, .5f, 1f) })
+        tapPhase(renderer, "cancelled-writer-cleared")
+        tapPhase(renderer, "before-semantic")
         onNodeWithTag("slider").performSemanticsAction(SemanticsActions.SetProgress) { assertTrue(it(-.7f)) }
+        tapPhase(renderer, "semantic")
         waitForIdle()
         assertEquals(-.5f, value); assertEquals(5, finished)
+        tapPhase(renderer, "complete")
+    }
+
+    private fun tapPhase(renderer: Renderer, phase: String) {
+        println("NATIVECMPKIT_SLIDER_TAP renderer=${renderer.name} phase=$phase")
     }
 
     private enum class Renderer {

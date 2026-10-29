@@ -16,6 +16,29 @@ batch-close only original-criteria verified subset immediately.72closed/100open;
 single-agent/max2heavy hosted jobs/below8GiB no local heavy build. Publication,
 Pages/main/history and independent release/security gates remain unchanged.
 
+Update: [Slider tap40903843895](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-tap/README.md)
+FAILED/301.48s app timeout/zero completed native cases; exact stalled step unknown,
+one Unknown XML/all873 Git-bound inputs/owned cleanup but no Worker/runtime/binary
+after. [24-phase diagnosis](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery008/important-tools001/README.md)
+passes105 synthetic tools/all877 held, retaining every action/assertion and accepted
+method/renderer/actual driver bytes; ZERO local native tests or source-fix claim.
+[Serial40918825821/d2997ab8](docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)
+is dispatched once, pending; three/twelve accepted methods are not replayed. Both
+slider issues remain open; a fully verified structural subset must not wait for
+unrelated failed tap requirements. All publishing/single-agent/capacity gates stay.
+
+Update: [Structural40914167465](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/README.md)
+FAILED/zero completed native cases/301.21s transport, actual width-axis1
+start=true/change=true/observer=false; failure-only real pointer cleanup verified,
+Worker/teardown root unknown. [One-host four-method recovery](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery008/shared-important004/README.md)
+requires bounded actual asynchronous drag/cancel witnesses before the unchanged
+assertions. Native candidate unverified; no production/public API change. Shared
+145tools remains144pass/one stale-name error; only owning failed guard reruns1/1,
+all877held, ZERO local native tests. Independent failed/incomplete XML is archived
+with explicit missing methods, not fake passes. Only explicit finite vector/theme
+or slider recovery profiles run a second application; no accepted enable replay.
+72closed/100open; existing d299 vector request remains independently pending.
+
 ## Shared native fixture compiler recovery — 2026-10-29
 
 Runs [40897045067](docs/development/evidence/native-vector-theme-batch-important-20261029/native-ci002/README.md)

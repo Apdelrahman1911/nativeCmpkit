@@ -56,16 +56,16 @@ class IosVectorThemeRecoveryTests(unittest.TestCase):
     def test_failed_first_check_does_not_skip_second_but_missing_xml_or_cleanup_does(self):
         workflow = (tests.ROOT / ".github/workflows/gradle.yml").read_text()
         first = workflow.index("name: Preserve first fresh XML")
-        second = workflow.index("name: Independent related system appearance")
+        second = workflow.index("name: Independent related native subset")
         last = workflow.index("name: Preserve second fresh XML")
         self.assertLess(first, second); self.assertLess(second, last)
         block = workflow[second:last]
         self.assertIn("!cancelled() && steps.serial_archive.outcome == 'success'", block)
         self.assertNotIn("success()", block)
-        self.assertIn('"build/ci-verification/$SLOT-system-appearance"', block)
+        self.assertIn('"build/ci-verification/$SLOT-related-recovery"', block)
         self.assertIn("--reserve-mib 8192", block)
         self.assertIn("/fresh-reports/*.xml", workflow)
-        self.assertIn("-system-appearance/native-ui-application/*/receipt.json", workflow)
+        self.assertIn("-related-recovery/native-ui-application/*/receipt.json", workflow)
         self.assertIn("contents: read", workflow)
         self.assertNotIn("packages: write", workflow)
 

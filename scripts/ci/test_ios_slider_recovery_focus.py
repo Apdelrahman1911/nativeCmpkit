@@ -14,6 +14,43 @@ class IosSliderRecoveryFocusTests(unittest.TestCase):
     def plan(self, focus, root=r.ROOT):
         return r.plan(root, "ios", only_modules=("calf-ui",), focus=focus)
 
+    def test_real_drag_and_cancellation_wait_for_asynchronous_flow_observers_without_weakening_assertions(self):
+        source = (r.ROOT / r.IOS_SLIDER_LIFECYCLE_SOURCE).read_text()
+        body = source.split("    private fun structuralReplacement", 1)[1].split("    private fun ComposeUiTest.cleanFailedStructuralPointer", 1)[0]
+        self.assertIn("waitUntil(timeoutMillis = 5_000)", body)
+        self.assertIn("observedDragging && changes > changesBeforeDrag", body)
+        self.assertIn("!observedDragging && events.filterIsInstance<DragInteraction.Cancel>()", body)
+        self.assertIn("assertTrue(observedDragging)", body)
+        self.assertIn('assertFalse(observedDragging, "$name must clear', body)
+        self.assertLess(body.index("observedDragging && changes > changesBeforeDrag"),
+                        body.index('structuralPhase(renderer, axis, "dragged")'))
+        self.assertLess(body.index("!observedDragging && events.filterIsInstance<DragInteraction.Cancel>()"),
+                        body.index('structuralPhase(renderer, axis, "stale-released")'))
+        self.assertIn("if (pointerOutstanding) cleanFailedStructuralPointer", body)
+
+    def test_one_host_serial_recovery_preflights_only_four_unfinished_methods_and_preserves_independent_results(self):
+        row, = matrix.matrix("ios-slider-recovery")["include"]
+        self.assertEqual("ios-iphone", row["slot"])
+        self.assertEqual("calf-ui", row["test-modules"])
+        self.assertEqual(r.IOS_SLIDER_PAIR_STRUCTURE_FOCUS, row["test-focus"])
+        self.assertEqual(r.IOS_SLIDER_TAP_FOCUS, row["serial-test-focus"])
+        preflight = matrix.preflight_plans("ios-slider-recovery")
+        self.assertEqual(2, len(preflight["slots"]))
+        selected = set()
+        for focus in (row["test-focus"], row["serial-test-focus"]):
+            plan = self.plan(focus)
+            self.assertTrue(r.validate_test_focus(plan))
+            self.assertEqual(2, len(plan["expected"][0]["required_testcases"]))
+            selected.update(c["name"] for c in plan["expected"][0]["required_testcases"])
+            self.assertEqual(300, app.application_timeout_seconds(focus))
+        self.assertEqual({name + "[iosSimulatorArm64]" for name in r.IOS_SLIDER_LIFECYCLE_METHODS[2:]}, selected)
+        self.assertEqual(11, len(matrix.matrix("all")["include"]))
+        workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
+        self.assertEqual(3, workflow.count("inputs.profile == 'ios-slider-recovery'"))
+        self.assertIn("steps.serial_archive.outcome == 'success'", workflow)
+        self.assertIn("-related-recovery/fresh-reports/*.xml", workflow)
+        self.assertNotIn("packages: write", workflow)
+
     def test_two_unstarted_tap_methods_are_separate_from_both_failed_structure_methods_and_two_accepted_passes(self):
         for profile, focus, methods in (
             ("ios-slider-tap", r.IOS_SLIDER_TAP_FOCUS, r.IOS_SLIDER_LIFECYCLE_METHODS[4:]),

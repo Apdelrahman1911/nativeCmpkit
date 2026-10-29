@@ -2105,6 +2105,15 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                  observation.get("last_iteration") is None and observation.get("main_thread") is True and
                  observation.get("retained_image_bytes_verified") is True,
                  "Passing image-lifetime case lacks complete finite actual main-thread diagnostics")
+        for renderer, key in app.SLIDER_TAP_CASES.items():
+            if cases.get(key) == "passed":
+                observations = protocol.get("slider_tap_observations")
+                need(isinstance(observations, dict), "Missing or invalid native slider tap observations")
+                observation = observations.get(renderer)
+                need(isinstance(observation, list) and
+                     all(isinstance(row, dict) and set(row) == {"phase"} for row in observation) and
+                     tuple(row["phase"] for row in observation) == app.SLIDER_TAP_STEPS,
+                     "Passing slider tap lacks complete actual input/clock/cancellation phases")
         if cases.get(app.SYSTEM_APPEARANCE_CASE) == "passed":
             import simulator_appearance
             observations = protocol.get("system_appearance_observations")

@@ -1,6 +1,6 @@
 """Keep an exact fresh iOS report before the next same-host focused invocation.
 
-Only the two finite rendering/theme recovery selections are accepted. This
+Only the four finite rendering/theme/slider recovery selections are accepted. This
 copies actual XML, not packages, compilation outputs or logs. Failed results
 remain failed; archival never certifies native functionality or issue closure.
 """
@@ -15,7 +15,8 @@ import stat
 
 import library_tests as tests
 
-FOCUSES = (tests.IOS_VECTOR_RENDERING_FOCUS, tests.IOS_SYSTEM_APPEARANCE_FOCUS)
+FOCUSES = (tests.IOS_VECTOR_RENDERING_FOCUS, tests.IOS_SYSTEM_APPEARANCE_FOCUS,
+           tests.IOS_SLIDER_PAIR_STRUCTURE_FOCUS, tests.IOS_SLIDER_TAP_FOCUS)
 TASK = ":calf-ui:iosSimulatorArm64ApplicationTest"
 REPORTS = "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest"
 COMPILE_TASKS = (
@@ -93,10 +94,16 @@ def archive(root: Path, relative: str) -> dict:
     body = read(source, 8 * 1024**2)
     require(hashlib.sha256(body).hexdigest() == row.get("sha256"), "Fresh XML digest mismatch")
     cases = tests.junit_cases(body)
-    require(cases == module.get("testcases") and len(cases) == 1 and
-            {(c["classname"], c["name"]) for c in cases} ==
-            {(c["classname"], c["name"]) for c in tests.ui_application_focus_identities(focus)} and
+    expected = tests.ui_application_focus_identities(focus)
+    actual_names = {(c["classname"], c["name"]) for c in cases}
+    expected_names = {(c["classname"], c["name"]) for c in expected}
+    require(cases == module.get("testcases") and 0 < len(cases) <= len(expected) and
+            actual_names <= expected_names and
             tests.case_counts(cases) == receipt.get("totals"), "Actual XML/selection/counts disagree")
+    if actual_names != expected_names:
+        exit_code = receipt.get("execution", {}).get("exit_code")
+        require(receipt.get("passed") is False and type(exit_code) is int and exit_code != 0,
+                "Incomplete selection cannot be archived as a successful invocation")
     native_root = tests.safe_path(root, relative + "/native-ui-application")
     sessions = list(native_root.iterdir())
     require(len(sessions) == 1 and re.fullmatch(r"[0-9a-f]{32}", sessions[0].name),
@@ -124,6 +131,8 @@ def archive(root: Path, relative: str) -> dict:
     result = {"schema_version": 1, "source_revision": receipt["source_revision"], "focus": focus,
               "original_path": row["path"], "archived_path": (destination / source.name).relative_to(root).as_posix(),
               "sha256": row["sha256"], "actual_cases": cases, "actual_totals": receipt["totals"],
+              "required_selected_cases": expected, "missing_selected_cases": [
+                  case for case in expected if (case["classname"], case["name"]) not in actual_names],
               "original_result_preserved": True, "owned_application_cleanup_checked": True,
               "observed_compile_task_statuses": compile_statuses,
               "compilation_or_native_pass_inferred_from_archival": False, "packages_uploaded": False}

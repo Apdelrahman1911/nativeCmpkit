@@ -9,8 +9,10 @@ selects only the two unfinished methods, keeps exact separate XML/results and
 mandatory owned cleanup, and reuses unchanged compilation rather than accepted
 test execution. Owning synthetic checks124/124/all876 held; original eight errors
 are retained. Zero local native executions; #139/#143 stay open. Both slider
-profiles remain in progress for shared #34/#137 criteria review and immediate
-verified-subset batch closure.72closed/100open; single-agent, all publication and
+profiles failed/incomplete; the [shared recovery](evidence/slider-lifecycle-batch-important-20261029/recovery008/shared-important004/README.md)
+adds bounded actual observer synchronization and finite tap diagnostics, selecting
+only four unfinished methods on one host before #34/#137 criteria review and
+immediate verified-subset batch closure.72closed/100open; single-agent, all publication and
 independent security/native/consumer gates unchanged.
 
 ## Shared native fixture compiler recovery — 2026-10-29

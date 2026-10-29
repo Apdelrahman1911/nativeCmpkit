@@ -6,7 +6,8 @@
       "Liquid and Cupertino controls use an internal shared slider contract with current value/callback state and input keys for enabled/range/steps/measured width/thumb width/RTL/interaction source.",
       "Disabled changes cancel existing pointer ownership; obsolete tap animations no longer write caller state; taps are atomic and drag-local state is recreated for each gesture.",
       "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered.",
-      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
+      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
+      "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -117,6 +118,22 @@
         "evidence": [
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/native-ci002/review.json",
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery-preparation003/review.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+        "result": "FAILED: immutable3ce6f853 actual run40903843895, Gradle1/1821.18s; one fresh Unknown XML, zero completed native cases and second selected method never started. All873 exact historical Git inputs held; owned external cleanup verified, no complete Worker/runtime/binary-after gate. Actual transport301.48s timeout without a finite tap-phase witness; exact stopped action unknown. No individual finding or release promotion.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-tap/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-tap/README.md"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+        "result": "FAILED: immutable3ce6f853 actual run40914167465, Gradle1/2130.83s; one fresh Unknown XML, zero completed native cases and second selected method never started. All873 exact historical Git inputs held; owned external cleanup verified, no complete Worker/runtime/binary-after gate. Liquid measured-width axis1 delivered an actual start and value update but observer remained false at its immediate read; failure-only real scene cleanup verified, then native transport301.21s timeout. Asynchronous synchronization candidate and teardown root cause remain unverified.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/README.md"
         ]
       }
     ],
@@ -862,7 +879,8 @@
       "Cupertino uses shared input with complete range/steps/geometry/source keys and updated callbacks.",
       "Removed the old competing tap mutation animation/private slider gesture engine; taps no longer keep issuing callbacks after a new gesture.",
       "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain.",
-      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs."
+      "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
+      "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -965,6 +983,22 @@
         "evidence": [
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/native-ci002/review.json",
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery-preparation003/review.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+        "result": "FAILED: immutable3ce6f853 actual run40903843895, Gradle1/1821.18s; one fresh Unknown XML, zero completed native cases and second selected method never started. All873 exact historical Git inputs held; owned external cleanup verified, no complete Worker/runtime/binary-after gate. Actual transport301.48s timeout without a finite tap-phase witness; exact stopped action unknown. No individual finding or release promotion.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-tap/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-tap/README.md"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+        "result": "FAILED: immutable3ce6f853 actual run40914167465, Gradle1/2130.83s; one fresh Unknown XML, zero completed native cases and second selected method never started. All873 exact historical Git inputs held; owned external cleanup verified, no complete Worker/runtime/binary-after gate. Liquid measured-width axis1 delivered an actual start and value update but observer remained false at its immediate read; failure-only real scene cleanup verified, then native transport301.21s timeout. Asynchronous synchronization candidate and teardown root cause remain unverified.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/README.md"
         ]
       }
     ],

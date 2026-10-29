@@ -74,6 +74,18 @@ SLIDER_STRUCTURAL_STEPS = (
         "stale-released", "cancellation-verified", "fresh-reset", "fresh-input-verified"))
 )
 SYSTEM_APPEARANCE_CASE = (lt.IOS_VECTOR_THEME_CLASS, lt.IOS_VECTOR_THEME_METHODS[-1])
+SLIDER_TAP_CASES = {
+    "Liquid": (lt.IOS_SLIDER_LIFECYCLE_CLASS, lt.IOS_SLIDER_LIFECYCLE_METHODS[4]),
+    "Cupertino": (lt.IOS_SLIDER_LIFECYCLE_CLASS, lt.IOS_SLIDER_LIFECYCLE_METHODS[5]),
+}
+SLIDER_TAP_STEPS = (
+    "before-content", "content-installed", "before-tap", "tapped", "before-drag", "dragged",
+    "first-input-verified", "before-opposite-taps", "opposite-taps", "successful-input-verified",
+    "before-writer-clock", "writer-clock-advanced", "writer-cleared", "before-cancelled-drag",
+    "cancelled-injector", "scene-cancelled", "cancellation-idle", "cancellation-verified",
+    "before-cancelled-writer-clock", "cancelled-writer-clock-advanced", "cancelled-writer-cleared",
+    "before-semantic", "semantic", "complete",
+)
 SYSTEM_APPEARANCE_STEPS = tuple(
     (phase, step, style) for step, style in simulator_appearance.REQUESTS for phase in ("request", "verified"))
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
@@ -237,6 +249,7 @@ class NativeProtocol:
         self.slider_structural_observations = {}
         self.slider_drag_observations = {}
         self.slider_failure_cleanup_observations = {}
+        self.slider_tap_observations = {}
         self.system_appearance_observations = []
         self.system_appearance_request = None
 
@@ -272,6 +285,19 @@ class NativeProtocol:
             return
         if line.startswith("NATIVECMPKIT_SYSTEM_APPEARANCE"):
             raise ValueError("Unknown or malformed actual system appearance marker")
+        tap = re.fullmatch(r"NATIVECMPKIT_SLIDER_TAP renderer=(Liquid|Cupertino) phase=([a-z-]+)", line)
+        if tap:
+            renderer, phase = tap.groups()
+            if self.active is None or self.completed is not None or self.open_case != SLIDER_TAP_CASES[renderer]:
+                raise ValueError("Slider tap marker outside its exact active native testcase")
+            observations = self.slider_tap_observations.setdefault(renderer, [])
+            index = len(observations)
+            if index >= len(SLIDER_TAP_STEPS) or phase != SLIDER_TAP_STEPS[index]:
+                raise ValueError("Missing, repeated or reordered native slider tap phase")
+            observations.append({"phase": phase})
+            return
+        if line.startswith("NATIVECMPKIT_SLIDER_TAP"):
+            raise ValueError("Unknown or malformed native slider tap marker")
         drag = re.fullmatch(
             r"NATIVECMPKIT_SLIDER_DRAG renderer=(Liquid|Cupertino) axis=([1-6]) "
             r"started=(true|false) changed=(true|false) observed=(true|false)", line)
@@ -488,6 +514,9 @@ class NativeProtocol:
                                 raise ValueError("Failure-only pointer cleanup cannot become a passing structural case")
                     if self.open_case == SYSTEM_APPEARANCE_CASE and len(self.system_appearance_observations) != len(SYSTEM_APPEARANCE_STEPS):
                         raise ValueError("A passing system appearance case needs both actual requested/verified transitions")
+                    for renderer, key in SLIDER_TAP_CASES.items():
+                        if self.open_case == key and len(self.slider_tap_observations.get(renderer, [])) != len(SLIDER_TAP_STEPS):
+                            raise ValueError("A passing slider tap case needs its complete actual phase sequence")
                     case["status"] = "passed"
                 case["finished"] = True
                 self.open_case = None
@@ -523,6 +552,8 @@ class NativeProtocol:
                    if self.slider_drag_observations else {}),
                 **({"slider_failure_cleanup_observations": self.slider_failure_cleanup_observations}
                    if self.slider_failure_cleanup_observations else {}),
+                **({"slider_tap_observations": self.slider_tap_observations}
+                   if self.slider_tap_observations else {}),
                 **({"system_appearance_observations": self.system_appearance_observations}
                    if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
@@ -559,6 +590,8 @@ class NativeProtocol:
                    if self.slider_drag_observations else {}),
                 **({"slider_failure_cleanup_observations": self.slider_failure_cleanup_observations}
                    if self.slider_failure_cleanup_observations else {}),
+                **({"slider_tap_observations": self.slider_tap_observations}
+                   if self.slider_tap_observations else {}),
                 **({"system_appearance_observations": self.system_appearance_observations}
                    if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}

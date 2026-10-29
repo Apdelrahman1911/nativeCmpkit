@@ -65,6 +65,10 @@ class IosSliderLifecycleTests(unittest.TestCase):
                    for n in r.IOS_SLIDER_LIFECYCLE_METHODS]
         f.document["explicit_test_focus"] = r.IOS_SLIDER_LIFECYCLE_FOCUS
         f.document["application_protocol"].update(testcases=copy.deepcopy(f.cases), counts=r.case_counts(f.cases))
+        f.document["application_protocol"]["slider_tap_observations"] = {
+            renderer: [{"phase": phase} for phase in app.SLIDER_TAP_STEPS]
+            for renderer in app.SLIDER_TAP_CASES
+        }
         f.modules[0]["testcases"] = f.xml_cases(f.cases); f.save()
         return f
 

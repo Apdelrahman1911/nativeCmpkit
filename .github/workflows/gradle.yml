@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-slider-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
 
 permissions:
   contents: read
@@ -110,7 +110,7 @@ jobs:
       TEST_MODULES: ${{ matrix.test-modules }}
       # Finite source-defined class filters; no free-form Gradle input.
       TEST_FOCUS: ${{ matrix.test-focus }}
-      # Only the finite recovery profile launches a second application on the
+      # Only explicit finite recovery profiles launch a second application on the
       # same host. Gradle may reuse unchanged compilation, never old test XML.
       SERIAL_TEST_FOCUS: ${{ matrix.serial-test-focus }}
       # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
@@ -293,21 +293,21 @@ jobs:
           fi
       - name: Preserve first fresh XML before the related same-host recovery
         id: serial_archive
-        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'ios-vector-theme-recovery' && matrix.serial-test-focus != '' }}
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery') && matrix.serial-test-focus != '' }}
         run: |
           "$PYTHON" scripts/ci/archive_focused_junit.py --output "build/ci-verification/$SLOT"
-      - name: Independent related system appearance; reuse unchanged compilation only
-        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && inputs.profile == 'ios-vector-theme-recovery' && matrix.serial-test-focus != '' }}
+      - name: Independent related native subset; reuse unchanged compilation only
+        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery') && matrix.serial-test-focus != '' }}
         env:
           SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
         run: |
           "$PYTHON" scripts/ci/library_tests.py run --suite ios --module calf-ui \
             --focus "$SERIAL_TEST_FOCUS" --simulator "$SELECTED_SIMULATOR" \
-            --output "build/ci-verification/$SLOT-system-appearance" --timeout 4200 --reserve-mib 8192
+            --output "build/ci-verification/$SLOT-related-recovery" --timeout 4200 --reserve-mib 8192
       - name: Preserve second fresh XML and exact independent result
-        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && inputs.profile == 'ios-vector-theme-recovery' && matrix.serial-test-focus != '' }}
+        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery') && matrix.serial-test-focus != '' }}
         run: |
-          "$PYTHON" scripts/ci/archive_focused_junit.py --output "build/ci-verification/$SLOT-system-appearance"
+          "$PYTHON" scripts/ci/archive_focused_junit.py --output "build/ci-verification/$SLOT-related-recovery"
       - name: Show bounded failure diagnostics from public library fixtures
         if: failure()
         run: |
@@ -317,8 +317,8 @@ jobs:
           if [[ -d "build/ci-verification/$SLOT" ]]; then
             "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT"
           fi
-          if [[ -d "build/ci-verification/$SLOT-system-appearance" ]]; then
-            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-system-appearance"
+          if [[ -d "build/ci-verification/$SLOT-related-recovery" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-related-recovery"
           fi
           # No credentials/private applications are configured in this workflow.
           # Print only the owned Gradle log tail, not runner environment or caches.
@@ -360,9 +360,9 @@ jobs:
             build/ci-verification/${{ matrix.slot }}/desktop-picker-portal/receipt.json
             build/ci-verification/${{ matrix.slot }}-jni-paths/*.json
             build/ci-verification/${{ matrix.slot }}/fresh-reports/*.xml
-            build/ci-verification/${{ matrix.slot }}-system-appearance/*.json
-            build/ci-verification/${{ matrix.slot }}-system-appearance/native-ui-application/*/receipt.json
-            build/ci-verification/${{ matrix.slot }}-system-appearance/fresh-reports/*.xml
+            build/ci-verification/${{ matrix.slot }}-related-recovery/*.json
+            build/ci-verification/${{ matrix.slot }}-related-recovery/native-ui-application/*/receipt.json
+            build/ci-verification/${{ matrix.slot }}-related-recovery/fresh-reports/*.xml
             ${{ steps.plan.outputs.reports }}
 
   webview-consumer:

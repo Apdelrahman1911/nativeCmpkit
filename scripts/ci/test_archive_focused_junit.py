@@ -24,11 +24,18 @@ class ArchiveFocusedJunitTests(unittest.TestCase):
     def write(self, name, data):
         return self.fixture.write(name, json.dumps(data) if isinstance(data, dict) else data)
 
-    def prepare(self, status="passed"):
+    def prepare(self, status="passed", selected_limit=None):
+        if self.focus in (tests.IOS_SLIDER_PAIR_STRUCTURE_FOCUS, tests.IOS_SLIDER_TAP_FOCUS):
+            self.fixture.write(tests.IOS_SLIDER_LIFECYCLE_SOURCE,
+                               (tests.ROOT / tests.IOS_SLIDER_LIFECYCLE_SOURCE).read_bytes())
         plan = tests.plan(self.root, "ios", only_modules=("calf-ui",), focus=self.focus)
-        case, = tests.ui_application_focus_identities(self.focus)
-        xml = (f'<testsuite><testcase classname="{case["classname"]}" name="{case["name"]}">' +
-               ('<failure message="synthetic failure"/>' if status == "failed" else '') + '</testcase></testsuite>').encode()
+        selected = tests.ui_application_focus_identities(self.focus)
+        if selected_limit is not None:
+            selected = selected[:selected_limit]
+        xml = ('<testsuite>' + ''.join(
+            f'<testcase classname="{case["classname"]}" name="{case["name"]}">' +
+            ('<failure message="synthetic failure"/>' if status == "failed" else '') + '</testcase>'
+            for case in selected) + '</testsuite>').encode()
         self.report_path = archive.REPORTS + "/TEST-synthetic.xml"
         self.write(self.report_path, xml)
         cases = tests.junit_cases(xml)
@@ -38,7 +45,7 @@ class ArchiveFocusedJunitTests(unittest.TestCase):
                         "changed_inputs": [], "explicit_test_focus": self.focus,
                         "task_execution_markers": {archive.TASK: 1}, "totals": tests.case_counts(cases),
                         "modules": [{"module": "calf-ui", "task": archive.TASK, "reports": [row], "testcases": cases}],
-                        "passed": status == "passed"}
+                        "passed": status == "passed", "execution": {"exit_code": 0 if status == "passed" else 1}}
         inputs = tests.snapshot_inputs(self.root)
         self.receipt.update(inputs_before_sha256=tests.input_digest(inputs), inputs_after_sha256=tests.input_digest(inputs))
         self.write(self.output + "/plan.json", plan)
@@ -85,6 +92,39 @@ class ArchiveFocusedJunitTests(unittest.TestCase):
         result = self.run_archive()
         self.assertEqual(1, result["actual_totals"]["tests"])
         self.assertEqual(tests.IOS_VECTOR_THEME_METHODS[-1] + "[iosSimulatorArm64]", result["actual_cases"][0]["name"])
+
+    def test_pair_structure_keeps_only_two_required_actual_methods(self):
+        self.focus = tests.IOS_SLIDER_PAIR_STRUCTURE_FOCUS
+        self.prepare()
+        result = self.run_archive()
+        self.assertEqual(2, result["actual_totals"]["tests"])
+        self.assertEqual([], result["missing_selected_cases"])
+        self.assertEqual({method + "[iosSimulatorArm64]" for method in tests.IOS_SLIDER_LIFECYCLE_METHODS[2:4]},
+                         {case["name"] for case in result["actual_cases"]})
+
+    def test_pair_tap_keeps_only_two_required_actual_methods_not_accepted_enable_replay(self):
+        self.focus = tests.IOS_SLIDER_TAP_FOCUS
+        self.prepare()
+        result = self.run_archive()
+        self.assertEqual(2, result["actual_totals"]["tests"])
+        self.assertEqual({method + "[iosSimulatorArm64]" for method in tests.IOS_SLIDER_LIFECYCLE_METHODS[4:]},
+                         {case["name"] for case in result["actual_cases"]})
+
+    def test_incomplete_failed_selection_keeps_real_XML_and_missing_methods_not_invented_results(self):
+        self.focus = tests.IOS_SLIDER_PAIR_STRUCTURE_FOCUS
+        self.prepare("failed", selected_limit=1)
+        result = self.run_archive()
+        self.assertEqual(1, result["actual_totals"]["failures"])
+        self.assertEqual(1, len(result["actual_cases"]))
+        self.assertEqual(2, len(result["required_selected_cases"]))
+        self.assertEqual(1, len(result["missing_selected_cases"]))
+        self.assertNotIn("status", result["missing_selected_cases"][0])
+        self.assertFalse(result["compilation_or_native_pass_inferred_from_archival"])
+
+    def test_incomplete_selection_cannot_be_archived_as_a_successful_invocation(self):
+        self.focus = tests.IOS_SLIDER_PAIR_STRUCTURE_FOCUS
+        self.prepare(selected_limit=1)
+        with self.assertRaises(ValueError): self.run_archive()
 
     def test_existing_archive_cannot_be_overwritten(self):
         self.run_archive()

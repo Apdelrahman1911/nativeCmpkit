@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9bb992eec35b89b3bc0406761ee9a7e2616fd7491fdcb35a456ac2dbd44fffa0`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `536e36a1d53066a1d2edb952cf88f370912db5833177c6c2fe53ed1970af764e`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 41 |
+| implemented | 40 |
 | partially-verified | 50 |
-| verified | 66 |
+| verified | 67 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -77,7 +77,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 29 | [UI-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
-| 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | implemented | — | 3 / 1 |
+| 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | verified | — | 3 / 0 |
 | 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 10 |
@@ -838,7 +838,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 32. BUILD-005 — Native release binaries have unlocked Rust dependencies and a floating compiler
 
-**Medium · implemented · original effort M** — [nativeCmpkit #39](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+**Medium · verified · original effort M** — [nativeCmpkit #39](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
 **Original dependencies:** none.
 
@@ -850,9 +850,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Recover actual immutable Windows checkout with exact source bytes, execute/review both crates twice from empty caches and all original criteria before closure; four accepted hosts must not be replayed. Full JNI/consumer/minimum/provenance/byte-reproducibility/security/release gates remain independent.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Compatibility / scope:** Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies.
+**Compatibility / scope:** Crate/JNI/framework identities and publish=false retained; committed locks describe this unpublished candidate, not historical shipped artifacts.20 accepted native builds across5actual hosts establish locked graph/pinned compiler criteria, not byte-identical binaries, native runtime/JNI/GUI, minimum-platform, full consumer/ABI, provenance/ordinary dependency/legal/security or release readiness.
 
 ### 33. BUILD-007 — Dependency and workflow trust is not reproducibly verified beyond the wrapper
 
@@ -1283,7 +1283,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Low · verified · original effort M** — [nativeCmpkit #145](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
-**Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1), [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (implemented; original order 32).
+**Original dependencies:** [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) (implemented; original order 1), [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (verified; original order 32).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1301,7 +1301,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Low · implemented · original effort M** — [nativeCmpkit #147](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
-**Original dependencies:** [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (implemented; original order 32).
+**Original dependencies:** [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) (verified; original order 32).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3601,7 +3601,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `32c4d1849029c22c79fce7ba4f53dcf9a5154c1c3c7950d87c4c8b4626df320b` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `03f5b21937a141498f45bf8b483b8b296334280a4eef9a676a392b110bce70ce` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |

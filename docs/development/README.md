@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Native lock/build verified subset closed — 2026-10-29
+
+**#39/BUILD-005 closed/completed** directly after all3 original criteria review.
+[Windows-only recovery](evidence/native-lock-batch-important-20261029/windows-ci002/README.md)
+40854489957/f727 succeeds4actual empty-cache native builds/42exact Git inputs;
+complete graphs/features/pinned1.98compiler/source metadata/refusal/cleanup pass.
+Four accepted unchanged hosts16builds from40848333339/e009 are reused, not replayed;
+the original run remainsFAILED at checkout. **20accepted builds/5hosts, ZERO runtime
+tests; differing binary hashes remain explicit**, not provenance/minimum/ABI/
+consumer/security/release certification.69closed/103open/172total;40implemented/
+50partial/67verified/seven unresolved. Eight-method real UI state40854890326/58b53354
+is still running; no closure from local KLIB or green tooling. Single-agent;
+no publication/release/deployment/Pages/main/history changes.
+
 ## Current related batches — 2026-10-29
 
 [Remembered UI state](evidence/ui-state-batch-important-20261029/README.md): important native time/sheet state, policy/density/restore and action-disposal checks are prepared for an immutable8-method genuine UIKit profile after held local KLIB/tooling checks. No native pass/closure is inferred from compilation.

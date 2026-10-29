@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Native lock/build verified subset closed — 2026-10-29
+
+**BUILD-005/#39 CLOSED/completed** immediately after all3 original criteria review.
+[Windows-only40854489957/f727](docs/development/evidence/native-lock-batch-important-20261029/windows-ci002/README.md)
+passes4actual empty-cache builds/42exact Git inputs, pinned Rust/Cargo1.98,
+complete93/48 graphs/features/metadata and exact offline changed101 refusal/
+restored controls/owned cleanup. Four accepted hosts16builds at40848333339/e009
+are explicitly source/controller/executor-bound and reused, not replayed; the
+original run staysFAILED at Windows checkout. **20 accepted builds/5hosts,
+ZERO native runtime tests**. Binary hashes differ; byte-reproducibility/provenance/
+JNI/UI/parent/minimum/ABI/full-consumer/dependency/legal/security/release gates remain.
+**69closed/103open/172;40implemented/50partial/67verified/seven unresolved**.
+Actual8-method iOS UI state40854890326/58b53354 is running, not yet verified.
+Single-agent, immediate shared-important-test verified-subset closure, no publishing,
+release/deployment/Pages, main/history or attribution changes.
+
 ## Focused batch verification in progress — 2026-10-29
 
 Windows-only native-lock recovery40854489957/f7272ee6 is dispatched once;

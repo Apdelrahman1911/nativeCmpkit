@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "32c4d1849029c22c79fce7ba4f53dcf9a5154c1c3c7950d87c4c8b4626df320b",
+    "docs/development/resolutions/BUILD.json": "03f5b21937a141498f45bf8b483b8b296334280a4eef9a676a392b110bce70ce",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "9bb992eec35b89b3bc0406761ee9a7e2616fd7491fdcb35a456ac2dbd44fffa0",
+  "input_fingerprint": "536e36a1d53066a1d2edb952cf88f370912db5833177c6c2fe53ed1970af764e",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 41,
+      "implemented": 40,
       "partially-verified": 50,
-      "verified": 66,
+      "verified": 67,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -5136,12 +5136,12 @@
         "mapping_key": "audit:BUILD-005",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "adcb35a2edd82a7507530f3597ce1389e720f51b521a42cce6286e7d62444d27",
+      "owner_record_sha256": "017ba67c56219a4b3f3d4f339bfaa06e83bfc78a10a93e05217f9116a7e9ba6f",
       "owner_record": {
         "id": "BUILD-005",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks.",
           "2026-10-29: finite five-real-host native profile builds both crates twice from separately empty Cargo homes/targets; exact locked union/features/compiler/source metadata and offline changed-resolution refusal controls. Windows checkout requires job-local longpaths/exact-byte settings; recovery selects only that failed host."
@@ -5161,12 +5161,20 @@
             "command": "GitHub native-lock-reproducibility run40848333339 attempt1 at e009700f235c670f46b31c26df558cab741903d2",
             "result": "Overall FAILED: actual Linuxx64/arm64 and macOSarm64/x64 each build both crates twice=16 successful empty-cache builds,42 own-Git inputs per host, complete93/48 graph/features and source/compiler metadata equal, actual unchanged/offline changed101/refusal/restored controls and owned cleanup pass. Binary hash differences remain explicit. Native runtime testsZERO. Windows checkout fails on30 archived long paths before controller/zero builds/no reports. Windows-only recovery pending; no other host replay or closure/security/release promotion.",
             "evidence": "docs/development/evidence/native-lock-batch-important-20261029/github-ci001/review.json"
+          },
+          {
+            "command": "GitHub native-lock-windows-source run40854489957 attempt1 at f7272ee69b08a46e2f2d77c62784f08bc19beda0",
+            "result": "SUCCESS: four actual Windows empty-cache builds;42 exact Git-bound inputs, Rust/Cargo1.98.0, release/locked target and validated manifests, complete93/48 graph/features repeatability, exact offline unchanged/changed101 locked-refusal/restored controls and owned cleanup. Four accepted unchanged hosts16 builds from original failed run40848333339/e009 are explicitly reused, not replayed. All3 original criteria pass and #39 is closed/completed directly after review. Native runtime testsZERO; binary hashes differ and independent JNI/UI/minimum/ABI/consumer/provenance/dependency/legal/security/release gates stay open.",
+            "evidence": [
+              "docs/development/evidence/native-lock-batch-important-20261029/windows-ci002/review.json",
+              "docs/development/evidence/native-lock-batch-important-20261029/windows-ci002/accepted-host-reuse.json",
+              "docs/development/evidence/native-lock-batch-important-20261029/windows-ci002/original-criteria-review.json",
+              "docs/development/evidence/native-lock-batch-important-20261029/windows-ci002/closure/verified-closure.json"
+            ]
           }
         ],
-        "remaining": [
-          "Recover actual immutable Windows checkout with exact source bytes, execute/review both crates twice from empty caches and all original criteria before closure; four accepted hosts must not be replayed. Full JNI/consumer/minimum/provenance/byte-reproducibility/security/release gates remain independent."
-        ],
-        "compatibility": "Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies."
+        "remaining": [],
+        "compatibility": "Crate/JNI/framework identities and publish=false retained; committed locks describe this unpublished candidate, not historical shipped artifacts.20 accepted native builds across5actual hosts establish locked graph/pinned compiler criteria, not byte-identical binaries, native runtime/JNI/GUI, minimum-platform, full consumer/ABI, provenance/ordinary dependency/legal/security or release readiness."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -9004,7 +9012,7 @@
         {
           "id": "BUILD-005",
           "original_order": 32,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/39"
         }
       ],
@@ -9110,7 +9118,7 @@
         {
           "id": "BUILD-005",
           "original_order": 32,
-          "reported_status": "implemented",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/39"
         }
       ],

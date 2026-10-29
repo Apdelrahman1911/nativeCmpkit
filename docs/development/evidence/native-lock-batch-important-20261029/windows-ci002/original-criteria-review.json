@@ -1,0 +1,38 @@
+{
+  "finding": "BUILD-005",
+  "issue": 39,
+  "original_issue_title_body_and_labels_preserved": true,
+  "required_tests": [
+    {
+      "original": "Build one revision from empty caches twice and compare package graphs and reproducibility metadata",
+      "result": "PASS: each of five actual supported native hosts builds both crates twice from independently empty Cargo-home/target trees at its own immutable revision.93/48 full unions/features and source/compiler metadata match within each pair. Actual binary hash differences are retained, not claimed reproducible."
+    },
+    {
+      "original": "Reject changed dependency resolution under --locked",
+      "result": "PASS: both crates on all five actual hosts run unchanged offline control, copied root-dependency removal, exact Cargo101 required-lock-update refusal, unchanged lock bytes, restored offline control; production manifests are untouched."
+    },
+    {
+      "original": "Verify CI uses the exact pinned Rust toolchain for every target",
+      "result": "PASS: actual compiler/Cargo1.98.0 with release/--locked and real platform/header manifests on Linuxx64/arm64,macOSarm64/x64 and Windowsx64; original Rust/crate/framework/JNI identities retained."
+    }
+  ],
+  "accepted_evidence": [
+    {
+      "run_id": 40848333339,
+      "revision": "e009700f235c670f46b31c26df558cab741903d2",
+      "scope": "four successful actual hosts16 builds; overall run remainsFAILED at Windows checkout"
+    },
+    {
+      "run_id": 40854489957,
+      "revision": "f7272ee69b08a46e2f2d77c62784f08bc19beda0",
+      "scope": "Windows-only recovery4 actual builds; SUCCESS"
+    }
+  ],
+  "unchanged_reuse_binding": "accepted-host-reuse.json",
+  "all_original_criteria_reviewed_and_fulfilled": true,
+  "independent_not_certified": [
+    "native UI/JNI and parent integration",
+    "minimum-platform and packaged consumer/ABI",
+    "byte-reproducibility/provenance/full dependency trust and legal/security/release gates"
+  ]
+}

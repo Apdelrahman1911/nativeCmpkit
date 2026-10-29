@@ -29,11 +29,14 @@ class IosPickerRuntimeOwnershipTest {
                 assertEquals(IosDialogPhase.Prepared, refused.phase)
                 owned.controller = UIViewController()
                 presentIosDialog(parent, owned)
+                assertFalse(iosDialogHasNoPresentation(parent, assertNotNull(owned.controller)))
             }
             waitForNative { owned.phase == IosDialogPhase.Presented }
             runOnIdle {
                 val parent = assertNotNull(requireOwnedApplicationWindow().rootViewController)
                 assertTrue(sameNativeObject(parent.presentedViewController, owned.controller))
+                assertTrue(iosDialogHasNoPresentation(parent, assertNotNull(refused.controller)),
+                    "An unrelated modal cannot establish ownership of the refused controller")
                 assertFailsWith<IllegalStateException> { presentIosDialog(parent, refused) }
                 assertEquals(IosDialogPhase.Prepared, refused.phase)
                 assertTrue(sameNativeObject(parent.presentedViewController, owned.controller))
@@ -60,7 +63,8 @@ class IosPickerRuntimeOwnershipTest {
                 val parent = assertNotNull(requireOwnedApplicationWindow().rootViewController)
                 presentIosDialog(parent, session)
                 assertEquals(IosDialogPhase.Presenting, session.phase, "Observe actual animated presentation, not a manually assigned phase")
-                assertTrue(picker.isBeingPresented())
+                assertFalse(iosDialogHasNoPresentation(parent, picker), "Actual owning UIKit links/transition, not a void call or an elapsed delay")
+                observeNativePickerAdmission(parent, picker, "export-initial")
                 session.cancel()
                 assertTrue(NSFileManager.defaultManager.fileExistsAtPath(staged.path!!))
                 assertEquals(0, cleanups)
@@ -73,6 +77,7 @@ class IosPickerRuntimeOwnershipTest {
                 assertFalse(NSFileManager.defaultManager.fileExistsAtPath(staged.path!!))
                 assertTrue(NSFileManager.defaultManager.fileExistsAtPath(source.path!!))
                 assertNull(session.controller)
+                assertTrue(iosDialogHasNoPresentation(assertNotNull(requireOwnedApplicationWindow().rootViewController), picker))
                 session.cancel()
                 assertEquals(1, cleanups)
             }
@@ -114,6 +119,7 @@ class IosPickerRuntimeOwnershipTest {
             waitForNative { parent.presentedViewController is PHPickerViewController && !parent.presentedViewController!!.isBeingPresented() }
             val picker = runOnIdle { assertIs<PHPickerViewController>(parent.presentedViewController) }
             runOnIdle {
+                observeNativePickerAdmission(parent, picker, "photo-initial", index + 1)
                 assertEquals(limit?.toLong() ?: 0L, picker.configuration.selectionLimit)
                 assertEquals(if (requested == ImageRepresentationMode.Compatible) PHPickerConfigurationAssetRepresentationModeCompatible
                     else PHPickerConfigurationAssetRepresentationModeCurrent, picker.configuration.preferredAssetRepresentationMode)
@@ -135,5 +141,14 @@ class IosPickerRuntimeOwnershipTest {
             waitForNative { parent.presentedViewController == null && deliveries.size == index + 1 }
             runOnIdle { assertTrue(failures.isEmpty()); assertEquals((1..index + 1).toList(), deliveries) }
         }
+    }
+
+    private fun observeNativePickerAdmission(parent: UIViewController, picker: UIViewController, phase: String, iteration: Int = 0) {
+        // Finite booleans only, correlated by the independent transport to this owning test.
+        // Records whether the older controller-only projection could prove native absence.
+        println("NATIVECMPKIT_PICKER_ADMISSION phase=$phase iteration=$iteration " +
+            "backlink=${picker.presentingViewController != null} presenting=${picker.isBeingPresented()} " +
+            "dismissing=${picker.isBeingDismissed()} forward=${sameNativeObject(parent.presentedViewController, picker)} " +
+            "noPresentation=${iosDialogHasNoPresentation(parent, picker)}")
     }
 }

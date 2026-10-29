@@ -524,6 +524,16 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_BOUNDARY_FOCUS] = {
     "scope": "26 related actual UIKit/PhotosUI/type-database/Foundation/Compose picker methods, with real animation/admission and explicitly controlled delegate/source-removal inputs; no cloud-provider selection, swipe gesture, physical/minimum-platform or release certification. Accepted native write-failure/IO/Coil/other-host suites not replayed.",
 }
 
+# Recovery changes only the UIKit owner projection and picker application host.
+# Keep the original26 selection above intact; do not replay its19 completed
+# Foundation/filter/copy/staging methods or accepted other-platform suites.
+IOS_PICKER_RECOVERY_FOCUS = "picker-ios-native-ownership-recovery"
+IOS_PICKER_RECOVERY_GROUPS = (IOS_PICKER_BOUNDARY_GROUPS[0], IOS_PICKER_BOUNDARY_GROUPS[2])
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_RECOVERY_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_RECOVERY_GROUPS,
+    "scope": "Seven failed/changed actual UIKit/Compose picker ownership and full application-host methods only. Original26-method plan and all protocol/XML/Worker/runtime/cleanup gates retained; no19-method completed subset or successful other-host replay, cloud/swipe/physical/minimum/release certification.",
+}
+
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
@@ -1856,6 +1866,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         protocol = document.get("application_protocol")
         need(isinstance(protocol, dict) and type(protocol.get("process_exit")) is int and protocol["process_exit"] == 0,
              "App crash or missing real console process exit")
+        need("lifecycle_failure_observation" not in protocol, "Failed owned native lifecycle cannot be accepted")
         active, complete = protocol.get("activation"), protocol.get("completion")
         need(isinstance(active, dict) and all(type(active.get(k)) is int and active[k] > 0 for k in ("main_worker", "owned_worker")) and
              active["main_worker"] != active["owned_worker"], "Missing distinct main/owned-worker execution witness")
@@ -2066,6 +2077,7 @@ def main() -> int:
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
+                                           IOS_PICKER_RECOVERY_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],

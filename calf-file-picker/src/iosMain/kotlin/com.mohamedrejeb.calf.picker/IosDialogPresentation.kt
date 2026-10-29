@@ -1,5 +1,7 @@
 package com.mohamedrejeb.calf.picker
 
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.objcPtr
 import platform.Foundation.NSThread
 import platform.UIKit.UISceneActivationStateForegroundActive
 import platform.UIKit.UIViewController
@@ -27,27 +29,43 @@ internal fun presentIosDialog(presenter: UIViewController, session: IosDialogSes
     }
     val controller = checkNotNull(session.controller)
     check(controller.presentingViewController == null && !controller.isBeingPresented() && !controller.isBeingDismissed())
-    session.beginPresentation { completed -> dismissOwnedIosDialog(controller, completed) }
+    session.beginPresentation { completed -> dismissOwnedIosDialog(presenter, controller, completed) }
     try {
         presenter.presentViewController(controller, true) { session.presentationCompleted() }
     } catch (failure: Throwable) {
         // An exception is not evidence that an already-attached native consumer stopped.
-        if (controller.hasNoPresentation()) session.presentationRejected() else session.finish()
+        if (iosDialogHasNoPresentation(presenter, controller)) session.presentationRejected() else session.finish()
         throw failure
     }
-    if (session.phase == IosDialogPhase.Presenting && controller.hasNoPresentation()) {
+    if (session.phase == IosDialogPhase.Presenting && iosDialogHasNoPresentation(presenter, controller)) {
         session.presentationRejected()
         error("UIKit did not accept the dialog presentation")
     }
 }
 
-/** True only outside both animation phases; absence of a parent DURING presentation is not enough. */
-private fun UIViewController.hasNoPresentation(): Boolean =
-    presentingViewController == null && !isBeingPresented() && !isBeingDismissed()
+/**
+ * UIKit may establish an owning presenter's forward link before the presented controller's
+ * backlink/animation flags. A void present/dismiss call is not itself an ownership safe point.
+ * Observe both directions and the presenter's containment ancestors, by exact native identity.
+ * Never mistake an unrelated modal or two nil pointers for our controller. Keep these objects
+ * alive during this UI-thread operation; do not cache/export native addresses.
+ */
+@OptIn(ExperimentalForeignApi::class)
+internal fun iosDialogHasNoPresentation(presenter: UIViewController, controller: UIViewController): Boolean {
+    check(NSThread.isMainThread) { "Observe iOS dialogs from the main thread" }
+    if (controller.presentingViewController != null || controller.isBeingPresented() || controller.isBeingDismissed()) return false
+    var ancestor: UIViewController? = presenter
+    while (ancestor != null) {
+        val presented = ancestor.presentedViewController
+        if (presented != null && presented.objcPtr() == controller.objcPtr()) return false
+        ancestor = ancestor.parentViewController
+    }
+    return true
+}
 
-private fun dismissOwnedIosDialog(controller: UIViewController, completed: () -> Unit) {
+private fun dismissOwnedIosDialog(presenter: UIViewController, controller: UIViewController, completed: () -> Unit) {
     check(NSThread.isMainThread) { "Dismiss iOS dialogs from the main thread" }
-    if (controller.hasNoPresentation()) {
+    if (iosDialogHasNoPresentation(presenter, controller)) {
         completed()
         return
     }
@@ -58,7 +76,7 @@ private fun dismissOwnedIosDialog(controller: UIViewController, completed: () ->
             if (context != null && !context.isCancelled()) completed()
             else {
                 // Let UIKit finish its rollback before requesting a noninteractive dismissal.
-                dispatch_async(dispatch_get_main_queue()) { dismissOwnedIosDialog(controller, completed) }
+                dispatch_async(dispatch_get_main_queue()) { dismissOwnedIosDialog(presenter, controller, completed) }
             }
         } == true
         if (registered) return
@@ -67,5 +85,5 @@ private fun dismissOwnedIosDialog(controller: UIViewController, completed: () ->
     // adaptive didDismiss delegate are both idempotent. If UIKit supplies neither, retaining
     // ownership is safer than a timer/early deletion; hosted UIKit tests must cover this path.
     controller.dismissViewControllerAnimated(false, completed)
-    if (controller.hasNoPresentation()) completed()
+    if (iosDialogHasNoPresentation(presenter, controller)) completed()
 }

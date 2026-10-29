@@ -4,7 +4,7 @@
 Never generates JUnit, selects a foreign device/app, uploads a package, accepts
 arbitrarily filtered/zero suites, or infers success from simctl launch acceptance. The app
 bundle is a local disposable library-test host, not a sample or distributable.
-Only the finite six-method native bounds/month profile may filter this task;
+Only finite, source-reviewed application profiles may filter this task;
 full profiles retain their original mandatory suites. Python adversarial fixtures
 are tooling evidence, not Apple runtime verification.
 """
@@ -170,6 +170,8 @@ class NativeProtocol:
         self.cases = {}
         self.stream_bytes = 0
         self.startup_failure_observation = None
+        self.lifecycle_failure_observation = None
+        self.picker_admission_observations = []
 
     def feed(self, line: str):
         self.stream_bytes += len((line + "\n").encode())
@@ -177,6 +179,8 @@ class NativeProtocol:
             raise ValueError("Native application output exceeds bounded transport")
         if self.startup_failure_observation is not None:
             raise ValueError("Native transport already failed at startup")
+        if self.lifecycle_failure_observation is not None:
+            raise ValueError("Native transport already failed its owned lifecycle")
         if self.expected_bundle is not None and line.startswith(self.expected_bundle + ":"):
             launch = re.fullmatch(re.escape(self.expected_bundle) + r": ([1-9][0-9]{0,9})", line)
             if launch is None or int(launch[1]) > 2**31 - 1 or self.observed_launch_pid is not None:
@@ -208,6 +212,27 @@ class NativeProtocol:
             return
         if line.startswith("NATIVECMPKIT_COMPACT_APPEARANCE"):
             raise ValueError("Unknown or malformed compact appearance diagnostic")
+        admission = re.fullmatch(
+            r"NATIVECMPKIT_PICKER_ADMISSION phase=(export-initial|photo-initial) iteration=([0-4]) "
+            r"backlink=(true|false) presenting=(true|false) dismissing=(true|false) "
+            r"forward=(true|false) noPresentation=(true|false)", line)
+        if admission:
+            owner = "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest"
+            expected = {"export-initial": "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+                        "photo-initial": "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback"}
+            phase, iteration = admission[1], int(admission[2])
+            if self.active is None or self.completed is not None or self.open_case != (owner, expected[phase]):
+                raise ValueError("Picker admission diagnostic outside its exact active native testcase")
+            prior = [o for o in self.picker_admission_observations if o["phase"] == phase]
+            if (phase == "export-initial" and (iteration != 0 or prior) or
+                    phase == "photo-initial" and (iteration != len(prior) + 1 or not 1 <= iteration <= 4)):
+                raise ValueError("Missing, duplicate or reordered finite picker admission diagnostic")
+            self.picker_admission_observations.append({"phase": phase, "iteration": iteration, **{
+                key: value == "true" for key, value in zip(
+                    ("backlink", "presenting", "dismissing", "forward", "no_presentation"), admission.groups()[2:])}})
+            return
+        if line.startswith("NATIVECMPKIT_PICKER_ADMISSION"):
+            raise ValueError("Unknown or malformed picker admission diagnostic")
         image = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=(retained-ready|before-conversion|before-gc|after-gc|before-verify|verified)"
             r"(?: iteration=([1-9][0-9]?))? mainThread=(true|false)", line)
@@ -238,6 +263,18 @@ class NativeProtocol:
                     ("active", "key", "hidden", "root_attached", "root_native_equal"), startup.groups())}
             self.startup_failure_observation["worker_started"] = False
             raise ValueError("UIKit startup readiness failed")
+        failure = re.fullmatch(r"NATIVECMPKIT_UIKIT_(RUNNER_ERROR|TERMINATION_ERROR) type=([A-Za-z][A-Za-z0-9_]{0,79})", line)
+        timeout = line == "NATIVECMPKIT_UIKIT_TIMEOUT workerTerminationVerified=false"
+        if failure or timeout:
+            if self.active is None or self.completed is not None:
+                raise ValueError("Native failure marker outside the owned active lifecycle")
+            # Public error TYPE/known stage only, never arbitrary exception message,
+            # stack, path or unknown marker text. Retained diagnostic still FAILS
+            # before forwarding and cannot finish a testcase/Worker or satisfy a gate.
+            self.lifecycle_failure_observation = ({"stage": failure[1].lower(), "error_type": failure[2],
+                                                    "worker_termination_verified": False} if failure else
+                                                 {"stage": "timeout", "worker_termination_verified": False})
+            raise ValueError("Owned UIKit application reported a native lifecycle failure")
         active = re.fullmatch(r"NATIVECMPKIT_UIKIT_ACTIVE mainWorker=([1-9][0-9]*) ownedWorker=([1-9][0-9]*)", line)
         complete = re.fullmatch(r"NATIVECMPKIT_UIKIT_COMPLETED runnerExit=([0-9]+) workerTerminated=true", line)
         if active:
@@ -246,6 +283,9 @@ class NativeProtocol:
             self.active = {"main_worker": int(active[1]), "owned_worker": int(active[2])}
             return
         if complete:
+            if self.active is not None and self.completed is None and 0 < int(complete[1]) <= 2**31 - 1:
+                self.lifecycle_failure_observation = {"stage": "runner_completion", "runner_exit": int(complete[1]),
+                                                      "worker_termination_verified": True}
             if self.completed is not None or self.active is None or int(complete[1]) != 0 or self.stack or self.open_case is not None:
                 raise ValueError("Unexpected native runner/worker completion contract")
             self.completed = {"runner_exit": 0, "worker_terminated": True}
@@ -317,11 +357,16 @@ class NativeProtocol:
                 "open_suites": list(self.stack), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"lifecycle_failure_observation": self.lifecycle_failure_observation}
+                   if self.lifecycle_failure_observation is not None else {}),
+                **({"picker_admission_observations": self.picker_admission_observations}
+                   if self.picker_admission_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
     def finish(self, process_exit: int) -> dict:
-        if (type(process_exit) is not int or process_exit != 0 or self.startup_failure_observation is not None or self.active is None or
+        if (type(process_exit) is not int or process_exit != 0 or self.startup_failure_observation is not None or
+                self.lifecycle_failure_observation is not None or self.active is None or
                 self.completed is None or self.stack or self.open_case is not None):
             raise ValueError("App crash/transport failure or missing complete native lifecycle")
         cases = list(self.cases.values())
@@ -334,6 +379,8 @@ class NativeProtocol:
                 "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"picker_admission_observations": self.picker_admission_observations}
+                   if self.picker_admission_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 

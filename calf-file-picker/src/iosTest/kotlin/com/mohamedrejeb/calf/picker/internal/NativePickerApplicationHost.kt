@@ -1,5 +1,5 @@
 // Test-only NativeCmpKit picker application host (2026-10-29).
-// Reuses calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt; unchanged ownership/Worker/cleanup contract.
+// Derived from calf-ui's host; retains Worker/cleanup contracts and additionally witnesses UIKit root appearance.
 @file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class,
     kotlin.experimental.ExperimentalNativeApi::class, kotlin.native.concurrent.ObsoleteWorkersApi::class,
     androidx.compose.runtime.ExperimentalComposeApi::class)
@@ -14,6 +14,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.window.ComposeUIViewController
+import androidx.compose.ui.uikit.ComposeUIViewControllerDelegate
 import kotlinx.cinterop.ExportObjCClass
 import kotlinx.cinterop.ObjCObjectBase.OverrideInit
 import kotlin.native.concurrent.Future
@@ -72,6 +73,8 @@ internal class NativeApplicationUiTest {
     private lateinit var content: MutableState<@Composable () -> Unit>
     private lateinit var generation: MutableIntState
     private var committedGeneration = -1
+    private var rootHasAppeared = false
+    private var rootIsAppeared = false
     private var closed = false
 
     init {
@@ -81,7 +84,23 @@ internal class NativeApplicationUiTest {
             previous = checkNotNull(window.rootViewController)
             content = mutableStateOf({})
             generation = mutableIntStateOf(0)
-            controller = ComposeUIViewController {
+            // Test-only public lifecycle witness in the exact configured Compose 1.12.0 API.
+            // Deprecated upstream in favor of a containing controller; no production API change
+            // or disabled plist/rendering check. Attachment/SideEffect alone precede viewDidAppear.
+            @Suppress("DEPRECATION")
+            val lifecycle = object : ComposeUIViewControllerDelegate {
+                override fun viewDidAppear(animated: Boolean) {
+                    check(NSThread.isMainThread)
+                    rootHasAppeared = true
+                    rootIsAppeared = true
+                }
+                override fun viewWillDisappear(animated: Boolean) {
+                    check(NSThread.isMainThread)
+                    rootIsAppeared = false
+                }
+            }
+            @Suppress("DEPRECATION")
+            controller = ComposeUIViewController(configure = { delegate = lifecycle }) {
                 val composingGeneration = generation.intValue
                 content.value()
                 SideEffect { committedGeneration = composingGeneration }
@@ -111,7 +130,7 @@ internal class NativeApplicationUiTest {
             requireOwnedApplicationWindow()
             check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
             controller.view.layoutIfNeeded()
-            sameNativeObject(controller.view.window, window) && committedGeneration == generation.intValue &&
+            rootHasAppeared && sameNativeObject(controller.view.window, window) && committedGeneration == generation.intValue &&
                 Recomposer.runningRecomposers.value.none { it.hasPendingWork }
         }
     }
@@ -125,13 +144,14 @@ internal class NativeApplicationUiTest {
                 val actual = onApplicationMain {
                     "active=${UIApplication.sharedApplication.applicationState}, key=${window.isKeyWindow()}, " +
                         "attached=${sameNativeObject(controller.view.window, window)}, " +
+                        "everAppeared=$rootHasAppeared, appeared=$rootIsAppeared, " +
                         "generation=${generation.intValue}, committed=$committedGeneration, " +
                         "pending=${Recomposer.runningRecomposers.value.count { it.hasPendingWork }}"
                 }
                 error("Timed out awaiting $phase; actual application state: $actual")
             }
             // Poll backoff only: idle is established by actual attachment,
-            // SideEffect generation and Recomposer work, never by elapsed sleep.
+            // native viewDidAppear, SideEffect generation and Recomposer work, never elapsed sleep.
             usleep(1000u)
         }
     }
@@ -153,6 +173,7 @@ internal class NativeApplicationUiTest {
             }
         }
         stage { awaitMain("owned native presenter teardown") { controller.presentedViewController == null } }
+        stage { awaitMain("owned root reappearance after presenter teardown") { rootIsAppeared } }
         // Always attempt restoring our root even after a failed presenter/idle
         // check. Never detach another test's or application's replacement root.
         stage {
@@ -163,6 +184,9 @@ internal class NativeApplicationUiTest {
                 requireOwnedApplicationWindow()
             }
         }
+        stage { awaitMain("owned root disappearance after restoration") {
+            !rootIsAppeared && controller.view.window == null && sameNativeObject(window.rootViewController, previous)
+        } }
         closed = true
         failure?.let { throw it }
     }

@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused related iOS ownership recovery — 2026-10-29
+
+The next owning patch observes the exact presented-controller forward links on the
+presenter/containment ancestors as well as the controller backlink/transition flags,
+consistently during admission, exception handling and dismissal. The test-only real
+Compose host also requires observed native `viewDidAppear` before initial idle and
+owning disappearance/restoration on teardown; BasicText/rendering/plist checks remain.
+Known runner/termination/timeout failures now retain bounded error types/stages while
+still failing transport; no message/stack/private transcript is archived.
+
+`ios-picker-recovery` selects **seven failed/changed actual host/ownership methods**,
+not the19 completed Foundation/filter/copy/staging methods or accepted other hosts.
+Original26 selection and protocol/XML/Worker/binary/runtime/owned cleanup gates stay
+intact. Local693 CI-tooling methods pass (eleven focused checks overlap), production/
+test iOS KLIB compile passes0/38.01s/JDK17 with853 held dirty inputs including explicit
+workflow hash. **Zero local native runtime executions; Apple recovery pending, not
+verified root-cause/issue/release completion.** See the additive recovery evidence.
+Single-agent, immediate verified-subset batch closure after original-criteria review,
+no packages/releases/deployment/Pages, main/imported history unchanged.
+
 ## Related-issue batch execution — owner decision, 2026-10-29
 
 Work by related owning subsystem/patch, not one issue at a time. Implement the

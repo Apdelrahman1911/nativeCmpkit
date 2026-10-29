@@ -226,7 +226,7 @@ class NativeVectorThemeAcceptanceTest {
             }
             controller.applyTheme(true)
             controller.modalPresentationStyle = UIModalPresentationPopover
-            controller.preferredContentSize = CGSizeMake(380.0, 480.0)
+            controller.setPreferredContentSize(CGSizeMake(380.0, 480.0))
             val popover = assertNotNull(controller.popoverPresentationController)
             popover.sourceView = parent.view
             popover.sourceRect = CGRectMake(100.0, 100.0, 1.0, 1.0)

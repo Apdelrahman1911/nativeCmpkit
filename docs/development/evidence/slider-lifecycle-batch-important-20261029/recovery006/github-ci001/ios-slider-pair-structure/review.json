@@ -1,0 +1,113 @@
+{
+  "accepted_native_methods": 0,
+  "actual_failure_stage": "compileTestKotlinIosSimulatorArm64 before selected application task",
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-29T15:11:10.075791+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE"
+    },
+    "source_revision": "1bdc61f8e5867069d6410b2ca7f8af91f2e1bbc5",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "all873_before_after_inputs_match_exact_historical_Git": true,
+  "application_receipt_or_install_launch_evidence_present": false,
+  "artifact_digest": "sha256:a1cfe20816228e71bd17416efe565c1fc0b78c8394e6c1cc8c7f984a74c0ff3e",
+  "artifact_id": 12908119716,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction"
+  ],
+  "confirmed_shared_compile_error": {
+    "column": 24,
+    "compiler_message": "'val' cannot be reassigned.",
+    "line": 229,
+    "root_cause": "Kotlin/UIKit UIContentContainerProtocol exposes preferredContentSize as val; UIViewController has explicit setPreferredContentSize method.",
+    "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt"
+  },
+  "execution": {
+    "elapsed_seconds": 954.44,
+    "exit_code": 1
+  },
+  "fresh_XML_reports": 0,
+  "genuine_UIKit_application_task_execution_markers": 0,
+  "native_job_conclusion": "failure",
+  "native_job_id": 123529932342,
+  "original_issue_criteria_review_and_closure_not_automatically_inferred": true,
+  "packages_releases_deployments_or_Pages_created": false,
+  "plan_command_and_executed_workflow_hash_reviewed": true,
+  "prior_failed_attempts_preserved": true,
+  "profile": "slider-pair-structure",
+  "reviewed_at_utc": "2026-10-29T15:35:44.328974+00:00",
+  "run_attempt": 1,
+  "run_id": 40897097120,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40897097120",
+  "selected_authored_methods": 2,
+  "source_revision": "1bdc61f8e5867069d6410b2ca7f8af91f2e1bbc5",
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "valid_unchanged_prior_methods_explicitly_reused_not_fresh": true,
+  "workflow_conclusion": "failure"
+}

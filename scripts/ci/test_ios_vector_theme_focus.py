@@ -199,6 +199,10 @@ class IosVectorThemeFocusTests(unittest.TestCase):
         self.assertNotIn("Thread.sleep", source)
         # Actual Kotlin/UIKit metadata exposes idioms as Long constants, not enums.
         self.assertNotIn("UIUserInterfaceIdiom.UIUserInterfaceIdiomPad", source)
+        # UIContentContainerProtocol contributes a read-only property; Kotlin's
+        # UIViewController binding supplies the explicit Objective-C setter.
+        self.assertIn("controller.setPreferredContentSize(CGSizeMake(380.0, 480.0))", source)
+        self.assertNotIn("controller.preferredContentSize =", source)
         system = source.split("@Test fun " + r.IOS_VECTOR_THEME_METHODS[-1], 1)[1].split("private fun snapshot", 1)[0]
         self.assertNotIn("window.overrideUserInterfaceStyle =", system)
         f = self.fixture()

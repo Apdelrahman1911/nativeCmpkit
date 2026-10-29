@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared native fixture compiler recovery — 2026-10-29
+
+Runs [40897045067](docs/development/evidence/native-vector-theme-batch-important-20261029/native-ci002/README.md)
+and [40897097120](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery006/github-ci001/ios-slider-pair-structure/README.md)
+both FAILED before native execution at the same new fixture's read-only
+`preferredContentSize` assignment. Zero XML/application markers; all873 inputs
+match immutable1bdc61f8 before/after. The [exact UIKit setter repair](docs/development/evidence/native-vector-theme-batch-important-20261029/compile-repair001/README.md)
+retains every assertion and production input; one guard fails first, then7/7
+owning tools pass. Zero local KLIB/link/native tests, no closure. Replace only
+unfinished vector/theme/slider methods; reuse unchanged accepted methods.
+72closed/100open; single-agent, max2 combined hosted native jobs, no heavy local
+build below8GiB. Publishing/Pages/main/history and release/security gates stay.
+
 ## Shared native CLI selection/early preflight repaired — 2026-10-29
 
 [40879604186 FAILED/40879627044 CANCELLED](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery004/cli-block002/README.md) bothhit missing CLI choice before native tests; Linux toolingpasses, Apple planfailure/testSKIPPED/zeroXML. Both4JSONdigests/emptyfailedplan preserved; ownedcancel raced planfailure, notsuccess. [Owning repair](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery005/cli-repair001/README.md) derives choices fromfinite registry and preflights allselected real CLIs onLinux beforeheavyjob outputs. Final114 toolsPASS/all869held,15registry focuses/all11slots; earlier75/109 overlap, ZEROchangedlocalKLIB/native tests. Structuralcurrent range/value/SetProgress/touch/exactcallback checks added to fourunfinished methods; twoaccepted enablemethods bytebound/reused. #34/#137 OPEN,72closed/100open; next rendering/theme fixture retained separately, not allowed toblock slider compile. Single-agent/max2hostednative/below8GiB/noheavy local build; publishing/Pages/main/history/release gates unchanged.

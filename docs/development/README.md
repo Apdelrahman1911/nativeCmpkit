@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Shared native fixture compiler recovery — 2026-10-29
+
+[Both focused runs](evidence/native-vector-theme-batch-important-20261029/native-ci002/README.md)
+fail before native execution on the same inherited read-only UIKit size setter;
+the [slider failure](evidence/slider-lifecycle-batch-important-20261029/recovery006/github-ci001/ios-slider-pair-structure/README.md)
+is not a gesture outcome. Both873-input immutable receipts and zero XML are
+preserved. [Owning repair](evidence/native-vector-theme-batch-important-20261029/compile-repair001/README.md)
+uses exact Kotlin/UIKit `setPreferredContentSize`, retains assertions, and passes
+7 synthetic guards after the one red guard. Zero local KLIB/link/native tests.
+Only unfinished related methods need recovery; accepted methods are not replayed.
+72closed/100open, single-agent/max2 hosted native jobs, publication gates unchanged.
+
 ## Shared CLI blocker fixed before heavy-runner setup — 2026-10-29
 
 [Second isolated failures](evidence/slider-lifecycle-batch-important-20261029/recovery004/cli-block002/README.md) are nativeCLI plan failures withzeroXML/native tests; ownedcancellation raced the same failure. [Registry/early-preflight repair](evidence/slider-lifecycle-batch-important-20261029/recovery005/cli-repair001/README.md) runs114 important tools/all869held, all15native-focus CLIs and11full source-plan slots. No earlier overlapping75/109 count inflation or local native pass. Fourunfinished methods gain current-domain semantic parity/exact callback assertions; onlythose need native execution, nottwoaccepted enablemethods. BothissuesremainOPEN/72closed100open. Nextnative bridge fixture is held separately; single-agent/max2hosted jobs, no publishing/Pages/main/history/release changes.

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `d684c40005c242c825c6b6271441f9f63641aba366dde685ad77450abdb5889b`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `53036ca415310d740912b12d5e41a88baa8733d6b5d9f660056f38f7ef0bd939`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,8 +25,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 39 |
-| partially-verified | 45 |
+| implemented | 36 |
+| partially-verified | 48 |
 | verified | 73 |
 | unresolved | 7 |
 | not-applicable | 0 |
@@ -157,8 +157,8 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 109 | [NAV-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) | Medium | 2 | M | implemented | — | 4 / 1 |
 | 110 | [NAV-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98) | Medium | 2 | M | unresolved | NAV-009 | 4 / 2 |
 | 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | implemented | — | 3 / 1 |
-| 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | implemented | — | 4 / 3 |
-| 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | implemented | — | 4 / 2 |
+| 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | partially-verified | — | 4 / 3 |
+| 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | partially-verified | — | 4 / 2 |
 | 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 2 |
 | 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | unresolved | NAV-008 | 4 / 5 |
 | 116 | [PERM-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) | Medium | 2 | M | partially-verified | PERM-013 | 2 / 2 |
@@ -199,7 +199,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | verified | — | 3 / 0 |
 | 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | verified | — | 2 / 0 |
 | 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | verified | — | 3 / 0 |
-| 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
+| 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | partially-verified | NAV-008 | 3 / 1 |
 | 155 | [NAV-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/155) | Low | 3 | S | verified | — | 2 / 0 |
 | 156 | [PERM-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/156) | Low | 3 | S | verified | — | 2 / 0 |
 | 157 | [UI-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/157) | Low | 3 | M | verified | — | 3 / 0 |
@@ -2580,7 +2580,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 112. NAV-013 — Sample image export runs unbounded reads and image allocations without error or concurrency control
 
-**Medium · implemented · original effort M** — [nativeCmpkit #100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -2601,7 +2601,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 113. NAV-014 — Streaming sample cancellation does not interrupt its synchronous read loop
 
-**Medium · implemented · original effort S** — [nativeCmpkit #101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · partially-verified · original effort S** — [nativeCmpkit #101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -3375,7 +3375,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 154. NAV-016 — Sample includes an unused second navigation library with an unnecessary compatibility burden
 
-**Low · implemented · original effort S** — [nativeCmpkit #154](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Low · partially-verified · original effort S** — [nativeCmpkit #154](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (implemented; original order 108).
 
@@ -3604,7 +3604,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `d60899293f4ac39d00aa71a93e8c3f4d3197e10a504fee333ba6c6936ffc2c13` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `8ebb069e40b68259dc0416aa24265edeb33fadadec2b52a5ddc3b835f2d932a9` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `8c8220bde743c8e1cfea829f6279e81e1a230684960909818bd37036666d71b2` |

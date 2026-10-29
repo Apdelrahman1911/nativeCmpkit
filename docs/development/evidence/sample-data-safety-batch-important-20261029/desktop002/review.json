@@ -1,0 +1,185 @@
+{
+  "all_captured_inputs_held": true,
+  "all_inputs_match_immutable_Git": true,
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+      "name": "generatedTabsContainEveryActualCategoryExactlyOnceInOriginalOrder[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+      "name": "rejectsInvalidOversizedOrOverflowProneDimensionsBeforeAllocation[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+      "name": "acceptsPositiveBoundedDimensions[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+      "name": "validPngRoundTripsAndEncoderDoesNotTakeCallerBitmapOwnership[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+      "name": "circleExportCapsTheOutputTo512AndHandlesSmallImages[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+      "name": "decoderRejectsCorruptInputAndEncodedSizeAboveTheLimit[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+      "name": "rejectsOversizedPngHeaderBeforeAttemptingFullPixelDecode[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingCompositionTest",
+      "name": "navigatingAwayCancelsTheRememberedOwnerAndOldCompletionCannotPublishOrRestart[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "name": "initializationError[desktop]",
+      "status": "failed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "countsBoundedChunksAndClosesTheSourceAtEof[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "emptySourceIsClosedAndReturnsZero[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "noProgressAndReadFailureCloseTheSource[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource[desktop]",
+      "status": "passed"
+    }
+  ],
+  "completed_cases_are_reused_only_if_owning_source_inputs_remain_bound": true,
+  "counts": {
+    "errors": 0,
+    "executed": 19,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 18,
+    "skipped": 0,
+    "tests": 19,
+    "unexpected_skipped": 0
+  },
+  "execution": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=1",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":sample:common:desktopTest",
+      "--rerun"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 63.02,
+    "exit_code": 1,
+    "free_bytes_after": 13110394880,
+    "free_bytes_before": 13119832064,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-29T20:25:31.598401+00:00",
+    "timeout_seconds": 900
+  },
+  "failures": [
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "message": "org.junit.runners.model.InvalidTestClassError: Invalid test class 'com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest':\n  1. Method real64MiBFileStreamsBoundedRequestsAndClosesAtEof() should be void",
+      "name": "initializationError[desktop]",
+      "type": "org.junit.runners.model.InvalidTestClassError"
+    }
+  ],
+  "fresh_XML": 7,
+  "library_inputs": 878,
+  "no_sample_or_library_issue_closed": true,
+  "observed_at_utc": "2026-10-29T20:29:19.552445+00:00",
+  "original_XML": [
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest.xml",
+      "sha256": "6452514b4447a3666e67be8de326ffdcf6c2567719ef65ddc0524c775da8d780"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest.xml",
+      "sha256": "53840a3eb157532ccec3600b47910037fb87ce4fbc3f100dd23cc6d98f8fe60c"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest.xml",
+      "sha256": "0bb02b3bdb681135d0e7ca72f9e913e8c998f4077dc62c856a57e1ef7e767e68"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleStreamingCompositionTest.xml",
+      "sha256": "fd23e0da36d744e6d9d1778ecbde592590d263fb114d6f2baa02dacb1cc0067e"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest.xml",
+      "sha256": "1dcc793d13a825e098be4c228fe51f94bef27779dff6a1ee0bb550979d8cce9b"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest.xml",
+      "sha256": "6f004d67e7753c7ce166d31a2a5bc6986c5ea359e4f2fda11f3c479c63deb196"
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleStreamingTest.xml",
+      "sha256": "fd0a4f2994b898fb8cd8d1c63e84c0001f203e82b11cd133ef6406b66e7eea7b"
+    }
+  ],
+  "real_large_input_methods_not_executed_due_to_JUnit_class_initialization_error": true,
+  "sample_inputs": 80,
+  "source_revision": "c14caa1e712cc9cc96e3ae834fb7cf8d318748bd",
+  "source_tree_dirty": false,
+  "whole_command_passed": false
+}

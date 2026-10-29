@@ -27,3 +27,17 @@ Only these sample-specific tasks verify sample findings. They never substitute f
 library-level IO/picker/native/consumer suites. Apple/browser/device encoder, exact
 peak memory/latency, provider, all-target sample/minimum, ABI/legal/dependency and
 release/security gates remain. No packages/releases/deployment/Pages.
+
+## Additive immutable desktop002 result
+
+[Desktop002](desktop002/review.json), immutablec14caa1e, FAILED overall: Gradle1/
+63.02s,7fresh XML,19reported cases/18passed/one initializationError. All878
+library+80sample inputs held/exact Git, clean source before/after. Every actual
+common owner/stream, composition disposal, codec/bounds and category method
+completed. Both real-file methods **did not execute**: first inferred Throwable
+from its trailing assertFails, not JUnit4-required void (actual javap confirms).
+The smallest fixture repair appends Unit; production and all18 completed method
+bodies stay byte-identical. Only the two previously unexecuted real-file methods
+need recovery; retain failed whole run and original XML, do not replay18 passes.
+No issue closure from the failed run; sample-specific evidence, not library/native
+consumer or release certification.

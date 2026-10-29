@@ -40,6 +40,7 @@ class SampleStreamingFileTest {
             assertTrue(closed)
             assertTrue(maxRequest <= SAMPLE_STREAM_CHUNK_SIZE)
             assertFails { real.readAtMostTo(Buffer(), 1) }
+            Unit // JUnit4 requires a void method; assertFails otherwise becomes its return value.
         } finally { ownedSource?.close(); Files.delete(path) }
     }
 

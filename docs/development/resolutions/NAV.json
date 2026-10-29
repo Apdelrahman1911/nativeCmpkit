@@ -1505,6 +1505,14 @@
         "evidence": [
           "docs/development/evidence/sample-data-safety-batch-important-20261029/tools001/review.json"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. one actual generated category method passes; SF availability/provenance and glyph/assistive acceptance remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
+        ]
       }
     ],
     "remaining": [
@@ -1538,7 +1546,7 @@
   },
   {
     "id": "NAV-013",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Bounded encoded bytes and header pixel dimensions before decode; process once per selection into a <=512px PNG used for both preview and export.",
       "Added generation-aware cancellation, background dispatch where available, busy/error state and lazy bounded image previews.",
@@ -1571,6 +1579,14 @@
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. six actual image bound/Skia codec methods pass; export concurrency/encoder/provider/peak memory and other-platform gates remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
+        ]
       }
     ],
     "remaining": [
@@ -1582,7 +1598,7 @@
   },
   {
     "id": "NAV-014",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Source consumer checks cancellation/yields every64KiB, rejects no-progress/overflow and always closes including cancel/error paths.",
       "Corrected universal constant-memory claim for platform source opening; added4 actual sample helper tests with controlled RawSource fixtures.",
@@ -1609,6 +1625,14 @@
         "evidence": [
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. eleven common stream/owner/actual composition methods pass; two real large-input methods unexecuted before fixture repair, web/native and original remaining criteria are not inferred. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
         ]
       }
     ],
@@ -1647,7 +1671,7 @@
   },
   {
     "id": "NAV-016",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency."
     ],
@@ -1668,6 +1692,14 @@
         "evidence": [
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. actual sample desktop main/test compilation passes; complete target/dependency/merged-manifest/minimum gates remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
         ]
       }
     ],

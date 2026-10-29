@@ -46,7 +46,7 @@
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
-    "docs/development/resolutions/NAV.json": "d60899293f4ac39d00aa71a93e8c3f4d3197e10a504fee333ba6c6936ffc2c13",
+    "docs/development/resolutions/NAV.json": "8ebb069e40b68259dc0416aa24265edeb33fadadec2b52a5ddc3b835f2d932a9",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "8c8220bde743c8e1cfea829f6279e81e1a230684960909818bd37036666d71b2",
@@ -54,15 +54,15 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "d684c40005c242c825c6b6271441f9f63641aba366dde685ad77450abdb5889b",
+  "input_fingerprint": "53036ca415310d740912b12d5e41a88baa8733d6b5d9f660056f38f7ef0bd939",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 39,
-      "partially-verified": 45,
+      "implemented": 36,
+      "partially-verified": 48,
       "verified": 73,
       "unresolved": 7,
       "not-applicable": 0
@@ -19892,7 +19892,7 @@
       },
       "reported_status": "unresolved",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "c5bf5ffb73e4b01a8b7593ddac084d22bfd8ca1d77d77601538c11d53b5c6daf",
+      "owner_record_sha256": "31f50e91ecb41c59b006cdadc147017d655bf29cfd4e75e6998b2a15272f62cc",
       "owner_record": {
         "id": "NAV-011",
         "status": "unresolved",
@@ -19967,6 +19967,14 @@
             "result": "PASS10/10 source/generator methods after new category regression first failed1/1. Zero unexplained regenerated differences; public constants/font notices retained. Source-only, no platform runtime/provenance/availability/glyph snapshot gate.",
             "evidence": [
               "docs/development/evidence/sample-data-safety-batch-important-20261029/tools001/review.json"
+            ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+            "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. one actual generated category method passes; SF availability/provenance and glyph/assistive acceptance remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+            "evidence": [
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
             ]
           }
         ],
@@ -20095,12 +20103,12 @@
         "mapping_key": "audit:NAV-013",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "c6a40a6e2710cf08ce03eb642061bf6674fdcdb83a6054a59cfa5013a579b62c",
+      "owner_record_sha256": "32363d58bda48ca69b0d8304d9633332d946aaa7b7bfe0fb88634918a22b5b88",
       "owner_record": {
         "id": "NAV-013",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Bounded encoded bytes and header pixel dimensions before decode; process once per selection into a <=512px PNG used for both preview and export.",
           "Added generation-aware cancellation, background dispatch where available, busy/error state and lazy bounded image previews.",
@@ -20132,6 +20140,14 @@
             "evidence": [
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+            ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+            "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. six actual image bound/Skia codec methods pass; export concurrency/encoder/provider/peak memory and other-platform gates remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+            "evidence": [
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
             ]
           }
         ],
@@ -20184,12 +20200,12 @@
         "mapping_key": "audit:NAV-014",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "62b68d23e51ea7c3548ca75e954f37f5ebe2bac4beb3da48edb200418f4be528",
+      "owner_record_sha256": "f9baf33dbbb6a8689314598b66f67fad6e92e169b12680eab1d3d5207f2fe948",
       "owner_record": {
         "id": "NAV-014",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Source consumer checks cancellation/yields every64KiB, rejects no-progress/overflow and always closes including cancel/error paths.",
           "Corrected universal constant-memory claim for platform source opening; added4 actual sample helper tests with controlled RawSource fixtures.",
@@ -20216,6 +20232,14 @@
             "evidence": [
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+            ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+            "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. eleven common stream/owner/actual composition methods pass; two real large-input methods unexecuted before fixture repair, web/native and original remaining criteria are not inferred. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+            "evidence": [
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
             ]
           }
         ],
@@ -26328,12 +26352,12 @@
         "mapping_key": "audit:NAV-016",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "b54a8d5e6d314447cfa95433318d0395a31202a3a3dbd2765295c9e16212e5a9",
+      "owner_record_sha256": "956a14ab701dc44b5f5120da1815388f308870d0ff90e794e31fc2951fc3ea5d",
       "owner_record": {
         "id": "NAV-016",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency."
         ],
@@ -26354,6 +26378,14 @@
             "evidence": [
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
               "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+            ]
+          },
+          {
+            "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+            "result": "Immutablec14caa1e overall FAILED:19reported/18pass/oneJUnit initializationError,7fresh XML,Gradle1/63.02s,all878library+80sample exact Git held. actual sample desktop main/test compilation passes; complete target/dependency/merged-manifest/minimum gates remain. Real-file methods are ZERO executions because first method returns Throwable; Unit fixture repair pending actual recovery. Completed unchanged18methods are not replayed.",
+            "evidence": [
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
             ]
           }
         ],

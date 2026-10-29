@@ -1,0 +1,179 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1500.75,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-vector-rendering-recovery",
+  "finished_at_utc": "2026-10-29T20:49:06.498301+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "c4248bb9061a63635ebee6edda226283172519dd8748db1ab396b53bf59c8963",
+  "inputs_before_sha256": "c4248bb9061a63635ebee6edda226283172519dd8748db1ab396b53bf59c8963",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "2dcf8795753a7b266530bec1c5ad3b17d430dac4038e1122f3a31b63cb927da9",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r1f8f16716385.t49bb0c1b71e547bda4a81aae0f74ebbf",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 1,
+        "not_applicable": 0,
+        "passed": 0,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/49bb0c1b71e547bda4a81aae0f74ebbf/receipt.json",
+      "receipt_sha256": "c3e060082cef6b37c6c7e429b83879a208a9922b6abb55bb96073dc528028b6a",
+      "required_native_cases_found": 1,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.xml",
+          "sha256": "d16472a579e26c39b7d59bfc81e3f3ea8bf0c9fb243a6c89c4d957a85be341d8",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "01a0a4ac0d29ea90ac005371ba47d7e463f5c64d163f3754857e4cb0a8073be0",
+  "schema_version": 1,
+  "scope": "Only the failed UIImageView original/template method with exact channel diagnostics; the three completed native theme methods and twelve accepted component methods are not replayed. All actual protocol/XML/Worker/runtime/binary/install/owned-cleanup gates remain. No physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+  "source_revision": "1f8f16716385d3d7ffeea58448895fa8dcf0fc6a",
+  "source_revision_after": "1f8f16716385d3d7ffeea58448895fa8dcf0fc6a",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T20:24:05.734383+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

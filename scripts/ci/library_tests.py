@@ -2114,6 +2114,15 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                      all(isinstance(row, dict) and set(row) == {"phase"} for row in observation) and
                      tuple(row["phase"] for row in observation) == app.SLIDER_TAP_STEPS,
                      "Passing slider tap lacks complete actual input/clock/cancellation phases")
+        if cases.get((IOS_VECTOR_THEME_CLASS, IOS_VECTOR_THEME_METHODS[0])) == "passed":
+            observations = protocol.get("vector_scale_observations")
+            need(isinstance(observations, list) and len(observations) == 1,
+                 "Passing vector hierarchy case lacks its actual native screen witness")
+            scale = observations[0]
+            need(isinstance(scale, dict) and set(scale) == {"density", "native_screen", "view", "layer"} and
+                 all(type(v) in (int, float) and v in (2.0, 3.0) for v in scale.values()) and
+                 len(set(scale.values())) == 1,
+                 "Passing vector hierarchy case used an unwitnessed or resampled native screen")
         if cases.get(app.SYSTEM_APPEARANCE_CASE) == "passed":
             import simulator_appearance
             observations = protocol.get("system_appearance_observations")

@@ -96,6 +96,7 @@ PROFILES = {
     "ios-vector-theme-recovery": ("ios-ipad",),
     "ios-vector-rendering-recovery": ("ios-ipad",),
     "ios-vector-rendering-iphone-recovery": ("ios-iphone",),
+    "ios-vector-native-screen-pair": ("ios-ipad",),
     "ios-slider-recovery": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
@@ -213,6 +214,7 @@ MODULE_SUBSETS = {
     "ios-vector-theme-recovery": "calf-ui",
     "ios-vector-rendering-recovery": "calf-ui",
     "ios-vector-rendering-iphone-recovery": "calf-ui",
+    "ios-vector-native-screen-pair": "calf-ui",
     "ios-slider-recovery": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
@@ -322,6 +324,11 @@ def matrix(profile: str) -> dict:
     if profile in ("ios-vector-rendering-recovery", "ios-vector-rendering-iphone-recovery"):
         for row in rows:
             row["test-focus"] = "ios-native-vector-rendering-recovery"
+    if profile == "ios-vector-native-screen-pair":
+        for row in rows:
+            row["test-focus"] = "ios-native-vector-rendering-recovery"
+            row["serial-test-focus"] = "ios-native-vector-rendering-recovery"
+            row["serial-simulator-kind"] = "iphone"
     if profile == "ios-slider-recovery":
         for row in rows:
             row["test-focus"] = "ios-native-slider-pair-structure"

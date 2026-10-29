@@ -344,10 +344,9 @@ class NativeProtocol:
             if (self.active is None or self.completed is not None or
                     self.open_case != (lt.IOS_VECTOR_THEME_CLASS, lt.IOS_VECTOR_THEME_METHODS[0])):
                 raise ValueError("Native vector scale witness outside its exact active testcase")
-            expected = (2.0, 3.0)
             index = len(self.vector_scale_observations)
             density, screen, view, layer = map(float, vector_scale.groups())
-            if index >= len(expected) or density != expected[index] or view != density or layer != density:
+            if index != 0 or screen != density or view != density or layer != density:
                 raise ValueError("Missing, repeated, reordered or mismatched actual native vector scale")
             self.vector_scale_observations.append({"density": density, "native_screen": screen,
                                                    "view": view, "layer": layer})
@@ -574,8 +573,8 @@ class NativeProtocol:
                     if self.open_case == SYSTEM_APPEARANCE_CASE and len(self.system_appearance_observations) != len(SYSTEM_APPEARANCE_STEPS):
                         raise ValueError("A passing system appearance case needs both actual requested/verified transitions")
                     if (self.open_case == (lt.IOS_VECTOR_THEME_CLASS, lt.IOS_VECTOR_THEME_METHODS[0]) and
-                            self.vector_scale_observations and len(self.vector_scale_observations) != 2):
-                        raise ValueError("A passing vector case cannot truncate the observed density matrix")
+                            len(self.vector_scale_observations) != 1):
+                        raise ValueError("A passing vector case needs its exact actual native screen witness")
                     for renderer, key in SLIDER_TAP_CASES.items():
                         if self.open_case == key and len(self.slider_tap_observations.get(renderer, [])) != len(SLIDER_TAP_STEPS):
                             raise ValueError("A passing slider tap case needs its complete actual phase sequence")

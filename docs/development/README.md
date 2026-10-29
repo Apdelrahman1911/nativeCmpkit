@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Shared native-screen pair; prior failure retained — 2026-10-29
+
+[Actual rendering contrast40942044869](evidence/native-vector-theme-batch-important-20261029/phone-native-ci001/README.md)
+fails1/1 with full native lifecycle at requested2x/actual3x; do not invent a
+production converter bug or count unexecuted3x/template assertions. The
+[shared actual-screen candidate](evidence/native-vector-theme-batch-important-20261029/native-screen-pair001/README.md)
+requires both real2x/3x screens, original every-channel/tint/tolerance3 checks,
+independent XML/cleanup and one compilation host. Owning826 synthetic methods
+pass with880 held inputs, ZERO new native executions; #139 remains open and
+accepted theme/component methods are not replayed.76closed/96open/172; all
+single-agent, capacity, publishing and independent release/security gates remain.
+
 ## Immediate verified sample subset closure — 2026-10-29
 
 **[#101/NAV-014 CLOSED/completed](evidence/sample-data-safety-batch-important-20261029/github-closure001/NAV-014-closure-readback.json)**

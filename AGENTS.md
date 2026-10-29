@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared actual-screen rendering recovery — 2026-10-29
+
+[Phone40942044869](docs/development/evidence/native-vector-theme-batch-important-20261029/phone-native-ci001/README.md)
+FAILED1/1 with full native lifecycle/all878 exact Git inputs. Actual3x screen /
+requested2x fails source0/hierarchy13/layer0 atpixel148;3x and2x template did not
+execute. Earlier iPad2x passes/3x failure remains preserved; no converter defect
+or isolated-layer substitution is inferred. [Native-resolution pair](docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair001/README.md)
+requires both real2x/3x screens on one host, identical compilation and independent
+fresh XML/Worker/runtime/binary/install/cleanup. Every original channel/template/
+tolerance3/300s assertion stays; neither density can be skipped in acceptance.
+Owning CI826 synthetic methods pass/all880 held; ZERO local KLIB/link/native tests.
+New candidate still unverified; #139 stays open, #143 remains closed.76closed/
+96open/172;36implemented/47partial/74verified/seven unresolved. Single-agent/max2
+combined heavy requests/8GiB reserve; publishing/Pages/main/history and all
+independent release/security gates stay unchanged.
+
 ## Shared sample stream subset verified and closed — 2026-10-29
 
 **#101/NAV-014 CLOSED immediately after its four original criteria reviews**,

@@ -30,6 +30,8 @@ class IosVectorThemeFocusTests(unittest.TestCase):
                    for method in r.IOS_VECTOR_THEME_METHODS]
         f.document["explicit_test_focus"] = r.IOS_VECTOR_THEME_FOCUS
         f.document["application_protocol"].update(testcases=copy.deepcopy(f.cases), counts=r.case_counts(f.cases))
+        f.document["application_protocol"]["vector_scale_observations"] = [
+            {"density": 2.0, "native_screen": 2.0, "view": 2.0, "layer": 2.0}]
         f.document["application_protocol"].pop("image_lifetime_observation", None)
         f.modules[0]["testcases"] = f.xml_cases(f.cases)
         f.save()
@@ -102,6 +104,11 @@ class IosVectorThemeFocusTests(unittest.TestCase):
         self.assertEqual([], f.collect()["errors"])
         original = copy.deepcopy(f.document)
         for transform in (
+            lambda d: d["application_protocol"].pop("vector_scale_observations"),
+            lambda d: d["application_protocol"]["vector_scale_observations"].append(
+                d["application_protocol"]["vector_scale_observations"][0]),
+            lambda d: d["application_protocol"]["vector_scale_observations"][0].update(native_screen=3.0),
+            lambda d: d["application_protocol"]["vector_scale_observations"][0].update(density=True),
             lambda d: d.pop("system_appearance_driver"),
             lambda d: d["system_appearance_driver"].update(restored=False),
             lambda d: d["system_appearance_driver"]["steps"].pop(),

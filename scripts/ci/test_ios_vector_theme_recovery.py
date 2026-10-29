@@ -19,20 +19,21 @@ class IosVectorThemeRecoveryTests(unittest.TestCase):
             p.feed(f"##teamcity[testStarted name='{tests.IOS_VECTOR_THEME_METHODS[0]}']")
             return p
         prefix = "NATIVECMPKIT_VECTOR_SCALE "
-        two = prefix + "density=2.0 nativeScreen=3.0 view=2.0 layer=2.0"
+        two = prefix + "density=2.0 nativeScreen=2.0 view=2.0 layer=2.0"
         three = prefix + "density=3.0 nativeScreen=3.0 view=3.0 layer=3.0"
-        p = protocol(); p.feed(two); p.feed(three)
-        partial = p.partial()
-        self.assertEqual([{"density": 2.0, "native_screen": 3.0, "view": 2.0, "layer": 2.0},
-                          {"density": 3.0, "native_screen": 3.0, "view": 3.0, "layer": 3.0}],
-                         partial["vector_scale_observations"])
-        self.assertEqual(0, partial["counts"]["passed"])
-        self.assertIsNone(partial["completion"])
-        with self.assertRaises(ValueError): p.finish(0)
-        for bad in (three, two.replace("nativeScreen=3.0", "nativeScreen=99.0"),
+        for line, density in ((two, 2.0), (three, 3.0)):
+            p = protocol(); p.feed(line); partial = p.partial()
+            self.assertEqual([{"density": density, "native_screen": density, "view": density, "layer": density}],
+                             partial["vector_scale_observations"])
+            self.assertEqual(0, partial["counts"]["passed"])
+            self.assertIsNone(partial["completion"])
+            with self.assertRaises(ValueError): p.finish(0)
+        for bad in (two.replace("nativeScreen=2.0", "nativeScreen=3.0"),
+                    two.replace("nativeScreen=2.0", "nativeScreen=99.0"),
                     two.replace("view=2.0", "view=3.0"), two.replace("layer=2.0", "layer=3.0"),
                     two.replace("density=2.0", "density=nan")):
             with self.subTest(line=bad), self.assertRaises(ValueError): protocol().feed(bad)
+        p = protocol(); p.feed(two)
         with self.assertRaises(ValueError): p.feed(three)
         with self.assertRaises(ValueError): app.NativeProtocol().feed(two)
 
@@ -121,6 +122,9 @@ class IosVectorThemeRecoveryTests(unittest.TestCase):
                 cases = [{"classname": tests.IOS_VECTOR_THEME_CLASS, "name": method, "status": "passed"}]
                 fixture.document["explicit_test_focus"] = focus
                 fixture.document["application_protocol"].update(testcases=cases, counts=tests.case_counts(cases))
+                if focus == tests.IOS_VECTOR_RENDERING_FOCUS:
+                    fixture.document["application_protocol"]["vector_scale_observations"] = [
+                        {"density": 2.0, "native_screen": 2.0, "view": 2.0, "layer": 2.0}]
                 fixture.modules[0]["testcases"] = fixture.xml_cases(cases)
                 fixture.save()
                 self.assertEqual([], fixture.collect()["errors"])

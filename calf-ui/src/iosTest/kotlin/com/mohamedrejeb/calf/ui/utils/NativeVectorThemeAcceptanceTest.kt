@@ -57,7 +57,14 @@ class NativeVectorThemeAcceptanceTest {
                 fill = SolidColor(Color.Blue), fillAlpha = .5f)
         }.build()
         val tint = Color(0xFF3399CC)
-        for (density in listOf(2f, 3f)) {
+        // drawViewHierarchy captures the actual screen compositor. Comparing
+        // its resampled edge pixels with an unresampled source is not an exact
+        // native-resolution comparison. The shared CI profile MUST execute this
+        // method on both actual 2x and 3x screens before accepting the density
+        // matrix; neither density, edges, tint assertions nor tolerance is waived.
+        val nativeDensity = runOnIdle { requireOwnedApplicationWindow().screen.scale.toFloat() }
+        assertTrue(nativeDensity in listOf(2f, 3f), "required 2x or 3x actual native screen")
+        for (density in listOf(nativeDensity)) {
             lateinit var view: UIImageView
             lateinit var raster: UIImage
             runOnIdle {
@@ -68,11 +75,8 @@ class NativeVectorThemeAcceptanceTest {
                     image = raster.imageWithRenderingMode(UIImageRenderingMode.UIImageRenderingModeAlwaysOriginal)
                 }
                 parent.view.addSubview(view)
-                // This fixture requests both 2x and 3x snapshots on the same
-                // host. Attachment otherwise supplies the window's backing
-                // scale, which need not equal the requested raster/capture
-                // scale. Bind the actual view after attachment, not a filter,
-                // pixel tolerance change or isolated-layer fallback.
+                // Match the attached view, source and capture to the witnessed
+                // physical screen; no filter or isolated-layer fallback.
                 view.setContentScaleFactor(density.toDouble())
             }
             try {
@@ -81,6 +85,7 @@ class NativeVectorThemeAcceptanceTest {
                     assertEquals(density.toDouble(), view.contentScaleFactor, "actual attached image-view density")
                     assertEquals(density.toDouble(), view.layer.contentsScale, "actual native layer backing density")
                     val nativeScreenScale = assertNotNull(view.window).screen.scale
+                    assertEquals(density.toDouble(), nativeScreenScale, "native-resolution hierarchy capture")
                     println("NATIVECMPKIT_VECTOR_SCALE density=$density nativeScreen=$nativeScreenScale " +
                         "view=${view.contentScaleFactor} layer=${view.layer.contentsScale}")
                     val original = snapshot(view, density).rgba()

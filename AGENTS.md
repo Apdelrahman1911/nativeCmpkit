@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related native batches; independent recovery — 2026-10-29
+
+[Rendering/theme40903805198](docs/development/evidence/native-vector-theme-batch-important-20261029/native-ci003/README.md)
+FAILED: five fresh cases/three pass, original raster mismatch and interrupted
+appearance. Transport26.75s/exit0/missing Worker, **not timeout**; all873 Git-bound
+inputs/owned cleanup/driver restoration, no runtime/binary-after certificate.
+#139/#143 stay open. [One-host serial recovery](docs/development/evidence/native-vector-theme-batch-important-20261029/serial-recovery001/README.md)
+prepares only those two methods; preserves each original XML/result, verifies
+owned cleanup before independent launch, reuses compilation not old reports.
+Original tooling123/115/8error is preserved; owning rerun124/124/all876 held,
+ZERO local KLIB/link/native tests. Three accepted theme/twelve component methods
+are reused explicitly, not replayed. Slider40903843895/40914167465 remain pending;
+batch-close only original-criteria verified subset immediately.72closed/100open;
+single-agent/max2heavy hosted jobs/below8GiB no local heavy build. Publication,
+Pages/main/history and independent release/security gates remain unchanged.
+
 ## Shared native fixture compiler recovery — 2026-10-29
 
 Runs [40897045067](docs/development/evidence/native-vector-theme-batch-important-20261029/native-ci002/README.md)

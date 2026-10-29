@@ -93,6 +93,7 @@ PROFILES = {
     "ios-slider-tap": ("ios-iphone",),
     "ios-slider-pair-structure": ("ios-iphone",),
     "ios-vector-theme": ("ios-ipad",),
+    "ios-vector-theme-recovery": ("ios-ipad",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -206,6 +207,7 @@ MODULE_SUBSETS = {
     "ios-slider-tap": "calf-ui",
     "ios-slider-pair-structure": "calf-ui",
     "ios-vector-theme": "calf-ui",
+    "ios-vector-theme-recovery": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
@@ -307,6 +309,10 @@ def matrix(profile: str) -> dict:
     if profile == "ios-vector-theme":
         for row in rows:
             row["test-focus"] = "ios-native-vector-theme-ownership"
+    if profile == "ios-vector-theme-recovery":
+        for row in rows:
+            row["test-focus"] = "ios-native-vector-rendering-recovery"
+            row["serial-test-focus"] = "ios-native-system-appearance-recovery"
     if profile in {"ios-slider-tap", "ios-slider-pair-structure"}:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-tap-cancellation" if profile == "ios-slider-tap" else
@@ -337,7 +343,13 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
     """
     root = (root or Path(__file__).resolve().parents[2]).resolve()
     verified = []
-    for row in matrix(profile)["include"]:
+    rows = matrix(profile)["include"]
+    # One host, two independent applications. Validate both real CLIs before
+    # requesting that host; the second must not be hidden by a first failure.
+    selections = [selection for row in rows for selection in
+                  ([row, {**row, "test-focus": row["serial-test-focus"]}]
+                   if row.get("serial-test-focus") else [row])]
+    for row in selections:
         command = [sys.executable, "-B", str(root / "scripts/ci/library_tests.py"), "plan",
                    "--suite", row["suite"]]
         modules = row.get("test-modules", "").split(",") if row.get("test-modules") else []

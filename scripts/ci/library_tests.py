@@ -569,6 +569,19 @@ UI_APPLICATION_FOCUS_SPECS[IOS_VECTOR_THEME_FOCUS] = {
                 "methods": IOS_VECTOR_THEME_METHODS},),
     "scope": "Five new actual UIImageView template/original raster, attached sibling, Compose/native sheet/popover and real restoring CoreSimulator system-appearance methods. Unchanged accepted vector/UIImage/GC/theme/host suites are explicitly reused, not replayed. iPad slot exercises a real popover; an iPhone adaptation is not iPad evidence. No physical Settings/VoiceOver/ASan/Instruments/minimum-platform/ABI/consumer/security/release certification.",
 }
+IOS_VECTOR_RENDERING_FOCUS = "ios-native-vector-rendering-recovery"
+IOS_SYSTEM_APPEARANCE_FOCUS = "ios-native-system-appearance-recovery"
+for _focus, _methods, _scope in (
+    (IOS_VECTOR_RENDERING_FOCUS, IOS_VECTOR_THEME_METHODS[:1],
+     "Only the failed UIImageView original/template method with exact channel diagnostics; the three completed native theme methods and twelve accepted component methods are not replayed."),
+    (IOS_SYSTEM_APPEARANCE_FOCUS, IOS_VECTOR_THEME_METHODS[-1:],
+     "Only the interrupted actual system-appearance method, in a separately installed application so a pixel assertion cannot hide its result. Three completed native theme methods are explicitly reused, not replayed."),
+):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_VECTOR_THEME_CLASS, "source": IOS_VECTOR_THEME_SOURCE,
+                    "methods": _methods, "declared_methods": IOS_VECTOR_THEME_METHODS},),
+        "scope": _scope + " All actual protocol/XML/Worker/runtime/binary/install/owned-cleanup gates remain. No physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+    }
 # Full applications must retain the new real system-appearance acceptance case.
 IOS_APPLICATION_SOURCES += (IOS_VECTOR_THEME_SOURCE,)
 IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES

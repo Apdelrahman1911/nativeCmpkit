@@ -74,14 +74,21 @@ class NativeVectorThemeAcceptanceTest {
                     assertTrue(sameNativeObject(view.window, parent.view.window))
                     val original = snapshot(view, density).rgba()
                     val source = raster.rgba()
+                    // Failure diagnostics distinguish the actual scene capture
+                    // from this same native image view's isolated layer. Neither
+                    // diagnostic replaces or relaxes the hierarchy assertion.
+                    val isolated = layerSnapshot(view, density).rgba()
                     assertEquals(source.size, original.size)
+                    assertEquals(source.size, isolated.size)
                     // UIKit may round premultiplied sRGB channels during drawing.
                     // Inspect every channel with the same narrow tolerance used
                     // by the native-vs-Compose painter comparison; never skip edges.
                     source.indices.forEach { channel ->
                         assertTrue(abs((source[channel].toInt() and 255) -
                             (original[channel].toInt() and 255)) <= 3,
-                            "AlwaysOriginal raster mismatch at pixel ${channel / 4}, channel ${channel % 4}")
+                            "AlwaysOriginal raster mismatch at density $density, pixel ${channel / 4}, " +
+                                "channel ${channel % 4}: source=${source[channel].toInt() and 255}, " +
+                                "hierarchy=${original[channel].toInt() and 255}, layer=${isolated[channel].toInt() and 255}")
                     }
                     val width = (24 * density).toInt()
                     val red = ((8 * density).toInt() * width + (6 * density).toInt()) * 4
@@ -104,7 +111,8 @@ class NativeVectorThemeAcceptanceTest {
                             (tint.blue * alpha).roundToInt(), alpha)
                         expected.indices.forEach { channel ->
                             assertTrue(abs(expected[channel] - (actual[offset + channel].toInt() and 255)) <= 3,
-                                "Actual UIImageView template mismatch at pixel ${offset / 4}, channel $channel")
+                                "Actual UIImageView template mismatch at density $density, pixel ${offset / 4}, " +
+                                    "channel $channel: expected=${expected[channel]}, actual=${actual[offset + channel].toInt() and 255}")
                         }
                     }
                     assertTrue(coloredPixels > (24 * 16 * density * density / 4).toInt())
@@ -313,6 +321,14 @@ class NativeVectorThemeAcceptanceTest {
             view.layoutIfNeeded()
             // Actual UIKit drawing; do not wait synchronously for another main-loop update.
             assertTrue(view.drawViewHierarchyInRect(view.bounds, afterScreenUpdates = false))
+            return assertNotNull(UIGraphicsGetImageFromCurrentImageContext())
+        } finally { UIGraphicsEndImageContext() }
+    }
+
+    private fun layerSnapshot(view: UIImageView, density: Float): UIImage {
+        UIGraphicsBeginImageContextWithOptions(CGSizeMake(24.0, 16.0), false, density.toDouble())
+        try {
+            view.layer.renderInContext(assertNotNull(UIGraphicsGetCurrentContext()))
             return assertNotNull(UIGraphicsGetImageFromCurrentImageContext())
         } finally { UIGraphicsEndImageContext() }
     }

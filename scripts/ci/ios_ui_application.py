@@ -58,6 +58,7 @@ def application_timeout_seconds(focus: str | None) -> int:
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
         lt.IOS_VECTOR_THEME_FOCUS,
+        lt.IOS_VECTOR_RENDERING_FOCUS, lt.IOS_SYSTEM_APPEARANCE_FOCUS,
         lt.IOS_SLIDER_TAP_FOCUS, lt.IOS_SLIDER_PAIR_STRUCTURE_FOCUS,
     ) else APP_TIMEOUT_SECONDS)
 
@@ -792,7 +793,8 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
-        if host["module"] == "calf-ui" and focus in (None, lt.IOS_VECTOR_THEME_FOCUS):
+        if host["module"] == "calf-ui" and focus in (
+                None, lt.IOS_VECTOR_THEME_FOCUS, lt.IOS_SYSTEM_APPEARANCE_FOCUS):
             phase = "prepare-owned-simulator-system-appearance"
             appearance_driver = simulator_appearance.AppearanceDriver(device, execute_control)
             appearance_driver.start()

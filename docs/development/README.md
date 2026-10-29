@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Faster related batches with isolated failures — 2026-10-29
+
+[Actual rendering/theme run](evidence/native-vector-theme-batch-important-20261029/native-ci003/README.md)
+is FAILED: three completed theme methods, one pixel assertion and one interrupted
+appearance method, not an application timeout. [One-host independent recovery](evidence/native-vector-theme-batch-important-20261029/serial-recovery001/README.md)
+selects only the two unfinished methods, keeps exact separate XML/results and
+mandatory owned cleanup, and reuses unchanged compilation rather than accepted
+test execution. Owning synthetic checks124/124/all876 held; original eight errors
+are retained. Zero local native executions; #139/#143 stay open. Both slider
+profiles remain in progress for shared #34/#137 criteria review and immediate
+verified-subset batch closure.72closed/100open; single-agent, all publication and
+independent security/native/consumer gates unchanged.
+
 ## Shared native fixture compiler recovery — 2026-10-29
 
 [Both focused runs](evidence/native-vector-theme-batch-important-20261029/native-ci002/README.md)

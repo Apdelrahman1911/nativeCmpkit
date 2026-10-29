@@ -1,0 +1,230 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=7EFEE255-C426-436B-A27B-3EC09FA8C9C0",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui",
+      "path": "build/ci-verification/ios-ipad/native-ui-application/f3869e54b2ed4ef7b1fd466724e268fd/receipt.json"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1635.44,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-vector-theme-ownership",
+  "finished_at_utc": "2026-10-29T16:39:11.322516+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "bd86deb5ddcb061436107cc0b3443aa4e8b9b018135e5a77d51628e0f0ca85c2",
+  "inputs_before_sha256": "bd86deb5ddcb061436107cc0b3443aa4e8b9b018135e5a77d51628e0f0ca85c2",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 2,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 2,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.xml",
+          "sha256": "47b23f6bb911595d70c4c9ea374befd3ead69dcc7e5ea78031f29567c26cc00e",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+      "name": "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "7eb101ea7cf3091b075f2035f34dfaa1e6baa4d8034387fc80e597fc8fe76961",
+  "schema_version": 1,
+  "scope": "Five new actual UIImageView template/original raster, attached sibling, Compose/native sheet/popover and real restoring CoreSimulator system-appearance methods. Unchanged accepted vector/UIImage/GC/theme/host suites are explicitly reused, not replayed. iPad slot exercises a real popover; an iPhone adaptation is not iPad evidence. No physical Settings/VoiceOver/ASan/Instruments/minimum-platform/ABI/consumer/security/release certification.",
+  "source_revision": "3ce6f853ba25461058ba6a33fbed401362d0a72f",
+  "source_revision_after": "3ce6f853ba25461058ba6a33fbed401362d0a72f",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T16:11:55.878257+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

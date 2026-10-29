@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `3bc9e5ce0beb5662015b16fb2fc0b0ba510dbd35a91f8b4a01ad67e0e5417ff4`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `26b7f876bd5418c17164e0131ee9a2984869ae6d7c63cbf1440c5143b2fe5c1c`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 47 |
-| partially-verified | 51 |
-| verified | 59 |
+| partially-verified | 49 |
+| verified | 61 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -54,7 +54,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 11 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | verified | — | 5 / 0 |
-| 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | partially-verified | — | 6 / 3 |
+| 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | verified | — | 6 / 0 |
 | 10 | [IO-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/7) | High | 1 | M | verified | — | 6 / 0 |
 | 11 | [NATIVE-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/9) | High | 1 | S | verified | — | 2 / 0 |
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
@@ -116,7 +116,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 11 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
-| 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | partially-verified | IO-006 | 5 / 3 |
+| 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | verified | IO-006 | 5 / 0 |
 | 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | implemented | IO-015 | 4 / 5 |
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | implemented | — | 3 / 5 |
@@ -378,7 +378,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 9. IO-003 — Desktop composition disposal races raw JNI handles; cancelled creation can leak handles
 
-**High · partially-verified · original effort L** — [nativeCmpkit #6](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**High · verified · original effort L** — [nativeCmpkit #6](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** none.
 
@@ -393,9 +393,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Owning coroutine/JNI creation/use boundary7/7 accepted on immutable97effbd7/Linux; real Compose disposal-before-JNI/settings changes/immediate launch remain pending.
-- ASan/Valgrind dispose-during-build/show, real Compose disposal/settings changes, immediate launch and closed-window UI checks.
-- IO-023 native parent lifetime/thread affinity is separate and remains unresolved.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Public launch/JNI descriptors retained; opaque Long IDs must not be treated as native addresses. Disposal suppresses result delivery but cannot promise immediate cancellation of a blocking OS dialog.
 
@@ -1534,7 +1532,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · implemented · original effort S** — [nativeCmpkit #53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (partially-verified; original order 9).
+**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (verified; original order 9).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1661,7 +1659,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · unresolved · original effort L** — [nativeCmpkit #58](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (partially-verified; original order 9), [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) (implemented; original order 65).
+**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (verified; original order 9), [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) (implemented; original order 65).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1685,7 +1683,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 71. IO-024 — JNI path conversion silently replaces non-Unicode filenames
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #59](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort M** — [nativeCmpkit #59](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) (verified; original order 56).
 
@@ -1699,9 +1697,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Create real invalid-byte filename and distinct replacement-character peer on Unix, then select file/directory/save paths through JNI.
-- Verify local-reference cleanup/error propagation in actual JNI result conversion failure.
-- Normal Unicode input/registry smoke tests are not selected-path return conversion coverage.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Normal Unicode remains supported. Arbitrary invalid UTF-8 Unix filenames now error instead of returning a potentially different path; supporting opaque native path bytes needs a new representation.
 
@@ -3619,7 +3615,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `81726a81685705cb8a7654d071d4226b5efc1bbf7b412a5653d988952ffa1509` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `88630c75233ae9c1ab1d3c6473d635d028025ff83740345b5e5d42a7e26280eb` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

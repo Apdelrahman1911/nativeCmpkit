@@ -1,0 +1,38 @@
+{
+  "checks": {
+    "exact_one_real_method": true,
+    "exit0": true,
+    "genuine_checked_JDK17": true,
+    "held_inputs": true,
+    "no_jni_checker_errors": true,
+    "one_compiler_executable": true,
+    "revision_held": true
+  },
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "calf-file-picker/native/Cargo.toml",
+    "--locked",
+    "--jobs",
+    "1",
+    "--message-format=json",
+    "jni_path_tests::repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_the_expected_error",
+    "--",
+    "--exact",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "execution": {
+    "elapsed_seconds": 2.0,
+    "exit_code": 0
+  },
+  "failures": 0,
+  "native_test_executable_sha256": "4cd4d2bd534b21377a28b51d4ec1bb009fd7b8e3dd467c75d7d976c5fd6f1363",
+  "passed": true,
+  "scope": "Only the changed shared128-iteration weak-array cleanup helper executes with an actual Linux invalid-byte file and valid real prefix. Other four unchanged accepted Linux methods/Compose/other hosts are not replayed; macOS source is not typechecked/executed on Linux. Not release evidence.",
+  "selected_inputs": 838,
+  "source_revision": "95ac633a7fe843dd61772116db5faddefb0447dc",
+  "source_tree_dirty": true,
+  "tests": 1
+}

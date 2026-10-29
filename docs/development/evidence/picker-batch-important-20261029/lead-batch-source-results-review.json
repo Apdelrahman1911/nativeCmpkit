@@ -1,0 +1,67 @@
+{
+  "reviewed_at_utc": "2026-10-29T04:41:28.185313+00:00",
+  "source_revision": "95ac633a7fe843dd61772116db5faddefb0447dc",
+  "direct_batch_closures": [
+    {
+      "id": "IO-003",
+      "issue": 6
+    },
+    {
+      "id": "IO-024",
+      "issue": 59
+    }
+  ],
+  "all_original_acceptance_criteria_reviewed_before_close": true,
+  "accepted_compose_target_executions": 12,
+  "authored_compose_methods": 6,
+  "accepted_jni_path_target_executions": 7,
+  "authored_jni_path_methods": 5,
+  "current_linux": {
+    "run": 40817067140,
+    "compose_passed": 6,
+    "jni_passed": 5,
+    "compose_exit": 0,
+    "jni_exit": 0,
+    "held_inputs": 838
+  },
+  "windows_reuse": {
+    "run": 40815285475,
+    "compose_passed": 3,
+    "jni_passed": 1,
+    "portal_explicit_not_applicable": 3,
+    "held_inputs": 838
+  },
+  "macos_current": {
+    "run": 40817067140,
+    "compose_passed": 3,
+    "portal_explicit_not_applicable": 3,
+    "jni_passed": 1,
+    "jni_failed": 4,
+    "jni_exit": 101,
+    "held_inputs": 838
+  },
+  "macos_failure_root": "All four failures are in real invalid-name file/directory setup, before JNI, with OS EILSEQ92 at original fixture lines65/67; every Unix filesystem accepting invalid bytes was an incorrect fixture assumption. Ordinary Unicode/supplementary JNI method passed. New explicit filesystem-domain/controlled JNI verification remains required.",
+  "first_matrix_failed": true,
+  "failed_host_recovery_workflow_failed": true,
+  "stable_ci_or_release_gate_passed": false,
+  "local_failures_retained": {
+    "compose001": "6/6 failed absent Skiko renderer",
+    "compose003": "4/6 passed, two dialog-driver/cleanup failures; exit1"
+  },
+  "current_local_compose": "Immutableb8e13521,6/6,exit0/37.01s/838held inputs; later corrected driver requires PID AND exact title with real wrong-title negative control",
+  "reused_unchanged_native_ownership": "See reuse-owning-input-review.json and original Valgrind/coroutine receipts; prior outcomes not counted fresh;48possible/544reachable std/libtest residue remains",
+  "renderer_checker_warning": "Actual GUI startup emitted an external org.jetbrains.skiko.AWTKt.getAWT checked-JNI warning and software-renderer fallback. No claim of whole GUI/JNI warning cleanliness; standalone Linux converter checked-JNI passes cleanly.",
+  "open_independent_issues": [
+    "IO-023/#58",
+    "IO-017/#53",
+    "IO-018/#54"
+  ],
+  "limitations": [
+    "Native parent acquisition/AppKit main-thread/window lifetime not verified by Java parent snapshots or parent0 GTK dialogs",
+    "Three Linux portal scenarios are exact source-bound N/A elsewhere, not Windows/AppKit OS chooser tests",
+    "No packages/releases/deployment/Pages or broader device/minimum/ABI/consumer/dependency/provenance/legal/security certification"
+  ],
+  "publication": false,
+  "single_agent": true,
+  "archive_policy": "Explicit public JSON/actual XML and public GitHub receipts only. Console/failure-stack bodies removed with source hashes; no raw Cargo/portal/job logs, binary payloads, ZIPs, credentials, private machine files or environment dumps."
+}

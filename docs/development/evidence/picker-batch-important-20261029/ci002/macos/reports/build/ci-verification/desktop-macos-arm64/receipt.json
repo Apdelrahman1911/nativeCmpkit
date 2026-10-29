@@ -1,0 +1,240 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 314.72,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-native-lifetime",
+  "finished_at_utc": "2026-10-29T04:27:30.894221+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "d947ca40c6d55efd2bfe3d02686f074092362fc6dc649bd05a682d0777c79b6a",
+  "inputs_before_sha256": "d947ca40c6d55efd2bfe3d02686f074092362fc6dc649bd05a682d0777c79b6a",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "required-executed",
+          "host": "macos",
+          "method": "composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "required-executed",
+          "host": "macos",
+          "method": "composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "required-executed",
+          "host": "macos",
+          "method": "retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "host": "macos",
+          "method": "firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog",
+          "required_on_host": false,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "host": "macos",
+          "method": "closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership",
+          "required_on_host": false,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "host": "macos",
+          "method": "closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid",
+          "required_on_host": false,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+          "task": "desktopTest"
+        }
+      ],
+      "not_applicable": 3,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 3,
+          "passed": 3,
+          "path": "calf-file-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest.xml",
+          "sha256": "c6060322aa3f3b01925c48aab49b32e56dc75f536b56420d3936e00119e7c3b1",
+          "skipped": 3,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 3,
+      "task": ":calf-file-picker:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "name": "closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid[desktop]",
+          "not_applicable_reason": "Linux private GTK/FileChooser portal scenario, not a Windows/AppKit UI test",
+          "status": "skipped"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "name": "firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog[desktop]",
+          "not_applicable_reason": "Linux private GTK/FileChooser portal scenario, not a Windows/AppKit UI test",
+          "status": "skipped"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "disposition": "not-applicable",
+          "name": "closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership[desktop]",
+          "not_applicable_reason": "Linux private GTK/FileChooser portal scenario, not a Windows/AppKit UI test",
+          "status": "skipped"
+        }
+      ],
+      "tests": 6,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "name": "closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "4ee9e77c9e440a1ac894a3c263e67d2f535d9425d3c67e12e446c7ac8dc920a7",
+  "schema_version": 1,
+  "scope": "Six exact related Compose/JNI ownership/cancellation/settings methods; three actual private GTK dialogs only on Linux, explicitly N/A elsewhere; raw-parent/Wayland/AppKit/Windows-dialog acquisition remains independent IO-023",
+  "source_revision": "95ac633a7fe843dd61772116db5faddefb0447dc",
+  "source_revision_after": "95ac633a7fe843dd61772116db5faddefb0447dc",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T04:22:16.014088+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-file-picker:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 3,
+    "passed": 3,
+    "skipped": 3,
+    "tests": 6,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

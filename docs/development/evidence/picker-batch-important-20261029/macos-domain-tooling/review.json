@@ -1,0 +1,33 @@
+{
+  "overall_initial_12_methods": {
+    "executed": 12,
+    "passed": 12,
+    "native_executions": 0
+  },
+  "expanded_13_methods": {
+    "executed": 13,
+    "passed": 12,
+    "failed": 1,
+    "overall_passed": false,
+    "root_cause": "Synthetic workflow guard incorrectly matched write inside overwrite-settings:false, not a permission grant"
+  },
+  "failure_only_recovery": {
+    "executed": 1,
+    "passed": 1,
+    "unchanged_twelve_successes_reused": true
+  },
+  "actionlint": {
+    "exit_code": 0,
+    "workflows": [
+      ".github/workflows/build-native-libs.yml",
+      ".github/workflows/gradle.yml"
+    ]
+  },
+  "scope": "Offline finite JNI/CI receipt checks only; no actual macOS native execution or release gate",
+  "current_owned_source_sha256": {
+    "scripts/ci/picker_jni_paths.py": "3dbc3ee1696b8113eaa090d76179ae3fda60fc88a4a20d0bb65c9bafe97cd7ad",
+    "scripts/ci/test_picker_jni_paths.py": "84ee75c9c7fd80b6091a200ccb9407d29740677f0ba6388be47596ae4ded7cde",
+    "calf-file-picker/native/src/jni_path_tests.rs": "daaf625f49bb72f5b94ed9b910c6d2ba4a7e0f768c74195a55ff5c4c7e599f51",
+    ".github/workflows/build-native-libs.yml": "95812e25d100372dd2fd082acc935d02f207414982bbf73d0a4377e92d3e8728"
+  }
+}

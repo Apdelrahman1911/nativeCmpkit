@@ -384,13 +384,14 @@
   },
   {
     "id": "IO-003",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Create/show/destroy in one worker ownership scope via withDialogHandle; no cancellable handle-return handoff or composition destructor can free an in-flight config.",
       "Rust registry IDs lease Arc configs, reject stale IDs and close idempotently; config destructors run outside the registry mutex.",
       "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog.",
       "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change.",
-      "2026-10-28: Add withActiveDialogHandle cancellation guards before allocation, after synchronous JNI creation inside claimed-handle try/finally and after use. Both actual desktop pick/save paths use it; cancellation racing after the guard still cannot be promised to interrupt a synchronous native modal."
+      "2026-10-28: Add withActiveDialogHandle cancellation guards before allocation, after synchronous JNI creation inside claimed-handle try/finally and after use. Both actual desktop pick/save paths use it; cancellation racing after the guard still cannot be promised to interrupt a synchronous native modal.",
+      "2026-10-29 related batch: real Compose scope/native ownership tests and three actual private GTK dialogs verify disposal before JNI/inside creation, serialized launch, fresh settings/callbacks, immediate first launch and visible-dialog window/registry close. Per-instance internal boundary preserves public factory and native/JNI identities; worker completion is awaited after disposal."
     ],
     "affected_paths": [
       "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt",
@@ -457,13 +458,22 @@
           "docs/development/evidence/picker-cancellation-important-20261028/gradle003/actual-gradle.log.result.json",
           "docs/development/evidence/picker-cancellation-important-20261028/issue-progress-review.json"
         ]
+      },
+      {
+        "checkpoint": "picker-batch-important-20261029",
+        "command": "Related hosted picker-batch40815285475/04662845 and failed-host recovery40817067140/95ac633a: scripts/ci/picker_jni_paths.py plus focused scripts/ci/library_tests.py desktop NativePickerComposeLifetimeTest. Reuse exact unchanged Valgrind53e56c7e and cancellation97effbd7 ownership evidence; no successful-host replay.",
+        "result": "All original IO-003 criteria reviewed/accepted before direct grouped GitHub#6 completed closure; original body/title/labels/history preserved. Linux current Compose6/6,0/244.07s and JNI5/5,0/30.01s; Windows reused Compose3/3,0/296.61s and JNI1/1,0/36.06s; macOS Compose3/3,0/314.72s and ordinary Unicode JNI1pass within failed target4fail/101/79.73s.838own-Git inputs held per target/JDK17.12accepted Compose target executions of6authored methods and7accepted JNI path target executions of5authored methods; three Linux-only scenarios N/A on each other host, not passes. First matrix and recovery workflows remain FAILED due the preserved fixture failures; no full CI/stable/release pass.",
+        "evidence": [
+          "docs/development/evidence/picker-batch-important-20261029/README.md",
+          "docs/development/evidence/picker-batch-important-20261029/lead-batch-source-results-review.json",
+          "docs/development/evidence/picker-batch-important-20261029/reuse-owning-input-review.json",
+          "docs/development/evidence/picker-batch-important-20261029/closure/IO-003-acceptance.json",
+          "docs/development/evidence/picker-batch-important-20261029/closure/IO-003-verified-readback.json"
+        ],
+        "scope": "Original owning issue criteria only. Native-parent IO-023, multi-platform settings/limits IO-017/018, genuine Apple/Windows chooser UI, hardware/minimum-platform, whole ABI/consumer/dependency/provenance/legal/security/release gates remain independent and open."
       }
     ],
-    "remaining": [
-      "Owning coroutine/JNI creation/use boundary7/7 accepted on immutable97effbd7/Linux; real Compose disposal-before-JNI/settings changes/immediate launch remain pending.",
-      "ASan/Valgrind dispose-during-build/show, real Compose disposal/settings changes, immediate launch and closed-window UI checks.",
-      "IO-023 native parent lifetime/thread affinity is separate and remains unresolved."
-    ],
+    "remaining": [],
     "compatibility": "Public launch/JNI descriptors retained; opaque Long IDs must not be treated as native addresses. Disposal suppresses result delivery but cannot promise immediate cancellation of a blocking OS dialog."
   },
   {
@@ -2890,10 +2900,11 @@
   },
   {
     "id": "IO-024",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Reject paths not representable as a Java Unicode string with IOException, instead of lossy replacement-character conversion in picker/directory/save result helpers.",
-      "Preserve an already pending JNI exception rather than overwrite the path-conversion error."
+      "Preserve an already pending JNI exception rather than overwrite the path-conversion error.",
+      "2026-10-29 related batch: actual JDK17 checked JNI converter uses real Linux invalid-byte files/directories, distinct replacement peers, save failures and128 weak-array cleanup probes; real normal Unicode/emoji bytes pass Linux/macOS/Windows. macOS invalid-file fixture EILSEQ92 failures are retained, not converted to passing native selected files."
     ],
     "affected_paths": [
       "calf-file-picker/native/src/path_encoding.rs",
@@ -2918,13 +2929,22 @@
           "docs/development/evidence/io/cargo-clippy-locked.log.result.json",
           "docs/development/evidence/io/cargo-fmt-check.log.result.json"
         ]
+      },
+      {
+        "checkpoint": "picker-batch-important-20261029",
+        "command": "Related hosted picker-batch40815285475/04662845 and failed-host recovery40817067140/95ac633a: scripts/ci/picker_jni_paths.py plus focused scripts/ci/library_tests.py desktop NativePickerComposeLifetimeTest. Reuse exact unchanged Valgrind53e56c7e and cancellation97effbd7 ownership evidence; no successful-host replay.",
+        "result": "All original IO-024 criteria reviewed/accepted before direct grouped GitHub#59 completed closure; original body/title/labels/history preserved. Linux current Compose6/6,0/244.07s and JNI5/5,0/30.01s; Windows reused Compose3/3,0/296.61s and JNI1/1,0/36.06s; macOS Compose3/3,0/314.72s and ordinary Unicode JNI1pass within failed target4fail/101/79.73s.838own-Git inputs held per target/JDK17.12accepted Compose target executions of6authored methods and7accepted JNI path target executions of5authored methods; three Linux-only scenarios N/A on each other host, not passes. First matrix and recovery workflows remain FAILED due the preserved fixture failures; no full CI/stable/release pass.",
+        "evidence": [
+          "docs/development/evidence/picker-batch-important-20261029/README.md",
+          "docs/development/evidence/picker-batch-important-20261029/lead-batch-source-results-review.json",
+          "docs/development/evidence/picker-batch-important-20261029/reuse-owning-input-review.json",
+          "docs/development/evidence/picker-batch-important-20261029/closure/IO-024-acceptance.json",
+          "docs/development/evidence/picker-batch-important-20261029/closure/IO-024-verified-readback.json"
+        ],
+        "scope": "Original owning issue criteria only. Native-parent IO-023, multi-platform settings/limits IO-017/018, genuine Apple/Windows chooser UI, hardware/minimum-platform, whole ABI/consumer/dependency/provenance/legal/security/release gates remain independent and open."
       }
     ],
-    "remaining": [
-      "Create real invalid-byte filename and distinct replacement-character peer on Unix, then select file/directory/save paths through JNI.",
-      "Verify local-reference cleanup/error propagation in actual JNI result conversion failure.",
-      "Normal Unicode input/registry smoke tests are not selected-path return conversion coverage."
-    ],
+    "remaining": [],
     "compatibility": "Normal Unicode remains supported. Arbitrary invalid UTF-8 Unix filenames now error instead of returning a potentially different path; supporting opaque native path bytes needs a new representation."
   },
   {

@@ -11,6 +11,37 @@ delay a verified batch's closure. Document/read back closures afterward. Missing
 native/device criteria still keep that particular issue open. Single-agent,
 minimum read-only verification permissions and publication/security gates remain.
 
+## Verified related picker batch — 2026-10-29
+
+**IO-003/#6 and IO-024/#59 CLOSED/completed together** after all original criteria
+and shared actual native/Compose/JNI results were reviewed, before documentation.
+[Evidence](docs/development/evidence/picker-batch-important-20261029/README.md)
+preserves original issue body/title/labels/history, failed first matrix40815285475
+and failed-host recovery40817067140. Current95ac633a Linux **Compose6/6,
+0/244.07s; JNI5/5,0/30.01s**; macOS Compose3/3,0/314.72s, three exact Linux-only
+N/A; Windows04662845 Compose3/3,0/296.61s/JNI1/1,0/36.06s reused.838own-Git
+inputs held/JDK17. **12 accepted Compose target executions of6 authored methods,
+seven accepted JNI path executions of5 authored methods**, not19 authored tests.
+Real no-parent GTK dialogs, exactly-once worker ownership/cancellation, snapshot
+settings/current callbacks, real Linux invalid-byte files/peers/directories/save
+errors and128 weak-array cleanup iterations pass. Unchanged original native
+Valgrind/coroutine evidence is reused explicitly, including48possible/544reachable
+std/libtest residue. External Skiko GUI-startup checked-JNI warning remains;
+standalone Linux path converters passed checked JNI without warnings.
+
+**64closed/108open/172total;47implemented/49partial/61verified/seven unresolved**.
+Mac JNI is still **1pass/4fail/exit101**, not a passing target: invalid-byte file/
+directory fixture setup returns actual EILSEQ92 **before JNI**. Recover with an
+explicit actual macOS filesystem-domain test plus disclosed controlled
+unrepresentable-path JNI cases, not generic skips or invented actual files.
+`build-native-libs.yml`'s `picker-jni-macos-domain` profile runs only those five
+new methods and related receipt tests, no accepted Compose/Unicode/other-host
+replay, no SDK/Gradle/GUI setup and only JSON uploads. Its new run must be reviewed;
+a source/tooling pass is not a native pass. IO-023/#58, IO-017/#53, IO-018/#54 and
+all independent native-parent/device/minimum/ABI/consumer/dependency/provenance/
+legal/security/release gates remain open. Main/history unchanged; single-agent,
+no publication/deployment/Pages.
+
 ## Verified WebView lifetime closure — 2026-10-29
 
 **NATIVE-002/#10 CLOSED/completed** after all three original criteria/source/results

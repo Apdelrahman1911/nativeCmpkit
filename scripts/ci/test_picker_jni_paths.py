@@ -5,8 +5,8 @@ import unittest
 import picker_jni_paths as r
 
 
-def positive(host="Linux", interleaved=True):
-    methods = r.METHODS if host != "Windows" else r.METHODS[:1]
+def positive(host="Linux", interleaved=True, focus="all"):
+    methods = r.expected_methods(host, focus)
     artifact = {"reason": "compiler-artifact", "target": {"name": "calf_filepicker_native"},
                 "profile": {"test": True}, "executable": "/synthetic/owned/test-executable"}
     lines = [json.dumps(artifact), json.dumps({"reason": "build-finished", "success": True}),
@@ -18,6 +18,8 @@ def positive(host="Linux", interleaved=True):
             lines.append(f"test jni_path_tests::{method} ... ok")
     if not interleaved:
         lines.insert(2, r.JVM_MARKER)
+    if host == "Darwin":
+        lines.extend((r.MACOS_DOMAIN_MARKER, *r.MACOS_CONTROLLED_MARKERS))
     lines.append(f"test result: ok. {len(methods)} passed; 0 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.1s")
     return "\n".join(lines)
 
@@ -27,10 +29,77 @@ class PickerJniPathReceipts(unittest.TestCase):
         for host in ("Linux", "Darwin", "Windows"):
             for interleaved in (True, False):
                 result = r.review_log(positive(host, interleaved), host)
-                self.assertEqual(1 if host == "Windows" else 5, result["tests"])
+                self.assertEqual({"Linux": 5, "Darwin": 6, "Windows": 1}[host], result["tests"])
                 self.assertEqual(0, result["skipped"])
                 self.assertEqual(8, result["filtered_unchanged_tests"])
                 self.assertEqual(17, result["actual_jvm_major"])
+
+    def test_macos_recovery_requires_five_exact_new_domain_methods_and_does_not_replay_accepted_positive(self):
+        for interleaved in (True, False):
+            log = positive("Darwin", interleaved, "macos-domain")
+            result = r.review_log(log, "Darwin", "macos-domain")
+            self.assertEqual(5, result["tests"])
+            self.assertEqual(r.MACOS_METHODS, tuple(case["name"] for case in result["testcases"]))
+            self.assertEqual("real-macos-filesystem-EILSEQ-boundary", result["testcases"][0]["coverage_kind"])
+            self.assertEqual({"controlled-unrepresentable-path-real-JNI"}, {case["coverage_kind"] for case in result["testcases"][1:]})
+            self.assertFalse(result["actual_invalid_byte_entries_required"])
+            self.assertTrue(result["macos_actual_filesystem_domain_verified"])
+            self.assertEqual(4, result["controlled_unrepresentable_path_tests"])
+            with self.assertRaises(ValueError): r.review_log(log, "Darwin")
+            with self.assertRaises(ValueError): r.review_log(positive("Darwin"), "Darwin", "macos-domain")
+        for host in ("Linux", "Windows"):
+            with self.assertRaises(ValueError): r.expected_methods(host, "macos-domain")
+        with self.assertRaises(ValueError): r.expected_methods("Darwin", "free-form")
+
+    def test_domain_and_controlled_markers_cannot_be_omitted_duplicated_or_claim_real_invalid_entries(self):
+        log = positive("Darwin", focus="macos-domain")
+        for marker in (r.MACOS_DOMAIN_MARKER, *r.MACOS_CONTROLLED_MARKERS):
+            for changed in (log.replace(marker, ""), log + "\n" + marker):
+                with self.subTest(marker=marker), self.assertRaises(ValueError):
+                    r.review_log(changed, "Darwin", "macos-domain")
+        for changed in (log.replace("EILSEQ92", "EILSEQ93"), log.replace("real_invalid_entry=false", "real_invalid_entry=true"),
+                        log.replace("peer_bytes_preserved=true", "peer_bytes_preserved=false")):
+            with self.assertRaises(ValueError): r.review_log(changed, "Darwin", "macos-domain")
+
+    def test_linux_real_invalid_entry_scope_cannot_be_waived_by_macos_domain_or_controlled_methods(self):
+        result = r.review_log(positive(), "Linux")
+        self.assertTrue(result["actual_invalid_byte_entries_required"])
+        self.assertEqual(0, result["controlled_unrepresentable_path_tests"])
+        for log in (positive("Darwin"), positive() + "\n" + r.MACOS_DOMAIN_MARKER,
+                    positive() + "\n" + r.MACOS_CONTROLLED_MARKERS[0]):
+            with self.assertRaises(ValueError): r.review_log(log, "Linux")
+
+    def test_real_source_macos_domain_probe_and_linux_owned_invalid_entries_are_not_generic_skip_fallbacks(self):
+        source = (r.library.ROOT / "calf-file-picker/native/src/jni_path_tests.rs").read_text()
+        self.assertIn('#[cfg(target_os = "macos")]\nmod macos_domain', source)
+        self.assertNotIn('#[cfg(unix)]', source)
+        for expression in ('std::fs::write(&invalid,', 'std::fs::create_dir(&invalid)',
+                           'file_error.raw_os_error(), Some(92)', 'directory_error.raw_os_error(), Some(92)',
+                           'std::fs::read_dir(&root.0).unwrap().count(), 1', 'assert_mid_array_frame_cleanup(&paths)',
+                           'assert_mid_array_frame_cleanup(&[valid.clone(), valid, invalid])'):
+            self.assertIn(expression, source)
+        for name in r.METHODS[1:]:
+            declaration = source.split('fn ' + name, 1)[0][-60:]
+            self.assertIn('#[cfg(target_os = "linux")]', declaration)
+        for name in r.MACOS_METHODS:
+            self.assertIn('fn ' + name.split('::', 1)[1], source)
+
+    def test_failure_only_native_workflow_does_not_replay_accepted_hosts_or_unrelated_gradle_and_gui(self):
+        workflow = (r.library.ROOT / ".github/workflows/build-native-libs.yml").read_text()
+        self.assertIn('options: [all, picker-jni-macos-domain]', workflow)
+        self.assertIn("&& inputs.profile == 'all'", workflow)
+        recovery = workflow.split('\n  picker-jni-macos-domain:', 1)[1]
+        for required in ("inputs.profile == 'picker-jni-macos-domain'", 'runs-on: macos-26',
+                         '--expected-arch arm64 --require-clean --apple',
+                         '--focus macos-domain --output build/ci-verification/picker-jni-macos-domain',
+                         'unittest discover -s scripts/ci -p test_picker_jni_paths.py',
+                         'persist-credentials: false', 'build/ci-verification/picker-jni-macos-domain/*.json'):
+            self.assertIn(required, recovery)
+        for forbidden in ('matrix:', 'gradlew', 'setup-android', 'xvfb', 'xdotool',
+                          'cargo.private.log', '*.log', 'target/', '.dylib', '**'):
+            self.assertNotIn(forbidden, recovery)
+        self.assertIn('permissions:\n  contents: read', workflow)
+        self.assertNotRegex(workflow, r'(?m)^\s*[\w-]+:\s*(?:write|write-all)\s*$')
 
     def test_missing_renamed_duplicate_foreign_failed_and_ignored_methods_never_pass(self):
         log = positive()

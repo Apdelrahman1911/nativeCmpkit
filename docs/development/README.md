@@ -1,5 +1,25 @@
 # NativeCmpKit development after the audit
 
+## Verified related picker batch — 2026-10-29
+
+**IO-003/#6 and IO-024/#59 closed together**, directly after shared important
+tests/original-criteria review; original issue content/history and all failures
+remain. [Batch evidence](evidence/picker-batch-important-20261029/README.md):
+current Linux Compose6/6/JNI5/5, macOS Compose3/3 and Windows accepted Compose3/3/
+JNI1/1; exact Linux-only GUI N/A on the other hosts. Twelve accepted Compose
+target executions of six authored methods and seven accepted JNI path executions
+of five authored methods, with838own-Git inputs/JDK17 and explicit unchanged
+ownership-evidence reuse. No successful-host replay or full-matrix pass.
+
+**64closed/108open/172;47implemented/49partial/61verified/seven unresolved.**
+Mac JNI remains1pass/4fail: real invalid-byte fixture creation returns EILSEQ92
+before JNI. Its source repair now distinguishes actual filesystem-domain proof
+from controlled unrepresentable-path JNI inputs. The dedicated native workflow
+recovery omits accepted Unicode/Compose and unrelated hosts/setup/tests; pending
+native results are not accepted. IO-023/#58 and multi-platform settings/limits
+#53/#54 remain open. Single-agent batch→important tests→review→close verified
+subset immediately→document; publication/security/release gates remain.
+
 ## Verified WebView lifetime closure — 2026-10-29
 
 **NATIVE-002/#10 is CLOSED/completed** after original three criteria/source/results

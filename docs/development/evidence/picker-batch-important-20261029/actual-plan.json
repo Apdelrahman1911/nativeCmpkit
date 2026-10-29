@@ -1,0 +1,97 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-file-picker",
+      "project": ":calf-file-picker",
+      "report_directory": "calf-file-picker/build/test-results/desktopTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+          "name": "closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid[desktop]"
+        }
+      ],
+      "task": ":calf-file-picker:desktopTest",
+      "test_filter": "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest",
+      "test_source_files": [
+        "calf-file-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/picker/PickerContractTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/InitialDirectoryTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/PartialPickFailureTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/AtomicSaveTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleCancellationTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwnerTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/MimeFilterRegressionTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeBridgeSmokeTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeCacheIsolationTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeCacheProcessIntegrationTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeDialogCancellationTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFileSystemFixtures.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLibCacheTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/NativeLoaderBoundaryProbe.kt",
+        "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/platform/SelectedFileSaveTest.kt",
+        "calf-file-picker/src/desktopTest/kotlin/jodd/net/MimeTypesTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "desktopTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-native-lifetime",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "desktopTest"
+  ],
+  "schema_version": 1,
+  "scope": "Six exact related Compose/JNI ownership/cancellation/settings methods; three actual private GTK dialogs only on Linux, explicitly N/A elsewhere; raw-parent/Wayland/AppKit/Windows-dialog acquisition remains independent IO-023",
+  "suite": "desktop",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

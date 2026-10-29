@@ -1,0 +1,45 @@
+{
+  "actual_jvm_major": 17,
+  "checked_jni": true,
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "calf-file-picker/native/Cargo.toml",
+    "--locked",
+    "--jobs",
+    "1",
+    "--message-format=json",
+    "jni_path_tests",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "errors": 0,
+  "execution": {
+    "elapsed_seconds": 36.06,
+    "exit_code": 0
+  },
+  "failures": 0,
+  "filtered_unchanged_tests": 7,
+  "held_inputs": true,
+  "host": "Windows",
+  "inputs_after_sha256": "127956630d9cadc83c61fa8932b0032ab580192f9778201b161cf15e9bc78b0b",
+  "inputs_before_sha256": "127956630d9cadc83c61fa8932b0032ab580192f9778201b161cf15e9bc78b0b",
+  "native_test_executable_sha256": "9bf17a136f87a27aec59818cef506c052594438d6012a4b81e24a7166518f846",
+  "passed": true,
+  "runtime_receipt_sha256": "b26f82d6d87bb30ab62545d687183b74edbd26650076fb41d78cc6a7e8de8ab7",
+  "scope": "Actual JNI selected-path converter, owned real invalid-byte/Unicode filesystem fixtures and weak array collection; no OS picker selection or full ABI/consumer/native-parent/release certification",
+  "selected_inputs": 838,
+  "skipped": 0,
+  "source_revision": "046628459b91995c7636c2ef93857d85253c2cb3",
+  "source_tree_dirty": false,
+  "testcases": [
+    {
+      "classname": "jni_path_tests",
+      "name": "actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact",
+      "status": "passed"
+    }
+  ],
+  "tests": 1
+}

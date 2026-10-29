@@ -1,5 +1,8 @@
-//! Actual JVM/JNI conversions of owned filesystem paths, never a fake Java environment.
+//! Actual JVM/JNI conversions, never a fake Java environment.
 //! The selected-path boundary is driven directly, not by an OS picker or UI automation.
+//! Linux negative cases use real invalid-byte entries. macOS first verifies its
+//! EILSEQ filesystem boundary, then explicitly uses controlled unrepresentable
+//! PathBuf inputs with real valid peers; these are not actual selected files.
 use super::{path_to_jstring, paths_to_jstring_array};
 use jni::objects::{GlobalRef, JObject, JObjectArray, JString, JValue};
 use jni::{InitArgsBuilder, JNIEnv, JNIVersion, JavaVM};
@@ -55,7 +58,7 @@ impl OwnedDirectory {
         std::fs::write(&path, bytes).unwrap();
         path
     }
-    #[cfg(unix)]
+    #[cfg(target_os = "linux")]
     fn invalid(&self, directory: bool) -> PathBuf {
         use std::os::unix::ffi::OsStringExt;
         let path = self
@@ -141,7 +144,7 @@ fn actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact() {
     .unwrap();
 }
 
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 #[test]
 fn actual_invalid_byte_file_is_rejected_without_selecting_its_replacement_character_peer() {
     let root = OwnedDirectory::new();
@@ -175,7 +178,7 @@ fn actual_invalid_byte_file_is_rejected_without_selecting_its_replacement_charac
     );
 }
 
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 #[test]
 fn actual_directory_result_raises_io_exception_instead_of_returning_a_lossy_path() {
     let root = OwnedDirectory::new();
@@ -190,7 +193,7 @@ fn actual_directory_result_raises_io_exception_instead_of_returning_a_lossy_path
     .unwrap();
 }
 
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 #[test]
 fn actual_save_path_failure_does_not_open_or_overwrite_the_lossy_peer() {
     let root = OwnedDirectory::new();
@@ -210,7 +213,7 @@ fn actual_save_path_failure_does_not_open_or_overwrite_the_lossy_peer() {
     assert_eq!(std::fs::read(peer).unwrap(), b"must not be overwritten");
 }
 
-#[cfg(unix)]
+#[cfg(target_os = "linux")]
 #[test]
 fn repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_the_expected_error()
 {
@@ -218,12 +221,17 @@ fn repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_t
     let valid = root.file("valid 研究 😀.txt", b"valid prefix element");
     let invalid = root.invalid(false);
     let paths = [valid.clone(), valid, invalid];
+    assert_mid_array_frame_cleanup(&paths);
+}
+
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+fn assert_mid_array_frame_cleanup(paths: &[PathBuf]) {
     let mut env = vm().attach_current_thread().unwrap();
     ARRAY_OBSERVER.with(|slot| *slot.borrow_mut() = Some(Vec::new()));
     for _ in 0..128 {
         env.with_local_frame(16, |env| -> jni::errors::Result<()> {
             assert!(matches!(
-                paths_to_jstring_array(env, &paths),
+                paths_to_jstring_array(env, paths),
                 Err(jni::errors::Error::JavaException)
             ));
             assert_io_exception(env);
@@ -278,4 +286,130 @@ fn repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_t
         Ok(())
     })
     .unwrap();
+}
+
+#[cfg(target_os = "macos")]
+mod macos_domain {
+    use super::*;
+    use std::os::unix::ffi::OsStringExt;
+
+    fn controlled_unrepresentable_path(root: &OwnedDirectory) -> PathBuf {
+        root.0
+            .join(std::ffi::OsString::from_vec(b"selected-\xff.txt".to_vec()))
+    }
+
+    fn controlled_marker(method: &str) {
+        println!("NATIVECMPKIT_MACOS_JNI_CONTROLLED method={method} real_invalid_entry=false");
+    }
+
+    #[test]
+    fn actual_macos_filesystem_rejects_invalid_file_and_directory_with_eilseq_before_jni() {
+        let root = OwnedDirectory::new();
+        let invalid = controlled_unrepresentable_path(&root);
+        let peer = root.file("selected-�.txt", b"real peer must remain unchanged");
+        assert!(invalid.to_str().is_none());
+        assert_ne!(invalid, peer);
+        assert_eq!(invalid.to_string_lossy(), peer.to_string_lossy());
+        // Darwin EILSEQ is 92. This is a required actual filesystem result,
+        // not an arbitrary error/skip waiver or a JNI failure.
+        let file_error = std::fs::write(&invalid, b"must not create a lossy peer")
+            .expect_err("This macOS filesystem must reject an invalid-byte file name");
+        assert_eq!(file_error.raw_os_error(), Some(92));
+        let directory_error = std::fs::create_dir(&invalid)
+            .expect_err("This macOS filesystem must reject an invalid-byte directory name");
+        assert_eq!(directory_error.raw_os_error(), Some(92));
+        assert_eq!(
+            std::fs::read(&peer).unwrap(),
+            b"real peer must remain unchanged"
+        );
+        assert_eq!(std::fs::read_dir(&root.0).unwrap().count(), 1);
+        println!("NATIVECMPKIT_MACOS_FILENAME_DOMAIN rejected_invalid_file=EILSEQ92 rejected_invalid_directory=EILSEQ92 peer_bytes_preserved=true");
+    }
+
+    #[test]
+    fn controlled_unrepresentable_file_path_raises_io_exception_and_preserves_real_peer() {
+        let root = OwnedDirectory::new();
+        let invalid = controlled_unrepresentable_path(&root);
+        let peer = root.file("selected-�.txt", b"real replacement-character peer");
+        assert!(invalid.to_str().is_none());
+        assert_eq!(invalid.to_string_lossy(), peer.to_string_lossy());
+        let mut env = vm().attach_current_thread().unwrap();
+        env.with_local_frame(32, |env| -> jni::errors::Result<()> {
+            assert!(matches!(
+                paths_to_jstring_array(env, &[invalid]),
+                Err(jni::errors::Error::JavaException)
+            ));
+            assert_io_exception(env);
+            let raw = paths_to_jstring_array(env, &[peer.clone()])?;
+            let array = unsafe { JObjectArray::from_raw(raw) };
+            let value = JString::from(env.get_object_array_element(&array, 0)?);
+            let returned = java_string(env, value);
+            assert_eq!(Path::new(&returned), peer);
+            assert_eq!(
+                std::fs::read(returned).unwrap(),
+                b"real replacement-character peer"
+            );
+            Ok(())
+        })
+        .unwrap();
+        controlled_marker(
+            "controlled_unrepresentable_file_path_raises_io_exception_and_preserves_real_peer",
+        );
+    }
+
+    #[test]
+    fn controlled_unrepresentable_directory_path_raises_io_exception_before_path_transport() {
+        let root = OwnedDirectory::new();
+        let invalid = controlled_unrepresentable_path(&root);
+        let peer = root.0.join("selected-�.txt");
+        std::fs::create_dir(&peer).unwrap();
+        let mut env = vm().attach_current_thread().unwrap();
+        env.with_local_frame(16, |env| -> jni::errors::Result<()> {
+            assert!(path_to_jstring(env, &invalid).is_null());
+            assert_io_exception(env);
+            let raw = path_to_jstring(env, &peer);
+            assert!(!raw.is_null());
+            assert_eq!(
+                Path::new(&java_string(env, unsafe { JString::from_raw(raw) })),
+                peer
+            );
+            assert!(peer.is_dir());
+            assert!(!env.exception_check()?);
+            Ok(())
+        })
+        .unwrap();
+        controlled_marker(
+            "controlled_unrepresentable_directory_path_raises_io_exception_before_path_transport",
+        );
+    }
+
+    #[test]
+    fn controlled_unrepresentable_save_path_never_overwrites_real_peer() {
+        let root = OwnedDirectory::new();
+        let invalid = controlled_unrepresentable_path(&root);
+        let peer = root.file("selected-�.txt", b"real peer must not be overwritten");
+        let mut env = vm().attach_current_thread().unwrap();
+        env.with_local_frame(16, |env| -> jni::errors::Result<()> {
+            assert!(path_to_jstring(env, &invalid).is_null());
+            assert_io_exception(env);
+            Ok(())
+        })
+        .unwrap();
+        assert_eq!(
+            std::fs::read(peer).unwrap(),
+            b"real peer must not be overwritten"
+        );
+        controlled_marker("controlled_unrepresentable_save_path_never_overwrites_real_peer");
+    }
+
+    #[test]
+    fn controlled_mid_array_failure_releases_actual_jni_frames_with_a_real_prefix() {
+        let root = OwnedDirectory::new();
+        let valid = root.file("valid 研究 😀.txt", b"real valid prefix");
+        let invalid = controlled_unrepresentable_path(&root);
+        assert_mid_array_frame_cleanup(&[valid.clone(), valid, invalid]);
+        controlled_marker(
+            "controlled_mid_array_failure_releases_actual_jni_frames_with_a_real_prefix",
+        );
+    }
 }

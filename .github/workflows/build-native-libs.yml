@@ -1,12 +1,24 @@
 # Modified for nativeCmpkit (2026-10-26): owner-authorized verification only.
-# Manual compile verification only. No artifact upload, signing, release or package publication.
-name: NativeCmpKit native compile verification
+# Manual native verification only. Reports-only recovery uploads; no native payload,
+# signing, release or package publication.
+name: NativeCmpKit native verification
 on:
   workflow_dispatch:
+    inputs:
+      profile:
+        description: Native scope; macOS recovery does not replay accepted Compose/Unicode/other-host tests
+        type: choice
+        required: true
+        default: all
+        options: [all, picker-jni-macos-domain]
 permissions:
   contents: read
+concurrency:
+  group: nativecmpkit-native-${{ github.ref }}-${{ inputs.profile }}
+  cancel-in-progress: false
 jobs:
   native-check:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'all'
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -36,3 +48,41 @@ jobs:
       - name: Share native checks
         working-directory: calf-share/native
         run: cargo test --locked
+
+  picker-jni-macos-domain:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'picker-jni-macos-domain'
+    runs-on: macos-26
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: '1.98.0'
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - name: Important finite JNI receipt regressions only; not native/library executions
+        run: python3 -B -m unittest discover -s scripts/ci -p test_picker_jni_paths.py -v
+      - name: Record the actual clean macOS arm64 JDK17 Rust and Xcode runtime
+        id: runtime
+        run: python3 scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple --output build/ci-runtime/picker-jni-macos.json
+      - name: Recover only actual filesystem-domain and four controlled negative JNI methods
+        run: python3 scripts/ci/picker_jni_paths.py --focus macos-domain --output build/ci-verification/picker-jni-macos-domain
+      - name: Preserve JSON receipts only, including failures; never native executables or logs
+        if: always() && steps.runtime.outcome == 'success'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: picker-jni-macos-domain-evidence
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/picker-jni-macos.json
+            build/ci-verification/picker-jni-macos-domain/*.json

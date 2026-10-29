@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="NativePickerComposeLifetimeTest[desktop]" tests="6" skipped="0" failures="1" errors="0" timestamp="2026-10-29T04:06:55.891Z" hostname="runnervm48cm3" time="8.029">
+  <properties />
+  <testcase name="composeDisposalBeforeQueuedJniEntryDoesNotAllocateOrShow[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="4.36" />
+  <testcase name="closingTheRealRegistryIdWhileItsDialogIsVisibleKeepsTheShowLeaseValid[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="0.859" />
+  <testcase name="composeDisposalInsideRealJniCreationHandoffClosesExactlyOnce[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="0.048" />
+  <testcase name="firstPublicCompositionLaunchAndSettingsUpdatesUseOneActualNativeDialog[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="2.123">
+    <failure message="java.lang.IllegalStateException: Owned native window command failed: X Error of failed request:  BadWindow (invalid Window parameter)&#10;  Major opcode of failed request:  20 (X_GetProperty)&#10;  Resource id in failed request:  0x6009eb&#10;  Serial number of failed request:  45&#10;  Current serial number in output stream:  45&#10;" type="java.lang.IllegalStateException">Stack body omitted from public report; failure/error outcome and message retained. See archive-manifest.json.</failure>
+  </testcase>
+  <testcase name="retainedComposeLauncherSnapshotsLimitsParentsAndLatestCallbackPerNativeSession[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="0.354" />
+  <testcase name="closingComposeWindowWithAnActualDialogVisibleCancelsDeliveryNotNativeOwnership[desktop]" classname="com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest" time="0.282" />
+  </testsuite>

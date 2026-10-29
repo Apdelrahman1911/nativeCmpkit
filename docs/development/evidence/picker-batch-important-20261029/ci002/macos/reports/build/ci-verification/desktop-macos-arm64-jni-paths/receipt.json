@@ -1,0 +1,97 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "calf-file-picker/native/Cargo.toml",
+    "--locked",
+    "--jobs",
+    "1",
+    "--message-format=json",
+    "jni_path_tests",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "execution": {
+    "elapsed_seconds": 79.73,
+    "exit_code": 101
+  },
+  "failure_diagnostics": {
+    "actual_jdk17_marker_observed": true,
+    "actual_method_outcomes": [
+      {
+        "name": "actual_directory_result_raises_io_exception_instead_of_returning_a_lossy_path",
+        "status": "failed"
+      },
+      {
+        "name": "actual_invalid_byte_file_is_rejected_without_selecting_its_replacement_character_peer",
+        "status": "failed"
+      },
+      {
+        "name": "actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact",
+        "status": "passed"
+      },
+      {
+        "name": "actual_save_path_failure_does_not_open_or_overwrite_the_lossy_peer",
+        "status": "failed"
+      },
+      {
+        "name": "repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_the_expected_error",
+        "status": "failed"
+      }
+    ],
+    "native_os_error_numbers": [
+      {
+        "code": 92,
+        "rust_kind": "Uncategorized"
+      },
+      {
+        "code": 92,
+        "rust_kind": "Uncategorized"
+      },
+      {
+        "code": 92,
+        "rust_kind": "Uncategorized"
+      },
+      {
+        "code": 92,
+        "rust_kind": "Uncategorized"
+      }
+    ],
+    "rust_panic_coordinates": [
+      {
+        "column": 40,
+        "line": 65,
+        "path": "src/jni_path_tests.rs"
+      },
+      {
+        "column": 66,
+        "line": 67,
+        "path": "src/jni_path_tests.rs"
+      },
+      {
+        "column": 66,
+        "line": 67,
+        "path": "src/jni_path_tests.rs"
+      },
+      {
+        "column": 66,
+        "line": 67,
+        "path": "src/jni_path_tests.rs"
+      }
+    ],
+    "scope": "Failure triage only; no raw panic/data/environment/credentials or passing-gate substitution"
+  },
+  "held_inputs": true,
+  "host": "Darwin",
+  "inputs_after_sha256": "d947ca40c6d55efd2bfe3d02686f074092362fc6dc649bd05a682d0777c79b6a",
+  "inputs_before_sha256": "d947ca40c6d55efd2bfe3d02686f074092362fc6dc649bd05a682d0777c79b6a",
+  "passed": false,
+  "review_error": "ValueError: Required actual JNI method failed or was ignored",
+  "runtime_receipt_sha256": "1024c28deb47fb8896fed8c674b90cc19b48dd4b4b829348446040d12e703456",
+  "scope": "Actual JNI selected-path converter, owned real invalid-byte/Unicode filesystem fixtures and weak array collection; no OS picker selection or full ABI/consumer/native-parent/release certification",
+  "selected_inputs": 838,
+  "source_revision": "95ac633a7fe843dd61772116db5faddefb0447dc",
+  "source_tree_dirty": false
+}

@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7",
-    "docs/development/resolutions/IO.json": "090989e702ef7d0321f5c1942336a4d921f1fe5b58f0c80961f89f977aa28105",
+    "docs/development/resolutions/IO.json": "81726a81685705cb8a7654d071d4226b5efc1bbf7b412a5653d988952ffa1509",
     "docs/development/resolutions/NATIVE.json": "88630c75233ae9c1ab1d3c6473d635d028025ff83740345b5e5d42a7e26280eb",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "3bc9e5ce0beb5662015b16fb2fc0b0ba510dbd35a91f8b4a01ad67e0e5417ff4",
+  "input_fingerprint": "26b7f876bd5418c17164e0131ee9a2984869ae6d7c63cbf1440c5143b2fe5c1c",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 47,
-      "partially-verified": 51,
-      "verified": 59,
+      "partially-verified": 49,
+      "verified": 61,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -1387,18 +1387,19 @@
         "mapping_key": "audit:IO-003",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "9e2726d670c23a0802a2ba49a863b7537f40badb4d816567db96d4995f954194",
+      "owner_record_sha256": "443be6983854c906e2012daed72a493ccf1a009c97a3692332e8753c7585e26c",
       "owner_record": {
         "id": "IO-003",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Create/show/destroy in one worker ownership scope via withDialogHandle; no cancellable handle-return handoff or composition destructor can free an in-flight config.",
           "Rust registry IDs lease Arc configs, reject stale IDs and close idempotently; config destructors run outside the registry mutex.",
           "Add real packaged-payload JNI load/create/close/stale-handle tests that never open a live dialog.",
           "Add actual DialogConfig.build leased-close,128 actual repeated no-parent configuration builds, and destructor-reentrant registry tests; test-only hook, no native/public/JNI identity change.",
-          "2026-10-28: Add withActiveDialogHandle cancellation guards before allocation, after synchronous JNI creation inside claimed-handle try/finally and after use. Both actual desktop pick/save paths use it; cancellation racing after the guard still cannot be promised to interrupt a synchronous native modal."
+          "2026-10-28: Add withActiveDialogHandle cancellation guards before allocation, after synchronous JNI creation inside claimed-handle try/finally and after use. Both actual desktop pick/save paths use it; cancellation racing after the guard still cannot be promised to interrupt a synchronous native modal.",
+          "2026-10-29 related batch: real Compose scope/native ownership tests and three actual private GTK dialogs verify disposal before JNI/inside creation, serialized launch, fresh settings/callbacks, immediate first launch and visible-dialog window/registry close. Per-instance internal boundary preserves public factory and native/JNI identities; worker completion is awaited after disposal."
         ],
         "affected_paths": [
           "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt",
@@ -1465,13 +1466,22 @@
               "docs/development/evidence/picker-cancellation-important-20261028/gradle003/actual-gradle.log.result.json",
               "docs/development/evidence/picker-cancellation-important-20261028/issue-progress-review.json"
             ]
+          },
+          {
+            "checkpoint": "picker-batch-important-20261029",
+            "command": "Related hosted picker-batch40815285475/04662845 and failed-host recovery40817067140/95ac633a: scripts/ci/picker_jni_paths.py plus focused scripts/ci/library_tests.py desktop NativePickerComposeLifetimeTest. Reuse exact unchanged Valgrind53e56c7e and cancellation97effbd7 ownership evidence; no successful-host replay.",
+            "result": "All original IO-003 criteria reviewed/accepted before direct grouped GitHub#6 completed closure; original body/title/labels/history preserved. Linux current Compose6/6,0/244.07s and JNI5/5,0/30.01s; Windows reused Compose3/3,0/296.61s and JNI1/1,0/36.06s; macOS Compose3/3,0/314.72s and ordinary Unicode JNI1pass within failed target4fail/101/79.73s.838own-Git inputs held per target/JDK17.12accepted Compose target executions of6authored methods and7accepted JNI path target executions of5authored methods; three Linux-only scenarios N/A on each other host, not passes. First matrix and recovery workflows remain FAILED due the preserved fixture failures; no full CI/stable/release pass.",
+            "evidence": [
+              "docs/development/evidence/picker-batch-important-20261029/README.md",
+              "docs/development/evidence/picker-batch-important-20261029/lead-batch-source-results-review.json",
+              "docs/development/evidence/picker-batch-important-20261029/reuse-owning-input-review.json",
+              "docs/development/evidence/picker-batch-important-20261029/closure/IO-003-acceptance.json",
+              "docs/development/evidence/picker-batch-important-20261029/closure/IO-003-verified-readback.json"
+            ],
+            "scope": "Original owning issue criteria only. Native-parent IO-023, multi-platform settings/limits IO-017/018, genuine Apple/Windows chooser UI, hardware/minimum-platform, whole ABI/consumer/dependency/provenance/legal/security/release gates remain independent and open."
           }
         ],
-        "remaining": [
-          "Owning coroutine/JNI creation/use boundary7/7 accepted on immutable97effbd7/Linux; real Compose disposal-before-JNI/settings changes/immediate launch remain pending.",
-          "ASan/Valgrind dispose-during-build/show, real Compose disposal/settings changes, immediate launch and closed-window UI checks.",
-          "IO-023 native parent lifetime/thread affinity is separate and remains unresolved."
-        ],
+        "remaining": [],
         "compatibility": "Public launch/JNI descriptors retained; opaque Long IDs must not be treated as native addresses. Disposal suppresses result delivery but cannot promise immediate cancellation of a blocking OS dialog."
       },
       "closure_or_release_authorized_by_index": false
@@ -10785,7 +10795,7 @@
         {
           "id": "IO-003",
           "original_order": 9,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/6"
         }
       ],
@@ -11875,7 +11885,7 @@
         {
           "id": "IO-003",
           "original_order": 9,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/6"
         },
         {
@@ -11961,15 +11971,16 @@
         "mapping_key": "audit:IO-024",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "51dd88b896bf98bdd89aec75715d95a01d738c10ade4ddcccd15a25fe4c2aef5",
+      "owner_record_sha256": "8d0bbb72aeba6ebaf10a54b354c65afc63e34acdea4c6f20bdb235898040ff10",
       "owner_record": {
         "id": "IO-024",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Reject paths not representable as a Java Unicode string with IOException, instead of lossy replacement-character conversion in picker/directory/save result helpers.",
-          "Preserve an already pending JNI exception rather than overwrite the path-conversion error."
+          "Preserve an already pending JNI exception rather than overwrite the path-conversion error.",
+          "2026-10-29 related batch: actual JDK17 checked JNI converter uses real Linux invalid-byte files/directories, distinct replacement peers, save failures and128 weak-array cleanup probes; real normal Unicode/emoji bytes pass Linux/macOS/Windows. macOS invalid-file fixture EILSEQ92 failures are retained, not converted to passing native selected files."
         ],
         "affected_paths": [
           "calf-file-picker/native/src/path_encoding.rs",
@@ -11994,13 +12005,22 @@
               "docs/development/evidence/io/cargo-clippy-locked.log.result.json",
               "docs/development/evidence/io/cargo-fmt-check.log.result.json"
             ]
+          },
+          {
+            "checkpoint": "picker-batch-important-20261029",
+            "command": "Related hosted picker-batch40815285475/04662845 and failed-host recovery40817067140/95ac633a: scripts/ci/picker_jni_paths.py plus focused scripts/ci/library_tests.py desktop NativePickerComposeLifetimeTest. Reuse exact unchanged Valgrind53e56c7e and cancellation97effbd7 ownership evidence; no successful-host replay.",
+            "result": "All original IO-024 criteria reviewed/accepted before direct grouped GitHub#59 completed closure; original body/title/labels/history preserved. Linux current Compose6/6,0/244.07s and JNI5/5,0/30.01s; Windows reused Compose3/3,0/296.61s and JNI1/1,0/36.06s; macOS Compose3/3,0/314.72s and ordinary Unicode JNI1pass within failed target4fail/101/79.73s.838own-Git inputs held per target/JDK17.12accepted Compose target executions of6authored methods and7accepted JNI path target executions of5authored methods; three Linux-only scenarios N/A on each other host, not passes. First matrix and recovery workflows remain FAILED due the preserved fixture failures; no full CI/stable/release pass.",
+            "evidence": [
+              "docs/development/evidence/picker-batch-important-20261029/README.md",
+              "docs/development/evidence/picker-batch-important-20261029/lead-batch-source-results-review.json",
+              "docs/development/evidence/picker-batch-important-20261029/reuse-owning-input-review.json",
+              "docs/development/evidence/picker-batch-important-20261029/closure/IO-024-acceptance.json",
+              "docs/development/evidence/picker-batch-important-20261029/closure/IO-024-verified-readback.json"
+            ],
+            "scope": "Original owning issue criteria only. Native-parent IO-023, multi-platform settings/limits IO-017/018, genuine Apple/Windows chooser UI, hardware/minimum-platform, whole ABI/consumer/dependency/provenance/legal/security/release gates remain independent and open."
           }
         ],
-        "remaining": [
-          "Create real invalid-byte filename and distinct replacement-character peer on Unix, then select file/directory/save paths through JNI.",
-          "Verify local-reference cleanup/error propagation in actual JNI result conversion failure.",
-          "Normal Unicode input/registry smoke tests are not selected-path return conversion coverage."
-        ],
+        "remaining": [],
         "compatibility": "Normal Unicode remains supported. Arbitrary invalid UTF-8 Unix filenames now error instead of returning a potentially different path; supporting opaque native path bytes needs a new representation."
       },
       "closure_or_release_authorized_by_index": false

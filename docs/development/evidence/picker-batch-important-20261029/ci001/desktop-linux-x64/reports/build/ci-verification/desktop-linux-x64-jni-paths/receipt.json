@@ -1,0 +1,65 @@
+{
+  "actual_jvm_major": 17,
+  "checked_jni": true,
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "calf-file-picker/native/Cargo.toml",
+    "--locked",
+    "--jobs",
+    "1",
+    "--message-format=json",
+    "jni_path_tests",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "errors": 0,
+  "execution": {
+    "elapsed_seconds": 25.0,
+    "exit_code": 0
+  },
+  "failures": 0,
+  "filtered_unchanged_tests": 8,
+  "held_inputs": true,
+  "host": "Linux",
+  "inputs_after_sha256": "127956630d9cadc83c61fa8932b0032ab580192f9778201b161cf15e9bc78b0b",
+  "inputs_before_sha256": "127956630d9cadc83c61fa8932b0032ab580192f9778201b161cf15e9bc78b0b",
+  "native_test_executable_sha256": "705bf1d54cf4b427d20d9e9e1b56dcbeda806efd0e5afb80ad828256fea39f76",
+  "passed": true,
+  "runtime_receipt_sha256": "08d83d7080823b168b338fce58b852883c17a52ee0fc3f20c8af30c87308e1c5",
+  "scope": "Actual JNI selected-path converter, owned real invalid-byte/Unicode filesystem fixtures and weak array collection; no OS picker selection or full ABI/consumer/native-parent/release certification",
+  "selected_inputs": 838,
+  "skipped": 0,
+  "source_revision": "046628459b91995c7636c2ef93857d85253c2cb3",
+  "source_tree_dirty": false,
+  "testcases": [
+    {
+      "classname": "jni_path_tests",
+      "name": "actual_jni_keeps_non_ascii_and_supplementary_filename_bytes_exact",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "name": "actual_invalid_byte_file_is_rejected_without_selecting_its_replacement_character_peer",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "name": "actual_directory_result_raises_io_exception_instead_of_returning_a_lossy_path",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "name": "actual_save_path_failure_does_not_open_or_overwrite_the_lossy_peer",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "name": "repeated_mid_array_failure_releases_actual_jni_frame_arrays_and_clears_only_the_expected_error",
+      "status": "passed"
+    }
+  ],
+  "tests": 5
+}

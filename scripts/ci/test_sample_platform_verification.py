@@ -115,7 +115,8 @@ class SamplePlatformVerificationTests(unittest.TestCase):
                 cases = [{**case, "status": "passed"} for case in item["required_testcases"]]
                 suite = item["suite"]
                 if suite == "ios":
-                    actual = [{**c, "name": c["name"] + "[iosSimulatorArm64]"} for c in cases]
+                    actual = [{**c, "classname": libraries.SUITES[suite][0] + "." + c["classname"],
+                               "name": c["name"] + "[iosSimulatorArm64]"} for c in cases]
                 elif suite in {"js", "wasm"}:
                     target = "js" if suite == "js" else "wasmJs"
                     actual = [{**c, "classname": libraries.SUITES[suite][0] + "." + c["classname"],
@@ -127,6 +128,20 @@ class SamplePlatformVerificationTests(unittest.TestCase):
                     self.assertFalse(sample.exact_case_inventory(item, cases, require_runtime_suffix=True))
                 bad = [{**actual[0], "name": actual[0]["name"] + "[foreign]"}, *actual[1:]]
                 self.assertFalse(sample.exact_case_inventory(item, bad, require_runtime_suffix=True))
+
+    def test_native_identity_has_the_actual_kgp_task_prefix_instead_of_a_flat_fixture_class(self):
+        import sample_platform_verification as sample
+        item = sample.plan(ROOT, "apple")["tests"][0]
+        # The independently collected real KGP Native XML uses this task prefix
+        # (see permission-ios-important-20261028/fixed001-attempt2/reports), not
+        # merely a target suffix on a synthetic JVM-style class name.
+        actual = [{"classname": libraries.SUITES["ios"][0] + "." + case["classname"],
+                   "name": case["name"] + "[iosSimulatorArm64]", "status": "passed"}
+                  for case in item["required_testcases"]]
+        self.assertTrue(sample.exact_case_inventory(item, actual, require_runtime_suffix=True))
+        self.assertFalse(sample.exact_case_inventory(item,
+            [{**case, "classname": case["classname"].removeprefix("iosSimulatorArm64Test.")} for case in actual],
+            require_runtime_suffix=True))
 
     def test_new_native_graphics_host_is_explicit_and_does_not_claim_physical_encoding_verification(self):
         source = (ROOT / "sample/common/src/androidHostTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleImageCodecAndroidHostTest.kt").read_text()

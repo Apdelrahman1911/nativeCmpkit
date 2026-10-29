@@ -1,5 +1,9 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared sample Native report identity repaired — 2026-10-29
+
+[README](docs/development/evidence/sample-data-safety-batch-important-20261029/native-identity-tools001/README.md) records one red guard then **13/13** owning tools / **960 held inputs**. Actual KGP Native XML has a task-qualified class name; the prior synthetic flat-class fixture was wrong. Twelve methods overlap the earlier33, not46 unique tests. Zero new local runtime executions. Linux40963671526 / Apple40967168162 remain independently running on their original immutable inputs, not redispatched. Preserve any reducer-only whole failure and review actual passing methods separately; #100/#154 stay open pending original criteria. #139 remains closed; **77 closed / 95 open**. Single-agent / max two combined heavy requests / 8 GiB reserve; publishing, Pages, main/history and independent release/security gates unchanged.
+
 ## Related rendering batch verified subset closed — 2026-10-29
 
 **#139/UI-036 CLOSED immediately after all three original criteria review**.

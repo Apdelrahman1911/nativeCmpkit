@@ -131,7 +131,7 @@ def exact_case_inventory(item: dict, cases: list[dict], *, require_runtime_suffi
             return False
         classname, name = case["classname"], case["name"]
         prefix = lt.SUITES[suite][0] + "."
-        if suite in {"js", "wasm"}:
+        if suite in {"js", "wasm", "ios"}:
             if classname.startswith(prefix):
                 classname = classname[len(prefix):]
             elif require_runtime_suffix:

@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related state verified subset and one-test recovery — 2026-10-29
+
+**UI-019/#127 CLOSED/completed**, immediately after both original criteria pass:
+[actual native40854890326/58b53354](docs/development/evidence/ui-state-batch-important-20261029/native-ci001/README.md)
+is **FAILED**,8actual cases/7pass/1fail/3fresh XML/862exact Git inputs; bothpublic
+sheet methods+4genuine host methods+timecontroller replacement pass. Protocol/XML,
+Worker/runtime/binary/install/owned cleanup complete. Original issue body/title/
+labels/history readback preserved. Time epoch Expected1/actual0 fails before
+locale/zone/current-state checks; #124 staysOPEN. Epoch now observed during
+composition, original assertion retained. Finite recovery selectsONLYone failed
+method; sevenaccepted unchanged methods reused explicitly, not replayed. Changed
+importantguards5/5 and heldtestKLIB0/57.01s/863inputs pass; ZEROlocalnative tests.
+70closed/102open/172;39implemented/50partial/68verified/seven unresolved.
+Single-agent; no publishing/releases/deployments/Pages or main/history changes;
+physical/minimum/ABI/full consumer/dependency/provenance/legal/security gates remain.
+
 ## Direct native advisory checks; functionality remains open — 2026-10-29
 
 [Actual direct RustSec scans](docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/README.md)

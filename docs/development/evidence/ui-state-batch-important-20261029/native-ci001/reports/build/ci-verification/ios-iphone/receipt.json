@@ -1,0 +1,336 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest.generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest.nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest.repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest.failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest.identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest.hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest.visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest.realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1570.15,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-remembered-state",
+  "finished_at_utc": "2026-10-29T10:39:32.884147+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "e6fc722ed12b698ecd13ef8dd11f918edb86ff639ef715942fae468b85e14b79",
+  "inputs_before_sha256": "e6fc722ed12b698ecd13ef8dd11f918edb86ff639ef715942fae468b85e14b79",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "38518f50d2940c13518b24879538e397b4334c1bcbc2f0f158d2a180be90b263",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r58b533547a54.tdd77ecc2bd5a4575b154b7e81f3a4c11",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 8,
+        "failures": 1,
+        "not_applicable": 0,
+        "passed": 7,
+        "skipped": 0,
+        "tests": 8,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/dd77ecc2bd5a4575b154b7e81f3a4c11/receipt.json",
+      "receipt_sha256": "ff5f1a9b9861c71548dd6787d8b231835883253f9f150a42be76cd243dfe067f",
+      "required_native_cases_found": 8,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 8,
+      "failures": 1,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 7,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Appli-FFICTR0PJ81S6.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest.xml",
+          "sha256": "ffd2fdb0cfcbcc3ee56f1b7af3c617bfbc782366314005289de80f19248f040a",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest.xml",
+          "sha256": "0c2076fbf2e382239313d0d3ed3594b205dc281b56ba2b37b2a00c7fc8d91a47",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest.xml",
+          "sha256": "cffa00e496ddc2960088d921a1d2e8b191b0f897fb9fc867aa3c39349c00a78a",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+          "name": "hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+          "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+          "name": "visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+          "name": "realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 8,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest",
+      "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+      "name": "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest",
+      "name": "hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+      "name": "visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest",
+      "name": "realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "6c17788f041f4d7826a87120e26ec2b87cddf8f7ad84847ba7b209cd7621e31e",
+  "schema_version": 1,
+  "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
+  "source_revision": "58b533547a544d00c773882f6935c23a3a25f85a",
+  "source_revision_after": "58b533547a544d00c773882f6935c23a3a25f85a",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T10:13:22.491304+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 8,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 7,
+    "skipped": 0,
+    "tests": 8,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

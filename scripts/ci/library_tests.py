@@ -509,6 +509,14 @@ UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {
     "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
 }
 
+IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
+    "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,
+                "methods": (IOS_TIME_STATE_METHODS[0],),
+                "declared_methods": IOS_TIME_STATE_METHODS},),
+    "scope": "Only the failed identical-state/native zone/locale/current-owner method after repairing its composition epoch witness. Seven completed host/sheet/controller methods are explicitly reused, not replayed; all genuine protocol/XML/Worker/runtime/binary/cleanup gates remain. No physical OS Settings/hour-cycle/minimum-platform/ABI/release certification.",
+}
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
@@ -2164,6 +2172,7 @@ def main() -> int:
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
                                            IOS_UI_STATE_FOCUS,
+                                           IOS_TIME_STATE_RECOVERY_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,

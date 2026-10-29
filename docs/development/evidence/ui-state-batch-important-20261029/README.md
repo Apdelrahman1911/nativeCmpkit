@@ -1,7 +1,21 @@
 # Related remembered native state acceptance — 2026-10-29
 
-Shared important batch: **UI-010/#124 and UI-019/#127**. Both remain open until
-the original criteria and actual native results are reviewed together.
+Shared important batch: **UI-010/#124 and UI-019/#127**. **#127 is now closed**
+after both original criteria and its actual shared native results pass.
+**#124 remains open** for one failed method; the independently verified subset
+was closed immediately rather than waiting for unrelated recovery.
+
+## Latest actual result
+
+[Actual native review and closure](native-ci001/README.md): immutable58b53354 /
+40854890326 is FAILED,8actual cases/7pass/1fail,3freshXML,862exact Git inputs.
+Both sheet methods/allfour genuine host methods/time-controller replacement pass;
+the other time method fails its initial epoch assertion before native locale/zone/
+state replacement. Genuine transport/Worker/runtime/binary/install/cleanup complete.
+Repair its composition-observed epoch witness without weakening assertions;
+`ios-time-state-recovery` selects **only that failed method**, retaining all gates
+and explicitly reusing the seven accepted methods rather than rerunning them.
+Earlier pending observations below are preserved as historical evidence.
 
 ## Owning changes and checks
 

@@ -29,9 +29,12 @@ class NativeTimeStateLifecycleAcceptanceTest {
         var committed = -1
         lateinit var parent: UIViewController
         setContent {
+            // Observe the epoch during composition. Reading it only inside a
+            // SideEffect does not subscribe this root to a recomposition.
+            val composingEpoch = epoch
             parent = LocalUIViewController.current
             AdaptiveTimePicker(current)
-            SideEffect { committed = epoch }
+            SideEffect { committed = composingEpoch }
         }
         waitForIdle()
         waitForNative { parent.view.datePickers().singleOrNull()?.window != null }

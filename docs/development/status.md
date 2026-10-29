@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `33404d205b4bc7a9a68ddfa50c935d7382063b3366e78af0aa79bc35e307d4d0`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `7d626123f69f8140a52f1d8825bd7e0918b498a95eb3aa3747707f0d6cf867b7`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 39 |
-| partially-verified | 51 |
-| verified | 67 |
+| partially-verified | 50 |
+| verified | 68 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -177,7 +177,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
 | 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | partially-verified | — | 2 / 2 |
-| 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | partially-verified | — | 2 / 1 |
+| 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | verified | — | 2 / 0 |
 | 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | verified | — | 2 / 0 |
 | 134 | [UI-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129) | Medium | 2 | M | implemented | — | 2 / 2 |
 | 135 | [UI-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/130) | Medium | 2 | S | verified | — | 2 / 0 |
@@ -2948,14 +2948,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Runtime locale/timezone changes and controller replacement matrix.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- The identical-state/native runtime locale/timezone/current-owner method must recover its composition epoch witness and execute all subsequent assertions. Actual controller replacement already passes; reuse it unchanged rather than replay.
+- Physical OS Settings/hour-cycle/native wheel/device/minimum/heap/full ABI/consumer/security/release requirements remain independent; no pass inferred from the early failure.
 
 **Compatibility / scope:** Existing state API preserved; native callbacks no longer target replaced state.
 
 ### 132. UI-019 — Changing the sheet confirmation callback recreates remembered sheet state
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #127](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort S** — [nativeCmpkit #127](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2966,7 +2966,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Visible sheet callback replacement, density change and restore/skip-flag matrix.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Changing only a callback no longer resets state; deliberate structural skip changes can reset.
 
@@ -3609,7 +3609,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `7af3a52be265faebf66f63d772dff1908b78bb6a73ddb89bab17b80ced4888c0` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f169285a4ad99d8f833856b3a12648096a87dbd05b2d2d4aab46e6a3df7aacb6` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `5ff11f7e249b798a3857795f77a5b953faab1b141ea9ead3f85e18b2b975c24c` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

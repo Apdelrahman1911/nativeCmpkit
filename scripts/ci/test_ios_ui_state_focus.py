@@ -122,7 +122,9 @@ class IOSUiStateFocusTests(unittest.TestCase):
         composition = (r.ROOT / "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt").read_text()
         self.assertIn("onDispose { datePickerManager.dispose() }", composition)
         time_state = (r.ROOT / r.IOS_TIME_STATE_SOURCE).read_text()
-        for value in ("onApplicationMain { NSTimeZone.defaultTimeZone = priorDefaultZone }",
+        for value in ("val composingEpoch = epoch", "SideEffect { committed = composingEpoch }",
+                      "assertEquals(round + 1, committed)",
+                      "onApplicationMain { NSTimeZone.defaultTimeZone = priorDefaultZone }",
                       "assertTime(picker, 14, 35)", "setNativeTime(picker, 9, 18)",
                       "assertEquals(9, second.hour)", "assertEquals(18, second.minute)",
                       "assertEquals(previousHour, first.hour)", "assertEquals(previousMinute, first.minute)"):

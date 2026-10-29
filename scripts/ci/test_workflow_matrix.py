@@ -1,9 +1,50 @@
+import json
+from pathlib import Path
+import subprocess
 import unittest
+from unittest.mock import patch
 
 import workflow_matrix as m
 
 
 class WorkflowMatrixTests(unittest.TestCase):
+    def test_read_only_cli_preflight_covers_the_complete_eleven_slot_matrix_without_builds(self):
+        result = m.preflight_plans("all")
+        self.assertTrue(result["source_only"])
+        self.assertEqual(0, result["Gradle_builds_executed"])
+        self.assertEqual(0, result["library_tests_executed"])
+        self.assertEqual({row["slot"] for row in m.matrix("all")["include"]}, {row["slot"] for row in result["slots"]})
+        for row in result["slots"]:
+            self.assertEqual("plan", row["command"][3])
+            self.assertNotIn("run", row["command"])
+            self.assertEqual(0, row["exit_code"])
+
+    def test_related_slider_cli_preflight_keeps_exact_focus_and_module_selection(self):
+        for profile in ("ios-slider-remaining", "ios-slider-structure"):
+            result = m.preflight_plans(profile)
+            slot, = result["slots"]
+            matrix_row, = m.matrix(profile)["include"]
+            command = slot["command"]
+            self.assertEqual("calf-ui", command[command.index("--module") + 1])
+            self.assertEqual(matrix_row["test-focus"], command[command.index("--focus") + 1])
+            self.assertEqual("ios", command[command.index("--suite") + 1])
+
+    def test_tooling_and_consumer_only_profiles_never_request_library_preflight_or_builds(self):
+        with patch.object(m.subprocess, "run", side_effect=AssertionError("must not execute")):
+            for profile in ("tooling", "consumer-core-io", "consumer-webview"):
+                self.assertEqual([], m.preflight_plans(profile)["slots"])
+
+    def test_invalid_cli_or_empty_wrong_suite_plan_fails_before_host_outputs(self):
+        for code, stdout in ((2, ""), (0, "{}"), (0, json.dumps({"suite": "desktop", "expected": [1]}))):
+            with self.subTest(code=code, stdout=stdout), patch.object(m.subprocess, "run",
+                    return_value=subprocess.CompletedProcess([], code, stdout, "private diagnostic")):
+                with self.assertRaises(ValueError) as failure:
+                    m.preflight_plans("ios-slider-remaining")
+                self.assertNotIn("private diagnostic", str(failure.exception))
+        workflow = (Path(m.__file__).resolve().parents[2] / ".github/workflows/gradle.yml").read_text()
+        self.assertLess(workflow.index('preflight = workflow_matrix.preflight_plans(os.environ["PROFILE"])'),
+                        workflow.index('with open(os.environ["GITHUB_OUTPUT"], "a")'))
+
     def test_all_has_exact_eleven_distinct_slots_including_native_android(self):
         rows = m.matrix("all")["include"]
         self.assertEqual(11, len(rows))

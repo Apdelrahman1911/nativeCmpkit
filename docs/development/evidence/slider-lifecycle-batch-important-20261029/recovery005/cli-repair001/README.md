@@ -1,0 +1,7 @@
+# Shared CLI/early-preflight repair
+
+[Retained Apple planning failures](../../recovery004/cli-block002/README.md) expose duplicated registration: both real recovery CLI plans exit2 while in-process planning succeeds. Argparse now includes every existing finite native-application registry entry, deduplicated without removing prior choices. The actual CLI regression exercises all15 registered application focuses and rejects the wrong suite.
+
+Linux tooling now preflights every selected row through the real **read-only** CLI before emitting heavy-host job outputs. All11 full-matrix slots and focused selections, failure/empty/wrong-suite rejection, no-op consumer/tooling profiles and ordering are checked. Host-side planning, fresh nonzero XML, runtime/Worker/native bytes/cleanup and all read-only permissions remain mandatory. No build or runtime test is inferred from planning.
+
+Final important tools **114/114**, 8.72s,869 held inputs. Earlier75/109 passes overlap and are not added as unique tests. Both unexecuted structural methods now additionally assert current semantic range/value, real SetProgress/touch parity and exact callback/finish counts after every replacement;62 diagnostic phases and every prior cancellation assertion remain. **Zero local changed KLIB/native tests.** Only four unfinished native methods need execution, on two focused jobs; reuse the two unchanged completed enable/callback methods explicitly. #34/#137 remainopen pending native results. No production slider repair or release/publication claim.

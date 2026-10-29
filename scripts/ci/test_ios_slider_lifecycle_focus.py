@@ -97,6 +97,10 @@ class IosSliderLifecycleTests(unittest.TestCase):
                       '"measured width"', '"density and thumb geometry"', '"RTL direction"',
                       '"range" to', '"steps" to', '"interaction source"', "cancelScenePointerInput()",
                       "changes > changesBeforeDrag", "assertTrue(currentChanges > 0", "it.start === start",
+                      '"$name semantics must use the replacement range"',
+                      '"$name current-domain semantics and touch must agree"',
+                      "assertEquals(changesBeforeReplacement + 2, changes)",
+                      "assertEquals(finishesBeforeReplacement + 2, finished)",
                       "assertFalse(observedDragging", "mainClock.advanceTimeBy(512)"):
             self.assertIn(value, source)
         self.assertNotIn("Thread.sleep", source)

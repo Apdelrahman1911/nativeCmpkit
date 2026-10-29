@@ -1,5 +1,7 @@
 """Finite slider recovery/progress/deadline guards; synthetic, not native executions."""
 import copy
+import json
+import subprocess
 import unittest
 
 import ios_ui_application as app
@@ -11,6 +13,22 @@ import workflow_matrix as matrix
 class IosSliderRecoveryFocusTests(unittest.TestCase):
     def plan(self, focus, root=r.ROOT):
         return r.plan(root, "ios", only_modules=("calf-ui",), focus=focus)
+
+    def test_every_registered_native_application_focus_reaches_the_real_cli_and_keeps_its_suite_module_interlock(self):
+        # Exercise the workflow's subprocess boundary, not only plan() in-process.
+        for focus, spec in r.UI_APPLICATION_FOCUS_SPECS.items():
+            module = spec.get("module", "calf-ui")
+            command = [r.sys.executable, "-B", str(r.ROOT / "scripts/ci/library_tests.py"), "plan",
+                       "--suite", "ios", "--module", module, "--focus", focus]
+            with self.subTest(focus=focus):
+                actual = subprocess.run(command, cwd=r.ROOT, capture_output=True, text=True, timeout=15)
+                self.assertEqual(0, actual.returncode, actual.stderr)
+                self.assertEqual(r.plan(r.ROOT, "ios", only_modules=(module,), focus=focus), json.loads(actual.stdout))
+                wrong_suite = command.copy()
+                wrong_suite[wrong_suite.index("--suite") + 1] = "desktop"
+                refused = subprocess.run(wrong_suite, cwd=r.ROOT, capture_output=True, text=True, timeout=15)
+                self.assertEqual(2, refused.returncode)
+                self.assertIn("requires its exact reviewed suite and single --module", refused.stderr)
 
     def fixture(self, focus):
         helper = original.IosSliderLifecycleTests()

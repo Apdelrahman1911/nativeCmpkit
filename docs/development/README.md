@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## Shared CLI blocker fixed before heavy-runner setup — 2026-10-29
+
+[Second isolated failures](evidence/slider-lifecycle-batch-important-20261029/recovery004/cli-block002/README.md) are nativeCLI plan failures withzeroXML/native tests; ownedcancellation raced the same failure. [Registry/early-preflight repair](evidence/slider-lifecycle-batch-important-20261029/recovery005/cli-repair001/README.md) runs114 important tools/all869held, all15native-focus CLIs and11full source-plan slots. No earlier overlapping75/109 count inflation or local native pass. Fourunfinished methods gain current-domain semantic parity/exact callback assertions; onlythose need native execution, nottwoaccepted enablemethods. BothissuesremainOPEN/72closed100open. Nextnative bridge fixture is held separately; single-agent/max2hosted jobs, no publishing/Pages/main/history/release changes.
+
 ## Focused slider CI setup repaired — 2026-10-29
 
 [Both isolated runs](evidence/slider-lifecycle-batch-important-20261029/recovery003/tooling-block001/README.md) FAILED before native tests; the shared tooling gate exposed stale mock signatures. [Fixture-only repair](evidence/slider-lifecycle-batch-important-20261029/recovery004/fixture-repair001/README.md) executes25/25 owning guards with869 held inputs, retaining initial762-method/four-subcase failure. Exact timeout-forwarding and cleanup are checked; no production slider fix/local native pass/closure. Reuse two completed unchanged methods and replace only four unfinished ones with max2hosted jobs; #34/#137 remainopen/72closed100open. Single-agent; no publishing/Pages/main/history or independent release-gate changes.

@@ -7,6 +7,9 @@ receipts establish coverage; extended slots are not silently dropped from all.
 from __future__ import annotations
 import argparse
 import json
+from pathlib import Path
+import subprocess
+import sys
 
 SLOTS = (
     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
@@ -311,6 +314,34 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = "save-device-identity-missing"
     return {"include": rows}
+
+
+def preflight_plans(profile: str, root: Path | None = None) -> dict:
+    """Validate the real read-only CLI before requesting expensive host runners.
+
+    Source planning is not Gradle compilation, test execution or release evidence.
+    The host job still rechecks its plan against the actual checkout/runtime.
+    """
+    root = (root or Path(__file__).resolve().parents[2]).resolve()
+    verified = []
+    for row in matrix(profile)["include"]:
+        command = [sys.executable, "-B", str(root / "scripts/ci/library_tests.py"), "plan",
+                   "--suite", row["suite"]]
+        modules = row.get("test-modules", "").split(",") if row.get("test-modules") else []
+        for module in modules:
+            command += ["--module", module]
+        if row.get("test-focus"):
+            command += ["--focus", row["test-focus"]]
+        result = subprocess.run(command, cwd=root, capture_output=True, text=True, timeout=30, check=False)
+        if result.returncode:
+            raise ValueError(f"Read-only profile CLI preflight failed for {row['slot']}; exit {result.returncode}")
+        plan = json.loads(result.stdout)
+        if not isinstance(plan, dict) or plan.get("suite") != row["suite"] or not plan.get("expected"):
+            raise ValueError(f"Read-only profile CLI returned an invalid/empty plan for {row['slot']}")
+        verified.append({"slot": row["slot"], "suite": row["suite"], "command": command,
+                         "expected_modules": len(plan["expected"]), "exit_code": result.returncode})
+    return {"profile": profile, "operation": "plan", "source_only": True,
+            "Gradle_builds_executed": 0, "library_tests_executed": 0, "slots": verified}
 
 
 def main() -> None:

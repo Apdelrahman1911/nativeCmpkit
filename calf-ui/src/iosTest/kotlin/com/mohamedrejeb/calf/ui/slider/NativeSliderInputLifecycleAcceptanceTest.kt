@@ -181,7 +181,16 @@ class NativeSliderInputLifecycleAcceptanceTest {
             assertEquals(range.start, value, "$name replacement must accept a fresh current-domain tap")
             assertEquals(changesBeforeReplacement + 1, changes)
             assertEquals(finishesBeforeReplacement + 1, finished)
-            assertEquals(steps, onNodeWithTag("slider").fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo].steps)
+            val progress = onNodeWithTag("slider").fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo]
+            assertEquals(steps, progress.steps)
+            assertEquals(range, progress.range, "$name semantics must use the replacement range")
+            assertEquals(value, progress.current, "$name semantics must expose the current tap value")
+            val midpoint = (range.start + range.endInclusive) / 2f
+            onNodeWithTag("slider").performSemanticsAction(SemanticsActions.SetProgress) { assertTrue(it(midpoint)) }
+            waitForIdle()
+            assertEquals(midpoint, value, "$name current-domain semantics and touch must agree")
+            assertEquals(changesBeforeReplacement + 2, changes)
+            assertEquals(finishesBeforeReplacement + 2, finished)
             structuralPhase(renderer, axis, "fresh-input-verified")
         }
     }

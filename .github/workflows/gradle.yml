@@ -58,8 +58,15 @@ jobs:
           import json, os, sys
           sys.path.insert(0, "scripts/ci")
           import webview_consumer
+          import workflow_matrix
           webview_matrix = webview_consumer.workflow_matrix(os.environ["PROFILE"])
           matrix = json.load(open("build/ci-plan/matrix.json"))
+          # Catch CLI/selection drift here, before macOS/Windows/emulator setup.
+          # This is read-only source planning, not compilation or executed tests.
+          preflight = workflow_matrix.preflight_plans(os.environ["PROFILE"])
+          with open("build/ci-plan/source-preflight.json", "w") as receipt:
+              json.dump(preflight, receipt, indent=2, sort_keys=True)
+              receipt.write("\n")
           with open(os.environ["GITHUB_OUTPUT"], "a") as output:
               output.write("matrix=" + json.dumps(matrix, separators=(",", ":")) + "\n")
               output.write("libraries=" + str(bool(matrix["include"])).lower() + "\n")

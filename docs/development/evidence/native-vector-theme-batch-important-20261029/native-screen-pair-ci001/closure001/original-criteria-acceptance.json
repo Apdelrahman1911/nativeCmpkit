@@ -1,0 +1,142 @@
+{
+  "both_actual_screens_passed": {
+    "compilation_reuse_not_old_test_XML": true,
+    "fresh_native_methods": 2,
+    "hosted_reducer_summary_present": false,
+    "packages_published": false,
+    "release_readiness_certified": false,
+    "screens": [
+      {
+        "actual_cases": 1,
+        "complete_native_lifecycle": true,
+        "density": 2.0,
+        "layer": 2.0,
+        "native_screen": 2.0,
+        "original_XML_preserved": true,
+        "passed_cases": 1,
+        "simulator": "C31127F4-83B8-4B9A-ACFE-3135F1C62B4E",
+        "source_revision": "087139915b6f538278fbd423c7de7a080dcd27b3",
+        "view": 2.0
+      },
+      {
+        "actual_cases": 1,
+        "complete_native_lifecycle": true,
+        "density": 3.0,
+        "layer": 3.0,
+        "native_screen": 3.0,
+        "original_XML_preserved": true,
+        "passed_cases": 1,
+        "simulator": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+        "source_revision": "087139915b6f538278fbd423c7de7a080dcd27b3",
+        "view": 3.0
+      }
+    ],
+    "source_revision": "087139915b6f538278fbd423c7de7a080dcd27b3",
+    "verified_native_densities": [
+      2.0,
+      3.0
+    ]
+  },
+  "closure_eligible": true,
+  "current_owning_source_and_accepted_toolchain_bindings_unchanged": {
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/uikit/UIKitImage.kt": "2b3849bd7f092788713a71192accbf09dc327cf0554720388e2b5cd5aaea90ec",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageRasterization.kt": "e88b4689d20084543e93ce12c93235229c3d167847a9768c042bed061dfde218",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt": "5dc2f156d7f1ceff28daeb0a407ead9428ff7732e278535f22b9726a189d2c56",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ColorHelper.kt": "7a8017c4e5ec1379a0f087afa5e8cbbc8da9f1ebf21788b83cd0be85b1fa105f",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt": "d3c804ed86981b9f8d41afbd66f060043ea1b7e284768085855f0b3d6cb7b225",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeUtils.kt": "026d66e185c3f3526598a845f7f430cc4297e82470480a308d5ec906c3d9b395",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiTest.kt": "315af105d5fee98112cee8d9e678d5055fe9b7b962af7c542d8702c401004b0f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt": "8fbcf18dc9b39dcb120f04532b0a8e51a624e333c252aefa7f2e437fb4a61a2f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt": "f1f028ef4fb20b31c0407c6a2ff56805d2c4a0dd8b2a9db77c80366fc2cd447e",
+    "gradle.properties": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "gradle/wrapper/gradle-wrapper.jar": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+    "gradle/wrapper/gradle-wrapper.properties": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907",
+    "gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+  },
+  "finding_id": "UI-036",
+  "fresh_XML_reports": 2,
+  "fresh_native_target_executions": 2,
+  "fresh_run_id": 40956332036,
+  "fresh_source_revision": "087139915b6f538278fbd423c7de7a080dcd27b3",
+  "issue_number": 139,
+  "packages_releases_deployments_or_Pages_created": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Unchanged accepted native-vs-real-Compose painter methods exercise nested translation/scale/rotation/pivots, nested clipping, even-odd fill, gradient/multiple colors, fill/stroke alpha and stroke-only/round/trim paths. The renderer delegates vector paints/transforms to the real Compose VectorPainter, not the old flattened path outline.",
+      "original_requirement": "Nested translated/scaled/rotated groups, clips, even-odd fill, stroke-only paths, alpha and multiple colors.",
+      "status": "verified"
+    },
+    {
+      "evidence": "The exact source-bound UIImage cases verify RTL autoMirror/root tint and non-square24x16 sizing at2x/3x. Two fresh genuine attached UIImageView methods on distinct actual2x iPad and3x iPhone screens additionally verify AlwaysOriginal and native AlwaysTemplate/tint, every channel with unchanged tolerance3 and exact screen/view/layer/source density agreement.",
+      "original_requirement": "RTL autoMirror, tint/template rendering,2x/3x density and non-square viewport.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Apple source ImageVector-vs-produced UIImage comparisons already passed in complete immutable40522929974 attempt2, with unchanged source/bridge and original painter pixel oracle. Fresh native hierarchy/template pixel snapshots now pass on both actual screen resolutions, with independent fresh XML, protocol/Worker/runtime/install/binary/owned cleanup. Earlier cross-resolution pixel failures remain failed observations; no unproven converter fault or resampling mechanism is claimed.",
+      "original_requirement": "Compare source ImageVector and resulting UIImage pixel snapshots on Apple.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Native simulator rendering, not physical/minimum-platform/accessibility/ABI/consumer/security certification.",
+    "The retained painter oracle allows its original1percent edge-pixel budget; fresh hierarchy/template tests inspect every channel with tolerance3.",
+    "UI-037/038 native diagnostic/profiling requirements and all independent release gates remain open."
+  ],
+  "reused_image_methods": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "primaryTransparentAndHalfAlphaPixelsHaveExplicitRgbaChannels[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "halfAlphaCompositesCorrectlyOverBlackAndWhite[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "imageScaleAndDensityRetainLogicalDimensions[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "nativeVectorPixelsMatchTheRealComposePainter[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "nativeVectorTintAndRtlMatchTheRealComposePainter[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "invalidScaleAndDimensionsStopBeforeNativeAllocation[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "eachAllocationFailureReleasesAllEarlierNativeObjects[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "exceptionAfterSnapshotStillReleasesImageContextAndColorSpace[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected[iosSimulatorArm64]",
+      "status": "passed"
+    }
+  ],
+  "reused_nine_image_and_four_theme_methods_not_fresh_and_component_counts_overlap": true,
+  "reused_run_attempt": 2,
+  "reused_source_revision": "202059090bbbf896d07d38a3441cf21c8888c63b",
+  "reviewed_at_utc": "2026-10-29T22:31:22.369071+00:00",
+  "whole_workflow_stays_failed_reducer_KeyError_name": true
+}

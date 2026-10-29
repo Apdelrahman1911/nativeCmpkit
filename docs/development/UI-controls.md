@@ -1,5 +1,9 @@
 # UI controls development — UI-027 through UI-045
 
+## Shared native rendering closure — 2026-10-29
+
+[UI-036/#139](evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/README.md) closes directly after original criteria review: two fresh real2x/3x native screen executions pass; unchanged prior painter/RTL/tint/size methods reused, not replayed. The whole workflow remains failed at a separately repaired reducer, not native rendering. Earlier pixel failures, overlapping counts and UI-037/038 profiling/security/release gates remain explicit.
+
 ## Important UI direct closures — 2026-10-28
 
 [UI-043/#163 and UI-044/#164](evidence/ui-important-20261028/README.md) close directly after both original criteria

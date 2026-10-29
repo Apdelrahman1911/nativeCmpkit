@@ -9,6 +9,30 @@ import failure_diagnostics as d
 
 
 class FailureDiagnosticsTests(unittest.TestCase):
+    def test_sample_xcode_source_error_is_retained_without_full_build_or_console_output(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/sample-platforms-apple"
+            output.mkdir(parents=True)
+            line = "/owned/sample/ios/Calf/ContentView.swift:18:13: error: cannot find 'Common' in scope"
+            (output / "xcode.log").write_text("arbitrary application output\n" + line + "\n** BUILD FAILED **\n")
+            result = d.capture(root, "build/ci-verification/sample-platforms-apple")
+            row, = result["logs"]
+            self.assertEqual("xcode.log", row["name"])
+            self.assertEqual("", row["tail"])
+            self.assertEqual(line + "\n", row["excerpts"][0]["text"])
+            self.assertNotIn("arbitrary application output", str(row))
+            self.assertFalse(result["test_success_inferred"])
+            self.assertFalse(result["full_logs_uploaded"])
+
+    def test_xcode_source_error_uses_existing_credential_and_excerpt_bounds(self):
+        result = d.sections(["/owned/source.swift:3:2: error: password=private"])
+        self.assertEqual(1, len(result))
+        self.assertIn("omitted credential-related", result[0]["text"])
+        self.assertNotIn("private", result[0]["text"])
+        line = "/owned/source.swift:3:2: error: " + "x" * 5000
+        self.assertLessEqual(len(d.sections([line])[0]["text"]), 2001)
+
     def test_browser_startup_and_webpack_failure_precede_missing_xml_without_a_full_log(self):
         for task in ("jsBrowserTest", "wasmJsBrowserTest"):
             lines = [f"> Task :calf-file-picker-coil:{task}",

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a6e756573f6912ba7c3a9b5d5e3f87473346dbcfe6b9e1187220fdc3126d3606`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4bf67b9d99465f7b41ebbe8b210e9445aef2e309c90091d517b029364ab71468`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 36 |
-| partially-verified | 47 |
-| verified | 74 |
+| partially-verified | 46 |
+| verified | 75 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -188,7 +188,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 140 | [UI-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/136) | Medium | 2 | S | verified | — | 2 / 0 |
 | 141 | [UI-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/137) | Medium | 2 | M | verified | — | 3 / 0 |
 | 142 | [UI-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138) | Medium | 2 | M | partially-verified | — | 3 / 3 |
-| 143 | [UI-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139) | Medium | 2 | M | partially-verified | — | 3 / 2 |
+| 143 | [UI-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139) | Medium | 2 | M | verified | — | 3 / 0 |
 | 144 | [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) | Medium | 2 | M | partially-verified | — | 3 / 1 |
 | 145 | [UI-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141) | Medium | 2 | S | partially-verified | UI-037 | 3 / 2 |
 | 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | partially-verified | UI-031, UI-032 | 3 / 3 |
@@ -3154,7 +3154,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 143. UI-036 — ImageVector-to-UIImage conversion discards vector paints, transforms and clipping
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #139](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #139](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3166,8 +3166,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Compile/execute Apple UIImage-vs-real-Compose pixel comparisons, native density/logical sizing and RTL tests.
-- Native template/bar/menu tint policy and callsite behavior require platform integration checks; unknown SF Symbols still return null by existing contract.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
 
@@ -3606,7 +3605,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `54bf293576e324088ea9bebc6bd619ba06e8d6801810efdc88e58db24d6b5985` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `c761b057a05d299f0c19c8e0c9ee92f9a040d6f302e85281fc0cb000554f657d` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `575469e9f9a39051e343caf5f60a3d5f58e4282888100f4b3ed3f5f322beedb6` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |

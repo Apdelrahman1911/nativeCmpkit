@@ -1,0 +1,87 @@
+{
+  "accepted_method_replay_requested": false,
+  "actual_cli_preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "ios-vector-native-screen-pair",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-vector-rendering-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-ipad",
+        "suite": "ios"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-vector-rendering-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-ipad",
+        "suite": "ios"
+      }
+    ],
+    "source_only": true
+  },
+  "fresh_heavy_hosts": 1,
+  "fresh_native_method_executions_requested": 2,
+  "matrix": {
+    "arch": "arm64",
+    "python": "python3",
+    "runner": "macos-26",
+    "serial-simulator-kind": "iphone",
+    "serial-test-focus": "ios-native-vector-rendering-recovery",
+    "simulator-kind": "ipad",
+    "slot": "ios-ipad",
+    "suite": "ios",
+    "test-focus": "ios-native-vector-rendering-recovery",
+    "test-modules": "calf-ui"
+  },
+  "maximum_combined_heavy_requests": 2,
+  "packages_or_binaries_uploaded": false,
+  "profile": "ios-vector-native-screen-pair",
+  "serial_selections": [
+    {
+      "focus": "ios-native-vector-rendering-recovery",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]"
+        }
+      ],
+      "simulator-kind": "ipad"
+    },
+    {
+      "focus": "ios-native-vector-rendering-recovery",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest",
+          "name": "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint[iosSimulatorArm64]"
+        }
+      ],
+      "simulator-kind": "iphone"
+    }
+  ]
+}

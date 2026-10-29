@@ -1178,11 +1178,12 @@
   },
   {
     "id": "UI-036",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Replaced one-black-path aggregation with a noncomposable Compose Canvas renderer preserving nested group transforms/clips and each path brush/fill/stroke/alpha/trim/fill rule.",
       "Root tint and autoMirror honor owning layoutDirection; raster dimensions/density retain logical UIImage scale.",
-      "No manually owned temporary Skia Surface/Image/Paint in rasterization; native callers now pass layoutDirection through shared conversion."
+      "No manually owned temporary Skia Surface/Image/Paint in rasterization; native callers now pass layoutDirection through shared conversion.",
+      "2026-10-29: all three original UI-036 criteria accepted in the shared native vector/theme batch. Both actual2x iPad/3x iPhone hierarchy/template pixel cases pass on immutable08713991 with complete independent XML/Worker/runtime/binary/install/owned cleanup; nine unchanged complete40522929974 attempt2 image methods and previously accepted theme/component cases reused explicitly. #139 closed immediately before documentation; whole40956332036 remains failed at final reducer KeyError(name), whose owning tooling fix is already committed. No unproven converter/resampling root cause, physical/ABI/consumer/security/release or UI-037/038 profiling acceptance is inferred."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageRasterization.kt",
@@ -1269,12 +1270,31 @@
           "docs/development/evidence/native-vector-theme-batch-important-20261029/phone-native-ci001/README.md",
           "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair001/owning-ci-tools001.json"
         ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=C31127F4-83B8-4B9A-ACFE-3135F1C62B4E :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+        "result": "PASS original-criteria subset: one fresh actual native UIImage hierarchy/template case at 2x screen/view/layer/source, one fresh XML, Gradle0/1730.15s; original every-channel tolerance3 retained. All880 selected inputs hold exact Git at087139915b6f538278fbd423c7de7a080dcd27b3. Independent complete Worker/protocol/runtime/signed-binary/install/owned cleanup accepted. Together with the distinct opposite screen and unchanged prior painter/RTL/native-size cases this satisfies original three criteria, not the failed whole workflow or a release gate.",
+        "scope": "Actual owned iPad2x/iPhone3x simulator-native rendering and original finding acceptance only.",
+        "evidence": [
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/review.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/closure001/original-criteria-acceptance.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/closure001/closure-readback.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/reducer-failure.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+        "result": "PASS original-criteria subset: one fresh actual native UIImage hierarchy/template case at 3x screen/view/layer/source, one fresh XML, Gradle0/324.49s; original every-channel tolerance3 retained. All880 selected inputs hold exact Git at087139915b6f538278fbd423c7de7a080dcd27b3. Independent complete Worker/protocol/runtime/signed-binary/install/owned cleanup accepted. Together with the distinct opposite screen and unchanged prior painter/RTL/native-size cases this satisfies original three criteria, not the failed whole workflow or a release gate.",
+        "scope": "Actual owned iPad2x/iPhone3x simulator-native rendering and original finding acceptance only.",
+        "evidence": [
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/review.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/closure001/original-criteria-acceptance.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/closure001/closure-readback.json",
+          "docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/reducer-failure.json"
+        ]
       }
     ],
-    "remaining": [
-      "Compile/execute Apple UIImage-vs-real-Compose pixel comparisons, native density/logical sizing and RTL tests.",
-      "Native template/bar/menu tint policy and callsite behavior require platform integration checks; unknown SF Symbols still return null by existing contract."
-    ],
+    "remaining": [],
     "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
   },
   {

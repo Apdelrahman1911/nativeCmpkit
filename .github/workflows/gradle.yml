@@ -178,6 +178,15 @@ jobs:
           else
             python3 scripts/ci/sample_platform_verification.py "${args[@]}"
           fi
+      - name: Bounded owning sample failure diagnostics
+        if: failure()
+        run: |
+          output="build/ci-verification/sample-platforms-$SAMPLE_MODE"
+          if [[ -d "$output" ]]; then
+            python3 scripts/ci/failure_diagnostics.py --output "$output"
+          else
+            printf 'Sample invocation did not create a result directory; inspect failed setup step.\n'
+          fi
       - name: Keep sample receipts and original XML only, never apps/frameworks/packages
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

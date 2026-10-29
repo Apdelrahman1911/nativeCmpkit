@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related rendering batch verified subset closed — 2026-10-29
+
+**#139/UI-036 CLOSED immediately after all three original criteria review**.
+[Actual screen pair](docs/development/evidence/native-vector-theme-batch-important-20261029/native-screen-pair-ci001/README.md) passes **2/2** fresh target executions/two XML at real **2×**
+iPad/**3×** iPhone; complete independent native lifecycle/all 880 exact Git inputs.
+Second compile/link UP-TO-DATE; nine image/four theme methods reused, not replayed,
+with overlapping component counts. Whole40956332036 stays FAILED at reducer
+KeyError(name), already fixed in a39a36e5; no native rerun/relaxed pixels or invented
+converter cause.77 closed / 95 open;36 implemented / 46 partial / 75 verified / seven unresolved.
+[Shared bounded failure diagnostics](docs/development/evidence/sample-data-safety-batch-important-20261029/diagnostics-tools001/README.md) pass **33/33** owning tools/all 960 held,
+three initial reds retained; zero local runtime builds. Original sample Linux CI
+continues independently. Single-agent/max two combined heavy requests/8 GiB reserve;
+all publishing/Pages/main/history and independent release/security gates unchanged.
+
 ## Shared sample root blocker repaired — 2026-10-29
 
 [40962484420](docs/development/evidence/sample-data-safety-batch-important-20261029/platform-linux-ci001/README.md) remains FAILED at source planning: nonexistent workflow_matrix.ROOT; ZERO sample builds/native/XML, all960 exact Git inputs. [One-symbol owning fix](docs/development/evidence/sample-data-safety-batch-important-20261029/platform-preflight-repair001/README.md) uses sample_platform_verification.ROOT; new guard red1/1 first, changed26/26/all960 held/actionlint pass,25 overlap prior81. ZERO local Gradle/native tests. Replace only unexecuted sample batch once; 40956332036/08713991 native pair remains independently running, not redispatched. #139/#100/#154 stay open;76closed/96open; single-agent/max2 queued+running heavy requests/8GiB reserve, no publishing/Pages/main/history or independent release/security changes.

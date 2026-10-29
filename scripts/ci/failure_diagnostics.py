@@ -25,12 +25,13 @@ MAX_EXCERPT_BYTES = 24 * 1024
 MAX_EXCERPTS = 24
 MAX_INVENTORY_FILES = 512
 MAX_HASH_BYTES = 64 * 1024 * 1024
-LOGS = ("gradle.log", "library/gradle.log", "apk-assembly.log",
+LOGS = ("gradle.log", "library/gradle.log", "apk-assembly.log", "xcode.log",
         "owned-avd-create.log", "emulator.log")
 CREDENTIAL = re.compile(
     r"(?i)(authorization|password|passwd|secret|token|credential|"
     r"BEGIN .*PRIVATE KEY|https?://[^/\s]+@|[?&](?:sig|key|auth)=)")
 TASK = re.compile(r"^> Task (:[a-zA-Z0-9:_-]+)(?:\s|$)")
+XCODE_SOURCE_ERROR = re.compile(r"^[^\r\n]{1,1024}\.(?:swift|m|mm|c|h|cpp):[0-9]+:[0-9]+: (?:fatal )?error: ")
 
 
 def sanitized(lines: list[str]) -> str:
@@ -70,6 +71,10 @@ def sections(lines: list[str]) -> list[dict]:
             # including during APK assembly. Select the explicit error line,
             # never arbitrary surrounding compiler/application output.
             ranges.append((i, i + 1, "compiler-error"))
+        elif XCODE_SOURCE_ERROR.match(line):
+            # Exact source diagnostics from the real unsigned sample Xcode
+            # build, not surrounding Swift application or full build output.
+            ranges.append((i, i + 1, "xcode-source-error"))
         elif line.startswith("*** Terminating app due to uncaught exception "):
             # A real UIKit launch can fail before activation/TeamCity/JUnit.
             # Retain only the explicit Objective-C exception header; no nearby
@@ -156,7 +161,7 @@ def capture(root: Path, output_relative: str) -> dict:
         if before != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns):
             raise ValueError("Diagnostic input changed during readback")
         lines = payload.decode("utf-8", errors="replace").splitlines()
-        excerpts = sections(lines) if name.endswith("gradle.log") or name == "apk-assembly.log" else []
+        excerpts = sections(lines) if name.endswith("gradle.log") or name in {"apk-assembly.log", "xcode.log"} else []
         logs.append({"name": name, "bytes": stat.st_size, "sha256": hashlib.sha256(payload).hexdigest(),
                      "inspected": True, "excerpts": excerpts,
                      "excerpt_limit_may_omit_sections": len(excerpts) == MAX_EXCERPTS,

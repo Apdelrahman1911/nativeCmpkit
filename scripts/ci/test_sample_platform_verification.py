@@ -148,6 +148,18 @@ class SamplePlatformVerificationTests(unittest.TestCase):
         upload = job.split("- name: Keep sample receipts", 1)[1]
         for forbidden in (".apk", ".aar", ".jar", ".app", ".klib", "Common.framework", "*.log"):
             self.assertNotIn(forbidden, upload)
+
+    def test_failed_shared_sample_build_captures_bounded_diagnostics_before_reports_upload(self):
+        text = (ROOT / ".github/workflows/gradle.yml").read_text()
+        job = text.split("\n  sample-platforms:\n", 1)[1].split("\n  library-tests:\n", 1)[0]
+        capture = job.split("- name: Bounded owning sample failure diagnostics", 1)[1].split("- name: Keep sample receipts", 1)[0]
+        self.assertIn("if: failure()", capture)
+        self.assertIn('output="build/ci-verification/sample-platforms-$SAMPLE_MODE"', capture)
+        self.assertIn('if [[ -d "$output" ]]', capture)
+        self.assertIn('scripts/ci/failure_diagnostics.py --output "$output"', capture)
+        self.assertNotIn("|| true", capture)
+        self.assertNotIn("cat ", capture)
+        self.assertNotIn("tail ", capture)
         self.assertIn("scripts/ci/sample_platform_verification.py", job)
 
     def test_sample_init_script_ignores_inherited_builds_and_records_actual_public_compilation_graphs(self):

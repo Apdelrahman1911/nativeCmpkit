@@ -32,6 +32,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.lang.ref.ReferenceQueue
 import java.lang.ref.WeakReference
 import java.net.InetAddress
 import java.net.ServerSocket
@@ -62,7 +63,7 @@ class AndroidWebViewLifetimeDeviceTest {
                     ByteArrayInputStream(if (request.url.toString() == url) html else byteArrayOf()))
         }
         val retained = WebViewState(WebContent.Url(url))
-        val witnesses = mutableListOf<WeakReference<*>>()
+        val witnesses = mutableListOf<AndroidLifetimeWitness>()
         repeat(3) {
             val fixture = AndroidLifetimeFixture(retained, client())
             ActivityLease(fixture).use { host ->
@@ -142,7 +143,8 @@ class AndroidWebViewLifetimeDeviceTest {
                 val stopped = server.beats.get(); Thread.sleep(700)
                 assertEquals(stopped, server.beats.get())
                 assertEquals(1, fixture.disposed.get())
-                assertCollected(fixture.references.filter { it.get() !is WebViewLifetimeActivity })
+                assertCollected(fixture.nativeReferences)
+                assertFalse(fixture.activityReferences.single().wasCollected(), "The still-RESUMED Activity must remain live")
                 onMain { assertNull(state.webView) }
             }
         }
@@ -157,16 +159,19 @@ class AndroidWebViewLifetimeDeviceTest {
         val bFixture = AndroidLifetimeFixture(currentState)
         val a = ActivityLease(aFixture)
         var b: ActivityLease? = null
-        var previousWitness: WeakReference<AndroidWebView>? = null
+        var previousWitness: AndroidLifetimeWitness? = null
         try {
             val activeSecond = ActivityLease(bFixture).also { b = it }
             activeSecond.awaitCreated()
+            assertNotEquals(a.taskId(), activeSecond.taskId(), "Separate library owners must inhabit distinct live tasks")
+            a.assertAlive()
+            activeSecond.assertResumed()
             a.onActivity { activity ->
                 val native = createAndroidWebView(previousState, { AndroidWebView(activity) }, {
                     it.layoutParams = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                 }, {})
                 activity.addContentView(native, native.layoutParams)
-                previousWitness = WeakReference(native)
+                previousWitness = AndroidLifetimeWitness(native)
                 loadAndroidContent(native, previousState, previousState.content)
             }
             await("Both real native documents must be ready") { onMain {
@@ -188,6 +193,7 @@ class AndroidWebViewLifetimeDeviceTest {
                 assertNull(old.parent, "Library release must remove the real native child, even after callback failure")
             }
             assertCollected(listOf(assertNotNull(previousWitness)))
+            assertFalse(bFixture.nativeReferences.single().wasCollected(), "The live replacement must not collect with the released view")
             a.close()
             assertEquals("3", evaluate(currentState, "1 + 2"), "Another real Compose/Activity engine must keep working")
             assertEquals(0, bFixture.disposed.get())
@@ -206,14 +212,27 @@ class AndroidWebViewLifetimeDeviceTest {
         return assertNotNull(result.get())
     }
 
-    private fun assertCollected(references: List<WeakReference<*>>) {
+    private fun assertCollected(references: List<AndroidLifetimeWitness>) {
         assertTrue(references.isNotEmpty())
         repeat(60) {
             System.gc(); System.runFinalization(); onMain {}
-            if (references.all { it.get() == null }) return
+            if (references.all { it.wasCollected() }) return
             Thread.sleep(100)
         }
-        assertTrue(references.all { it.get() == null }, "Retained native/Activity references: ${references.mapNotNull { it.get()?.javaClass?.name }}")
+        val uncollected = references.filterNot { it.wasCollected() }.map { it.label }
+        assertTrue(uncollected.isEmpty(), "Retained native/Activity references: $uncollected")
+    }
+}
+
+/** Never dereference a target while collecting: ART temporary registers can otherwise supply a root. */
+internal class AndroidLifetimeWitness(target: Any) {
+    val label: String = target.javaClass.name
+    private val queue = ReferenceQueue<Any>()
+    private val reference = WeakReference(target, queue)
+    private var collected = false
+    fun wasCollected(): Boolean {
+        if (!collected) collected = queue.poll() === reference
+        return collected
     }
 }
 
@@ -233,14 +252,16 @@ internal class AndroidLifetimeFixture(val state: WebViewState, val client: Accom
                                      initiallyMounted: Boolean = true) {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     val navigator = WebViewNavigator(scope)
-    val references = CopyOnWriteArrayList<WeakReference<*>>()
+    val activityReferences = CopyOnWriteArrayList<AndroidLifetimeWitness>()
+    val nativeReferences = CopyOnWriteArrayList<AndroidLifetimeWitness>()
+    val references: List<AndroidLifetimeWitness> get() = activityReferences + nativeReferences
     val created = AtomicInteger()
     val disposed = AtomicInteger()
     val observedAttachment = AtomicBoolean()
     var mounted by mutableStateOf(initiallyMounted)
     fun created() {
         check(Looper.myLooper() == Looper.getMainLooper())
-        references += WeakReference(checkNotNull(state.webView))
+        nativeReferences += AndroidLifetimeWitness(checkNotNull(state.webView))
         created.incrementAndGet()
     }
 }
@@ -252,7 +273,7 @@ class WebViewLifetimeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val fixture = checkNotNull(AndroidLifetimeRegistry.fixtures[checkNotNull(intent.getStringExtra("nativecmpkit-lifetime"))])
-        fixture.references += WeakReference(this)
+        fixture.activityReferences += AndroidLifetimeWitness(this)
         setContent {
             if (fixture.mounted) {
                 if (fixture.client == null) {
@@ -280,7 +301,12 @@ internal class ActivityLease(val fixture: AndroidLifetimeFixture) : AutoCloseabl
         }
         AndroidLifetimeRegistry.fixtures[key] = fixture
         try {
-            scenario.set(ActivityScenario.launch(Intent(context, WebViewLifetimeActivity::class.java).putExtra("nativecmpkit-lifetime", key)))
+            // Test-core 1.7.0's invoker adds NEW_TASK | CLEAR_TASK. MULTIPLE_TASK prevents
+            // a second same-affinity fixture from destroying the first owner's task.
+            val intent = Intent(context, WebViewLifetimeActivity::class.java)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+                .putExtra("nativecmpkit-lifetime", key)
+            scenario.set(ActivityScenario.launch(intent))
         } catch (failure: Throwable) {
             AndroidLifetimeRegistry.fixtures.remove(key); fixture.scope.cancel(); throw failure
         }
@@ -289,6 +315,11 @@ internal class ActivityLease(val fixture: AndroidLifetimeFixture) : AutoCloseabl
         fixture.created.get() == 1 && fixture.observedAttachment.get() && onMain { fixture.state.webView?.isAttachedToWindow == true }
     }
     fun onActivity(body: (WebViewLifetimeActivity) -> Unit) { assertNotNull(scenario.get()).onActivity { body(it) } }
+    fun taskId(): Int {
+        val result = AtomicInteger(-1)
+        onActivity { result.set(it.taskId) }
+        return result.get().also { check(it >= 0) }
+    }
     fun unmount() {
         onMain { fixture.mounted = false }
         await("Real composition release and observable null attachment") {
@@ -299,6 +330,7 @@ internal class ActivityLease(val fixture: AndroidLifetimeFixture) : AutoCloseabl
         assertFalse(it.isFinishing); assertFalse(it.isDestroyed)
         assertEquals(Lifecycle.State.RESUMED, it.lifecycle.currentState)
     }
+    fun assertAlive() = onActivity { assertFalse(it.isFinishing); assertFalse(it.isDestroyed) }
     override fun close() {
         try { scenario.getAndSet(null)?.close() }
         finally { AndroidLifetimeRegistry.fixtures.remove(key); fixture.scope.cancel() }

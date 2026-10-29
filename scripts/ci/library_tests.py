@@ -534,6 +534,19 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_RECOVERY_FOCUS] = {
     "scope": "Seven failed/changed actual UIKit/Compose picker ownership and full application-host methods only. Original26-method plan and all protocol/XML/Worker/runtime/cleanup gates retained; no19-method completed subset or successful other-host replay, cloud/swipe/physical/minimum/release certification.",
 }
 
+IOS_PICKER_ADMISSION_FOCUS = "picker-ios-deferred-admission"
+IOS_DEFERRED_PRESENTATION_GROUP = {
+    "classname": "com.mohamedrejeb.calf.picker.IosDeferredPresentationOwnershipTest",
+    "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosDeferredPresentationOwnershipTest.kt",
+    "methods": ("deferredVoidPresentationKeepsCancelledExportAndWeakDelegateUntilActualNativeCompletion",
+                "exceptionAfterQueuedPresentationCannotDeleteStagingBeforeActualNativeCompletion"),
+}
+IOS_PICKER_ADMISSION_GROUPS = (*IOS_PICKER_RECOVERY_GROUPS, IOS_DEFERRED_PRESENTATION_GROUP)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_ADMISSION_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_ADMISSION_GROUPS,
+    "scope": "Seven changed UIKit/Compose ownership and complete application-host methods plus two controlled deferred-call/real UIKit-completion regressions. Original26/7 selections, protocol/XML/Worker/runtime/binary/cleanup gates retained. No unchanged19-method Foundation/filter/copy/staging replay, OS-refusal/swipe/provider/physical/minimum/release certification.",
+}
+
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
@@ -1944,6 +1957,14 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                      step["attached"] == (index in range(2, 7))
                      for index, step in enumerate(observation)),
                  "Focused compact diagnostic shape/order/thread/owned attachment is invalid")
+        if test_plan.get("explicit_test_focus") == IOS_PICKER_ADMISSION_FOCUS:
+            observation = protocol.get("picker_host_observations")
+            need(isinstance(observation, list) and len(observation) == len(app.PICKER_HOST_STEPS) and
+                 all(isinstance(step, dict) and set(step) == {"phase", "iteration", "main_thread"} and
+                     type(step["iteration"]) is int and type(step["main_thread"]) is bool and
+                     (step["phase"], step["iteration"], step["main_thread"]) == app.PICKER_HOST_STEPS[index]
+                     for index, step in enumerate(observation)),
+                 "Focused picker host lacks its complete actual phase/thread sequence")
         result["ios_applications"].append({"module": expected["module"], "task": task, "receipt_path": path.relative_to(root).as_posix(),
             "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
             "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,
@@ -1951,7 +1972,9 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             "activation": active, "completion": complete,
             "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
             **({"compact_appearance_observation": protocol["compact_appearance_observation"]}
-               if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS else {})})
+               if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS else {}),
+            **({"picker_host_observations": protocol["picker_host_observations"]}
+               if test_plan.get("explicit_test_focus") == IOS_PICKER_ADMISSION_FOCUS else {})})
     except (OSError, ValueError, TypeError, KeyError, StopIteration, RecursionError) as error:
         record = {"module": expected["module"], "error": "Genuine UIKit application evidence rejected",
                   "contract": str(error) if isinstance(error, IosApplicationEvidenceError) else type(error).__name__}
@@ -2115,6 +2138,7 @@ def main() -> int:
                                            IOS_SLIDER_NUMERIC_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
+                                           IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],

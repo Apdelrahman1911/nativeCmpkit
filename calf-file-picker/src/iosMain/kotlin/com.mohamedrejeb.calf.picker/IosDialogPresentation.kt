@@ -14,7 +14,17 @@ import platform.darwin.dispatch_get_main_queue
  * saver calls this AFTER its suspendable staging: an earlier idle check is not a reservation.
  * Do not replace another launcher's modal or present from a detached/background scene.
  */
-internal fun presentIosDialog(presenter: UIViewController, session: IosDialogSession) {
+internal fun presentIosDialog(presenter: UIViewController, session: IosDialogSession) =
+    presentIosDialog(presenter, session) { controller, completed ->
+        presenter.presentViewController(controller, true, completed)
+    }
+
+/** Per-call scheduling boundary for the deferred-admission regression; no global native hook. */
+internal fun presentIosDialog(
+    presenter: UIViewController,
+    session: IosDialogSession,
+    present: (UIViewController, () -> Unit) -> Unit,
+) {
     check(NSThread.isMainThread) { "Present iOS dialogs from the main thread" }
     val window = checkNotNull(presenter.viewIfLoaded?.window) { "The presenter is not attached to a window" }
     check(!window.hidden) { "The presenter's window is hidden" }
@@ -31,21 +41,24 @@ internal fun presentIosDialog(presenter: UIViewController, session: IosDialogSes
     check(controller.presentingViewController == null && !controller.isBeingPresented() && !controller.isBeingDismissed())
     session.beginPresentation { completed -> dismissOwnedIosDialog(presenter, controller, completed) }
     try {
-        presenter.presentViewController(controller, true) { session.presentationCompleted() }
+        present(controller, session::presentationCompleted)
     } catch (failure: Throwable) {
-        // An exception is not evidence that an already-attached native consumer stopped.
-        if (iosDialogHasNoPresentation(presenter, controller)) session.presentationRejected() else session.finish()
+        // UIKit's void call may enqueue work before links/transition flags appear. Even an
+        // exception after entering that call does not prove the queued consumer cannot attach.
+        // Request finish, but keep ownership until a real presentation/dismissal completion.
+        session.finish()
         throw failure
     }
-    if (session.phase == IosDialogPhase.Presenting && iosDialogHasNoPresentation(presenter, controller)) {
-        session.presentationRejected()
-        error("UIKit did not accept the dialog presentation")
-    }
+    // Absence of synchronous links is NOT a rejection acknowledgement. Cancellation in this
+    // interval remains Presenting and retains delegates/export staging until UIKit completes.
+    // If UIKit supplies no completion at all, fail-closed retention is intentional; admission
+    // preflight cannot certify every OS/provider refusal, and that remains a native test gate.
 }
 
 /**
- * UIKit may establish an owning presenter's forward link before the presented controller's
- * backlink/animation flags. A void present/dismiss call is not itself an ownership safe point.
+ * UIKit may defer all links, or establish an owning presenter's forward link before the
+ * controller's backlink/animation flags. Absence is meaningful for dismissal only after the
+ * session observed a native completion; never infer admission rejection from this projection.
  * Observe both directions and the presenter's containment ancestors, by exact native identity.
  * Never mistake an unrelated modal or two nil pointers for our controller. Keep these objects
  * alive during this UI-thread operation; do not cache/export native addresses.

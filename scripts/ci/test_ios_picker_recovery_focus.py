@@ -116,11 +116,13 @@ class IosPickerRecoveryTests(unittest.TestCase):
                        "controller.isBeingPresented()", "controller.isBeingDismissed()",
                        "presented.objcPtr() == controller.objcPtr()", "ancestor = ancestor.parentViewController"):
             self.assertIn(phrase, observation)
-        self.assertEqual(4, source.count("iosDialogHasNoPresentation(presenter, controller)"))
+        self.assertEqual(2, source.count("iosDialogHasNoPresentation(presenter, controller)"))
         self.assertNotIn(".hasNoPresentation()", source)
         self.assertNotIn("Thread.sleep", source)
         self.assertNotIn("delay(", source)
-        self.assertIn("presenter.presentViewController(controller, true) { session.presentationCompleted() }", source)
+        self.assertIn("presenter.presentViewController(controller, true, completed)", source)
+        self.assertIn("present(controller, session::presentationCompleted)", source)
+        self.assertNotIn("session.presentationRejected()", source)
         self.assertIn("controller.dismissViewControllerAnimated(false, completed)", source)
 
     def test_changed_host_requires_real_appearance_without_replacing_rendering_or_old_ownership_checks(self):

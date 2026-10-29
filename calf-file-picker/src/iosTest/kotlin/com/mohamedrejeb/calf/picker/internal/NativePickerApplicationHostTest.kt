@@ -65,11 +65,13 @@ class NativePickerApplicationHostTest {
 
     @Test fun repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner() {
         val prior = onApplicationMain { requireNotNull(requireOwnedApplicationWindow().rootViewController) }
-        repeat(2) {
+        repeat(2) { index ->
+            val iteration = index + 1
             val text = mutableStateOf("before")
             var committed = ""
             var disposals = 0
             lateinit var parent: UIViewController
+            observeHostProgress("before-host", iteration)
             runApplicationUiTest {
                 setContent {
                     parent = LocalUIViewController.current
@@ -77,21 +79,28 @@ class NativePickerApplicationHostTest {
                     BasicText(text.value)
                     SideEffect { committed = text.value }
                 }
+                observeHostProgress("content-installed", iteration)
                 runOnIdle {
                     assertTrue(NSThread.isMainThread)
                     assertTrue(sameNativeObject(parent, requireOwnedApplicationWindow().rootViewController))
                     assertTrue(sameNativeObject(requireOwnedApplicationWindow(), parent.view.window))
                     assertEquals("before", committed)
+                    observeHostProgress("initial-composed", iteration)
                     text.value = "after"
                 }
                 waitForIdle()
-                runOnIdle { assertEquals("after", committed); assertEquals(0, disposals) }
+                runOnIdle {
+                    assertEquals("after", committed)
+                    assertEquals(0, disposals)
+                    observeHostProgress("recomposed", iteration)
+                }
             }
             onApplicationMain {
                 assertEquals(1, disposals)
                 assertTrue(sameNativeObject(prior, requireOwnedApplicationWindow().rootViewController))
                 assertNull(parent.view.window)
                 assertNull(prior.presentedViewController)
+                observeHostProgress("restored", iteration)
             }
         }
     }
@@ -127,4 +136,9 @@ class NativePickerApplicationHostTest {
     }
 
     private class OwnedHostProbeFailure : IllegalStateException("Intentional caught host-cleanup fixture")
+
+    private fun observeHostProgress(phase: String, iteration: Int) {
+        // Finite phase/thread values only; never an arbitrary native message or stack.
+        println("NATIVECMPKIT_PICKER_HOST phase=$phase iteration=$iteration mainThread=${NSThread.isMainThread}")
+    }
 }

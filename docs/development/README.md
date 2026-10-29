@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Scoped deferred iOS admission batch — 2026-10-29
+
+[Additive owning repair](evidence/ios-admission-important-20261029/README.md)
+retains delegates/export staging across UIKit's deferred void presentation and
+exception path until native completion. Nine changed/new actual host/ownership
+methods only; no replay of19 completed Foundation/filter/copy/staging methods.
+KLIB0/49.01s/857held dirty inputs means zero native tests. Initial tooling97/98
+retains its CLI failure; only failed method reruns1/1,70 distinct owning guards
+pass. Native CI and original IO-017/#53 criteria remain pending. Saver three-host
+40837989337/0333e18a is completed/success; final receipt review follows.
+**67closed/105open/172**, zero new closures. No-callback/provider/swipe/native-
+parent/device/minimum/ABI/full-consumer/security/release gates stay independent;
+single-agent, important tests→review→close related verified subset→document.
+
 ## Important saver batch and retained failed native recovery — 2026-10-29
 
 [New saver regression](evidence/picker-saver-state-important-20261029/README.md):

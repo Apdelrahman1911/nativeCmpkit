@@ -68,6 +68,39 @@ IMAGE_LIFETIME_STEPS = (
     tuple((phase, iteration) for iteration in range(1, 21) for phase in ("before-conversion", "before-gc", "after-gc")) +
     (("before-verify", None), ("verified", None))
 )
+PICKER_HOST_CASE = ("com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+                    "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner")
+PICKER_HOST_STEPS = tuple((phase, iteration, main_thread) for iteration in (1, 2) for phase, main_thread in (
+    ("before-host", False), ("content-installed", False), ("initial-composed", True),
+    ("recomposed", True), ("restored", True)))
+# Exact source-defined validation messages -> finite diagnostic IDs. Never archive str(error)
+# itself: malformed frames can contain private data. An unknown error stays unclassified/red.
+TRANSPORT_FAILURE_REASONS = {
+    "Malformed native TeamCity frame; do not fabricate replacement XML": "malformed-teamcity-frame",
+    "Duplicate TeamCity attribute": "duplicate-teamcity-attribute",
+    "Unknown TeamCity escape": "unknown-teamcity-escape",
+    "Native application output exceeds bounded transport": "protocol-byte-limit",
+    "Native transport already failed at startup": "already-failed-startup",
+    "Native transport already failed its owned lifecycle": "already-failed-lifecycle",
+    "Native application reported an error, timeout or unknown lifecycle marker": "unknown-lifecycle-marker",
+    "Owned UIKit application reported a native lifecycle failure": "native-lifecycle-failure",
+    "Unexpected native runner/worker completion contract": "invalid-worker-completion",
+    "Native test frame outside the owned UIKit application lifecycle": "frame-outside-active-lifecycle",
+    "Unexpected nested/active native suite": "overlapping-suite",
+    "Unbalanced native suite completion": "unbalanced-suite",
+    "Native testcase has no suite or overlaps another case": "overlapping-case",
+    "Duplicate/unbounded native testcase": "duplicate-or-unbounded-case",
+    "Native result has no matching started testcase": "unmatched-result",
+    "Duplicate native testcase failure": "duplicate-case-failure",
+    "Unreviewed native test protocol record": "unreviewed-protocol-record",
+    "Nonzero or invalid console process exit": "nonzero-console-exit",
+    "Failed native startup or lifecycle": "failed-native-lifecycle",
+    "Missing native application activation": "missing-activation",
+    "Missing native Worker/application completion": "missing-worker-completion",
+    "Native suite or testcase is still open": "unfinished-native-case",
+    "Zero/incomplete native test execution is not successful transport": "zero-or-incomplete-native-execution",
+    "Unbounded incomplete native protocol line": "incomplete-line-byte-limit",
+}
 
 
 def macho_simulator_identity(path: Path) -> dict:
@@ -172,6 +205,7 @@ class NativeProtocol:
         self.startup_failure_observation = None
         self.lifecycle_failure_observation = None
         self.picker_admission_observations = []
+        self.picker_host_observations = []
 
     def feed(self, line: str):
         self.stream_bytes += len((line + "\n").encode())
@@ -233,6 +267,20 @@ class NativeProtocol:
             return
         if line.startswith("NATIVECMPKIT_PICKER_ADMISSION"):
             raise ValueError("Unknown or malformed picker admission diagnostic")
+        host = re.fullmatch(
+            r"NATIVECMPKIT_PICKER_HOST phase=(before-host|content-installed|initial-composed|recomposed|restored) "
+            r"iteration=([12]) mainThread=(true|false)", line)
+        if host:
+            if self.active is None or self.completed is not None or self.open_case != PICKER_HOST_CASE:
+                raise ValueError("Picker host diagnostic outside its exact active native testcase")
+            index = len(self.picker_host_observations)
+            actual = (host[1], int(host[2]), host[3] == "true")
+            if index >= len(PICKER_HOST_STEPS) or actual != PICKER_HOST_STEPS[index]:
+                raise ValueError("Missing, duplicate, reordered or wrong-thread picker host diagnostic")
+            self.picker_host_observations.append({"phase": actual[0], "iteration": actual[1], "main_thread": actual[2]})
+            return
+        if line.startswith("NATIVECMPKIT_PICKER_HOST"):
+            raise ValueError("Unknown or malformed picker host diagnostic")
         image = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=(retained-ready|before-conversion|before-gc|after-gc|before-verify|verified)"
             r"(?: iteration=([1-9][0-9]?))? mainThread=(true|false)", line)
@@ -334,6 +382,8 @@ class NativeProtocol:
                             self.image_lifetime_observation["marker_count"] != len(IMAGE_LIFETIME_STEPS) or
                             self.image_lifetime_observation["retained_image_bytes_verified"] is not True):
                         raise ValueError("A passing image lifetime case needs its complete actual diagnostic sequence")
+                    if self.open_case == PICKER_HOST_CASE and len(self.picker_host_observations) != len(PICKER_HOST_STEPS):
+                        raise ValueError("A passing picker host case needs its complete actual phase/thread sequence")
                     case["status"] = "passed"
                 case["finished"] = True
                 self.open_case = None
@@ -361,14 +411,22 @@ class NativeProtocol:
                    if self.lifecycle_failure_observation is not None else {}),
                 **({"picker_admission_observations": self.picker_admission_observations}
                    if self.picker_admission_observations else {}),
+                **({"picker_host_observations": self.picker_host_observations}
+                   if self.picker_host_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
     def finish(self, process_exit: int) -> dict:
-        if (type(process_exit) is not int or process_exit != 0 or self.startup_failure_observation is not None or
-                self.lifecycle_failure_observation is not None or self.active is None or
-                self.completed is None or self.stack or self.open_case is not None):
-            raise ValueError("App crash/transport failure or missing complete native lifecycle")
+        if type(process_exit) is not int or process_exit != 0:
+            raise ValueError("Nonzero or invalid console process exit")
+        if self.startup_failure_observation is not None or self.lifecycle_failure_observation is not None:
+            raise ValueError("Failed native startup or lifecycle")
+        if self.active is None:
+            raise ValueError("Missing native application activation")
+        if self.completed is None:
+            raise ValueError("Missing native Worker/application completion")
+        if self.stack or self.open_case is not None:
+            raise ValueError("Native suite or testcase is still open")
         cases = list(self.cases.values())
         if not cases or not all(c["finished"] for c in cases) or all(c["status"] == "skipped" for c in cases):
             raise ValueError("Zero/incomplete native test execution is not successful transport")
@@ -381,6 +439,8 @@ class NativeProtocol:
                 "image_lifetime_observation": self.image_lifetime_observation,
                 **({"picker_admission_observations": self.picker_admission_observations}
                    if self.picker_admission_observations else {}),
+                **({"picker_host_observations": self.picker_host_observations}
+                   if self.picker_host_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
@@ -435,15 +495,18 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
     process = subprocess.Popen(argv, cwd=lt.ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                start_new_session=True, bufsize=0)
     pending = b""
+    stage = "protocol-read"
     try:
         with selectors.DefaultSelector() as selector:
             selector.register(process.stdout, selectors.EVENT_READ)
             while selector.get_map():
+                stage = "protocol-read"
                 if time.monotonic() - started > timeout:
                     raise TimeoutError("Owned UIKit application timed out")
                 if shutil.disk_usage(lt.ROOT).free < 8192 * 1024**2:
                     raise OSError("UIKit transport disk reserve unavailable")
                 for key, _ in selector.select(timeout=0.25):
+                    stage = "protocol-read"
                     block = os.read(key.fd, 65536)
                     if not block:
                         selector.unregister(key.fileobj)
@@ -451,22 +514,34 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
                     pending += block
                     while b"\n" in pending:
                         line, pending = pending.split(b"\n", 1)
+                        stage = "protocol-decode"
                         text = line.decode("utf-8", errors="strict").rstrip("\r")
+                        stage = "protocol-feed"
                         protocol.feed(text)
+                        stage = "protocol-forward"
                         sys.stdout.buffer.write(line + b"\n")
                         sys.stdout.buffer.flush()
                     if len(pending) > MAX_LINE_BYTES:
                         raise ValueError("Unbounded incomplete native protocol line")
         if pending:
-            protocol.feed(pending.decode("utf-8", errors="strict"))
+            stage = "protocol-tail-decode"
+            tail = pending.decode("utf-8", errors="strict")
+            stage = "protocol-tail-feed"
+            protocol.feed(tail)
+            stage = "protocol-tail-forward"
             sys.stdout.buffer.write(pending + b"\n")
             sys.stdout.buffer.flush()
+        stage = "console-wait"
         result = process.wait(timeout=30)
+        stage = "protocol-finish"
         summary = protocol.finish(result)
         return {"process_exit": result, "elapsed_seconds": round(time.monotonic() - started, 2), **summary}
     except BaseException as error:
         # Fixed error type only. Never retain a report/app/environment message.
         transport["error_type"] = type(error).__name__
+        transport["failure_stage"] = stage
+        transport["failure_reason"] = (TRANSPORT_FAILURE_REASONS.get(str(error), "unclassified")
+                                       if isinstance(error, ValueError) else "unclassified")
         raise
     finally:
         transport["console_process_exit"] = process.poll()

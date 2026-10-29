@@ -63,15 +63,16 @@ class IosPickerRuntimeOwnershipTest {
                 val parent = assertNotNull(requireOwnedApplicationWindow().rootViewController)
                 presentIosDialog(parent, session)
                 assertEquals(IosDialogPhase.Presenting, session.phase, "Observe actual animated presentation, not a manually assigned phase")
-                assertFalse(iosDialogHasNoPresentation(parent, picker), "Actual owning UIKit links/transition, not a void call or an elapsed delay")
+                assertFalse(session.presentationCompletionObserved, "Cancellation must precede the real UIKit presentation completion")
                 observeNativePickerAdmission(parent, picker, "export-initial")
                 session.cancel()
                 assertTrue(NSFileManager.defaultManager.fileExistsAtPath(staged.path!!))
                 assertEquals(0, cleanups)
                 assertEquals(0, completions)
             }
-            waitForNative { session.phase == IosDialogPhase.Finished && picker.presentingViewController == null }
+            waitForNative { session.presentationCompletionObserved && session.phase == IosDialogPhase.Finished && picker.presentingViewController == null }
             runOnIdle {
+                assertTrue(session.presentationCompletionObserved, "Real UIKit completion, not a manually advanced session or elapsed delay")
                 assertEquals(1, cleanups)
                 assertEquals(1, completions)
                 assertFalse(NSFileManager.defaultManager.fileExistsAtPath(staged.path!!))
@@ -115,7 +116,11 @@ class IosPickerRuntimeOwnershipTest {
             val requested = if (index % 2 == 0) ImageRepresentationMode.Compatible else ImageRepresentationMode.Current
             runOnIdle { mode.value = FilePickerSelectionMode.Multiple(limit); representation.value = requested }
             waitForIdle()
-            runOnIdle { assertSame(retained, launcher); retained.launch() }
+            runOnIdle {
+                assertSame(retained, launcher)
+                retained.launch()
+                assertTrue(failures.isEmpty(), "The public launcher must not report rejection before deferred UIKit admission")
+            }
             waitForNative { parent.presentedViewController is PHPickerViewController && !parent.presentedViewController!!.isBeingPresented() }
             val picker = runOnIdle { assertIs<PHPickerViewController>(parent.presentedViewController) }
             runOnIdle {
@@ -129,6 +134,7 @@ class IosPickerRuntimeOwnershipTest {
             }
             waitForIdle()
             runOnIdle {
+                assertTrue(failures.isEmpty(), "Live recomposition must not release the active session through a presentation error")
                 assertSame(retained, launcher)
                 assertTrue(sameNativeObject(picker, parent.presentedViewController))
                 assertEquals(limit?.toLong() ?: 0L, picker.configuration.selectionLimit, "Live recomposition must not mutate an already shown native configuration")

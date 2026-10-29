@@ -19,6 +19,9 @@ internal class IosDialogSession {
         private set
     var cancelled = false
         private set
+    /** Records callback arrival, not the return from UIKit's void presentation call. */
+    var presentationCompletionObserved = false
+        private set
     var controller: UIViewController? = null
     var retainedDelegate: Any? = null
     var detachDelegate: () -> Unit = {}
@@ -37,12 +40,13 @@ internal class IosDialogSession {
 
     /** UIKit's presentation completion, not merely the return from presentViewController. */
     fun presentationCompleted() {
+        presentationCompletionObserved = true
         if (phase != IosDialogPhase.Presenting) return
         phase = IosDialogPhase.Presented
         advance()
     }
 
-    /** Only for a call that did not attach or begin presenting our controller. */
+    /** Only a deterministic acknowledgement that no native work can attach; nil links do not qualify. */
     fun presentationRejected() {
         if (phase != IosDialogPhase.Presenting) return
         phase = IosDialogPhase.Dismissed

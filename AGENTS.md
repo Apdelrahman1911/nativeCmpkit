@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Deferred iOS admission batch — 2026-10-29
+
+[Owning repair](docs/development/evidence/ios-admission-important-20261029/README.md)
+removes premature native rejection/delegate/staging release based on absent
+synchronous links after a void UIKit call, including exception handling.
+Two per-call controlled scheduling/real later UIKit-completion regressions,
+actual callback-arrival export checks and finite host/transport diagnostics
+retain original acceptance/BasicText/Worker/runtime/binary/cleanup gates. Original26/7
+plans and19 completed native methods remain unreplayed; new profile selects9
+changed/new methods only. Local KLIB0/49.01s/JDK17/857held dirty inputs means
+ZERO native runtime tests. Initial tooling97/98/failed CLI registration retains
+its failure; only failed method reruns1/1,70 distinct related guards pass.
+Native CI pending; no-callback refusal remains fail-closed retained ownership,
+not solved safe cleanup. **67closed/105open/172**, no new closures. Three-host
+saver40837989337/0333e18a is remotely completed/success; receipts need final
+original-criteria review with genuine PHPicker before #53 closes. Single-agent,
+immediate verified-subset batch closure; no publication/deployment or gate waiver.
+
 ## Important related saver batch; iOS recovery still failed — 2026-10-29
 
 [Saver evidence](docs/development/evidence/picker-saver-state-important-20261029/README.md):

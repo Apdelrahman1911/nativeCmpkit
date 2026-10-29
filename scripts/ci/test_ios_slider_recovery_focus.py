@@ -14,6 +14,84 @@ class IosSliderRecoveryFocusTests(unittest.TestCase):
     def plan(self, focus, root=r.ROOT):
         return r.plan(root, "ios", only_modules=("calf-ui",), focus=focus)
 
+    def test_two_unstarted_tap_methods_are_separate_from_both_failed_structure_methods_and_two_accepted_passes(self):
+        for profile, focus, methods in (
+            ("ios-slider-tap", r.IOS_SLIDER_TAP_FOCUS, r.IOS_SLIDER_LIFECYCLE_METHODS[4:]),
+            ("ios-slider-pair-structure", r.IOS_SLIDER_PAIR_STRUCTURE_FOCUS, r.IOS_SLIDER_LIFECYCLE_METHODS[2:4]),
+        ):
+            row, = matrix.matrix(profile)["include"]
+            self.assertEqual(("ios-iphone", "calf-ui", focus), tuple(row[k] for k in ("slot", "test-modules", "test-focus")))
+            plan = self.plan(focus)
+            self.assertTrue(r.validate_test_focus(plan))
+            self.assertEqual(tuple(method + "[iosSimulatorArm64]" for method in methods),
+                             tuple(c["name"] for c in plan["expected"][0]["required_testcases"]))
+            self.assertEqual(2, len(r.ui_application_focus_filter(focus).split(",")))
+            self.assertEqual(300, app.application_timeout_seconds(focus))
+            slot, = matrix.preflight_plans(profile)["slots"]
+            self.assertEqual(0, slot["exit_code"])
+        self.assertFalse(set(r.IOS_SLIDER_LIFECYCLE_METHODS[:2]) & set(r.IOS_SLIDER_LIFECYCLE_METHODS[2:]))
+
+    def drag_marker(self, renderer="Liquid", axis=1, observed="true"):
+        return f"NATIVECMPKIT_SLIDER_DRAG renderer={renderer} axis={axis} started=true changed=true observed={observed}"
+
+    def dragged_protocol(self):
+        p, owner, method = self.protocol()
+        for phase in app.SLIDER_STRUCTURAL_STEPS[:6]:
+            p.feed(self.marker("Liquid", phase))
+        return p, owner, method
+
+    def test_pre_assertion_diagnostics_preserve_false_native_observer_without_finishing_or_inventing_the_root_cause(self):
+        p, _, method = self.dragged_protocol()
+        p.feed(self.drag_marker(observed="false"))
+        partial = p.partial()
+        self.assertEqual({"axis": 1, "started": True, "changed": True, "observed": False},
+                         partial["slider_drag_observations"]["Liquid"][0])
+        self.assertEqual(0, partial["counts"]["passed"])
+        self.assertEqual(method, partial["unfinished_testcase"]["name"])
+        self.assertIsNone(partial["completion"])
+        with self.assertRaises(ValueError):
+            p.feed(self.drag_marker())
+        for line in (self.drag_marker("Cupertino"), self.drag_marker(axis=2), self.drag_marker(observed="unknown")):
+            with self.subTest(line=line), self.assertRaises(ValueError):
+                self.dragged_protocol()[0].feed(line)
+        with self.assertRaises(ValueError):
+            app.NativeProtocol().feed(self.drag_marker())
+
+    def test_failure_only_real_pointer_cleanup_remains_an_original_failed_testcase_not_success(self):
+        p, owner, method = self.dragged_protocol()
+        p.feed(self.drag_marker(observed="false"))
+        prefix = "NATIVECMPKIT_SLIDER_FAILURE_CLEANUP renderer=Liquid axis=1 phase="
+        with self.assertRaises(ValueError):
+            p.feed(prefix + "verified")
+        p.feed(prefix + "request")
+        with self.assertRaises(ValueError):
+            p.feed(prefix + "request")
+        p.feed(prefix + "verified")
+        partial = p.partial()
+        self.assertEqual([{"axis": 1, "phase": "request"}, {"axis": 1, "phase": "verified"}],
+                         partial["slider_failure_cleanup_observations"]["Liquid"])
+        p.feed(f"##teamcity[testFailed name='{method}' message='Original test assertion']")
+        p.feed(f"##teamcity[testFinished name='{method}']")
+        p.feed(f"##teamcity[testSuiteFinished name='{owner}']")
+        p.feed("NATIVECMPKIT_UIKIT_COMPLETED runnerExit=0 workerTerminated=true")
+        result = p.finish(0)
+        self.assertEqual(1, result["counts"]["failures"])
+        self.assertEqual(0, result["counts"]["passed"])
+        with self.assertRaises(ValueError):
+            p.feed(prefix + "failed")
+
+    def test_source_observes_before_original_assertions_and_cleans_only_failed_held_pointer_without_changing_accepted_methods(self):
+        source = (r.ROOT / r.IOS_SLIDER_LIFECYCLE_SOURCE).read_text()
+        self.assertLess(source.index("NATIVECMPKIT_SLIDER_DRAG"), source.index("val start = starts.last()"))
+        self.assertIn('assertTrue(changes > changesBeforeDrag, "$name must replace', source)
+        self.assertIn("assertTrue(observedDragging)", source)
+        self.assertIn("if (pointerOutstanding) cleanFailedStructuralPointer(renderer, axis, failure)", source)
+        self.assertIn("throw failure // Never turn an assertion or cleanup failure into success.", source)
+        self.assertIn("if (cleanup !== failure) failure.addSuppressed(cleanup)", source)
+        self.assertIn("cancelScenePointerInput() // Reset the real scene", source)
+        self.assertEqual(6, source.count("@Test fun "))
+        self.assertNotIn("Assume.", source)
+
     def test_every_registered_native_application_focus_reaches_the_real_cli_and_keeps_its_suite_module_interlock(self):
         # Exercise the workflow's subprocess boundary, not only plan() in-process.
         for focus, spec in r.UI_APPLICATION_FOCUS_SPECS.items():

@@ -536,11 +536,17 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_LIFECYCLE_FOCUS] = {
 
 IOS_SLIDER_REMAINING_FOCUS = "ios-native-slider-input-remaining"
 IOS_SLIDER_STRUCTURE_FOCUS = "ios-native-slider-structure-diagnostic"
+IOS_SLIDER_TAP_FOCUS = "ios-native-slider-tap-cancellation"
+IOS_SLIDER_PAIR_STRUCTURE_FOCUS = "ios-native-slider-pair-structure"
 for _focus, _methods, _scope in (
     (IOS_SLIDER_REMAINING_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[3:],
      "Only the three never-started Cupertino structural and Liquid/Cupertino tap/drag methods from40865834481; two completed enable/callback methods are reused, not replayed. Interrupted Liquid structural input is isolated so it cannot hide unrelated outcomes."),
     (IOS_SLIDER_STRUCTURE_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[2:3],
      "Only the interrupted Liquid structural method, with finite per-axis diagnostics and a stricter transport deadline. No accepted enable/callback/other gesture methods are replayed; partial phases do not establish a passing test."),
+    (IOS_SLIDER_TAP_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[4:],
+     "Only the two still never-started Liquid/Cupertino tap/drag/cancellation methods. Both interrupted structural methods are isolated so they cannot hide these outcomes; two completed enable/callback methods are explicitly reused, not replayed."),
+    (IOS_SLIDER_PAIR_STRUCTURE_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[2:4],
+     "Both unfinished Liquid/Cupertino structural methods together, retaining all assertions and finite pre-assertion drag/failure-only pointer cleanup diagnostics. No accepted enable/callback or separately executed tap methods are replayed; cleanup never changes a failure into success."),
 ):
     UI_APPLICATION_FOCUS_SPECS[_focus] = {
         "groups": ({"classname": IOS_SLIDER_LIFECYCLE_CLASS, "source": IOS_SLIDER_LIFECYCLE_SOURCE,

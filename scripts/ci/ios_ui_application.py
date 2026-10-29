@@ -58,6 +58,7 @@ def application_timeout_seconds(focus: str | None) -> int:
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
         lt.IOS_VECTOR_THEME_FOCUS,
+        lt.IOS_SLIDER_TAP_FOCUS, lt.IOS_SLIDER_PAIR_STRUCTURE_FOCUS,
     ) else APP_TIMEOUT_SECONDS)
 
 
@@ -233,6 +234,8 @@ class NativeProtocol:
         self.picker_admission_observations = []
         self.picker_host_observations = []
         self.slider_structural_observations = {}
+        self.slider_drag_observations = {}
+        self.slider_failure_cleanup_observations = {}
         self.system_appearance_observations = []
         self.system_appearance_request = None
 
@@ -268,6 +271,35 @@ class NativeProtocol:
             return
         if line.startswith("NATIVECMPKIT_SYSTEM_APPEARANCE"):
             raise ValueError("Unknown or malformed actual system appearance marker")
+        drag = re.fullmatch(
+            r"NATIVECMPKIT_SLIDER_DRAG renderer=(Liquid|Cupertino) axis=([1-6]) "
+            r"started=(true|false) changed=(true|false) observed=(true|false)", line)
+        cleanup = re.fullmatch(
+            r"NATIVECMPKIT_SLIDER_FAILURE_CLEANUP renderer=(Liquid|Cupertino) axis=([1-6]) "
+            r"phase=(request|verified|failed)", line)
+        if drag or cleanup:
+            marker = drag or cleanup
+            renderer, axis = marker[1], int(marker[2])
+            if (self.active is None or self.completed is not None or self.open_case != SLIDER_STRUCTURAL_CASES[renderer]):
+                raise ValueError("Slider drag/cleanup marker outside its exact active native testcase")
+            if drag:
+                phases = self.slider_structural_observations.get(renderer, [])
+                observations = self.slider_drag_observations.setdefault(renderer, [])
+                if not phases or phases[-1] != {"axis": axis, "phase": "dragged"} or axis != len(observations) + 1:
+                    raise ValueError("Missing, repeated or reordered actual pre-assertion drag diagnostic")
+                observations.append({"axis": axis, **{key: value == "true" for key, value in
+                    zip(("started", "changed", "observed"), drag.groups()[2:])}})
+            else:
+                observations = self.slider_failure_cleanup_observations.setdefault(renderer, [])
+                phases = self.slider_structural_observations.get(renderer, [])
+                if (not phases or phases[-1]["axis"] != axis or
+                        not observations and cleanup[3] != "request" or
+                        observations and (len(observations) != 1 or observations[0]["axis"] != axis or cleanup[3] == "request")):
+                    raise ValueError("Missing, repeated or reordered failure-only pointer cleanup diagnostic")
+                observations.append({"axis": axis, "phase": cleanup[3]})
+            return
+        if line.startswith(("NATIVECMPKIT_SLIDER_DRAG", "NATIVECMPKIT_SLIDER_FAILURE_CLEANUP")):
+            raise ValueError("Unknown or malformed actual slider drag/cleanup diagnostic")
         compact = re.fullmatch(
             r"NATIVECMPKIT_COMPACT_APPEARANCE phase=([a-z-]+) backgroundMatches=(true|false) "
             r"tintMatches=(true|false) attached=(true|false) enabled=(true|false) rtl=(true|false) "
@@ -446,6 +478,13 @@ class NativeProtocol:
                     for renderer, key in SLIDER_STRUCTURAL_CASES.items():
                         if self.open_case == key and len(self.slider_structural_observations.get(renderer, [])) != len(SLIDER_STRUCTURAL_STEPS):
                             raise ValueError("A passing slider structural case needs all six actual axis sequences")
+                        if self.open_case == key:
+                            drag = self.slider_drag_observations.get(renderer)
+                            if drag is not None and (len(drag) != 6 or not all(
+                                    row["started"] and row["changed"] and row["observed"] for row in drag)):
+                                raise ValueError("Observed native drag failure cannot become a passing structural case")
+                            if self.slider_failure_cleanup_observations.get(renderer):
+                                raise ValueError("Failure-only pointer cleanup cannot become a passing structural case")
                     if self.open_case == SYSTEM_APPEARANCE_CASE and len(self.system_appearance_observations) != len(SYSTEM_APPEARANCE_STEPS):
                         raise ValueError("A passing system appearance case needs both actual requested/verified transitions")
                     case["status"] = "passed"
@@ -479,6 +518,10 @@ class NativeProtocol:
                    if self.picker_host_observations else {}),
                 **({"slider_structural_observations": self.slider_structural_observations}
                    if self.slider_structural_observations else {}),
+                **({"slider_drag_observations": self.slider_drag_observations}
+                   if self.slider_drag_observations else {}),
+                **({"slider_failure_cleanup_observations": self.slider_failure_cleanup_observations}
+                   if self.slider_failure_cleanup_observations else {}),
                 **({"system_appearance_observations": self.system_appearance_observations}
                    if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
@@ -511,6 +554,10 @@ class NativeProtocol:
                    if self.picker_host_observations else {}),
                 **({"slider_structural_observations": self.slider_structural_observations}
                    if self.slider_structural_observations else {}),
+                **({"slider_drag_observations": self.slider_drag_observations}
+                   if self.slider_drag_observations else {}),
+                **({"slider_failure_cleanup_observations": self.slider_failure_cleanup_observations}
+                   if self.slider_failure_cleanup_observations else {}),
                 **({"system_appearance_observations": self.system_appearance_observations}
                    if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}

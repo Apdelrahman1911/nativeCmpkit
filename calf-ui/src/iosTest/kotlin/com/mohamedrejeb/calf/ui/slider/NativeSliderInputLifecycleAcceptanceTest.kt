@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTouchInput
@@ -146,52 +147,80 @@ class NativeSliderInputLifecycleAcceptanceTest {
             structuralPhase(renderer, axis, "reset")
             val events = if (source === first) firstEvents else secondEvents
             val changesBeforeDrag = changes
-            structuralPhase(renderer, axis, "before-drag")
-            onNodeWithTag("slider").performTouchInput { down(center); moveBy(Offset(width * .4f, 0f)) }
-            waitForIdle()
-            structuralPhase(renderer, axis, "dragged")
-            val start = events.filterIsInstance<DragInteraction.Start>().last()
-            assertTrue(changes > changesBeforeDrag, "$name must replace an actual live input session")
-            assertTrue(observedDragging)
-            val changesBeforeReplacement = changes; val finishesBeforeReplacement = finished
-            structuralPhase(renderer, axis, "before-replace")
-            runOnIdle { replace() }
-            waitForIdle()
-            structuralPhase(renderer, axis, "replaced")
-            onNodeWithTag("slider").performTouchInput { moveBy(Offset(-15f, 0f)); up() }
-            waitForIdle()
-            structuralPhase(renderer, axis, "stale-released")
-            assertEquals(changesBeforeReplacement, changes, "$name cannot leave an obsolete writer")
-            assertEquals(finishesBeforeReplacement, finished, "$name cancellation is not completion")
-            assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === start }, name)
-            assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === start }, name)
-            assertFalse(observedDragging, "$name must clear the actual dragged-state observer")
-            structuralPhase(renderer, axis, "cancellation-verified")
-            // A discrete RTL drag can already reach range.start. Reset only after proving
-            // stale-input rejection, so the fresh tap must genuinely change current state.
-            runOnIdle { value = (range.start + range.endInclusive) / 2f }
-            waitForIdle()
-            structuralPhase(renderer, axis, "fresh-reset")
-            assertEquals(changesBeforeReplacement, changes, "$name hoisted reset is not an input callback")
-            assertEquals(finishesBeforeReplacement, finished, "$name hoisted reset is not input completion")
-            onNodeWithTag("slider").performTouchInput {
-                click(Offset(if (direction == LayoutDirection.Rtl) width - 2f else 2f, centerY))
+            var pointerOutstanding = false
+            try {
+                structuralPhase(renderer, axis, "before-drag")
+                onNodeWithTag("slider").performTouchInput {
+                    down(center); pointerOutstanding = true; moveBy(Offset(width * .4f, 0f))
+                }
+                waitForIdle()
+                structuralPhase(renderer, axis, "dragged")
+                val starts = events.filterIsInstance<DragInteraction.Start>()
+                // Observe before assertions: an assertion with a held pointer must
+                // remain visible even when Compose's subsequent teardown is stuck.
+                println("NATIVECMPKIT_SLIDER_DRAG renderer=${renderer.name} axis=$axis " +
+                    "started=${starts.isNotEmpty()} changed=${changes > changesBeforeDrag} observed=$observedDragging")
+                val start = starts.last()
+                assertTrue(changes > changesBeforeDrag, "$name must replace an actual live input session")
+                assertTrue(observedDragging)
+                val changesBeforeReplacement = changes; val finishesBeforeReplacement = finished
+                structuralPhase(renderer, axis, "before-replace")
+                runOnIdle { replace() }
+                waitForIdle()
+                structuralPhase(renderer, axis, "replaced")
+                onNodeWithTag("slider").performTouchInput {
+                    moveBy(Offset(-15f, 0f)); up(); pointerOutstanding = false
+                }
+                waitForIdle()
+                structuralPhase(renderer, axis, "stale-released")
+                assertEquals(changesBeforeReplacement, changes, "$name cannot leave an obsolete writer")
+                assertEquals(finishesBeforeReplacement, finished, "$name cancellation is not completion")
+                assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === start }, name)
+                assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === start }, name)
+                assertFalse(observedDragging, "$name must clear the actual dragged-state observer")
+                structuralPhase(renderer, axis, "cancellation-verified")
+                // A discrete RTL drag can already reach range.start. Reset only after proving
+                // stale-input rejection, so the fresh tap must genuinely change current state.
+                runOnIdle { value = (range.start + range.endInclusive) / 2f }
+                waitForIdle()
+                structuralPhase(renderer, axis, "fresh-reset")
+                assertEquals(changesBeforeReplacement, changes, "$name hoisted reset is not an input callback")
+                assertEquals(finishesBeforeReplacement, finished, "$name hoisted reset is not input completion")
+                onNodeWithTag("slider").performTouchInput {
+                    click(Offset(if (direction == LayoutDirection.Rtl) width - 2f else 2f, centerY))
+                }
+                waitForIdle()
+                assertEquals(range.start, value, "$name replacement must accept a fresh current-domain tap")
+                assertEquals(changesBeforeReplacement + 1, changes)
+                assertEquals(finishesBeforeReplacement + 1, finished)
+                val progress = onNodeWithTag("slider").fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo]
+                assertEquals(steps, progress.steps)
+                assertEquals(range, progress.range, "$name semantics must use the replacement range")
+                assertEquals(value, progress.current, "$name semantics must expose the current tap value")
+                val midpoint = (range.start + range.endInclusive) / 2f
+                onNodeWithTag("slider").performSemanticsAction(SemanticsActions.SetProgress) { assertTrue(it(midpoint)) }
+                waitForIdle()
+                assertEquals(midpoint, value, "$name current-domain semantics and touch must agree")
+                assertEquals(changesBeforeReplacement + 2, changes)
+                assertEquals(finishesBeforeReplacement + 2, finished)
+                structuralPhase(renderer, axis, "fresh-input-verified")
+            } catch (failure: Throwable) {
+                if (pointerOutstanding) cleanFailedStructuralPointer(renderer, axis, failure)
+                throw failure // Never turn an assertion or cleanup failure into success.
             }
+        }
+    }
+
+    private fun ComposeUiTest.cleanFailedStructuralPointer(renderer: Renderer, axis: Int, failure: Throwable) {
+        println("NATIVECMPKIT_SLIDER_FAILURE_CLEANUP renderer=${renderer.name} axis=$axis phase=request")
+        try {
+            onNodeWithTag("slider").performTouchInput { cancel() }
+            cancelScenePointerInput() // Reset the real scene, not just Skiko's no-op cancel injector.
             waitForIdle()
-            assertEquals(range.start, value, "$name replacement must accept a fresh current-domain tap")
-            assertEquals(changesBeforeReplacement + 1, changes)
-            assertEquals(finishesBeforeReplacement + 1, finished)
-            val progress = onNodeWithTag("slider").fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo]
-            assertEquals(steps, progress.steps)
-            assertEquals(range, progress.range, "$name semantics must use the replacement range")
-            assertEquals(value, progress.current, "$name semantics must expose the current tap value")
-            val midpoint = (range.start + range.endInclusive) / 2f
-            onNodeWithTag("slider").performSemanticsAction(SemanticsActions.SetProgress) { assertTrue(it(midpoint)) }
-            waitForIdle()
-            assertEquals(midpoint, value, "$name current-domain semantics and touch must agree")
-            assertEquals(changesBeforeReplacement + 2, changes)
-            assertEquals(finishesBeforeReplacement + 2, finished)
-            structuralPhase(renderer, axis, "fresh-input-verified")
+            println("NATIVECMPKIT_SLIDER_FAILURE_CLEANUP renderer=${renderer.name} axis=$axis phase=verified")
+        } catch (cleanup: Throwable) {
+            if (cleanup !== failure) failure.addSuppressed(cleanup)
+            println("NATIVECMPKIT_SLIDER_FAILURE_CLEANUP renderer=${renderer.name} axis=$axis phase=failed")
         }
     }
 

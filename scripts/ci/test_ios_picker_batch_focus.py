@@ -174,7 +174,9 @@ class IosPickerBatchTests(unittest.TestCase):
         review = f.collect()
         self.assertEqual([], review["errors"])
         self.assertEqual({"calf-ui", "calf-file-picker"}, {item["module"] for item in review["ios_applications"]})
-        self.assertEqual({"calf-ui": 16, "calf-file-picker": 26},
+        # The independent UI fixture enumerates every mandatory case. Do not
+        # duplicate its old count here when an owning UI acceptance case is added.
+        self.assertEqual({"calf-ui": len(fixtures.REQUIRED), "calf-file-picker": 26},
                          {item["module"]: item["counts"]["passed"] for item in review["ios_applications"]})
         expected = next(e for e in f.plan["expected"] if e["module"] == "calf-file-picker")
         expected.pop("native_test_host")

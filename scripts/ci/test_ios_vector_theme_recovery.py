@@ -11,6 +11,55 @@ import test_ios_application_receipts as receipts
 
 
 class IosVectorThemeRecoveryTests(unittest.TestCase):
+    def test_actual_screen_and_view_layer_scale_sequence_is_bounded_owned_and_not_a_pixel_pass(self):
+        def protocol():
+            p = app.NativeProtocol()
+            p.feed("NATIVECMPKIT_UIKIT_ACTIVE mainWorker=1 ownedWorker=2")
+            p.feed(f"##teamcity[testSuiteStarted name='{tests.IOS_VECTOR_THEME_CLASS}']")
+            p.feed(f"##teamcity[testStarted name='{tests.IOS_VECTOR_THEME_METHODS[0]}']")
+            return p
+        prefix = "NATIVECMPKIT_VECTOR_SCALE "
+        two = prefix + "density=2.0 nativeScreen=3.0 view=2.0 layer=2.0"
+        three = prefix + "density=3.0 nativeScreen=3.0 view=3.0 layer=3.0"
+        p = protocol(); p.feed(two); p.feed(three)
+        partial = p.partial()
+        self.assertEqual([{"density": 2.0, "native_screen": 3.0, "view": 2.0, "layer": 2.0},
+                          {"density": 3.0, "native_screen": 3.0, "view": 3.0, "layer": 3.0}],
+                         partial["vector_scale_observations"])
+        self.assertEqual(0, partial["counts"]["passed"])
+        self.assertIsNone(partial["completion"])
+        with self.assertRaises(ValueError): p.finish(0)
+        for bad in (three, two.replace("nativeScreen=3.0", "nativeScreen=99.0"),
+                    two.replace("view=2.0", "view=3.0"), two.replace("layer=2.0", "layer=3.0"),
+                    two.replace("density=2.0", "density=nan")):
+            with self.subTest(line=bad), self.assertRaises(ValueError): protocol().feed(bad)
+        with self.assertRaises(ValueError): p.feed(three)
+        with self.assertRaises(ValueError): app.NativeProtocol().feed(two)
+
+    def test_phone_environment_contrast_selects_only_failed_rendering_not_accepted_appearance(self):
+        row, = matrix.matrix("ios-vector-rendering-iphone-recovery")["include"]
+        self.assertEqual("ios-iphone", row["slot"])
+        self.assertEqual("iphone", row["simulator-kind"])
+        self.assertEqual("calf-ui", row["test-modules"])
+        self.assertEqual(tests.IOS_VECTOR_RENDERING_FOCUS, row["test-focus"])
+        self.assertNotIn("serial-test-focus", row)
+        self.assertEqual(1, len(matrix.preflight_plans("ios-vector-rendering-iphone-recovery")["slots"]))
+        self.assertEqual(1, len(tests.ui_application_focus_identities(row["test-focus"])))
+        self.assertEqual(300, app.application_timeout_seconds(row["test-focus"]))
+        self.assertEqual(11, len(matrix.matrix("all")["include"]))
+
+    def test_physical_screen_scale_is_observed_without_changing_any_requested_density_or_pixel_tolerance(self):
+        source = (tests.ROOT / tests.IOS_VECTOR_THEME_SOURCE).read_text()
+        method = source.split("@Test fun " + tests.IOS_VECTOR_THEME_METHODS[0], 1)[1].split("@Test fun ", 1)[0]
+        self.assertEqual(2, method.count("val nativeScreenScale = assertNotNull(view.window).screen.scale"))
+        self.assertEqual(3, method.count("nativeScreen=$nativeScreenScale"))
+        self.assertEqual(1, method.count("NATIVECMPKIT_VECTOR_SCALE density=$density"))
+        self.assertIn("listOf(2f, 3f)", method)
+        self.assertIn("original[channel].toInt() and 255)) <= 3", method)
+        self.assertIn("actual[offset + channel].toInt() and 255)) <= 3", method)
+        self.assertNotIn("kCAFilterNearest", method)
+        self.assertNotIn("return@", method)
+
     def test_rendering_only_recovery_never_replays_accepted_theme_methods(self):
         row, = matrix.matrix("ios-vector-rendering-recovery")["include"]
         self.assertEqual("ios-ipad", row["slot"])

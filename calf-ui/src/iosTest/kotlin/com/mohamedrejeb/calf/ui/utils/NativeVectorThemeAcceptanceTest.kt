@@ -80,6 +80,9 @@ class NativeVectorThemeAcceptanceTest {
                     assertTrue(sameNativeObject(view.window, parent.view.window))
                     assertEquals(density.toDouble(), view.contentScaleFactor, "actual attached image-view density")
                     assertEquals(density.toDouble(), view.layer.contentsScale, "actual native layer backing density")
+                    val nativeScreenScale = assertNotNull(view.window).screen.scale
+                    println("NATIVECMPKIT_VECTOR_SCALE density=$density nativeScreen=$nativeScreenScale " +
+                        "view=${view.contentScaleFactor} layer=${view.layer.contentsScale}")
                     val original = snapshot(view, density).rgba()
                     val source = raster.rgba()
                     // Failure diagnostics distinguish the actual scene capture
@@ -96,7 +99,8 @@ class NativeVectorThemeAcceptanceTest {
                             (original[channel].toInt() and 255)) <= 3,
                             "AlwaysOriginal raster mismatch at density $density, pixel ${channel / 4}, " +
                                 "channel ${channel % 4}: source=${source[channel].toInt() and 255}, " +
-                                "hierarchy=${original[channel].toInt() and 255}, layer=${isolated[channel].toInt() and 255}")
+                                "hierarchy=${original[channel].toInt() and 255}, layer=${isolated[channel].toInt() and 255}, " +
+                                "nativeScreen=$nativeScreenScale")
                     }
                     val width = (24 * density).toInt()
                     val red = ((8 * density).toInt() * width + (6 * density).toInt()) * 4
@@ -108,6 +112,7 @@ class NativeVectorThemeAcceptanceTest {
                     view.image = raster.imageWithRenderingMode(UIImageRenderingMode.UIImageRenderingModeAlwaysTemplate)
                 }
                 runOnIdle {
+                    val nativeScreenScale = assertNotNull(view.window).screen.scale
                     val actual = snapshot(view, density).rgba()
                     val source = raster.rgba()
                     assertEquals(source.size, actual.size)
@@ -120,7 +125,8 @@ class NativeVectorThemeAcceptanceTest {
                         expected.indices.forEach { channel ->
                             assertTrue(abs(expected[channel] - (actual[offset + channel].toInt() and 255)) <= 3,
                                 "Actual UIImageView template mismatch at density $density, pixel ${offset / 4}, " +
-                                    "channel $channel: expected=${expected[channel]}, actual=${actual[offset + channel].toInt() and 255}")
+                                    "channel $channel: expected=${expected[channel]}, actual=${actual[offset + channel].toInt() and 255}, " +
+                                    "nativeScreen=$nativeScreenScale")
                         }
                     }
                     assertTrue(coloredPixels > (24 * 16 * density * density / 4).toInt())

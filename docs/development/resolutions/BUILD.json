@@ -158,17 +158,28 @@
     "id": "BUILD-005",
     "status": "implemented",
     "changes": [
-      "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks."
+      "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks.",
+      "2026-10-29: finite five-real-host native profile builds both crates twice from separately empty Cargo homes/targets; exact locked union/features/compiler/source metadata and offline changed-resolution refusal controls. Windows checkout requires job-local longpaths/exact-byte settings; recovery selects only that failed host."
     ],
     "affected_paths": [
       "rust-toolchain.toml",
       "calf-file-picker/native/.gitignore",
       "calf-share/native/.gitignore",
-      "scripts/native/artifacts.py"
+      "scripts/native/artifacts.py",
+      "scripts/ci/native_lock_reproducibility.py",
+      "scripts/ci/test_native_lock_reproducibility.py",
+      "scripts/ci/test_native_lock_windows_workflow.py",
+      ".github/workflows/build-native-libs.yml"
     ],
-    "tests": [],
+    "tests": [
+      {
+        "command": "GitHub native-lock-reproducibility run40848333339 attempt1 at e009700f235c670f46b31c26df558cab741903d2",
+        "result": "Overall FAILED: actual Linuxx64/arm64 and macOSarm64/x64 each build both crates twice=16 successful empty-cache builds,42 own-Git inputs per host, complete93/48 graph/features and source/compiler metadata equal, actual unchanged/offline changed101/refusal/restored controls and owned cleanup pass. Binary hash differences remain explicit. Native runtime testsZERO. Windows checkout fails on30 archived long paths before controller/zero builds/no reports. Windows-only recovery pending; no other host replay or closure/security/release promotion.",
+        "evidence": "docs/development/evidence/native-lock-batch-important-20261029/github-ci001/review.json"
+      }
+    ],
     "remaining": [
-      "Verify both settled locks, full locked graphs, clean-cache reproducibility and per-target toolchain/native receipts."
+      "Recover actual immutable Windows checkout with exact source bytes, execute/review both crates twice from empty caches and all original criteria before closure; four accepted hosts must not be replayed. Full JNI/consumer/minimum/provenance/byte-reproducibility/security/release gates remain independent."
     ],
     "compatibility": "Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies."
   },

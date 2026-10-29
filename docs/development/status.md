@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8e20257beb6fded8988c57a1cd736c2f751c4acb8c497a147d10c7aa3f6379b6`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9bb992eec35b89b3bc0406761ee9a7e2616fd7491fdcb35a456ac2dbd44fffa0`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -850,7 +850,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Verify both settled locks, full locked graphs, clean-cache reproducibility and per-target toolchain/native receipts.
+- Recover actual immutable Windows checkout with exact source bytes, execute/review both crates twice from empty caches and all original criteria before closure; four accepted hosts must not be replayed. Full JNI/consumer/minimum/provenance/byte-reproducibility/security/release gates remain independent.
 
 **Compatibility / scope:** Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies.
 
@@ -3601,14 +3601,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `6185020593111adb732c7665fb5a0fa9e7299ff201af78314e00488360111fcb` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `32c4d1849029c22c79fce7ba4f53dcf9a5154c1c3c7950d87c4c8b4626df320b` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `7af3a52be265faebf66f63d772dff1908b78bb6a73ddb89bab17b80ced4888c0` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `f169285a4ad99d8f833856b3a12648096a87dbd05b2d2d4aab46e6a3df7aacb6` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

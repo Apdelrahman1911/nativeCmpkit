@@ -21,10 +21,14 @@ class TimePickerManager internal constructor(
     private val onHourChanged: (hour: Int) -> Unit,
     private val onMinuteChanged: (minute: Int) -> Unit,
 ) {
+    private var disposed = false
+
     private val datePickerDelegate = object : NSObject() {
         @ObjCAction
         fun onTimeChanged(sender: UIDatePicker) {
-            val components = (sender.calendar ?: NSCalendar.currentCalendar).components(
+            requireMain()
+            if (disposed) return
+            val components = effectiveCalendar(sender).components(
                 NSCalendarUnitHour or NSCalendarUnitMinute,
                 sender.date
             )
@@ -38,6 +42,7 @@ class TimePickerManager internal constructor(
     val datePickerHeight = mutableStateOf(0f)
 
     init {
+        requireMain()
         val calendar = NSCalendar.currentCalendar
         val dateComponents = calendar.components(
             NSCalendarUnitYear or NSCalendarUnitMonth or NSCalendarUnitDay,
@@ -73,7 +78,9 @@ class TimePickerManager internal constructor(
     }
 
     internal fun setTime(hour: Int, minute: Int) {
-        val calendar = datePicker.calendar ?: NSCalendar.currentCalendar
+        requireMain()
+        if (disposed) return
+        val calendar = effectiveCalendar(datePicker)
         val components = calendar.components(NSCalendarUnitYear or NSCalendarUnitMonth or
             NSCalendarUnitDay or NSCalendarUnitHour or NSCalendarUnitMinute, datePicker.date)
         if (components.hour == hour.toLong() && components.minute == minute.toLong()) return
@@ -81,4 +88,20 @@ class TimePickerManager internal constructor(
         components.minute = minute.toLong()
         calendar.dateFromComponents(components)?.let { datePicker.setDate(it, animated = false) }
     }
+
+    /** UIKit's explicit picker zone takes precedence over the calendar's snapshot. */
+    private fun effectiveCalendar(picker: UIDatePicker): NSCalendar =
+        ((picker.calendar ?: NSCalendar.currentCalendar).copyWithZone(null) as NSCalendar).apply {
+            timeZone = picker.timeZone ?: NSTimeZone.localTimeZone
+        }
+
+    /** Detach only our action; a retained obsolete control must not edit hoisted state. */
+    internal fun dispose() {
+        requireMain()
+        if (disposed) return
+        disposed = true
+        datePicker.removeTarget(datePickerDelegate, sel_registerName("onTimeChanged:"), UIControlEventValueChanged)
+    }
+
+    private fun requireMain() = check(NSThread.isMainThread) { "UIKit time picker operations must run on Main" }
 }

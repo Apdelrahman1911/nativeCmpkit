@@ -482,6 +482,33 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_NUMERIC_FOCUS] = {
     "scope": "Two new actual UIKit public Liquid slider degenerate/unbounded/RTL/live-range-replacement methods only; 16 accepted numeric/animation methods not replayed, no hardware/profiling/release certification",
 }
 
+IOS_UI_STATE_FOCUS = "ios-native-remembered-state"
+IOS_TIME_STATE_CLASS = "com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest"
+IOS_TIME_STATE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt"
+IOS_TIME_STATE_METHODS = (
+    "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner",
+    "hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached",
+)
+IOS_SHEET_STATE_CLASS = "com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest"
+IOS_SHEET_STATE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt"
+IOS_SHEET_STATE_METHODS = (
+    "visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges",
+    "realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner",
+)
+IOS_UI_STATE_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest", "source": IOS_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE, "methods": IOS_TIME_STATE_METHODS},
+    {"classname": IOS_SHEET_STATE_CLASS, "source": IOS_SHEET_STATE_SOURCE, "methods": IOS_SHEET_STATE_METHODS},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {
+    "groups": IOS_UI_STATE_GROUPS,
+    "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
+}
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
@@ -2136,6 +2163,7 @@ def main() -> int:
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
+                                           IOS_UI_STATE_FOCUS,
                                            IOS_PICKER_BOUNDARY_FOCUS,
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,

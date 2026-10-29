@@ -622,11 +622,14 @@
     "id": "UI-010",
     "status": "partially-verified",
     "changes": [
-      "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control."
+      "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control.",
+      "2026-10-29: main-confined native effective-calendar/explicit-or-live-local-zone read/write uses a copy; composition disposal explicitly removes its target/action and late callbacks cannot edit obsolete state. Two new real public time-state/zone/locale/controller/action acceptance methods plus changed genuine-host checks are prepared."
     ],
     "affected_paths": [
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
-      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt"
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
     ],
     "tests": [
       {
@@ -647,6 +650,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "COMPILE ONLY: production/test KLIB0/50.01s, final changed default-zone test KLIB0/40.01s with864 held dirty inputs. ZERO native executions. Five finite tooling methods pass; related113/114 retains one exact source-guard failure, then only failed owning method reruns1/1 without disabling strict plist/rendering. One noninvoked Python guard changes after KLIB. Immutable8-method actual UIKit verification/original-criteria review pending; no closure/gate promotion.",
+        "evidence": "docs/development/evidence/ui-state-batch-important-20261029/local/review.json"
       }
     ],
     "remaining": [
@@ -1175,10 +1183,12 @@
     "id": "UI-019",
     "status": "partially-verified",
     "changes": [
-      "Keep remembered sheet identity across callback replacement via rememberUpdatedState; read current density for thresholds; retain structural keys."
+      "Keep remembered sheet identity across callback replacement via rememberUpdatedState; read current density for thresholds; retain structural keys.",
+      "2026-10-29: two new genuine public sheet acceptance methods cover live policy/density/actual hiding, real SaveableStateRegistry restore and structural skip reset/native owner replacement; production remember policy is unchanged."
     ],
     "affected_paths": [
-      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt"
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt"
     ],
     "tests": [
       {
@@ -1192,6 +1202,11 @@
           "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
           "docs/development/UI-native.md"
         ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "COMPILE ONLY: production/test KLIB0/50.01s, final changed default-zone test KLIB0/40.01s with864 held dirty inputs. ZERO native executions. Five finite tooling methods pass; related113/114 retains one exact source-guard failure, then only failed owning method reruns1/1 without disabling strict plist/rendering. One noninvoked Python guard changes after KLIB. Immutable8-method actual UIKit verification/original-criteria review pending; no closure/gate promotion.",
+        "evidence": "docs/development/evidence/ui-state-batch-important-20261029/local/review.json"
       }
     ],
     "remaining": [

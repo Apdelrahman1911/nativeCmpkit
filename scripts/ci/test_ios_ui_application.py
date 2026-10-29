@@ -116,7 +116,9 @@ class LinkedIdentityTests(unittest.TestCase):
     def test_genuine_compose_host_does_not_disable_strict_manifest_sanity_check(self):
         root = Path(a.__file__).resolve().parents[2]
         source = (root / a.HOST_SOURCE).read_text()
-        self.assertIn("controller = ComposeUIViewController {", source)
+        self.assertIn("controller = ComposeUIViewController(configure = { delegate = lifecycle }) {", source)
+        self.assertIn("override fun viewDidAppear(animated: Boolean)", source)
+        self.assertIn("rootHasAppeared = true", source)
         self.assertNotIn("enforceStrictPlistSanityCheck", source)
 
 

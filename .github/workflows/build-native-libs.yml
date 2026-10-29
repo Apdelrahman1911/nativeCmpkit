@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: all
-        options: [all, picker-jni-macos-domain, native-lock-reproducibility]
+        options: [all, picker-jni-macos-domain, native-lock-reproducibility, native-lock-windows-source]
 permissions:
   contents: read
 concurrency:
@@ -50,7 +50,7 @@ jobs:
         run: cargo test --locked
 
   native-lock-tooling:
-    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'native-lock-reproducibility'
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && (inputs.profile == 'native-lock-reproducibility' || inputs.profile == 'native-lock-windows-source')
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
@@ -58,7 +58,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Important cache/source/refusal/controller tests only; zero native runtime tests
+        if: inputs.profile == 'native-lock-reproducibility'
         run: python3 -B -m unittest discover -s scripts/ci -p test_native_lock_reproducibility.py -v
+      - name: Changed checkout and finite Windows-only recovery guards; no accepted host replay
+        if: inputs.profile == 'native-lock-windows-source'
+        run: python3 -B -m unittest discover -s scripts/ci -p test_native_lock_windows_workflow.py -v
 
   native-lock-reproducibility:
     if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'native-lock-reproducibility'
@@ -85,6 +89,14 @@ jobs:
             python: python
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 45
+    # Before checkout: retain long archives and the exact source bytes on Windows.
+    # Repository/job-local Git configuration only; no machine-wide changes.
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
     defaults:
       run:
         shell: bash
@@ -108,6 +120,38 @@ jobs:
           retention-days: 7
           if-no-files-found: error
           path: build/ci-verification/native-lock-${{ matrix.platform }}/*.json
+
+  native-lock-windows-source:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'native-lock-windows-source'
+    needs: native-lock-tooling
+    runs-on: windows-2025
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: '1.98.0'
+      - name: Recover only the failed actual Windows host; no accepted Linux or macOS replay
+        run: python scripts/ci/native_lock_reproducibility.py --platform windows-x64 --output build/ci-verification/native-lock-windows-x64
+      - name: Preserve JSON receipts only, including failed stages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: native-lock-evidence-windows-x64
+          retention-days: 7
+          if-no-files-found: error
+          path: build/ci-verification/native-lock-windows-x64/*.json
 
   picker-jni-macos-domain:
     if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'picker-jni-macos-domain'

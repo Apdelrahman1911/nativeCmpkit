@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.key
@@ -54,6 +55,10 @@ actual fun AdaptiveTimePicker(
     }
 
     val layoutDirection = LocalLayoutDirection.current
+
+    DisposableEffect(datePickerManager) {
+        onDispose { datePickerManager.dispose() }
+    }
 
     val absoluteElevation = LocalAbsoluteTonalElevation.current
 

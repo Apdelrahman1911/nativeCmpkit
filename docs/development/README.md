@@ -1,5 +1,11 @@
 # NativeCmpKit development after the audit
 
+## Current related batches — 2026-10-29
+
+[Remembered UI state](evidence/ui-state-batch-important-20261029/README.md): important native time/sheet state, policy/density/restore and action-disposal checks are prepared for an immutable8-method genuine UIKit profile after held local KLIB/tooling checks. No native pass/closure is inferred from compilation.
+
+[Native lock/build](evidence/native-lock-batch-important-20261029/github-ci001/review.json): original five-host run40848333339 is FAILED at Windows checkout;16 actual empty-cache builds on four other hosts are independently Git/graph/compiler/refusal/cleanup reviewed. Binary differences remain explicit; zero native runtime tests. Windows-only source/longpath recovery avoids replaying accepted hosts.68closed/104open/172, no new closures or publication/release/Pages gate waiver.
+
 ## Related native lock/build batch pending verification — 2026-10-29
 
 [Owning native batch](evidence/native-lock-batch-important-20261029/README.md):15new finite tooling methods +onechanged profile guard

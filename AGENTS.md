@@ -1,5 +1,37 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related remembered-state and native-checkout batches — 2026-10-29
+
+[UI state batch](docs/development/evidence/ui-state-batch-important-20261029/README.md)
+repairs main-confined effective picker-calendar/zone decoding and explicit action
+removal on state/root disposal. Four new real UIKit/Compose time/sheet acceptance
+methods share four changed application-host checks, with genuine native appearance
+and restoration witnesses. Native locale/explicit and Foundation-default timezone,
+identical hoisted state, obsolete actions, real registry restore, live confirmation
+and density/structural reset are distinct from OS hour-cycle/physical gestures.
+Local production/test KLIB passes0/50.01s then changed test KLIB0/40.01s with864
+held dirty inputs; ZERO local native tests. Five finite tooling methods pass.
+Related tooling initially113/114: one stale exact controller-call source guard
+failed, is repaired without disabling strict plist/rendering checks, and only that
+method reruns1/1. An erroneous native-profile selector is retained separately.
+One noninvoked Python guard changes after KLIB; do not claim all864 bytes bound to
+the final revision. **Immutable8-method native verification pending; no closures.**
+
+[Native lock batch](docs/development/evidence/native-lock-batch-important-20261029/github-ci001/review.json)
+40848333339/e009 is **FAILED**:4 real hosts each verify4 empty-cache builds =16
+actual builds,42 exact historical Git native/recipe inputs per host, pinned Rust1.98,
+complete93/48 Cargo unions/features, unchanged/restored offline controls and exact
+changed-resolution101 refusal. Native runtime testsZERO. Binary-byte differences
+are recorded explicitly despite equal graphs/source/compiler metadata; not a
+byte-reproducible/provenance/minimum-platform/consumer/security/release gate.
+Windows checkout failed on30 long archive paths before any build/no reports.
+New job-local Git longpaths/exact-byte settings and finite Windows-only recovery
+retain all paths and all4 accepted hosts without replay. Three new workflow guards
+and the changed original guard pass; recovery is pending. Publishing/Pages/main/
+history remain untouched;68closed/104open/172; single-agent, close verified subsets
+immediately after shared important results and original-criteria review.
+
+
 ## Related native lock/build batch pending verification — 2026-10-29
 
 [Owning native batch](docs/development/evidence/native-lock-batch-important-20261029/README.md):15new finite tooling methods +onechanged profile guard

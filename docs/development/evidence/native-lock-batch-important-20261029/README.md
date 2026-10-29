@@ -1,5 +1,9 @@
 # Related native lock/build verification batch — 2026-10-29
 
+## Additive actual matrix checkpoint
+
+[Original immutable matrix](github-ci001/README.md):16 real empty-cache builds on4hosts are independently reviewed. Overall run40848333339 is **FAILED at Windows checkout**, with30 long-path errors and zero Windows builds/reports. Targeted exact-byte/longpath Windows-only recovery preserves accepted host work. Native bytes differ in several pairs; zero runtime tests; no new closure or release gate.
+
 Related findings: BUILD-003/#2 native manifests, BUILD-004/#38 platform packaging,
 BUILD-005/#39 Rust locks/toolchain, BUILD-007/#40 supply chain and BUILD-012/#147
 picker dependency advisories. **No new issue closure or release gate is inferred

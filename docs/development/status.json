@@ -43,18 +43,18 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "6185020593111adb732c7665fb5a0fa9e7299ff201af78314e00488360111fcb",
+    "docs/development/resolutions/BUILD.json": "32c4d1849029c22c79fce7ba4f53dcf9a5154c1c3c7950d87c4c8b4626df320b",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "7af3a52be265faebf66f63d772dff1908b78bb6a73ddb89bab17b80ced4888c0",
-    "docs/development/resolutions/UI-native.json": "6a48580357957782c2972a1ed3334652eb8ddd01eb3487bf916323254bedc8ed",
+    "docs/development/resolutions/UI-native.json": "f169285a4ad99d8f833856b3a12648096a87dbd05b2d2d4aab46e6a3df7aacb6",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "8e20257beb6fded8988c57a1cd736c2f751c4acb8c497a147d10c7aa3f6379b6",
+  "input_fingerprint": "9bb992eec35b89b3bc0406761ee9a7e2616fd7491fdcb35a456ac2dbd44fffa0",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -5138,22 +5138,33 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "ad705bd4ca317f64e3649ff7ed41a03fd5fe2c13cfa8363d9822ebd33eedf26b",
+      "owner_record_sha256": "adcb35a2edd82a7507530f3597ce1389e720f51b521a42cce6286e7d62444d27",
       "owner_record": {
         "id": "BUILD-005",
         "status": "implemented",
         "changes": [
-          "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks."
+          "Root Rust1.98.0 toolchain and locked commands; native Cargo.lock ignores removed; source owners maintain locks.",
+          "2026-10-29: finite five-real-host native profile builds both crates twice from separately empty Cargo homes/targets; exact locked union/features/compiler/source metadata and offline changed-resolution refusal controls. Windows checkout requires job-local longpaths/exact-byte settings; recovery selects only that failed host."
         ],
         "affected_paths": [
           "rust-toolchain.toml",
           "calf-file-picker/native/.gitignore",
           "calf-share/native/.gitignore",
-          "scripts/native/artifacts.py"
+          "scripts/native/artifacts.py",
+          "scripts/ci/native_lock_reproducibility.py",
+          "scripts/ci/test_native_lock_reproducibility.py",
+          "scripts/ci/test_native_lock_windows_workflow.py",
+          ".github/workflows/build-native-libs.yml"
         ],
-        "tests": [],
+        "tests": [
+          {
+            "command": "GitHub native-lock-reproducibility run40848333339 attempt1 at e009700f235c670f46b31c26df558cab741903d2",
+            "result": "Overall FAILED: actual Linuxx64/arm64 and macOSarm64/x64 each build both crates twice=16 successful empty-cache builds,42 own-Git inputs per host, complete93/48 graph/features and source/compiler metadata equal, actual unchanged/offline changed101/refusal/restored controls and owned cleanup pass. Binary hash differences remain explicit. Native runtime testsZERO. Windows checkout fails on30 archived long paths before controller/zero builds/no reports. Windows-only recovery pending; no other host replay or closure/security/release promotion.",
+            "evidence": "docs/development/evidence/native-lock-batch-important-20261029/github-ci001/review.json"
+          }
+        ],
         "remaining": [
-          "Verify both settled locks, full locked graphs, clean-cache reproducibility and per-target toolchain/native receipts."
+          "Recover actual immutable Windows checkout with exact source bytes, execute/review both crates twice from empty caches and all original criteria before closure; four accepted hosts must not be replayed. Full JNI/consumer/minimum/provenance/byte-reproducibility/security/release gates remain independent."
         ],
         "compatibility": "Crate identities and publish=false retained; locks represent new candidate resolution, not historical shipped dependencies."
       },
@@ -22913,16 +22924,19 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "e424f26bf70e7c87934ce7596db8a3f3a41ff450a8d524b423471d89561576dc",
+      "owner_record_sha256": "e778811306b70d2bd9d4ee09ce88a29f77ca57742816c2904af0d572b6ff75e6",
       "owner_record": {
         "id": "UI-010",
         "status": "partially-verified",
         "changes": [
-          "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control."
+          "Key UIDatePicker/manager/interop by state; synchronize current time and owner-dependent appearance; initialize from current civil date and size native control.",
+          "2026-10-29: main-confined native effective-calendar/explicit-or-live-local-zone read/write uses a copy; composition disposal explicitly removes its target/action and late callbacks cannot edit obsolete state. Two new real public time-state/zone/locale/controller/action acceptance methods plus changed genuine-host checks are prepared."
         ],
         "affected_paths": [
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt",
-          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt"
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerManager.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
         ],
         "tests": [
           {
@@ -22943,6 +22957,11 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+            "result": "COMPILE ONLY: production/test KLIB0/50.01s, final changed default-zone test KLIB0/40.01s with864 held dirty inputs. ZERO native executions. Five finite tooling methods pass; related113/114 retains one exact source-guard failure, then only failed owning method reruns1/1 without disabling strict plist/rendering. One noninvoked Python guard changes after KLIB. Immutable8-method actual UIKit verification/original-criteria review pending; no closure/gate promotion.",
+            "evidence": "docs/development/evidence/ui-state-batch-important-20261029/local/review.json"
           }
         ],
         "remaining": [
@@ -22988,15 +23007,17 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "5657d77b853efb8eb27c5650e55168e9ae555a362e67bf21442d8f541642f691",
+      "owner_record_sha256": "59c81adce25e3e4a47961af76877e076c8bfc80c1f858d697f0f17d435322ff9",
       "owner_record": {
         "id": "UI-019",
         "status": "partially-verified",
         "changes": [
-          "Keep remembered sheet identity across callback replacement via rememberUpdatedState; read current density for thresholds; retain structural keys."
+          "Keep remembered sheet identity across callback replacement via rememberUpdatedState; read current density for thresholds; retain structural keys.",
+          "2026-10-29: two new genuine public sheet acceptance methods cover live policy/density/actual hiding, real SaveableStateRegistry restore and structural skip reset/native owner replacement; production remember policy is unchanged."
         ],
         "affected_paths": [
-          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt"
+          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveSheetState.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -23010,6 +23031,11 @@
               "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
               "docs/development/UI-native.md"
             ]
+          },
+          {
+            "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --no-daemon --max-workers=1 --no-configuration-cache -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+            "result": "COMPILE ONLY: production/test KLIB0/50.01s, final changed default-zone test KLIB0/40.01s with864 held dirty inputs. ZERO native executions. Five finite tooling methods pass; related113/114 retains one exact source-guard failure, then only failed owning method reruns1/1 without disabling strict plist/rendering. One noninvoked Python guard changes after KLIB. Immutable8-method actual UIKit verification/original-criteria review pending; no closure/gate promotion.",
+            "evidence": "docs/development/evidence/ui-state-batch-important-20261029/local/review.json"
           }
         ],
         "remaining": [

@@ -1,5 +1,9 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared slider fixture corrected before assertions — 2026-10-29
+
+[40863015797/e8a72ced](docs/development/evidence/slider-lifecycle-batch-important-20261029/native-ci001/README.md) CANCELLED after pending-to-start setup race; zero accepted methods, not proof zero partial host executions. Final discrete RTL drag may already reach start; after original stale-writer/exact-cancel/observer checks, hoisted midpoint reset now guarantees fresh tap changes state. Original assertions retained; changed guard1/1 and heldKLIB0/44.01s/865inputs pass, ZEROlocalnative tests. Onlysixunaccepted methods require replacement, no accepted host/control replay. Time40861258740/f241 is still running; both slider issues/#124 stayopen.70closed/102open; single-agent, no publishing/Pages/main/history or release-gate changes.
+
 ## Shared slider ownership batch pending actual native verification — 2026-10-29
 
 [Six-method owning batch](docs/development/evidence/slider-lifecycle-batch-important-20261029/README.md)

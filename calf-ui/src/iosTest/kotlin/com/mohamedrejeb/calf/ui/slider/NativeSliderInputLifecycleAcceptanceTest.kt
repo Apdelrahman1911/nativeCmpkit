@@ -155,6 +155,12 @@ class NativeSliderInputLifecycleAcceptanceTest {
             assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === start }, name)
             assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === start }, name)
             assertFalse(observedDragging, "$name must clear the actual dragged-state observer")
+            // A discrete RTL drag can already reach range.start. Reset only after proving
+            // stale-input rejection, so the fresh tap must genuinely change current state.
+            runOnIdle { value = (range.start + range.endInclusive) / 2f }
+            waitForIdle()
+            assertEquals(changesBeforeReplacement, changes, "$name hoisted reset is not an input callback")
+            assertEquals(finishesBeforeReplacement, finished, "$name hoisted reset is not input completion")
             onNodeWithTag("slider").performTouchInput {
                 click(Offset(if (direction == LayoutDirection.Rtl) width - 2f else 2f, centerY))
             }

@@ -29,3 +29,7 @@ fixtures, not actual UI functionality. Native immutable execution and both
 original-criteria reviews are pending; **#34 and #137 remain open**.
 
 No packages, releases, deployments, Pages, main/history or attribution changes.
+
+## Pre-execution fixture review and cancelled setup
+
+[Initial run](native-ci001/README.md) is CANCELLED, zero accepted methods; pending-to-start race retained. [Changed fixture check](local002/review.json) passes one owning guard and test KLIB0/44.01s with all865 held inputs, ZERO local native tests. Original stale-writer/cancel/fresh-callback assertions remain; midpoint reset prevents an invalid same-value callback expectation. Both issues remain open for one immutable six-method replacement, without replaying accepted suites.

@@ -102,6 +102,13 @@ class IosSliderLifecycleTests(unittest.TestCase):
         self.assertNotIn("Thread.sleep", source)
         self.assertNotIn("Assume.", source)
         self.assertEqual(6, source.count("@Test fun "))
+        cancelled = source.index('assertFalse(observedDragging, "$name must clear')
+        reset = source.index("runOnIdle { value = (range.start + range.endInclusive) / 2f }", cancelled)
+        fresh = source.index('"$name replacement must accept a fresh current-domain tap"', reset)
+        self.assertLess(cancelled, reset)
+        self.assertLess(reset, fresh)
+        self.assertIn('"$name hoisted reset is not an input callback"', source[reset:fresh])
+        self.assertIn('"$name hoisted reset is not input completion"', source[reset:fresh])
 
 
 if __name__ == "__main__": unittest.main()

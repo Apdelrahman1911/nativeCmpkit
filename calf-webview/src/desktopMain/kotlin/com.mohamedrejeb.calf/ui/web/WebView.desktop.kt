@@ -301,9 +301,20 @@ actual class WebViewState actual constructor(webContent: WebContent) {
         if (current == null) callback?.invoke(null)
         else current.evaluate(script) { callback?.invoke(it.getOrNull()?.toString()) }
     }
-    var webView by mutableStateOf<WebView?>(null)
-        internal set
-    internal var owner: DesktopWebViewOwner? = null
+    // Snapshot state deliberately retains predecessor records. Storing the native view there
+    // keeps the last disposed WebEngine/document alive when callers retain this state. Observe
+    // only an invalidation token; the owned handle is always current, never snapshot-historical.
+    private val attachedWebView = AtomicReference<WebView?>(null)
+    private var attachmentVersion by mutableLongStateOf(0L)
+    var webView: WebView?
+        get() {
+            attachmentVersion // Register Compose reads without retaining native predecessors.
+            return attachedWebView.get()
+        }
+        internal set(value) {
+            if (attachedWebView.getAndSet(value) !== value) attachmentVersion++
+        }
+    @Volatile internal var owner: DesktopWebViewOwner? = null
 
     private fun captureDesktopSettings() = DesktopWebSettingsSnapshot(
         settings.javaScriptEnabled, settings.desktopSettings.customUserAgent,

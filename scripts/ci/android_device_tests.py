@@ -268,7 +268,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()
     modules = tuple(args.module) if args.module else None

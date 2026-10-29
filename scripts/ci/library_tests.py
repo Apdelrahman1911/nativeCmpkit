@@ -29,6 +29,7 @@ import xml.etree.ElementTree as ET
 import runtime_context
 import native_test_policy
 import daemon_jvm
+import desktop_media_context
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -510,8 +511,89 @@ def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
     return len(actual) == len(BROWSER_COIL_READ_METHODS) and set(actual) == set(BROWSER_COIL_READ_METHODS)
 
 
+WEBVIEW_LIFETIME_FOCUS = "webview-native-lifetime"
+WEBVIEW_LIFETIME_MODULE = "calf-webview"
+WEBVIEW_DEVICE_FIXTURES = (
+    "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml",
+)
+WEBVIEW_LIFETIME_SPECS = {
+    "desktop": (
+        {"classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+         "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+         "methods": (
+             "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+             "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+             "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+         )},
+        {"classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+         "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+         "methods": ("disposalBeforeQueuedCreationCannotResurrectState",
+                     "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent"),
+         "declared_methods": (
+             "customUserAgentCanBeRestoredAndNativeStateIsReleased", "javascriptUsesActualEngineAndTypedJsonResults",
+             "stopCancelsRealSlowLoadWithoutFeedbackLoop", "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
+             "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent",
+             "disposalBeforeQueuedCreationCannotResurrectState", "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError",
+             "throwingCreationCallbackReleasesActualEngineAndScene",
+         )},
+    ),
+    "android-device": (
+        {"classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+         "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+         "methods": (
+             "retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+             "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+             "throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement",
+         )},
+    ),
+}
+
+
+def webview_lifetime_identities(suite: str) -> list[dict]:
+    suffix = "[desktop]" if suite == "desktop" else ""
+    return [{"classname": group["classname"], "name": method + suffix}
+            for group in WEBVIEW_LIFETIME_SPECS[suite] for method in group["methods"]]
+
+
+def webview_lifetime_filter(suite: str) -> str:
+    if suite == "android-device":
+        # One real class avoids AGP9.4.0/ATE1.0.1's lossy comma-map transport.
+        return WEBVIEW_LIFETIME_SPECS[suite][0]["classname"]
+    return ",".join(group["classname"] + "." + method
+                    for group in WEBVIEW_LIFETIME_SPECS[suite] for method in group["methods"])
+
+
+def validate_webview_device_network_fixture(root: Path) -> None:
+    documents = []
+    for relative in WEBVIEW_DEVICE_FIXTURES:
+        path = safe_path(root, relative)
+        if not path.is_file() or path.stat().st_size > 65536:
+            raise ValueError("Required bounded real device host/network fixture is missing")
+        documents.append(ET.fromstring(path.read_bytes(), parser=ET.XMLParser(target=NoDtdBuilder())))
+    manifest, security = documents
+    ns = "{http://schemas.android.com/apk/res/android}"
+    apps = manifest.findall("application")
+    activities = apps[0].findall("activity") if len(apps) == 1 else []
+    if (len(apps) != 1 or apps[0].get(ns + "usesCleartextTraffic") != "false" or
+            apps[0].get(ns + "networkSecurityConfig") != "@xml/nativecmpkit_webview_test_network_security" or
+            not any(a.get(ns + "name") == "com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity" and
+                    a.get(ns + "exported") == "false" for a in activities) or
+            not any(p.get(ns + "name") == "android.permission.INTERNET" for p in manifest.findall("uses-permission"))):
+        raise ValueError("Device networking must remain test-only with a nonexported real Activity")
+    base, domain = security.find("base-config"), security.find("domain-config")
+    if (security.tag != "network-security-config" or [c.tag for c in security] != ["base-config", "domain-config"] or
+            base is None or base.attrib != {"cleartextTrafficPermitted": "false"} or len(base) or
+            domain is None or domain.attrib != {"cleartextTrafficPermitted": "true"} or len(domain) != 1 or
+            domain[0].tag != "domain" or domain[0].attrib != {"includeSubdomains": "false"} or
+            (domain[0].text or "").strip() != "127.0.0.1" or len(domain[0])):
+        raise ValueError("Never replace the exact loopback fixture with global/domain-subtree cleartext allowances")
+
+
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
-    return ((focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
+    return ((focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
+             modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
              modules == (DATE_TRANSACTION_MODULE,)) or
@@ -868,6 +950,29 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
         selected[0]["required_testcases"] = date_transaction_identities()
         result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
+    elif focus == WEBVIEW_LIFETIME_FOCUS:
+        for group in WEBVIEW_LIFETIME_SPECS[suite]:
+            if group["source"] not in selected[0]["test_source_files"]:
+                raise ValueError("Required real WebView lifetime source is missing from the selected module")
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            declared = group.get("declared_methods", group["methods"])
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(declared) or set(methods) != set(declared) or
+                    not set(group["methods"]) <= set(declared) or "class " + classname not in source or
+                    "package " + package not in source or group["source"] not in selected[0]["test_source_files"]):
+                raise ValueError("WebView lifetime declarations changed; review the exact real native selection")
+        if suite == "android-device":
+            validate_webview_device_network_fixture(root)
+            selected[0]["native_fixture_paths"] = list(WEBVIEW_DEVICE_FIXTURES)
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = webview_lifetime_filter(suite)
+        selected[0]["required_testcases"] = webview_lifetime_identities(suite)
+        result["scope"] = ("Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; "
+                           "Linux audio uses an owned clocked software sink, not an engine/decoder mock or audible hardware check"
+                           if suite == "desktop" else
+                           "Three exact real Android Activity/provider/Compose lifetime, media/slow socket and serialized-state methods only; "
+                           "direct throwing-release boundary and ownership handoff are controlled; no OS process death, physical-device or minimum-API certification")
     elif focus == BROWSER_COIL_READ_FOCUS:
         source = safe_path(root, BROWSER_COIL_READ_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -988,6 +1093,18 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("required_testcases") != ios_permission_safety_identities(focus) or
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite iOS permission safety plan")
+        return True
+    if focus == WEBVIEW_LIFETIME_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != WEBVIEW_LIFETIME_MODULE or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != webview_lifetime_filter(suite) or
+                expected[0].get("required_testcases") != webview_lifetime_identities(suite) or
+                not all(g["source"] in expected[0]["test_source_files"] for g in WEBVIEW_LIFETIME_SPECS[suite]) or
+                (suite == "android-device" and expected[0].get("native_fixture_paths") != list(WEBVIEW_DEVICE_FIXTURES))):
+            raise ValueError("Invalid finite real WebView lifetime plan")
         return True
     if focus == IOS_SAVE_WRITE_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -1233,6 +1350,15 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_LIFETIME_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if len(module_cases) == len(required) and actual == required else
+                             [f"WebView XML must contain exactly all {len(required)} selected real native methods, no missing, duplicate or foreign cases"])
+            sources = {g["classname"]: g["source"] for g in WEBVIEW_LIFETIME_SPECS[test_plan["suite"]]}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == BROWSER_COIL_READ_FOCUS:
             policy_errors = ([] if browser_coil_read_case_inventory(test_plan["suite"], module_cases) else
                              ["Browser IO/Coil XML must contain exactly all four methods with actual target identities"])
@@ -1356,7 +1482,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             # Only the finite native registry permits multiple exact method
             # selectors; KGP joins these into one canonical gradle-filter argument.
             filters = (item["test_filter"].split(",")
-                       if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
+                       if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS or
+                       (test_plan.get("explicit_test_focus") == WEBVIEW_LIFETIME_FOCUS and suite == "desktop")
                        else (item["test_filter"],))
             for selector in filters:
                 command.extend(["--tests", selector])
@@ -1667,6 +1794,7 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
     allowed.mkdir(parents=True, exist_ok=True)
     lock = allowed / ".library-tests.lock"
     # Do not auto-remove an existing lock: another coordinated run may own it.
+    audio = None
     descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
         os.write(descriptor, f"{os.getpid()}\n".encode())
@@ -1685,12 +1813,19 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                                           browser=suite in {"js", "wasm"})
         if context["source_revision"] != revision_before:
             raise ValueError("Source revision changed while preparing the test invocation")
+        audio = desktop_media_context.OwnedAudio(root, output, test_plan).start()
+        if audio.environment is not None:
+            execution_environment = audio.environment
+            context["desktop_audio"] = dict(audio.receipt)
         write_json(output / "runtime.json", context)
         moved = quarantine_reports(root, output, test_plan)
         started_ns = time.time_ns()
         started_utc = utc_now()
-        execution = execute(root, command, output / "gradle.log", timeout, reserve_mib,
-                            **({"env": execution_environment} if execution_environment is not None else {}))
+        try:
+            execution = execute(root, command, output / "gradle.log", timeout, reserve_mib,
+                                **({"env": execution_environment} if execution_environment is not None else {}))
+        finally:
+            audio.close()
         ended_ns = time.time_ns()
         receipt = {"schema_version": 1, "suite": suite, "started_at_utc": started_utc, "finished_at_utc": utc_now(),
                    "source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
@@ -1701,6 +1836,9 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                    "explicit_module_subset": test_plan["explicit_module_subset"],
                    "test_bearing_modules_not_requested": test_plan["test_bearing_modules_not_requested"],
                    "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification"}
+        if audio.receipt is not None:
+            receipt["desktop_audio"] = audio.receipt
+            write_json(output / "desktop-audio" / "receipt.json", audio.receipt)
         if focus is not None:
             receipt["explicit_test_focus"] = focus
             receipt["required_focused_testcases"] = test_plan["expected"][0]["required_testcases"]
@@ -1739,14 +1877,20 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 receipt["errors"].append({"error": "Actual daemon major differs from the recorded setup Java runtime"})
         except (OSError, ValueError, UnicodeError) as error:
             receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
+        if audio.requested and not audio.passed():
+            receipt["errors"].append({"error": "Owned clocked audio context/configuration/cleanup failed"})
         receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
                              and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
                              and not receipt.get("device_context_error"))
         write_json(output / "receipt.json", receipt)
         return receipt
     finally:
-        os.close(descriptor)
-        lock.unlink()
+        try:
+            if audio is not None:
+                audio.close()
+        finally:
+            os.close(descriptor)
+            lock.unlink()
 
 
 def main() -> int:
@@ -1759,7 +1903,7 @@ def main() -> int:
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,
                                            IOS_SLIDER_NUMERIC_FOCUS,
-                                           BROWSER_COIL_READ_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, WEBVIEW_LIFETIME_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS],
                         help="Finite source-reviewed important tests only; never complete suite coverage")

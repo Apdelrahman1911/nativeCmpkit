@@ -9,10 +9,13 @@ import workflow_matrix as matrix
 
 class DesktopWebViewStopTests(unittest.TestCase):
     def cases(self):
-        return [{"classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+        stops = [{"classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
                  "name": name + "[desktop]", "status": "passed"}
                 for name in ("stopCancelsRealSlowLoadWithoutFeedbackLoop",
                              "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad")]
+        return stops + [{"classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+                         "name": name + "[desktop]", "status": "passed"}
+                        for name in policy.DESKTOP_WEBVIEW_LIFETIME_CASES]
 
     def test_one_desktop_webview_slot_without_replaying_other_suites(self):
         rows = matrix.matrix("webview-desktop")["include"]
@@ -32,7 +35,7 @@ class DesktopWebViewStopTests(unittest.TestCase):
         for system in ("Linux", "Darwin", "Windows"):
             scenarios, errors = policy.apply("calf-webview", "desktop", self.cases(), system, False)
             self.assertEqual([], errors)
-            self.assertEqual(2, len(scenarios))
+            self.assertEqual(5, len(scenarios))
             self.assertTrue(all(row["required_on_host"] and row["disposition"] == "required-executed"
                                 for row in scenarios))
 
@@ -57,8 +60,9 @@ class DesktopWebViewStopTests(unittest.TestCase):
 
     def test_source_bound_profile_and_cases_cannot_become_a_compile_or_other_platform_pass(self):
         self.assertEqual(([], []), policy.apply("calf-webview", "js", [], "Linux", False))
-        source = runner.ROOT / "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
         for case in self.cases():
+            source = runner.ROOT / ("calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/" +
+                                    case["classname"].rsplit(".", 1)[1] + ".kt")
             self.assertIn("fun " + case["name"].removesuffix("[desktop]") + "(", source.read_text())
         workflow = (runner.ROOT / ".github/workflows/gradle.yml").read_text()
         self.assertIn("webview-desktop", workflow)

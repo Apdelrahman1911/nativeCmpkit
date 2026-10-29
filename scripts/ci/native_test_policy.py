@@ -22,6 +22,16 @@ DESKTOP_WEBVIEW_STOP_CASES = (
     "stopCancelsRealSlowLoadWithoutFeedbackLoop",
     "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
 )
+DESKTOP_WEBVIEW_LIFETIME_CASES = (
+    "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+    "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+    "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+)
+ANDROID_WEBVIEW_LIFETIME_CASES = (
+    "retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+    "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+    "throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement",
+)
 IOS_IO_CASES = {
     "calf-io": tuple(
         ("com.mohamedrejeb.calf.io." + classname, method,
@@ -106,7 +116,11 @@ def apply(module: str, suite: str, cases: list[dict], system: str,
         scenarios, errors = [], []
         classname = "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest"
         source = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
-        for method in DESKTOP_WEBVIEW_STOP_CASES:
+        registry = [(classname, method, source) for method in DESKTOP_WEBVIEW_STOP_CASES]
+        registry += [("com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest", method,
+                      "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt")
+                     for method in DESKTOP_WEBVIEW_LIFETIME_CASES]
+        for classname, method, source in registry:
             matching = [case for case in cases if case["classname"] == classname
                         and case["name"] in {method, method + "[desktop]"}]
             scenario = {"classname": classname, "method": method, "source": source,
@@ -118,6 +132,30 @@ def apply(module: str, suite: str, cases: list[dict], system: str,
                 scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" else "required-not-passed"
                 if matching[0]["status"] != "passed":
                     errors.append(f"Required JavaFX window/stop scenario {method} did not pass; headless/skipped is not N/A")
+            scenarios.append(scenario)
+        return scenarios, errors
+    if module == "calf-webview" and suite == "android-device":
+        host = canonical_host(system)
+        scenarios, errors = [], []
+        if host != "linux":
+            errors.append("Android device WebView policy requires the explicit Linux enforcing-emulator slot")
+        registry = [("com.mohamedrejeb.calf.ui.web.AndroidWebViewHistoryDeviceTest",
+                     "navigatorReplacementReadsRealBrowserHistoryWithoutAnotherPageEvent",
+                     "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt")]
+        registry += [("com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest", method,
+                      "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt")
+                     for method in ANDROID_WEBVIEW_LIFETIME_CASES]
+        for classname, method, source in registry:
+            matching = [c for c in cases if c["classname"] == classname and c["name"] == method]
+            scenario = {"classname": classname, "method": method, "source": source, "host": host,
+                        "required_on_host": True, "task": "connectedAndroidDeviceTest"}
+            if len(matching) != 1:
+                errors.append(f"Real Android WebView scenario {method} must appear exactly once")
+                scenario["disposition"] = "missing-or-duplicate"
+            else:
+                scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" and host == "linux" else "required-not-passed"
+                if matching[0]["status"] != "passed":
+                    errors.append(f"Real Android WebView scenario {method} failed/errored/skipped; host substitutes are not N/A")
             scenarios.append(scenario)
         return scenarios, errors
     if module != MODULE or suite != "desktop":

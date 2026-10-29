@@ -39,6 +39,12 @@ PROFILES = {
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
+    "webview-lifetime": ("android-device-api35", "desktop-linux-x64", "desktop-macos-arm64", "desktop-macos-x64", "desktop-windows-x64"),
+    "webview-lifetime-android": ("android-device-api35",),
+    "webview-lifetime-linux": ("desktop-linux-x64",),
+    "webview-lifetime-macos-arm64": ("desktop-macos-arm64",),
+    "webview-lifetime-macos-x64": ("desktop-macos-x64",),
+    "webview-lifetime-windows": ("desktop-windows-x64",),
     "desktop-data-safety": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64"),
     "android-resource-safety": ("android-host",),
     "android-coil-resource": ("android-host",),
@@ -112,6 +118,12 @@ MODULE_SUBSETS = {
     # Real JavaFX/window cancellation and reattachment; never replay unrelated
     # passed platform, consumer, native-picker or shared UI suites.
     "webview-desktop": "calf-webview",
+    "webview-lifetime": "calf-webview",
+    "webview-lifetime-android": "calf-webview",
+    "webview-lifetime-linux": "calf-webview",
+    "webview-lifetime-macos-arm64": "calf-webview",
+    "webview-lifetime-macos-x64": "calf-webview",
+    "webview-lifetime-windows": "calf-webview",
     # Changed interruptible file-copy and no-open share policy: actual JVM tests
     # on all three desktop OS families, not unrelated browser/mobile/sample jobs.
     "desktop-data-safety": "calf-file-picker,calf-share",
@@ -164,6 +176,12 @@ def matrix(profile: str) -> dict:
     if profile in MODULE_SUBSETS:
         for row in rows:
             row["test-modules"] = MODULE_SUBSETS[profile]
+    if profile.startswith("webview-lifetime"):
+        order = {"android-device-api35": 0, "desktop-linux-x64": 1, "desktop-macos-arm64": 2,
+                 "desktop-macos-x64": 3, "desktop-windows-x64": 4}
+        rows.sort(key=lambda row: order[row["slot"]])
+        for row in rows:
+            row["test-focus"] = "webview-native-lifetime"
     if profile == "windows-share-boundaries":
         for row in rows:
             row["test-focus"] = "native-share-boundaries"

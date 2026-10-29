@@ -27,6 +27,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.mapSaver
@@ -38,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONTokener
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * A wrapper around the Android [android.webkit.WebView] to provide a basic WebView composable.
@@ -437,8 +439,19 @@ actual class WebViewState actual constructor(webContent: WebContent) {
 
     // We need access to this in the state saver. An internal DisposableEffect or AndroidView
     // onDestroy is called after the state saver and so can't be used.
-    var webView by mutableStateOf<WebView?>(null)
-        internal set
+    // Compose snapshots retain predecessor values even after the current value is null. A
+    // retained WebViewState must not retain a destroyed native view (and its Activity) through
+    // those records. Observe a token while storing only the current native owner outside MVCC.
+    private val attachedWebView = AtomicReference<WebView?>(null)
+    private var attachmentVersion by mutableLongStateOf(0L)
+    var webView: WebView?
+        get() {
+            attachmentVersion // Keep existing Compose consumers reactive to attachment changes.
+            return attachedWebView.get()
+        }
+        internal set(value) {
+            if (attachedWebView.getAndSet(value) !== value) attachmentVersion++
+        }
 }
 
 // Commands and all native UI work stay on Android's main thread.

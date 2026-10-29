@@ -1,4 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Test-host capability required by the real WebView provider, including local HTML. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <application
+        android:usesCleartextTraffic="false"
+        android:networkSecurityConfig="@xml/nativecmpkit_webview_test_network_security">
+        <!-- Test-APK host only. Production networking/security policy is unchanged. -->
+        <activity
+            android:name="com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+    </application>
 </manifest>

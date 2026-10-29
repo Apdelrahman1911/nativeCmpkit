@@ -1,11 +1,14 @@
 """Finite native lifetime selection/source/evidence guards; synthetic tooling, not native tests."""
 from collections import Counter
 import copy
+import io
+import json
 import os
 from pathlib import Path
 import tempfile
 import time
 import unittest
+from unittest.mock import patch
 from xml.etree import ElementTree as ET
 
 import library_tests as r
@@ -101,6 +104,19 @@ class WebViewLifetimeFocusTests(unittest.TestCase):
             with self.assertRaises(ValueError): r.validate_test_focus(plan)
         plan = self.plan(focus=focus); plan["complete_suite_requested"] = True
         with self.assertRaises(ValueError): r.validate_test_focus(plan)
+
+    def test_one_media_focus_is_transportable_through_real_cli_not_only_python_planner(self):
+        args = ["library_tests.py", "plan", "--suite", "desktop", "--module", "calf-webview", "--focus", r.WEBVIEW_MEDIA_FOCUS]
+        stream = io.StringIO()
+        with patch("sys.argv", args), patch("sys.stdout", stream): self.assertEqual(0, r.main())
+        document = json.loads(stream.getvalue())
+        self.assertEqual(r.WEBVIEW_MEDIA_FOCUS, document["explicit_test_focus"])
+        self.assertEqual(1, len(document["expected"][0]["required_testcases"]))
+        self.assertFalse(document["complete_suite_requested"])
+        for changed in (args[:3] + ["android-device"] + args[4:], args[:-1] + ["unreviewed-wildcard"]):
+            with patch("sys.argv", changed), patch("sys.stderr", io.StringIO()), self.assertRaises(SystemExit) as failure:
+                r.main()
+            self.assertEqual(2, failure.exception.code)
 
     def test_current_exact_nonzero_xml_is_accepted_in_its_disclosed_native_scope(self):
         for suite, count in (("desktop", 5), ("android-device", 3)):

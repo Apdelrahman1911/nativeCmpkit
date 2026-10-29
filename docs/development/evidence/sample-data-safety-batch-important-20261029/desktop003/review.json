@@ -1,0 +1,74 @@
+{
+  "actual_owned_read_observations": [
+    "NATIVECMPKIT_SAMPLE_STREAM cancellation_ms=7 reads=2 closed=true"
+  ],
+  "all_captured_inputs_held": true,
+  "all_inputs_match_immutable_Git": true,
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "name": "cancellationDuringAnOwnedBlockingReadStopsAtTheNextChunkAndClosesWithinOneSecond[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "name": "real64MiBFileStreamsBoundedRequestsAndClosesAtEof[desktop]",
+      "status": "passed"
+    }
+  ],
+  "counts": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "execution": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=1",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":sample:common:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "--rerun"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 43.01,
+    "exit_code": 0,
+    "free_bytes_after": 11262287872,
+    "free_bytes_before": 11639562240,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-29T20:30:55.472752+00:00",
+    "timeout_seconds": 900
+  },
+  "fresh_XML": 1,
+  "library_inputs": 878,
+  "native_device_or_whole_library_or_release_gate_certification": false,
+  "observed_at_utc": "2026-10-29T20:36:50.559966+00:00",
+  "only_two_unexecuted_file_methods_rerun": true,
+  "original_XML": [
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest.xml",
+      "modified_utc": "2026-10-29T20:31:37.804222+00:00",
+      "sha256": "6884892f4b9b1d2abb518fb30b3fa1a845304fa4b524e60966f61bfea0f38b49"
+    }
+  ],
+  "previous_18_completed_cases_not_replayed": true,
+  "sample_inputs": 80,
+  "source_revision": "e9d7e6686a373ea170ecb7eb44dd48565b4e2241",
+  "source_tree_dirty": false,
+  "whole_command_passed": true
+}

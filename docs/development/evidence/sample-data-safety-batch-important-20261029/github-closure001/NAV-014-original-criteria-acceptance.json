@@ -1,0 +1,193 @@
+{
+  "actual_owned_read_observation": "NATIVECMPKIT_SAMPLE_STREAM cancellation_ms=7 reads=2 closed=true",
+  "all878_library_and80_sample_inputs_held_and_exact_Git": true,
+  "all_original_criteria_accepted": true,
+  "fresh_XML": 1,
+  "fresh_actual_JVM_tests": 2,
+  "fresh_command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    ":sample:common:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+    "--rerun"
+  ],
+  "fresh_execution": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=1",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      ":sample:common:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest",
+      "--rerun"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 43.01,
+    "exit_code": 0,
+    "free_bytes_after": 11262287872,
+    "free_bytes_before": 11639562240,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-29T20:30:55.472752+00:00",
+    "timeout_seconds": 900
+  },
+  "id": "NAV-014",
+  "issue": 101,
+  "packages_releases_deployments_or_Pages_created": false,
+  "prior19_case_whole_command_remains_failed_JUnit_initialization_error": true,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Controlled common source cancellation stops at exactly2 reads and closes; deliberate blocking-read wrapper around a real64MiB KmpFile reaches a positive read barrier before cancellation, stops at the next chunk, closes the real source and rejects read-after-close. The owned read is explicitly released; no mid-OS-read preemption promise.",
+      "original_requirement": "Slow fake source counts reads after cancellation and proves prompt termination/close.",
+      "status": "verified"
+    },
+    {
+      "evidence": "The exact production SampleStreamingOwner verifies reselect/empty-selection/reentrant and late noncancellable completion without stale publication. Actual desktop Compose removal cancels the exact remembered owner and its pending operation, prevents publication and cannot restart the disposed scope; original source cancellation/EOF/error cases also pass.",
+      "original_requirement": "Reselect a file and leave the screen while counting; old work stops and does not overwrite new results.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Two fresh actual JVM KmpFile64MiB methods pass: bounded64KiB requests/EOF close and controlled in-progress-read cancellation7ms after release, exactly2 reads, source closed/read-after-close rejected. Required native/JVM input is exercised on JVM; no iOS/native-device latency claim.",
+      "original_requirement": "Run large native/JVM input with a defined cancellation latency bound.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Current FilePickerScreen explicitly documents that browser Blob source opening can buffer the full file and chunked counting is not end-to-end constant-memory. Existing helper/display says only chunk size/count; no peak-memory/latency or browser-worker guarantee. Actual source/runtime limits remain independent library/release concerns.",
+      "original_requirement": "Correct sample memory claims for JS/Wasm buffering.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Actual64MiB/JVM and desktop Compose tests; no physical Android/iOS, browser decoder, third-party provider or native-device cancellation/latency guarantee.",
+    "Blocking reads cannot be interrupted mid-call; the cancellation bound starts after the owned fixture releases its read. Browser source opening may buffer the entire Blob.",
+    "No sample-as-library-testing substitution, universal peak-memory/latency, all-target sample, minimum-platform, ABI/consumer/dependency/provenance/legal/security/release certification.",
+    "Other related sample findings NAV-011/013/016 remain open; individual scope accepted independently."
+  ],
+  "reused_cases_not_fresh_or_old_whole_command_pass": true,
+  "reused_completed_JVM_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingCompositionTest",
+      "name": "navigatingAwayCancelsTheRememberedOwnerAndOldCompletionCannotPublishOrRestart[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+      "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "countsBoundedChunksAndClosesTheSourceAtEof[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "emptySourceIsClosedAndReturnsZero[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "noProgressAndReadFailureCloseTheSource[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+      "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource[desktop]",
+      "status": "passed"
+    }
+  ],
+  "reused_completed_case_count": 11,
+  "reused_revision": "c14caa1e712cc9cc96e3ae834fb7cf8d318748bd",
+  "reviewed_at_utc": "2026-10-29T20:39:48.353362+00:00",
+  "source_revision": "e9d7e6686a373ea170ecb7eb44dd48565b4e2241",
+  "unchanged_sample_production_and_reused_case_source_hashes": {
+    "sample/common/build.gradle.kts": "a87528419bbaa4c8379bfcfac8da901185623257ea9cd69fb04cd4cb03e9533c",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/App.kt": "7d6a022d9627effacd6d274fb8c10dc9547b5c859bff1388258aa1363ac30a12",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/Platform.kt": "49a0a3976387d8ca390b42d9ddb9c53d9b97a240ea988301e3617733a419ae33",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/coil/ImageLoader.kt": "658bc65b82fa5bbe94a68f629332665ce2e9404add970d375bfc6f3e7b9209a2",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/components/SampleScreenScaffold.kt": "7fdb5ad6d116805f73adf9f70f73a5248dab32eebe4c7afd3d6f6a8904128f4a",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/navigation/AppNavGraph.kt": "f4afe9e1087e87cc113242f6ecd70c43cbd8a054a46c39c4354857ed864d8ab8",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/navigation/Screen.kt": "56121936e96bffac75027269a29ce6680acbf6b410ece6b67b209b104656bc2b",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AdaptiveClickableScreen.kt": "ed7d571d41fa8d9d2f7f3abe824c07615dc17e8c3f29942d1580ba14ec590d8a",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt": "a4ba38b558c7dc14d5e5ea8a03758dd9c7ff0e4ea2b7d7974dd67029d4764ed0",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/BottomSheetScreen.kt": "05438f107486c29eb62522385ab988fcf6b9e98c91c9a87be0ab281059a4c68d",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ButtonScreen.kt": "be82d8d1a3eaf56455c3db2e1373548c70d1c345026d15a0ff9867a4af1bd76c",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CameraPickerScreen.kt": "c3aed743e52120874f9cd0abc0cede4addbf625037f1a77cd660489009245d3b",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt": "f3c88b4cebb8fc973baf3b54cef6f8a1f4e7b9f5a7c9d2378f6aff65dbb7e0bb",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogScreen.kt": "28f9eb8ce6fb4d5eddb1b7c6650ee6dadf138532fbe2b9dc2772a3a71aafa982",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/DatePickerScreen.kt": "c0358ce8191e303bd718c0c33de9a9d5a0961c74187e5f96999cf20434db0725",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/DropDownScreen.kt": "883e6a7c4d26c617ded48afe5ea12333ed6fb263b08a9e1bce1c25b07e4585bd",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ExpandableFABScreen.kt": "e9772c8d6157434e5a6b8498394d18e3daa16537ceb5b9f7505eeb04b2098d2a",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FilePickerScreen.kt": "cc2f1acfbd3a0cdad10531cc309532b06cc8c8a99e6ccd1467a109323a539d3d",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FileSaverScreen.kt": "126a7a09506c52d2be52fa3934703dcfc3bdca2a1a7794a64fbc337e2a744ac5",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/HomeScreen.kt": "8e58edd16e6ca0b28b3024148a4d80e080de6f93dcd800b4cabeeb444d1c7da9",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ImagePickerScreen.kt": "047fb8da567245b49d9678e2e04dd4fa70cbef861efa52044b8b87f85413c4e0",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/MapScreen.kt": "f42f17f844a42c0c06585470db0a3bd1a196f18b8c521130a2763fbe53adaccc",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/NavigationBarScreen.kt": "4f67f43d9e22c9f585c096b9b5e7f057f69aa71193e5f4b3e998ab6a6d7f67d8",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/PermissionsScreen.kt": "81e3ed187596469594df4c3267ad7edfad1d85eba66586fb0c9a6c39d6c00026",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ProgressBarScreen.kt": "0fb473b477e4c9a53a87e4dc6f422f777253ecf82950928a041ea3aaf94b24fa",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ScaffoldDemoScreen.kt": "500ce8a64e4fd166b1f6824ae739a236c629073523d15b11bc7d8d9ec0b6308b",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShareScreen.kt": "62a52d0b26d9e4f9d9736c1a8fb44910f12053d102dd29d58de2220a5f3d3142",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ShowcaseScreen.kt": "10a7dff54bade599ff036a92bb9e2aa86373f986caa2b462fa6147a6e08c7954",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/SliderScreen.kt": "ab126bec90f9a9dad6efacc412db50392adb17070e587d6cdb1a01f57b7ad941",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/SwitchScreen.kt": "76eb53dab13feb4c7ddd824082c58af094834dbf9ae6daa57687aedd5ad6d712",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/TimePickerScreen.kt": "124809b78576c95a77e3a9f364b02fdcbeda8e21835d521c97894aefc492fdad",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/ToolbarScreen.kt": "774ef5daeaacf17e0006b798df23fac02dda8da5c5cd657ae9702315d8640d6b",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/TopBarDemoScreen.kt": "2d0410d4984c72d6ce750d4ea5696175ae5ea6c75513eeda87415e7efc463270",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/WebViewScreen.kt": "18192435540fc58a7b3a512aa870d1831a5af15db535c7ec232ed9edabffedc6",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/ui.theme/Color.kt": "0258e638950271ad81ae2bb5b9320c5fb2ae420ff52538e9d87e3d96fe330a53",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/ui.theme/Theme.kt": "2d37300b0abb28ee635e89e2579c679f02f1b51b6a92705ec1a4752118949983",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/ui.theme/Typography.kt": "fb6314ef28e2fdf4ee0e51fbea84a1d7ac2536aae587f9d2ca54b35a22c7aa9e",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/ImageBitmapExt.kt": "ec13a07a2981c3902f970c9ec4380ed849a60d5c9ba743bb8cc5d2e106502bf8",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreaming.kt": "331df19b062295c6cf7a9acd823694eb3165ecbb6406cb88c28eb66e44be61ad",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreamingOwner.kt": "20128366024ac8a4e5446e27ae2db3028b83b5cfeb5d823549cafe514c4e6971",
+    "sample/common/src/commonTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingOwnerTest.kt": "27e576a4bc312840fda1cbf8747663b202cc2ef632b768ee8b16bb032d3c74d7",
+    "sample/common/src/commonTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingTest.kt": "2e5b552001fc9a730ef491c1360bff94b511fec933be777244dcb88d41cb3b17",
+    "sample/common/src/desktopTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingCompositionTest.kt": "5fdfda6b06881818dea7ca0a5df7cd9a074f808f653fe276086f24ac9f77484b"
+  }
+}

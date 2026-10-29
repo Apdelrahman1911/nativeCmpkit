@@ -1,0 +1,17 @@
+<!-- nativecmpkit-resolution:NAV-014:sample-data-safety:e9d7e668:desktop003 -->
+## Verified resolution — related sample data-safety batch
+
+`consumeByteCount()` checks cancellation for every bounded64KiB chunk, yields and closes on EOF/cancel/error. FilePickerScreen uses the exact tested remembered selection owner: immutable inputs, cancel previous ownership, no stale publication, synchronous reentrant safety and composition disposal. Public library APIs remain unchanged.
+
+All four original criteria were reviewed:
+
+1. Controlled common source cancellation stops at exactly2 reads and closes; deliberate blocking-read wrapper around a real64MiB KmpFile reaches a positive read barrier before cancellation, stops at the next chunk, closes the real source and rejects read-after-close. The owned read is explicitly released; no mid-OS-read preemption promise.
+2. The exact production SampleStreamingOwner verifies reselect/empty-selection/reentrant and late noncancellable completion without stale publication. Actual desktop Compose removal cancels the exact remembered owner and its pending operation, prevents publication and cannot restart the disposed scope; original source cancellation/EOF/error cases also pass.
+3. Two fresh actual JVM KmpFile64MiB methods pass: bounded64KiB requests/EOF close and controlled in-progress-read cancellation7ms after release, exactly2 reads, source closed/read-after-close rejected. Required native/JVM input is exercised on JVM; no iOS/native-device latency claim.
+4. Current FilePickerScreen explicitly documents that browser Blob source opening can buffer the full file and chunked counting is not end-to-end constant-memory. Existing helper/display says only chunk size/count; no peak-memory/latency or browser-worker guarantee. Actual source/runtime limits remain independent library/release concerns.
+
+Fresh verification: immutable `e9d7e6686a373ea170ecb7eb44dd48565b4e2241`, `:sample:common:desktopTest --tests com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest --rerun`, **2/2** actual JVM methods/one fresh XML, Gradle exit0/43.01s, JDK17/Gradle9.7.1. Both64MiB files were owned/removed; real close is verified before fixture fallback cleanup. Actual cancellation observation: **7ms,2reads,closed=true**, measured after release of the in-progress owned read. All **878 library/build +80 sample** before/after inputs match exact Git.
+
+Eleven unchanged completed common stream/owner and real Compose-disposal methods from `c14caa1e712cc9cc96e3ae834fb7cf8d318748bd` are explicitly reused, not replayed or counted fresh. **The earlier whole command remains FAILED** (19reported/18pass/oneJUnit initializationError); its two file methods never executed. The minimal fixture-only Unit return repair makes JUnit4 discover them without changing production or any of the18 completed methods.
+
+This closes only the verified streaming member of the shared sample batch: **NAV-011/013/016 remain open**. Sample-specific regressions are never substitutes for library integration tests. No arbitrary OS-read interruption, physical/native/browser-device latency, exact peak-memory, full sample/minimum/ABI/consumer/dependency/security or release certificate is implied. Browser opening can still buffer the full Blob, documented explicitly. No packages/releases/deployment/Pages. Original body/title/labels/history preserved; public acceptance/readback/XML receipts are appended afterward under `docs/development/evidence/sample-data-safety-batch-important-20261029/`.

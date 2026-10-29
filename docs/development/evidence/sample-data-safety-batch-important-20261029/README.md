@@ -1,4 +1,29 @@
-# Related sample data-safety/compiler batch — verification preparation
+# Related sample data-safety/compiler batch — verified streaming subset
+
+## Immediate original-criteria acceptance and closure
+
+**[#101/NAV-014 is CLOSED/completed](github-closure001/NAV-014-closure-readback.json)**
+after reviewing [all four original requirements](github-closure001/NAV-014-original-criteria-acceptance.json),
+before this documentation. [Desktop003](desktop003/review.json), immutable
+`e9d7e6686a373ea170ecb7eb44dd48565b4e2241`, executes only the two previously
+unexecuted real-file methods: **2/2**, one fresh XML, Gradle0/43.01s, all878 library
++80 sample exact Git inputs held. Real64MiB sources use64KiB reads, close at EOF/
+cancellation and reject read-after-close. Actual cancellation observation:
+**7ms/2reads/closed=true**, measured after releasing the controlled in-progress
+read; there is no arbitrary OS-call interruption claim.
+
+Eleven unchanged completed common stream/selection-owner/actual desktop Compose
+removal methods from desktop002 are explicitly reused, not fresh. Its whole
+command remains **FAILED** (18passed/one JUnit initializationError); the minimal
+Unit return repair affects only discovery of its two unexecuted file methods.
+All acceptance, original issue, comment/mutation attempts and closure readbacks
+are preserved. [Fresh read-only census](github-closure001/remote-issue-state-after.json):
+**76closed/96open/172**. NAV-011/013/016 remain open for their own original criteria.
+Browser full-Blob buffering, other-platform encoder/provider/peak-memory/device/
+minimum/ABI/consumer/security/release gates remain separate. Sample regressions
+are never substitutes for library tests; no packages/releases/deployments/Pages.
+
+## Historical preparation and failed attempts (retained)
 
 NAV-011/013/014/016 remain open. [Desktop001](desktop001/review.json) FAILED at
 immutable1f8f1671: Gradle1/158.04s, generator-dropped original IconCategories

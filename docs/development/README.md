@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Immediate verified sample subset closure — 2026-10-29
+
+**[#101/NAV-014 CLOSED/completed](evidence/sample-data-safety-batch-important-20261029/github-closure001/NAV-014-closure-readback.json)**
+after reviewing all four original requirements, before documentation. The
+[shared sample batch](evidence/sample-data-safety-batch-important-20261029/README.md)
+adds only two fresh real64MiB JVM methods,2/2/one XML/Gradle0/43.01s, with all878
+library+80 sample inputs held/exact Git. Eleven unchanged completed stream/owner/
+actual Compose-removal methods are reused, not fresh; the earlier18pass/one
+initializationError whole command remains failed. Cancellation7ms follows release
+of the owned read, not arbitrary OS-read interruption. Browser buffering and
+sample-as-library-testing restrictions remain explicit. **76closed/96open/172;
+36implemented/47partial/74verified/seven unresolved**. NAV-011/013/016 and #139
+remain open; pending rendering is not accepted. Continue related patch/shared
+important tests/criteria review/immediate verified-subset closure; single-agent,
+bounded capacity and publishing/security gates remain unchanged.
+
 ## Related slider ownership batch closed — 2026-10-29
 
 **#34/UI-027 and #137/UI-034 CLOSED together immediately after their three original

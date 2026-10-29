@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared sample stream subset verified and closed — 2026-10-29
+
+**#101/NAV-014 CLOSED immediately after its four original criteria reviews**,
+before documentation. [Shared sample evidence](docs/development/evidence/sample-data-safety-batch-important-20261029/README.md)
+retains desktop002's failed whole command (18 completed/one JUnit initialization
+error); desktop003 runs only its two previously unexecuted real64MiB file methods,
+2/2 fresh/one XML/Gradle0/43.01s, all878 library+80 sample exact Git inputs held.
+Eleven unchanged common stream/owner/actual Compose-removal methods are explicitly
+reused, not fresh. Cancellation7ms/2reads/closed=true is measured after release of
+the controlled in-progress read, not mid-OS-call preemption. Browser Blob opening
+may still buffer the entire file; sample evidence never substitutes for library
+tests. Original issue body/title/labels and prior failures/requirements preserved.
+Fresh census **76closed/96open/172;36implemented/47partial/74verified/seven
+unresolved**. NAV-011/013/016 and #139 remain open; rendering40942044869 is still
+running, not accepted. Next related sample-platform batch must not replay accepted
+desktop cases. Single-agent/max2 combined heavy requests/8GiB reserve; no publishing,
+Pages/main/history or independent native/minimum/ABI/consumer/security gate changes.
+
 ## Related slider ownership batch closed — 2026-10-29
 
 **#34/UI-027 and #137/UI-034 CLOSED together immediately after their three original

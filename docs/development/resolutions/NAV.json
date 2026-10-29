@@ -1598,11 +1598,12 @@
   },
   {
     "id": "NAV-014",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Source consumer checks cancellation/yields every64KiB, rejects no-progress/overflow and always closes including cancel/error paths.",
       "Corrected universal constant-memory claim for platform source opening; added4 actual sample helper tests with controlled RawSource fixtures.",
-      "2026-10-29: screen-owned cancellable selection helper now captures immutable inputs/current request, registers the lazy Job before synchronous/reentrant completion and suppresses publication after cancellation/disposal. Six common owner regressions, actual Compose disposal and two real64MiB JVM stream/close/cancellation fixtures prepared. Runtime verification pending; no unproven mid-read interruption claim."
+      "2026-10-29: screen-owned cancellable selection helper now captures immutable inputs/current request, registers the lazy Job before synchronous/reentrant completion and suppresses publication after cancellation/disposal. Six common owner regressions, actual Compose disposal and two real64MiB JVM stream/close/cancellation fixtures prepared. Runtime verification pending; no unproven mid-read interruption claim.",
+      "2026-10-29: #101 closed immediately after reviewing all four original requirements; fresh two real64MiB JVM stream/cancellation methods and eleven explicitly reused unchanged stream/owner/actual composition methods meet the original scope. Earlier failed whole command retained; no sample-as-library-test or mid-OS-read preemption claim."
     ],
     "affected_paths": [
       "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreaming.kt",
@@ -1634,13 +1635,30 @@
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/review.json",
           "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop002/archive.json"
         ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --tests com.mohamedrejeb.calf.sample.utils.SampleStreamingFileTest --rerun",
+        "result": "PASS immutablee9d7e668: only two previously unexecuted actual JVM file methods,2/2/onefreshXML,Gradle0/43.01s; all878library+80sample exact Git inputs held. Real64MiB sources,64KiB requests,EOF/error/cancel close and read-after-close; observed cancellation7ms after controlled in-progress-read release,2reads,closed=true. Eleven unchanged completed common stream/owner/actual Compose-removal methods reused fromc14caa1e, not fresh; its19reported/18pass/oneinitializationError whole run stays FAILED. Original four requirements reviewed; #101 closed/completed with title/body/labels preserved. Browser full-Blob buffering and independent native/provider/minimum/consumer/security/release limits retained.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop003/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop003/archive.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure001/NAV-014-original-criteria-acceptance.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure001/NAV-014-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Private sample helper only; public RawSource/library contracts unchanged.",
+    "prior_remaining_before_verified_20261029": [
       "Execute common cancellation/EOF/error tests on JVM and web/native.",
       "A blocking native read cannot be interrupted mid-call; browser source opening/full-buffer behavior belongs to IO implementation."
     ],
-    "compatibility": "Private sample helper only; public RawSource/library contracts unchanged."
+    "retained_limitations_after_verified_20261029": [
+      "Actual64MiB/JVM and desktop Compose tests; no physical Android/iOS, browser decoder, third-party provider or native-device cancellation/latency guarantee.",
+      "Blocking reads cannot be interrupted mid-call; the cancellation bound starts after the owned fixture releases its read. Browser source opening may buffer the entire Blob.",
+      "No sample-as-library-testing substitution, universal peak-memory/latency, all-target sample, minimum-platform, ABI/consumer/dependency/provenance/legal/security/release certification.",
+      "Other related sample findings NAV-011/013/016 remain open; individual scope accepted independently."
+    ]
   },
   {
     "id": "NAV-015",

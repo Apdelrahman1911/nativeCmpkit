@@ -1,5 +1,28 @@
 # NativeCmpKit development after the audit
 
+## Verified related preview-boundary batch and macOS recovery — 2026-10-29
+
+**#151/NATIVE-035 closed/completed** immediately after shared important tests and
+original-criteria review. **#41/BUILD-008 was already closed**; only a verification
+comment was added, preserving its original closed_at. [Batch evidence](evidence/preview-boundary-batch-important-20261029/README.md):
+four owning JUnit and four source-guard methods pass, actual Gradle21publishers/
+145configured publications,0/63.02s/JDK17/841held dirty inputs subsequently
+exactly bound to immutable64e6c2ed without replay. Separate clean immutable root
+rejects tainted version before tasks, expected1/15s. No built/published artifact
+claim; maps/media/scheduling remain unimplemented/deferred, version grammar
+unchanged and retired shell helpers inert/unexecuted.
+
+**65closed/107open/172;45implemented/49partial/63verified/seven unresolved**.
+[Focused macOS recovery](evidence/picker-batch-important-20261029/macos-domain-ci003/README.md)
+40820003878/398a3332 succeeds5/5/0/71.93s/838own-Git inputs/JDK17: actual
+file+directoryEILSEQ92 boundary and four disclosed controlled-path/real-JNI cases,
+not nonexistent actual invalid macOS files. Accepted Unicode/Compose/other hosts
+and nine unchanged methods were not replayed. Original failed matrices remain;
+not a full CI/release certification. Continue related iOS picker contracts/
+ownership tests, review each original criterion and close the verified subset
+together. Single-agent; all independent native-parent/device/minimum/ABI/full-
+consumer/dependency/provenance/legal/security/publication gates remain.
+
 ## Verified related picker batch — 2026-10-29
 
 **IO-003/#6 and IO-024/#59 closed together**, directly after shared important

@@ -1,5 +1,12 @@
 # Related picker ownership and exact-path batch — 2026-10-29
 
+**Later accepted recovery:** dedicated macOS run40820003878 at `398a3332`
+passes **5/5, exit0/71.93s**, with838own-Git inputs held. One actual EILSEQ92
+filesystem-domain test plus four disclosed controlled-path/real-JNI cases pass;
+nine unchanged methods and accepted hosts/Compose/Unicode were not replayed.
+See [the additive macOS recovery](macos-domain-ci003/README.md). The earlier
+failed matrices, fixture failures and checkpoint observations below remain.
+
 **IO-003/#6 and IO-024/#59 were closed together**, after reviewing every original
 criterion against shared important tests and current owning source, before
 archiving documentation. Original technical bodies, titles, labels and comments

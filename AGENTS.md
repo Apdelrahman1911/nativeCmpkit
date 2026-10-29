@@ -11,6 +11,32 @@ delay a verified batch's closure. Document/read back closures afterward. Missing
 native/device criteria still keep that particular issue open. Single-agent,
 minimum read-only verification permissions and publication/security gates remain.
 
+## Verified related preview-boundary batch and macOS recovery — 2026-10-29
+
+**NATIVE-035/#151 newly CLOSED/completed** immediately after shared original-
+criteria review; **BUILD-008/#41 was already closed**, now reverified with one
+comment and **no state PATCH**, retaining its2026-10-24 closed_at. [Boundary
+evidence](docs/development/evidence/preview-boundary-batch-important-20261029/README.md):
+owning convention JUnit4/4, source guards4/4, actual Gradle21publishers/
+145**configured, not built** publications,0/63.02s/JDK17/841held dirty inputs
+then exactly bound to pushed64e6c2ed without replay. Separate clean immutable
+root rejection expected1/15s precedes task execution. Version grammar unchanged;
+retired shell helpers inert/unexecuted, no fake manifest test. Maps/media/scheduler
+remain unimplemented; original upstream feature issues untouched/open.
+
+**65closed/107open/172;45implemented/49partial/63verified/seven unresolved**.
+Mac filename recovery40820003878/398a3332 **SUCCESS5/5,0/71.93s**,838own-Git
+inputs/JDK17/Rust1.98/macosarm64/Xcode26.6: actual file+directoryEILSEQ92 domain
+and four **controlled unrepresentable PathBuf/real-JNI** cases, not actual
+invalid selected files. Nine unchanged methods/accepted Unicode/Compose/hosts
+not replayed. [Additive recovery](docs/development/evidence/picker-batch-important-20261029/macos-domain-ci003/README.md)
+preserves both failed matrices; no additional closure/full-CI claim. Next batch
+is iOS picker filters/staging/session ownership, with real native versus manually
+driven/provider/UIKit limits explicit. IO-023/#58, IO-017/#53, IO-018/#54 and
+all independent native-parent/physical/minimum/ABI/full-consumer/dependency/
+provenance/legal/security/release gates remain. No packages/releases/deployment/
+Pages; main/history preserved, single-agent.
+
 ## Verified related picker batch — 2026-10-29
 
 **IO-003/#6 and IO-024/#59 CLOSED/completed together** after all original criteria

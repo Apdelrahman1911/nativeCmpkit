@@ -592,25 +592,41 @@
   },
   {
     "id": "BUILD-008",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "Removed unsafe inherited publishing workflows remain inert; root version grammar validated; local verification cannot contact arbitrary/remote repositories."
+      "Removed unsafe inherited publishing workflows remain inert; root version grammar validated; local verification cannot contact arbitrary/remote repositories.",
+      "Shared preview-boundary batch: reviewed every original acceptance criterion against actual owning version-policy JUnit, configured publisher/source-set model, source-policy guards and immutable root negative. Closed #151 immediately; already-closed #41 was only reverified, with original closed_at preserved."
     ],
     "affected_paths": [
       "build.gradle.kts",
-      "convention-plugins/src/main/kotlin/module.publication.gradle.kts"
+      "convention-plugins/src/main/kotlin/module.publication.gradle.kts",
+      "convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/PublicationVersionPolicy.kt",
+      "convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/PublicationVersionPolicyTest.kt",
+      "scripts/ci/preview-boundary.init.gradle.kts",
+      "scripts/development/test_preview_boundary_batch.py",
+      "docs/roadmap/README.md"
     ],
     "tests": [
       {
         "command": "./gradlew help --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
         "result": "New native/staging/notices/ABI conventions compiled and projects configured; exit0,25.01s. No native/publication/ABI check/source test execution implied.",
         "evidence": "docs/development/evidence/build/native-staging-abi-configuration-retry.log.result.json"
+      },
+      {
+        "command": ":convention-plugins:test --tests PublicationVersionPolicyTest + actual verifyPreviewBoundaryBatch; four Python source guards; actual root tainted-version rejection; original-criteria/source/GitHub readback review",
+        "result": "4/4 actual owning JUnit methods; 4/4 Python methods; Gradle model21configured publishers/145configured publications, exit0/63.02s. 841held dirty executed inputs subsequently byte-bound to immutable64e6c2ed without replay. Separate immutable actual root rejects tainted version before task execution, expected exit1/15s. Not145built artifacts; retired inherited shell helpers remain inert/unexecuted. All original criteria accepted for truthful scope/version containment; maps/media/scheduler remain unimplemented.",
+        "evidence": [
+          "docs/development/evidence/preview-boundary-batch-important-20261029/closure/BUILD-008-acceptance.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/closure/BUILD-008-verified-readback.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/lead-batch-review.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/immutable-source-binding.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/root-negative002/review.json"
+        ]
       }
     ],
-    "remaining": [
-      "Regression-test new version/remote guards and keep any future publishing template outside active workflows until owner gate."
-    ],
-    "compatibility": "Containment currently prohibits publication/Pages; removed historical workflows remain archived, not rewritten."
+    "remaining": [],
+    "compatibility": "Containment currently prohibits publication/Pages; removed historical workflows remain archived, not rewritten.",
+    "verification_scope": "Every original criterion reviewed in shared important tests; prior remaining prose archived. #151 newly closed/completed; #41 existing completed closure retained without state mutation. Version grammar/public identities unchanged, experimental features not implemented/enabled. No publication/staging or whole native/platform/ABI/packaged-consumer/dependency/provenance/legal/security/release gate claim."
   },
   {
     "id": "BUILD-009",

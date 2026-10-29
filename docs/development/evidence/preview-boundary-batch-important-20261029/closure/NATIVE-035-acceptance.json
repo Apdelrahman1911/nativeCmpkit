@@ -1,0 +1,75 @@
+{
+  "reviewed_at_utc": "2026-10-29T05:13:54.127424+00:00",
+  "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+  "executed_inputs": 841,
+  "exact_immutable_source_binding": {
+    "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+    "all_841_executed_inputs_match_immutable_git": true,
+    "actual_run_was_held_dirty_before_source_commit": true,
+    "accepted_results_not_reexecuted_or_called_fresh_immutable_run": true,
+    "scope": "Source binding of earlier fresh actual JUnit/Gradle model results; no test rerun or changed-input substitution"
+  },
+  "actual_convention_junit_counts": {
+    "tests": 4,
+    "passed": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit_xml_original_sha256": "2e5ba322c8b4e084406dfdcf63ed1b46c4fa38cd839383318deee26239339641",
+  "actual_gradle_execution": {
+    "elapsed_seconds": 63.02,
+    "exit_code": 0
+  },
+  "actual_configured_publications": 145,
+  "actual_configured_publisher_projects": 21,
+  "source_policy_python_methods": 4,
+  "actual_root_expected_rejection": {
+    "command": [
+      "./gradlew",
+      "help",
+      "-PnativeCmpkit.version=1.2.3-$(synthetic-marker)",
+      "--offline",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process"
+    ],
+    "execution": {
+      "elapsed_seconds": 15.0,
+      "exit_code": 1
+    },
+    "held_inputs": true,
+    "no_root_task_executed": true,
+    "passed_expected_rejection": true,
+    "scope": "Actual immutable root configuration rejects one deliberately tainted version before task execution; expected Gradle1 is a passing rejection test, not a build pass. No shell, manifest stamping, staging, credentials or publication.",
+    "selected_inputs": 841,
+    "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+    "source_tree_dirty": false
+  },
+  "accepted_results_not_replayed": true,
+  "no_package_release_deployment_or_pages": true,
+  "full_release_or_whole_abi_consumer_gate": false,
+  "id": "NATIVE-035",
+  "issue": 151,
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "requirement": "Source/module inventory verifies empty/excluded status and published artifacts exclude incomplete APIs.",
+      "status": "accepted-source-and-actual-gradle-model",
+      "evidence": "Maps has no Kotlin API source or publication extension; media/notification-scheduler projects are absent. Actual configured model has exactly21 mapped independent Maven publisher projects/145 publications and rejects experimental source-set reuse. This verifies current source/distribution topology, not built/published packages or implementations."
+    },
+    {
+      "requirement": "Future enabling requires fresh supported Gradle configuration, actual API contract, platform privacy/provider setup and device tests.",
+      "status": "accepted-deferred-feature-policy",
+      "evidence": "Explicit roadmap requires fresh Gradle configuration, implemented API contract, platform privacy/provider setup and native device tests before enabling/promising/publishing an experiment. Static owning source guards reject current experiment enabling. The experiments remain deferred/unimplemented; not a completed feature or future-platform test claim."
+    },
+    {
+      "requirement": "Roadmap links maps27 and media245 without claiming they are fixed.",
+      "status": "accepted-document-reference-guard",
+      "evidence": "Executable source guard verifies explicit original maps#27 and media#245 links and the not-implemented/no-fixed-feature wording. Historical imported feature-request issues remain untouched/open."
+    }
+  ]
+}

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `26b7f876bd5418c17164e0131ee9a2984869ae6d7c63cbf1440c5143b2fe5c1c`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4cd8fbea8f32f58fd478c4630f701dce92f126b46804874af1f700da3fd558ba`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 47 |
+| implemented | 45 |
 | partially-verified | 49 |
-| verified | 61 |
+| verified | 63 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -47,7 +47,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | Order | ID / existing issue | Priority | Phase | Effort | Reported status | Original dependencies | Required tests / owner remaining |
 |---:|---|---|---:|---|---|---|---:|
 | 1 | [BUILD-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/2) | High | 0 | M | implemented | — | 3 / 1 |
-| 2 | [BUILD-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41) | Medium | 0 | S | implemented | — | 3 / 1 |
+| 2 | [BUILD-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41) | Medium | 0 | S | verified | — | 3 / 0 |
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | verified | — | 2 / 0 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | verified | BUILD-003 | 3 / 0 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | verified | — | 3 / 0 |
@@ -196,7 +196,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 148 | [IO-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/148) | Low | 3 | S | verified | — | 5 / 0 |
 | 149 | [IO-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/149) | Low | 3 | M | verified | — | 6 / 0 |
 | 150 | [NATIVE-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/150) | Low | 3 | M | implemented | — | 3 / 5 |
-| 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | implemented | — | 3 / 4 |
+| 151 | [NATIVE-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151) | Low | 3 | L | verified | — | 3 / 0 |
 | 152 | [NATIVE-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/152) | Low | 3 | S | verified | — | 2 / 0 |
 | 153 | [NATIVE-039](https://github.com/Apdelrahman1911/nativeCmpkit/issues/153) | Low | 3 | M | verified | — | 3 / 0 |
 | 154 | [NAV-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154) | Low | 3 | S | implemented | NAV-008 | 3 / 1 |
@@ -237,7 +237,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 2. BUILD-008 — Release version input is embedded directly in executable shell scripts
 
-**Medium · implemented · original effort S** — [nativeCmpkit #41](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
+**Medium · verified · original effort S** — [nativeCmpkit #41](https://github.com/Apdelrahman1911/nativeCmpkit/issues/41); owner [docs/development/resolutions/BUILD.json](resolutions/BUILD.json); baseline [docs/audit/findings/BUILD.json](../audit/findings/BUILD.json).
 
 **Original dependencies:** none.
 
@@ -249,7 +249,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Regression-test new version/remote guards and keep any future publishing template outside active workflows until owner gate.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Every original criterion reviewed in shared important tests; prior remaining prose archived. #151 newly closed/completed; #41 existing completed closure retained without state mutation. Version grammar/public identities unchanged, experimental features not implemented/enabled. No publication/staging or whole native/platform/ABI/packaged-consumer/dependency/provenance/legal/security/release gate claim.
 
 **Compatibility / scope:** Containment currently prohibits publication/Pages; removed historical workflows remain archived, not rewritten.
 
@@ -3326,7 +3328,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 151. NATIVE-035 — Maps, media and notification scaffolds must not be represented as implemented features
 
-**Low · implemented · original effort L** — [nativeCmpkit #151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Low · verified · original effort L** — [nativeCmpkit #151](https://github.com/Apdelrahman1911/nativeCmpkit/issues/151); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -3338,12 +3340,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- No maps/media/notification scheduling feature has been implemented. Artifact graph/source inventory checks belong to coordinated integration.
-- Original required test pending full target verification: Source/module inventory verifies empty/excluded status and published artifacts exclude incomplete APIs.
-- Original required test pending full target verification: Future enabling requires fresh supported Gradle configuration, actual API contract, platform privacy/provider setup and device tests.
-- Original required test pending full target verification: Roadmap links maps27 and media245 without claiming they are fixed.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
+**Owner verification scope:** Every original criterion reviewed in shared important tests; prior remaining prose archived. #151 newly closed/completed; #41 existing completed closure retained without state mutation. Version grammar/public identities unchanged, experimental features not implemented/enabled. No publication/staging or whole native/platform/ABI/packaged-consumer/dependency/provenance/legal/security/release gate claim.
 
 **Compatibility / scope:** No excluded subsystem enabled, published or removed; legacy experiments remain preserved.
 
@@ -3614,9 +3613,9 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `491c37a45c80333470af6a3007a8f56e04e29a4640f7dc22edf4fe25f20153c7` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `6185020593111adb732c7665fb5a0fa9e7299ff201af78314e00488360111fcb` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `81726a81685705cb8a7654d071d4226b5efc1bbf7b412a5653d988952ffa1509` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `88630c75233ae9c1ab1d3c6473d635d028025ff83740345b5e5d42a7e26280eb` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

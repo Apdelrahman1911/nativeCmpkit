@@ -5336,9 +5336,10 @@
     "id": "NATIVE-035",
     "title": "Maps, media and notification scaffolds must not be represented as implemented features",
     "priority": "Low",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "Document maps as API-empty/unpublished and media/notifications as excluded nonfunctional experiments; do not turn empty directories or permission support into fake feature completion."
+      "Document maps as API-empty/unpublished and media/notifications as excluded nonfunctional experiments; do not turn empty directories or permission support into fake feature completion.",
+      "Shared preview-boundary batch: reviewed every original acceptance criterion against actual owning version-policy JUnit, configured publisher/source-set model, source-policy guards and immutable root negative. Closed #151 immediately; already-closed #41 was only reverified, with original closed_at preserved."
     ],
     "affected_paths": [
       "calf-maps/build.gradle.kts",
@@ -5346,23 +5347,35 @@
       "calf-notifications/build.gradle.kts",
       "calf-notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/notifications/Main.kt",
       "settings.gradle.kts",
-      "docs/development/NATIVE.md"
+      "docs/development/NATIVE.md",
+      "build.gradle.kts",
+      "convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/PublicationVersionPolicy.kt",
+      "convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/PublicationVersionPolicyTest.kt",
+      "scripts/ci/preview-boundary.init.gradle.kts",
+      "scripts/development/test_preview_boundary_batch.py",
+      "docs/roadmap/README.md"
     ],
     "tests": [
       {
         "command": "Read-only Python assertions over module/source inclusion and publication plugin declarations",
         "result": "Exit0, six static availability assertions; no executable module/artifact test.",
         "evidence": "docs/development/evidence/native/feature-availability.json"
+      },
+      {
+        "command": ":convention-plugins:test --tests PublicationVersionPolicyTest + actual verifyPreviewBoundaryBatch; four Python source guards; actual root tainted-version rejection; original-criteria/source/GitHub readback review",
+        "result": "4/4 actual owning JUnit methods; 4/4 Python methods; Gradle model21configured publishers/145configured publications, exit0/63.02s. 841held dirty executed inputs subsequently byte-bound to immutable64e6c2ed without replay. Separate immutable actual root rejects tainted version before task execution, expected exit1/15s. Not145built artifacts; retired inherited shell helpers remain inert/unexecuted. All original criteria accepted for truthful scope/version containment; maps/media/scheduler remain unimplemented.",
+        "evidence": [
+          "docs/development/evidence/preview-boundary-batch-important-20261029/closure/NATIVE-035-acceptance.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/closure/NATIVE-035-verified-readback.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/lead-batch-review.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/immutable-source-binding.json",
+          "docs/development/evidence/preview-boundary-batch-important-20261029/root-negative002/review.json"
+        ]
       }
     ],
-    "remaining": [
-      "No maps/media/notification scheduling feature has been implemented. Artifact graph/source inventory checks belong to coordinated integration.",
-      "Original required test pending full target verification: Source/module inventory verifies empty/excluded status and published artifacts exclude incomplete APIs.",
-      "Original required test pending full target verification: Future enabling requires fresh supported Gradle configuration, actual API contract, platform privacy/provider setup and device tests.",
-      "Original required test pending full target verification: Roadmap links maps27 and media245 without claiming they are fixed."
-    ],
+    "remaining": [],
     "compatibility": "No excluded subsystem enabled, published or removed; legacy experiments remain preserved.",
-    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+    "verification_scope": "Every original criterion reviewed in shared important tests; prior remaining prose archived. #151 newly closed/completed; #41 existing completed closure retained without state mutation. Version grammar/public identities unchanged, experimental features not implemented/enabled. No publication/staging or whole native/platform/ABI/packaged-consumer/dependency/provenance/legal/security/release gate claim.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-035"
   },
   {

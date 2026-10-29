@@ -1,0 +1,30 @@
+{
+  "command": [
+    "./gradlew",
+    ":convention-plugins:test",
+    "--tests",
+    "io.github.apdelrahman1911.nativecmpkit.buildlogic.PublicationVersionPolicyTest",
+    "verifyPreviewBoundaryBatch",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/preview-boundary.init.gradle.kts"
+  ],
+  "execution": {
+    "elapsed_seconds": 63.02,
+    "exit_code": 0
+  },
+  "held_inputs": true,
+  "runtime_sha256": "ea727ba8842e3b85f8d7885d1ec633240d896ff14d63d304c1ca2df5523ab6da",
+  "scope": "Important actual owning convention JUnit policy plus actual Gradle publication/source-set model only; no publication/staging/library-native or full consumer/ABI/release certification",
+  "selected_inputs": 841,
+  "source_revision": "398a3332a1063c8d6ee302588b3cf54b2f5e7b39",
+  "source_tree_dirty": true
+}

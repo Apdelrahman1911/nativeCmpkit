@@ -1,0 +1,77 @@
+{
+  "actual_invalid_byte_entries_required": false,
+  "actual_jvm_major": 17,
+  "checked_jni": true,
+  "command": [
+    "cargo",
+    "test",
+    "--manifest-path",
+    "calf-file-picker/native/Cargo.toml",
+    "--locked",
+    "--jobs",
+    "1",
+    "--message-format=json",
+    "jni_path_tests::macos_domain",
+    "--",
+    "--test-threads=1",
+    "--nocapture"
+  ],
+  "complete_jni_path_scope_requested": false,
+  "complete_suite_requested": false,
+  "controlled_unrepresentable_path_tests": 4,
+  "errors": 0,
+  "execution": {
+    "elapsed_seconds": 71.93,
+    "exit_code": 0
+  },
+  "failure_diagnostics": null,
+  "failures": 0,
+  "filtered_unchanged_tests": 9,
+  "held_inputs": true,
+  "host": "Darwin",
+  "inputs_after_sha256": "66c2dc977856f5cf5261683319a93f24376c2c406c1699bd1c348ccfa3893937",
+  "inputs_before_sha256": "66c2dc977856f5cf5261683319a93f24376c2c406c1699bd1c348ccfa3893937",
+  "macos_actual_filesystem_domain_verified": true,
+  "native_test_executable_sha256": "8011381c4c10b199208a8a0db236fed4e1f5dc53890cb187bfbfba02e0c49914",
+  "passed": true,
+  "runtime_receipt_sha256": "235aae24c1006501289887ad7909f9bb659bf3926126b6e138dad33207ec9167",
+  "scope": "Actual JNI selected-path converter/weak-array collection. Linux negatives require actual invalid-byte entries; macOS requires actual file/directory EILSEQ92 boundary plus four explicitly controlled unrepresentable PathBuf JNI cases with real valid peers, NOT actual invalid selected files. macos-domain omits accepted Unicode/Compose/other hosts. No OS picker selection/full ABI/consumer/native-parent/release certification",
+  "selected_inputs": 838,
+  "skipped": 0,
+  "source_revision": "398a3332a1063c8d6ee302588b3cf54b2f5e7b39",
+  "source_tree_dirty": false,
+  "test_focus": "macos-domain",
+  "testcases": [
+    {
+      "classname": "jni_path_tests",
+      "coverage_kind": "real-macos-filesystem-EILSEQ-boundary",
+      "name": "macos_domain::actual_macos_filesystem_rejects_invalid_file_and_directory_with_eilseq_before_jni",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "coverage_kind": "controlled-unrepresentable-path-real-JNI",
+      "name": "macos_domain::controlled_unrepresentable_file_path_raises_io_exception_and_preserves_real_peer",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "coverage_kind": "controlled-unrepresentable-path-real-JNI",
+      "name": "macos_domain::controlled_unrepresentable_directory_path_raises_io_exception_before_path_transport",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "coverage_kind": "controlled-unrepresentable-path-real-JNI",
+      "name": "macos_domain::controlled_unrepresentable_save_path_never_overwrites_real_peer",
+      "status": "passed"
+    },
+    {
+      "classname": "jni_path_tests",
+      "coverage_kind": "controlled-unrepresentable-path-real-JNI",
+      "name": "macos_domain::controlled_mid_array_failure_releases_actual_jni_frames_with_a_real_prefix",
+      "status": "passed"
+    }
+  ],
+  "tests": 5
+}

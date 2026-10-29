@@ -1,0 +1,75 @@
+{
+  "reviewed_at_utc": "2026-10-29T05:13:54.127424+00:00",
+  "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+  "executed_inputs": 841,
+  "exact_immutable_source_binding": {
+    "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+    "all_841_executed_inputs_match_immutable_git": true,
+    "actual_run_was_held_dirty_before_source_commit": true,
+    "accepted_results_not_reexecuted_or_called_fresh_immutable_run": true,
+    "scope": "Source binding of earlier fresh actual JUnit/Gradle model results; no test rerun or changed-input substitution"
+  },
+  "actual_convention_junit_counts": {
+    "tests": 4,
+    "passed": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "junit_xml_original_sha256": "2e5ba322c8b4e084406dfdcf63ed1b46c4fa38cd839383318deee26239339641",
+  "actual_gradle_execution": {
+    "elapsed_seconds": 63.02,
+    "exit_code": 0
+  },
+  "actual_configured_publications": 145,
+  "actual_configured_publisher_projects": 21,
+  "source_policy_python_methods": 4,
+  "actual_root_expected_rejection": {
+    "command": [
+      "./gradlew",
+      "help",
+      "-PnativeCmpkit.version=1.2.3-$(synthetic-marker)",
+      "--offline",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process"
+    ],
+    "execution": {
+      "elapsed_seconds": 15.0,
+      "exit_code": 1
+    },
+    "held_inputs": true,
+    "no_root_task_executed": true,
+    "passed_expected_rejection": true,
+    "scope": "Actual immutable root configuration rejects one deliberately tainted version before task execution; expected Gradle1 is a passing rejection test, not a build pass. No shell, manifest stamping, staging, credentials or publication.",
+    "selected_inputs": 841,
+    "source_revision": "64e6c2edae27b63bd6bcacf2f334ff3935c995d9",
+    "source_tree_dirty": false
+  },
+  "accepted_results_not_replayed": true,
+  "no_package_release_deployment_or_pages": true,
+  "full_release_or_whole_abi_consumer_gate": false,
+  "id": "BUILD-008",
+  "issue": 41,
+  "all_original_criteria_accepted": true,
+  "criteria": [
+    {
+      "requirement": "Validate accepted semantic version/prerelease examples",
+      "status": "accepted-executable-owning-policy",
+      "evidence": "Actual owning Kotlin/JUnit method accepts eight stable/snapshot/preview examples without normalization. Root uses the same compiled policy and actual configuration retains default0.1.0-SNAPSHOT for145 publications."
+    },
+    {
+      "requirement": "Reject command substitution, quotes, newlines, sed delimiters, branch path traversal and empty versions",
+      "status": "accepted-executable-owning-policy-and-root-rejection",
+      "evidence": "Actual owning Kotlin/JUnit tables reject24 unsafe values and11 malformed forms, plus a diagnostic sentinel; an immutable actual root configuration rejects command-substitution input with expected Gradle1 before any root task. Quotes/newlines/sed/path traversal/empty values are covered, diagnostics omit tainted bytes."
+    },
+    {
+      "requirement": "Exercise stamp/update helpers against temporary manifests without any credentials or remote publication",
+      "status": "accepted-retired-executable-path",
+      "evidence": "Old inherited shell stamp/update helpers are archived inert metadata, not active/reachable production helpers. Both active workflows are manual/read-only and contain no shell stamp/update or release template. No archived script was executed, no synthetic manifest rewrite was falsely certified; any future helper needs its own implementation and acceptance tests before the independent release gate."
+    }
+  ]
+}

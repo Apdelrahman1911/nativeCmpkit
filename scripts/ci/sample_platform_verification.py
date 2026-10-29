@@ -185,7 +185,11 @@ def inspect_graph(root: Path, mode: str) -> dict:
     for row in data["compilations"]:
         if row["unresolved_dependencies"] != 0 or not row["resolved_modules"]:
             raise ValueError("Unresolved or empty actual sample dependency graph")
-        if any(module["group"].startswith("org.jetbrains.androidx.navigation") for module in row["resolved_modules"]):
+        # NavigationEvent is a different API/group, present in real Apple
+        # Compose graphs. Match the removed Navigation library's exact group
+        # identities, not a prefix that also rejects navigationevent.
+        if any(module["group"] in {"org.jetbrains.androidx.navigation", "androidx.navigation"}
+               for module in row["resolved_modules"]):
             raise ValueError("Unused second navigation library remains on an actual compilation graph")
     sources = [p for p in lt.source_files(root, "sample/common/src/commonMain") if p.suffix == ".kt"]
     if any(re.search(r"(?m)^import (?:org\.jetbrains\.androidx\.navigation|androidx\.navigation)\b", p.read_text()) for p in sources):

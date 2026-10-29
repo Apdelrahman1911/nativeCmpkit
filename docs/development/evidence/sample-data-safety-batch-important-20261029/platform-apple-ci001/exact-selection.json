@@ -1,0 +1,120 @@
+{
+  "actual_Xcode_Calf_scheme_unsigned_build_and_real_framework_shell_phase_required": true,
+  "exact_simulator_command_requires_recorded_actual_UDID": true,
+  "fresh_heavy_hosts_requested": 1,
+  "fresh_unaccepted_sample_target_executions_requested": 17,
+  "plan": {
+    "build_tasks": [
+      ":sample:common:linkDebugFrameworkIosArm64",
+      ":sample:common:linkDebugFrameworkIosSimulatorArm64"
+    ],
+    "dependency_task": ":nativecmpkitSampleCompileDependencies",
+    "library_verification": false,
+    "mode": "apple",
+    "physical_device_verification": false,
+    "release_readiness_certified": false,
+    "sample_minSdk_lowered": false,
+    "schema_version": 1,
+    "scope": "Sample apps/compile graphs and fresh previously unaccepted sample platform methods only; accepted desktop methods not replayed",
+    "tests": [
+      {
+        "module": "sample/common",
+        "report_directory": "sample/common/build/test-results/iosSimulatorArm64Test",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+            "name": "generatedTabsContainEveryActualCategoryExactlyOnceInOriginalOrder"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "acceptsPositiveBoundedDimensions"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+            "name": "rejectsInvalidOversizedOrOverflowProneDimensionsBeforeAllocation"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "reselectDuringAReadStopsTheOldSourceAndPublishesOnlyTheNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "clearingSelectionCancelsTheSourceAndCannotRestoreItsOldResult"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "cancellationClosesTheSourceAndDoesNotPublishPartialResults"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "nonCancellableOldDecoderStillCannotOverwriteACompletedNewSelection"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "postedWorkUsesItsImmutableInputSnapshotNotALaterMutableList"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+            "name": "synchronousPublicationCanReenterWithoutCancellingOrClearingTheNewJob"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "countsBoundedChunksAndClosesTheSourceAtEof"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "emptySourceIsClosedAndReturnsZero"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "cancellationStopsBetweenChunksAndClosesInsteadOfReadingTheWholeSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest",
+            "name": "noProgressAndReadFailureCloseTheSource"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "validPngRoundTripsAndEncoderDoesNotTakeCallerBitmapOwnership"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "circleExportCapsTheOutputTo512AndHandlesSmallImages"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "decoderRejectsCorruptInputAndEncodedSizeAboveTheLimit"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+            "name": "rejectsOversizedPngHeaderBeforeAttemptingFullPixelDecode"
+          }
+        ],
+        "source_sets": [
+          "commonTest",
+          "nonAndroidTest",
+          "nativeTest",
+          "appleTest",
+          "iosTest",
+          "iosSimulatorArm64Test"
+        ],
+        "suite": "ios",
+        "task": ":sample:common:iosSimulatorArm64Test",
+        "test_classes": [
+          "com.mohamedrejeb.calf.sample.screens.GeneratedIconCategoryTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageBoundsTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleImageCodecTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingOwnerTest",
+          "com.mohamedrejeb.calf.sample.utils.SampleStreamingTest"
+        ]
+      }
+    ]
+  },
+  "profile": "sample-platforms-apple",
+  "row": {
+    "arch": "arm64",
+    "mode": "apple",
+    "runner": "macos-26"
+  },
+  "sample_evidence_is_not_library_evidence": true
+}

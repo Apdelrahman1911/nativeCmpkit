@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared Apple outcomes and exact graph repair — 2026-10-29
+
+[Original Apple postmortem](docs/development/evidence/sample-data-safety-batch-important-20261029/platform-apple-ci001/postmortem001/README.md) reviews17/17 reported native sample methods/
+fiveXML/all960 BEFORE exactGit; whole40967168162 stays FAILED with missing
+AFTER/process/output/fresh-task-marker/Xcode receipts. Distinct NavigationEvent
+groups exposed an owning prefix-classifier false positive: [exact Navigation
+group repair](docs/development/evidence/sample-data-safety-batch-important-20261029/navigation-graph-tools001/README.md) retains actual group/import/unresolved/minSdk24 guards,
+passes77/77 synthetic tools/all962held; one red and wrapper actionlint-path error
+retained, no77-method replay. ZERO local runtime builds. Recover missing real
+framework/Xcode app builds only on one host; #100/#154 remain open. Reuse completed
+sample methods, not missing certificates.77closed/95open; all single-agent/max2/
+capacity/publishing/main/history and independent release/security gates stay.
+
 ## Shared image-memory diagnostics batch prepared — 2026-10-29
 
 [Owning discovery tools](docs/development/evidence/image-memory-batch-important-20261029/discovery-tools001/README.md) pass108/108 synthetic methods/all962held, with

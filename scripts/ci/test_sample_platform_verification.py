@@ -1,5 +1,6 @@
 """Sample-specific verification contracts, never library or device substitutes."""
 import hashlib
+import json
 import ast
 from pathlib import Path
 import tempfile
@@ -307,6 +308,41 @@ class SamplePlatformVerificationTests(unittest.TestCase):
         self.assertNotIn("cat ", capture)
         self.assertNotIn("tail ", capture)
         self.assertIn("scripts/ci/sample_platform_verification.py", job)
+
+    def test_actual_apple_navigationevent_groups_are_distinct_from_the_removed_navigation_library(self):
+        # Actual40967168162 has navigationevent (not navigation) in both Apple
+        # graphs. Prefix matching falsely rejected these unrelated group IDs.
+        import sample_platform_verification as sample
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "gradle").mkdir()
+            (root / "gradle/libs.versions.toml").write_text('[versions]\nandroid-sample-minSdk = "24"\n')
+            (root / "sample/android").mkdir(parents=True)
+            (root / "sample/android/build.gradle.kts").write_text(
+                "minSdk = libs.versions.android.sample.minSdk.get().toInt()\n")
+            (root / "sample/common/src/commonMain/kotlin").mkdir(parents=True)
+            graph = {"mode": "apple", "project": ":sample:common", "sample_minSdk_lowered": False,
+                     "compilations": [{"target": target, "unresolved_dependencies": 0,
+                        "resolved_modules": [
+                            {"group": "androidx.navigationevent", "name": "navigationevent", "version": "1.1.1"},
+                            {"group": "org.jetbrains.androidx.navigationevent", "name": "navigationevent-compose", "version": "1.1.0"},
+                        ]} for target in ("iosArm64", "iosSimulatorArm64")]}
+            output = root / "build/ci-verification/sample-platforms-apple/compile-dependencies.json"
+            output.parent.mkdir(parents=True)
+            output.write_text(json.dumps(graph))
+            result = sample.inspect_graph(root, "apple")
+            self.assertTrue(result["unused_second_navigation_group_absent"])
+            self.assertTrue(result["all_selected_compile_graphs_reviewed"])
+            self.assertEqual(24, result["sample_app_declared_minSdk"])
+            self.assertFalse(result["minimum_platform_certified"])
+            for group in ("org.jetbrains.androidx.navigation", "androidx.navigation"):
+                with self.subTest(actual_unused_navigation_group=group):
+                    graph["compilations"][0]["resolved_modules"].append(
+                        {"group": group, "name": "navigation-compose", "version": "2.10.0-alpha05"})
+                    output.write_text(json.dumps(graph))
+                    with self.assertRaisesRegex(ValueError, "Unused second navigation library"):
+                        sample.inspect_graph(root, "apple")
+                    graph["compilations"][0]["resolved_modules"].pop()
 
     def test_sample_init_script_ignores_inherited_builds_and_records_actual_public_compilation_graphs(self):
         source = (ROOT / "scripts/ci/sample-platforms.init.gradle.kts").read_text()

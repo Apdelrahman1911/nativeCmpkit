@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+## Related batch: verified theme subset closed — 2026-10-29
+
+**[#143/UI-045 CLOSED/completed](evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)** directly after original three-criteria
+review; one fresh actual system method1/1 plus explicitly reused unchanged
+attached/sheet/popover/component methods. Current vector member still fails at
+3x; its failure does not block the verified theme subset. Whole workflow stays
+FAILED. Only that unfinished vector method needs recovery; slider pair batch
+40924885770 is independently pending.73closed/99open/172; no release-gate changes.
+
 ## Faster related batches with isolated failures — 2026-10-29
 
 [Actual rendering/theme run](evidence/native-vector-theme-batch-important-20261029/native-ci003/README.md)

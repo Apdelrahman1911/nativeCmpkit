@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "a3e39508418dc55af3c5b880fd10f2ccb02b77a2da93af3412c13bf58863d234",
+    "docs/development/resolutions/UI-controls.json": "7d9401687240c98a45e9956cfb6d966a7a13250097f8c72c07fc2056742d7420",
     "docs/development/resolutions/UI-native.json": "2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "8f0d72b583e380ca7a03ac2088e0de3e813897bdfbf2eab4aa10b9a5d6a322c9",
+  "input_fingerprint": "f8bb4271ffdb7c16de15ca5560ef682d858d85a3745c96ae84964f1753c5dd80",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 39,
-      "partially-verified": 48,
-      "verified": 70,
+      "partially-verified": 47,
+      "verified": 71,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -25035,12 +25035,12 @@
         "mapping_key": "audit:UI-045",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "3ceb62356f151904a388ff7039d102982ae18b30157f10717494ba59da94f2a6",
+      "owner_record_sha256": "d716d331286d94fb5d18df77c961d7dab2ce3e09889f9cdbd3e42819aa99f1ce",
       "owner_record": {
         "id": "UI-045",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "UIView.applyTheme changes only receiver.overrideUserInterfaceStyle, not superview.",
           "UIViewController helper continues to style only explicitly owned controller.",
@@ -25083,13 +25083,18 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "Immutable related batch40918825821/d2997ab8: independently installed system-appearance application; original attached/sheet/popover and component ownership results reused with exact Git method/helper/production bindings",
+            "result": "VERIFIED original UI-045 three-criteria subset: one fresh native method1/1, one independent XML, Gradle0/96.96s, all876 exact before/after Git inputs; all4 actual system phases, simctl dark/light/readback/restoration, Worker/runtime/binary/install/owned cleanup pass. Three completed unchanged native owner methods from40903805198 and component ownership methods are reused, not fresh. Current vector method still fails at3x source0/hierarchy11/layer0; whole workflow remainsFAILED. Issue143 closed/completed after criteria review/readback; physical/minimum/accessibility/profiling/ABI/security/release and retained RGB heuristic are not cleared.",
+            "evidence": [
+              "docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/review.json",
+              "docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/original-criteria-theme-subset-acceptance.json",
+              "docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "Link/run real opposite-theme siblings, explicit parent style and child-controller tests.",
-          "Verify mixed Compose/native sheets/popovers, system appearance changes and transparent day-content colors on Apple.",
-          "Existing RGB threshold/alpha-agnostic isDark heuristic is retained; explicit transparent color/theme policy remains a separate integration concern."
-        ],
+        "remaining": [],
         "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
       },
       "closure_or_release_authorized_by_index": false

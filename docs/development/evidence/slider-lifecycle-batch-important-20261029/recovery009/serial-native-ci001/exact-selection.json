@@ -1,0 +1,95 @@
+{
+  "accepted_enable_or_unrelated_suites_replay_requested": false,
+  "actual_cli_preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "ios-slider-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-slider-pair-structure"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-slider-tap-cancellation"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      }
+    ],
+    "source_only": true
+  },
+  "fresh_heavy_hosts": 1,
+  "fresh_required_authored_methods": 4,
+  "matrix": {
+    "arch": "arm64",
+    "python": "python3",
+    "runner": "macos-26",
+    "serial-test-focus": "ios-native-slider-tap-cancellation",
+    "simulator-kind": "iphone",
+    "slot": "ios-iphone",
+    "suite": "ios",
+    "test-focus": "ios-native-slider-pair-structure",
+    "test-modules": "calf-ui"
+  },
+  "maximum_combined_heavy_requests": 2,
+  "old_XML_never_reused_as_fresh": true,
+  "packages_or_binaries_uploaded": false,
+  "profile": "ios-slider-recovery",
+  "serial_selections": [
+    {
+      "focus": "ios-native-slider-pair-structure",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+        }
+      ]
+    },
+    {
+      "focus": "ios-native-slider-tap-cancellation",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+        }
+      ]
+    }
+  ],
+  "two_independent_applications": "Structural pair then tap pair; exact original XML/results preserved after verified owned cleanup",
+  "unchanged_compilation_eligible_for_reuse": true
+}

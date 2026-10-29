@@ -68,10 +68,18 @@ class NativeVectorThemeAcceptanceTest {
                     image = raster.imageWithRenderingMode(UIImageRenderingMode.UIImageRenderingModeAlwaysOriginal)
                 }
                 parent.view.addSubview(view)
+                // This fixture requests both 2x and 3x snapshots on the same
+                // host. Attachment otherwise supplies the window's backing
+                // scale, which need not equal the requested raster/capture
+                // scale. Bind the actual view after attachment, not a filter,
+                // pixel tolerance change or isolated-layer fallback.
+                view.setContentScaleFactor(density.toDouble())
             }
             try {
                 runOnIdle {
                     assertTrue(sameNativeObject(view.window, parent.view.window))
+                    assertEquals(density.toDouble(), view.contentScaleFactor, "actual attached image-view density")
+                    assertEquals(density.toDouble(), view.layer.contentsScale, "actual native layer backing density")
                     val original = snapshot(view, density).rgba()
                     val source = raster.rgba()
                     // Failure diagnostics distinguish the actual scene capture

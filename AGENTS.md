@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Immediate verified subset closure; rendering-only recovery — 2026-10-29
+
+**[#143/UI-045 CLOSED/completed](docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)**
+after all three original criteria review. Fresh system appearance1/1, Gradle0/96.96s,
+all876 exact Git inputs and complete native Worker/runtime/binary/install/owned
+cleanup plus real dark/light/readback/restoration; three unchanged attached/sheet/
+popover and prior component methods reused explicitly, not fresh. Current vector
+member FAILED3x/pixel366/channel0/source0/hierarchy11/layer0; whole workflow stays
+failed and #139 remains open. Reuse second compilation/link UP-TO-DATE statuses,
+never archived XML as fresh. Native view-backing-scale candidate retains every
+original assertion/density/tolerance, adds actual view/layer density witnesses;
+it remains unverified and is not a library renderer repair. Only failed rendering
+method needs new execution, not the four accepted theme methods. Slider40924885770
+is independently pending. **73closed/99open/172;39implemented/47partial/71verified/
+seven unresolved.** Single-agent/max2 combined hosted requests/below8GiB no heavy
+local builds. Publishing/Pages/main/history and independent release/security gates
+remain unchanged.
+
 ## Related native batches; independent recovery — 2026-10-29
 
 [Rendering/theme40903805198](docs/development/evidence/native-vector-theme-batch-important-20261029/native-ci003/README.md)

@@ -11,6 +11,34 @@ import test_ios_application_receipts as receipts
 
 
 class IosVectorThemeRecoveryTests(unittest.TestCase):
+    def test_rendering_only_recovery_never_replays_accepted_theme_methods(self):
+        row, = matrix.matrix("ios-vector-rendering-recovery")["include"]
+        self.assertEqual("ios-ipad", row["slot"])
+        self.assertEqual("calf-ui", row["test-modules"])
+        self.assertEqual(tests.IOS_VECTOR_RENDERING_FOCUS, row["test-focus"])
+        self.assertNotIn("serial-test-focus", row)
+        preflight = matrix.preflight_plans("ios-vector-rendering-recovery")
+        self.assertEqual(1, len(preflight["slots"]))
+        self.assertEqual(1, len(tests.ui_application_focus_identities(row["test-focus"])))
+        self.assertNotIn("Appearance", tests.ui_application_focus_filter(row["test-focus"]))
+        self.assertEqual(11, len(matrix.matrix("all")["include"]))
+
+    def test_requested_snapshot_density_is_bound_to_actual_attached_view_backing(self):
+        source = (tests.ROOT / tests.IOS_VECTOR_THEME_SOURCE).read_text()
+        method = source.split("@Test fun " + tests.IOS_VECTOR_THEME_METHODS[0], 1)[1].split("@Test fun ", 1)[0]
+        attach = method.index("parent.view.addSubview(view)")
+        configure = method.index("view.setContentScaleFactor(density.toDouble())")
+        capture = method.index("snapshot(view, density)")
+        self.assertLess(attach, configure)
+        self.assertLess(configure, capture)
+        self.assertIn("assertEquals(density.toDouble(), view.contentScaleFactor", method)
+        self.assertIn("assertEquals(density.toDouble(), view.layer.contentsScale", method)
+        self.assertIn("listOf(2f, 3f)", method)
+        self.assertIn("original[channel].toInt() and 255)) <= 3", method)
+        self.assertIn("actual[offset + channel].toInt() and 255)) <= 3", method)
+        self.assertNotIn("kCAFilterNearest", method)
+        self.assertNotIn("return@", method)
+
     def test_one_host_preflights_two_exact_independent_methods_not_accepted_replay(self):
         row, = matrix.matrix("ios-vector-theme-recovery")["include"]
         self.assertEqual("ios-ipad", row["slot"])

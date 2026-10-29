@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `bc10604ff09ba808a261ac98987ac272b993f1279c00bac877d2ed94c4ecd8d3`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `937838cc41d0e2607871a013ffe24dc14e7fb79b0fb505bf590c19abb4708ee6`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 39 |
-| partially-verified | 50 |
-| verified | 68 |
+| partially-verified | 49 |
+| verified | 69 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -176,7 +176,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | verified | — | 3 / 0 |
 | 129 | [UI-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/122) | Medium | 2 | L | partially-verified | — | 3 / 2 |
 | 130 | [UI-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/123) | Medium | 2 | S | verified | — | 2 / 0 |
-| 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | partially-verified | — | 2 / 2 |
+| 131 | [UI-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124) | Medium | 2 | S | verified | — | 2 / 0 |
 | 132 | [UI-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/127) | Medium | 2 | S | verified | — | 2 / 0 |
 | 133 | [UI-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/128) | Medium | 2 | S | verified | — | 2 / 0 |
 | 134 | [UI-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/129) | Medium | 2 | M | implemented | — | 2 / 2 |
@@ -2937,7 +2937,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 131. UI-010 — Remembered native time picker keeps writing to the original state after replacement
 
-**Medium · partially-verified · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort S** — [nativeCmpkit #124](https://github.com/Apdelrahman1911/nativeCmpkit/issues/124); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -2948,8 +2948,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- The identical-state/native runtime locale/timezone/current-owner method must recover its composition epoch witness and execute all subsequent assertions. Actual controller replacement already passes; reuse it unchanged rather than replay.
-- Physical OS Settings/hour-cycle/native wheel/device/minimum/heap/full ABI/consumer/security/release requirements remain independent; no pass inferred from the early failure.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Existing state API preserved; native callbacks no longer target replaced state.
 
@@ -3609,7 +3608,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `cdf103d4a18f5bf0fcd86f1b6a27af99e60bf73ec2d080c03af1fd8e7ea63bf9` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `5ff11f7e249b798a3857795f77a5b953faab1b141ea9ead3f85e18b2b975c24c` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
 

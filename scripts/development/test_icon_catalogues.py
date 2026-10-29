@@ -25,6 +25,20 @@ class IconCatalogueTest(unittest.TestCase):
         for path, text in generator.render(self.cupertino, self.symbols).items():
             self.assertEqual((generator.ROOT / path).read_bytes(), text.encode(), str(path))
 
+    def test_generated_sample_keeps_categories_used_by_the_catalogue_screen(self):
+        output = generator.render(self.cupertino, self.symbols)[generator.SAMPLE]
+        categories = sorted({entry["category"] for entry in self.cupertino})
+        expected = "internal val IconCategories: List<String> = listOf(\n" + "".join(
+            f'    "{category}",\n' for category in categories
+        ) + ")\n"
+        self.assertIn(expected, output)
+        self.assertEqual(1, output.count("internal val IconCategories:"))
+        baseline = subprocess.check_output(
+            ["git", "show", self.manifest["baseline"] + ":" + str(generator.SAMPLE)],
+            cwd=generator.ROOT,
+        ).decode()
+        self.assertIn(expected, baseline)
+
     def test_all_generated_outputs_preserve_exact_modification_notice_once(self):
         notice = "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n"
         outputs = generator.render(self.cupertino, self.symbols)

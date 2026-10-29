@@ -148,6 +148,12 @@ internal val AllCupertinoIcons: List<IconEntry> = listOf(
     sample += "".join(f'    IconEntry("{e["catalogue_name"]}", CupertinoIcons.{e["identifier"]}, "{e["category"]}"),\n'
                       for e in sorted(cupertino, key=lambda e: e["catalogue_index"]))
     sample += ")\n"
+    # The catalogue screen consumes this original internal declaration too.
+    # Derive it from the same pinned entries rather than silently dropping it
+    # or maintaining a second, potentially stale list in the screen.
+    sample += "\ninternal val IconCategories: List<String> = listOf(\n"
+    sample += "".join(f'    "{category}",\n' for category in sorted({e["category"] for e in cupertino}))
+    sample += ")\n"
     sf = '''@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.mohamedrejeb.calf.sf.symbols

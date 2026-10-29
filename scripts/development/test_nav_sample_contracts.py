@@ -53,6 +53,18 @@ class NavSampleContractTest(unittest.TestCase):
         self.assertNotIn("implementation(libs.jetbrains.navigation.compose)", text)
         self.assertIn("implementation(projects.calfNavigation)", text)
 
+    def test_streaming_screen_uses_the_same_cancellable_owner_as_its_regressions(self):
+        text = (SCREENS / "FilePickerScreen.kt").read_text()
+        self.assertIn("val streaming = rememberSampleStreamingOwner()", text)
+        self.assertIn("streaming.replace(selection,", text)
+        self.assertIn("streaming.cancel()", text)
+        self.assertNotIn("streamingJob", text)
+        owner = (ROOT / "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreamingOwner.kt").read_text()
+        self.assertIn("selection.toList()", owner)
+        self.assertIn("currentCoroutineContext().ensureActive()", owner)
+        self.assertIn("if (request === token) publish(results)", owner)
+        self.assertIn("DisposableEffect(owner) { onDispose { owner.cancel() } }", owner)
+
 
 if __name__ == "__main__":
     unittest.main()

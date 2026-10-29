@@ -1,0 +1,141 @@
+{
+  "all878_exact_Git_inputs_held": true,
+  "all_original_criteria_accepted": true,
+  "complete_new_native_Worker_runtime_binary_install_owned_cleanup": true,
+  "current_revision": "1f8f16716385d3d7ffeea58448895fa8dcf0fc6a",
+  "fresh_native_XML": 2,
+  "fresh_native_executions": [
+    {
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+        ":calf-ui:iosSimulatorArm64ApplicationTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction"
+      ],
+      "execution": {
+        "elapsed_seconds": 1619.4,
+        "exit_code": 0
+      },
+      "native_transport": {
+        "console_cleanup_requested": false,
+        "console_process_exit": 0,
+        "console_process_exit_after_cleanup": 0,
+        "elapsed_seconds": 5.06,
+        "finished_at_utc": "2026-10-29T19:59:17.333740+00:00",
+        "started_at_utc": "2026-10-29T19:59:12.273883+00:00",
+        "timeout_seconds": 300
+      },
+      "totals": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+        ":calf-ui:iosSimulatorArm64ApplicationTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter"
+      ],
+      "execution": {
+        "elapsed_seconds": 41.1,
+        "exit_code": 0
+      },
+      "native_transport": {
+        "console_cleanup_requested": false,
+        "console_process_exit": 0,
+        "console_process_exit_after_cleanup": 0,
+        "elapsed_seconds": 4.43,
+        "finished_at_utc": "2026-10-29T20:00:25.566031+00:00",
+        "started_at_utc": "2026-10-29T20:00:21.137690+00:00",
+        "timeout_seconds": 300
+      },
+      "totals": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "fresh_native_tests": 4,
+  "id": "UI-034",
+  "issue": 137,
+  "packages_releases_deployments_or_Pages_created": false,
+  "prior_failed_whole_run_and_missing_final_Worker_runtime_binary_certificate_retained": true,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Both fresh structural methods independently replace steps and range after composition, cancel the old publishing gesture, accept fresh touch and SetProgress and verify exact ProgressBarRangeInfo/current/range/steps parity.",
+      "original_requirement": "Change steps and range after initial composition and verify drag/tap/semantic parity.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Both fresh tap/cancellation methods execute tap\u2192immediate drag\u2192opposite taps, real scene cancellation rather than Skiko no-op cancellation, exact Cancel/no Stop, false actual dragged State and512ms no old writer; every original assertion retained.",
+      "original_requirement": "Tap then immediately drag/opposite tap; cancel an active mutation and assert isDragging resets.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Both fresh structural methods cover source replacement including old and current source actual State cleanup and RTL; completed unchanged enable/callback methods cover disabled transitions and current completion counts. Fresh finish/Cancel ownership assertions also complete for both renderers.",
+      "original_requirement": "Interaction source replacement, RTL, disabled and completion callback counts.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Genuine iOS26 simulator application with real Compose scene pointer dispatch; not physical touch/VoiceOver or adaptive pre26 OS-selection certification. Both implementation renderers are exercised directly.",
+    "No universal minimum-platform, GPU/performance/allocation, full ABI/consumer/dependency/provenance/legal/security/release gate.",
+    "Two reused enable/callback cases completed in a historically failed/incomplete whole application; whole-run failure and missing final Worker/runtime/binary certificate remain preserved. The four fresh methods have independent complete lifecycle certificates."
+  ],
+  "reused_completed_methods": [
+    "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner"
+  ],
+  "reused_methods_are_completed_per_case_not_new_tests_or_prior_whole_Worker_certificate": true,
+  "reused_run_id": 40865834481,
+  "reused_source_revision": "a20cf38fcff0a0d21ffad0439e06d7fe1a8e946f",
+  "reviewed_at_utc": "2026-10-29T20:07:45.376313+00:00",
+  "run_id": 40940082166,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40940082166",
+  "source_revision": "2da5c08b5f2541ce7a9c389325302986b2b71d9e",
+  "unchanged153_owning_sources_and_reused_method_renderer_bytes_bound_across_revisions": true
+}

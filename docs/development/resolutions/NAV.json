@@ -1436,7 +1436,8 @@
     "changes": [
       "Added hashed/pinned imported input snapshots, deterministic offline generator and real font cmap checks preserving every public constant/sample mapping.",
       "Generated SF KDoc and explicit null availability fields remove unsupported universal OS availability claims.",
-      "Fixed generator/test-only notice drift after the lead added required modification comments: all3 renders now retain the exact historical header once. Added an independent-literal header/placement/nonduplication regression. No generated library/sample source or pinned input/manifest changed."
+      "Fixed generator/test-only notice drift after the lead added required modification comments: all3 renders now retain the exact historical header once. Added an independent-literal header/placement/nonduplication regression. No generated library/sample source or pinned input/manifest changed.",
+      "2026-10-29: restore generator-dropped original internal IconCategories from pinned catalogue categories after actual sample compiler failure; add baseline/current deterministic category guard. Public Cupertino/SF constants and font remain byte-identical; unknown SF availability/provenance is not resolved."
     ],
     "affected_paths": [
       "tools/icon-catalogues/",
@@ -1488,6 +1489,21 @@
           "docs/development/evidence/navigation/catalogue-notice-repair/verification.json",
           "docs/development/evidence/navigation/catalogue-notice-repair/commands.json",
           "docs/development/evidence/navigation/catalogue-notice-repair/development-tooling.log"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "FAILED immutable1f8f1671: sample desktop compilation on generator-dropped original IconCategories; Gradle1/158.04s, ZERO XML/tests. All878 library+75 sample inputs held/exact Git. Owning category regeneration repair and new stream-owner fixtures prepared, runtime acceptance pending. Sample-only, never library test substitution.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+        ]
+      },
+      {
+        "command": "python3 -B -m unittest discover -s scripts/development -p test_icon_catalogues.py -v; python3 -B scripts/development/generate_icon_catalogues.py --check",
+        "result": "PASS10/10 source/generator methods after new category regression first failed1/1. Zero unexplained regenerated differences; public constants/font notices retained. Source-only, no platform runtime/provenance/availability/glyph snapshot gate.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/tools001/review.json"
         ]
       }
     ],
@@ -1547,6 +1563,14 @@
         "command": "./gradlew :sample:common:desktopTest",
         "result": "6 common sample tests+4 actual Skia tests added; execution pending at initial record.",
         "evidence": []
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "FAILED immutable1f8f1671: sample desktop compilation on generator-dropped original IconCategories; Gradle1/158.04s, ZERO XML/tests. All878 library+75 sample inputs held/exact Git. Owning category regeneration repair and new stream-owner fixtures prepared, runtime acceptance pending. Sample-only, never library test substitution.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+        ]
       }
     ],
     "remaining": [
@@ -1561,18 +1585,31 @@
     "status": "implemented",
     "changes": [
       "Source consumer checks cancellation/yields every64KiB, rejects no-progress/overflow and always closes including cancel/error paths.",
-      "Corrected universal constant-memory claim for platform source opening; added4 actual sample helper tests with controlled RawSource fixtures."
+      "Corrected universal constant-memory claim for platform source opening; added4 actual sample helper tests with controlled RawSource fixtures.",
+      "2026-10-29: screen-owned cancellable selection helper now captures immutable inputs/current request, registers the lazy Job before synchronous/reentrant completion and suppresses publication after cancellation/disposal. Six common owner regressions, actual Compose disposal and two real64MiB JVM stream/close/cancellation fixtures prepared. Runtime verification pending; no unproven mid-read interruption claim."
     ],
     "affected_paths": [
       "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreaming.kt",
       "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FilePickerScreen.kt",
-      "sample/common/src/commonTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingTest.kt"
+      "sample/common/src/commonTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingTest.kt",
+      "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreamingOwner.kt",
+      "sample/common/src/commonTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingOwnerTest.kt",
+      "sample/common/src/desktopTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingCompositionTest.kt",
+      "sample/common/src/desktopTest/kotlin/com/mohamedrejeb/calf/sample/utils/SampleStreamingFileTest.kt"
     ],
     "tests": [
       {
         "command": "./gradlew :sample:common:desktopTest",
         "result": "Not yet executed at initial record;4 cancellation/EOF/error helper tests added.",
         "evidence": []
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "FAILED immutable1f8f1671: sample desktop compilation on generator-dropped original IconCategories; Gradle1/158.04s, ZERO XML/tests. All878 library+75 sample inputs held/exact Git. Owning category regeneration repair and new stream-owner fixtures prepared, runtime acceptance pending. Sample-only, never library test substitution.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
+        ]
       }
     ],
     "remaining": [
@@ -1623,6 +1660,14 @@
         "result": "exit0; 6 source/configuration checks passed, not native UI/device tests.",
         "evidence": [
           "docs/development/evidence/navigation/sample-source-checks.log"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts :sample:common:desktopTest --rerun",
+        "result": "FAILED immutable1f8f1671: sample desktop compilation on generator-dropped original IconCategories; Gradle1/158.04s, ZERO XML/tests. All878 library+75 sample inputs held/exact Git. Owning category regeneration repair and new stream-owner fixtures prepared, runtime acceptance pending. Sample-only, never library test substitution.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/desktop001/execution.json"
         ]
       }
     ],

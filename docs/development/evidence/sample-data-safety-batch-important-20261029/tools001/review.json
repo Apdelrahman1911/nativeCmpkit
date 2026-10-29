@@ -1,0 +1,37 @@
+{
+  "before_source_snapshot_not_captured_do_not_claim_before_after_hold": true,
+  "catalogue_after_repair": {
+    "command": "python3 -B -m unittest discover -s scripts/development -p test_icon_catalogues.py -v",
+    "exit_code": 0,
+    "passed": 10,
+    "tests": 10
+  },
+  "generator_check": {
+    "command": "python3 -B scripts/development/generate_icon_catalogues.py --check",
+    "exit_code": 0,
+    "mismatched_outputs": [],
+    "public_Cupertino_and_SF_declarations_byte_unchanged": true
+  },
+  "new_category_guard_red": {
+    "command": "python3 -B -m unittest discover -s scripts/development -p test_icon_catalogues.py -k generated_sample_keeps_categories -v",
+    "exit_code": 1,
+    "failures": 1,
+    "original_private_log_retained": true,
+    "tests": 1
+  },
+  "new_owning_source_guard": {
+    "command": "python3 -B -m unittest discover -s scripts/development -p test_nav_sample_contracts.py -k streaming_screen_uses -v",
+    "exit_code": 0,
+    "passed": 1,
+    "tests": 1
+  },
+  "observed_relevant_inputs_after": {
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/CupertinoIconsCatalogData.kt": "f3c88b4cebb8fc973baf3b54cef6f8a1f4e7b9f5a7c9d2378f6aff65dbb7e0bb",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/FilePickerScreen.kt": "cc2f1acfbd3a0cdad10531cc309532b06cc8c8a99e6ccd1467a109323a539d3d",
+    "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/utils/SampleStreamingOwner.kt": "20128366024ac8a4e5446e27ae2db3028b83b5cfeb5d823549cafe514c4e6971",
+    "scripts/development/generate_icon_catalogues.py": "a8c20765acba1e77461e176c8db42886d05bda83e33e77607cc18a336a7cb791",
+    "scripts/development/test_icon_catalogues.py": "88b6ac329a9ec181f818beefc2584fae0b7a3c9cc9324d01cbd6069e31bf48f9",
+    "scripts/development/test_nav_sample_contracts.py": "7152d3cb81f3e94bb18db713b710e45cfe596f6748ed4e0042cb167f8b6c0bf1"
+  },
+  "runtime_library_or_sample_test_executions": 0
+}

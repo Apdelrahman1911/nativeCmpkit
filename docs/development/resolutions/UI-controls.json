@@ -1,14 +1,15 @@
 [
   {
     "id": "UI-027",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Liquid and Cupertino controls use an internal shared slider contract with current value/callback state and input keys for enabled/range/steps/measured width/thumb width/RTL/interaction source.",
       "Disabled changes cancel existing pointer ownership; obsolete tap animations no longer write caller state; taps are atomic and drag-local state is recreated for each gesture.",
       "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered.",
       "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
       "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending.",
-      "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified."
+      "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified.",
+      "2026-10-29: shared source-held actual slider batch verifies both owning scopes. Four fresh structural/tap/cancellation methods pass on both renderers; two byte-identical completed enable/live-callback methods explicitly reused. Closed both related issues directly after their three original criteria reviews, before documentation; historical failed whole runs retained."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -152,13 +153,49 @@
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
         ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+        "result": "PASS immutable2da5c08b/40940082166: ios-native-slider-pair-structure2/2, one fresh XML, Gradle0/1619.4s/app5.06s, all878 exact Git inputs/full native Worker/runtime/binary/install/owned cleanup. Together4fresh cases; unchanged completed enable/callback2cases from failed/incomplete40865834481 reused, not replayed or older whole-lifecycle certification. All original assertions/actions/deadlines retained.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/README.md",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-027-original-criteria-acceptance.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-027-closure-readback.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+        "result": "PASS immutable2da5c08b/40940082166: ios-native-slider-tap-cancellation2/2, one fresh XML, Gradle0/41.1s/app4.43s, all878 exact Git inputs/full native Worker/runtime/binary/install/owned cleanup. Together4fresh cases; unchanged completed enable/callback2cases from failed/incomplete40865834481 reused, not replayed or older whole-lifecycle certification. All original assertions/actions/deadlines retained.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/README.md",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-027-original-criteria-acceptance.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-027-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+    "pre_closure_remaining_20261029_slider_batch": [
       "Link/run Liquid native control tests on Apple; initially disabled -> enabled, density/range/RTL/resize during active input, and callback replacement on both iOS branches.",
       "Device pointer/cancel/VoiceOver integration remains unverified."
     ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "verification_scope": "All three original requirements verified on both real production renderer implementations in iOS26 simulator application with real Compose scene pointer/semantics dispatch. Four fresh full-lifecycle native cases plus two explicitly reused unchanged completed per-case results; not physical touch/VoiceOver/adaptive pre26 selection or full release/security certification.",
+    "required_tests_review": "All three original criteria individually accepted; see docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-027-original-criteria-acceptance.json",
+    "retained_limitations_20261029_slider_batch": [
+      "Genuine iOS26 simulator application with real Compose scene pointer dispatch; not physical touch/VoiceOver or adaptive pre26 OS-selection certification. Both implementation renderers are exercised directly.",
+      "No universal minimum-platform, GPU/performance/allocation, full ABI/consumer/dependency/provenance/legal/security/release gate.",
+      "Two reused enable/callback cases completed in a historically failed/incomplete whole application; whole-run failure and missing final Worker/runtime/binary certificate remain preserved. The four fresh methods have independent complete lifecycle certificates."
+    ],
+    "github_closure_20261029_slider_batch": {
+      "issue_number": 34,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-29T20:07:53Z",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/34",
+      "resolution_comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/34#issuecomment-6507141452"
+    }
   },
   {
     "id": "UI-028",
@@ -891,14 +928,15 @@
   },
   {
     "id": "UI-034",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Cupertino uses shared input with complete range/steps/geometry/source keys and updated callbacks.",
       "Removed the old competing tap mutation animation/private slider gesture engine; taps no longer keep issuing callbacks after a new gesture.",
       "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain.",
       "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
       "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending.",
-      "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified."
+      "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified.",
+      "2026-10-29: shared source-held actual slider batch verifies both owning scopes. Four fresh structural/tap/cancellation methods pass on both renderers; two byte-identical completed enable/live-callback methods explicitly reused. Closed both related issues directly after their three original criteria reviews, before documentation; historical failed whole runs retained."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -1034,12 +1072,48 @@
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
           "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
         ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+        "result": "PASS immutable2da5c08b/40940082166: ios-native-slider-pair-structure2/2, one fresh XML, Gradle0/1619.4s/app5.06s, all878 exact Git inputs/full native Worker/runtime/binary/install/owned cleanup. Together4fresh cases; unchanged completed enable/callback2cases from failed/incomplete40865834481 reused, not replayed or older whole-lifecycle certification. All original assertions/actions/deadlines retained.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/README.md",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-034-original-criteria-acceptance.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-034-closure-readback.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+        "result": "PASS immutable2da5c08b/40940082166: ios-native-slider-tap-cancellation2/2, one fresh XML, Gradle0/41.1s/app4.43s, all878 exact Git inputs/full native Worker/runtime/binary/install/owned cleanup. Together4fresh cases; unchanged completed enable/callback2cases from failed/incomplete40865834481 reused, not replayed or older whole-lifecycle certification. All original assertions/actions/deadlines retained.",
+        "evidence": [
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/review.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/README.md",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-034-original-criteria-acceptance.json",
+          "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-034-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+    "pre_closure_remaining_20261029_slider_batch": [
       "Native old/current branch touch interruption, RTL/density/range/step/source replacement and callback lifecycle need iOS execution."
     ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "verification_scope": "All three original requirements verified on both real production renderer implementations in iOS26 simulator application with real Compose scene pointer/semantics dispatch. Four fresh full-lifecycle native cases plus two explicitly reused unchanged completed per-case results; not physical touch/VoiceOver/adaptive pre26 selection or full release/security certification.",
+    "required_tests_review": "All three original criteria individually accepted; see docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/github-closure001/UI-034-original-criteria-acceptance.json",
+    "retained_limitations_20261029_slider_batch": [
+      "Genuine iOS26 simulator application with real Compose scene pointer dispatch; not physical touch/VoiceOver or adaptive pre26 OS-selection certification. Both implementation renderers are exercised directly.",
+      "No universal minimum-platform, GPU/performance/allocation, full ABI/consumer/dependency/provenance/legal/security/release gate.",
+      "Two reused enable/callback cases completed in a historically failed/incomplete whole application; whole-run failure and missing final Worker/runtime/binary certificate remain preserved. The four fresh methods have independent complete lifecycle certificates."
+    ],
+    "github_closure_20261029_slider_batch": {
+      "issue_number": 137,
+      "state": "closed",
+      "state_reason": "completed",
+      "closed_at": "2026-10-29T20:08:00Z",
+      "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/137",
+      "resolution_comment_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/137#issuecomment-6507144067"
+    }
   },
   {
     "id": "UI-035",

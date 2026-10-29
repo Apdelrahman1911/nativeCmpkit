@@ -1,0 +1,195 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 41.1,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-slider-tap-cancellation",
+  "finished_at_utc": "2026-10-29T20:00:30.137354+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "72f1f06aa270c9df121efba2f122db66cb8a82269334670ea05626b021dc8a87",
+  "inputs_before_sha256": "72f1f06aa270c9df121efba2f122db66cb8a82269334670ea05626b021dc8a87",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "934bb45825ab8577a9db3a587ac2e681a727a22c615de4729dbe1136e08dc236",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r2da5c08b5f25.te9c43f34f77348d589e859328a79a15b",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone-related-recovery/native-ui-application/e9c43f34f77348d589e859328a79a15b/receipt.json",
+      "receipt_sha256": "de90d6ed7fcf87f8215b5a7be9609a092a79fcaebeeaa1a4cf8e094da79f8c01",
+      "required_native_cases_found": 2,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applica-3VQ4A8IF216Q0.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.xml",
+          "sha256": "91a65ea9b22fce8fb957210d9aead5258b88cafe52ab679cdc4641ed469c7613",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [
+    "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest"
+  ],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "d1dd9f6949dd6ab33d0937203fe6228ab936a42db406a11d2f5e94c4126cb3ab",
+  "schema_version": 1,
+  "scope": "Only the two still never-started Liquid/Cupertino tap/drag/cancellation methods. Both interrupted structural methods are isolated so they cannot hide these outcomes; two completed enable/callback methods are explicitly reused, not replayed. All genuine protocol/XML/Worker/runtime/binary/install/cleanup gates remain; no physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+  "source_revision": "2da5c08b5f2541ce7a9c389325302986b2b71d9e",
+  "source_revision_after": "2da5c08b5f2541ce7a9c389325302986b2b71d9e",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T19:59:49.027708+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

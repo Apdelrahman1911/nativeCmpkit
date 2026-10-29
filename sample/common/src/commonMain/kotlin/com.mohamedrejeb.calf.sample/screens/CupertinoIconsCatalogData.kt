@@ -1336,3 +1336,15 @@ internal val AllCupertinoIcons: List<IconEntry> = listOf(
     IconEntry("zoom_out", CupertinoIcons.zoomOut, "General"),
     IconEntry("zzz", CupertinoIcons.zzz, "General"),
 )
+
+internal val IconCategories: List<String> = listOf(
+    "Arrows",
+    "Communication",
+    "Devices",
+    "Editing",
+    "General",
+    "Media",
+    "Nature",
+    "Objects",
+    "Shapes",
+)

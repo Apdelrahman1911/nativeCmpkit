@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,12 +41,11 @@ import com.mohamedrejeb.calf.sample.components.SampleScreenScaffold
 import com.mohamedrejeb.calf.sample.currentPlatform
 import com.mohamedrejeb.calf.sample.utils.SAMPLE_STREAM_CHUNK_SIZE
 import com.mohamedrejeb.calf.sample.utils.consumeByteCount
+import com.mohamedrejeb.calf.sample.utils.rememberSampleStreamingOwner
 import com.mohamedrejeb.calf.ui.button.AdaptiveButton
 import com.mohamedrejeb.calf.ui.toggle.AdaptiveSwitch
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 private data class FileTypeOption(
@@ -85,21 +83,18 @@ fun FilePickerScreen(navigateBack: () -> Unit) {
 
     val selectedFileType = fileTypeOptions[selectedTypeIndex].type
 
-    val scope = rememberCoroutineScope()
-    var streamingJob: Job? by remember { mutableStateOf(null) }
+    val streaming = rememberSampleStreamingOwner()
 
     val onFilesPicked: (List<KmpFile>) -> Unit = { files ->
-        pickedFiles = files.map { file -> file.toPickedFileInfo(STREAMING_IN_PROGRESS) }
-        streamingJob?.cancel()
-        streamingJob = scope.launch {
-            pickedFiles = pickedFiles.map { info ->
-                info.copy(streamingSummary = info.file.describeStreaming())
-            }
-        }
+        val selection = files.map { file -> file.toPickedFileInfo(STREAMING_IN_PROGRESS) }
+        pickedFiles = selection
+        streaming.replace(selection,
+            describe = { info -> info.copy(streamingSummary = info.file.describeStreaming()) },
+            publish = { results -> pickedFiles = results })
     }
 
     val onDirectoryPicked: (List<KmpFile>) -> Unit = { files ->
-        streamingJob?.cancel()
+        streaming.cancel()
         pickedFiles = files.map { file -> file.toPickedFileInfo(DIRECTORY_NOT_STREAMED) }
     }
 

@@ -1,0 +1,16 @@
+<!-- nativecmpkit-resolution:UI-027:slider-related-batch:40940082166:2da5c08b -->
+## Verified resolution — shared slider input/ownership batch
+
+The owning `SliderInput`/`SliderLayout` repair uses complete contract/geometry/source keys, current value and change/finish callbacks, per-gesture state and exactly-once cancellation cleanup. Taps are atomic requests, not competing background writers. Existing Liquid and Cupertino renderers and public signatures remain.
+
+All three original acceptance requirements were reviewed:
+
+1. Two completed unchanged real Liquid/Cupertino enable/callback methods cover initially disabled→enabled→disabled while idle and disabled during a publishing drag, old-owner exact Cancel/no Stop/no completion, then fresh re-enable.
+2. Both fresh structural methods independently change measured width, density/thumb geometry, RTL, valueRange, steps and interaction source during a real publishing drag; stale move/up cannot write, both real old/current-source dragged State observers clear, and fresh touch/current semantics work.
+3. Both fresh tap/cancellation methods cover tap→drag→opposite taps, exact completion/cancel ownership and512ms absence of late writers; explicitly reused completed live-callback methods verify replacement without cancelling the active owner and disabled finish/cancel.
+
+Fresh actual verification: [40940082166](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40940082166), immutable `2da5c08b5f2541ce7a9c389325302986b2b71d9e`: **4/4 native tests in two fresh XML reports**, no failures/errors/skips, two independently installed/cleaned applications on the same real iOS simulator. Structural Gradle exit0/1619.4s, app5.06s; tap Gradle exit0/41.1s, app4.43s. Second compilation/link outputs are UP-TO-DATE; old XML is not restored. All **878** before/after inputs match exact Git; TeamCity/JUnit agree, Workers terminate, runtime/binary/install identity and owned cleanup pass. Every original action/assertion,62 structural/24 tap phases and512ms writer checks remain. The shared test observer now eagerly reads real `State.value` in composition and retains both old/current-source collectors.
+
+Two **completed, unchanged** enable/live-callback cases from [40865834481](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40865834481) are explicitly reused, not replayed or counted fresh. Their completed per-case protocol/XML and all153 owning-source/method/renderer bytes are bound unchanged through current `1f8f1671`. **That prior whole run remains FAILED/incomplete, with no final Worker/runtime/binary certificate**; the four fresh cases have full independent lifecycle evidence.
+
+This shared batch closes #34 and #137 after their individual criteria pass. Direct real Compose input on both iOS26 implementation renderers is not physical-device touch, VoiceOver, adaptive pre26 OS selection, profiling, full ABI/consumer or release/security certification. Those separate gates remain open; #139's independent rendering investigation is not waived. No packages, releases, deployment or Pages were created. Original issue body/title/labels/history preserved; public acceptance/readback receipts are appended afterward under `docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/`.

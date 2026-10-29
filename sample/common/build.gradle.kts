@@ -9,6 +9,11 @@ kotlin {
         implementation(libs.kotlinx.coroutines.test)
     }
 
+    // Actual sample coroutine-owner disposal, not a substitute for library integration suites.
+    sourceSets.desktopTest.dependencies {
+        implementation(libs.compose.ui.test)
+    }
+
     listOf(
         iosArm64(),
         iosSimulatorArm64(),

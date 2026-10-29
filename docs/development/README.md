@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Related slider ownership batch closed — 2026-10-29
+
+**#34/UI-027 and #137/UI-034 CLOSED together immediately after their three original
+criteria reviews**, before documentation. [Actual shared40940082166](evidence/slider-lifecycle-batch-important-20261029/recovery010/serial-native-ci001/README.md)
+passes4/4 fresh native cases/two XML/all878 exact Git inputs; complete independent
+Worker/runtime/binary/install/owned cleanup. Structural0/1619.4s/app5.06s; tap0/41.1s/
+app4.43s, second compile/link UP-TO-DATE. Two unchanged completed enable/callback
+cases are explicitly reused from40865834481, not fresh or an older whole Worker
+certificate; that failed/incomplete whole run stays failed. All153 owning bytes
+and reused methods/helpers bound unchanged. Original geometry/source/cancel/
+semantic/512ms assertions retained; no new production/public API rewrite.
+**75closed/97open/172;39implemented/45partial/73verified/seven unresolved.**
+Rendering40942044869 remains queued/unverified; #139 stays open. Local sample
+desktop001 failed compilation on generator-dropped IconCategories, zero tests,
+all878library+75sample inputs held; retain failure before smallest owning repair.
+Single-agent/max2 combined heavy requests,8GiB reserve; no publishing/Pages/main/
+history or independent physical/minimum/ABI/consumer/dependency/legal/security
+release gate changes.
+
 ## Related slider batch: shared observer subscription repaired — 2026-10-29
 
 [Actual serial slider results](evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md)

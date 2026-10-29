@@ -247,6 +247,9 @@ jobs:
         run: |
           "$PYTHON" scripts/ci/picker_jni_paths.py --output "build/ci-verification/$SLOT-jni-paths"
       - name: Fresh actual library suite with strict nonzero receipts
+        # Independent related checks still execute after a standalone path-test
+        # failure. Failed prerequisites cannot bypass discovery; the job remains red.
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' }}
         env:
           SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
         run: |

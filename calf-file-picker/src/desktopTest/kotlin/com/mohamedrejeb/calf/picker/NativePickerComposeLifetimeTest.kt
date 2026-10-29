@@ -185,6 +185,8 @@ class NativePickerComposeLifetimeTest {
         try {
             host.ready()
             var native = awaitDialog(title)
+            assertTrue(visibleDialogs("NativeCmpKit-never-${UUID.randomUUID()}").isEmpty(),
+                "The same backend PID must not match a different dialog title")
             for (round in 0..2) {
                 host.launch() // Reject double launch while preserving the current actual dialog.
                 assertEquals(round + 1, host.errors.size)
@@ -349,7 +351,9 @@ class NativePickerComposeLifetimeTest {
         }
         private fun visibleDialogs(title: String): List<Long> {
             check(title.matches(Regex("NativeCmpKit-[A-Za-z0-9-]+")))
-            return xdo("search", "--onlyvisible", "--pid", checkNotNull(System.getenv("NATIVECMPKIT_PICKER_PORTAL_PID")),
+            // xdotool defaults to OR across properties. Require PID AND exact title,
+            // including during asynchronous GTK dismissal and the next session.
+            return xdo("search", "--all", "--onlyvisible", "--pid", checkNotNull(System.getenv("NATIVECMPKIT_PICKER_PORTAL_PID")),
                 "--name", "^$title$", allowEmpty = true).lines().filter { it.isNotBlank() }.map { it.toLong() }
         }
         private fun dialogName(id: Long): String {

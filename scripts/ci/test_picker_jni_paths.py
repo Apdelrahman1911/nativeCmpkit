@@ -79,5 +79,28 @@ class PickerJniPathReceipts(unittest.TestCase):
             with self.assertRaises(ValueError): r.review_log(positive(), host)
         with self.assertRaises(ValueError): r.review_log("x" * (8 * 1024 ** 2 + 1), "Linux")
 
+    def test_failed_owning_method_reports_only_finite_outcomes_coordinates_and_os_error_numbers(self):
+        log = (f"test jni_path_tests::{r.METHODS[1]} ... \n"
+               "thread 'synthetic' panicked at src/jni_path_tests.rs:81:42:\n"
+               'called Result::unwrap() on Err: Os { code: 92, kind: Uncategorized, message: "private diagnostic text" }\n'
+               "FAILED\n" + r.JVM_MARKER)
+        result = r.failure_details(log)
+        self.assertEqual([{"name": r.METHODS[1], "status": "failed"}], result["actual_method_outcomes"])
+        self.assertEqual([{"path": "src/jni_path_tests.rs", "line": 81, "column": 42}], result["rust_panic_coordinates"])
+        self.assertEqual([{"code": 92, "rust_kind": "Uncategorized"}], result["native_os_error_numbers"])
+        self.assertTrue(result["actual_jdk17_marker_observed"])
+        self.assertNotIn("private diagnostic text", json.dumps(result))
+
+    def test_failure_diagnostics_never_transplant_foreign_method_names_or_raw_transcripts(self):
+        log = ('test jni_path_tests::foreign_private_name ... FAILED\n'
+               'thread synthetic panicked at /private/secret/path.rs:99:1:\n'
+               'authorization=synthetic-private-value\n' + positive("Windows"))
+        result = r.failure_details(log)
+        self.assertEqual(1, len(result["actual_method_outcomes"]))
+        self.assertEqual([], result["rust_panic_coordinates"])
+        for private in ("foreign_private_name", "/private/secret", "authorization", "synthetic-private-value"):
+            self.assertNotIn(private, json.dumps(result))
+        self.assertTrue(r.failure_details("x" * (8 * 1024 ** 2 + 1))["diagnostic_too_large"])
+
 
 if __name__ == "__main__": unittest.main()

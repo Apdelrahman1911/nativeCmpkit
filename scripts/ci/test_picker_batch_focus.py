@@ -127,13 +127,16 @@ class PickerBatchFocusTests(unittest.TestCase):
         self.assertIn("val launchPickFiles = currentPickFiles", production)
         tests = (r.ROOT / r.PICKER_LIFETIME_SOURCE).read_text()
         for required in ("awaitLatch(finished)", "PlatformFilePicker.pick(directory, type, mode, title, parent)",
-                         "NATIVECMPKIT_PICKER_OWNED_DISPLAY", '"--pid"', '"^$title$"', "NativeFilePickerBridge.destroyDialog(handle.get())"):
+                         "NATIVECMPKIT_PICKER_OWNED_DISPLAY", '"search", "--all", "--onlyvisible", "--pid"',
+                         '"^$title$"', "NativeCmpKit-never-${UUID.randomUUID()}", "NativeFilePickerBridge.destroyDialog(handle.get())"):
             self.assertIn(required, tests)
 
     def test_batch_workflow_uploads_only_sanitized_jni_and_portal_receipts(self):
         workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
         self.assertIn("if: matrix.test-focus == 'picker-native-lifetime'", workflow)
         self.assertIn('scripts/ci/picker_jni_paths.py --output "build/ci-verification/$SLOT-jni-paths"', workflow)
+        suite = workflow.split("- name: Fresh actual library suite with strict nonzero receipts", 1)[1].split("- name:", 1)[0]
+        self.assertIn("!cancelled() && steps.plan.outcome == 'success'", suite)
         upload = workflow.split("- name: Keep receipts and actual selected-task XML only; never packages", 1)[1].split("\n  webview-consumer:", 1)[0]
         self.assertIn("-jni-paths/*.json", upload)
         self.assertIn("/desktop-picker-portal/receipt.json", upload)

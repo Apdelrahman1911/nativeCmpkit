@@ -26,6 +26,32 @@ METHODS = (
 JVM_MARKER = "NATIVECMPKIT_ACTUAL_PATH_JVM major=17 checked_jni=true real_filesystem=true"
 
 
+def failure_details(log: str) -> dict:
+    """Allowlisted outcomes/panic coordinates/OS error numbers, never raw Cargo bodies."""
+    if len(log.encode("utf-8")) > 8 * 1024 ** 2:
+        return {"diagnostic_too_large": True}
+    cases, coordinates, errors, current = [], [], [], None
+    for line in log.splitlines():
+        method = re.match(r"^test jni_path_tests::([a-z0-9_]+) \.\.\. (.*)$", line)
+        if method:
+            current = method[1] if method[1] in METHODS else None
+            status = method[2]
+        else:
+            status = line
+        if current is not None and status in {"ok", "FAILED", "ignored"}:
+            cases.append({"name": current, "status": {"ok": "passed", "FAILED": "failed", "ignored": "ignored"}[status]})
+            current = None
+        location = re.search(r"panicked at (src/(?:jni_path_tests|lib|path_encoding|registry)\.rs):(\d+):(\d+)", line)
+        if location and len(coordinates) < 16:
+            coordinates.append({"path": location[1], "line": int(location[2]), "column": int(location[3])})
+        error = re.search(r"Os \{ code: (\d+), kind: ([A-Za-z]+),", line)
+        if error and len(errors) < 16:
+            errors.append({"code": int(error[1]), "rust_kind": error[2]})
+    return {"actual_method_outcomes": cases, "actual_jdk17_marker_observed": JVM_MARKER in log,
+            "rust_panic_coordinates": coordinates, "native_os_error_numbers": errors,
+            "scope": "Failure triage only; no raw panic/data/environment/credentials or passing-gate substitution"}
+
+
 def review_log(log: str, host: str) -> dict:
     if len(log.encode("utf-8")) > 8 * 1024 ** 2:
         raise ValueError("Cargo/JVM diagnostic exceeds bounded reviewer input")
@@ -104,7 +130,9 @@ def main() -> int:
         log = output / "cargo.private.log"
         if log.stat().st_size > 8 * 1024 ** 2:
             raise ValueError("Cargo/JVM diagnostic exceeds bounded reviewer input")
-        result = review_log(log.read_text(encoding="utf-8"), platform.system())
+        body = log.read_text(encoding="utf-8")
+        receipt["failure_diagnostics"] = failure_details(body) if execution["exit_code"] != 0 else None
+        result = review_log(body, platform.system())
         artifact = result.pop("compiler_artifact")
         declared_executable = Path(artifact["executable"])
         executable = declared_executable.resolve(strict=True)
@@ -117,7 +145,8 @@ def main() -> int:
     except (OSError, ValueError, json.JSONDecodeError) as error:
         receipt["review_error"] = type(error).__name__ + ": " + str(error)
     library.write_json(output / "receipt.json", receipt)
-    print(json.dumps({key: receipt[key] for key in ("source_revision", "host", "execution", "passed", "scope")}, indent=2))
+    print(json.dumps({key: receipt[key] for key in ("source_revision", "host", "execution", "passed", "scope", "review_error", "failure_diagnostics")
+                      if key in receipt}, indent=2))
     return 0 if receipt["passed"] else 1
 
 

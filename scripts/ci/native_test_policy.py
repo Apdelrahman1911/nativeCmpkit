@@ -119,6 +119,39 @@ PICKER_COMPOSE_METHODS = (
 )
 PICKER_LINUX_PORTAL_METHODS = set(PICKER_COMPOSE_METHODS[3:])
 
+PICKER_PORTAL_CLASS = "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest"
+PICKER_PORTAL_SOURCE = "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeLinuxPortalFunctionalityTest.kt"
+PICKER_PORTAL_METHODS = (
+    "singleAndMultipleOpenReturnExactRealFilesWithoutChangingTheirBytes",
+    "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles",
+    "cancellingEachDialogLeavesSourcesUntouchedAndAFreshNativeSessionCanStillOpen",
+)
+
+
+def picker_portal_cases(cases: list[dict], system: str) -> tuple[list[dict], list[str]]:
+    host = canonical_host(system)
+    scenarios, errors = [], []
+    for method in PICKER_PORTAL_METHODS:
+        matching = [c for c in cases if c["classname"] == PICKER_PORTAL_CLASS and c["name"] == method + "[desktop]"]
+        scenario = {"classname": PICKER_PORTAL_CLASS, "method": method, "source": PICKER_PORTAL_SOURCE,
+                    "host": host, "required_on_host": host == "linux", "task": "desktopTest"}
+        if len(matching) != 1:
+            errors.append(f"Real GTK functionality method {method} must appear exactly once")
+            scenario["disposition"] = "missing-or-duplicate"
+        elif host != "linux":
+            if matching[0]["status"] != "skipped":
+                errors.append(f"Linux-only GTK functionality method {method} must be explicit N/A elsewhere")
+                scenario["disposition"] = "invalid-host-outcome"
+            else:
+                matching[0].update(disposition="not-applicable", not_applicable_reason="Real GTK portal scenario is Linux-only")
+                scenario["disposition"] = "not-applicable"
+        else:
+            scenario["disposition"] = "required-executed" if matching[0]["status"] == "passed" else "required-not-passed"
+            if matching[0]["status"] != "passed":
+                errors.append(f"Real GTK functionality method {method} must pass; missing UI/bus is not N/A")
+        scenarios.append(scenario)
+    return scenarios, errors
+
 
 def picker_compose_cases(cases: list[dict], system: str) -> tuple[list[dict], list[str]]:
     host = canonical_host(system)
@@ -149,7 +182,9 @@ def picker_compose_cases(cases: list[dict], system: str) -> tuple[list[dict], li
 def apply(module: str, suite: str, cases: list[dict], system: str,
           native_ui_opt_in: bool) -> tuple[list[dict], list[str]]:
     if module == "calf-file-picker" and suite == "desktop":
-        return picker_compose_cases(cases, system)
+        scenarios, errors = picker_compose_cases(cases, system)
+        portal_scenarios, portal_errors = picker_portal_cases(cases, system)
+        return scenarios + portal_scenarios, errors + portal_errors
     if suite == "ios" and module in IOS_IO_CASES:
         return ios_io_cases(module, cases, system)
     if module == "calf-webview" and suite == "desktop":

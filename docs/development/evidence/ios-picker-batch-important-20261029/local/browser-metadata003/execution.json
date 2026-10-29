@@ -1,0 +1,33 @@
+{
+  "command": [
+    "xvfb-run",
+    "-a",
+    "./gradlew",
+    ":calf-io:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.io.BrowserFileMetadataBoundaryTest",
+    ":calf-io:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.io.BrowserFileMetadataBoundaryTest",
+    "--continue",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 900,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-29T06:11:48.935475+00:00",
+  "free_bytes_before": 11757715456,
+  "exit_code": 0,
+  "elapsed_seconds": 66.01,
+  "free_bytes_after": 11711680512
+}

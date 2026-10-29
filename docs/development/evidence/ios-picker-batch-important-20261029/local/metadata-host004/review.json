@@ -1,0 +1,72 @@
+{
+  "actual_exit": 0,
+  "actual_seconds": 60.02,
+  "failure": null,
+  "fresh_library_method_executions": 6,
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "inputs_held": true,
+  "private_log_sha256": "617460af767f7a9af73687138520839f513f3099ee84852115e24ea8f41f80b4",
+  "raw_log_archived": false,
+  "release_readiness_certified": false,
+  "reports": [
+    {
+      "fresh_after_command_started": true,
+      "raw_xml_sha256": "fc2bbef00c40a838cce7c6d79fc92629f17795342ddeda10761f87ec3132beb1",
+      "sanitized_xml": "local/metadata-host004/TEST-com.mohamedrejeb.calf.io.KmpFileMetadataTest.xml",
+      "sanitized_xml_sha256": "19195003680059365d39975fa8b0c732bb416fbcae255cb5c0369419e3d8ac9a",
+      "task": ":calf-io:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileMetadataTest",
+          "name": "fromUriStringReadsBackToUriString[desktop]",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "fresh_after_command_started": true,
+      "raw_xml_sha256": "dd7f9fddaeba87799ecfb6e231211dfc95effb9d15715a3527d160788e930cd6",
+      "sanitized_xml": "local/metadata-host004/TEST-com.mohamedrejeb.calf.io.KmpFileAndroidTest.xml",
+      "sanitized_xml_sha256": "e6cb05c0cd4eff59cf38b5836d9df8017ce1be819acc8673c47b4e7c036ff3a7",
+      "task": ":calf-io:testAndroidHostTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringAcceptsAPlainPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "aContentUriHasNoFileSystemPath",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringReadsBackAContentUri",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "fromUriStringRejectsWhatIsNotAFile",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileAndroidTest",
+          "name": "aFileUriHasItsDecodedPath",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "scope": "Actual JVM filesystem URI plus Android/Robolectric Uri contract, not system SAF/provider grant/restart/physical/minimum API behavior.",
+  "selected_inputs": 851
+}

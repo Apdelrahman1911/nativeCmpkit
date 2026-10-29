@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Related native lock/build batch pending verification — 2026-10-29
+
+[Owning native batch](evidence/native-lock-batch-important-20261029/README.md):15new finite tooling methods +onechanged profile guard
+pass; actual93picker/48share conservative Cargo unions and copied offline
+unchanged/changed101/refusal/restored controls pass with859held dirty inputs.
+92unique exact public crates.io OSV queries complete withzero matches, not a
+separate direct RustSec/binary/exploit/security gate. New finite native profile
+selects5real hosts/max2jobs, both crates/two genuinely empty Cargo-home/target
+builds each, exact Rust1.98/locked/release flags, real manifest/header checks and
+graph/features/source/compiler metadata comparison. No Gradle/SDK/Java setup or
+accepted UI suite replay; JSONreports only,8GiB reserve/owned cleanup.
+**Native20builds pending, zero local native builds/tests, no new closures.**
+68closed/104open/172; #53verified closure above is preserved. BUILD-003/004/007/012
+and all real native/provider/parent/device/minimum/ABI/full-consumer/dependency/
+provenance/legal/security/release gates remain independent. Single-agent; no
+publication, release, deployment/Pages or main/history changes.
+
 ## Verified related picker/saver state subset — 2026-10-29
 
 **IO-017/#53 closed/completed immediately after all5 original criteria review**,

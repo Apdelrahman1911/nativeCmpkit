@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       profile:
-        description: Native scope; macOS recovery does not replay accepted Compose/Unicode/other-host tests
+        description: Native scope; lock reproducibility and macOS recovery do not replay accepted UI suites
         type: choice
         required: true
         default: all
-        options: [all, picker-jni-macos-domain]
+        options: [all, picker-jni-macos-domain, native-lock-reproducibility]
 permissions:
   contents: read
 concurrency:
@@ -48,6 +48,66 @@ jobs:
       - name: Share native checks
         working-directory: calf-share/native
         run: cargo test --locked
+
+  native-lock-tooling:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'native-lock-reproducibility'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Important cache/source/refusal/controller tests only; zero native runtime tests
+        run: python3 -B -m unittest discover -s scripts/ci -p test_native_lock_reproducibility.py -v
+
+  native-lock-reproducibility:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'native-lock-reproducibility'
+    needs: native-lock-tooling
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - platform: linux-x64
+            runner: ubuntu-24.04
+            python: python3
+          - platform: linux-arm64
+            runner: ubuntu-24.04-arm
+            python: python3
+          - platform: macos-arm64
+            runner: macos-26
+            python: python3
+          - platform: macos-x64
+            runner: macos-26-intel
+            python: python3
+          - platform: windows-x64
+            runner: windows-2025
+            python: python
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec
+        with:
+          toolchain: '1.98.0'
+      - name: Linux native Wayland build metadata only
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libwayland-dev pkg-config
+      - name: Two empty-cache locked builds of both crates; no accepted UI/native test replay
+        run: ${{ matrix.python }} scripts/ci/native_lock_reproducibility.py --platform ${{ matrix.platform }} --output build/ci-verification/native-lock-${{ matrix.platform }}
+      - name: Preserve JSON receipts and complete locked graphs only, including failed attempts
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: native-lock-evidence-${{ matrix.platform }}
+          retention-days: 7
+          if-no-files-found: error
+          path: build/ci-verification/native-lock-${{ matrix.platform }}/*.json
 
   picker-jni-macos-domain:
     if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch' && inputs.profile == 'picker-jni-macos-domain'

@@ -19,12 +19,12 @@ class IosSliderRecoveryFocusTests(unittest.TestCase):
         body = source.split("    private fun structuralReplacement", 1)[1].split("    private fun ComposeUiTest.cleanFailedStructuralPointer", 1)[0]
         self.assertIn("waitUntil(timeoutMillis = 5_000)", body)
         self.assertIn("observedDragging && changes > changesBeforeDrag", body)
-        self.assertIn("!observedDragging && events.filterIsInstance<DragInteraction.Cancel>()", body)
+        self.assertIn("!observedDragging && !oldOwnerDragging() && events.filterIsInstance<DragInteraction.Cancel>()", body)
         self.assertIn("assertTrue(observedDragging)", body)
         self.assertIn('assertFalse(observedDragging, "$name must clear', body)
         self.assertLess(body.index("observedDragging && changes > changesBeforeDrag"),
                         body.index('structuralPhase(renderer, axis, "dragged")'))
-        self.assertLess(body.index("!observedDragging && events.filterIsInstance<DragInteraction.Cancel>()"),
+        self.assertLess(body.index("!observedDragging && !oldOwnerDragging() && events.filterIsInstance<DragInteraction.Cancel>()"),
                         body.index('structuralPhase(renderer, axis, "stale-released")'))
         self.assertIn("if (pointerOutstanding) cleanFailedStructuralPointer", body)
 

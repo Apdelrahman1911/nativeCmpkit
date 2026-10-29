@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "7d9401687240c98a45e9956cfb6d966a7a13250097f8c72c07fc2056742d7420",
+    "docs/development/resolutions/UI-controls.json": "33bc6f6bbfcf393770205f38b6b75df4e17c47e5d4c580a0ad50291274342f0b",
     "docs/development/resolutions/UI-native.json": "2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "f8bb4271ffdb7c16de15ca5560ef682d858d85a3745c96ae84964f1753c5dd80",
+  "input_fingerprint": "15ca342dca818137a5d7e370558e7e502f20027079d858ab8b605e28222a1362",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -4670,7 +4670,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "a19eae35943c029131e7665e2b506057d5e12cf6211b38b79d0ea18e620e78b9",
+      "owner_record_sha256": "fb0870a97e51143f49ffc52eb2a2d6491d49ee3dcfa7e31dd76aabb742a61851",
       "owner_record": {
         "id": "UI-027",
         "status": "partially-verified",
@@ -4679,7 +4679,8 @@
           "Disabled changes cancel existing pointer ownership; obsolete tap animations no longer write caller state; taps are atomic and drag-local state is recreated for each gesture.",
           "Uses stock Foundation horizontal slop/handoff/consumption detection with owner finally cleanup; the attempted copied detector was removed after the test-harness no-op cancellation was discovered.",
           "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
-          "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending."
+          "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending.",
+          "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -4806,6 +4807,22 @@
             "evidence": [
               "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/review.json",
               "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/README.md"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+            "result": "FAILED immutable6f7e6414/40924885770: Gradle1/1604.0s, one fresh Unknown XML and zero completed native cases; all877 exact Git inputs. Owned external cleanup verified, final Worker/runtime/binary-after unavailable. Structural Liquid stops before axis1 observer-wait completion; failure-only real pointer cleanup verified. Synchronization candidate did not verify the fix.",
+            "evidence": [
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+            "result": "FAILED immutable6f7e6414/40924885770: Gradle1/398.39s, one fresh Unknown XML and zero completed native cases; all877 exact Git inputs. Owned external cleanup verified, final Worker/runtime/binary-after unavailable. Tap/drag/opposite-tap/exact normal finish and512ms writer assertions completed, then stops at cancellation-idle before cancellation assertions complete; no comparator fault established.",
+            "evidence": [
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
             ]
           }
         ],
@@ -24174,7 +24191,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "3ca6d8fab5be3d30b79ad6890a39f1f4f29ec25f727de859d75a077f19349f10",
+      "owner_record_sha256": "fedd713f3559e2152ccb483ad24f5d233a243a5048dc25eb843694b1e140333a",
       "owner_record": {
         "id": "UI-034",
         "status": "partially-verified",
@@ -24183,7 +24200,8 @@
           "Removed the old competing tap mutation animation/private slider gesture engine; taps no longer keep issuing callbacks after a new gesture.",
           "Input and layout reuse are internal; existing Cupertino renderer/defaults and attribution remain.",
           "2026-10-29: shared six-method actual Liquid/Cupertino acceptance batch prepared for each live enable/callback, individual geometry/density/RTL/range/steps/source replacement, tap/drag/opposite tap and exact cancellation/drag-observer/late-writer cleanup. Owning production input repair is unchanged; no new architecture or public APIs.",
-          "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending."
+          "2026-10-29: one-host shared unfinished slider recovery adds bounded actual asynchronous drag/cancel observer waits and24 finite tap-phase witnesses, preserving every original assertion,62 structural phases and300s deadlines. Two accepted enable/callback methods remain source/helper-bound and are not replayed; production/public APIs unchanged. Native verification and each original criterion remain pending.",
+          "2026-10-29: source-confirmed shared native-test observer subscription defect repaired with eager composition State.value reads and independent stable-source collectors; actual event/observer snapshots precede waits and cancellation assertions. All original gestures/assertions/deadlines retained; no production/public API change. Native candidate remains unverified."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomain.kt",
@@ -24302,6 +24320,22 @@
             "evidence": [
               "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/review.json",
               "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery007/github-ci001/ios-slider-pair-structure/README.md"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+            "result": "FAILED immutable6f7e6414/40924885770: Gradle1/1604.0s, one fresh Unknown XML and zero completed native cases; all877 exact Git inputs. Owned external cleanup verified, final Worker/runtime/binary-after unavailable. Structural Liquid stops before axis1 observer-wait completion; failure-only real pointer cleanup verified. Synchronization candidate did not verify the fix.",
+            "evidence": [
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter --tests com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+            "result": "FAILED immutable6f7e6414/40924885770: Gradle1/398.39s, one fresh Unknown XML and zero completed native cases; all877 exact Git inputs. Owned external cleanup verified, final Worker/runtime/binary-after unavailable. Tap/drag/opposite-tap/exact normal finish and512ms writer assertions completed, then stops at cancellation-idle before cancellation assertions complete; no comparator fault established.",
+            "evidence": [
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/review.json",
+              "docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md"
             ]
           }
         ],
@@ -24473,7 +24507,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "a3450ddcd0e892f9de3aa74ee5fe2bc71ff51a2336d6133c39c672837457d005",
+      "owner_record_sha256": "762ceb3439f9ecb9f0fcc32c79d905a7251752ed0cab2f443b8e459c5b7a486d",
       "owner_record": {
         "id": "UI-036",
         "status": "partially-verified",
@@ -24549,6 +24583,14 @@
             "evidence": [
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
+          },
+          {
+            "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=7EFEE255-C426-436B-A27B-3EC09FA8C9C0 :calf-ui:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest.convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+            "result": "FAILED immutable2d59cdf9/40929769700: one fresh actual native case/XML, Gradle1/1250.34s; actual app8.79s/exit0 and complete Worker/runtime/binary/install/owned cleanup, all877 exact Git inputs. Both2x original/template and actual view/layer requested-scale assertions completed; unchanged3x pixel366/channel0 source0/hierarchy11/layer0 fails. Backing-scale fixture candidate did not fix the mismatch. Isolated layer remains diagnostic; no tolerance/density/assertion relaxation or converter root-cause claim. #139 remains open.",
+            "evidence": [
+              "docs/development/evidence/native-vector-theme-batch-important-20261029/backing-scale-native-ci001/review.json",
+              "docs/development/evidence/native-vector-theme-batch-important-20261029/backing-scale-native-ci001/README.md"
             ]
           }
         ],

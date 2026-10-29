@@ -1,0 +1,164 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Native date XML must contain exactly all 2 selected application methods, no missing or unrelated cases",
+      "module": "calf-ui"
+    },
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui",
+      "path": "build/ci-verification/ios-iphone/native-ui-application/a846615501dc47bd8ec875759d1bb2f9/receipt.json"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1604.0,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-slider-pair-structure",
+  "finished_at_utc": "2026-10-29T18:26:04.913892+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "dcf70b03e5eca1c2bb0a7c243e92117287fffd2bf30a745ed8afbfe06d989203",
+  "inputs_before_sha256": "dcf70b03e5eca1c2bb0a7c243e92117287fffd2bf30a745ed8afbfe06d989203",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applica-3VQ4A8IF216Q0.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.xml",
+          "sha256": "045fc4ab8be62390870a1dd69eaf5e170cc4383dd40a18ef01a3cc35e0026078",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "5a4cf625cbc6576d6732a2004e45539f2eea7afe002b515a5da8e5575788139a",
+  "schema_version": 1,
+  "scope": "Both unfinished Liquid/Cupertino structural methods together, retaining all assertions and finite pre-assertion drag/failure-only pointer cleanup diagnostics. No accepted enable/callback or separately executed tap methods are replayed; cleanup never changes a failure into success. All genuine protocol/XML/Worker/runtime/binary/install/cleanup gates remain; no physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+  "source_revision": "6f7e641477b70e3da1cd4b261708d179a39c7c41",
+  "source_revision_after": "6f7e641477b70e3da1cd4b261708d179a39c7c41",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T17:59:20.897594+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

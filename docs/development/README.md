@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Related slider batch: shared observer subscription repaired — 2026-10-29
+
+[Actual serial slider results](evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md)
+remain failed/incomplete. Initial tap/drag/opposite-tap/writer checks completed;
+the remaining observer/cancellation failure is not evidence for a new comparator
+fault. [The smallest shared fixture repair](evidence/slider-lifecycle-batch-important-20261029/recovery010/README.md)
+eagerly observes both real stable source States during composition, preserving
+every original assertion and adding failure-visible pre-wait source snapshots.
+Current important guards/archive19/19 with878 held inputs; prior shared103pass/
+one loader error retained, five overlaps, ZERO local native executions.
+Only four unfinished methods need actual one-host replacement; two accepted
+enable/callback methods are explicitly reused, not replayed. #34/#137 remain open.
+
+[Rendering-only40929769700](evidence/native-vector-theme-batch-important-20261029/backing-scale-native-ci001/README.md)
+fails the same3x hierarchy channel with complete native lifecycle; the actual
+view/layer scale candidate did not fix it. #139 remains open; #143 remains closed.
+73closed/99open/172. Single-agent/max2 heavy requests, immediate verified-subset
+batch closure; no publishing/main/history or independent release/security changes.
+
 ## Related batch: verified theme subset closed — 2026-10-29
 
 **[#143/UI-045 CLOSED/completed](evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)** directly after original three-criteria

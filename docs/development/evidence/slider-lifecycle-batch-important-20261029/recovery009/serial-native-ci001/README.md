@@ -1,19 +1,26 @@
-# One-host independent slider recovery — pending
+# One-host independent slider recovery — both FAILED
 
 [Actions40924885770](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40924885770)
-is requested exactly once at immutable6f7e641477b70e3da1cd4b261708d179a39c7c41.
-First two structural methods, then two tap methods in an independent owned app.
-Original XML/results are retained separately; unchanged compilation, not old
-reports, is eligible for reuse. Both accepted enable/callback methods are bound
-unchanged and not replayed. All62 structural/24 tap phases and300s focused app
-deadlines remain. Preflight holds all877 exact Git inputs.
+at immutable6f7e641477b70e3da1cd4b261708d179a39c7c41 is **FAILED**.
+Both selections hold all877 exact Git inputs; original independent XML and
+owned external cleanup are preserved. Each has one fresh Unknown XML and zero
+completed native cases; both Cupertino methods never started. No final native
+Worker/runtime/binary-after certificate or inspected crash report is available.
 
-A source-prefix check failed **before POST** on the accepted ComposeUiTest import
-delta; it is preserved. Corrected preflight explicitly binds the unchanged two
-method wrappers/bodies and renderer helpers. No uncertain or repeated dispatch.
+- Structural: Gradle1/1604.0s, app301.05s/300s timeout. Liquid stops at axis1
+  before-drag, before the new bounded observer wait's positive marker; failure-only
+  real pointer cleanup requested and verified. The synchronization candidate did
+  not verify a fix; the assertion/teardown root cause remains unknown.
+- Tap: Gradle1/398.39s, app301.12s/300s timeout. Initial tap/drag, opposite taps,
+  callback counts and512ms no-late-writer assertions completed; execution stops
+  after real scene cancellation/cancellation-idle, before cancellation-verified.
+  Do not apply a speculative opposite-request comparator repair from this outcome.
 
-**Pending is not accepted**; #34/#137 remain open until actual results and their
-original requirements review. The independent #143 theme closure does not certify
-this changed source or slider batch. Single-agent/max2 combined hosted requests;
-no local heavy build below8GiB and no packages/releases/deployment/Pages/main or
-history changes. Device/profiling/ABI/consumer/dependency/security gates remain.
+Two accepted enable/callback methods were not replayed. Twelve unchanged Windows
+common-input regressions are supporting reused evidence, not fresh native results
+or whole-current-build equivalence; the failed whole-build binding is retained.
+#34/#137 remain open/partially verified. The [shared subscription repair](../../recovery010/README.md)
+keeps every original assertion and makes both real observer subscriptions eager
+inside composition; native verification is still required. Single-agent/max2 heavy
+hosted requests, no heavy local builds below8GiB. Publication/main/history and all
+independent device/profiling/minimum/ABI/consumer/dependency/security gates remain.

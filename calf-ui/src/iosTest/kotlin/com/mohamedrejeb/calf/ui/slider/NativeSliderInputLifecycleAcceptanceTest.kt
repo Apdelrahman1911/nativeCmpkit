@@ -119,12 +119,23 @@ class NativeSliderInputLifecycleAcceptanceTest {
         var source by mutableStateOf(first)
         val firstEvents = mutableListOf<Interaction>(); val secondEvents = mutableListOf<Interaction>()
         var changes = 0; var finished = 0; var observedDragging = false
+        var observedFirstDragging = false; var observedSecondDragging = false
         structuralPhase(renderer, 0, "before-content")
         setContent {
             LaunchedEffect(first) { first.interactions.collect { firstEvents += it } }
             LaunchedEffect(second) { second.interactions.collect { secondEvents += it } }
-            val dragging by source.collectIsDraggedAsState()
-            SideEffect { observedDragging = dragging }
+            // Read State.value during composition, not lazily in SideEffect:
+            // only a composition read subscribes this scope to later updates.
+            // Observe both stable sources so replacement cannot reset/shadow
+            // the old owner's real collector before its Cancel is delivered.
+            val firstDragging = first.collectIsDraggedAsState().value
+            val secondDragging = second.collectIsDraggedAsState().value
+            val dragging = if (source === first) firstDragging else secondDragging
+            SideEffect {
+                observedDragging = dragging
+                observedFirstDragging = firstDragging
+                observedSecondDragging = secondDragging
+            }
             CompositionLocalProvider(LocalDensity provides density, LocalLayoutDirection provides direction) {
                 renderer.control(value, { value = it; changes++ }, range = range, steps = steps,
                     width = widthDp, source = source, finished = { finished++ })
@@ -146,6 +157,9 @@ class NativeSliderInputLifecycleAcceptanceTest {
             runOnIdle { value = (range.start + range.endInclusive) / 2f }
             structuralPhase(renderer, axis, "reset")
             val events = if (source === first) firstEvents else secondEvents
+            val oldOwnerDragging = {
+                if (events === firstEvents) observedFirstDragging else observedSecondDragging
+            }
             val changesBeforeDrag = changes
             var pointerOutstanding = false
             try {
@@ -154,6 +168,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
                     down(center); pointerOutstanding = true; moveBy(Offset(width * .4f, 0f))
                 }
                 waitForIdle()
+                observerSnapshot(renderer, axis, "drag-wait", events, observedDragging, finished)
                 // Scene idle alone does not flush an asynchronously collected
                 // interaction and its SideEffect. Require the actual live
                 // observer; timing cannot substitute for this positive witness.
@@ -179,8 +194,9 @@ class NativeSliderInputLifecycleAcceptanceTest {
                     moveBy(Offset(-15f, 0f)); up(); pointerOutstanding = false
                 }
                 waitForIdle()
+                observerSnapshot(renderer, axis, "cancel-wait", events, oldOwnerDragging(), finished)
                 waitUntil(timeoutMillis = 5_000) {
-                    !observedDragging && events.filterIsInstance<DragInteraction.Cancel>()
+                    !observedDragging && !oldOwnerDragging() && events.filterIsInstance<DragInteraction.Cancel>()
                         .count { it.start === start } == 1
                 }
                 structuralPhase(renderer, axis, "stale-released")
@@ -189,6 +205,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
                 assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === start }, name)
                 assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === start }, name)
                 assertFalse(observedDragging, "$name must clear the actual dragged-state observer")
+                assertFalse(oldOwnerDragging(), "$name must also clear the old source's real observer")
                 structuralPhase(renderer, axis, "cancellation-verified")
                 // A discrete RTL drag can already reach range.start. Reset only after proving
                 // stale-input rejection, so the fresh tap must genuinely change current state.
@@ -248,7 +265,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
         tapPhase(renderer, "before-content")
         setContent {
             LaunchedEffect(source) { source.interactions.collect { events += it } }
-            val dragging by source.collectIsDraggedAsState()
+            val dragging = source.collectIsDraggedAsState().value
             SideEffect { observedDragging = dragging }
             renderer.control(value, { value = it; values += it }, range = -1f..1f, steps = 3,
                 source = source, finished = { finished++ })
@@ -286,6 +303,12 @@ class NativeSliderInputLifecycleAcceptanceTest {
         tapPhase(renderer, "scene-cancelled")
         waitForIdle()
         tapPhase(renderer, "cancellation-idle")
+        observerSnapshot(renderer, 0, "cancel-wait", events, observedDragging, finished)
+        waitUntil(timeoutMillis = 5_000) {
+            val latest = events.filterIsInstance<DragInteraction.Start>().lastOrNull()
+            latest != null && !observedDragging &&
+                events.filterIsInstance<DragInteraction.Cancel>().count { it.start === latest } == 1
+        }
         val cancelled = events.filterIsInstance<DragInteraction.Start>().last()
         assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === cancelled })
         assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === cancelled })
@@ -306,6 +329,19 @@ class NativeSliderInputLifecycleAcceptanceTest {
         waitForIdle()
         assertEquals(-.5f, value); assertEquals(5, finished)
         tapPhase(renderer, "complete")
+    }
+
+    // Failure diagnostics only: actual source events and the composition's
+    // real State subscriber, before any bounded wait/assertion can interrupt
+    // teardown. No value here substitutes for the original assertions.
+    private fun observerSnapshot(renderer: Renderer, axis: Int, phase: String,
+                                 events: List<Interaction>, observed: Boolean, finished: Int) {
+        val starts = events.filterIsInstance<DragInteraction.Start>()
+        val latest = starts.lastOrNull()
+        val cancelled = events.filterIsInstance<DragInteraction.Cancel>().count { it.start === latest }
+        val stopped = events.filterIsInstance<DragInteraction.Stop>().count { it.start === latest }
+        println("NATIVECMPKIT_SLIDER_OBSERVER renderer=${renderer.name} axis=$axis phase=$phase " +
+            "starts=${starts.size} cancelled=$cancelled stopped=$stopped observed=$observed finished=$finished")
     }
 
     private fun tapPhase(renderer: Renderer, phase: String) {

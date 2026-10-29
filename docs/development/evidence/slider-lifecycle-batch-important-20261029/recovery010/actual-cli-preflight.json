@@ -1,0 +1,63 @@
+{
+  "actual_matrix_CLI_command": [
+    "/usr/bin/python3",
+    "-B",
+    "scripts/ci/workflow_matrix.py",
+    "ios-slider-recovery"
+  ],
+  "actual_matrix_CLI_exit_code": 0,
+  "caller_error_not_a_source_or_native_failure": true,
+  "initial_wrong_arguments": [
+    "--profile",
+    "ios-slider-recovery",
+    "--preflight"
+  ],
+  "initial_wrong_caller_arguments_exit_code": 2,
+  "plan_CLIs": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "ios-slider-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-slider-pair-structure"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-slider-tap-cancellation"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      }
+    ],
+    "source_only": true
+  },
+  "profile": "ios-slider-recovery",
+  "source_held_current878": true
+}

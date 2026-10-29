@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared slider subscriber repair; actual rendering failure retained — 2026-10-29
+
+[Slider40924885770](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery009/serial-native-ci001/README.md)
+FAILED twice: structural Gradle1/1604s and tap1/398.39s; each actual300s app timeout,
+one fresh Unknown XML/zero completed methods/all877 Git inputs and owned external
+cleanup. Tap/opposite-tap/512ms normal-writer assertions completed; do not invent
+a comparator fault. [Owning fixture repair](docs/development/evidence/slider-lifecycle-batch-important-20261029/recovery010/README.md)
+reads real State.value during composition, not a deferred delegate only inside
+SideEffect; both stable source collectors remain observable after replacement.
+Finite pre-wait event/observer diagnostics retain all original assertions/actions/
+62structure/24tap phases/300s deadlines. Native candidate unverified; no production
+or public API change. Shared104 includes103pass/one wrong module-loader error;
+correct archive13/current guards6 pass19/19/all878 held. Five overlap;117distinct
+successful synthetic methods across those runs, ZERO local KLIB/link/native tests.
+Reuse two accepted enable methods; only four unfinished native methods need CI.
+[Rendering40929769700](docs/development/evidence/native-vector-theme-batch-important-20261029/backing-scale-native-ci001/README.md)
+FAILED1/1/Gradle1/1250.34s, app8.79s/exit0/all877 exact Git/full native lifecycle.
+Actual view/layer scales completed; same3x pixel366 source0/hierarchy11/layer0
+fails. Scale candidate did not fix it; no converter/root/screen-resampling claim,
+layer fallback or tolerance/density relaxation. #34/#137/#139 stay open; #143's
+closure is retained.73closed/99open/172,39implemented/47partial/71verified/seven
+unresolved. Single-agent/max2 combined heavy requests; below8GiB no local builds.
+Publishing/Pages/main/history and all independent release/security gates stay.
+
 ## Immediate verified subset closure; rendering-only recovery — 2026-10-29
 
 **[#143/UI-045 CLOSED/completed](docs/development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)**

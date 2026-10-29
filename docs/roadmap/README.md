@@ -204,6 +204,13 @@ contacts/OTP product scope, busy-dialog examples, file preview and remaining bar
 styling. Maps/media/notification scheduling are not implemented features; require
 a product/capability decision rather than promoting empty modules.
 
+Keep [upstream maps #27](https://github.com/MohamedRejeb/Calf/issues/27) and
+[upstream media #245](https://github.com/MohamedRejeb/Calf/issues/245) as explicit
+feature-roadmap references, **not resolved feature implementations**. Enabling
+any excluded experiment requires fresh Gradle configuration, an implemented API contract,
+platform privacy/provider setup and native device tests before support or
+publication is claimed. Notification *permissions* do not implement scheduling.
+
 Before any XL ownership/navigation redesign, write a new ADR with alternatives,
 source-compatible migration, binary/resource/JNI implications, error/lifecycle
 contracts and platform acceptance matrices. The audit intentionally did not begin

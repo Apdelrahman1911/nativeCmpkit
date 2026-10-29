@@ -2,6 +2,7 @@
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
 import java.io.File
+import io.github.apdelrahman1911.nativecmpkit.buildlogic.PublicationVersionPolicy
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
@@ -22,6 +23,9 @@ plugins {
     alias(libs.plugins.composeCompiler).apply(false)
     alias(libs.plugins.composeMultiplatform).apply(false)
     alias(libs.plugins.vanniktech.maven.publish).apply(false)
+    // Resolve the existing convention classpath without applying its publisher.
+    // The root and executable convention tests share one version policy.
+    id("module.publication").apply(false)
 }
 
 // JS and Wasm have separate KGP environments and lock stores. These exact
@@ -49,10 +53,7 @@ plugins.withType<WasmYarnPlugin> {
 
 val nativeCmpkitVersion = providers.gradleProperty("nativeCmpkit.version")
     .orElse("${libs.versions.nativecmpkit.get()}-SNAPSHOT")
-require(Regex("(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?")
-    .matches(nativeCmpkitVersion.get())) {
-    "Invalid nativeCmpkit.version; expected major.minor.patch[-prerelease] without shell/path metacharacters."
-}
+PublicationVersionPolicy.validate(nativeCmpkitVersion.get())
 
 val verificationMode = providers.gradleProperty("nativecmpkitVerification").orElse("false")
 require(verificationMode.get() in setOf("true", "false")) { "nativecmpkitVerification must be true or false" }

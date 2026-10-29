@@ -797,7 +797,7 @@
   },
   {
     "id": "BUILD-012",
-    "status": "implemented",
+    "status": "partially-verified",
     "changes": [
       "Picker owner upgraded/pinned rfd0.17.2; resulting lock no longer contains prior ashpd/zbus/zvariant chain."
     ],
@@ -805,9 +805,19 @@
       "calf-file-picker/native/Cargo.toml",
       "calf-file-picker/native/Cargo.lock"
     ],
-    "tests": [],
+    "tests": [
+      {
+        "command": "cargo-audit0.22.2 audit --file <each committed native Cargo.lock> --db <Git-bound RustSec40f5be6f> --no-fetch --deny warnings --json",
+        "result": "Two actual scans exit0:93picker/48share complete unions, zero vulnerabilities and warnings; no ignore/target/severity/stale filters, informational warnings included.5native inputs held and Git-bound to67539481; all1381loaded advisory markdowns (1361crate +20Rust-toolchain) match exact Git tree. Tool JSON commit/time fieldsnull; independent Git binding is explicit. Initial archive-review crate-only count assumption is preserved/corrected without replaying successful scans. Exact source install=0.22.2/--locked/Rust1.98 exit0/383.1s is compilation, not NativeCmpKit runtime testing. #147 remainsopen; functionality/security/release criteria are not promoted.",
+        "evidence": [
+          "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/actual-scan-review.json",
+          "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/database-and-tool.json"
+        ]
+      }
+    ],
     "remaining": [
-      "Repeat complete locked-graph advisories and real Linux portal/GTK/cancel/file/folder/multiple selection checks."
+      "Actual portal file open/save/folder/multiple selection and cancellation on Linux, supported desktop/session-bus environments and complete native functionality remain unverified by direct advisory scans or configuration-only JNI tests.",
+      "The dated complete native OSV/RustSec checks do not establish ordinary Gradle dependency trust, binary provenance, license/legal, minimum-platform, full packaged consumer/ABI, security or release readiness."
     ],
     "compatibility": "Old advisories were informational unmaintained warnings, not established exploits; runtime correctness not inferred from dependency removal."
   }

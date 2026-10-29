@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Direct native advisory checks; functionality remains open — 2026-10-29
+
+[Actual direct RustSec scans](docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/README.md)
+run both committed lockfile unions93/48 through exact source-installed
+cargo-audit0.22.2/locked/Rust1.98: two exit0 scans, zero vulnerabilities/warnings,
+no ignores/target/severity/stale filters; informational warnings included.
+All5 native inputs held/exact67539481 Git; clean DB40f5be6f with1381 loaded
+advisories1361crate+20Rust-toolchain independently byte-bound to Git. ToolJSON
+commit/time fields areNULL under no-fetch, not invented. Initial archive-review
+crate-only count error is preserved/corrected; accepted scans are not replayed.
+Tool installation0/383.1s is ZERO NativeCmpKit runtime tests. BUILD-012/#147 is
+partially verified, **stillOPEN** with a read-back progress comment: portal open/
+save/folder/multiple/cancellation/bus and independent dependency/provenance/consumer/
+ABI/license/security/release gates remain. No new closure from these scans.
+39implemented/51partial/67verified/seven unresolved;69closed/103open/172.
+Eight-method iOS state40854890326/58b53354 remains running. Single-agent;
+no publishing/release/deployment/Pages or main/history changes.
+
 ## Native lock/build verified subset closed — 2026-10-29
 
 **BUILD-005/#39 CLOSED/completed** immediately after all3 original criteria review.

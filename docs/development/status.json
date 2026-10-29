@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "03f5b21937a141498f45bf8b483b8b296334280a4eef9a676a392b110bce70ce",
+    "docs/development/resolutions/BUILD.json": "c6b9117e7758875e735cb1b3b32f79c3954cf4b554e72e98f0ba4b9d495cfaed",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
     "docs/development/resolutions/NAV.json": "323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e",
@@ -54,15 +54,15 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "536e36a1d53066a1d2edb952cf88f370912db5833177c6c2fe53ed1970af764e",
+  "input_fingerprint": "33404d205b4bc7a9a68ddfa50c935d7382063b3366e78af0aa79bc35e307d4d0",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 40,
-      "partially-verified": 50,
+      "implemented": 39,
+      "partially-verified": 51,
       "verified": 67,
       "unresolved": 7,
       "not-applicable": 0
@@ -9128,12 +9128,12 @@
         "mapping_key": "audit:BUILD-012",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "43d254ec182bc14b0123413f7d30c9e96f104fbb345b617bbe4edc17c28b1ac9",
+      "owner_record_sha256": "5cff440024126879fadf204dfe6a93d86a4771509e067eae49a74d01aab99b2d",
       "owner_record": {
         "id": "BUILD-012",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Picker owner upgraded/pinned rfd0.17.2; resulting lock no longer contains prior ashpd/zbus/zvariant chain."
         ],
@@ -9141,9 +9141,19 @@
           "calf-file-picker/native/Cargo.toml",
           "calf-file-picker/native/Cargo.lock"
         ],
-        "tests": [],
+        "tests": [
+          {
+            "command": "cargo-audit0.22.2 audit --file <each committed native Cargo.lock> --db <Git-bound RustSec40f5be6f> --no-fetch --deny warnings --json",
+            "result": "Two actual scans exit0:93picker/48share complete unions, zero vulnerabilities and warnings; no ignore/target/severity/stale filters, informational warnings included.5native inputs held and Git-bound to67539481; all1381loaded advisory markdowns (1361crate +20Rust-toolchain) match exact Git tree. Tool JSON commit/time fieldsnull; independent Git binding is explicit. Initial archive-review crate-only count assumption is preserved/corrected without replaying successful scans. Exact source install=0.22.2/--locked/Rust1.98 exit0/383.1s is compilation, not NativeCmpKit runtime testing. #147 remainsopen; functionality/security/release criteria are not promoted.",
+            "evidence": [
+              "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/actual-scan-review.json",
+              "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/database-and-tool.json"
+            ]
+          }
+        ],
         "remaining": [
-          "Repeat complete locked-graph advisories and real Linux portal/GTK/cancel/file/folder/multiple selection checks."
+          "Actual portal file open/save/folder/multiple selection and cancellation on Linux, supported desktop/session-bus environments and complete native functionality remain unverified by direct advisory scans or configuration-only JNI tests.",
+          "The dated complete native OSV/RustSec checks do not establish ordinary Gradle dependency trust, binary provenance, license/legal, minimum-platform, full packaged consumer/ABI, security or release readiness."
         ],
         "compatibility": "Old advisories were informational unmaintained warnings, not established exploits; runtime correctness not inferred from dependency removal."
       },

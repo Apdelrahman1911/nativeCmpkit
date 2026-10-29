@@ -548,6 +548,26 @@ for _focus, _methods, _scope in (
         "scope": _scope + " All genuine protocol/XML/Worker/runtime/binary/install/cleanup gates remain; no physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
     }
 
+IOS_VECTOR_THEME_FOCUS = "ios-native-vector-theme-ownership"
+IOS_VECTOR_THEME_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt"
+IOS_VECTOR_THEME_CLASS = "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest"
+IOS_VECTOR_THEME_METHODS = (
+    "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+    "attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner",
+    "transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme",
+    "realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership",
+    "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_VECTOR_THEME_FOCUS] = {
+    "groups": ({"classname": IOS_VECTOR_THEME_CLASS, "source": IOS_VECTOR_THEME_SOURCE,
+                "methods": IOS_VECTOR_THEME_METHODS},),
+    "scope": "Five new actual UIImageView template/original raster, attached sibling, Compose/native sheet/popover and real restoring CoreSimulator system-appearance methods. Unchanged accepted vector/UIImage/GC/theme/host suites are explicitly reused, not replayed. iPad slot exercises a real popover; an iPhone adaptation is not iPad evidence. No physical Settings/VoiceOver/ASan/Instruments/minimum-platform/ABI/consumer/security/release certification.",
+}
+# Full applications must retain the new real system-appearance acceptance case.
+IOS_APPLICATION_SOURCES += (IOS_VECTOR_THEME_SOURCE,)
+IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
+IOS_APPLICATION_CASES += (("utils.NativeVectorThemeAcceptanceTest", IOS_VECTOR_THEME_METHODS[-1]),)
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
@@ -2066,6 +2086,16 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                  observation.get("last_iteration") is None and observation.get("main_thread") is True and
                  observation.get("retained_image_bytes_verified") is True,
                  "Passing image-lifetime case lacks complete finite actual main-thread diagnostics")
+        if cases.get(app.SYSTEM_APPEARANCE_CASE) == "passed":
+            import simulator_appearance
+            observations = protocol.get("system_appearance_observations")
+            need(isinstance(observations, list) and
+                 all(isinstance(row, dict) and set(row) == {"phase", "step", "style"} and
+                     type(row.get("step")) is int for row in observations) and
+                 tuple((row["phase"], row["step"], row["style"]) for row in observations) == app.SYSTEM_APPEARANCE_STEPS,
+                 "Passing system appearance lacks both actual native requested/verified changes")
+            need(simulator_appearance.validate_receipt(document.get("system_appearance_driver"), context["simulator"]["udid"]),
+                 "Passing system appearance lacks actual simctl changes/readback/original restoration")
         if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS:
             observation = protocol.get("compact_appearance_observation")
             fields = {"background_matches", "tint_matches", "attached", "enabled", "rtl", "dark", "main_thread"}

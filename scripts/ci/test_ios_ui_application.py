@@ -220,6 +220,7 @@ class OwnedApplicationTests(unittest.TestCase):
         self.commands = []
         self.expected_timeout = a.APP_TIMEOUT_SECONDS
         self.observed_timeouts = []
+        self.system_appearance = "light"
         self.before = {"source_revision": "a" * 40, "source_tree_dirty": False,
                        "simulator": {"udid": DEVICE, "state": "Booted", "runtime_version": "26.0"}}
         for obj, name, value in [(a.lt, "ROOT", self.root), (a.platform, "system", lambda: "Darwin"),
@@ -231,6 +232,14 @@ class OwnedApplicationTests(unittest.TestCase):
 
     def control(self, argv, timeout=90):
         self.commands.append(argv)
+        if len(argv) >= 5 and argv[:3] == ["/usr/bin/xcrun", "simctl", "ui"]:
+            self.assertEqual(DEVICE, argv[3])
+            self.assertEqual("appearance", argv[4])
+            self.assertEqual(30, timeout)
+            if len(argv) == 6:
+                self.system_appearance = argv[5]
+                return subprocess.CompletedProcess(argv, 0, b"", b"")
+            return subprocess.CompletedProcess(argv, 0, self.system_appearance.encode(), b"")
         if "get_app_container" in argv:
             if self.installed.exists(): return subprocess.CompletedProcess(argv, 0, str(self.installed).encode(), b"")
             return subprocess.CompletedProcess(argv, 2, b"", b"An error (domain=NSPOSIXErrorDomain, code=2): No such file or directory")

@@ -90,6 +90,7 @@ PROFILES = {
     "ios-slider-lifecycle": ("ios-iphone",),
     "ios-slider-remaining": ("ios-iphone",),
     "ios-slider-structure": ("ios-iphone",),
+    "ios-vector-theme": ("ios-ipad",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -200,6 +201,7 @@ MODULE_SUBSETS = {
     "ios-slider-lifecycle": "calf-ui",
     "ios-slider-remaining": "calf-ui",
     "ios-slider-structure": "calf-ui",
+    "ios-vector-theme": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
@@ -298,6 +300,9 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-input-remaining" if profile == "ios-slider-remaining" else
                                  "ios-native-slider-structure-diagnostic")
+    if profile == "ios-vector-theme":
+        for row in rows:
+            row["test-focus"] = "ios-native-vector-theme-ownership"
     if profile in {"browser-coil-io", "browser-coil-io-js", "browser-coil-io-wasm"}:
         for row in rows:
             row["test-focus"] = "browser-file-read-coil"

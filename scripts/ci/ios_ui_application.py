@@ -31,6 +31,7 @@ import uuid
 import apple_crash_diagnostics as crashes
 import library_tests as lt
 import runtime_context as runtime
+import simulator_appearance
 
 TASK = ":calf-ui:iosSimulatorArm64ApplicationTest"
 HOST_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
@@ -56,6 +57,7 @@ def application_timeout_seconds(focus: str | None) -> int:
         raise ValueError("Unknown finite application focus")
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
+        lt.IOS_VECTOR_THEME_FOCUS,
     ) else APP_TIMEOUT_SECONDS)
 
 
@@ -69,6 +71,9 @@ SLIDER_STRUCTURAL_STEPS = (
         "before-reset", "reset", "before-drag", "dragged", "before-replace", "replaced",
         "stale-released", "cancellation-verified", "fresh-reset", "fresh-input-verified"))
 )
+SYSTEM_APPEARANCE_CASE = (lt.IOS_VECTOR_THEME_CLASS, lt.IOS_VECTOR_THEME_METHODS[-1])
+SYSTEM_APPEARANCE_STEPS = tuple(
+    (phase, step, style) for step, style in simulator_appearance.REQUESTS for phase in ("request", "verified"))
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
 DATE_BOUNDS_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_BOUNDS_CLASS
 DATE_REPLACEMENT_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_REPLACEMENT_CLASS
@@ -228,6 +233,8 @@ class NativeProtocol:
         self.picker_admission_observations = []
         self.picker_host_observations = []
         self.slider_structural_observations = {}
+        self.system_appearance_observations = []
+        self.system_appearance_request = None
 
     def feed(self, line: str):
         self.stream_bytes += len((line + "\n").encode())
@@ -246,6 +253,21 @@ class NativeProtocol:
             # This is a bounded console witness, not a trusted-OS attestation.
             self.observed_launch_pid = int(launch[1])
             return
+        appearance = re.fullmatch(
+            r"NATIVECMPKIT_SYSTEM_APPEARANCE phase=(request|verified) step=([12]) style=(light|dark)", line)
+        if appearance:
+            if self.active is None or self.completed is not None or self.open_case != SYSTEM_APPEARANCE_CASE:
+                raise ValueError("System appearance marker outside its exact active native testcase")
+            index = len(self.system_appearance_observations)
+            actual = (appearance[1], int(appearance[2]), appearance[3])
+            if index >= len(SYSTEM_APPEARANCE_STEPS) or actual != SYSTEM_APPEARANCE_STEPS[index]:
+                raise ValueError("Missing, repeated or reordered actual system appearance marker")
+            self.system_appearance_observations.append({"phase": actual[0], "step": actual[1], "style": actual[2]})
+            if actual[0] == "request" and self.system_appearance_request is not None:
+                self.system_appearance_request(actual[1], actual[2])
+            return
+        if line.startswith("NATIVECMPKIT_SYSTEM_APPEARANCE"):
+            raise ValueError("Unknown or malformed actual system appearance marker")
         compact = re.fullmatch(
             r"NATIVECMPKIT_COMPACT_APPEARANCE phase=([a-z-]+) backgroundMatches=(true|false) "
             r"tintMatches=(true|false) attached=(true|false) enabled=(true|false) rtl=(true|false) "
@@ -424,6 +446,8 @@ class NativeProtocol:
                     for renderer, key in SLIDER_STRUCTURAL_CASES.items():
                         if self.open_case == key and len(self.slider_structural_observations.get(renderer, [])) != len(SLIDER_STRUCTURAL_STEPS):
                             raise ValueError("A passing slider structural case needs all six actual axis sequences")
+                    if self.open_case == SYSTEM_APPEARANCE_CASE and len(self.system_appearance_observations) != len(SYSTEM_APPEARANCE_STEPS):
+                        raise ValueError("A passing system appearance case needs both actual requested/verified transitions")
                     case["status"] = "passed"
                 case["finished"] = True
                 self.open_case = None
@@ -455,6 +479,8 @@ class NativeProtocol:
                    if self.picker_host_observations else {}),
                 **({"slider_structural_observations": self.slider_structural_observations}
                    if self.slider_structural_observations else {}),
+                **({"system_appearance_observations": self.system_appearance_observations}
+                   if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
@@ -485,6 +511,8 @@ class NativeProtocol:
                    if self.picker_host_observations else {}),
                 **({"slider_structural_observations": self.slider_structural_observations}
                    if self.slider_structural_observations else {}),
+                **({"system_appearance_observations": self.system_appearance_observations}
+                   if self.system_appearance_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
@@ -675,6 +703,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
     installed = False
     phase = "runtime-preflight"
     protocol = NativeProtocol()
+    appearance_driver = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt.update(source_revision=before["source_revision"], source_tree_dirty=before["source_tree_dirty"], runtime_before=before)
@@ -716,10 +745,22 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
+        if host["module"] == "calf-ui" and focus in (None, lt.IOS_VECTOR_THEME_FOCUS):
+            phase = "prepare-owned-simulator-system-appearance"
+            appearance_driver = simulator_appearance.AppearanceDriver(device, execute_control)
+            appearance_driver.start()
+            protocol.system_appearance_request = appearance_driver.request
         phase = "launch-and-real-test-transport"
         receipt["application_protocol"] = forward_application(
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
             protocol, timeout=application_timeout_seconds(focus))
+        if appearance_driver is not None:
+            phase = "restore-owned-simulator-system-appearance"
+            appearance_driver.restore()
+            if any((c["classname"], c["name"]) == SYSTEM_APPEARANCE_CASE and c["status"] == "passed"
+                   for c in receipt["application_protocol"]["testcases"]):
+                if not simulator_appearance.validate_receipt(appearance_driver.receipt, device):
+                    raise ValueError("Passing native system appearance lacks actual control/readback/restoration evidence")
         phase = "post-runtime-and-binary"
         after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt["runtime_after"] = after
@@ -731,6 +772,13 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if appearance_driver is not None:
+            try:
+                appearance_driver.restore()
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                appearance_driver.receipt["error_type"] = type(error).__name__
+                receipt["transport_passed"] = False
+            receipt["system_appearance_driver"] = appearance_driver.receipt
         if protocol.transport_observation is not None:
             receipt["application_transport"] = protocol.transport_observation
         if not receipt["transport_passed"] and phase == "launch-and-real-test-transport":

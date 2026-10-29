@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the sixteen required native cases.
+still required. This suite is not substituted for the seventeen required native cases.
 """
 from collections import Counter
 import copy
@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import struct
+import subprocess
 import tempfile
 import time
 import unittest
@@ -19,6 +20,7 @@ from unittest.mock import patch
 
 import library_tests as r
 import ios_ui_application as a
+import simulator_appearance
 from test_daemon_jvm import FIXTURE as SYNTHETIC_DAEMON
 
 DEVICE = "11111111-1111-1111-1111-111111111111"
@@ -44,7 +46,25 @@ REQUIRED = (
     ("dialog.RememberNativeAlertPropertiesTest", "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller"),
     ("navigation.NativeBarOwnershipTest", "emptyTabsClearSelectionAndRepopulationClampsIndex"),
     ("navigation.NativeBarOwnershipTest", "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"),
+    ("utils.NativeVectorThemeAcceptanceTest", "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated"),
 )
+
+
+def synthetic_appearance_receipt(device=DEVICE):
+    """Run the actual Python driver against a fake stateful boundary, never simctl."""
+    actual = "light"
+    def control(command, timeout):
+        nonlocal actual
+        if len(command) == 6:
+            actual = command[-1]
+            return subprocess.CompletedProcess(command, 0, b"", b"")
+        return subprocess.CompletedProcess(command, 0, actual.encode(), b"")
+    driver = simulator_appearance.AppearanceDriver(device, control)
+    driver.start()
+    for step, style in simulator_appearance.REQUESTS:
+        driver.request(step, style)
+    driver.restore()
+    return driver.receipt
 
 
 class IosApplicationReceipts(unittest.TestCase):
@@ -92,6 +112,7 @@ class IosApplicationReceipts(unittest.TestCase):
             "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" + "a" * 12 + ".t" + TOKEN,
             "signed_application_executable_sha256": "c" * 64, "application_plist_sha256": "d" * 64,
             "packages_published": False, "release_readiness_certified": False,
+            "system_appearance_driver": synthetic_appearance_receipt(),
             "steps": {
                 "foreign-app-preflight": {"exit_code": 2, "preexisting_app_absence_verified": True},
                 "adhoc-sign-local-verification-app": {"exit_code": 0, "remote_signing_or_publication": False},
@@ -105,7 +126,9 @@ class IosApplicationReceipts(unittest.TestCase):
                 "completion": {"runner_exit": 0, "worker_terminated": True},
                 "testcases": copy.deepcopy(self.cases), "counts": r.case_counts(self.cases), "stream_bytes": 100,
                 "image_lifetime_observation": {"marker_count": 63, "last_phase": "verified", "last_iteration": None,
-                    "main_thread": True, "retained_image_bytes_verified": True}}}
+                    "main_thread": True, "retained_image_bytes_verified": True},
+                "system_appearance_observations": [{"phase": phase, "step": step, "style": style}
+                    for phase, step, style in a.SYSTEM_APPEARANCE_STEPS]}}
         self.modules = [{"module": "calf-ui", "task": TASK, "testcases": self.xml_cases(self.cases)}]
         self.save()
 
@@ -132,8 +155,8 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(16, app["counts"]["executed"])
-        self.assertEqual(16, app["required_native_cases_found"])
+        self.assertEqual(17, app["counts"]["executed"])
+        self.assertEqual(17, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
 
     def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):

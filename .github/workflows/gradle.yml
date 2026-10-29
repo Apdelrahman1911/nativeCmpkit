@@ -168,6 +168,19 @@ jobs:
             ~/.cargo/registry/cache
             ~/.cargo/registry/index
             ~/.konan/dependencies
+      - name: Discover Apple allocation tools on this existing host, not library passes
+        if: runner.os == 'macOS' && matrix.build_only
+        env:
+          SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: python3 scripts/ci/apple_memory_discovery.py --simulator "$SIMULATOR"
+      - name: Keep allocation-tool discovery metadata early, never private traces or binaries
+        if: always() && runner.os == 'macOS' && matrix.build_only
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: apple-allocation-tool-discovery
+          if-no-files-found: warn
+          retention-days: 7
+          path: build/ci-verification/apple-memory-discovery/discovery.json
       - name: Shared sample app builds and fresh unaccepted platform cases, not library evidence
         env:
           SIMULATOR: ${{ steps.runtime.outputs.device }}

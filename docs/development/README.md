@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Shared image-memory diagnostics batch prepared — 2026-10-29
+
+[Owning discovery tools](evidence/image-memory-batch-important-20261029/discovery-tools001/README.md) pass108/108 synthetic methods/all962held, with
+first9/five fixture errors retained; overlap prior84, ZERO new native/library
+executions. Bounded owned macOS HOST C allocation probe runs on the existing Apple
+app-build-only host; NOT UIKit/iOS/GC/ASan or leak certification. Only safe
+metadata/hashes survive; unsupported is explicit. #140/#141 remain open pending
+actual original diagnostic/profile criteria; nine accepted UIImage cases are not
+replayed. Apple40967168162 has finished FAILED; independently review actual XML
+then recover missing app builds only. Linux40971665663 is separately running.
+Single-agent/max2 heavy requests/8GiB reserve; no publishing/Pages/main/history or
+independent release/security gate change.
+
 ## Shared sample collector fixed; recover builds without replay — 2026-10-29
 
 [Linux original XML/postmortem](evidence/sample-data-safety-batch-important-20261029/platform-linux-ci002/README.md)

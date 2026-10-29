@@ -1,0 +1,131 @@
+test_actual_command_failure_is_explicit_unverified_and_is_not_retried (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_actual_command_failure_is_explicit_unverified_and_is_not_retried) ... ERROR
+test_owning_pipeline_uses_safe_xml_and_reports_no_native_or_library_pass (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_owning_pipeline_uses_safe_xml_and_reports_no_native_or_library_pass) ... ERROR
+test_private_tree_symlink_is_not_followed_or_removed (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_private_tree_symlink_is_not_followed_or_removed) ... ok
+test_schema_bound_and_xpath_identity_reject_unreviewed_or_unbounded_tables (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_schema_bound_and_xpath_identity_reject_unreviewed_or_unbounded_tables) ... ok
+test_source_change_is_retained_as_failure_not_a_clean_support_claim (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_source_change_is_retained_as_failure_not_a_clean_support_claim) ... ERROR
+test_workflow_reuses_the_apple_sample_host_and_exports_only_discovery_json_early (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_workflow_reuses_the_apple_sample_host_and_exports_only_discovery_json_early) ... ERROR
+test_wrong_host_capacity_device_or_existing_output_never_launches_a_tool (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_wrong_host_capacity_device_or_existing_output_never_launches_a_tool) ... ok
+test_xml_entities_aliases_and_size_fail_before_any_private_value_export (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_xml_entities_aliases_and_size_fail_before_any_private_value_export) ... ok
+test_zero_or_unrelated_rows_cannot_be_tool_support_or_memory_evidence (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_zero_or_unrelated_rows_cannot_be_tool_support_or_memory_evidence) ... ERROR
+
+======================================================================
+ERROR: test_actual_command_failure_is_explicit_unverified_and_is_not_retried (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_actual_command_failure_is_explicit_unverified_and_is_not_retried)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 69, in test_actual_command_failure_is_explicit_unverified_and_is_not_retried
+    receipt = self.discover(failure)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 45, in discover
+    return d.discover(self.root, DEVICE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/apple_memory_discovery.py", line 125, in discover
+    before = lt.snapshot_inputs(root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1479, in snapshot_inputs
+    for module in projects(root):
+                  ^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 975, in projects
+    settings = safe_path(root, "settings.gradle.kts").read_text(encoding="utf-8")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmps36lwasa/settings.gradle.kts'
+
+======================================================================
+ERROR: test_owning_pipeline_uses_safe_xml_and_reports_no_native_or_library_pass (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_owning_pipeline_uses_safe_xml_and_reports_no_native_or_library_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 48, in test_owning_pipeline_uses_safe_xml_and_reports_no_native_or_library_pass
+    receipt = self.discover()
+              ^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 45, in discover
+    return d.discover(self.root, DEVICE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/apple_memory_discovery.py", line 125, in discover
+    before = lt.snapshot_inputs(root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1479, in snapshot_inputs
+    for module in projects(root):
+                  ^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 975, in projects
+    settings = safe_path(root, "settings.gradle.kts").read_text(encoding="utf-8")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpsbhsvsdq/settings.gradle.kts'
+
+======================================================================
+ERROR: test_source_change_is_retained_as_failure_not_a_clean_support_claim (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_source_change_is_retained_as_failure_not_a_clean_support_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 128, in test_source_change_is_retained_as_failure_not_a_clean_support_claim
+    receipt = self.discover(execute)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 45, in discover
+    return d.discover(self.root, DEVICE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/apple_memory_discovery.py", line 125, in discover
+    before = lt.snapshot_inputs(root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1479, in snapshot_inputs
+    for module in projects(root):
+                  ^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 975, in projects
+    settings = safe_path(root, "settings.gradle.kts").read_text(encoding="utf-8")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpq2k_m93s/settings.gradle.kts'
+
+======================================================================
+ERROR: test_workflow_reuses_the_apple_sample_host_and_exports_only_discovery_json_early (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_workflow_reuses_the_apple_sample_host_and_exports_only_discovery_json_early)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 145, in test_workflow_reuses_the_apple_sample_host_and_exports_only_discovery_json_early
+    discovery = job.split("- name: Discover Apple allocation tools", 1)[1].split("- name: Shared sample app builds", 1)[0]
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_zero_or_unrelated_rows_cannot_be_tool_support_or_memory_evidence (test_apple_memory_discovery.AppleMemoryDiscoveryTests.test_zero_or_unrelated_rows_cannot_be_tool_support_or_memory_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 119, in test_zero_or_unrelated_rows_cannot_be_tool_support_or_memory_evidence
+    receipt = self.discover(execute)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_apple_memory_discovery.py", line 45, in discover
+    return d.discover(self.root, DEVICE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/apple_memory_discovery.py", line 125, in discover
+    before = lt.snapshot_inputs(root)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 1479, in snapshot_inputs
+    for module in projects(root):
+                  ^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/library_tests.py", line 975, in projects
+    settings = safe_path(root, "settings.gradle.kts").read_text(encoding="utf-8")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/tmpklf3v46h/settings.gradle.kts'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.023s
+
+FAILED (errors=5)

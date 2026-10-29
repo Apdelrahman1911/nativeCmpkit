@@ -512,6 +512,8 @@ def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
 
 
 WEBVIEW_LIFETIME_FOCUS = "webview-native-lifetime"
+WEBVIEW_MEDIA_FOCUS = "webview-native-media"
+WEBVIEW_LIFETIME_FOCUSES = {WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS}
 WEBVIEW_LIFETIME_MODULE = "calf-webview"
 WEBVIEW_DEVICE_FIXTURES = (
     "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
@@ -550,18 +552,28 @@ WEBVIEW_LIFETIME_SPECS = {
 }
 
 
-def webview_lifetime_identities(suite: str) -> list[dict]:
+def webview_lifetime_groups(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> tuple[dict, ...]:
+    if focus == WEBVIEW_LIFETIME_FOCUS:
+        return WEBVIEW_LIFETIME_SPECS[suite]
+    if focus != WEBVIEW_MEDIA_FOCUS or suite != "desktop":
+        raise ValueError("The failure-only real media focus is desktop-only")
+    group = WEBVIEW_LIFETIME_SPECS["desktop"][0]
+    return ({**group, "methods": (group["methods"][2],), "declared_methods": group["methods"]},)
+
+
+def webview_lifetime_identities(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> list[dict]:
     suffix = "[desktop]" if suite == "desktop" else ""
     return [{"classname": group["classname"], "name": method + suffix}
-            for group in WEBVIEW_LIFETIME_SPECS[suite] for method in group["methods"]]
+            for group in webview_lifetime_groups(suite, focus) for method in group["methods"]]
 
 
-def webview_lifetime_filter(suite: str) -> str:
+def webview_lifetime_filter(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> str:
+    groups = webview_lifetime_groups(suite, focus)
     if suite == "android-device":
         # One real class avoids AGP9.4.0/ATE1.0.1's lossy comma-map transport.
-        return WEBVIEW_LIFETIME_SPECS[suite][0]["classname"]
+        return groups[0]["classname"]
     return ",".join(group["classname"] + "." + method
-                    for group in WEBVIEW_LIFETIME_SPECS[suite] for method in group["methods"])
+                    for group in groups for method in group["methods"])
 
 
 def validate_webview_device_network_fixture(root: Path) -> None:
@@ -593,6 +605,7 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
              modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
             (focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
@@ -950,8 +963,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
         selected[0]["required_testcases"] = date_transaction_identities()
         result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
-    elif focus == WEBVIEW_LIFETIME_FOCUS:
-        for group in WEBVIEW_LIFETIME_SPECS[suite]:
+    elif focus in WEBVIEW_LIFETIME_FOCUSES:
+        for group in webview_lifetime_groups(suite, focus):
             if group["source"] not in selected[0]["test_source_files"]:
                 raise ValueError("Required real WebView lifetime source is missing from the selected module")
             source = safe_path(root, group["source"]).read_text(encoding="utf-8")
@@ -966,9 +979,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             validate_webview_device_network_fixture(root)
             selected[0]["native_fixture_paths"] = list(WEBVIEW_DEVICE_FIXTURES)
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = webview_lifetime_filter(suite)
-        selected[0]["required_testcases"] = webview_lifetime_identities(suite)
-        result["scope"] = ("Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; "
+        selected[0]["test_filter"] = webview_lifetime_filter(suite, focus)
+        selected[0]["required_testcases"] = webview_lifetime_identities(suite, focus)
+        result["scope"] = ("One failed real Compose/JavaFX media/slow connection method only; no replay or certification of four accepted same-host methods, "
+                           "no engine/decoder/clock substitution or missing-native waiver"
+                           if focus == WEBVIEW_MEDIA_FOCUS else
+                           "Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; "
                            "Linux audio uses an owned clocked software sink, not an engine/decoder mock or audible hardware check"
                            if suite == "desktop" else
                            "Three exact real Android Activity/provider/Compose lifetime, media/slow socket and serialized-state methods only; "
@@ -1094,15 +1110,15 @@ def validate_test_focus(test_plan: dict) -> bool:
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite iOS permission safety plan")
         return True
-    if focus == WEBVIEW_LIFETIME_FOCUS:
+    if focus in WEBVIEW_LIFETIME_FOCUSES:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != WEBVIEW_LIFETIME_MODULE or
                 expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
-                expected[0].get("test_filter") != webview_lifetime_filter(suite) or
-                expected[0].get("required_testcases") != webview_lifetime_identities(suite) or
-                not all(g["source"] in expected[0]["test_source_files"] for g in WEBVIEW_LIFETIME_SPECS[suite]) or
+                expected[0].get("test_filter") != webview_lifetime_filter(suite, focus) or
+                expected[0].get("required_testcases") != webview_lifetime_identities(suite, focus) or
+                not all(g["source"] in expected[0]["test_source_files"] for g in webview_lifetime_groups(suite, focus)) or
                 (suite == "android-device" and expected[0].get("native_fixture_paths") != list(WEBVIEW_DEVICE_FIXTURES))):
             raise ValueError("Invalid finite real WebView lifetime plan")
         return True
@@ -1350,12 +1366,12 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": owning_source, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_LIFETIME_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_LIFETIME_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if len(module_cases) == len(required) and actual == required else
                              [f"WebView XML must contain exactly all {len(required)} selected real native methods, no missing, duplicate or foreign cases"])
-            sources = {g["classname"]: g["source"] for g in WEBVIEW_LIFETIME_SPECS[test_plan["suite"]]}
+            sources = {g["classname"]: g["source"] for g in webview_lifetime_groups(test_plan["suite"], test_plan["explicit_test_focus"])}
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]

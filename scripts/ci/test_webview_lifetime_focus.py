@@ -14,17 +14,18 @@ import workflow_matrix as matrix
 
 
 class WebViewLifetimeFocusTests(unittest.TestCase):
-    def plan(self, suite="desktop", root=r.ROOT):
-        return r.plan(root, suite, only_modules=("calf-webview",), focus=r.WEBVIEW_LIFETIME_FOCUS)
+    def plan(self, suite="desktop", root=r.ROOT, focus=r.WEBVIEW_LIFETIME_FOCUS):
+        return r.plan(root, suite, only_modules=("calf-webview",), focus=focus)
 
-    def collect(self, suite="desktop", cases=None, outcome="", markers=1, stale=False, duplicate=False):
-        plan = self.plan(suite)
+    def collect(self, suite="desktop", cases=None, outcome="", markers=1, stale=False, duplicate=False,
+                focus=r.WEBVIEW_LIFETIME_FOCUS):
+        plan = self.plan(suite, focus=focus)
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             folder = root / plan["expected"][0]["report_directory"]
             folder.mkdir(parents=True)
             xml = ET.Element("testsuite")
-            for case in r.webview_lifetime_identities(suite) if cases is None else cases:
+            for case in r.webview_lifetime_identities(suite, focus) if cases is None else cases:
                 node = ET.SubElement(xml, "testcase", **case)
                 if outcome:
                     ET.SubElement(node, outcome)
@@ -66,6 +67,40 @@ class WebViewLifetimeFocusTests(unittest.TestCase):
         self.assertEqual(["-Pandroid.testInstrumentationRunnerArguments.class=" + r.webview_lifetime_filter("android-device")], selectors)
         self.assertNotIn(",", selectors[0])
         self.assertNotIn("--tests", command)
+
+    def test_intel_media_failure_only_profile_preserves_four_accepted_methods_and_other_hosts(self):
+        row, = matrix.matrix("webview-lifetime-macos-media")["include"]
+        self.assertEqual("desktop-macos-x64", row["slot"])
+        self.assertEqual("calf-webview", row["test-modules"])
+        self.assertEqual(r.WEBVIEW_MEDIA_FOCUS, row["test-focus"])
+        plan = self.plan(focus=r.WEBVIEW_MEDIA_FOCUS)
+        identity, = plan["expected"][0]["required_testcases"]
+        self.assertEqual(r.WEBVIEW_LIFETIME_SPECS["desktop"][0]["methods"][2] + "[desktop]", identity["name"])
+        command = r.gradle_command("desktop", plan)
+        self.assertEqual(1, command.count("--tests"))
+        self.assertEqual(r.webview_lifetime_filter("desktop", r.WEBVIEW_MEDIA_FOCUS), command[command.index("--tests") + 1])
+        for suite in ("android-device", "android-host", "ios", "js", "wasm"):
+            with self.assertRaises(ValueError): self.plan(suite, focus=r.WEBVIEW_MEDIA_FOCUS)
+        self.assertEqual(5, len(self.plan()["expected"][0]["required_testcases"]))
+        self.assertEqual(3, len(self.plan("android-device")["expected"][0]["required_testcases"]))
+        for profile in ("webview-lifetime", "webview-lifetime-macos-x64"):
+            self.assertTrue(all(row["test-focus"] == r.WEBVIEW_LIFETIME_FOCUS for row in matrix.matrix(profile)["include"]))
+
+    def test_one_real_media_case_must_be_fresh_exact_nonzero_and_pass_without_missing_native_waivers(self):
+        focus = r.WEBVIEW_MEDIA_FOCUS
+        result = self.collect(focus=focus)
+        self.assertEqual([], result["errors"])
+        self.assertEqual(1, result["totals"]["passed"])
+        for invalid in ({"cases": []}, {"cases": r.webview_lifetime_identities("desktop")},
+                        {"cases": [{"classname": "Foreign", "name": "fake[desktop]"}]},
+                        {"duplicate": True}, {"stale": True}, {"markers": 0}, {"markers": 2},
+                        {"outcome": "failure"}, {"outcome": "error"}, {"outcome": "skipped"}):
+            with self.subTest(invalid=invalid): self.assertTrue(self.collect(focus=focus, **invalid)["errors"])
+        for key, value in (("test_filter", "*"), ("required_testcases", []), ("task", ":calf-webview:publish")):
+            plan = self.plan(focus=focus); plan["expected"][0][key] = value
+            with self.assertRaises(ValueError): r.validate_test_focus(plan)
+        plan = self.plan(focus=focus); plan["complete_suite_requested"] = True
+        with self.assertRaises(ValueError): r.validate_test_focus(plan)
 
     def test_current_exact_nonzero_xml_is_accepted_in_its_disclosed_native_scope(self):
         for suite, count in (("desktop", 5), ("android-device", 3)):

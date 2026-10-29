@@ -176,10 +176,24 @@ class DesktopWebViewLifetimeTest {
         try {
             val activeHost = WindowHost(state).also { host = it }
             activeHost.awaitCreated()
+            activeHost.assertShowing()
             assertTrue(responseStarted.await(10, TimeUnit.SECONDS), "A real slow connection must be open before disposal")
+            val mediaStarted = System.nanoTime()
+            val mediaTrace = mutableListOf<String>()
+            var nextObservation = mediaStarted
             try {
                 awaitFx {
                     val engine = state.webView!!.engine
+                    val now = System.nanoTime()
+                    if (now >= nextObservation && mediaTrace.size < 20) {
+                        nextObservation = now + TimeUnit.SECONDS.toNanos(1)
+                        val nativeObservation = engine.executeScript(
+                            "JSON.stringify({title:document.title,hidden:document.hidden,visibility:document.visibilityState," +
+                                "paused:media.paused,time:media.currentTime,duration:media.duration,ready:media.readyState," +
+                                "error:media.error&&media.error.code})",
+                        )
+                        mediaTrace += "${TimeUnit.NANOSECONDS.toMillis(now - mediaStarted)}ms:$nativeObservation:beats=${beats.get()}:writes=${writes.get()}"
+                    }
                     engine.title == "native-media-live" && beats.get() >= 5 && writes.get() >= 2 &&
                         engine.loadWorker.state == Worker.State.RUNNING &&
                         engine.executeScript("!media.paused && media.currentTime > 0.1 && media.readyState >= 2") == true
@@ -192,8 +206,9 @@ class DesktopWebViewLifetimeTest {
                             "wav:media.canPlayType('audio/wav'),xwav:media.canPlayType('audio/x-wav')})",
                     )
                 }
-                throw AssertionError("Real media never became live: $media; beats=${beats.get()}, writes=${writes.get()}", timeout)
+                throw AssertionError("Real media never became live: $media; beats=${beats.get()}, writes=${writes.get()}; nativeTrace=$mediaTrace", timeout)
             }
+            println("NATIVECMPKIT_OWNED_MEDIA_TRACE:$mediaTrace") // Authored loopback document values only, no host/user data.
             onFxThread {
                 assertEquals(Worker.State.RUNNING, state.webView!!.engine.loadWorker.state)
             }
@@ -234,6 +249,12 @@ class DesktopWebViewLifetimeTest {
         private val window = AtomicReference<ComposeWindow?>()
         private var mounted by mutableStateOf(true)
         private val observedAttachment = AtomicBoolean(false)
+
+        fun assertShowing() = SwingUtilities.invokeAndWait {
+            val view = checkNotNull(window.get())
+            assertTrue(view.isVisible && view.isShowing && view.width > 0 && view.height > 0,
+                "Native media requires the actual on-screen Compose host, not only a creation callback")
+        }
 
         init {
             SwingUtilities.invokeAndWait {

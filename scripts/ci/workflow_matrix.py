@@ -85,6 +85,8 @@ PROFILES = {
     "ios-ui-state": ("ios-iphone",),
     "ios-time-state-recovery": ("ios-iphone",),
     "ios-slider-lifecycle": ("ios-iphone",),
+    "ios-slider-remaining": ("ios-iphone",),
+    "ios-slider-structure": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -193,6 +195,8 @@ MODULE_SUBSETS = {
     "ios-ui-state": "calf-ui",
     "ios-time-state-recovery": "calf-ui",
     "ios-slider-lifecycle": "calf-ui",
+    "ios-slider-remaining": "calf-ui",
+    "ios-slider-structure": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
@@ -287,6 +291,10 @@ def matrix(profile: str) -> dict:
     if profile == "ios-slider-lifecycle":
         for row in rows:
             row["test-focus"] = "ios-native-slider-input-lifecycle"
+    if profile in ("ios-slider-remaining", "ios-slider-structure"):
+        for row in rows:
+            row["test-focus"] = ("ios-native-slider-input-remaining" if profile == "ios-slider-remaining" else
+                                 "ios-native-slider-structure-diagnostic")
     if profile in {"browser-coil-io", "browser-coil-io-js", "browser-coil-io-wasm"}:
         for row in rows:
             row["test-focus"] = "browser-file-read-coil"

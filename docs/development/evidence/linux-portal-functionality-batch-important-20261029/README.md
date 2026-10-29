@@ -46,3 +46,14 @@ and byte assertions are unchanged; completed open/cancellation helpers are
 unchanged. No local changed KLIB/build/runtime pass is claimed. Root capacity
 is below the8GiB reserve, so immutable hosted verification is required.
 BUILD-012/#147 remains open pending actual results and all original criteria.
+
+## Additive verified closure
+
+[Hosted save-only recovery](save-recovery003/github-ci001/README.md) passes1/1
+with all868 exact Git inputs and real GTK/owned cleanup. Reviewed unchanged
+open/multiple/cancellation and direct-security/five-host compiler results are
+reused explicitly, not fresh. All three original maintenance-chain requirements
+are fulfilled for pinned Rust1.98/tested X11 GTK-v3; **#147 closed/completed**
+immediately after review. Earlier failed/disk-stopped executions remain failed,
+and independent full-shell/native-parent/minimum/provenance/ABI/consumer/legal/
+dependency/security/release gates are not promoted.72closed/100open/172.

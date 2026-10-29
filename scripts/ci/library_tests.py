@@ -534,6 +534,20 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_LIFECYCLE_FOCUS] = {
     "scope": "Six new actual UIKit-hosted production Liquid/Cupertino input-owner methods: live callbacks, idle/drag enablement, individually replaced geometry/density/RTL/range/steps/source, cancellation and atomic tap/drag cleanup. Accepted controls/host/state/time suites are not replayed. Direct Cupertino is not adaptive pre-26 OS selection, hardware accessibility or physical/minimum/performance/ABI/release certification.",
 }
 
+IOS_SLIDER_REMAINING_FOCUS = "ios-native-slider-input-remaining"
+IOS_SLIDER_STRUCTURE_FOCUS = "ios-native-slider-structure-diagnostic"
+for _focus, _methods, _scope in (
+    (IOS_SLIDER_REMAINING_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[3:],
+     "Only the three never-started Cupertino structural and Liquid/Cupertino tap/drag methods from40865834481; two completed enable/callback methods are reused, not replayed. Interrupted Liquid structural input is isolated so it cannot hide unrelated outcomes."),
+    (IOS_SLIDER_STRUCTURE_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[2:3],
+     "Only the interrupted Liquid structural method, with finite per-axis diagnostics and a stricter transport deadline. No accepted enable/callback/other gesture methods are replayed; partial phases do not establish a passing test."),
+):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_SLIDER_LIFECYCLE_CLASS, "source": IOS_SLIDER_LIFECYCLE_SOURCE,
+                    "methods": _methods, "declared_methods": IOS_SLIDER_LIFECYCLE_METHODS},),
+        "scope": _scope + " All genuine protocol/XML/Worker/runtime/binary/install/cleanup gates remain; no physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+    }
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",

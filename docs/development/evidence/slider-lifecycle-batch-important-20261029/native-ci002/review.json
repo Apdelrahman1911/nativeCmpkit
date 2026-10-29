@@ -1,0 +1,93 @@
+{
+  "all865_before_after_inputs_match_exact_historical_Git": true,
+  "artifact_digest": "sha256:e0eb1c984ba1a35c0fe9460b672e0869c3542dc6ed33db03ad3dc70840c2b87b",
+  "artifact_id": 12895914983,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter"
+  ],
+  "completed_native_methods": 2,
+  "exact_completed_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+      "status": "passed"
+    }
+  ],
+  "exact_native_completed_results_match_KGP_XML": true,
+  "execution": {
+    "elapsed_seconds": 2881.68,
+    "exit_code": 1
+  },
+  "fresh_XML_reports": 1,
+  "historical_plan_command_and_dispatch_source_reviewed": true,
+  "interrupted_XML_Unknown_methods": 1,
+  "native_job_conclusion": "failure",
+  "native_job_id": 123420702054,
+  "never_started_methods": [
+    "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter"
+  ],
+  "new_issues_closed": [],
+  "owned_crash_diagnostics_unavailable_not_absence_proof": true,
+  "owned_external_stop_uninstall_local_cleanup_verified": true,
+  "packages_releases_deployments_or_Pages_created": false,
+  "reviewed_at_utc": "2026-10-29T12:37:34.536656+00:00",
+  "run_attempt": 1,
+  "run_id": 40865834481,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40865834481",
+  "selected_methods": 6,
+  "source_revision": "a20cf38fcff0a0d21ffad0439e06d7fe1a8e946f",
+  "timeout_axis_or_native_root_cause_not_yet_established": true,
+  "timeout_seconds": 1920.65,
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "two_completed_methods_not_requested_for_replay_if_owning_inputs_remain_unchanged": true,
+  "unfinished_testcase": {
+    "classname": "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+    "failure_frame_observed": false,
+    "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "status": "incomplete"
+  },
+  "whole_native_Worker_runtime_binary_after_and_protocol_not_complete": true,
+  "workflow_conclusion": "failure"
+}

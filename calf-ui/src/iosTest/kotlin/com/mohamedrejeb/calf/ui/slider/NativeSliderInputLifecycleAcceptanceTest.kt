@@ -118,6 +118,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
         var source by mutableStateOf(first)
         val firstEvents = mutableListOf<Interaction>(); val secondEvents = mutableListOf<Interaction>()
         var changes = 0; var finished = 0; var observedDragging = false
+        structuralPhase(renderer, 0, "before-content")
         setContent {
             LaunchedEffect(first) { first.interactions.collect { firstEvents += it } }
             LaunchedEffect(second) { second.interactions.collect { secondEvents += it } }
@@ -128,6 +129,7 @@ class NativeSliderInputLifecycleAcceptanceTest {
                     width = widthDp, source = source, finished = { finished++ })
             }
         }
+        structuralPhase(renderer, 0, "content-installed")
         val changesToContract = listOf<Pair<String, () -> Unit>>(
             "measured width" to { widthDp = 360.dp },
             "density and thumb geometry" to { density = Density(2f, 1.5f) },
@@ -136,29 +138,40 @@ class NativeSliderInputLifecycleAcceptanceTest {
             "steps" to { steps = 3 },
             "interaction source" to { source = second },
         )
-        for ((name, replace) in changesToContract) {
+        for ((axisIndex, contractChange) in changesToContract.withIndex()) {
+            val (name, replace) = contractChange
+            val axis = axisIndex + 1
+            structuralPhase(renderer, axis, "before-reset")
             runOnIdle { value = (range.start + range.endInclusive) / 2f }
+            structuralPhase(renderer, axis, "reset")
             val events = if (source === first) firstEvents else secondEvents
             val changesBeforeDrag = changes
+            structuralPhase(renderer, axis, "before-drag")
             onNodeWithTag("slider").performTouchInput { down(center); moveBy(Offset(width * .4f, 0f)) }
             waitForIdle()
+            structuralPhase(renderer, axis, "dragged")
             val start = events.filterIsInstance<DragInteraction.Start>().last()
             assertTrue(changes > changesBeforeDrag, "$name must replace an actual live input session")
             assertTrue(observedDragging)
             val changesBeforeReplacement = changes; val finishesBeforeReplacement = finished
+            structuralPhase(renderer, axis, "before-replace")
             runOnIdle { replace() }
             waitForIdle()
+            structuralPhase(renderer, axis, "replaced")
             onNodeWithTag("slider").performTouchInput { moveBy(Offset(-15f, 0f)); up() }
             waitForIdle()
+            structuralPhase(renderer, axis, "stale-released")
             assertEquals(changesBeforeReplacement, changes, "$name cannot leave an obsolete writer")
             assertEquals(finishesBeforeReplacement, finished, "$name cancellation is not completion")
             assertEquals(1, events.filterIsInstance<DragInteraction.Cancel>().count { it.start === start }, name)
             assertTrue(events.filterIsInstance<DragInteraction.Stop>().none { it.start === start }, name)
             assertFalse(observedDragging, "$name must clear the actual dragged-state observer")
+            structuralPhase(renderer, axis, "cancellation-verified")
             // A discrete RTL drag can already reach range.start. Reset only after proving
             // stale-input rejection, so the fresh tap must genuinely change current state.
             runOnIdle { value = (range.start + range.endInclusive) / 2f }
             waitForIdle()
+            structuralPhase(renderer, axis, "fresh-reset")
             assertEquals(changesBeforeReplacement, changes, "$name hoisted reset is not an input callback")
             assertEquals(finishesBeforeReplacement, finished, "$name hoisted reset is not input completion")
             onNodeWithTag("slider").performTouchInput {
@@ -169,7 +182,13 @@ class NativeSliderInputLifecycleAcceptanceTest {
             assertEquals(changesBeforeReplacement + 1, changes)
             assertEquals(finishesBeforeReplacement + 1, finished)
             assertEquals(steps, onNodeWithTag("slider").fetchSemanticsNode().config[SemanticsProperties.ProgressBarRangeInfo].steps)
+            structuralPhase(renderer, axis, "fresh-input-verified")
         }
+    }
+
+    // Finite public fixture identities only. Progress never replaces any assertion or completion.
+    private fun structuralPhase(renderer: Renderer, axis: Int, phase: String) {
+        println("NATIVECMPKIT_SLIDER_STRUCTURE renderer=${renderer.name} axis=$axis phase=$phase")
     }
 
     private fun tapDragCancellation(renderer: Renderer) = runComposeUiTest {

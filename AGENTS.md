@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Verified portal subset; isolated native slider recovery — 2026-10-29
+
+**#147/BUILD-012 CLOSED/completed** directly after all three original criteria review.
+[Actual save-only40872975000/ba594](docs/development/evidence/linux-portal-functionality-batch-important-20261029/save-recovery003/github-ci001/README.md)
+SUCCESS1/1, one fresh XML, Gradle0/267.08s/all868 exact Git inputs, real GTK-v3/
+EXTERNAL private bus/three clean owned service stops. Completed unchanged open/
+multiple/cancellation and direct scans/five-host locked builds are reused, not
+fresh; prior failed/disk143 runs stay failed, no whole-worker/full-shell/native
+payload-provenance or release claim. **72closed/100open/172;39implemented/
+48partial/70verified/seven unresolved.**
+
+[Slider40865834481/a20cf](docs/development/evidence/slider-lifecycle-batch-important-20261029/native-ci002/README.md)
+FAILED:2completed,1interrupted Unknown,3never started;1920.65s app timeout,
+all865 exact Git inputs, external owned cleanup but no final Worker/runtime/
+binary-after gates. Isolate three unstarted methods from Liquid structural;
+reuse two unchanged enable/callback methods, do not repeat them. New62 finite
+phase diagnostics retain all assertions and300s focused app deadline; other
+profiles retain1920s. Six synthetic tooling methods pass after one preserved
+KGP-prefix fixture error; ZERO local changed KLIB/native tests. #34/#137 stay open.
+Root below8GiB: hosted builds only, maximum two focused native jobs, no unrelated
+cache/process cleanup. Single-agent; immediate verified-subset batch closure.
+Publishing/Pages/main/history and independent native/minimum/ABI/consumer/dependency/
+provenance/legal/security/release gates remain unchanged.
+
 ## One-method Linux save recovery; shared slider pair pending — 2026-10-29
 
 [Actual Linux executions and fixture contrast](docs/development/evidence/linux-portal-functionality-batch-important-20261029/README.md)

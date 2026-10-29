@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Portal subset closed; native slider failures isolated — 2026-10-29
+
+**#147/BUILD-012 closed/completed directly after three-criteria review**:
+[save-only40872975000](evidence/linux-portal-functionality-batch-important-20261029/save-recovery003/github-ci001/README.md)
+SUCCESS1/1, one fresh XML,0/267.08s/868 exact Git inputs and clean real GTK-v3 bus.
+Completed unchanged open/multiple/cancel, direct advisory scans and five-host
+locked builds are reused, not replayed; earlier failed/disk143 runs are retained.
+72closed/100open/172;39implemented/48partial/70verified/seven unresolved.
+
+[Slider40865834481](evidence/slider-lifecycle-batch-important-20261029/native-ci002/README.md)
+is FAILED:2completed/1interrupted Unknown/3never started, app1920.65s timeout.
+Three unstarted tests are separated from the stalled Liquid structural method;
+two completed unchanged methods are reused. New finite62-phase diagnostics and
+stricter300s focused app deadline retain all original assertions. Six synthetic
+guards pass after one retained fixture failure, no local changed KLIB/native pass.
+Both slider issues remain open for immutable CI. Single-agent/max2 native jobs;
+no heavy local builds below8GiB, publishing/Pages/main/history or independent
+security/legal/native/minimum/ABI/consumer/release gate changes.
+
 ## Focused Linux save recovery and related slider batch — 2026-10-29
 
 [Linux portal preparation and retained failures](evidence/linux-portal-functionality-batch-important-20261029/README.md)

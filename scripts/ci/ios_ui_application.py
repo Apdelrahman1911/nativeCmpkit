@@ -48,6 +48,27 @@ MAX_BINARY_BYTES = 1024 * 1024**2
 MAX_STREAM_BYTES = 16 * 1024**2
 MAX_LINE_BYTES = 512 * 1024
 APP_TIMEOUT_SECONDS = 1920
+SLIDER_TIMEOUT_SECONDS = 300
+
+
+def application_timeout_seconds(focus: str | None) -> int:
+    if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
+        raise ValueError("Unknown finite application focus")
+    return (SLIDER_TIMEOUT_SECONDS if focus in (
+        lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
+    ) else APP_TIMEOUT_SECONDS)
+
+
+SLIDER_STRUCTURAL_CASES = {
+    "Liquid": (lt.IOS_SLIDER_LIFECYCLE_CLASS, lt.IOS_SLIDER_LIFECYCLE_METHODS[2]),
+    "Cupertino": (lt.IOS_SLIDER_LIFECYCLE_CLASS, lt.IOS_SLIDER_LIFECYCLE_METHODS[3]),
+}
+SLIDER_STRUCTURAL_STEPS = (
+    ((0, "before-content"), (0, "content-installed")) +
+    tuple((axis, phase) for axis in range(1, 7) for phase in (
+        "before-reset", "reset", "before-drag", "dragged", "before-replace", "replaced",
+        "stale-released", "cancellation-verified", "fresh-reset", "fresh-input-verified"))
+)
 TEST_ARGUMENTS = {"--ktest_logger=TEAMCITY", "--ktest_no_exit_code"}
 DATE_BOUNDS_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_BOUNDS_CLASS
 DATE_REPLACEMENT_ARGUMENT = "--ktest_gradle_filter=" + lt.UI_DATE_REPLACEMENT_CLASS
@@ -206,6 +227,7 @@ class NativeProtocol:
         self.lifecycle_failure_observation = None
         self.picker_admission_observations = []
         self.picker_host_observations = []
+        self.slider_structural_observations = {}
 
     def feed(self, line: str):
         self.stream_bytes += len((line + "\n").encode())
@@ -281,6 +303,21 @@ class NativeProtocol:
             return
         if line.startswith("NATIVECMPKIT_PICKER_HOST"):
             raise ValueError("Unknown or malformed picker host diagnostic")
+        slider = re.fullmatch(
+            r"NATIVECMPKIT_SLIDER_STRUCTURE renderer=(Liquid|Cupertino) axis=([0-6]) phase=([a-z-]+)", line)
+        if slider:
+            renderer = slider[1]
+            if self.active is None or self.completed is not None or self.open_case != SLIDER_STRUCTURAL_CASES[renderer]:
+                raise ValueError("Slider diagnostic outside its exact active native testcase")
+            observations = self.slider_structural_observations.setdefault(renderer, [])
+            actual = (int(slider[2]), slider[3])
+            index = len(observations)
+            if index >= len(SLIDER_STRUCTURAL_STEPS) or actual != SLIDER_STRUCTURAL_STEPS[index]:
+                raise ValueError("Missing, duplicate or reordered finite slider structural diagnostic")
+            observations.append({"axis": actual[0], "phase": actual[1]})
+            return
+        if line.startswith("NATIVECMPKIT_SLIDER_STRUCTURE"):
+            raise ValueError("Unknown or malformed slider structural diagnostic")
         image = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_IMAGE_LIFETIME phase=(retained-ready|before-conversion|before-gc|after-gc|before-verify|verified)"
             r"(?: iteration=([1-9][0-9]?))? mainThread=(true|false)", line)
@@ -384,6 +421,9 @@ class NativeProtocol:
                         raise ValueError("A passing image lifetime case needs its complete actual diagnostic sequence")
                     if self.open_case == PICKER_HOST_CASE and len(self.picker_host_observations) != len(PICKER_HOST_STEPS):
                         raise ValueError("A passing picker host case needs its complete actual phase/thread sequence")
+                    for renderer, key in SLIDER_STRUCTURAL_CASES.items():
+                        if self.open_case == key and len(self.slider_structural_observations.get(renderer, [])) != len(SLIDER_STRUCTURAL_STEPS):
+                            raise ValueError("A passing slider structural case needs all six actual axis sequences")
                     case["status"] = "passed"
                 case["finished"] = True
                 self.open_case = None
@@ -413,6 +453,8 @@ class NativeProtocol:
                    if self.picker_admission_observations else {}),
                 **({"picker_host_observations": self.picker_host_observations}
                    if self.picker_host_observations else {}),
+                **({"slider_structural_observations": self.slider_structural_observations}
+                   if self.slider_structural_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
@@ -441,6 +483,8 @@ class NativeProtocol:
                    if self.picker_admission_observations else {}),
                 **({"picker_host_observations": self.picker_host_observations}
                    if self.picker_host_observations else {}),
+                **({"slider_structural_observations": self.slider_structural_observations}
+                   if self.slider_structural_observations else {}),
                 **({"compact_appearance_observation": self.compact_appearance_observation}
                    if self.compact_appearance_observation else {})}
 
@@ -490,7 +534,7 @@ def installed_identity(result: subprocess.CompletedProcess, bundle_id: str, sign
 def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int = APP_TIMEOUT_SECONDS) -> dict:
     """Preserve real frames verbatim through KGP, while bounding owned transport."""
     started = time.monotonic()
-    transport = {"started_at_utc": lt.utc_now(), "console_process_exit": None,
+    transport = {"started_at_utc": lt.utc_now(), "timeout_seconds": timeout, "console_process_exit": None,
                  "console_process_exit_after_cleanup": None, "console_cleanup_requested": False}
     process = subprocess.Popen(argv, cwd=lt.ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                start_new_session=True, bufsize=0)
@@ -675,7 +719,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         phase = "launch-and-real-test-transport"
         receipt["application_protocol"] = forward_application(
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
-            protocol)
+            protocol, timeout=application_timeout_seconds(focus))
         phase = "post-runtime-and-binary"
         after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt["runtime_after"] = after

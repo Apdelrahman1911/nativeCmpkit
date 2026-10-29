@@ -1,0 +1,186 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles"
+  ],
+  "complete_suite_requested": false,
+  "desktop_picker_portal": {
+    "actual_filechooser_version": 3,
+    "authentication": "EXTERNAL",
+    "auto_activation_service_directories": false,
+    "backend_pid": 4431,
+    "clean_owned_shutdown": true,
+    "closed": true,
+    "existing_user_bus_used": false,
+    "mock_portal": false,
+    "owned_service_pids": [
+      4430,
+      4431,
+      4432
+    ],
+    "ready": true,
+    "real_backend": "/usr/libexec/xdg-desktop-portal-gtk",
+    "real_frontend": "/usr/libexec/xdg-desktop-portal",
+    "real_private_bus": true,
+    "requested": true,
+    "shutdown": [
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 4432
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": -15,
+        "forced": false,
+        "pid": 4431
+      },
+      {
+        "cleanup_error": null,
+        "early_exit": false,
+        "exit_code": 0,
+        "forced": false,
+        "pid": 4430
+      }
+    ]
+  },
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 267.08,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-linux-portal-save",
+  "finished_at_utc": "2026-10-29T12:30:54.319278+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "1a79f95846fe0538c191a3ea0694903ae6eeb78ad21577825a6a09ab47440538",
+  "inputs_before_sha256": "1a79f95846fe0538c191a3ea0694903ae6eeb78ad21577825a6a09ab47440538",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "disposition": "required-executed",
+          "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeLinuxPortalFunctionalityTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-file-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.xml",
+          "sha256": "fbd43d32fedc2c3cc3ae7702c45c94561e5202456cd788fc242f4c9214b97499",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+          "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest",
+      "name": "folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "697ba4add8052fc88c3f0fd55137a8e1d196022852eb873e25c8827dcbc7a7bb",
+  "schema_version": 1,
+  "scope": "Only the remaining failed real Linux GTK folder/empty/binary-save method; accepted open/multiple/cancellation methods not replayed; no native parent/Wayland/other backend or full dependency/consumer/security/release claim",
+  "source_revision": "ba59440f5caa1594e3ec6d3dd102c886f089b7bd",
+  "source_revision_after": "ba59440f5caa1594e3ec6d3dd102c886f089b7bd",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T12:26:27.225496+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-file-picker:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

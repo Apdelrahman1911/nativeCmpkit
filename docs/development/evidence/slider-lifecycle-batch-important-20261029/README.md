@@ -33,3 +33,15 @@ No packages, releases, deployments, Pages, main/history or attribution changes.
 ## Pre-execution fixture review and cancelled setup
 
 [Initial run](native-ci001/README.md) is CANCELLED, zero accepted methods; pending-to-start race retained. [Changed fixture check](local002/review.json) passes one owning guard and test KLIB0/44.01s with all865 held inputs, ZERO local native tests. Original stale-writer/cancel/fresh-callback assertions remain; midpoint reset prevents an invalid same-value callback expectation. Both issues remain open for one immutable six-method replacement, without replaying accepted suites.
+
+## Retained failure and isolated important recovery
+
+[Actual replacement](native-ci002/README.md) is FAILED: two completed enable/
+callback methods, Liquid structural interrupted at1920.65s, three never started;
+one XML/all865 exact historical Git inputs, no complete Worker/runtime/binary-after
+certificate. External owned cleanup passes, exact stalled axis remains unknown.
+[Finite recovery preparation](recovery-preparation003/README.md) separates the
+three unstarted methods from the interrupted one and limits focused app execution
+to300s. All assertions/six original methods remain; two completed unchanged methods
+are reused explicitly. Six tooling methods pass after one preserved fixture error;
+zero changed local KLIB/native executions. Both #34/#137 remain open pending CI.

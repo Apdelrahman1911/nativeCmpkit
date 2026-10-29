@@ -797,9 +797,10 @@
   },
   {
     "id": "BUILD-012",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
-      "Picker owner upgraded/pinned rfd0.17.2; resulting lock no longer contains prior ashpd/zbus/zvariant chain."
+      "Picker owner upgraded/pinned rfd0.17.2; resulting lock no longer contains prior ashpd/zbus/zvariant chain.",
+      "2026-10-29: actual owning Linux GTK/JNI open/multiple/folder/empty/binary-save/each-kind cancellation and fresh reopen reviewed as one maintained portal-chain batch; #147 closed/completed directly after all three original criteria review, before additive documentation. The save driver replaces the complete native entry without changing production destination paths."
     ],
     "affected_paths": [
       "calf-file-picker/native/Cargo.toml",
@@ -808,17 +809,23 @@
     "tests": [
       {
         "command": "cargo-audit0.22.2 audit --file <each committed native Cargo.lock> --db <Git-bound RustSec40f5be6f> --no-fetch --deny warnings --json",
-        "result": "Two actual scans exit0:93picker/48share complete unions, zero vulnerabilities and warnings; no ignore/target/severity/stale filters, informational warnings included.5native inputs held and Git-bound to67539481; all1381loaded advisory markdowns (1361crate +20Rust-toolchain) match exact Git tree. Tool JSON commit/time fieldsnull; independent Git binding is explicit. Initial archive-review crate-only count assumption is preserved/corrected without replaying successful scans. Exact source install=0.22.2/--locked/Rust1.98 exit0/383.1s is compilation, not NativeCmpKit runtime testing. #147 remainsopen; functionality/security/release criteria are not promoted.",
         "evidence": [
           "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/actual-scan-review.json",
           "docs/development/evidence/native-security-batch-important-20261029/direct-rustsec001/database-and-tool.json"
-        ]
+        ],
+        "result": "Two actual scans exit0:93picker/48share complete unions, zero vulnerabilities and warnings; no ignore/target/severity/stale filters, informational warnings included.5native inputs held and Git-bound to67539481; all1381loaded advisory markdowns (1361crate +20Rust-toolchain) match exact Git tree. Tool JSON commit/time fieldsnull; independent Git binding is explicit. Initial archive-review crate-only count assumption is preserved/corrected without replaying successful scans. Exact source install=0.22.2/--locked/Rust1.98 exit0/383.1s is compilation, not NativeCmpKit runtime testing. #147 remainsopen; functionality/security/release criteria are not promoted."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-file-picker:desktopTest --tests com.mohamedrejeb.calf.picker.NativeLinuxPortalFunctionalityTest.folderAndSaveDialogsReturnTheSelectedDirectoryAndExactEmptyAndBinaryFiles",
+        "evidence": [
+          "docs/development/evidence/linux-portal-functionality-batch-important-20261029/save-recovery003/github-ci001/review.json",
+          "docs/development/evidence/linux-portal-functionality-batch-important-20261029/save-recovery003/github-ci001/original-criteria-review-BUILD012.json",
+          "docs/development/evidence/linux-portal-functionality-batch-important-20261029/save-recovery003/github-ci001/closure-BUILD012/verified-closure.json"
+        ],
+        "result": "PASS: immutable40872975000/ba59440f fresh1/1 exact folder/empty/binary-save method, one XML, Gradle0/267.08s/all868historical-Git inputs. Real GTK FileChooser-v3/EXTERNAL private bus and three clean owned service stops. Completed unchanged local open/multiple and cancellation methods are explicitly reused, not fresh; whole original runs remain FAILED1/2 and1/1/Gradle143 disk stop. Unchanged93/48 native lock unions, two direct RustSec scans/92OSV queries and five-host/twenty locked builds are reused. All three original criteria fulfilled for pinned1.98 and testedX11/GTK contract; readback #147 CLOSED/completed. No hosted binary/manifest hash or whole143-worker/full-shell/minimum/ABI/full-consumer/dependency/legal/security/release certificate."
       }
     ],
-    "remaining": [
-      "Actual portal file open/save/folder/multiple selection and cancellation on Linux, supported desktop/session-bus environments and complete native functionality remain unverified by direct advisory scans or configuration-only JNI tests.",
-      "The dated complete native OSV/RustSec checks do not establish ordinary Gradle dependency trust, binary provenance, license/legal, minimum-platform, full packaged consumer/ABI, security or release readiness."
-    ],
-    "compatibility": "Old advisories were informational unmaintained warnings, not established exploits; runtime correctness not inferred from dependency removal."
+    "remaining": [],
+    "compatibility": "Old advisories were informational unmaintained warnings, not established exploits; runtime correctness not inferred from dependency removal. All original BUILD-012 maintenance-chain requirements are fulfilled for pinned Rust/Cargo1.98/tested Linuxx64/X11 GTK FileChooser-v3; full KDE/GNOME/Wayland shell/native-parent, minimum-platform, full native artifact provenance/ABI/consumer, ordinary dependency trust/legal/security/release requirements are independent gates, not remaining checks on this verified finding."
   }
 ]

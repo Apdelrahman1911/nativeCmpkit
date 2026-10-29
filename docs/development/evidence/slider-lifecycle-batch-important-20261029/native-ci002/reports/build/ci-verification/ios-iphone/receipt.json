@@ -1,0 +1,214 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Native date XML must contain exactly all 6 selected application methods, no missing or unrelated cases",
+      "module": "calf-ui"
+    },
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui",
+      "path": "build/ci-verification/ios-iphone/native-ui-application/bbee3f34343a48d996b018441865ccd5/receipt.json"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 2881.68,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-slider-input-lifecycle",
+  "finished_at_utc": "2026-10-29T12:22:51.814827+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "9757b5f3fe59776d91727322bb01c63d7db53c08919347e7358755b32dcb85c0",
+  "inputs_before_sha256": "9757b5f3fe59776d91727322bb01c63d7db53c08919347e7358755b32dcb85c0",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applica-3VQ4A8IF216Q0.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest.xml",
+          "sha256": "ca4817f7c078d3316036a7b22e5172c8ba79e9c1c1c6eee33963dde3b56812a5",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+          "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest",
+      "name": "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "692389310fddc72d43b31bab3908e56cf72c28d5274f00e72f187cb189fb98a0",
+  "schema_version": 1,
+  "scope": "Six new actual UIKit-hosted production Liquid/Cupertino input-owner methods: live callbacks, idle/drag enablement, individually replaced geometry/density/RTL/range/steps/source, cancellation and atomic tap/drag cleanup. Accepted controls/host/state/time suites are not replayed. Direct Cupertino is not adaptive pre-26 OS selection, hardware accessibility or physical/minimum/performance/ABI/release certification.",
+  "source_revision": "a20cf38fcff0a0d21ffad0439e06d7fe1a8e946f",
+  "source_revision_after": "a20cf38fcff0a0d21ffad0439e06d7fe1a8e946f",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T11:34:50.088878+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

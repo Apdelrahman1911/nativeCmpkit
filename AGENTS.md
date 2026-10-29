@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Verified related picker/saver state subset — 2026-10-29
+
+**IO-017/#53 CLOSED/completed directly after all5 original criteria review.**
+[Native recovery](docs/development/evidence/ios-admission-important-20261029/native-ci001/README.md)
+40840589911/dde3a2a9 **SUCCESS9/9,3fresh XML,0/780.31s/856own-Git inputs**; real
+native protocol24.67s, exact KGP agreement, Worker/runtime/binary-after/install/
+owned cleanup and all10BasicText phase/thread witnesses complete. Nil synchronous
+export links were not rejection: actual completion/cleanup and four genuine
+PHPicker snapshots/current callbacks now pass; two controlled deferred-call/
+exception boundaries retain native/file ownership until real completion.
+[Saver40837989337/0333e18a](docs/development/evidence/picker-saver-state-important-20261029/github-ci001/review.json)
+**1/1 on Linux/macOS/Windows**,3executions/oneauthored method,3fresh XML,854own-Git
+inputs each; allowning desktop/native inputs unchanged atdde3. Actual parent
+snapshots/config leases/writers/current callbacks verified; nativeparent0 and
+Linux supported software Skiko are not native-parent or GLX/GPU certification.
+Unchanged accepted3host picker state method is reused explicitly, not replayed.
+**68closed/104open/172;41implemented/50partial/66verified/seven unresolved.**
+Prior failed runs and19completed unchanged native methods remain unreplayed.
+IO-005/#8,IO-007/#44,IO-013/#50,IO-018/#54,IO-023/#58 still need their independent
+provider/swipe/export/native-parent/platform criteria. No-callback OS refusal
+still retains ownership fail-closed; no stranded-owner/device/minimum/ABI/full-
+consumer/dependency/provenance/legal/security/release certification. Work by
+related patches→important tests→original-criteria review→close verified subset
+immediately→document. Single-agent, main/history unchanged; no publication/Pages.
+
 ## Deferred iOS admission batch — 2026-10-29
 
 [Owning repair](docs/development/evidence/ios-admission-important-20261029/README.md)

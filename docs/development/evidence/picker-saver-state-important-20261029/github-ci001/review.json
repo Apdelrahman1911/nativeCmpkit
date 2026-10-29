@@ -1,0 +1,247 @@
+{
+  "reviewed_at_utc": "2026-10-29T08:17:07.825933+00:00",
+  "run_id": 40837989337,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40837989337",
+  "run_attempt": 1,
+  "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+  "workflow_conclusion": "success",
+  "authored_methods": 1,
+  "fresh_target_executions": 3,
+  "accepted_target_executions": 3,
+  "fresh_XML_reports": 3,
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "hosts": [
+    {
+      "slot": "desktop-windows-x64",
+      "job_id": 123327646968,
+      "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40837989337/job/123327646968",
+      "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+      "all_854_inputs_before_after_match_exact_historical_Git": true,
+      "plan_checked_against_historical_source_hold": true,
+      "command": [
+        ".\\gradlew.bat",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 267.61,
+        "exit_code": 0
+      },
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "cbe26bd403ae0abda0cc686f8392ddcea3b1cf8972885460fb96d43083545cff",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.10",
+          "system": "Windows"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-29T08:04:43.772341+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-pc-windows-msvc",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+        "source_tree_dirty": false
+      },
+      "totals": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "fresh_XML_reports": 1,
+      "native_parent_or_GPU_or_full_ABI_or_consumer_or_release_certified": false
+    },
+    {
+      "slot": "desktop-macos-arm64",
+      "job_id": 123327646789,
+      "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40837989337/job/123327646789",
+      "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+      "all_854_inputs_before_after_match_exact_historical_Git": true,
+      "plan_checked_against_historical_source_hold": true,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 353.82,
+        "exit_code": 0
+      },
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "5e92d5d1450b241fdb7fa918b74b6db5b2464966a1f83b65488152d04ae12d2e",
+        "host": {
+          "architecture": "arm64",
+          "python": "3.15.0",
+          "system": "Darwin"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.20.1"
+        },
+        "observed_at_utc": "2026-10-29T07:57:33.761341+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "aarch64-apple-darwin",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+        "source_tree_dirty": false
+      },
+      "totals": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "fresh_XML_reports": 1,
+      "native_parent_or_GPU_or_full_ABI_or_consumer_or_release_certified": false
+    },
+    {
+      "slot": "desktop-linux-x64",
+      "job_id": 123327646843,
+      "job_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40837989337/job/123327646843",
+      "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+      "all_854_inputs_before_after_match_exact_historical_Git": true,
+      "plan_checked_against_historical_source_hold": true,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 242.06,
+        "exit_code": 0
+      },
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-29T07:52:44.117108+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+        "source_tree_dirty": false
+      },
+      "totals": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "fresh_XML_reports": 1,
+      "native_parent_or_GPU_or_full_ABI_or_consumer_or_release_certified": false
+    }
+  ],
+  "checks": "Actual visible Compose windows, explicit versus different composition-local parent snapshots, native-config leases/unique IDs/exactly-once closes/stale-ID rejection, current callbacks, overlap rejection, actual owning writers/source preservation and witnessed composition disposal. Scheduling/destination controlled; native parent0. Linux actual supported software Skiko is asserted by both windows.",
+  "accepted_original_six_picker_and_standalone_JNI_path_suites_not_replayed": true,
+  "limitations": [
+    "Not IO-023 native parent acquisition/thread/backend/modality/focus lifetime proof",
+    "No real OS chooser selection or default Linux GLX shutdown repair/GPU certification",
+    "Genuine PHPicker plus original IO-017 criteria still need independent review",
+    "No full ABI/consumer/security/release certification"
+  ],
+  "issues_newly_closed": [],
+  "packages_releases_deployments_or_Pages_created": false
+}

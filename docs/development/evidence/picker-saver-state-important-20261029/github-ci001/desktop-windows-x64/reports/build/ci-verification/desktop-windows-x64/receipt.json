@@ -1,0 +1,143 @@
+{
+  "changed_inputs": [],
+  "command": [
+    ".\\gradlew.bat",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 267.61,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-file-picker"
+  ],
+  "explicit_test_focus": "picker-desktop-saver-state",
+  "finished_at_utc": "2026-10-29T08:09:11.678663+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "ceabddc951cedd68c10d719928363460e61fda122963921cfece50f098326726",
+  "inputs_before_sha256": "ceabddc951cedd68c10d719928363460e61fda122963921cfece50f098326726",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest",
+          "disposition": "required-executed",
+          "name": "retainedSaverSnapshotsExplicitAndCompositionLocalParentsSettingsAndCurrentCallbacks[desktop]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeDesktopSaverStateTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-file-picker/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest.xml",
+          "sha256": "7fc56a53c4015b71b83191b06c5fa6f8036605e62ffcf06b70330590bdf2ae89",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest",
+          "name": "retainedSaverSnapshotsExplicitAndCompositionLocalParentsSettingsAndCurrentCallbacks[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest",
+      "name": "retainedSaverSnapshotsExplicitAndCompositionLocalParentsSettingsAndCurrentCallbacks[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "33e7bf683459e6cc223c63c7ba6d26d360a0a89b3a163ee7202f695fba4b07e7",
+  "schema_version": 1,
+  "scope": "One new real Compose-window/JNI config/owning-writer saver snapshot method on each selected desktop host; controlled scheduling/result transport and native parent0, not native parent modality/lease/chooser UI or a replay of six accepted picker methods",
+  "source_revision": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+  "source_revision_after": "0333e18afcdb00fbfefaf001b52a306368dcc8c7",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-29T08:04:44.085262+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-file-picker:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

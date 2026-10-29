@@ -1,5 +1,22 @@
 # Related iOS deferred-presentation ownership repair — 2026-10-29
 
+## Verified native result and immediate related state closure
+
+[Native40840589911](native-ci001/README.md) at `dde3a2a9f24fc0f496799354429052f3208b5a3b`
+**SUCCESS9/9**,3fresh XML, Gradle0/780.31s with856exact own-Git inputs. Actual
+native protocol24.67s agrees with KGP; Worker/runtime/binary-after/install/cleanup
+and all10BasicText phase/thread observations complete. Genuine export completion
+and four public PHPicker snapshots/current callbacks pass; two controlled queued
+call/exception regressions retain ownership until later real native completion.
+The old failed runs are not relabeled.
+
+**IO-017/#53 closed/completed at2026-10-29T08:39:11Z** directly after all5 original
+criteria and shared3host saver/unchanged picker results were reviewed, before
+archiving/docs. Original issue preserved; [review/readback](native-ci001/closure/verified-closure.json).
+68closed/104open/172; other IO-005/007/013/018/023 criteria and security/release
+gates stay open. Prior successful19methods/otherhosts not replayed. The original
+local/pending checkpoint below remains historical, not current native status.
+
 The previous [seven-method recovery](../ios-picker-recovery-important-20261029/native-ci001/README.md)
 remains failed. This additive repair removes the unsafe synchronous-link
 rejection inference after UIKit's **void** presentation call, including its

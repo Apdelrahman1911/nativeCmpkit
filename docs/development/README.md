@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Verified related picker/saver state subset — 2026-10-29
+
+**IO-017/#53 closed/completed immediately after all5 original criteria review**,
+before archiving/doc updates. [Native40840589911/dde3a2a9](evidence/ios-admission-important-20261029/native-ci001/README.md)
+**9/9 in3fresh XML,0/780.31s,856own-Git inputs** with genuine complete app/Worker/
+runtime/binary/install/owned-cleanup evidence; actual native protocol24.67s.
+Four public PHPicker settings/current-callback rounds, actual export-cancellation
+safe point, two controlled deferred-call/exception regressions and repeated real
+BasicText host pass. [Saver40837989337/0333e18a](evidence/picker-saver-state-important-20261029/github-ci001/review.json)
+**1/1 on each Linux/macOS/Windows**,3executions ofoneauthored method,854exact-Git
+inputs each; owning inputs unchanged atdde3. Unchanged3host picker state method
+is explicitly reused, not replayed. **68closed/104open/172;41implemented/50partial/
+66verified/seven unresolved.** Original failures/19accepted unchanged native
+methods retained, no successful unrelated suite replay. Other provider/swipe/
+export/native-parent/platform criteria remain open; OS no-callback refusal is
+fail-closed ownership retention, not solved cleanup. Single-agent; important
+related tests→review→immediate verified-subset closure→document; no packages,
+release, deployment/Pages or physical/minimum/ABI/consumer/security gate promotion.
+
 ## Scoped deferred iOS admission batch — 2026-10-29
 
 [Additive owning repair](evidence/ios-admission-important-20261029/README.md)

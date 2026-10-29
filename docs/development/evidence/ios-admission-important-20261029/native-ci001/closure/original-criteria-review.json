@@ -1,0 +1,71 @@
+{
+  "reviewed_at_utc": "2026-10-29T08:39:06.500136+00:00",
+  "source_revision": "dde3a2a9f24fc0f496799354429052f3208b5a3b",
+  "direct_batch_closure_subset": [
+    {
+      "id": "IO-017",
+      "issue": 53
+    }
+  ],
+  "all_five_original_criteria_reviewed": [
+    {
+      "criterion": "Recompose maxItems 2 to 5 and null to limit",
+      "verified": true,
+      "evidence": "Four retained desktop2/5/null/1 per-launch result/configuration rounds reused on Linux/macOS/Windows at95ac/046628; new four genuine PHPicker2/5/null/1 configurations atdde3."
+    },
+    {
+      "criterion": "Swap Compose parent window",
+      "verified": true,
+      "evidence": "Retained desktop picker swaps actual Compose windows (accepted unchanged3host case); new saver swaps local parents and tests explicit precedence over a different local parent on all3hosts."
+    },
+    {
+      "criterion": "Toggle iOS Compatible/Current",
+      "verified": true,
+      "evidence": "Four actual presented PHPicker configurations alternate Compatible/Current; live recomposition does not mutate the active controller."
+    },
+    {
+      "criterion": "Change callback while picker open",
+      "verified": true,
+      "evidence": "Both desktop picker/saver current completion callbacks after held operations and iOS current callback after live recomposition; duplicate controlled native delegate calls deliver once."
+    },
+    {
+      "criterion": "No stale/duplicate native handles after update",
+      "verified": true,
+      "evidence": "Per-launch real JNI unique IDs, lease closes and stale-ID rejection; real UIKit native delegate retained through each active controller/dismissal and owner reused only after teardown; deferred cancellation/exception regressions retain files/delegates until real completion."
+    }
+  ],
+  "native_evidence_run": 40840589911,
+  "new_native_methods_passed": 9,
+  "new_saver_evidence_run": 40837989337,
+  "new_saver_target_executions_passed": 3,
+  "desktop_picker_method_reused_on_three_hosts": true,
+  "desktop_picker_inputs_unchanged": {
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.desktop.kt": "19b3e56e98b14172cd326346d2e286d878af0f12474889370087efe46faf85d2",
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/PlatformFilePicker.kt": "a4f4f54566d589adaa9ad3dad432840e403d22944272578720b19a9e513c8e82",
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/NativeFilePickerBridge.kt": "1f15688af6bda39d7ae1f9a462d71f881264ac7cf7067603c94a2972f302c22b",
+    "calf-file-picker/src/desktopMain/kotlin/com/mohamedrejeb/calf/picker/platform/DialogHandleOwner.kt": "4741891cdef7e401f2c111a52c3bbd4a2054628bce01daf947e6395299bdc575",
+    "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativePickerComposeLifetimeTest.kt": "52fde3e91fee504fda639d9996abac3be1dccc605f7bb06c1faef71f5a30b97a",
+    "calf-file-picker/native/src/lib.rs": "38c2f25c13c7e193c96a3ed45ad904012ec0ad69eacf492f0c156e81cb2a4427",
+    "calf-file-picker/native/src/registry.rs": "3fc8ea76713a4b55802a0ac124e2a1beaeece2854fd90888ffe0aa21a20a271a",
+    "calf-file-picker/native/src/path_encoding.rs": "d2a4667aa31f0104db24f0911f7f2943b9b5845f787890670daa7d5e40473116",
+    "calf-file-picker/native/Cargo.toml": "917ef2b6ff836570de764ad668b93ada0b4a1d243833c2b6fd7c515f9ec7c468",
+    "calf-file-picker/native/Cargo.lock": "c47c8a7b597829cdb154651c653ef4a14067845dfc3badf7f314bbc80946b728",
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+  },
+  "desktop_picker_build_delta_review": "Only additive iOS verification application DSL/top-level imports; desktop configuration unchanged. Native jni_path_tests change is cfg(test)-only. Added saver and filter tests do not replace the unchanged accepted picker method.",
+  "saver_inputs_and_native_payload_unchanged_since_accepted0333": true,
+  "independent_open_issues": [
+    "IO-005/#8",
+    "IO-007/#44",
+    "IO-013/#50",
+    "IO-018/#54",
+    "IO-023/#58"
+  ],
+  "limitations": [
+    "Controlled native delegate termination is not a real provider choice/swipe or successful native export destination",
+    "Native-parent raw lease, no-callback refusal, physical/minimum-platform, full ABI/consumer/dependency/legal/security/release gates remain independent"
+  ],
+  "source_frozen_before_closure": true,
+  "documentation_deliberately_after_verified_subset_closure": true
+}

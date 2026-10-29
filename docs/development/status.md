@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `15de5446e3078e2d0b1c694b2fbf22ef9894728e5b42e57184c2f15eb678a7c4`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8e20257beb6fded8988c57a1cd736c2f751c4acb8c497a147d10c7aa3f6379b6`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 42 |
+| implemented | 41 |
 | partially-verified | 50 |
-| verified | 65 |
+| verified | 66 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -80,7 +80,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | implemented | — | 3 / 1 |
 | 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
-| 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 9 |
+| 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 10 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
 | 37 | [PERM-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18) | High | 1 | M | verified | PERM-001 | 3 / 0 |
 | 38 | [PERM-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/105) | Medium | 1 | M | verified | PERM-002 | 3 / 0 |
@@ -102,16 +102,16 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | implemented | BUILD-005 | 3 / 1 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
-| 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 9 |
+| 57 | [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) | Medium | 2 | M | implemented | — | 6 / 10 |
 | 58 | [IO-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/46) | Medium | 2 | M | verified | — | 6 / 0 |
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
-| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 9 |
+| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 10 |
 | 63 | [IO-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | Medium | 2 | M | verified | IO-008 | 5 / 0 |
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
-| 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | implemented | IO-003 | 5 / 8 |
-| 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 8 |
+| 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
+| 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 9 |
 | 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 6 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 11 |
@@ -937,6 +937,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
 - 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
+- 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
 
 **Compatibility / scope:** Existing native launch overloads retained. Requested names no longer acquire UUID filename prefixes; invalid path components now reject. Saved destination remains externally scoped.
 
@@ -1361,6 +1362,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
 - 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
+- 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
 
 **Compatibility / scope:** One accepted launch owns a fresh generation. Disposal intentionally suppresses terminal delivery. Application callback failure cannot become another cancellation. iOS outcomes are delivered after native teardown; overlap remains rejected while the old sheet is dismissing.
 
@@ -1479,6 +1481,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
 - 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
+- 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
 
 **Compatibility / scope:** Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.
 
@@ -1525,7 +1528,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 65. IO-017 — Some remembered launchers retain stale selection limits, image representation and parent windows
 
-**Medium · implemented · original effort S** — [nativeCmpkit #53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort S** — [nativeCmpkit #53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (verified; original order 9).
 
@@ -1539,14 +1542,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Recompose maxItems 2 to 5 and null to limit
-- Swap Compose parent window
-- Toggle iOS Compatible/Current
-- Change callback while picker open
-- No stale/duplicate native handles after update
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
-- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Changing configuration applies to the next launch, not results already in flight. Native parent lifetime remains separately unresolved under IO-023.
 
@@ -1574,6 +1570,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Browser004 executes shared limit/known-File DOM paths on JS/Wasm; real system picker/native fallback/FileList behavior, changed settings during composition and Apple/Android lifecycle limits remain required.
 - 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
+- 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
 
 **Compatibility / scope:** Negative/zero limits now fail at construction instead of inconsistent native behavior. null means unlimited; 1 means at most one even where a multiple native contract requires &gt;=2.
 
@@ -1656,7 +1653,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · unresolved · original effort L** — [nativeCmpkit #58](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
-**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (verified; original order 9), [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) (implemented; original order 65).
+**Original dependencies:** [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) (verified; original order 9), [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) (verified; original order 65).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3605,7 +3602,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `6185020593111adb732c7665fb5a0fa9e7299ff201af78314e00488360111fcb` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `e3afd2ee23e5a9feaba952f592fe83c492ec71fb089a798867cd01d9d846a697` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `323468fca561dc6b5cc3cafd1a1531b84b2c30d0b12e1ea0bf73b434a721b88e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |

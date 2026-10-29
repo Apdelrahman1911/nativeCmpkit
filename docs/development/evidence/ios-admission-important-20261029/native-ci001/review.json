@@ -1,0 +1,224 @@
+{
+  "reviewed_at_utc": "2026-10-29T08:37:44.232396+00:00",
+  "source_revision": "dde3a2a9f24fc0f496799354429052f3208b5a3b",
+  "run_id": 40840589911,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40840589911",
+  "run_attempt": 1,
+  "workflow_conclusion": "success",
+  "native_job_id": 123336019870,
+  "native_job_conclusion": "success",
+  "all_856_inputs_before_after_match_exact_historical_Git": true,
+  "executed_workflow_hash_matches_dispatch_preflight": true,
+  "plan_checked_against_historical_source_hold": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest.failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest.retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosDeferredPresentationOwnershipTest.deferredVoidPresentationKeepsCancelledExportAndWeakDelegateUntilActualNativeCompletion",
+    "--tests",
+    "com.mohamedrejeb.calf.picker.IosDeferredPresentationOwnershipTest.exceptionAfterQueuedPresentationCannotDeleteStagingBeforeActualNativeCompletion"
+  ],
+  "execution": {
+    "elapsed_seconds": 780.31,
+    "exit_code": 0
+  },
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-29T08:17:09.546299+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "dde3a2a9f24fc0f496799354429052f3208b5a3b",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "totals": {
+    "errors": 0,
+    "executed": 9,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 9,
+    "skipped": 0,
+    "tests": 9,
+    "unexpected_skipped": 0
+  },
+  "fresh_XML_reports": 3,
+  "selected_and_completed_authored_methods": 9,
+  "genuine_KGP_XML_and_independent_native_protocol_agree": true,
+  "native_Worker_complete": true,
+  "native_after_runtime_and_binary_gates_complete": true,
+  "installed_owned_bytes_and_external_cleanup_verified": true,
+  "picker_admission_observations": [
+    {
+      "backlink": false,
+      "dismissing": false,
+      "forward": false,
+      "iteration": 0,
+      "no_presentation": true,
+      "phase": "export-initial",
+      "presenting": false
+    },
+    {
+      "backlink": true,
+      "dismissing": false,
+      "forward": true,
+      "iteration": 1,
+      "no_presentation": false,
+      "phase": "photo-initial",
+      "presenting": false
+    },
+    {
+      "backlink": true,
+      "dismissing": false,
+      "forward": true,
+      "iteration": 2,
+      "no_presentation": false,
+      "phase": "photo-initial",
+      "presenting": false
+    },
+    {
+      "backlink": true,
+      "dismissing": false,
+      "forward": true,
+      "iteration": 3,
+      "no_presentation": false,
+      "phase": "photo-initial",
+      "presenting": false
+    },
+    {
+      "backlink": true,
+      "dismissing": false,
+      "forward": true,
+      "iteration": 4,
+      "no_presentation": false,
+      "phase": "photo-initial",
+      "presenting": false
+    }
+  ],
+  "picker_host_observations": [
+    {
+      "iteration": 1,
+      "main_thread": false,
+      "phase": "before-host"
+    },
+    {
+      "iteration": 1,
+      "main_thread": false,
+      "phase": "content-installed"
+    },
+    {
+      "iteration": 1,
+      "main_thread": true,
+      "phase": "initial-composed"
+    },
+    {
+      "iteration": 1,
+      "main_thread": true,
+      "phase": "recomposed"
+    },
+    {
+      "iteration": 1,
+      "main_thread": true,
+      "phase": "restored"
+    },
+    {
+      "iteration": 2,
+      "main_thread": false,
+      "phase": "before-host"
+    },
+    {
+      "iteration": 2,
+      "main_thread": false,
+      "phase": "content-installed"
+    },
+    {
+      "iteration": 2,
+      "main_thread": true,
+      "phase": "initial-composed"
+    },
+    {
+      "iteration": 2,
+      "main_thread": true,
+      "phase": "recomposed"
+    },
+    {
+      "iteration": 2,
+      "main_thread": true,
+      "phase": "restored"
+    }
+  ],
+  "artifact_id": 12884110162,
+  "artifact_digest": "sha256:327834a4b1305bd7a48766271d113d25a54fb3dab2f3eb9d43c12342c557405f",
+  "actual_native_protocol_elapsed_seconds": 24.67,
+  "unchanged_completed19_and_accepted_other_hosts_not_replayed": true,
+  "root_cause_review": "Real export has no synchronous links initially, but actual callback/dismissal/cleanup completes. Removing nil-link rejection recovers four real PHPicker launch/configuration/current-callback rounds and genuine BasicText host, with two controlled deferred-call/exception boundary regressions followed by actual UIKit completion.",
+  "limitations": [
+    "No successful native export destination/provider selection or real swipe/rollback coverage",
+    "A never-completing OS-refused request still retains ownership fail-closed; no stranded-owner resolution",
+    "No IO-023 native parent lease, physical/minimum-platform, full ABI/consumer, dependency/provenance/legal/security/release certification"
+  ],
+  "packages_releases_deployments_or_Pages_created": false
+}

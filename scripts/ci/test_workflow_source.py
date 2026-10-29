@@ -118,15 +118,18 @@ class WorkflowSourceTests(unittest.TestCase):
     def test_dependency_caches_use_exact_declaration_runtime_and_slot_not_every_commit(self):
         source = WORKFLOW.read_text()
         keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
-        self.assertEqual(3, len(keys))
+        self.assertEqual(4, len(keys))
         for key in keys:
             self.assertNotIn('github.sha', key)
             self.assertNotIn('hashFiles(', key)
             self.assertIn('steps.cache-inputs.outputs.digest', key)
             self.assertIn('steps.runtime.outputs.fingerprint', key)
             self.assertIn('-v2-', key)
-        self.assertIn("steps.cache-inputs.outputs.selection", keys[0])
-        self.assertNotIn("matrix.test-modules", keys[0])
+        library_key, = [key for key in keys if key.startswith("nativecmpkit-deps-v2-")]
+        sample_key, = [key for key in keys if key.startswith("nativecmpkit-sample-deps-v2-")]
+        self.assertIn("steps.cache-inputs.outputs.selection", library_key)
+        self.assertNotIn("matrix.test-modules", library_key)
+        self.assertIn("matrix.mode", sample_key)
         self.assertIn('--scope libraries --selection "$TEST_MODULES" --output build/ci-runtime/library-dependencies.json', source)
         self.assertIn('[[ "$selection" =~ ^(all|subset-[0-9a-f]{64})$ ]]', source)
         self.assertNotIn('restore-keys:', source)

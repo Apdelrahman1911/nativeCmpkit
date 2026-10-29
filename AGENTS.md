@@ -1,5 +1,9 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared sample-platform candidate; no accepted test replay — 2026-10-29
+
+[Owning important checks](docs/development/evidence/sample-data-safety-batch-important-20261029/platforms-tools001/README.md) pass81/81 with960 held sample/library/workflow inputs; original836 remains FAILED835pass/one stale cache guard. Counts overlap. Four original codec bodies move byte-identically to nonAndroidTest; three Android native-graphics host methods are new, not devices. Finite Linux one-host plan builds four real app targets/graphs and50 previously unaccepted cases; Apple one-host plan adds17cases/both frameworks/real unsigned Calf Xcode integration. ZERO local Gradle/native/library tests; root below8GiB. Native-screen reducer uses actual redacted device_type instead of nonexistent private name; running08713991/40956332036 is neither changed nor redispatched. #139/#100/#154 stay open pending original-criteria review; accepted desktop/theme/component cases are not replayed.76closed/96open; single-agent/max2 combined heavy requests, no publishing/Pages/main/history or independent release/security gate changes.
+
 ## Shared actual-screen rendering recovery — 2026-10-29
 
 [Phone40942044869](docs/development/evidence/native-vector-theme-batch-important-20261029/phone-native-ci001/README.md)

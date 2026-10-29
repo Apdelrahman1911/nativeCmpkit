@@ -46,6 +46,18 @@ class NativeVectorScreenTests(unittest.TestCase):
                      actual_cases=1, passed_cases=1, complete_native_lifecycle=True,
                      original_XML_preserved=True) for d in (2.0, 3.0)]
 
+    def test_actual_redacted_runtime_identifies_screen_family_by_public_device_type_not_private_name(self):
+        import native_vector_screens as screens
+        for family in ("iPad", "iPhone"):
+            simulator = {"device_type": "com.apple.CoreSimulator.SimDeviceType." + family + "-17",
+                         "state": "Booted", "udid": "11111111-1111-1111-1111-111111111111"}
+            self.assertNotIn("name", simulator)
+            self.assertTrue(screens.simulator_family_matches(simulator, family))
+            self.assertFalse(screens.simulator_family_matches(simulator, "iPad" if family == "iPhone" else "iPhone"))
+            self.assertFalse(screens.simulator_family_matches({**simulator, "state": "Shutdown"}, family))
+            self.assertFalse(screens.simulator_family_matches({"name": family, "state": "Booted"}, family))
+        with self.assertRaises(ValueError): screens.simulator_family_matches({}, "arbitrary")
+
     def test_pair_requires_two_distinct_exact_native_resolutions_and_complete_actual_results(self):
         import native_vector_screens as screens
         result = screens.validate_pair(self.rows())

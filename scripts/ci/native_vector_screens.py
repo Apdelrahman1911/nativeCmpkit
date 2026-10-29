@@ -26,6 +26,13 @@ def require(condition: bool, message: str) -> None:
         raise ValueError(message)
 
 
+def simulator_family_matches(simulator: dict, family: str) -> bool:
+    """The runtime receipt deliberately excludes private/user-assigned names."""
+    require(family in {"iPad", "iPhone"}, "Unknown required native screen family")
+    return (simulator.get("state") == "Booted" and
+            simulator.get("device_type", "").startswith("com.apple.CoreSimulator.SimDeviceType." + family))
+
+
 def validate_pair(rows: list[dict]) -> dict:
     require(type(rows) is list and len(rows) == 2, "Both native screen executions are required")
     for row, density in zip(rows, (2.0, 3.0)):
@@ -70,7 +77,7 @@ def review(root: Path) -> dict:
                 receipt.get("errors") == receipt.get("uncovered") == [] and
                 receipt.get("task_execution_markers") == {archive.TASK: 1}, "Wrong or unsuccessful fresh native selection")
         simulator = context["simulator"]
-        require(family in simulator["name"] and simulator["state"] == "Booted" and
+        require(simulator_family_matches(simulator, family) and
                 receipt["command"] == tests.gradle_command("ios", plan, simulator=simulator["udid"], root=root),
                 "Wrong native simulator family or actual command")
         module, = receipt["modules"]

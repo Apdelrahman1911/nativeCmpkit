@@ -9,6 +9,12 @@ kotlin {
         implementation(libs.kotlinx.coroutines.test)
     }
 
+    // Actual Android Bitmap/encoder checks on a JVM native-graphics host, not a device claim.
+    sourceSets.named("androidHostTest").dependencies {
+        implementation(libs.junit)
+        implementation(libs.robolectric)
+    }
+
     // Actual sample coroutine-owner disposal, not a substitute for library integration suites.
     sourceSets.desktopTest.dependencies {
         implementation(libs.compose.ui.test)

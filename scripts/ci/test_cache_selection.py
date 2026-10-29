@@ -30,10 +30,11 @@ class CacheSelectionTests(unittest.TestCase):
     def test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key(self):
         source = (Path(__file__).resolve().parents[2] / ".github/workflows/gradle.yml").read_text()
         keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
-        # Library, Core/IO producer and the independently scoped WebView producer.
-        self.assertEqual(3, len(keys))
-        self.assertNotIn("matrix.test-modules", keys[0])
-        self.assertIn("steps.cache-inputs.outputs.selection", keys[0])
+        # Library, independent Core/IO and WebView producers, and the sample-only host.
+        self.assertEqual(4, len(keys))
+        library_key, = [key for key in keys if key.startswith("nativecmpkit-deps-v2-")]
+        self.assertNotIn("matrix.test-modules", library_key)
+        self.assertIn("steps.cache-inputs.outputs.selection", library_key)
         self.assertTrue(all(',' not in key for key in keys))
 
     def test_complete_selection_has_an_explicit_safe_all_token(self):

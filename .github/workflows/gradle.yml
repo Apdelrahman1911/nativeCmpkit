@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, all, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, all, tooling]
 
 permissions:
   contents: read
@@ -29,6 +29,8 @@ jobs:
       libraries: ${{ steps.plan.outputs.libraries }}
       webviews: ${{ steps.plan.outputs.webviews }}
       webview_matrix: ${{ steps.plan.outputs.webview_matrix }}
+      samples: ${{ steps.plan.outputs.samples }}
+      sample_matrix: ${{ steps.plan.outputs.sample_matrix }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
         with:
@@ -59,8 +61,15 @@ jobs:
           sys.path.insert(0, "scripts/ci")
           import webview_consumer
           import workflow_matrix
+          import sample_platform_verification
           webview_matrix = webview_consumer.workflow_matrix(os.environ["PROFILE"])
           matrix = json.load(open("build/ci-plan/matrix.json"))
+          sample_matrix = sample_platform_verification.workflow_matrix(os.environ["PROFILE"])
+          for row in sample_matrix["include"]:
+              sample_plan = sample_platform_verification.plan(workflow_matrix.ROOT, row["mode"])
+              with open("build/ci-plan/sample-" + row["mode"] + ".json", "w") as receipt:
+                  json.dump(sample_plan, receipt, indent=2, sort_keys=True)
+                  receipt.write("\n")
           # Catch CLI/selection drift here, before macOS/Windows/emulator setup.
           # This is read-only source planning, not compilation or executed tests.
           preflight = workflow_matrix.preflight_plans(os.environ["PROFILE"])
@@ -72,7 +81,117 @@ jobs:
               output.write("libraries=" + str(bool(matrix["include"])).lower() + "\n")
               output.write("webview_matrix=" + json.dumps(webview_matrix, separators=(",", ":")) + "\n")
               output.write("webviews=" + str(bool(webview_matrix["include"])).lower() + "\n")
+              output.write("sample_matrix=" + json.dumps(sample_matrix, separators=(",", ":")) + "\n")
+              output.write("samples=" + str(bool(sample_matrix["include"])).lower() + "\n")
           PYTHON
+
+  sample-platforms:
+    needs: tooling
+    if: needs.tooling.outputs.samples == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.tooling.outputs.sample_matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      SAMPLE_MODE: ${{ matrix.mode }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+      CARGO_BUILD_JOBS: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Exact hosted compiler without a bootstrap script
+        run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
+      - name: Linux sample native and graphical build prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev libwayland-dev xvfb xauth
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record actual runtime and only the explicitly selected booted simulator
+        id: runtime
+        run: |
+          args=(--expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0)
+          if [[ "$SAMPLE_MODE" == linux ]]; then
+            CHROME_BIN="$(command -v google-chrome)"
+            test -x "$CHROME_BIN"
+            export CHROME_BIN
+            printf 'CHROME_BIN=%s\n' "$CHROME_BIN" >> "$GITHUB_ENV"
+            args+=(--browser)
+          else
+            python3 scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple --select-simulator iphone --output build/ci-runtime/sample-selected.json
+            device="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-selected.json"))["simulator"]["udid"])')"
+            state="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-selected.json"))["simulator"]["state"])')"
+            if [[ "$state" == Shutdown ]]; then xcrun simctl boot "$device"; elif [[ "$state" != Booted ]]; then exit 1; fi
+            xcrun simctl bootstatus "$device" -b
+            args+=(--apple --simulator "$device" --require-booted)
+            printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
+          fi
+          python3 scripts/ci/runtime_context.py "${args[@]}" --output build/ci-runtime/sample-actual.json
+          fingerprint="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-actual.json"))["compiler_runtime_fingerprint"])')"
+          printf 'fingerprint=%s\n' "$fingerprint" >> "$GITHUB_OUTPUT"
+      - name: Exact configured sample and transitive producer dependency inputs
+        id: cache-inputs
+        run: |
+          digest="$(python3 scripts/ci/dependency_cache_inputs.py --scope libraries --output build/ci-runtime/sample-dependencies.json)"
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Dependencies only, never compiled sample outputs or test results
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: nativecmpkit-sample-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.mode }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Shared sample app builds and fresh unaccepted platform cases, not library evidence
+        env:
+          SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          args=(run --mode "$SAMPLE_MODE" --timeout 4800)
+          if [[ "$SAMPLE_MODE" == apple ]]; then args+=(--simulator "$SIMULATOR"); fi
+          if [[ "$SAMPLE_MODE" == linux ]]; then
+            xvfb-run -a python3 scripts/ci/sample_platform_verification.py "${args[@]}"
+          else
+            python3 scripts/ci/sample_platform_verification.py "${args[@]}"
+          fi
+      - name: Keep sample receipts and original XML only, never apps/frameworks/packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: sample-platform-evidence-${{ matrix.mode }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            build/ci-runtime/sample-*.json
+            build/ci-verification/sample-platforms-${{ matrix.mode }}/*.json
+            sample/common/build/test-results/testAndroidHostTest/TEST-*.xml
+            sample/common/build/test-results/jsBrowserTest/TEST-*.xml
+            sample/common/build/test-results/wasmJsBrowserTest/TEST-*.xml
+            sample/common/build/test-results/iosSimulatorArm64Test/TEST-*.xml
 
   library-tests:
     needs: tooling

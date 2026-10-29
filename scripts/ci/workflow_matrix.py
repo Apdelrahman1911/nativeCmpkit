@@ -117,6 +117,9 @@ PROFILES = {
     "consumer-webview-macos-arm64": (),
     "consumer-webview-macos-x64": (),
     "consumer-webview-windows-x64": (),
+    # Separate finite sample jobs; never shrink or replace any library/device slot.
+    "sample-platforms-linux": (),
+    "sample-platforms-apple": (),
     "all": tuple(slot["slot"] for slot in SLOTS),
     "tooling": (),
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.uikit.LocalUIViewController
 import com.mohamedrejeb.calf.ui.internal.datePickers
+import com.mohamedrejeb.calf.ui.internal.onApplicationMain
 import com.mohamedrejeb.calf.ui.internal.runApplicationUiTest
 import com.mohamedrejeb.calf.ui.internal.sameNativeObject
 import com.mohamedrejeb.calf.ui.internal.waitForNative
@@ -106,7 +107,10 @@ class NativeTimeStateLifecycleAcceptanceTest {
                 waitForIdle()
                 runOnIdle { assertTime(original, hour, minute) }
             }
-        } finally { runOnIdle { NSTimeZone.defaultTimeZone = priorDefaultZone } }
+        } finally {
+            // Global restoration must not depend on a still-idle Compose root.
+            onApplicationMain { NSTimeZone.defaultTimeZone = priorDefaultZone }
+        }
         val previousHour = first.hour
         val previousMinute = first.minute
         runOnIdle { current = second }
@@ -122,9 +126,13 @@ class NativeTimeStateLifecycleAcceptanceTest {
             assertEquals(14, second.hour)
             assertEquals(35, second.minute)
             val picker = parent.view.datePickers().single()
+            assertTime(picker, 14, 35)
+            setNativeTime(picker, 9, 18)
             picker.sendActionsForControlEvents(UIControlEventValueChanged)
-            assertEquals(14, second.hour)
-            assertEquals(35, second.minute)
+            assertEquals(9, second.hour)
+            assertEquals(18, second.minute)
+            assertEquals(previousHour, first.hour)
+            assertEquals(previousMinute, first.minute)
         }
     }
 

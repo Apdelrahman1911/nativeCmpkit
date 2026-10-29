@@ -121,6 +121,12 @@ class IOSUiStateFocusTests(unittest.TestCase):
         self.assertIn("if (disposed) return", manager)
         composition = (r.ROOT / "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/timepicker/AdaptiveTimePicker.ios.kt").read_text()
         self.assertIn("onDispose { datePickerManager.dispose() }", composition)
+        time_state = (r.ROOT / r.IOS_TIME_STATE_SOURCE).read_text()
+        for value in ("onApplicationMain { NSTimeZone.defaultTimeZone = priorDefaultZone }",
+                      "assertTime(picker, 14, 35)", "setNativeTime(picker, 9, 18)",
+                      "assertEquals(9, second.hour)", "assertEquals(18, second.minute)",
+                      "assertEquals(previousHour, first.hour)", "assertEquals(previousMinute, first.minute)"):
+            self.assertIn(value, time_state)
         host = (r.ROOT / r.IOS_APPLICATION_SOURCES[0]).read_text()
         for value in ("override fun viewDidAppear", "override fun viewWillDisappear", "rootHasAppeared &&",
                       "owned root reappearance after presenter teardown", "!rootIsAppeared && controller.view.window == null"):

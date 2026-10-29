@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused batch verification in progress — 2026-10-29
+
+Windows-only native-lock recovery40854489957/f7272ee6 is dispatched once;
+the four accepted hosts/16 actual builds from40848333339/e009 are reused with
+explicit unchanged native/controller/lock/toolchain and invoked executor binding.
+No native runtime/provenance/byte-reproducibility or release claim follows.
+The related UI state batch now proves an actual different nativeB edit and restores
+the process-default timezone independently of Compose idle. Third held KLIB passes
+0/50.01s/all864 inputs, changed owning guard1/1; ZERO native runtime tests.
+Prepare one immutable8-method iOS dispatch, then close each fully reviewed subset
+together immediately, not after unrelated gates. No new closures at this point;
+single-agent and publishing/Pages/main/history restrictions remain.
+
 ## Related remembered-state and native-checkout batches — 2026-10-29
 
 [UI state batch](docs/development/evidence/ui-state-batch-important-20261029/README.md)

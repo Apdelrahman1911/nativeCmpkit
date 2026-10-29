@@ -42,3 +42,13 @@ must disclose that one noninvoked recipe-input delta rather than claim all864
 bytes were compiled at the final revision. Actual native8-method CI and original
 criteria review are pending. No new closures, package/release/deployment/Pages,
 main/history changes, or physical/minimum-platform/ABI/security/release promotion.
+
+### Additive acceptance strengthening before dispatch
+
+[Third held KLIB review](local/local-klib003/review.json) records exit0/50.01s
+with all864 inputs held. The replacement picker now visibly starts at14:35,
+then a different actual native9:18 edit must update onlyB and leaveA unchanged.
+Process-default timezone restoration runs directly on the application main thread,
+even if Compose idle fails. Only the changed owning source guard reruns1/1;
+earlier accepted tooling is not replayed. Native runtime executions remainZERO.
+The earlier post-KLIB input delta is retained rather than rewritten.

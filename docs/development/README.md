@@ -1,5 +1,26 @@
 # NativeCmpKit development after the audit
 
+## Android geo ownership closed; Apple launch diagnosis — 2026-10-30
+
+**#116/PERM-020 CLOSED/completed** after both original criteria/source/results
+and [readback](evidence/geo-owner-lifetime-20261030/closure001/README.md), before docs.
+Fresh41037981340 at03dbfd85: actual Android1/1/one XML/Gradle0/50.02s;32 rounds,
+160 weak owners collect with192 obsolete callbacks retained/positive control.
+927/1004 exact inputs/filter/fresh marker/Enforcing API35/owned graceful shutdown
+reviewed.16 applicable prior host methods reused on23 exact old geo sources and
+unchanged runtime dependency versions; no accepted runtime replay. Injected
+transport/permission/late location calls are not live GMS/grants/settings/process
+or power certification. #25 remains open. **87closed/85open/172total**;
+33implemented/40partial/85verified/six unresolved dispositions.
+
+[Apple41034923043](evidence/image-profile-debug-prerequisite-20261030/native-ci001/README.md)
+FAILED/zero tests/Gradle1/1551.32s: owned signing/readback succeeds, launch exits1
+before PID/Worker/test after37.86s. Actual log observes FBSOpenApplicationService
+ErrorDomain1/SBMainWorkspace refusal; cause unknown, no debug-flag/attach inference.
+Zero record/export/leaks; #141 stays open, previous timeout/strict failure retained.
+Solo/max2heavy/8GiB and publishing/Pages/main/history/minimum/ABI/consumer/
+provenance/legal/security/readiness gates unchanged.
+
 ## Owned failed-profile debugging prerequisite — 2026-10-30
 
 [ADR0012](../decisions/0012-owned-profile-debug-signing.md) scopes one test-only

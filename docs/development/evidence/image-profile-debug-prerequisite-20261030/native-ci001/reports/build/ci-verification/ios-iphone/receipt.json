@@ -1,0 +1,131 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+    "-PnativecmpkitImageMemoryDiagnostics=darwin-tools",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Native date XML must contain exactly all 1 selected application methods, no missing or unrelated cases",
+      "module": "calf-ui"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui",
+      "path": "build/ci-verification/ios-iphone/native-ui-application/9952c69b6865480fab639f7e57861ed2/receipt.json"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1551.32,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-image-allocation-profile-recovery",
+  "finished_at_utc": "2026-10-30T10:10:20.586804+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "d7ccbf47992c171aba217e08f71914cd36f177f472539f5b39640dd686866d49",
+  "inputs_before_sha256": "d7ccbf47992c171aba217e08f71914cd36f177f472539f5b39640dd686866d49",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "0ec56f7a8443353331499527e833dc60bfa9cd34cfa019c365cec9ce52228cfe",
+  "schema_version": 1,
+  "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. This finite recovery alone ad-hoc signs its disposable verification app with one explicit get-task-allow flag and requires signed readback/owned-input cleanup; no elevated permissions or public binary signing, and attachment authorization is not inferred. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
+  "source_revision": "9c5b0337c150a8789168361ba212a90a150aff5d",
+  "source_revision_after": "9c5b0337c150a8789168361ba212a90a150aff5d",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T09:44:29.094639+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

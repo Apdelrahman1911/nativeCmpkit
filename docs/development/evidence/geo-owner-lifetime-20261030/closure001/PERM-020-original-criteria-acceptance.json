@@ -1,0 +1,38 @@
+{
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "03dbfd852e6f660098c2b264759cf51a87d6f338",
+  "dependency_PERM018_issue24_verified_closed": true,
+  "device_retained_obsolete_callbacks": 192,
+  "device_rounds": 32,
+  "device_weak_references_collected": 160,
+  "finding_id": "PERM-020",
+  "fresh_device_runtime_executions": 1,
+  "fresh_native_review_sha256": "579f12c5c252e850129320562e429b9e986ae80ae22791486b31a14cc972ed72",
+  "issue_number": 116,
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "The fresh actual API35 AndroidJUnit4 test in41037981340 at03dbfd85 passes1/1 in one fresh XML, Gradle exit0/50.02s. It repeats bindA/start/bindB/destroyA in32 rounds: old observer detached, B remains active, and destroying B removes its current callback exactly once. Each round also verifies idempotent same-owner binding,32x3 stop/restart cycles, destruction/rebind-without-auto-start, explicit restart, terminal close and exactly six distinct callback removals once each. Real Android Main Looper, LifecycleRegistry and GMS Task implementations execute; provider transport and permission accuracy are deliberately injected.",
+      "original_requirement": "Bind A,start,bind B,destroy A: B continues; destroy B stops exactly once.",
+      "status": "verified-owned-lifecycle-and-late-callback-contract; injected provider disclosed"
+    },
+    {
+      "evidence": "All160 weak tracker/caller-context/A/B/C references collect under ART while192 obsolete native callbacks remain deliberately strongly rooted, and the positive retention control stays live. Late old callbacks after stop, rebind and close cannot mutate current snapshots. Sixteen byte-identical applicable host methods from40414284598 are reused, not rerun: lifecycle detach/restart/cancellation, actual queued GMS completion dispatch on the host main Looper, pending-registration/removal races and terminal generation rejection. The retained late location-callback invocations themselves are direct main-thread injections, not real queued GMS location delivery; this exercises the callback rejection boundary without a live-provider claim. There is no owned tracker coroutine scope/channel left to leak; cancellable callers and distinct session/callback ownership replace them. Device ART collection plus real native lifecycle assertions satisfy this original ownership/restart/weak-reference finding; provider errors, real permissions/settings/GMS absence, Activity/process recreation and power behavior are separately gated.",
+      "original_requirement": "Repeated bind/start/stop, queued callback after stop, destruction/restart, weak-reference/leak checks.",
+      "status": "verified-owned-lifecycle-and-late-callback-contract; injected provider disclosed"
+    }
+  ],
+  "retained_limitations": [
+    "Transport and permission accuracy injected: not live GMS/GPS delivery, real grants/settings/no-GMS or physical hardware proof. #25/PERM-021 remains open.",
+    "Synthetic LifecycleOwners are genuine LifecycleRegistry owners, not Activity/process restoration. Minimum-platform, physical behavior and power/profiling release gates remain.",
+    "Late location callbacks are direct native callback injections after invalidation; host queued real GMS Task completion/removal proves scheduler interaction, not real GMS location delivery.",
+    "The32-round ART weak-reference regression demonstrates collection for its owned roots/fixtures, not a universal heap/no-leak certification or failed/nonterminating provider cleanup guarantee.",
+    "Preserved API/package/overloads are source compatibility, not ABI/packaged consumer/distribution/security/release certification. #141 Apple profiler remains unverified; no packages/releases/Pages/main/history changes."
+  ],
+  "reused_runtime_executions": 16,
+  "reviewed_at_utc": "2026-10-30T10:16:33.838648+00:00",
+  "runtime_reuse_review_sha256": "623074bf4be952c1e31aae199e1744de0563f92adfdee4c34b2c8208a6e26d5a"
+}

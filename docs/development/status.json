@@ -47,14 +47,14 @@
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
-    "docs/development/resolutions/PERM-geo.json": "81a3ecd7237c2937d2291cd01f4c55c3f69c35c79aacd0f01f5b4369b9aa3fa9",
+    "docs/development/resolutions/PERM-geo.json": "7ba90922484b5b9420e93d1ef2f2ed57cf9de9218bf55badd8a2f1a2e0cbd6bd",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "f4cd8269380452e4d3701dbec1d71f6c60214bd2ab36f1a92e17cb99177b719e",
+  "input_fingerprint": "1b77aac291045037e8a7732f75a12c1b76126216e12e8ef0c74618dfac65cf80",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 33,
-      "partially-verified": 41,
-      "verified": 84,
+      "partially-verified": 40,
+      "verified": 85,
       "unresolved": 6,
       "not-applicable": 0
     },
@@ -7657,12 +7657,12 @@
         "mapping_key": "audit:PERM-020",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "f958411eeff10be45016ea4de8236454b493cc2457fbe76f28adccc53d283167",
+      "owner_record_sha256": "63efe92f745d0bff9b32fac8580941eabe946f61535c1c61ac94fc20917ecc7e",
       "owner_record": {
         "id": "PERM-020",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Use per-session callback identities, one current bound owner/observer, explicit unbind and terminal close.",
           "Invalidate before removal, gate starts and rebinds on lifecycle>=STARTED, stop on ON_STOP, unbind on destruction, and suppress obsolete callbacks.",
@@ -7671,7 +7671,8 @@
         "affected_paths": [
           "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
           "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
-          "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt"
+          "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt",
+          "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt"
         ],
         "tests": [
           {
@@ -7854,20 +7855,40 @@
               "LocationTrackingControllerTest": 25
             },
             "scope": "Injected common ownership/cleanup events; no device GC, resource/power profiling or process recreation. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "command": "android-geo-ownership workflow41037981340 at03dbfd852e6f660098c2b264759cf51a87d6f338; exact device command in native-ci002/review.json",
+            "result": "PASS1/1 actual native method/one fresh XML, Gradle0/50.02s.32 rounds,160 weak tracker/caller-context/lifecycle-owner references collected under ART with192 obsolete callbacks retained and a live retention control; exactly192 callback removals. All927 source/1004 combined immutable inputs/filter/task marker/Enforcing API35 runtime and owned graceful emulator shutdown independently verified. Initial41036938063 remains tooling-failed/zero native.",
+            "test_count": 1,
+            "report_count": 1,
+            "failures": 0,
+            "errors": 0,
+            "skipped": 0,
+            "evidence": [
+              "docs/development/evidence/geo-owner-lifetime-20261030/native-ci002/review.json",
+              "docs/development/evidence/geo-owner-lifetime-20261030/native-ci002/archive.json"
+            ],
+            "scope": "Actual Android Main Looper/LifecycleRegistry/GMS Tasks/ART, injected transport and permission reader. Not live GMS/GPS/grants/Activity restoration/physical/minimum/power or universal heap certification."
+          },
+          {
+            "command": "Independent16-selected-host-runtime exact source/dependency/artifact/XML applicability and both original criteria; no accepted method replay",
+            "result": "Six tracker/five native Task transport/five controller methods reused from40414284598 at6eb7c66e,16 distinct selected executions (not all88). Existing23 geo source files/production/host bodies and runtime dependency versions byte-identical; new device-only dependencies/resources and Android API exposure do not change the original host runtime graph. Older schema1 fresh-task init and each XML time verified; no invented task markers. #116 CLOSED/completed after comment/readback preserving title/body/labels and prior history.",
+            "evidence": [
+              "docs/development/evidence/geo-owner-lifetime-20261030/closure001/owner-runtime-reuse-review.json",
+              "docs/development/evidence/geo-owner-lifetime-20261030/closure001/receipt-hash-field-correction.json",
+              "docs/development/evidence/geo-owner-lifetime-20261030/closure001/PERM-020-original-criteria-acceptance.json",
+              "docs/development/evidence/geo-owner-lifetime-20261030/closure001/PERM-020-closure-readback.json"
+            ],
+            "scope": "Scoped ownership/late-event/queued GMS Task cleanup contracts; transport injected and Robolectric Looper, not fresh native provider/settings/OS permission evidence."
           }
         ],
-        "remaining": [
-          "Device/process recreation and physical reference/power profiling remain required.",
-          "Native provider cleanup cannot be guaranteed when removal Tasks fail or never terminate; failures while active/stopping are exposed and can be explicitly retried.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "Android actual-wrapper/native-adapter destroy-then-bind-new-owner passed in the88-case host run; weak-reference/GC and real device/process checks remain unexecuted."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
         ],
-        "verification_scope": "Production controller session/cleanup behavior passed on desktop and Android host; real GMS Task cancellation, late registration/removal and lifecycle/rebind tests passed with injected transport. Latest88/88 host run repeats destroy/new-owner/rebind and proves disposed Compose observers stop receiving commits. Real device/process/power/resource checks and immutable revision evidence remain outstanding. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; injected ownership/cleanup events) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Injected common ownership/cleanup events; no device GC, resource/power profiling or process recreation. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
-        "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+        "verification_scope": "Both original ownership/restart/weak-reference criteria reviewed before #116 closure. Fresh actual API35 AndroidJUnit4/ART native1/1/one XML/Gradle0/50.02s at03dbfd85 in41037981340;32 lifecycle rounds,160 tracker/context/A/B/C weak references collected while192 obsolete callbacks deliberately strongly retained; positive retention control; exact six callback removals once each per round; repeated stop/rebind/destroy/restart/close and late-callback rejection. Real native Main Looper/LifecycleRegistry/GMS Tasks, injected provider transport and permission accuracy. Sixteen unchanged applicable host methods from40414284598 reused with exact23 production/test source and runtime-dependency bindings, artifact/report hashes, native host queue/removal and generation tests; no replay. Direct retained location callback injections are not live GMS queue delivery. Initial41036938063 remains tooling-failed/zero native tests. Real permission/settings/GMS absence, Activity/process recreation, physical/minimum/power and whole heap/ABI/Maven/security/release requirements remain separately gated under #25 and release readiness, not claimed as passed.",
+        "required_tests_review": "docs/development/evidence/geo-owner-lifetime-20261030/closure001/PERM-020-original-criteria-acceptance.json"
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -7915,7 +7936,7 @@
         {
           "id": "PERM-020",
           "original_order": 45,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/116"
         }
       ],

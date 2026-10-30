@@ -367,7 +367,8 @@ jobs:
           [[ "$selection" =~ ^(all|subset-[0-9a-f]{64})$ ]]
           printf 'digest=%s\nselection=%s\n' "$digest" "$selection" >> "$GITHUB_OUTPUT"
       - name: Explicit dependency/compiler/runtime/slot-keyed cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        id: dependency-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           # No prefix restore keys, project outputs, native target dirs, build-cache
           # entries, test XML or configuration caches. Hash verification/locks still
@@ -380,6 +381,10 @@ jobs:
             ~/.cargo/registry/cache
             ~/.cargo/registry/index
             ~/.konan/dependencies
+      - name: Validate restored library cache without trusting or deleting its contents
+        id: dependency-cache-check
+        run: |
+          "$PYTHON" scripts/ci/library_dependency_cache.py --phase restore --selection "$TEST_MODULES"
       - name: Source-set-aware expected library tests (never samples)
         id: plan
         run: |
@@ -527,6 +532,26 @@ jobs:
           if not any(path.is_file() for path in paths):
               print("No Gradle log: failure preceded library execution; inspect setup steps.")
           PYTHON
+      - name: Recheck exact dependency recipe and known candidate absence after library work
+        id: dependency-cache-save-check
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' && steps.cache-inputs.outcome == 'success' && steps.dependency-cache.outcome == 'success' && steps.dependency-cache-check.outcome == 'success' }}
+        run: |
+          # Native/assertion failures remain red. They do not invalidate downloaded
+          # registry bytes under an unchanged dependency/runtime key. Changed or
+          # contaminated caches are preserved and refused, never cleaned for export.
+          "$PYTHON" scripts/ci/library_dependency_cache.py --phase save --selection "$TEST_MODULES"
+      - name: Save checked registry dependencies even when library tests fail
+        if: ${{ !cancelled() && steps.dependency-cache-save-check.outcome == 'success' && steps.dependency-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: ${{ steps.dependency-cache.outputs.cache-primary-key }}
+          enableCrossOsArchive: false
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
       - name: Keep receipts and actual selected-task XML only; never packages
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9

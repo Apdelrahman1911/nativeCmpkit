@@ -22,7 +22,7 @@ SCOPES = ('libraries', 'core-io', 'webview')
 MAX_FILES = 4096
 MAX_INPUT_BYTES = 8 * 1024**2
 RECIPE_FILES = ('scripts/ci/dependency_cache_inputs.py', 'scripts/ci/library_tests.py',
-                'scripts/ci/runtime_context.py')
+                'scripts/ci/runtime_context.py', 'scripts/ci/library_dependency_cache.py')
 PROJECT_FILES = ('build.gradle.kts', 'settings.gradle.kts', 'gradle.properties', 'gradle.lockfile',
                  'package.json', 'yarn.lock', 'package-lock.json', 'pnpm-lock.yaml')
 

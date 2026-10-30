@@ -71,6 +71,18 @@ Single-agent containment and all publishing/security restrictions remain.
   an OS-sandbox/detached-process attestation; see the
   [metadata/cache checkpoint](checkpoint-consumer-metadata-alert-20261027.md).
 
+### Library registry-cache failure containment — 2026-10-30
+
+Library verification may explicitly retain downloaded registry/compiler dependencies
+under the exact existing primary key even if native assertions fail. Require successful
+restore and before/after exact recipe/revision/selection/known-candidate absence
+checks, refuse cancellation/unknown or contaminated data without deletion, and never
+cache compiled outputs, XML, signing or candidate artifacts. Failed tests remain red.
+[Current source/tooling evidence](evidence/dependency-cache-failure-safe-20261030/README.md)
+is not hosted-cache or dependency-trust certification. Packaged Core/IO/WebView
+consumers retain the stronger success-only producer policy and fresh uncached child
+homes. No new token permissions or publishing/security gate is authorized.
+
 ### Still restricted
 
 - **No packages, releases, snapshots, deployments or Pages** until applicable

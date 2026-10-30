@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `aa0b72f6c3dd7f4b8424494b1a93e0187e49904b38a23458b09d2fe341b4d597`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `73af0e9c3f9b12b7b11c67f5cdfca25beb290748b428fcee0a96274096221a87`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -78,7 +78,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | verified | — | 3 / 0 |
-| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 9 |
+| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 10 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 10 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
@@ -882,6 +882,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Actual007 now verifies the exact selected six-invocation controlled fixture/runtime scope, superseding earlier missing-daemon and selected removed-lock verification blockers only. Full mutated-checksum/settings/detached/script/tool graph, ordinary strict root/convention locks/checksums, empty-cache/frozen installs, independent full advisory/license/provenance and platform/release gates remain. Normal exact PID absence is not proof that original client-group termination controls daemon-self groups on timeout/interruption; owning forced-cleanup verification requires a separate scoped fix/test, not arbitrary PID signals.
 - Additive009 supersedes the earlier forced-cleanup gap only for the actually exercised controlled-single-root Linux installed Gradle9.7.1/JDK17 fixture: old20s leak is retained and five owning-controller cleanup scenarios pass. Ordinary wrappers/composites/other hosts/arbitrary descendants/controller SIGKILL and the full ordinary-lock/checksum/trust/consumer/native requirements remain open.009 is exact input binding, not permission for later implicit checksum refresh or independent security certification.
 - Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
+- 2026-10-30 failure-safe library dependency cache: source/60 important synthetic guards/local known-group inspection pass. Review actual hosted restore/miss/precheck/postcheck/save and later exact-key hit; no claim of cache-action execution or measured efficiency yet. Consumer success-only policy/ordinary integrity/advisory/license/native/ABI/release gates remain.
 
 **Compatibility / scope:** No auto-collected checksum is described as independently trusted; baseline audit archives unchanged.
 
@@ -3573,7 +3574,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `a1e830b418b9d1da00148739c6626f63df71f696f1a2ea79b072449a27c9ef96` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `cbdfa0c4efb3d0b20679de0f619f1e153759359a335a04223627284ef71afce2` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `29769f0a08c1a5d1c26bd57eafc1ae6aead53a069ac187b6e78b5f3950a505d7` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `dc04c2a850fb1d69a84651f5be7966d60637a652b5288b02c039c6f8f679ee00` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |

@@ -600,6 +600,11 @@ UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS] = {
                 "methods": IOS_IMAGE_MEMORY_METHODS},),
     "scope": "Three new real-native large-buffer/concurrent-GC/repeated-allocation-failure/profile-workload methods only. Nine accepted conversion methods are explicitly reused, not replayed. Native runtime panic/external-call checks and observed Darwin heap requests are diagnostics, not ASan or proof of every allocator check. Instruments/leak outcomes are independently reviewed; an unsupported profile cannot clear UI-038. No physical/minimum-platform/ABI/consumer/security/release certification.",
 }
+IOS_IMAGE_DARWIN_FOCUS = "ios-native-image-memory-darwin-tools"
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_DARWIN_FOCUS] = {
+    "groups": UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS]["groups"],
+    "scope": "Independent supported Darwin/Instruments/leaks attempt on the same three unchanged real-native memory methods and default Kotlin runtime. The strict runtime profile and its confirmed pre-activation ObjC abort remain failed, not waived or overwritten. Actual process heap requests, owned allocation rows and PID-specific zero leaks are separately required; no ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification. Nine accepted UIImage methods are not replayed.",
+}
 IOS_APPLICATION_SOURCES += (IOS_IMAGE_MEMORY_SOURCE,)
 IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
 IOS_APPLICATION_CASES += (("utils.UIImageMemoryDiagnosticsTest", IOS_IMAGE_MEMORY_METHODS[-1]),)
@@ -1836,6 +1841,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
     if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
         command.append("-PnativecmpkitImageMemoryDiagnostics=true")
+    elif test_plan.get("explicit_test_focus") == IOS_IMAGE_DARWIN_FOCUS:
+        command.append("-PnativecmpkitImageMemoryDiagnostics=darwin-tools")
     if android_serial:
         # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
         # prefix. A native hang becomes a reported failure, never a passing skip.
@@ -2072,6 +2079,13 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
              "Application transport failed or incomplete")
         need(document.get("explicit_test_focus") == test_plan.get("explicit_test_focus"),
              "Application selection differs from its reviewed plan")
+        if test_plan.get("explicit_test_focus") == IOS_IMAGE_DARWIN_FOCUS:
+            need(document.get("image_diagnostics_mode") == "darwin-tools" and
+                 document.get("strict_runtime_assertions_attested") is False,
+                 "Independent Darwin attempt must retain its explicit non-strict diagnostic scope")
+        else:
+            need("image_diagnostics_mode" not in document and "strict_runtime_assertions_attested" not in document,
+                 "Unexpected diagnostic-mode claim on another application selection")
         focused_ui = test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
         if focused_ui:
             validate_test_focus(test_plan)

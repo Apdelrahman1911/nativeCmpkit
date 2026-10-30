@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Independent Darwin memory attempt; strict mode stays failed — 2026-10-30
+
+[ADR0011](../decisions/0011-independent-apple-memory-diagnostics.md) adds a
+separate default-runtime/Darwin/Instruments/leaks request for the **same three
+unchanged memory methods**, not a strict-startup repair or waiver. Original
+`ios-image-memory` still sets panic/external-call checks; failed40989310808 remains.
+Finite transport flag/receipts bind the new diagnostic scope; only actual owned
+allocation rows plus PID-specific zero leaks can clear profiling. Shared tooling
+176 stays FAILED175pass/one wrong fixture scope key; owning10/10/actionlint pass,
+all973 held except that corrected guard, ZERO local native/profile executions.
+#140/#141 remain open; WebView40993609497 runs independently at16c9a530, not rerun.
+78closed/94open; single-agent/max2/8GiB reserve and all publication/Pages/main/history
+and independent release/security gates stay.
+
 ## Strict Apple startup failure retained; shared WebView candidate — 2026-10-30
 
 [Actual40989310808](evidence/image-memory-batch-important-20261030/native-ci002/README.md)

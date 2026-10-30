@@ -58,7 +58,7 @@ SLIDER_TIMEOUT_SECONDS = 300
 def application_timeout_seconds(focus: str | None) -> int:
     if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
         raise ValueError("Unknown finite application focus")
-    if focus == lt.IOS_IMAGE_MEMORY_FOCUS:
+    if focus in {lt.IOS_IMAGE_MEMORY_FOCUS, lt.IOS_IMAGE_DARWIN_FOCUS}:
         return 360
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
@@ -828,11 +828,29 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
                 process.stdout.close()
 
 
-def application_test_focus(arguments: list[str]) -> str | None:
+def application_test_focus(arguments: list[str], image_diagnostics: str | None = None) -> str | None:
+    if image_diagnostics is not None:
+        if image_diagnostics != "darwin-tools":
+            raise ValueError("Unknown native image diagnostic mode")
+        # The identical source methods have deliberately distinct diagnostic
+        # requests. A finite transport flag binds the new attempt; do not infer
+        # it from ambiguous filter order or reinterpret an old strict request.
+        extra = set(arguments) - TEST_ARGUMENTS
+        if len(arguments) == 3 and len(extra) == 1 and TEST_ARGUMENTS <= set(arguments):
+            argument = next(iter(extra))
+            prefix = "--ktest_gradle_filter="
+            if argument.startswith(prefix):
+                patterns = argument.removeprefix(prefix).split(",")
+                reviewed = lt.ui_application_focus_filter(lt.IOS_IMAGE_DARWIN_FOCUS).split(",")
+                if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
+                    return lt.IOS_IMAGE_DARWIN_FOCUS
+        raise ValueError("Darwin diagnostics require exactly their reviewed image methods")
     if len(arguments) == 2 and set(arguments) == TEST_ARGUMENTS:
         return None
     if len(arguments) == 3:
         for focus, argument in APPLICATION_FOCUS_ARGUMENTS.items():
+            if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+                continue  # This independent mode requires its explicit transport flag.
             if set(arguments) == TEST_ARGUMENTS | {argument}:
                 return focus
         # Gradle/KGP can enumerate include-pattern sets in a different order.
@@ -845,6 +863,8 @@ def application_test_focus(arguments: list[str]) -> str | None:
             if argument.startswith(prefix):
                 patterns = argument.removeprefix(prefix).split(",")
                 for focus in lt.UI_APPLICATION_FOCUS_SPECS:
+                    if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+                        continue
                     reviewed = lt.ui_application_focus_filter(focus).split(",")
                     if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
                         return focus
@@ -865,10 +885,10 @@ def application_host(binary_relative: str, focus: str | None) -> dict:
     return {"module": module, **host}
 
 
-def run(binary_relative: str, arguments: list[str]) -> dict:
+def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:
     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
-    focus = application_test_focus(arguments)
+    focus = application_test_focus(arguments, image_diagnostics)
     host = application_host(binary_relative, focus)
     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
     if not runtime.UUID.fullmatch(device):
@@ -895,6 +915,8 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
                "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
                "steps": {}, "cleanup": {}, "application_protocol": None}
+    if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+        receipt.update(image_diagnostics_mode="darwin-tools", strict_runtime_assertions_attested=False)
     app = output / "NativeCmpkitLibraryTests.app"
     bundle_id = None
     signed_hash = plist_hash = None
@@ -945,7 +967,7 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
-        if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS):
+        if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS, lt.IOS_IMAGE_DARWIN_FOCUS):
             import apple_image_profile
             phase = "prepare-owned-image-memory-profile"
             image_profile_driver = apple_image_profile.ImageProfileDriver(
@@ -1059,10 +1081,11 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--binary", type=Path, required=True)
+    parser.add_argument("--image-diagnostics", choices=("darwin-tools",))
     options, arguments = parser.parse_known_args()
     try:
         binary = options.binary.absolute().relative_to(lt.ROOT).as_posix()
-        result = run(binary, arguments)
+        result = run(binary, arguments, image_diagnostics=options.image_diagnostics)
         print("NATIVECMPKIT_UIKIT_TRANSPORT passed=" + str(result["transport_passed"]).lower(), flush=True)
         return 0 if result["transport_passed"] else 2
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:

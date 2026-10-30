@@ -71,13 +71,19 @@ kotlin {
     // Test-only application executable shares the real generated suites. Keep
     // default debugTest/public binaries unchanged; simctl spawn is not an app.
     targets.withType<KotlinNativeTarget>().matching { it.name == "iosSimulatorArm64" }.configureEach {
+        val imageMemoryMode = providers.gradleProperty("nativecmpkitImageMemoryDiagnostics").orNull
+        require(imageMemoryMode == null || imageMemoryMode in setOf("true", "darwin-tools")) {
+            "Select the finite strict-runtime or independent Darwin-tool verification mode"
+        }
         binaries.test("application", listOf(DEBUG)) {
             freeCompilerArgs += listOf("-entry", "com.mohamedrejeb.calf.ui.internal.nativeApplicationMain")
             // Opt-in verification binary only; never alter public frameworks or their defaults.
-            if (providers.gradleProperty("nativecmpkitImageMemoryDiagnostics").orNull == "true") {
+            if (imageMemoryMode == "true") {
                 binaryOption("runtimeAssertionsMode", "panic")
                 binaryOption("checkStateAtExternalCalls", "true")
             }
+            // Darwin-only is a separate supported-tool attempt, not disabling or
+            // repairing the failed strict profile. Do not override binary defaults.
         }
         val application = binaries.getTest("application", DEBUG)
         tasks.register<KotlinNativeHostTest>("iosSimulatorArm64ApplicationTest") {
@@ -85,7 +91,8 @@ kotlin {
             description = "Fresh library tests in an owned genuine UIKit simulator application, with KGP's real JUnit parser."
             executable(rootProject.file("scripts/ci/ios_ui_application.py"))
             dependsOn(application.linkTaskProvider)
-            args = listOf("--binary", application.outputFile.absolutePath)
+            args = listOf("--binary", application.outputFile.absolutePath) +
+                if (imageMemoryMode == "darwin-tools") listOf("--image-diagnostics", "darwin-tools") else emptyList()
             targetName = "iosSimulatorArm64"
             ignoreFailures = false
             ignoreRunFailures = false

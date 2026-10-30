@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Android geo provider batch prepared — 2026-10-30
+
+[Three new actual Android fixtures](evidence/geo-provider-contracts-20261030/README.md)
+compile to APK0/40.01s with1007 held inputs; device compiler fresh/production
+UP-TO-DATE, **ZERO native methods executed**.14 distinct important synthetic
+checks/Actionlint/both source CLIs pass, with red/guard/private path+namespace
+inspection failures preserved. One actual fresh-test-UID permission/default-GMS/
+foreground Activity method, two explicitly injected native Task error/retry/
+background-cancel/real Handler queue methods; no accepted GC/host/portable replay.
+Finiteandroid-geo-provider retains six modules/all11 full slots. #25 stays open;
+actual native and missing-GMS/settings-off/revocation/process/hardware checks remain.
+87closed/85open; solo/max2heavy/8GiB and all publication/security gates unchanged.
+
 ## Android geo ownership closed; Apple launch diagnosis — 2026-10-30
 
 **#116/PERM-020 CLOSED/completed** after both original criteria/source/results

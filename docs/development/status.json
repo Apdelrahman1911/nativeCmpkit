@@ -47,14 +47,14 @@
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
-    "docs/development/resolutions/PERM-geo.json": "7ba90922484b5b9420e93d1ef2f2ed57cf9de9218bf55badd8a2f1a2e0cbd6bd",
+    "docs/development/resolutions/PERM-geo.json": "5c26620f7471ad1587b7fda6f3d7d515682d8714fcdc0697a0a0e769ddcce086",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "1b77aac291045037e8a7732f75a12c1b76126216e12e8ef0c74618dfac65cf80",
+  "input_fingerprint": "9ae890ed188cf0a2a1aefe370d041e17683e2de582e3f7c4617e30aac9095577",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -7948,7 +7948,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "1d7086ea3bd18970bf89ec55c060fb9ebab52001d7b296abd74b8dec32a6b978",
+      "owner_record_sha256": "0fd61c09187acc4072413519ded1b6103d882be0e8ea2847e086f7f72253dd21",
       "owner_record": {
         "id": "PERM-021",
         "status": "partially-verified",
@@ -8135,12 +8135,23 @@
               "LocationTrackingControllerTest": 25
             },
             "scope": "Common registration/error/permission observations; no real Android settings/GMS/background policy. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "command": "./gradlew :calf-geo:assembleAndroidDeviceTest --no-daemon --console=plain --max-workers=2 --no-configuration-cache -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process",
+            "result": "Local JDK17 APK assembly PASS0/40.01s with1007 combined source/build/tooling inputs held. Fresh compileAndroidDeviceTest; unchanged compileAndroidMain UP-TO-DATE. ZERO device methods executed. Three new genuine Android tests and finite profile prepared for actual grant/default-GMS registration, controlled error/retry and real Handler-queued cancellation/replacement.14 distinct relevant synthetic checks pass, not native tests; preimplementation/guard/inspection failures retained.",
+            "evidence": [
+              "docs/development/evidence/geo-provider-contracts-20261030/compile001/review.json",
+              "docs/development/evidence/geo-provider-contracts-20261030/implementation001/important002.json",
+              "docs/development/evidence/geo-provider-contracts-20261030/implementation001/APK-manifest-review.json"
+            ],
+            "scope": "Native execution pending. Only one method will use actual grants/default provider; other failure/registration transport deliberately injected. No actual revocation/GPS/settings-off/no-GMS/physical/minimum or release certification."
           }
         ],
         "remaining": [
           "Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.",
           "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates."
+          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
+          "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates."
         ],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",

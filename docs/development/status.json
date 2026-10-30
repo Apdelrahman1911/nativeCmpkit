@@ -47,14 +47,14 @@
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
-    "docs/development/resolutions/PERM-geo.json": "e83424e664b791fe0e88c386ef79db86f119a6a23f2b7b322fd455f4c3f0fcc5",
+    "docs/development/resolutions/PERM-geo.json": "0ea3a36e4fd4e56854d1ee03b3a1351fd14c79f9c484b3fbe0883bd7b740b0df",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "f7d51669e8d22f247dcb676923d76e2beb28168bfffb5b1a5de384b3d7460884",
+  "input_fingerprint": "5985b202c6c24b1c2ab39f2fc14ead621092000b4fd6639ff5a3f8e09169d22b",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -7948,7 +7948,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "11afb80c5210fa766e6553d70e494717b1421d0bafd38dda70ae1d462791254f",
+      "owner_record_sha256": "eaaa358424ae0feccc8b1fac570eec47a52ee2ecd7d28024e8d45a31063d652c",
       "owner_record": {
         "id": "PERM-021",
         "status": "partially-verified",
@@ -8179,6 +8179,26 @@
               "docs/development/evidence/geo-prerequisites-20261030/implementation001/official-installer-source-observation.json"
             ],
             "scope": "Actual native GMS Task/Looper scheduling with injected transport. No actual default provider/grant/no-GMS/settings/revocation success from this failed method."
+          },
+          {
+            "command": "Read-only review Android41051631302 at17b299fd3019193c2302503c31d32ab2bdb442b5",
+            "result": "FAILED before native invocation: reporter APK0/297.08s, source consumer APK0/175.06s; actual install/byte readback/owned uninstall and enforcingAPI35 graceful shutdown verified. Initial permission map not recorded; exact human dump failure unavailable. ZERO library/native tests orXML; no accepted result replay.",
+            "evidence": [
+              "docs/development/evidence/geo-prerequisites-20261030/native-ci001/pretest-failure-review.json",
+              "docs/development/evidence/geo-prerequisites-20261030/native-ci001/archive.json"
+            ],
+            "scope": "Compilation and owning cleanup only. Failed pre-test permission observation cannot close either original criterion."
+          },
+          {
+            "command": "python3 -B -m unittest test_android_permission_service test_android_geo_probe test_android_geo_prerequisites -v; actionlint gradle.yml",
+            "result": "17 important synthetic methods PASS; five new service/unknown/granted/identity/cleanup contracts replace the human-format gate. Official taggedAPI35 source reviewed; exact owning scalar permission query and standalone receipt upload repaired. All945/1022 inputs held. Prior red:5methods/2pass/3errors, preserved. ZERO new native methods.",
+            "evidence": [
+              "docs/development/evidence/geo-prerequisites-20261030/permission-service001/synthetic-red.json",
+              "docs/development/evidence/geo-prerequisites-20261030/permission-service001/synthetic-recovery.json",
+              "docs/development/evidence/geo-prerequisites-20261030/permission-service001/official-permission-service-source.json",
+              "docs/development/evidence/geo-prerequisites-20261030/permission-service001/unchanged-production-applicability.json"
+            ],
+            "scope": "No source/compiler/API/dependency changes or accepted native/host replay; one new immutable actual three-case recovery required."
           }
         ],
         "remaining": [
@@ -8186,7 +8206,8 @@
           "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
           "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
           "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates.",
-          "Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet."
+          "Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet.",
+          "2026-10-30 run41051631302 stays FAILED/zero native before the permission map. Owning service query and receipt upload now repaired in synthetic important tests only. Execute still-unrun three native cases, review both original criteria and close directly only after acceptance. Do not replay accepted two injected/five host methods."
         ],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",

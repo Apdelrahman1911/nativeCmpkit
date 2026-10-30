@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Android pre-test permission recovery — 2026-10-30
+
+[41051631302](evidence/geo-prerequisites-20261030/native-ci001/README.md) is
+FAILED/zero native/XML; both APKs and owned identity/cleanup pass.
+[Official scalar permission query](evidence/geo-prerequisites-20261030/permission-service001/README.md)
+repairs the human-format dependency;17 important synthetic methods/actionlint pass,
+945/1022 inputs held. No production/app/compiler changes or accepted-test replay.
+Recover the three unrun native cases, #25 open;87closed/85open. Publication and
+all independent readiness/security gates remain contained.
+
 ## Android prerequisites checked; actual Apple refusal — 2026-10-30
 
 [Owning Android prerequisite batch](geo-android-prerequisites.md): five new host methods and device APK pass0/46.01s,944/1021 held inputs. Standalone Java source consumer assembles0/91.02s; actual certificate/protection/min23/target37 inspected.28 distinct important synthetic methods pass; accepted native/host work not replayed. One three-case actual OS/GMS/revocation recovery still required, #25 open.

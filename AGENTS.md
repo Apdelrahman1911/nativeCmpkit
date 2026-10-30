@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Scalar Android permission query; failed pre-test run — 2026-10-30
+
+[41051631302](docs/development/evidence/geo-prerequisites-20261030/native-ci001/README.md)
+FAILED/zero native/XML before initial permission map; reporter APK0/297.08s,
+source APK0/175.06s, exact inputs/installed identity/owned clean shutdown verified.
+Actual dump format is unknown. [Owning recovery](docs/development/evidence/geo-prerequisites-20261030/permission-service001/README.md)
+uses officialAPI35 scalar `dumpsys package check-permission`/explicituser0,
+rejects unknown/errors and uploads only probe receipt;17 important synthetic
+methods/actionlint pass.945/1022 inputs held; production/app/compiler unchanged.
+#25 stays open, recover three unrun cases only; accepted injected/host not replayed.
+87closed/85open; single-agent/max2heavy/8GiB and all publishing/security gates stay.
+
 ## Android prerequisites checked; actual Apple refusal — 2026-10-30
 
 [Owning prerequisite batch](docs/development/geo-android-prerequisites.md) passes five new actual host methods/one fresh XML plus device APK0/46.01s,944/1021 held inputs. Standalone Java source probe assembles0/91.02s; actual APK certificates match/signature-protected min23/target37 manifests inspected.28 distinct important synthetic methods/actionlint/source CLIs pass. Official ATE1.0.1 reporter auto-grant explains the old initial assertion; separate UID permits actual revocation without killing reporter. Shared private signing environment and exact runtime annotation fix owning harness contracts; omitted dumpsys rows stay unknown. Native three-case recovery still required; #25 open, do not replay two accepted injected methods or five host passes. Preserve every compiler/fixture/private-reader failure.

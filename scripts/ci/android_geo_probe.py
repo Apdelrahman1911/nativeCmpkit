@@ -65,24 +65,18 @@ def installed_path(result: subprocess.CompletedProcess) -> str | None:
     return value.removeprefix("package:")
 
 
-def permission_state(payload: bytes) -> dict:
-    if not isinstance(payload, bytes) or not 0 < len(payload) <= 1024**2:
-        raise ValueError("Unbounded actual owned package permission state")
-    text = payload.decode("utf-8")
-    # The disposable fixture has exactly its single Android user0. Do not silently
-    # combine grants belonging to another user or a duplicated output section.
-    sections = re.split(r"(?m)^\s*User (\d+):", text)
-    if len(sections) != 3 or sections[1] != "0":
-        raise ValueError("Expected one actual user0 permission section")
-    answer = {}
-    for permission in PERMISSIONS:
-        matches = re.findall(r"(?m)^\s*" + re.escape(permission) + r": granted=(true|false)(?:,.*)?$", sections[2])
-        if len(matches) > 1:
-            raise ValueError("Duplicate actual foreground permission state")
-        # Fresh never-requested permissions may be absent from dumpsys. Keep
-        # that observation unknown; actual same-UID native reads own denial.
-        answer[permission] = matches[0] == "true" if matches else None
-    return answer
+def permission_result(result: subprocess.CompletedProcess) -> bool:
+    """Scalar PermissionManager result, not a heuristic over the human package dump.
+
+    API35 DumpHelper's explicit check-permission command prints exactly one
+    PackageManager.PERMISSION_GRANTED (0) or PERMISSION_DENIED (-1) value.
+    Unknown/error/duplicate output cannot become a grant or an inferred denial.
+    The native tests independently read permission state from the real probe UID.
+    """
+    if (result.returncode != 0 or result.stderr or not isinstance(result.stdout, bytes) or
+            re.fullmatch(rb"(?:0|-1)(?:\r?\n)?", result.stdout) is None):
+        raise ValueError("Unknown actual permission-service result")
+    return result.stdout.rstrip(b"\r\n") == b"0"
 
 
 class OwnedGeoProbe:
@@ -150,12 +144,13 @@ class OwnedGeoProbe:
                             probe_installed=self.installed, automatic_runtime_permission_grant=False)
         if install.returncode or b"Success" not in install.stdout.splitlines() or not self.installed:
             raise RuntimeError("Owned separate source APK install/readback failed; no blind retry")
-        state = self.control("shell", "dumpsys", "package", PACKAGE)
-        if state.returncode:
-            raise ValueError("Actual owned permission state unavailable")
-        permissions = permission_state(state.stdout)
+        permissions = {permission: permission_result(self.control(
+            "shell", "dumpsys", "package", "check-permission", permission, PACKAGE, "0"))
+            for permission in PERMISSIONS}
         self.receipt["initial_actual_foreground_permissions"] = permissions
-        self.receipt["initial_denial_verified_by_package_dump"] = all(value is False for value in permissions.values())
+        self.receipt["initial_denial_verified_by_permission_service"] = all(value is False for value in permissions.values())
+        self.receipt["permission_observation"] = {"mechanism": "dumpsys package check-permission", "user": 0,
+                                                  "actual_permission_manager_constants": True}
         self.receipt["actual_native_permission_reads_still_required"] = True
         if any(value is True for value in permissions.values()):
             raise ValueError("The fresh source consumer was unexpectedly granted foreground permissions")

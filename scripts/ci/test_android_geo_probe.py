@@ -19,16 +19,6 @@ class OwnedAndroidGeoProbeTests(unittest.TestCase):
                                    (1, b"", b"unknown service failure"), (149, b"", b"")]:
             with self.assertRaises(ValueError): p.installed_path(result(code, body, error))
 
-    def test_permissions_are_exactly_user_zero_and_missing_duplicate_or_granted_values_are_observed(self):
-        body = ("Package owned:\n User 0:\n  runtime permissions:\n" + "".join("   " + name + ": granted=false, flags=[]\n" for name in p.PERMISSIONS)).encode()
-        self.assertEqual({name: False for name in p.PERMISSIONS}, p.permission_state(body))
-        self.assertTrue(p.permission_state(body.replace(b"granted=false", b"granted=true", 1))[p.PERMISSIONS[0]])
-        omitted = p.permission_state(body.replace(p.PERMISSIONS[0].encode(), b"foreign"))
-        self.assertIsNone(omitted[p.PERMISSIONS[0]], "Missing dumpsys rows are unknown, never an inferred denial")
-        for invalid in (body + b" User 1:\n", body.replace(b" User 0:", b" User 4:"), body + body,
-                        body + ("   " + p.PERMISSIONS[0] + ": granted=false, flags=[]\n").encode(), b"private unknown dump"):
-            with self.assertRaises(ValueError): p.permission_state(invalid)
-
     def test_probe_assembly_receives_the_same_private_signing_environment_without_export_or_parent_mutation(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory); output = root / "build/ci-verification/synthetic"; output.mkdir(parents=True)

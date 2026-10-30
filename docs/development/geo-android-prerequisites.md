@@ -4,6 +4,13 @@ Issue [#25/PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25)
 remains open pending the three-case native prerequisite batch. This is an owning
 contract repair, not a new geo architecture or permission-prompt feature.
 
+Actual[41051631302](evidence/geo-prerequisites-20261030/native-ci001/README.md)
+fails before native invocation: both APKs/owned cleanup pass, zero tests/XML.
+The owning[scalar PermissionManager query](evidence/geo-prerequisites-20261030/permission-service001/README.md)
+replaces its fragile human-dump gate;17 important synthetic methods pass.
+Production/app/compiler bytes remain unchanged; still execute the three native
+cases, without replaying accepted two injected or five host methods.
+
 ## Default provider execution
 
 `LocationTracker.startTrackingWithResult()` still marshals to `Main.immediate`.

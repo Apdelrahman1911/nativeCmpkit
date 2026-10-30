@@ -20,7 +20,8 @@ import kotlinx.cinterop.UByteVar
 import kotlinx.cinterop.convert
 import kotlinx.cinterop.get
 import kotlinx.cinterop.reinterpret
-import platform.CoreFoundation.CFEqual
+import platform.CoreFoundation.CFStringCompare
+import platform.CoreFoundation.kCFCompareEqualTo
 import platform.CoreGraphics.CGBitmapContextCreate
 import platform.CoreGraphics.CGBitmapContextGetData
 import platform.CoreGraphics.CGBlendMode
@@ -249,7 +250,8 @@ class UIImageMemoryDiagnosticsTest {
     private fun assertSrgb(image: UIImage) {
         assertTrue(NSThread.isMainThread)
         val space = assertNotNull(CGImageGetColorSpace(assertNotNull(image.CGImage)))
-        assertTrue(CFEqual(assertNotNull(CGColorSpaceGetName(space)), kCGColorSpaceSRGB))
+        assertEquals(kCFCompareEqualTo,
+            CFStringCompare(assertNotNull(CGColorSpaceGetName(space)), kCGColorSpaceSRGB, 0uL))
     }
 
     private fun assertKnownPixels(image: UIImage) {

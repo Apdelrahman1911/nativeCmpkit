@@ -1,0 +1,147 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    "-PnativecmpkitImageMemoryDiagnostics=true",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-ui"
+    },
+    {
+      "error": "Native date XML must contain exactly all 3 selected application methods, no missing or unrelated cases",
+      "module": "calf-ui"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Missing owned UIKit application receipt output",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 709.78,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ios-native-image-memory",
+  "finished_at_utc": "2026-10-30T01:55:09.920219+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "8bb05a0e39d611dc411eee8f8ccd12cdb82a7f1494f9fa98c71509d667bf4a55",
+  "inputs_before_sha256": "8bb05a0e39d611dc411eee8f8ccd12cdb82a7f1494f9fa98c71509d667bf4a55",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "20562b7ea4f64b8d18702b1612864e65d86383174ba0d7c178c578d46b97fbc6",
+  "schema_version": 1,
+  "scope": "Three new real-native large-buffer/concurrent-GC/repeated-allocation-failure/profile-workload methods only. Nine accepted conversion methods are explicitly reused, not replayed. Native runtime panic/external-call checks and observed Darwin heap requests are diagnostics, not ASan or proof of every allocator check. Instruments/leak outcomes are independently reviewed; an unsupported profile cannot clear UI-038. No physical/minimum-platform/ABI/consumer/security/release certification.",
+  "source_revision": "45c6086dc030e310626d858b345337f17e15cc28",
+  "source_revision_after": "45c6086dc030e310626d858b345337f17e15cc28",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T01:43:19.955132+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 0
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

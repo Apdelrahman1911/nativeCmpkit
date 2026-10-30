@@ -147,13 +147,24 @@ class IosImageMemoryFocusTests(unittest.TestCase):
         self.assertEqual(3, source.count("@Test"))
         for required in ("1024", "Worker.start", "requestTermination", "FutureState.COMPUTED",
                          "GC.collect()", "override fun createSnapshot", "super.createSnapshot(context)",
-                         "CFEqual", "CGColorSpaceGetName", "asSkiaBitmap().close()",
+                         "CFStringCompare", "CGColorSpaceGetName", "asSkiaBitmap().close()",
                          "assertBalanced()", "4096", "NATIVECMPKIT_IMAGE_PROFILE"):
             self.assertIn(required, source)
         build = (lt.ROOT / "calf-ui/build.gradle.kts").read_text()
         self.assertIn('binaryOption("runtimeAssertionsMode", "panic")', build)
         self.assertIn('binaryOption("checkStateAtExternalCalls", "true")', build)
         self.assertIn('nativecmpkitImageMemoryDiagnostics', build)
+
+    def test_native_srgb_name_check_uses_importable_typed_content_comparison(self):
+        source = (lt.ROOT / lt.IOS_IMAGE_MEMORY_SOURCE).read_text()
+        # Kotlin/Native 2.4.20's real CoreFoundationBase KLIB marks CFEqual
+        # ERROR/"Unable to import this declaration". Compare the two actual
+        # CFString contents, never pointer identity or just non-null presence.
+        self.assertNotIn("CFEqual", source)
+        self.assertIn("import platform.CoreFoundation.CFStringCompare", source)
+        self.assertIn("import platform.CoreFoundation.kCFCompareEqualTo", source)
+        self.assertIn("CFStringCompare(assertNotNull(CGColorSpaceGetName(space)), kCGColorSpaceSRGB, 0uL)", source)
+        self.assertIn("kCFCompareEqualTo", source)
 
 
 if __name__ == "__main__": unittest.main()

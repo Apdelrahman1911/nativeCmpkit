@@ -1,0 +1,138 @@
+{
+  "accepted_native_methods": [],
+  "accepted_nine_unchanged_prior_UIImage_methods_not_replayed": true,
+  "actual_image_memory_profile_attempt": null,
+  "actual_native_protocol": null,
+  "actual_native_transport": null,
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-30T01:43:18.106604+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE"
+    },
+    "source_revision": "45c6086dc030e310626d858b345337f17e15cc28",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "all_before_after_inputs_held": true,
+  "all_before_inputs_match_exact_historical_Git": true,
+  "artifact_digest": "sha256:a02073f8f2d0001e1fc3f3a677fad1b1b2cbffcce24975e6c5bff5e7eebe050d",
+  "artifact_id": 12947583668,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    "-PnativecmpkitImageMemoryDiagnostics=true",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"
+  ],
+  "complete_native_Worker_runtime_binary_install_owned_cleanup": false,
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-ui"
+    },
+    {
+      "error": "Native date XML must contain exactly all 3 selected application methods, no missing or unrelated cases",
+      "module": "calf-ui"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-ui"
+    },
+    {
+      "contract": "Missing owned UIKit application receipt output",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-ui"
+    }
+  ],
+  "exact_fresh_XML_cases": [],
+  "execution": {
+    "elapsed_seconds": 709.78,
+    "exit_code": 1
+  },
+  "fresh_XML_reports": 0,
+  "held_input_count": 890,
+  "native_error": null,
+  "native_job_conclusion": "failure",
+  "native_job_id": 123837746381,
+  "old_parser_positive_NOT_sufficient_to_clear_UI038": true,
+  "original_issue_criteria_review_and_closure_not_automatically_inferred": true,
+  "owned_crash_diagnostics": null,
+  "packages_releases_deployments_or_Pages_created": false,
+  "passed": false,
+  "plan_command_and_actual_runtime_reviewed": true,
+  "raw_private_exports_not_available_for_new_row_correlated_review": true,
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T01:56:14.609424+00:00",
+  "run_attempt": 1,
+  "run_id": 40986082530,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40986082530",
+  "running_revision_uses_old_global_symbol_parser": true,
+  "source_revision": "45c6086dc030e310626d858b345337f17e15cc28",
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "workflow_conclusion": "failure",
+  "workflow_sha256": "8a7fdf8b4bb3f6dd4e227444e4d6fcd627615261ca4841b4042b2ba216c7fb06"
+}

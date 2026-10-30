@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## Shared UIImage compiler blocker repaired — 2026-10-30
+
+[Actual40986082530](docs/development/evidence/image-memory-batch-important-20261030/native-ci001/review.json) FAILED1/709.78s/zero tests/XML/native app; all890 exactGit inputs held. [Smallest typed CFString repair](docs/development/evidence/image-memory-batch-important-20261030/compile-repair001/README.md) preserves actual sRGB content equality and every pixel/GC/failure/Worker bound; exact2.4.20 KLIB inspection is NOT compilation. One red1/1 then21/21 owning synthetic methods/all967 held, ZERO local heavy/runtime builds. Only three unexecuted cases need one immutable recovery with current row-correlated profiler; nine accepted cases not replayed. #140/#141 remain open;78closed/94open. Single-agent/max2/8GiB reserve; publishing/Pages/main/history and independent release/security gates stay.
+
 ## Related CI ownership repair while native batch runs — 2026-10-30
 
 [Two red guards →39/39 important tooling methods](docs/development/evidence/ci-evidence-ownership-batch-important-20261030/README.md), all967 held, ZERO local runtime builds. JVM outputs now bind the public archiveFile, not a guessed suffix/old neighbour; actual Gradle observer execution is still pending. Image profiles now require frame/row correlation, not a library symbol in unrelated metadata. Single immutable [40986082530/45c6086d](docs/development/evidence/image-memory-batch-important-20261030/native-ci001/README.md) continues; no accepted native-method replay. Any old-parser positive alone cannot clear UI-038. #140/#141 remain open pending actual review;78closed/94open. Single-agent/max2/8GiB reserve; all publishing/Pages/main/history and independent release/security gates stay.

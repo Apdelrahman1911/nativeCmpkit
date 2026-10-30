@@ -1,0 +1,7 @@
+# Shared image-memory test-only compile repair
+
+Actual [40986082530](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40986082530), `45c6086d`, **FAILED exit1/709.78s, zero tests/zero XML**, all890 before/after inputs exact Git. The actual Apple compiler rejects `CFEqual` in the new fixture, not the production converter. [Original final review](../native-ci001/review.json) and bounded compiler diagnostics retain that failure.
+
+The installed exact2.4.20 iOS platform KLIB marks generic `CFEqual` ERROR/"Unable to import this declaration". Its typed `CFStringCompare` is callable; compare both real color-space name **contents** with flags0 and `kCFCompareEqualTo`, not pointer equality/non-null presence. No deprecation suppression or weaker sRGB/pixel/GC/release/Worker assertion. One new guard first fails1/1, then shared **21/21 owning synthetic methods/all967 held**; overlapping prior driver methods, **zero local Gradle/KLIB compilation/link/native tests**. KLIB metadata inspection is not native execution.
+
+Recover only the three still-unexecuted memory cases on one immutable Apple host. Nine accepted UIImage methods are not replayed. The current row-correlated profile parser is included, so an owned stack-frame allocation row and actual PID-specific zero-leak summary remain required independently. #140/#141 stay open until every original criterion is reviewed; no release/security/main/history/Pages/publishing gate changed.

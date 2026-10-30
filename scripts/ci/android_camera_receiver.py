@@ -1,11 +1,19 @@
 """Exact owned native camera receiver and fresh report preservation. Never publishes."""
 from pathlib import Path
 import hashlib
+import os
 import re
+import selectors
+import subprocess
+import time
 import xml.etree.ElementTree as ET
 
 import library_tests as lt
+from android_geo_probe import installed_path
 from android_share_recipient import OwnedShareRecipient
+
+MAX_INSTALLED_APK_BYTES = 256 * 1024**2
+INSTALLED_APK_TIMEOUT_SECONDS = 30
 
 
 class OwnedCameraReceiver(OwnedShareRecipient):
@@ -13,9 +21,93 @@ class OwnedCameraReceiver(OwnedShareRecipient):
     FIXTURE = "tests/consumer/android-camera-receiver"
     OUTPUT = "camera-receiver"
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, api_level: int = 35, **kwargs):
+        if type(api_level) is not int or api_level not in (23, 35):
+            raise ValueError("Only the explicitly selected API23/35 camera receiver is supported")
+        self.api_level = api_level
         super().__init__(*args, **kwargs)
+        self.receipt["verification_api_level"] = api_level
         self.receipt["scope"] = "Separate native UID writes only the actual camera Activity EXTRA_OUTPUT using system-created URI grants. Signature-protected finite receiver; synthetic bytes/recipient selection, not camera/vendor UX, physical device, packaged Maven/API-ABI or release certification."
+
+    def readback(self) -> dict | None:
+        if self.api_level == 35:
+            return super().readback()  # Keep the accepted modern/native checksum route.
+        path = installed_path(self.control("shell", "pm", "path", self.PACKAGE))
+        if path is None:
+            return None
+        # Android6's toolbox/toybox contract does not include sha256sum. Choose
+        # this explicit API23 route, never a silent fallback after a failed hash.
+        # No APK copy is persisted; stream the exact validated installed path.
+        if not self.is_owned():
+            raise ValueError("Actual selected AVD lease lost before installed-byte read")
+        command = [str(self.home / "platform-tools/adb"), "-s", self.serial, "exec-out", "cat", path]
+        process = subprocess.Popen(command, cwd=self.root, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE, start_new_session=True)
+        digest = hashlib.sha256(); size = 0; error_size = 0
+        deadline = time.monotonic() + INSTALLED_APK_TIMEOUT_SECONDS
+        try:
+            with selectors.DefaultSelector() as selector:
+                selector.register(process.stdout, selectors.EVENT_READ, "bytes")
+                selector.register(process.stderr, selectors.EVENT_READ, "error")
+                while selector.get_map():
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        raise TimeoutError("Owned installed-APK byte read exceeded its deadline")
+                    for key, _ in selector.select(min(remaining, 1)):
+                        block = os.read(key.fileobj.fileno(), 65536)
+                        if not block:
+                            selector.unregister(key.fileobj)
+                        elif key.data == "bytes":
+                            size += len(block)
+                            if size > MAX_INSTALLED_APK_BYTES:
+                                raise ValueError("Unbounded installed camera receiver APK")
+                            digest.update(block)
+                        else:
+                            error_size += len(block)
+                            if error_size > 65536:
+                                raise ValueError("Unbounded owned installed-byte error output")
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError("Owned installed-APK byte read exceeded its deadline")
+            if process.wait(timeout=remaining) != 0 or error_size or not size:
+                raise ValueError("Installed camera receiver APK bytes unavailable")
+            if self.digest is not None and self.receipt.get("source_apk_bytes") != size:
+                raise ValueError("Installed camera receiver byte length differs from its owned source")
+            if not self.is_owned():
+                raise ValueError("Actual selected AVD lease lost after installed-byte read")
+            return {"apk_sha256": digest.hexdigest(), "apk_bytes": size, "api_level": 23,
+                    "byte_read_mechanism": "adb-exec-out-cat-host-SHA256",
+                    "exact_one_APK_path_observed": True, "raw_path_uploaded": False}
+        finally:
+            try:
+                if process.poll() is None:
+                    lt.terminate_owned(process)
+            finally:
+                process.stdout.close(); process.stderr.close()
+
+    def prepare(self) -> dict:
+        self.receipt["prepare_status"] = "running"
+        try:
+            super().prepare()
+            self.receipt["prepare_status"] = "passed"
+            return self.receipt
+        except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+            self.receipt.update(prepare_status="failed", prepare_error=type(error).__name__)
+            raise
+        finally:
+            lt.write_json(self.output / "receipt.json", self.receipt)
+
+    def close(self) -> dict:
+        self.receipt["cleanup_status"] = "running"
+        try:
+            super().close()
+            self.receipt["cleanup_status"] = "passed"
+            return self.receipt
+        except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+            self.receipt.update(cleanup_status="failed", cleanup_error=type(error).__name__, owned_recipient_removed=False)
+            raise
+        finally:
+            lt.write_json(self.output / "receipt.json", self.receipt)
 
 
 def archive_focused_reports(root: Path, output: Path, receipt: dict, plan: dict) -> dict:

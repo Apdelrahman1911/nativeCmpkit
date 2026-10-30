@@ -1,5 +1,6 @@
 """Synthetic exact-plan/engine/archive guards only. No Android/native or release outcomes."""
 from collections import Counter
+from contextlib import contextmanager
 from copy import deepcopy
 import hashlib
 import io
@@ -7,6 +8,8 @@ import json
 from pathlib import Path
 import tempfile
 import time
+import subprocess
+import sys
 import unittest
 import xml.etree.ElementTree as ET
 from unittest.mock import patch, Mock
@@ -16,6 +19,175 @@ import android_device_tests as device
 import android_camera_receiver as receiver
 import android_geo_probe as geo
 import workflow_matrix as w
+
+
+class CameraMinimumInstallerTests(unittest.TestCase):
+    """Real bounded host pipes with synthetic bytes, never Android/APK evidence."""
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        self.output = self.root / "build/ci-verification/minimum-installer"; self.output.mkdir(parents=True)
+        self.env = {"ANDROID_SERIAL": "emulator-5588", "ANDROID_USER_HOME": str(self.output / "android-user"),
+                    "PRIVATE_SYNTHETIC_SIGNING": "never-export-this"}
+        self.arguments = (self.root, self.output, Path("/synthetic/sdk"), "emulator-5588", lambda: True)
+        self.owner = receiver.OwnedCameraReceiver(*self.arguments, environment=self.env, api_level=23)
+        self.native_path = "/data/app/owned.receiver-1/base.apk"
+
+    def result(self, code=0, body=b"", error=b""):
+        return subprocess.CompletedProcess([], code, body, error)
+
+    @contextmanager
+    def stream(self, script):
+        real_popen = subprocess.Popen; children = []
+        def launch(command, **options):
+            child = real_popen([sys.executable, "-c", script], **options); children.append(child)
+            return child
+        with patch.object(receiver.subprocess, "Popen", side_effect=launch) as start:
+            try: yield start, children
+            finally:
+                for child in children:
+                    if child.poll() is None: child.kill(); child.wait(timeout=5)
+                    for pipe in (child.stdout, child.stderr):
+                        if pipe is not None: pipe.close()
+
+    def apk(self):
+        base = self.root / self.owner.FIXTURE / "build/outputs/apk/debug"; base.mkdir(parents=True)
+        apk = base / "camera-debug.apk"; apk.write_bytes(b"synthetic-not-native-APK")
+        (base / "output-metadata.json").write_text(json.dumps({"applicationId": self.owner.PACKAGE, "variantName": "debug",
+            "artifactType": {"type": "APK"}, "elements": [{"type": "SINGLE", "filters": [], "outputFile": apk.name}]}))
+        return apk
+
+    def test_api23_hashes_exact_validated_installed_bytes_through_bounded_owned_host_pipes(self):
+        payload = b"PRIVATE_SYNTHETIC_BYTES\x00\xff" * 20000
+        with patch.object(self.owner, "control", return_value=self.result(body=("package:" + self.native_path + "\n").encode())) as control, \
+                self.stream("import sys; sys.stdout.buffer.write(b'PRIVATE_SYNTHETIC_BYTES\\x00\\xff' * 20000)") as (start, children):
+            actual = self.owner.readback()
+            self.assertTrue(all(pipe.closed for child in children for pipe in (child.stdout, child.stderr)))
+            self.assertTrue(all(child.poll() == 0 for child in children))
+        self.assertEqual(("shell", "pm", "path", self.owner.PACKAGE), control.call_args.args)
+        self.assertEqual(["/synthetic/sdk/platform-tools/adb", "-s", "emulator-5588", "exec-out", "cat", self.native_path], start.call_args.args[0])
+        self.assertTrue(start.call_args.kwargs["start_new_session"])
+        self.assertEqual(hashlib.sha256(payload).hexdigest(), actual["apk_sha256"])
+        self.assertEqual(len(payload), actual["apk_bytes"])
+        self.assertEqual("adb-exec-out-cat-host-SHA256", actual["byte_read_mechanism"])
+        self.assertEqual(23, actual["api_level"]); self.assertFalse(actual["raw_path_uploaded"])
+        self.assertNotIn("PRIVATE_SYNTHETIC", json.dumps(actual)); self.assertNotIn(self.native_path, json.dumps(actual))
+
+    def test_api35_keeps_existing_native_checksum_identity_without_stream_or_fallback(self):
+        output = self.root / "build/ci-verification/api35"; output.mkdir()
+        env = self.env | {"ANDROID_USER_HOME": str(output / "android-user")}
+        owner = receiver.OwnedCameraReceiver(self.root, output, Path("/synthetic/sdk"), "emulator-5588", lambda: True, environment=env)
+        with patch.object(owner, "control", side_effect=[self.result(body=("package:" + self.native_path).encode()),
+                self.result(body=("a" * 64 + "  " + self.native_path + "\n").encode())]) as control, \
+                patch.object(receiver.subprocess, "Popen") as start:
+            actual = owner.readback()
+        self.assertEqual({"apk_sha256": "a" * 64, "exact_one_APK_path_observed": True, "raw_path_uploaded": False}, actual)
+        self.assertEqual(("shell", "sha256sum", self.native_path), control.call_args.args); start.assert_not_called()
+
+    def test_invalid_minimum_API_is_rejected_before_creating_any_owned_output(self):
+        for api in (22, 24, 34, "23", True, None):
+            with self.subTest(api=api), self.assertRaises(ValueError):
+                receiver.OwnedCameraReceiver(*self.arguments, environment=self.env, api_level=api)
+
+    def test_absent_or_invalid_package_paths_never_start_a_byte_reader(self):
+        with patch.object(receiver.subprocess, "Popen") as start:
+            with patch.object(self.owner, "control", return_value=self.result()): self.assertIsNone(self.owner.readback())
+            for value in (b"package:/data/app/../other/base.apk", b"package:/data/app/p/base.apk\npackage:/data/app/q/base.apk",
+                          b"package:/sdcard/p/base.apk", b"package:/data/app/p/base.apk;evil"):
+                with self.subTest(value=value), patch.object(self.owner, "control", return_value=self.result(body=value)), self.assertRaises(ValueError):
+                    self.owner.readback()
+        start.assert_not_called()
+
+    def test_empty_error_nonzero_or_oversized_streams_are_refused_without_hash_success(self):
+        scripts = ("pass", "import sys; sys.stdout.buffer.write(b'123'); sys.stderr.write('private-error')",
+                   "import sys; sys.stdout.buffer.write(b'123'); sys.exit(1)", "import sys; sys.stdout.buffer.write(b'123456789')",
+                   "import sys; sys.stderr.buffer.write(b'x' * 65537)")
+        for script in scripts:
+            with self.subTest(script=script), patch.object(self.owner, "control", return_value=self.result(body=("package:" + self.native_path).encode())), \
+                    patch.object(receiver, "MAX_INSTALLED_APK_BYTES", 8), self.stream(script) as (_, children):
+                with self.assertRaises(ValueError): self.owner.readback()
+                self.assertTrue(all(child.poll() is not None for child in children))
+                self.assertTrue(all(pipe.closed for child in children for pipe in (child.stdout, child.stderr)))
+
+    def test_byte_read_timeout_terminates_only_owned_child_and_closes_pipes(self):
+        with patch.object(self.owner, "control", return_value=self.result(body=("package:" + self.native_path).encode())), \
+                patch.object(receiver, "INSTALLED_APK_TIMEOUT_SECONDS", 0.05), self.stream("import time; time.sleep(20)") as (_, children):
+            with self.assertRaises(TimeoutError): self.owner.readback()
+            self.assertTrue(all(child.poll() is not None for child in children))
+            self.assertTrue(all(pipe.closed for child in children for pipe in (child.stdout, child.stderr)))
+
+    def test_lost_lease_before_or_after_byte_read_never_certifies_identity(self):
+        self.owner.is_owned = lambda: False
+        with patch.object(receiver.subprocess, "Popen") as start, self.assertRaises(ValueError): self.owner.readback()
+        start.assert_not_called()
+        self.owner.is_owned = Mock(side_effect=[True, False])
+        with patch.object(self.owner, "control", return_value=self.result(body=("package:" + self.native_path).encode())), \
+                self.stream("import sys; sys.stdout.buffer.write(b'123')"), self.assertRaises(ValueError): self.owner.readback()
+
+    def test_failed_post_install_readback_preserves_assembly_source_bytes_install_exit_and_private_safe_failure(self):
+        apk = self.apk()
+        with patch.object(self.owner, "readback", side_effect=[None, ValueError("PRIVATE_READBACK_FAILURE")]), \
+                patch.object(l, "execute", return_value={"exit_code": 0}), \
+                patch.object(self.owner, "control", return_value=self.result(body=b"Success\n")) as control:
+            with self.assertRaises(ValueError): self.owner.prepare()
+        partial = json.loads((self.owner.output / "receipt.json").read_text())
+        self.assertEqual(0, partial["assembly"]["exit_code"]); self.assertEqual(l.sha256(apk), partial["source_apk_sha256"])
+        self.assertEqual(apk.stat().st_size, partial["source_apk_bytes"]); self.assertEqual(0, partial["install_exit_code"])
+        self.assertEqual("failed", partial["prepare_status"]); self.assertEqual("ValueError", partial["prepare_error"])
+        self.assertFalse(partial["recipient_installed"]); self.assertFalse(partial["owned_recipient_removed"])
+        self.assertFalse(partial["automatic_runtime_permission_grant"])
+        self.assertEqual(1, control.call_count); self.assertNotIn("PRIVATE_", json.dumps(partial)); self.assertNotIn("never-export-this", json.dumps(partial))
+
+    def test_cleanup_readback_failure_preserves_original_facts_without_foreign_stop_uninstall_or_success(self):
+        self.owner.install_attempted = True; self.owner.digest = "a" * 64
+        self.owner.receipt.update(source_apk_sha256="a" * 64, source_apk_bytes=123, recipient_installed=True)
+        with patch.object(self.owner, "readback", side_effect=ValueError("PRIVATE_CLEANUP_ERROR")), \
+                patch.object(self.owner, "control") as control, self.assertRaises(ValueError): self.owner.close()
+        control.assert_not_called()
+        partial = json.loads((self.owner.output / "receipt.json").read_text())
+        self.assertEqual("a" * 64, partial["source_apk_sha256"]); self.assertTrue(partial["recipient_installed"])
+        self.assertEqual("failed", partial["cleanup_status"]); self.assertEqual("ValueError", partial["cleanup_error"])
+        self.assertFalse(partial["owned_recipient_removed"]); self.assertNotIn("PRIVATE_", json.dumps(partial))
+
+    def test_cleanup_after_uncertain_uninstall_preserves_exact_pre_cleanup_identity_and_exit_codes(self):
+        self.owner.install_attempted = True; self.owner.digest = "a" * 64
+        with patch.object(self.owner, "readback", side_effect=[{"apk_sha256": "a" * 64}, ValueError("PRIVATE_POST_UNINSTALL_ERROR")]), \
+                patch.object(self.owner, "control", return_value=self.result()) as control, self.assertRaises(ValueError): self.owner.close()
+        partial = json.loads((self.owner.output / "receipt.json").read_text())
+        self.assertTrue(partial["owned_identity_reverified"]); self.assertEqual(0, partial["stop_exit_code"])
+        self.assertEqual(0, partial["uninstall_exit_code"]); self.assertFalse(partial["owned_recipient_removed"])
+        self.assertEqual(2, control.call_count); self.assertNotIn("PRIVATE_", json.dumps(partial))
+
+    def test_readback_error_origin_names_own_public_source_without_exception_or_raw_path(self):
+        output = self.root / "build/ci-verification/origin"; output.mkdir()
+        owner = receiver.OwnedCameraReceiver(self.root, output, Path("/synthetic/sdk"), "emulator-5588", lambda: True,
+            environment=self.env | {"ANDROID_USER_HOME": str(output / "android-user")})
+        with patch.object(owner, "control", side_effect=[self.result(body=("package:" + self.native_path).encode()), self.result(1, error=b"PRIVATE_NATIVE_ERROR")]):
+            try: owner.readback()
+            except ValueError as error: origin = device.preflight_error_origin(error)
+        self.assertEqual("android_share_recipient.py", origin["source"]); self.assertEqual("readback", origin["symbol"])
+        self.assertGreater(origin["line"], 0); self.assertNotIn("PRIVATE_", json.dumps(origin)); self.assertNotIn(str(l.ROOT), json.dumps(origin))
+
+    def test_API23_known_source_length_mismatch_never_certifies_installed_identity(self):
+        self.owner.digest = hashlib.sha256(b"123").hexdigest(); self.owner.receipt["source_apk_bytes"] = 4
+        with patch.object(self.owner, "control", return_value=self.result(body=("package:" + self.native_path).encode())), \
+                self.stream("import sys; sys.stdout.buffer.write(b'123')"), self.assertRaises(ValueError): self.owner.readback()
+
+    def test_api35_native_failure_remains_failed_without_automatic_legacy_reader(self):
+        output = self.root / "build/ci-verification/modern-failure"; output.mkdir()
+        owner = receiver.OwnedCameraReceiver(self.root, output, Path("/synthetic/sdk"), "emulator-5588", lambda: True,
+            environment=self.env | {"ANDROID_USER_HOME": str(output / "android-user")})
+        with patch.object(owner, "control", side_effect=[self.result(body=("package:" + self.native_path).encode()), self.result(1, error=b"PRIVATE_NATIVE_ERROR")]), \
+                patch.object(receiver.subprocess, "Popen") as start, self.assertRaises(ValueError): owner.readback()
+        start.assert_not_called()
+
+    def test_lookalike_external_source_name_is_not_accepted_as_public_failure_origin(self):
+        try:
+            exec(compile("raise ValueError('PRIVATE_EXTERNAL_BODY')", "/unrelated-private/android_share_recipient.py", "exec"))
+        except ValueError as error:
+            origin = device.preflight_error_origin(error)
+        self.assertEqual({"source": "unavailable", "symbol": "unavailable", "line": 0}, origin)
+        self.assertNotIn("PRIVATE_", json.dumps(origin)); self.assertNotIn("unrelated-private", json.dumps(origin))
 
 
 class CameraProviderPlanTests(unittest.TestCase):

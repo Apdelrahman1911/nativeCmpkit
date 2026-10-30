@@ -38,7 +38,8 @@ IMAGE = f"system-images;android-{API};google_apis;x86_64"
 
 def preflight_error_origin(error: Exception) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
-    allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py"}
+    allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py"}
     directory = Path(__file__).resolve().parent
     origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
     frame = error.__traceback__
@@ -214,7 +215,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         before = lt.snapshot_inputs(root)
         checkpoint(stage="complete", status="passed")
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
-        checkpoint(status="failed", exception_class=type(error).__name__)
+        checkpoint(status="failed", exception_class=type(error).__name__, error_origin=preflight_error_origin(error))
         raise
     if not diagnostics:
         output.mkdir(parents=True)
@@ -286,7 +287,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             result["share_recipient"] = share_recipient.prepare()
         if lt.android_camera_receiver_required(plan):
             camera_receiver = android_camera_receiver.OwnedCameraReceiver(root, output, home, SERIAL,
-                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+                lambda: process.poll() is None and avd_name(home) == name, environment=env, api_level=api_level)
             result["camera_receiver"] = camera_receiver.prepare()
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
@@ -301,6 +302,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         result["test_totals"] = receipt["totals"]
     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
         result["controller_error"] = type(error).__name__
+        if diagnostics:
+            result["controller_error_origin"] = preflight_error_origin(error)
         # Keep the owned logs, not arbitrary exception bodies/environment values.
     finally:
         # A repeated termination signal must not interrupt owned-engine cleanup
@@ -330,7 +333,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                     try:
                         result["camera_receiver"] = camera_receiver.close()
                     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
-                        result["camera_receiver"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                        result["camera_receiver"] = dict(camera_receiver.receipt) | {
+                            "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                        result["camera_receiver_cleanup_error_origin"] = preflight_error_origin(error)
                 if share_documents is not None:
                     try:
                         result["share_documents"] = share_documents.close()

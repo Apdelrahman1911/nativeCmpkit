@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Minimum camera installed-byte ownership repair — 2026-10-30
+
+Actual41079029687 atb5619a5f FAILED: AVD0/2.0s, APK0/230.05s, actual
+EnforcingAPI23 boot; receiver prepare/cleanupValueError, ZERO native/XML,
+origin unknown/uninstall unverified. Owned emulator+transport removal pass.
+[Focused repair](evidence/android-camera-provider-20261030/minimum-installer001/README.md)
+uses explicitAPI23 bounded installed-byte stream/hostSHA256 (not fallback), retains
+API35 native hash and every identity/grant/refusal/cleanup assertion, saves partial
+receipts/public-source origins.13 initial reds;79+3 disjoint important synthetic
+methods pass, ZERO new native. Request only remainingAPI23 four; acceptedAPI35
+four/host22/unchanged APK/source results reused. #78/#13/#80/#141 open;89closed/
+83open. BUILD-002 partial-comment readback archived, #144 open. All solo/max2heavy/
+8GiB/publishing/Pages/main/history/readiness/security gates stay.
+
+
 ## Minimum camera SDK device owning repair — 2026-10-30
 
 Actual41076903983 at62b632c7 FAILED: APK0/281.08s/984+1061 exact inputs;

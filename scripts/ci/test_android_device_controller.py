@@ -346,6 +346,24 @@ class ControllerReceipts(unittest.TestCase):
         self.assertEqual(":calf-camera-picker:assembleAndroidDeviceTest", calls[1].args[1][-1])
         self.assertEqual(c.SERIAL, calls[0].kwargs["env"]["ANDROID_SERIAL"])
         self.assertEqual(c.SERIAL, calls[1].kwargs["env"]["ANDROID_SERIAL"])
+        self.assertEqual(23, factory.call_args.kwargs["api_level"])
+
+    def test_camera_failed_prepare_and_cleanup_preserve_partial_installer_receipt_and_safe_source_origins(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
+                         explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)
+        partial = {"assembly": {"exit_code": 0}, "source_apk_sha256": "b" * 64, "source_apk_bytes": 123,
+                   "install_exit_code": 0, "recipient_installed": False, "owned_recipient_removed": False,
+                   "prepare_status": "failed", "prepare_error": "ValueError", "cleanup_status": "failed", "cleanup_error": "ValueError"}
+        with self.controlled() as mocks, patch.object(c.android_camera_receiver, "OwnedCameraReceiver") as factory:
+            owner = factory.return_value; owner.receipt = partial
+            owner.prepare.side_effect = ValueError("PRIVATE_PREPARE_BODY")
+            owner.close.side_effect = ValueError("PRIVATE_CLEANUP_BODY")
+            result = c.run(self.root, self.relative, only_modules=("calf-camera-picker",), focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS, api_level=23)
+        self.assertFalse(result["passed"]); mocks["tests"].assert_not_called(); mocks["shutdown"].assert_called_once()
+        self.assertEqual(partial, result["camera_receiver"])
+        self.assertEqual({"source", "symbol", "line"}, set(result["controller_error_origin"]))
+        self.assertEqual({"source", "symbol", "line"}, set(result["camera_receiver_cleanup_error_origin"]))
+        self.assertNotIn("PRIVATE_", json.dumps(result))
 
     def test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite(self):
         self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],

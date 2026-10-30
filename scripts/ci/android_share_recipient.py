@@ -79,11 +79,11 @@ class OwnedShareRecipient:
         self.receipt.update(source_apk_sha256=self.digest, source_apk_bytes=apk.stat().st_size)
         self.install_attempted = True
         install = self.control("install", "-t", str(apk), timeout=120)  # No -g, -r or foreign replacement.
+        self.receipt.update(install_exit_code=install.returncode, automatic_runtime_permission_grant=False,
+                            native_signature_UID_and_URI_reads_still_required=True)
         actual = self.readback()  # Reconcile even a failed/uncertain install before cleanup.
         installed = actual is not None and actual["apk_sha256"] == self.digest
-        self.receipt.update(install_exit_code=install.returncode, installed_readback=actual,
-                            recipient_installed=installed, automatic_runtime_permission_grant=False,
-                            native_signature_UID_and_URI_reads_still_required=True)
+        self.receipt.update(installed_readback=actual, recipient_installed=installed)
         if install.returncode or b"Success" not in install.stdout.splitlines() or not installed:
             raise RuntimeError("Owned recipient install/readback failed; no blind retry")
         return self.receipt
@@ -94,11 +94,13 @@ class OwnedShareRecipient:
             if actual is not None:
                 if actual["apk_sha256"] != self.digest:
                     raise ValueError("Installed recipient bytes changed; refuse foreign cleanup")
+                self.receipt["owned_identity_reverified"] = True
                 stop = self.control("shell", "am", "force-stop", self.PACKAGE, timeout=30)
+                self.receipt["stop_exit_code"] = stop.returncode
                 remove = self.control("uninstall", self.PACKAGE, timeout=90)
+                self.receipt["uninstall_exit_code"] = remove.returncode
                 absent = self.readback() is None
-                self.receipt.update(owned_identity_reverified=True, stop_exit_code=stop.returncode,
-                                    uninstall_exit_code=remove.returncode, owned_recipient_removed=absent)
+                self.receipt["owned_recipient_removed"] = absent
                 if stop.returncode or remove.returncode or not absent:
                     raise ValueError("Owned native recipient shutdown/uninstall unverified")
             else:

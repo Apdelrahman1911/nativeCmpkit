@@ -1,0 +1,8 @@
+<!-- nativecmpkit-progress:BUILD-002:desktop-resolved-graph:20261030:b5619a5f -->
+## Partial verification — actual desktop resolved graphs, not security clearance
+
+Two bounded Gradle acquisitions at `a2ecd026dbaefdac0e5b77a81c035e10076672f1` pass exit0/39.01s and0/46.01s, with984 exact Git inputs held. Independently inspected24 library projects/72 desktop runtime, compile and test-runtime configurations:142 distinct Maven coordinates and79 observed external artifact identities. All79 current cache byte/length hashes match the acquired graphs; this is observed identity, **not independent trust in downloaded bytes**.
+
+All six JavaFX application compile/test-runtime modules resolve to21.0.13. JavaFX is deliberately absent from the library runtime metadata, requiring explicit consumer dependencies. Queried108 runtime coordinates once and34 new supplementary coordinates once, reusing the unchanged108 queries; OSV returns200/zero matching coordinates. **Zero tests or native executions** were performed by these graph/advisory procedures.
+
+[Actual graphs, exact acquisition scripts, input/runtime/HTTP receipts and independent review](https://github.com/Apdelrahman1911/nativeCmpkit/tree/b5619a5f5b651f6637c2a2999954700ecf7a71eb/docs/development/evidence/desktop-resolved-dependencies-20261030) are committed. BUILD-002 is partially verified and **stays open**. Original cross-host media/TLS/cookie/navigation/JavaScript/rendering tests, remaining host graphs/classifiers and sandboxed-untrusted-code policy remain. No bundled WebKit/GStreamer, locks/checksum/provenance, consumers/ABI, security or release readiness clearance is inferred; no packages/releases/deployments/Pages requested. Original issue body/title/labels/advisory references are retained.

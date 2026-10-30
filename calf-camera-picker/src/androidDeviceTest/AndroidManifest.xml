@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER" />
+    <queries><package android:name="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver" /></queries>
+    <application>
+        <activity android:name="com.mohamedrejeb.calf.camerapicker.CameraProviderVerificationActivity"
+            android:exported="false" android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.camera-files"
+            android:exported="false" android:grantUriPermissions="true" android:process=":nativecmpkit_camera_provider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/nativecmpkit_camera_device_paths" />
+        </provider>
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider"
+            android:exported="false" android:grantUriPermissions="true" android:process=":nativecmpkit_camera_provider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/nativecmpkit_camera_device_paths" />
+        </provider>
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.wrong-camera-root"
+            android:exported="false" android:grantUriPermissions="true" android:process=":nativecmpkit_camera_provider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/nativecmpkit_camera_device_wrong_paths" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfcamerapicker.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit owned camera URI receiver">
+        <activity android:name=".CameraReceiverActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name=".CameraReceiverService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER" />
+    </application>
+</manifest>

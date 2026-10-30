@@ -54,7 +54,7 @@ MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cu
 MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["js"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["wasm"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
-MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share")
+MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (
     "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",
@@ -800,6 +800,25 @@ def android_geo_probe_required(test_plan: dict) -> bool:
             any(item.get("module") == "calf-geo" for item in test_plan["expected"]))
 
 
+ANDROID_CAMERA_PROVIDER_FOCUS = "android-camera-provider-contracts"
+ANDROID_CAMERA_PROVIDER_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest"
+ANDROID_CAMERA_PROVIDER_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt"
+ANDROID_CAMERA_PROVIDER_METHODS = (
+    "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
+    "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
+    "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+)
+
+
+def android_camera_provider_identities() -> list[dict]:
+    return [{"classname": ANDROID_CAMERA_PROVIDER_CLASS, "name": method} for method in ANDROID_CAMERA_PROVIDER_METHODS]
+
+
+def android_camera_receiver_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            any(item.get("module") == "calf-camera-picker" for item in test_plan["expected"]))
+
+
 ANDROID_SHARE_GRANT_FOCUS = "android-share-uri-grants"
 ANDROID_SHARE_GRANT_CLASS = "com.mohamedrejeb.calf.share.AndroidShareGrantTest"
 ANDROID_SHARE_GRANT_SOURCE = "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt"
@@ -1075,6 +1094,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_NAV_BACK_FOCUS and suite == "android-device" and modules == ("calf-navigation",)) or
             (focus == ANDROID_GEO_OWNERSHIP_FOCUS and suite == "android-device" and modules == ("calf-geo",)) or
             (focus in ANDROID_GEO_PROVIDER_FOCUSES and suite == "android-device" and modules == ("calf-geo",)) or
+            (focus == ANDROID_CAMERA_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-camera-picker",)) or
             (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
@@ -1408,6 +1428,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == ANDROID_CAMERA_PROVIDER_FOCUS:
+        source = safe_path(root, ANDROID_CAMERA_PROVIDER_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_CAMERA_PROVIDER_METHODS) or
+                "class AndroidCameraNativeProviderTest" not in source or
+                "package com.mohamedrejeb.calf.camerapicker" not in source or
+                ANDROID_CAMERA_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android camera declarations changed; review the exact three-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_CAMERA_PROVIDER_CLASS
+        selected[0]["required_testcases"] = android_camera_provider_identities()
+        result["scope"] = "Three actual public Compose camera-provider methods with an installed signature-protected separate native UID and Android-created grants/Activity results. Controlled external recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution."
     elif focus == ANDROID_SHARE_GRANT_FOCUS:
         source = safe_path(root, ANDROID_SHARE_GRANT_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1710,6 +1743,15 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_CAMERA_PROVIDER_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_CAMERA_PROVIDER_CLASS or
+                expected[0].get("required_testcases") != android_camera_provider_identities() or
+                ANDROID_CAMERA_PROVIDER_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android camera provider plan")
+        return True
     if focus == ANDROID_SHARE_GRANT_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -1949,7 +1991,7 @@ def snapshot_inputs(root: Path) -> dict[str, str]:
         if path.is_file():
             inputs.add(path)
     for tree in ("gradle", "convention-plugins", "scripts/ci", "scripts/native", "kotlin-js-store",
-                 "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents"):
+                 "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver"):
         inputs.update(source_files(root, tree))
     for module in projects(root):
         for relative in (f"{module}/src", f"{module}/native", f"{module}/.cargo", f"{module}/gradle"):
@@ -2086,6 +2128,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required else
                              [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_CAMERA_PROVIDER_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android camera XML must contain exactly all three selected provider methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_CAMERA_PROVIDER_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_SHARE_GRANT_FOCUS:
@@ -2323,6 +2373,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                         "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
         if android_geo_probe_required(test_plan):
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true")
+        if android_camera_receiver_required(test_plan):
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true")
         if android_share_recipient_required(test_plan):
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true")
         if boundary_focus:
@@ -2889,7 +2941,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, ANDROID_CAMERA_PROVIDER_FOCUS,
                                            *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

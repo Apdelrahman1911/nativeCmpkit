@@ -27,6 +27,7 @@ import runtime_context as runtime
 import android_webview_heap
 import android_geo_probe
 import android_share_recipient
+import android_camera_receiver
 
 API = 35
 PORT = 5588
@@ -48,12 +49,12 @@ def properties(path: Path) -> dict[str, str]:
     return result
 
 
-def sdk_assets(home: Path) -> dict:
-    image = properties(home / f"system-images/android-{API}/google_apis/x86_64/source.properties")
+def sdk_assets(home: Path, api_level: int = API) -> dict:
+    image = properties(home / f"system-images/android-{api_level}/google_apis/x86_64/source.properties")
     emulator = properties(home / "emulator/source.properties")
-    if (image.get("AndroidVersion.ApiLevel") != str(API) or image.get("SystemImage.Abi") != "x86_64"
+    if (image.get("AndroidVersion.ApiLevel") != str(api_level) or image.get("SystemImage.Abi") != "x86_64"
             or image.get("SystemImage.TagId") != "google_apis"):
-        raise ValueError("Installed image differs from the explicit API35/google_apis/x86_64 contract")
+        raise ValueError("Installed image differs from the explicit selected API/google_apis/x86_64 contract")
     for revision in (image.get("Pkg.Revision"), emulator.get("Pkg.Revision")):
         if not isinstance(revision, str) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", revision):
             raise ValueError("Installed SDK image/emulator version was not established")
@@ -61,7 +62,7 @@ def sdk_assets(home: Path) -> dict:
         path = home / executable
         if not path.is_file() or not os.access(path, os.X_OK):
             raise ValueError("Required official SDK executable is not installed/executable")
-    return {"system_image": IMAGE, "api_level": str(API), "abi": "x86_64", "tag_id": "google_apis",
+    return {"system_image": f"system-images;android-{api_level};google_apis;x86_64", "api_level": str(api_level), "abi": "x86_64", "tag_id": "google_apis",
             "image_revision": image["Pkg.Revision"], "emulator_revision": emulator["Pkg.Revision"]}
 
 
@@ -92,7 +93,7 @@ def avd_name(home: Path) -> str:
 
 
 def wait_for_owned_boot(home: Path, process: subprocess.Popen, name: str, root: Path,
-                        timeout: int = 360) -> dict:
+                        timeout: int = 360, *, api_level: int = API) -> dict:
     started = time.monotonic()
     while time.monotonic() - started < timeout:
         if process.poll() is not None:
@@ -111,7 +112,7 @@ def wait_for_owned_boot(home: Path, process: subprocess.Popen, name: str, root: 
                        ("abi", "ro.product.cpu.abi"), ("boot_completed", "sys.boot_completed"))}
             values["selinux"] = adb(home, "-s", SERIAL, "shell", "getenforce")
             identity = runtime.parse_android_emulator(SERIAL, values)
-            if identity["api_level"] != str(API) or identity["abi"] != "x86_64":
+            if identity["api_level"] != str(api_level) or identity["abi"] != "x86_64":
                 raise ValueError("Booted emulator differs from the selected SDK image")
             return identity
         time.sleep(2)
@@ -142,7 +143,7 @@ def stop_owned_emulator(home: Path, process: subprocess.Popen, name: str, verifi
     return result
 
 
-def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
+def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:
     output = lt.safe_path(root, relative)
     base = root / "build/ci-verification"
     if output == base or not output.is_relative_to(base) or output.exists():
@@ -151,7 +152,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if not home_value:
         raise ValueError("Use the explicitly configured official Android SDK")
     home = Path(home_value)
-    assets = sdk_assets(home)
+    assets = sdk_assets(home, **({"api_level": api_level} if api_level != API else {}))
     ensure_ports_unused()
     # Never print personal serials or select an existing device as a fallback.
     if adb(home, "devices").splitlines() != ["List of devices attached"]:
@@ -164,7 +165,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     lt.write_json(output / "inputs-before.json", before)
     lt.write_json(output / "runtime-host.json", context)
     lt.write_json(output / "sdk-assets.json", assets)
-    name = "nativecmpkit-api35-" + uuid.uuid4().hex[:12]
+    name = f"nativecmpkit-api{api_level}-" + uuid.uuid4().hex[:12]
     env = os.environ.copy()
     env.update(ANDROID_AVD_HOME=str(output / "avd"), ANDROID_EMULATOR_HOME=str(output / "avd"),
                ANDROID_USER_HOME=str(output / "android-user"), ANDROID_SERIAL=SERIAL)
@@ -173,14 +174,14 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     connected = lt.gradle_command("android-device", plan, android_serial=SERIAL)
     assemble = connected[:-len(plan["expected"])] + [item["project"] + ":assembleAndroidDeviceTest" for item in plan["expected"]]
     create = [str(home / "cmdline-tools/23.0/bin/avdmanager"), "create", "avd", "--name", name,
-              "--package", IMAGE, "--device", "pixel_6", "--force"]
+              "--package", assets["system_image"], "--device", "Nexus5" if api_level == 23 else "pixel_6", "--force"]
     launch = [str(home / "emulator/emulator"), "-avd", name, "-port", str(PORT), "-no-window", "-no-snapshot",
               "-no-audio", "-no-boot-anim", "-gpu", "swiftshader_indirect", "-accel", "on", "-memory", "2048",
-              "-cores", "2", "-camera-back", "none", "-camera-front", "none"]
-    lt.write_json(output / "plan.json", {"source_revision": context["source_revision"], "api_level": API,
+              "-cores", "2", "-camera-back", "emulated" if lt.android_camera_receiver_required(plan) else "none", "-camera-front", "none"]
+    lt.write_json(output / "plan.json", {"source_revision": context["source_revision"], "api_level": api_level,
                   "serial": SERIAL, "avd_name": name, "assembly_command": assemble, "create_avd_command": create,
                   "launch_command": launch, "source_suite": plan, "reserve_mib": RESERVE_MIB,
-                  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification"})
+                  "scope": f"Explicit API{api_level} software-GPU/KVM library instrumentation; no physical-device/system-camera UX or complete minimum-platform certification"})
     result = {"source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
               "started_at_utc": lt.utc_now(), "setup_stages": {}, "test_suite_passed": False,
               "complete_suite_requested": plan["complete_suite_requested"],
@@ -194,6 +195,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     geo_probe = None
     share_recipient = None
     share_documents = None
+    camera_receiver = None
     verified = False
     log = None
     try:
@@ -206,7 +208,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         process = subprocess.Popen(launch, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
         lt.write_json(output / "launch.json", {"pid": process.pid, "serial": SERIAL, "avd_name": name,
                       "observed_utc": lt.utc_now(), "ownership": "Popen child in its own process group; no guessed existing process"})
-        identity = wait_for_owned_boot(home, process, name, root)
+        identity = wait_for_owned_boot(home, process, name, root, **({"api_level": api_level} if api_level != API else {}))
         verified = True
         lt.write_json(output / "boot.json", identity)
         if lt.android_geo_probe_required(plan):
@@ -220,6 +222,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             share_recipient = android_share_recipient.OwnedShareRecipient(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env)
             result["share_recipient"] = share_recipient.prepare()
+        if lt.android_camera_receiver_required(plan):
+            camera_receiver = android_camera_receiver.OwnedCameraReceiver(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["camera_receiver"] = camera_receiver.prepare()
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()
@@ -228,6 +234,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                          android_user_home=(output / "android-user").relative_to(root).as_posix(),
                          only_modules=only_modules, **focus_options)
         result["test_suite_passed"] = receipt["passed"]
+        if focus == lt.ANDROID_CAMERA_PROVIDER_FOCUS and any(item.get("reports") for item in receipt.get("modules", [])):
+            result["camera_fresh_reports"] = android_camera_receiver.archive_focused_reports(root, output, receipt, plan)
         result["test_totals"] = receipt["totals"]
     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
         result["controller_error"] = type(error).__name__
@@ -256,6 +264,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["share_recipient"] = share_recipient.close()
                     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                         result["share_recipient"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                if camera_receiver is not None:
+                    try:
+                        result["camera_receiver"] = camera_receiver.close()
+                    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                        result["camera_receiver"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
                 if share_documents is not None:
                     try:
                         result["share_documents"] = share_documents.close()
@@ -289,15 +302,23 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                             (share_recipient is None or (result.get("share_recipient", {}).get("owned_recipient_removed") is True and
                              not result["share_recipient"].get("cleanup_error"))) and
                             (share_documents is None or (result.get("share_documents", {}).get("owned_recipient_removed") is True and
-                             not result["share_documents"].get("cleanup_error"))))
+                             not result["share_documents"].get("cleanup_error"))) and
+                            (camera_receiver is None or (result.get("camera_receiver", {}).get("owned_recipient_removed") is True and
+                             not result["camera_receiver"].get("cleanup_error"))))
         result["finished_at_utc"] = lt.utc_now()
         lt.write_json(output / "controller.json", result)
     return result
 
 
-def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
+def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:
+    if api_level not in (23, API) or (api_level == 23 and (modules != ("calf-camera-picker",) or focus != lt.ANDROID_CAMERA_PROVIDER_FOCUS)):
+        raise ValueError("API23 is permitted only for the exact camera-provider minimum-platform fixture")
+
+
+def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, *, focus: str | None = None, api_level: int = API) -> dict:
     if focus is not None and not lt.allowed_test_focus("android-device", only_modules, focus):
         raise ValueError("Device focus requires its exact reviewed suite and single module")
+    validate_api_selection(api_level, only_modules, focus)
     require_host()
     output = lt.safe_path(root, relative)
     base = lt.safe_path(root, "build/ci-verification")
@@ -310,7 +331,8 @@ def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, 
     descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
         os.write(descriptor, f"{os.getpid()}\n".encode())
-        return _run(root, relative, only_modules, **({"focus": focus} if focus is not None else {}))
+        return _run(root, relative, only_modules, **({"focus": focus} if focus is not None else {}),
+                    **({"api_level": api_level} if api_level != API else {}))
     finally:
         os.close(descriptor)
         lock.unlink()
@@ -321,15 +343,16 @@ def main() -> int:
     parser.add_argument("operation", nargs="?", choices=["plan", "run"], default="run",
                         help="Read-only source plan or actual owned emulator execution; old invocations still run")
     parser.add_argument("--output", required=True)
-    parser.add_argument("--api-level", type=int, choices=[API], required=True)
+    parser.add_argument("--api-level", type=int, choices=[23, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS,
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, lt.ANDROID_CAMERA_PROVIDER_FOCUS,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()
     modules = tuple(args.module) if args.module else None
     if args.focus is not None and not lt.allowed_test_focus("android-device", modules, args.focus):
         parser.error("--focus requires its exact reviewed single --module")
+    validate_api_selection(args.api_level, modules, args.focus)
     if args.operation == "plan":
         print(json.dumps(lt.plan(lt.ROOT, "android-device", only_modules=modules,
                                  **({"focus": args.focus} if args.focus is not None else {})), indent=2, sort_keys=True))
@@ -338,7 +361,8 @@ def main() -> int:
         raise KeyboardInterrupt()
     for number in (signal.SIGINT, signal.SIGTERM):
         signal.signal(number, interrupted)
-    result = run(lt.ROOT, args.output, only_modules=modules, **({"focus": args.focus} if args.focus is not None else {}))
+    result = run(lt.ROOT, args.output, only_modules=modules, **({"focus": args.focus} if args.focus is not None else {}),
+                 **({"api_level": args.api_level} if args.api_level != API else {}))
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["passed"] else 1
 

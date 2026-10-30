@@ -51,7 +51,7 @@ class AndroidVerificationContractTests(unittest.TestCase):
 
     def test_repository_device_tasks_run_data_ownership_before_native_ui(self):
         plan = r.plan(r.ROOT, "android-device")
-        self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share"],
+        self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"],
                          [item["module"] for item in plan["expected"]])
 
     def test_missing_physical_or_injected_serials_are_rejected_before_execution(self):

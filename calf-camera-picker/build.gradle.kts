@@ -11,6 +11,12 @@ kotlin {
         implementation(libs.androidx.compose.ui.test.junit4)
         implementation(libs.androidx.compose.ui.test.manifest)
     }
+    sourceSets.named("androidDeviceTest").dependencies {
+        implementation(libs.junit)
+        implementation(libs.androidx.test.runner)
+        implementation(libs.androidx.test.junit)
+        implementation(libs.androidx.test.core)
+    }
 
     sourceSets.commonMain.dependencies {
         implementation(libs.kotlinx.coroutines.core)

@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
 
 permissions:
   contents: read
@@ -248,6 +248,7 @@ jobs:
       EXPECTED_ARCH: ${{ matrix.arch }}
       SIMULATOR_KIND: ${{ matrix.simulator-kind }}
       EMULATOR_API: ${{ matrix.emulator-api }}
+      SERIAL_EMULATOR_API: ${{ matrix.serial-emulator-api }}
       # Source-defined diagnostic subsets, never arbitrary task/profile input.
       # Receipts explicitly mark these as incomplete suite coverage.
       TEST_MODULES: ${{ matrix.test-modules }}
@@ -302,7 +303,7 @@ jobs:
         with:
           # v3's SDK16 bootstrap installs SDK23 through the official registry.
           # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
-          packages: ${{ matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
+          packages: ${{ inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
           accept-android-sdk-licenses: true
           log-accepted-android-sdk-licenses: false
       - name: Select the installed official SDK23 command-line tools
@@ -437,6 +438,14 @@ jobs:
           else
             "$PYTHON" scripts/ci/library_tests.py "${args[@]}"
           fi
+      - name: Independent minimum-API camera provider verification (same host, fresh AVD and XML)
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'android-camera-provider' && matrix.serial-emulator-api == '23' }}
+        run: |
+          # The first controller already archives its exact fresh XML. Its failure
+          # remains failed; this independent API23 check cannot hide or replace it.
+          "$PYTHON" scripts/ci/android_device_tests.py --api-level "$SERIAL_EMULATOR_API" \
+            --module calf-camera-picker --focus android-camera-provider-contracts \
+            --output "build/ci-verification/$SLOT-minimum-api23"
       - name: Preserve first fresh XML before the related same-host recovery
         id: serial_archive
         if: ${{ !cancelled() && steps.plan.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery' || inputs.profile == 'ios-vector-native-screen-pair') && matrix.serial-test-focus != '' }}
@@ -490,6 +499,9 @@ jobs:
           if [[ -d "build/ci-verification/$SLOT" ]]; then
             "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT"
           fi
+          if [[ -d "build/ci-verification/$SLOT-minimum-api23" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-minimum-api23"
+          fi
           if [[ -d "build/ci-verification/$SLOT-related-recovery" ]]; then
             "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-related-recovery"
           fi
@@ -530,6 +542,11 @@ jobs:
             build/ci-verification/${{ matrix.slot }}/geo-probe/receipt.json
             build/ci-verification/${{ matrix.slot }}/share-recipient/receipt.json
             build/ci-verification/${{ matrix.slot }}/share-documents/receipt.json
+            build/ci-verification/${{ matrix.slot }}/camera-receiver/receipt.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/*.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/library/*.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/camera-receiver/receipt.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/fresh-reports/*.xml
             build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json
             build/ci-verification/${{ matrix.slot }}/native-picker-application/*/receipt.json
             build/ci-verification/${{ matrix.slot }}/native-webview-application/*/receipt.json

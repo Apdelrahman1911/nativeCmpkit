@@ -1,0 +1,23 @@
+{
+  "command": [
+    "./gradlew",
+    ":calf-camera-picker:testAndroidHostTest",
+    "--tests",
+    "*AndroidCameraProviderTest.api23ConfiguredProviderUsesContentUriAndResolverBytesSurviveSuccess",
+    "--tests",
+    "*AndroidCameraProviderTest.api23MissingProviderReturnsConfigurationAndLeavesNoOrphanOrLaunch",
+    "--tests",
+    "*AndroidCameraProviderTest.api23WrongProviderPathReturnsConfigurationAndDoesNotDeleteUnrelatedCache",
+    "--max-workers=2",
+    "--no-configuration-cache",
+    "--no-build-cache"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-10-30T13:50:01.386061+00:00",
+  "free_bytes_before": 89517584384,
+  "exit_code": 1,
+  "elapsed_seconds": 36.01,
+  "free_bytes_after": 89516449792
+}

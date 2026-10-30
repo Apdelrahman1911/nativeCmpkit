@@ -31,6 +31,7 @@ def unique(pairs):
 def metadata_apk(root: Path, *, fixture: str = FIXTURE, package: str = PACKAGE) -> Path:
     if (fixture, package) not in {
         (FIXTURE, PACKAGE),
+        ("tests/consumer/android-camera-receiver", "io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver"),
         ("tests/consumer/android-share-recipient", "io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient"),
         ("tests/consumer/android-share-documents", "io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments"),
     }:

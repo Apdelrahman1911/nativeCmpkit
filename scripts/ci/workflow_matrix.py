@@ -30,6 +30,7 @@ PROFILES = {
     "android-geo-provider": ("android-device-api35",),
     "android-geo-prerequisites": ("android-device-api35",),
     "android-share-grants": ("android-device-api35",),
+    "android-camera-provider": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -151,6 +152,7 @@ MODULE_SUBSETS = {
     "android-geo-provider": "calf-geo",
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
+    "android-camera-provider": "calf-camera-picker",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -299,6 +301,10 @@ def matrix(profile: str) -> dict:
     if profile == "android-geo-prerequisites":
         for row in rows:
             row["test-focus"] = "geo-android-real-prerequisites"
+    if profile == "android-camera-provider":
+        for row in rows:
+            row["test-focus"] = "android-camera-provider-contracts"
+            row["serial-emulator-api"] = "23"
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"
@@ -463,6 +469,7 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
     selections = [selection for row in rows for selection in
                   ([row, {**row, "test-focus": row["serial-test-focus"]}]
                    if row.get("serial-test-focus") else [row])]
+    selections += [{**row, "emulator-api": row["serial-emulator-api"]} for row in rows if row.get("serial-emulator-api")]
     for row in selections:
         if row["suite"] == "android-device":
             # Validate the controller actually invoked by the host, not a different

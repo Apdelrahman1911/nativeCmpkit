@@ -20,7 +20,7 @@ enum class CameraImageFormat { Png, Jpeg }
 
 /** Options are read for each new request; changing them never replaces an active owner. */
 data class CameraPickerOptions(
-    /** API24+: defaults to the legacy ${'$'}{applicationId}.provider; the host must configure it. */
+    /** Android API23+: defaults to ${'$'}{applicationId}.provider; the host must configure a narrow FileProvider. */
     val androidFileProviderAuthority: String? = null,
     val iosPhotoLibraryFallback: Boolean = true,
     /** Android's external camera controls its own JPEG output. These options apply to iOS only. */

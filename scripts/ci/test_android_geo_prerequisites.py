@@ -32,7 +32,7 @@ class AndroidGeoPrerequisitesTests(unittest.TestCase):
         owner = l.plan(l.ROOT, "android-device", only_modules=("calf-geo",), focus=l.ANDROID_GEO_OWNERSHIP_FOCUS)
         self.assertFalse(l.android_geo_probe_required(owner))
         self.assertEqual(11, len(w.matrix("all")["include"]))
-        self.assertEqual(7, len(l.plan(l.ROOT, "android-device")["expected"]))
+        self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
 
     def test_prerequisite_selection_uses_one_actual_runtime_annotation_without_ATE_csv_loss(self):
         plan = self.plan()

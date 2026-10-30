@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Camera provider owning patch prepared — 2026-10-30
+
+[Camera/provider safety](android-camera-provider-safety.md) replaces API23's
+private file URI with a validated narrow FileProvider URI; three prior host reds
+and a zero-test fixture compilation failure remain explicit.22/22 host cases/
+four fresh XML pass0/19.01s; reporter/receiver APKs pass0/41.01s and0/11.0s with
+983/1060 held inputs, ZERO local native methods.1086 disjoint scripts/ci methods/
+Actionlint pass. One immutable serial API35/API23 cross-UID request is still
+required; #78/#13 and NATIVE-024 stay open. No real-camera/process-death/physical/
+packaged/API-ABI/heap/security/release inference, publishing/Pages/main/history
+change or replay of accepted179 tooling/other native results.
+
+
 ## Sharing URI ownership batch directly closed — 2026-10-30
 
 **[#83/NATIVE-028 closed/completed](evidence/android-share-uri-grants-20261030/closure001/README.md)**

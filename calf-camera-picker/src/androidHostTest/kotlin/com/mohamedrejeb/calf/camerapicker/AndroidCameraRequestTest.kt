@@ -29,7 +29,10 @@ class AndroidCameraRequestTest {
         override val contract: ActivityResultContract<Uri, *> = ActivityResultContracts.TakePicture()
     }
     private val application: Application get() = RuntimeEnvironment.getApplication()
-    private fun cameraAvailable() { shadowOf(application.packageManager).setSystemFeature(PackageManager.FEATURE_CAMERA_ANY, true) }
+    private fun cameraAvailable(installProvider: Boolean = true) {
+        shadowOf(application.packageManager).setSystemFeature(PackageManager.FEATURE_CAMERA_ANY, true)
+        if (installProvider) installCameraHostFileProvider(application, "${application.packageName}.provider")
+    }
     private fun owner(state: CameraRequestState, driver: ResultDriver, callback: (CameraPickerResult) -> Unit) =
         CameraPickerLauncherAndroidImpl(application, driver, state, { CameraPickerOptions() }, callback)
 
@@ -86,7 +89,7 @@ class AndroidCameraRequestTest {
     }
 
     @Test @Config(sdk = [34]) fun missingFileProviderIsAConfigurationFailureNotACrash() {
-        cameraAvailable()
+        cameraAvailable(installProvider = false)
         val results = mutableListOf<CameraPickerResult>()
         val state = CameraRequestState()
         val driver = ResultDriver()
@@ -118,7 +121,9 @@ class AndroidCameraRequestTest {
         var nextRequest: PendingCameraCapture? = null
         val driver = ResultDriver { uri ->
             if (firstFile == null) {
-                firstFile = File(requireNotNull(uri.path)).apply { writeBytes(byteArrayOf(9, 8, 7)) }
+                firstFile = File(assertNotNull(state.pending).ownedPath)
+                assertEquals("content", uri.scheme)
+                application.contentResolver.openOutputStream(uri)!!.use { it.write(byteArrayOf(9, 8, 7)) }
                 owner.handleResult(true) // Explicitly synchronous custom-registry behavior.
             }
         }

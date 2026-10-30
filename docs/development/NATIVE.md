@@ -486,10 +486,13 @@ other app-owned share files into an intentionally allowed outgoing directory.
 Do not use broad root/external/cache `path="."` examples as a production security
 policy. The sample XML was narrowed to the two folders above after the NAV and IO
 owners confirmed no other sample/picker cache staging needs broad access. A
-valid sample host/provider/recipient is still a separate integration check. Camera API23
-retains its legacy file-URI path. The new share conversion uses FileProvider on
-API23 too; local-file sharing therefore requires the configured provider on all
-supported Android versions, an intentional behavior change. Existing grantable
+valid sample host/provider/recipient is still a separate integration check.
+[Camera provider safety](android-camera-provider-safety.md) now uses FileProvider
+on **API23 too**: a private cache `file://` URI is not accessible to a camera's
+different native UID, even where file-URI exposure is not rejected by StrictMode.
+Camera capture and local-file sharing therefore require the configured provider
+on every supported Android version, an intentional API23 behavior/configuration
+change without changing public method signatures. Existing grantable
 `content://` URIs are forwarded without unnecessary copies. Permission grants
 and recipient reads need a real host/recipient device test.
 

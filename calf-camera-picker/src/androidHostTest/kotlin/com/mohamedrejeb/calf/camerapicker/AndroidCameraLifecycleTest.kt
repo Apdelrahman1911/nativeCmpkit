@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.OpenableColumns
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.DisposableEffect
@@ -31,7 +32,6 @@ import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import org.robolectric.shadows.ShadowActivity
 import java.io.File
-import java.io.FileOutputStream
 import kotlin.test.*
 
 /** A real ComponentActivity/Android composition, with the production ActivityResultRegistry. */
@@ -101,7 +101,7 @@ class AndroidCameraLifecycleTest {
         val launched = launch(original)
         val output = output(launched)
         val saved = Bundle()
-        FileOutputStream(output).use { externalWriter ->
+        original.contentResolver.openOutputStream(launchUri(launched))!!.use { externalWriter ->
             compose.runOnUiThread {
                 originalController.pause().saveInstanceState(saved).stop().destroy()
             }
@@ -151,7 +151,7 @@ class AndroidCameraLifecycleTest {
         val oldLauncher = assertNotNull(activity.launcher)
         val first = launch(activity)
         val firstOutput = output(first)
-        FileOutputStream(firstOutput).use { externalWriter ->
+        activity.contentResolver.openOutputStream(launchUri(first))!!.use { externalWriter ->
             compose.runOnIdle { activity.showPicker = false }
             compose.waitForIdle()
             assertFalse(activity.isDestroyed)
@@ -179,7 +179,7 @@ class AndroidCameraLifecycleTest {
         val activity = controller.get()
         val launched = launch(activity)
         val output = output(launched)
-        FileOutputStream(output).use { externalWriter ->
+        activity.contentResolver.openOutputStream(launchUri(launched))!!.use { externalWriter ->
             compose.runOnUiThread {
                 activity.finish()
                 controller.pause().stop().destroy()
@@ -199,7 +199,8 @@ class AndroidCameraLifecycleTest {
         val activity = createActivity().get()
         val originalLauncher = assertNotNull(activity.launcher)
         val launched = launch(activity)
-        val output = output(launched).apply { writeBytes(byteArrayOf(4, 3, 2, 1)) }
+        val output = output(launched)
+        activity.contentResolver.openOutputStream(launchUri(launched))!!.use { it.write(byteArrayOf(4, 3, 2, 1)) }
         compose.runOnIdle { activity.useWrappedContext = true }
         compose.waitForIdle()
         assertNotSame(originalLauncher, activity.launcher)
@@ -215,8 +216,10 @@ class AndroidCameraLifecycleTest {
     }
 
     private fun createActivity(saved: Bundle? = null): ActivityController<CameraLifecycleTestActivity> {
-        shadowOf(RuntimeEnvironment.getApplication().packageManager)
+        val app = RuntimeEnvironment.getApplication()
+        shadowOf(app.packageManager)
             .setSystemFeature(PackageManager.FEATURE_CAMERA_ANY, true)
+        installCameraHostFileProvider(app, "${app.packageName}.provider")
         val controller = Robolectric.buildActivity(CameraLifecycleTestActivity::class.java)
         controllers += controller
         compose.runOnUiThread { if (saved == null) controller.setup() else controller.setup(saved) }
@@ -236,18 +239,24 @@ class AndroidCameraLifecycleTest {
         compose.runOnIdle { assertNotNull(activity.launcher).launch() }
         val launched = assertNotNull(shadowOf(activity).nextStartedActivityForResult)
         assertEquals(MediaStore.ACTION_IMAGE_CAPTURE, launched.intent.action)
-        assertEquals("file", launchUri(launched).scheme) // SDK23's retained compatibility path.
+        assertEquals("content", launchUri(launched).scheme) // Private outputs must be grantable on SDK23 too.
         return launched
     }
 
     private fun launchUri(launched: ShadowActivity.IntentForResult): Uri =
         assertNotNull(launched.intent.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT))
 
-    private fun output(launched: ShadowActivity.IntentForResult): File =
-        File(assertNotNull(launchUri(launched).path)).also {
+    private fun output(launched: ShadowActivity.IntentForResult): File {
+        val app = RuntimeEnvironment.getApplication()
+        val name = app.contentResolver.query(launchUri(launched), arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)!!.use {
+            assertTrue(it.moveToFirst())
+            it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+        }
+        return File(File(app.cacheDir, "nativecmpkit-camera"), name).also {
             outputs += it
             assertTrue(it.exists())
         }
+    }
 
     private fun deliver(activity: CameraLifecycleTestActivity, launched: ShadowActivity.IntentForResult, result: Int) {
         compose.runOnUiThread {

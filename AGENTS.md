@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android camera provider safety prepared — 2026-10-30
+
+[Related camera/provider batch](docs/development/android-camera-provider-safety.md)
+reproduces three real-source API23 host failures, repairs the private file-URI
+branch without changing signatures, and passes22/22 host cases/four fresh XML
+(including eight new provider methods), exit0/19.01s. Preserve the3/3 reds and
+separate zero-test fixture compiler failure. Reporter APK0/41.01s and independent
+receiver APK0/11.0s hold983 library/1060 combined inputs; ZERO native executions.
+All1086 disjoint scripts/ci methods/Actionlint pass (179 important +907 remaining,
+no accepted179 replay). One finite serial API35/API23 owned cross-UID request and
+independent original-criteria review remain; #78/#13/NATIVE-024 stay open.
+Synthetic bytes/recipient selection, not camera hardware/vendor/actual process
+death; no physical/packaged/API-ABI/heap/security/release inference. Same11 full
+slots/seven prior Android modules plus camera8 retained. Solo/max2heavy/8GiB and
+all publishing/Pages/main/history/readiness gates unchanged. Telegram's earlier
+23-host-method count was a typo; actual inspected XML and receipts contain22.
+
+
 ## Android sharing grant/resource batch verified and closed — 2026-10-30
 
 **#83/NATIVE-028 CLOSED/completed** after all three original criteria/source/results

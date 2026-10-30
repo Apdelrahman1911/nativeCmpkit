@@ -25,9 +25,9 @@ class AndroidShareGrantPlanTests(unittest.TestCase):
         self.assertTrue(l.android_share_recipient_required(plan)); self.assertFalse(l.android_geo_probe_required(plan))
         self.assertFalse(plan["complete_suite_requested"]); self.assertEqual(["calf-share"], plan["explicit_module_subset"])
         self.assertEqual(3, len(plan["expected"][0]["required_testcases"]))
-        self.assertEqual({"calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share"},
+        self.assertEqual({"calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"},
                          set(l.MINIMUM_MODULES["android-device"]))
-        self.assertEqual(7, len(l.plan(l.ROOT, "android-device")["expected"]))
+        self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
         self.assertEqual(11, len(w.matrix("all")["include"]))
 
     def test_single_class_selector_carries_no_ate_comma_and_only_the_owned_recipient_marker(self):

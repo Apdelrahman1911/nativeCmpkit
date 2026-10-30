@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -46,9 +45,12 @@ internal class CameraPickerLauncherAndroidImpl(
             val directory = File(context.cacheDir, CAMERA_DIRECTORY)
             check(directory.isDirectory || directory.mkdirs()) { "Could not create camera cache directory" }
             output = File.createTempFile("capture-", ".jpg", directory)
-            val uri = if (Build.VERSION.SDK_INT >= 24) FileProvider.getUriForFile(
+            // All supported Android versions need a grantable URI. API23 private cache paths
+            // are not readable by a different camera UID, even though file:// is not rejected
+            // by StrictMode there. Validate the configured narrow provider on API23 too.
+            val uri = FileProvider.getUriForFile(
                 context, options().androidFileProviderAuthority ?: "${context.packageName}.provider", output,
-            ) else Uri.fromFile(output)
+            )
             launchedRequest = PendingCameraCapture(uri.toString(), output.absolutePath)
             request.pending = launchedRequest
             launchEntered = true

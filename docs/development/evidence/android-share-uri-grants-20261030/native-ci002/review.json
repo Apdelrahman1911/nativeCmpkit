@@ -1,0 +1,313 @@
+{
+  "accepted_executions": 3,
+  "accepted_unrelated_native_methods_not_replayed": true,
+  "fresh_executed": 3,
+  "fresh_requested_executions": 3,
+  "original_issue_criteria_review_and_closure_not_automatically_inferred": true,
+  "packages_releases_deployments_or_Pages_created": false,
+  "platforms": [
+    {
+      "accepted_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_emulator": {
+          "abi": "x86_64",
+          "api_level": "35",
+          "boot_completed": "1",
+          "release": "15",
+          "selinux": "Enforcing",
+          "serial": "emulator-5588"
+        },
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "382db2531059f64d268d6fbcf772b587bdcae1a130970190ea9c366d292a57cb",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T13:31:32.921262+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+        "source_tree_dirty": false
+      },
+      "all1044_preflight_combined_inputs_exact_historical_Git": true,
+      "all967_before_after_inputs_held": true,
+      "android_controller": {
+        "changed_inputs": [],
+        "complete_suite_requested": false,
+        "emulator_shutdown": {
+          "clean_shutdown": true,
+          "exit_code": 0,
+          "finished_at_utc": "2026-10-30T13:32:14.382754+00:00",
+          "forced_owned_group": false,
+          "graceful_kill_requested": true,
+          "requested_at_utc": "2026-10-30T13:32:13.258536+00:00"
+        },
+        "explicit_module_subset": [
+          "calf-share"
+        ],
+        "explicit_test_focus": "android-share-uri-grants",
+        "finished_at_utc": "2026-10-30T13:32:14.519842+00:00",
+        "packages_published": false,
+        "passed": true,
+        "release_readiness_certified": false,
+        "setup_stages": {
+          "apk-assembly": {
+            "elapsed_seconds": 258.07,
+            "exit_code": 0
+          },
+          "owned-avd-create": {
+            "elapsed_seconds": 2.0,
+            "exit_code": 0
+          }
+        },
+        "share_documents": {
+          "assembly": {
+            "elapsed_seconds": 68.03,
+            "exit_code": 0
+          },
+          "assembly_command": [
+            "./gradlew",
+            "--no-daemon",
+            "--no-configuration-cache",
+            "--max-workers=2",
+            "--console=plain",
+            "--no-parallel",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-p",
+            "tests/consumer/android-share-documents",
+            "assembleDebug"
+          ],
+          "automatic_runtime_permission_grant": false,
+          "install_exit_code": 0,
+          "installed_readback": {
+            "apk_sha256": "ccce49aa462ac66e666b1eafe06a345a6d5860f0a8f79b8cdb58aa6a00902bd3",
+            "exact_one_APK_path_observed": true,
+            "raw_path_uploaded": false
+          },
+          "manual_URI_grant": false,
+          "native_signature_UID_and_URI_reads_still_required": true,
+          "owned_identity_reverified": true,
+          "owned_recipient_removed": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments",
+          "packages_published": false,
+          "raw_paths_console_APKs_or_signing_inputs_uploaded": false,
+          "recipient_installed": true,
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Third-UID read-only DocumentsProvider plus finite Activity-result grant of two synthetic files. Android creates incoming source grants; not DocumentsUI/vendor/photo-picker UX, packaged consumer, physical/minimum-device, ABI or release certification.",
+          "source_apk_bytes": 889169,
+          "source_apk_sha256": "ccce49aa462ac66e666b1eafe06a345a6d5860f0a8f79b8cdb58aa6a00902bd3",
+          "source_fixture": "tests/consumer/android-share-documents",
+          "stop_exit_code": 0,
+          "uninstall_exit_code": 0
+        },
+        "share_recipient": {
+          "assembly": {
+            "elapsed_seconds": 38.01,
+            "exit_code": 0
+          },
+          "assembly_command": [
+            "./gradlew",
+            "--no-daemon",
+            "--no-configuration-cache",
+            "--max-workers=2",
+            "--console=plain",
+            "--no-parallel",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-p",
+            "tests/consumer/android-share-recipient",
+            "assembleDebug"
+          ],
+          "automatic_runtime_permission_grant": false,
+          "install_exit_code": 0,
+          "installed_readback": {
+            "apk_sha256": "6e4595a5fe4da1626cc41217906c1bbc4496062a3e70cd75f5712b91e279b458",
+            "exact_one_APK_path_observed": true,
+            "raw_path_uploaded": false
+          },
+          "manual_URI_grant": false,
+          "native_signature_UID_and_URI_reads_still_required": true,
+          "owned_identity_reverified": true,
+          "owned_recipient_removed": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient",
+          "packages_published": false,
+          "raw_paths_console_APKs_or_signing_inputs_uploaded": false,
+          "recipient_installed": true,
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Separate-UID Android URI recipient only; library caller is instrumentation. Not packaged consumer, chooser/DocumentsUI/vendor UX, minimum/physical-device, ABI or release certification.",
+          "source_apk_bytes": 889032,
+          "source_apk_sha256": "6e4595a5fe4da1626cc41217906c1bbc4496062a3e70cd75f5712b91e279b458",
+          "source_fixture": "tests/consumer/android-share-recipient",
+          "stop_exit_code": 0,
+          "uninstall_exit_code": 0
+        },
+        "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+        "source_revision_after": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+        "source_tree_dirty": false,
+        "source_unchanged": true,
+        "started_at_utc": "2026-10-30T13:24:52.896544+00:00",
+        "test_bearing_modules_not_requested": [
+          "calf-file-picker",
+          "calf-geo",
+          "calf-io",
+          "calf-navigation",
+          "calf-ui",
+          "calf-webview"
+        ],
+        "test_suite_passed": true,
+        "test_totals": {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      },
+      "android_sdk_assets": {
+        "abi": "x86_64",
+        "api_level": "35",
+        "emulator_revision": "37.2.13",
+        "image_revision": "9",
+        "system_image": "system-images;android-35;google_apis;x86_64",
+        "tag_id": "google_apis"
+      },
+      "artifact_digest": "sha256:dcaf3a7f897eb6c90e4c670f4012f5aceb49a8c0c4959b8f211a4791ff1d3d00",
+      "artifact_id": 12981676643,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+        ":calf-share:connectedAndroidDeviceTest"
+      ],
+      "errors": [],
+      "exact_fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 39.02,
+        "exit_code": 0
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 3,
+      "job_conclusion": "success",
+      "job_id": 124086483199,
+      "library_invocation_receipt_present": true,
+      "native_URI_reads_UID_signature_and_descriptor_assertions_not_inferred_from_compilation": true,
+      "owned_emulator_verified_clean_shutdown": true,
+      "passed": true,
+      "reviewed_at_utc": "2026-10-30T13:35:34.263134+00:00",
+      "run_id": 41062614557,
+      "slot": "android-device-api35",
+      "source_documents_and_recipient_install_byte_readback_and_owned_cleanup_verified": true,
+      "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+      "standalone_fixtures": [
+        {
+          "assembly": {
+            "elapsed_seconds": 68.03,
+            "exit_code": 0
+          },
+          "fixture": "tests/consumer/android-share-documents",
+          "installed_byte_identity_and_owned_cleanup_verified": true,
+          "native_UID_signature_and_URI_reads_require_actual_test_assertions": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments"
+        },
+        {
+          "assembly": {
+            "elapsed_seconds": 38.01,
+            "exit_code": 0
+          },
+          "fixture": "tests/consumer/android-share-recipient",
+          "installed_byte_identity_and_owned_cleanup_verified": true,
+          "native_UID_signature_and_URI_reads_require_actual_test_assertions": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient"
+        }
+      ],
+      "suite": "android-device",
+      "three_exact_actual_native_URI_grant_resource_methods_selected": true,
+      "totals": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T13:35:34.299838+00:00",
+  "run_attempt": 1,
+  "run_id": 41062614557,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41062614557",
+  "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+  "workflow_conclusion": "success",
+  "workflow_sha256": "46c11ec6f993bd07ecec2b0bab2dc171fae2dcfc9e174567ca90761f9cf26b71"
+}

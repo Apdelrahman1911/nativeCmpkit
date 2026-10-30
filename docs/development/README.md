@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Sharing URI ownership batch directly closed — 2026-10-30
+
+**[#83/NATIVE-028 closed/completed](evidence/android-share-uri-grants-20261030/closure001/README.md)**
+after all three original criteria/source/results and readback, before documentation.
+[Actual41062614557](evidence/android-share-uri-grants-20261030/native-ci002/README.md)
+passes3/3 native methods/one fresh XML, Gradle0/39.02s with967/1044 exact held Git
+inputs/selector/runtime/three native UIDs+signatures/installed-byte/owned cleanup.
+Incoming/outgoing read-only document grants, delayed reads/revocation/write denial,
+mixed MIME/ClipData/errors and closed real descriptors verified; chooser selection
+only redirected. **89closed/83open;32implemented/39partial/87verified/six unresolved.**
+#81/#88/#141 remain open; no vendor/physical/minimum/packaged/ABI/heap/security/
+release inference or accepted-test replay. No publishing/Pages/main/history changes.
+
 ## Sharing request tooling-only recovery — 2026-10-30
 
 [41061512812 and exact recovery](evidence/android-share-uri-grants-20261030/tooling-recovery001/README.md)

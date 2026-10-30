@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android sharing grant/resource batch verified and closed — 2026-10-30
+
+**#83/NATIVE-028 CLOSED/completed** after all three original criteria/source/results
+and independent [readback](docs/development/evidence/android-share-uri-grants-20261030/closure001/README.md), before docs.
+Actual41062614557 at026a9903 passes3/3 native methods/one fresh XML, Gradle0/39.02s;
+967/1044 exact Git inputs/filter/marker/task, EnforcingAPI35, two installed-APK
+identities/three native UIDs+signatures and owned app/graceful emulator cleanup
+reviewed. Real incoming/outgoing read-only document grants, delayed reads,
+revocation/write denial/mixed MIME/ClipData/errors and closed descriptors execute.
+Chooser selection only redirected; no manual grant/fabricated read or source loss.
+**89closed/83open/172total**;32implemented/39partial/87verified/six unresolved.
+#81/macOS stage/actual chooser, #88/UIKit/public dispatch and #141/unknown Apple
+launch/profiling stay open. No physical/minimum/vendor/cloud/packaged/ABI/heap/
+security/release inference, publishing/Pages/main/history change. Solo/max2heavy/8GiB.
+
 ## Sharing native request: exact inventory recovery — 2026-10-30
 
 Actual41061512812 at44b9a16f FAILED: CI1074 synthetic methods/1071 pass/three

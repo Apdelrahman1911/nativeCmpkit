@@ -1,0 +1,180 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+    ":calf-share:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 39.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "explicit_test_focus": "android-share-uri-grants",
+  "finished_at_utc": "2026-10-30T13:32:12.387376+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "8ddf9fd420dc0187c7cbe8fef8fb5a931919d17a82dcee505d0fd3e6d0d00226",
+  "inputs_before_sha256": "8ddf9fd420dc0187c7cbe8fef8fb5a931919d17a82dcee505d0fd3e6d0d00226",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-share",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "disposition": "required-executed",
+          "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData",
+          "required_on_host": true,
+          "source": "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "disposition": "required-executed",
+          "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors",
+          "required_on_host": true,
+          "source": "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "disposition": "required-executed",
+          "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced",
+          "required_on_host": true,
+          "source": "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-share/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-e7903c0ee465(AVD) - 15.xml",
+          "sha256": "341a6bb2babf0c67411168625d306cb7c5fbbd7b2ac9bb5f941b37ed47983cf8",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-share:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+      "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+      "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+      "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData"
+    }
+  ],
+  "runtime_receipt_sha256": "9e63952612130e7a75b581571093aca439c05a91921cfca21fedeecd3af05873",
+  "schema_version": 1,
+  "scope": "Three actual library Android URI intent/provider methods with a signature-protected separate-UID recipient. Android owns grants, revocation and descriptor reads; only chooser recipient selection is redirected. Not chooser UX, DocumentsUI/cloud/photo-picker/vendor, physical/minimum-platform, heap, packaged consumer, ABI or release/security certification.",
+  "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+  "source_revision_after": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T13:31:33.371557+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-share:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

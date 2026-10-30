@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
-    "docs/development/resolutions/NATIVE.json": "97eb6659963cf9b92f6f52132353fda26815a248739ad9325f0afed997bbfca8",
+    "docs/development/resolutions/NATIVE.json": "f58abc6684af8bcaa48e80c46b7b4dd840ab3578a569eebf590e47e4c992794c",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "1afe9cf4cae70007102a13e7de9e46cc4fb1e34ac35d584a2ba868a27b24bd14",
+  "input_fingerprint": "ab81be4de97f603b585b9671b373b8d995585b29a05356b47aebb0cc5bc82ee1",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 33,
+      "implemented": 32,
       "partially-verified": 39,
-      "verified": 86,
+      "verified": 87,
       "unresolved": 6,
       "not-applicable": 0
     },
@@ -16928,14 +16928,14 @@
         "mapping_key": "audit:NATIVE-028",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "3da2086e300e131fb9bc6d803e857643afb5c77fd3d207baac60521b327caf1f",
+      "owner_record_sha256": "65aead971376f62a2e41db45614e3c01ff253e12484f9cb349c03f2813b63c3f",
       "owner_record": {
         "id": "NATIVE-028",
         "title": "Android file sharing forwards file:// URIs without FileProvider conversion",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Convert Android file URIs via configured FileProvider, preserve existing content URIs, reject other schemes and include every item in read-granted ClipData/stream extras."
         ],
@@ -17020,17 +17020,21 @@
               "docs/development/evidence/android-share-uri-grants-20261030/tooling-recovery001/applicability.json"
             ],
             "scope": "Exact inventory and confined diagnostics guards only; no native, source defect resolution or release certification."
+          },
+          {
+            "command": "Immutable android-share-grants run41062614557 / :calf-share:connectedAndroidDeviceTest at026a99037859bf9f147f29835e337a9e8d42f4ec",
+            "result": "PASS3/3 fresh native methods/one XML, Gradle0/39.02s; all967 library/1044 combined historical Git inputs, exact selector/marker/task/runtime/Enforcing API35 and both installed-APK identities/owned app and graceful emulator cleanup independently verified. Actual three UIDs/signatures, incoming/outgoing read-only grants, delayed byte reads, revocation/write denial/mixed MIME/ClipData/errors and real balanced provider descriptors. All three original criteria accepted, #83 closed/completed and read back before docs; technical body/title/labels/PR508 retained.",
+            "evidence": [
+              "docs/development/evidence/android-share-uri-grants-20261030/native-ci002/review.json",
+              "docs/development/evidence/android-share-uri-grants-20261030/closure001/NATIVE-028-original-criteria-acceptance.json",
+              "docs/development/evidence/android-share-uri-grants-20261030/closure001/NATIVE-028-closure-readback.json"
+            ],
+            "scope": "Actual Android API35 separate-UID grant/descriptor/source data safety only. Chooser selection is redirected; no vendor/photo-picker/cloud/physical/minimum/packaged/ABI/heap or security/release certification. No accepted unrelated methods or APK/compiler inspections replayed."
           }
         ],
-        "remaining": [
-          "Separate recipient process/SAF grant revocation/delayed reads/mixed MIME still need real-device evidence.",
-          "Original required test pending full target verification: Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
-          "Original required test pending full target verification: SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
-          "Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.",
-          "2026-10-30: run the three still-unexecuted AndroidShareGrantTest methods on an immutable API35 owned fixture, inspect exact native/XML/runtime/source/three-APK ownership cleanup and all three original criteria, then close immediately only after verified acceptance. #81/macOS stage and #88/UIKit/public dispatch tests remain separate."
-        ],
+        "remaining": [],
         "compatibility": "Provider conversion applies on API23 too; local files outside configured narrow roots are explicit failures, not silently granted broad cache access.",
-        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+        "verification_scope": "All three original Android URI-conversion/grant/error criteria verified at immutable026a9903/run41062614557 with3/3 fresh native cases/one XML/39.02s and all967/1044 exact held Git inputs; #83 readback-closed before docs. Actual three UIDs, signatures, OS grants, bytes and descriptors; chooser selection redirected. Physical/minimum/vendor/cloud, packaged/API-ABI/heap and security/release gates remain independent. Earlier failures retained and accepted unrelated executions not replayed.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-028"
       },
       "closure_or_release_authorized_by_index": false

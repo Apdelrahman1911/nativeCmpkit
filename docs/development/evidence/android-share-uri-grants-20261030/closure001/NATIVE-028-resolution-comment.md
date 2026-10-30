@@ -1,0 +1,19 @@
+<!-- nativecmpkit-resolution:NATIVE-028:android-uri-grants:20261030:026a9903 -->
+## Verified resolution — Android file conversion and cross-app URI ownership
+
+1. Actual API35 (24+) library File.toKmpFile→ShareContent.File→launch path converts file:// through the explicitly configured narrow FileProvider. A genuinely different recipient UID receives content:// in EXTRA_STREAM and ClipData, delays its real ContentResolver/PFD read until after Presented, verifies exact source bytes/SHA256 and denied write access, and cannot read after explicit owner revocation. The source file remains unchanged; conversion does not broaden all-cache access or copy/delete source data.
+
+2. A genuine third-UID DocumentsProvider returns text and valid PNG image document URIs through a signature-protected native Activity result. Android creates the reporter’s incoming read grants and forwards them to a third distinct recipient UID; no manual grant RPC is used. Actual document identity/MIME, mixed */* target MIME, both stream extras/ClipData items, read-only/nonpersistent/nonprefix flags and real denied writes are asserted. Real provider opens/closes are balanced once per read, with zero close errors and zero provider writes; original foreign URIs are preserved rather than converted to paths.
+
+3. The three native methods exercise post-presentation local URI revocation, ungrantable/provider-security exceptions, missing authority, outside-narrow-root local file, unsupported scheme, empty multi-file content and mixed MIME. Typed failures produce no recipient delivery or source deletion; successful presentation is reported once, never recipient completion. Local revocation is performed by its owning FileProvider UID; third-party URI grant lifetime belongs to the owned Activities, not an invented global revoke authority.
+
+**Three fresh native methods / one XML; Gradle0/39.02s.** [Run41062614557](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41062614557) at `026a99037859bf9f147f29835e337a9e8d42f4ec`. All967 library/1044 combined historical Git inputs, exact class/marker/task/fresh XML, enforcingAPI35, both standalone APK installed-byte identities, native UID/signature assertions and owned app/graceful emulator cleanup independently reviewed. All three original criteria reviewed before closure.
+
+Limitations:
+- Actual enforcing Google-APIs x86_64 emulator API35 only; physical/minimum-device, vendor/cloud/photo-picker chooser UX and other-provider compatibility remain independent verification/release gates. The PNG is a real image document, not proof a vendor photo picker ran.
+- Only chooser recipient selection is redirected; actual Android Activity-result/outgoing grant enforcement, three native UIDs, signatures, IPC, file bytes, descriptors and write denial execute. No manually granted URI or same-UID/fabricated read result is substituted.
+- No packaged Maven/ABI consumer or whole-platform compatibility certification is implied. Accepted host/portable/unrelated native methods and APK inspections are not replayed or counted as fresh native outcomes.
+- Earlier41061512812 remains failed/zero native at three stale inventory guards. The guard-only recovery preserves all seven modules/fourteen confined result trees and all eleven platform slots; it does not weaken any native expectation.
+- #81/macOS result-stage and real chooser dismissal, #88/UIKit/public dispatch and #141/Apple launch/profiling remain open. Dependency/provenance/legal/security, native/minimum, packaged/API-ABI and release gates remain; no packages/releases/deployment/Pages/main/history changes.
+
+Original technical body/title/labels and [upstreamPR508](https://github.com/MohamedRejeb/Calf/pull/508) preserved. Additive acceptance/readback evidence follows in `docs/development/evidence/android-share-uri-grants-20261030/`; no baseline record is rewritten.

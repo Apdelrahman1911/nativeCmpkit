@@ -1,0 +1,42 @@
+{
+  "all967_current_and_immutable_inputs_held": true,
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+  "finding_id": "NATIVE-028",
+  "fresh_native_executions": 3,
+  "fresh_native_review_sha256": "7737b2fdcd8c3a85cb6b3b8b4177616327e52d61efd221966d99844e4b166e61",
+  "issue_number": 83,
+  "native_execution": {
+    "elapsed_seconds": 39.02,
+    "exit_code": 0
+  },
+  "native_run_id": 41062614557,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Actual API35 (24+) library File.toKmpFile\u2192ShareContent.File\u2192launch path converts file:// through the explicitly configured narrow FileProvider. A genuinely different recipient UID receives content:// in EXTRA_STREAM and ClipData, delays its real ContentResolver/PFD read until after Presented, verifies exact source bytes/SHA256 and denied write access, and cannot read after explicit owner revocation. The source file remains unchanged; conversion does not broaden all-cache access or copy/delete source data.",
+      "original_requirement": "Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
+      "status": "verified in actual scoped Android API35"
+    },
+    {
+      "evidence": "A genuine third-UID DocumentsProvider returns text and valid PNG image document URIs through a signature-protected native Activity result. Android creates the reporter\u2019s incoming read grants and forwards them to a third distinct recipient UID; no manual grant RPC is used. Actual document identity/MIME, mixed */* target MIME, both stream extras/ClipData items, read-only/nonpersistent/nonprefix flags and real denied writes are asserted. Real provider opens/closes are balanced once per read, with zero close errors and zero provider writes; original foreign URIs are preserved rather than converted to paths.",
+      "original_requirement": "SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
+      "status": "verified in actual scoped Android API35"
+    },
+    {
+      "evidence": "The three native methods exercise post-presentation local URI revocation, ungrantable/provider-security exceptions, missing authority, outside-narrow-root local file, unsupported scheme, empty multi-file content and mixed MIME. Typed failures produce no recipient delivery or source deletion; successful presentation is reported once, never recipient completion. Local revocation is performed by its owning FileProvider UID; third-party URI grant lifetime belongs to the owned Activities, not an invented global revoke authority.",
+      "original_requirement": "Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.",
+      "status": "verified in actual scoped Android API35"
+    }
+  ],
+  "retained_limitations": [
+    "Actual enforcing Google-APIs x86_64 emulator API35 only; physical/minimum-device, vendor/cloud/photo-picker chooser UX and other-provider compatibility remain independent verification/release gates. The PNG is a real image document, not proof a vendor photo picker ran.",
+    "Only chooser recipient selection is redirected; actual Android Activity-result/outgoing grant enforcement, three native UIDs, signatures, IPC, file bytes, descriptors and write denial execute. No manually granted URI or same-UID/fabricated read result is substituted.",
+    "No packaged Maven/ABI consumer or whole-platform compatibility certification is implied. Accepted host/portable/unrelated native methods and APK inspections are not replayed or counted as fresh native outcomes.",
+    "Earlier41061512812 remains failed/zero native at three stale inventory guards. The guard-only recovery preserves all seven modules/fourteen confined result trees and all eleven platform slots; it does not weaken any native expectation.",
+    "#81/macOS result-stage and real chooser dismissal, #88/UIKit/public dispatch and #141/Apple launch/profiling remain open. Dependency/provenance/legal/security, native/minimum, packaged/API-ABI and release gates remain; no packages/releases/deployment/Pages/main/history changes."
+  ],
+  "reviewed_at_utc": "2026-10-30T13:36:33.668553+00:00"
+}

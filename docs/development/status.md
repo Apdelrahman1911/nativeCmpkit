@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `1afe9cf4cae70007102a13e7de9e46cc4fb1e34ac35d584a2ba868a27b24bd14`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `ab81be4de97f603b585b9671b373b8d995585b29a05356b47aebb0cc5bc82ee1`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 33 |
+| implemented | 32 |
 | partially-verified | 39 |
-| verified | 86 |
+| verified | 87 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -140,7 +140,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 92 | [NATIVE-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) | Medium | 2 | M | implemented | — | 3 / 6 |
 | 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 94 | [NATIVE-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) | Medium | 2 | S | implemented | — | 3 / 5 |
-| 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | implemented | — | 3 / 5 |
+| 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | verified | — | 3 / 0 |
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
 | 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -2210,7 +2210,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 95. NATIVE-028 — Android file sharing forwards file:// URIs without FileProvider conversion
 
-**Medium · implemented · original effort M** — [nativeCmpkit #83](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort M** — [nativeCmpkit #83](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2222,13 +2222,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Separate recipient process/SAF grant revocation/delayed reads/mixed MIME still need real-device evidence.
-- Original required test pending full target verification: Internal File.toKmpFile on API24+ produces a recipient-readable content URI.
-- Original required test pending full target verification: SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.
-- Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.
-- 2026-10-30: run the three still-unexecuted AndroidShareGrantTest methods on an immutable API35 owned fixture, inspect exact native/XML/runtime/source/three-APK ownership cleanup and all three original criteria, then close immediately only after verified acceptance. #81/macOS stage and #88/UIKit/public dispatch tests remain separate.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
+**Owner verification scope:** All three original Android URI-conversion/grant/error criteria verified at immutable026a9903/run41062614557 with3/3 fresh native cases/one XML/39.02s and all967/1044 exact held Git inputs; #83 readback-closed before docs. Actual three UIDs, signatures, OS grants, bytes and descriptors; chooser selection redirected. Physical/minimum/vendor/cloud, packaged/API-ABI/heap and security/release gates remain independent. Earlier failures retained and accepted unrelated executions not replayed.
 
 **Compatibility / scope:** Provider conversion applies on API23 too; local files outside configured narrow roots are explicit failures, not silently granted broad cache access.
 
@@ -3578,7 +3574,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `97eb6659963cf9b92f6f52132353fda26815a248739ad9325f0afed997bbfca8` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `f58abc6684af8bcaa48e80c46b7b4dd840ab3578a569eebf590e47e4c992794c` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

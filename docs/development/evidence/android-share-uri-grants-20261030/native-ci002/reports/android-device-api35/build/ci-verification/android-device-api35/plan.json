@@ -1,0 +1,124 @@
+{
+  "api_level": 35,
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+    ":calf-share:assembleAndroidDeviceTest"
+  ],
+  "avd_name": "nativecmpkit-api35-e7903c0ee465",
+  "create_avd_command": [
+    "/usr/local/lib/android/sdk/cmdline-tools/23.0/bin/avdmanager",
+    "create",
+    "avd",
+    "--name",
+    "nativecmpkit-api35-e7903c0ee465",
+    "--package",
+    "system-images;android-35;google_apis;x86_64",
+    "--device",
+    "pixel_6",
+    "--force"
+  ],
+  "launch_command": [
+    "/usr/local/lib/android/sdk/emulator/emulator",
+    "-avd",
+    "nativecmpkit-api35-e7903c0ee465",
+    "-port",
+    "5588",
+    "-no-window",
+    "-no-snapshot",
+    "-no-audio",
+    "-no-boot-anim",
+    "-gpu",
+    "swiftshader_indirect",
+    "-accel",
+    "on",
+    "-memory",
+    "2048",
+    "-cores",
+    "2",
+    "-camera-back",
+    "none",
+    "-camera-front",
+    "none"
+  ],
+  "reserve_mib": 8192,
+  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification",
+  "serial": "emulator-5588",
+  "source_revision": "026a99037859bf9f147f29835e337a9e8d42f4ec",
+  "source_suite": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-share/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-share",
+        "project": ":calf-share",
+        "report_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+            "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+            "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+            "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData"
+          }
+        ],
+        "task": ":calf-share:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+        "test_source_files": [
+          "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+          "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/GrantlessShareProvider.kt",
+          "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/OwnedShareRecipient.kt",
+          "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-share"
+    ],
+    "explicit_test_focus": "android-share-uri-grants",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Three actual library Android URI intent/provider methods with a signature-protected separate-UID recipient. Android owns grants, revocation and descriptor reads; only chooser recipient selection is redirected. Not chooser UX, DocumentsUI/cloud/photo-picker/vendor, physical/minimum-platform, heap, packaged consumer, ABI or release/security certification.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-geo",
+      "calf-io",
+      "calf-navigation",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

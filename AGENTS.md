@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Verified WebView/value and native-image subset; mobile recovery — 2026-10-30
+
+**#72/NATIVE-015 and #140/UI-037 CLOSED/completed** immediately after all three
+original criteria reviews; [readbacks and previous ledgers](docs/development/evidence/verified-webview-image-subsets-20261030/README.md)
+preserve issue bodies/titles/labels and failed history. **80 closed / 92 open**;
+164 dispositions:35 implemented/44 partial/78 verified/seven unresolved.
+Actual41003730413 remains FAILED: Desktop1/1, Android1/2, iOS compiler failure/
+zero tests. Actual41002405707 native workload1/1/369 rounds/738 conversions passes,
+but Instruments exits21:zero allocation rows/zero leaks commands, cause unknown.
+**#141 remains open**; strict40989310808 is not repaired or waived. New
+[two-case mobile-only candidate](docs/development/evidence/webview-identity-batch-important-20261030/remount-recovery-tools001/README.md)
+keeps real document/title and typed UIKit child assertions; native-unverified.
+55 synthetic command remains FAILED54pass/one stale reuse guard, only corrected
+owner1/1 rerun. No accepted unrelated runtime replay or local heavy executions.
+Single-agent/max2 combined heavy requests/8GiB reserve; publishing/Pages/main/
+history and independent native/minimum/ABI/consumer/security gates remain.
+
 ## Related WebView recovery, failed cases only — 2026-10-30
 
 [Owning Android parser/FX readiness/final UIKit child cleanup](docs/development/evidence/webview-identity-batch-important-20261030/recovery-tools001/README.md) requests4 previously failed/unexecuted cases, no12-success runtime replay. Actual Compose1.12 wrapper-removal source reviewed; original parent-null/disposal/configuration checks stay, retained-parent assertion strengthens cleanup. Initial4 red/owning7 failed6pass/prose-call guard corrected1/1; shared164/164 synthetic/all981held, zero local Kotlin/native. Memory41002405707 remains independent at de6c1618. #62/#72/#89/#140/#141 stay open pending actual original criteria;78closed/94open. Single-agent/max2/8GiB and publishing/Pages/main/history/release/security gates stay.

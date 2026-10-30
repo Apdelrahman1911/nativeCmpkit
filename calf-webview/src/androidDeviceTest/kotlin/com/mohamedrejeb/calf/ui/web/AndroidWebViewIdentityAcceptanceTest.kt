@@ -21,6 +21,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.test.*
 
 /** Public library composition and actual Chromium documents, not a shadow or sample application. */
@@ -158,10 +159,34 @@ class AndroidWebViewIdentityAcceptanceTest {
     }
 
     private fun awaitDocument(owner: WebViewState, title: String) {
+        val expected = JavascriptResult.Value("\"$title\"")
+        val nativeDocument = AtomicReference<Pair<AndroidWebView, JavascriptResult>?>()
+        val queryInFlight = AtomicBoolean(false)
         compose.waitUntil(15_000) {
-            compose.runOnUiThread { owner.webView?.title == title && owner.pageTitle == title && owner.loadingState == LoadingState.Finished }
+            // restoreState can expose a saved title before the new engine has a document.
+            // Keep the metadata predicates, but require this current native owner's real JS
+            // document as well. Never clear saved state or synthesize a load to get green.
+            val current = compose.runOnUiThread {
+                owner.webView?.takeIf {
+                    it.title == title && owner.pageTitle == title && owner.loadingState == LoadingState.Finished
+                }
+            }
+            if (current == null) false else {
+                val observed = nativeDocument.get()
+                if (observed != null && observed.first === current && observed.second == expected) true else {
+                    if (queryInFlight.compareAndSet(false, true)) {
+                        val delivered = AtomicBoolean(false)
+                        owner.evaluateJavascriptResult("document.title") {
+                            assertFalse(delivered.getAndSet(true), "Each readiness query receives only its own one result")
+                            nativeDocument.set(current to it)
+                            queryInFlight.set(false)
+                        }
+                    }
+                    false
+                }
+            }
         }
-        assertEquals(JavascriptResult.Value("\"$title\""), evaluate(owner, "document.title"))
+        assertEquals(expected, evaluate(owner, "document.title"))
     }
 
     private fun evaluate(owner: WebViewState, script: String): JavascriptResult {

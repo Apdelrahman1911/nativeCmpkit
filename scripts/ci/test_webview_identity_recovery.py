@@ -18,6 +18,55 @@ IOS_FOCUS = 'webview-ios-native-remount-recovery'
 
 
 class WebViewIdentityRecoveryTests(unittest.TestCase):
+    def test_remaining_profile_requests_only_the_two_failed_mobile_remount_methods(self):
+        rows = matrix.matrix('webview-identity-remount-recovery')['include']
+        self.assertEqual({'ios-iphone', 'android-device-api35'}, {r['slot'] for r in rows})
+        self.assertEqual(2, len(rows))
+        for row in rows:
+            plan = lt.plan(lt.ROOT, row['suite'], only_modules=('calf-webview',), focus=row['test-focus'])
+            selected, = plan['expected']
+            self.assertEqual(1, len(selected['required_testcases']))
+            command = lt.gradle_command(row['suite'], plan,
+                                        '11111111-1111-1111-1111-111111111111' if row['suite'] == 'ios' else None,
+                                        android_serial='emulator-5588' if row['suite'] == 'android-device' else None)
+            if row['suite'] == 'android-device':
+                self.assertEqual('webview-public-remount-recovery', row['test-focus'])
+                self.assertEqual(lt.WEBVIEW_IDENTITY_METHOD, selected['required_testcases'][0]['name'])
+                self.assertIn('-Pandroid.testInstrumentationRunnerArguments.class=' +
+                              lt.WEBVIEW_IDENTITY_SPECS['android-device']['classname'] + '#' + lt.WEBVIEW_IDENTITY_METHOD,
+                              command)
+                args = ['android_device_tests.py', 'plan', '--api-level', '35', '--output', 'build/ci-plan',
+                        '--module', 'calf-webview', '--focus', row['test-focus']]
+                with patch('sys.argv', args), patch('sys.stdout', io.StringIO()), \
+                        patch.object(android, 'run', side_effect=AssertionError('No emulator/Gradle during plan')):
+                    self.assertEqual(0, android.main())
+            else:
+                self.assertEqual(IOS_FOCUS, row['test-focus'])
+                self.assertEqual(lt.IOS_WEBVIEW_LIFECYCLE_METHODS[0] + '[iosSimulatorArm64]',
+                                 selected['required_testcases'][0]['name'])
+        self.assertEqual(11, len(matrix.matrix('all')['include']))
+        self.assertFalse(lt.allowed_test_focus('desktop', ('calf-webview',), 'webview-public-remount-recovery'))
+
+    def test_android_readiness_checks_the_current_real_document_not_only_restored_metadata(self):
+        source = (lt.ROOT / lt.WEBVIEW_IDENTITY_SPECS['android-device']['source']).read_text()
+        barrier = source.split('private fun awaitDocument(', 1)[1].split('private fun evaluate(', 1)[0]
+        self.assertIn('compose.waitUntil(15_000)', barrier)
+        self.assertIn('owner.pageTitle == title', barrier)
+        self.assertIn('owner.loadingState == LoadingState.Finished', barrier)
+        self.assertIn('observed.first === current && observed.second == expected', barrier)
+        self.assertIn('owner.evaluateJavascriptResult("document.title")', barrier)
+        self.assertIn('queryInFlight.compareAndSet(false, true)', barrier)
+        self.assertIn('assertEquals(expected, evaluate(owner, "document.title"))', barrier)
+        self.assertIn('assertEquals(1, calls.get()', source)
+
+    def test_retained_uikit_child_predicate_keeps_the_actual_view_type_and_all_release_assertions(self):
+        source = (lt.ROOT / lt.IOS_WEBVIEW_LIFECYCLE_SOURCE).read_text()
+        self.assertIn('import platform.UIKit.UIView', source)
+        failed = source.split('@Test fun ' + lt.IOS_WEBVIEW_LIFECYCLE_METHODS[0], 1)[1].split('@Test fun ', 1)[0]
+        self.assertIn('state.webView == null && first.superview == null', failed)
+        self.assertIn('assertFalse(retainedParent.subviews.any { sameNativeObject(assertIs<UIView>(it), first) })', failed)
+        self.assertIn('assertEquals(1, disposed.size)', failed)
+
     def test_android_real_controller_cli_plans_the_selected_new_focus_before_any_native_setup(self):
         for focus in (lt.WEBVIEW_IDENTITY_FOCUS, FOCUS):
             args = ['android_device_tests.py', 'plan', '--api-level', '35', '--output', 'build/ci-plan',
@@ -72,7 +121,7 @@ class WebViewIdentityRecoveryTests(unittest.TestCase):
         test = (lt.ROOT / lt.IOS_WEBVIEW_LIFECYCLE_SOURCE).read_text().split('@Test fun ' + lt.IOS_WEBVIEW_LIFECYCLE_METHODS[0], 1)[1].split('@Test fun ', 1)[0]
         self.assertIn('state.webView == null && first.superview == null', test)
         self.assertIn('val retainedParent = runOnIdle { assertNotNull(first.superview) }', test)
-        self.assertIn('assertFalse(retainedParent.subviews.any { sameNativeObject(it, first) })', test)
+        self.assertIn('assertFalse(retainedParent.subviews.any { sameNativeObject(assertIs<UIView>(it), first) })', test)
         self.assertIn('assertEquals(1, disposed.size)', test)
 
     def test_failed_desktop_cold_start_waits_for_actual_public_creation_before_fx_and_does_not_weaken_assertions(self):
@@ -127,7 +176,18 @@ class WebViewIdentityRecoveryTests(unittest.TestCase):
             path = lt.WEBVIEW_IDENTITY_SPECS[suite]['source']
             old = subprocess.check_output(['git', 'show', revision + ':' + path], cwd=lt.ROOT, text=True)
             new = (lt.ROOT / path).read_text()
-            if suite != 'desktop': self.assertEqual(old, new)
+            if suite == 'js':
+                self.assertEqual(old, new)
+            elif suite == 'android-device':
+                # The failed remount exposes restored metadata before real document readiness.
+                # Its shared barrier is deliberately strengthened, never treated as unchanged.
+                # The accepted actual values body and invocation/dispatch/callback helper stay.
+                start = '@Test fun actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce'
+                end = '    private fun awaitDocument'
+                self.assertEqual(old.split(start, 1)[1].split(end, 1)[0],
+                                 new.split(start, 1)[1].split(end, 1)[0])
+                start = '    private fun evaluate'
+                self.assertEqual(old.split(start, 1)[1], new.split(start, 1)[1])
             else:
                 for start, end in (('    @Test fun rapidReplacement', '    private suspend fun evaluate'),
                                    ('    private suspend fun evaluate', '        suspend fun awaitGeneration')):

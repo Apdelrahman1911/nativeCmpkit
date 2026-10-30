@@ -2648,11 +2648,12 @@
     "id": "NATIVE-015",
     "title": "JavaScript evaluation has inconsistent failure, result and thread semantics",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
       "Add typed JavascriptResult with JSON value/undefined/error/unavailable envelope; native calls marshal to UI where required and application callbacks are outside evaluation catches.",
       "Post-review: Android legacy/typed native evaluation share one atomic settlement, including invocation throw before callback, synchronous completion then throw, deferred duplicate callbacks, and callbacks after native owner release; application exceptions remain observable and do not generate another result.",
-      "Post-review: Desktop maps only its distinct detached-native-owner sentinel to Unavailable during queued disposal/evaluation; real evaluator/script failures remain Error."
+      "Post-review: Desktop maps only its distinct detached-native-owner sentinel to Unavailable during queued disposal/evaluation; real evaluator/script failures remain Error.",
+      "2026-10-30: all three original acceptance criteria independently reviewed using actual engine/native results and exact unchanged prior regressions. Closed/completed and read back before updating this ledger; original technical issue body/title/labels and historical failed results retained."
     ],
     "affected_paths": [
       "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
@@ -2861,17 +2862,21 @@
           "docs/development/evidence/native/first-wasm-share-timer-correction.json"
         ],
         "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+      },
+      {
+        "command": "Independent authenticated original-criteria review of actual41003730413,40997536117,40999700359 and eight exact unchanged Android-host fault regressions; no accepted-method replay",
+        "result": "PASS all three original criteria within the explicitly documented host/callback scope. Fresh actual Android Chromium typed value/off-main/detached method passes1/1; earlier actual WebKit/JavaFX/JS/Wasm values and current-callback methods are reused. Eight exact native-fault host cases retain callback/native exception and duplicate suppression checks. #72 CLOSED/completed with original issue body/title/labels retained. No remount or release-gate pass inferred from this subset.",
+        "evidence": [
+          "docs/development/evidence/verified-webview-image-subsets-20261030/NATIVE-015-original-criteria-acceptance.json",
+          "docs/development/evidence/verified-webview-image-subsets-20261030/NATIVE-015-closure-readback.json",
+          "docs/development/evidence/webview-identity-batch-important-20261030/platform-recovery-ci001/review.json"
+        ],
+        "scope": "Original three finding criteria accepted on actual configured engine/native hosts. Native pending callbacks may be dropped at destruction; promises are not awaited; iOS asynchronous application callbacks must not throw across Objective-C. Shared workflow41003730413 remains failed at Android remount/iOS test compiler errors. No physical/minimum/ABI/consumer/security/release clearance."
       }
     ],
-    "remaining": [
-      "Eight controlled Android invocation/callback-boundary cases and the actual Linux JavaFX disposal/evaluation race passed in the second JVM batch; the JavaFX scenario also passed the focused rerun. JS common result-envelope parsing passed, not native JS evaluation. Mobile off-Main/real-engine values/Apple callback lifetime remain unverified. Native destruction may drop pending callbacks; Promise results are not awaited.",
-      "Original required test pending full target verification: Evaluate string, number, object, null, undefined and throwing scripts on all targets.",
-      "Original required test pending full target verification: Call before attach, after dispose, off main thread and after callback substitution.",
-      "Original required test pending full target verification: Callback exceptions are not misreported as script failures or delivered twice.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-    ],
+    "remaining": [],
     "compatibility": "Legacy evaluateJavascript remains nullable-string/platform-format-compatible; new portable code should use the additive typed function.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+    "verification_scope": "Original three finding criteria accepted on actual configured engine/native hosts. Native pending callbacks may be dropped at destruction; promises are not awaited; iOS asynchronous application callbacks must not throw across Objective-C. Shared workflow41003730413 remains failed at Android remount/iOS test compiler errors. No physical/minimum/ABI/consumer/security/release clearance.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-015"
   },
   {

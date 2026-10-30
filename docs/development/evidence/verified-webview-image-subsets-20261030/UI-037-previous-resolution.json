@@ -1,0 +1,132 @@
+{
+  "ledger_path": "docs/development/resolutions/UI-controls.json",
+  "ledger_sha256_before": "9687503014c2f0510034e3a3a3c970cc78d32c6ce3c103a5f3e5a3205c7ca0f5",
+  "original_record": {
+    "id": "UI-037",
+    "status": "partially-verified",
+    "changes": [
+      "Explicitly converts unpremultiplied sRGB ARGB readPixels integers into premultiplied RGBA bytes with rounded alpha multiplication.",
+      "Configures sRGB and explicit32Big + premultipliedLast CoreGraphics format.",
+      "CoreGraphics owns bitmap storage; copy occurs while Kotlin byte array is pinned, and UIImage retains its snapshot independently of Kotlin arrays/context lifetime."
+    ],
+    "affected_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
+      "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
+    ],
+    "tests": [
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-navigation:desktopTest --rerun :calf-geo:desktopTest --rerun :calf-cupertino-icons:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "PASS: 3 actual explicit byte-conversion/bounds tests; this does not prove CoreGraphics interpretation. The overall diagnostic/UI task failed one other cancellation case (no-op Skiko injector); see preserved summary. Owner-held working tree with matching before/after input hashes, not immutable release evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.log",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons.summary.json",
+          "docs/development/evidence/gradle/third-desktop-ui-nav-geo-icons/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-ui:iosSimulatorArm64Test --rerun (planned Apple-host command; NOT EXECUTED)",
+        "result": "NOT EXECUTED: authored actual library/native tests. Compilation diagnostics are recorded separately; no UIKit, iOS control, pixel, GC, allocation-release, animation or shader runtime pass is claimed.",
+        "evidence": [
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+        "result": "PASS: PremultipliedRgbaTest[desktop]: 3 passed. Entire UI task passed128 cases in24fresh reports; all283 selected input hashes unchanged. Overall multi-module command exited1 for unrelated picker Android-host test compilation. Diagnostic working tree only; immutable required-scope verification pending.",
+        "evidence": [
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.summary.json",
+          "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 --max-workers=1 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "COMPILATION ONLY: iOS production KLIB compiled after typed UIView setter repair. iOS test KLIB FAILED with missing UIKit category imports in ThemeOwnershipTest, GC NativeRuntimeApi opt-in in UIImageConversionTest, and two separately-owned native bar frame assignments. All 247 selected inputs were stable. Owned test repairs are now applied without changing assertions; subsequent test KLIB compilation pass is recorded separately. Overall exit 1; zero runtime tests and no native linking. Held working-tree diagnostic, not immutable release evidence.",
+        "evidence": [
+          "docs/development/evidence/gradle/third-ui-ios-klib.log",
+          "docs/development/evidence/gradle/third-ui-ios-klib.verification.json",
+          "docs/development/evidence/ui-controls/third-ios-klib-test-repairs.json"
+        ]
+      },
+      {
+        "command": "xvfb-run -a ./gradlew :calf-ui:compileTestKotlinIosSimulatorArm64 :calf-file-picker:testAndroidHostTest --rerun :calf-geo:testAndroidHostTest --rerun :calf-navigation:desktopTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m",
+        "result": "COMPILATION ONLY PASS for UI: production and test iOS Simulator Arm64 KLIB tasks executed without compiler errors after the minimal test import/opt-in repairs. All 366 selected input hashes and conditional source-directory presence stayed unchanged. iOS runtime tests 0; no native link. The combined diagnostic exited 1 for a separate picker Android-host test failure. Held working-tree inputs, not immutable candidate verification; no finding status upgrade.",
+        "evidence": [
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.log",
+          "docs/development/evidence/gradle/fourth-ui-ios-and-android-nav.summary.json",
+          "docs/development/evidence/ui-controls/fourth-ios-klib-results.json"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS:PremultipliedRgbaTest[jsBrowserTest] 3/3. JS byte-order/premultiplication/dimension validation only; no native allocation/release, UIImage/CGImage pixels, vector raster or GC ownership. UI task64/64 in11fresh reports, no failures/errors/skips; raw and sanitized XML/source names independently checked. All691captured inputs unchanged during execution;182currentUI inputs matched at review. Overall command exited1 after580.12s (navigation/WebView failures, share test compile failure). Held dirty base94d2492, not immutable release evidence; all original native/compatibility acceptance gates and finding status retained.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/first-js-results.json",
+          "docs/development/evidence/js-full-001/receipt.json",
+          "docs/development/evidence/js-full-001/archive.json",
+          "docs/development/evidence/js-full-001/gradle.sanitized.log",
+          "docs/development/evidence/js-full-001/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -Pkotlin.user.home=/root/projects/nativeCmpKit/build/wasm-tooling-runtime-001/kotlin-user-home :calf-camera-picker:wasmJsBrowserTest :calf-file-picker:wasmJsBrowserTest :calf-geo:wasmJsBrowserTest :calf-io:wasmJsBrowserTest :calf-navigation:wasmJsBrowserTest :calf-permissions:calf-permissions-background-location:wasmJsBrowserTest :calf-permissions:calf-permissions-bluetooth:wasmJsBrowserTest :calf-permissions:calf-permissions-calendar:wasmJsBrowserTest :calf-permissions:calf-permissions-camera:wasmJsBrowserTest :calf-permissions:calf-permissions-contacts:wasmJsBrowserTest :calf-permissions:calf-permissions-core:wasmJsBrowserTest :calf-permissions:calf-permissions-gallery:wasmJsBrowserTest :calf-permissions:calf-permissions-location:wasmJsBrowserTest :calf-permissions:calf-permissions-microphone:wasmJsBrowserTest :calf-permissions:calf-permissions-notifications:wasmJsBrowserTest :calf-permissions:calf-permissions-wifi:wasmJsBrowserTest :calf-share:wasmJsBrowserTest :calf-ui:wasmJsBrowserTest :calf-webview:wasmJsBrowserTest",
+        "result": "PASS (scoped):3/3 cited existing UI common cases on wasmJs. Byte order/premultiplication/dimension validation only; no vector pixels, native allocation/release, UIImage/CoreGraphics ownership or GC retention. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/123.02s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/wasm-full-004/archive.json",
+          "docs/development/evidence/wasm-full-004/receipt.json",
+          "docs/development/evidence/wasm-full-004/gradle.sanitized.log",
+          "docs/development/evidence/wasm-full-004-context/context-review.json",
+          "docs/development/evidence/wasm-full-004/reports/calf-ui/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+        ]
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=2 '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts :calf-camera-picker:jsBrowserTest :calf-file-picker:jsBrowserTest :calf-geo:jsBrowserTest :calf-io:jsBrowserTest :calf-navigation:jsBrowserTest :calf-permissions:calf-permissions-background-location:jsBrowserTest :calf-permissions:calf-permissions-bluetooth:jsBrowserTest :calf-permissions:calf-permissions-calendar:jsBrowserTest :calf-permissions:calf-permissions-camera:jsBrowserTest :calf-permissions:calf-permissions-contacts:jsBrowserTest :calf-permissions:calf-permissions-core:jsBrowserTest :calf-permissions:calf-permissions-gallery:jsBrowserTest :calf-permissions:calf-permissions-location:jsBrowserTest :calf-permissions:calf-permissions-microphone:jsBrowserTest :calf-permissions:calf-permissions-notifications:jsBrowserTest :calf-permissions:calf-permissions-wifi:jsBrowserTest :calf-share:jsBrowserTest :calf-ui:jsBrowserTest :calf-webview:jsBrowserTest",
+        "result": "PASS (scoped):3/3 cited existing UI common cases on js. Byte order/premultiplication/dimension validation only; no vector pixels, native allocation/release, UIImage/CoreGraphics ownership or GC retention. UI task64/64 in11fresh reports; complete-requested local command290/290 across19modules/48reports, exit0/130.03s. Both raw and sanitized report identities, exact source methods, fresh test marker/timestamps and all693before/after input hashes verified;182UI hashes matched current frozen inputs. This repeats existing functions on another target, not new unique tests or native runtime verification. Held dirty base94d2492, not an immutable candidate; earlier failures, every finding status and native/device/visual/performance/compatibility gates remain unchanged.",
+        "evidence": [
+          "docs/development/evidence/ui-controls/browser-004-results.json",
+          "docs/development/evidence/js-full-004/archive.json",
+          "docs/development/evidence/js-full-004/receipt.json",
+          "docs/development/evidence/js-full-004/gradle.sanitized.log",
+          "docs/development/evidence/js-full-004-context/context-review.json",
+          "docs/development/evidence/js-full-004/reports/calf-ui/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.utils.PremultipliedRgbaTest.xml"
+        ]
+      },
+      {
+        "command": "Immutable ios-ui40507789380 at8ab82a3fa41caad34cd7fb7a2d3722bfc25e3838; exact source-bound Gradle command/runtime/raw XML in independent review",
+        "result": "FAILED whole application suite:121 reported/120pass/1failed-Unknown, zero skips,24 XML; all12 prior mandatory application methods pass. Real UIImage primary/transparent/half-alpha channels and black/white composite, density/logical sizing, two native-vs-Compose vector comparisons, invalid input and native allocation-failure/exception release-call assertions pass individually. Retained image after20-GC stress exits unexpectedly before completion; no inspected assertion/native crash stack establishes cause, and null protocol/missing runner completion remain failed gates. Exact installed-app/stop/uninstall/local cleanup passes separately. This is runtime evidence for passed scenarios, not Instruments/ASan, final buffer lifetime, universal color-space/device or release certification.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40507789380/lead-independent-review.json",
+          "docs/development/evidence/uiimage-partial-scenarios-20261027/lead-review.json",
+          "docs/development/evidence/apple-gc-diagnostic-klib-20261027/lead-review.json",
+          "docs/development/checkpoint-gc-diagnostics-navgeo-20261027.md"
+        ],
+        "scope": "Actual partial Apple scenarios with failed whole transport preserved. Diagnostic-only source typing after exact instrumentation reversal; zero new Apple executions for the diagnostic change."
+      },
+      {
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-ui:iosSimulatorArm64ApplicationTest",
+        "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset9/9 passes (utils.UIImageConversionTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes.",
+        "evidence": [
+          "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
+          "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+        ]
+      },
+      {
+        "command": "Shared ios-image-memory candidate tooling; no local native/Gradle execution",
+        "result": "2026-10-30:99/99 changed synthetic CI fixture methods and final7/7 overlapping memory guards/all967 inputs held. Initial five guards and full881/12failure/7error events preserved; owning fixtures fixed without replaying881. Three new real-native methods authored for1MP/concurrent GC/every native allocation boundary and an exact-owned-app Instruments/leaks workload. Nine accepted UIImage methods reused, not replayed. Compiler bytecode warns/disables unsupported sanitizer settings; ZERO actual Apple/ASan/profile verification for this candidate. Status/original requirements unchanged.",
+        "evidence": [
+          "docs/development/evidence/image-memory-batch-important-20261030/README.md",
+          "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
+          "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
+        ]
+      }
+    ],
+    "remaining": [
+      "iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance."
+    ],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+  }
+}

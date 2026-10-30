@@ -1,0 +1,220 @@
+{
+  "actual_Instruments_profile_unverified": true,
+  "actual_profile_attempt": {
+    "ASan_verified": false,
+    "ack_basename_sha256": "474381f8f6efa772e142621c07bd01403a816df09cb85850ec2499e5fc0c226f",
+    "actual_process_executable_identity_verified": true,
+    "application_plist_sha256": "4279f9d9b234b8afd7d774895e93d42ce8a50d69e7d0c497bf850bed43127473",
+    "attempt_completion_ack_created": true,
+    "bundle_identifier": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rde6c161800fd.t621a69e3237a44a58dbfacfbcef7b420",
+    "commands": [
+      {
+        "command": [
+          "/usr/bin/xcrun",
+          "xctrace",
+          "record",
+          "--template",
+          "Allocations",
+          "--time-limit",
+          "12s",
+          "--output",
+          "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/ios-iphone/native-ui-application/621a69e3237a44a58dbfacfbcef7b420/image-profile-private/owned-library.trace",
+          "--attach",
+          "85680"
+        ],
+        "elapsed_seconds": 20.25,
+        "exit_code": 21
+      }
+    ],
+    "darwin_heap_requests": {
+      "MallocErrorAbort": "1",
+      "MallocGuardEdges": "1",
+      "MallocScribble": "1",
+      "MallocStackLogging": "1"
+    },
+    "elapsed_seconds": 21.1,
+    "errors": [
+      {
+        "error_type": "RuntimeError",
+        "failure_reason": "unclassified",
+        "failure_stage": "record-owned-allocations",
+        "profile_pass_inferred": false
+      }
+    ],
+    "every_allocator_check_attested": false,
+    "exports": [],
+    "finished_at_utc": "2026-10-30T04:53:09.917051+00:00",
+    "installed_application_identity_verified": true,
+    "native_console_pid_correlated": true,
+    "native_readiness_file_sha256": "6f34452958842eabba2700e1beee9e2667815d76677a614970ba4268ad24b9dd",
+    "native_readiness_file_verified": true,
+    "owned_ack_removed": true,
+    "owned_private_tree_removed": true,
+    "owned_readiness_removed": true,
+    "prepared": true,
+    "private_files_uploaded": false,
+    "private_inventory": {
+      "bytes": 44,
+      "entries": 1,
+      "raw_files_uploaded": false
+    },
+    "process_executable_preflight": {
+      "absolute_path_observed": true,
+      "lexical_installed_path_matches": true,
+      "raw_path_or_process_text_uploaded": false
+    },
+    "process_id": 85680,
+    "profile_passed": false,
+    "release_readiness_certified": false,
+    "schema_version": 1,
+    "scope": "Actual Instruments/leaks tool attempt on this exact owned library UIKit app/PID. Only useful owned-frame allocation rows and an actual zero-leak summary can pass this profile; test passes alone cannot.",
+    "signed_application_executable_sha256": "e212e787d169093e7cbf16d3ec6f7b026c3eff55df45125e7f9acdb7479c0ab0",
+    "simulator_udid": "D8AAABAD-F0D0-4A6C-8B1B-8249EADEEEDE",
+    "started_at_utc": "2026-10-30T04:52:48.817714+00:00",
+    "supported": false
+  },
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed",
+  "finding_id": "UI-037",
+  "fresh_native_workload": {
+    "activation": {
+      "main_worker": 1,
+      "owned_worker": 2
+    },
+    "completion": {
+      "runner_exit": 0,
+      "worker_terminated": true
+    },
+    "counts": {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 1,
+      "skipped": 0,
+      "tests": 1,
+      "unexpected_skipped": 0
+    },
+    "elapsed_seconds": 23.65,
+    "image_lifetime_observation": null,
+    "image_profile_observations": [
+      {
+        "phase": "ready",
+        "process_id": 85680
+      },
+      {
+        "phase": "complete",
+        "rounds": 369
+      }
+    ],
+    "observed_launch_pid": 85680,
+    "process_exit": 0,
+    "stream_bytes": 984,
+    "testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+        "status": "passed"
+      }
+    ]
+  },
+  "fresh_result_receipt_sha256": "189da76cd6e11170cb9eda61aa48fee5ee82b2e5fe245dc9d8f4d07ea299944d",
+  "issue_number": 140,
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Nine exact unchanged real UIImageConversionTest methods from immutable40522929974 attempt2 verify primary/transparent/half-alpha channels and compositing over black and white with explicit premultiplied sRGB RGBA; the CoreGraphics context owns a pinned-copy destination, not a borrowed Kotlin buffer.",
+      "original_requirement": "Known1x1 red/blue/green/transparent/half-alpha pixels roundtrip to UIImage and composite over black/white.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Two exact unchanged accepted methods from40994702874 exercise a real1MP image and4MiB context, GC Worker gated at the real snapshot boundary with3 collections/6MiB pressure, five more collections after source closure, actual sRGB/scale/dimensions/pixels, and80 real failure/success conversions with exact allocation/release balancing. This is native runtime evidence, not synthetic counters alone.",
+      "original_requirement": "Stress GC while converting, larger buffers, allocation failures and color-space assumptions.",
+      "status": "verified"
+    },
+    {
+      "evidence": "On actual iOS26.5/Xcode26.6,41002405707 executes the owned native workload successfully under observed MallocScribble/MallocGuardEdges/MallocErrorAbort/MallocStackLogging requests:369 bounded rounds/738 real conversions, with fresh XML/distinct Worker/PID/binary/install/owned cleanup. Apple ASan is unsupported by the configured Kotlin compiler; no ASan/all-allocator-check attestation is claimed. The actual Instruments attach attempt exits21, no allocation rows or leaks command: profiling remains UNVERIFIED and UI-038/#141 stays open. This accepts the available native-diagnostic stress scope, not the separate mandatory allocation/leak profile.",
+      "original_requirement": "Apple Address Sanitizer/native diagnostics where supported.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "No ASan or every allocator option attestation; strict40989310808 remains FAILED/zero tests, not repaired or waived.",
+    "Actual Instruments recording exits21: zero useful allocation rows/zero leaks invocations, no zero-leak assertion. UI-038/#141 stays open and remains a release gate.",
+    "Real current iOS simulator/native UIKit/CoreGraphics/GC scope, not physical/minimum-platform, general heap/ABI/consumer/security/release certification."
+  ],
+  "reused_accepted_results_not_fresh": true,
+  "reused_nine_image_cases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "primaryTransparentAndHalfAlphaPixelsHaveExplicitRgbaChannels[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "halfAlphaCompositesCorrectlyOverBlackAndWhite[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "imageScaleAndDensityRetainLogicalDimensions[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "nativeVectorPixelsMatchTheRealComposePainter[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "nativeVectorTintAndRtlMatchTheRealComposePainter[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "invalidScaleAndDimensionsStopBeforeNativeAllocation[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "eachAllocationFailureReleasesAllEarlierNativeObjects[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "exceptionAfterSnapshotStillReleasesImageContextAndColorSpace[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
+      "name": "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected[iosSimulatorArm64]",
+      "status": "passed"
+    }
+  ],
+  "reused_two_native_stress_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+      "status": "passed",
+      "whole_native_lifecycle_complete": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+      "status": "passed",
+      "whole_native_lifecycle_complete": true
+    }
+  ],
+  "reviewed_at_utc": "2026-10-30T05:00:46.049206+00:00",
+  "strict_startup_failure_not_waived": true,
+  "unchanged_owning_source_bindings": {
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageRasterization.kt": "e88b4689d20084543e93ce12c93235229c3d167847a9768c042bed061dfde218",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt": "d3c804ed86981b9f8d41afbd66f060043ea1b7e284768085855f0b3d6cb7b225",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt": "f1f028ef4fb20b31c0407c6a2ff56805d2c4a0dd8b2a9db77c80366fc2cd447e",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt": "149bfc6129b059013d3f5679be49fbcb51751f0569bd495d7e7cbc8175d10b39",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+  }
+}

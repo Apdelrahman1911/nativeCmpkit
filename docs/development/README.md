@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+## Verified value/image subset and mobile-only recovery — 2026-10-30
+
+**[#72/NATIVE-015 and #140/UI-037 CLOSED/completed](evidence/verified-webview-image-subsets-20261030/README.md)** after original-criteria review/readback, before ledger updates.
+**80 closed / 92 open / 172 total**; 35 implemented/44 partial/78 verified/seven unresolved audit dispositions.
+[Actual WebView recovery](evidence/webview-identity-batch-important-20261030/platform-recovery-ci001/README.md) stays FAILED: Desktop1/1, Android1/2, iOS compiler failure/zero tests.
+[Actual image diagnostics](evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/README.md) passes one native workload, not Instruments: exit21/zero allocation rows/zero leaks invocations, unknown cause. #141 stays open; no strict-startup/ASan waiver.
+[Next related patch](evidence/webview-identity-batch-important-20261030/remount-recovery-tools001/README.md) requests only two failed/unexecuted mobile methods; preserves real document and UIKit cleanup assertions.
+54 successful synthetic methods are not replayed; original55 command remains failed, corrected owning guard1/1 passes. No local heavy/native execution, release or other independent gate change.
+
 ## Related WebView recovery, failed cases only — 2026-10-30
 
 [Owning Android parser/FX readiness/final UIKit child cleanup](evidence/webview-identity-batch-important-20261030/recovery-tools001/README.md) requests4 previously failed/unexecuted cases, no12-success runtime replay. Actual Compose1.12 wrapper-removal source reviewed; original parent-null/disposal/configuration checks stay, retained-parent assertion strengthens cleanup. Initial4 red/owning7 failed6pass/prose-call guard corrected1/1; shared164/164 synthetic/all981held, zero local Kotlin/native. Memory41002405707 remains independent at de6c1618. #62/#72/#89/#140/#141 stay open pending actual original criteria;78closed/94open. Single-agent/max2/8GiB and publishing/Pages/main/history/release/security gates stay.

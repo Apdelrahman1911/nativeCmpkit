@@ -1,0 +1,164 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 78.03,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-public-identity-recovery",
+  "finished_at_utc": "2026-10-30T04:51:50.721928+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "df8930c6e90225e494000201fd966f0d3724672b3703c8ccab9f0e3c7b139e7e",
+  "inputs_before_sha256": "df8930c6e90225e494000201fd966f0d3724672b3703c8ccab9f0e3c7b139e7e",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-4e0224de4663(AVD) - 15.xml",
+          "sha256": "c65e4f17ec6361af0cac97c95f284170c49a7e51082261c89131f72584213e39",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "name": "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+      "name": "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce"
+    }
+  ],
+  "runtime_receipt_sha256": "1bce5926768c0331d71968276e6802c0458726b13434bf687e6f88fb317ca777",
+  "schema_version": 1,
+  "scope": "Only the failed Desktop public cold-start/remount method or two unexecuted Android public creation/value methods. Two accepted FX and four accepted browser executions are reused, not replayed. Original source declaration, real native, exact XML/fresh-task/runtime/input gates remain; no physical/minimum/other-engine/network/ABI/consumer/security/release certification.",
+  "source_revision": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed",
+  "source_revision_after": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T04:50:32.688442+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-webview:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1,0 +1,134 @@
+{
+  "CLI_preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "webview-identity-remount-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "webview-ios-native-remount-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+          "plan",
+          "--api-level",
+          "35",
+          "--output",
+          "build/ci-plan",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "webview-public-remount-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "android-device-api35",
+        "suite": "android-device"
+      }
+    ],
+    "source_only": true
+  },
+  "accepted_54_synthetic_methods_replayed": false,
+  "actionlint": {
+    "command": [
+      "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+      ".github/workflows/gradle.yml"
+    ],
+    "exit_code": 0,
+    "output_bytes": 0,
+    "version": "1.7.12"
+  },
+  "all_eleven_full_slots_retained": true,
+  "before_after_inputs_held": true,
+  "combined_input_digest": "060248f7ed9665fc9208a95af2a0582360b9b0b42f51b780883037866e788ebf",
+  "elapsed_seconds": 0.787,
+  "git_diff_check_exit": 0,
+  "important_freeze_unchanged": true,
+  "library_input_digest": "87f13d5c379f0df1bd20a4ff88adf966874e5963bae992212e387d4732828a87",
+  "new_library_Kotlin_Gradle_or_native_executions": 0,
+  "observed_at_utc": "2026-10-30T05:11:31.836013+00:00",
+  "profile": "webview-identity-remount-recovery",
+  "release_readiness_certified": false,
+  "selected_combined_inputs": 981,
+  "selected_library_inputs": 904,
+  "selections": {
+    "android-device-api35": {
+      "command_template": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest#publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+        ":calf-webview:connectedAndroidDeviceTest"
+      ],
+      "focus": "webview-public-remount-recovery",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
+        }
+      ]
+    },
+    "ios-iphone": {
+      "command_template": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "-PnativecmpkitSimulatorDevice=11111111-1111-1111-1111-111111111111",
+        ":calf-webview:iosSimulatorArm64ApplicationTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView"
+      ],
+      "focus": "webview-ios-native-remount-recovery",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]"
+        }
+      ]
+    }
+  },
+  "source_revision_before_commit": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed",
+  "source_tree_dirty": true
+}

@@ -735,7 +735,8 @@ IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
 
 WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
 WEBVIEW_IDENTITY_RECOVERY_FOCUS = "webview-public-identity-recovery"
-WEBVIEW_IDENTITY_FOCUSES = (WEBVIEW_IDENTITY_FOCUS, WEBVIEW_IDENTITY_RECOVERY_FOCUS)
+WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-public-remount-recovery"
+WEBVIEW_IDENTITY_FOCUSES = (WEBVIEW_IDENTITY_FOCUS, WEBVIEW_IDENTITY_RECOVERY_FOCUS, WEBVIEW_REMOUNT_RECOVERY_FOCUS)
 WEBVIEW_IDENTITY_METHOD = "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
 WEBVIEW_IDENTITY_SPECS = {
     "desktop": {
@@ -761,16 +762,19 @@ WEBVIEW_IDENTITY_SPECS.update(js=_BROWSER_IDENTITY_SPEC, wasm=_BROWSER_IDENTITY_
 
 
 def webview_identity_methods(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> tuple[str, ...]:
-    if focus not in WEBVIEW_IDENTITY_FOCUSES or (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite not in {"desktop", "android-device"}):
+    if (focus not in WEBVIEW_IDENTITY_FOCUSES or
+            (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite not in {"desktop", "android-device"}) or
+            (focus == WEBVIEW_REMOUNT_RECOVERY_FOCUS and suite != "android-device")):
         raise ValueError("Unknown finite WebView identity recovery selection")
     methods = WEBVIEW_IDENTITY_SPECS[suite]["methods"]
-    return methods[:1] if focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite == "desktop" else methods
+    return methods[:1] if (focus == WEBVIEW_REMOUNT_RECOVERY_FOCUS or
+                           (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite == "desktop")) else methods
 
 
 def webview_identity_filter(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> str:
     methods = webview_identity_methods(suite, focus)
     classname = WEBVIEW_IDENTITY_SPECS[suite]["classname"]
-    return classname + "." + methods[0] if len(methods) == 1 else classname
+    return classname + ("#" if suite == "android-device" else ".") + methods[0] if len(methods) == 1 else classname
 
 
 def webview_identity_identities(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> list[dict]:
@@ -969,7 +973,8 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
-             (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"})) or
+             (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
+             (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
             (focus == DESKTOP_SAVER_STATE_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus in LINUX_PICKER_PORTAL_FOCUSES and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and

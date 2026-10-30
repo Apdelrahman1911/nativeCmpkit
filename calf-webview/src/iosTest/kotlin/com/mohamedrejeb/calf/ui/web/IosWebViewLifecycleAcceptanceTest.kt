@@ -20,6 +20,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import platform.Foundation.NSThread
 import platform.CoreGraphics.CGRectMake
+import platform.UIKit.UIView
 import platform.WebKit.WKWebView
 import platform.WebKit.WKWebViewConfiguration
 import kotlin.test.*
@@ -106,7 +107,7 @@ class IosWebViewLifecycleAcceptanceTest {
                 assertNull(state.navigator)
                 assertNull(first.navigationDelegate)
                 assertNull(first.superview)
-                assertFalse(retainedParent.subviews.any { sameNativeObject(it, first) })
+                assertFalse(retainedParent.subviews.any { sameNativeObject(assertIs<UIView>(it), first) })
                 assertEquals(1, disposed.size)
                 assertTrue(sameNativeObject(first, disposed.single()))
                 state.content = document("remounted")

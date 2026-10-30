@@ -1299,11 +1299,12 @@
   },
   {
     "id": "UI-037",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Explicitly converts unpremultiplied sRGB ARGB readPixels integers into premultiplied RGBA bytes with rounded alpha multiplication.",
       "Configures sRGB and explicit32Big + premultipliedLast CoreGraphics format.",
-      "CoreGraphics owns bitmap storage; copy occurs while Kotlin byte array is pinned, and UIImage retains its snapshot independently of Kotlin arrays/context lifetime."
+      "CoreGraphics owns bitmap storage; copy occurs while Kotlin byte array is pinned, and UIImage retains its snapshot independently of Kotlin arrays/context lifetime.",
+      "2026-10-30: all three original UIImage color/buffer/GC/allocation/native-diagnostic criteria independently reviewed; nine original native cases and two real GC/failure stress methods reused without replay, one fresh bounded native diagnostic workload verified. #140 closed/completed and read back before ledger updates; separate mandatory Instruments/leaks profile #141 remains open."
     ],
     "affected_paths": [
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt",
@@ -1418,12 +1419,21 @@
           "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
           "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
         ]
+      },
+      {
+        "command": "Independent authenticated original-criteria review of actual41002405707,40994702874 and40522929974 attempt2; nine image/two native stress cases reused, not replayed",
+        "result": "PASS original criterion subset: fresh native workload1/1/fresh XML/Gradle0/1484.68s,369 rounds/738 real conversions with complete Worker/runtime/binary/install/owned cleanup/all903 exact historical inputs. Nine native pixels/compositing/retention/failure cases and two1MP/concurrent-GC/80conversion real native stress methods reused input-bound. Native allocator options are requested, not universally attested; Apple ASan unsupported. Actual xctrace exits21; no allocation exports or leaks command; profile FAILED/unverified despite green workflow. #140 CLOSED/completed; #141 remains open.",
+        "evidence": [
+          "docs/development/evidence/verified-webview-image-subsets-20261030/UI-037-original-criteria-acceptance.json",
+          "docs/development/evidence/verified-webview-image-subsets-20261030/UI-037-closure-readback.json",
+          "docs/development/evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/review.json"
+        ],
+        "scope": "Real current iOS simulator/UIKit/CoreGraphics native pixel/GC/failure verification, not ASan or every-allocator attestation. Strict40989310808 remains failed/zero tests. Instruments41002405707 exits21 with zero allocation rows and zero leaks invocations; #141/UI-038 remains open. No physical/minimum/ABI/consumer/security/release clearance."
       }
     ],
-    "remaining": [
-      "iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance."
-    ],
-    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+    "remaining": [],
+    "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+    "verification_scope": "Real current iOS simulator/UIKit/CoreGraphics native pixel/GC/failure verification, not ASan or every-allocator attestation. Strict40989310808 remains failed/zero tests. Instruments41002405707 exits21 with zero allocation rows and zero leaks invocations; #141/UI-038 remains open. No physical/minimum/ABI/consumer/security/release clearance."
   },
   {
     "id": "UI-038",
@@ -1548,6 +1558,14 @@
           "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
           "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
         ]
+      },
+      {
+        "command": "Actual owned Instruments allocation attempt in41002405707 atde6c161800fd027c99d0682484d588c0ba95fb4b; xcrun xctrace record --template Allocations --time-limit12s --attach85680",
+        "result": "PROFILE FAILED/unverified: exact installed executable/path/hash, native readiness/console/simctl/tool PID85680 match; actual record exits21 after20.25s,zero allocation exports/zero leaks invocations. Native workload1/1 passes369rounds/738conversions; workflow green is NOT profiling evidence.44-byte private tool log was deleted by verified owned cleanup, exact cause unknown. Debug entitlement/authorization is a hypothesis only. Original strict startup failure preserved; no native/profile replay or closure.",
+        "evidence": [
+          "docs/development/evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/review.json"
+        ],
+        "scope": "Actual failed record attempt and successful bounded native workload only; useful owned allocation rows and actual PID-specific zero-leak summary remain required."
       }
     ],
     "remaining": [

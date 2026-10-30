@@ -48,6 +48,7 @@ PROFILES = {
     "webview-identity-wasm": ("browser-wasm",),
     "webview-identity-android": ("android-device-api35",),
     "webview-identity-recovery": ("desktop-linux-x64", "ios-iphone", "android-device-api35"),
+    "webview-identity-remount-recovery": ("ios-iphone", "android-device-api35"),
     "webview-lifetime": ("android-device-api35", "desktop-linux-x64", "desktop-macos-arm64", "desktop-macos-x64", "desktop-windows-x64"),
     "webview-lifetime-android": ("android-device-api35",),
     "webview-lifetime-android-media": ("android-device-api35",),
@@ -173,6 +174,7 @@ MODULE_SUBSETS = {
     "webview-identity-wasm": "calf-webview",
     "webview-identity-android": "calf-webview",
     "webview-identity-recovery": "calf-webview",
+    "webview-identity-remount-recovery": "calf-webview",
     "webview-lifetime": "calf-webview",
     "webview-lifetime-android": "calf-webview",
     "webview-lifetime-android-media": "calf-webview",
@@ -260,8 +262,12 @@ def matrix(profile: str) -> dict:
             row["test-modules"] = MODULE_SUBSETS[profile]
     if profile.startswith("webview-identity"):
         for row in rows:
-            row["test-focus"] = ("webview-ios-native-remount-recovery" if row["suite"] == "ios" else
-                                 "webview-public-identity-recovery") if profile == "webview-identity-recovery" else "webview-public-identity-values"
+            if profile in {"webview-identity-recovery", "webview-identity-remount-recovery"}:
+                row["test-focus"] = ("webview-ios-native-remount-recovery" if row["suite"] == "ios" else
+                                     "webview-public-remount-recovery" if profile == "webview-identity-remount-recovery" else
+                                     "webview-public-identity-recovery")
+            else:
+                row["test-focus"] = "webview-public-identity-values"
     if profile.startswith("webview-lifetime"):
         order = {"android-device-api35": 0, "desktop-linux-x64": 1, "desktop-macos-arm64": 2,
                  "desktop-macos-x64": 3, "desktop-windows-x64": 4}

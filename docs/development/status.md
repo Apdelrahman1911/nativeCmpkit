@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `7c91685549e7c8a9a90d1aefe2a441b607381170cb47469d2e6b2079afdd44b7`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2df119f1bb01ec665da3147b16ba16701854a021c2faa66e7f7b6c6a8c5413d1`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 36 |
-| partially-verified | 45 |
-| verified | 76 |
+| implemented | 35 |
+| partially-verified | 44 |
+| verified | 78 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -129,7 +129,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 81 | [NATIVE-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/69) | Medium | 2 | M | implemented | — | 4 / 6 |
 | 82 | [NATIVE-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/70) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 83 | [NATIVE-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/71) | Medium | 2 | S | verified | — | 3 / 0 |
-| 84 | [NATIVE-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72) | Medium | 2 | M | implemented | — | 3 / 5 |
+| 84 | [NATIVE-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72) | Medium | 2 | M | verified | — | 3 / 0 |
 | 85 | [NATIVE-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/73) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 86 | [NATIVE-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/74) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 87 | [NATIVE-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | Medium | 2 | M | implemented | — | 3 / 4 |
@@ -189,7 +189,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 141 | [UI-034](https://github.com/Apdelrahman1911/nativeCmpkit/issues/137) | Medium | 2 | M | verified | — | 3 / 0 |
 | 142 | [UI-035](https://github.com/Apdelrahman1911/nativeCmpkit/issues/138) | Medium | 2 | M | partially-verified | — | 3 / 3 |
 | 143 | [UI-036](https://github.com/Apdelrahman1911/nativeCmpkit/issues/139) | Medium | 2 | M | verified | — | 3 / 0 |
-| 144 | [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) | Medium | 2 | M | partially-verified | — | 3 / 1 |
+| 144 | [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) | Medium | 2 | M | verified | — | 3 / 0 |
 | 145 | [UI-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141) | Medium | 2 | S | partially-verified | UI-037 | 3 / 2 |
 | 146 | [UI-042](https://github.com/Apdelrahman1911/nativeCmpkit/issues/142) | Medium | 2 | M | partially-verified | UI-031, UI-032 | 3 / 3 |
 | 147 | [UI-045](https://github.com/Apdelrahman1911/nativeCmpkit/issues/143) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -1964,7 +1964,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 84. NATIVE-015 — JavaScript evaluation has inconsistent failure, result and thread semantics
 
-**Medium · implemented · original effort M** — [nativeCmpkit #72](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort M** — [nativeCmpkit #72](https://github.com/Apdelrahman1911/nativeCmpkit/issues/72); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -1976,13 +1976,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Eight controlled Android invocation/callback-boundary cases and the actual Linux JavaFX disposal/evaluation race passed in the second JVM batch; the JavaFX scenario also passed the focused rerun. JS common result-envelope parsing passed, not native JS evaluation. Mobile off-Main/real-engine values/Apple callback lifetime remain unverified. Native destruction may drop pending callbacks; Promise results are not awaited.
-- Original required test pending full target verification: Evaluate string, number, object, null, undefined and throwing scripts on all targets.
-- Original required test pending full target verification: Call before attach, after dispose, off main thread and after callback substitution.
-- Original required test pending full target verification: Callback exceptions are not misreported as script failures or delivered twice.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Original three finding criteria accepted on actual configured engine/native hosts. Native pending callbacks may be dropped at destruction; promises are not awaited; iOS asynchronous application callbacks must not throw across Objective-C. Shared workflow41003730413 remains failed at Android remount/iOS test compiler errors. No physical/minimum/ABI/consumer/security/release clearance.
 
 **Compatibility / scope:** Legacy evaluateJavascript remains nullable-string/platform-format-compatible; new portable code should use the additive typed function.
 
@@ -3172,7 +3168,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 144. UI-037 — Bitmap-to-UIImage bridge has unverified byte-order, premultiplication and buffer-lifetime assumptions
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #140](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #140](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -3184,7 +3180,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Real current iOS simulator/UIKit/CoreGraphics native pixel/GC/failure verification, not ASan or every-allocator attestation. Strict40989310808 remains failed/zero tests. Instruments41002405707 exits21 with zero allocation rows and zero leaks invocations; #141/UI-038 remains open. No physical/minimum/ABI/consumer/security/release clearance.
 
 **Compatibility / scope:** Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.
 
@@ -3192,7 +3190,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · partially-verified · original effort S** — [nativeCmpkit #141](https://github.com/Apdelrahman1911/nativeCmpkit/issues/141); owner [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) (partially-verified; original order 144).
+**Original dependencies:** [UI-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/140) (verified; original order 144).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3601,11 +3599,11 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `b50f788ce94177cd3153b7561d45923f8df1d15494f9ad1212b50de012ba0155` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
-| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `9687503014c2f0510034e3a3a3c970cc78d32c6ce3c103a5f3e5a3205c7ca0f5` |
+| [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `5d0e8c019a202fd06a66f14f0988530892af4187935b1cd992a38ea006909101` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |

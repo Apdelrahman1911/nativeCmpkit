@@ -45,25 +45,25 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
-    "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
+    "docs/development/resolutions/NATIVE.json": "b50f788ce94177cd3153b7561d45923f8df1d15494f9ad1212b50de012ba0155",
     "docs/development/resolutions/NAV.json": "a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "9687503014c2f0510034e3a3a3c970cc78d32c6ce3c103a5f3e5a3205c7ca0f5",
+    "docs/development/resolutions/UI-controls.json": "5d0e8c019a202fd06a66f14f0988530892af4187935b1cd992a38ea006909101",
     "docs/development/resolutions/UI-native.json": "2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "7c91685549e7c8a9a90d1aefe2a441b607381170cb47469d2e6b2079afdd44b7",
+  "input_fingerprint": "2df119f1bb01ec665da3147b16ba16701854a021c2faa66e7f7b6c6a8c5413d1",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 36,
-      "partially-verified": 45,
-      "verified": 76,
+      "implemented": 35,
+      "partially-verified": 44,
+      "verified": 78,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -14872,18 +14872,19 @@
         "mapping_key": "audit:NATIVE-015",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "cf89e7614b8901316a851d5ee3401ba73af49abfd1559569f3a7b0cda6ac1caf",
+      "owner_record_sha256": "9bc8fc3dba3f4e4afbde885947bca9ff8353b77b876f65feee3a139cd0727bd5",
       "owner_record": {
         "id": "NATIVE-015",
         "title": "JavaScript evaluation has inconsistent failure, result and thread semantics",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Add typed JavascriptResult with JSON value/undefined/error/unavailable envelope; native calls marshal to UI where required and application callbacks are outside evaluation catches.",
           "Post-review: Android legacy/typed native evaluation share one atomic settlement, including invocation throw before callback, synchronous completion then throw, deferred duplicate callbacks, and callbacks after native owner release; application exceptions remain observable and do not generate another result.",
-          "Post-review: Desktop maps only its distinct detached-native-owner sentinel to Unavailable during queued disposal/evaluation; real evaluator/script failures remain Error."
+          "Post-review: Desktop maps only its distinct detached-native-owner sentinel to Unavailable during queued disposal/evaluation; real evaluator/script failures remain Error.",
+          "2026-10-30: all three original acceptance criteria independently reviewed using actual engine/native results and exact unchanged prior regressions. Closed/completed and read back before updating this ledger; original technical issue body/title/labels and historical failed results retained."
         ],
         "affected_paths": [
           "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
@@ -15092,17 +15093,21 @@
               "docs/development/evidence/native/first-wasm-share-timer-correction.json"
             ],
             "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+          },
+          {
+            "command": "Independent authenticated original-criteria review of actual41003730413,40997536117,40999700359 and eight exact unchanged Android-host fault regressions; no accepted-method replay",
+            "result": "PASS all three original criteria within the explicitly documented host/callback scope. Fresh actual Android Chromium typed value/off-main/detached method passes1/1; earlier actual WebKit/JavaFX/JS/Wasm values and current-callback methods are reused. Eight exact native-fault host cases retain callback/native exception and duplicate suppression checks. #72 CLOSED/completed with original issue body/title/labels retained. No remount or release-gate pass inferred from this subset.",
+            "evidence": [
+              "docs/development/evidence/verified-webview-image-subsets-20261030/NATIVE-015-original-criteria-acceptance.json",
+              "docs/development/evidence/verified-webview-image-subsets-20261030/NATIVE-015-closure-readback.json",
+              "docs/development/evidence/webview-identity-batch-important-20261030/platform-recovery-ci001/review.json"
+            ],
+            "scope": "Original three finding criteria accepted on actual configured engine/native hosts. Native pending callbacks may be dropped at destruction; promises are not awaited; iOS asynchronous application callbacks must not throw across Objective-C. Shared workflow41003730413 remains failed at Android remount/iOS test compiler errors. No physical/minimum/ABI/consumer/security/release clearance."
           }
         ],
-        "remaining": [
-          "Eight controlled Android invocation/callback-boundary cases and the actual Linux JavaFX disposal/evaluation race passed in the second JVM batch; the JavaFX scenario also passed the focused rerun. JS common result-envelope parsing passed, not native JS evaluation. Mobile off-Main/real-engine values/Apple callback lifetime remain unverified. Native destruction may drop pending callbacks; Promise results are not awaited.",
-          "Original required test pending full target verification: Evaluate string, number, object, null, undefined and throwing scripts on all targets.",
-          "Original required test pending full target verification: Call before attach, after dispose, off main thread and after callback substitution.",
-          "Original required test pending full target verification: Callback exceptions are not misreported as script failures or delivered twice.",
-          "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-        ],
+        "remaining": [],
         "compatibility": "Legacy evaluateJavascript remains nullable-string/platform-format-compatible; new portable code should use the additive typed function.",
-        "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
+        "verification_scope": "Original three finding criteria accepted on actual configured engine/native hosts. Native pending callbacks may be dropped at destruction; promises are not awaited; iOS asynchronous application callbacks must not throw across Objective-C. Shared workflow41003730413 remains failed at Android remount/iOS test compiler errors. No physical/minimum/ABI/consumer/security/release clearance.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-015"
       },
       "closure_or_release_authorized_by_index": false
@@ -24842,16 +24847,17 @@
         "mapping_key": "audit:UI-037",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "2927eac0365206e0dc58b841ad2dea0f7a94447c77cc928686cc4d65918c9918",
+      "owner_record_sha256": "f6a9852e56589c6d27fdf6f07080ee8794b3f125d58a2da25c7e2740a3f085ca",
       "owner_record": {
         "id": "UI-037",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Explicitly converts unpremultiplied sRGB ARGB readPixels integers into premultiplied RGBA bytes with rounded alpha multiplication.",
           "Configures sRGB and explicit32Big + premultipliedLast CoreGraphics format.",
-          "CoreGraphics owns bitmap storage; copy occurs while Kotlin byte array is pinned, and UIImage retains its snapshot independently of Kotlin arrays/context lifetime."
+          "CoreGraphics owns bitmap storage; copy occurs while Kotlin byte array is pinned, and UIImage retains its snapshot independently of Kotlin arrays/context lifetime.",
+          "2026-10-30: all three original UIImage color/buffer/GC/allocation/native-diagnostic criteria independently reviewed; nine original native cases and two real GC/failure stress methods reused without replay, one fresh bounded native diagnostic workload verified. #140 closed/completed and read back before ledger updates; separate mandatory Instruments/leaks profile #141 remains open."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt",
@@ -24966,12 +24972,21 @@
               "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
               "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
             ]
+          },
+          {
+            "command": "Independent authenticated original-criteria review of actual41002405707,40994702874 and40522929974 attempt2; nine image/two native stress cases reused, not replayed",
+            "result": "PASS original criterion subset: fresh native workload1/1/fresh XML/Gradle0/1484.68s,369 rounds/738 real conversions with complete Worker/runtime/binary/install/owned cleanup/all903 exact historical inputs. Nine native pixels/compositing/retention/failure cases and two1MP/concurrent-GC/80conversion real native stress methods reused input-bound. Native allocator options are requested, not universally attested; Apple ASan unsupported. Actual xctrace exits21; no allocation exports or leaks command; profile FAILED/unverified despite green workflow. #140 CLOSED/completed; #141 remains open.",
+            "evidence": [
+              "docs/development/evidence/verified-webview-image-subsets-20261030/UI-037-original-criteria-acceptance.json",
+              "docs/development/evidence/verified-webview-image-subsets-20261030/UI-037-closure-readback.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/review.json"
+            ],
+            "scope": "Real current iOS simulator/UIKit/CoreGraphics native pixel/GC/failure verification, not ASan or every-allocator attestation. Strict40989310808 remains failed/zero tests. Instruments41002405707 exits21 with zero allocation rows and zero leaks invocations; #141/UI-038 remains open. No physical/minimum/ABI/consumer/security/release clearance."
           }
         ],
-        "remaining": [
-          "iPhone26.5 real channel/compositing and retained-UIImage-after20GC/allocation-failure tests passed9/9 with complete transport. ASan/supported native diagnostics, sustained memory-pressure/color-space and physical/minimum-platform checks remain unavailable; no sanitizer or universal lifetime clearance."
-        ],
-        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved."
+        "remaining": [],
+        "compatibility": "Existing public packages/signatures remain; changes are internal or additive. Original baseline audit/source probes are preserved.",
+        "verification_scope": "Real current iOS simulator/UIKit/CoreGraphics native pixel/GC/failure verification, not ASan or every-allocator attestation. Strict40989310808 remains failed/zero tests. Instruments41002405707 exits21 with zero allocation rows and zero leaks invocations; #141/UI-038 remains open. No physical/minimum/ABI/consumer/security/release clearance."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -25008,7 +25023,7 @@
         {
           "id": "UI-037",
           "original_order": 144,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/140"
         }
       ],
@@ -25020,7 +25035,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "c4fad1b103a8b168e95c7c96f3a2bd4f67fcc599435de82bb43439727892b063",
+      "owner_record_sha256": "5eafcd39130523e6848c68b7b4c7da89577caf59cba01fbcdc496068737d61fa",
       "owner_record": {
         "id": "UI-038",
         "status": "partially-verified",
@@ -25144,6 +25159,14 @@
               "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
               "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
             ]
+          },
+          {
+            "command": "Actual owned Instruments allocation attempt in41002405707 atde6c161800fd027c99d0682484d588c0ba95fb4b; xcrun xctrace record --template Allocations --time-limit12s --attach85680",
+            "result": "PROFILE FAILED/unverified: exact installed executable/path/hash, native readiness/console/simctl/tool PID85680 match; actual record exits21 after20.25s,zero allocation exports/zero leaks invocations. Native workload1/1 passes369rounds/738conversions; workflow green is NOT profiling evidence.44-byte private tool log was deleted by verified owned cleanup, exact cause unknown. Debug entitlement/authorization is a hypothesis only. Original strict startup failure preserved; no native/profile replay or closure.",
+            "evidence": [
+              "docs/development/evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/review.json"
+            ],
+            "scope": "Actual failed record attempt and successful bounded native workload only; useful owned allocation rows and actual PID-specific zero-leak summary remain required."
           }
         ],
         "remaining": [

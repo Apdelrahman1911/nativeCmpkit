@@ -1,0 +1,107 @@
+{
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed",
+  "finding_id": "NATIVE-015",
+  "fresh_requested_value_case": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+      "name": "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce",
+      "status": "passed"
+    }
+  ],
+  "fresh_result_receipt_sha256": "17ca97cf3b4948d4058db5c141741620a6202e655cc8f3223ff3ef036f23fffe",
+  "issue_number": 72,
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Actual engine string, number, object, JSON null, undefined and throwing scripts pass in Android Chromium (41003730413), iOS WebKit (40997536117), JavaFX and Chrome JS/Wasm (40999700359). The additive typed API uses a JSON envelope; the legacy native-format API remains available.",
+      "original_requirement": "Evaluate string, number, object, null, undefined and throwing scripts on all targets.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Each engine fixture evaluates before attach, after disposal, disabled and with invocation-local callbacks. Actual Android instrumentation/iOS owned Worker/desktop worker invoke off the native UI thread and assert main/FX delivery; browser is single-threaded. Current navigator/lifecycle callbacks are separately reviewed in accepted replacement methods; no shared mutable evaluator callback is retained.",
+      "original_requirement": "Call before attach, after dispose, off main thread and after callback substitution.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Real JavaFX/browser throwing callbacks escape once and do not become script errors; Android detached actual callback plus eight exact unchanged native-fault host methods verify synchronous/asynchronous callback/native exceptions, duplicate suppression and post-release delivery. iOS detached main callback escapes once; attached asynchronous app callbacks must not throw across Objective-C. This is not a guarantee of delivery when native destruction drops an already-pending callback, explicitly documented.",
+      "original_requirement": "Callback exceptions are not misreported as script failures or delivered twice.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Native platform may drop an already-pending callback on destruction; no delivery/Promise-await guarantee beyond the documented start/completion contract.",
+    "iOS asynchronous application callbacks must not throw across Objective-C; detached exception behavior is verified without crashing the native test host.",
+    "Actual Enforcing API35 emulator, current iOS simulator, Linux JavaFX and Chrome JS/Wasm only; no physical/minimum-provider/macOS/Windows/other-browser or ABI/consumer/security/release certification.",
+    "#62/#89 remount issues remain open; shared41003730413 remains FAILED (Android remount failure/iOS zero-execution compiler error)."
+  ],
+  "reused_accepted_results_not_fresh": true,
+  "reused_eight_Android_host_fault_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "nativeInvocationFailureBeforeAnyCallbackProducesOneTypedError",
+      "seconds": 2.959,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "synchronousApplicationFailureIsNotCaughtOrDeliveredTwice",
+      "seconds": 0.089,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "legacyInvocationFailureIsOneNullAndLaterNativeCallbackIsIgnored",
+      "seconds": 0.044,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "queuedCompletionAfterSynchronousNativeFailureIsSuppressed",
+      "seconds": 0.04,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "synchronousCompletionThenNativeThrowCannotDeliverASecondResult",
+      "seconds": 0.039,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "asynchronousNativeThrowAfterCompletionRemainsOutsideResultHandling",
+      "seconds": 0.037,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "asynchronousApplicationFailureIsNotReclassifiedAndDuplicateIsIgnored",
+      "seconds": 0.036,
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidJavascriptEvaluationTest",
+      "name": "callbackWhichArrivesAfterNativeOwnerReleaseReportsUnavailableOnce",
+      "seconds": 0.041,
+      "status": "passed"
+    }
+  ],
+  "reused_engine_runs": [
+    40997536117,
+    40999700359
+  ],
+  "reviewed_at_utc": "2026-10-30T05:00:38.000568+00:00",
+  "shared_whole_workflow_stays_failed": true,
+  "unchanged_owning_source_bindings": {
+    "calf-webview/build.gradle.kts": "4d58f2a07a23dcdfa2b43a34190ea279b7188727a62fd75fcd6cad3a66ba0064",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": "777ac40e3c200dfff3b2bc8bf2d28ec466e8e50c765d7186d37a44e5187b8aa5",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "6fbae2022454547efcc18bde352a2a936f14b644881ea1d642d7b8ed582d0336",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+  }
+}

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a17c1d1b622085283320519a137a54e65855df9e0394a28aa014fa36736f9264`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `57f8da0fae269403a90dd822cda333a83a69469434587f784c14c5e8c154e4b2`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 6 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 7 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -519,8 +519,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Rotate/recreate and simulate process death while external camera is foreground.
 - Original required test pending full target verification: Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.
 - Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- 2026-10-30: Actual first restoration request failed4/4 before client launch; unknown component CLI reply cause. Execute all four still-unverified methods after finite owning component/process repair on immutable API35 source, and review every original criterion before closure. Compilation/synthetic controls are zero native passes.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Latest actual Android restoration request41095539115 atc54d0283 FAILED4/4 before client launch; fresh XML and prerequisite/owned teardown reviewed. Test-only receiver SDK/native-proc repair compiles but has ZERO native executions. Prior host/common/browser/provider evidence retains its own revision/scope and is not replayed. Original three restoration criteria/#13 remain open; no physical/vendor/minimum/API-ABI/packaged/heap/security/release certification.
 
 **Compatibility / scope:** Legacy success callback retained; new pending state fixes activity restoration without changing returned KmpFile type.
 
@@ -1639,7 +1640,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests. Coil itself was not recompiled by this latest command; its fresh compile and native decoder/security-scope integration remain required.
 - Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
 - Third device diagnostic still fails resource measurement (owned dup fstat EACCES); execute the separately source-reviewed fdinfo calibration/prefilter controls and whole scenarios without hiding unknown errors. Real hardlink setup denial remains a separate unverified native scenario.
-- Device004 known-size precheck is not verified: expected64/null fails before the read/open-count assertions. Investigate provider query/lifecycle; retain actual Coil decoder/cancellation and per-platform memory gates despite passing native unknown-size/read-close prerequisites.
+- Device004 known-size precheck failed64/null remains historical with unknown provider-death cause. New actual run41096681326 verifies standalone native metadata64/bounded63 pre-open refusal1/1; actual Coil decoder/cancellation/provider/key/per-platform memory/consumer gates remain.
 - Browser004 contains no Coil compile/test despite full helper-discovered browser-suite success. Retain genuine Coil target compilation, fetch/decode/error/cancellation/size-limit/peak-memory coverage and immutable consumers; common IO prerequisites do not clear those gates.
 - Post-plugin desktop001 executes no Coil module. Actual Coil decoder failure/request cancellation, modified-file key policy, native provider ownership and target memory measurements remain required.
 - Host002 contains no Coil task. Retain genuine per-target Coil compilation/consumer/fetch/decode/error/request-cancel/size-cap/key-policy/memory tests and native provider ownership, regardless of shared IO prerequisites.
@@ -3571,8 +3572,8 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ca699fee8d49227bfe7996841541cb8ac6f10c923f39cfb98308aa8f154c7fad` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `4d423246ba34aa80984022cc085823c1d560bb803138546b1fddf2370df66492` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `29769f0a08c1a5d1c26bd57eafc1ae6aead53a069ac187b6e78b5f3950a505d7` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `ef58b94cd2962b22a2af33aacf0163a8b59603ae3ccf10fc77a89d7d8497e14f` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

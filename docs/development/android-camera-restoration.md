@@ -1,5 +1,15 @@
 # Android camera restoration verification — 2026-10-30
 
+## Actual first result and current repair
+
+[41095539115](evidence/android-camera-provider-20261030/restoration-ci001/README.md)
+executes all four methods at `c54d0283`, **0/4 pass**, before client launch because
+component CLI stdout is empty. Underlying cause unknown; original cleanup refusals
+remain. The [finite owning SDK/process repair](evidence/android-camera-provider-20261030/restoration-component001/README.md)
+now compiles with held987/1064 inputs and15 important synthetic guard passes.
+**It has zero native executions; #13 remains open.** This supersedes the earlier
+zero-execution preparation observation below, not its historical receipt.
+
 Original [#13/NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13)
 requires actual don't-keep-activities, rotation/process death and restored
 cancellation. **It remains open: compilation and synthetic guards are not device

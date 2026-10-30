@@ -1,0 +1,52 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-io",
+      "project": ":calf-io",
+      "report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened"
+        }
+      ],
+      "task": ":calf-io:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.io.KmpFileDeviceTest#knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+      "test_source_files": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+        "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "explicit_test_focus": "io-device-known-oversize",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only the failed known-size/no-native-open FileProvider method; no accepted IO/picker/UI replay or device-suite certification",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

@@ -84,7 +84,17 @@ internal class OwnedCameraReceiver : AutoCloseable {
         return request("complete", packet, cancel)
     }
 
-    private fun request(operation: String, packet: String?, cancel: Boolean): Bundle {
+    fun armDelayed(lease: String): Bundle {
+        check(lease.matches(Regex("[a-f0-9]{32}")))
+        return request("arm-delayed", null, false, lease)
+    }
+
+    fun restoreDelayed(lease: String): Bundle {
+        check(lease.matches(Regex("[a-f0-9]{32}")))
+        return request("restore-delayed", null, false, lease)
+    }
+
+    private fun request(operation: String, packet: String?, cancel: Boolean, lease: String? = null): Bundle {
         assertNotEquals(Looper.getMainLooper(), Looper.myLooper(), "Never block the native grant callback Looper")
         assertNull(protocolError); check(!closed)
         val remote = assertNotNull(endpoint)
@@ -94,6 +104,7 @@ internal class OwnedCameraReceiver : AutoCloseable {
             replyTo = replies; data = Bundle().apply {
                 putString("nonce", nonce); putString("operation", operation)
                 if (packet != null) { putString("packet", packet); putBoolean("cancel", cancel) }
+                if (lease != null) putString("lease", lease)
             }
         }
         try {

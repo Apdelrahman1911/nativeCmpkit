@@ -1,0 +1,11 @@
+{
+  "observed_at_utc": "2026-10-30T17:22:49.444660+00:00",
+  "result": "FAILED before runtime receipt or any Gradle invocation",
+  "cause": "rustc absent from login-shell PATH; known installed /root/.cargo/bin not on PATH",
+  "exception_class": "FileNotFoundError",
+  "source": "scripts/ci/runtime_context.py",
+  "symbol": "capture",
+  "line": 180,
+  "native_or_compiler_executions": 0,
+  "repair": "Explicit known Cargo and JDK17 PATH for the next invocation; no version downgrade or runtime guard removal"
+}

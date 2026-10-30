@@ -1,5 +1,26 @@
 # NativeCmpKit development after the audit
 
+## Restoration actual failure / owning repair; IO precheck pass — 2026-10-30
+
+Actual [camera41095539115](evidence/android-camera-provider-20261030/restoration-ci001/README.md)
+atc54d0283 FAILED4/4 native methods/one XML/Gradle1/43.01s before client launch:
+component CLI stdout empty; underlying cause unknown, cleanup refusals preserved.
+[Test-only owning repair](evidence/android-camera-provider-20261030/restoration-component001/README.md)
+uses fixed recipient-UID SDK/nonce lease/DONT_KILL_APP/exact restored readback before
+binding close, and real same-UID bounded cmdline/kernel process checks refusing
+EACCES. Android15 Runtime.exec quoting defect is separate, not the earlier cause.
+Three reds/PATH-before-Gradle failure retained;15 important synthetic methods and
+Actionlint pass, reporterAPK0/32.01s/receiver0/12.0s reused,987/1064 held inputs.
+ZERO new restoration native executions; #13 implemented/open. Request four failed
+API35 methods only; provider#78/accepted IO/host/unrelated evidence not replayed.
+Actual [IO41096681326](evidence/android-io-precheck-20261030/native-ci001/README.md)
+succeeds1/1 native pre-open oversize method/one XML/Gradle0/47.02s,987/1064exact
+Git/Enforcing/graceful owned exit. Separate ADB-transport readback unavailable;
+first reviewer schema failure retained. Null-size/provider-death cause unknown.
+#45/#55/#57 remain open;90closed/82open/172total,30implemented/40partial/88verified/
+six unresolved. No publishing/Pages/main/history/native/consumer/ABI/dependency/
+legal/security/readiness change; solo/8GiB/max2heavy remain.
+
 ## Camera provider closed; real restoration prepared — 2026-10-30
 
 **[#78/NATIVE-022 closed/completed](evidence/android-camera-provider-20261030/closure001/README.md)**

@@ -16,6 +16,7 @@ import android.os.ParcelFileDescriptor
 import android.os.Process
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.system.ErrnoException
 import android.system.Os
 import android.system.OsConstants
 import android.system.StructPollfd
@@ -103,7 +104,7 @@ class AndroidCameraRestorationTest {
                 assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER, pm.getApplicationEnabledSetting(pkg))
             }
             changedDelayed = true
-            assertEquals("Component ${delayed.toShortString()} new state: enabled", shell("pm enable --user 0 ${delayed.flattenToShortString()}"))
+            assertDelayedControl(currentReceiver, currentReceiver.armDelayed(nonce), nonce, armed = true)
             assertEquals(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, pm.getComponentEnabledSetting(delayed))
             waitUntil { handlers() == setOf(delayed) }
             assertEquals(delayed, pm.resolveActivity(Intent(MediaStore.ACTION_IMAGE_CAPTURE), PackageManager.MATCH_DEFAULT_ONLY)?.let {
@@ -196,6 +197,12 @@ class AndroidCameraRestorationTest {
                     waitUntil { !owner.request("snapshot").getBoolean("holdingActivity") }; externalTerminated = true
                 }
             }
+            if (changedDelayed) cleanup {
+                val owner = assertNotNull(receiver)
+                assertDelayedControl(owner, owner.restoreDelayed(nonce), nonce, armed = false)
+                assertEquals(originalDelayed, pm.getComponentEnabledSetting(delayed))
+                assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
+            }
             cleanup { receiver?.close() }
             cleanup {
                 val pid = snapshot(prefName).integer("pid")
@@ -221,11 +228,6 @@ class AndroidCameraRestorationTest {
                 cleanup { waitUntil { context.getSystemService(WindowManager::class.java).defaultDisplay.rotation == originalRotation } }
             }
             if (changedFinish) cleanup { restoreSetting("global", "always_finish_activities", originalFinish) }
-            if (changedDelayed) cleanup {
-                assertEquals("Component ${delayed.toShortString()} new state: default", shell("pm default-state --user 0 ${delayed.flattenToShortString()}"))
-                assertEquals(originalDelayed, pm.getComponentEnabledSetting(delayed))
-                assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
-            }
             for (pkg in changedPackages.asReversed()) cleanup {
                 val original = initialStates.getValue(pkg)
                 val command = if (original == 0) "default-state" else "enable"
@@ -235,6 +237,17 @@ class AndroidCameraRestorationTest {
             cleanup { waitUntil { handlers() == initialHandlers } }
             cleanupFailure?.let { throw it }
         }
+    }
+
+    private fun assertDelayedControl(owner: OwnedCameraReceiver, reply: android.os.Bundle, lease: String, armed: Boolean) {
+        assertTrue(reply.getBoolean("delayedControlVerified"))
+        assertEquals(delayed.flattenToString(), reply.getString("controlledComponent"))
+        assertEquals(lease, reply.getString("controlledLease"))
+        assertEquals(if (armed) "arm-delayed" else "restore-delayed", reply.getString("controlledOperation"))
+        assertEquals(owner.recipientUid, reply.getInt("componentOwnerUid"))
+        assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, reply.getInt("originalComponentState"))
+        assertEquals(if (armed) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+            reply.getInt("componentState"))
     }
 
     private fun tasks(nonce: String): List<ActivityManager.AppTask> {
@@ -314,14 +327,37 @@ class AndroidCameraRestorationTest {
     }
     private fun processState(pid: Int): String {
         check(pid > 0 && pid != Process.myPid())
-        return shell("run-as ${context.packageName} sh -c 'if test -d /proc/$pid; then echo present; else echo absent; fi'")
-            .also { check(it in setOf("present", "absent")) }
+        return try {
+            check(OsConstants.S_ISDIR(Os.stat("/proc/$pid").st_mode))
+            "present"
+        } catch (failure: ErrnoException) {
+            // File.exists()/isDirectory() hide EACCES as false. Refuse all unknown
+            // native errors; only actual kernel absence can satisfy the death check.
+            if (failure.errno == OsConstants.ENOENT || failure.errno == OsConstants.ESRCH) "absent"
+            else throw failure
+        }
     }
     private fun killOwnedClient(pid: Int) {
         check(pid > 0 && pid != Process.myPid())
-        assertEquals(processName, shell("run-as ${context.packageName} cat /proc/$pid/cmdline").trimEnd('\u0000'))
+        assertEquals(processName, ownedClientCommandline(pid))
         Process.killProcess(pid)
         waitUntil { processState(pid) == "absent" }
+    }
+    private fun ownedClientCommandline(pid: Int): String {
+        check(pid > 0 && pid != Process.myPid())
+        val commandline = File("/proc/$pid/cmdline")
+        assertEquals(Process.myUid(), Os.stat(commandline.path).st_uid, "Refuse a foreign/reused native PID")
+        val bytes = commandline.inputStream().use { input ->
+            val result = ByteArrayOutputStream(); val block = ByteArray(256)
+            while (true) {
+                val n = input.read(block); if (n < 0) break
+                check(n > 0 && result.size() + n <= 4096) { "Unbounded owned native process name" }
+                result.write(block, 0, n)
+            }
+            result.toByteArray()
+        }
+        check(bytes.isNotEmpty()) { "Unknown native process name" }
+        return bytes.decodeToString(throwOnInvalidSequence = true).trimEnd('\u0000')
     }
     private fun setting(namespace: String, key: String, allowed: Set<String>) = shell("settings get $namespace $key").also { check(it in allowed) }
     private fun restoreSetting(namespace: String, key: String, value: String) {

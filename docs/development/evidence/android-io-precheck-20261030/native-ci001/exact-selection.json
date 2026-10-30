@@ -1,0 +1,98 @@
+{
+  "actual_native_provider_metadata_and_oversize_zero_streams_required": true,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.KmpFileDeviceTest#knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+    ":calf-io:connectedAndroidDeviceTest"
+  ],
+  "distinct_native_methods_requested": 1,
+  "fresh_owned_AVD_and_XML": true,
+  "fresh_target_executions_requested": 1,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "io-device-known-oversize",
+      "test-modules": "calf-io"
+    }
+  ],
+  "native_APIs_requested": [
+    35
+  ],
+  "previous_accepted_IO_other_methods_or_provider_camera_tests_replayed": false,
+  "profile": "android-io-oversize",
+  "source_consumer_not_sample_or_packaged_Maven": true,
+  "source_plan": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-io",
+        "project": ":calf-io",
+        "report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+            "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened"
+          }
+        ],
+        "task": ":calf-io:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.io.KmpFileDeviceTest#knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+        "test_source_files": [
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+          "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-io"
+    ],
+    "explicit_test_focus": "io-device-known-oversize",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Only the failed known-size/no-native-open FileProvider method; no accepted IO/picker/UI replay or device-suite certification",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-geo",
+      "calf-navigation",
+      "calf-share",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

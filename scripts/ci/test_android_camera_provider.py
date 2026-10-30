@@ -417,7 +417,7 @@ class CameraRestorationPlanTests(unittest.TestCase):
                       "result.size() + n <= 65536", "tasksGone && externalTerminated", "primary.addSuppressed", "cleanupFailure?.let { throw it }"):
             self.assertIn(value, source)
         self.assertNotIn("for (name in outputs() - before)", source)
-        self.assertIn("killOwnedClient", source); self.assertIn("processName, shell", source)
+        self.assertIn("killOwnedClient", source); self.assertIn("processName, ownedClientCommandline(pid)", source)
         self.assertIn('assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")', source)
         self.assertIn('assertEquals("Deleted 1 rows"', source)
         self.assertIn('android:process=":nativecmpkit_camera_client"', (l.ROOT / "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml").read_text())
@@ -426,6 +426,64 @@ class CameraRestorationPlanTests(unittest.TestCase):
         self.assertIn("getPackagesForUid(request.sendingUid)", service)
         self.assertIn('packet.equals(owner.report.getString("packet"))', activity)
         self.assertNotIn("grantUriPermission(", activity + service)
+
+
+class CameraRestorationComponentOwnershipTests(unittest.TestCase):
+    """Synthetic owning-control guards, never Android or restoration passes."""
+    def sources(self):
+        service = (l.ROOT / "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java").read_text()
+        client = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
+        binding = (l.ROOT / "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt").read_text()
+        return service, client, binding
+
+    def test_only_native_receiver_uid_controls_its_fixed_component_without_killing_binding(self):
+        service, client, _ = self.sources()
+        self.assertIn("new ComponentName(this, CameraDelayedReceiverActivity.class)", service)
+        self.assertIn("PackageManager.DONT_KILL_APP", service)
+        self.assertIn("Process.myUid()", service)
+        self.assertIn("getPackagesForUid(request.sendingUid)", service)
+        self.assertIn("getPackageManager().checkSignatures(REPORTER", service)
+        self.assertNotIn('shell("pm enable --user 0 ${delayed.', client)
+        self.assertNotIn('shell("pm default-state --user 0 ${delayed.', client)
+        self.assertIn("currentReceiver.armDelayed(nonce)", client)
+
+    def test_nonce_lease_is_retained_before_native_change_and_exact_default_readback(self):
+        service, _, binding = self.sources()
+        self.assertIn('request("arm-delayed", null, false, lease)', binding)
+        self.assertIn('request("restore-delayed", null, false, lease)', binding)
+        self.assertIn('putString("lease", lease)', binding)
+        self.assertIn('lease.matches("[a-f0-9]{32}")', service)
+        self.assertIn("lease.equals(delayedLease)", service)
+        before = service.index("delayedLease = lease;")
+        change = service.index("pm.setComponentEnabledSetting", before)
+        self.assertLess(before, change)
+        self.assertIn("PackageManager.COMPONENT_ENABLED_STATE_DEFAULT", service)
+        self.assertIn("pm.getComponentEnabledSetting(component)", service)
+        self.assertIn("PackageManager.MATCH_DISABLED_COMPONENTS", service)
+        self.assertNotIn('getString("component"', service)
+
+    def test_restore_refuses_live_foreign_or_unknown_state_and_precedes_close(self):
+        service, client, _ = self.sources()
+        self.assertIn("CameraDelayedReceiverActivity.isHolding()", service)
+        self.assertIn("delayedLease != null", service)
+        self.assertIn('result.putString("protocolError"', service)
+        self.assertIn('result.putBoolean("delayedControlVerified", true)', service)
+        self.assertLess(client.index("owner.restoreDelayed(nonce)"), client.index("receiver?.close()"))
+        self.assertIn('assertEquals(delayed.flattenToString(), reply.getString("controlledComponent"))', client)
+        self.assertIn('assertEquals(owner.recipientUid, reply.getInt("componentOwnerUid"))', client)
+        self.assertIn('assertTrue(reply.getBoolean("delayedControlVerified"))', client)
+        self.assertIn("primary.addSuppressed(failure)", client)
+
+    def test_kernel_process_control_has_no_uninterpreted_shell_quotes_or_denied_as_absent(self):
+        _, client, _ = self.sources()
+        self.assertNotIn("run-as ${context.packageName}", client)
+        self.assertIn('Os.stat("/proc/$pid")', client)
+        self.assertIn("failure.errno == OsConstants.ENOENT || failure.errno == OsConstants.ESRCH", client)
+        self.assertIn("else throw failure", client)
+        self.assertIn("Os.stat(commandline.path).st_uid", client)
+        self.assertIn("result.size() + n <= 4096", client)
+        self.assertIn("commandline.inputStream().use", client)
+        self.assertIn("Process.killProcess(pid)", client)
 
 
 class CameraArchiveTests(unittest.TestCase):

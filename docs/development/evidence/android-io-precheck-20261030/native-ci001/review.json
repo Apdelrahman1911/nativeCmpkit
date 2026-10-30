@@ -1,0 +1,176 @@
+{
+  "accepted_executions": 1,
+  "fresh_executed": 1,
+  "original_issue_criteria_or_closure_automatically_inferred": false,
+  "packages_releases_deployments_or_Pages_created": false,
+  "platforms": [
+    {
+      "accepted_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_emulator": {
+          "abi": "x86_64",
+          "api_level": "35",
+          "boot_completed": "1",
+          "release": "15",
+          "selinux": "Enforcing",
+          "serial": "emulator-5588"
+        },
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "382db2531059f64d268d6fbcf772b587bdcae1a130970190ea9c366d292a57cb",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T17:19:06.957963+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "c54d02836347f35b1caa8cb22a2038119fbbc41d",
+        "source_tree_dirty": false
+      },
+      "all1064_combined_inputs_exact_historical_Git": true,
+      "all987_before_after_inputs_held": true,
+      "android_controller": {
+        "changed_inputs": [],
+        "complete_suite_requested": false,
+        "emulator_shutdown": {
+          "clean_shutdown": true,
+          "exit_code": 0,
+          "finished_at_utc": "2026-10-30T17:19:56.789860+00:00",
+          "forced_owned_group": false,
+          "graceful_kill_requested": true,
+          "requested_at_utc": "2026-10-30T17:19:55.163960+00:00"
+        },
+        "explicit_module_subset": [
+          "calf-io"
+        ],
+        "explicit_test_focus": "io-device-known-oversize",
+        "finished_at_utc": "2026-10-30T17:19:56.900813+00:00",
+        "packages_published": false,
+        "passed": true,
+        "release_readiness_certified": false,
+        "setup_stages": {
+          "apk-assembly": {
+            "elapsed_seconds": 221.06,
+            "exit_code": 0
+          },
+          "owned-avd-create": {
+            "elapsed_seconds": 2.0,
+            "exit_code": 0
+          }
+        },
+        "source_revision": "c54d02836347f35b1caa8cb22a2038119fbbc41d",
+        "source_revision_after": "c54d02836347f35b1caa8cb22a2038119fbbc41d",
+        "source_tree_dirty": false,
+        "source_unchanged": true,
+        "started_at_utc": "2026-10-30T17:14:55.303185+00:00",
+        "test_bearing_modules_not_requested": [
+          "calf-camera-picker",
+          "calf-file-picker",
+          "calf-geo",
+          "calf-navigation",
+          "calf-share",
+          "calf-ui",
+          "calf-webview"
+        ],
+        "test_suite_passed": true,
+        "test_totals": {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      },
+      "api_level": 35,
+      "artifact_digest": "sha256:d8ff778851ed30cae4959821196d906d2fc5282bcb971b0fd9d1543787fb7484",
+      "artifact_id": 12996912944,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.KmpFileDeviceTest#knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+        ":calf-io:connectedAndroidDeviceTest"
+      ],
+      "errors": [],
+      "exact_fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.KmpFileDeviceTest",
+          "name": "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 47.02,
+        "exit_code": 0
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 1,
+      "job_conclusion": "success",
+      "job_id": 124205002283,
+      "library_invocation_receipt_present": true,
+      "owned_emulator_verified_clean_shutdown": true,
+      "passed": true,
+      "run_id": 41096681326,
+      "separate_ADB_transport_removal_readback": "unavailable in the normal IO profile; no removal inferred",
+      "slot": "android-device-api35",
+      "source_revision": "c54d02836347f35b1caa8cb22a2038119fbbc41d",
+      "totals": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "previous_failures_remain_failed": true,
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T17:29:29.183959+00:00",
+  "run_attempt": 1,
+  "run_id": 41096681326,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41096681326",
+  "source_revision": "c54d02836347f35b1caa8cb22a2038119fbbc41d",
+  "workflow_conclusion": "success"
+}

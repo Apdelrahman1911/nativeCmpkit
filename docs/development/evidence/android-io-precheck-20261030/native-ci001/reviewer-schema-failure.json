@@ -1,0 +1,9 @@
+{
+  "observed_at_utc": "2026-10-30T17:29:25.170846+00:00",
+  "result": "FAILED independent reviewer before any accepted result",
+  "source_script_sha256": "95398941ef0562373f31561369fddd9d69db28838b0c1ff82cbc39dce3f57678",
+  "line": 90,
+  "cause": "Reviewer incorrectly required the camera-only owned_adb_transport_removed field for a normal IO profile. Actual source records it only when camera_receiver is present.",
+  "repair": "Review the actual normal-profile graceful child exit/no-force shutdown fields; explicitly retain unavailable separate ADB-transport observation as a limitation. Do not infer it from a green job.",
+  "native_IO_success_NOT_yet_certified_at_failed_review": true
+}

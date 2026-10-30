@@ -99,6 +99,7 @@ PROFILES = {
     "ios-vector-native-screen-pair": ("ios-ipad",),
     "ios-slider-recovery": ("ios-iphone",),
     "ios-image-memory": ("ios-iphone",),
+    "ios-webview-lifecycle": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -127,6 +128,7 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    "ios-webview-lifecycle": "calf-webview",
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
     "browser-picker": "calf-file-picker",
     "browser-coil-io": "calf-file-picker-coil",
@@ -343,6 +345,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-image-memory":
         for row in rows:
             row["test-focus"] = "ios-native-image-memory"
+    if profile == "ios-webview-lifecycle":
+        for row in rows:
+            row["test-focus"] = "webview-ios-native-lifecycle"
     if profile in {"ios-slider-tap", "ios-slider-pair-structure"}:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-tap-cancellation" if profile == "ios-slider-tap" else

@@ -1,0 +1,64 @@
+{
+  "actual_diagnostic_options": {
+    "checkStateAtExternalCalls": "true",
+    "runtimeAssertionsMode": "panic"
+  },
+  "actual_private_job_log": {
+    "bytes": 117088,
+    "raw_log_committed": false,
+    "sha256": "00d2599c4240d49f27d2653ec5f128245f8a013716264c01b139a9a091c67a40"
+  },
+  "actual_runtime_assertion": {
+    "location": "main/cpp/ObjCInterop.mm:278",
+    "message": "Unable to add protocol to Objective-C class"
+  },
+  "actual_selected_native_methods_executed": 0,
+  "actual_stack_known_symbols": [
+    "CreateKotlinObjCClass",
+    "kfun:androidx.compose.ui.platform.$init_global_eager$Accessibility.ios.kt#internal"
+  ],
+  "claims_not_made": [
+    "default production binary crashes",
+    "ASan executed or passed",
+    "actual allocation/leak profile ran",
+    "GC/pixel methods passed",
+    "no crash occurred because no owned report matched"
+  ],
+  "classification": "confirmed native diagnostic-mode startup abort; exact class/protocol and root cause unverified",
+  "hypothesis_not_confirmed": "An already inherited/redundant Objective-C protocol may make class_addProtocol return NO. The log does not name the exact class/protocol; public source inspection alone does not prove this cause.",
+  "initial_receipt_generation_error": "Hand-copied official-source SHA was mistyped; source/hash guard rejected generation before writing this analysis. This receipt uses independently read and verified bytes; zero runtime/build/test effects.",
+  "issues_still_open": [
+    140,
+    141
+  ],
+  "next_actions": [
+    "Do not automatically rerun unchanged strict diagnostic profile.",
+    "Keep original failed mode and requirements; any alternative diagnostic mode needs explicit supported-tool/runtime justification and independent verification.",
+    "Do not downgrade compiler/dependencies, patch third-party runtime, or disable assertions merely for a green result."
+  ],
+  "observed_at_utc": "2026-10-30T02:42:22.114981+00:00",
+  "packages_releases_deployments_Pages_or_release_gate_changes": false,
+  "public_sources": [
+    {
+      "bytes": 15772,
+      "location": "lines272-280, protocol-registration loop",
+      "observation": "objc_getProtocol returns a non-null protocol; class_addProtocol(newClass, proto) returning NO triggers RuntimeAssert before adding to metaclass.",
+      "sha256": "a63eca3aaed18e0d7d697c884353913acca225b98a3e03026f281a0ba4f29311",
+      "url": "https://raw.githubusercontent.com/JetBrains/kotlin/v2.4.20/kotlin-native/runtime/src/main/cpp/ObjCInterop.mm"
+    },
+    {
+      "archive_member": "iosMain/androidx/compose/ui/platform/Accessibility.ios.kt",
+      "archive_member_sha256": "1a204bb5ed443f3e82e8957eb465ccdc25204bc436a2184ca58cece1b62459ad",
+      "bytes": 1212272,
+      "locations": [
+        "AccessibilityRoot lines450-453: CMPAccessibilityElement, UIFocusItemContainerProtocol",
+        "AccessibilityElement lines546-555: CMPAccessibilityElement plus UIFocusItem, UIFocusItemContainer, UIFocusItemScrollableContainer, UIFocusEnvironment, UICoordinateSpace protocols"
+      ],
+      "sha256": "b645ae5424b8dc6ded18015bae1fc96e329e0008db188a35f45bf8d5630c216b",
+      "url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui/1.12.0/ui-1.12.0-sources.jar"
+    }
+  ],
+  "run_id": 40989310808,
+  "schema_version": 1,
+  "source_revision": "35b266c88fc243ca672cebad1dd31d34eebb423c"
+}

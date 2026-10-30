@@ -669,6 +669,38 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_ADMISSION_FOCUS] = {
     "scope": "Seven changed UIKit/Compose ownership and complete application-host methods plus two controlled deferred-call/real UIKit-completion regressions. Original26/7 selections, protocol/XML/Worker/runtime/binary/cleanup gates retained. No unchanged19-method Foundation/filter/copy/staging replay, OS-refusal/swipe/provider/physical/minimum/release certification.",
 }
 
+IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
+IOS_WEBVIEW_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest"
+IOS_WEBVIEW_LIFECYCLE_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt"
+IOS_WEBVIEW_LIFECYCLE_METHODS = (
+    "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+    "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument",
+    "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce",
+    "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad",
+    "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation",
+    "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly",
+)
+IOS_WEBVIEW_APPLICATION_SOURCES = (
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt",
+)
+IOS_APPLICATION_HOST_SOURCES["calf-webview"] = IOS_WEBVIEW_APPLICATION_SOURCES
+IOS_WEBVIEW_LIFECYCLE_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+     "source": IOS_WEBVIEW_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+     "methods": IOS_WEBVIEW_LIFECYCLE_METHODS},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_LIFECYCLE_FOCUS] = {
+    "module": "calf-webview", "groups": IOS_WEBVIEW_LIFECYCLE_GROUPS,
+    "scope": "Ten actual library UIKit-host/WebKit creation, replacement, Unicode HTML, JavaScript and configuration cases. Native configuration flags are not physical swipes/video playback; no network/authentication, full host/device/minimum/ABI/consumer/security/release certification. Accepted UIImage, picker, Android history and desktop/browser methods are not replayed.",
+}
+
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
 BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
@@ -2108,7 +2140,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         counts = case_counts(protocol["testcases"])
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
-        full_groups = (IOS_PICKER_BOUNDARY_GROUPS if expected["module"] == "calf-file-picker" else ())
+        full_groups = ({"calf-file-picker": IOS_PICKER_BOUNDARY_GROUPS,
+                        "calf-webview": IOS_WEBVIEW_LIFECYCLE_GROUPS}.get(expected["module"], ()))
         required = ({(group["classname"], name)
                      for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
                      for name in group["methods"]} if focused_ui else

@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Strict Apple startup failure retained; shared WebView candidate — 2026-10-30
+
+[Actual40989310808](evidence/image-memory-batch-important-20261030/native-ci002/README.md)
+compiles/links but FAILED1/1361.63s/**zero tests/XML** at strict test-only
+Kotlin/Native ObjC protocol registration before UIApplication activation. Exact
+class/protocol is unknown; inherited conformance is only a hypothesis. All890
+Git inputs held, owned app cleanup passed; profiler never started. #140/#141 stay
+open; do not rerun unchanged strict mode or remove assertions for green.
+[Shared WebView candidate](evidence/webview-lifecycle-batch-important-20261030/README.md)
+adds six actual UIKit/WebKit lifecycle/value/content/configuration methods plus
+four owning host methods on one finite Apple slot.173/173 important synthetic
+tools/all972 held/actionlint pass; **zero Apple compile/native executions yet**.
+No production/public API rewrite. Reuse accepted unchanged tests; review original
+criteria then immediately close only the verified batch subset.78closed/94open;
+single-agent/max2/8GiB reserve and all publishing/Pages/main/history and independent
+release/security gates remain unchanged.
+
 ## Shared UIImage compiler blocker repaired — 2026-10-30
 
 [Actual40986082530](docs/development/evidence/image-memory-batch-important-20261030/native-ci001/review.json) FAILED1/709.78s/zero tests/XML/native app; all890 exactGit inputs held. [Smallest typed CFString repair](docs/development/evidence/image-memory-batch-important-20261030/compile-repair001/README.md) preserves actual sRGB content equality and every pixel/GC/failure/Worker bound; exact2.4.20 KLIB inspection is NOT compilation. One red1/1 then21/21 owning synthetic methods/all967 held, ZERO local heavy/runtime builds. Only three unexecuted cases need one immutable recovery with current row-correlated profiler; nine accepted cases not replayed. #140/#141 remain open;78closed/94open. Single-agent/max2/8GiB reserve; publishing/Pages/main/history and independent release/security gates stay.

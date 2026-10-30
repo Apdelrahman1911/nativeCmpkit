@@ -43,6 +43,9 @@ APPLICATION_HOSTS = {
     "calf-file-picker": {"task": ":calf-file-picker:" + lt.IOS_APPLICATION_TASK,
                          "binary_directory": "calf-file-picker/build/bin/iosSimulatorArm64/applicationDebugTest",
                          "receipt_subdirectory": "native-picker-application"},
+    "calf-webview": {"task": ":calf-webview:" + lt.IOS_APPLICATION_TASK,
+                     "binary_directory": "calf-webview/build/bin/iosSimulatorArm64/applicationDebugTest",
+                     "receipt_subdirectory": "native-webview-application"},
 }
 APP_EXECUTABLE = "NativeCmpkitLibraryTests"
 MAX_BINARY_BYTES = 1024 * 1024**2
@@ -877,9 +880,9 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         raise ValueError("Expected the distinct linked application test executable")
     result_relative = os.environ.get("NATIVECMPKIT_UIKIT_RESULT_ROOT", "")
     result_root = lt.safe_path(root, result_relative)
-    if host["module"] == "calf-file-picker":
+    if host["module"] in {"calf-file-picker", "calf-webview"}:
         if result_root.name not in {"native-ui-application", host["receipt_subdirectory"]}:
-            raise ValueError("Picker receipts require their finite owning application output")
+            raise ValueError("Library receipts require their finite owning application output")
         result_root = lt.safe_path(root, (result_root.parent / host["receipt_subdirectory"]).relative_to(root).as_posix())
     base = lt.safe_path(root, "build/ci-verification")
     if result_root == base or not result_root.is_relative_to(base):

@@ -1,0 +1,64 @@
+{
+  "actionlint": {
+    "command": [
+      "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+      "-shellcheck=",
+      "-pyflakes=",
+      ".github/workflows/gradle.yml"
+    ],
+    "exit_code": 0,
+    "stderr_bytes": 0,
+    "stdout_bytes": 0,
+    "tool_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "version": "1.7.12"
+  },
+  "actual_Gradle_KLIB_link_native_or_library_executions": 0,
+  "all_selected_inputs_match_173_method_important_freeze": true,
+  "exact_one_host_matrix": {
+    "include": [
+      {
+        "arch": "arm64",
+        "python": "python3",
+        "runner": "macos-26",
+        "simulator-kind": "iphone",
+        "slot": "ios-iphone",
+        "suite": "ios",
+        "test-focus": "webview-ios-native-lifecycle",
+        "test-modules": "calf-webview"
+      }
+    ]
+  },
+  "input_digest": "3fb25942b4def7cea01d0ee9787963d148224c83bbbadf03b15347a62d9d6a87",
+  "observed_at_utc": "2026-10-30T02:41:43.611008+00:00",
+  "release_readiness_certified": false,
+  "selected_input_count": 972,
+  "source_preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "ios-webview-lifecycle",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "webview-ios-native-lifecycle"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      }
+    ],
+    "source_only": true
+  },
+  "source_revision_before_commit": "35b266c88fc243ca672cebad1dd31d34eebb423c",
+  "source_tree_dirty": true
+}

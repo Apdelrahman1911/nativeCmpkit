@@ -1,12 +1,80 @@
 """Owning lifecycle/selection guards; not native runtime or library passes."""
 from pathlib import Path
+import subprocess
 import unittest
 
 import library_tests as lt
 import workflow_matrix as wm
 
 
+# Exact reviewed additions only. Removing them must recover the original worker,
+# root/presenter lifecycle and cleanup bytes; no broad regex or new expected revision.
+FINAL_INTEROP_ADDITIONS = (
+    'import platform.UIKit.UIView\n',
+    'import platform.WebKit.WKWebView\n',
+    '''/** Snapshot the real children of our test-owned controller, not global windows. */
+private fun UIView.ownedWebViewDescendants(): List<WKWebView> {
+    check(NSThread.isMainThread)
+    val result = mutableListOf<WKWebView>()
+    fun visit(view: UIView) {
+        if (view is WKWebView) result += view
+        view.subviews.forEach { child ->
+            visit(child as? UIView ?: error("An owned native child was not a UIView"))
+        }
+    }
+    visit(this)
+    return result
+}
+
+''',
+    '        var ownedInteropViews = emptyList<WKWebView>()\n',
+    '''        stage {
+            onApplicationMain {
+                check(sameNativeObject(window.rootViewController, controller)) { "Refuse inspecting a foreign root" }
+                ownedInteropViews = controller.view.ownedWebViewDescendants()
+            }
+        }
+''',
+    '''        // Compose1.12 queues UIKit onRelease until a real rendered transaction.
+        // Recomposer idle is not that witness. Keep the root visible while its
+        // captured native children actually release; never perform their cleanup here.
+        stage { awaitMain("owned final WKWebView interop release while root remains attached") {
+            check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
+            ownedInteropViews.all { it.superview == null && it.window == null && it.navigationDelegate == null }
+        } }
+''',
+)
+
+
+def without_reviewed_final_interop_witness(source):
+    for addition in FINAL_INTEROP_ADDITIONS:
+        if source.count(addition) != 1:
+            raise ValueError('Final interop witness changed; review its exact owning additions')
+        source = source.replace(addition, '', 1)
+    return source
+
+
 class WebViewFinalInteropReleaseTests(unittest.TestCase):
+    def test_normalization_recovers_exact_prior_host_not_changed_worker_or_test_bytes(self):
+        path = lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]
+        original = subprocess.check_output(['git', 'show', '16c9a53026cb087f359a45bcfbbe4d56c1473243:' + path],
+                                           cwd=lt.ROOT, text=True)
+        current = (lt.ROOT / path).read_text()
+        self.assertEqual(original, without_reviewed_final_interop_witness(current))
+        changed_worker = current.replace('check(!started && worker == null', 'check(started && worker == null')
+        self.assertNotEqual(original, without_reviewed_final_interop_witness(changed_worker))
+
+    def test_normalization_rejects_changed_or_missing_witness_not_just_semantic_greps(self):
+        current = (lt.ROOT / lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]).read_text()
+        for before, after in (('ownedInteropViews.all', 'ownedInteropViews.any'),
+                              ('it.navigationDelegate == null', 'true'),
+                              ('it.superview == null', 'true')):
+            with self.assertRaises(ValueError):
+                without_reviewed_final_interop_witness(current.replace(before, after))
+        for addition in FINAL_INTEROP_ADDITIONS:
+            with self.assertRaises(ValueError):
+                without_reviewed_final_interop_witness(current.replace(addition, '', 1))
+
     def test_final_native_release_is_observed_before_detaching_the_owned_compose_root(self):
         source = (lt.ROOT / lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]).read_text()
         close = source.split('internal fun close()', 1)[1].split('internal fun runApplicationUiTest', 1)[0]
@@ -14,6 +82,7 @@ class WebViewFinalInteropReleaseTests(unittest.TestCase):
         phase = 'owned final WKWebView interop release while root remains attached'
         self.assertIn(phase, close)
         self.assertLess(close.index('stage { setContent {} }'), close.index(phase))
+        self.assertLess(close.index('owned root reappearance after presenter teardown'), close.index(phase))
         self.assertLess(close.index(phase), close.index('window.rootViewController = previous'))
         for required in ('it.superview == null', 'it.window == null', 'it.navigationDelegate == null'):
             self.assertIn(required, close)

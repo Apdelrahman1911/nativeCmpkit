@@ -189,13 +189,6 @@ internal class NativeApplicationUiTest {
         }
         stage { setContent {} }
         stage { waitForIdle() }
-        // Compose1.12 queues UIKit onRelease until a real rendered transaction.
-        // Recomposer idle is not that witness. Keep the root visible while its
-        // captured native children actually release; never perform their cleanup here.
-        stage { awaitMain("owned final WKWebView interop release while root remains attached") {
-            check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
-            ownedInteropViews.all { it.superview == null && it.window == null && it.navigationDelegate == null }
-        } }
         stage {
             onApplicationMain {
                 if (controller.presentedViewController != null) controller.dismissViewControllerAnimated(false, null)
@@ -203,6 +196,13 @@ internal class NativeApplicationUiTest {
         }
         stage { awaitMain("owned native presenter teardown") { controller.presentedViewController == null } }
         stage { awaitMain("owned root reappearance after presenter teardown") { rootIsAppeared } }
+        // Compose1.12 queues UIKit onRelease until a real rendered transaction.
+        // Recomposer idle is not that witness. Keep the root visible while its
+        // captured native children actually release; never perform their cleanup here.
+        stage { awaitMain("owned final WKWebView interop release while root remains attached") {
+            check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
+            ownedInteropViews.all { it.superview == null && it.window == null && it.navigationDelegate == null }
+        } }
         // Always attempt restoring our root even after a failed presenter/idle
         // check. Never detach another test's or application's replacement root.
         stage {

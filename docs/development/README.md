@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Owning guards and dropdown compile recovery — 2026-10-30
+
+[Native request41013984992](evidence/webview-identity-batch-important-20261030/final-interop-ci001/README.md)
+stays FAILED at two synthetic guards; no native job ran. The
+[exact-addition repair](evidence/webview-identity-batch-important-20261030/final-interop-tools002/README.md)
+preserves accepted historical host bytes and passes only five affected/new guards
+plus three source-only CLI checks. All917/994 held;971 successful local tooling
+methods are not replayed. Final native witness runs after presenter reappearance,
+still before detachment with the same10s bound.
+[Dropdown compilation](evidence/material-dropdown-batch-important-20261030/compile-local003/README.md)
+passes134.03s/zero tests after an existing-runtime test-only dependency; failed
+compile/runtime evidence stays. #62/#89/#132/#141 remain open pending actual
+immutable execution/original criteria;80closed/92open and release gates unchanged.
+
 ## Exact iOS profiler target recovery — 2026-10-30
 
 [Owning candidate](evidence/image-memory-batch-important-20261030/target-recovery-tools001/README.md)

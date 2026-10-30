@@ -203,6 +203,9 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
             source = (lt.ROOT / "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal" / original).read_text()
             for old, new in replacements: source = source.replace(old, new)
             actual = (lt.ROOT / target).read_text()
+            if target == lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]:
+                from test_webview_final_interop_release import without_reviewed_final_interop_witness
+                actual = without_reviewed_final_interop_witness(actual)
             self.assertEqual(source, actual.split("\n", 2)[2])
 
     def test_native_tests_use_actual_webkit_and_do_not_claim_video_swipe_or_network_execution(self):

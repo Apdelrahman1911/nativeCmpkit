@@ -135,6 +135,8 @@ class MaterialDropdownFocusTests(unittest.TestCase):
 
     def test_skiko_back_uses_the_real_navigation_input_not_an_unbridged_semantics_escape_key(self):
         shared = (lt.ROOT / lt.DROPDOWN_SCENARIOS_SOURCE).read_text()
+        build = (lt.ROOT / 'calf-ui/build.gradle.kts').read_text()
+        self.assertIn('implementation(libs.jetbrains.navigationevent.compose)', build)
         for required in ('NavigationEventInput()', 'dispatchOnBackCompleted()',
                          'dispatcher.addInput(input)', 'dispatcher.removeInput(input)'):
             self.assertIn(required, shared)

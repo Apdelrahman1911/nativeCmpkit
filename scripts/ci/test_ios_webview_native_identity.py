@@ -149,7 +149,11 @@ class IosWebViewNativeIdentityTests(unittest.TestCase):
         revision = "16c9a53026cb087f359a45bcfbbe4d56c1473243"
         for path in lt.IOS_WEBVIEW_APPLICATION_SOURCES:
             original = subprocess.check_output(["git", "show", revision + ":" + path], cwd=lt.ROOT)
-            self.assertEqual(original, (lt.ROOT / path).read_bytes())
+            actual = (lt.ROOT / path).read_bytes()
+            if path == lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]:
+                from test_webview_final_interop_release import without_reviewed_final_interop_witness
+                actual = without_reviewed_final_interop_witness(actual.decode()).encode()
+            self.assertEqual(original, actual)
 
 
 if __name__ == "__main__":

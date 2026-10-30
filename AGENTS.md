@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Final native guard / dropdown compile recovery — 2026-10-30
+
+[41013984992](docs/development/evidence/webview-identity-batch-important-20261030/final-interop-ci001/README.md)
+FAILED two stale tooling guards/971passes; native job skipped, ZERO Apple tests.
+[Owning exact-addition equivalence](docs/development/evidence/webview-identity-batch-important-20261030/final-interop-tools002/README.md)
+passes five affected/new guards and three final source-only CLI checks;917/994
+held. Original accepted Worker/root/presenter/cleanup and four test-body bytes
+remain. Witness now runs after presenter teardown/reappearance before detachment,
+same10s/all original assertions. No broad guard or native waiver. Dropdown
+[compile recovery](docs/development/evidence/material-dropdown-batch-important-20261030/compile-local003/README.md)
+PASS134.03s/ZERO tests after exact existing-runtime materialTest dependency; prior
+compile35.01s failure and actual3pass/1fail runtime stay. Do not replay accepted
+Android/WebView/image cases or971 local tooling methods. New immutable one-case
+Apple and16-case dropdown requests required; #62/#89/#132/#141 open.80closed/
+92open; solo/max2heavy/8GiB and all independent release/security gates unchanged.
+
 ## Actual native profiling / owning popup and final-interop candidates — 2026-10-30
 
 [41008502211](docs/development/evidence/image-memory-batch-important-20261030/target-recovery-ci001/README.md)

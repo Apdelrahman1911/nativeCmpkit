@@ -25,6 +25,9 @@ kotlin {
     // Shared library-level Material dialog scenarios, not sample application tests.
     sourceSets.named("materialTest").dependencies {
         implementation(libs.compose.ui.test)
+        // UI's runtime-only navigation bridge is not a test compile dependency.
+        // Exercise its public input/handler path without exporting a new library API.
+        implementation(libs.jetbrains.navigationevent.compose)
     }
 
     sourceSets.named("androidHostTest").dependencies {

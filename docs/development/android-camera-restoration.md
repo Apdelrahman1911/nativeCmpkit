@@ -1,5 +1,16 @@
 # Android camera restoration verification — 2026-10-30
 
+## Correct selection boundary prepared after actual prerequisite failure
+
+[41102937453](evidence/android-camera-provider-20261030/restoration-ci003/README.md)
+fails4/4 actual methods before client launch at global implicit handler selection.
+[Android15 source and owning test-only repair](evidence/android-camera-provider-20261030/restoration-recipient001/README.md)
+retain the genuine ComponentActivity saved registry and public launcher, selecting
+only the fixed signature-protected recipient at Activity launch. Android owns
+URI grants/result/destruction/restoration; no system packages/DPC/root/manual grants.
+49 important synthetic guards/reporterAPK0/35.01s pass with held987/1064 inputs;
+unchanged receiver compile reused, **zero new native executions/#13 remains open**.
+
 ## Recovery002 failed before native; final state repair compiled
 
 [41100261882](evidence/android-camera-provider-20261030/restoration-ci002/README.md)
@@ -36,8 +47,10 @@ same-UID process from the surviving instrumentation reporter. No injected
 registry result/state or manual URI grant is used.
 
 The disabled-by-default, signature/UID/nonce-bound `CameraDelayedReceiverActivity`
-is enabled as the sole implicit handler on a controller-owned API35 AVD. It
-holds the real foreground external request while the OS destroys the caller via
+is enabled under its fixed receiver-UID lease on a controller-owned API35 AVD.
+The test consumer selects that exact signature-protected component at the genuine
+Activity launch boundary; Android15 does not permit third-party global implicit
+camera selection. It holds the real foreground external request while the OS destroys the caller via
 don't-keep-activities, actual display rotation or same-UID kernel process death.
 Finite completion writes only its real incoming EXTRA_OUTPUT using the actual
 granted descriptor, then returns Android's result. The fourth method cancels

@@ -1,0 +1,42 @@
+{
+  "observed_at_utc": "2026-10-30T18:25:43.864787+00:00",
+  "sources": [
+    {
+      "class": "Intent",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/core/java/android/content/Intent.java?format=TEXT",
+      "revision": "android-15.0.0_r1",
+      "sha256": "6302bb5501ac5050de8b7f4e58eef5fd7f1ca0e8042a4588c37dd6b53ec25cfc",
+      "reviewed_lines": [
+        [
+          12646,
+          12655
+        ]
+      ],
+      "exact_running_framework_binary_extracted": false
+    },
+    {
+      "class": "ComputerEngine",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/services/core/java/com/android/server/pm/ComputerEngine.java?format=TEXT",
+      "revision": "android-15.0.0_r1",
+      "sha256": "60c12db6133f211e9e95b0ec8ed4b7538bcf7552615ec606f34a904189522174",
+      "reviewed_lines": [
+        [
+          503,
+          532
+        ],
+        [
+          2335,
+          2339
+        ],
+        [
+          2805,
+          2811
+        ]
+      ],
+      "exact_running_framework_binary_extracted": false
+    }
+  ],
+  "contract": "Intent.isImplicitImageCaptureIntent requires both package and component absent; ComputerEngine.updateFlagsForResolve adds MATCH_SYSTEM_ONLY for implicit camera intents without a DPC persistent preference. Enabling a third-party receiver does not satisfy the old unqualified selection prerequisite.",
+  "caller_actual_handler_set_in_prior_timeout_known": false,
+  "native_restoration_executions_of_repair": 0
+}

@@ -503,6 +503,69 @@ class CameraRestorationComponentOwnershipTests(unittest.TestCase):
         self.assertIn('assertFalse(reply.getBoolean("manifestComponentEnabled"))', client)
 
 
+class CameraRestorationRecipientSelectionTests(unittest.TestCase):
+    """Synthetic launch-boundary guards; only the device suite exercises restoration."""
+    def sources(self):
+        return ((l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text(),
+                (l.ROOT / l.ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text())
+
+    def test_recipient_selection_keeps_real_component_activity_registry_and_launch_arguments(self):
+        _, client = self.sources()
+        self.assertIn("override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?)", client)
+        self.assertIn("super.startActivityForResult(Intent(intent).setComponent(recipient), requestCode, options)", client)
+        for forbidden in ("LocalActivityResultRegistryOwner", "object : ActivityResultRegistry", "dispatchResult(",
+                          "onActivityResult(", "grantUriPermission(", "setClipData(", "FLAG_GRANT_"):
+            self.assertNotIn(forbidden, client)
+        self.assertIn("super.onSaveInstanceState(state)", client)
+        self.assertIn("rememberCameraPickerResultLauncher(", client)
+
+    def test_original_take_picture_action_and_owned_content_output_are_checked_before_selection(self):
+        _, client = self.sources()
+        for required in ("intent.action == MediaStore.ACTION_IMAGE_CAPTURE", "intent.component == null",
+                         "intent.`package` == null", "intent.selector == null", "MediaStore.EXTRA_OUTPUT",
+                         'uri.scheme == "content"', 'uri.authority == "$packageName.camera-files"',
+                         'uri.pathSegments[0] == "camera"', "file.canonicalFile == file",
+                         "file.parentFile == directory", "file.isFile", "file.length() == 0L"):
+            self.assertIn(required, client)
+        self.assertLess(client.index("MediaStore.EXTRA_OUTPUT"), client.index("super.startActivityForResult("))
+
+    def test_selection_is_only_fixed_signature_protected_receiver_not_a_system_policy_override(self):
+        source, client = self.sources()
+        for required in ("ComponentName(OwnedCameraReceiver.PACKAGE,", "CameraDelayedReceiverActivity",
+                         "PackageManager.SIGNATURE_MATCH", "OwnedCameraReceiver.PERMISSION",
+                         "PackageManager.COMPONENT_ENABLED_STATE_ENABLED", "info.applicationInfo.uid != Process.myUid()"):
+            self.assertIn(required, client)
+        for forbidden in ("pm disable-user", "pm enable", "changedPackages", "initialStates", "MATCH_SYSTEM_ONLY",
+                          "MATCH_DISABLED_COMPONENTS", "setComponentEnabledSetting"):
+            self.assertNotIn(forbidden, client)
+        for forbidden in ("pm disable-user", "pm default-state", "changedPackages", "initialStates", "ApplicationInfo.FLAG_SYSTEM"):
+            self.assertNotIn(forbidden, source)
+
+    def test_armed_recipient_uses_package_scoped_real_resolution_and_exact_foreign_uid(self):
+        source, _ = self.sources()
+        for required in ("Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(OwnedCameraReceiver.PACKAGE)",
+                         "PackageManager.MATCH_DEFAULT_ONLY", "assertEquals(1, matches.size)",
+                         "assertEquals(owner.recipientUid, info.applicationInfo.uid)",
+                         "assertEquals(delayed, ComponentName(info.packageName, info.name))",
+                         "assertEquals(OwnedCameraReceiver.PERMISSION, info.permission)",
+                         "assertDelayedRecipient(currentReceiver)"):
+            self.assertIn(required, source)
+        self.assertNotIn("waitUntil { handlers() == setOf(delayed) }", source)
+        self.assertNotIn("private fun handlers()", source)
+
+    def test_real_native_restoration_and_exact_component_restore_before_binding_close_remain(self):
+        source, client = self.sources()
+        for required in ("currentReceiver.armDelayed(nonce)", "owner.restoreDelayed(nonce)",
+                         "reply.getInt(\"nativeHandlerCount\")", "Process.killProcess(pid)", "always_finish_activities",
+                         "UiAutomation.ROTATION_FREEZE_90", 'snapshot(prefName).integer("saves") > 0',
+                         'terminal.integer("creates") >= 2', 'assertEquals(1, terminal.integer("results"))',
+                         "tasksGone && externalTerminated", "primary.addSuppressed(failure)"):
+            self.assertIn(required, source)
+        self.assertLess(source.index("owner.restoreDelayed(nonce)"), source.index("receiver?.close()"))
+        self.assertIn("if (state == null)", client)
+        self.assertNotIn("startActivityForResult(", source)
+
+
 class CameraArchiveTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)

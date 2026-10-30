@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Android restoration recipient boundary repaired — 2026-10-30
+
+[Actual41102937453](evidence/android-camera-provider-20261030/restoration-ci003/README.md)
+at1f5f31bd fails4/4 native/one XML/Gradle1/174.03s before client launch:
+invalid global implicit-camera prerequisite; own-package lease/state/handler1 passed.
+[Android15-source-backed test-only repair](evidence/android-camera-provider-20261030/restoration-recipient001/README.md)
+selects fixed signature-protected recipient at genuine Activity launch, keeps real
+ComponentActivity registry/Android grants/results/restoration; no production change
+or system-camera disabling. Four source reds retained;49 important synthetic guards
+and held987/1064 reporterAPK0/35.01s pass; unchanged receiver compile reused.
+ZERO new native/#13 open/90closed82open. Four API35 cases next; all other gates stay.
+
 ## Camera tooling/native-state owning batch prepared — 2026-10-30
 
 Actual [41100261882](evidence/android-camera-provider-20261030/restoration-ci002/README.md)

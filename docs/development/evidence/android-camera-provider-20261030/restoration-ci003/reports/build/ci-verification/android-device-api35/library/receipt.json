@@ -1,0 +1,203 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+    ":calf-camera-picker:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-camera-picker"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 174.03,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-camera-picker"
+  ],
+  "explicit_test_focus": "android-camera-real-restoration",
+  "finished_at_utc": "2026-10-30T18:12:55.329011+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "1d1910a9884455a9fbc38abd95f45d41c1dc8fee34968f29daeafd04e8c92947",
+  "inputs_before_sha256": "1d1910a9884455a9fbc38abd95f45d41c1dc8fee34968f29daeafd04e8c92947",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 4,
+      "module": "calf-camera-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "disposition": "required-not-passed",
+          "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+          "required_on_host": true,
+          "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "disposition": "required-not-passed",
+          "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+          "required_on_host": true,
+          "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "disposition": "required-not-passed",
+          "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+          "required_on_host": true,
+          "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "disposition": "required-not-passed",
+          "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+          "required_on_host": true,
+          "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 4,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-1d880bc44ca5(AVD) - 15.xml",
+          "sha256": "d07a07167d10869ff22912061c85eefc9cff785b70d7477cd8d49036d924a2ad",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+          "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+          "status": "failed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+    }
+  ],
+  "runtime_receipt_sha256": "b5f6b33b897c4e202341622bb3c9e44ad55127ef6c185b1b51ba032abf571eea",
+  "schema_version": 1,
+  "scope": "Four new real public Compose/ActivityResultRegistry camera-restoration methods on owned API35: don't-keep-activities, real display rotation, actual same-UID kernel process death and restored cancellation, with native foreign-UID grants/closed descriptors/nonce-bound task/PID/temp/output/setting/component ownership. Bytes and external recipient are synthetic; no manually injected restored result/state/grant. Accepted provider/host/portable methods are not replayed; not hardware/vendor/physical/minimum-API/packaged/API-ABI/heap/security/release certification.",
+  "source_revision": "1f5f31bd9ef543bd9681d8e9d24a4337c6a070ce",
+  "source_revision_after": "1f5f31bd9ef543bd9681d8e9d24a4337c6a070ce",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T18:10:01.295878+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-camera-picker:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 4,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

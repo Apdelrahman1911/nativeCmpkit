@@ -7,7 +7,6 @@ import android.app.UiAutomation
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
@@ -74,13 +73,6 @@ class AndroidCameraRestorationTest {
         val originalDelayed = pm.getComponentEnabledSetting(delayed)
         assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, originalDelayed)
         assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
-        val initialHandlers = handlers()
-        val initialStates = initialHandlers.associate { component ->
-            val pkg = component.packageName
-            assertTrue(pkg in setOf("com.android.camera", "com.android.camera2", "com.google.android.GoogleCamera"))
-            assertTrue(pm.getApplicationInfo(pkg, 0).flags and ApplicationInfo.FLAG_SYSTEM != 0)
-            pkg to pm.getApplicationEnabledSetting(pkg).also { assertTrue(it in setOf(0, 1)) }
-        }
         var receiver: OwnedCameraReceiver? = null
         var sibling: File? = null
         var ownedOutput: File? = null
@@ -89,7 +81,6 @@ class AndroidCameraRestorationTest {
         var changedDelayed = false
         var changedFinish = false
         var changedRotation = false
-        val changedPackages = mutableListOf<String>()
         var primaryFailure: Throwable? = null
         try {
             val siblingFile = File.createTempFile("nativecmpkit-restoration-sibling-", ".txt", context.cacheDir)
@@ -98,18 +89,10 @@ class AndroidCameraRestorationTest {
             val currentReceiver = OwnedCameraReceiver()
             receiver = currentReceiver // Retain a partial binding before connect can fail.
             currentReceiver.connect(); currentReceiver.request("clear")
-            for (pkg in initialStates.keys) {
-                changedPackages += pkg // Restore even if a bounded command reply is uncertain.
-                assertEquals("Package $pkg new state: disabled-user", shell("pm disable-user --user 0 $pkg"))
-                assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER, pm.getApplicationEnabledSetting(pkg))
-            }
             changedDelayed = true
             assertDelayedControl(currentReceiver, currentReceiver.armDelayed(nonce), nonce, armed = true)
             assertEquals(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, pm.getComponentEnabledSetting(delayed))
-            waitUntil { handlers() == setOf(delayed) }
-            assertEquals(delayed, pm.resolveActivity(Intent(MediaStore.ACTION_IMAGE_CAPTURE), PackageManager.MATCH_DEFAULT_ONLY)?.let {
-                ComponentName(it.activityInfo.packageName, it.activityInfo.name)
-            })
+            assertDelayedRecipient(currentReceiver)
             if (dontKeep) {
                 changedFinish = true
                 assertEquals("", shell("settings put global always_finish_activities 1"))
@@ -138,6 +121,8 @@ class AndroidCameraRestorationTest {
             val firstPid = started.integer("pid")
             assertTrue(firstPid > 0); assertNotEquals(Process.myPid(), firstPid); assertNotEquals(held.getInt("activityPid"), firstPid)
             assertEquals(1, started.integer("launches")); assertEquals(0, started.integer("results")); assertTrue(started.integer("stops") > 0)
+            assertEquals(1, started.integer("externalLaunches")); assertEquals(currentReceiver.recipientUid, started.integer("selectionUid"))
+            assertTrue(started.integer("selectionRequestCode") > 0)
             assertEquals(delayed, assertNotNull(tasks(nonce).single().taskInfo).topActivity, "External native capture is really foreground")
             if (dontKeep) {
                 waitUntil { snapshot(prefName).integer("destroys") > 0 }
@@ -162,6 +147,8 @@ class AndroidCameraRestorationTest {
             waitUntil { snapshot(prefName).integer("results") == 1 }
             val terminal = snapshot(prefName)
             assertEquals(1, terminal.integer("launches")); assertEquals(1, terminal.integer("results"))
+            assertEquals(1, terminal.integer("externalLaunches")); assertEquals(currentReceiver.recipientUid, terminal.integer("selectionUid"))
+            assertEquals(started.integer("selectionRequestCode"), terminal.integer("selectionRequestCode"))
             assertTrue(terminal.integer("creates") >= 2, "Caller Activity really recreated, not an injected restored callback")
             if (kill) assertNotEquals(firstPid, terminal.integer("pid"))
             if (rotate) assertNotEquals(started.integer("orientation"), terminal.integer("orientation"))
@@ -202,6 +189,7 @@ class AndroidCameraRestorationTest {
                 assertDelayedControl(owner, owner.restoreDelayed(nonce), nonce, armed = false)
                 assertEquals(originalDelayed, pm.getComponentEnabledSetting(delayed))
                 assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
+                assertTrue(pm.queryIntentActivities(delayedIntent(), PackageManager.MATCH_DEFAULT_ONLY).isEmpty())
             }
             cleanup { receiver?.close() }
             cleanup {
@@ -228,13 +216,6 @@ class AndroidCameraRestorationTest {
                 cleanup { waitUntil { context.getSystemService(WindowManager::class.java).defaultDisplay.rotation == originalRotation } }
             }
             if (changedFinish) cleanup { restoreSetting("global", "always_finish_activities", originalFinish) }
-            for (pkg in changedPackages.asReversed()) cleanup {
-                val original = initialStates.getValue(pkg)
-                val command = if (original == 0) "default-state" else "enable"
-                assertEquals("Package $pkg new state: ${if (original == 0) "default" else "enabled"}", shell("pm $command --user 0 $pkg"))
-                assertEquals(original, pm.getApplicationEnabledSetting(pkg))
-            }
-            cleanup { waitUntil { handlers() == initialHandlers } }
             cleanupFailure?.let { throw it }
         }
     }
@@ -270,8 +251,21 @@ class AndroidCameraRestorationTest {
             info.taskId == id && info.baseIntent.component == client
         }
     }
-    private fun handlers() = pm.queryIntentActivities(Intent(MediaStore.ACTION_IMAGE_CAPTURE), PackageManager.MATCH_DEFAULT_ONLY)
-        .map { ComponentName(it.activityInfo.packageName, it.activityInfo.name) }.toSet()
+    private fun delayedIntent() = Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(OwnedCameraReceiver.PACKAGE)
+    private fun assertDelayedRecipient(owner: OwnedCameraReceiver) {
+        // A package-scoped query is the correct native recipient precondition.
+        // Unqualified implicit IMAGE_CAPTURE is system-only on Android15 absent DPC
+        // persistent preference; enabling our third-party component cannot change it.
+        val matches = pm.queryIntentActivities(delayedIntent(), PackageManager.MATCH_DEFAULT_ONLY)
+        assertEquals(1, matches.size)
+        val info = matches.single().activityInfo
+        assertEquals(delayed, ComponentName(info.packageName, info.name))
+        assertEquals(owner.recipientUid, info.applicationInfo.uid)
+        assertEquals(OwnedCameraReceiver.PERMISSION, info.permission); assertTrue(info.exported)
+        val resolved = assertNotNull(pm.resolveActivity(delayedIntent(), PackageManager.MATCH_DEFAULT_ONLY)).activityInfo
+        assertEquals(delayed, ComponentName(resolved.packageName, resolved.name))
+        assertEquals(owner.recipientUid, resolved.applicationInfo.uid)
+    }
     private fun outputs() = File(context.cacheDir, "nativecmpkit-camera").listFiles().orEmpty().map { it.name }.toSet()
     private fun outputFor(uri: Uri, before: Set<String>): File {
         assertEquals("content", uri.scheme); assertEquals("${context.packageName}.camera-files", uri.authority)
@@ -306,7 +300,7 @@ class AndroidCameraRestorationTest {
         }
         val text = bytes.decodeToString(throwOnInvalidSequence = true)
         check(!text.contains("<!DOCTYPE", ignoreCase = true) && !text.contains("<!ENTITY", ignoreCase = true))
-        val allowed = setOf("nonce", "pid", "uid", "task", "creates", "orientation", "results", "kind", "uri", "launches", "saves", "stops", "destroys", "configurationDestroyed", "nonFinishingDestroyed")
+        val allowed = setOf("nonce", "pid", "uid", "task", "creates", "orientation", "results", "kind", "uri", "launches", "saves", "stops", "destroys", "configurationDestroyed", "nonFinishingDestroyed", "externalLaunches", "selectionUid", "selectionRequestCode")
         val result = mutableMapOf<String, Any>()
         ByteArrayInputStream(bytes).use { input ->
             val xml = Xml.newPullParser().apply { setInput(input, "UTF-8") }

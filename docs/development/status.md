@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `73af0e9c3f9b12b7b11c67f5cdfca25beb290748b428fcee0a96274096221a87`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9f44d6442e32b720257fa71e79a4f6660f42911398f4424942b795eb74a8382c`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 9 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 10 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -522,8 +522,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-10-30: Actual first restoration request failed4/4 before client launch; unknown component CLI reply cause. Execute all four still-unverified methods after finite owning component/process repair on immutable API35 source, and review every original criterion before closure. Compilation/synthetic controls are zero native passes.
 - 2026-10-30 recovery002: Tooling-only wording guard failure/zero native; owning protocol/state-source repair now compiled. Request four still-unverified API35 cases only, verify actual native handler/lease/readback/process/grant/result/file/cleanup assertions and all original criteria before closure.
 - 2026-10-30 recipient-selection repair: Four original restoration scenarios still require new immutable API35 execution and complete native result/PID/task/grant/descriptor/output/state/cleanup review; no closure from synthetic/compile evidence.
+- 2026-10-30 foreground contract: Four actual41107030315 failures retain unknown conjunction values/cause. Execute four still-unverified API35 scenarios on immutable foreground-gated source and review genuine resume/draw/save, native process/task/recipient/readable exactly-once result/restored cancellation/ownership cleanup and all original criteria before closure. Observe new library-cache restore/fences/save separately; failures never become passes.
 
-**Owner verification scope:** Latest immutable restoration41102937453 fails all four native methods at an invalid unqualified-handler prerequisite before client launch. Android15 source confirms implicit-camera system restriction; actual timed-out handler set unknown. Correct test-only explicit fixed-recipient launch preserves genuine ComponentActivity registry/Android URI grants/results/saveable state. All49 important camera tooling guards/reporterAPK0/35.01s pass,987/1064 held inputs; receiver unchanged compile reused. ZERO new native executions; #13/all three original criteria and independent release/security gates remain.
+**Owner verification scope:** Latest immutable restoration41107030315 fails all four native API35 methods after recipient prechecks at initial received/save conjunction; neither value or cause was logged. Source-confirmed old fixture foreground omission repaired without claiming it explains the failure: native fixed-own-client shell entry/exact status/component readback, actual resume/focus/first draw, real public launcher/ComponentActivity registry/Android grants/save/results retained. All55 important synthetic methods and reporterAPK0/38.01s pass with989/1066 held inputs; unchanged receiver compile0/14.0s reused. ZERO new native; #13/all three original criteria/native/API-ABI/consumer/heap/dependency/legal/security/release gates remain.
 
 **Compatibility / scope:** Legacy success callback retained; new pending state fixes activity restoration without changing returned KmpFile type.
 
@@ -3576,7 +3577,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `cbdfa0c4efb3d0b20679de0f619f1e153759359a335a04223627284ef71afce2` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `29769f0a08c1a5d1c26bd57eafc1ae6aead53a069ac187b6e78b5f3950a505d7` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `dc04c2a850fb1d69a84651f5be7966d60637a652b5288b02c039c6f8f679ee00` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `26e039362f27f7f55e2104ce0f0dd4ba01762fc74632b648337d15b1fad066ff` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

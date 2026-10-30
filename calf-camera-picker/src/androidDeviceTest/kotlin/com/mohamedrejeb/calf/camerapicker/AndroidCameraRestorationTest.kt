@@ -98,15 +98,29 @@ class AndroidCameraRestorationTest {
                 assertEquals("", shell("settings put global always_finish_activities 1"))
                 assertEquals("1", setting("global", "always_finish_activities", setOf("1")))
             }
-            context.startActivity(Intent().setComponent(client).putExtra("nativecmpkit.nonce", nonce)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK))
-            waitUntil {
+            // The reporter survives in a background process. Start only this fixed
+            // nonce-bound owned Activity through Android's native shell entry; no
+            // external camera, URI grant or registry state/result is injected.
+            val entry = shell("am start -W --user 0 -n ${client.flattenToString()} --es nativecmpkit.nonce $nonce -f 0x18000000")
+            assertEquals(listOf("Status: ok"), entry.lines().filter { it.startsWith("Status:") })
+            assertEquals(listOf("Activity: ${client.flattenToString()}"), entry.lines().filter { it.startsWith("Activity:") })
+            var observed = "no native receipt/caller snapshot observed"
+            waitUntil(failureDetails = { "Owned camera receipt/caller-save condition did not complete: $observed" }) {
                 val report = currentReceiver.request("snapshot")
+                val caller = snapshot(prefName)
+                val kind = caller["kind"]?.let { assertIs<String>(it) } ?: "none"
+                check(kind in setOf("none", "captured", "cancelled", "busy", "unavailable", "failed-configuration", "failed-permission", "failed-io", "failed-launch"))
+                observed = "creates=${caller.integer("creates")},pidObserved=${caller.integer("pid") > 0}," +
+                    "launches=${caller.integer("launches")},resumes=${caller.integer("resumes")},draws=${caller.integer("draws")}," +
+                    "saves=${caller.integer("saves")},stops=${caller.integer("stops")},externalLaunches=${caller.integer("externalLaunches")}," +
+                    "receivedField=${report.containsKey("received")},received=${report.getBoolean("received")}," +
+                    "holding=${report.getBoolean("holdingActivity")},kind=$kind"
+                check(caller.integer("results") == 0) { "Unexpected early owned camera terminal result: $kind" }
                 if (report.getBoolean("received")) {
                     assertEquals(context.packageName, report.getString("caller"))
                     ownedOutput = outputFor(Uri.parse(assertNotNull(report.getString("uri"))), before)
                 }
-                report.getBoolean("received") && snapshot(prefName).integer("saves") > 0
+                report.getBoolean("received") && caller.integer("saves") > 0
             }
             val held = currentReceiver.request("snapshot")
             assertEquals(MediaStore.ACTION_IMAGE_CAPTURE, held.getString("action")); assertEquals(context.packageName, held.getString("caller"))
@@ -123,6 +137,8 @@ class AndroidCameraRestorationTest {
             assertEquals(1, started.integer("launches")); assertEquals(0, started.integer("results")); assertTrue(started.integer("stops") > 0)
             assertEquals(1, started.integer("externalLaunches")); assertEquals(currentReceiver.recipientUid, started.integer("selectionUid"))
             assertTrue(started.integer("selectionRequestCode") > 0)
+            assertEquals(true, started["foregroundLaunch"])
+            assertTrue(started.integer("resumes") > 0 && started.integer("draws") > 0)
             assertEquals(delayed, assertNotNull(tasks(nonce).single().taskInfo).topActivity, "External native capture is really foreground")
             if (dontKeep) {
                 waitUntil { snapshot(prefName).integer("destroys") > 0 }
@@ -300,7 +316,7 @@ class AndroidCameraRestorationTest {
         }
         val text = bytes.decodeToString(throwOnInvalidSequence = true)
         check(!text.contains("<!DOCTYPE", ignoreCase = true) && !text.contains("<!ENTITY", ignoreCase = true))
-        val allowed = setOf("nonce", "pid", "uid", "task", "creates", "orientation", "results", "kind", "uri", "launches", "saves", "stops", "destroys", "configurationDestroyed", "nonFinishingDestroyed", "externalLaunches", "selectionUid", "selectionRequestCode")
+        val allowed = setOf("nonce", "pid", "uid", "task", "creates", "orientation", "results", "kind", "uri", "launches", "saves", "stops", "destroys", "configurationDestroyed", "nonFinishingDestroyed", "externalLaunches", "selectionUid", "selectionRequestCode", "foregroundLaunch", "resumes", "draws", "windowFocused")
         val result = mutableMapOf<String, Any>()
         ByteArrayInputStream(bytes).use { input ->
             val xml = Xml.newPullParser().apply { setInput(input, "UTF-8") }
@@ -382,8 +398,8 @@ class AndroidCameraRestorationTest {
             result.toByteArray().decodeToString(throwOnInvalidSequence = true).trim()
         }
     }
-    private fun waitUntil(condition: () -> Boolean) {
+    private fun waitUntil(failureDetails: () -> String = { "Owned native camera condition did not complete" }, condition: () -> Boolean) {
         val start = System.nanoTime()
-        while (!condition()) { check(System.nanoTime() - start < 30_000_000_000L) { "Owned native camera condition did not complete" }; Thread.sleep(30) }
+        while (!condition()) { check(System.nanoTime() - start < 30_000_000_000L) { failureDetails() }; Thread.sleep(30) }
     }
 }

@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Restoration foreground contract prepared — 2026-10-30
+
+Actual [41107030315](docs/development/evidence/android-camera-provider-20261030/restoration-ci004/README.md)
+at9f249b7e fails4/4 API35/one XML/Gradle1/161.04s at initial received/save conjunction;
+individual values and cause unknown. Recipient prechecks/owned cleanup pass.
+[Test-only foreground repair](docs/development/evidence/android-camera-provider-20261030/restoration-foreground001/README.md)
+uses fixed own native shell entry/exact readback and actual resume/focus/first draw;
+genuine public launcher/registry/save/Android grants/all original criteria retained.
+Six reds/55 important synthetic passes/Actionlint and reporterAPK0/38.01s,989/1066
+held inputs; receiver0/14.0s reused. ZERO new native/#13 open/90closed82open.
+Next four API35 cases only, also observe failure-safe cache; no other gate changes.
+
 ## Android restoration recipient boundary repaired — 2026-10-30
 
 [Actual41102937453](docs/development/evidence/android-camera-provider-20261030/restoration-ci003/README.md)

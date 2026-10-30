@@ -1,5 +1,17 @@
 # Android camera restoration verification — 2026-10-30
 
+## Genuine foreground contract prepared after actual receipt/save timeout
+
+[41107030315](evidence/android-camera-provider-20261030/restoration-ci004/README.md)
+fails4/4 native API35 methods/one XML after recipient prechecks at the initial
+receipt/save conjunction; individual values and underlying cause are unknown.
+[Test-only repair](evidence/android-camera-provider-20261030/restoration-foreground001/README.md)
+requires fixed own native shell entry/readback and actual resume/focus/first draw,
+keeping genuine registry/state/grants and every original native criterion. Six
+source reds/55 important synthetic passes/Actionlint/reporterAPK0/38.01s pass with
+989/1066 held inputs; unchanged receiver compile reused, ZERO new native. #13
+stays open. Next immutable four-case run also observes failure-safe cache fences.
+
 ## Correct selection boundary prepared after actual prerequisite failure
 
 [41102937453](evidence/android-camera-provider-20261030/restoration-ci003/README.md)

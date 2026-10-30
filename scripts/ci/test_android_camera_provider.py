@@ -557,13 +557,75 @@ class CameraRestorationRecipientSelectionTests(unittest.TestCase):
         source, client = self.sources()
         for required in ("currentReceiver.armDelayed(nonce)", "owner.restoreDelayed(nonce)",
                          "reply.getInt(\"nativeHandlerCount\")", "Process.killProcess(pid)", "always_finish_activities",
-                         "UiAutomation.ROTATION_FREEZE_90", 'snapshot(prefName).integer("saves") > 0',
+                         "UiAutomation.ROTATION_FREEZE_90", 'caller.integer("saves") > 0',
                          'terminal.integer("creates") >= 2', 'assertEquals(1, terminal.integer("results"))',
                          "tasksGone && externalTerminated", "primary.addSuppressed(failure)"):
             self.assertIn(required, source)
         self.assertLess(source.index("owner.restoreDelayed(nonce)"), source.index("receiver?.close()"))
-        self.assertIn("if (state == null)", client)
+        self.assertIn("restored = state != null", client)
+        self.assertIn("restored || launched", client)
         self.assertNotIn("startActivityForResult(", source)
+
+
+class CameraRestorationForegroundTests(unittest.TestCase):
+    """Synthetic genuine-foreground and bounded-diagnostic guards, not OS passes."""
+    def sources(self):
+        return ((l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text(),
+                (l.ROOT / l.ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text())
+
+    def test_initial_nonforeground_reporter_uses_only_fixed_owned_native_activity_entry(self):
+        source, _ = self.sources()
+        self.assertIn('shell("am start -W --user 0 -n ${client.flattenToString()}', source)
+        self.assertIn('--es nativecmpkit.nonce $nonce -f 0x18000000', source)
+        self.assertIn('assertEquals(listOf("Status: ok")', source)
+        self.assertIn('assertEquals(listOf("Activity: ${client.flattenToString()}")', source)
+        self.assertNotIn("context.startActivity(", source)
+        self.assertNotIn("force-stop", source)
+
+    def test_public_capture_waits_for_actual_native_resume_focus_and_draw_not_initial_effect(self):
+        _, client = self.sources()
+        for required in ("override fun onPostResume()", "override fun onWindowFocusChanged(hasFocus: Boolean)",
+                         "ViewTreeObserver.OnDrawListener", "lifecycle.currentState != Lifecycle.State.RESUMED",
+                         "!hasWindowFocus()", "!firstDraw", "DisposableEffect(launcher)", "launchWhenForeground()"):
+            self.assertIn(required, client)
+        self.assertNotIn("LaunchedEffect(Unit)", client)
+        self.assertIn("current.launch()", client)
+
+    def test_recreated_pending_caller_never_relaunches_and_first_launch_is_recorded_before_dispatch(self):
+        _, client = self.sources()
+        self.assertIn("restored = state != null", client)
+        self.assertIn("restored || launched", client)
+        self.assertIn("launched = true", client)
+        self.assertIn('putBoolean("foregroundLaunch", true)', client)
+        self.assertLess(client.index("launched = true"), client.index("current.launch()"))
+        self.assertLess(client.index('putBoolean("foregroundLaunch", true)'), client.index("current.launch()"))
+
+    def test_owned_draw_observer_and_composition_launcher_are_released_without_registry_adapter(self):
+        _, client = self.sources()
+        self.assertIn("removeOnDrawListener", client)
+        self.assertIn("drawObserver?.takeIf { it.isAlive }", client)
+        self.assertIn("if (activeLauncher === launcher) activeLauncher = null", client)
+        for forbidden in ("LocalActivityResultRegistryOwner", "object : ActivityResultRegistry", "dispatchResult(", "grantUriPermission("):
+            self.assertNotIn(forbidden, client)
+
+    def test_receipt_and_saved_state_timeout_exposes_only_fixed_numeric_or_classified_outcomes(self):
+        source, _ = self.sources()
+        self.assertIn("waitUntil(failureDetails =", source)
+        for required in ('caller.integer("creates")', 'caller.integer("launches")', 'caller.integer("saves")',
+                         'caller.integer("resumes")', 'caller.integer("draws")', 'caller.integer("externalLaunches")',
+                         'report.containsKey("received")', 'kind in setOf(', 'caller.integer("results") == 0'):
+            self.assertIn(required, source)
+        self.assertIn('check(System.nanoTime() - start < 30_000_000_000L)', source)
+        self.assertNotIn("logcat -d", source)
+
+    def test_actual_foreground_and_save_assertions_remain_in_all_four_real_os_scenarios(self):
+        source, _ = self.sources()
+        self.assertIn('assertEquals(true, started["foregroundLaunch"])', source)
+        self.assertIn('assertTrue(started.integer("resumes") > 0 && started.integer("draws") > 0)', source)
+        self.assertIn('report.getBoolean("received") && caller.integer("saves") > 0', source)
+        self.assertIn('terminal.integer("creates") >= 2', source)
+        self.assertIn("Process.killProcess(pid)", source)
+        self.assertIn("tasksGone && externalTerminated", source)
 
 
 class CameraArchiveTests(unittest.TestCase):

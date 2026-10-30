@@ -9,9 +9,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Process
 import android.provider.MediaStore
+import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.Lifecycle
 import java.io.File
 import java.util.Locale
 
@@ -25,6 +27,26 @@ import java.util.Locale
 class CameraRestorationVerificationActivity : ComponentActivity() {
     private lateinit var nonce: String
     private val preferences get() = getSharedPreferences("nativecmpkit-camera-restoration-$nonce", 0)
+    private var restored = false
+    private var launched = false
+    private var firstDraw = false
+    private var activeLauncher: CameraPickerLauncher? = null
+    private var drawObserver: ViewTreeObserver? = null
+    private lateinit var drawListener: ViewTreeObserver.OnDrawListener
+
+    private fun launchWhenForeground() {
+        val current = activeLauncher ?: return
+        if (restored || launched || !firstDraw || !hasWindowFocus() || lifecycle.currentState != Lifecycle.State.RESUMED) return
+        // A background reporter and an initial Compose effect do not establish a
+        // foreground/saved caller. Use actual native resume/focus/first draw, then
+        // the genuine public launcher on the main thread. A restored owner waits
+        // for its real registry result and must never create a second request.
+        check(preferences.getInt("launches", 0) == 0)
+        launched = true
+        preferences.edit().putInt("launches", 1).putBoolean("foregroundLaunch", true)
+            .commit().also { check(it) }
+        current.launch()
+    }
 
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         // Validate the genuine TakePicture contract before selecting the one owned
@@ -58,12 +80,28 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
+        restored = state != null
         nonce = checkNotNull(intent.getStringExtra("nativecmpkit.nonce"))
         check(nonce.matches(Regex("[a-f0-9]{32}")))
         preferences.edit().putString("nonce", nonce).putInt("pid", Process.myPid())
             .putInt("uid", Process.myUid()).putInt("task", taskId)
             .putInt("creates", preferences.getInt("creates", 0) + 1)
             .putInt("orientation", resources.configuration.orientation).commit().also { check(it) }
+        if (!restored) {
+            val decor = window.decorView
+            val observer = decor.viewTreeObserver
+            drawListener = ViewTreeObserver.OnDrawListener {
+                if (!firstDraw) {
+                    firstDraw = true
+                    preferences.edit().putInt("draws", preferences.getInt("draws", 0) + 1)
+                        .commit().also { check(it) }
+                    // Never launch/reenter Activity during the native draw callback.
+                    check(decor.post { launchWhenForeground() })
+                }
+            }
+            drawObserver = observer
+            observer.addOnDrawListener(drawListener)
+        }
         setContent {
             val launcher = rememberCameraPickerResultLauncher(
                 CameraPickerOptions(androidFileProviderAuthority = "$packageName.camera-files"),
@@ -83,12 +121,10 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
                 // result file caller-owned; the reporter reads/closes it independently.
                 finishAndRemoveTask()
             }
-            LaunchedEffect(Unit) {
-                if (state == null) {
-                    preferences.edit().putInt("launches", preferences.getInt("launches", 0) + 1)
-                        .commit().also { check(it) }
-                    launcher.launch()
-                }
+            DisposableEffect(launcher) {
+                activeLauncher = launcher
+                launchWhenForeground()
+                onDispose { if (activeLauncher === launcher) activeLauncher = null }
             }
         }
     }
@@ -98,12 +134,28 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         preferences.edit().putInt("saves", preferences.getInt("saves", 0) + 1).commit().also { check(it) }
     }
 
+    override fun onPostResume() {
+        super.onPostResume()
+        preferences.edit().putInt("resumes", preferences.getInt("resumes", 0) + 1).commit().also { check(it) }
+        launchWhenForeground()
+    }
+
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (::nonce.isInitialized) {
+            preferences.edit().putBoolean("windowFocused", hasFocus).commit().also { check(it) }
+            launchWhenForeground()
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         preferences.edit().putInt("stops", preferences.getInt("stops", 0) + 1).commit().also { check(it) }
     }
 
     override fun onDestroy() {
+        drawObserver?.takeIf { it.isAlive }?.removeOnDrawListener(drawListener)
+        drawObserver = null
         preferences.edit().putInt("destroys", preferences.getInt("destroys", 0) + 1)
             .putBoolean("configurationDestroyed", isChangingConfigurations)
             .putBoolean("nonFinishingDestroyed", !isFinishing).commit().also { check(it) }

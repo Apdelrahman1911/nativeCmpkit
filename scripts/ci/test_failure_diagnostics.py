@@ -208,9 +208,21 @@ class FailureDiagnosticsTests(unittest.TestCase):
             result = d.capture(root, "build/ci-verification/slot")
             self.assertFalse(result["test_success_inferred"])
             self.assertFalse(result["full_logs_uploaded"])
-            # Four required device modules, with public UTP and declared XML
-            # trees each. Inventories are still never inferred as test passes.
-            self.assertEqual(8, len(result["android_result_file_inventories"]))
+            # All five required device modules, including navigation, with
+            # public UTP and declared XML trees each. Assert the exact paths;
+            # inventories are still never inferred as test passes.
+            expected_modules = (
+                "calf-io", "calf-file-picker", "calf-webview", "calf-ui",
+                "calf-navigation",
+            )
+            self.assertEqual([
+                relative
+                for module in expected_modules
+                for relative in (
+                    f"{module}/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+                    f"{module}/build/outputs/androidTest-results/connected/androidMain",
+                )
+            ], [row["directory"] for row in result["android_result_file_inventories"]])
             with self.assertRaises(ValueError): d.capture(root, "build/ci-verification")
             with self.assertRaises(ValueError): d.capture(root, "../../outside")
             (output / "gradle.log").unlink()

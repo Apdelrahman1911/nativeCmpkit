@@ -35,7 +35,10 @@ def archive_focused_reports(root: Path, output: Path, receipt: dict, plan: dict)
     row, = module["reports"]
     path = lt.safe_path(root, row["path"])
     expected = lt.safe_path(root, plan["expected"][0]["report_directory"])
-    if not path.is_relative_to(expected) or not re.fullmatch(r"TEST-[A-Za-z0-9_.-]+\.xml", path.name):
+    # AGP's real AVD XML name contains '(AVD) - 15', not just Java identifiers.
+    # This is data, never a command: confinement, no symlinks, bounded immutable
+    # bytes, matching hashes, cases and the fresh task marker remain mandatory.
+    if not path.is_relative_to(expected) or not re.fullmatch(r"TEST-[A-Za-z0-9_.() -]{1,240}\.xml", path.name):
         raise ValueError("Wrong camera report location")
     before = path.stat()
     if not path.is_file() or before.st_nlink != 1 or not 0 < before.st_size < 8 * 1024**2:

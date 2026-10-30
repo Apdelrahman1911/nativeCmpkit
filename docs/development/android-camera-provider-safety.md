@@ -4,6 +4,25 @@ Related original findings: [#78/NATIVE-022](https://github.com/Apdelrahman1911/n
 [#13/NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) and
 NATIVE-024. **No closure or native pass is inferred from this preparation.**
 
+## Actual request and owning recovery
+
+[41069819642](evidence/android-camera-provider-20261030/native-ci001/README.md)
+at `d95a0502` **failed**: API35 3 fresh native methods/2pass/1failed, Gradle1/40.02s;
+API23 preflightValueError/zero executions/cause unknown. Actual AVD report names
+were also rejected by the new archiver. Original failed XML and owned cleanup
+are preserved; these failures are not silently superseded.
+
+[Recovery](evidence/android-camera-provider-20261030/recovery001/README.md)
+separates legacy/wrong-root provider components, inspects the receiver write error
+before capture assertions, repairs the data-only report-name guard, records
+camera-only preflight stages and observes already-owned transport disappearance.
+A fourth case exercises the actual implicit intent with zero available handlers
+and exact restoration of fixed system-camera enabled states. No uninstallation
+or physical/vendor-camera claim. The updated APK compiles0/36.01s/984+1061 held
+inputs, **zero native executions**;209 distinct important synthetic methods and
+Actionlint pass. Final changed manifests/prerequisites require both APIs freshly;
+the old two native passes cannot certify these changed inputs. #78 stays open.
+
 ## Owning repair and actual regressions
 
 `CameraPickerLauncher.android.kt` created its output in private

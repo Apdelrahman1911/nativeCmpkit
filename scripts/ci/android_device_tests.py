@@ -92,6 +92,24 @@ def avd_name(home: Path) -> str:
     return lines[0]
 
 
+def wait_for_owned_transport_removal(home: Path, timeout: int = 30) -> bool:
+    """Observe disappearance after this controller's verified graceful shutdown.
+
+    No adb restart, device removal, foreign-device selection or mutating fallback.
+    The owned serial may briefly remain in adb's table after its process exits.
+    """
+    started = time.monotonic()
+    while time.monotonic() - started < timeout:
+        rows = adb(home, "devices").splitlines()
+        if rows == ["List of devices attached"]:
+            return True
+        if (len(rows) != 2 or rows[0] != "List of devices attached" or
+                rows[1] not in {SERIAL + "\toffline", SERIAL + "\tdevice"}):
+            raise ValueError("Unexpected device table after the owned emulator exited")
+        time.sleep(0.2)
+    return False
+
+
 def wait_for_owned_boot(home: Path, process: subprocess.Popen, name: str, root: Path,
                         timeout: int = 360, *, api_level: int = API) -> dict:
     started = time.monotonic()
@@ -152,16 +170,38 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if not home_value:
         raise ValueError("Use the explicitly configured official Android SDK")
     home = Path(home_value)
-    assets = sdk_assets(home, **({"api_level": api_level} if api_level != API else {}))
-    ensure_ports_unused()
-    # Never print personal serials or select an existing device as a fallback.
-    if adb(home, "devices").splitlines() != ["List of devices attached"]:
-        raise ValueError("Existing device table is nonempty; refuse unrelated/personal devices")
-    context = runtime.capture(expected_arch="x64", android_package="android-37.0", require_clean=True)
+    # Reject an invalid authored source selection before even diagnostic output.
+    # Other profiles retain their original no-output-on-preflight-refusal contract.
     focus_options = {"focus": focus} if focus is not None else {}
     plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
-    before = lt.snapshot_inputs(root)
-    output.mkdir(parents=True)
+    diagnostics = focus == lt.ANDROID_CAMERA_PROVIDER_FOCUS
+    if diagnostics:
+        output.mkdir(parents=True)
+    preflight = {"api_level": api_level, "status": "running", "stage": "sdk-assets",
+                 "raw_device_tables_paths_or_exception_bodies_uploaded": False,
+                 "native_success_inferred": False}
+    def checkpoint(**values):
+        preflight.update(**values)
+        if diagnostics:
+            lt.write_json(output / "preflight.json", preflight)
+    try:
+        checkpoint()
+        assets = sdk_assets(home, **({"api_level": api_level} if api_level != API else {}))
+        checkpoint(stage="unoccupied-owned-ports")
+        ensure_ports_unused()
+        checkpoint(stage="empty-device-table")
+        # Never print personal serials or select an existing device as a fallback.
+        if adb(home, "devices").splitlines() != ["List of devices attached"]:
+            raise ValueError("Existing device table is nonempty; refuse unrelated/personal devices")
+        checkpoint(stage="clean-runtime")
+        context = runtime.capture(expected_arch="x64", android_package="android-37.0", require_clean=True)
+        before = lt.snapshot_inputs(root)
+        checkpoint(stage="complete", status="passed")
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        checkpoint(status="failed", exception_class=type(error).__name__)
+        raise
+    if not diagnostics:
+        output.mkdir(parents=True)
     lt.write_json(output / "inputs-before.json", before)
     lt.write_json(output / "runtime-host.json", context)
     lt.write_json(output / "sdk-assets.json", assets)
@@ -277,6 +317,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             finally:
                 if process is not None:
                     result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
+                    if (camera_receiver is not None and verified and
+                            result["emulator_shutdown"].get("clean_shutdown") is True):
+                        removed = wait_for_owned_transport_removal(home)
+                        result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
+                        result["emulator_shutdown"]["clean_shutdown"] = removed
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
             result["emulator_shutdown"] = {"clean_shutdown": False, "controller_cleanup_error": True}
         finally:

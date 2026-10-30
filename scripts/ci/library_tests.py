@@ -807,6 +807,7 @@ ANDROID_CAMERA_PROVIDER_METHODS = (
     "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
     "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
     "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+    "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
 )
 
 
@@ -1440,7 +1441,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ANDROID_CAMERA_PROVIDER_CLASS
         selected[0]["required_testcases"] = android_camera_provider_identities()
-        result["scope"] = "Three actual public Compose camera-provider methods with an installed signature-protected separate native UID and Android-created grants/Activity results. Controlled external recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution."
+        result["scope"] = "Four actual public Compose camera-provider methods: installed signature-protected separate native UID/system-created grants, and an actual implicit capture intent with no available native handler and exact owned-AVD system-camera state restoration. Controlled recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution."
     elif focus == ANDROID_SHARE_GRANT_FOCUS:
         source = safe_path(root, ANDROID_SHARE_GRANT_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)

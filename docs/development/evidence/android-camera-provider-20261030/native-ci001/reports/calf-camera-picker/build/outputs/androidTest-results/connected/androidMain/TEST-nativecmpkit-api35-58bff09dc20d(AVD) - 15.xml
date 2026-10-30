@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuites tests="3" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-30T14:21:20" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest" tests="3" failures="1" errors="0" skipped="0" time="4.759" timestamp="2026-10-30T14:21:20" hostname="localhost">
+    <testcase name="nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest" time="1.995" />
+    <testcase name="nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest" time="1.379" />
+    <testcase name="nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest" time="1.385">
+      <failure>java.lang.AssertionError: Expected value to be of type &lt;com.mohamedrejeb.calf.camerapicker.CameraPickerResult$Captured (Kotlin reflection is not available)&gt;, actual &lt;class com.mohamedrejeb.calf.camerapicker.CameraPickerResult$Cancelled (Kotlin reflection is not available)&gt;.
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.Asserter$-CC.$default$assertTrue(Assertions.kt:1545)
+	at kotlin.test.junit.JUnitAsserter.assertTrue(JUnitSupport.kt:30)
+	at kotlin.test.AssertionsKt__AssertionsKt.assertIsOfType(Assertions.kt:242)
+	at kotlin.test.AssertionsKt.assertIsOfType(Unknown Source:1)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest.nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess$lambda$0(AndroidCameraProviderTest.kt:93)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest$$ExternalSyntheticLambda6.invoke(D8$$SyntheticClass:0)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest.owned(AndroidCameraProviderTest.kt:159)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest.nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess(AndroidCameraProviderTest.kt:87)
+</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

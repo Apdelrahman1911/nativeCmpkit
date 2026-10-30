@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual camera failures / finite owning recovery — 2026-10-30
+
+[41069819642](docs/development/evidence/android-camera-provider-20261030/native-ci001/README.md)
+atd95a0502 FAILED: API35 3 native methods/2pass/1failed, Gradle1/40.02s;
+API23 preflightValueError/ZERO executions/cause unknown. Original XML/inputs/
+installed receiver identity/native UID assertions in passed methods/owned clean
+shutdown independently reviewed. AVD filename guard also failed; no original
+successful-write/descriptor or issue closure inferred.
+[Owning recovery](docs/development/evidence/android-camera-provider-20261030/recovery001/README.md)
+separates provider components, exposes the finite actual write error, fixes only
+bounded data filenames, preserves camera-only failed stages and observes the
+already-owned shutdown transport. Fourth native case uses actual implicit intent,
+zero available camera handlers and exact fixed-system-package state restoration;
+not package uninstall/physical/vendor UX. Reporter APK0/36.01s/984+1061 held inputs,
+ZERO native executions;209 distinct important synthetic outcomes/Actionlint pass,
+with initial reds/two refusal failures/missing Actionlint PATH retained. Only
+controller-output repair follows compile; final manifests/prerequisites changed,
+so both APIs need fresh four-case verification rather than substituting old two
+passes. Host22/unchanged receiver/unrelated runtime work not replayed. #78/#13/
+#80/#141 remain open;89closed/83open. Solo/max2heavy/8GiB/publishing/Pages/main/
+history/readiness/security gates unchanged.
+
 ## Android camera provider safety prepared — 2026-10-30
 
 [Related camera/provider batch](docs/development/android-camera-provider-safety.md)

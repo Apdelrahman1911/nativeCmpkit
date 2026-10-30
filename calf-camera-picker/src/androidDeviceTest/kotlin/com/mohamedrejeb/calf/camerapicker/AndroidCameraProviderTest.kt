@@ -5,9 +5,12 @@ package com.mohamedrejeb.calf.camerapicker
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
+import android.os.Process
 import android.provider.MediaStore
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivityResultRegistryOwner
@@ -37,6 +40,7 @@ class CameraProviderVerificationActivity : ComponentActivity() {
     @Volatile var outputUri: Uri? = null
     @Volatile var packet: String? = null
     var missingHandler = false
+    var implicitCamera = false
     var cancel = false
     var externalLaunches = 0
     private val platformBridge = object : ActivityResultRegistry() {
@@ -45,7 +49,7 @@ class CameraProviderVerificationActivity : ComponentActivity() {
             assertEquals(MediaStore.ACTION_IMAGE_CAPTURE, intent.action)
             outputUri = assertNotNull(intent.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT))
             packet = UUID.randomUUID().toString().replace("-", "")
-            intent.component = ComponentName(OwnedCameraReceiver.PACKAGE,
+            if (!implicitCamera) intent.component = ComponentName(OwnedCameraReceiver.PACKAGE,
                 "${OwnedCameraReceiver.PACKAGE}.${if (missingHandler) "NonexistentCameraActivity" else "CameraReceiverActivity"}")
             intent.putExtra("nativecmpkit.packet", packet); intent.putExtra("nativecmpkit.cancel", cancel)
             externalLaunches++
@@ -90,17 +94,17 @@ class AndroidCameraNativeProviderTest {
             val previous = activity.results.size
             onMain { assertNotNull(activity.launcher).launch() }
             waitUntil { activity.results.size == previous + 1 }
-            val captured = assertIs<CameraPickerResult.Captured>(activity.results.last())
             val uri = assertNotNull(activity.outputUri)
             assertEquals("content", uri.scheme)
             assertEquals(authority ?: "${context.packageName}.provider", uri.authority)
-            assertEquals(uri, captured.file.uri)
             val report = receiver.received(assertNotNull(activity.packet))
             assertEquals(uri.toString(), report.getString("uri")); assertEquals(MediaStore.ACTION_IMAGE_CAPTURE, report.getString("action"))
             assertTrue(report.getBoolean("readGranted")); assertTrue(report.getBoolean("writeGranted")); assertTrue(report.getBoolean("clipMatches"))
             assertEquals(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION,
                 report.getInt("flags") and (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
             assertNull(report.getString("writeError")); assertEquals(1, report.getInt("opens")); assertEquals(1, report.getInt("closes"))
+            val captured = assertIs<CameraPickerResult.Captured>(activity.results.last())
+            assertEquals(uri, captured.file.uri)
             assertContentEquals(bytes, context.contentResolver.openInputStream(captured.file.uri)!!.use { it.readBytes() })
             instrumentation.waitForIdleSync()
             assertEquals(previous + 1, activity.results.size)
@@ -141,6 +145,65 @@ class AndroidCameraNativeProviderTest {
             assertFailsWith<java.io.FileNotFoundException> { context.contentResolver.openInputStream(assertNotNull(activity.outputUri))!!.use { it.read() } }
             assertEquals(count + 1, activity.results.size)
         } finally { assertTrue(sibling.delete()) }
+    }
+
+    @Test fun nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput() = owned { activity, receiver ->
+        // Only a fresh, controller-owned API23/35 AVD can execute this finite
+        // system-camera prerequisite test. Never touch a physical/user device.
+        assertEquals(0, Process.myUid() / 100_000)
+        val pm = context.packageManager
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        fun handlers() = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            .map { it.activityInfo.packageName }.toSet()
+        val initial = handlers()
+        val states = initial.associateWith { packageName ->
+            assertTrue(packageName in setOf("com.android.camera", "com.android.camera2", "com.google.android.GoogleCamera"),
+                "Unknown native camera package; refuse system-app control")
+            assertTrue(pm.getApplicationInfo(packageName, 0).flags and ApplicationInfo.FLAG_SYSTEM != 0)
+            pm.getApplicationEnabledSetting(packageName).also {
+                assertTrue(it == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT || it == PackageManager.COMPONENT_ENABLED_STATE_ENABLED)
+            }
+        }
+        val changed = mutableListOf<String>()
+        try {
+            for (packageName in states.keys) {
+                changed += packageName // reconcile/restore even if a command reply fails
+                assertEquals("Package $packageName new state: disabled-user", shell("pm disable-user --user 0 $packageName"))
+            }
+            waitUntil { handlers().isEmpty() }
+            assertNull(pm.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY), "Actual implicit intent has no available handler")
+            val beforeFiles = outputs(); val count = activity.results.size
+            val receiverIntents = receiver.request("snapshot").getInt("intents")
+            onMain { activity.implicitCamera = true; assertNotNull(activity.launcher).launch() }
+            waitUntil { activity.results.size == count + 1 }
+            assertEquals(CameraFailureReason.Launch, assertIs<CameraPickerResult.Failed>(activity.results.last()).reason)
+            assertEquals(beforeFiles, outputs()); assertEquals(1, activity.externalLaunches)
+            assertEquals(receiverIntents, receiver.request("snapshot").getInt("intents"))
+            assertTrue(activity.results.none { it is CameraPickerResult.Captured })
+        } finally {
+            for (packageName in changed.asReversed()) {
+                val original = states.getValue(packageName)
+                val command = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default-state" else "enable"
+                val name = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default" else "enabled"
+                assertEquals("Package $packageName new state: $name", shell("pm $command --user 0 $packageName"))
+                assertEquals(original, pm.getApplicationEnabledSetting(packageName))
+            }
+            waitUntil { handlers() == initial }
+        }
+    }
+
+    private fun shell(command: String): String = ParcelFileDescriptor.AutoCloseInputStream(
+        instrumentation.uiAutomation.executeShellCommand(command),
+    ).use { input ->
+        val bytes = ByteArray(4097)
+        var length = 0
+        while (length < bytes.size) {
+            val count = input.read(bytes, length, bytes.size - length)
+            if (count < 0) break
+            length += count
+        }
+        check(length <= 4096) { "Unexpected unbounded system-camera control reply" }
+        bytes.copyOf(length).decodeToString().trim()
     }
 
     private fun owned(body: (CameraProviderVerificationActivity, OwnedCameraReceiver) -> Unit) {

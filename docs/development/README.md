@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Camera actual failures / focused recovery — 2026-10-30
+
+[Actual41069819642](evidence/android-camera-provider-20261030/native-ci001/README.md)
+FAILED: API35 2/3 native passes, Gradle1/40.02s; API23 preflightValueError/zero
+native/cause unknown. Original XML/source/runtime/owned clean shutdown retained.
+[Owning recovery](evidence/android-camera-provider-20261030/recovery001/README.md)
+separates provider components, exposes write error before capture, accepts safe
+AVD report data names and records finite camera preflight stages/transport release.
+Fourth actual implicit-no-handler/state-restoration case prepared. APK0/36.01s/
+984+1061 held inputs/ZERO native;209 distinct important synthetic methods and
+Actionlint pass, all failures preserved. Final changed provider/prerequisite inputs
+require fresh four-case API35/API23 verification; host22/receiver/unrelated runtime
+results reused, not replayed. #78/#13/#80/#141 remain open;89closed/83open; all
+solo/capacity/publication/security/readiness/main/history restrictions stay.
+
 ## Camera provider owning patch prepared — 2026-10-30
 
 [Camera/provider safety](android-camera-provider-safety.md) replaces API23's

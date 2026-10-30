@@ -8,6 +8,7 @@ from pathlib import Path
 import tempfile
 import time
 import unittest
+import xml.etree.ElementTree as ET
 from unittest.mock import patch, Mock
 
 import library_tests as l
@@ -20,12 +21,12 @@ import workflow_matrix as w
 class CameraProviderPlanTests(unittest.TestCase):
     def plan(self): return l.plan(l.ROOT, "android-device", only_modules=("calf-camera-picker",), focus=l.ANDROID_CAMERA_PROVIDER_FOCUS)
 
-    def test_exact_three_methods_and_two_serial_real_api_plans_preserve_all_prior_slots(self):
+    def test_exact_four_methods_and_two_serial_real_api_plans_preserve_all_prior_slots(self):
         row, = w.matrix("android-camera-provider")["include"]
         self.assertEqual(("android-device-api35", "android-device", "calf-camera-picker", "35", "23", l.ANDROID_CAMERA_PROVIDER_FOCUS),
                          tuple(row[k] for k in ("slot", "suite", "test-modules", "emulator-api", "serial-emulator-api", "test-focus")))
         p = self.plan(); self.assertTrue(l.validate_test_focus(p)); self.assertTrue(l.android_camera_receiver_required(p))
-        self.assertFalse(p["complete_suite_requested"]); self.assertEqual(3, len(p["expected"][0]["required_testcases"]))
+        self.assertFalse(p["complete_suite_requested"]); self.assertEqual(4, len(p["expected"][0]["required_testcases"]))
         self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
         actual = w.preflight_plans("android-camera-provider")
         self.assertEqual(2, len(actual["slots"]))
@@ -66,7 +67,7 @@ class CameraProviderPlanTests(unittest.TestCase):
                 else:
                     with self.assertRaises(ValueError): device.wait_for_owned_boot(Path("/synthetic/sdk"), process, "owned", Path("/synthetic"), api_level=23)
 
-    def test_exact_three_fresh_cases_reject_missing_duplicate_extra_fail_skip_and_stale_task(self):
+    def test_exact_four_fresh_cases_reject_missing_duplicate_extra_fail_skip_and_stale_task(self):
         plan = self.plan(); expected = plan["expected"][0]; cases = expected["required_testcases"]
         variants = [cases, cases[:2], cases + cases[:1], cases + [{"classname": "Foreign", "name": "extra"}],
                     [cases[0] | {"outcome": "<failure/>"}, *cases[1:]], [cases[0] | {"outcome": "<skipped/>"}, *cases[1:]]]
@@ -137,6 +138,30 @@ class CameraArchiveTests(unittest.TestCase):
         self.assertEqual(l.junit_cases(original), l.junit_cases(archived))
         self.assertFalse(result["native_success_inferred_from_archival"])
         with self.assertRaises(ValueError): receiver.archive_focused_reports(self.root, self.output, self.receipt, self.plan)
+
+    def test_actual_gradle_avd_filename_is_archived_without_changing_test_or_source_guards(self):
+        renamed = self.path.with_name('TEST-nativecmpkit-api35-58bff09dc20d(AVD) - 15.xml')
+        self.path.rename(renamed); self.path = renamed
+        self.receipt['modules'][0]['reports'][0]['path'] = renamed.relative_to(self.root).as_posix()
+        archived = receiver.archive_focused_reports(self.root, self.output, self.receipt, self.plan)
+        self.assertEqual(renamed.name, Path(archived['archived_path']).name)
+        self.assertEqual(self.receipt['modules'][0]['testcases'], archived['actual_testcases'])
+
+    def test_each_native_provider_authority_has_a_distinct_android_component_identity(self):
+        manifest = ET.fromstring((l.ROOT / 'calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml').read_bytes())
+        providers = manifest.findall('application/provider')
+        names = [p.attrib['{http://schemas.android.com/apk/res/android}name'] for p in providers]
+        self.assertEqual(3, len(names)); self.assertEqual(3, len(set(names)))
+
+    def test_owned_adb_shutdown_transition_is_observed_without_device_mutation_or_foreign_fallback(self):
+        with patch.object(device, 'adb', side_effect=['List of devices attached\nemulator-5588\toffline', 'List of devices attached']) as adb, \
+             patch.object(device.time, 'sleep'):
+            self.assertTrue(device.wait_for_owned_transport_removal(Path('/synthetic/sdk'), timeout=1))
+        self.assertEqual([(('devices',), {})] * 2, [(call.args[1:], call.kwargs) for call in adb.call_args_list])
+        with patch.object(device, 'adb', return_value='List of devices attached\nprivate-foreign-device\tdevice'), \
+             patch.object(device.time, 'sleep') as sleep, self.assertRaises(ValueError):
+            device.wait_for_owned_transport_removal(Path('/synthetic/sdk'), timeout=1)
+        sleep.assert_not_called()
 
     def test_wrong_hash_changed_source_or_task_and_foreign_selection_fail_before_archival(self):
         for bad in (self.receipt | {"source_tree_dirty": True}, self.receipt | {"changed_inputs": ["source"]},

@@ -217,7 +217,7 @@ class IosApplicationReceipts(unittest.TestCase):
         self.save(); self.assertTrue(self.collect()["errors"])
 
     def test_partial_protocol_or_failure_diagnostic_fields_cannot_be_relabelled_green(self):
-        for field in ["application_protocol_partial", "owned_crash_diagnostics"]:
+        for field in ["application_protocol_partial", "owned_crash_diagnostics", "owned_launch_diagnostics"]:
             with self.subTest(field=field):
                 self.document[field] = {}; self.save(); self.assertTrue(self.collect()["errors"])
                 self.document.pop(field)

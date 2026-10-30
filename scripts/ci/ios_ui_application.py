@@ -1111,6 +1111,23 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         if not receipt["transport_passed"] and phase == "launch-and-real-test-transport":
             receipt["application_protocol_partial"] = protocol.partial()
             observed = protocol.transport_observation or {}
+            if (focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS and installed and
+                    protocol.observed_launch_pid is None and protocol.active is None and
+                    observed.get("failure_reason") == "nonzero-console-exit"):
+                # A pre-PID refusal cannot authorize reading a guessed process's
+                # crash/heap. One read-only unique bundle/time system-log query
+                # supplies bounded observations, never launch/native/profile success.
+                import apple_launch_diagnostics
+                try:
+                    receipt["owned_launch_diagnostics"] = apple_launch_diagnostics.collect(
+                        device, bundle_id, observed.get("started_at_utc", ""),
+                        observed.get("finished_at_utc", ""), execute_control)
+                except (OSError, ValueError, RuntimeError, TypeError, KeyError,
+                        RecursionError, subprocess.SubprocessError) as error:
+                    receipt["owned_launch_diagnostics"] = {
+                        "status": "unavailable", "error_type": type(error).__name__,
+                        "raw_messages_paths_or_log_uploaded": False,
+                        "root_cause_proven": False, "native_functionality_verified": False}
             try:
                 receipt["owned_crash_diagnostics"] = crashes.collect(
                     Path.home() / "Library/Logs/DiagnosticReports", bundle_id=bundle_id,

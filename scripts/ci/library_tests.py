@@ -2476,7 +2476,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
              "Unexpected application receipt schema or task")
         need(document.get("transport_passed") is True and "error" not in document and
              "startup_failure_observation" not in document and "application_protocol_partial" not in document and
-             "owned_crash_diagnostics" not in document,
+             "owned_crash_diagnostics" not in document and "owned_launch_diagnostics" not in document,
              "Application transport failed or incomplete")
         need(document.get("explicit_test_focus") == test_plan.get("explicit_test_focus"),
              "Application selection differs from its reviewed plan")

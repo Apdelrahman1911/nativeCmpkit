@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Provider runtime results / Apple refusal diagnostics — 2026-10-30
+
+[Android41042004511](evidence/geo-provider-contracts-20261030/native-ci001/README.md)
+remains FAILED:2 accepted native Task/Looper/error/cancellation methods and one
+initial-permission-fixture failure, Gradle1/46.02s. Exact inputs/runtime/owned
+cleanup reviewed; no real-grant/default-provider pass. Recover only the failed
+method, do not replay accepted ownership/host/portable methods; #25 remains open.
+[Owned Apple launch diagnosis](evidence/apple-launch-diagnostics-20261030/README.md)
+is read-only/fixed observations only, not a launch fix. Ten important synthetic
+methods pass; zero new native/profile executions. Diagnostic failures retain failed
+transport and owned cleanup; green receipts reject diagnostic-bearing claims.
+#141's original failures remain unknown/unfixed/unwaived.87closed/85open and all
+solo/capacity/publishing/Pages/main/history/security/readiness gates stay.
+
 ## Android geo provider batch prepared — 2026-10-30
 
 [Three new actual Android fixtures](evidence/geo-provider-contracts-20261030/README.md)

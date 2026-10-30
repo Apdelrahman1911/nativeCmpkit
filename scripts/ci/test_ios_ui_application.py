@@ -338,6 +338,107 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
         self.assertFalse(any(self.root.rglob("owned-image-profile-debug.entitlements.plist")))
 
+    def failed_profile_launch(self, *, pid=None, active=False, reason="nonzero-console-exit"):
+        def launch(argv, protocol, *, timeout):
+            self.commands.append(argv)
+            protocol.observed_launch_pid = pid
+            if active:
+                protocol.feed(ACTIVE)
+            protocol.transport_observation = {
+                "started_at_utc": "2026-10-30T10:09:26+00:00",
+                "finished_at_utc": "2026-10-30T10:10:04+00:00",
+                "failure_reason": reason, "console_process_exit": 1}
+            raise ValueError("Synthetic launch refusal, not an Apple execution")
+        return launch
+
+    def launch_diagnostic_control(self, argv, timeout=90):
+        if argv[:2] == ["/usr/bin/codesign", "--display"]:
+            self.commands.append(argv)
+            return subprocess.CompletedProcess(argv, 0, plistlib.dumps({"get-task-allow": True}), b"")
+        if argv[:6] == ["/usr/bin/xcrun", "simctl", "spawn", DEVICE, "log", "show"]:
+            self.commands.append(argv)
+            self.assertEqual(30, timeout)
+            bundle = argv[argv.index("--predicate") + 1].split('"')[1]
+            payload = [{"timestamp": "2026-10-30 10:09:30.100000+0000",
+                        "processImagePath": "/private/synthetic/system/SpringBoard",
+                        "eventMessage": bundle + " denied by service delegate"}]
+            return subprocess.CompletedProcess(argv, 0, json.dumps(payload).encode(), b"")
+        return self.control(argv, timeout)
+
+    def test_only_finite_pre_pid_profile_refusal_queries_owned_log_and_keeps_failure_cleanup(self):
+        focus = a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS
+        arguments = [*sorted(a.TEST_ARGUMENTS), "--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus)]
+        result = self.fixture_run(control=self.launch_diagnostic_control, launch=self.failed_profile_launch(),
+                                  arguments=arguments, image_diagnostics="darwin-tools")
+        self.assertFalse(result["transport_passed"])
+        self.assertEqual("launch-and-real-test-transport", result["error"]["phase"])
+        diagnostic = result["owned_launch_diagnostics"]
+        self.assertEqual("observed-owned-system-events", diagnostic["status"])
+        self.assertEqual(1, diagnostic["owned_system_rows"])
+        self.assertEqual(["service-delegate-denial"], diagnostic["matched_fixed_categories"])
+        self.assertFalse(diagnostic["root_cause_proven"])
+        self.assertFalse(diagnostic["native_functionality_verified"])
+        queries = [argv for argv in self.commands if "show" in argv]
+        self.assertEqual(1, len(queries))
+        self.assertEqual('eventMessage CONTAINS "' + result["bundle_id"] + '"', queries[0][-1])
+        self.assertEqual(1, sum("launch" in argv for argv in self.commands), "No diagnostic relaunch")
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+        self.assertFalse(result["image_memory_profile"]["profile_passed"])
+
+    def test_full_strict_other_failures_pid_or_activation_never_query_pre_pid_profile_logs(self):
+        cases = [(None, None, False, "nonzero-console-exit"),
+                 (a.lt.IOS_IMAGE_MEMORY_FOCUS, None, False, "nonzero-console-exit"),
+                 (a.lt.IOS_IMAGE_DARWIN_FOCUS, None, False, "nonzero-console-exit"),
+                 (a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS, 234, False, "nonzero-console-exit"),
+                 (a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS, None, True, "nonzero-console-exit"),
+                 (a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS, None, False, "timeout")]
+        for focus, pid, active, reason in cases:
+            with self.subTest(focus=focus, pid=pid, active=active, reason=reason):
+                self.commands.clear()
+                arguments = list(a.TEST_ARGUMENTS)
+                if focus is not None:
+                    arguments.append("--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus))
+                with patch.object(a.crashes, "collect", return_value={"status": "unavailable"}):
+                    result = self.fixture_run(control=self.launch_diagnostic_control,
+                        launch=self.failed_profile_launch(pid=pid, active=active, reason=reason),
+                        arguments=arguments, image_diagnostics="darwin-tools" if focus in a.lt.IOS_IMAGE_DARWIN_FOCUSES else None)
+                self.assertFalse(result["transport_passed"])
+                self.assertNotIn("owned_launch_diagnostics", result)
+                self.assertFalse(any("show" in argv for argv in self.commands))
+                self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+                self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+
+    def test_diagnostic_failure_cannot_turn_transport_green_or_prevent_owned_cleanup(self):
+        focus = a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS
+        arguments = [*sorted(a.TEST_ARGUMENTS), "--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus)]
+        for error in (ValueError("UNIQUE_PRIVATE_FAILURE"), RuntimeError("UNIQUE_PRIVATE_FAILURE"),
+                      subprocess.TimeoutExpired("SYNTHETIC_PRIVATE_COMMAND", 30)):
+            with self.subTest(error=type(error).__name__), patch("apple_launch_diagnostics.collect", side_effect=error):
+                result = self.fixture_run(control=self.launch_diagnostic_control, launch=self.failed_profile_launch(),
+                                          arguments=arguments, image_diagnostics="darwin-tools")
+                self.assertFalse(result["transport_passed"])
+                self.assertEqual("unavailable", result["owned_launch_diagnostics"]["status"])
+                self.assertEqual(type(error).__name__, result["owned_launch_diagnostics"]["error_type"])
+                self.assertNotIn("UNIQUE_PRIVATE_FAILURE", json.dumps(result))
+                self.assertNotIn("SYNTHETIC_PRIVATE_COMMAND", json.dumps(result))
+                self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+                self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+
+    def test_successful_finite_profile_transport_never_runs_failed_launch_diagnostic(self):
+        focus = a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS
+        self.expected_timeout = a.application_timeout_seconds(focus)
+        arguments = [*sorted(a.TEST_ARGUMENTS), "--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus)]
+        with patch("apple_launch_diagnostics.collect") as diagnostic:
+            result = self.fixture_run(control=self.launch_diagnostic_control, arguments=arguments,
+                                      image_diagnostics="darwin-tools")
+        self.assertTrue(result["transport_passed"])
+        diagnostic.assert_not_called()
+        self.assertNotIn("owned_launch_diagnostics", result)
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+        self.assertFalse(result["image_memory_profile"]["profile_passed"], "Synthetic frames are not a native profile")
+
     def test_selected_slider_deadline_is_forwarded_without_changing_other_owned_profiles(self):
         # Simulated frames validate the Python caller contract, not sliders/UIKit.
         for focus in (None, a.lt.IOS_UI_STATE_FOCUS, a.lt.IOS_SLIDER_LIFECYCLE_FOCUS,

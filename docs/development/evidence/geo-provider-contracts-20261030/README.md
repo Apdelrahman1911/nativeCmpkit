@@ -1,4 +1,14 @@
-# Android geo permission/provider batch — native execution pending
+# Android geo permission/provider batch
+
+## Actual outcome
+
+[41042004511](native-ci001/README.md) remains FAILED:3 fresh native methods,
+2pass/one initial-permission-fixture failure, Gradle1/46.02s. Exact immutable
+inputs/runtime/filter/reports/owned cleanup reviewed. Retain the two accepted
+Task/Looper/error/cancellation methods; recover only the failed real-grant method.
+#25 stays open; this is not a real-grant/default-provider or whole-CI pass.
+
+## Preparation evidence (historical)
 
 For open#25/PERM-021, three new library-level AndroidJUnit4 methods:
 

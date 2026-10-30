@@ -1,0 +1,183 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+    ":calf-geo:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-geo"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 46.02,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-geo"
+  ],
+  "explicit_test_focus": "geo-android-provider-contracts",
+  "finished_at_utc": "2026-10-30T10:45:11.808097+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "29cf4332d60223bf5d7cc6f421a27c305abc5c36959709c3c3603f317ab52de2",
+  "inputs_before_sha256": "29cf4332d60223bf5d7cc6f421a27c305abc5c36959709c3c3603f317ab52de2",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "module": "calf-geo",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeBackgroundCancellationAndQueuedOldCallbacksCannotOwnANewStart",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-not-passed",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-geo/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-3b489a0fcb2c(AVD) - 15.xml",
+          "sha256": "f3123d38b4e7e280bcaf493fd36ddc290662abc2d12c953130e7fd8f2ca2585d",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-geo:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeBackgroundCancellationAndQueuedOldCallbacksCannotOwnANewStart",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeBackgroundCancellationAndQueuedOldCallbacksCannotOwnANewStart"
+    }
+  ],
+  "runtime_receipt_sha256": "ad8d759cc9d2a37e4c4fd4977b061486798e327f77359bec8fa4355fbc633e6e",
+  "schema_version": 1,
+  "scope": "Three new actual Android foreground permission/default-GMS registration and injected native Task/Looper/error/cancellation methods only. No replay of accepted owner-GC/host/portable tests. Real registration is not GPS/fix, missing GMS/settings-off, revocation/process-death, physical/minimum/heap/ABI/consumer/security/release certification.",
+  "source_revision": "c446bad36492aec4308c63e0d6c5513b5c18af39",
+  "source_revision_after": "c446bad36492aec4308c63e0d6c5513b5c18af39",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T10:44:25.790395+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-geo:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-navigation",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual provider results / owned Apple launch diagnostics — 2026-10-30
+
+[Android41042004511](docs/development/evidence/geo-provider-contracts-20261030/native-ci001/README.md)
+remains FAILED:3 fresh native methods/one XML,2pass/one initial-permission-fixture
+failure, Gradle1/46.02s.930/1007 exact inputs/runtime/filter/owned shutdown reviewed.
+Reuse the two injected native Task/error/Looper/cancellation passes, not replay;
+the real-grant method stopped before provider work. #25 remains open.
+[Apple diagnostic candidate](docs/development/evidence/apple-launch-diagnostics-20261030/README.md)
+adds one read-only exact bundle/time/simulator pre-PID refusal query, fixed counts/
+hashes/categories only. Failures stay failed and cannot prevent owned cleanup or
+be laundered into green receipts. Ten important synthetic methods pass; ZERO new
+Apple/native/profile outcomes. Preserve privacy-fixture/caller/receipt reds.
+#141 and original strict/timeout failures remain open/unfixed/unwaived.87closed/
+85open; solo/max2heavy/8GiB and all publishing/security/readiness gates unchanged.
+
 ## Android geo provider batch prepared — 2026-10-30
 
 [Three new actual Android fixtures](docs/development/evidence/geo-provider-contracts-20261030/README.md)

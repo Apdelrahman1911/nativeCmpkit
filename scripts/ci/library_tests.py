@@ -801,6 +801,8 @@ def android_geo_probe_required(test_plan: dict) -> bool:
 
 
 ANDROID_CAMERA_PROVIDER_FOCUS = "android-camera-provider-contracts"
+ANDROID_CAMERA_NO_HANDLER_FOCUS = "android-camera-no-handler-recovery"
+ANDROID_CAMERA_PROVIDER_FOCUSES = (ANDROID_CAMERA_PROVIDER_FOCUS, ANDROID_CAMERA_NO_HANDLER_FOCUS)
 ANDROID_CAMERA_PROVIDER_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest"
 ANDROID_CAMERA_PROVIDER_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt"
 ANDROID_CAMERA_PROVIDER_METHODS = (
@@ -811,8 +813,17 @@ ANDROID_CAMERA_PROVIDER_METHODS = (
 )
 
 
-def android_camera_provider_identities() -> list[dict]:
-    return [{"classname": ANDROID_CAMERA_PROVIDER_CLASS, "name": method} for method in ANDROID_CAMERA_PROVIDER_METHODS]
+def android_camera_provider_identities(focus: str = ANDROID_CAMERA_PROVIDER_FOCUS) -> list[dict]:
+    if focus not in ANDROID_CAMERA_PROVIDER_FOCUSES:
+        raise ValueError("Unknown finite Android camera provider selection")
+    methods = ANDROID_CAMERA_PROVIDER_METHODS[-1:] if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS else ANDROID_CAMERA_PROVIDER_METHODS
+    return [{"classname": ANDROID_CAMERA_PROVIDER_CLASS, "name": method} for method in methods]
+
+
+def android_camera_provider_filter(focus: str) -> str:
+    android_camera_provider_identities(focus)  # Reject unknown focus, never broaden a filter.
+    return (ANDROID_CAMERA_PROVIDER_CLASS + "#" + ANDROID_CAMERA_PROVIDER_METHODS[-1]
+            if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS else ANDROID_CAMERA_PROVIDER_CLASS)
 
 
 def android_camera_receiver_required(test_plan: dict) -> bool:
@@ -1095,7 +1106,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_NAV_BACK_FOCUS and suite == "android-device" and modules == ("calf-navigation",)) or
             (focus == ANDROID_GEO_OWNERSHIP_FOCUS and suite == "android-device" and modules == ("calf-geo",)) or
             (focus in ANDROID_GEO_PROVIDER_FOCUSES and suite == "android-device" and modules == ("calf-geo",)) or
-            (focus == ANDROID_CAMERA_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-camera-picker",)) or
+            (focus in ANDROID_CAMERA_PROVIDER_FOCUSES and suite == "android-device" and modules == ("calf-camera-picker",)) or
             (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
@@ -1429,7 +1440,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
-    elif focus == ANDROID_CAMERA_PROVIDER_FOCUS:
+    elif focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
         source = safe_path(root, ANDROID_CAMERA_PROVIDER_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
         if (methods != list(ANDROID_CAMERA_PROVIDER_METHODS) or
@@ -1439,9 +1450,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
             raise ValueError("Android camera declarations changed; review the exact four-method selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = ANDROID_CAMERA_PROVIDER_CLASS
-        selected[0]["required_testcases"] = android_camera_provider_identities()
+        selected[0]["test_filter"] = android_camera_provider_filter(focus)
+        selected[0]["required_testcases"] = android_camera_provider_identities(focus)
         result["scope"] = "Four actual public Compose camera-provider methods: installed signature-protected separate native UID/system-created grants, and an actual implicit capture intent with no available native handler and exact owned-AVD system-camera state restoration. Controlled recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution."
+        if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS:
+            result["scope"] = "Only the failed actual implicit no-camera-handler/restoration method from41087017676. Three accepted API23 provider methods and four API35 methods are reused, not replayed. Exact original state restoration, native launch failure/no orphan, fresh XML, owned UID/AVD cleanup and every refusal remain required. No camera hardware/process-death/physical/packaged/API-ABI/security/release certification."
     elif focus == ANDROID_SHARE_GRANT_FOCUS:
         source = safe_path(root, ANDROID_SHARE_GRANT_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1744,12 +1757,12 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
-    if focus == ANDROID_CAMERA_PROVIDER_FOCUS:
+    if focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
-                expected[0].get("test_filter") != ANDROID_CAMERA_PROVIDER_CLASS or
-                expected[0].get("required_testcases") != android_camera_provider_identities() or
+                expected[0].get("test_filter") != android_camera_provider_filter(focus) or
+                expected[0].get("required_testcases") != android_camera_provider_identities(focus) or
                 ANDROID_CAMERA_PROVIDER_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite Android camera provider plan")
         return True
@@ -2131,11 +2144,11 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_CAMERA_PROVIDER_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_PROVIDER_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else
-                             ["Android camera XML must contain exactly all three selected provider methods, no missing or unrelated cases"])
+                             [f"Android camera XML must contain exactly all {len(required)} selected provider methods, no missing or unrelated cases"])
             scenarios = [{**c, "source": ANDROID_CAMERA_PROVIDER_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -2942,7 +2955,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, ANDROID_CAMERA_PROVIDER_FOCUS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_PROVIDER_FOCUSES,
                                            *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

@@ -243,6 +243,51 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertEqual(0, item["exit_code"])
         self.assertEqual(11, len(w.matrix("all")["include"]))
 
+    def test_no_handler_recovery_selects_only_failed_native_method_on_minimum_api(self):
+        row, = w.matrix("android-camera-no-handler-minimum")["include"]
+        self.assertEqual(("android-device-api23-camera", "23", "calf-camera-picker", l.ANDROID_CAMERA_NO_HANDLER_FOCUS),
+                         tuple(row[k] for k in ("slot", "emulator-api", "test-modules", "test-focus")))
+        self.assertNotIn("serial-emulator-api", row)
+        plan = l.plan(l.ROOT, "android-device", only_modules=("calf-camera-picker",), focus=l.ANDROID_CAMERA_NO_HANDLER_FOCUS)
+        expected, = plan["expected"]
+        self.assertEqual(l.android_camera_provider_identities()[-1:], expected["required_testcases"])
+        self.assertEqual(l.ANDROID_CAMERA_PROVIDER_CLASS + "#" + l.ANDROID_CAMERA_PROVIDER_METHODS[-1], expected["test_filter"])
+        self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_camera_receiver_required(plan))
+        self.assertEqual(0, w.preflight_plans("android-camera-no-handler-minimum")["slots"][0]["exit_code"])
+        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.MINIMUM_MODULES["android-device"]))
+        command = l.gradle_command("android-device", plan, android_serial="emulator-5588")
+        self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + expected["test_filter"], command)
+        self.assertFalse(any("," in arg for arg in command if arg.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
+        for filter_ in (l.ANDROID_CAMERA_PROVIDER_CLASS, expected["test_filter"] + ",other", "Foreign#method"):
+            bad = deepcopy(plan); bad["expected"][0]["test_filter"] = filter_
+            with self.assertRaises(ValueError): l.validate_test_focus(bad)
+
+    def test_recovery_xml_never_counts_replayed_passes_or_missing_failed_skipped_case(self):
+        plan = l.plan(l.ROOT, "android-device", only_modules=("calf-camera-picker",), focus=l.ANDROID_CAMERA_NO_HANDLER_FOCUS)
+        expected, = plan["expected"]; cases = expected["required_testcases"]
+        variants = [cases, [], l.android_camera_provider_identities(), cases * 2,
+                    [cases[0] | {"outcome": "<failure/>"}], [cases[0] | {"outcome": "<skipped/>"}]]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); report = root / expected["report_directory"] / "TEST-synthetic.xml"; report.parent.mkdir(parents=True)
+            for variant in variants:
+                report.write_text("<testsuite>" + "".join('<testcase classname="' + c["classname"] + '" name="' + c["name"] + '">' + c.get("outcome", "") + '</testcase>' for c in variant) + "</testsuite>")
+                now = time.time_ns()
+                result = l.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000, Counter({expected["task"]: 1}))
+                self.assertEqual(variant != cases, bool(result["errors"]))
+
+    def test_legacy_default_restore_checks_actual_binder_signature_and_preserves_errors(self):
+        # Source guard only; actual shell UID/Binder restoration needs the native test.
+        source = (l.ROOT / l.ANDROID_CAMERA_PROVIDER_SOURCE).read_text()
+        self.assertIn('private fun restoreLegacyDefaultCameraPackage', source)
+        self.assertIn('Build.VERSION.SDK_INT == 23 && original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT', source)
+        self.assertIn('TRANSACTION_setApplicationEnabledSetting', source)
+        self.assertIn('setApplicationEnabledSetting', source)
+        self.assertIn('check(method.returnType == Void.TYPE)', source)
+        self.assertIn('service call package $transaction s16 $packageName i32 0 i32 0 i32 0 s16 shell:2000', source)
+        self.assertIn('pm.getApplicationEnabledSetting(packageName)', source)
+        self.assertIn('primary.addSuppressed', source)
+        self.assertIn('cleanupFailure?.let { throw it }', source)
+
     def test_preflight_origin_reports_only_exact_public_source_symbol_and_line(self):
         try:
             device.validate_api_selection(24, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS)

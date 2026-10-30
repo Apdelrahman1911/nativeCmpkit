@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## API23 camera three passes / exact state recovery — 2026-10-30
+
+Actual41087017676 at9b698c6e FAILED: API23 **3/4 native methods pass**, one XML,
+Gradle1/61.02s;984/1061 inputs/Enforcing/installed-byte/receiver+AVD cleanup pass.
+Fourth fails Android6's unavailable `pm default-state`; its finally can mask an
+earlier error, so none accepted. Earlier path refusal remains unknown.
+[One-case repair](evidence/android-camera-provider-20261030/minimum-state001/README.md) uses running-framework signature/transaction, exact
+DEFAULT/user0/no-exception/readback, retains API35 CLI and all failure/ownership
+gates.109 disjoint synthetic passes plus own missing-module failure retained;
+APK0/34.01s/ZERO new native. Request one failed case only; reuse API23three/
+API35four/host22. #78/#13 open;89closed/83open. Solo/8GiB/max2heavy and all
+publishing/Pages/main/history/security/readiness restrictions remain.
+
+
 ## Minimum installed-path guard identified / fail-fast observation — 2026-10-30
 
 Actual41083152296 ateb6e9d2e FAILED: EnforcingAPI23, AVD0/3.0s, reporterAPK0/

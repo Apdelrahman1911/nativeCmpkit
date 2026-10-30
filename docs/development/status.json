@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "ca699fee8d49227bfe7996841541cb8ac6f10c923f39cfb98308aa8f154c7fad",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
-    "docs/development/resolutions/NATIVE.json": "f58abc6684af8bcaa48e80c46b7b4dd840ab3578a569eebf590e47e4c992794c",
+    "docs/development/resolutions/NATIVE.json": "cbdcc69030f241f88655c834032c41daef333ff464c10d360c739d3ab735c278",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
@@ -54,15 +54,15 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "fa2892b8ab4e2080152c1997ef2e7058b6fbd0b603505fca2b78b0296001ca8d",
+  "input_fingerprint": "eca8787eb7543cf846baf1759a26d33c38a1dc0f61f1f3c7ad58c418fe7917d8",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 31,
-      "partially-verified": 40,
+      "implemented": 30,
+      "partially-verified": 41,
       "verified": 87,
       "unresolved": 6,
       "not-applicable": 0
@@ -16052,14 +16052,14 @@
         "mapping_key": "audit:NATIVE-022",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "ef5bfba46d330120404325ff8464f31d0c53276bed62821a2a733ab51165dfe4",
+      "owner_record_sha256": "ea0087c41d6086890d9bb7f90da0a79140c1cbdc0d9bef97763a043cc1bfcb3f",
       "owner_record": {
         "id": "NATIVE-022",
         "title": "Android camera hardcodes a host FileProvider authority without public setup or validation",
         "priority": "Medium",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Add configurable camera authority, validation/failure outcomes, narrow provider setup guide and coordinated sample camera/outgoing-share path allowlist."
         ],
@@ -16142,13 +16142,19 @@
               "docs/development/evidence/native/second-jvm-fixture-corrections.json"
             ],
             "scope": "All7actualJavaFX scenarios and all5hostActivity lifecycle scenarios executed. FX strict-sentinel identity/cleanup and camera remount/second-request/cancellation/final-byte assertions passed without relaxing identity,timeout or scenarios. Android host uses Robolectric and simulated external camera/writer/results; no actual camera/OS process death/URI grants. Not macOS cold Compose startup,AppKit,Android Chromium,iOS,JS/Wasm,recipient-device,memory profiling or artifact/ABI release verification. Previous failed receipts and all original required tests remain."
+          },
+          {
+            "command": "Actual41087017676 at9b698c6e: exact four-method API23 public camera/provider native selection",
+            "result": "FAILED overall;3/4 native methods pass, Gradle1/61.02s/one fresh XML; installed-byte stream/foreign UID/signature/grant/closed descriptor/narrow/cancel cases and owned receiver/AVD cleanup pass. System-camera DEFAULT restoration fails; fourth method is not accepted. Prior API35four/host22 reused, no replay or closure.",
+            "evidence": "docs/development/evidence/android-camera-provider-20261030/minimum-ci004/README.md"
           }
         ],
         "remaining": [
           "Minimal actual consumer/receiver and API23/24+ provider grants need device tests; guide is not proof of a valid host manifest.",
           "Original required test pending full target verification: Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.",
           "Original required test pending full target verification: Host with its own provider authority and no installed camera intent handler.",
-          "Original required test pending full target verification: Only camera-owned files can be granted through recommended provider configuration."
+          "Original required test pending full target verification: Only camera-owned files can be granted through recommended provider configuration.",
+          "API23 native implicit-no-handler/exact system-camera DEFAULT restoration still requires one fresh corrected method; see minimum-state001. Original camera restoration/performance/Apple/native and release gates remain separate."
         ],
         "compatibility": "Null keeps legacy ${applicationId}.provider; correct host provider setup remains required on API24+ camera.",
         "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",

@@ -1,0 +1,376 @@
+{
+  "accepted_executions": 3,
+  "accepted_host_or_unrelated_native_methods_replayed": false,
+  "all_original_issue_criteria_or_closure_automatically_inferred": false,
+  "distinct_methods_requested": 4,
+  "fresh_executed": 4,
+  "fresh_requested_executions": 4,
+  "minimum_API_contexts_reviewed": [
+    23
+  ],
+  "packages_releases_deployments_or_Pages_created": false,
+  "platforms": [
+    {
+      "accepted_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_emulator": {
+          "abi": "x86_64",
+          "api_level": "23",
+          "boot_completed": "1",
+          "release": "6.0",
+          "selinux": "Enforcing",
+          "serial": "emulator-5588"
+        },
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "c367e8cb341e18847d9969466545028521adcf9dd7c66dd7cf8415078b8700c5",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T16:16:05.905284+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "9b698c6ec621eca1119b4caee2c41880ec88d434",
+        "source_tree_dirty": false
+      },
+      "all1061_preflight_combined_inputs_exact_historical_Git": true,
+      "all984_before_after_inputs_held": true,
+      "android_controller": {
+        "camera_fresh_reports": {
+          "actual_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+              "name": "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+              "status": "passed"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+              "name": "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
+              "status": "passed"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+              "name": "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
+              "status": "passed"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+              "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+              "status": "failed"
+            }
+          ],
+          "archived_path": "build/ci-verification/android-device-api23-camera/fresh-reports/TEST-nativecmpkit-api23-c48c5835aa90(AVD) - 6.0.xml",
+          "archived_sha256": "2bb7af817520e08d5b0579a7388bd601cf98b901b54b11feb445bb36ddfb43f9",
+          "console_properties_removed_only": true,
+          "native_success_inferred_from_archival": false,
+          "original_passed": false,
+          "original_path": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api23-c48c5835aa90(AVD) - 6.0.xml",
+          "original_sha256": "dd49cb2e9d73dc2ca288f9bc135f0742d5c887d20807a955eada1a04381a780d",
+          "source_revision": "9b698c6ec621eca1119b4caee2c41880ec88d434"
+        },
+        "camera_receiver": {
+          "assembly": {
+            "elapsed_seconds": 91.05,
+            "exit_code": 0
+          },
+          "assembly_command": [
+            "./gradlew",
+            "--no-daemon",
+            "--no-configuration-cache",
+            "--max-workers=2",
+            "--console=plain",
+            "--no-parallel",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-p",
+            "tests/consumer/android-camera-receiver",
+            "assembleDebug"
+          ],
+          "automatic_runtime_permission_grant": false,
+          "cleanup_status": "passed",
+          "install_exit_code": 0,
+          "installed_readback": {
+            "api_level": 23,
+            "apk_bytes": 887367,
+            "apk_sha256": "36df932f50c0dc21b733a98ec7598a9fc2d283291c6e9743875fecf4d4e05f33",
+            "byte_read_mechanism": "adb-exec-out-cat-host-SHA256",
+            "exact_one_APK_path_observed": true,
+            "raw_path_uploaded": false
+          },
+          "manual_URI_grant": false,
+          "native_signature_UID_and_URI_reads_still_required": true,
+          "owned_identity_reverified": true,
+          "owned_recipient_removed": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver",
+          "package_path_observations": [
+            {
+              "lines": [],
+              "path_or_install_identity_accepted": false,
+              "raw_console_or_installed_paths_uploaded": false,
+              "response_bounded": true,
+              "response_exit_code": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 0,
+              "stdout_line_count": 0,
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "unclassified_additional_lines": 0
+            },
+            {
+              "lines": [
+                {
+                  "bytes": 95,
+                  "contains_control_or_internal_space": false,
+                  "kind": "package-path",
+                  "root_is_data_app": true,
+                  "sha256": "214a41c4809854daeff01272abbc1b1109beca5fdc120036a178e3dff058f868",
+                  "strict_base_APK_shape": true,
+                  "suffix_is_base_APK": true
+                }
+              ],
+              "path_or_install_identity_accepted": false,
+              "raw_console_or_installed_paths_uploaded": false,
+              "response_bounded": true,
+              "response_exit_code": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 97,
+              "stdout_line_count": 1,
+              "stdout_sha256": "a923a4368319336455e11e9c4bc063200c5c3532af219a0544c833469c02ed71",
+              "unclassified_additional_lines": 0
+            },
+            {
+              "lines": [
+                {
+                  "bytes": 95,
+                  "contains_control_or_internal_space": false,
+                  "kind": "package-path",
+                  "root_is_data_app": true,
+                  "sha256": "214a41c4809854daeff01272abbc1b1109beca5fdc120036a178e3dff058f868",
+                  "strict_base_APK_shape": true,
+                  "suffix_is_base_APK": true
+                }
+              ],
+              "path_or_install_identity_accepted": false,
+              "raw_console_or_installed_paths_uploaded": false,
+              "response_bounded": true,
+              "response_exit_code": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 97,
+              "stdout_line_count": 1,
+              "stdout_sha256": "a923a4368319336455e11e9c4bc063200c5c3532af219a0544c833469c02ed71",
+              "unclassified_additional_lines": 0
+            },
+            {
+              "lines": [],
+              "path_or_install_identity_accepted": false,
+              "raw_console_or_installed_paths_uploaded": false,
+              "response_bounded": true,
+              "response_exit_code": 0,
+              "stderr_bytes": 0,
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stdout_bytes": 0,
+              "stdout_line_count": 0,
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "unclassified_additional_lines": 0
+            }
+          ],
+          "packages_published": false,
+          "prepare_status": "passed",
+          "raw_paths_console_APKs_or_signing_inputs_uploaded": false,
+          "recipient_installed": true,
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Separate native UID writes only the actual camera Activity EXTRA_OUTPUT using system-created URI grants. Signature-protected finite receiver; synthetic bytes/recipient selection, not camera/vendor UX, physical device, packaged Maven/API-ABI or release certification.",
+          "source_apk_bytes": 887367,
+          "source_apk_sha256": "36df932f50c0dc21b733a98ec7598a9fc2d283291c6e9743875fecf4d4e05f33",
+          "source_fixture": "tests/consumer/android-camera-receiver",
+          "stop_exit_code": 0,
+          "uninstall_exit_code": 0,
+          "verification_api_level": 23
+        },
+        "changed_inputs": [],
+        "complete_suite_requested": false,
+        "emulator_shutdown": {
+          "clean_shutdown": true,
+          "exit_code": 0,
+          "finished_at_utc": "2026-10-30T16:17:09.677478+00:00",
+          "forced_owned_group": false,
+          "graceful_kill_requested": true,
+          "owned_adb_transport_removed": true,
+          "requested_at_utc": "2026-10-30T16:17:08.350710+00:00"
+        },
+        "explicit_module_subset": [
+          "calf-camera-picker"
+        ],
+        "explicit_test_focus": "android-camera-provider-contracts",
+        "finished_at_utc": "2026-10-30T16:17:10.193653+00:00",
+        "packages_published": false,
+        "passed": false,
+        "release_readiness_certified": false,
+        "reporter_compile_deferred_until_receiver_byte_identity": true,
+        "setup_stages": {
+          "apk-assembly": {
+            "elapsed_seconds": 227.07,
+            "exit_code": 0
+          },
+          "owned-avd-create": {
+            "elapsed_seconds": 2.0,
+            "exit_code": 0
+          }
+        },
+        "source_revision": "9b698c6ec621eca1119b4caee2c41880ec88d434",
+        "source_revision_after": "9b698c6ec621eca1119b4caee2c41880ec88d434",
+        "source_tree_dirty": false,
+        "source_unchanged": true,
+        "started_at_utc": "2026-10-30T16:10:18.216177+00:00",
+        "test_bearing_modules_not_requested": [
+          "calf-file-picker",
+          "calf-geo",
+          "calf-io",
+          "calf-navigation",
+          "calf-share",
+          "calf-ui",
+          "calf-webview"
+        ],
+        "test_suite_passed": false,
+        "test_totals": {
+          "errors": 0,
+          "executed": 4,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 3,
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      },
+      "android_sdk_assets": {
+        "abi": "x86_64",
+        "api_level": "23",
+        "emulator_revision": "37.2.13",
+        "image_revision": "33",
+        "system_image": "system-images;android-23;google_apis;x86_64",
+        "tag_id": "google_apis"
+      },
+      "api_level": 23,
+      "artifact_digest": "sha256:86118f935b6858fe983bcbcc0fbd40f55511372b7cfaf0daabbe4d346a35af4e",
+      "artifact_id": 12993385412,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+        "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+        ":calf-camera-picker:connectedAndroidDeviceTest"
+      ],
+      "errors": [
+        {
+          "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+          "module": "calf-camera-picker"
+        }
+      ],
+      "exact_fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+          "status": "failed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 61.02,
+        "exit_code": 1
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 4,
+      "job_conclusion": "failure",
+      "job_id": 124171415839,
+      "library_invocation_receipt_present": true,
+      "owned_emulator_verified_clean_shutdown": true,
+      "passed": false,
+      "receiver_installed_byte_identity_and_owned_cleanup_verified": true,
+      "run_id": 41087017676,
+      "slot": "android-device-api23-camera",
+      "source_revision": "9b698c6ec621eca1119b4caee2c41880ec88d434",
+      "totals": {
+        "errors": 0,
+        "executed": 4,
+        "failures": 1,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 4,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T16:17:50.023495+00:00",
+  "run_attempt": 1,
+  "run_id": 41087017676,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41087017676",
+  "source_revision": "9b698c6ec621eca1119b4caee2c41880ec88d434",
+  "workflow_conclusion": "failure",
+  "workflow_sha256": "0ca82b5bb92d7cdaba059cb7ccdc0f6cf19bcc1fc789ff5dda56c33c4623c940"
+}

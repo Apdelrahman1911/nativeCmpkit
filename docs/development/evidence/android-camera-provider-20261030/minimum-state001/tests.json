@@ -1,0 +1,41 @@
+{
+  "actionlint": {
+    "command": "PATH=/tmp/nativecmpkit-actionlint-1.7.12:$PATH actionlint .github/workflows/gradle.yml",
+    "exit_code": 0
+  },
+  "archive_controller_and_own_command_error": {
+    "actual_methods_passed": 48,
+    "cause": "Own command named nonexistent test_workflows; no source defect or native outcome inferred",
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest test_android_camera_provider.CameraArchiveTests test_android_device_controller test_workflows",
+    "exit_code": 1,
+    "loader_errors": 1,
+    "log_sha256": "066733668d5f5afca77b1c3e90396b365217247471fb2d71cada37e26c485eed"
+  },
+  "disjoint_passing_host_methods": 109,
+  "fresh_native_executions": 0,
+  "newly_authored_methods": 3,
+  "plan": {
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest test_android_camera_provider.CameraProviderPlanTests",
+    "exit_code": 0,
+    "log_sha256": "a29c14c4f7c7f1b16e2e038ab3de86c0c8f65dfed2c27f4ae93f08e73b52d7d2",
+    "methods": 12,
+    "passed": 12
+  },
+  "raw_logs_or_private_paths_committed": false,
+  "red": {
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest <three newly added CameraProviderPlanTests methods>",
+    "errors": 2,
+    "failures": 1,
+    "log_sha256": "635ae1a7de7c61d1e5a9ea2e00069a37f577044fd8a0367a05ea37c1cf29230a",
+    "methods": 3
+  },
+  "scope": "Synthetic host/source/selection/refusal guards only; zero Android or library executions",
+  "workflow_only_correction": {
+    "48_already_passed_methods_replayed": false,
+    "command": "PYTHONPATH=scripts/ci python3 -m unittest test_workflow_matrix test_workflow_source",
+    "exit_code": 0,
+    "log_sha256": "3ce2358e188ad89c05c81a1586b88e7235b0ecec5d5530eab13016d8b4fc5ed2",
+    "methods": 49,
+    "passed": 49
+  }
+}

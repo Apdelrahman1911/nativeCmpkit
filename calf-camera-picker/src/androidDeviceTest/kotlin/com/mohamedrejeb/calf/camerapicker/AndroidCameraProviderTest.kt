@@ -165,6 +165,7 @@ class AndroidCameraNativeProviderTest {
             }
         }
         val changed = mutableListOf<String>()
+        var primaryFailure: Throwable? = null
         try {
             for (packageName in states.keys) {
                 changed += packageName // reconcile/restore even if a command reply fails
@@ -180,16 +181,70 @@ class AndroidCameraNativeProviderTest {
             assertEquals(beforeFiles, outputs()); assertEquals(1, activity.externalLaunches)
             assertEquals(receiverIntents, receiver.request("snapshot").getInt("intents"))
             assertTrue(activity.results.none { it is CameraPickerResult.Captured })
+        } catch (failure: Throwable) {
+            primaryFailure = failure
+            throw failure
         } finally {
-            for (packageName in changed.asReversed()) {
-                val original = states.getValue(packageName)
-                val command = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default-state" else "enable"
-                val name = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default" else "enabled"
-                assertEquals("Package $packageName new state: $name", shell("pm $command --user 0 $packageName"))
-                assertEquals(original, pm.getApplicationEnabledSetting(packageName))
+            // A restoration failure must neither hide the primary native assertion
+            // nor prevent attempts to restore the remaining exact owned packages.
+            val primary = primaryFailure
+            var cleanupFailure: Throwable? = null
+            fun cleanup(action: () -> Unit) {
+                try { action() } catch (failure: Throwable) {
+                    if (primary != null) primary.addSuppressed(failure)
+                    else {
+                        val prior = cleanupFailure
+                        if (prior == null) cleanupFailure = failure else prior.addSuppressed(failure)
+                    }
+                }
             }
-            waitUntil { handlers() == initial }
+            for (packageName in changed.asReversed()) {
+                cleanup {
+                    val original = states.getValue(packageName)
+                    if (Build.VERSION.SDK_INT == 23 && original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) {
+                        restoreLegacyDefaultCameraPackage(packageName, pm)
+                    } else {
+                        // Retain the accepted API35 CLI and explicit ENABLED path.
+                        val command = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default-state" else "enable"
+                        val name = if (original == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT) "default" else "enabled"
+                        assertEquals("Package $packageName new state: $name", shell("pm $command --user 0 $packageName"))
+                    }
+                    assertEquals(original, pm.getApplicationEnabledSetting(packageName))
+                }
+            }
+            cleanup { waitUntil { handlers() == initial } }
+            cleanupFailure?.let { throw it }
         }
+    }
+
+    private fun restoreLegacyDefaultCameraPackage(packageName: String, pm: PackageManager) {
+        // Android6 Pm.java has no `default-state` command. `enable` is not an
+        // equivalent restoration: it changes the original DEFAULT(0) to ENABLED(1).
+        // Use the same platform PackageManager Binder operation as that version's
+        // `pm enable`, with DEFAULT instead. Never hardcode a transaction number,
+        // guess another platform ABI, root the AVD, or weaken a readback assertion.
+        check(Build.VERSION.SDK_INT == 23 && Process.myUid() / 100_000 == 0)
+        check(packageName in setOf("com.android.camera", "com.android.camera2", "com.google.android.GoogleCamera"))
+        check(pm.getApplicationInfo(packageName, 0).flags and ApplicationInfo.FLAG_SYSTEM != 0)
+        check(pm.getApplicationEnabledSetting(packageName) == PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER)
+        val contract = Class.forName("android.content.pm.IPackageManager")
+        val method = contract.getDeclaredMethod("setApplicationEnabledSetting", String::class.java,
+            Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType, String::class.java)
+        check(method.returnType == Void.TYPE)
+        val stub = Class.forName("android.content.pm.IPackageManager\$Stub")
+        check(contract.isAssignableFrom(stub))
+        val field = stub.getDeclaredField("TRANSACTION_setApplicationEnabledSetting")
+        check(field.type == Int::class.javaPrimitiveType && java.lang.reflect.Modifier.isStatic(field.modifiers))
+        field.isAccessible = true
+        val transaction = field.getInt(null)
+        check(transaction in 1..256)
+        // Exact Android6 AIDL: (packageName, newState, flags, userId, callingPackage).
+        // `service call` itself obtains/writes the running service's interface token.
+        val reply = shell("service call package $transaction s16 $packageName i32 0 i32 0 i32 0 s16 shell:2000")
+        check(Regex("""Result: Parcel\(\s*00000000\s+'\.\.\.\.'\s*\)""").matches(reply)) {
+            "Expected the exact Android6 void Binder no-exception reply"
+        }
+        assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, pm.getApplicationEnabledSetting(packageName))
     }
 
     private fun shell(command: String): String = ParcelFileDescriptor.AutoCloseInputStream(

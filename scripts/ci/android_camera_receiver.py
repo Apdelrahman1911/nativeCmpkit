@@ -154,8 +154,8 @@ class OwnedCameraReceiver(OwnedShareRecipient):
 
 def archive_focused_reports(root: Path, output: Path, receipt: dict, plan: dict) -> dict:
     """Preserve the first actual XML before a serial second API overwrites Gradle's report tree."""
-    if (plan.get("explicit_test_focus") != lt.ANDROID_CAMERA_PROVIDER_FOCUS or
-            not lt.validate_test_focus(plan) or receipt.get("explicit_test_focus") != lt.ANDROID_CAMERA_PROVIDER_FOCUS or
+    if (plan.get("explicit_test_focus") not in lt.ANDROID_CAMERA_PROVIDER_FOCUSES or
+            not lt.validate_test_focus(plan) or receipt.get("explicit_test_focus") != plan.get("explicit_test_focus") or
             receipt.get("suite") != "android-device" or receipt.get("source_tree_dirty") is not False or
             receipt.get("source_revision_after") != receipt.get("source_revision") or receipt.get("changed_inputs") != []):
         raise ValueError("Only unchanged-source finite camera results can be archived")

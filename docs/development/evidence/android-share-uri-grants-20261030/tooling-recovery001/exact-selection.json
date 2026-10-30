@@ -1,0 +1,108 @@
+{
+  "accepted_geo_host_portable_or_other_native_methods_replayed": false,
+  "actual_incoming_Activity_result_and_outgoing_URI_grants_required": true,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+      ":calf-share:connectedAndroidDeviceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 3,
+  "manual_URI_grant": false,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "android-share-uri-grants",
+      "test-modules": "calf-share"
+    }
+  ],
+  "only_three_still_unexecuted_sharing_native_methods": true,
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-share/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-share",
+          "project": ":calf-share",
+          "report_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+              "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+              "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+              "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData"
+            }
+          ],
+          "task": ":calf-share:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "test_source_files": [
+            "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+            "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/GrantlessShareProvider.kt",
+            "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/OwnedShareRecipient.kt",
+            "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-share"
+      ],
+      "explicit_test_focus": "android-share-uri-grants",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "Three actual library Android URI intent/provider methods with a signature-protected separate-UID recipient. Android owns grants, revocation and descriptor reads; only chooser recipient selection is redirected. Not chooser UX, DocumentsUI/cloud/photo-picker/vendor, physical/minimum-platform, heap, packaged consumer, ABI or release/security certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "android-share-grants",
+  "source_consumers_not_samples_or_packaged_Maven": true,
+  "three_distinct_native_UIDs_required": true
+}

@@ -1,5 +1,13 @@
 # NativeCmpKit development after the audit
 
+## Sharing request tooling-only recovery — 2026-10-30
+
+[41061512812 and exact recovery](evidence/android-share-uri-grants-20261030/tooling-recovery001/README.md)
+remain explicit:1071 synthetic passes/three stale inventory guards, zero native
+executions; only those three failed methods pass locally after exact updates.
+The same three actual share cases still require immutable native verification.
+#83 remains open; no accepted APK/inspection/runtime replay or release clearance.
+
 ## Android provider prerequisites verified and closed — 2026-10-30
 
 **#25/PERM-021 CLOSED/completed** after both original criteria and independent

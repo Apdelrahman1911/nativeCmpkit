@@ -123,7 +123,7 @@ class AndroidGeoProviderTests(unittest.TestCase):
         self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + CLASS, command)
         self.assertEqual(":calf-geo:connectedAndroidDeviceTest", command[-1])
         self.assertEqual(11, len(wm.matrix("all")["include"]))
-        self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation"],
+        self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share"],
                          [m["module"] for m in lt.plan(lt.ROOT, "android-device")["expected"]])
         workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
         self.assertIn(PROFILE, workflow)

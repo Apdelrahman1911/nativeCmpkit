@@ -1,5 +1,15 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Sharing native request: exact inventory recovery — 2026-10-30
+
+Actual41061512812 at44b9a16f FAILED: CI1074 synthetic methods/1071 pass/three
+stale six-module/twelve-tree guards. Native jobs skipped/ZERO executions.
+[Owning recovery](docs/development/evidence/android-share-uri-grants-20261030/tooling-recovery001/README.md)
+passes only three failed methods, retains all seven modules/fourteen confined trees
+and all11 slots. Only three test guards change; accepted APK/signature/manifest
+results reused, no native expectation weakened. One immutable three-case request
+still required; #83 open.88closed/84open; solo/max2heavy/8GiB/all publishing gates stay.
+
 ## Android provider prerequisites verified and closed — 2026-10-30
 
 **#25/PERM-021 CLOSED/completed** after both original criteria and independent

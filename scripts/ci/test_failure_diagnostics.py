@@ -208,12 +208,12 @@ class FailureDiagnosticsTests(unittest.TestCase):
             result = d.capture(root, "build/ci-verification/slot")
             self.assertFalse(result["test_success_inferred"])
             self.assertFalse(result["full_logs_uploaded"])
-            # All six required device modules, including navigation/geo, with
+            # All seven required device modules, including navigation/geo/share, with
             # public UTP and declared XML trees each. Assert the exact paths;
             # inventories are still never inferred as test passes.
             expected_modules = (
                 "calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
-                "calf-navigation",
+                "calf-navigation", "calf-share",
             )
             self.assertEqual([
                 relative

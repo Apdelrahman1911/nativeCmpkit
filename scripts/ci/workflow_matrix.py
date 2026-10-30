@@ -121,6 +121,7 @@ PROFILES = {
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
     "android-webview-popups": ("android-device-api35",),
+    "android-navigation-back": ("android-device-api35",),
     "android-io-oversize": ("android-device-api35",),
     "android-saver-identity": ("android-device-api35",),
     "android-saver-identity-missing": ("android-device-api35",),
@@ -142,6 +143,7 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
     "ios-image-memory-darwin": "calf-ui",
@@ -277,6 +279,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-webview-popups":
         for row in rows:
             row["test-focus"] = "android-webview-popup-policy"
+    if profile == "android-navigation-back":
+        for row in rows:
+            row["test-focus"] = "android-adaptive-navigation-back"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

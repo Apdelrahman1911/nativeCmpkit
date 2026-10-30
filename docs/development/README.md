@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Navigation/geo owning consumer patch prepared — 2026-10-30
+
+[Related #96/#115 patch](navigation-geo-public-contracts.md) follows actual Android public-classpath
+compiler red: hidden AndroidX controller/GMS superclass. Existing Android API
+dependencies exported, same versions/signatures; standalone common/Android
+six-target source consumer is not packaged/ABI evidence.101 distinct important
+synthetic methods accepted; failed CLI/caller-module/stale device-count events
+remain failed with only owning recovery. ZERO new compiler/native runtime success.
+One real Android system BACK method/fixed finite profile; predictive animations/
+UIKit/web-history/desktop shortcuts and non-Android acquisition remain unsupported.
+Reuse valid40528445496/40616313571 inputs, no accepted-runtime replay. #96/#115
+open;84closed/88open;33implemented/43partial/82verified/six unresolved.
+Solo/max2heavy/8GiB and all publishing/Pages/main/history/readiness/security gates stay.
+
+
 ## Android popup policy verified and closed — 2026-10-30
 
 **[#90/NATIVE-038 CLOSED/completed](evidence/popup-policy-batch-important-20261030/closure001/README.md)** after all three

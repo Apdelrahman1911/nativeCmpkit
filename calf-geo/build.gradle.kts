@@ -19,8 +19,11 @@ kotlin {
     }
     sourceSets.androidMain.dependencies {
         implementation(libs.kotlinx.coroutines.android)
-        implementation(libs.appcompat)
-        implementation(libs.lifecycle.extensions)
-        implementation(libs.play.services.location)
+        // Retained public Android bind signatures expose FragmentManager/Lifecycle,
+        // and LocationTracker extends LocationCallback with a LocationResult override.
+        // Export the existing dependencies; do not require hidden consumer declarations.
+        api(libs.appcompat)
+        api(libs.lifecycle.extensions)
+        api(libs.play.services.location)
     }
 }

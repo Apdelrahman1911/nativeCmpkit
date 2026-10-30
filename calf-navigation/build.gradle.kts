@@ -20,6 +20,19 @@ kotlin {
     }
 
     sourceSets.androidMain.dependencies {
-        implementation(libs.android.navigation.compose)
+        // The retained public Android actual typealias/bridge exposes NavHostController.
+        // Consumers must not need a second, hidden AndroidX navigation declaration.
+        api(libs.android.navigation.compose)
+    }
+
+    sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+        dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.junit)
+            implementation(libs.androidx.compose.ui.test.junit4)
+            implementation(libs.androidx.compose.ui.test.manifest)
+        }
     }
 }

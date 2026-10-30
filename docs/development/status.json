@@ -46,23 +46,23 @@
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
-    "docs/development/resolutions/NAV.json": "a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436",
-    "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
+    "docs/development/resolutions/NAV.json": "5934b007a1c5a7a97bb94025083554c84e0ec8d41c536168c896fc28ae16805c",
+    "docs/development/resolutions/PERM-geo.json": "c7c3aa10473cbc62219b20486b6be5a322bb021f15cc00a8c0e6af97a8ef4486",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "b28dce087d577b7d32efbf4f5f4cadf11862ed71b57384486c198f9b3b35092e",
+  "input_fingerprint": "623a9a0835ef3f975b99d96d16b2df8852aef4dd65bfc947f1a58a37ccba2727",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 34,
-      "partially-verified": 42,
+      "implemented": 33,
+      "partially-verified": 43,
       "verified": 82,
       "unresolved": 6,
       "not-applicable": 0
@@ -19666,21 +19666,25 @@
         "mapping_key": "audit:NAV-008",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "1628b6d73fa404f6591cb03d4021913516ec0a78c89c7b0c8dd09b78e286dcbf",
+      "owner_record_sha256": "8987ba5693499153e562229825df0ed04bb5d2bfeac2a21bcfa288d837c7979f",
       "owner_record": {
         "id": "NAV-008",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "Documented the independent adaptive Compose contract and distinct legacy AndroidX platform bridge.",
-          "Added explicitly named rememberAdaptiveNavController and canNavigateBack; retained existing factory/bridge signatures."
+          "Added explicitly named rememberAdaptiveNavController and canNavigateBack; retained existing factory/bridge signatures.",
+          "Actual standalone Android common-consumer compiler exposed hidden public API dependencies. Export existing AndroidX Navigation controller and geo Google LocationCallback/Lifecycle/FragmentManager dependencies using api; no dependency version or public identity/signature changes."
         ],
         "affected_paths": [
           "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavHostController.kt",
           "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavHostController.kt",
           "docs/decisions/0004-adaptive-navigation-entries.md",
-          "calf-navigation/README.md"
+          "calf-navigation/README.md",
+          "calf-navigation/build.gradle.kts",
+          "tests/consumer/navigation-geo-source",
+          "docs/development/navigation-geo-public-contracts.md"
         ],
         "tests": [
           {
@@ -19798,13 +19802,24 @@
               "docs/development/evidence/io-nav-desktop-001-context/context-review.json",
               "docs/development/evidence/navigation/browser004-desktop001-verification.json"
             ]
+          },
+          {
+            "command": "Focused public source consumer Android001/002/003 and important tooling events in docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/README.md",
+            "result": "Actual Android003 compiler FAILED1/125.03s with1004 inputs held at public AndroidX NavHostController and GMS LocationCallback; earlier caller init-path/offline acquisition failures preserved. Owning API-dependency patch prepared.101 distinct synthetic methods accepted after failed owning guards only; actionlint1.7.12 and finite native1-case CLI preflight pass. ZERO new consumer success or native/runtime execution.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/README.md",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/consumer-android003.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/important-tools.json"
+            ],
+            "scope": "Source integration for intentionally unpublished experiments, not packages/ABI or a sample. Exactly one new native Android BACK method requested; accepted unchanged nav/geo runtime tests must be reused only after exact applicability review."
           }
         ],
         "remaining": [
           "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
           "Verify consumer compilation of both factory/bridge identities on Android and non-Android targets.",
           "Native UIKit interactive back/browser history/desktop shortcuts/per-entry ViewModel owners remain explicitly unsupported; no native-stack rewrite performed.",
-          "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json."
+          "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.",
+          "Current public API-transitivity repair and six-target standalone common/Android consumer await immutable compilation; one actual Android completed system-BACK/current-owner/disposal method awaits immutable device execution. Predictive-progress/animation/native-stack features are explicitly unsupported, not fabricated passes."
         ],
         "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing legacy platform bridge is not silently unified or removed."
       },
@@ -20503,7 +20518,7 @@
         {
           "id": "NAV-008",
           "original_order": 108,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/96"
         }
       ],
@@ -21995,13 +22010,14 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "ef6b025ced587a6b8fbad966758a0786345e33607b996a492cdab5ecc58f5316",
+      "owner_record_sha256": "6435f6b0fb8b57e9512a88edf7be2e2a9c72f4395e284618ad094177ae45b145",
       "owner_record": {
         "id": "PERM-019",
         "status": "partially-verified",
         "changes": [
           "Add common createLocationTracker factory, capability/snapshot/start-result/close contracts.",
-          "All four nonAndroid actuals return Unsupported and nullable no-fix, without console logging or fabricated zero coordinates."
+          "All four nonAndroid actuals return Unsupported and nullable no-fix, without console logging or fabricated zero coordinates.",
+          "Actual standalone Android common-consumer compiler exposed hidden public API dependencies. Export existing AndroidX Navigation controller and geo Google LocationCallback/Lifecycle/FragmentManager dependencies using api; no dependency version or public identity/signature changes."
         ],
         "affected_paths": [
           "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
@@ -22009,7 +22025,10 @@
           "calf-geo/src/desktopMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
           "calf-geo/src/iosMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt",
           "calf-geo/src/jsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.js.kt",
-          "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt"
+          "calf-geo/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.wasmJs.kt",
+          "calf-geo/build.gradle.kts",
+          "tests/consumer/navigation-geo-source",
+          "docs/development/navigation-geo-public-contracts.md"
         ],
         "tests": [
           {
@@ -22198,13 +22217,24 @@
               "UnsupportedLocationTrackerTest": 2
             },
             "scope": "Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Actual Chrome153 browser execution of production common policies/state machines and explicit unsupported/helper contracts. Not Android OS/ActivityResult or Apple framework/provider execution, privacy UI, hardware, rendered DOM/Compose UI, complete API/ABI, Maven consumers, immutable candidate or release certification."
+          },
+          {
+            "command": "Focused public source consumer Android001/002/003 and important tooling events in docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/README.md",
+            "result": "Actual Android003 compiler FAILED1/125.03s with1004 inputs held at public AndroidX NavHostController and GMS LocationCallback; earlier caller init-path/offline acquisition failures preserved. Owning API-dependency patch prepared.101 distinct synthetic methods accepted after failed owning guards only; actionlint1.7.12 and finite native1-case CLI preflight pass. ZERO new consumer success or native/runtime execution.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/README.md",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/consumer-android003.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/important-tools.json"
+            ],
+            "scope": "Source integration for intentionally unpublished experiments, not packages/ABI or a sample. Exactly one new native Android BACK method requested; accepted unchanged nav/geo runtime tests must be reused only after exact applicability review."
           }
         ],
         "remaining": [
           "iOS/browser/desktop location-acquisition backends intentionally remain unsupported; implementation is separately scoped.",
           "JS004 and Wasm004 actual/common-factory unsupported/no-fix/terminal-close cases each passed2/2 on Chrome153. iOS actual runtime tests remain pending; non-Android acquisition remains deliberately unsupported, not certified by these contract tests.",
           "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "No standalone common consumer fixture has been compiled for unpublished geo; deferred iOS usage-key/denial/accuracy and browser secure-context/watch-cancellation checks require actual acquisition backends, not an unsupported-result test."
+          "No standalone common consumer fixture has been compiled for unpublished geo; deferred iOS usage-key/denial/accuracy and browser secure-context/watch-cancellation checks require actual acquisition backends, not an unsupported-result test.",
+          "Current public API-transitivity repair and standalone common/Android overload consumer await immutable six-target compilation and independent applicability review of40528445496; acquisition backends on non-Android remain explicitly unsupported."
         ],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
@@ -26537,7 +26567,7 @@
         {
           "id": "NAV-008",
           "original_order": 108,
-          "reported_status": "implemented",
+          "reported_status": "partially-verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/96"
         }
       ],

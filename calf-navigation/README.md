@@ -3,7 +3,11 @@
 This unpublished module supplies an independent Compose stack, **not** a
 cross-platform wrapper around native UIKit/browser stacks. Android system back is
 handled; browser history, UIKit interactive back, desktop back shortcuts and
-per-entry ViewModel/lifecycle owners are not implemented.
+per-entry ViewModel/lifecycle owners are not implemented. Android integrates the
+completed system-back event through the public Activity `BackHandler`; predictive
+gesture progress/animation is not implemented or promised. Application-provided
+buttons/gestures can call the adaptive controller's `popBackStack` on every target;
+they do not become native UIKit/browser/desktop navigation integration.
 
 ```kotlin
 val controller = rememberAdaptiveNavController()
@@ -56,6 +60,8 @@ NavArgument>` callback shape. For a nullable default, use `setIsNullable(true)` 
 `rememberNavController()` remains an alias of the explicit adaptive factory. The
 separate `NavHostController` expect/actual bridge still means **AndroidX** on Android
 and adaptive elsewhere; do not mix it with this host on Android.
+The retained AndroidX typealias is exposed through the Android API dependency;
+source consumers must not supply an otherwise hidden navigation dependency.
 
 `navigate(route, arguments = mapOf("id" to NavArgument.Builder()
 .setDefaultValue(42).build()))` remains available and now actually delivers values.

@@ -47,14 +47,14 @@
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
     "docs/development/resolutions/NAV.json": "5934b007a1c5a7a97bb94025083554c84e0ec8d41c536168c896fc28ae16805c",
-    "docs/development/resolutions/PERM-geo.json": "c7c3aa10473cbc62219b20486b6be5a322bb021f15cc00a8c0e6af97a8ef4486",
+    "docs/development/resolutions/PERM-geo.json": "81a3ecd7237c2937d2291cd01f4c55c3f69c35c79aacd0f01f5b4369b9aa3fa9",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "623a9a0835ef3f975b99d96d16b2df8852aef4dd65bfc947f1a58a37ccba2727",
+  "input_fingerprint": "2b95eb5e73a7d58fc0a91641b723df47c58b0a2a5652e00bb8a916b23c4017d1",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 33,
-      "partially-verified": 43,
-      "verified": 82,
+      "partially-verified": 42,
+      "verified": 83,
       "unresolved": 6,
       "not-applicable": 0
     },
@@ -22008,12 +22008,12 @@
         "mapping_key": "audit:PERM-019",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "6435f6b0fb8b57e9512a88edf7be2e2a9c72f4395e284618ad094177ae45b145",
+      "owner_record_sha256": "274bd12325154bca9cd4a9b0eb79e47d6d50b56ab231dfbbf22c04832f15c150",
       "owner_record": {
         "id": "PERM-019",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Add common createLocationTracker factory, capability/snapshot/start-result/close contracts.",
           "All four nonAndroid actuals return Unsupported and nullable no-fix, without console logging or fabricated zero coordinates.",
@@ -22227,21 +22227,34 @@
               "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/important-tools.json"
             ],
             "scope": "Source integration for intentionally unpublished experiments, not packages/ABI or a sample. Exactly one new native Android BACK method requested; accepted unchanged nav/geo runtime tests must be reused only after exact applicability review."
+          },
+          {
+            "command": "Immutable six-target standalone source consumer; see actual command/result",
+            "result": "PASS six fresh compiler tasks at6fd89634, exit0/169.04s;1007 held before/after inputs, six exact begin/end markers. Zero runtime tests, Apple KLIB only; existing Android public dependencies exported without version/signature change.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/consumer-matrix001/build.log.result.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/consumer-matrix001/marker-review.json"
+            ],
+            "scope": "Source consumer, not packaged Maven/ABI/Apple linking."
+          },
+          {
+            "command": "Read-only original-criteria and exact23-source/runtime applicability review of40528445496/40414284598; no accepted runtime rerun",
+            "result": "Both original requirements reviewed; ten actual accepted unsupported/no-fix/close and Android foreground/common-factory/registered-fix executions reused. All23 geo sources/relevant dependency versions unchanged. Explicit unavailable backends satisfy chosen original recommendation; acquisition-specific tests are not applicable, not claimed passed. #115 independently CLOSED/completed preserving body/title/labels.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/geo-closure001/geo-runtime-reuse-review.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/geo-closure001/PERM-019-original-criteria-acceptance.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/geo-closure001/PERM-019-closure-readback.json"
+            ],
+            "scope": "Actual unsupported target contracts and Android host production/GMS models with injected transport, not GPS/devices/privacy certification."
           }
         ],
-        "remaining": [
-          "iOS/browser/desktop location-acquisition backends intentionally remain unsupported; implementation is separately scoped.",
-          "JS004 and Wasm004 actual/common-factory unsupported/no-fix/terminal-close cases each passed2/2 on Chrome153. iOS actual runtime tests remain pending; non-Android acquisition remains deliberately unsupported, not certified by these contract tests.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "No standalone common consumer fixture has been compiled for unpublished geo; deferred iOS usage-key/denial/accuracy and browser secure-context/watch-cancellation checks require actual acquisition backends, not an unsupported-result test.",
-          "Current public API-transitivity repair and standalone common/Android overload consumer await immutable six-target compilation and independent applicability review of40528445496; acquisition backends on non-Android remain explicitly unsupported."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
         ],
-        "verification_scope": "The desktop actual/factory unsupported/no-fix contract passed 2 actual desktop tests; Android factory/wrapper was exercised in the host suite. JS and Wasm browser actual/common-factory tests each passed2/2 in the004 diagnostics; iOS actual runtime tests remain pending; non-Android location acquisition deliberately remains unsupported. No complete cross-platform or immutable release verification. JS full-run23:00–23:10 UTC also passed UnsupportedLocationTrackerTest (2 cases through actual JS/common factory) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant UnsupportedLocationTrackerTest passed2/2 per target. Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
-        "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+        "verification_scope": "Verified original experimental/unavailable/common factory contract: fresh six-target source consumer and ten exact unchanged accepted runtime outcomes. Non-Android acquisition explicitly unsupported. Android host uses injected GMS transport, not physical GPS. Original requirements reviewed and #115 CLOSED/completed; independent PERM021/device/minimum/packaged/ABI/dependency/legal/security/release gates remain.",
+        "required_tests_review": "docs/development/evidence/navigation-geo-public-contracts-20261030/geo-closure001/PERM-019-original-criteria-acceptance.json"
       },
       "closure_or_release_authorized_by_index": false
     },

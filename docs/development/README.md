@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Geo subset closed; Android BACK recovery queued — 2026-10-30
+
+**#115/PERM-019 CLOSED/completed** after both original criteria and independent
+[readback](evidence/navigation-geo-public-contracts-20261030/geo-closure001/README.md). Six actual standalone source
+compiler tasks at6fd89634 pass0/169.04s/1007 held inputs; ten unchanged accepted
+runtime executions reused, not rerun. Non-Android acquisition remains explicitly
+unsupported, not a privacy/watch/device pass. **85closed/87open/172total**;
+33implemented/42partial/83verified/six unresolved audit dispositions.
+
+41028301775 stays FAILED at one stale synthetic diagnostic guard, zero native
+APK compilation/tests. Owning exact five-module/two-tree assertion passes1/1;
+production diagnostics/confinement/no-success-inference remain unchanged.
+Guard-only62247937 is pushed; one still-unexecuted Android BACK method requested
+in41030070984, pending actual review. The accepted six-target consumer result
+is reused after exact sole-guard applicability; no accepted portable runtime replay.
+#96 remains open. Single-agent/max2heavy/8GiB, read-only verification and all
+publishing/Pages/main/history/minimum/ABI/packaged/dependency/legal/security/
+release gates stay unchanged.
+
 ## Navigation/geo owning consumer patch prepared — 2026-10-30
 
 [Related #96/#115 patch](navigation-geo-public-contracts.md) follows actual Android public-classpath

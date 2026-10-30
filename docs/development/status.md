@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `623a9a0835ef3f975b99d96d16b2df8852aef4dd65bfc947f1a58a37ccba2727`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2b95eb5e73a7d58fc0a91641b723df47c58b0a2a5652e00bb8a916b23c4017d1`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 33 |
-| partially-verified | 43 |
-| verified | 82 |
+| partially-verified | 42 |
+| verified | 83 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -168,7 +168,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 120 | [PERM-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/112) | Medium | 2 | M | partially-verified | PERM-007 | 2 / 1 |
 | 121 | [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) | Medium | 2 | L | partially-verified | — | 2 / 2 |
 | 122 | [PERM-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114) | Medium | 2 | L | verified | PERM-016 | 2 / 0 |
-| 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | partially-verified | PERM-018 | 2 / 5 |
+| 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | verified | PERM-018 | 2 / 0 |
 | 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
 | 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
 | 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | verified | — | 3 / 0 |
@@ -2770,7 +2770,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 123. PERM-019 — Non-Android geolocation trackers only print messages and report fabricated zero coordinates
 
-**Medium · partially-verified · original effort XL** — [nativeCmpkit #115](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**Medium · verified · original effort XL** — [nativeCmpkit #115](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21).
 
@@ -2781,13 +2781,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- iOS/browser/desktop location-acquisition backends intentionally remain unsupported; implementation is separately scoped.
-- JS004 and Wasm004 actual/common-factory unsupported/no-fix/terminal-close cases each passed2/2 on Chrome153. iOS actual runtime tests remain pending; non-Android acquisition remains deliberately unsupported, not certified by these contract tests.
-- Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.
-- No standalone common consumer fixture has been compiled for unpublished geo; deferred iOS usage-key/denial/accuracy and browser secure-context/watch-cancellation checks require actual acquisition backends, not an unsupported-result test.
-- Current public API-transitivity repair and standalone common/Android overload consumer await immutable six-target compilation and independent applicability review of40528445496; acquisition backends on non-Android remain explicitly unsupported.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** The desktop actual/factory unsupported/no-fix contract passed 2 actual desktop tests; Android factory/wrapper was exercised in the host suite. JS and Wasm browser actual/common-factory tests each passed2/2 in the004 diagnostics; iOS actual runtime tests remain pending; non-Android location acquisition deliberately remains unsupported. No complete cross-platform or immutable release verification. JS full-run23:00–23:10 UTC also passed UnsupportedLocationTrackerTest (2 cases through actual JS/common factory) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant UnsupportedLocationTrackerTest passed2/2 per target. Public createLocationTracker() and each real target actual; actual acquisition is Unsupported, not a working browser geolocation backend. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.
+**Owner verification scope:** Verified original experimental/unavailable/common factory contract: fresh six-target source consumer and ten exact unchanged accepted runtime outcomes. Non-Android acquisition explicitly unsupported. Android host uses injected GMS transport, not physical GPS. Original requirements reviewed and #115 CLOSED/completed; independent PERM021/device/minimum/packaged/ABI/dependency/legal/security/release gates remain.
 
 **Compatibility / scope:** Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification. Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.
 
@@ -3590,7 +3586,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5934b007a1c5a7a97bb94025083554c84e0ec8d41c536168c896fc28ae16805c` |
-| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `c7c3aa10473cbc62219b20486b6be5a322bb021f15cc00a8c0e6af97a8ef4486` |
+| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `81a3ecd7237c2937d2291cd01f4c55c3f69c35c79aacd0f01f5b4369b9aa3fa9` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |

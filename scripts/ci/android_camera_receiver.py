@@ -16,6 +16,43 @@ MAX_INSTALLED_APK_BYTES = 256 * 1024**2
 INSTALLED_APK_TIMEOUT_SECONDS = 30
 
 
+def package_path_shape(result: subprocess.CompletedProcess) -> dict:
+    """Describe a refusal without exporting command bodies or installed paths.
+
+    Classification is diagnostic only. In particular, a linker/SELinux message
+    never becomes a valid path, successful install or permission by this helper.
+    """
+    stdout, stderr = result.stdout, result.stderr
+    bounded = len(stdout) + len(stderr) <= 65536
+    lines = stdout.splitlines() if bounded else []
+    shapes = []
+    for line in lines[:16]:
+        value = line.decode("utf-8", errors="replace")
+        lower = value.lower()
+        row = {"sha256": hashlib.sha256(line).hexdigest(), "bytes": len(line)}
+        if "avc:" in lower:
+            row["kind"] = "SELinux-diagnostic"
+        elif "linker" in lower and "unused DT entry" in value:
+            row["kind"] = "linker-unused-DT-entry"
+            types = re.findall(r"\btype (0x[0-9a-fA-F]{1,16})\b", value)
+            row["dynamic_entry_types"] = types[:4]
+        elif "linker" in lower:
+            row["kind"] = "linker-diagnostic"
+        elif value.startswith("package:"):
+            path = value.removeprefix("package:")
+            row.update(kind="package-path", strict_base_APK_shape=bool(re.fullmatch(r"/data/app/[A-Za-z0-9_./+=~-]+/base\.apk", path)) and ".." not in path,
+                       root_is_data_app=path.startswith("/data/app/"), suffix_is_base_APK=path.endswith("/base.apk"),
+                       contains_control_or_internal_space=bool(re.search(r"[\x00-\x20\x7f]", path)))
+        else:
+            row["kind"] = "other"
+        shapes.append(row)
+    return {"response_exit_code": result.returncode, "stdout_bytes": len(stdout), "stderr_bytes": len(stderr),
+            "stdout_sha256": hashlib.sha256(stdout).hexdigest(), "stderr_sha256": hashlib.sha256(stderr).hexdigest(),
+            "response_bounded": bounded, "stdout_line_count": len(lines), "lines": shapes,
+            "unclassified_additional_lines": max(0, len(lines) - len(shapes)),
+            "raw_console_or_installed_paths_uploaded": False, "path_or_install_identity_accepted": False}
+
+
 class OwnedCameraReceiver(OwnedShareRecipient):
     PACKAGE = "io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver"
     FIXTURE = "tests/consumer/android-camera-receiver"
@@ -32,7 +69,12 @@ class OwnedCameraReceiver(OwnedShareRecipient):
     def readback(self) -> dict | None:
         if self.api_level == 35:
             return super().readback()  # Keep the accepted modern/native checksum route.
-        path = installed_path(self.control("shell", "pm", "path", self.PACKAGE))
+        observation = self.control("shell", "pm", "path", self.PACKAGE)
+        history = self.receipt.setdefault("package_path_observations", [])
+        if len(history) >= 8:
+            raise ValueError("No repeated/unbounded package path observation")
+        history.append(package_path_shape(observation))
+        path = installed_path(observation)  # Keep the rejecting guard until actual response is reviewed.
         if path is None:
             return None
         # Android6's toolbox/toybox contract does not include sha256sum. Choose

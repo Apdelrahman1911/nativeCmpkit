@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Minimum installed-path guard identified / fail-fast observation — 2026-10-30
+
+Actual41083152296 ateb6e9d2e FAILED: EnforcingAPI23, AVD0/3.0s, reporterAPK0/
+301.08s, receiverAPK0/90.04s/install0/source887365bytes; ZERO native/XML.
+Exact source origin is `android_geo_probe.py:71 installed_path`; actual response
+shape remains unknown, not a linker/SELinux/checksum diagnosis. Stream not reached;
+recipient uninstall unverified, owned emulator+ADB removal pass. [Owning repair](evidence/android-camera-provider-20261030/minimum-path001/README.md)
+records private-safe bounded shape/hash facts without accepting/suppressing anything;
+only exactAPI23 validates receiver before costly reporter compile. Three initial
+reds/85+1 disjoint important synthetic passes, ZERO native. Reuse API35four/host22.
+#78/#13/#80/#141 open;89closed/83open; all solo/max2heavy/8GiB/publishing/Pages/
+main/history/readiness/security gates stay. Seven newly authored real-OS/secondary-
+process camera-restoration drafts are preserved privately, not compiled/executed or
+auto-enabled; review state-control/cleanup before restoration. They do not close#13.
+
+
 ## Minimum camera installed-byte ownership repair — 2026-10-30
 
 Actual41079029687 atb5619a5f FAILED: AVD0/2.0s, APK0/230.05s, actual

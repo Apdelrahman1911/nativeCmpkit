@@ -189,6 +189,24 @@ class CameraMinimumInstallerTests(unittest.TestCase):
         self.assertEqual({"source": "unavailable", "symbol": "unavailable", "line": 0}, origin)
         self.assertNotIn("PRIVATE_", json.dumps(origin)); self.assertNotIn("unrelated-private", json.dumps(origin))
 
+    def test_API23_rejected_path_preserves_shape_not_private_console_or_raw_installed_name(self):
+        output = b'WARNING: linker: PRIVATE_TEXT unused DT entry: type 0x1d arg 0x123\r\npackage:' + self.native_path.encode() + b'\r\n'
+        with patch.object(self.owner, "control", return_value=self.result(body=output)), \
+                patch.object(receiver.subprocess, "Popen") as start, self.assertRaises(ValueError): self.owner.readback()
+        start.assert_not_called()
+        item, = self.owner.receipt["package_path_observations"]
+        self.assertEqual(0, item["response_exit_code"]); self.assertEqual(2, item["stdout_line_count"])
+        self.assertEqual(["linker-unused-DT-entry", "package-path"], [row["kind"] for row in item["lines"]])
+        self.assertEqual(hashlib.sha256(output).hexdigest(), item["stdout_sha256"])
+        self.assertEqual(0, item["stderr_bytes"]); self.assertNotIn("PRIVATE_", json.dumps(item)); self.assertNotIn(self.native_path, json.dumps(item))
+
+    def test_path_observation_classification_does_not_accept_SELinux_errors_duplicates_or_unknown_text(self):
+        body = (b'avc: denied PRIVATE_TEXT\npackage:' + self.native_path.encode() + b'\npackage:' + self.native_path.encode() + b'\n')
+        result = receiver.package_path_shape(self.result(body=body))
+        self.assertEqual(["SELinux-diagnostic", "package-path", "package-path"], [row["kind"] for row in result["lines"]])
+        self.assertFalse(result["path_or_install_identity_accepted"])
+        self.assertNotIn("PRIVATE_", json.dumps(result)); self.assertNotIn(self.native_path, json.dumps(result))
+
 
 class CameraProviderPlanTests(unittest.TestCase):
     def plan(self): return l.plan(l.ROOT, "android-device", only_modules=("calf-camera-picker",), focus=l.ANDROID_CAMERA_PROVIDER_FOCUS)

@@ -255,6 +255,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     camera_receiver = None
     verified = False
     log = None
+    deferred_api23_assembly = diagnostics and api_level == 23
+    if deferred_api23_assembly:
+        result["reporter_compile_deferred_until_receiver_byte_identity"] = True
     try:
         stages = (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120))
         if lt.android_camera_receiver_required(plan):
@@ -262,6 +265,12 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             # compilation. This creates only our private AVD; launch still waits for
             # both prerequisites. Other profiles preserve their existing setup order.
             stages = stages[::-1]
+        if deferred_api23_assembly:
+            # A minimum-only receiver/package-path refusal must not waste a full
+            # library APK compilation. Both APKs still use the exact private key
+            # environment, and the reporter/native suite cannot run without a
+            # successfully byte-identified receiver and actual enforcing boot.
+            stages = tuple(item for item in stages if item[0] != "apk-assembly")
         for stage, command, timeout in stages:
             execution = lt.execute(root, command, output / (stage + ".log"), timeout, RESERVE_MIB, env=env)
             result["setup_stages"][stage] = execution
@@ -289,6 +298,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             camera_receiver = android_camera_receiver.OwnedCameraReceiver(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env, api_level=api_level)
             result["camera_receiver"] = camera_receiver.prepare()
+            if deferred_api23_assembly:
+                execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)
+                result["setup_stages"]["apk-assembly"] = execution
+                if execution["exit_code"] != 0 or execution.get("stop_reason"):
+                    raise RuntimeError("Reporter setup failed before any device test execution")
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()

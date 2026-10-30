@@ -365,6 +365,38 @@ class ControllerReceipts(unittest.TestCase):
         self.assertEqual({"source", "symbol", "line"}, set(result["camera_receiver_cleanup_error_origin"]))
         self.assertNotIn("PRIVATE_", json.dumps(result))
 
+    def test_camera_API23_receiver_guard_runs_before_expensive_reporter_compile_without_native_or_cleanup_waiver(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
+                         explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)
+        with self.controlled() as mocks, patch.object(c.android_camera_receiver, "OwnedCameraReceiver") as factory:
+            owner = factory.return_value; owner.receipt = {"owned_recipient_removed": False}
+            owner.prepare.side_effect = ValueError("PRIVATE_PREPARE_GUARD")
+            owner.close.return_value = {"owned_recipient_removed": True}
+            result = c.run(self.root, self.relative, only_modules=("calf-camera-picker",), focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS, api_level=23)
+        self.assertFalse(result["passed"]); self.assertFalse(result["test_suite_passed"])
+        self.assertEqual(1, mocks["execute"].call_count)
+        self.assertEqual({"owned-avd-create"}, set(result["setup_stages"]))
+        mocks["tests"].assert_not_called(); owner.close.assert_called_once(); mocks["shutdown"].assert_called_once()
+        self.assertNotIn("PRIVATE_", json.dumps(result))
+
+    def test_camera_API23_compiles_reporter_only_after_boot_and_receiver_and_cleans_both_on_compile_refusal(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
+                         explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)
+        order = []
+        with self.controlled() as mocks, patch.object(c.android_camera_receiver, "OwnedCameraReceiver") as factory:
+            owner = factory.return_value
+            mocks["execute"].side_effect = lambda root, command, *a, **k: order.append("reporter" if command[0] == "./gradlew" else "create") or {"exit_code": 1 if command[0] == "./gradlew" else 0}
+            mocks["boot"].side_effect = lambda *a, **k: order.append("boot") or {"serial": c.SERIAL}
+            owner.prepare.side_effect = lambda: order.append("receiver") or {"recipient_installed": True}
+            owner.close.side_effect = lambda: order.append("recipient-remove") or {"owned_recipient_removed": True}
+            mocks["shutdown"].side_effect = lambda *a: order.append("engine-remove") or {"clean_shutdown": True}
+            result = c.run(self.root, self.relative, only_modules=("calf-camera-picker",), focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS, api_level=23)
+        self.assertEqual(["create", "boot", "receiver", "reporter", "recipient-remove", "engine-remove"], order)
+        self.assertFalse(result["passed"]); mocks["tests"].assert_not_called()
+        self.assertEqual(1, result["setup_stages"]["apk-assembly"]["exit_code"])
+        self.assertEqual(mocks["execute"].call_args.kwargs["env"], factory.call_args.kwargs["environment"])
+        self.assertTrue(result["reporter_compile_deferred_until_receiver_byte_identity"])
+
     def test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite(self):
         self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
                          explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)

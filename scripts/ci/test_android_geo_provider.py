@@ -17,6 +17,8 @@ CLASS = "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest"
 SOURCE = "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt"
 METHODS = (
     "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+    "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+    "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
     "nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable",
     "nativeBackgroundCancellationAndQueuedOldCallbacksCannotOwnANewStart",
 )
@@ -43,7 +45,7 @@ class AndroidGeoProviderTests(unittest.TestCase):
             return lt.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000,
                                       Counter({plan["expected"][0]["task"]: marker}))
 
-    def test_new_three_case_profile_does_not_replay_accepted_owner_gc_or_host_cases(self):
+    def test_full_five_case_profile_keeps_its_inventory_without_owner_gc_or_host_cases(self):
         row, = wm.matrix(PROFILE)["include"]
         self.assertEqual(("android-device-api35", "android-device", "calf-geo", FOCUS),
                          (row["slot"], row["suite"], row["test-modules"], row["test-focus"]))
@@ -93,14 +95,13 @@ class AndroidGeoProviderTests(unittest.TestCase):
 
     def test_native_permissions_and_live_transport_are_not_replaced_by_mock_success(self):
         source = (lt.ROOT / SOURCE).read_text()
-        for token in ("UiAutomation", "grantRuntimePermission", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION",
-                      "PackageManager.PERMISSION_DENIED", "ContextCompat.checkSelfPermission", "LocationTracker()",
-                      "ActivityScenario.launch", "activity.lifecycle", "GoogleApiAvailabilityLight",
-                      "LocationPermissionAccuracy.Approximate", "LocationPermissionAccuracy.Precise",
-                      "PermissionDenied", "NotBound", "withTimeout", "AlreadyStarted", "awaitStopped",
+        for token in ("UiAutomation", "grantRuntimePermission", "revokeRuntimePermission", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION",
+                      "PackageManager.PERMISSION_DENIED", "context.packageManager.checkPermission", "OwnedGeoProbe",
+                      "probe.foreground()", "probe.request(\"bind\")", "GoogleApiAvailabilityLight",
+                      "Approximate", "Precise", "PermissionDenied", "NotBound", "withTimeout", "AlreadyStarted", "awaitStopped",
                       "real default provider", "not GPS/fix"):
             self.assertIn(token, source)
-        self.assertEqual(3, source.count("@Test fun "))
+        self.assertEqual(5, source.count("@Test fun "))
         for token in ("@Ignore", "@Disabled", "assumeTrue(", "Robolectric", "Dispatchers.setMain", "sample."):
             self.assertNotIn(token, source)
         manifest = (lt.ROOT / "calf-geo/src/androidDeviceTest/AndroidManifest.xml").read_text()
@@ -114,7 +115,7 @@ class AndroidGeoProviderTests(unittest.TestCase):
                       "Dispatchers.Default", "Handler(Looper.getMainLooper()).post", "cancelAndJoin",
                       "setException", "RemovalFailed", "ProviderUnavailable", "InProgress",
                       "assertSame", "assertEquals(Looper.getMainLooper()", "tracker.close()",
-                      "injected transport", "no Play Services/settings-off certification"):
+                      "injected transport", "not GPS/fix accuracy"):
             self.assertIn(token, source)
 
     def test_filter_readonly_workflow_and_full_inventory_are_preserved(self):

@@ -32,6 +32,15 @@ class DependencyCacheInputTests(unittest.TestCase):
     def key(self, scope='libraries'):
         return d.fingerprint(scope, d.selected_inputs(self.root, scope))
 
+    def test_source_geo_probe_configurations_change_the_library_dependency_key_not_its_test_outputs(self):
+        before = self.key()
+        self.write('tests/consumer/android-geo-probe/build.gradle.kts', 'synthetic-source-consumer-dependencies')
+        self.assertNotEqual(before, self.key())
+        held = self.key()
+        self.write('tests/consumer/android-geo-probe/build/test-results/old.xml', 'not-fresh-evidence')
+        self.assertEqual(held, self.key())
+        self.assertIn('tests/consumer/android-geo-probe/build.gradle.kts', d.selected_inputs(self.root, 'libraries'))
+
     def test_repeat_keys_are_exact_content_bound_and_include_all_configured_builds(self):
         values = d.selected_inputs(self.root, 'libraries')
         self.assertIn('calf-core/build.gradle.kts', values)

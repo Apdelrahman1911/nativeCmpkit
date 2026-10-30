@@ -25,6 +25,7 @@ import uuid
 import library_tests as lt
 import runtime_context as runtime
 import android_webview_heap
+import android_geo_probe
 
 API = 35
 PORT = 5588
@@ -189,6 +190,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
     process = None
     heap = None
+    geo_probe = None
     verified = False
     log = None
     try:
@@ -204,11 +206,17 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         identity = wait_for_owned_boot(home, process, name, root)
         verified = True
         lt.write_json(output / "boot.json", identity)
+        if lt.android_geo_probe_required(plan):
+            geo_probe = android_geo_probe.OwnedGeoProbe(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["geo_probe"] = geo_probe.prepare()
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()
         receipt = lt.run(root, "android-device", (output / "library").relative_to(root).as_posix(),
-                         None, 1800, RESERVE_MIB, android_serial=SERIAL, only_modules=only_modules, **focus_options)
+                         None, 1800, RESERVE_MIB, android_serial=SERIAL,
+                         android_user_home=(output / "android-user").relative_to(root).as_posix(),
+                         only_modules=only_modules, **focus_options)
         result["test_suite_passed"] = receipt["passed"]
         result["test_totals"] = receipt["totals"]
     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
@@ -228,6 +236,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["heap_diagnostics"] = heap.close()
                     except (OSError, ValueError, subprocess.SubprocessError) as error:
                         result["heap_diagnostics"] = {"clean_monitor_shutdown": False, "capture_error": type(error).__name__}
+                if geo_probe is not None:
+                    try:
+                        result["geo_probe"] = geo_probe.close()
+                    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                        result["geo_probe"] = {"owned_probe_removed": False, "cleanup_error": type(error).__name__}
             finally:
                 if process is not None:
                     result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
@@ -250,7 +263,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                             and result.get("emulator_shutdown", {}).get("clean_shutdown") is True
                             and not result.get("controller_error") and
                             (heap is None or (result.get("heap_diagnostics", {}).get("clean_monitor_shutdown") is True and
-                             not result["heap_diagnostics"].get("capture_error"))))
+                             not result["heap_diagnostics"].get("capture_error"))) and
+                            (geo_probe is None or (result.get("geo_probe", {}).get("owned_probe_removed") is True and
+                             not result["geo_probe"].get("cleanup_error"))))
         result["finished_at_utc"] = lt.utc_now()
         lt.write_json(output / "controller.json", result)
     return result
@@ -284,7 +299,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, lt.ANDROID_GEO_PROVIDER_FOCUS,
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

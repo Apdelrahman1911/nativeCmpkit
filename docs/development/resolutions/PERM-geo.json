@@ -696,13 +696,18 @@
     "changes": [
       "Check coarse-or-fine foreground permission before registration and at the native boundary, on registration completion, on fixes and on resume.",
       "Dispatch suspending start to Main.immediate, supply explicit main Looper, and observe real Google Task success/failure/cancellation.",
-      "Return typed unbound/inactive/permission/provider outcomes, roll back failed start, observe removal failures and support explicit cleanup retry."
+      "Return typed unbound/inactive/permission/provider outcomes, roll back failed start, observe removal failures and support explicit cleanup retry.",
+      "Default provider checks actual GMS availability and system location-enabled state on every start before native allocation/registration; typed pre-registration failure prevents phantom cleanup even after older client initialization."
     ],
     "affected_paths": [
       "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt",
       "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt",
       "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt",
-      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt"
+      "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt",
+      "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+      "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/OwnedGeoProbe.kt",
+      "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationPrerequisitesTest.kt",
+      "tests/consumer/android-geo-probe"
     ],
     "tests": [
       {
@@ -886,19 +891,49 @@
           "docs/development/evidence/geo-provider-contracts-20261030/implementation001/APK-manifest-review.json"
         ],
         "scope": "Native execution pending. Only one method will use actual grants/default provider; other failure/registration transport deliberately injected. No actual revocation/GPS/settings-off/no-GMS/physical/minimum or release certification."
+      },
+      {
+        "command": "./gradlew --no-daemon --continue --no-configuration-cache --max-workers=2 --no-parallel --console=plain '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-geo:testAndroidHostTest --tests com.mohamedrejeb.calf.geo.AndroidLocationPrerequisitesTest :calf-geo:assembleAndroidDeviceTest",
+        "result": "PASS0/46.01s: five new actual Robolectric prerequisite/allocation/recovery/original-task/phantom-removal methods in one fresh XML, plus current device APK compilation/assembly. All944 library/1021 combined held dirty inputs; production compilation reused. Initial host compiler failure executed zero tests. Accepted native Task/Looper methods from41042004511 are not replayed.",
+        "evidence": [
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/host-five-and-device-apk-review.json",
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/host-XML-archive.json",
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/current-important-inputs.json"
+        ],
+        "scope": "Injected prerequisite boundary and real host GMS Task implementations, not new Android OS/GMS/settings/device runtime verification."
+      },
+      {
+        "command": "./gradlew --no-daemon --continue --no-configuration-cache --max-workers=2 --no-parallel --console=plain '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process -p tests/consumer/android-geo-probe assembleDebug",
+        "result": "Standalone Java public-source consumer APK assembly PASS0/91.02s after one owning catalog accessor fix. Both actual APKs verify with the same private debug certificate, min23/target37 and exact signature protection. Zero native tests; no accepted host/APK replay.28 distinct important synthetic methods accepted cumulatively with original failures preserved.",
+        "evidence": [
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/consumer009.json",
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/apk-review012.json",
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/synthetic-accepted-inventory.json"
+        ],
+        "scope": "Standalone Java composite-source compiler/assembly and APK inspection only, not published Maven consumer, installed native test, minimum-device, ABI or release certification."
+      },
+      {
+        "command": "Immutable Android provider41042004511 atc446bad36492aec4308c63e0d6c5513b5c18af39; exact command in review.json",
+        "result": "Workflow FAILED/Gradle1/46.02s: three fresh native methods, two accepted injected Task/error/retry and background-cancellation/real Handler queue passes; one real initial-permission-fixture failure before provider work. The official test engine grants reporter permissions at installation. Accepted method bodies remain byte-identical and are reused, not replayed.",
+        "evidence": [
+          "docs/development/evidence/geo-provider-contracts-20261030/native-ci001/review.json",
+          "docs/development/evidence/geo-prerequisites-20261030/implementation001/official-installer-source-observation.json"
+        ],
+        "scope": "Actual native GMS Task/Looper scheduling with injected transport. No actual default provider/grant/no-GMS/settings/revocation success from this failed method."
       }
     ],
     "remaining": [
       "Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.",
       "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
       "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-      "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates."
+      "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates.",
+      "Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet."
     ],
     "compatibility": [
       "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
       "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
     ],
-    "verification_scope": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods.",
+    "verification_scope": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods. Current2026-10-30: two injected native Task/Looper methods accepted in still-failed41042004511, five new host prerequisite methods and standalone Java source APK/signatures inspected. Zero new real-provider/prerequisite native outcomes; one finite recovery required. No hardware/minimum/power/packaged/ABI/release certification.",
     "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
   },
   {

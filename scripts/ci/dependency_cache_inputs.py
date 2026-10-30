@@ -86,6 +86,9 @@ def selected_inputs(root: Path, scope: str) -> dict[str, str]:
             tree(project + '/' + name)
         for name in ('Cargo.toml', 'Cargo.lock', 'build.rs', 'rust-toolchain.toml'):
             optional(project + '/native/' + name)
+    if scope == 'libraries':
+        for name in PROJECT_FILES:
+            optional('tests/consumer/android-geo-probe/' + name)
     if scope == 'core-io':
         for fixture in ('tests/consumer', 'tests/consumer/io-desktop'):
             for name in PROJECT_FILES:

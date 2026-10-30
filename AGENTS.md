@@ -1,5 +1,11 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android prerequisites checked; actual Apple refusal — 2026-10-30
+
+[Owning prerequisite batch](docs/development/geo-android-prerequisites.md) passes five new actual host methods/one fresh XML plus device APK0/46.01s,944/1021 held inputs. Standalone Java source probe assembles0/91.02s; actual APK certificates match/signature-protected min23/target37 manifests inspected.28 distinct important synthetic methods/actionlint/source CLIs pass. Official ATE1.0.1 reporter auto-grant explains the old initial assertion; separate UID permits actual revocation without killing reporter. Shared private signing environment and exact runtime annotation fix owning harness contracts; omitted dumpsys rows stay unknown. Native three-case recovery still required; #25 open, do not replay two accepted injected methods or five host passes. Preserve every compiler/fixture/private-reader failure.
+
+[Actual Apple41044446342](docs/development/evidence/apple-launch-diagnostics-20261030/native-ci001/README.md) FAILED/zero native/Gradle1/1336.85s. Signing/install/owned cleanup pass; console1 before PID/activation in13.42s. One bound read-only log query:79 owned system rows/fixed service-delegate-denial; cause unknown, no signing/attach inference. ZERO Instruments/exports/leaks; #141 original strict/timeout failures unfixed/unwaived.87closed/85open; solo/max2heavy/8GiB and all publishing/Pages/main/history/native/minimum/ABI/consumer/dependency/legal/security gates unchanged.
+
 ## Actual provider results / owned Apple launch diagnostics — 2026-10-30
 
 [Android41042004511](docs/development/evidence/geo-provider-contracts-20261030/native-ci001/README.md)

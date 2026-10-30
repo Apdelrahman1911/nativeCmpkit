@@ -1,5 +1,11 @@
 # NativeCmpKit development after the audit
 
+## Android prerequisites checked; actual Apple refusal — 2026-10-30
+
+[Owning Android prerequisite batch](geo-android-prerequisites.md): five new host methods and device APK pass0/46.01s,944/1021 held inputs. Standalone Java source consumer assembles0/91.02s; actual certificate/protection/min23/target37 inspected.28 distinct important synthetic methods pass; accepted native/host work not replayed. One three-case actual OS/GMS/revocation recovery still required, #25 open.
+
+[Apple41044446342](evidence/apple-launch-diagnostics-20261030/native-ci001/README.md) remains FAILED/zero native/Gradle1/1336.85s. Owned signing/install/cleanup pass; pre-PID console refusal. Actual read-only query observes79 owned system rows/service-delegate-denial only, cause unknown. ZERO Instruments/exports/leaks; #141 open and original failures unwaived.87closed/85open; all solo/capacity/publication/security/readiness gates stay.
+
 ## Provider runtime results / Apple refusal diagnostics — 2026-10-30
 
 [Android41042004511](evidence/geo-provider-contracts-20261030/native-ci001/README.md)

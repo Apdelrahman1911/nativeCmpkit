@@ -1,0 +1,71 @@
+{
+  "automatic_install_grant_is_not_an_OS_permission_test_pass": true,
+  "downloaded_sources_executed": false,
+  "read_only_JAR_observations": [
+    {
+      "first_line": 252,
+      "lines": [
+        "    val cmd = mutableListOf(command)",
+        "",
+        "    if (deviceApiLevel >= 34) cmd.add(\"--bypass-low-target-sdk-block\")",
+        "    cmd.add(\"-t\") // Allows installation of APKs marked testOnly.",
+        "    if (options.forceReinstall) cmd.addAll(listOf(\"-r\", \"-d\"))",
+        "    if (options.grantPermissions && deviceApiLevel >= MinFeatureApiLevel.GRANT_PERMISSIONS.apiLevel) {",
+        "      cmd.add(\"-g\")",
+        "    }",
+        "    if (options.forceQueryable && deviceApiLevel >= MinFeatureApiLevel.FORCE_QUERYABLE.apiLevel) {",
+        "      cmd.add(\"--force-queryable\")"
+      ],
+      "official_source_path": "com/android/tools/androidtest/testengine/adb/AdbApkInstaller.kt"
+    },
+    {
+      "first_line": 83,
+      "lines": [
+        "      }",
+        "",
+        "      if (testApks.size == 1) {",
+        "        adbApkInstaller.installApk(",
+        "          testApks.first(),",
+        "          AdbApkInstaller.InstallOptions(grantPermissions = true, extraArgs = apkInstallOptions, forceCompilation = forceCompilation),",
+        "        )",
+        "      } else if (testApks.size > 1) {",
+        "        adbApkInstaller.installSplitApk(",
+        "          testApks,"
+      ],
+      "official_source_path": "com/android/tools/androidtest/testengine/adb/AndroidTestRunner.kt"
+    },
+    {
+      "first_line": 88,
+      "lines": [
+        "          AdbApkInstaller.InstallOptions(grantPermissions = true, extraArgs = apkInstallOptions, forceCompilation = forceCompilation),",
+        "        )",
+        "      } else if (testApks.size > 1) {",
+        "        adbApkInstaller.installSplitApk(",
+        "          testApks,",
+        "          AdbApkInstaller.InstallOptions(grantPermissions = true, extraArgs = apkInstallOptions, forceCompilation = forceCompilation),",
+        "        )",
+        "      }",
+        "",
+        "      testUtilApks.forEach { apk ->"
+      ],
+      "official_source_path": "com/android/tools/androidtest/testengine/adb/AndroidTestRunner.kt"
+    },
+    {
+      "first_line": 93,
+      "lines": [
+        "          AdbApkInstaller.InstallOptions(grantPermissions = true, extraArgs = apkInstallOptions, forceCompilation = forceCompilation),",
+        "        )",
+        "      }",
+        "",
+        "      testUtilApks.forEach { apk ->",
+        "        adbApkInstaller.installApk(apk, AdbApkInstaller.InstallOptions(grantPermissions = true, forceQueryable = true))",
+        "      }",
+        "",
+        "      onBeforeInstrumentation?.invoke()",
+        ""
+      ],
+      "official_source_path": "com/android/tools/androidtest/testengine/adb/AndroidTestRunner.kt"
+    }
+  ],
+  "source_JAR_sha256": "0904c5f9050be0f58bcfabc4001f26ee296ce365ca7bb84dc7d93aeaf23a218f"
+}

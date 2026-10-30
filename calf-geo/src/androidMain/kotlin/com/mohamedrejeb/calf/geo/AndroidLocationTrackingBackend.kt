@@ -4,9 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailabilityLight
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.LocationAvailability
 import com.google.android.gms.location.LocationCallback
@@ -14,6 +18,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import java.util.concurrent.CancellationException
 import java.util.concurrent.Executor
 
@@ -30,19 +35,57 @@ internal class AndroidLocationTrackingBackend(
     private val permissionReader: () -> LocationPermissionAccuracy? = { context.locationPermissionAccuracy() },
 ) : LocationTrackingBackend {
     private val nativeClient by lazy(LazyThreadSafetyMode.NONE) {
-        client ?: object : AndroidLocationClient {
+        client ?: DefaultAndroidLocationClient(context)
+    }
+
+    override fun permissionAccuracy(): LocationPermissionAccuracy? = permissionReader()
+    override fun createSubscription(): LocationSubscription = AndroidLocationSubscription(nativeClient, request, permissionReader)
+}
+
+/** Check actual foreground prerequisites on every start, never prompt or enable them. */
+internal class DefaultAndroidLocationClient(
+    context: Context,
+    private val prerequisite: () -> LocationTrackingError? = { context.locationPrerequisiteError() },
+    private val factory: () -> AndroidLocationClient = {
+        object : AndroidLocationClient {
             private val delegate = LocationServices.getFusedLocationProviderClient(context)
 
-            @SuppressLint("MissingPermission") // Checked immediately before request; SecurityException/Task failures remain handled.
+            @SuppressLint("MissingPermission") // The subscription rechecks permissions; TOCTOU Task/security failures stay observable.
             override fun request(request: LocationRequest, callback: LocationCallback, looper: Looper): Task<Void> =
                 delegate.requestLocationUpdates(request, callback, looper)
 
             override fun remove(callback: LocationCallback): Task<Void> = delegate.removeLocationUpdates(callback)
         }
+    },
+) : AndroidLocationClient {
+    private var delegate: AndroidLocationClient? = null
+
+    override fun request(request: LocationRequest, callback: LocationCallback, looper: Looper): Task<Void> {
+        prerequisite()?.let { throw AndroidLocationPrerequisiteException(it) }
+        val active = delegate ?: factory().also { delegate = it }
+        return active.request(request, callback, looper)
     }
 
-    override fun permissionAccuracy(): LocationPermissionAccuracy? = permissionReader()
-    override fun createSubscription(): LocationSubscription = AndroidLocationSubscription(nativeClient, request, permissionReader)
+    // A failed prerequisite never constructed/registered a native client. Cleanup
+    // must not initialize Play Services just to remove that nonexistent request.
+    override fun remove(callback: LocationCallback): Task<Void> =
+        delegate?.remove(callback) ?: Tasks.forResult<Void>(null)
+}
+
+internal class AndroidLocationPrerequisiteException(val error: LocationTrackingError) :
+    Exception("Android foreground location prerequisites unavailable", error.cause)
+
+internal fun Context.locationPrerequisiteError(): LocationTrackingError? {
+    val status = GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(this)
+    if (status != ConnectionResult.SUCCESS) {
+        return LocationTrackingError(LocationTrackingFailure.ProviderUnavailable, platformCode = status)
+    }
+    val manager = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+    if (manager == null || !LocationManagerCompat.isLocationEnabled(manager)) {
+        return LocationTrackingError(LocationTrackingFailure.ProviderUnavailable,
+            IllegalStateException("Android system location services are disabled or unavailable"))
+    }
+    return null
 }
 
 private fun Context.locationPermissionAccuracy(): LocationPermissionAccuracy? = when {
@@ -107,6 +150,9 @@ internal class AndroidLocationSubscription(
                 }
             }
         } catch (failure: Exception) {
+            // This typed default-client guard runs before any provider API call,
+            // even if an older subscription already initialized that client.
+            if (failure is AndroidLocationPrerequisiteException) requestIssued = false
             registrationFinished = true
             if (stopping) {
                 if (!removalInFlight) removeAfterRegistration(finalPass = true)
@@ -173,6 +219,7 @@ private fun Task<Void>.removalError(): LocationTrackingError? = when {
 }
 
 private fun Exception.locationError(): LocationTrackingError = when (this) {
+    is AndroidLocationPrerequisiteException -> error
     is SecurityException -> LocationTrackingError(LocationTrackingFailure.PermissionDenied, this)
     is ApiException -> LocationTrackingError(LocationTrackingFailure.ProviderUnavailable, this, statusCode)
     else -> LocationTrackingError(LocationTrackingFailure.ProviderError, this)

@@ -8,6 +8,8 @@ import android.location.Location as AndroidLocation
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Build
+import android.os.Process
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -37,6 +39,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import kotlin.test.*
 
+/** ATE1.0.1's CSV transport cannot carry comma-containing method lists. */
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AndroidGeoPrerequisiteVerification
+
 /** A real resumed Activity, not a sample app or a fabricated foreground owner. */
 class GeoTrackingVerificationActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,67 +53,179 @@ class GeoTrackingVerificationActivity : ComponentActivity() {
 }
 
 /**
- * The first method uses actual OS denied/coarse/fine grants and the real default provider
- * in a foreground Activity: not GPS/fix, revocation/process-death,
- * physical/minimum-device or no Play Services/settings-off certification.
+ * Three methods use an actual separate-UID source consumer/foreground Activity:
+ * real default provider, actual denied/coarse/fine/revoked OS permissions,
+ * actually user-uninstalled/disabled Play Services, system settings and recovery.
+ * These are not GPS/fix accuracy, physical/minimum-device or power/heap certification.
  * The other two methods use real native GMS Tasks/Looper/threads with explicitly
  * injected transport failures and registration timing, not an available GPS.
- * Grants are only to this fresh private test UID; the owned CI emulator is
- * disposable. Do not revoke this UID mid-instrumentation and kill the reporter.
+ * Grants/revocations are only to the owned separate probe UID, never this reporter.
+ * System-prerequisite mutations require the explicit disposable API35 CI fixture.
  */
 @RunWith(AndroidJUnit4::class)
 class AndroidLocationProviderTest {
     private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
     private val context get() = instrumentation.targetContext
 
+    @AndroidGeoPrerequisiteVerification
     @Test fun nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration() {
-        runBlocking {
-            assertEquals(context.applicationInfo.uid, instrumentation.context.applicationInfo.uid,
-                "Only the standalone private test UID may receive fixture grants")
-            assertTrue(context.packageName.endsWith(".test"))
-            for (permission in listOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)) {
-                assertEquals(PackageManager.PERMISSION_DENIED, ContextCompat.checkSelfPermission(context, permission),
-                    "A previously granted/shared fixture must not be silently reused or revoked")
-            }
-            assertEquals(ConnectionResult.SUCCESS,
-                GoogleApiAvailabilityLight.getInstance().isGooglePlayServicesAvailable(context),
-                "This real-provider case requires an actually available Google APIs fixture")
-            val tracker = onMain { LocationTracker() }
+        ownedProbe { probe ->
+            val initial = probe.request("snapshot")
+            assertFalse(initial.getBoolean("coarse")); assertFalse(initial.getBoolean("fine"))
+            assertEquals(ConnectionResult.SUCCESS, initial.getInt("gms")); assertTrue(initial.getBoolean("settings"))
+            probe.request("create")
+            assertStartFailure(probe.request("start-main"), "NotBound")
+            probe.foreground(); probe.request("bind")
+            assertStartFailure(probe.request("start-background"), "PermissionDenied")
+            grantProbe(precise = false)
+            val coarse = probe.request("start-background")
+            assertEquals("Started", coarse.getString("result")); assertEquals("Approximate", coarse.getString("accuracy"))
+            assertEquals("Tracking", coarse.getString("phase")); assertTrue(coarse.getBoolean("foreground"))
+            assertTrue(coarse.getBoolean("coarse")); assertFalse(coarse.getBoolean("fine"))
+            assertEquals("AlreadyStarted", probe.request("start-main").getString("result"))
+            probe.request("stop"); probe.stopped()
+            grantProbe(precise = true)
+            val fine = probe.request("start-main")
+            assertEquals("Started", fine.getString("result")); assertEquals("Precise", fine.getString("accuracy"))
+            assertTrue(fine.getBoolean("coarse")); assertTrue(fine.getBoolean("fine"))
+            probe.request("stop"); probe.request("stop"); probe.stopped()
+            assertNull(probe.request("snapshot").getString("cleanup"))
+        }
+    }
+
+    @AndroidGeoPrerequisiteVerification
+    @Test fun nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied() {
+        ownedProbe { probe ->
+            probe.foreground(); probe.request("create"); probe.request("bind"); grantProbe(precise = true)
+            val started = probe.request("start-background")
+            assertEquals("Started", started.getString("result"))
+            val reporterPid = Process.myPid()
+            instrumentation.uiAutomation.revokeRuntimePermission(OwnedGeoProbe.PACKAGE, Manifest.permission.ACCESS_COARSE_LOCATION)
+            probe.awaitDeath()
+            probe.disconnect()
+            resetProbePermissions()
+            probe.connect(); probe.foreground(); probe.request("create"); probe.request("bind")
+            val denied = probe.request("start-background")
+            assertStartFailure(denied, "PermissionDenied")
+            assertFalse(denied.getBoolean("coarse")); assertFalse(denied.getBoolean("fine"))
+            assertNotEquals(started.getString("generation"), denied.getString("generation"))
+            assertNotEquals(started.getInt("pid"), denied.getInt("pid"))
+            assertEquals(started.getInt("uid"), denied.getInt("uid")); assertEquals(reporterPid, Process.myPid())
+            grantProbe(precise = true)
+            assertEquals("Started", probe.request("start-main").getString("result"))
+            probe.request("stop"); probe.stopped()
+        }
+    }
+
+    @AndroidGeoPrerequisiteVerification
+    @Test fun nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover() {
+        ownedProbe { probe ->
+            val initial = probe.request("snapshot")
+            assertEquals(ConnectionResult.SUCCESS, initial.getInt("gms")); assertTrue(initial.getBoolean("settings"))
+            assertTrue(initial.getBoolean("gmsInstalled")); assertTrue(initial.getBoolean("gmsSystem"),
+                "Only the disposable system-image package can be restored with install-existing")
+            probe.foreground(); probe.request("create"); probe.request("bind"); grantProbe(precise = true)
             try {
-                val unbound = assertIs<LocationStartResult.Failed>(withTimeout(15_000) { tracker.startTrackingWithResult() })
-                assertEquals(LocationTrackingFailure.NotBound, unbound.error.reason)
-                ActivityScenario.launch(GeoTrackingVerificationActivity::class.java).use { scenario ->
-                    scenario.onActivity { activity ->
-                        assertTrue(activity.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))
-                        tracker.bind(activity.lifecycle, activity)
-                    }
-                    val denied = assertIs<LocationStartResult.Failed>(withTimeout(15_000) { tracker.startTrackingWithResult() })
-                    assertEquals(LocationTrackingFailure.PermissionDenied, denied.error.reason)
-                    assertEquals(LocationTrackingPhase.Failed, tracker.snapshotState.value.phase)
-                    val automation: UiAutomation = instrumentation.uiAutomation
-                    automation.grantRuntimePermission(context.packageName, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    waitUntil { ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED }
-                    assertEquals(PackageManager.PERMISSION_DENIED, ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION))
-                    val coarse = async(Dispatchers.Default) { withTimeout(15_000) { tracker.startTrackingWithResult() } }
-                    assertEquals(LocationStartResult.Started, coarse.await())
-                    assertEquals(LocationPermissionAccuracy.Approximate, tracker.snapshotState.value.permissionAccuracy)
-                    assertEquals(LocationTrackingPhase.Tracking, tracker.snapshotState.value.phase)
-                    assertEquals(LocationStartResult.AlreadyStarted, withTimeout(15_000) { tracker.startTrackingWithResult() })
-                    onMain { tracker.stopTracking() }
-                    awaitStopped(tracker)
-                    automation.grantRuntimePermission(context.packageName, Manifest.permission.ACCESS_FINE_LOCATION)
-                    waitUntil { ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED }
-                    val fine = async(Dispatchers.Main.immediate) { withTimeout(15_000) { tracker.startTrackingWithResult() } }
-                    assertEquals(LocationStartResult.Started, fine.await())
-                    assertEquals(LocationPermissionAccuracy.Precise, tracker.snapshotState.value.permissionAccuracy)
-                    onMain { tracker.stopTracking(); tracker.stopTracking() }
-                    awaitStopped(tracker)
-                    assertNull(tracker.snapshotState.value.cleanupError)
-                }
+                assertTrue(shell("pm disable-user --user 0 com.google.android.gms").contains("new state: disabled-user"))
+                waitUntil { probe.request("snapshot").getInt("gms") == ConnectionResult.SERVICE_DISABLED }
+                val unavailable = probe.request("start-background")
+                assertStartFailure(unavailable, "ProviderUnavailable")
+                assertEquals(ConnectionResult.SERVICE_DISABLED, unavailable.getInt("platformCode"))
+                assertTrue(shell("pm enable --user 0 com.google.android.gms").contains("new state: enabled"))
+                waitUntil { probe.request("snapshot").getInt("gms") == ConnectionResult.SUCCESS }
+                assertEquals("Started", probe.request("start-main").getString("result"))
+                probe.request("stop"); probe.stopped()
+                // Real user0 absence, not an injected error or just a disabled package.
+                // The system image copy remains available for owned local restoration.
+                assertTrue(shell("pm disable-user --user 0 com.google.android.gms").contains("new state: disabled-user"))
+                assertEquals("Success", shell("pm uninstall --user 0 com.google.android.gms").trim())
+                waitUntil { !probe.request("snapshot").getBoolean("gmsInstalled") }
+                val missing = probe.request("start-background")
+                assertFalse(missing.getBoolean("gmsInstalled"))
+                assertNotEquals(ConnectionResult.SUCCESS, missing.getInt("gms"))
+                assertStartFailure(missing, "ProviderUnavailable")
+                assertTrue(missing.containsKey("platformCode"))
+                assertEquals(missing.getInt("gms"), missing.getInt("platformCode"),
+                    "Retain the actual GMS status; do not invent a missing/updating code")
+                assertTrue(shell("cmd package install-existing --user 0 com.google.android.gms").contains("installed for user: 0"))
+                assertTrue(shell("pm enable --user 0 com.google.android.gms").contains("new state: enabled"))
+                waitUntil { val restored = probe.request("snapshot"); restored.getBoolean("gmsInstalled") && restored.getInt("gms") == ConnectionResult.SUCCESS }
+                assertEquals("Started", probe.request("start-main").getString("result"))
+                probe.request("stop"); probe.stopped()
+                assertEquals("", shell("cmd location set-location-enabled false").trim())
+                waitUntil { !probe.request("snapshot").getBoolean("settings") }
+                val settings = probe.request("start-background")
+                assertStartFailure(settings, "ProviderUnavailable")
+                assertFalse(settings.containsKey("platformCode"), "Never invent a GMS status for system settings")
+                assertEquals("", shell("cmd location set-location-enabled true").trim())
+                waitUntil { probe.request("snapshot").getBoolean("settings") }
+                assertEquals("Started", probe.request("start-main").getString("result"))
+                probe.request("stop"); probe.stopped()
+                assertNull(probe.request("snapshot").getString("cleanup"))
             } finally {
-                onMain { tracker.close() }
-                assertEquals(LocationTrackingPhase.Closed, tracker.snapshotState.value.phase)
+                try {
+                    assertTrue(shell("cmd package install-existing --user 0 com.google.android.gms").contains("installed for user: 0"))
+                } finally {
+                    try { assertTrue(shell("pm enable --user 0 com.google.android.gms").contains("new state: enabled")) }
+                    finally { assertEquals("", shell("cmd location set-location-enabled true").trim()) }
+                }
+                waitUntil { val restored = probe.request("snapshot"); restored.getBoolean("gmsInstalled") &&
+                    restored.getInt("gms") == ConnectionResult.SUCCESS && restored.getBoolean("settings") }
             }
+        }
+    }
+
+    private fun ownedProbe(test: (OwnedGeoProbe) -> Unit) {
+        assertEquals("true", InstrumentationRegistry.getArguments().getString("nativecmpkitOwnedGeoProbe"),
+            "Prerequisite mutation requires the explicitly owned disposable fixture")
+        assertEquals(35, Build.VERSION.SDK_INT)
+        assertTrue(Build.HARDWARE in setOf("ranchu", "goldfish"), "Never mutate a physical/personal device")
+        val reporterPid = Process.myPid()
+        val probe = OwnedGeoProbe() // Signature/UID/package ownership checked before mutation.
+        try {
+            resetProbePermissions()
+            probe.connect()
+            test(probe)
+        } finally {
+            try { probe.close() }
+            finally { resetProbePermissions(); assertEquals(reporterPid, Process.myPid()) }
+        }
+    }
+
+    private fun resetProbePermissions() {
+        val permissions = listOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+        for (permission in permissions) {
+            if (context.packageManager.checkPermission(permission, OwnedGeoProbe.PACKAGE) == PackageManager.PERMISSION_GRANTED) {
+                instrumentation.uiAutomation.revokeRuntimePermission(OwnedGeoProbe.PACKAGE, permission)
+            }
+        }
+        for (permission in permissions) {
+            waitUntil { context.packageManager.checkPermission(permission, OwnedGeoProbe.PACKAGE) == PackageManager.PERMISSION_DENIED }
+        }
+    }
+
+    private fun grantProbe(precise: Boolean) {
+        val automation: UiAutomation = instrumentation.uiAutomation
+        automation.grantRuntimePermission(OwnedGeoProbe.PACKAGE, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (precise) automation.grantRuntimePermission(OwnedGeoProbe.PACKAGE, Manifest.permission.ACCESS_FINE_LOCATION)
+        waitUntil { context.packageManager.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, OwnedGeoProbe.PACKAGE) == PackageManager.PERMISSION_GRANTED }
+        val fine = if (precise) PackageManager.PERMISSION_GRANTED else PackageManager.PERMISSION_DENIED
+        waitUntil { context.packageManager.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, OwnedGeoProbe.PACKAGE) == fine }
+    }
+
+    private fun assertStartFailure(result: Bundle, reason: String) {
+        assertEquals("Failed", result.getString("result")); assertEquals(reason, result.getString("reason"))
+        assertEquals(if (reason == "NotBound") "Unbound" else "Failed", result.getString("phase"))
+    }
+
+    private fun shell(command: String): String {
+        require(command in setOf("pm disable-user --user 0 com.google.android.gms", "pm enable --user 0 com.google.android.gms",
+            "pm uninstall --user 0 com.google.android.gms", "cmd package install-existing --user 0 com.google.android.gms",
+            "cmd location set-location-enabled false", "cmd location set-location-enabled true"))
+        return android.os.ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation.executeShellCommand(command)).use {
+            val bytes = it.readNBytes(4097)
+            check(bytes.size <= 4096) { "Native prerequisite command exceeded its diagnostic bound" }
+            String(bytes, Charsets.UTF_8)
         }
     }
 

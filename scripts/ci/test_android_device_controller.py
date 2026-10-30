@@ -245,6 +245,47 @@ class ControllerReceipts(unittest.TestCase):
                   focus=c.lt.DATE_TRANSACTION_FOCUS)
         host.assert_not_called()
 
+    def test_separate_geo_probe_prepares_after_owned_boot_before_native_suite_and_uninstalls_before_shutdown(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-geo", "module": "calf-geo"}],
+                         explicit_test_focus=c.lt.ANDROID_GEO_PREREQUISITES_FOCUS)
+        order = []
+        with self.controlled() as mocks, patch.object(c.android_geo_probe, "OwnedGeoProbe") as factory:
+            probe = factory.return_value
+            mocks["boot"].side_effect = lambda *args: order.append("boot") or {"serial": c.SERIAL}
+            probe.prepare.side_effect = lambda: order.append("probe") or {"probe_installed": True}
+            mocks["tests"].side_effect = lambda *args, **kwargs: order.append("tests") or self.receipt
+            probe.close.side_effect = lambda: order.append("uninstall") or {"owned_probe_removed": True}
+            mocks["shutdown"].side_effect = lambda *args: order.append("shutdown") or {"clean_shutdown": True}
+            result = c.run(self.root, self.relative, only_modules=("calf-geo",), focus=c.lt.ANDROID_GEO_PREREQUISITES_FOCUS)
+        self.assertEqual(["boot", "probe", "tests", "uninstall", "shutdown"], order)
+        self.assertTrue(result["passed"])
+        self.assertEqual(c.SERIAL, factory.call_args.args[3])
+        self.assertTrue(callable(factory.call_args.args[4]))
+        self.assertEqual(mocks["execute"].call_args_list[0].kwargs["env"], factory.call_args.kwargs["environment"])
+        self.assertEqual((Path(self.relative) / "android-user").as_posix(), mocks["tests"].call_args.kwargs["android_user_home"])
+        self.assertEqual(c.lt.ANDROID_GEO_PREREQUISITES_FOCUS, mocks["tests"].call_args.kwargs["focus"])
+
+    def test_geo_probe_prepare_failure_has_zero_test_claims_and_still_removes_owned_app_and_emulator(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-geo", "module": "calf-geo"}])
+        with self.controlled() as mocks, patch.object(c.android_geo_probe, "OwnedGeoProbe") as factory:
+            probe = factory.return_value; probe.prepare.side_effect = RuntimeError("SYNTHETIC_PRIVATE_PROBE_ERROR")
+            probe.close.return_value = {"owned_probe_removed": True}
+            result = self.invoke()
+        self.assertFalse(result["passed"]); mocks["tests"].assert_not_called()
+        probe.close.assert_called_once(); mocks["shutdown"].assert_called_once()
+        self.assertNotIn("SYNTHETIC_PRIVATE_PROBE_ERROR", json.dumps(result))
+
+    def test_geo_probe_cleanup_error_cannot_promote_native_passes_or_skip_owned_emulator_shutdown(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-geo", "module": "calf-geo"}])
+        with self.controlled() as mocks, patch.object(c.android_geo_probe, "OwnedGeoProbe") as factory:
+            probe = factory.return_value; probe.prepare.return_value = {"probe_installed": True}
+            probe.close.side_effect = ValueError("SYNTHETIC_PRIVATE_PROBE_ERROR")
+            result = self.invoke()
+        self.assertTrue(result["test_suite_passed"]); self.assertFalse(result["passed"])
+        self.assertFalse(result["geo_probe"]["owned_probe_removed"])
+        self.assertEqual("ValueError", result["geo_probe"]["cleanup_error"])
+        mocks["shutdown"].assert_called_once(); self.assertNotIn("SYNTHETIC_PRIVATE_PROBE_ERROR", json.dumps(result))
+
     def test_one_failed_webview_media_focus_observes_only_owned_private_heap_and_still_runs_actual_suite(self):
         with self.controlled() as mocks, patch.object(c.android_webview_heap, "OwnedHeap") as factory:
             owner = factory.return_value

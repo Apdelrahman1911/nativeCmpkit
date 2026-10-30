@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Disposable verification app only; not a production manifest or sample. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <permission
+        android:name="io.github.apdelrahman1911.nativecmpkit.verification.geoprobe.BIND_PROBE"
+        android:protectionLevel="signature" />
+    <application android:allowBackup="false" android:label="NativeCmpKit owned geo verification">
+        <activity android:name=".GeoProbeActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.geoprobe.BIND_PROBE" />
+        <service android:name=".GeoProbeService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.geoprobe.BIND_PROBE" />
+    </application>
+</manifest>

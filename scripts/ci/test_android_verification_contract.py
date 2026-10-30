@@ -168,6 +168,43 @@ class AndroidVerificationContractTests(unittest.TestCase):
                           "agp_target_serial_options": "empty"}, receipt["android_device_selection"])
         self.assertNotIn("synthetic-private", json.dumps(receipt))
 
+    def test_owned_signing_user_home_reaches_the_actual_library_child_without_export(self):
+        plan = self.plan()
+        relative = "build/ci-verification/owned-controller/android-user"
+        user = self.root / relative; user.mkdir(parents=True)
+        context = {"source_revision": "a" * 40, "source_tree_dirty": True,
+                   "host": {"system": "Linux"}, "java": {"major": 17},
+                   "android_emulator": runtime.parse_android_emulator("emulator-5588", {
+                       "api_level": "35", "release": "15", "abi": "x86_64", "boot_completed": "1", "selinux": "Enforcing"})}
+        def execute(root, command, log_path, timeout, reserve_mib, *, env):
+            self.assertEqual(str(user), env["ANDROID_USER_HOME"])
+            self.assertEqual("emulator-5588", env["ANDROID_SERIAL"])
+            self.fixture.write(plan["expected"][0]["report_directory"] + "/TEST-fresh.xml", self.fixture.report())
+            log_path.write_text("NATIVECMPKIT_TEST_RUNTIME task=:calf-fixture:connectedAndroidDeviceTest gradle=9.7.1 java=17\n" +
+                                r.daemon_jvm.PREFIX + json.dumps(SYNTHETIC_DAEMON) + "\n")
+            return {"exit_code": 0}
+        with patch.dict(r.os.environ, {"ANDROID_USER_HOME": "synthetic-parent-private"}, clear=True), \
+                patch.object(r, "plan", return_value=plan), patch.object(r, "git_revision", return_value="a" * 40), \
+                patch.object(r.runtime_context, "capture", return_value=context), patch.object(r, "execute", side_effect=execute):
+            receipt = r.run(self.root, "android-device", "build/ci-verification/owned-library", None,
+                            60, 1024, android_serial="emulator-5588", android_user_home=relative)
+            self.assertEqual("synthetic-parent-private", r.os.environ["ANDROID_USER_HOME"])
+        self.assertTrue(receipt["passed"])
+        self.assertNotIn(str(user), json.dumps(receipt))
+
+    def test_foreign_missing_or_non_android_user_home_is_rejected_before_launch(self):
+        for relative in ("../foreign", "settings.gradle.kts", "build/ci-verification/missing"):
+            with patch.object(r, "plan", return_value=self.plan()), patch.object(r, "execute") as execute:
+                with self.assertRaises(ValueError):
+                    r.run(self.root, "android-device", "build/ci-verification/never-created", None,
+                          60, 1024, android_serial="emulator-5588", android_user_home=relative)
+            execute.assert_not_called()
+        with patch.object(r, "plan", return_value=self.fixture.plan()), patch.object(r, "execute") as execute:
+            with self.assertRaises(ValueError):
+                r.run(self.root, "desktop", "build/ci-verification/never-desktop", None,
+                      60, 1024, android_user_home="build/ci-verification/owned")
+        execute.assert_not_called()
+
     def test_fresh_nested_agp_reports_are_counted_without_losing_a_failure(self):
         plan = self.plan()
         directory = plan["expected"][0]["report_directory"]

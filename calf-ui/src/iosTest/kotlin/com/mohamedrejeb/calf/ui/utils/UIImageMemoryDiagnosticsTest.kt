@@ -18,6 +18,8 @@ import com.mohamedrejeb.calf.ui.internal.runNativeUiTest
 import kotlinx.cinterop.COpaquePointer
 import kotlinx.cinterop.UByteVar
 import kotlinx.cinterop.convert
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.usePinned
 import kotlinx.cinterop.get
 import kotlinx.cinterop.reinterpret
 import platform.CoreFoundation.CFStringCompare
@@ -170,7 +172,36 @@ class UIImageMemoryDiagnosticsTest {
         assertTrue(Regex("nativecmpkit-image-profile-[0-9a-f]{32}\\.ack").matches(ack.substringAfterLast('/')))
         val files = NSFileManager.defaultManager
         assertFalse(files.fileExistsAtPath(ack), "Never reuse a prior tool completion witness")
-        println("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
+        // simctl's console launch header can be buffered until application exit. Publish this
+        // actual native PID while the workload is open; the host independently verifies the
+        // installed app/executable and correlates the eventual simctl PID before accepting it.
+        val pid = platform.posix.getpid()
+        assertTrue(pid > 0)
+        val ready = assertNotNull(environment["NATIVECMPKIT_IMAGE_PROFILE_READY"] as? String)
+        assertEquals(ack.removeSuffix(".ack") + ".ready", ready, "Readiness belongs to the exact same private attempt")
+        assertFalse(files.fileExistsAtPath(ready), "Never reuse another workload's native readiness")
+        val descriptor = platform.posix.open(ready, platform.posix.O_WRONLY or platform.posix.O_CREAT or platform.posix.O_EXCL, 0x180)
+        assertTrue(descriptor >= 0, "Exclusively create this private native PID handoff with mode0600")
+        var writeFailure: Throwable? = null
+        try {
+            val bytes = "process_id=$pid\n".encodeToByteArray()
+            bytes.usePinned { pinned ->
+                assertEquals(bytes.size.toLong(), platform.posix.write(descriptor, pinned.addressOf(0), bytes.size.convert()),
+                    "Publish one complete actual native workload identity, not a partial PID")
+            }
+        } catch (error: Throwable) {
+            writeFailure = error
+            throw error
+        } finally {
+            val closed = platform.posix.close(descriptor)
+            if (closed != 0) {
+                val error = IllegalStateException("Owned native profile readiness descriptor did not close")
+                val primary = writeFailure
+                if (primary == null) throw error else primary.addSuppressed(error)
+            }
+        }
+        println("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=$pid")
+        assertEquals(0, platform.posix.fflush(platform.posix.stdout), "Flush only this owned readiness witness")
         val started = TimeSource.Monotonic.markNow()
         var rounds = 0
         while (!files.fileExistsAtPath(ack)) {
@@ -197,6 +228,7 @@ class UIImageMemoryDiagnosticsTest {
         assertTrue(rounds > 0, "A tool ack cannot substitute for any actual library conversion")
         GC.collect()
         println("NATIVECMPKIT_IMAGE_PROFILE phase=complete rounds=$rounds")
+        assertEquals(0, platform.posix.fflush(platform.posix.stdout), "Flush the actual bounded conversion count")
     }
 
     private class GcGate(val snapshot: AtomicInt = AtomicInt(0), val collected: AtomicInt = AtomicInt(0))

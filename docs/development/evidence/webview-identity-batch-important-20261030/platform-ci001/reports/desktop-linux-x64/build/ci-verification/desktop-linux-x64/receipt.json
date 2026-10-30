@@ -1,0 +1,203 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "desktop_audio": {
+    "adapter": "clocked-native-pulseaudio-null-output",
+    "alive_before_owned_shutdown": true,
+    "alsa_configuration_sha256": "a17bbdd3d7554cb95e768b8947f3a5b0b90dc751bcf186502aa41c0f61ccc43e",
+    "anonymous_protocol_enabled": false,
+    "configuration_unchanged": true,
+    "engine_decoder_or_callback_substitution": false,
+    "format": "s16le 1ch 16000Hz",
+    "global_service_started": false,
+    "native_module": "module-null-sink.c",
+    "physical_or_audible_output_verified": false,
+    "pulse_configuration_sha256": "34cba0986ef72a7b276b51ce3cc3cfc9799df2983ccc0756dc625700b4964a94",
+    "ready_verified": true,
+    "shutdown": {
+      "clean": true,
+      "exit_code": 0,
+      "forced_owned_group": false
+    },
+    "sink": "nativecmpkit_verification",
+    "version": "pulseaudio 16.1"
+  },
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 224.07,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-public-identity-values",
+  "finished_at_utc": "2026-10-30T03:58:10.342446+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "b4ad51a595ee6f35136f06aa18e59d0d279b9c50b76e01dd9e84da6117abab5a",
+  "inputs_before_sha256": "b4ad51a595ee6f35136f06aa18e59d0d279b9c50b76e01dd9e84da6117abab5a",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.xml",
+          "sha256": "a9c6b4e15f5f5bd2dfb4fe5034a5038e4bf80f7a1766638c5085ce0ea4e97759",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "88aad049aa9cea8868194fb75bfa5f3d25c31310579099cee58dcc3456327a1c",
+  "schema_version": 1,
+  "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+  "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+  "source_revision_after": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T03:54:26.272235+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-webview:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## Failed-case-only memory readiness recovery — 2026-10-30
+
+[Owning PID/file handoff](evidence/image-memory-batch-important-20261030/readiness-repair001/README.md) preserves exact executable checks, original210s/4096-round/pixel/GC/allocation assertions and strict-startup failure. Shared165 remains failed163pass/two stale fixture expectations; only owning2/2 rerun/all980held. Zero local native/profile executions; one-case Darwin recovery excludes two accepted stress/nine image methods. Actual WebView pair yields12 accepted target executions, two failures and Android zero-start controller rejection; original criteria and #62/#72/#89/#140/#141 stay open. Single-agent/max2/8GiB; no publishing/Pages/main/history or release/security waiver.
+
 ## Shared public WebView batch / actual memory boundaries — 2026-10-30
 
 [New owning candidate](evidence/webview-identity-batch-important-20261030/README.md) requests9 fresh Desktop/Android-device/JS/Wasm

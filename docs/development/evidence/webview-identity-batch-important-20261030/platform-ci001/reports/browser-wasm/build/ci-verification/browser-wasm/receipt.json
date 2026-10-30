@@ -1,0 +1,159 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 278.08,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-public-identity-values",
+  "finished_at_utc": "2026-10-30T04:03:33.548125+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "b4ad51a595ee6f35136f06aa18e59d0d279b9c50b76e01dd9e84da6117abab5a",
+  "inputs_before_sha256": "b4ad51a595ee6f35136f06aa18e59d0d279b9c50b76e01dd9e84da6117abab5a",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest.xml",
+          "sha256": "a3e05495155d4695835a98fa52c1fa6f9cf6eab85b2eb84cee64dbcaaf4a2441",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "testcases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+      "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce"
+    }
+  ],
+  "runtime_receipt_sha256": "dfb89be4a2b4e8193aeb3d6e147a260b3b8d41338e6c5e65cd0d9ae0089c149f",
+  "schema_version": 1,
+  "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+  "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+  "source_revision_after": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T03:58:55.466481+00:00",
+  "suite": "wasm",
+  "task_execution_markers": {
+    ":calf-webview:wasmJsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

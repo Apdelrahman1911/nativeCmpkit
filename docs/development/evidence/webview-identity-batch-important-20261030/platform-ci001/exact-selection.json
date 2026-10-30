@@ -1,0 +1,399 @@
+{
+  "accepted_unrelated_methods_replayed": false,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+      ":calf-webview:connectedAndroidDeviceTest"
+    ],
+    "browser-js": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-webview:jsBrowserTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest"
+    ],
+    "browser-wasm": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-webview:wasmJsBrowserTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest"
+    ],
+    "desktop-linux-x64": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      ":calf-webview:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 9,
+  "matrix": [
+    {
+      "arch": "x64",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "desktop-linux-x64",
+      "suite": "desktop",
+      "test-focus": "webview-public-identity-values",
+      "test-modules": "calf-webview"
+    },
+    {
+      "arch": "x64",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "browser-js",
+      "suite": "js",
+      "test-focus": "webview-public-identity-values",
+      "test-modules": "calf-webview"
+    },
+    {
+      "arch": "x64",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "browser-wasm",
+      "suite": "wasm",
+      "test-focus": "webview-public-identity-values",
+      "test-modules": "calf-webview"
+    },
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "webview-public-identity-values",
+      "test-modules": "calf-webview"
+    }
+  ],
+  "new_authored_functions": 7,
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-webview",
+          "project": ":calf-webview",
+          "report_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+              "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+              "name": "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce"
+            }
+          ],
+          "task": ":calf-webview:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "test_source_files": [
+            "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+            "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+            "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-webview"
+      ],
+      "explicit_test_focus": "webview-public-identity-values",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-io",
+        "calf-ui"
+      ],
+      "uncovered": []
+    },
+    "browser-js": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "module": "calf-webview",
+          "project": ":calf-webview",
+          "report_directory": "calf-webview/build/test-results/jsBrowserTest",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+              "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+              "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce"
+            }
+          ],
+          "task": ":calf-webview:jsBrowserTest",
+          "test_filter": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "test_source_files": [
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+            "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "webTest",
+            "jsTest"
+          ]
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-webview"
+      ],
+      "explicit_test_focus": "webview-public-identity-values",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "nonAndroidTest",
+        "webTest",
+        "jsTest"
+      ],
+      "schema_version": 1,
+      "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+      "suite": "js",
+      "test_bearing_modules_not_requested": [
+        "calf-camera-picker",
+        "calf-file-picker",
+        "calf-file-picker-coil",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-permissions/background-location",
+        "calf-permissions/bluetooth",
+        "calf-permissions/calendar",
+        "calf-permissions/camera",
+        "calf-permissions/contacts",
+        "calf-permissions/core",
+        "calf-permissions/gallery",
+        "calf-permissions/location",
+        "calf-permissions/microphone",
+        "calf-permissions/notifications",
+        "calf-permissions/wifi",
+        "calf-share",
+        "calf-ui"
+      ],
+      "uncovered": []
+    },
+    "browser-wasm": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "module": "calf-webview",
+          "project": ":calf-webview",
+          "report_directory": "calf-webview/build/test-results/wasmJsBrowserTest",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+              "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+              "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce"
+            }
+          ],
+          "task": ":calf-webview:wasmJsBrowserTest",
+          "test_filter": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "test_source_files": [
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+            "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+            "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "webTest",
+            "wasmJsTest"
+          ]
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-webview"
+      ],
+      "explicit_test_focus": "webview-public-identity-values",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "nonAndroidTest",
+        "webTest",
+        "wasmJsTest"
+      ],
+      "schema_version": 1,
+      "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+      "suite": "wasm",
+      "test_bearing_modules_not_requested": [
+        "calf-camera-picker",
+        "calf-file-picker",
+        "calf-file-picker-coil",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-permissions/background-location",
+        "calf-permissions/bluetooth",
+        "calf-permissions/calendar",
+        "calf-permissions/camera",
+        "calf-permissions/contacts",
+        "calf-permissions/core",
+        "calf-permissions/gallery",
+        "calf-permissions/location",
+        "calf-permissions/microphone",
+        "calf-permissions/notifications",
+        "calf-permissions/wifi",
+        "calf-share",
+        "calf-ui"
+      ],
+      "uncovered": []
+    },
+    "desktop-linux-x64": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "module": "calf-webview",
+          "project": ":calf-webview",
+          "report_directory": "calf-webview/build/test-results/desktopTest",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+              "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+              "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+              "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+            }
+          ],
+          "task": ":calf-webview:desktopTest",
+          "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "test_source_files": [
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+            "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt",
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "desktopTest"
+          ]
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-webview"
+      ],
+      "explicit_test_focus": "webview-public-identity-values",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "nonAndroidTest",
+        "desktopTest"
+      ],
+      "schema_version": 1,
+      "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+      "suite": "desktop",
+      "test_bearing_modules_not_requested": [
+        "calf-camera-picker",
+        "calf-cupertino-icons",
+        "calf-file-picker",
+        "calf-file-picker-coil",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-permissions/background-location",
+        "calf-permissions/bluetooth",
+        "calf-permissions/calendar",
+        "calf-permissions/camera",
+        "calf-permissions/contacts",
+        "calf-permissions/core",
+        "calf-permissions/gallery",
+        "calf-permissions/location",
+        "calf-permissions/microphone",
+        "calf-permissions/notifications",
+        "calf-permissions/wifi",
+        "calf-share",
+        "calf-ui"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "webview-identity"
+}

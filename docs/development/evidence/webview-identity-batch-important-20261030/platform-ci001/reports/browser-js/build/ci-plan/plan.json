@@ -1,0 +1,72 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/test-results/jsBrowserTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce"
+        }
+      ],
+      "task": ":calf-webview:jsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+      "test_source_files": [
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "webTest",
+        "jsTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-public-identity-values",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "jsTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+  "suite": "js",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

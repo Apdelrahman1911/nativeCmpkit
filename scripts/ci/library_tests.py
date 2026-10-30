@@ -605,6 +605,13 @@ UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_DARWIN_FOCUS] = {
     "groups": UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS]["groups"],
     "scope": "Independent supported Darwin/Instruments/leaks attempt on the same three unchanged real-native memory methods and default Kotlin runtime. The strict runtime profile and its confirmed pre-activation ObjC abort remain failed, not waived or overwritten. Actual process heap requests, owned allocation rows and PID-specific zero leaks are separately required; no ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification. Nine accepted UIImage methods are not replayed.",
 }
+IOS_IMAGE_PROFILE_RECOVERY_FOCUS = "ios-native-image-allocation-profile-recovery"
+IOS_IMAGE_DARWIN_FOCUSES = (IOS_IMAGE_DARWIN_FOCUS, IOS_IMAGE_PROFILE_RECOVERY_FOCUS)
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_PROFILE_RECOVERY_FOCUS] = {
+    "groups": ({"classname": IOS_IMAGE_MEMORY_CLASS, "source": IOS_IMAGE_MEMORY_SOURCE,
+                "methods": IOS_IMAGE_MEMORY_METHODS[-1:], "declared_methods": IOS_IMAGE_MEMORY_METHODS},),
+    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
+}
 IOS_APPLICATION_SOURCES += (IOS_IMAGE_MEMORY_SOURCE,)
 IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
 IOS_APPLICATION_CASES += (("utils.UIImageMemoryDiagnosticsTest", IOS_IMAGE_MEMORY_METHODS[-1]),)
@@ -1934,7 +1941,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
     if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
         command.append("-PnativecmpkitImageMemoryDiagnostics=true")
-    elif test_plan.get("explicit_test_focus") == IOS_IMAGE_DARWIN_FOCUS:
+    elif test_plan.get("explicit_test_focus") in IOS_IMAGE_DARWIN_FOCUSES:
         command.append("-PnativecmpkitImageMemoryDiagnostics=darwin-tools")
     if android_serial:
         # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
@@ -2172,7 +2179,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
              "Application transport failed or incomplete")
         need(document.get("explicit_test_focus") == test_plan.get("explicit_test_focus"),
              "Application selection differs from its reviewed plan")
-        if test_plan.get("explicit_test_focus") == IOS_IMAGE_DARWIN_FOCUS:
+        if test_plan.get("explicit_test_focus") in IOS_IMAGE_DARWIN_FOCUSES:
             need(document.get("image_diagnostics_mode") == "darwin-tools" and
                  document.get("strict_runtime_assertions_attested") is False,
                  "Independent Darwin attempt must retain its explicit non-strict diagnostic scope")
@@ -2261,12 +2268,15 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             import apple_image_profile
             observations = protocol.get("image_profile_observations")
             profile = document.get("image_memory_profile")
-            need(isinstance(observations, list) and len(observations) == 2 and
-                 observations[0] == {"phase": "ready"} and isinstance(observations[1], dict) and
+            native_pid = protocol.get("observed_launch_pid")
+            need(type(native_pid) is int and 0 < native_pid < 2**31 and
+                 isinstance(observations, list) and len(observations) == 2 and
+                 observations[0] == {"phase": "ready", "process_id": native_pid} and isinstance(observations[1], dict) and
                  set(observations[1]) == {"phase", "rounds"} and observations[1]["phase"] == "complete" and
                  type(observations[1]["rounds"]) is int and 1 <= observations[1]["rounds"] <= 4096,
                  "Passing image-profile workload lacks complete bounded native phases")
             need(isinstance(profile, dict) and apple_image_profile.validate_attempt(profile, context["simulator"]["udid"], document["bundle_id"]) and
+                 profile.get("process_id") == native_pid and
                  profile.get("signed_application_executable_sha256") == document["signed_application_executable_sha256"] and
                  profile.get("application_plist_sha256") == document["application_plist_sha256"],
                  "Passing image-profile workload lacks its exact owned tool-attempt/cleanup evidence")

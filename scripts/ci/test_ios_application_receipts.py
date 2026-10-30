@@ -77,6 +77,9 @@ def synthetic_image_profile_receipt(device=DEVICE):
             "process_id": 12345, "darwin_heap_requests": apple_image_profile.DARWIN_REQUESTS.copy(),
             "ASan_verified": False, "private_files_uploaded": False, "prepared": True,
             "attempt_completion_ack_created": True, "owned_ack_removed": True,
+            "native_readiness_file_verified": True, "owned_readiness_removed": True,
+            "native_console_pid_correlated": True,
+            "native_readiness_file_sha256": __import__('hashlib').sha256(b"process_id=12345\n").hexdigest(),
             "owned_private_tree_removed": True, "supported": False, "profile_passed": False,
             "errors": [{"error": "Synthetic unsupported profile, not real Apple evidence"}]}
 
@@ -142,7 +145,8 @@ class IosApplicationReceipts(unittest.TestCase):
                 "testcases": copy.deepcopy(self.cases), "counts": r.case_counts(self.cases), "stream_bytes": 100,
                 "image_lifetime_observation": {"marker_count": 63, "last_phase": "verified", "last_iteration": None,
                     "main_thread": True, "retained_image_bytes_verified": True},
-                "image_profile_observations": [{"phase": "ready"}, {"phase": "complete", "rounds": 23}],
+                "observed_launch_pid": 12345,
+                "image_profile_observations": [{"phase": "ready", "process_id": 12345}, {"phase": "complete", "rounds": 23}],
                 "system_appearance_observations": [{"phase": phase, "step": step, "style": style}
                     for phase, step, style in a.SYSTEM_APPEARANCE_STEPS]}}
         self.modules = [{"module": "calf-ui", "task": TASK, "testcases": self.xml_cases(self.cases)}]

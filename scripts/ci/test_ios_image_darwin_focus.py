@@ -142,7 +142,7 @@ class IosImageDarwinFocusTests(unittest.TestCase):
             for method in lt.IOS_IMAGE_MEMORY_METHODS:
                 protocol.feed(frames.frame("testStarted", name=method))
                 if method == app.IMAGE_PROFILE_CASE[1]:
-                    protocol.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
+                    protocol.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=12345")
                     protocol.feed("NATIVECMPKIT_IMAGE_PROFILE phase=complete rounds=23")
                 protocol.feed(frames.frame("testFinished", name=method))
             protocol.feed(frames.frame("testSuiteFinished", name=lt.IOS_IMAGE_MEMORY_CLASS))
@@ -154,7 +154,7 @@ class IosImageDarwinFocusTests(unittest.TestCase):
                 patch.object(app, "forward_application", side_effect=launch), \
                 patch.object(app.shutil, "disk_usage", return_value=frames.SimpleNamespace(free=10 * 1024**3)):
             driver.return_value.prepare.return_value = child
-            driver.return_value.receipt = {"owned_ack_removed": True, "owned_private_tree_removed": True,
+            driver.return_value.receipt = {"owned_ack_removed": True, "owned_readiness_removed": True, "owned_private_tree_removed": True,
                                           "supported": False, "profile_passed": False}
             result = app.run(f.binary.relative_to(f.root).as_posix(), self.arguments(), image_diagnostics="darwin-tools")
             self.assertTrue(result["transport_passed"])
@@ -162,13 +162,13 @@ class IosImageDarwinFocusTests(unittest.TestCase):
             self.assertEqual("darwin-tools", result["image_diagnostics_mode"])
             self.assertFalse(result["strict_runtime_assertions_attested"])
             self.assertFalse(result["image_memory_profile"]["profile_passed"])
-            driver.return_value.request.assert_called_once_with(12345)
+            driver.return_value.observe_native_request.assert_called_once_with(12345)
             driver.return_value.close.assert_called_once()
         self.assertNotIn("SIMCTL_CHILD", json.dumps(result))
 
     def test_workflow_is_a_finite_reports_only_request_with_no_new_permissions_or_publication(self):
         workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
-        self.assertIn("ios-image-memory, ios-image-memory-darwin, ios-webview-lifecycle", workflow)
+        self.assertIn("ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle", workflow)
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertNotIn("packages: write", workflow)
         self.assertNotIn("id-token: write", workflow)

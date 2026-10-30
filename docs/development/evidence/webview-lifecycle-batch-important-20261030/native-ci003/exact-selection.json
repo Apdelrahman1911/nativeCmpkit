@@ -1,0 +1,139 @@
+{
+  "accepted_unrelated_methods_replayed": false,
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=11111111-1111-1111-1111-111111111111",
+    ":calf-webview:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly"
+  ],
+  "fresh_heavy_hosts_requested": 1,
+  "fresh_target_test_executions_requested": 7,
+  "plan": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "module": "calf-webview",
+        "native_test_host": "genuine-uikit-application",
+        "project": ":calf-webview",
+        "report_directory": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest",
+        "required_testcases": [
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation[iosSimulatorArm64]"
+          },
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+            "name": "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly[iosSimulatorArm64]"
+          }
+        ],
+        "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+        "test_filter": "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation,com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly",
+        "test_source_files": [
+          "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+          "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+          "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt",
+          "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
+          "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "iosTest"
+        ]
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-webview"
+    ],
+    "explicit_test_focus": "webview-ios-native-lifecycle-recovery",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "nonAndroidTest",
+      "nativeTest",
+      "appleTest",
+      "iosTest",
+      "iosSimulatorArm64Test"
+    ],
+    "schema_version": 1,
+    "scope": "Six failed real WebKit lifecycle/document/value/configuration methods and one new controlled native bridge ownership method only. The four accepted unchanged application-host methods are reused, not replayed. All actual Worker/runtime/binary/install/owned cleanup and real document predicates remain required. No assertion/timeout relaxation, physical swipes/video/network/authentication/minimum/ABI/consumer/security/release certification.",
+    "suite": "ios",
+    "test_bearing_modules_not_requested": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-file-picker-coil",
+      "calf-geo",
+      "calf-io",
+      "calf-navigation",
+      "calf-permissions/background-location",
+      "calf-permissions/bluetooth",
+      "calf-permissions/calendar",
+      "calf-permissions/camera",
+      "calf-permissions/contacts",
+      "calf-permissions/core",
+      "calf-permissions/gallery",
+      "calf-permissions/location",
+      "calf-permissions/microphone",
+      "calf-permissions/notifications",
+      "calf-permissions/wifi",
+      "calf-share",
+      "calf-ui"
+    ],
+    "uncovered": []
+  },
+  "profile": "ios-webview-recovery",
+  "row": {
+    "arch": "arm64",
+    "python": "python3",
+    "runner": "macos-26",
+    "simulator-kind": "iphone",
+    "slot": "ios-iphone",
+    "suite": "ios",
+    "test-focus": "webview-ios-native-lifecycle-recovery",
+    "test-modules": "calf-webview"
+  }
+}

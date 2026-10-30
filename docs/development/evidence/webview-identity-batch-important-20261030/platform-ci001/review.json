@@ -1,0 +1,392 @@
+{
+  "accepted_executions": 6,
+  "accepted_unrelated_methods_not_replayed": true,
+  "all_preflight902_library_inputs_exact_historical_Git": true,
+  "fresh_executed": 7,
+  "fresh_requested_executions": 9,
+  "no_automatic_issue_or_release_certification": true,
+  "packages_releases_deployments_or_Pages_created": false,
+  "platforms": [
+    {
+      "accepted_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+        "desktop_audio": {
+          "adapter": "clocked-native-pulseaudio-null-output",
+          "alsa_configuration_sha256": "a17bbdd3d7554cb95e768b8947f3a5b0b90dc751bcf186502aa41c0f61ccc43e",
+          "anonymous_protocol_enabled": false,
+          "engine_decoder_or_callback_substitution": false,
+          "format": "s16le 1ch 16000Hz",
+          "global_service_started": false,
+          "native_module": "module-null-sink.c",
+          "physical_or_audible_output_verified": false,
+          "pulse_configuration_sha256": "34cba0986ef72a7b276b51ce3cc3cfc9799df2983ccc0756dc625700b4964a94",
+          "ready_verified": true,
+          "sink": "nativecmpkit_verification",
+          "version": "pulseaudio 16.1"
+        },
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T03:54:25.825006+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+        "source_tree_dirty": false
+      },
+      "all902_before_after_inputs_held": true,
+      "artifact_digest": "sha256:eaded25584b82e1e7e2f53f5bfd816f7828309877a712fbab7af576b64ee3397",
+      "artifact_id": 12953376313,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:desktopTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest"
+      ],
+      "errors": [
+        {
+          "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+          "module": "calf-webview"
+        }
+      ],
+      "exact_fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 224.07,
+        "exit_code": 1
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 3,
+      "job_conclusion": "failure",
+      "job_id": 123881383644,
+      "library_invocation_receipt_present": true,
+      "passed": false,
+      "slot": "desktop-linux-x64",
+      "suite": "desktop",
+      "totals": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 1,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "accepted_methods": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T03:53:51.763410+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+        "source_tree_dirty": false
+      },
+      "all902_before_after_inputs_held": true,
+      "artifact_digest": "sha256:ecb570673f77ba51542a397e98fb7ef2695d7462d4b7914c3cbd3cef226201f3",
+      "artifact_id": 12952299436,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:jsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest"
+      ],
+      "errors": [],
+      "exact_fresh_cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 292.09,
+        "exit_code": 0
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 2,
+      "job_conclusion": "success",
+      "job_id": 123881383550,
+      "library_invocation_receipt_present": true,
+      "passed": true,
+      "slot": "browser-js",
+      "suite": "js",
+      "totals": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "accepted_methods": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T03:58:55.165809+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+        "source_tree_dirty": false
+      },
+      "all902_before_after_inputs_held": true,
+      "artifact_digest": "sha256:24d79eccc97e2e943bbe1588d6872b5dd6429d9b88338fa8f399d53e70ace2ef",
+      "artifact_id": 12953501800,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:wasmJsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest"
+      ],
+      "errors": [],
+      "exact_fresh_cases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+          "name": "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 278.08,
+        "exit_code": 0
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 2,
+      "job_conclusion": "success",
+      "job_id": 123881383743,
+      "library_invocation_receipt_present": true,
+      "passed": true,
+      "slot": "browser-wasm",
+      "suite": "wasm",
+      "totals": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 2,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      }
+    },
+    {
+      "accepted_methods": [],
+      "actual_emulator_boot_or_Gradle_or_tests_executed": false,
+      "actual_runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T04:00:00.454433+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+        "source_tree_dirty": false
+      },
+      "artifact_digest": "sha256:b2ee73278d01452ab130ad2aaa4474dfbc4b5ee5b3c6474b2660cbd847932a6d",
+      "artifact_id": 12952694379,
+      "confirmed_failure": "Owning Android controller argparse omitted the reviewed focus; exit2 before emulator/Gradle.",
+      "fresh_executed": 0,
+      "job_conclusion": "failure",
+      "job_id": 123881383494,
+      "library_invocation_receipt_present": false,
+      "passed": false,
+      "private_log_sha256": "f5d1ad63130f91a46dfdeb9752adb8bd4f75d0086a433080d25a8478a3b32248",
+      "slot": "android-device-api35",
+      "suite": "android-device"
+    }
+  ],
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T04:19:28.625549+00:00",
+  "run_attempt": 1,
+  "run_id": 40999700359,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40999700359",
+  "source_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed",
+  "workflow_conclusion": "failure",
+  "workflow_sha256": "bebd6a29d4e4f61789074165ee170d6f6fccecfd83f8d22640cc66880056d900"
+}

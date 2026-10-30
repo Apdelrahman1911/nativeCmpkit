@@ -58,7 +58,7 @@ SLIDER_TIMEOUT_SECONDS = 300
 def application_timeout_seconds(focus: str | None) -> int:
     if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
         raise ValueError("Unknown finite application focus")
-    if focus in {lt.IOS_IMAGE_MEMORY_FOCUS, lt.IOS_IMAGE_DARWIN_FOCUS}:
+    if focus in {lt.IOS_IMAGE_MEMORY_FOCUS, *lt.IOS_IMAGE_DARWIN_FOCUSES}:
         return 360
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
@@ -245,7 +245,9 @@ class NativeProtocol:
         self.transport_observation = None
         self.image_lifetime_observation = None
         self.image_profile_observations = []
+        self.image_profile_pid = None
         self.image_profile_request = None
+        self.image_profile_poll = None
         self.image_profile_request_sent = False
         self.compact_appearance_observation = []
         self.active = None
@@ -283,23 +285,31 @@ class NativeProtocol:
             # buffered. Do not invent a pre-activation stdout ordering contract.
             # This is a bounded console witness, not a trusted-OS attestation.
             self.observed_launch_pid = int(launch[1])
+            if self.image_profile_pid is not None and self.image_profile_pid != self.observed_launch_pid:
+                raise ValueError("Native image workload PID differs from the exact simulator launch PID")
             self._request_image_profile_if_ready()
             return
         profile = re.fullmatch(
-            r"NATIVECMPKIT_IMAGE_PROFILE phase=(ready|complete)(?: rounds=([1-9][0-9]{0,3}))?", line)
+            r"NATIVECMPKIT_IMAGE_PROFILE phase=(ready|complete)(?: process_id=([1-9][0-9]{0,9}))?(?: rounds=([1-9][0-9]{0,3}))?", line)
         if profile:
             if self.active is None or self.completed is not None or self.open_case != IMAGE_PROFILE_CASE:
                 raise ValueError("Image profile marker outside its exact active native testcase")
             if profile[1] == "ready":
-                if self.image_profile_observations or profile[2] is not None:
+                if (self.cases[self.open_case]["status"] != "running" or self.image_profile_observations or
+                        profile[2] is None or profile[3] is not None or
+                        int(profile[2]) >= 2**31):
                     raise ValueError("Missing, repeated or malformed native image profile request")
-                self.image_profile_observations.append({"phase": "ready"})
+                self.image_profile_pid = int(profile[2])
+                if self.observed_launch_pid is not None and self.image_profile_pid != self.observed_launch_pid:
+                    raise ValueError("Native image workload PID differs from the exact simulator launch PID")
+                self.image_profile_observations.append({"phase": "ready", "process_id": self.image_profile_pid})
                 self._request_image_profile_if_ready()
             else:
-                if (self.image_profile_observations != [{"phase": "ready"}] or profile[2] is None or
-                        not 1 <= int(profile[2]) <= 4096):
+                if (len(self.image_profile_observations) != 1 or self.image_profile_pid is None or
+                        self.image_profile_observations[0] != {"phase": "ready", "process_id": self.image_profile_pid} or
+                        profile[2] is not None or profile[3] is None or not 1 <= int(profile[3]) <= 4096):
                     raise ValueError("Missing, reordered or unbounded native image profile workload")
-                self.image_profile_observations.append({"phase": "complete", "rounds": int(profile[2])})
+                self.image_profile_observations.append({"phase": "complete", "rounds": int(profile[3])})
             return
         if line.startswith("NATIVECMPKIT_IMAGE_PROFILE"):
             raise ValueError("Unknown or malformed native image profile marker")
@@ -621,10 +631,13 @@ class NativeProtocol:
             raise ValueError("Unreviewed native test protocol record")
 
     def _request_image_profile_if_ready(self) -> None:
-        if (self.observed_launch_pid is not None and self.image_profile_request is not None and
-                self.image_profile_observations == [{"phase": "ready"}] and not self.image_profile_request_sent):
+        if (self.active is not None and self.completed is None and self.open_case == IMAGE_PROFILE_CASE and
+                self.image_profile_pid is not None and self.image_profile_request is not None and
+                self.cases[self.open_case]["status"] == "running" and
+                self.image_profile_observations == [{"phase": "ready", "process_id": self.image_profile_pid}] and
+                not self.image_profile_request_sent):
             self.image_profile_request_sent = True
-            self.image_profile_request(self.observed_launch_pid)
+            self.image_profile_request(self.image_profile_pid)
 
     def partial(self) -> dict:
         """Finished frames only; interruption is never promoted to a testcase.
@@ -684,6 +697,8 @@ class NativeProtocol:
             raise ValueError("Zero/incomplete native test execution is not successful transport")
         if self.compact_appearance_observation and len(self.compact_appearance_observation) != len(COMPACT_APPEARANCE_PHASES):
             raise ValueError("Incomplete compact appearance diagnostic, not accepted evidence")
+        if self.image_profile_observations and self.observed_launch_pid != self.image_profile_pid:
+            raise ValueError("Native image workload lacks a matching actual simulator launch PID")
         return {"activation": self.active, "completion": self.completed,
                 "testcases": [{k: c[k] for k in ["classname", "name", "status"]} for c in cases],
                 "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
@@ -775,6 +790,9 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
                     raise TimeoutError("Owned UIKit application timed out")
                 if shutil.disk_usage(lt.ROOT).free < 8192 * 1024**2:
                     raise OSError("UIKit transport disk reserve unavailable")
+                if protocol.image_profile_poll is not None:
+                    stage = "owned-image-profile-readiness"
+                    protocol.image_profile_poll()
                 for key, _ in selector.select(timeout=0.25):
                     stage = "protocol-read"
                     block = os.read(key.fd, 65536)
@@ -841,15 +859,16 @@ def application_test_focus(arguments: list[str], image_diagnostics: str | None =
             prefix = "--ktest_gradle_filter="
             if argument.startswith(prefix):
                 patterns = argument.removeprefix(prefix).split(",")
-                reviewed = lt.ui_application_focus_filter(lt.IOS_IMAGE_DARWIN_FOCUS).split(",")
-                if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
-                    return lt.IOS_IMAGE_DARWIN_FOCUS
+                for focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
+                    reviewed = lt.ui_application_focus_filter(focus).split(",")
+                    if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
+                        return focus
         raise ValueError("Darwin diagnostics require exactly their reviewed image methods")
     if len(arguments) == 2 and set(arguments) == TEST_ARGUMENTS:
         return None
     if len(arguments) == 3:
         for focus, argument in APPLICATION_FOCUS_ARGUMENTS.items():
-            if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+            if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
                 continue  # This independent mode requires its explicit transport flag.
             if set(arguments) == TEST_ARGUMENTS | {argument}:
                 return focus
@@ -863,7 +882,7 @@ def application_test_focus(arguments: list[str], image_diagnostics: str | None =
             if argument.startswith(prefix):
                 patterns = argument.removeprefix(prefix).split(",")
                 for focus in lt.UI_APPLICATION_FOCUS_SPECS:
-                    if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+                    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
                         continue
                     reviewed = lt.ui_application_focus_filter(focus).split(",")
                     if len(patterns) == len(reviewed) and len(set(patterns)) == len(patterns) and set(patterns) == set(reviewed):
@@ -915,7 +934,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
                "steps": {}, "cleanup": {}, "application_protocol": None}
-    if focus == lt.IOS_IMAGE_DARWIN_FOCUS:
+    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
         receipt.update(image_diagnostics_mode="darwin-tools", strict_runtime_assertions_attested=False)
     app = output / "NativeCmpkitLibraryTests.app"
     bundle_id = None
@@ -967,13 +986,14 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
-        if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS, lt.IOS_IMAGE_DARWIN_FOCUS):
+        if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS, *lt.IOS_IMAGE_DARWIN_FOCUSES):
             import apple_image_profile
             phase = "prepare-owned-image-memory-profile"
             image_profile_driver = apple_image_profile.ImageProfileDriver(
                 root, output, device, bundle_id, signed_hash, plist_hash, execute_control)
             native_environment = image_profile_driver.prepare()
-            protocol.image_profile_request = image_profile_driver.request
+            protocol.image_profile_request = image_profile_driver.observe_native_request
+            protocol.image_profile_poll = image_profile_driver.poll
         if host["module"] == "calf-ui" and focus in (
                 None, lt.IOS_VECTOR_THEME_FOCUS, lt.IOS_SYSTEM_APPEARANCE_FOCUS):
             phase = "prepare-owned-simulator-system-appearance"
@@ -1007,6 +1027,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             image_profile_driver.close()
             receipt["image_memory_profile"] = image_profile_driver.receipt
             if not (image_profile_driver.receipt.get("owned_ack_removed") is True and
+                    image_profile_driver.receipt.get("owned_readiness_removed") is True and
                     image_profile_driver.receipt.get("owned_private_tree_removed") is True):
                 receipt["transport_passed"] = False
         if appearance_driver is not None:

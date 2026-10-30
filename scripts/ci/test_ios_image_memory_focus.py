@@ -33,7 +33,7 @@ class IosImageMemoryFocusTests(unittest.TestCase):
                 patch.object(app, "forward_application", side_effect=launch), \
                 patch.object(app.shutil, "disk_usage", return_value=frames.SimpleNamespace(free=10 * 1024**3)):
             driver.return_value.prepare.return_value = child
-            driver.return_value.receipt = {"owned_ack_removed": True, "owned_private_tree_removed": True,
+            driver.return_value.receipt = {"owned_ack_removed": True, "owned_readiness_removed": True, "owned_private_tree_removed": True,
                                             "supported": False, "profile_passed": False}
             arguments = sorted(app.TEST_ARGUMENTS) + ["--ktest_gradle_filter=" + lt.ui_application_focus_filter(lt.IOS_IMAGE_MEMORY_FOCUS)]
             result = app.run(f.binary.relative_to(f.root).as_posix(), arguments)
@@ -102,7 +102,7 @@ class IosImageMemoryFocusTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 lt.plan(lt.ROOT, suite, only_modules=modules, focus=lt.IOS_IMAGE_MEMORY_FOCUS)
 
-    def test_profile_markers_require_exact_case_order_and_defer_until_real_pid(self):
+    def test_profile_markers_require_exact_case_order_and_correlate_native_pid_with_late_header(self):
         bundle = "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" + "a" * 12 + ".t" + "b" * 32
         p = app.NativeProtocol(bundle)
         p.feed(frames.ACTIVE)
@@ -110,8 +110,8 @@ class IosImageMemoryFocusTests(unittest.TestCase):
         p.feed(frames.frame("testStarted", name=app.IMAGE_PROFILE_CASE[1]))
         requests = []
         p.image_profile_request = requests.append
-        p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
-        self.assertEqual([], requests)
+        p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=12345")
+        self.assertEqual([12345], requests)
         p.feed(bundle + ": 12345")
         self.assertEqual([12345], requests)
         p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=complete rounds=23")
@@ -120,7 +120,7 @@ class IosImageMemoryFocusTests(unittest.TestCase):
         p.feed(frames.COMPLETE)
         summary = p.finish(0)
         self.assertEqual(1, summary["counts"]["passed"])
-        self.assertEqual([{"phase": "ready"}, {"phase": "complete", "rounds": 23}],
+        self.assertEqual([{"phase": "ready", "process_id": 12345}, {"phase": "complete", "rounds": 23}],
                          summary["image_profile_observations"])
 
     def test_missing_malformed_foreign_or_duplicate_profile_marker_never_passes(self):
@@ -138,9 +138,9 @@ class IosImageMemoryFocusTests(unittest.TestCase):
         p = protocol()
         with self.assertRaises(ValueError):
             p.feed(frames.frame("testFinished", name=app.IMAGE_PROFILE_CASE[1]))
-        p = protocol(); p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
-        with self.assertRaises(ValueError): p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
-        with self.assertRaises(ValueError): app.NativeProtocol().feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready")
+        p = protocol(); p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=12345")
+        with self.assertRaises(ValueError): p.feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=12345")
+        with self.assertRaises(ValueError): app.NativeProtocol().feed("NATIVECMPKIT_IMAGE_PROFILE phase=ready process_id=12345")
 
     def test_new_native_fixture_uses_real_owned_objects_finite_workers_and_gc(self):
         source = (lt.ROOT / lt.IOS_IMAGE_MEMORY_SOURCE).read_text()

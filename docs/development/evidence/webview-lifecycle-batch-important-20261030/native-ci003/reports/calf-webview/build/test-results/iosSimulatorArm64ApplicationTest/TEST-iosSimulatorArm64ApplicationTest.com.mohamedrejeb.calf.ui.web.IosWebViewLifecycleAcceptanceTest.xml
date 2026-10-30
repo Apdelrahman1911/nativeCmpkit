@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testsuite name="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" tests="7" skipped="0" failures="1" errors="0" timestamp="2026-10-30T04:03:08.814Z" hostname="sjc20-bb711-345a023c-0747-420d-bd7e-8af2af78c066-D6BDDFA31131.local" time="20.054">
+  <testcase name="nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="0.097" />
+  <testcase name="creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="10.176">
+    <failure message="kotlin.IllegalStateException: kotlin.IllegalStateException: Timed out awaiting native predicate; actual application state: active=UIApplicationStateActive, key=true, attached=true, everAppeared=true, appeared=true, generation=3, committed=3, pending=0" type="kotlin.IllegalStateException">kotlin.IllegalStateException: Timed out awaiting native predicate; actual application state: active=UIApplicationStateActive, key=true, attached=true, everAppeared=true, appeared=true, generation=3, committed=3, pending=0
+	at kotlin.Throwable#&lt;init&gt;(Unknown Source)
+	at kotlin.Exception#&lt;init&gt;(Unknown Source)
+	at kotlin.RuntimeException#&lt;init&gt;(Unknown Source)
+	at kotlin.IllegalStateException#&lt;init&gt;(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.internal.NativeApplicationUiTest#awaitMain(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.internal#waitForNative__at__com.mohamedrejeb.calf.ui.web.internal.NativeApplicationUiTest(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1$invoke$1.invoke#internal(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1$invoke$1.$&lt;bridge-DNC&gt;invoke(Unknown Source)
+	at kotlin.Function1#invoke(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.internal#runApplicationUiTest(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.invoke#internal(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.IosWebViewLifecycleAcceptanceTest$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.$&lt;bridge-DNC&gt;invoke(Unknown Source)
+	at kotlin.Function1#invoke(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.withScope#internal(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest#creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.$IosWebViewLifecycleAcceptanceTest$test$0.$IosWebViewLifecycleAcceptanceTest$test$0$$FUNCTION_REFERENCE_FOR$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.invoke#internal(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.$IosWebViewLifecycleAcceptanceTest$test$0.$IosWebViewLifecycleAcceptanceTest$test$0$$FUNCTION_REFERENCE_FOR$creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView$1.$&lt;bridge-DNC&gt;invoke(Unknown Source)
+	at kotlin.Function1#invoke(Unknown Source)
+	at kotlin.native.internal.test.BaseClassSuite.TestCase#doRun(Unknown Source)
+	at kotlin.native.internal.test.TestCase#doRun(Unknown Source)
+	at kotlin.native.internal.test.TestCase#run(Unknown Source)
+	at kotlin.native.internal.test.TestCase#run(Unknown Source)
+	at kotlin.native.internal.test.TestRunner.kotlin.native.internal.test.TestRunner#run__at__kotlin.native.internal.test.TestSuite(Unknown Source)
+	at kotlin.native.internal.test.TestRunner.kotlin.native.internal.test.TestRunner#runIteration(Unknown Source)
+	at kotlin.native.internal.test.TestRunner#run(Unknown Source)
+	at kotlin.native.internal.test#testLauncherEntryPoint(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationDelegate.startGeneratedTests$lambda$0#internal(Unknown Source)
+	at com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationDelegate.$&lt;bridge-UN&gt;startGeneratedTests$lambda$0#static(Unknown Source)
+	at &lt;global&gt;.Kotlin_Worker_invokeCFunction(Unknown Source)
+	at &lt;global&gt;.WorkerExecuteLaunchpad(Unknown Source)
+	at &lt;global&gt;._ZN6Worker19processQueueElementEb(Unknown Source)
+	at &lt;global&gt;._ZN12_GLOBAL__N_113workerRoutineEPv(Unknown Source)
+	at &lt;global&gt;._pthread_start(Unknown Source)
+	at &lt;global&gt;.thread_start(Unknown Source)
+</failure>
+  </testcase>
+  <testcase name="stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="0.001" />
+  <testcase name="realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="0.146" />
+  <testcase name="gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="4.814" />
+  <testcase name="creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="2.268" />
+  <testcase name="stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly[iosSimulatorArm64]" classname="iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest" time="1.144" />
+  </testsuite>

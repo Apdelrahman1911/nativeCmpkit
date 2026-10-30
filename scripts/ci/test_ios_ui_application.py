@@ -271,7 +271,7 @@ class OwnedApplicationTests(unittest.TestCase):
             # These old transport-only fixtures do not execute a native profile
             # case. Isolate the new optional boundary, not its real assertions.
             profile.return_value.prepare.return_value = None
-            profile.return_value.receipt = {"owned_ack_removed": True, "owned_private_tree_removed": True,
+            profile.return_value.receipt = {"owned_ack_removed": True, "owned_readiness_removed": True, "owned_private_tree_removed": True,
                                             "supported": False, "profile_passed": False}
             return a.run(self.binary.relative_to(self.root).as_posix(), arguments or list(a.TEST_ARGUMENTS))
 

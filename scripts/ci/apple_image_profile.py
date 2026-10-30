@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import subprocess
 import time
 import uuid
@@ -26,6 +27,11 @@ NATIVE_SYMBOLS = ("com.mohamedrejeb.calf.ui.utils", "UIImageMemoryDiagnosticsTes
 DARWIN_REQUESTS = {"MallocScribble": "1", "MallocGuardEdges": "1", "MallocErrorAbort": "1",
                    "MallocStackLogging": "1"}
 ATTEMPT_SECONDS = 180
+PREFLIGHT_FAILURE_REASONS = {
+    "Installed profile application ownership changed": "installed-app-identity-mismatch",
+    "Actual selected native process is unavailable": "selected-process-unavailable",
+    "Native PID does not execute the exact installed owned binary": "selected-process-executable-mismatch",
+}
 
 
 def allocation_summary(path: Path) -> dict:
@@ -100,6 +106,10 @@ class ImageProfileDriver:
         self.private = lt.safe_path(root, (output / "image-profile-private").relative_to(root).as_posix())
         self.ack = None
         self.ack_identity = None
+        self.ready = None
+        self.ready_identity = None
+        self.ready_payload = None
+        self.native_console_pid = None
         self.started = False
         self.receipt = {"schema_version": 1, "simulator_udid": device, "bundle_identifier": bundle,
                         "signed_application_executable_sha256": signed_hash, "application_plist_sha256": plist_hash,
@@ -126,11 +136,13 @@ class ImageProfileDriver:
         if not temporary.is_dir() or not temporary.is_relative_to(container):
             raise ValueError("Profile ack must stay in this application's actual private tmp")
         self.ack = temporary / ("nativecmpkit-image-profile-" + uuid.uuid4().hex + ".ack")
-        if self.ack.exists() or self.ack.is_symlink():
+        self.ready = self.ack.with_suffix(".ready")
+        if any(path.exists() or path.is_symlink() for path in (self.ack, self.ready)):
             raise ValueError("Refuse any preexisting completion witness")
         self.private.mkdir(mode=0o700)
         environment = os.environ.copy()
-        requested = {"NATIVECMPKIT_IMAGE_PROFILE_ACK": str(self.ack), **DARWIN_REQUESTS}
+        requested = {"NATIVECMPKIT_IMAGE_PROFILE_ACK": str(self.ack),
+                     "NATIVECMPKIT_IMAGE_PROFILE_READY": str(self.ready), **DARWIN_REQUESTS}
         for name, value in requested.items():
             key = "SIMCTL_CHILD_" + name
             if environment.get(key) not in (None, value):
@@ -140,13 +152,74 @@ class ImageProfileDriver:
         self.receipt["prepared"] = True
         return environment
 
+    def observe_native_request(self, pid: int) -> None:
+        """Correlate actual console evidence; never depend on either stdout producer flushing."""
+        if type(pid) is not int or not 0 < pid < 2**31 or self.native_console_pid is not None:
+            raise ValueError("Exactly one actual native console PID must own the profile")
+        self.native_console_pid = pid
+        if self.started:
+            if self.receipt.get("process_id") != pid:
+                raise ValueError("Owned readiness and native console process identities differ")
+        else:
+            self.poll()
+        if self.started:
+            self.receipt["native_console_pid_correlated"] = True
+
+    def poll(self) -> None:
+        """Read one unique, app-private native handoff without waiting for buffered console frames."""
+        if self.started or self.ready is None:
+            return
+        if self.ready.is_symlink():
+            raise ValueError("Refuse a foreign native profile readiness alias")
+        if not self.ready.exists():
+            return
+        before = self.ready.lstat()
+        if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or
+                stat.S_IMODE(before.st_mode) != 0o600 or before.st_uid != os.getuid() or
+                not 0 <= before.st_size <= 64):
+            raise ValueError("Expected a bounded private native profile readiness file")
+        if before.st_size == 0:
+            return  # Native exclusive create precedes its one bounded write, not readiness yet.
+        descriptor = os.open(self.ready, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+        try:
+            opened = os.fstat(descriptor)
+            if (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns) != (
+                    before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns):
+                raise ValueError("Native readiness changed before its bounded ownership read")
+            payload = os.read(descriptor, 65)
+            final_opened = os.fstat(descriptor)
+            if (opened.st_dev, opened.st_ino, opened.st_size, opened.st_mtime_ns) != (
+                    final_opened.st_dev, final_opened.st_ino, final_opened.st_size, final_opened.st_mtime_ns):
+                raise ValueError("Native readiness changed during its bounded ownership read")
+        finally:
+            os.close(descriptor)
+        after = self.ready.lstat()
+        identity = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns)
+        if identity(before) != identity(after) or self.ready.is_symlink() or len(payload) != before.st_size:
+            raise ValueError("Native readiness changed during its bounded ownership read")
+        match = re.fullmatch(rb"process_id=([1-9][0-9]{0,9})\n", payload)
+        if match is None or int(match[1]) >= 2**31:
+            raise ValueError("Invalid actual native profile readiness PID")
+        pid = int(match[1])
+        if self.native_console_pid is not None and self.native_console_pid != pid:
+            raise ValueError("Owned readiness and native console process identities differ")
+        self.ready_identity = identity(after)
+        self.ready_payload = payload
+        self.receipt.update(native_readiness_file_verified=True,
+                            native_readiness_file_sha256=hashlib.sha256(payload).hexdigest())
+        self.request(pid)
+        if self.native_console_pid is not None:
+            self.receipt["native_console_pid_correlated"] = True
+
     def request(self, pid: int) -> None:
         import ios_ui_application as app
-        if self.ack is None or self.started or type(pid) is not int or not 0 < pid < 2**31:
+        if (self.ack is None or self.started or type(pid) is not int or not 0 < pid < 2**31 or
+                self.ready_identity is None or self.ready_payload != ("process_id=" + str(pid) + "\n").encode()):
             raise ValueError("One exact actual native process must own the profile request")
         self.started = True
         self.receipt.update(process_id=pid, started_at_utc=lt.utc_now())
         started = time.monotonic()
+        stage = "verify-installed-owned-app"
 
         def execute(command: list[str], name: str) -> dict:
             remaining = ATTEMPT_SECONDS - (time.monotonic() - started)
@@ -162,21 +235,31 @@ class ImageProfileDriver:
             lease = self.control(["/usr/bin/xcrun", "simctl", "get_app_container", self.device, self.bundle, "app"], 30)
             if not app.installed_identity(lease, self.bundle, self.signed_hash, self.plist_hash):
                 raise ValueError("Installed profile application ownership changed")
+            self.receipt["installed_application_identity_verified"] = True
+            stage = "inspect-owned-process"
             process = self.control(["/bin/ps", "-p", str(pid), "-o", "comm="], 15)
             if process.returncode or not isinstance(process.stdout, bytes) or len(process.stdout) > 4096:
                 raise ValueError("Actual selected native process is unavailable")
+            stage = "verify-owned-process-executable"
             binary = Path(process.stdout.decode("utf-8", errors="strict").strip())
             installed = Path(lease.stdout.decode("utf-8", errors="strict").strip())
+            self.receipt["process_executable_preflight"] = {
+                "absolute_path_observed": binary.is_absolute(),
+                "lexical_installed_path_matches": binary == installed / app.APP_EXECUTABLE,
+                "raw_path_or_process_text_uploaded": False,
+            }
             if (not binary.is_absolute() or binary != installed / app.APP_EXECUTABLE or
                     not binary.is_file() or binary.is_symlink() or lt.sha256(binary) != self.signed_hash):
                 raise ValueError("Native PID does not execute the exact installed owned binary")
             self.receipt["actual_process_executable_identity_verified"] = True
+            stage = "record-owned-allocations"
             trace = self.private / "owned-library.trace"
             outcome = execute(["/usr/bin/xcrun", "xctrace", "record", "--template", "Allocations",
                                "--time-limit", "12s", "--output", str(trace), "--attach", str(pid)], "allocations")
             if outcome["exit_code"] or outcome.get("stop_reason"):
                 raise RuntimeError("Actual Instruments recording failed")
             toc = self.private / "toc.xml"
+            stage = "export-owned-allocation-toc"
             outcome = execute(["/usr/bin/xcrun", "xctrace", "export", "--input", str(trace),
                                "--toc", "--output", str(toc)], "toc")
             if outcome["exit_code"] or outcome.get("stop_reason"):
@@ -185,6 +268,7 @@ class ImageProfileDriver:
             self.receipt["toc_sha256"] = hashlib.sha256(body).hexdigest()
             self.receipt["actual_allocation_schemas"] = discovery.allocation_schemas(tree)
             for index, schema in enumerate(self.receipt["actual_allocation_schemas"]):
+                stage = "export-owned-allocation-rows"
                 exported = self.private / ("allocation-" + str(index) + ".xml")
                 outcome = execute(["/usr/bin/xcrun", "xctrace", "export", "--input", str(trace),
                                    "--xpath", "//table[@schema='" + schema + "']", "--output", str(exported)],
@@ -193,6 +277,7 @@ class ImageProfileDriver:
                     raise RuntimeError("Actual allocation export failed")
                 self.receipt["exports"].append({"schema": schema, **allocation_summary(exported)})
             # A real PID-specific zero is required. Never parse missing output as no leaks.
+            stage = "inspect-owned-process-leaks"
             outcome = execute(["/usr/bin/leaks", str(pid)], "leaks")
             self.receipt["leak_summary"] = leak_summary(self.private / "leaks.log", pid)
             self.receipt["supported"] = any(e["owned_allocation_rows"] > 0 and e["owned_library_frame_seen"]
@@ -203,7 +288,9 @@ class ImageProfileDriver:
             if not self.receipt["profile_passed"]:
                 self.receipt["errors"].append({"error": "No useful owned-library allocation rows or no actual zero-leak summary; profile NOT verified"})
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError, ET.ParseError) as error:
-            self.receipt["errors"].append({"error_type": type(error).__name__, "profile_pass_inferred": False})
+            self.receipt["errors"].append({"error_type": type(error).__name__, "failure_stage": stage,
+                "failure_reason": PREFLIGHT_FAILURE_REASONS.get(str(error), "unclassified"),
+                "profile_pass_inferred": False})
         finally:
             try:
                 if self.ack.exists() or self.ack.is_symlink():
@@ -220,9 +307,16 @@ class ImageProfileDriver:
 
     def close(self) -> None:
         try:
+            if self.ready is not None and (self.ready.exists() or self.ready.is_symlink()):
+                info = self.ready.lstat()
+                if (self.ready.is_symlink() or not self.ready.is_file() or info.st_nlink != 1 or
+                        (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns) != self.ready_identity or
+                        self.ready.read_bytes() != self.ready_payload):
+                    raise ValueError("Refuse removing a foreign or changed native readiness witness")
+                self.ready.unlink()
             if self.ack is not None and (self.ack.exists() or self.ack.is_symlink()):
                 stat = self.ack.lstat()
-                if (self.ack.is_symlink() or not self.ack.is_file() or stat.st_nlink != 1 or
+                if (self.ack.is_symlink() or not self.ack.is_file() or stat.st_nlink != 1 or stat.st_size != len(b"complete\n") or
                         (stat.st_dev, stat.st_ino) != self.ack_identity or self.ack.read_bytes() != b"complete\n"):
                     raise ValueError("Refuse removing a foreign or changed profile ack")
                 self.ack.unlink()
@@ -233,6 +327,7 @@ class ImageProfileDriver:
                 shutil.rmtree(self.private)
             self.receipt["owned_private_tree_removed"] = not self.private.exists()
             self.receipt["owned_ack_removed"] = self.ack is None or not self.ack.exists()
+            self.receipt["owned_readiness_removed"] = self.ready is None or not self.ready.exists()
         except (OSError, ValueError) as error:
             self.receipt["errors"].append({"cleanup_error_type": type(error).__name__})
             self.receipt["profile_passed"] = False
@@ -246,5 +341,9 @@ def validate_attempt(document: dict, device: str, bundle: str) -> bool:
             document.get("darwin_heap_requests") == DARWIN_REQUESTS and document.get("ASan_verified") is False and
             document.get("private_files_uploaded") is False and document.get("prepared") is True and
             document.get("attempt_completion_ack_created") is True and document.get("owned_ack_removed") is True and
+            document.get("native_readiness_file_verified") is True and document.get("owned_readiness_removed") is True and
+            document.get("native_console_pid_correlated") is True and
+            document.get("native_readiness_file_sha256") == hashlib.sha256(
+                ("process_id=" + str(pid) + "\n").encode()).hexdigest() and
             document.get("owned_private_tree_removed") is True and
             not any("ack_error_type" in error or "cleanup_error_type" in error for error in document.get("errors", [])))

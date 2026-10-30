@@ -67,8 +67,12 @@ class AppleImageProfileTests(unittest.TestCase):
             return self.driver.prepare()
 
     def request(self, execute=None):
+        if not self.driver.ready.exists():
+            self.driver.ready.write_text("process_id=" + str(PID) + "\n")
+            self.driver.ready.chmod(0o600)
         with patch.object(p.lt, "execute", side_effect=execute or self.execute):
-            self.driver.request(PID)
+            self.driver.poll()
+            self.driver.observe_native_request(PID)
 
     def test_real_selected_pid_and_owned_bytes_are_required_and_only_safe_summary_survives(self):
         environment = self.prepare()

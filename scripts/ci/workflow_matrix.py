@@ -39,6 +39,7 @@ PROFILES = {
     "ui-date-platforms": ("browser-js", "browser-wasm", "android-device-api35"),
     "ui-date-wasm": ("browser-wasm",),
     "ui-date-android": ("android-device-api35",),
+    "ui-dropdown-platforms": ("desktop-linux-x64", "browser-js", "browser-wasm", "android-device-api35"),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
@@ -49,6 +50,7 @@ PROFILES = {
     "webview-identity-android": ("android-device-api35",),
     "webview-identity-recovery": ("desktop-linux-x64", "ios-iphone", "android-device-api35"),
     "webview-identity-remount-recovery": ("ios-iphone", "android-device-api35"),
+    "webview-identity-ios-remount-recovery": ("ios-iphone",),
     "webview-lifetime": ("android-device-api35", "desktop-linux-x64", "desktop-macos-arm64", "desktop-macos-x64", "desktop-windows-x64"),
     "webview-lifetime-android": ("android-device-api35",),
     "webview-lifetime-android-media": ("android-device-api35",),
@@ -159,6 +161,7 @@ MODULE_SUBSETS = {
     "ui-date-platforms": "calf-ui",
     "ui-date-wasm": "calf-ui",
     "ui-date-android": "calf-ui",
+    "ui-dropdown-platforms": "calf-ui",
     # Immutable portable argument/saver/numerical checks without repeating the
     # entire19-module browser suite. Does not change full browser/all coverage.
     "navigation-geo": "calf-navigation,calf-geo",
@@ -175,6 +178,7 @@ MODULE_SUBSETS = {
     "webview-identity-android": "calf-webview",
     "webview-identity-recovery": "calf-webview",
     "webview-identity-remount-recovery": "calf-webview",
+    "webview-identity-ios-remount-recovery": "calf-webview",
     "webview-lifetime": "calf-webview",
     "webview-lifetime-android": "calf-webview",
     "webview-lifetime-android-media": "calf-webview",
@@ -260,9 +264,12 @@ def matrix(profile: str) -> dict:
     if profile in MODULE_SUBSETS:
         for row in rows:
             row["test-modules"] = MODULE_SUBSETS[profile]
+    if profile == "ui-dropdown-platforms":
+        for row in rows:
+            row["test-focus"] = "material-dropdown-contract"
     if profile.startswith("webview-identity"):
         for row in rows:
-            if profile in {"webview-identity-recovery", "webview-identity-remount-recovery"}:
+            if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:
                 row["test-focus"] = ("webview-ios-native-remount-recovery" if row["suite"] == "ios" else
                                      "webview-public-remount-recovery" if profile == "webview-identity-remount-recovery" else
                                      "webview-public-identity-recovery")

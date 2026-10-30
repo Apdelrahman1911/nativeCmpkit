@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual native profiling / owning popup and final-interop candidates — 2026-10-30
+
+[41008502211](docs/development/evidence/image-memory-batch-important-20261030/target-recovery-ci001/README.md)
+workflow SUCCESS/native1/1/2654 rounds, **profile NOT verified**: actual exactUUID/
+PID Allocations command times out150s; zero exports/zero leaks commands, cause
+unknown. Neither debug entitlement exists; no refusal cause, allocator/ASan or
+zero-leak result inferred. #141 open; strict failure retained. Independent
+[41007203221](docs/development/evidence/webview-identity-batch-important-20261030/mobile-remount-ci001/README.md)
+remains FAILED: Android1/1 accepted; iOS1/1 fails final disposal count after genuine
+native lifecycle. Do not replay Android. Owning test-host patch now awaits real
+captured child/window/delegate release before detaching root, same10s bound;
+Apple-only one-method recovery is source-prepared, not native-verified.
+[Dropdown candidate](docs/development/evidence/material-dropdown-batch-important-20261030/README.md)
+first dirty Desktop command FAILED3pass/one back-route failure; only failed method
+needs recovery. Actual NavigationEventInput replaces unbridged Skiko semantics
+Escape, Android native input stays. No public/production changes. Eight focus
+methods accepted7+1, owning3/shared25 with one overlap;917/994 held/actionlint/
+structural164 pass, not library/Apple or release evidence. #132/#62/#89 open;
+80closed/92open. Solo/max2 heavy requests/8GiB reserve; all publishing/Pages/main/
+history/native/minimum/ABI/consumer/dependency/provenance/legal/security gates stay.
+
 ## Exact simulator profiler recovery; WebView request independent — 2026-10-30
 
 [Profiler owning patch](docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/README.md)

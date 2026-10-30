@@ -1,0 +1,49 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
+        }
+      ],
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest#publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+      "test_source_files": [
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-public-remount-recovery",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification.",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

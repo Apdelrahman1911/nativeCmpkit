@@ -35,8 +35,10 @@ import platform.UIKit.UIApplicationMain
 import platform.UIKit.UIApplicationState.UIApplicationStateActive
 import platform.UIKit.UIResponder
 import platform.UIKit.UIScreen
+import platform.UIKit.UIView
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
+import platform.WebKit.WKWebView
 import platform.darwin.dispatch_get_main_queue
 import platform.darwin.dispatch_sync
 import platform.posix.usleep
@@ -63,6 +65,20 @@ internal fun requireOwnedApplicationWindow(): UIWindow {
     check(window.isKeyWindow() && !window.hidden) { "The owned application window must be visible and key" }
     check(sameNativeObject(window.rootViewController?.view?.window, window)) { "The root must be attached to the owned UIWindow" }
     return window
+}
+
+/** Snapshot the real children of our test-owned controller, not global windows. */
+private fun UIView.ownedWebViewDescendants(): List<WKWebView> {
+    check(NSThread.isMainThread)
+    val result = mutableListOf<WKWebView>()
+    fun visit(view: UIView) {
+        if (view is WKWebView) result += view
+        view.subviews.forEach { child ->
+            visit(child as? UIView ?: error("An owned native child was not a UIView"))
+        }
+    }
+    visit(this)
+    return result
 }
 
 /** Real ComposeUIViewController/window composition; the UIApplication main loop stays live. */
@@ -158,14 +174,28 @@ internal class NativeApplicationUiTest {
     internal fun close() {
         if (closed) return
         var failure: Throwable? = null
+        var ownedInteropViews = emptyList<WKWebView>()
         fun stage(action: () -> Unit) {
             try { action() } catch (error: Throwable) {
                 val prior = failure
                 if (prior == null) failure = error else if (prior !== error) prior.addSuppressed(error)
             }
         }
+        stage {
+            onApplicationMain {
+                check(sameNativeObject(window.rootViewController, controller)) { "Refuse inspecting a foreign root" }
+                ownedInteropViews = controller.view.ownedWebViewDescendants()
+            }
+        }
         stage { setContent {} }
         stage { waitForIdle() }
+        // Compose1.12 queues UIKit onRelease until a real rendered transaction.
+        // Recomposer idle is not that witness. Keep the root visible while its
+        // captured native children actually release; never perform their cleanup here.
+        stage { awaitMain("owned final WKWebView interop release while root remains attached") {
+            check(sameNativeObject(window.rootViewController, controller)) { "Native test no longer owns the root" }
+            ownedInteropViews.all { it.superview == null && it.window == null && it.navigationDelegate == null }
+        } }
         stage {
             onApplicationMain {
                 if (controller.presentedViewController != null) controller.dismissViewControllerAnimated(false, null)

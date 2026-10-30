@@ -1,0 +1,43 @@
+{
+  "actual_failed_method": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+  "actual_failure": "Expected <2>, actual <1>.",
+  "independent_recovery_still_required_to_establish_causality": true,
+  "no_success_or_issue_closure_inferred_from_earlier_assertions": true,
+  "production_API_changes": false,
+  "source_confirmed_helper_gap": "waitForIdle observes composition/recomposer work only; close immediately detaches the root without observing the real final native onRelease transaction. The controller remains retained so deallocation cannot serve as cleanup evidence.",
+  "source_review": [
+    {
+      "dependency": "org.jetbrains.compose.ui:ui:1.12.0",
+      "excerpt": "    override fun onRelease() = container.scheduleUpdate {\n        release()\n    }\n\n    // Keep nullable to match the `expect` declaration of InteropViewFactoryHolder\n    override fun getInteropView(): InteropView? = interopView\n\n    companion object {\n        private val DispatchUpdateUsingContainerStrategy: (InteropViewHolder) -> Unit = {\n            it.container.scheduleUpdate { it.update() }\n        }\n    }",
+      "lines": [
+        218,
+        229
+      ],
+      "path": "skikoMain/androidx/compose/ui/viewinterop/InteropViewHolder.skiko.kt",
+      "source_archive_sha256": "b645ae5424b8dc6ded18015bae1fc96e329e0008db188a35f45bf8d5630c216b",
+      "source_file_sha256": "2d9bafefc4ce813109ae3da77f8daedc6abaa172ba6b7a9f95e2a30f8abe8f6c"
+    },
+    {
+      "dependency": "org.jetbrains.compose.ui:ui:1.12.0",
+      "excerpt": "    override fun scheduleUpdate(action: () -> Unit) {\n        requestRedraw()\n\n        // Add lambda to a list of commands which will be executed later\n        // in the same [CATransaction], when the next rendered Compose frame is presented.\n        transaction.add(action)\n    }\n\n    // TODO: Should be the same as [Owner.onInteropViewLayoutChange]?\n//    override fun onInteropViewLayoutChange(holder: InteropViewHolder) {\n//        // No-op\n//    }",
+      "lines": [
+        136,
+        147
+      ],
+      "path": "iosMain/androidx/compose/ui/viewinterop/UIKitInteropContainer.ios.kt",
+      "source_archive_sha256": "b645ae5424b8dc6ded18015bae1fc96e329e0008db188a35f45bf8d5630c216b",
+      "source_file_sha256": "1373e9a38364349c83775c9950d7edbf9092555e753ad1e3c46facd5d651167c"
+    },
+    {
+      "dependency": "org.jetbrains.compose.ui:ui:1.12.0",
+      "excerpt": "    fun dispose() {\n        requestRedraw = {}\n        val lastTransaction = retrieveTransaction()\n\n        for (action in lastTransaction.actions) {\n            action.invoke()\n        }\n\n        // snapshotObserver.stop() is not needed, because unplaceInteropView will be called\n        // for all interop views and it will stop observing when the last one is removed.\n    }\n",
+      "lines": [
+        70,
+        81
+      ],
+      "path": "iosMain/androidx/compose/ui/viewinterop/UIKitInteropContainer.ios.kt",
+      "source_archive_sha256": "b645ae5424b8dc6ded18015bae1fc96e329e0008db188a35f45bf8d5630c216b",
+      "source_file_sha256": "1373e9a38364349c83775c9950d7edbf9092555e753ad1e3c46facd5d651167c"
+    }
+  ]
+}

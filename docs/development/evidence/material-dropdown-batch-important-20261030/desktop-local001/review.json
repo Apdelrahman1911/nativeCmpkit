@@ -1,0 +1,72 @@
+{
+  "actual_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualKeyAndPointerEvents[desktop]",
+      "status": "failed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup[desktop]",
+      "status": "passed"
+    }
+  ],
+  "base_revision": "d2888301cdb1cb1d05c9d479a83c10577e8b0d80",
+  "combined_digest": "09552c24470d5c836627d8228510ff34726c1647f06764119162baa20bffe74b",
+  "combined_input_count": 993,
+  "counts": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "failure_boundary": "Actual key/pointer method failed at the first enabled-back node-count assertion (shared source line184). Outside-enabled assertion not reached. No root cause or fixed production contract inferred.",
+  "fresh_marker_count": 1,
+  "immutable_or_release_accepted": false,
+  "input_count": 916,
+  "input_digest": "547b1ac97b4bfc5ea374330a50ef8dd26a71d45277bdf8bb638a25073978a74d",
+  "inputs_held": true,
+  "raw_XML_sha256": "5f20f7d76559c243db05ae13e200815b7a90b6e435b787a181b77a9deac87919",
+  "raw_logs_ZIPs_or_packages_committed": false,
+  "result": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "./gradlew",
+      ":calf-ui:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "--max-workers=1",
+      "--no-configuration-cache",
+      "--no-daemon",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-I",
+      "scripts/ci/fresh-tests.init.gradle.kts"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 486.13,
+    "exit_code": 1,
+    "free_bytes_after": 101045903360,
+    "free_bytes_before": 102278496256,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-30T06:06:35.307478+00:00",
+    "timeout_seconds": 900
+  },
+  "sanitized_XML_sha256": "f9d90796ae698a35c788ae645e9d7f0f5ff7147099b9244fe4126214aea7893d",
+  "source_tree_dirty": true
+}

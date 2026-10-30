@@ -1,0 +1,93 @@
+{
+  "accepted_geo_host_or_portable_or_unrelated_native_methods_replayed": false,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.geo.AndroidLocationOwnershipTest",
+      ":calf-geo:connectedAndroidDeviceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 1,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "geo-android-owner-lifetime",
+      "test-modules": "calf-geo"
+    }
+  ],
+  "native_provider_transport_injected_not_live_GMS_or_GPS": true,
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-geo/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-geo",
+          "project": ":calf-geo",
+          "report_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.geo.AndroidLocationOwnershipTest",
+              "name": "nativeRebindingRestartAndTerminalCleanupReleaseOwnersDespiteRetainedCallbacks"
+            }
+          ],
+          "task": ":calf-geo:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.geo.AndroidLocationOwnershipTest",
+          "test_source_files": [
+            "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt",
+            "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt",
+            "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-geo"
+      ],
+      "explicit_test_focus": "geo-android-owner-lifetime",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "One actual Android Looper/LifecycleRegistry/GMS Task/ART owner-GC method with an explicitly injected provider transport. Retains obsolete callbacks while checking rebind, destruction/restart and terminal cleanup. Reuses accepted unchanged geo tests; not live GMS/GPS, Activity/process recreation, physical/minimum-platform/power/ABI/packaged-consumer/security/release certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-io",
+        "calf-navigation",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "android-geo-ownership"
+}

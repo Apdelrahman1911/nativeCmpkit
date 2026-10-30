@@ -1,0 +1,33 @@
+{
+  "actual_compiler_or_native_or_device_tests_executed": 0,
+  "all11_default_slots_retained": true,
+  "all_1004_before_after_inputs_held": true,
+  "all_geo_source_build_and_original_APK_compiler_inputs_unchanged": true,
+  "changes": [
+    "scripts/ci/library_tests.py",
+    "scripts/ci/test_android_geo_ownership.py",
+    "scripts/ci/test_android_verification_contract.py",
+    "scripts/ci/test_failure_diagnostics.py"
+  ],
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "test_android_verification_contract.AndroidVerificationContractTests.test_repository_device_tasks_run_data_ownership_before_native_ui",
+    "test_failure_diagnostics.FailureDiagnosticsTests.test_capture_is_confined_requires_its_owned_output_and_never_infers_tests",
+    "test_android_geo_ownership.AndroidGeoOwnershipTests.test_full_native_plan_retains_all_existing_modules_and_all_eleven_host_slots",
+    "-v"
+  ],
+  "exit_code": 0,
+  "failed_run_id": 41036938063,
+  "failed_source_revision": "95a3c1cfcc51ae37e84b74b81510c40dbe2486e7",
+  "immutable_prior_native_plan_filter_command_matrix_unchanged": true,
+  "local_APK_assembly_81_seconds_reused_not_replayed": true,
+  "log_sha256": "95139d886f6b25478e83f45852ce3f4c3b2b2829dfc50f9830dde64b00df271a",
+  "observed_at_utc": "2026-10-30T10:01:26.072225+00:00",
+  "owning_correction": "Exact six-module default order with geo data ownership before UI, plus both exact inventory guards; no generic count relaxation",
+  "previous_successful_1013_CI_and_other_accepted_methods_not_locally_replayed": true,
+  "release_readiness_certified": false,
+  "synthetic_methods": 3
+}

@@ -54,7 +54,7 @@ MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cu
 MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["js"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["wasm"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
-MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview", "calf-ui", "calf-navigation", "calf-geo")
+MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (
     "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",

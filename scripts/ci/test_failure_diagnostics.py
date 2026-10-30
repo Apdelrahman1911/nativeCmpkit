@@ -212,8 +212,8 @@ class FailureDiagnosticsTests(unittest.TestCase):
             # public UTP and declared XML trees each. Assert the exact paths;
             # inventories are still never inferred as test passes.
             expected_modules = (
-                "calf-io", "calf-file-picker", "calf-webview", "calf-ui",
-                "calf-navigation", "calf-geo",
+                "calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
+                "calf-navigation",
             )
             self.assertEqual([
                 relative

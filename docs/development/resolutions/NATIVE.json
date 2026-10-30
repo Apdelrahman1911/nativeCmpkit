@@ -773,7 +773,7 @@
       }
     ],
     "remaining": [
-      "Original required test pending full target verification: Data\u2192Url\u2192Data transitions via direct state assignment and remembered-state updates.",
+      "Original required test pending full target verification: Data→Url→Data transitions via direct state assignment and remembered-state updates.",
       "Original required test pending full target verification: Navigator and state loaders produce the same iframe attributes and page.",
       "Original required test pending full target verification: Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
@@ -989,8 +989,8 @@
     ],
     "remaining": [
       "Fresh engine-location reset and saver precedence passed the actual Linux JavaFX link/redirect/reload/history regression in the second JVM batch and focused rerun; JS common request/saver contracts also passed. Equivalent real Android/iOS and complete browser load/error matrices remain unverified. A frame load cannot prove HTTP/CSP/authentication success.",
-      "Original required test pending full target verification: Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
-      "Original required test pending full target verification: Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
+      "Original required test pending full target verification: Fail→success, fail→fail, reload, stop and redirects on every target.",
+      "Original required test pending full target verification: Browser same-origin→cross-origin→inline transitions; blocked framing and offline destination.",
       "Original required test pending full target verification: iOS provisional DNS/TLS failure before commit resets the previous request errors.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
     ],
@@ -5474,7 +5474,7 @@
       },
       {
         "command": "Prepared webview-desktop: only calf-webview desktopTest under Xvfb,45 authored/runtime methods",
-        "result": "NOT EXECUTED: two new real JavaFX HTTP regressions for public custom User-Agent A\u2192B\u2192null and two simultaneous native owners resetting only their own request headers. Actual engine/HTTP header/MIME/title agreement and owned-thread termination assertions retained; production unchanged.",
+        "result": "NOT EXECUTED: two new real JavaFX HTTP regressions for public custom User-Agent A→B→null and two simultaneous native owners resetting only their own request headers. Actual engine/HTTP header/MIME/title agreement and owned-thread termination assertions retained; production unchanged.",
         "evidence": [
           "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt"
         ],
@@ -5482,7 +5482,7 @@
       },
       {
         "command": "Immutable6dbe6ca2/run40621748881, only calf-webview desktopTest under Xvfb; exact command in review",
-        "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A\u2192B\u2192null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
+        "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A→B→null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
         "evidence": [
           "docs/development/evidence/github-actions/40621748881/important-result-review.json",
           "docs/development/evidence/github-actions/40621748881/direct-closure/closure-readback.json",
@@ -5846,14 +5846,20 @@
     "id": "NATIVE-038",
     "title": "Android enables multiple WebView windows but supplies no window-creation handler",
     "priority": "Medium",
-    "status": "unresolved",
+    "status": "partially-verified",
     "changes": [
-      "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation."
+      "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation.",
+      "ADR0012 retains deny-only default but makes current-owner rejection observable through the bounded AndroidPopupRejection/lastPopupRejection additive API. No child/external-handler/transport/guessed-origin behavior; raw false multiple-window fallback is explicitly documented."
     ],
     "affected_paths": [
       "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
       "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
-      "docs/development/NATIVE.md"
+      "docs/development/NATIVE.md",
+      "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/AndroidPopupRejection.kt",
+      "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidPopupRejectionTest.kt",
+      "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+      "docs/decisions/0012-android-popup-rejection-contract.md",
+      "docs/development/android-popup-policy.md"
     ],
     "tests": [
       {
@@ -5872,17 +5878,32 @@
           "docs/development/evidence/gradle/first-native-and-third-android-host.log"
         ],
         "scope": "Held, hash-bound modified-working-tree diagnostic; subsequent six harness-source repairs NOT RERUN. Original native/browser/device/Compose integration acceptance tests remain open."
+      },
+      {
+        "command": "Exact fresh host/device APK command in docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/build.log.result.json",
+        "scoped_tasks": [
+          ":calf-webview:testAndroidHostTest",
+          ":calf-webview:assembleAndroidDeviceTest"
+        ],
+        "result": "PASS exit0/653.17s:3/3 fresh Robolectric production-handler/Compose-state methods; Android native test APK compiles/assembles.93 important synthetic tool methods/actionlint pass. ZERO actual device execution; all922 library/999 combined inputs unchanged. Dirty held-source diagnostic, not immutable release verification.",
+        "evidence": [
+          "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/README.md",
+          "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/review.json",
+          "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/important001/review.json"
+        ],
+        "scope": "Exactly3 host methods, no accepted native identity/lifetime/dropdown tests replayed. Three authored genuine Chromium device methods await one immutable finite profile."
       }
     ],
     "remaining": [
-      "This finding remains unresolved for functional popup-dependent login/payment flows. Needs a scoped API decision and actual target=_blank/window.open/child-close tests.",
+      "Scoped deny-only policy chosen/documented in ADR0012; managed child-window login/payment flows intentionally unsupported, not silently completed. Pending actual native verification and all original criteria review.",
       "Original required test pending full target verification: target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
       "Original required test pending full target verification: Accepted and denied popup origins/schemes yield documented outcomes.",
       "Original required test pending full target verification: Child window closure, back navigation and dispose release all resources."
     ],
-    "compatibility": "Legacy supportMultipleWindows flag remains; popup accept/deny routing/child ownership API has not been implemented.",
-    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038"
+    "compatibility": "Existing public package/classes and supportMultipleWindows default/setter retained. AndroidPopupRejection and private-set lastPopupRejection are additive. False native mode may navigate the parent and is not child-window support; true exposes explicit bounded rejection. No whole-library ABI certification.",
+    "verification_scope": "Dirty held922/999 inputs:3/3 actual Robolectric handler/state ownership/transport/bounded-event methods and native APK compilation/assembly pass exit0/653.17s;93 important synthetic tools/actionlint pass. ZERO native device execution; one immutable exact3-method Chromium verification/original-criteria review pending. #90 stays open; independent platform/device/ABI/consumer/security/release gates remain.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038",
+    "previous_verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures."
   },
   {
     "id": "NATIVE-039",
@@ -6103,7 +6124,7 @@
     ],
     "remaining": [],
     "compatibility": "Existing setters retained; batch is additive. Error list becomes live observable state instead of immutable-per-update snapshots.",
-    "verification_scope": "Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT\u2192FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.",
+    "verification_scope": "Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT→FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-039",
     "historical_remaining_before_20261028": [
       "No allocation/time/native-call benchmark yet; mutation is UI-confined and not a concurrent coherent-snapshot guarantee.",
@@ -6118,7 +6139,7 @@
       "docs/development/evidence/settings-important-20261028/direct-closure/closure-readback.json"
     ],
     "residual_risks": [
-      "Settings writers remain owner-UI-thread confined; this establishes coherent UI\u2192JavaFX snapshots, not arbitrary concurrent multiwriter support.",
+      "Settings writers remain owner-UI-thread confined; this establishes coherent UI→JavaFX snapshots, not arbitrary concurrent multiwriter support.",
       "One JDK17/Robolectric SDK34 allocation/time host sample with controlled errors; reference executes original add/toList algorithm only, not a historical APK/native engine or device performance benchmark.",
       "Android error collection is live observable read-only-typed state; retain .toList() when an immutable snapshot is needed.",
       "Existing JavaFX -Xcheck:jni warnings preserved; no sanitizer/native-memory, AndroidChromium/network/device, Apple/minimum-platform or full distribution/ABI/dependency/legal/release clearance."

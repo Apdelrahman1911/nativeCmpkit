@@ -120,6 +120,7 @@ PROFILES = {
     "extended": ("desktop-linux-arm64", "desktop-macos-x64", "ios-ipad"),
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
+    "android-webview-popups": ("android-device-api35",),
     "android-io-oversize": ("android-device-api35",),
     "android-saver-identity": ("android-device-api35",),
     "android-saver-identity-missing": ("android-device-api35",),
@@ -252,6 +253,7 @@ MODULE_SUBSETS = {
     "ios-slider-recovery": "calf-ui",
     "ios-image-memory": "calf-ui",
     "android-webview": "calf-webview",
+    "android-webview-popups": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
     "android-saver-identity-missing": "calf-file-picker",
@@ -272,6 +274,9 @@ def matrix(profile: str) -> dict:
     if profile == "ui-dropdown-android-recovery":
         for row in rows:
             row["test-focus"] = "material-dropdown-android-dismissal-recovery"
+    if profile == "android-webview-popups":
+        for row in rows:
+            row["test-focus"] = "android-webview-popup-policy"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

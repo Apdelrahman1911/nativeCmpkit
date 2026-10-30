@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `80bc5f5fa32684361115f6e0a32431ab92e53277e7158963253a4d7f4810beae`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `40f7072c45c85ae3cdf1f1f2d7f6516ce8f3efa0fc5e416da55211068630f90c`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,9 +26,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 34 |
-| partially-verified | 42 |
+| partially-verified | 43 |
 | verified | 81 |
-| unresolved | 7 |
+| unresolved | 6 |
 | not-applicable | 0 |
 
 `implemented` means a recorded source repair, not verified runtime behavior. `partially-verified` preserves target/scenario limits. `unresolved` and `not-applicable` remain explicit owner dispositions. A `verified` record is accepted structurally only with nonempty explicit evidence and no remaining checks; this validator does not read test prose as proof or certify the evidence. The lead must review original acceptance requirements.
@@ -147,7 +147,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | verified | — | 3 / 0 |
 | 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | verified | NATIVE-002, NATIVE-006 | 3 / 0 |
-| 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
+| 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | partially-verified | — | 3 / 4 |
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | verified | — | 4 / 0 |
 | 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | verified | NAV-003, NAV-004 | 4 / 0 |
@@ -2368,7 +2368,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 102. NATIVE-038 — Android enables multiple WebView windows but supplies no window-creation handler
 
-**Medium · unresolved · original effort M** — [nativeCmpkit #90](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #90](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2380,14 +2380,14 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- This finding remains unresolved for functional popup-dependent login/payment flows. Needs a scoped API decision and actual target=\_blank/window.open/child-close tests.
+- Scoped deny-only policy chosen/documented in ADR0012; managed child-window login/payment flows intentionally unsupported, not silently completed. Pending actual native verification and all original criteria review.
 - Original required test pending full target verification: target=\_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.
 - Original required test pending full target verification: Accepted and denied popup origins/schemes yield documented outcomes.
 - Original required test pending full target verification: Child window closure, back navigation and dispose release all resources.
 
-**Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
+**Owner verification scope:** Dirty held922/999 inputs:3/3 actual Robolectric handler/state ownership/transport/bounded-event methods and native APK compilation/assembly pass exit0/653.17s;93 important synthetic tools/actionlint pass. ZERO native device execution; one immutable exact3-method Chromium verification/original-criteria review pending. #90 stays open; independent platform/device/ABI/consumer/security/release gates remain.
 
-**Compatibility / scope:** Legacy supportMultipleWindows flag remains; popup accept/deny routing/child ownership API has not been implemented.
+**Compatibility / scope:** Existing public package/classes and supportMultipleWindows default/setter retained. AndroidPopupRejection and private-set lastPopupRejection are additive. False native mode may navigate the parent and is not child-window support; true exposes explicit bounded rejection. No whole-library ABI certification.
 
 ### 103. NAV-003 — NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults
 
@@ -3589,7 +3589,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a02d5f620eb126e2cf9ef9584bc6f9d4485517ef196e17cae5f66250223d96bf` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `e904aaad2db745eb8b90155cb474dab1ba46520d2ad8965085b260703c0fc720` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

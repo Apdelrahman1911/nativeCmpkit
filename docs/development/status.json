@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
-    "docs/development/resolutions/NATIVE.json": "a02d5f620eb126e2cf9ef9584bc6f9d4485517ef196e17cae5f66250223d96bf",
+    "docs/development/resolutions/NATIVE.json": "e904aaad2db745eb8b90155cb474dab1ba46520d2ad8965085b260703c0fc720",
     "docs/development/resolutions/NAV.json": "a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "80bc5f5fa32684361115f6e0a32431ab92e53277e7158963253a4d7f4810beae",
+  "input_fingerprint": "40f7072c45c85ae3cdf1f1f2d7f6516ce8f3efa0fc5e416da55211068630f90c",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,9 +62,9 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 34,
-      "partially-verified": 42,
+      "partially-verified": 43,
       "verified": 81,
-      "unresolved": 7,
+      "unresolved": 6,
       "not-applicable": 0
     },
     "automatic_closures": 0,
@@ -18360,21 +18360,27 @@
         "mapping_key": "audit:NATIVE-038",
         "historical_mapping_state": "open"
       },
-      "reported_status": "unresolved",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "b3bb83d3b110ead36b72022e9282749e66f307e17ce851dd3200c871fb4f3b19",
+      "owner_record_sha256": "10dc23d3eee934fc21c3319c99fcd931315aa7d3816ef31dc34fbf52be1cdc23",
       "owner_record": {
         "id": "NATIVE-038",
         "title": "Android enables multiple WebView windows but supplies no window-creation handler",
         "priority": "Medium",
-        "status": "unresolved",
+        "status": "partially-verified",
         "changes": [
-          "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation."
+          "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation.",
+          "ADR0012 retains deny-only default but makes current-owner rejection observable through the bounded AndroidPopupRejection/lastPopupRejection additive API. No child/external-handler/transport/guessed-origin behavior; raw false multiple-window fallback is explicitly documented."
         ],
         "affected_paths": [
           "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
           "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
-          "docs/development/NATIVE.md"
+          "docs/development/NATIVE.md",
+          "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/AndroidPopupRejection.kt",
+          "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidPopupRejectionTest.kt",
+          "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+          "docs/decisions/0012-android-popup-rejection-contract.md",
+          "docs/development/android-popup-policy.md"
         ],
         "tests": [
           {
@@ -18393,17 +18399,32 @@
               "docs/development/evidence/gradle/first-native-and-third-android-host.log"
             ],
             "scope": "Held, hash-bound modified-working-tree diagnostic; subsequent six harness-source repairs NOT RERUN. Original native/browser/device/Compose integration acceptance tests remain open."
+          },
+          {
+            "command": "Exact fresh host/device APK command in docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/build.log.result.json",
+            "scoped_tasks": [
+              ":calf-webview:testAndroidHostTest",
+              ":calf-webview:assembleAndroidDeviceTest"
+            ],
+            "result": "PASS exit0/653.17s:3/3 fresh Robolectric production-handler/Compose-state methods; Android native test APK compiles/assembles.93 important synthetic tool methods/actionlint pass. ZERO actual device execution; all922 library/999 combined inputs unchanged. Dirty held-source diagnostic, not immutable release verification.",
+            "evidence": [
+              "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/README.md",
+              "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/review.json",
+              "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/important001/review.json"
+            ],
+            "scope": "Exactly3 host methods, no accepted native identity/lifetime/dropdown tests replayed. Three authored genuine Chromium device methods await one immutable finite profile."
           }
         ],
         "remaining": [
-          "This finding remains unresolved for functional popup-dependent login/payment flows. Needs a scoped API decision and actual target=_blank/window.open/child-close tests.",
+          "Scoped deny-only policy chosen/documented in ADR0012; managed child-window login/payment flows intentionally unsupported, not silently completed. Pending actual native verification and all original criteria review.",
           "Original required test pending full target verification: target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
           "Original required test pending full target verification: Accepted and denied popup origins/schemes yield documented outcomes.",
           "Original required test pending full target verification: Child window closure, back navigation and dispose release all resources."
         ],
-        "compatibility": "Legacy supportMultipleWindows flag remains; popup accept/deny routing/child ownership API has not been implemented.",
-        "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
-        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038"
+        "compatibility": "Existing public package/classes and supportMultipleWindows default/setter retained. AndroidPopupRejection and private-set lastPopupRejection are additive. False native mode may navigate the parent and is not child-window support; true exposes explicit bounded rejection. No whole-library ABI certification.",
+        "verification_scope": "Dirty held922/999 inputs:3/3 actual Robolectric handler/state ownership/transport/bounded-event methods and native APK compilation/assembly pass exit0/653.17s;93 important synthetic tools/actionlint pass. ZERO native device execution; one immutable exact3-method Chromium verification/original-criteria review pending. #90 stays open; independent platform/device/ABI/consumer/security/release gates remain.",
+        "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038",
+        "previous_verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures."
       },
       "closure_or_release_authorized_by_index": false
     },

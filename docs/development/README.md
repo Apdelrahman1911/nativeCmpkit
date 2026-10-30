@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Android popup policy: host checks pass, native verification pending — 2026-10-30
+
+[Focused implementation evidence](evidence/popup-policy-batch-important-20261030/implementation001/README.md)
+records3/3 fresh actual Robolectric methods plus native test APK assembly,
+exit0/653.17s/all922/999 held inputs; **zero emulator tests**.93 important
+synthetic methods/actionlint pass. The observable current-owner deny-only policy
+retains one metadata value and no child/transport/external-handler/origin guess;
+raw false multiple-window behavior is documented as current-view navigation.
+**#90 stays open** pending one immutable three-method Chromium request and all
+original criteria review. No accepted lifetime/identity/dropdown runtime replay.
+83closed/89open and all single-agent/capacity/publication/security gates stay.
+
 ## Three verified closures; Android dropdown recovered — 2026-10-30
 
 **[#132/UI-026 CLOSED/completed](evidence/dropdown-contracts-verified-20261030/README.md)**

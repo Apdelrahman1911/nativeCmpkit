@@ -387,8 +387,17 @@ public open class AccompanistWebChromeClient : WebChromeClient() {
     public open lateinit var state: WebViewState
         internal set
 
-    /** The wrapper owns no child windows: reject rather than launch untrusted external handlers. */
-    override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean = false
+    /**
+     * Explicit deny-only policy: expose the result, never create a child or open
+     * an external handler. Android supplies no reliable destination URL here;
+     * hitTestResult can be stale and is deliberately not used as an origin gate.
+     */
+    override fun onCreateWindow(view: WebView, isDialog: Boolean, isUserGesture: Boolean, resultMsg: Message?): Boolean {
+        if (::state.isInitialized && state.webView === view) {
+            state.settings.androidSettings.recordPopupRejection(isDialog, isUserGesture)
+        }
+        return false
+    }
 
     override fun onReceivedTitle(view: WebView, title: String?) {
         super.onReceivedTitle(view, title)

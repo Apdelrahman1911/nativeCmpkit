@@ -11,6 +11,7 @@
 - [0009 — Independent fallback coordinates at metadata generation](0009-publication-coordinate-normalization.md)
 - [0010 — Detachable Android WebView ownership outside Compose caches](0010-detachable-android-webview-owner.md)
 - [0011 — Independent supported-tool Apple memory diagnostics; strict failure retained](0011-independent-apple-memory-diagnostics.md)
+- [0012 — Explicit observable Android popup rejection; child windows unsupported](0012-android-popup-rejection-contract.md)
 
 Future architectural changes should add a decision with context, alternatives,
 platform consequences, migration/compatibility strategy, risks and required tests.

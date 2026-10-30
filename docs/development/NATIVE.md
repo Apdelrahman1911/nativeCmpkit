@@ -1,5 +1,15 @@
 # Native features: current implementation and verification ledger
 
+## 2026-10-30: observable Android popup rejection, native verification pending
+
+[NATIVE-038/#90 contract](android-popup-policy.md) and
+[focused results](evidence/popup-policy-batch-important-20261030/implementation001/README.md):
+3/3 fresh host methods/device APK assembly pass at held922/999 inputs,
+exit0/653.17s;93 synthetic checks pass. **Zero actual device methods**; issue open.
+No managed child-window or URL authorization is implemented. Retained true mode
+denies observably; false is explicitly raw native current-view fallback. Original
+runtime criteria remain pending, not waived by the new ADR/source or host pass.
+
 ## 2026-10-29: native Android/Desktop lifetime acceptance
 
 [NATIVE-002/#10](evidence/webview-lifetime-important-20261029/README.md) is now

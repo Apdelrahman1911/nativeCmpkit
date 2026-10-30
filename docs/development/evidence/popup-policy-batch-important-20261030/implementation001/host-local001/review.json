@@ -1,0 +1,82 @@
+{
+  "actual_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "actual_host_counts": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "actual_host_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidPopupRejectionTest",
+      "name": "staleNativeRequestsCannotOverwriteTheReplacementOwnersResult",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidPopupRejectionTest",
+      "name": "repeatedRejectionsRetainOnlyTheLatestValueWithoutReapplyingSettings",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidPopupRejectionTest",
+      "name": "unattachedOrUninitializedHandlerRejectsWithoutTouchingTheTransport",
+      "status": "passed"
+    }
+  ],
+  "all922_library_and999_combined_inputs_held": true,
+  "combined_input_digest": "9b3343f66548e1d0a4761638ba0333c16b85011dfaafbbeff1e5d940e27daf2a",
+  "device_APK_assembly": "passed; compilation/assembly is zero device tests",
+  "execution": {
+    "command": [
+      "./gradlew",
+      ":calf-webview:testAndroidHostTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.AndroidPopupRejectionTest",
+      ":calf-webview:assembleAndroidDeviceTest",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 653.17,
+    "exit_code": 0,
+    "free_bytes_after": 101584322560,
+    "free_bytes_before": 103410544640,
+    "reserve_mib": 8192,
+    "started_utc": "2026-10-30T08:00:38.357609+00:00",
+    "timeout_seconds": 900
+  },
+  "fresh_host_test_task_markers": 1,
+  "library_input_digest": "11d89a93f806f7d295b5155a9c25af5c858cf17e645e13307926a2bf65c517e2",
+  "native_device_tests_executed": 0,
+  "original_XML_sha256": "b96e6205cb5724ff281397331dfbf12e0b12b0d08276f9ab8823ca6ea71391d0",
+  "original_issue_closure_eligible": false,
+  "packages_published": false,
+  "private_build_log_sha256": "cdc1448982a35bcc39178ab2ac9c3cc390b09d2364263e50967dc08184928f47",
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T08:13:12.211979+00:00",
+  "sanitized_XML_sha256": "0c71bec46d116a25d1fcc3f96269f2c3752762b3c29ab4c8f43490d990151772",
+  "source_revision_at_start": "557404dba957d309a796fc3e6bddb46e0286f723",
+  "source_tree_dirty": true
+}

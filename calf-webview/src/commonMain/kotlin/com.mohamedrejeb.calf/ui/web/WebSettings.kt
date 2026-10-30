@@ -1,6 +1,10 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.web
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+
 class WebSettings internal constructor(
     private val onSettingsChanged: () -> Unit
 ) {
@@ -54,6 +58,26 @@ class WebSettings internal constructor(
     class AndroidSettings internal constructor(
         private val onSettingsChanged: () -> Unit
     ) {
+        /**
+         * Latest child-window request rejected by the mounted common Android WebView.
+         * Observe this Compose state to offer an explicit application fallback. Only
+         * one value is retained: no WebView, Message, URI or unbounded event list.
+         * Engine-blocked requests (e.g. JavaScript disabled) never reach the handler.
+         * The raw [supportMultipleWindows] false mode does not intercept requests and
+         * may navigate the current view instead; it is not a child-window opt-in.
+         */
+        var lastPopupRejection: AndroidPopupRejection? by mutableStateOf(null)
+            private set
+
+        internal fun recordPopupRejection(isDialog: Boolean, isUserGesture: Boolean) {
+            lastPopupRejection = AndroidPopupRejection(
+                requestNumber = (lastPopupRejection?.requestNumber ?: 0L) + 1L,
+                isDialog = isDialog,
+                isUserGesture = isUserGesture,
+            )
+            // This is a native result, not a setting mutation. Do not reapply settings.
+        }
+
         var supportZoom = true
             set(value) {
                 if (field == value) return
@@ -138,6 +162,12 @@ class WebSettings internal constructor(
                 onSettingsChanged()
             }
 
+        /**
+         * Retained Android native setting. The default true routes child-window
+         * requests to our explicit deny-only handler and [lastPopupRejection].
+         * No child-window UI is implemented. False uses Android's current-view
+         * fallback, not our rejection policy; it may replace the current page.
+         */
         var supportMultipleWindows = true
             set(value) {
                 if (field == value) return

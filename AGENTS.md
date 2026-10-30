@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android popup policy: focused host pass, native request pending — 2026-10-30
+
+[Owning policy/implementation evidence](docs/development/evidence/popup-policy-batch-important-20261030/implementation001/README.md)
+records additive bounded observable rejection, no child/external/transport/origin
+guess, retained flag/default and explicit raw false current-view fallback.
+Dirty held local command passes3/3 fresh Robolectric methods and device APK
+assembly, exit0/653.17s, all922/999 inputs held; ZERO device tests.93 important
+synthetic methods/actionlint pass; source red and zero-match command retained,
+not a native pass. #90 remains open until one immutable three-case Chromium
+request and original-criteria review. Do not replay accepted identity/lifetime/
+dropdown cases.83closed/89open; all solo/max2heavy/8GiB/publishing/Pages/main/
+history/native/minimum/ABI/consumer/dependency/legal/security gates stay.
+
 ## Three verified closures; failed-case-only Android recovery — 2026-10-30
 
 **#132/UI-026 CLOSED/completed**, following #62/NATIVE-003 and #89/NATIVE-037.

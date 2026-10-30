@@ -747,6 +747,20 @@ IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
     UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
 )
 
+ANDROID_POPUP_FOCUS = "android-webview-popup-policy"
+ANDROID_POPUP_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest"
+ANDROID_POPUP_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt"
+ANDROID_POPUP_METHODS = (
+    "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+    "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+    "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+)
+
+
+def android_popup_identities() -> list[dict]:
+    return [{"classname": ANDROID_POPUP_CLASS, "name": method} for method in ANDROID_POPUP_METHODS]
+
+
 WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
 WEBVIEW_IDENTITY_RECOVERY_FOCUS = "webview-public-identity-recovery"
 WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-public-remount-recovery"
@@ -986,6 +1000,7 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
@@ -1317,6 +1332,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == ANDROID_POPUP_FOCUS:
+        source = safe_path(root, ANDROID_POPUP_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(ANDROID_POPUP_METHODS) or set(methods) != set(ANDROID_POPUP_METHODS) or
+                "class AndroidWebViewPopupPolicyTest" not in source or
+                "package com.mohamedrejeb.calf.ui.web" not in source or
+                ANDROID_POPUP_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android popup declarations changed; review the exact three-method native selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_POPUP_CLASS
+        selected[0]["required_testcases"] = android_popup_identities()
+        result["scope"] = "Three actual public Android Chromium popup/link/script/settings/back/replacement/cleanup methods only. Explicit deny-only default; raw false multiple-window mode navigates the current view. No child-window UI, accepted unrelated test replay, physical/minimum-platform/ABI/consumer/security/release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
         spec = WEBVIEW_IDENTITY_SPECS[suite]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
@@ -1552,6 +1580,15 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_POPUP_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_POPUP_CLASS or
+                expected[0].get("required_testcases") != android_popup_identities() or
+                ANDROID_POPUP_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android popup policy plan")
+        return True
     if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]
         spec = WEBVIEW_IDENTITY_SPECS.get(suite)
@@ -1882,6 +1919,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required else
                              [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_POPUP_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android popup XML must contain exactly all three selected native methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_POPUP_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
@@ -2631,7 +2676,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS,
                                            *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

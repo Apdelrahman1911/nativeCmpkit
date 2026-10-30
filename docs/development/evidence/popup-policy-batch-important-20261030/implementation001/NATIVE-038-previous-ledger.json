@@ -1,0 +1,42 @@
+{
+  "affected_paths": [
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+    "docs/development/NATIVE.md"
+  ],
+  "changes": [
+    "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation."
+  ],
+  "compatibility": "Legacy supportMultipleWindows flag remains; popup accept/deny routing/child ownership API has not been implemented.",
+  "id": "NATIVE-038",
+  "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038",
+  "priority": "Medium",
+  "remaining": [
+    "This finding remains unresolved for functional popup-dependent login/payment flows. Needs a scoped API decision and actual target=_blank/window.open/child-close tests.",
+    "Original required test pending full target verification: target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
+    "Original required test pending full target verification: Accepted and denied popup origins/schemes yield documented outcomes.",
+    "Original required test pending full target verification: Child window closure, back navigation and dispose release all resources."
+  ],
+  "status": "unresolved",
+  "tests": [
+    {
+      "applicable_passed_cases": [],
+      "command": "Lead Xvfb batch command recorded verbatim in docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+      "evidence": [
+        "docs/development/evidence/native/first-desktop-android.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log"
+      ],
+      "result": "Batch exit1. WebView25 common/JDK-cookie cases passed,1 JUnit class-initialization error; zero5JavaFX scenarios and zero Android-host executions. Android/Desktop production compilation succeeded. Only explicitly listed passed cases are applicable evidence.",
+      "scope": "Held, hash-bound modified-working-tree diagnostic; subsequent six harness-source repairs NOT RERUN. Original native/browser/device/Compose integration acceptance tests remain open.",
+      "scoped_tasks": [
+        "calf-webview:desktopTest",
+        "calf-webview:testAndroidHostTest"
+      ]
+    }
+  ],
+  "title": "Android enables multiple WebView windows but supplies no window-creation handler",
+  "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures."
+}

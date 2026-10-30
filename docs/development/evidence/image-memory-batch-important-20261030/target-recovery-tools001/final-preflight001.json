@@ -1,0 +1,181 @@
+{
+  "CLI_preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "ios-image-profile-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "ios",
+          "--module",
+          "calf-ui",
+          "--focus",
+          "ios-native-image-allocation-profile-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "ios-iphone",
+        "suite": "ios"
+      }
+    ],
+    "source_only": true
+  },
+  "actionlint": {
+    "command": [
+      "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+      ".github/workflows/gradle.yml"
+    ],
+    "exit_code": 0,
+    "output_bytes": 0,
+    "version": "1.7.12"
+  },
+  "before_after_inputs_held": true,
+  "combined_input_digest": "8fd00455931eda21e244efb9293e1802466339c403644b47a57b84e77a2a1d2c",
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=11111111-1111-1111-1111-111111111111",
+    "-PnativecmpkitImageMemoryDiagnostics=darwin-tools",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"
+  ],
+  "git_diff_check_exit": 0,
+  "library_input_digest": "4a1cd36e65bd3e0a1e13986b18c8678ea928f221078b4064108f863c4f99b0b3",
+  "native_profile_acceptance_or_release_inferred": false,
+  "native_source_test_build_and_signing_transport_exact_prior_revision": "de6c161800fd027c99d0682484d588c0ba95fb4b",
+  "new_local_library_Kotlin_Gradle_or_native_executions": 0,
+  "observed_at_utc": "2026-10-30T05:25:14.841519+00:00",
+  "plan": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "module": "calf-ui",
+        "native_test_host": "genuine-uikit-application",
+        "project": ":calf-ui",
+        "report_directory": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest",
+        "required_testcases": [
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+            "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile[iosSimulatorArm64]"
+          }
+        ],
+        "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+        "test_filter": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+        "test_source_files": [
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/TestDates.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlForwardingTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassControlTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactNativeAppearanceDiagnostic.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateControlsTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateStateReplacementAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/NativeDropDownLifecycleTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/fab/ExpandableFABManagerTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetLifecycleTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSliderNumericTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimePickerTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/ThemeOwnershipTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "iosTest"
+        ]
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-ui"
+    ],
+    "explicit_test_focus": "ios-native-image-allocation-profile-recovery",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "nonAndroidTest",
+      "nativeTest",
+      "appleTest",
+      "iosTest",
+      "iosSimulatorArm64Test"
+    ],
+    "schema_version": 1,
+    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
+    "suite": "ios",
+    "test_bearing_modules_not_requested": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-file-picker-coil",
+      "calf-geo",
+      "calf-io",
+      "calf-navigation",
+      "calf-permissions/background-location",
+      "calf-permissions/bluetooth",
+      "calf-permissions/calendar",
+      "calf-permissions/camera",
+      "calf-permissions/contacts",
+      "calf-permissions/core",
+      "calf-permissions/gallery",
+      "calf-permissions/location",
+      "calf-permissions/microphone",
+      "calf-permissions/notifications",
+      "calf-permissions/wifi",
+      "calf-share",
+      "calf-webview"
+    ],
+    "uncovered": []
+  },
+  "profile": "ios-image-profile-recovery",
+  "selected_combined_input_count": 982,
+  "selected_library_input_count": 905,
+  "source_revision_before_commit": "a189bcb9fe2c1a812f18236c3aa4506bebf89ead",
+  "source_tree_dirty": true,
+  "unchanged_owning_source_sha256": {
+    "calf-ui/build.gradle.kts": "331609aba13cb72f7d70135927f82b9786377f79870b3dd2e12da13a5a371f2d",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt": "d3c804ed86981b9f8d41afbd66f060043ea1b7e284768085855f0b3d6cb7b225",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt": "f1f028ef4fb20b31c0407c6a2ff56805d2c4a0dd8b2a9db77c80366fc2cd447e",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt": "149bfc6129b059013d3f5679be49fbcb51751f0569bd495d7e7cbc8175d10b39",
+    "gradle/libs.versions.toml": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "scripts/ci/ios_ui_application.py": "9512aa37317440a0152173251be78e5d9ff3c9956fed6720483d0a878fa29ce6"
+  }
+}

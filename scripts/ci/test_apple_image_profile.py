@@ -42,6 +42,10 @@ class AppleImageProfileTests(unittest.TestCase):
 
     def control(self, command, timeout):
         self.controls.append(command)
+        if command[:4] == ["/usr/bin/xcrun", "xctrace", "list", "devices"]:
+            return subprocess.CompletedProcess(command, 0, ("== Simulators ==\nOwned (" + DEVICE + ")\n").encode(), b"")
+        if command[0] == "/usr/bin/codesign":
+            return subprocess.CompletedProcess(command, 0, b"", b"private executable path")
         value = str(self.binary) if command[0] == "/bin/ps" else str(self.data if command[-1] == "data" else self.installed)
         return subprocess.CompletedProcess(command, 0, (value + "\n").encode(), b"")
 

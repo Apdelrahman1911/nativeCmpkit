@@ -49,12 +49,12 @@
     "docs/development/resolutions/NAV.json": "a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "5d0e8c019a202fd06a66f14f0988530892af4187935b1cd992a38ea006909101",
+    "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "2df119f1bb01ec665da3147b16ba16701854a021c2faa66e7f7b6c6a8c5413d1",
+  "input_fingerprint": "00b74dc568a604e9097355d2f688bb325698155d77ca4be532987a09a57b230f",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -25035,14 +25035,15 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "5eafcd39130523e6848c68b7b4c7da89577caf59cba01fbcdc496068737d61fa",
+      "owner_record_sha256": "cb69efdd33235c9221e4fa4b2863eeef62f3dcc0bebe5a6c6882f009e899df38",
       "owner_record": {
         "id": "UI-038",
         "status": "partially-verified",
         "changes": [
           "Checked each native color-space/context/data/snapshot boundary and nested try/finally releases every earlier successful allocation after returns/exceptions.",
           "Raster dimension/density/allocation overflow validation happens before native allocation; eliminated explicitly owned temporary Skia Surface usage.",
-          "Added internal BitmapImageBridge seam solely for actual-native failure tests; successful allocations/releases delegate to real CoreGraphics/UIKit, never a fake UIImage model."
+          "Added internal BitmapImageBridge seam solely for actual-native failure tests; successful allocations/releases delegate to real CoreGraphics/UIKit, never a fake UIImage model.",
+          "2026-10-30: owning profile CI candidate explicitly targets the actual UUID verified by Instruments, records only bounded fixed tool-error categories before cleanup and observes installed debug flags without changing signing/entitlements/privileges. Unknown original exit21 remains unknown. Native methods, pixels/GC/failure/ownership/bounds unchanged; actual profile remains unverified."
         ],
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageRasterization.kt",
@@ -25167,6 +25168,18 @@
               "docs/development/evidence/image-memory-batch-important-20261030/darwin-profile-recovery-ci001/review.json"
             ],
             "scope": "Actual failed record attempt and successful bounded native workload only; useful owned allocation rows and actual PID-specific zero-leak summary remain required."
+          },
+          {
+            "command": "Source-held focused exact-profiler-target, private-diagnostic, readiness and Darwin-mode Python guards; no actual Apple execution",
+            "result": "Accepted42 distinct synthetic methods across30/11/five successful executions with four repeats; whole31 stays FAILED on one private caller module typo, whole12 stays FAILED on same-sized diagnostic rewrite. Bounded owning reread fixes the actual reader; only five affected methods rerun5/5. All982 combined/905 library inputs held; final CLI/actionlint pass and all native/signing/test bodies exact prior de6c1618. ZERO local native/profile executions; #141 remains open.",
+            "evidence": [
+              "docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/README.md",
+              "docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/important001/important.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/important001/remaining-owning.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/important001/diagnostic-owning-recovery.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/final-preflight001.json"
+            ],
+            "scope": "Owning CI selection/privacy/failure regressions, not native lifetime/actual Instruments rows/leaks, entitlement authorization, strict runtime, ASan or release verification."
           }
         ],
         "remaining": [

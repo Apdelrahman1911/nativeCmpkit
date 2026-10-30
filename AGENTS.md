@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Exact simulator profiler recovery; WebView request independent — 2026-10-30
+
+[Profiler owning patch](docs/development/evidence/image-memory-batch-important-20261030/target-recovery-tools001/README.md)
+adds actual xctrace device-list UUID preflight/explicit `--device`, read-only
+installed entitlement flags and bounded fixed failure categories before private
+cleanup. No signing/entitlement/elevation/native/API changes; original exit21's
+cause remains unknown. Synthetic42 distinct owning methods accepted across30+
+11+five executions with overlap; failed31/loader error and12/same-sized diagnostic
+rewrite retained. Only five affected reader methods rerun after double-read repair.
+Zero local native/profile execution; #141 open. WebView41007203221 independently
+runs at a189bcb9 with only two mobile methods, not this later source.80closed/
+92open; single-agent/max2 heavy requests/8GiB and all publication/main/history/
+Pages/native/minimum/ABI/consumer/security gates stay.
+
 ## Verified WebView/value and native-image subset; mobile recovery — 2026-10-30
 
 **#72/NATIVE-015 and #140/UI-037 CLOSED/completed** immediately after all three

@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Exact iOS profiler target recovery — 2026-10-30
+
+[Owning candidate](evidence/image-memory-batch-important-20261030/target-recovery-tools001/README.md)
+verifies the actual Instruments simulator UUID, uses explicit `--device`, observes
+signed debug flags without changing them, and preserves only fixed error categories/
+hashes before private cleanup. Original exit21 remains unexplained; no authorization
+or native-profile success inferred.42 distinct synthetic methods accepted with
+explicit overlap/failures; zero local native execution. #141 stays open; mobile
+WebView41007203221 runs independently at a189bcb9, with no redispatch or passing-suite
+replay.80 closed/92 open; no release/security or other independent gate change.
+
 ## Verified value/image subset and mobile-only recovery — 2026-10-30
 
 **[#72/NATIVE-015 and #140/UI-037 CLOSED/completed](evidence/verified-webview-image-subsets-20261030/README.md)** after original-criteria review/readback, before ledger updates.

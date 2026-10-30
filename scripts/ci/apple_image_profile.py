@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import plistlib
 import re
 import shutil
 import stat
@@ -27,11 +28,83 @@ NATIVE_SYMBOLS = ("com.mohamedrejeb.calf.ui.utils", "UIImageMemoryDiagnosticsTes
 DARWIN_REQUESTS = {"MallocScribble": "1", "MallocGuardEdges": "1", "MallocErrorAbort": "1",
                    "MallocStackLogging": "1"}
 ATTEMPT_SECONDS = 180
+MAX_TOOL_DIAGNOSTIC_BYTES = 65536
+TOOL_ERROR_CATEGORIES = {
+    "process-not-found": rb"\bcannot find process for provided pid\b|\bno (?:running )?process(?:es)? found\b",
+    "authorization-refused": rb"\bauthorization failed\b|\bnot authorized\b|\bpermission denied\b|\boperation not permitted\b",
+    "attach-refused": rb"\bfailed to attach\b|\bcould not attach\b|\bunable to attach\b",
+    "debug-entitlement-refused": rb"\bget-task-allow\b[^\r\n]{0,128}\b(?:missing|not enabled|false)\b",
+    "unknown-option": rb"\bunknown option\b|\bunrecognized option\b|\binvalid option\b",
+}
 PREFLIGHT_FAILURE_REASONS = {
     "Installed profile application ownership changed": "installed-app-identity-mismatch",
     "Actual selected native process is unavailable": "selected-process-unavailable",
     "Native PID does not execute the exact installed owned binary": "selected-process-executable-mismatch",
 }
+
+
+def tool_failure_summary(path: Path) -> dict:
+    """Keep fixed observations before cleanup, never an error transcript or inferred cause."""
+    before = path.lstat()
+    if (not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_uid != os.getuid() or
+            not 0 <= before.st_size <= MAX_TOOL_DIAGNOSTIC_BYTES):
+        raise ValueError("Expected bounded private regular tool diagnostic")
+    identity = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns,
+                              value.st_ctime_ns, value.st_uid, value.st_nlink)
+    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        opened = os.fstat(descriptor)
+        if identity(opened) != identity(before):
+            raise ValueError("Private tool diagnostic changed before inspection")
+        body = os.read(descriptor, MAX_TOOL_DIAGNOSTIC_BYTES + 1)
+        # Same-sized rewrites can share filesystem timestamp granularity. Do not
+        # accept metadata equality alone as a stable diagnostic payload.
+        os.lseek(descriptor, 0, os.SEEK_SET)
+        if os.read(descriptor, MAX_TOOL_DIAGNOSTIC_BYTES + 1) != body:
+            raise ValueError("Private tool diagnostic payload changed during inspection")
+        if identity(os.fstat(descriptor)) != identity(opened):
+            raise ValueError("Private tool diagnostic changed during inspection")
+    finally:
+        os.close(descriptor)
+    after = path.lstat()
+    if identity(after) != identity(before) or path.is_symlink() or len(body) != before.st_size:
+        raise ValueError("Private tool diagnostic changed during inspection")
+    return {"bytes": len(body), "sha256": hashlib.sha256(body).hexdigest(),
+            "matched_fixed_categories": sorted(name for name, pattern in TOOL_ERROR_CATEGORIES.items()
+                                                if re.search(pattern, body, re.I)),
+            "raw_output_uploaded": False, "root_cause_proven": False}
+
+
+def selected_simulator_observation(result: subprocess.CompletedProcess, device: str) -> dict:
+    if (not runtime.UUID.fullmatch(device) or type(result.returncode) is not int or result.returncode != 0 or
+            not isinstance(result.stdout, bytes) or not isinstance(result.stderr, bytes) or
+            len(result.stdout) + len(result.stderr) > MAX_TOOL_DIAGNOSTIC_BYTES):
+        raise ValueError("No bounded actual Instruments device listing")
+    # Exact UUID token only, not a display name, substring, host Mac or another simulator.
+    matches = re.findall(rb"(?<![A-Za-z0-9-])" + re.escape(device.encode()) + rb"(?![A-Za-z0-9-])",
+                         result.stdout, re.I)
+    return {"exit_code": result.returncode, "selected_simulator_verified": len(matches) == 1,
+            "selected_uuid_occurrences": len(matches), "listing_bytes": len(result.stdout),
+            "listing_sha256": hashlib.sha256(result.stdout).hexdigest(), "raw_device_listing_uploaded": False}
+
+
+def debug_entitlement_observation(result: subprocess.CompletedProcess) -> dict:
+    """Read signed flags without modifying them; missing flags are not an attach diagnosis."""
+    if (type(result.returncode) is not int or result.returncode != 0 or
+            not isinstance(result.stdout, bytes) or not isinstance(result.stderr, bytes) or
+            len(result.stdout) + len(result.stderr) > MAX_TOOL_DIAGNOSTIC_BYTES):
+        raise ValueError("No bounded actual installed entitlement observation")
+    try:
+        info = plistlib.loads(result.stdout) if result.stdout.strip() else {}
+    except (ValueError, plistlib.InvalidFileException) as error:
+        raise ValueError("Unreviewable installed entitlement observation") from error
+    if not isinstance(info, dict):
+        raise ValueError("Unreviewable installed entitlement observation")
+    return {"exit_code": result.returncode, "observed": True,
+            "ios_debug_allowed": info.get("get-task-allow") is True,
+            "mac_debug_allowed": info.get("com.apple.security.get-task-allow") is True,
+            "entitlements_present": bool(info), "stdout_sha256": hashlib.sha256(result.stdout).hexdigest(),
+            "raw_entitlements_or_paths_uploaded": False, "attach_authorization_proven": False}
 
 
 def allocation_summary(path: Path) -> dict:
@@ -124,6 +197,10 @@ class ImageProfileDriver:
             raise ValueError("Never repeat or overwrite an owned profile attempt")
         if shutil.disk_usage(self.root).free < 8192 * 1024**2 + discovery.MAX_PRIVATE_BYTES:
             raise OSError("Profile staging must preserve the production 8 GiB reserve")
+        listing = self.control(["/usr/bin/xcrun", "xctrace", "list", "devices"], 30)
+        self.receipt["device_selection_preflight"] = selected_simulator_observation(listing, self.device)
+        if not self.receipt["device_selection_preflight"]["selected_simulator_verified"]:
+            raise ValueError("Actual selected simulator is unavailable to Instruments")
         result = self.control(["/usr/bin/xcrun", "simctl", "get_app_container", self.device, self.bundle, "data"], 30)
         if result.returncode or not isinstance(result.stdout, bytes) or len(result.stdout) > 4096:
             raise RuntimeError("Exact application data container is unavailable")
@@ -229,6 +306,8 @@ class ImageProfileDriver:
             result = lt.execute(self.root, command, log, min(150, int(remaining)), 8192)
             self.receipt["commands"].append({"command": command, **result})
             discovery.private_inventory(self.root, self.private)
+            if result["exit_code"] or result.get("stop_reason"):
+                self.receipt["commands"][-1]["failure_diagnostic"] = tool_failure_summary(log)
             return result
 
         try:
@@ -236,6 +315,16 @@ class ImageProfileDriver:
             if not app.installed_identity(lease, self.bundle, self.signed_hash, self.plist_hash):
                 raise ValueError("Installed profile application ownership changed")
             self.receipt["installed_application_identity_verified"] = True
+            # A read-only observation helps distinguish a future actual refusal. Do not
+            # add debug entitlements, elevate privileges or infer authorization here.
+            try:
+                flags = self.control(["/usr/bin/codesign", "--display", "--entitlements", ":-", str(
+                    Path(lease.stdout.decode("utf-8", errors="strict").strip()))], 30)
+                self.receipt["debug_entitlement_observation"] = debug_entitlement_observation(flags)
+            except (OSError, ValueError, subprocess.SubprocessError) as error:
+                self.receipt["debug_entitlement_observation"] = {
+                    "observed": False, "error_type": type(error).__name__,
+                    "raw_entitlements_or_paths_uploaded": False, "attach_authorization_proven": False}
             stage = "inspect-owned-process"
             process = self.control(["/bin/ps", "-p", str(pid), "-o", "comm="], 15)
             if process.returncode or not isinstance(process.stdout, bytes) or len(process.stdout) > 4096:
@@ -254,8 +343,10 @@ class ImageProfileDriver:
             self.receipt["actual_process_executable_identity_verified"] = True
             stage = "record-owned-allocations"
             trace = self.private / "owned-library.trace"
+            self.receipt["record_target_selection"] = "selected-simulator-uuid"
             outcome = execute(["/usr/bin/xcrun", "xctrace", "record", "--template", "Allocations",
-                               "--time-limit", "12s", "--output", str(trace), "--attach", str(pid)], "allocations")
+                               "--device", self.device, "--time-limit", "12s", "--output", str(trace),
+                               "--attach", str(pid)], "allocations")
             if outcome["exit_code"] or outcome.get("stop_reason"):
                 raise RuntimeError("Actual Instruments recording failed")
             toc = self.private / "toc.xml"

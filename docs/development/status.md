@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `5985b202c6c24b1c2ab39f2fc14ead621092000b4fd6639ff5a3f8e09169d22b`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `266cb39cb91d533fe950aca69fa941e48d1063b7042c76283fe264aab598ce51`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 33 |
-| partially-verified | 40 |
-| verified | 85 |
+| partially-verified | 39 |
+| verified | 86 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -91,7 +91,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 43 | [PERM-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/20) | High | 1 | L | partially-verified | PERM-003, PERM-007, PERM-009 | 2 / 2 |
 | 44 | [PERM-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23) | High | 1 | L | partially-verified | PERM-007 | 3 / 3 |
 | 45 | [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) | Medium | 1 | M | verified | PERM-018 | 2 / 0 |
-| 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | partially-verified | PERM-018, PERM-020 | 2 / 6 |
+| 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | verified | PERM-018, PERM-020 | 2 / 0 |
 | 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 2 |
 | 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 2 |
 | 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 2 |
@@ -140,7 +140,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 92 | [NATIVE-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) | Medium | 2 | M | implemented | — | 3 / 6 |
 | 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 94 | [NATIVE-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) | Medium | 2 | S | implemented | — | 3 / 5 |
-| 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | implemented | — | 3 / 4 |
+| 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
 | 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -1127,7 +1127,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 46. PERM-021 — Android LocationTracker suppresses missing-permission checks and ignores provider failures
 
-**High · partially-verified · original effort L** — [nativeCmpkit #25](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
+**High · verified · original effort L** — [nativeCmpkit #25](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25); owner [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json); baseline [docs/audit/findings/PERM.json](../audit/findings/PERM.json).
 
 **Original dependencies:** [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) (verified; original order 21), [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) (verified; original order 45).
 
@@ -1138,14 +1138,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.
-- No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.
-- Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.
-- 2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates.
-- Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet.
-- 2026-10-30 run41051631302 stays FAILED/zero native before the permission map. Owning service query and receipt upload now repaired in synthetic important tests only. Execute still-unrun three native cases, review both original criteria and close directly only after acceptance. Do not replay accepted two injected/five host methods.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods. Current2026-10-30: two injected native Task/Looper methods accepted in still-failed41042004511, five new host prerequisite methods and standalone Java source APK/signatures inspected. Zero new real-provider/prerequisite native outcomes; one finite recovery required. No hardware/minimum/power/packaged/ABI/release certification.
+**Owner verification scope:** Both original provider/permission/error/thread/cancellation/duplicate/recovery criteria reviewed before #25 closure. Three fresh API35 native methods pass in41054442019 at a6c16e09, Gradle0/54.02s/one fresh XML with exact immutable input/runtime/filter/task-marker/installed-APK/owned-cleanup checks. Two byte-identical accepted native Task/error/retry and queued-cancellation methods from still-failed41042004511 reused on unchanged injected transport semantics; five accepted host prerequisite/allocation/original-task/phantom-removal methods reused on exact current production/test bytes. Source checks Main.immediate/explicit main Looper, permission and typed Task outcomes, rollback, observable removal failure and retry. Real default provider registration, denied/coarse/fine grants, revocation with separate source process death, disabled and actually user-uninstalled GMS, settings-off and successful restoration execute. No permission prompt, foreground/background service or automatic restart. Injected Task failures/timing are not observed real-world external-provider failures. Earlier41042004511/41051631302 stay failed. Physical/minimum-platform, GPS delivery/accuracy/power/whole heap, packaged consumer/ABI/legal/dependency/security/release gates remain separate.
 
 **Compatibility / scope:** Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification. Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md.
 
@@ -2231,6 +2226,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Internal File.toKmpFile on API24+ produces a recipient-readable content URI.
 - Original required test pending full target verification: SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.
 - Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.
+- 2026-10-30: run the three still-unexecuted AndroidShareGrantTest methods on an immutable API35 owned fixture, inspect exact native/XML/runtime/source/three-APK ownership cleanup and all three original criteria, then close immediately only after verified acceptance. #81/macOS stage and #88/UIKit/public dispatch tests remain separate.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
@@ -3582,9 +3578,9 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `7c6fcd10fc5520a7d58d24aef7753d6f1339a205f4375e4b9573c57e910a18bf` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
-| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `0ea3a36e4fd4e56854d1ee03b3a1351fd14c79f9c484b3fbe0883bd7b740b0df` |
+| [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |

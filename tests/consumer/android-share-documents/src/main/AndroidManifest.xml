@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Third-UID source grants only fixed synthetic documents through a real Activity result. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments.SELECT_DOCUMENTS"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfshare.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit owned document grant source">
+        <activity android:name=".ShareDocumentGrantActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments.SELECT_DOCUMENTS"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <provider android:name=".OwnedShareDocumentsProvider" android:authorities="${applicationId}.documents"
+            android:exported="true" android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS" android:process=":owned_share_documents">
+            <intent-filter><action android:name="android.content.action.DOCUMENTS_PROVIDER" /></intent-filter>
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,110 @@
+{
+  "accepted_GC_portable_or_unrelated_native_methods_replayed": false,
+  "accepted_five_new_host_methods_replayed": false,
+  "accepted_two_injected_native_methods_replayed": false,
+  "actual_separate_UID_source_consumer_not_sample_or_Maven": true,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true",
+      "-Pandroid.testInstrumentationRunnerArguments.annotation=com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+      ":calf-geo:connectedAndroidDeviceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 3,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "geo-android-real-prerequisites",
+      "test-modules": "calf-geo"
+    }
+  ],
+  "no_GMS_means_native_user0_package_absence_not_just_disabled": true,
+  "official_permission_manager_scalar_query_no_human_dump": true,
+  "only_failed_real_default_method_plus_two_new_prerequisite_methods": true,
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-geo/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-geo",
+          "project": ":calf-geo",
+          "report_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+              "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+              "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+              "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover"
+            }
+          ],
+          "task": ":calf-geo:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+          "test_source_files": [
+            "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt",
+            "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+            "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/OwnedGeoProbe.kt",
+            "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt",
+            "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-geo"
+      ],
+      "explicit_test_focus": "geo-android-real-prerequisites",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "Actual Android separate-UID source-consumer denied/coarse/fine/revoked permission, disabled Play Services/system-location prerequisites and real default registration; no replay of the two accepted injected Task/Looper/cancellation methods. No GPS/fix accuracy, physical/minimum/power/heap, packaged Maven consumer/ABI/security/release certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-io",
+        "calf-navigation",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "android-geo-prerequisites",
+  "runtime_annotation_avoids_ATE_CSV_loss": true
+}

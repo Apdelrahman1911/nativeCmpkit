@@ -29,6 +29,7 @@ PROFILES = {
     "android-geo-ownership": ("android-device-api35",),
     "android-geo-provider": ("android-device-api35",),
     "android-geo-prerequisites": ("android-device-api35",),
+    "android-share-grants": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -149,6 +150,7 @@ MODULE_SUBSETS = {
     "android-geo-ownership": "calf-geo",
     "android-geo-provider": "calf-geo",
     "android-geo-prerequisites": "calf-geo",
+    "android-share-grants": "calf-share",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -297,6 +299,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-geo-prerequisites":
         for row in rows:
             row["test-focus"] = "geo-android-real-prerequisites"
+    if profile == "android-share-grants":
+        for row in rows:
+            row["test-focus"] = "android-share-uri-grants"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

@@ -41,6 +41,19 @@ class DependencyCacheInputTests(unittest.TestCase):
         self.assertEqual(held, self.key())
         self.assertIn('tests/consumer/android-geo-probe/build.gradle.kts', d.selected_inputs(self.root, 'libraries'))
 
+    def test_native_share_recipient_configurations_are_keyed_but_private_signing_apks_and_xml_are_not(self):
+        before = self.key()
+        self.write('tests/consumer/android-share-recipient/build.gradle.kts', 'synthetic-recipient-config')
+        self.assertNotEqual(before, self.key())
+        held = self.key()
+        for name in ('build/outputs/apk/debug/old.apk', 'build/test-results/old.xml', 'build/android-user/debug.keystore'):
+            self.write('tests/consumer/android-share-recipient/' + name, 'not-a-cache-input')
+        self.assertEqual(held, self.key())
+        self.assertIn('tests/consumer/android-share-recipient/build.gradle.kts', d.selected_inputs(self.root, 'libraries'))
+        self.write('tests/consumer/android-share-documents/build.gradle.kts', 'synthetic-third-UID-config')
+        self.assertNotEqual(held, self.key())
+        self.assertIn('tests/consumer/android-share-documents/build.gradle.kts', d.selected_inputs(self.root, 'libraries'))
+
     def test_repeat_keys_are_exact_content_bound_and_include_all_configured_builds(self):
         values = d.selected_inputs(self.root, 'libraries')
         self.assertIn('calf-core/build.gradle.kts', values)

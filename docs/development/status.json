@@ -45,16 +45,16 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
-    "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
+    "docs/development/resolutions/NATIVE.json": "7c6fcd10fc5520a7d58d24aef7753d6f1339a205f4375e4b9573c57e910a18bf",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
-    "docs/development/resolutions/PERM-geo.json": "0ea3a36e4fd4e56854d1ee03b3a1351fd14c79f9c484b3fbe0883bd7b740b0df",
+    "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
     "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "5985b202c6c24b1c2ab39f2fc14ead621092000b4fd6639ff5a3f8e09169d22b",
+  "input_fingerprint": "266cb39cb91d533fe950aca69fa941e48d1063b7042c76283fe264aab598ce51",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 33,
-      "partially-verified": 40,
-      "verified": 85,
+      "partially-verified": 39,
+      "verified": 86,
       "unresolved": 6,
       "not-applicable": 0
     },
@@ -7946,12 +7946,12 @@
         "mapping_key": "audit:PERM-021",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/PERM-geo.json",
-      "owner_record_sha256": "eaaa358424ae0feccc8b1fac570eec47a52ee2ecd7d28024e8d45a31063d652c",
+      "owner_record_sha256": "146ea47c1c01ef9b8d69cb40261d3090e57e38476e650b2f42cff28bd264571e",
       "owner_record": {
         "id": "PERM-021",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Check coarse-or-fine foreground permission before registration and at the native boundary, on registration completion, on fixes and on resume.",
           "Dispatch suspending start to Main.immediate, supply explicit main Looper, and observe real Google Task success/failure/cancellation.",
@@ -8199,22 +8199,25 @@
               "docs/development/evidence/geo-prerequisites-20261030/permission-service001/unchanged-production-applicability.json"
             ],
             "scope": "No source/compiler/API/dependency changes or accepted native/host replay; one new immutable actual three-case recovery required."
+          },
+          {
+            "command": "Immutable native Android41054442019 at a6c16e097c59f6c33500814c08780c4bcb2a3f0e; exact Gradle command in native-ci002/review.json",
+            "result": "PASS: three fresh native methods/one XML, Gradle0/54.02s, all945 library/1022 combined immutable Git inputs. Actual denied/coarse/fine/default-provider starts, separate-UID revocation/process death, actual user0 GMS absence/disabled state and settings-off/recovery; native UID/signature/permission checks and installed APK-byte identity/owned graceful cleanup inspected. Two prior injected native Task/error/cancellation/Looper cases and five byte-identical prior host prerequisite cases reused, not replayed. Both original criteria reviewed; #25 closed/completed and body/title/labels read back before documentation. Earlier runs remain failed.",
+            "evidence": [
+              "docs/development/evidence/geo-prerequisites-20261030/native-ci002/review.json",
+              "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-original-criteria-acceptance.json",
+              "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-closure-readback.json"
+            ],
+            "scope": "API35 emulator actual native default-provider/grant/revocation/GMS/settings execution. Failed-task transport and cancellation timing in reused cases deliberately injected, with actual native Task/threads/Handler/Looper. Not GPS accuracy, physical/minimum-platform, battery/whole-heap, packaged consumer/ABI/security or release certification."
           }
         ],
-        "remaining": [
-          "Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.",
-          "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
-          "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-          "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates.",
-          "Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet.",
-          "2026-10-30 run41051631302 stays FAILED/zero native before the permission map. Owning service query and receipt upload now repaired in synthetic important tests only. Execute still-unrun three native cases, review both original criteria and close directly only after acceptance. Do not replay accepted two injected/five host methods."
-        ],
+        "remaining": [],
         "compatibility": [
           "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
           "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
         ],
-        "verification_scope": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods. Current2026-10-30: two injected native Task/Looper methods accepted in still-failed41042004511, five new host prerequisite methods and standalone Java source APK/signatures inspected. Zero new real-provider/prerequisite native outcomes; one finite recovery required. No hardware/minimum/power/packaged/ABI/release certification.",
-        "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+        "verification_scope": "Both original provider/permission/error/thread/cancellation/duplicate/recovery criteria reviewed before #25 closure. Three fresh API35 native methods pass in41054442019 at a6c16e09, Gradle0/54.02s/one fresh XML with exact immutable input/runtime/filter/task-marker/installed-APK/owned-cleanup checks. Two byte-identical accepted native Task/error/retry and queued-cancellation methods from still-failed41042004511 reused on unchanged injected transport semantics; five accepted host prerequisite/allocation/original-task/phantom-removal methods reused on exact current production/test bytes. Source checks Main.immediate/explicit main Looper, permission and typed Task outcomes, rollback, observable removal failure and retry. Real default provider registration, denied/coarse/fine grants, revocation with separate source process death, disabled and actually user-uninstalled GMS, settings-off and successful restoration execute. No permission prompt, foreground/background service or automatic restart. Injected Task failures/timing are not observed real-world external-provider failures. Earlier41042004511/41051631302 stay failed. Physical/minimum-platform, GPS delivery/accuracy/power/whole heap, packaged consumer/ABI/legal/dependency/security/release gates remain separate.",
+        "required_tests_review": "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-original-criteria-acceptance.json"
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -16927,7 +16930,7 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "7f4c9acbc68ebdbb926e97f4f3747e0ca2614fb756e776f34e0554087a03347e",
+      "owner_record_sha256": "56f985d771407676d9c9acf282ccba01eae4bc8c8b1d758a87b3efa1329fb275",
       "owner_record": {
         "id": "NATIVE-028",
         "title": "Android file sharing forwards file:// URIs without FileProvider conversion",
@@ -16941,7 +16944,11 @@
           "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
           "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareOutcome.kt",
           "docs/development/NATIVE.md",
-          "sample/android/src/main/res/xml/filepaths.xml"
+          "sample/android/src/main/res/xml/filepaths.xml",
+          "calf-share/src/androidDeviceTest",
+          "tests/consumer/android-share-documents",
+          "tests/consumer/android-share-recipient",
+          "scripts/ci/android_share_recipient.py"
         ],
         "tests": [
           {
@@ -16993,13 +17000,25 @@
               "docs/development/evidence/native/second-jvm-fixture-corrections.json"
             ],
             "scope": "Actual JavaFX Engine/Scene on Linux/Xvfb; Android host/Robolectric with simulated external camera, history/evaluator and recipient boundaries; desktop clipboard transport controlled. Linux JNI really loads and exercises its ABI/unsupported host,not AppKit. Common assertions are repeated target executions,not independent contracts. iOS tasks are KLIB compilation only,zero Apple linking/test execution. No Android Chromium history,JS/Wasm browser,Apple/native presentation,memory-profile,OS-recipient or artifact/ABI release certification."
+          },
+          {
+            "command": "Serial local actual APK assembly of :calf-share:assembleAndroidDeviceTest and two standalone AGP source fixtures; exact commands in evidence/compile003/review.json",
+            "result": "Reporter APK PASS0/34.01s, actual third-UID DocumentsProvider source app PASS0/32.01s, native recipient app PASS0/21.01s. All967 library/1044 combined local inputs held. Actual three APKs verify with one matching private debug certificate, min23/target37; exact signature-protected components/provider permissions/narrow FileProvider inspected.217 distinct important synthetic methods pass cumulatively; preserve inventory91 overall failure/90 passes plus exact owning recovery and earlier Kotlin/PATH/private reader failures. ZERO new native/host library executions. One exact immutable three-method native request still required, not a closure/release pass.",
+            "evidence": [
+              "docs/development/evidence/android-share-uri-grants-20261030/implementation001/summary.json",
+              "docs/development/evidence/android-share-uri-grants-20261030/implementation001/compile003/review.json",
+              "docs/development/evidence/android-share-uri-grants-20261030/implementation001/apk-review001/review.json",
+              "docs/development/evidence/android-share-uri-grants-20261030/implementation001/post-compile-applicability.json"
+            ],
+            "scope": "Actual native APK compiler/manifest/signature evidence only. Tests prepared for three distinct runtime UIDs, real incoming/outgoing read-grant transfer, delayed reads/revocation/write denial and closed descriptors. Chooser selection only is redirected; no actual chooser/DocumentsUI/vendor/photo-picker/physical/minimum/API-ABI/packaged/security/release inference."
           }
         ],
         "remaining": [
           "Separate recipient process/SAF grant revocation/delayed reads/mixed MIME still need real-device evidence.",
           "Original required test pending full target verification: Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
           "Original required test pending full target verification: SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
-          "Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions."
+          "Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.",
+          "2026-10-30: run the three still-unexecuted AndroidShareGrantTest methods on an immutable API35 owned fixture, inspect exact native/XML/runtime/source/three-APK ownership cleanup and all three original criteria, then close immediately only after verified acceptance. #81/macOS stage and #88/UIKit/public dispatch tests remain separate."
         ],
         "compatibility": "Provider conversion applies on API23 too; local files outside configured narrow roots are explicit failures, not silently granted broad cache access.",
         "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",

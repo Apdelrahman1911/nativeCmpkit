@@ -28,15 +28,21 @@ def unique(pairs):
     return result
 
 
-def metadata_apk(root: Path) -> Path:
-    base = lt.safe_path(root, FIXTURE + "/build/outputs/apk/debug")
+def metadata_apk(root: Path, *, fixture: str = FIXTURE, package: str = PACKAGE) -> Path:
+    if (fixture, package) not in {
+        (FIXTURE, PACKAGE),
+        ("tests/consumer/android-share-recipient", "io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient"),
+        ("tests/consumer/android-share-documents", "io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments"),
+    }:
+        raise ValueError("Only exact reviewed disposable fixture/package pairs are permitted")
+    base = lt.safe_path(root, fixture + "/build/outputs/apk/debug")
     metadata = lt.safe_path(root, (base / "output-metadata.json").relative_to(root).as_posix())
     if (not metadata.is_file() or metadata.stat().st_nlink != 1 or metadata.stat().st_size > 65536):
         raise ValueError("Expected bounded actual separate-probe APK metadata")
     data = json.loads(metadata.read_bytes(), object_pairs_hook=unique,
                       parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite APK metadata")))
     if (not isinstance(data, dict) or not isinstance(data.get("artifactType"), dict) or
-            data.get("applicationId") != PACKAGE or data.get("variantName") != "debug" or
+            data.get("applicationId") != package or data.get("variantName") != "debug" or
             data["artifactType"].get("type") != "APK"):
         raise ValueError("Foreign source APK metadata")
     rows = data.get("elements")

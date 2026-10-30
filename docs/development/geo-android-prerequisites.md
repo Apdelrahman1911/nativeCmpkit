@@ -1,15 +1,16 @@
 # Android foreground location prerequisites — 2026-10-30
 
 Issue [#25/PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25)
-remains open pending the three-case native prerequisite batch. This is an owning
-contract repair, not a new geo architecture or permission-prompt feature.
+is now **verified and closed** after all original criteria were reviewed against
+actual results. This is an owning contract repair, not a new geo architecture or
+permission-prompt feature. The older observations below describe their own dates.
 
 Actual[41051631302](evidence/geo-prerequisites-20261030/native-ci001/README.md)
 fails before native invocation: both APKs/owned cleanup pass, zero tests/XML.
 The owning[scalar PermissionManager query](evidence/geo-prerequisites-20261030/permission-service001/README.md)
 replaces its fragile human-dump gate;17 important synthetic methods pass.
-Production/app/compiler bytes remain unchanged; still execute the three native
-cases, without replaying accepted two injected or five host methods.
+Production/app/compiler bytes remained unchanged; all three later native cases
+passed in41054442019. Accepted two injected/five host methods were not replayed.
 
 ## Default provider execution
 
@@ -65,6 +66,15 @@ task marker, immutable inputs, enforcing runtime and owned cleanup. The two
 already-passing injected native Task/Looper methods are deliberately excluded.
 
 ## Executed evidence and limits
+
+[Native41054442019](evidence/geo-prerequisites-20261030/native-ci002/README.md)
+at a6c16e09 passes3/3 actual native methods in one fresh XML, Gradle0/54.02s.
+Exact945 library/1022 combined historical inputs, fresh filter/task, native runtime,
+installed APK-byte/signature/UID identity and owned cleanup were reviewed. The
+[original criteria/readback](evidence/geo-prerequisites-20261030/closure001/README.md)
+close #25 before documentation; two prior native and five prior host cases reused.
+Earlier failures stay failed. These three new methods are not ten new executions.
+
 
 [Important evidence](evidence/geo-prerequisites-20261030/implementation001/README.md):
 five new Robolectric methods pass; device APK and standalone Java source consumer

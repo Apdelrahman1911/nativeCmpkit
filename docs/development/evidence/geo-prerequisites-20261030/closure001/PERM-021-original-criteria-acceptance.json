@@ -1,0 +1,52 @@
+{
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "dependencies_PERM018_PERM020_verified_closed": true,
+  "finding_id": "PERM-021",
+  "fresh_native_executions": 3,
+  "fresh_native_review_sha256": "1adfc0fcc101d02ee1bbaae8abecd43188df41d1de3dba9a2395d9e1eea49526",
+  "issue_number": 25,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Actual API35 native recovery41054442019 at a6c16e09 passes three fresh methods in one XML, Gradle0/54.02s. A signature/UID-authenticated separate source consumer starts real default fused-provider registrations under denied, coarse-only and fine grants, checks unbound rejection and observes actual revocation/process death and denied restart without killing the reporter. Play Services is both disabled and actually user-uninstalled, settings are disabled, actual status/typed failure is checked and every prerequisite is restored with successful registration recovery. Previously accepted native method nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable reuses actual native GMS Tasks with injected failed registration/security/removal transport and verifies cleanup retry/error recovery. Five byte-identical accepted host methods check pre-registration allocation, retained task identity, cached-client rechecking and absence of phantom removal. No permission prompts or background escalation are added.",
+      "original_requirement": "Denied/revoked/coarse-only permissions, unbound client, no Play Services/location settings off, failed registration/removal Task.",
+      "status": "verified; injected Task transport disclosed"
+    },
+    {
+      "evidence": "Fresh default-provider registrations start from both main and background callers and verify AlreadyStarted. The two byte-identical accepted native methods in still-failed41042004511 cover cancellation during a pending real Task, duplicate pending/started requests, ordered removal after late completion, error/retry recovery, real background Task completion and queued old/new callback delivery through the Android main Handler/Looper. Their transport and permission reader are explicitly injected; this does not claim a real OS cancellation race was observed. Source review confirms Main.immediate dispatch, explicit main Looper, permission/typed Task outcomes, failed-start rollback, distinct callback generation, observable removal failure and retry. The only later production delta is the default prerequisite guard and typed pre-registration exception path, covered by fresh real-OS tests and five unchanged host tests; injected request/removal semantics are unchanged.",
+      "original_requirement": "Start from main/background, cancellation during registration, duplicate starts and recovery after errors.",
+      "status": "verified; injected Task transport disclosed"
+    }
+  ],
+  "retained_limitations": [
+    "Emulator API35 Google APIs x86_64 only; physical/minimum-device, GPS delivery/accuracy, battery/power and full heap profiling remain independent release gates.",
+    "Task failure/cancellation transport and registration timing in the two reused native cases are deliberately injected; their actual Task/thread/Looper/Handler execution is native, not an observed external GMS failure or real-world cancellation timing.",
+    "The separate probe is a public-source consumer, not a packaged Maven or ABI/minimum-platform consumer. No foreground service, permission prompt, background acquisition or automatic restart is introduced.",
+    "Earlier41042004511 and41051631302 remain failed; accepted outcomes are reused, not relabeled as new green workflows. Three fresh native executions plus two prior native and five prior host passes are not ten new executions.",
+    "#141 Apple launch/profiling remains open and unknown; dependency/provenance/legal/security, consumer, native/minimum-platform and release gates remain. No packages/releases/deployment/Pages/main/history changes."
+  ],
+  "reused_host_executions": 5,
+  "reused_host_input_bindings": {
+    "calf-geo/src/androidHostTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationPrerequisitesTest.kt": "5f263f55800d8843a99cd4c48d1d9f4e3704154cc68f220df5ce804c7aa898e8",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationFix.kt": "fcc07186318c070073812763aa09ee083a955f51f33d5789baaf7b8e61d3c9c9",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationTrackingBackend.kt": "42bcff0150c3b233fed9406b8aa1c158d4354c85139a4cc9bb6574d533a78a50",
+    "calf-geo/src/androidMain/kotlin/com/mohamedrejeb/calf/geo/LocationTracker.kt": "6b43264d0c516c47ab4acaf35ee56c6ff89ed5d277a5039804461f2df2a8be81",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Altitude.kt": "66fbb239b6e938150eb0513317e86c46f4a5f07ea575e3fe7ebbd1a6287996d3",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Azimuth.kt": "8d7a3ff21ed56f069799135f7819aaa44de05ba8feeae5ae23a74db2d2c5e666",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/ExtendedLocation.kt": "a5ceddb296ef0cda7df06f1ebf283b3111ccd2ee03cebcc1d1a750407e5a8d37",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LatLng.kt": "6b415a6b2db1c626e18b92b125b828638e0ccf949bf01e4dc759d25313e6cd26",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Location.kt": "59c4b9a7d661e2ea51628682b8568bc11f549c383343b7222f5c967715e9b9a1",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracker.kt": "c0e12d80fe05da3074fd5e4716468526dc638da5372d36cfe95ff0714659c572",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTracking.kt": "18c6d19721b338bbd42d987dc460ba62442c132dddbe10e45783c009790c259c",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/LocationTrackingController.kt": "ea1e9065fc3471488cbebffc66bcc939d4b813f4f256e47896f60da7325bcce7",
+    "calf-geo/src/commonMain/kotlin/com.mohamedrejeb.calf/geo/Speed.kt": "7c85bc2191a3f8b473be7ab29634a957b2aaa0e2cef9597353f5b65dc0034650"
+  },
+  "reused_host_review_sha256": "1908a4faf8510cd0e19beebae20841da5320c2b67dd082f75545db2306ab741e",
+  "reused_native_executions": 2,
+  "reused_native_review_sha256": "73125da454bedbe7dec75409f321d646d404755120de5829b372c1ae0a856849",
+  "reused_native_test_suffix_sha256": "64a1c9b680124d21ab00dbe13ad78c0def91abd7b3ef354417909a08cd069255",
+  "reviewed_at_utc": "2026-10-30T12:38:21.700455+00:00"
+}

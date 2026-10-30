@@ -26,6 +26,7 @@ import library_tests as lt
 import runtime_context as runtime
 import android_webview_heap
 import android_geo_probe
+import android_share_recipient
 
 API = 35
 PORT = 5588
@@ -191,6 +192,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     process = None
     heap = None
     geo_probe = None
+    share_recipient = None
+    share_documents = None
     verified = False
     log = None
     try:
@@ -210,6 +213,13 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             geo_probe = android_geo_probe.OwnedGeoProbe(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env)
             result["geo_probe"] = geo_probe.prepare()
+        if lt.android_share_recipient_required(plan):
+            share_documents = android_share_recipient.OwnedShareDocuments(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["share_documents"] = share_documents.prepare()
+            share_recipient = android_share_recipient.OwnedShareRecipient(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["share_recipient"] = share_recipient.prepare()
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()
@@ -241,6 +251,16 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["geo_probe"] = geo_probe.close()
                     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                         result["geo_probe"] = {"owned_probe_removed": False, "cleanup_error": type(error).__name__}
+                if share_recipient is not None:
+                    try:
+                        result["share_recipient"] = share_recipient.close()
+                    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                        result["share_recipient"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                if share_documents is not None:
+                    try:
+                        result["share_documents"] = share_documents.close()
+                    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                        result["share_documents"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
             finally:
                 if process is not None:
                     result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
@@ -265,7 +285,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                             (heap is None or (result.get("heap_diagnostics", {}).get("clean_monitor_shutdown") is True and
                              not result["heap_diagnostics"].get("capture_error"))) and
                             (geo_probe is None or (result.get("geo_probe", {}).get("owned_probe_removed") is True and
-                             not result["geo_probe"].get("cleanup_error"))))
+                             not result["geo_probe"].get("cleanup_error"))) and
+                            (share_recipient is None or (result.get("share_recipient", {}).get("owned_recipient_removed") is True and
+                             not result["share_recipient"].get("cleanup_error"))) and
+                            (share_documents is None or (result.get("share_documents", {}).get("owned_recipient_removed") is True and
+                             not result["share_documents"].get("cleanup_error"))))
         result["finished_at_utc"] = lt.utc_now()
         lt.write_json(output / "controller.json", result)
     return result
@@ -299,7 +323,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES,
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

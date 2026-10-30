@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Android provider prerequisites verified and closed — 2026-10-30
+
+**#25/PERM-021 CLOSED/completed** after both original criteria and independent
+[readback](evidence/geo-prerequisites-20261030/closure001/README.md), before documentation.
+Actual41054442019 at a6c16e09 passes3/3 native methods/one fresh XML, Gradle0/54.02s;
+945/1022 exact Git inputs, enforcingAPI35, installed APK-byte/UID/signature identity,
+scalar and same-UID permission reads, owned probe removal/graceful shutdown reviewed.
+Real denied/coarse/fine/default-GMS starts, revocation/process death, disabled and
+actually user-uninstalled GMS, settings-off/restoration execute. Two accepted native
+Task/error/cancellation/Looper cases and five host prerequisite cases reused, not
+replayed; injected failure transport/timing disclosed. Earlier runs remain failed.
+**88closed/84open/172total**;33implemented/39partial/86verified/six unresolved.
+#141 Apple launch/profiling remains unknown/open; physical/minimum/power/heap/
+packaged/ABI/dependency/legal/security/release gates remain. No publishing, Pages,
+main/history change; solo/max2heavy/8GiB. Sharing URI/resource batch next.
+
 ## Android pre-test permission recovery — 2026-10-30
 
 [41051631302](evidence/geo-prerequisites-20261030/native-ci001/README.md) is

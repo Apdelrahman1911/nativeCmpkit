@@ -1,0 +1,179 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true",
+    "-Pandroid.testInstrumentationRunnerArguments.annotation=com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+    ":calf-geo:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 54.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-geo"
+  ],
+  "explicit_test_focus": "geo-android-real-prerequisites",
+  "finished_at_utc": "2026-10-30T12:32:15.166122+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "1805949f7b693d1bc5d5ac85d01044348fbcd05c6b0a2f9e35d9a1b9ada62597",
+  "inputs_before_sha256": "1805949f7b693d1bc5d5ac85d01044348fbcd05c6b0a2f9e35d9a1b9ada62597",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-geo",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
+          "required_on_host": true,
+          "source": "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-geo/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-8a748a302769(AVD) - 15.xml",
+          "sha256": "323419263551d1253a0a45e57ff8c111e721e7490de14d93d5669e240b04b355",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-geo:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+      "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover"
+    }
+  ],
+  "runtime_receipt_sha256": "ffca09948dc0185f966cfe3dcb25fe002b0908b1d1776b4aad90696ce1e9494f",
+  "schema_version": 1,
+  "scope": "Actual Android separate-UID source-consumer denied/coarse/fine/revoked permission, disabled Play Services/system-location prerequisites and real default registration; no replay of the two accepted injected Task/Looper/cancellation methods. No GPS/fix accuracy, physical/minimum/power/heap, packaged Maven consumer/ABI/security/release certification.",
+  "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "source_revision_after": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T12:31:21.142369+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-geo:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-navigation",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

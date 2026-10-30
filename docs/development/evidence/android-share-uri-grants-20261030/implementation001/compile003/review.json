@@ -1,0 +1,79 @@
+{
+  "all_selected_inputs_held": true,
+  "combined_input_count": 1044,
+  "library_input_count": 967,
+  "native_or_host_methods_executed": 0,
+  "packages_published": false,
+  "passed_compilation_only": true,
+  "private_signing_environment_not_exported": true,
+  "release_readiness_certified": false,
+  "source_revision_before_commit": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "source_tree_dirty": true,
+  "stages": [
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        ":calf-share:assembleAndroidDeviceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 34.01,
+        "exit_code": 0
+      },
+      "log_sha256": "5cc6e886974b70bd9b00ac560b249738aa85c5efe564c60d65f5ed1de9298b9f",
+      "native_or_host_methods_executed": 0,
+      "raw_private_signing_context_exported": false,
+      "stage": "library-device-apk"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-p",
+        "tests/consumer/android-share-documents",
+        "assembleDebug"
+      ],
+      "execution": {
+        "elapsed_seconds": 32.01,
+        "exit_code": 0
+      },
+      "log_sha256": "43782b1507582cdf81fcec6f85ed1bc8b475f5e4efbd39822ba2d88db7655ba6",
+      "native_or_host_methods_executed": 0,
+      "raw_private_signing_context_exported": false,
+      "stage": "document-source-apk"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-p",
+        "tests/consumer/android-share-recipient",
+        "assembleDebug"
+      ],
+      "execution": {
+        "elapsed_seconds": 21.01,
+        "exit_code": 0
+      },
+      "log_sha256": "0b424f79d6283745d6e3e0dbd1e10ccf5fcbe654a928ae40b0a0f1057bf50f7b",
+      "native_or_host_methods_executed": 0,
+      "raw_private_signing_context_exported": false,
+      "stage": "recipient-apk"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Native test transport only; no storage permission, public filter or package upload. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission
+        android:name="io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient.BIND_RECIPIENT"
+        android:protectionLevel="signature" />
+    <queries>
+        <package android:name="com.mohamedrejeb.calf.calfshare.test" />
+        <package android:name="io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments" />
+    </queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit owned URI recipient">
+        <activity android:name=".ShareRecipientActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient.BIND_RECIPIENT"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name=".ShareRecipientService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient.BIND_RECIPIENT" />
+    </application>
+</manifest>

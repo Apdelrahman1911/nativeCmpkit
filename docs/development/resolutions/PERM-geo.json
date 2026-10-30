@@ -692,7 +692,7 @@
   },
   {
     "id": "PERM-021",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Check coarse-or-fine foreground permission before registration and at the native boundary, on registration completion, on fixes and on resume.",
       "Dispatch suspending start to Main.immediate, supply explicit main Looper, and observe real Google Task success/failure/cancellation.",
@@ -940,22 +940,25 @@
           "docs/development/evidence/geo-prerequisites-20261030/permission-service001/unchanged-production-applicability.json"
         ],
         "scope": "No source/compiler/API/dependency changes or accepted native/host replay; one new immutable actual three-case recovery required."
+      },
+      {
+        "command": "Immutable native Android41054442019 at a6c16e097c59f6c33500814c08780c4bcb2a3f0e; exact Gradle command in native-ci002/review.json",
+        "result": "PASS: three fresh native methods/one XML, Gradle0/54.02s, all945 library/1022 combined immutable Git inputs. Actual denied/coarse/fine/default-provider starts, separate-UID revocation/process death, actual user0 GMS absence/disabled state and settings-off/recovery; native UID/signature/permission checks and installed APK-byte identity/owned graceful cleanup inspected. Two prior injected native Task/error/cancellation/Looper cases and five byte-identical prior host prerequisite cases reused, not replayed. Both original criteria reviewed; #25 closed/completed and body/title/labels read back before documentation. Earlier runs remain failed.",
+        "evidence": [
+          "docs/development/evidence/geo-prerequisites-20261030/native-ci002/review.json",
+          "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-original-criteria-acceptance.json",
+          "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-closure-readback.json"
+        ],
+        "scope": "API35 emulator actual native default-provider/grant/revocation/GMS/settings execution. Failed-task transport and cancellation timing in reused cases deliberately injected, with actual native Task/threads/Handler/Looper. Not GPS accuracy, physical/minimum-platform, battery/whole-heap, packaged consumer/ABI/security or release certification."
       }
     ],
-    "remaining": [
-      "Real disabled settings, missing/outdated GMS, permission revocation and Android background policies require a device matrix.",
-      "No permission prompts or background escalation added. A caller timeout is required if it wants a bounded registration wait.",
-      "Scoped diagnostic passes do not satisfy every original required test or immutable commit/release verification; keep partially-verified until the lead reviews those gates.",
-      "2026-10-30: execute the three new focused native provider/permission/thread/queued-cancellation methods on an immutable revision; compile-only/synthetic results are not native success. Missing GMS/settings-off, actual revocation/process death and hardware remain separate original criteria/gates.",
-      "Current2026-10-30: only the failed real-provider method plus two new actual separate-UID revocation/missing-GMS/settings methods need one immutable three-case native recovery. Runtime annotation avoids ATE CSV loss; installed identity, permission reads, enforcing runtime, exact XML and owned cleanup remain required. Prior two injected native methods and five new host passes must not be replayed. Physical/minimum/power/ABI/packaged/security gates remain independent; no original-criteria closure yet.",
-      "2026-10-30 run41051631302 stays FAILED/zero native before the permission map. Owning service query and receipt upload now repaired in synthetic important tests only. Execute still-unrun three native cases, review both original criteria and close directly only after acceptance. Do not replay accepted two injected/five host methods."
-    ],
+    "remaining": [],
     "compatibility": [
       "Original public constructors/package and legacy tracker state/start/stop/bind signatures retained; additions are explicit contracts, not an ABI certification.",
       "Legacy unknown zero values become documented NaN/null/zero-time sentinels; caller code should migrate to nullable LocationFix. Android lifecycle/main-thread and undefined-bearing behavior corrections are documented in docs/development/GEO.md."
     ],
-    "verification_scope": "Main-thread dispatch, lifecycle gating, permission checks and observed Task errors/cancellation passed under Robolectric; common state machine passed desktop/host. No live GMS/settings/background-policy/device proof or immutable release verification. JS full-run23:00–23:10 UTC also passed LocationTrackingControllerTest (25 cases; common registration/error/permission observations, not Android OS/GMS) on actualChrome153; overall command failed elsewhere. No new unique-method count or native/device/ABI/Maven/release clearance follows. Later2026-10-25 full004 runs each passed38 geo cases on both JS and Wasm; relevant LocationTrackingControllerTest passed25/25 per target. Common registration/error/permission observations; no real Android settings/GMS/background policy. Both full requested commands passed290/290, but native/device, ABI/Maven, immutable-candidate and release gates remain. Earlier failed commands and separate EarthRadius JVM evidence are preserved; repeated target runs add no unique methods. Current2026-10-30: two injected native Task/Looper methods accepted in still-failed41042004511, five new host prerequisite methods and standalone Java source APK/signatures inspected. Zero new real-provider/prerequisite native outcomes; one finite recovery required. No hardware/minimum/power/packaged/ABI/release certification.",
-    "required_tests_review": "docs/development/GEO.md#original-required-test-disposition"
+    "verification_scope": "Both original provider/permission/error/thread/cancellation/duplicate/recovery criteria reviewed before #25 closure. Three fresh API35 native methods pass in41054442019 at a6c16e09, Gradle0/54.02s/one fresh XML with exact immutable input/runtime/filter/task-marker/installed-APK/owned-cleanup checks. Two byte-identical accepted native Task/error/retry and queued-cancellation methods from still-failed41042004511 reused on unchanged injected transport semantics; five accepted host prerequisite/allocation/original-task/phantom-removal methods reused on exact current production/test bytes. Source checks Main.immediate/explicit main Looper, permission and typed Task outcomes, rollback, observable removal failure and retry. Real default provider registration, denied/coarse/fine grants, revocation with separate source process death, disabled and actually user-uninstalled GMS, settings-off and successful restoration execute. No permission prompt, foreground/background service or automatic restart. Injected Task failures/timing are not observed real-world external-provider failures. Earlier41042004511/41051631302 stay failed. Physical/minimum-platform, GPS delivery/accuracy/power/whole heap, packaged consumer/ABI/legal/dependency/security/release gates remain separate.",
+    "required_tests_review": "docs/development/evidence/geo-prerequisites-20261030/closure001/PERM-021-original-criteria-acceptance.json"
   },
   {
     "id": "PERM-022",

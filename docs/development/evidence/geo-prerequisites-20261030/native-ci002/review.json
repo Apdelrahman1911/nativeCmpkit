@@ -1,0 +1,260 @@
+{
+  "accepted_executions": 3,
+  "accepted_unrelated_native_methods_not_replayed": true,
+  "fresh_executed": 3,
+  "fresh_requested_executions": 3,
+  "original_issue_criteria_review_and_closure_not_automatically_inferred": true,
+  "packages_releases_deployments_or_Pages_created": false,
+  "platforms": [
+    {
+      "OS_grants_and_native_Task_Looper_results_not_inferred_from_compiler_or_synthetic_guards": true,
+      "accepted_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
+          "status": "passed"
+        }
+      ],
+      "actual_runtime": {
+        "android_emulator": {
+          "abi": "x86_64",
+          "api_level": "35",
+          "boot_completed": "1",
+          "release": "15",
+          "selinux": "Enforcing",
+          "serial": "emulator-5588"
+        },
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "compiler_runtime_fingerprint": "382db2531059f64d268d6fbcf772b587bdcae1a130970190ea9c366d292a57cb",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-10-30T12:31:20.667396+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+        "source_tree_dirty": false
+      },
+      "all1022_preflight_combined_inputs_exact_historical_Git": true,
+      "all945_before_after_inputs_held": true,
+      "android_controller": {
+        "changed_inputs": [],
+        "complete_suite_requested": false,
+        "emulator_shutdown": {
+          "clean_shutdown": true,
+          "exit_code": 0,
+          "finished_at_utc": "2026-10-30T12:32:18.472305+00:00",
+          "forced_owned_group": false,
+          "graceful_kill_requested": true,
+          "requested_at_utc": "2026-10-30T12:32:16.794006+00:00"
+        },
+        "explicit_module_subset": [
+          "calf-geo"
+        ],
+        "explicit_test_focus": "geo-android-real-prerequisites",
+        "finished_at_utc": "2026-10-30T12:32:18.668408+00:00",
+        "geo_probe": {
+          "actual_native_permission_reads_still_required": true,
+          "assembly": {
+            "elapsed_seconds": 180.07,
+            "exit_code": 0
+          },
+          "assembly_command": [
+            "./gradlew",
+            "--no-daemon",
+            "--no-configuration-cache",
+            "--max-workers=2",
+            "--console=plain",
+            "--no-parallel",
+            "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+            "-Pkotlin.compiler.execution.strategy=in-process",
+            "-p",
+            "tests/consumer/android-geo-probe",
+            "assembleDebug"
+          ],
+          "automatic_runtime_permission_grant": false,
+          "initial_actual_foreground_permissions": {
+            "android.permission.ACCESS_COARSE_LOCATION": false,
+            "android.permission.ACCESS_FINE_LOCATION": false
+          },
+          "initial_denial_verified_by_permission_service": true,
+          "install_exit_code": 0,
+          "installed_readback": {
+            "apk_sha256": "654d609138288a3527258c26a5f55bd25f252db6a711edd9456647832ab29df1",
+            "exact_one_APK_path_observed": true,
+            "raw_path_uploaded": false
+          },
+          "owned_identity_reverified": true,
+          "owned_probe_removed": true,
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.geoprobe",
+          "packages_published": false,
+          "permission_observation": {
+            "actual_permission_manager_constants": true,
+            "mechanism": "dumpsys package check-permission",
+            "user": 0
+          },
+          "probe_installed": true,
+          "raw_package_dump_paths_or_console_uploaded": false,
+          "release_readiness_certified": false,
+          "schema_version": 1,
+          "scope": "Disposable separate-UID public-source Android library consumer only. Default-debug APK stays private; no packaged Maven consumer, ABI, minimum-platform or release certification.",
+          "source_apk_bytes": 10798306,
+          "source_apk_sha256": "654d609138288a3527258c26a5f55bd25f252db6a711edd9456647832ab29df1",
+          "source_fixture": "tests/consumer/android-geo-probe",
+          "stop_exit_code": 0,
+          "uninstall_exit_code": 0
+        },
+        "packages_published": false,
+        "passed": true,
+        "release_readiness_certified": false,
+        "setup_stages": {
+          "apk-assembly": {
+            "elapsed_seconds": 326.09,
+            "exit_code": 0
+          },
+          "owned-avd-create": {
+            "elapsed_seconds": 2.0,
+            "exit_code": 0
+          }
+        },
+        "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+        "source_revision_after": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+        "source_tree_dirty": false,
+        "source_unchanged": true,
+        "started_at_utc": "2026-10-30T12:22:12.889320+00:00",
+        "test_bearing_modules_not_requested": [
+          "calf-file-picker",
+          "calf-io",
+          "calf-navigation",
+          "calf-ui",
+          "calf-webview"
+        ],
+        "test_suite_passed": true,
+        "test_totals": {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      },
+      "android_sdk_assets": {
+        "abi": "x86_64",
+        "api_level": "35",
+        "emulator_revision": "37.2.13",
+        "image_revision": "9",
+        "system_image": "system-images;android-35;google_apis;x86_64",
+        "tag_id": "google_apis"
+      },
+      "artifact_digest": "sha256:d327f2ed4946baf9ca46494513021bde042655437d73bf4ec221f4c90b28dcbf",
+      "artifact_id": 12976019527,
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        "--no-parallel",
+        "--stacktrace",
+        "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+        "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true",
+        "-Pandroid.testInstrumentationRunnerArguments.annotation=com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+        ":calf-geo:connectedAndroidDeviceTest"
+      ],
+      "errors": [],
+      "exact_fresh_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+          "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
+          "status": "passed"
+        }
+      ],
+      "execution": {
+        "elapsed_seconds": 54.02,
+        "exit_code": 0
+      },
+      "fresh_XML_reports": 1,
+      "fresh_executed": 3,
+      "job_conclusion": "success",
+      "job_id": 124059021382,
+      "library_invocation_receipt_present": true,
+      "official_scalar_permission_service_and_actual_native_permission_reads_required": true,
+      "owned_emulator_verified_clean_shutdown": true,
+      "passed": true,
+      "reviewed_at_utc": "2026-10-30T12:35:02.912967+00:00",
+      "run_id": 41054442019,
+      "slot": "android-device-api35",
+      "source_probe_install_byte_readback_and_owned_cleanup_verified": true,
+      "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+      "suite": "android-device",
+      "three_actual_separate_UID_native_permission_revocation_GMS_and_settings_methods": true,
+      "totals": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      }
+    }
+  ],
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T12:35:02.946798+00:00",
+  "run_attempt": 1,
+  "run_id": 41054442019,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41054442019",
+  "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "workflow_conclusion": "success",
+  "workflow_sha256": "245bf7299d3b4b40748f620fb2e5ce5065b0164f8720dc04fbb65119f3a0f4b6"
+}

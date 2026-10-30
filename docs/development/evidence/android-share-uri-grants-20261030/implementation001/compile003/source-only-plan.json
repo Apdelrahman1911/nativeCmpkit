@@ -1,0 +1,59 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-share/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+          "name": "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData"
+        }
+      ],
+      "task": ":calf-share:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.share.AndroidShareGrantTest",
+      "test_source_files": [
+        "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt",
+        "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/GrantlessShareProvider.kt",
+        "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/OwnedShareRecipient.kt",
+        "calf-share/src/commonTest/kotlin/com/mohamedrejeb/calf/share/ShareContractsTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-share/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "explicit_test_focus": "android-share-uri-grants",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Three actual library Android URI intent/provider methods with a signature-protected separate-UID recipient. Android owns grants, revocation and descriptor reads; only chooser recipient selection is redirected. Not chooser UX, DocumentsUI/cloud/photo-picker/vendor, physical/minimum-platform, heap, packaged consumer, ABI or release/security certification.",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

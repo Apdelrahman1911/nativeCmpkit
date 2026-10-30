@@ -4367,7 +4367,11 @@
       "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
       "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareOutcome.kt",
       "docs/development/NATIVE.md",
-      "sample/android/src/main/res/xml/filepaths.xml"
+      "sample/android/src/main/res/xml/filepaths.xml",
+      "calf-share/src/androidDeviceTest",
+      "tests/consumer/android-share-documents",
+      "tests/consumer/android-share-recipient",
+      "scripts/ci/android_share_recipient.py"
     ],
     "tests": [
       {
@@ -4419,13 +4423,25 @@
           "docs/development/evidence/native/second-jvm-fixture-corrections.json"
         ],
         "scope": "Actual JavaFX Engine/Scene on Linux/Xvfb; Android host/Robolectric with simulated external camera, history/evaluator and recipient boundaries; desktop clipboard transport controlled. Linux JNI really loads and exercises its ABI/unsupported host,not AppKit. Common assertions are repeated target executions,not independent contracts. iOS tasks are KLIB compilation only,zero Apple linking/test execution. No Android Chromium history,JS/Wasm browser,Apple/native presentation,memory-profile,OS-recipient or artifact/ABI release certification."
+      },
+      {
+        "command": "Serial local actual APK assembly of :calf-share:assembleAndroidDeviceTest and two standalone AGP source fixtures; exact commands in evidence/compile003/review.json",
+        "result": "Reporter APK PASS0/34.01s, actual third-UID DocumentsProvider source app PASS0/32.01s, native recipient app PASS0/21.01s. All967 library/1044 combined local inputs held. Actual three APKs verify with one matching private debug certificate, min23/target37; exact signature-protected components/provider permissions/narrow FileProvider inspected.217 distinct important synthetic methods pass cumulatively; preserve inventory91 overall failure/90 passes plus exact owning recovery and earlier Kotlin/PATH/private reader failures. ZERO new native/host library executions. One exact immutable three-method native request still required, not a closure/release pass.",
+        "evidence": [
+          "docs/development/evidence/android-share-uri-grants-20261030/implementation001/summary.json",
+          "docs/development/evidence/android-share-uri-grants-20261030/implementation001/compile003/review.json",
+          "docs/development/evidence/android-share-uri-grants-20261030/implementation001/apk-review001/review.json",
+          "docs/development/evidence/android-share-uri-grants-20261030/implementation001/post-compile-applicability.json"
+        ],
+        "scope": "Actual native APK compiler/manifest/signature evidence only. Tests prepared for three distinct runtime UIDs, real incoming/outgoing read-grant transfer, delayed reads/revocation/write denial and closed descriptors. Chooser selection only is redirected; no actual chooser/DocumentsUI/vendor/photo-picker/physical/minimum/API-ABI/packaged/security/release inference."
       }
     ],
     "remaining": [
       "Separate recipient process/SAF grant revocation/delayed reads/mixed MIME still need real-device evidence.",
       "Original required test pending full target verification: Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
       "Original required test pending full target verification: SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
-      "Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions."
+      "Original required test pending full target verification: Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions.",
+      "2026-10-30: run the three still-unexecuted AndroidShareGrantTest methods on an immutable API35 owned fixture, inspect exact native/XML/runtime/source/three-APK ownership cleanup and all three original criteria, then close immediately only after verified acceptance. #81/macOS stage and #88/UIKit/public dispatch tests remain separate."
     ],
     "compatibility": "Provider conversion applies on API23 too; local files outside configured narrow roots are explicit failures, not silently granted broad cache access.",
     "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",

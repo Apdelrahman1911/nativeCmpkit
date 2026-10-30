@@ -1,0 +1,124 @@
+{
+  "api_level": 35,
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true",
+    "-Pandroid.testInstrumentationRunnerArguments.annotation=com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+    ":calf-geo:assembleAndroidDeviceTest"
+  ],
+  "avd_name": "nativecmpkit-api35-8a748a302769",
+  "create_avd_command": [
+    "/usr/local/lib/android/sdk/cmdline-tools/23.0/bin/avdmanager",
+    "create",
+    "avd",
+    "--name",
+    "nativecmpkit-api35-8a748a302769",
+    "--package",
+    "system-images;android-35;google_apis;x86_64",
+    "--device",
+    "pixel_6",
+    "--force"
+  ],
+  "launch_command": [
+    "/usr/local/lib/android/sdk/emulator/emulator",
+    "-avd",
+    "nativecmpkit-api35-8a748a302769",
+    "-port",
+    "5588",
+    "-no-window",
+    "-no-snapshot",
+    "-no-audio",
+    "-no-boot-anim",
+    "-gpu",
+    "swiftshader_indirect",
+    "-accel",
+    "on",
+    "-memory",
+    "2048",
+    "-cores",
+    "2",
+    "-camera-back",
+    "none",
+    "-camera-front",
+    "none"
+  ],
+  "reserve_mib": 8192,
+  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification",
+  "serial": "emulator-5588",
+  "source_revision": "a6c16e097c59f6c33500814c08780c4bcb2a3f0e",
+  "source_suite": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-geo/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-geo",
+        "project": ":calf-geo",
+        "report_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+            "name": "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+            "name": "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest",
+            "name": "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover"
+          }
+        ],
+        "task": ":calf-geo:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification",
+        "test_source_files": [
+          "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt",
+          "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt",
+          "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/OwnedGeoProbe.kt",
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LatLngTest.kt",
+          "calf-geo/src/commonTest/kotlin/com/mohamedrejeb/calf/geo/LocationTrackingControllerTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-geo/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-geo"
+    ],
+    "explicit_test_focus": "geo-android-real-prerequisites",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Actual Android separate-UID source-consumer denied/coarse/fine/revoked permission, disabled Play Services/system-location prerequisites and real default registration; no replay of the two accepted injected Task/Looper/cancellation methods. No GPS/fix accuracy, physical/minimum/power/heap, packaged Maven consumer/ABI/security/release certification.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-io",
+      "calf-navigation",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

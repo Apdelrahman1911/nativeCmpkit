@@ -1437,7 +1437,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 "package com.mohamedrejeb.calf.camerapicker" not in source or
                 ANDROID_CAMERA_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
-            raise ValueError("Android camera declarations changed; review the exact three-method selection")
+            raise ValueError("Android camera declarations changed; review the exact four-method selection")
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ANDROID_CAMERA_PROVIDER_CLASS
         selected[0]["required_testcases"] = android_camera_provider_identities()

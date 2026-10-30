@@ -42,6 +42,29 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertFalse(any("OwnedShare" in x or "OwnedGeo" in x for x in c))
         self.assertEqual(":calf-camera-picker:connectedAndroidDeviceTest", c[-1])
 
+    def test_minimum_only_recovery_selects_api23_and_never_replays_accepted_api35(self):
+        row, = w.matrix("android-camera-provider-minimum")["include"]
+        self.assertEqual(("android-device-api23-camera", "android-device", "23", "calf-camera-picker", l.ANDROID_CAMERA_PROVIDER_FOCUS),
+                         tuple(row[k] for k in ("slot", "suite", "emulator-api", "test-modules", "test-focus")))
+        self.assertNotIn("serial-emulator-api", row)
+        receipt = w.preflight_plans("android-camera-provider-minimum")
+        item, = receipt["slots"]
+        self.assertEqual("23", item["command"][item["command"].index("--api-level")+1])
+        self.assertEqual(0, item["exit_code"])
+        self.assertEqual(11, len(w.matrix("all")["include"]))
+
+    def test_preflight_origin_reports_only_exact_public_source_symbol_and_line(self):
+        try:
+            device.validate_api_selection(24, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS)
+        except ValueError as error:
+            error.args = ("PRIVATE_ERROR_TEXT_NOT_FOR_RECEIPT",)
+            origin = device.preflight_error_origin(error)
+        self.assertEqual("android_device_tests.py", origin["source"])
+        self.assertEqual("validate_api_selection", origin["symbol"])
+        self.assertGreater(origin["line"], 0)
+        self.assertNotIn("PRIVATE_ERROR", json.dumps(origin))
+        self.assertNotIn(str(l.ROOT), json.dumps(origin))
+
     def test_api23_never_escapes_exact_camera_focus_and_default_api35_stays_available(self):
         device.validate_api_selection(35, None, None)
         device.validate_api_selection(23, ("calf-camera-picker",), l.ANDROID_CAMERA_PROVIDER_FOCUS)

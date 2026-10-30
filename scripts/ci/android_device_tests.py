@@ -36,6 +36,22 @@ RESERVE_MIB = 8192
 IMAGE = f"system-images;android-{API};google_apis;x86_64"
 
 
+def preflight_error_origin(error: Exception) -> dict:
+    """Public source location only; never exception text, locals or machine paths."""
+    allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py"}
+    directory = Path(__file__).resolve().parent
+    origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
+    frame = error.__traceback__
+    while frame is not None:
+        filename = Path(frame.tb_frame.f_code.co_filename)
+        symbol = frame.tb_frame.f_code.co_name
+        if (filename.name in allowed and filename.resolve().parent == directory and
+                re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", symbol) and 0 < frame.tb_lineno < 20000):
+            origin = {"source": filename.name, "symbol": symbol, "line": frame.tb_lineno}
+        frame = frame.tb_next
+    return origin
+
+
 def properties(path: Path) -> dict[str, str]:
     if not path.is_file() or path.is_symlink() or path.stat().st_size > 65536:
         raise ValueError("Expected bounded regular installed-SDK properties")
@@ -417,4 +433,5 @@ if __name__ == "__main__":
         sys.exit(main())
     except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         print(f"Android instrumentation preflight refused: {type(error).__name__}", file=sys.stderr)
+        print("NATIVECMPKIT_ANDROID_PREFLIGHT_ORIGIN " + json.dumps(preflight_error_origin(error), sort_keys=True), file=sys.stderr)
         sys.exit(2)

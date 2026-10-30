@@ -6,6 +6,16 @@ NATIVE-024. **No closure or native pass is inferred from this preparation.**
 
 ## Actual request and owning recovery
 
+[41073167954](evidence/android-camera-provider-20261030/native-ci002/README.md)
+at `a2ecd026` verifies **all4 actual API35 methods**, Gradle0/54.02s,984/1061
+immutable inputs, native grants/writes/descriptors, zero implicit handlers and
+exact system-camera state restoration, fresh XML and owned app/emulator/transport
+cleanup. The overall workflow remains failed: API23 again refuses before its first
+output/any native execution; the exact early cause is unknown. Minimum-only
+recovery requests only the still-unverified API23 four-method contract, reusing
+accepted API35 rather than repeating it. #78 stays open until original criteria
+are met; no compile-only/native-UI/photo/process/release inference.
+
 [41069819642](evidence/android-camera-provider-20261030/native-ci001/README.md)
 at `d95a0502` **failed**: API35 3 fresh native methods/2pass/1failed, Gradle1/40.02s;
 API23 preflightValueError/zero executions/cause unknown. Actual AVD report names

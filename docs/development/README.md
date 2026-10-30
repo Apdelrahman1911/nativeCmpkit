@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## API35 camera contracts accepted; only minimum API remains
+
+[41073167954](evidence/android-camera-provider-20261030/native-ci002/README.md)
+remains failed overall, but API35 **4/4 actual native methods/Gradle0/54.02s**,
+984+1061 inputs/Enforcing runtime/foreign UID/signatures/system grants/closed
+descriptors/zero implicit handlers/exact system-camera state restoration/fresh
+XML/owned app+emulator+transport cleanup independently pass. API23 again refuses
+before output/any native method, cause unknown. Minimum-only recovery requests
+only its four cases, never accepted API35; bounded public-source origin diagnostics
+preserve privacy and failure.17+49 important synthetic methods pass with owning
+NameError/recovery retained; overlapping counts, not new library tests. #78 stays
+open;89closed/83open. All publishing/security/readiness and solo/capacity gates stay.
+
 ## Camera actual failures / focused recovery — 2026-10-30
 
 [Actual41069819642](evidence/android-camera-provider-20261030/native-ci001/README.md)

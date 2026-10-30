@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## API35 camera accepted / minimum-only early-refusal recovery — 2026-10-30
+
+[41073167954](docs/development/evidence/android-camera-provider-20261030/native-ci002/README.md)
+ata2ecd026 remains FAILED overall: API35 **4/4 actual native methods/one XML,
+Gradle0/54.02s** and controller/984+1061 inputs/Enforcing/grants/foreign UID/
+signatures/descriptor bytes/zero implicit handlers/exact system-camera state
+restoration/fresh archive/owned app+emulator+ADB removal independently verified.
+API23 again ValueError/exit2 before any output/native; early guard cause unknown.
+Do not invent KVM/SDK/transport/source cause or replay accepted API35.
+Finite `android-camera-provider-minimum` uses fresh API23 AVD and only same four
+still-unverified methods; public-source filename/symbol/line diagnostics contain
+no error bodies, locals or machine paths. All11 full slots/eight Android modules
+remain. Local17 camera/origin methods (one owning NameError preserved/repaired)
+and49 workflow guards pass, overlaps not additive coverage. #78/#13/#80/#141 stay
+open;89closed/83open; all solo/capacity/publishing/Pages/main/history/native/
+consumer/ABI/security/readiness gates unchanged.
+
 ## Actual camera failures / finite owning recovery — 2026-10-30
 
 [41069819642](docs/development/evidence/android-camera-provider-20261030/native-ci001/README.md)

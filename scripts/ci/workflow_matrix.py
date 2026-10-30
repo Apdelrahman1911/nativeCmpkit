@@ -31,6 +31,7 @@ PROFILES = {
     "android-geo-prerequisites": ("android-device-api35",),
     "android-share-grants": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
+    "android-camera-provider-minimum": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -153,6 +154,7 @@ MODULE_SUBSETS = {
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
     "android-camera-provider": "calf-camera-picker",
+    "android-camera-provider-minimum": "calf-camera-picker",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -305,6 +307,9 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = "android-camera-provider-contracts"
             row["serial-emulator-api"] = "23"
+    if profile == "android-camera-provider-minimum":
+        for row in rows:
+            row.update(slot="android-device-api23-camera", **{"emulator-api": "23", "test-focus": "android-camera-provider-contracts"})
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"

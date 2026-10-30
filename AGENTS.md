@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Native WebKit failures retained; owning recovery prepared — 2026-10-30
+
+[Actual40993609497](docs/development/evidence/webview-lifecycle-batch-important-20261030/native-ci002/README.md)
+FAILED: ten native cases/four host passes/six document-readiness failures, with
+complete native lifecycle/all895 exact historical inputs. No subsequent WebKit
+assertions or exact timeout cause are inferred. [Owning pointer-identity repair](docs/development/evidence/webview-lifecycle-batch-important-20261030/identity-repair001/README.md)
+keeps null/foreign rejection and every original predicate/10s bound; controlled
+bridge regression is not a page-load substitute.146/146 important synthetic
+methods/all975 held/actionlint pass; zero local native recovery executions.
+Recover only six failed plus one new case; four accepted host methods not replayed.
+[Fresh upstream sync](docs/development/upstream-sync-20261030T030327Z/lead-independent-review.json)
+verifies16/16 open issues/all172 archived files; zero required duplicate mutations.
+78closed/94open; single-agent/max2/8GiB and publication/Pages/main/history and
+independent release/security gates remain. Darwin memory review stays separate.
+
 ## Independent Darwin memory attempt; strict mode stays failed — 2026-10-30
 
 [ADR0011](docs/decisions/0011-independent-apple-memory-diagnostics.md) adds a

@@ -685,6 +685,8 @@ IOS_WEBVIEW_LIFECYCLE_METHODS = (
     "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation",
     "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly",
 )
+IOS_WEBVIEW_BRIDGE_METHOD = "nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews"
+IOS_WEBVIEW_LIFECYCLE_DECLARATIONS = (IOS_WEBVIEW_BRIDGE_METHOD, *IOS_WEBVIEW_LIFECYCLE_METHODS)
 IOS_WEBVIEW_APPLICATION_SOURCES = (
     "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
     "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
@@ -699,12 +701,23 @@ IOS_WEBVIEW_LIFECYCLE_GROUPS = (
                  "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
                  "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
     {"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
-     "methods": IOS_WEBVIEW_LIFECYCLE_METHODS},
+     "methods": IOS_WEBVIEW_LIFECYCLE_METHODS, "declared_methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},
 )
 UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_LIFECYCLE_FOCUS] = {
     "module": "calf-webview", "groups": IOS_WEBVIEW_LIFECYCLE_GROUPS,
     "scope": "Ten actual library UIKit-host/WebKit creation, replacement, Unicode HTML, JavaScript and configuration cases. Native configuration flags are not physical swipes/video playback; no network/authentication, full host/device/minimum/ABI/consumer/security/release certification. Accepted UIImage, picker, Android history and desktop/browser methods are not replayed.",
 }
+IOS_WEBVIEW_RECOVERY_FOCUS = "webview-ios-native-lifecycle-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS] = {
+    "module": "calf-webview",
+    "groups": ({"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+                "methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},),
+    "scope": "Six failed real WebKit lifecycle/document/value/configuration methods and one new controlled native bridge ownership method only. The four accepted unchanged application-host methods are reused, not replayed. All actual Worker/runtime/binary/install/owned cleanup and real document predicates remain required. No assertion/timeout relaxation, physical swipes/video/network/authentication/minimum/ABI/consumer/security/release certification.",
+}
+IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
+    IOS_WEBVIEW_LIFECYCLE_GROUPS[0],
+    UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
+)
 
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
@@ -2155,7 +2168,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
         full_groups = ({"calf-file-picker": IOS_PICKER_BOUNDARY_GROUPS,
-                        "calf-webview": IOS_WEBVIEW_LIFECYCLE_GROUPS}.get(expected["module"], ()))
+                        "calf-webview": IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS}.get(expected["module"], ()))
         required = ({(group["classname"], name)
                      for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
                      for name in group["methods"]} if focused_ui else

@@ -169,10 +169,15 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
         f = self.fixture()
         f.plan = lt.plan(f.root, "ios", only_modules=("calf-webview",))
         f.document["explicit_test_focus"] = None
+        f.document["application_protocol"]["testcases"].append({
+            "classname": lt.IOS_WEBVIEW_LIFECYCLE_CLASS, "name": lt.IOS_WEBVIEW_BRIDGE_METHOD, "status": "passed",
+        })
+        f.document["application_protocol"]["counts"] = lt.case_counts(f.document["application_protocol"]["testcases"])
+        f.modules[0]["testcases"] = f.xml_cases(f.document["application_protocol"]["testcases"])
         f.save()
         result = f.collect()
         self.assertEqual([], result["errors"])
-        self.assertEqual(10, result["ios_applications"][0]["required_native_cases_found"])
+        self.assertEqual(11, result["ios_applications"][0]["required_native_cases_found"])
         f.document["application_protocol"]["testcases"] = f.document["application_protocol"]["testcases"][1:]
         f.document["application_protocol"]["counts"] = lt.case_counts(f.document["application_protocol"]["testcases"])
         f.modules[0]["testcases"] = f.xml_cases(f.document["application_protocol"]["testcases"])
@@ -202,13 +207,13 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
 
     def test_native_tests_use_actual_webkit_and_do_not_claim_video_swipe_or_network_execution(self):
         source = (lt.ROOT / lt.IOS_WEBVIEW_LIFECYCLE_SOURCE).read_text()
-        self.assertEqual(6, source.count("@Test"))
+        self.assertEqual(7, source.count("@Test"))  # Six real documents plus one explicit bridge boundary.
         for required in ("evaluateJavascriptResult", "assertTrue(NSThread.isMainThread)", "assertFalse(NSThread.isMainThread",
                          "view.configuration", "navigationDelegate", "assertNull(firstView.superview)",
                          "waitForNative", "allowsBackForwardNavigationGestures", "encoding = \"utf-16\"",
                          "stateAndNavigatorUnicodeHtml", "physical-device", "No video playback"):
             self.assertIn(required, source)
-        self.assertNotIn("override fun webView", source)  # Never inject delegate completions as engine results.
+        self.assertNotIn("override fun webView", source)  # Direct bridge checks never substitute for document readiness.
         self.assertNotIn("Mock", source)
         self.assertNotIn("override fun evaluateJavaScript", source)
 

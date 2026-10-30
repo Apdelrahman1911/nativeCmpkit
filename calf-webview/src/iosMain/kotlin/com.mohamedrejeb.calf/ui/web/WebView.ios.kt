@@ -73,7 +73,7 @@ actual fun WebView(
             LaunchedEffect(view, navigator) { navigator.handleNavigationEvents(view, state) }
             LaunchedEffect(view, state) {
                 snapshotFlow { state.content }.collect { content ->
-                    if (state.webView === view) loadIosContent(view, state, content)
+                    if (hasSameNativeWebView(state.webView, view)) loadIosContent(view, state, content)
                 }
             }
         }
@@ -122,14 +122,14 @@ actual fun WebView(
 }
 
 private fun releaseIosWebView(state: WebViewState, view: WKWebView, onDispose: () -> Unit) {
-    val observer = state.nativeObserver?.takeIf { state.webView === view }
+    val observer = state.nativeObserver?.takeIf { hasSameNativeWebView(state.webView, view) }
     runWebViewCleanup(null,
         onDispose,
         { observer?.stopObserving(view) },
         { view.navigationDelegate = null },
         { view.stopLoading() },
         {
-            if (state.webView === view) {
+            if (hasSameNativeWebView(state.webView, view)) {
                 state.nativeObserver = null
                 state.webView = null
                 state.navigator = null
@@ -226,7 +226,7 @@ actual class WebViewState actual constructor(
     private fun applySetting() {
         val view = webView ?: return
         runOnIosMain {
-            if (webView !== view) return@runOnIosMain
+            if (!hasSameNativeWebView(webView, view)) return@runOnIosMain
             view.applySettings(settings, captureBackPresses)
             if (initialAllowsInlineMediaPlayback != settings.iosSettings.allowsInlineMediaPlayback) {
                 val error = WebViewError(-2, "allowsInlineMediaPlayback is creation-only; remount with a new state")
@@ -238,7 +238,7 @@ actual class WebViewState actual constructor(
     actual fun evaluateJavascript(script: String, callback: ((String?) -> Unit)?) {
         val view = webView
         runOnIosMain {
-            if (view == null || webView !== view) callback?.invoke(null)
+            if (view == null || !hasSameNativeWebView(webView, view)) callback?.invoke(null)
             else view.evaluateJavaScript(script) { result, error ->
                 callback?.invoke(if (error == null) result?.toString() else null)
             }
@@ -260,7 +260,7 @@ actual class WebViewState actual constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
-        if (this.webView !== webView) return
+        if (!hasSameNativeWebView(this.webView, webView)) return
         lastLoadedUrl = webView.URL?.absoluteString
         loadingState = LoadingState.Finished
         pageTitle = webView.title
@@ -271,14 +271,14 @@ actual class WebViewState actual constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
-        if (this.webView !== webView) return
+        if (!hasSameNativeWebView(this.webView, webView)) return
         beginRequest(webView.URL?.absoluteString ?: requestedUrl)
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {
-        if (this.webView !== webView) return
+        if (!hasSameNativeWebView(this.webView, webView)) return
         loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
         lastLoadedUrl = webView.URL?.absoluteString
         pageTitle = webView.title
@@ -289,7 +289,7 @@ actual class WebViewState actual constructor(
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {
-        if (this.webView !== webView) return
+        if (!hasSameNativeWebView(this.webView, webView)) return
         loadingState = LoadingState.Finished
         errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
             code = withError.code.toInt(),
@@ -304,7 +304,7 @@ actual class WebViewState actual constructor(
         didFailProvisionalNavigation: WKNavigation?,
         withError: NSError
     ) {
-        if (this.webView !== webView) return
+        if (!hasSameNativeWebView(this.webView, webView)) return
         loadingState = LoadingState.Finished
         errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
             code = withError.code.toInt(),
@@ -324,12 +324,12 @@ private fun WKWebView.applySettings(webSettings: WebSettings, captureBackPresses
 internal suspend fun WebViewNavigator.handleNavigationEvents(webView: WKWebView, state: WebViewState): Nothing =
     withContext(Dispatchers.Main) {
         consumeNavigationEvents(onAttached = {
-            if (state.webView === webView) {
+            if (hasSameNativeWebView(state.webView, webView)) {
                 canGoBack = webView.canGoBack
                 canGoForward = webView.canGoForward
             }
         }) { event ->
-            if (state.webView === webView) {
+            if (hasSameNativeWebView(state.webView, webView)) {
                 val content = event.contentOrNull()
                 if (content != null) loadIosContent(webView, state, content) else when (event) {
                     WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()
@@ -346,7 +346,7 @@ actual fun WebViewState.evaluateJavascriptResult(script: String, callback: (Java
     val view = webView
     runOnIosMain {
         when {
-            view == null || webView !== view -> callback(JavascriptResult.Unavailable("WebView is not attached"))
+            view == null || !hasSameNativeWebView(webView, view) -> callback(JavascriptResult.Unavailable("WebView is not attached"))
             !settings.javaScriptEnabled -> callback(JavascriptResult.Unavailable("JavaScript is disabled"))
             else -> view.evaluateJavaScript(javascriptResultScript(script)) { value, error ->
                 val result = if (error != null) JavascriptResult.Error(error.localizedDescription)
@@ -404,7 +404,7 @@ internal class WKWebViewObserver(
         context: COpaquePointer?,
     ) {
         val webView = ofObject as? WKWebView ?: return
-        if (state.webView !== webView) return
+        if (!hasSameNativeWebView(state.webView, webView)) return
 
         when (keyPath) {
             "estimatedProgress" -> {

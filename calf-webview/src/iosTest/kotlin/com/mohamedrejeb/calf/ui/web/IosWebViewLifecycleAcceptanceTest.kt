@@ -19,11 +19,51 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import platform.Foundation.NSThread
+import platform.CoreGraphics.CGRectMake
 import platform.WebKit.WKWebView
+import platform.WebKit.WKWebViewConfiguration
 import kotlin.test.*
 
 /** Real library-owned WKWebViews, WebKit JavaScript and Compose removal, not mocked delegates. */
 class IosWebViewLifecycleAcceptanceTest {
+    @Test fun nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews() = withScope { scope ->
+        val state = WebViewState(WebContent.NavigatorOnly)
+        val navigator = WebViewNavigator(scope)
+        runApplicationUiTest {
+            setContent { WebView(state, Modifier.fillMaxSize(), navigator = navigator) }
+            waitForIdle()
+            waitForNative { sameNativeObject(state.webView?.window, requireOwnedApplicationWindow()) }
+            runOnIdle {
+                val current = assertNotNull(state.webView)
+                val parent = assertNotNull(current.superview)
+                // Retrieve the actual native child through an Objective-C collection, rather
+                // than assuming that the original Kotlin factory wrapper is reused by KVO.
+                val bridged = parent.subviews.filterIsInstance<WKWebView>().single { sameNativeObject(it, current) }
+                assertTrue(hasSameNativeWebView(current, bridged))
+                assertFalse(hasSameNativeWebView(null, null))
+                assertFalse(hasSameNativeWebView(current, null))
+                val foreign = WKWebView(frame = CGRectMake(0.0, 0.0, 1.0, 1.0), configuration = WKWebViewConfiguration())
+                try {
+                    assertFalse(hasSameNativeWebView(current, foreign))
+                    val observer = assertNotNull(state.nativeObserver)
+                    state.loadingState = LoadingState.Loading(.5f)
+                    observer.observeValueForKeyPath("loading", foreign, null, null)
+                    state.webView(foreign, didFinishNavigation = null)
+                    assertEquals(LoadingState.Loading(.5f), state.loadingState, "A foreign native callback cannot update this owner")
+                    observer.observeValueForKeyPath("loading", bridged, null, null)
+                    assertEquals(LoadingState.Finished, state.loadingState)
+                    state.loadingState = LoadingState.Loading(.5f)
+                    state.webView(bridged, didFinishNavigation = null)
+                    assertEquals(LoadingState.Finished, state.loadingState)
+                    assertTrue(sameNativeObject(current, state.webView))
+                } finally { foreign.stopLoading(); foreign.navigationDelegate = null }
+            }
+        }
+        onApplicationMain { assertNull(state.webView); assertNull(state.nativeObserver); assertNull(state.navigator) }
+        // Direct callback inputs above are explicit bridge/ownership checks, not a successful
+        // page load. The other six methods still require real WebKit document readiness.
+    }
+
     @Test fun creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView() = withScope { scope ->
         val state = newState("first")
         val navigator = WebViewNavigator(scope)
@@ -259,11 +299,27 @@ class IosWebViewLifecycleAcceptanceTest {
 
     private fun NativeApplicationUiTest.awaitDocument(state: WebViewState, title: String) {
         waitForIdle()
-        waitForNative {
-            val view = state.webView
-            view != null && view.title == title && state.pageTitle == title &&
-                !view.loading && state.loadingState == LoadingState.Finished &&
-                sameNativeObject(view.window, requireOwnedApplicationWindow())
+        try {
+            waitForNative {
+                val view = state.webView
+                view != null && view.title == title && state.pageTitle == title &&
+                    !view.loading && state.loadingState == LoadingState.Finished &&
+                    sameNativeObject(view.window, requireOwnedApplicationWindow())
+            }
+        } catch (failure: IllegalStateException) {
+            val observed = onApplicationMain {
+                val view = state.webView
+                // Test-controlled titles and bounded native facts only: no addresses,
+                // private app paths, cookies, arbitrary NSError text or console transcript.
+                "expected=${title.take(128)}, nativeTitle=${view?.title?.take(128)}, " +
+                    "stateTitle=${state.pageTitle?.take(128)}, nativeLoading=${view?.loading}, " +
+                    "stateLoading=${state.loadingState}, progress=${view?.estimatedProgress}, " +
+                    "nativePresent=${view != null}, parentPresent=${view?.superview != null}, " +
+                    "ownedWindow=${sameNativeObject(view?.window, requireOwnedApplicationWindow())}, " +
+                    "ownDelegate=${sameNativeObject(view?.navigationDelegate as? WebViewState, state)}, " +
+                    "observerPresent=${state.nativeObserver != null}, errors=${state.errorsForCurrentRequest.take(8).map { it.code }}"
+            }
+            throw IllegalStateException("Real WebKit readiness failed: $observed", failure)
         }
     }
 

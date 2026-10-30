@@ -1,0 +1,362 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-webview:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest.generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest.nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest.repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest.failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1437.23,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-ios-native-lifecycle",
+  "finished_at_utc": "2026-10-30T03:15:38.280143+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "abe5d3c2c4b2958af8e737b7dece8b0643e7bf042487b13a981395ba219112c3",
+  "inputs_before_sha256": "abe5d3c2c4b2958af8e737b7dece8b0643e7bf042487b13a981395ba219112c3",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "df6f00226b1e701914611eaedbf1404c9b70162396aad92ef14cd694cae7b253",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r16c9a53026cb.t34814e13e50a46cab886a5dcbcfef965",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 10,
+        "failures": 6,
+        "not_applicable": 0,
+        "passed": 4,
+        "skipped": 0,
+        "tests": 10,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-webview",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-webview-application/34814e13e50a46cab886a5dcbcfef965/receipt.json",
+      "receipt_sha256": "6814b5bf86dfaff43aa1f4ea8a74453cd663f1d281139ca9901d83244f3a81c2",
+      "required_native_cases_found": 10,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-webview:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 10,
+      "failures": 6,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "disposition": "required-executed",
+          "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applicati-E6GH6503BR8L4.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest.xml",
+          "sha256": "5c85706bd43290785ec54629e87e768fe60338cf5ec13446aee6a50df4993626",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 6,
+          "failures": 6,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.xml",
+          "sha256": "b43270d15e3e4cdf2387d589e480482e98255ab43fae48156c3e4c5bb32c4eb3",
+          "skipped": 0,
+          "tests": 6,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+          "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 10,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+      "name": "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+      "name": "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+      "name": "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+      "name": "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "9de70b859e5042512b2cfca7ad7fca7339df090bafe5c937ea598164acc80973",
+  "schema_version": 1,
+  "scope": "Ten actual library UIKit-host/WebKit creation, replacement, Unicode HTML, JavaScript and configuration cases. Native configuration flags are not physical swipes/video playback; no network/authentication, full host/device/minimum/ABI/consumer/security/release certification. Accepted UIImage, picker, Android history and desktop/browser methods are not replayed.",
+  "source_revision": "16c9a53026cb087f359a45bcfbbe4d56c1473243",
+  "source_revision_after": "16c9a53026cb087f359a45bcfbbe4d56c1473243",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T02:51:40.476664+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-webview:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 10,
+    "failures": 6,
+    "not_applicable": 0,
+    "passed": 4,
+    "skipped": 0,
+    "tests": 10,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

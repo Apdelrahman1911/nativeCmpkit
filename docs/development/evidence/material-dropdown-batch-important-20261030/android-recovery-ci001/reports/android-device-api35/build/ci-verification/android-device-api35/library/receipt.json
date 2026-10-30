@@ -1,0 +1,142 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest#focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+    ":calf-ui:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 65.03,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-dropdown-android-dismissal-recovery",
+  "finished_at_utc": "2026-10-30T07:34:13.608362+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "7ff4e1edcf87f85debc63580b6dd316ad7c756eb01d56431e96fe6ba86a69d7c",
+  "inputs_before_sha256": "7ff4e1edcf87f85debc63580b6dd316ad7c756eb01d56431e96fe6ba86a69d7c",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-53b6ed29f5fd(AVD) - 15.xml",
+          "sha256": "977f0fa85ba1f8780aab9a82f59b28f022e4cab9b9bf2b79d11b9bee9ffd4a4a",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents"
+    }
+  ],
+  "runtime_receipt_sha256": "cc85dc1b5abb3436c920dc0e64c9f7dff99f95ba91a5b584ed93c1be0830eb59",
+  "schema_version": 1,
+  "scope": "One previously failed Android native keyboard/pointer dismissal method only; fifteen accepted matrix executions are not replayed, not a complete UI/minimum-platform/release pass",
+  "source_revision": "0d0ba755decc9517c53ab566ae4b3b1ee939be8b",
+  "source_revision_after": "0d0ba755decc9517c53ab566ae4b3b1ee939be8b",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T07:33:08.577820+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-ui:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -1593,14 +1593,13 @@
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownItem.kt"
     ],
     "changes": [
-      "Forward all Material dropdown parameters and correct iosItems/iosSections/materialContent documentation."
+      "Forward all Material dropdown parameters and correct iosItems/iosSections/materialContent documentation.",
+      "Original UI-026 criteria verified across actual Android API35/Linux Desktop/Chromium JS/Wasm contracts: 15 unchanged accepted matrix results reused plus one fresh Android native-input recovery; #132 immediately closed/completed with preserved original issue and independent readback."
     ],
     "compatibility": "Material content remains explicitly caller-supplied; previously ignored supported parameters now take effect.",
     "id": "UI-026",
-    "remaining": [
-      "Android/browser dismissal/focusability and visual shape/elevation/border matrix; current regression asserts long-menu scroll ownership."
-    ],
-    "status": "partially-verified",
+    "remaining": [],
+    "status": "verified",
     "tests": [
       {
         "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
@@ -1613,6 +1612,18 @@
           "docs/development/UI-native.md"
         ],
         "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed."
+      },
+      {
+        "command": "Focused actual Material dropdown four-target matrix41015763086; Android-only native-input recovery41019914123, with exact Class#method instrumentation selection.",
+        "result": "Cumulative16 accepted target executions/four distinct methods:15 reused from the still-FAILED four-target matrix at36ec139b; fresh Android1/1 at0d0ba755, Gradle0/65.03s. Actual monotonic-time/keyboard-source input fixture repaired; unchanged caller offset/scroll/focus/dismiss/pixel/negative controls reviewed. Exact918 library/995 combined historical Git inputs, fresh XML/task marker, enforcing emulator and owned graceful teardown inspected. Not a fresh16/16 whole workflow.",
+        "evidence": [
+          "docs/development/evidence/material-dropdown-batch-important-20261030/platform-ci001/README.md",
+          "docs/development/evidence/material-dropdown-batch-important-20261030/android-native-input-repair001/README.md",
+          "docs/development/evidence/material-dropdown-batch-important-20261030/android-recovery-ci001/README.md",
+          "docs/development/evidence/dropdown-contracts-verified-20261030/UI-026-original-criteria-acceptance.json",
+          "docs/development/evidence/dropdown-contracts-verified-20261030/UI-026-closure-readback.json"
+        ],
+        "scope": "All three original requirements reviewed; real Android native Escape/touch and Desktop/Chromium public navigation/scene-pointer events, not physical/minimum-platform/other-OS/browser/native-iOS/accessibility/secure-window/ABI/consumer/dependency/legal/security/release certification."
       }
     ]
   }

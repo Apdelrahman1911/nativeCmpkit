@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Three verified closures; failed-case-only Android recovery — 2026-10-30
+
+**#132/UI-026 CLOSED/completed**, following #62/NATIVE-003 and #89/NATIVE-037.
+[Original criteria/readbacks](docs/development/evidence/dropdown-contracts-verified-20261030/README.md)
+preserve bodies/titles/labels and all failed history. Actual41019914123 at0d0ba755
+passes Android1/1/Gradle0/65.03s; all918/995 inputs/fresh XML/filter/task marker/
+Enforcing runtime/owned graceful shutdown reviewed.15 unchanged accepted results
+from still-FAILED41015763086 reused:16 cumulative executions/four methods, not a
+new16/16 workflow. **83closed/89open/172total**;34implemented/42partial/81verified/
+seven unresolved. #141 remains open: native workload is not an Instruments/leaks
+pass. Related patch/important shared tests/original-criteria review/immediate
+verified-subset closure, documentation afterward; no accepted runtime replay.
+Single-agent/max2heavy/8GiB and all publishing/Pages/main/history/native/minimum/
+ABI/consumer/dependency/provenance/legal/security gates remain unchanged.
+
 ## WebView owner batch closed; one Android popup recovery — 2026-10-30
 
 **#62/NATIVE-003 and #89/NATIVE-037 CLOSED/completed** immediately after the

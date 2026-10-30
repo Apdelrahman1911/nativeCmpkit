@@ -1,0 +1,30 @@
+{
+  "affected_paths": [
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.material.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDownItem.kt"
+  ],
+  "changes": [
+    "Forward all Material dropdown parameters and correct iosItems/iosSections/materialContent documentation."
+  ],
+  "compatibility": "Material content remains explicitly caller-supplied; previously ignored supported parameters now take effect.",
+  "id": "UI-026",
+  "remaining": [
+    "Android/browser dismissal/focusability and visual shape/elevation/border matrix; current regression asserts long-menu scroll ownership."
+  ],
+  "status": "partially-verified",
+  "tests": [
+    {
+      "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
+      "evidence": [
+        "MaterialDropDownForwardingTest",
+        "docs/development/evidence/ui-native/desktop-scoped-20261024.json",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui/reports/calf-ui/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.dropdown.MaterialDropDownForwardingTest.xml",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.log.result.json",
+        "docs/development/evidence/gradle/second-io-perm-and-fourth-ui.inputs.json",
+        "docs/development/UI-native.md"
+      ],
+      "result": "passed (scoped): 1/1 cited desktop cases passed in archived runs2/3/4. Latest UI suite passed128/128; encompassing run4 exited1 for unrelated picker Android-host compilation. Older UI failures remain preserved. No native execution or whole-command pass claimed."
+    }
+  ]
+}

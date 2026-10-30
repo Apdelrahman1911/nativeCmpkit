@@ -1,0 +1,106 @@
+{
+  "accepted_executions_not_replayed": 15,
+  "accepted_unrelated_methods_replayed": false,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest#focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+      ":calf-ui:connectedAndroidDeviceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 1,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "material-dropdown-android-dismissal-recovery",
+      "test-modules": "calf-ui"
+    }
+  ],
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-ui/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-ui",
+          "project": ":calf-ui",
+          "report_directory": "calf-ui/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+              "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents"
+            }
+          ],
+          "task": ":calf-ui:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest#focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+          "test_source_files": [
+            "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionAcceptanceTest.kt",
+            "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceTest.kt",
+            "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsSelectableDatesTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateBoundsTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateRangeSelectionTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateStateContractTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/TestDates.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialogActionsTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/DropDownAvailabilityTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationStateTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/slider/SliderValueDomainTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/TimePickerStateContractTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/toggle/ControlledSwitchDragStateTest.kt",
+            "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
+            "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/CompactDateTransactionScenarios.kt",
+            "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "materialTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-ui/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-ui"
+      ],
+      "explicit_test_focus": "material-dropdown-android-dismissal-recovery",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "One previously failed Android native keyboard/pointer dismissal method only; fifteen accepted matrix executions are not replayed, not a complete UI/minimum-platform/release pass",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-io",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "ui-dropdown-android-recovery"
+}

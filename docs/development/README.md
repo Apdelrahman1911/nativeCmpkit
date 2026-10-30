@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Three verified closures; Android dropdown recovered — 2026-10-30
+
+**[#132/UI-026 CLOSED/completed](evidence/dropdown-contracts-verified-20261030/README.md)**
+after all three original requirements/readback, immediately following #62/#89.
+[Actual Android41019914123](evidence/material-dropdown-batch-important-20261030/android-recovery-ci001/README.md)
+at0d0ba755 passes1/1/Gradle0/65.03s with fresh XML/filter/task marker, exact918/995
+historical inputs, Enforcing runtime and owned graceful shutdown.15 accepted
+unchanged matrix results reused, not a fresh16/16 workflow; original41015763086
+remains FAILED. **83closed/89open/172total**;34implemented/42partial/81verified/
+seven unresolved. No accepted-runtime replay or source/API changes afterward.
+#141's actual profiler timeout stays open; independent native/minimum/ABI/consumer/
+dependency/legal/security/release gates and single-agent containment remain.
+
 ## Shared WebView closure; Android-only dropdown recovery — 2026-10-30
 
 **[#62/NATIVE-003 and #89/NATIVE-037 CLOSED/completed](evidence/webview-contracts-verified-20261030/README.md)**

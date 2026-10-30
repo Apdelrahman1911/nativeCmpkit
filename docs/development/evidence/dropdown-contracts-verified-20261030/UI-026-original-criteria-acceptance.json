@@ -1,0 +1,228 @@
+{
+  "all_original_criteria_reviewed": true,
+  "changed_inputs_since_accepted_matrix": [
+    ".github/workflows/gradle.yml",
+    "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt",
+    "scripts/ci/android_device_tests.py",
+    "scripts/ci/library_tests.py",
+    "scripts/ci/test_dropdown_android_recovery.py",
+    "scripts/ci/workflow_matrix.py"
+  ],
+  "closure_eligible": true,
+  "cumulative_accepted_target_executions": 16,
+  "current_source_revision": "0d0ba755decc9517c53ab566ae4b3b1ee939be8b",
+  "distinct_scenarios": 4,
+  "finding_id": "UI-026",
+  "fresh_accepted_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+      "status": "passed"
+    }
+  ],
+  "fresh_platform": {
+    "accepted_methods": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+        "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+        "status": "passed"
+      }
+    ],
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest#focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+      ":calf-ui:connectedAndroidDeviceTest"
+    ],
+    "execution": {
+      "elapsed_seconds": 65.03,
+      "exit_code": 0
+    },
+    "fresh_XML_reports": 1,
+    "fresh_executed": 1,
+    "slot": "android-device-api35",
+    "suite": "android-device"
+  },
+  "fresh_result_receipt_sha256": "96ee52bba8b0084810080c0eebdc5718411630ef8411305cb722f6d3658cf232",
+  "fresh_run_id": 41019914123,
+  "fresh_target_executions": 1,
+  "issue_number": 132,
+  "old_failed_matrix_receipt_sha256": "530d85f1643fd4feb0502916d4a3a1d98cf2d6b9c3d5b3fc128374687a04784b",
+  "old_failed_matrix_run_id": 41015763086,
+  "owning_source_bindings": {
+    "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceTest.kt": {
+      "sha256": "b26e7d0ef532e40cbc369e5d4fbe4afa86bf7e1d2c9c01a3a7b1ec91a7e0f5b5",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt": {
+      "reviewed_delta": "Only current native input times/source/virtual-keyboard identity, preserving old capture/position/recycle and all dismissal assertions; fresh one-case native runtime verifies this delta.",
+      "sha256": "c7ef989d09a9b64f7063fe19ac4071ec9af934b2265a396e81d1cf75c6d7c010"
+    },
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceTest.kt": {
+      "sha256": "86fda304ea903261c7b3f6cfe5d278234b48840d63389e1d0ee3e240496f04bc",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt": {
+      "sha256": "9419de3e6dc44615ff2e4654270154fda3a1fe4e8f60f0f33a39217f0fce9979",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceTest.kt": {
+      "sha256": "778ae2106bea45fe99294b83787dd7c72a798e597b491dda2cd59b3b67db6ec5",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt": {
+      "sha256": "9419de3e6dc44615ff2e4654270154fda3a1fe4e8f60f0f33a39217f0fce9979",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/dropdown/AdaptiveDropDown.material.kt": {
+      "sha256": "d1b775ffc133462325c78527543e3c6f24fdc7d5243dfe52de1d42775dbbf2d3",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt": {
+      "sha256": "ac83101bd294f818788d07650a89065fc733bdb94198d4634acc4dc21e8cb22b",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceTest.kt": {
+      "sha256": "86fda304ea903261c7b3f6cfe5d278234b48840d63389e1d0ee3e240496f04bc",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    },
+    "calf-ui/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownPlatformTest.kt": {
+      "sha256": "9419de3e6dc44615ff2e4654270154fda3a1fe4e8f60f0f33a39217f0fce9979",
+      "unchanged_from_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d"
+    }
+  },
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Live12dp/8dp offsets and LTR/RTL mutations plus caller ScrollState to both ends of100 actual menu items pass on all four targets. Fresh Android41019914123 verifies nonfocusable and caller-disabled dismissal, enabled native Escape/outside events and exactly-once callbacks. The Desktop/JS/Wasm real public navigation input/scene-pointer results are reused, not OS Escape or full-UI certification.",
+      "original_requirement": "Nondefault offset/scrollState, dismissOnBackPress/dismissOnClickOutside/focusability where supported.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Actual rendered pixels equal an independent actual Material DropdownMenu with rounded28dp shape, custom container/tint, tonal7dp/shadow9dp and magenta3dp border. Nonblank container/border assertions and a live-style negative control pass;100-item constrained menus scroll to the actual first/last entries. All these15 unaffected matrix executions retain exact tested source bytes.",
+      "original_requirement": "Custom shape/colors/elevations/border and long scrollable contents.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Cumulative16/16 accepted contract executions:15 reused from41015763086 (which remains FAILED), plus one fresh Android method in41019914123 at0d0ba755. Linux Desktop/Chromium JS/Chromium Wasm/API35 x86_64 Enforcing are covered, four distinct library methods. Fresh native command exits0/65.03s, exact918/995 historical Git inputs, XML/task marker/runtime and owned-emulator clean shutdown reviewed. Every previously discarded public field is forwarded without public-package/API renaming.",
+      "original_requirement": "Android/Desktop/browser regression matrix.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Actual API35 emulator/Linux Skiko/Chromium JS-Wasm only; no physical/minimum platform/macOS-Windows/other browser/native iOS/accessibility certification.",
+    "Skiko uses actual public navigation dispatcher and scene pointer input, not OS Escape. Android native Escape/touch is separately executed.",
+    "The older whole matrix remains FAILED; prior input-route/compile/native-injection failures remain. No secure-window/ABI/consumer/dependency/legal/security/release gate clearance."
+  ],
+  "reused_accepted_methods_not_fresh": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents[desktop]",
+      "status": "passed",
+      "suite": "desktop"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[desktop]",
+      "status": "passed",
+      "suite": "desktop"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[desktop]",
+      "status": "passed",
+      "suite": "desktop"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup[desktop]",
+      "status": "passed",
+      "suite": "desktop"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "js"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "js"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "js"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "js"
+    },
+    {
+      "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "wasm"
+    },
+    {
+      "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "wasm"
+    },
+    {
+      "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "wasm"
+    },
+    {
+      "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed",
+      "suite": "wasm"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu",
+      "status": "passed",
+      "suite": "android-device"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels",
+      "status": "passed",
+      "suite": "android-device"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup",
+      "status": "passed",
+      "suite": "android-device"
+    }
+  ],
+  "reused_accepted_target_executions": 15,
+  "reviewed_at_utc": "2026-10-30T07:38:54.063098+00:00"
+}

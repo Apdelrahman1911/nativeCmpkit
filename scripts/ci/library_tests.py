@@ -54,7 +54,7 @@ MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cu
 MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["js"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
 MINIMUM_MODULES["wasm"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
-MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview", "calf-ui", "calf-navigation")
+MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-webview", "calf-ui", "calf-navigation", "calf-geo")
 KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
 ROOT_INPUTS = (
     "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",
@@ -757,6 +757,16 @@ def android_nav_back_identities() -> list[dict]:
     return [{"classname": ANDROID_NAV_BACK_CLASS, "name": ANDROID_NAV_BACK_METHOD}]
 
 
+ANDROID_GEO_OWNERSHIP_FOCUS = "geo-android-owner-lifetime"
+ANDROID_GEO_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.geo.AndroidLocationOwnershipTest"
+ANDROID_GEO_OWNERSHIP_SOURCE = "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt"
+ANDROID_GEO_OWNERSHIP_METHOD = "nativeRebindingRestartAndTerminalCleanupReleaseOwnersDespiteRetainedCallbacks"
+
+
+def android_geo_ownership_identities() -> list[dict]:
+    return [{"classname": ANDROID_GEO_OWNERSHIP_CLASS, "name": ANDROID_GEO_OWNERSHIP_METHOD}]
+
+
 ANDROID_POPUP_FOCUS = "android-webview-popup-policy"
 ANDROID_POPUP_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest"
 ANDROID_POPUP_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt"
@@ -1011,6 +1021,7 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == ANDROID_NAV_BACK_FOCUS and suite == "android-device" and modules == ("calf-navigation",)) or
+            (focus == ANDROID_GEO_OWNERSHIP_FOCUS and suite == "android-device" and modules == ("calf-geo",)) or
             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
@@ -1343,6 +1354,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
+    elif focus == ANDROID_GEO_OWNERSHIP_FOCUS:
+        source = safe_path(root, ANDROID_GEO_OWNERSHIP_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [ANDROID_GEO_OWNERSHIP_METHOD] or
+                "class AndroidLocationOwnershipTest" not in source or
+                "package com.mohamedrejeb.calf.geo" not in source or
+                ANDROID_GEO_OWNERSHIP_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android geo declarations changed; review the exact one-method ownership selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_GEO_OWNERSHIP_CLASS
+        selected[0]["required_testcases"] = android_geo_ownership_identities()
+        result["scope"] = "One actual Android Looper/LifecycleRegistry/GMS Task/ART owner-GC method with an explicitly injected provider transport. Retains obsolete callbacks while checking rebind, destruction/restart and terminal cleanup. Reuses accepted unchanged geo tests; not live GMS/GPS, Activity/process recreation, physical/minimum-platform/power/ABI/packaged-consumer/security/release certification."
     elif focus == ANDROID_NAV_BACK_FOCUS:
         source = safe_path(root, ANDROID_NAV_BACK_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1604,6 +1628,15 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_GEO_OWNERSHIP_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-geo" or expected[0]["task"] != ":calf-geo:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_GEO_OWNERSHIP_CLASS or
+                expected[0].get("required_testcases") != android_geo_ownership_identities() or
+                ANDROID_GEO_OWNERSHIP_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android geo owner-lifetime plan")
+        return True
     if focus == ANDROID_NAV_BACK_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -1952,6 +1985,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required else
                              [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_GEO_OWNERSHIP_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android geo XML must contain exactly the selected owner-GC method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_GEO_OWNERSHIP_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_NAV_BACK_FOCUS:
@@ -2717,7 +2758,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS,
                                            *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

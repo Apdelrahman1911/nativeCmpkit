@@ -1,0 +1,37 @@
+{
+  "observed_at_utc": "2026-10-30T09:50:38.972473+00:00",
+  "results": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_navigation_geo_public_contracts.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e7ddb14cdfcf0d7692517b3172aafe8f4cc1e3c822ee778c915b973d53e2f9c4"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_failure_diagnostics.FailureDiagnosticsTests.test_capture_is_confined_requires_its_owned_output_and_never_infers_tests",
+        "-v"
+      ],
+      "exit_code": 0,
+      "log_sha256": "5626520aaffd6d170c79c548ec3315928afcea9999bf62e044eecc8bb49d07c1"
+    }
+  ],
+  "executed_synthetic_methods": 10,
+  "selected_combined_input_count": 1004,
+  "all_captured_before_after_inputs_held": true,
+  "actual_native_or_compiler_tests": 0
+}

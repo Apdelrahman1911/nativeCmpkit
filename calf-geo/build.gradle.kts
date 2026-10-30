@@ -9,6 +9,15 @@ kotlin {
         implementation(libs.robolectric)
     }
 
+    sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+        dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.junit)
+        }
+    }
+
     sourceSets.commonTest.dependencies {
         implementation(libs.kotlinx.coroutines.test)
     }

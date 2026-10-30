@@ -26,6 +26,7 @@ SLOTS = (
 )
 PROFILES = {
     "core": ("desktop-linux-x64", "android-host"),
+    "android-geo-ownership": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -143,6 +144,7 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    "android-geo-ownership": "calf-geo",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -282,6 +284,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-navigation-back":
         for row in rows:
             row["test-focus"] = "android-adaptive-navigation-back"
+    if profile == "android-geo-ownership":
+        for row in rows:
+            row["test-focus"] = "geo-android-owner-lifetime"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

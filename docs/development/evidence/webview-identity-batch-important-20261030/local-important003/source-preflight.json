@@ -1,0 +1,81 @@
+{
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "operation": "plan",
+  "profile": "webview-identity",
+  "slots": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-values"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "desktop-linux-x64",
+      "suite": "desktop"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "js",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-values"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "browser-js",
+      "suite": "js"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "wasm",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-values"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "browser-wasm",
+      "suite": "wasm"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "android-device",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-values"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "android-device-api35",
+      "suite": "android-device"
+    }
+  ],
+  "source_only": true
+}

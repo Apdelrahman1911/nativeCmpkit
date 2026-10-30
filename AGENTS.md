@@ -1,5 +1,16 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared public WebView batch / actual memory boundaries — 2026-10-30
+
+[New owning candidate](docs/development/evidence/webview-identity-batch-important-20261030/README.md) requests9 fresh Desktop/Android-device/JS/Wasm
+executions for #62/#72/#89; independent iOS recovery40997536117 stays input-bound.
+FAILED141synthetic/140pass retained, owning corrected import guard1/1/all979held;
+140successful methods not replayed. Zero new local library/native executions.
+Darwin40994702874 FAILED2pass/1profile-timeout: no Instruments/leaks commands ran,
+generic preflight ValueError and late request still require owning diagnosis.
+#140/#141 stay open;78closed/94open. Single-agent/max2/8GiB and publishing/Pages/
+main/history and independent original-criteria/release/security gates remain.
+
 ## Native WebKit failures retained; owning recovery prepared — 2026-10-30
 
 [Actual40993609497](docs/development/evidence/webview-lifecycle-batch-important-20261030/native-ci002/README.md)

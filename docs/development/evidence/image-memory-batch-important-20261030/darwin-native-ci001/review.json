@@ -1,0 +1,249 @@
+{
+  "accepted_native_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+      "status": "passed",
+      "whole_native_lifecycle_complete": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+      "status": "passed",
+      "whole_native_lifecycle_complete": true
+    }
+  ],
+  "accepted_unrelated_native_methods_not_replayed": true,
+  "actual_image_memory_profile_attempt": {
+    "ASan_verified": false,
+    "ack_basename_sha256": "54b76c968013dedffde0f5a488b79cd4221c445ef8bb5433f99574d7dfb7e6f9",
+    "application_plist_sha256": "269348f54ed65291c7461d7c6a1fe99314fa11b3340342f05d97be3faf71359e",
+    "attempt_completion_ack_created": true,
+    "bundle_identifier": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rb56ec9028747.t066f20103b074ca9ae8c258c18499e2c",
+    "commands": [],
+    "darwin_heap_requests": {
+      "MallocErrorAbort": "1",
+      "MallocGuardEdges": "1",
+      "MallocScribble": "1",
+      "MallocStackLogging": "1"
+    },
+    "elapsed_seconds": 3.57,
+    "errors": [
+      {
+        "error_type": "ValueError",
+        "profile_pass_inferred": false
+      }
+    ],
+    "every_allocator_check_attested": false,
+    "exports": [],
+    "finished_at_utc": "2026-10-30T03:35:54.205308+00:00",
+    "owned_ack_removed": true,
+    "owned_private_tree_removed": true,
+    "prepared": true,
+    "private_files_uploaded": false,
+    "private_inventory": {
+      "bytes": 0,
+      "entries": 0,
+      "raw_files_uploaded": false
+    },
+    "process_id": 64328,
+    "profile_passed": false,
+    "release_readiness_certified": false,
+    "schema_version": 1,
+    "scope": "Actual Instruments/leaks tool attempt on this exact owned library UIKit app/PID. Only useful owned-frame allocation rows and an actual zero-leak summary can pass this profile; test passes alone cannot.",
+    "signed_application_executable_sha256": "4768b6a93adfaf756ad4ae84adf520ff01e5492930160c467ea9b5bc8f3cd7fc",
+    "simulator_udid": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+    "started_at_utc": "2026-10-30T03:35:50.630369+00:00",
+    "supported": false
+  },
+  "actual_native_protocol": {
+    "activation": {
+      "main_worker": 1,
+      "owned_worker": 2
+    },
+    "completion": {
+      "runner_exit": 0,
+      "worker_terminated": true
+    },
+    "counts": {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "not_applicable": 0,
+      "passed": 2,
+      "skipped": 0,
+      "tests": 3,
+      "unexpected_skipped": 0
+    },
+    "elapsed_seconds": 224.84,
+    "image_lifetime_observation": null,
+    "image_profile_observations": [
+      {
+        "phase": "ready"
+      }
+    ],
+    "observed_launch_pid": 64328,
+    "process_exit": 0,
+    "stream_bytes": 6390,
+    "testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+        "status": "failed"
+      }
+    ]
+  },
+  "actual_native_transport": {
+    "console_cleanup_requested": false,
+    "console_process_exit": 0,
+    "console_process_exit_after_cleanup": 0,
+    "elapsed_seconds": 224.84,
+    "finished_at_utc": "2026-10-30T03:35:54.206617+00:00",
+    "started_at_utc": "2026-10-30T03:32:09.369467+00:00",
+    "timeout_seconds": 360
+  },
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "a11f57abf0875ab291be1badaf2729a905cfb740d455acc5f03a676ca7755d36",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-30T03:06:21.942539+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "b56ec9028747fdada79a124dea84379c2937d447",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "all_before_after_inputs_held": true,
+  "all_before_inputs_match_exact_historical_Git": true,
+  "artifact_digest": "sha256:f15b2b0cf5b77a9c46e35ee40017b747dab1a9ec7b034e468f7aa82ed79ea2c5",
+  "artifact_id": 12952555927,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    "-PnativecmpkitImageMemoryDiagnostics=darwin-tools",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"
+  ],
+  "complete_native_Worker_runtime_binary_install_owned_cleanup": true,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "exact_fresh_XML_cases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation[iosSimulatorArm64]",
+      "status": "passed"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+      "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile[iosSimulatorArm64]",
+      "status": "failed"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1751.45,
+    "exit_code": 1
+  },
+  "fresh_XML_reports": 1,
+  "held_input_count": 896,
+  "image_diagnostics_mode": "darwin-tools",
+  "native_error": null,
+  "native_job_conclusion": "failure",
+  "native_job_id": 123865342849,
+  "original_issue_criteria_review_and_closure_not_automatically_inferred": true,
+  "owned_crash_diagnostics": null,
+  "packages_releases_deployments_or_Pages_created": false,
+  "passed": false,
+  "plan_command_and_actual_runtime_reviewed": true,
+  "profile_positive_requires_actual_owned_rows_and_actual_PID_zero_leak_summary": true,
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T03:39:26.475366+00:00",
+  "run_attempt": 1,
+  "run_id": 40994702874,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40994702874",
+  "source_revision": "b56ec9028747fdada79a124dea84379c2937d447",
+  "strict40989310808_failure_not_repaired_or_waived": true,
+  "strict_runtime_assertions_attested": false,
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "workflow_conclusion": "failure",
+  "workflow_sha256": "6892e4e23eb3a2075133e2741208ae7bded00a9c6600baf6d6d62ece4a4fce12"
+}

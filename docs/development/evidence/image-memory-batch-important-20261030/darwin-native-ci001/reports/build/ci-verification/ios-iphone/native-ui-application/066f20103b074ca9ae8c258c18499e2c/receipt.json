@@ -1,0 +1,273 @@
+{
+  "application_plist_sha256": "269348f54ed65291c7461d7c6a1fe99314fa11b3340342f05d97be3faf71359e",
+  "application_protocol": {
+    "activation": {
+      "main_worker": 1,
+      "owned_worker": 2
+    },
+    "completion": {
+      "runner_exit": 0,
+      "worker_terminated": true
+    },
+    "counts": {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "not_applicable": 0,
+      "passed": 2,
+      "skipped": 0,
+      "tests": 3,
+      "unexpected_skipped": 0
+    },
+    "elapsed_seconds": 224.84,
+    "image_lifetime_observation": null,
+    "image_profile_observations": [
+      {
+        "phase": "ready"
+      }
+    ],
+    "observed_launch_pid": 64328,
+    "process_exit": 0,
+    "stream_bytes": 6390,
+    "testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+        "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+        "status": "failed"
+      }
+    ]
+  },
+  "application_transport": {
+    "console_cleanup_requested": false,
+    "console_process_exit": 0,
+    "console_process_exit_after_cleanup": 0,
+    "elapsed_seconds": 224.84,
+    "finished_at_utc": "2026-10-30T03:35:54.206617+00:00",
+    "started_at_utc": "2026-10-30T03:32:09.369467+00:00",
+    "timeout_seconds": 360
+  },
+  "binary_path": "calf-ui/build/bin/iosSimulatorArm64/applicationDebugTest/application.kexe",
+  "binary_sha256": "71cde3e0c26e46d977824f4b3b2ab37cb9be2221e9aebf43d2523e3e8079f4d6",
+  "binary_sha256_after": "71cde3e0c26e46d977824f4b3b2ab37cb9be2221e9aebf43d2523e3e8079f4d6",
+  "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rb56ec9028747.t066f20103b074ca9ae8c258c18499e2c",
+  "cleanup": {
+    "absence_status": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2
+    },
+    "owned_app_absence_verified": true,
+    "owned_app_identity_reverified": true,
+    "owned_app_stopped_verified": true,
+    "owned_local_bundle_removed": true,
+    "terminate_exit_code": 3,
+    "terminate_status": {
+      "error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 3
+    },
+    "uninstall_exit_code": 0,
+    "uninstall_status": {
+      "error_identities": [],
+      "exit_code": 0
+    }
+  },
+  "explicit_test_focus": "ios-native-image-memory-darwin-tools",
+  "finished_at_utc": "2026-10-30T03:36:03.920256+00:00",
+  "image_diagnostics_mode": "darwin-tools",
+  "image_memory_profile": {
+    "ASan_verified": false,
+    "ack_basename_sha256": "54b76c968013dedffde0f5a488b79cd4221c445ef8bb5433f99574d7dfb7e6f9",
+    "application_plist_sha256": "269348f54ed65291c7461d7c6a1fe99314fa11b3340342f05d97be3faf71359e",
+    "attempt_completion_ack_created": true,
+    "bundle_identifier": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rb56ec9028747.t066f20103b074ca9ae8c258c18499e2c",
+    "commands": [],
+    "darwin_heap_requests": {
+      "MallocErrorAbort": "1",
+      "MallocGuardEdges": "1",
+      "MallocScribble": "1",
+      "MallocStackLogging": "1"
+    },
+    "elapsed_seconds": 3.57,
+    "errors": [
+      {
+        "error_type": "ValueError",
+        "profile_pass_inferred": false
+      }
+    ],
+    "every_allocator_check_attested": false,
+    "exports": [],
+    "finished_at_utc": "2026-10-30T03:35:54.205308+00:00",
+    "owned_ack_removed": true,
+    "owned_private_tree_removed": true,
+    "prepared": true,
+    "private_files_uploaded": false,
+    "private_inventory": {
+      "bytes": 0,
+      "entries": 0,
+      "raw_files_uploaded": false
+    },
+    "process_id": 64328,
+    "profile_passed": false,
+    "release_readiness_certified": false,
+    "schema_version": 1,
+    "scope": "Actual Instruments/leaks tool attempt on this exact owned library UIKit app/PID. Only useful owned-frame allocation rows and an actual zero-leak summary can pass this profile; test passes alone cannot.",
+    "signed_application_executable_sha256": "4768b6a93adfaf756ad4ae84adf520ff01e5492930160c467ea9b5bc8f3cd7fc",
+    "simulator_udid": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+    "started_at_utc": "2026-10-30T03:35:50.630369+00:00",
+    "supported": false
+  },
+  "macho": {
+    "architecture": "arm64",
+    "executable_uuid": "880666c7-3faa-316f-9a5a-93e3c5aec318",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "packages_published": false,
+  "release_readiness_certified": false,
+  "runtime_after": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-30T03:35:54.207166+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "b56ec9028747fdada79a124dea84379c2937d447",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "runtime_before": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "e64f3dad1941c37d95034f328053bd0f1acdb06b367394b0b74d6392d0cdf5dc",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.0",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-10-30T03:31:38.482120+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "726D52AF-426A-408A-974D-CA8B9BE8A479"
+    },
+    "source_revision": "b56ec9028747fdada79a124dea84379c2937d447",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
+  "signed_application_executable_sha256": "4768b6a93adfaf756ad4ae84adf520ff01e5492930160c467ea9b5bc8f3cd7fc",
+  "signed_macho_identity": {
+    "architecture": "arm64",
+    "executable_uuid": "880666c7-3faa-316f-9a5a-93e3c5aec318",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "source_revision": "b56ec9028747fdada79a124dea84379c2937d447",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T03:31:38.481705+00:00",
+  "steps": {
+    "adhoc-sign-local-verification-app": {
+      "error_identities": [],
+      "exit_code": 0,
+      "remote_signing_or_publication": false
+    },
+    "foreign-app-preflight": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2,
+      "preexisting_app_absence_verified": true
+    },
+    "install-owned-app": {
+      "container_status": {
+        "error_identities": [],
+        "exit_code": 0
+      },
+      "error_identities": [],
+      "exit_code": 0,
+      "installed_owned_bytes_verified": true
+    }
+  },
+  "strict_runtime_assertions_attested": false,
+  "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+  "transport_passed": true
+}

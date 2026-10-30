@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## WebView owner batch closed; one Android popup recovery — 2026-10-30
+
+**#62/NATIVE-003 and #89/NATIVE-037 CLOSED/completed** immediately after the
+[original criteria/readbacks](docs/development/evidence/webview-contracts-verified-20261030/README.md).
+Actual41015744209 at36ec139b passes native1/1/Gradle0/957.28s with real
+UIApplication/UIKit/WebKit/final-release/Worker/binary/owned cleanup. Six prior
+complete methods reused from four still-failed workflows; no accepted runtime
+replay. **82closed/90open**;34implemented/43partial/80verified/seven unresolved.
+Actual [dropdown41015763086](docs/development/evidence/material-dropdown-batch-important-20261030/platform-ci001/README.md)
+remains FAILED15pass/one Android native injection rejection before dismissal.
+Tagged API35 source confirms zero-time/source old KeyEvent, not exact rejection
+reason. [Smallest fixture/one-case profile](docs/development/evidence/material-dropdown-batch-important-20261030/android-native-input-repair001/README.md)
+passes17+two important synthetic guards/actionlint; zero local native tests.
+Recover only the failed method; preserve15 accepted executions/all11 slots.
+#132/#141 stay open. Single-agent/max2heavy/8GiB and all publication/Pages/main/
+history/minimum-platform/ABI/consumer/dependency/provenance/legal/security gates stay.
+
 ## Final native guard / dropdown compile recovery — 2026-10-30
 
 [41013984992](docs/development/evidence/webview-identity-batch-important-20261030/final-interop-ci001/README.md)

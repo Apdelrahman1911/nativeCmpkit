@@ -1,0 +1,119 @@
+{
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "finding_id": "NATIVE-003",
+  "fresh_native_case": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]",
+      "status": "passed"
+    }
+  ],
+  "fresh_native_receipt_sha256": "107344cc785c994cd28a52d89b7b864d6a60acd3a99df132158d5f217744d7ba",
+  "fresh_run_id": 41015744209,
+  "issue_number": 62,
+  "owning_source_bindings": {
+    "calf-webview/build.gradle.kts": {
+      "sha256": "4d58f2a07a23dcdfa2b43a34190ea279b7188727a62fd75fcd6cad3a66ba0064",
+      "unchanged_from_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed"
+    },
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt": {
+      "sha256": "fe0c7abf830e2287be56c1d179a2b3bad0d34c343a62a6fd6f8cc502da10dac5",
+      "unchanged_from_revision": "a189bcb9fe2c1a812f18236c3aa4506bebf89ead"
+    },
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": {
+      "sha256": "777ac40e3c200dfff3b2bc8bf2d28ec466e8e50c765d7186d37a44e5187b8aa5",
+      "unchanged_from_revision": "a189bcb9fe2c1a812f18236c3aa4506bebf89ead"
+    },
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": {
+      "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+      "unchanged_from_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed"
+    },
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": {
+      "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+      "unchanged_from_revision": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed"
+    },
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt": {
+      "sha256": "2811d91948312b9626f9b3f99112de8bffaa26100405c402bba7989e02248e96",
+      "unchanged_from_revision": "81ff78b56ddefe1452bea41c51e6d7123dfa37ed"
+    },
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": {
+      "reviewed_addition": "Only explicit final native child detachment; fresh native remount/cleanup method verifies it. Original callback/state/navigator/configuration bytes preserved.",
+      "sha256": "6fbae2022454547efcc18bde352a2a936f14b644881ea1d642d7b8ed582d0336"
+    },
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": {
+      "sha256": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810",
+      "unchanged_from_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed"
+    },
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt": {
+      "sha256": "7e3c1848642120c9788038d3fb99be067890dce57aa1afedfd12298f1468c2a8",
+      "unchanged_from_revision": "5e2479b1d32a39eca026f1d4e1ed95068b6ccbed"
+    }
+  },
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Actual onCreated native identity/configuration passes on Android Chromium (41007203221), iOS WebKit (41015744209), public Linux Compose/JavaFX (41003730413), and JS/Wasm Chromium156 (40999700359). Mobile settings/delegates/observers/current state exist before the callback, not a shadow/native replacement.",
+      "original_requirement": "Assert native reference identity inside onCreated on all targets.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Creation customization and common-field precedence are explicit: Android initial textZoom125/hook and later common150; JavaFX hook userAgent versus later common settings and fontScale; browser native referrerpolicy survives while the common sandbox policy is intentionally reapplied. iOS initial configuration precedes the hook and native alpha.875 survives; accepted actual native flag/creation-only configuration methods verify later common setting and remount semantics, not video/swipe functionality.",
+      "original_requirement": "Configure a native setting and verify whether common settings intentionally override it.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Retained-state unmount/remount creates a distinct current native instance on Android/iOS/Desktop/JS/Wasm. Fresh iOS method retains the real native wrapper, verifies previous child/delegate/state release and final two exactly-once disposals before root detachment; all other full creation/replacement/remount methods are unchanged accepted results, not replayed.",
+      "original_requirement": "Retain state across remount and verify callback never observes the previous instance.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Actual current iOS simulator/API35 emulator/Linux JavaFX/Chrome JS-Wasm scope only; no physical/minimum-platform/macOS-Windows desktop/other-engine/network/ABI/consumer/release certification.",
+    "Native media/gesture configuration is not video playback or physical swipe input; those separate original findings stay open.",
+    "Earlier whole workflows remain FAILED; unchanged complete methods are reused, not replayed. #141 Instruments/profile and independent dependency/legal/security/release gates remain open."
+  ],
+  "reused_accepted_methods_not_fresh": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument",
+      "status": "passed",
+      "whole_native_lifecycle_complete": true
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+      "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+      "status": "passed"
+    }
+  ],
+  "reused_run_receipt_hashes": {
+    "40997536117": "ac1f16be314bd656cbc882317fac8d808b177ec7540790f2bd97377786590087",
+    "40999700359": "61b1482f4ee9a695977854a40f00605d2f2ac7cd233ebced8071f2d7badfc8db",
+    "41003730413": "17ca97cf3b4948d4058db5c141741620a6202e655cc8f3223ff3ef036f23fffe",
+    "41007203221": "d07edfbe9ba8cb94ee46cfeeec630cfd0286def362ea6be84d55a08a2ab2390f"
+  },
+  "reviewed_at_utc": "2026-10-30T07:14:34.303174+00:00"
+}

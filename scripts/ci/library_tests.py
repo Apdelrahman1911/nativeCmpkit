@@ -132,6 +132,8 @@ DATE_TRANSACTION_METHODS = (
     "noSelectableDateRejectsCommitAndCancelReopenRecovers",
 )
 DROPDOWN_FOCUS = "material-dropdown-contract"
+DROPDOWN_ANDROID_RECOVERY_FOCUS = "material-dropdown-android-dismissal-recovery"
+DROPDOWN_FOCUSES = (DROPDOWN_FOCUS, DROPDOWN_ANDROID_RECOVERY_FOCUS)
 DROPDOWN_CLASS = "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest"
 DROPDOWN_METHODS = (
     "offsetAndRtlMutationsMoveTheActualPopup",
@@ -997,7 +999,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
              modules == (DATE_TRANSACTION_MODULE,)) or
-            (focus == DROPDOWN_FOCUS and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",)) or
+            (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
+             (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
             (focus in ANDROID_SAVE_IDENTITY_FOCUSES and suite == "android-device" and
@@ -1059,11 +1062,26 @@ def dropdown_platform_source(suite: str) -> str:
     return "calf-ui/src/" + DROPDOWN_SOURCE_SETS[suite] + DROPDOWN_PACKAGE_PATH + "MaterialDropdownPlatformTest.kt"
 
 
-def dropdown_identities() -> list[dict]:
-    return [{"classname": DROPDOWN_CLASS, "name": method} for method in DROPDOWN_METHODS]
+def dropdown_methods(focus: str = DROPDOWN_FOCUS) -> tuple[str, ...]:
+    if focus not in DROPDOWN_FOCUSES:
+        raise ValueError("Unknown finite dropdown selection")
+    return DROPDOWN_METHODS[-1:] if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS else DROPDOWN_METHODS
 
 
-def dropdown_case_inventory(suite: str, cases: list[dict]) -> bool:
+def dropdown_filter(focus: str = DROPDOWN_FOCUS) -> str:
+    methods = dropdown_methods(focus)
+    # The sole method recovery is Android-only: AndroidJUnitRunner uses '#',
+    # not the desktop Gradle Test 'Class.method' syntax.
+    return DROPDOWN_CLASS + "#" + methods[0] if len(methods) == 1 else DROPDOWN_CLASS
+
+
+def dropdown_identities(focus: str = DROPDOWN_FOCUS) -> list[dict]:
+    return [{"classname": DROPDOWN_CLASS, "name": method} for method in dropdown_methods(focus)]
+
+
+def dropdown_case_inventory(suite: str, cases: list[dict], focus: str = DROPDOWN_FOCUS) -> bool:
+    if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS and suite != "android-device":
+        return False
     classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + DROPDOWN_CLASS
     names = []
     for case in cases:
@@ -1081,7 +1099,8 @@ def dropdown_case_inventory(suite: str, cases: list[dict]) -> bool:
             if not separator or not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
                 return False
         names.append(name)
-    return len(names) == len(DROPDOWN_METHODS) and set(names) == set(DROPDOWN_METHODS)
+    methods = dropdown_methods(focus)
+    return len(names) == len(methods) and set(names) == set(methods)
 
 
 def android_io_oversize_identities() -> list[dict]:
@@ -1393,7 +1412,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = IOS_PERMISSION_CLASS
         selected[0]["required_testcases"] = ios_permission_identities()
         result["scope"] = "Seven exact real iOS public factory/Compose/Darwin queue/registry methods only; no privacy UI or unrelated suite pass"
-    elif focus == DROPDOWN_FOCUS:
+    elif focus in DROPDOWN_FOCUSES:
         source = safe_path(root, dropdown_source(suite)).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
         if (len(methods) != len(DROPDOWN_METHODS) or set(methods) != set(DROPDOWN_METHODS) or
@@ -1403,9 +1422,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 dropdown_platform_source(suite) not in selected[0]["test_source_files"]):
             raise ValueError("Dropdown contract declarations changed; review the exact four-method selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = DROPDOWN_CLASS
-        selected[0]["required_testcases"] = dropdown_identities()
-        result["scope"] = "Four actual public Material popup input/scroll/raster contracts only; Android native windows versus actual Skiko scene APIs, not OS accessibility/minimum-platform/whole-UI/release certification"
+        selected[0]["test_filter"] = dropdown_filter(focus)
+        selected[0]["required_testcases"] = dropdown_identities(focus)
+        result["scope"] = ("One previously failed Android native keyboard/pointer dismissal method only; fifteen accepted matrix executions are not replayed, not a complete UI/minimum-platform/release pass"
+                           if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS else
+                           "Four actual public Material popup input/scroll/raster contracts only; Android native windows versus actual Skiko scene APIs, not OS accessibility/minimum-platform/whole-UI/release certification")
     elif focus == DATE_TRANSACTION_FOCUS:
         source = safe_path(root, date_transaction_source(suite)).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1683,17 +1704,17 @@ def validate_test_focus(test_plan: dict) -> bool:
                 UNSUPPORTED_PERMISSION_FIXTURE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite public unsupported permission plan")
         return True
-    if focus == DROPDOWN_FOCUS:
+    if focus in DROPDOWN_FOCUSES:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-ui" or expected[0]["task"] != ":calf-ui:" + SUITES[suite][0] or
-                expected[0].get("test_filter") != DROPDOWN_CLASS or
-                expected[0].get("required_testcases") != dropdown_identities() or
+                expected[0].get("test_filter") != dropdown_filter(focus) or
+                expected[0].get("required_testcases") != dropdown_identities(focus) or
                 dropdown_source(suite) not in expected[0]["test_source_files"] or
                 DROPDOWN_SCENARIOS_SOURCE not in expected[0]["test_source_files"] or
                 dropdown_platform_source(suite) not in expected[0]["test_source_files"]):
-            raise ValueError("Invalid finite four-method Material dropdown contract plan")
+            raise ValueError("Invalid finite Material dropdown contract/recovery plan")
         return True
     if focus == DATE_TRANSACTION_FOCUS:
         suite = test_plan["suite"]
@@ -1962,9 +1983,9 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": UNSUPPORTED_PERMISSION_FIXTURE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == DROPDOWN_FOCUS:
-            policy_errors = ([] if dropdown_case_inventory(test_plan["suite"], module_cases) else
-                             ["Focused dropdown XML must contain exactly all four methods with actual target identities"])
+        elif boundary_focus and test_plan["explicit_test_focus"] in DROPDOWN_FOCUSES:
+            policy_errors = ([] if dropdown_case_inventory(test_plan["suite"], module_cases, test_plan["explicit_test_focus"]) else
+                             ["Focused dropdown XML must contain exactly the selected methods with actual target identities"])
             scenarios = [{**c, "source": DROPDOWN_SCENARIOS_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -2610,7 +2631,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, DROPDOWN_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS,
                                            *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

@@ -1,0 +1,193 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-ui:jsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 356.1,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-dropdown-contract",
+  "finished_at_utc": "2026-10-30T06:52:01.673540+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "inputs_before_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "offsetAndRtlMutationsMoveTheActualPopup[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 4,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 4,
+          "path": "calf-ui/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest.xml",
+          "sha256": "2b43aa0814bf1e204f71b25d4f030365fc0bdebdbba1cec5c28348dca308debd",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:jsBrowserTest",
+      "testcases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "offsetAndRtlMutationsMoveTheActualPopup[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents"
+    }
+  ],
+  "runtime_receipt_sha256": "efb093a54da26db34f0522ef96029de0052f5727f696955c02b953489fdc46c9",
+  "schema_version": 1,
+  "scope": "Four actual public Material popup input/scroll/raster contracts only; Android native windows versus actual Skiko scene APIs, not OS accessibility/minimum-platform/whole-UI/release certification",
+  "source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_revision_after": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T06:46:05.569911+00:00",
+  "suite": "js",
+  "task_execution_markers": {
+    ":calf-ui:jsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 4,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

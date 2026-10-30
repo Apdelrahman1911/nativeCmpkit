@@ -40,6 +40,7 @@ PROFILES = {
     "ui-date-wasm": ("browser-wasm",),
     "ui-date-android": ("android-device-api35",),
     "ui-dropdown-platforms": ("desktop-linux-x64", "browser-js", "browser-wasm", "android-device-api35"),
+    "ui-dropdown-android-recovery": ("android-device-api35",),
     "navigation-geo": ("browser-js", "browser-wasm"),
     "navigation-desktop": ("desktop-linux-x64",),
     "webview-desktop": ("desktop-linux-x64",),
@@ -162,6 +163,7 @@ MODULE_SUBSETS = {
     "ui-date-wasm": "calf-ui",
     "ui-date-android": "calf-ui",
     "ui-dropdown-platforms": "calf-ui",
+    "ui-dropdown-android-recovery": "calf-ui",
     # Immutable portable argument/saver/numerical checks without repeating the
     # entire19-module browser suite. Does not change full browser/all coverage.
     "navigation-geo": "calf-navigation,calf-geo",
@@ -267,6 +269,9 @@ def matrix(profile: str) -> dict:
     if profile == "ui-dropdown-platforms":
         for row in rows:
             row["test-focus"] = "material-dropdown-contract"
+    if profile == "ui-dropdown-android-recovery":
+        for row in rows:
+            row["test-focus"] = "material-dropdown-android-dismissal-recovery"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

@@ -1,0 +1,198 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+    ":calf-ui:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 85.04,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "material-dropdown-contract",
+  "finished_at_utc": "2026-10-30T07:01:01.136470+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "inputs_before_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 4,
+      "failures": 1,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "offsetAndRtlMutationsMoveTheActualPopup",
+          "required_on_host": true,
+          "source": "calf-ui/src/materialTest/kotlin/com/mohamedrejeb/calf/ui/dropdown/MaterialDropdownAcceptanceScenarios.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 4,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-ui/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-e3625c3e035e(AVD) - 15.xml",
+          "sha256": "1880c1ae3d4d91ff1a8bfab7d17d1fc4e2aa1ed74fa15eda9d567b39f86bf658",
+          "skipped": 0,
+          "tests": 4,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+          "name": "offsetAndRtlMutationsMoveTheActualPopup",
+          "status": "passed"
+        }
+      ],
+      "tests": 4,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "offsetAndRtlMutationsMoveTheActualPopup"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "callerScrollStateReachesBothEndsOfTheActualLongMenu"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "shapeColorBothElevationsAndBorderMatchActualMaterialPixels"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest",
+      "name": "focusAndDismissalPropertiesControlActualBackAndPointerEvents"
+    }
+  ],
+  "runtime_receipt_sha256": "935b6349db4b91ce63fb53d0e61b0e087dabf1a279b783e4a08f0e53d8d3500d",
+  "schema_version": 1,
+  "scope": "Four actual public Material popup input/scroll/raster contracts only; Android native windows versus actual Skiko scene APIs, not OS accessibility/minimum-platform/whole-UI/release certification",
+  "source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_revision_after": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T06:59:36.097230+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-ui:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 4,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 4,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

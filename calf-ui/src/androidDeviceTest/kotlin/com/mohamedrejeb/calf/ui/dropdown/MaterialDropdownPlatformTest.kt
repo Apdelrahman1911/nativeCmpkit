@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import kotlin.test.*
 import android.graphics.Bitmap
 import android.os.SystemClock
+import android.view.KeyCharacterMap
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.InputDevice
@@ -43,8 +44,14 @@ internal actual fun ComposeUiTest.captureDropdown(position: Offset): ImageBitmap
 
 internal actual fun ComposeUiTest.dropdownBack(input: DropdownBackInput) {
     val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
-    assertTrue(automation.injectInputEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE), true))
-    assertTrue(automation.injectInputEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ESCAPE), true))
+    // Native input needs current monotonic times and a real keyboard identity;
+    // the two-argument KeyEvent constructor sets both timestamps and source to zero.
+    val downTime = SystemClock.uptimeMillis()
+    for (action in listOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP)) {
+        val event = KeyEvent(downTime, SystemClock.uptimeMillis(), action, KeyEvent.KEYCODE_ESCAPE,
+            0, 0, KeyCharacterMap.VIRTUAL_KEYBOARD, 0, KeyEvent.FLAG_FROM_SYSTEM, InputDevice.SOURCE_KEYBOARD)
+        assertTrue(automation.injectInputEvent(event, true), "The actual native keyboard event must be delivered")
+    }
     waitForIdle()
 }
 
@@ -54,7 +61,7 @@ internal actual fun ComposeUiTest.dropdownOutside() {
     val automation = InstrumentationRegistry.getInstrumentation().uiAutomation
     val time = SystemClock.uptimeMillis()
     for (action in listOf(MotionEvent.ACTION_DOWN, MotionEvent.ACTION_UP)) {
-        val event = MotionEvent.obtain(time, time + if (action == MotionEvent.ACTION_UP) 16 else 0,
+        val event = MotionEvent.obtain(time, SystemClock.uptimeMillis(),
             action, 5f, with(density) { 90.dp.toPx() }, 0)
         event.source = InputDevice.SOURCE_TOUCHSCREEN
         try { assertTrue(automation.injectInputEvent(event, true)) } finally { event.recycle() }

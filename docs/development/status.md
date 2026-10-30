@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `00b74dc568a604e9097355d2f688bb325698155d77ca4be532987a09a57b230f`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `0c6aa0a71b133ddd62234b13565a6d1efd74e6365664fbad36512d4c296d0637`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 35 |
-| partially-verified | 44 |
-| verified | 78 |
+| implemented | 34 |
+| partially-verified | 43 |
+| verified | 80 |
 | unresolved | 7 |
 | not-applicable | 0 |
 
@@ -119,7 +119,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | verified | IO-006 | 5 / 0 |
 | 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | verified | IO-015 | 4 / 0 |
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
-| 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | implemented | — | 3 / 5 |
+| 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | implemented | — | 3 / 4 |
 | 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -146,7 +146,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | verified | — | 3 / 0 |
 | 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | verified | — | 3 / 0 |
 | 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
-| 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | partially-verified | NATIVE-002, NATIVE-006 | 3 / 7 |
+| 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | verified | NATIVE-002, NATIVE-006 | 3 / 0 |
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | unresolved | — | 3 / 4 |
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
 | 104 | [NAV-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/92) | Medium | 2 | M | verified | — | 4 / 0 |
@@ -1738,7 +1738,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 74. NATIVE-003 — Android and iOS onCreated run before the advertised native WebView reference exists
 
-**Medium · implemented · original effort S** — [nativeCmpkit #62](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort S** — [nativeCmpkit #62](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -1750,13 +1750,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- iOS creation callback ordering and native configuration still require Apple compilation/device tests.
-- Original required test pending full target verification: Assert native reference identity inside onCreated on all targets.
-- Original required test pending full target verification: Configure a native setting and verify whether common settings intentionally override it.
-- Original required test pending full target verification: Retain state across remount and verify callback never observes the previous instance.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification.
 
 **Compatibility / scope:** onCreated signature retained; common/library setup now intentionally precedes native customization.
 
@@ -2352,7 +2348,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 101. NATIVE-037 — Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #89](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort M** — [nativeCmpkit #89](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) (verified; original order 12), [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) (verified; original order 77).
 
@@ -2364,15 +2360,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- The Android production-Compose/shadow-history replacement regression passed in the second JVM batch. Common exclusive-attachment contracts passed across inspected targets; JS failed-creation/disposal DOM cases passed. The real Android provider fixture still failed before history assertions: third-batch INTERNET is present, but initial readiness times out. Real-engine/all-platform same-identity state/navigator/callback substitution remains required.
-- Original required test pending full target verification: At a stable composition location replace stateA with stateB and verify content, native identity, observed state and disposal semantics.
-- Original required test pending full target verification: Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.
-- Original required test pending full target verification: Rapid replacement during queued FX initialization/navigation does not resurrect stale state.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
-- Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains.
-- Fresh immutable40453976628 supersedes only the pending real-URL Android navigator execution above: one device-specific method now passes. All original stateA/stateB/current-callback/rapid-FX, other-platform, minimum-provider/device and consumer/ABI acceptance remain open. Original failures and the new lead-review scope correction are preserved; no issue closure.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained. Additive immutable40453976628 atbe32a7d6 passes25/25 actual emulator executions (one native history-specific method plus24 common methods), zero skips and clean owned teardown. This supersedes earlier Android history readiness/DOM failures only for its exact new real-URL fixture; current native navigator flags/identity/lifecycle assertions execute. Other original state/callback/FX/platform/consumer acceptance remains, so status is partially-verified and issue#89 stays open.
+**Owner verification scope:** Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification.
 
 **Compatibility / scope:** Replacing state intentionally recreates the native view rather than silently leaving new state detached; separate views need separate states/navigators.
 
@@ -3599,7 +3589,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `b50f788ce94177cd3153b7561d45923f8df1d15494f9ad1212b50de012ba0155` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a02d5f620eb126e2cf9ef9584bc6f9d4485517ef196e17cae5f66250223d96bf` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

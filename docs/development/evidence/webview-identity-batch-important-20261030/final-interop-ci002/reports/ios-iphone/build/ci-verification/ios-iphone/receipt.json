@@ -1,0 +1,174 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479",
+    ":calf-webview:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 957.28,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-ios-native-remount-recovery",
+  "finished_at_utc": "2026-10-30T07:07:16.737896+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "inputs_before_sha256": "0e1afbc070a82814a3d544a207970935e7c78d2da327a03346771deff950b275",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "c8c0533753520bad058a63b266840ef066efcb3456be0ec293a81fd35961042d",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r36ec139b2a0e.t3d4ba7057d9d4e75886c72409eb90f77",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-webview",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-webview-application/3d4ba7057d9d4e75886c72409eb90f77/receipt.json",
+      "receipt_sha256": "cf8723c51052afe747d14faf93b54e946ed25b9bb5e2fa27eb053f5fa722e7d6",
+      "required_native_cases_found": 1,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "726D52AF-426A-408A-974D-CA8B9BE8A479",
+      "task": ":calf-webview:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.xml",
+          "sha256": "7840ace5f9881950012002bb8b25ec0e189345643efd2f1f5213612f0f9cca02",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+          "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest",
+      "name": "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "ca51b7de196bd942b35e5991baee87829f37b1367a6017c8296258c025ca08d9",
+  "schema_version": 1,
+  "scope": "Only the failed real native creation/remount method with deterministic final native child detachment and a retained actual Compose wrapper. All original null-parent/disposal/remount/configuration assertions remain. Six accepted native methods and four accepted host methods are reused, not replayed. Actual Worker/runtime/binary/install/owned cleanup remains required; no physical/network/playback/minimum/ABI/consumer/security/release certification.",
+  "source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_revision_after": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T06:51:19.439702+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-webview:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

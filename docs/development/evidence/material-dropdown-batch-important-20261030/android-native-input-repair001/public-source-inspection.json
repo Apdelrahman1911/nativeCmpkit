@@ -1,0 +1,31 @@
+{
+  "tag": "android-15.0.0_r1",
+  "public_sources": [
+    {
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/core/java/android/view/KeyEvent.java?format=TEXT",
+      "sha256": "258c361954019ffedd0de53152a7728a3f86a21acd13118d58bb34f1fdd929a2",
+      "bytes": 140713,
+      "external_untrusted_source_read_not_executed": true
+    },
+    {
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/core/java/android/app/UiAutomation.java?format=TEXT",
+      "sha256": "e407ac1fe4d3e5a21e3dbb7fd9fb36b9c17b77ff58a6261a69537570e2f06836",
+      "bytes": 79110,
+      "external_untrusted_source_read_not_executed": true
+    }
+  ],
+  "observations": [
+    {
+      "source": "KeyEvent.java",
+      "lines": "1567-1571,1678-1700",
+      "observation": "Two-argument constructor leaves downTime/eventTime/source zero. Ten-argument overload installs provided monotonic milliseconds, flags/device/source."
+    },
+    {
+      "source": "UiAutomation.java",
+      "lines": "946-1007",
+      "observation": "injectInputEvent Boolean is a genuine native injection result; failed delivery remains an assertion, not ignored or substituted with menu callbacks."
+    }
+  ],
+  "exact_InputDispatcher_rejection_root_cause_verified": false,
+  "sources_read_not_executed_or_committed": true
+}

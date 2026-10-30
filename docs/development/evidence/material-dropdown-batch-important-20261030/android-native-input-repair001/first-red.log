@@ -1,0 +1,14 @@
+test_native_key_events_have_current_uptime_and_explicit_keyboard_identity (test_dropdown_android_recovery.DropdownAndroidRecoveryTests.test_native_key_events_have_current_uptime_and_explicit_keyboard_identity) ... FAIL
+
+======================================================================
+FAIL: test_native_key_events_have_current_uptime_and_explicit_keyboard_identity (test_dropdown_android_recovery.DropdownAndroidRecoveryTests.test_native_key_events_have_current_uptime_and_explicit_keyboard_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_dropdown_android_recovery.py", line 23, in test_native_key_events_have_current_uptime_and_explicit_keyboard_identity
+    self.assertIn(required, back)
+AssertionError: 'val downTime = SystemClock.uptimeMillis()' not found in 'input: DropdownBackInput) {\n    val automation = InstrumentationRegistry.getInstrumentation().uiAutomation\n    assertTrue(automation.injectInputEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ESCAPE), true))\n    assertTrue(automation.injectInputEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ESCAPE), true))\n    waitForIdle()\n}\n\n'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

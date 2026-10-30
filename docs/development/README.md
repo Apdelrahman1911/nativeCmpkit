@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Shared WebView closure; Android-only dropdown recovery — 2026-10-30
+
+**[#62/NATIVE-003 and #89/NATIVE-037 CLOSED/completed](evidence/webview-contracts-verified-20261030/README.md)**
+after all three original criteria/readbacks, before documentation. Fresh iOS
+41015744209 native1/1 passes; unchanged complete Android/Desktop/JS/Wasm/iOS
+replacement/queued methods are reused, not fresh whole-workflow passes.
+**82closed/90open/172total**;34implemented/43partial/80verified/seven unresolved.
+[Actual dropdown41015763086](evidence/material-dropdown-batch-important-20261030/platform-ci001/README.md)
+remains FAILED15pass/one Android key-injection rejection, before dismissal checks.
+[Owning native-input recovery](evidence/material-dropdown-batch-important-20261030/android-native-input-repair001/README.md)
+uses current uptime/keyboard identity and exactly one `Class#method` Android
+profile.17+two important synthetic guards/actionlint pass; zero local native
+execution. Preserve the15 accepted results; #132/#141 and all independent
+publication/Pages/main/history/native/minimum/ABI/consumer/security gates stay.
+
 ## Owning guards and dropdown compile recovery — 2026-10-30
 
 [Native request41013984992](evidence/webview-identity-batch-important-20261030/final-interop-ci001/README.md)

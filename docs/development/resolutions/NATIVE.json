@@ -509,9 +509,10 @@
     "id": "NATIVE-003",
     "title": "Android and iOS onCreated run before the advertised native WebView reference exists",
     "priority": "Medium",
-    "status": "implemented",
+    "status": "verified",
     "changes": [
-      "All mobile native references/settings/delegates are installed before onCreated; failure-safe creation clears partial references."
+      "All mobile native references/settings/delegates are installed before onCreated; failure-safe creation clears partial references.",
+      "2026-10-30: original all-target native identity/owner contracts reviewed against actual executed evidence; final explicit UIKit child release verified, issue closed/read back before ledger updates."
     ],
     "affected_paths": [
       "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
@@ -661,18 +662,32 @@
           "docs/development/evidence/native/first-wasm-share-timer-correction.json"
         ],
         "scope": "Chrome153/Linux;693selected before/after input hashes equal per run and75held native inputs match both. WebView six real-DOM tests include opaque-origin isolation and a native-listener detachment negative control; share nine Promise tests use controlled navigator functions and real zero-ms browser turns. Camera/common contracts are target repetitions,not actual capture or platform-specific backend verification. No other engines,network/security/popup/window matrices,GC/native-memory,physical camera/URI grants,OS sharing/clipboard permission/transient activation/recipient consumption,Apple/AppKit/AndroidChromium history,consumer/ABI or release clearance. Preserve prior failed archives,all original required tests and finding status."
+      },
+      {
+        "checkpoint": "webview-contracts-verified-20261030",
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-webview:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+        "source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+        "run_id": 41015744209,
+        "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41015744209",
+        "result": "PASS fresh iOS1/1, Gradle exit0/957.28s; real UIApplication/UIKit/WebKit/main versus owned Worker, installed binary and cleanup/fresh XML verified. Six earlier accepted complete methods reused from four input-bound workflows, not replayed or promoted to whole-workflow passes. All three original criteria reviewed; GitHub issue CLOSED/completed with exact technical body/title/labels retained.",
+        "test_count": 1,
+        "report_count": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": [
+          "docs/development/evidence/webview-contracts-verified-20261030/NATIVE-003-original-criteria-acceptance.json",
+          "docs/development/evidence/webview-contracts-verified-20261030/NATIVE-003-closure-readback.json",
+          "docs/development/evidence/webview-identity-batch-important-20261030/final-interop-ci002/review.json"
+        ],
+        "scope": "Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification."
       }
     ],
-    "remaining": [
-      "iOS creation callback ordering and native configuration still require Apple compilation/device tests.",
-      "Original required test pending full target verification: Assert native reference identity inside onCreated on all targets.",
-      "Original required test pending full target verification: Configure a native setting and verify whether common settings intentionally override it.",
-      "Original required test pending full target verification: Retain state across remount and verify callback never observes the previous instance.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
-    ],
+    "remaining": [],
     "compatibility": "onCreated signature retained; common/library setup now intentionally precedes native customization.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-003"
+    "verification_scope": "Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-003",
+    "required_tests_review": "All three original criteria verified in docs/development/evidence/webview-contracts-verified-20261030/NATIVE-003-original-criteria-acceptance.json; original defects/failures/prior owner record retained."
   },
   {
     "id": "NATIVE-004",
@@ -758,7 +773,7 @@
       }
     ],
     "remaining": [
-      "Original required test pending full target verification: Data→Url→Data transitions via direct state assignment and remembered-state updates.",
+      "Original required test pending full target verification: Data\u2192Url\u2192Data transitions via direct state assignment and remembered-state updates.",
       "Original required test pending full target verification: Navigator and state loaders produce the same iframe attributes and page.",
       "Original required test pending full target verification: Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
@@ -974,8 +989,8 @@
     ],
     "remaining": [
       "Fresh engine-location reset and saver precedence passed the actual Linux JavaFX link/redirect/reload/history regression in the second JVM batch and focused rerun; JS common request/saver contracts also passed. Equivalent real Android/iOS and complete browser load/error matrices remain unverified. A frame load cannot prove HTTP/CSP/authentication success.",
-      "Original required test pending full target verification: Fail→success, fail→fail, reload, stop and redirects on every target.",
-      "Original required test pending full target verification: Browser same-origin→cross-origin→inline transitions; blocked framing and offline destination.",
+      "Original required test pending full target verification: Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
+      "Original required test pending full target verification: Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
       "Original required test pending full target verification: iOS provisional DNS/TLS failure before commit resets the previous request errors.",
       "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain."
     ],
@@ -5459,7 +5474,7 @@
       },
       {
         "command": "Prepared webview-desktop: only calf-webview desktopTest under Xvfb,45 authored/runtime methods",
-        "result": "NOT EXECUTED: two new real JavaFX HTTP regressions for public custom User-Agent A→B→null and two simultaneous native owners resetting only their own request headers. Actual engine/HTTP header/MIME/title agreement and owned-thread termination assertions retained; production unchanged.",
+        "result": "NOT EXECUTED: two new real JavaFX HTTP regressions for public custom User-Agent A\u2192B\u2192null and two simultaneous native owners resetting only their own request headers. Actual engine/HTTP header/MIME/title agreement and owned-thread termination assertions retained; production unchanged.",
         "evidence": [
           "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt"
         ],
@@ -5467,7 +5482,7 @@
       },
       {
         "command": "Immutable6dbe6ca2/run40621748881, only calf-webview desktopTest under Xvfb; exact command in review",
-        "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A→B→null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
+        "result": "PASSED45/45 actual methods/nine XML/0fail-error-skip,13 real JavaFX methods incl2new. Both original requirements accepted; actual HTTP A\u2192B\u2192null/default and two-engine independent headers verified. #152 readback-closed directly before archive;33 closures confirmed.",
         "evidence": [
           "docs/development/evidence/github-actions/40621748881/important-result-review.json",
           "docs/development/evidence/github-actions/40621748881/direct-closure/closure-readback.json",
@@ -5485,10 +5500,11 @@
     "id": "NATIVE-037",
     "title": "Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound",
     "priority": "Medium",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Key all platform native owners by state; latest callbacks/navigator are rebound without replacing active native owners merely for recomposition; stale callbacks check identity.",
-      "Post-review: Android/iOS navigator-only replacement snapshots existing native history after exclusive admission; host Compose test and separate real-WebView device-history test preserve the same view/creation counts."
+      "Post-review: Android/iOS navigator-only replacement snapshots existing native history after exclusive admission; host Compose test and separate real-WebView device-history test preserve the same view/creation counts.",
+      "2026-10-30: original all-target native identity/owner contracts reviewed against actual executed evidence; final explicit UIKit child release verified, issue closed/read back before ledger updates."
     ],
     "affected_paths": [
       "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
@@ -5799,20 +5815,32 @@
           "docs/development/evidence/github-actions/40453976628/additive-scope-correction.json"
         ],
         "scope": "Partial actual Android navigator-replacement verification only. Native creation/disposal counts are assertions in this single method, not separately executed teardown/callback/state-replacement fixtures. Original other-target/rapid-FX/state/callback/minimum-provider/consumer/ABI scope remains."
+      },
+      {
+        "checkpoint": "webview-contracts-verified-20261030",
+        "command": "./gradlew --continue --no-daemon --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8 -Pkotlin.compiler.execution.strategy=in-process -Pkotlin.native.jvmArgs=-Xmx2048m --init-script scripts/ci/fresh-tests.init.gradle.kts --init-script scripts/ci/daemon-jvm.init.gradle.kts -PnativecmpkitSimulatorDevice=726D52AF-426A-408A-974D-CA8B9BE8A479 :calf-webview:iosSimulatorArm64ApplicationTest --tests com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest.creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+        "source_revision": "36ec139b2a0e6ead1b161abcd72afef493d7665d",
+        "run_id": 41015744209,
+        "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41015744209",
+        "result": "PASS fresh iOS1/1, Gradle exit0/957.28s; real UIApplication/UIKit/WebKit/main versus owned Worker, installed binary and cleanup/fresh XML verified. Six earlier accepted complete methods reused from four input-bound workflows, not replayed or promoted to whole-workflow passes. All three original criteria reviewed; GitHub issue CLOSED/completed with exact technical body/title/labels retained.",
+        "test_count": 1,
+        "report_count": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "evidence": [
+          "docs/development/evidence/webview-contracts-verified-20261030/NATIVE-037-original-criteria-acceptance.json",
+          "docs/development/evidence/webview-contracts-verified-20261030/NATIVE-037-closure-readback.json",
+          "docs/development/evidence/webview-identity-batch-important-20261030/final-interop-ci002/review.json"
+        ],
+        "scope": "Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification."
       }
     ],
-    "remaining": [
-      "The Android production-Compose/shadow-history replacement regression passed in the second JVM batch. Common exclusive-attachment contracts passed across inspected targets; JS failed-creation/disposal DOM cases passed. The real Android provider fixture still failed before history assertions: third-batch INTERNET is present, but initial readiness times out. Real-engine/all-platform same-identity state/navigator/callback substitution remains required.",
-      "Original required test pending full target verification: At a stable composition location replace stateA with stateB and verify content, native identity, observed state and disposal semantics.",
-      "Original required test pending full target verification: Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.",
-      "Original required test pending full target verification: Rapid replacement during queued FX initialization/navigation does not resurrect stale state.",
-      "Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.",
-      "Latest immutable40449398030 still fails before replacement because inline DOM hash restores empty despite native list/capability success. Real HTTPS URL served by owning client compiles from710 held inputs but needs actual immutable execution; no fake native history, network fallback, relaxed predicate or skip. Original native/minimum-platform/consumer/ABI acceptance remains.",
-      "Fresh immutable40453976628 supersedes only the pending real-URL Android navigator execution above: one device-specific method now passes. All original stateA/stateB/current-callback/rapid-FX, other-platform, minimum-provider/device and consumer/ABI acceptance remain open. Original failures and the new lead-review scope correction are preserved; no issue closure."
-    ],
+    "remaining": [],
     "compatibility": "Replacing state intentionally recreates the native view rather than silently leaving new state detached; separate views need separate states/navigators.",
-    "verification_scope": "Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained. Additive immutable40453976628 atbe32a7d6 passes25/25 actual emulator executions (one native history-specific method plus24 common methods), zero skips and clean owned teardown. This supersedes earlier Android history readiness/DOM failures only for its exact new real-URL fixture; current native navigator flags/identity/lifecycle assertions execute. Other original state/callback/FX/platform/consumer acceptance remains, so status is partially-verified and issue#89 stays open.",
-    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-037"
+    "verification_scope": "Actual iOS26.5 arm64 simulator, API35 Android emulator, Linux JavaFX and Chromium JS/Wasm native identity/content/callback/remount contracts only. Skips/whole failures remain failures. No physical/minimum platform/other desktop OS/other browser/gesture or video behavior/memory profile/ABI/consumer/dependency/legal/security/release certification.",
+    "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-037",
+    "required_tests_review": "All three original criteria verified in docs/development/evidence/webview-contracts-verified-20261030/NATIVE-037-original-criteria-acceptance.json; original defects/failures/prior owner record retained."
   },
   {
     "id": "NATIVE-038",
@@ -6075,7 +6103,7 @@
     ],
     "remaining": [],
     "compatibility": "Existing setters retained; batch is additive. Error list becomes live observable state instead of immutable-per-update snapshots.",
-    "verification_scope": "Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT→FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.",
+    "verification_scope": "Accepted2026-10-28: all3 original criteria pass after focused important tests and source/results review; GitHub153 closes directly before documentation. Fourteen fresh executions/ten authored methods/fiveXML on immutableaf107523, including actual native bounded updates/coherent AWT\u2192FX batches and5000 exact observable Android-host resource records, allocation/time measured. Previous incoherent-pair and zero-test compiler failures remain failed. Arbitrary concurrent writers remain unsupported; no broader native/device/minimum/sanitizer/ABI/consumer/dependency/legal/release certification.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-039",
     "historical_remaining_before_20261028": [
       "No allocation/time/native-call benchmark yet; mutation is UI-confined and not a concurrent coherent-snapshot guarantee.",
@@ -6090,7 +6118,7 @@
       "docs/development/evidence/settings-important-20261028/direct-closure/closure-readback.json"
     ],
     "residual_risks": [
-      "Settings writers remain owner-UI-thread confined; this establishes coherent UI→JavaFX snapshots, not arbitrary concurrent multiwriter support.",
+      "Settings writers remain owner-UI-thread confined; this establishes coherent UI\u2192JavaFX snapshots, not arbitrary concurrent multiwriter support.",
       "One JDK17/Robolectric SDK34 allocation/time host sample with controlled errors; reference executes original add/toList algorithm only, not a historical APK/native engine or device performance benchmark.",
       "Android error collection is live observable read-only-typed state; retain .toList() when an immutable snapshot is needed.",
       "Existing JavaFX -Xcheck:jni warnings preserved; no sanitizer/native-memory, AndroidChromium/network/device, Apple/minimum-platform or full distribution/ABI/dependency/legal/release clearance."

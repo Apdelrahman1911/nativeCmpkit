@@ -1,0 +1,38 @@
+  public static final java.util.List<org.jetbrains.kotlin.konan.target.SanitizerKind> supportedSanitizers(org.jetbrains.kotlin.konan.target.KonanTarget);
+    Code:
+       0: aload_0
+       1: ldc           #6                  // String <this>
+       3: invokestatic  #66                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+       6: aload_0
+       7: astore_1
+       8: aload_1
+       9: instanceof    #22                 // class org/jetbrains/kotlin/konan/target/KonanTarget$LINUX_X64
+      12: ifeq          39
+      15: iconst_2
+      16: anewarray     #35                 // class org/jetbrains/kotlin/konan/target/SanitizerKind
+      19: astore_2
+      20: aload_2
+      21: iconst_0
+      22: getstatic     #59                 // Field org/jetbrains/kotlin/konan/target/SanitizerKind.ADDRESS:Lorg/jetbrains/kotlin/konan/target/SanitizerKind;
+      25: aastore
+      26: aload_2
+      27: iconst_1
+      28: getstatic     #60                 // Field org/jetbrains/kotlin/konan/target/SanitizerKind.THREAD:Lorg/jetbrains/kotlin/konan/target/SanitizerKind;
+      31: aastore
+      32: aload_2
+      33: invokestatic  #64                 // Method kotlin/collections/CollectionsKt.listOf:([Ljava/lang/Object;)Ljava/util/List;
+      36: goto          74
+      39: aload_1
+      40: instanceof    #24                 // class org/jetbrains/kotlin/konan/target/KonanTarget$MACOS_X64
+      43: ifeq          55
+      46: getstatic     #60                 // Field org/jetbrains/kotlin/konan/target/SanitizerKind.THREAD:Lorg/jetbrains/kotlin/konan/target/SanitizerKind;
+      49: invokestatic  #63                 // Method kotlin/collections/CollectionsKt.listOf:(Ljava/lang/Object;)Ljava/util/List;
+      52: goto          74
+      55: aload_1
+      56: instanceof    #23                 // class org/jetbrains/kotlin/konan/target/KonanTarget$MACOS_ARM64
+      59: ifeq          71
+      62: getstatic     #60                 // Field org/jetbrains/kotlin/konan/target/SanitizerKind.THREAD:Lorg/jetbrains/kotlin/konan/target/SanitizerKind;
+      65: invokestatic  #63                 // Method kotlin/collections/CollectionsKt.listOf:(Ljava/lang/Object;)Ljava/util/List;
+      68: goto          74
+      71: invokestatic  #62                 // Method kotlin/collections/CollectionsKt.emptyList:()Ljava/util/List;
+      74: areturn

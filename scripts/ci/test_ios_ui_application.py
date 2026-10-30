@@ -263,10 +263,16 @@ class OwnedApplicationTests(unittest.TestCase):
         with patch.object(a.runtime, "capture", side_effect=contexts or [self.before, self.before]), \
                 patch.object(a, "execute_control", side_effect=control or self.control), \
                 patch.object(a, "forward_application", side_effect=launch or self.launch), \
+                patch("apple_image_profile.ImageProfileDriver") as profile, \
                 patch.object(a.shutil, "disk_usage", return_value=SimpleNamespace(free=10 * 1024**3)):
             # Explicit synthetic capacity isolates these ownership contracts from
             # the host's shared /tmp reserve. The production reserve is tested
             # independently below; no real app/build is staged by these fixtures.
+            # These old transport-only fixtures do not execute a native profile
+            # case. Isolate the new optional boundary, not its real assertions.
+            profile.return_value.prepare.return_value = None
+            profile.return_value.receipt = {"owned_ack_removed": True, "owned_private_tree_removed": True,
+                                            "supported": False, "profile_passed": False}
             return a.run(self.binary.relative_to(self.root).as_posix(), arguments or list(a.TEST_ARGUMENTS))
 
     def test_owned_staging_reserve_guard_still_refuses_install(self):

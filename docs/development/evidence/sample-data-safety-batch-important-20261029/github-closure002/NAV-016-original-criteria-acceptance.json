@@ -1,0 +1,77 @@
+{
+  "all_original_acceptance_criteria_satisfied": true,
+  "broader_issues_left_open": [
+    "NAV-008",
+    "#100/NAV-013"
+  ],
+  "build_output_observer_limitation": {
+    "linux_workflow_remains_failed": true,
+    "missing_jvm_JAR_hash_not_inferred": true,
+    "standard_successful_Gradle_build_is_the_original_criterion_not_distribution_certification": true
+  },
+  "criteria": [
+    {
+      "evidence": [
+        "Six actual main compilation dependency graphs on Linux/Apple have zero unresolved dependencies and omit the removed Navigation group; original source import checks retain the actual custom navigation API.",
+        "docs/development/evidence/sample-data-safety-batch-important-20261029/build-linux-ci002/build-review.json",
+        "docs/development/evidence/sample-data-safety-batch-important-20261029/build-apple-ci001/build-review.json"
+      ],
+      "passed": true,
+      "requirement": "Search/import audit and dependency graph prove the library is unused."
+    },
+    {
+      "evidence": [
+        "Linux actual bounded Gradle command completed with exit0/2787.56s, including Android assembleDebug, JVM jvmJar and JS/Wasm production webpack/distribution. The fresh JVM TaskState reports executed=true, failed/skipped/no_source/up_to_date=false. This proves its requested Gradle build; it does not provide a JAR output hash. Linux aggregate reporting remains FAILED at the filename observer and is not recast as green CI.",
+        "Apple actual Gradle command exit0/3592.88s builds device+simulator Common frameworks with nonempty hashes; actual unsigned Calf Xcode integration exit0/58.75s.",
+        "No accepted sample methods replayed: ZERO test executions requested/executed."
+      ],
+      "passed": true,
+      "requirement": "Build Android/JVM/JS/Wasm/iOS sample targets after removal."
+    },
+    {
+      "evidence": [
+        "minSdk remains24. No API23, merged-manifest/device equivalence or minimum-platform certification is claimed; the conditional restriction on lowering is honored."
+      ],
+      "passed": true,
+      "requirement": "Only lower minSdk after merged-manifest/dependency and device verification."
+    }
+  ],
+  "id": "NAV-016",
+  "issue_number": 154,
+  "original_issue_body_sha256": "b20536f81d402d703711b85dbebc35872f4de360444a88cfe8e464a2e1e783be",
+  "physical_device_or_ABI_or_consumer_certification": false,
+  "release_packages_Pages_or_deployments_authorized_or_created": false,
+  "reviewed_at_utc": "2026-10-30T01:22:18.122891+00:00",
+  "unchanged_reused_owner_inputs": [
+    {
+      "path": "sample/common/build.gradle.kts",
+      "sha256": "719859e33ee3c9d333a23e0eeeb4731fe0d606fb2f4363627653408f90901edd",
+      "unchanged_between_accepted_runs_and_current": true
+    },
+    {
+      "path": "sample/android/build.gradle.kts",
+      "sha256": "487e8c6cc3dd79dafa6c6bd0d37cb0cf00fcd53744df5e47a56431f5e78bd20b",
+      "unchanged_between_accepted_runs_and_current": true
+    },
+    {
+      "path": "sample/desktop/build.gradle.kts",
+      "sha256": "e6fd8ca2ca405de721b29a4c19b229de4e95e55cc8c140fc7d578ac4c26617f7",
+      "unchanged_between_accepted_runs_and_current": true
+    },
+    {
+      "path": "sample/web-js/build.gradle.kts",
+      "sha256": "aa583897224c10fdefb157970f17e059be8472b695540540d1a8f8bd7009f207",
+      "unchanged_between_accepted_runs_and_current": true
+    },
+    {
+      "path": "sample/web-wasm/build.gradle.kts",
+      "sha256": "be1b7d4830a22b41d3526ec86fc9dd2aac3173a75be922afe3bb31059b0db11f",
+      "unchanged_between_accepted_runs_and_current": true
+    },
+    {
+      "path": "sample/ios/Calf.xcodeproj/project.pbxproj",
+      "sha256": "c23ebc320a0a22a647d5fc8b657e17147642c332ebc2581382014a3d2fe45c67",
+      "unchanged_between_accepted_runs_and_current": true
+    }
+  ]
+}

@@ -12,6 +12,7 @@ IMAGE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConver
 PROPERTIES = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt"
 BARS = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt"
 VECTOR_THEME = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt"
+IMAGE_MEMORY = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
 
 
 class IosApplicationPlanTests(unittest.TestCase):
@@ -30,6 +31,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.write(PROPERTIES, "// synthetic stable/changed text-field remember contract")
         self.write(BARS, "// synthetic current-membership native selection contract")
         self.write(VECTOR_THEME, "// synthetic real rendering/system-appearance acceptance input")
+        self.write(IMAGE_MEMORY, "// synthetic real image-memory/profile-workload acceptance input")
 
     def write(self, name, text):
         path = self.root / name
@@ -51,7 +53,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.assertNotIn("native_test_host", item)
 
     def test_ui_application_sources_cannot_disappear_behind_common_tests(self):
-        for source in [HOST, FIXTURE, IDENTITY, IMAGE, PROPERTIES, BARS, VECTOR_THEME]:
+        for source in [HOST, FIXTURE, IDENTITY, IMAGE, PROPERTIES, BARS, VECTOR_THEME, IMAGE_MEMORY]:
             with self.subTest(source=source):
                 original = (self.root / source).read_bytes()
                 (self.root / source).unlink()
@@ -73,6 +75,7 @@ class IosApplicationPlanTests(unittest.TestCase):
         self.assertIn(PROPERTIES, plan["expected"][0]["test_source_files"])
         self.assertIn(BARS, plan["expected"][0]["test_source_files"])
         self.assertIn(VECTOR_THEME, plan["expected"][0]["test_source_files"])
+        self.assertIn(IMAGE_MEMORY, plan["expected"][0]["test_source_files"])
 
     def test_ui_host_sources_do_not_change_other_platform_tasks(self):
         for suite in ["desktop", "android-host", "js", "wasm"]:

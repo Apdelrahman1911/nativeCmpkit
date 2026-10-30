@@ -73,6 +73,11 @@ kotlin {
     targets.withType<KotlinNativeTarget>().matching { it.name == "iosSimulatorArm64" }.configureEach {
         binaries.test("application", listOf(DEBUG)) {
             freeCompilerArgs += listOf("-entry", "com.mohamedrejeb.calf.ui.internal.nativeApplicationMain")
+            // Opt-in verification binary only; never alter public frameworks or their defaults.
+            if (providers.gradleProperty("nativecmpkitImageMemoryDiagnostics").orNull == "true") {
+                binaryOption("runtimeAssertionsMode", "panic")
+                binaryOption("checkStateAtExternalCalls", "true")
+            }
         }
         val application = binaries.getTest("application", DEBUG)
         tasks.register<KotlinNativeHostTest>("iosSimulatorArm64ApplicationTest") {

@@ -55,6 +55,8 @@ SLIDER_TIMEOUT_SECONDS = 300
 def application_timeout_seconds(focus: str | None) -> int:
     if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
         raise ValueError("Unknown finite application focus")
+    if focus == lt.IOS_IMAGE_MEMORY_FOCUS:
+        return 360
     return (SLIDER_TIMEOUT_SECONDS if focus in (
         lt.IOS_SLIDER_LIFECYCLE_FOCUS, lt.IOS_SLIDER_REMAINING_FOCUS, lt.IOS_SLIDER_STRUCTURE_FOCUS,
         lt.IOS_VECTOR_THEME_FOCUS,
@@ -111,6 +113,7 @@ IMAGE_LIFETIME_STEPS = (
     tuple((phase, iteration) for iteration in range(1, 21) for phase in ("before-conversion", "before-gc", "after-gc")) +
     (("before-verify", None), ("verified", None))
 )
+IMAGE_PROFILE_CASE = (lt.IOS_IMAGE_MEMORY_CLASS, lt.IOS_IMAGE_MEMORY_METHODS[-1])
 PICKER_HOST_CASE = ("com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
                     "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner")
 PICKER_HOST_STEPS = tuple((phase, iteration, main_thread) for iteration in (1, 2) for phase, main_thread in (
@@ -238,6 +241,9 @@ class NativeProtocol:
         self.observed_launch_pid = None
         self.transport_observation = None
         self.image_lifetime_observation = None
+        self.image_profile_observations = []
+        self.image_profile_request = None
+        self.image_profile_request_sent = False
         self.compact_appearance_observation = []
         self.active = None
         self.completed = None
@@ -274,7 +280,26 @@ class NativeProtocol:
             # buffered. Do not invent a pre-activation stdout ordering contract.
             # This is a bounded console witness, not a trusted-OS attestation.
             self.observed_launch_pid = int(launch[1])
+            self._request_image_profile_if_ready()
             return
+        profile = re.fullmatch(
+            r"NATIVECMPKIT_IMAGE_PROFILE phase=(ready|complete)(?: rounds=([1-9][0-9]{0,3}))?", line)
+        if profile:
+            if self.active is None or self.completed is not None or self.open_case != IMAGE_PROFILE_CASE:
+                raise ValueError("Image profile marker outside its exact active native testcase")
+            if profile[1] == "ready":
+                if self.image_profile_observations or profile[2] is not None:
+                    raise ValueError("Missing, repeated or malformed native image profile request")
+                self.image_profile_observations.append({"phase": "ready"})
+                self._request_image_profile_if_ready()
+            else:
+                if (self.image_profile_observations != [{"phase": "ready"}] or profile[2] is None or
+                        not 1 <= int(profile[2]) <= 4096):
+                    raise ValueError("Missing, reordered or unbounded native image profile workload")
+                self.image_profile_observations.append({"phase": "complete", "rounds": int(profile[2])})
+            return
+        if line.startswith("NATIVECMPKIT_IMAGE_PROFILE"):
+            raise ValueError("Unknown or malformed native image profile marker")
         appearance = re.fullmatch(
             r"NATIVECMPKIT_SYSTEM_APPEARANCE phase=(request|verified) step=([12]) style=(light|dark)", line)
         if appearance:
@@ -551,6 +576,10 @@ class NativeProtocol:
                 case["status"] = "failed"
             else:
                 if case["status"] == "running":
+                    if self.open_case == IMAGE_PROFILE_CASE and (
+                            len(self.image_profile_observations) != 2 or
+                            self.image_profile_observations[-1].get("phase") != "complete"):
+                        raise ValueError("A passing profile workload needs both complete actual native phases")
                     if self.open_case == IMAGE_LIFETIME_CASE and (self.image_lifetime_observation is None or
                             self.image_lifetime_observation["marker_count"] != len(IMAGE_LIFETIME_STEPS) or
                             self.image_lifetime_observation["retained_image_bytes_verified"] is not True):
@@ -588,6 +617,12 @@ class NativeProtocol:
         elif kind not in {"testStdOut", "testStdErr", "message", "testCount"}:
             raise ValueError("Unreviewed native test protocol record")
 
+    def _request_image_profile_if_ready(self) -> None:
+        if (self.observed_launch_pid is not None and self.image_profile_request is not None and
+                self.image_profile_observations == [{"phase": "ready"}] and not self.image_profile_request_sent):
+            self.image_profile_request_sent = True
+            self.image_profile_request(self.observed_launch_pid)
+
     def partial(self) -> dict:
         """Finished frames only; interruption is never promoted to a testcase.
 
@@ -605,6 +640,8 @@ class NativeProtocol:
                 "open_suites": list(self.stack), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"image_profile_observations": self.image_profile_observations}
+                   if self.image_profile_observations else {}),
                 **({"lifecycle_failure_observation": self.lifecycle_failure_observation}
                    if self.lifecycle_failure_observation is not None else {}),
                 **({"picker_admission_observations": self.picker_admission_observations}
@@ -649,6 +686,8 @@ class NativeProtocol:
                 "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"image_profile_observations": self.image_profile_observations}
+                   if self.image_profile_observations else {}),
                 **({"picker_admission_observations": self.picker_admission_observations}
                    if self.picker_admission_observations else {}),
                 **({"picker_host_observations": self.picker_host_observations}
@@ -713,13 +752,15 @@ def installed_identity(result: subprocess.CompletedProcess, bundle_id: str, sign
     return plistlib.loads((path / "Info.plist").read_bytes()).get("CFBundleIdentifier") == bundle_id
 
 
-def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int = APP_TIMEOUT_SECONDS) -> dict:
+def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int = APP_TIMEOUT_SECONDS,
+                        environment: dict[str, str] | None = None) -> dict:
     """Preserve real frames verbatim through KGP, while bounding owned transport."""
     started = time.monotonic()
     transport = {"started_at_utc": lt.utc_now(), "timeout_seconds": timeout, "console_process_exit": None,
                  "console_process_exit_after_cleanup": None, "console_cleanup_requested": False}
+    options = {} if environment is None else {"env": environment}
     process = subprocess.Popen(argv, cwd=lt.ROOT, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-                               start_new_session=True, bufsize=0)
+                               start_new_session=True, bufsize=0, **options)
     pending = b""
     stage = "protocol-read"
     try:
@@ -858,6 +899,8 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
     phase = "runtime-preflight"
     protocol = NativeProtocol()
     appearance_driver = None
+    image_profile_driver = None
+    native_environment = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
         receipt.update(source_revision=before["source_revision"], source_tree_dirty=before["source_tree_dirty"], runtime_before=before)
@@ -899,6 +942,13 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
+        if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS):
+            import apple_image_profile
+            phase = "prepare-owned-image-memory-profile"
+            image_profile_driver = apple_image_profile.ImageProfileDriver(
+                root, output, device, bundle_id, signed_hash, plist_hash, execute_control)
+            native_environment = image_profile_driver.prepare()
+            protocol.image_profile_request = image_profile_driver.request
         if host["module"] == "calf-ui" and focus in (
                 None, lt.IOS_VECTOR_THEME_FOCUS, lt.IOS_SYSTEM_APPEARANCE_FOCUS):
             phase = "prepare-owned-simulator-system-appearance"
@@ -908,7 +958,8 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         phase = "launch-and-real-test-transport"
         receipt["application_protocol"] = forward_application(
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
-            protocol, timeout=application_timeout_seconds(focus))
+            protocol, timeout=application_timeout_seconds(focus),
+            **({"environment": native_environment} if native_environment is not None else {}))
         if appearance_driver is not None:
             phase = "restore-owned-simulator-system-appearance"
             appearance_driver.restore()
@@ -927,6 +978,12 @@ def run(binary_relative: str, arguments: list[str]) -> dict:
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if image_profile_driver is not None:
+            image_profile_driver.close()
+            receipt["image_memory_profile"] = image_profile_driver.receipt
+            if not (image_profile_driver.receipt.get("owned_ack_removed") is True and
+                    image_profile_driver.receipt.get("owned_private_tree_removed") is True):
+                receipt["transport_passed"] = False
         if appearance_driver is not None:
             try:
                 appearance_driver.restore()

@@ -1,5 +1,26 @@
 # NativeCmpKit development after the audit
 
+## Shared sample-build cleanup closed — 2026-10-30
+
+**#154/NAV-016 CLOSED/completed** after [all three original criteria](docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/README.md), before documentation. Linux40979092763 actual Gradle0/2787.56s builds Android/JVM/JS/Wasm; fresh public JVM TaskState executed/not failed/skipped/NO-SOURCE/UP-TO-DATE. Aggregate workflow/report **remains FAILED** at output-name observation; no missing JAR hash/distribution pass inferred. Apple40974963662 builds both Common frameworks0/3592.88s and real unsigned Xcode0/58.75s. Six actual graphs omit unused Navigation; minSdk24 retained. ZERO test replay. **78closed/94open**; NAV-008/#100 remain open. Next shared #140/#141 memory diagnostics candidate is still native-unverified. Single-agent/max2/8GiB reserve; publishing/Pages/main/history and independent release/security gates stay.
+
+## Shared native image-memory batch — 2026-10-30
+
+[Candidate/evidence](evidence/image-memory-batch-important-20261030/README.md)
+adds three genuine library-level large-buffer/concurrent-GC/native failure/profile
+methods; nine accepted UIImage methods are not replayed.99/99 changed owning
+synthetic fixtures and final7/7 overlapping memory guards pass/all967 held;
+initial five reds and whole881/12failure/7error events remain failed. ZERO local
+Gradle/KLIB/link/native executions. Actual compiler bytecode **warns and disables**
+unsupported sanitizer settings; enum presence is not an ASan pass. One Apple
+focus requests runtime/observed Darwin diagnostics; only actual useful owned-frame
+Instruments rows and a real zero-leak summary can certify the separate profile.
+#140/#141 remain open pending immutable native/original-criteria review.
+Apple sample40974963662 passed both frameworks/real unsigned Xcode integration,
+zero tests; Linux40979092763 remains independently running. Related patch/shared
+important tests/immediate verified-subset closure; single-agent/max2 combined
+heavy requests/8GiB reserve and all publishing/main/history/release gates stay.
+
 ## Shared Web build ownership repair — 2026-10-30
 
 [Owning Node/independent-output repair](evidence/sample-data-safety-batch-important-20261029/web-build-repair001/README.md) passes86/86 synthetic important

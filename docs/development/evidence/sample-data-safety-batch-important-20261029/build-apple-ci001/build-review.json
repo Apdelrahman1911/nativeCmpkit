@@ -1,0 +1,162 @@
+{
+  "accepted_app_build_targets": [
+    "ios-device",
+    "ios-simulator"
+  ],
+  "accepted_prior_sample_methods_replayed": false,
+  "actual_built_outputs": {
+    "ios-device": {
+      "bytes": 413681832,
+      "path": "sample/common/build/bin/iosArm64/debugFramework/Common.framework/Common",
+      "sha256": "f4275e17d8db25ddbc83c5b2f6fede8e0c9731a3a2f5c3f368ccdc3fe05656d8",
+      "uploaded": false
+    },
+    "ios-simulator": {
+      "bytes": 413517320,
+      "path": "sample/common/build/bin/iosSimulatorArm64/debugFramework/Common.framework/Common",
+      "sha256": "910fb01fe4d756d0dddb568f9489573688d401231aa7f7bc02e3143c37420451",
+      "uploaded": false
+    }
+  },
+  "actual_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/Users/runner/work/nativeCmpkit/nativeCmpkit",
+    "-PnativecmpkitSampleMode=apple",
+    "-PnativecmpkitSimulatorDevice=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+    ":sample:common:linkDebugFrameworkIosArm64",
+    ":sample:common:linkDebugFrameworkIosSimulatorArm64",
+    ":nativecmpkitSampleCompileDependencies"
+  ],
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "4c13093e3a7553a19be5e04e898175662ef194c04e0de22a1f6c3b9c1247608b",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.1",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-29T23:49:30.526045+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "1F0A9C4B-2DFC-444E-B162-696E5078A72B"
+    },
+    "source_revision": "535b0353e2857d35ed799dbf997e3ab98e4c8684",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "actual_unsigned_Xcode_integration": {
+    "actual_app_binary": {
+      "path": "build/ci-sample-xcode/Build/Products/Debug-iphonesimulator/Calf.app/Calf",
+      "sha256": "a6374ddb97fa437ece01be294e3876e45db166f491b4b6bb209df31941faf105",
+      "uploaded": false
+    },
+    "command": [
+      "xcodebuild",
+      "-project",
+      "sample/ios/Calf.xcodeproj",
+      "-scheme",
+      "Calf",
+      "-configuration",
+      "Debug",
+      "-sdk",
+      "iphonesimulator",
+      "-destination",
+      "id=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+      "-derivedDataPath",
+      "build/ci-sample-xcode",
+      "-jobs",
+      "1",
+      "CODE_SIGNING_ALLOWED=NO",
+      "build"
+    ],
+    "execution": {
+      "elapsed_seconds": 58.75,
+      "exit_code": 0
+    },
+    "real_framework_shell_phase_required": true,
+    "signing_allowed": false
+  },
+  "after_and_process_receipts_preserved": true,
+  "all_selected_inputs_held_and_exact_historical_Git": true,
+  "artifact_digest": "sha256:0d50dc7c0b326ceec314136ce179771dfae4cb40609b287199de16084cfd5495",
+  "artifact_id": 12945017903,
+  "compile_dependency_graph": {
+    "all_selected_compile_graphs_reviewed": true,
+    "direct_navigation_imports_absent": true,
+    "minimum_platform_certified": false,
+    "path": "build/ci-verification/sample-platforms-apple/compile-dependencies.json",
+    "sample_app_declared_minSdk": 24,
+    "sample_minSdk_lowered": false,
+    "sha256": "e0b781a0f47cc08e89d0a86d7d294d7142f38aa320a72a5c59cc0e9e9e33cefb",
+    "unused_second_navigation_group_absent": true
+  },
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 3592.88,
+    "exit_code": 0
+  },
+  "fresh_sample_test_executions": 0,
+  "input_digest": "a66915a33e86d6b874696423ff84ee483bdca16ddb5b0771d7b0f6b736f3f0c8",
+  "library_verification": false,
+  "missing_per_target_output_values_not_inferred": false,
+  "mode": "apple",
+  "packages_releases_deployments_or_Pages_created": false,
+  "passed": true,
+  "physical_device_verification": false,
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T00:52:38.757297+00:00",
+  "run_attempt": 1,
+  "run_id": 40974963662,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40974963662",
+  "sample_job_conclusion": "success",
+  "sample_job_id": 123800940853,
+  "sample_target_test_executions_requested": 0,
+  "selected_input_count": 962,
+  "source_revision": "535b0353e2857d35ed799dbf997e3ab98e4c8684",
+  "web_node_environments": null,
+  "workflow_conclusion": "success"
+}

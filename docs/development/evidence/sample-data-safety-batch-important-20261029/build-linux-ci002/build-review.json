@@ -1,0 +1,318 @@
+{
+  "accepted_app_build_targets": [
+    "android",
+    "js",
+    "wasm"
+  ],
+  "accepted_prior_sample_methods_replayed": false,
+  "actual_built_outputs": {
+    "errors": [
+      {
+        "error": "Actual sample target output rejected",
+        "reason": "ValueError",
+        "target": "jvm"
+      }
+    ],
+    "schema_version": 1,
+    "targets": {
+      "android": {
+        "errors": [],
+        "output": {
+          "bytes": 24277876,
+          "path": "sample/android/build/outputs/apk/debug/android-debug.apk",
+          "sha256": "b3bd50e21023b0117270765e1aa7198662577b1034e0fee54d11617af2b27387",
+          "uploaded": false
+        },
+        "passed": true,
+        "tasks": [
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793320383926,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-0.json",
+            "schema_version": 1,
+            "sha256": "e61a99b32cb7d7e5a0c51931dba0dadae6943224989688a4250866eba92e784a",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:android:assembleDebug",
+            "test_success_inferred": false,
+            "up_to_date": false
+          }
+        ]
+      },
+      "js": {
+        "errors": [],
+        "output": {
+          "bytes": 8571238,
+          "path": "sample/web-js/build/dist/js/productionExecutable/web.js",
+          "sha256": "7acdb8516b5e2dec96f2ff6cf9aae37da743560cfcc82de30d6b13db2798a9e3",
+          "uploaded": false
+        },
+        "passed": true,
+        "tasks": [
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793322245549,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-2.json",
+            "schema_version": 1,
+            "sha256": "49527e090356a2b3b0a5ea5971f30a6290db894da06c90e0a1475ad4214754b6",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:web-js:jsBrowserProductionWebpack",
+            "test_success_inferred": false,
+            "up_to_date": false
+          },
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793322245648,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-3.json",
+            "schema_version": 1,
+            "sha256": "9c01589a3f2543e762ada9e3865c221554ffbdefb6675d4c4ce91b84e9f37ab7",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:web-js:jsBrowserDistribution",
+            "test_success_inferred": false,
+            "up_to_date": false
+          }
+        ]
+      },
+      "jvm": {
+        "errors": [
+          {
+            "error": "Actual sample target output rejected",
+            "reason": "ValueError"
+          }
+        ],
+        "output": null,
+        "passed": false,
+        "tasks": [
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793320483165,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-1.json",
+            "schema_version": 1,
+            "sha256": "533c9fb694427db3aa22f40c611a8754467ba5025e5e248edff5fd949a6ab9d9",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:desktop:jvmJar",
+            "test_success_inferred": false,
+            "up_to_date": false
+          }
+        ]
+      },
+      "wasm": {
+        "errors": [],
+        "output": {
+          "bytes": 548667,
+          "path": "sample/web-wasm/build/dist/wasmJs/productionExecutable/web.js",
+          "sha256": "6f74135b25ea59b944c2540f3e426b9e8c07fbd29143945c5cfe5c29381d5bb9",
+          "uploaded": false
+        },
+        "passed": true,
+        "tasks": [
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793322579271,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-4.json",
+            "schema_version": 1,
+            "sha256": "b2029a2aee3020d82b53d6f29bfcce252a60eff06f49a6de9fc5a3ef1163ae27",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+            "test_success_inferred": false,
+            "up_to_date": false
+          },
+          {
+            "executed": true,
+            "failed": false,
+            "no_source": false,
+            "observed_epoch_ms": 1793322579314,
+            "path": "build/ci-verification/sample-platforms-linux/task-build-5.json",
+            "schema_version": 1,
+            "sha256": "7d26bb86e9279d59e88967aeffbb9fa4f5260e4cfd32c651f48cf27b066a2c6e",
+            "skip_message": null,
+            "skipped": false,
+            "task": ":sample:web-wasm:wasmJsBrowserDistribution",
+            "test_success_inferred": false,
+            "up_to_date": false
+          }
+        ]
+      }
+    },
+    "test_success_inferred": false
+  },
+  "actual_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+    "-PnativecmpkitSampleMode=linux",
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution",
+    ":nativecmpkitSampleCompileDependencies"
+  ],
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "browser": {
+      "name": "Google Chrome",
+      "version": "156.0.8078.47"
+    },
+    "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-30T00:23:12.363598+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "01057aad57ec0ac34c28c1ef8ea59b716651e2c6",
+    "source_tree_dirty": false
+  },
+  "actual_unsigned_Xcode_integration": null,
+  "after_and_process_receipts_preserved": true,
+  "all_selected_inputs_held_and_exact_historical_Git": true,
+  "artifact_digest": "sha256:b536a0b29321a37a1120caafa87e3f49f1fd82b270717b940c63d99dc350d81c",
+  "artifact_id": 12946008175,
+  "compile_dependency_graph": {
+    "all_selected_compile_graphs_reviewed": true,
+    "direct_navigation_imports_absent": true,
+    "minimum_platform_certified": false,
+    "path": "build/ci-verification/sample-platforms-linux/compile-dependencies.json",
+    "sample_app_declared_minSdk": 24,
+    "sample_minSdk_lowered": false,
+    "sha256": "2fe162badc6e3daba0bbf924613fff890a11ed16a79005ea52eb6ea8e6627631",
+    "unused_second_navigation_group_absent": true
+  },
+  "errors": [
+    {
+      "error": "Actual sample target output rejected",
+      "reason": "ValueError",
+      "target": "jvm"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 2787.56,
+    "exit_code": 0
+  },
+  "fresh_sample_test_executions": 0,
+  "input_digest": "1d8d3574c43271bebca3612793e938a8bbf8cddee1c34be138748869d3ee9fe8",
+  "library_verification": false,
+  "missing_per_target_output_values_not_inferred": false,
+  "mode": "linux",
+  "packages_releases_deployments_or_Pages_created": false,
+  "passed": false,
+  "physical_device_verification": false,
+  "release_readiness_certified": false,
+  "reviewed_at_utc": "2026-10-30T01:09:48.849601+00:00",
+  "run_attempt": 1,
+  "run_id": 40979092763,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/40979092763",
+  "sample_job_conclusion": "failure",
+  "sample_job_id": 123814853497,
+  "sample_target_test_executions_requested": 0,
+  "selected_input_count": 963,
+  "source_revision": "01057aad57ec0ac34c28c1ef8ea59b716651e2c6",
+  "web_node_environments": {
+    "js": {
+      "environments": [
+        {
+          "configured_version": "24.16.0",
+          "executable": "/home/runner/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "executable_sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+          "extension": "kotlinNodeJsSpec",
+          "observed_version": "v24.16.0",
+          "passed": true,
+          "project": ":",
+          "version_exit_code": 0
+        },
+        {
+          "configured_version": "24.16.0",
+          "executable": "/home/runner/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "executable_sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+          "extension": "kotlinNodeJsSpec",
+          "observed_version": "v24.16.0",
+          "passed": true,
+          "project": ":sample:web-js",
+          "version_exit_code": 0
+        }
+      ],
+      "path": "build/ci-verification/sample-platforms-linux/node-webpack-js.json",
+      "root_and_project_same_pinned_executable": true,
+      "sha256": "ffc20a847a95501f1be577dcd3363f6d7bfc9410659fb9096349b5cecf0a806a",
+      "task": ":sample:web-js:jsBrowserProductionWebpack",
+      "test_success_inferred": false
+    },
+    "wasm": {
+      "environments": [
+        {
+          "configured_version": "24.16.0",
+          "executable": "/home/runner/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "executable_sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+          "extension": "kotlinWasmNodeJsSpec",
+          "observed_version": "v24.16.0",
+          "passed": true,
+          "project": ":",
+          "version_exit_code": 0
+        },
+        {
+          "configured_version": "24.16.0",
+          "executable": "/home/runner/.gradle/nodejs/node-v24.16.0-linux-x64/bin/node",
+          "executable_sha256": "b2959781cc5a74c357ffa02367efa8a0330cbb1c9cb347732fdfaaaca381cbcd",
+          "extension": "kotlinWasmNodeJsSpec",
+          "observed_version": "v24.16.0",
+          "passed": true,
+          "project": ":sample:web-wasm",
+          "version_exit_code": 0
+        }
+      ],
+      "path": "build/ci-verification/sample-platforms-linux/node-webpack-wasm.json",
+      "root_and_project_same_pinned_executable": true,
+      "sha256": "5ffcbfb0a15f553c43bdeb7390392c3e5b437e0da74221a71ac1be9240cbab4e",
+      "task": ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+      "test_success_inferred": false
+    }
+  },
+  "workflow_conclusion": "failure"
+}

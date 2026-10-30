@@ -1,0 +1,8 @@
+{
+  "initial_command": "gh api --paginate --slurp <fixed repository issues endpoint>",
+  "initial_exit_code": 1,
+  "initial_error": "Installed gh does not support --slurp; no API request/mutation occurred",
+  "recovery_command": "gh api --paginate <same fixed repository issues endpoint> and standard JSONDecoder for concatenated pages",
+  "recovery_exit_code": 0,
+  "issue_closure_was_already_verified_and_not_replayed": true
+}

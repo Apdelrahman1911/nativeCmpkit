@@ -46,15 +46,15 @@
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "af19c7c97fc0af2450e0f3d84a4fbf063eff25c31792a62294783d9c95e894ba",
-    "docs/development/resolutions/NAV.json": "388a27dbe605ce2c0b882b6d18d104f71312e5fa1cf7d0f453f05757eb02b995",
+    "docs/development/resolutions/NAV.json": "a7334c8b6ba34304588cb14020184e0b16013abf288ee7989695275a6e0ce436",
     "docs/development/resolutions/PERM-geo.json": "1a43e47b28521b04efe8c70786bd789c074ee4db4ee54abb9ed428ece06a4cbf",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
-    "docs/development/resolutions/UI-controls.json": "575469e9f9a39051e343caf5f60a3d5f58e4282888100f4b3ed3f5f322beedb6",
+    "docs/development/resolutions/UI-controls.json": "9687503014c2f0510034e3a3a3c970cc78d32c6ce3c103a5f3e5a3205c7ca0f5",
     "docs/development/resolutions/UI-native.json": "2b411c03235f0f38df82e3f3e1db3422095635e7065b6da55ed9d2ce7e63e231",
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "92fcd4cc3a5b0da2c44347869f87945657732afd25a2a628191d735c92ba2e13",
+  "input_fingerprint": "7c91685549e7c8a9a90d1aefe2a441b607381170cb47469d2e6b2079afdd44b7",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 36,
-      "partially-verified": 46,
-      "verified": 75,
+      "partially-verified": 45,
+      "verified": 76,
       "unresolved": 7,
       "not-applicable": 0
     },
@@ -24844,7 +24844,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "79c56b3eb572ca662d7c54424c26e22a663a3a4e0ba70ac7c832cfe08e832836",
+      "owner_record_sha256": "2927eac0365206e0dc58b841ad2dea0f7a94447c77cc928686cc4d65918c9918",
       "owner_record": {
         "id": "UI-037",
         "status": "partially-verified",
@@ -24857,7 +24857,8 @@
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt",
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
           "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgbaTest.kt",
-          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt"
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
         ],
         "tests": [
           {
@@ -24956,6 +24957,15 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ]
+          },
+          {
+            "command": "Shared ios-image-memory candidate tooling; no local native/Gradle execution",
+            "result": "2026-10-30:99/99 changed synthetic CI fixture methods and final7/7 overlapping memory guards/all967 inputs held. Initial five guards and full881/12failure/7error events preserved; owning fixtures fixed without replaying881. Three new real-native methods authored for1MP/concurrent GC/every native allocation boundary and an exact-owned-app Instruments/leaks workload. Nine accepted UIImage methods reused, not replayed. Compiler bytecode warns/disables unsupported sanitizer settings; ZERO actual Apple/ASan/profile verification for this candidate. Status/original requirements unchanged.",
+            "evidence": [
+              "docs/development/evidence/image-memory-batch-important-20261030/README.md",
+              "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
+            ]
           }
         ],
         "remaining": [
@@ -25010,7 +25020,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/UI-controls.json",
-      "owner_record_sha256": "8d717fa7aacfb63dc8c80bbc2585e9632f7f433197e5d30a19bba604714c385e",
+      "owner_record_sha256": "c4fad1b103a8b168e95c7c96f3a2bd4f67fcc599435de82bb43439727892b063",
       "owner_record": {
         "id": "UI-038",
         "status": "partially-verified",
@@ -25023,7 +25033,8 @@
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageRasterization.kt",
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/utils/PremultipliedRgba.kt",
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt",
-          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt"
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
         ],
         "tests": [
           {
@@ -25123,6 +25134,15 @@
             "evidence": [
               "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+            ]
+          },
+          {
+            "command": "Shared ios-image-memory candidate tooling; no local native/Gradle execution",
+            "result": "2026-10-30:99/99 changed synthetic CI fixture methods and final7/7 overlapping memory guards/all967 inputs held. Initial five guards and full881/12failure/7error events preserved; owning fixtures fixed without replaying881. Three new real-native methods authored for1MP/concurrent GC/every native allocation boundary and an exact-owned-app Instruments/leaks workload. Nine accepted UIImage methods reused, not replayed. Compiler bytecode warns/disables unsupported sanitizer settings; ZERO actual Apple/ASan/profile verification for this candidate. Status/original requirements unchanged.",
+            "evidence": [
+              "docs/development/evidence/image-memory-batch-important-20261030/README.md",
+              "docs/development/evidence/image-memory-batch-important-20261030/important001/owning-recovery001.json",
+              "docs/development/evidence/image-memory-batch-important-20261030/important001/final-owning001.json"
             ]
           }
         ],
@@ -26423,14 +26443,15 @@
         "mapping_key": "audit:NAV-016",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "46aae4da74d1f0008b5e3a3a2ed9a7be28b997884c8480c7b648f66edd53888c",
+      "owner_record_sha256": "674b8dea0ccc78cc5302dc7b0fab83a6ad62c1745d14ce60035738785ac3c64c",
       "owner_record": {
         "id": "NAV-016",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
-          "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency."
+          "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency.",
+          "Reviewed shared Linux/Apple actual Gradle builds and six compile graphs against all three original NAV-016 criteria; retained sample minSdk24. Closed #154/completed after comment/readback, preserving original body/title/labels. Linux output observer remains failed; missing JVM JAR hash is not inferred and is not required to establish the actual successful Gradle build."
         ],
         "affected_paths": [
           "sample/common/build.gradle.kts"
@@ -26482,11 +26503,19 @@
               "docs/development/evidence/sample-data-safety-batch-important-20261029/web-build-repair001/important001.json",
               "docs/development/evidence/sample-data-safety-batch-important-20261029/web-build-repair001/kgp-routing-review.json"
             ]
+          },
+          {
+            "command": "Independent authenticated run40979092763 actual Gradle/process/task/graph and run40974963662 framework/Xcode original-criteria review; no test replay",
+            "result": "All three original NAV-016 criteria satisfied: Linux actual Gradle0/2787.56s builds Android/JVM/JS/Wasm; fresh JVM jvmJar TaskState executed=true, failed/skipped/no_source/up_to_date=false, while aggregate observer remains FAILED/missing JAR hash explicit. Apple Gradle0/3592.88s builds both Common frameworks/nonempty hashes and real unsigned Calf Xcode0/58.75s. Six real resolved main graphs omit unused Navigation; minSdk remains24. Zero tests requested/executed. Owner inputs held across both immutable revisions/current. #154 closed/completed/read back before documentation; NAV-008/#100 remain open; no device/minimum/ABI/package-consumer or release/security gate waived.",
+            "evidence": [
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/build-linux-ci002/build-review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/build-apple-ci001/build-review.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/NAV-016-original-criteria-acceptance.json",
+              "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/NAV-016-closure-readback.json"
+            ]
           }
         ],
-        "remaining": [
-          "Inspect sample dependency/compile results; no measured artifact-size claim from source deletion alone."
-        ],
+        "remaining": [],
         "compatibility": "Shared build change owned by audit_build; no used public dependency removed from library API."
       },
       "closure_or_release_authorized_by_index": false

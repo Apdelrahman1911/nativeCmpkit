@@ -1,0 +1,60 @@
+{
+  "build_only_pass_is_not_a_test_pass": true,
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/root/projects/nativeCmpKit",
+    "-PnativecmpkitSampleMode=linux",
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution",
+    ":nativecmpkitSampleCompileDependencies"
+  ],
+  "fresh_heavy_hosts_requested": 1,
+  "fresh_sample_target_test_executions_requested": 0,
+  "plan": {
+    "build_only": true,
+    "build_tasks": [
+      ":sample:android:assembleDebug",
+      ":sample:desktop:jvmJar",
+      ":sample:web-js:jsBrowserProductionWebpack",
+      ":sample:web-js:jsBrowserDistribution",
+      ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+      ":sample:web-wasm:wasmJsBrowserDistribution"
+    ],
+    "dependency_task": ":nativecmpkitSampleCompileDependencies",
+    "library_verification": false,
+    "mode": "linux",
+    "physical_device_verification": false,
+    "release_readiness_certified": false,
+    "sample_minSdk_lowered": false,
+    "schema_version": 1,
+    "scope": "Sample app builds/compile graphs only; ZERO test executions requested or inferred, no accepted method replay",
+    "tests": []
+  },
+  "profile": "sample-builds-linux",
+  "row": {
+    "arch": "x64",
+    "build_only": true,
+    "mode": "linux",
+    "runner": "ubuntu-24.04"
+  },
+  "sample_evidence_is_not_library_evidence": true
+}

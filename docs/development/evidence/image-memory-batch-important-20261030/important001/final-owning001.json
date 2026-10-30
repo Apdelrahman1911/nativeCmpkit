@@ -1,0 +1,58 @@
+{
+  "scope": "Final focused memory guards and lint/structural checks, ZERO native/Gradle/library executions",
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/ci",
+        "-p",
+        "test_ios_image_memory_focus.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.54
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.01
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.35
+    }
+  ],
+  "selected_input_count": 967,
+  "all_inputs_held": true,
+  "input_digest": "ba5b60cbf48c6d1325a00f928cf1a54b1a72dffca2ff38eb39418ff8d9d5c246",
+  "only_change_after_99_methods": [
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
+  ],
+  "prior_99_methods_not_replayed_as_99_fresh": true,
+  "native_source_final_review": "Worker Future result consumed once; original thrown Worker cause preserved; independent bounded termination and fixture-bitmap cleanup always attempted",
+  "passed": true
+}

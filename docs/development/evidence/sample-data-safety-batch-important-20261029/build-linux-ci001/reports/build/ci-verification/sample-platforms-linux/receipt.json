@@ -1,0 +1,80 @@
+{
+  "build_only": true,
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+    "-PnativecmpkitSampleMode=linux",
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution",
+    ":nativecmpkitSampleCompileDependencies"
+  ],
+  "compile_dependency_graph": {
+    "all_selected_compile_graphs_reviewed": true,
+    "direct_navigation_imports_absent": true,
+    "minimum_platform_certified": false,
+    "path": "build/ci-verification/sample-platforms-linux/compile-dependencies.json",
+    "sample_app_declared_minSdk": 24,
+    "sample_minSdk_lowered": false,
+    "sha256": "2fe162badc6e3daba0bbf924613fff890a11ed16a79005ea52eb6ea8e6627631",
+    "unused_second_navigation_group_absent": true
+  },
+  "ended_ns": 1793317763791416922,
+  "errors": [
+    {
+      "error": "Actual sample build/dependency/daemon evidence rejected",
+      "reason": "ValueError"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1993.47,
+    "exit_code": 1
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "c44b4b69de83cbfd550509dbc703c48096d52a78486a67058ed3e6b0a946b30e",
+  "inputs_before_sha256": "c44b4b69de83cbfd550509dbc703c48096d52a78486a67058ed3e6b0a946b30e",
+  "library_verification": false,
+  "mode": "linux",
+  "packages_releases_deployments_or_Pages_created": false,
+  "passed": false,
+  "physical_device_verification": false,
+  "quarantined_prior_reports": [],
+  "release_readiness_certified": false,
+  "runtime_receipt_sha256": "d9a021ba75e48e48a16366b953c336656c44a4f86e0008d6912e354ff499c9f6",
+  "sample_suites": [],
+  "schema_version": 1,
+  "scope": "Sample app builds/compile graphs only; ZERO test executions requested or inferred, no accepted method replay",
+  "source_revision": "539ddc6473e98e11785d55f5ca9e205cb3df3b74",
+  "source_revision_after": "539ddc6473e98e11785d55f5ca9e205cb3df3b74",
+  "source_tree_dirty": false,
+  "started_ns": 1793315770318197526,
+  "task_execution_markers": {}
+}

@@ -1,0 +1,109 @@
+     792: aload_0
+     793: aload_0
+     794: invokevirtual #432                // Method getConfiguration:()Lorg/jetbrains/kotlin/config/CompilerConfiguration;
+     797: getstatic     #438                // Field org/jetbrains/kotlin/config/nativeBinaryOptions/BinaryOptions.INSTANCE:Lorg/jetbrains/kotlin/config/nativeBinaryOptions/BinaryOptions;
+     800: invokevirtual #688                // Method org/jetbrains/kotlin/config/nativeBinaryOptions/BinaryOptions.getSanitizer:()Lorg/jetbrains/kotlin/config/CompilerConfigurationKey;
+     803: invokevirtual #539                // Method org/jetbrains/kotlin/config/CompilerConfiguration.get:(Lorg/jetbrains/kotlin/config/CompilerConfigurationKey;)Ljava/lang/Object;
+     806: checkcast     #690                // class org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind
+     809: dup
+     810: ifnull        1054
+     813: astore        4
+     815: aload         4
+     817: astore        5
+     819: astore        17
+     821: iconst_0
+     822: istore        6
+     824: nop
+     825: aload         5
+     827: getstatic     #693                // Field org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind.THREAD:Lorg/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind;
+     830: if_acmpeq     860
+     833: new           #505                // class java/lang/StringBuilder
+     836: dup
+     837: invokespecial #506                // Method java/lang/StringBuilder."<init>":()V
+     840: aload         5
+     842: invokevirtual #696                // Method org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind.name:()Ljava/lang/String;
+     845: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     848: ldc_w         #698                // String  sanitizer is not supported yet
+     851: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     854: invokevirtual #515                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     857: goto          999
+     860: aload_0
+     861: invokevirtual #702                // Method getProduce:()Lorg/jetbrains/kotlin/konan/target/CompilerOutputKind;
+     864: getstatic     #708                // Field org/jetbrains/kotlin/konan/target/CompilerOutputKind.STATIC:Lorg/jetbrains/kotlin/konan/target/CompilerOutputKind;
+     867: if_acmpne     897
+     870: new           #505                // class java/lang/StringBuilder
+     873: dup
+     874: invokespecial #506                // Method java/lang/StringBuilder."<init>":()V
+     877: aload         5
+     879: invokevirtual #696                // Method org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind.name:()Ljava/lang/String;
+     882: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     885: ldc_w         #710                // String  sanitizer is unsupported for static library
+     888: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     891: invokevirtual #515                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     894: goto          999
+     897: aload_0
+     898: invokevirtual #702                // Method getProduce:()Lorg/jetbrains/kotlin/konan/target/CompilerOutputKind;
+     901: getstatic     #713                // Field org/jetbrains/kotlin/konan/target/CompilerOutputKind.FRAMEWORK:Lorg/jetbrains/kotlin/konan/target/CompilerOutputKind;
+     904: if_acmpne     941
+     907: aload_0
+     908: invokevirtual #715                // Method getProduceStaticFramework$org_jetbrains_kotlin_backend_native:()Z
+     911: ifeq          941
+     914: new           #505                // class java/lang/StringBuilder
+     917: dup
+     918: invokespecial #506                // Method java/lang/StringBuilder."<init>":()V
+     921: aload         5
+     923: invokevirtual #696                // Method org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind.name:()Ljava/lang/String;
+     926: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     929: ldc_w         #717                // String  sanitizer is unsupported for static framework
+     932: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     935: invokevirtual #515                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     938: goto          999
+     941: aload_0
+     942: invokevirtual #637                // Method getTarget:()Lorg/jetbrains/kotlin/konan/target/KonanTarget;
+     945: invokestatic  #721                // Method org/jetbrains/kotlin/konan/target/KonanTargetExtenstionsKt.supportedSanitizers:(Lorg/jetbrains/kotlin/konan/target/KonanTarget;)Ljava/util/List;
+     948: aload         5
+     950: invokestatic  #727                // Method org/jetbrains/kotlin/backend/konan/util/BinaryOptionsCompatibilityKt.toObsoleteKind:(Lorg/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind;)Lorg/jetbrains/kotlin/konan/target/SanitizerKind;
+     953: invokeinterface #732,  2          // InterfaceMethod java/util/List.contains:(Ljava/lang/Object;)Z
+     958: ifne          998
+     961: new           #505                // class java/lang/StringBuilder
+     964: dup
+     965: invokespecial #506                // Method java/lang/StringBuilder."<init>":()V
+     968: aload         5
+     970: invokevirtual #696                // Method org/jetbrains/kotlin/config/nativeBinaryOptions/SanitizerKind.name:()Ljava/lang/String;
+     973: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     976: ldc_w         #734                // String  sanitizer is unsupported on
+     979: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     982: aload_0
+     983: invokevirtual #637                // Method getTarget:()Lorg/jetbrains/kotlin/konan/target/KonanTarget;
+     986: invokevirtual #737                // Method org/jetbrains/kotlin/konan/target/KonanTarget.getName:()Ljava/lang/String;
+     989: invokevirtual #512                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     992: invokevirtual #515                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     995: goto          999
+     998: aconst_null
+     999: astore        7
+    1001: aload         7
+    1003: ifnull        1035
+    1006: aload         7
+    1008: astore        8
+    1010: iconst_0
+    1011: istore        9
+    1013: aload_0
+    1014: invokevirtual #432                // Method getConfiguration:()Lorg/jetbrains/kotlin/config/CompilerConfiguration;
+    1017: getstatic     #478                // Field org/jetbrains/kotlin/cli/CliDiagnostics.INSTANCE:Lorg/jetbrains/kotlin/cli/CliDiagnostics;
+    1020: invokevirtual #482                // Method org/jetbrains/kotlin/cli/CliDiagnostics.getKONAN_ARGUMENT_STRONG_WARNING:()Lorg/jetbrains/kotlin/diagnostics/KtSourcelessDiagnosticFactory;
+    1023: aload         8
+    1025: aconst_null
+    1026: iconst_4
+    1027: aconst_null
+    1028: invokestatic  #490                // Method org/jetbrains/kotlin/cli/CliDiagnosticReportingKt.report$default:(Lorg/jetbrains/kotlin/config/CompilerConfiguration;Lorg/jetbrains/kotlin/diagnostics/KtSourcelessDiagnosticFactory;Ljava/lang/String;Lorg/jetbrains/kotlin/cli/common/messages/CompilerMessageSourceLocation;ILjava/lang/Object;)V
+    1031: iconst_0
+    1032: goto          1036
+    1035: iconst_1
+    1036: istore        18
+    1038: aload         17
+    1040: iload         18
+    1042: ifeq          1050
+    1045: aload         4
+    1047: goto          1056
+    1050: aconst_null
+    1051: goto          1056

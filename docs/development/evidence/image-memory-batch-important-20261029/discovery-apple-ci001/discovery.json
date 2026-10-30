@@ -1,0 +1,117 @@
+{
+  "UIKit_GC_or_ASan_verified": false,
+  "actual_allocation_schemas": [],
+  "actual_probe_binary_sha256": "92598c1efd4b07b7bd5fc7374cd7a47b6c28f88d6f86f8d7dec3e07c292abda3",
+  "all_inputs_held": true,
+  "commands": [
+    {
+      "command": [
+        "/usr/bin/xcrun",
+        "clang",
+        "-g",
+        "-O0",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/probe.c",
+        "-o",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/NativeCmpkitAllocationProbe"
+      ],
+      "elapsed_seconds": 4.53,
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/usr/bin/xcrun",
+        "xctrace",
+        "record",
+        "--template",
+        "Allocations",
+        "--time-limit",
+        "8s",
+        "--output",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/probe.trace",
+        "--launch",
+        "--",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/NativeCmpkitAllocationProbe"
+      ],
+      "elapsed_seconds": 117.24,
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/usr/bin/xcrun",
+        "xctrace",
+        "export",
+        "--input",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/probe.trace",
+        "--toc",
+        "--output",
+        "/Users/runner/work/nativeCmpkit/nativeCmpkit/build/ci-verification/apple-memory-discovery/private/toc.xml"
+      ],
+      "elapsed_seconds": 7.68,
+      "exit_code": 0
+    }
+  ],
+  "errors": [
+    {
+      "error": "No actual allocation rows containing the owned public probe symbol; NOT native/library evidence"
+    }
+  ],
+  "exports": [],
+  "finished_at_utc": "2026-10-29T23:49:27.627891+00:00",
+  "input_digest_after": "813216958ecd00b63335fcac7ce10e9f4586c47bca44a2feca0c76ac39c6d02e",
+  "input_digest_before": "813216958ecd00b63335fcac7ce10e9f4586c47bca44a2feca0c76ac39c6d02e",
+  "library_test_executions": 0,
+  "owned_private_tree_removed": true,
+  "private_inventory": {
+    "bytes": 5903664,
+    "entries": 170,
+    "raw_files_uploaded": false
+  },
+  "probe_source_sha256": "976aa0388639fc9091a583ebd36ca1c5cce9b154fc22f03813e04a6c7307ceb5",
+  "raw_files_uploaded": false,
+  "release_readiness_certified": false,
+  "runtime": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "compiler_runtime_fingerprint": "9e96b9e2e768074dd5fdffd798d14c3ecdc5f2ba56b8095ad72f065e773e6b38",
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.1",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-10-29T23:47:07.396912+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "simulator": {
+      "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+      "runtime_build": "23F77",
+      "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+      "runtime_version": "26.5",
+      "state": "Booted",
+      "udid": "1F0A9C4B-2DFC-444E-B162-696E5078A72B"
+    },
+    "source_revision": "535b0353e2857d35ed799dbf997e3ab98e4c8684",
+    "source_tree_dirty": false,
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "schema_version": 1,
+  "scope": "Informational Apple SDK allocation-tool discovery using an owned public HOST C probe, NOT iOS/UIKit/library behavior or a release/memory-safety gate",
+  "source_revision": "535b0353e2857d35ed799dbf997e3ab98e4c8684",
+  "started_at_utc": "2026-10-29T23:47:17.474813+00:00",
+  "supported": false,
+  "toc_sha256": "6be23459ad2871977de768e8875382a15b55522142cd86ff3eff1549af3ff93c"
+}

@@ -587,6 +587,23 @@ IOS_APPLICATION_SOURCES += (IOS_VECTOR_THEME_SOURCE,)
 IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
 IOS_APPLICATION_CASES += (("utils.NativeVectorThemeAcceptanceTest", IOS_VECTOR_THEME_METHODS[-1]),)
 
+IOS_IMAGE_MEMORY_FOCUS = "ios-native-image-memory"
+IOS_IMAGE_MEMORY_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
+IOS_IMAGE_MEMORY_CLASS = "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest"
+IOS_IMAGE_MEMORY_METHODS = (
+    "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+    "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+    "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS] = {
+    "groups": ({"classname": IOS_IMAGE_MEMORY_CLASS, "source": IOS_IMAGE_MEMORY_SOURCE,
+                "methods": IOS_IMAGE_MEMORY_METHODS},),
+    "scope": "Three new real-native large-buffer/concurrent-GC/repeated-allocation-failure/profile-workload methods only. Nine accepted conversion methods are explicitly reused, not replayed. Native runtime panic/external-call checks and observed Darwin heap requests are diagnostics, not ASan or proof of every allocator check. Instruments/leak outcomes are independently reviewed; an unsupported profile cannot clear UI-038. No physical/minimum-platform/ABI/consumer/security/release certification.",
+}
+IOS_APPLICATION_SOURCES += (IOS_IMAGE_MEMORY_SOURCE,)
+IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
+IOS_APPLICATION_CASES += (("utils.UIImageMemoryDiagnosticsTest", IOS_IMAGE_MEMORY_METHODS[-1]),)
+
 IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
 IOS_PICKER_BOUNDARY_GROUPS = (
     {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
@@ -1785,6 +1802,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
     if simulator:
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
+    if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
+        command.append("-PnativecmpkitImageMemoryDiagnostics=true")
     if android_serial:
         # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
         # prefix. A native hang becomes a reported failure, never a passing skip.
@@ -2098,6 +2117,21 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         if focused_ui:
             need(cases.keys() == required, "Focused application must execute exactly all selected methods")
         need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
+        if cases.get(app.IMAGE_PROFILE_CASE) == "passed":
+            import apple_image_profile
+            observations = protocol.get("image_profile_observations")
+            profile = document.get("image_memory_profile")
+            need(isinstance(observations, list) and len(observations) == 2 and
+                 observations[0] == {"phase": "ready"} and isinstance(observations[1], dict) and
+                 set(observations[1]) == {"phase", "rounds"} and observations[1]["phase"] == "complete" and
+                 type(observations[1]["rounds"]) is int and 1 <= observations[1]["rounds"] <= 4096,
+                 "Passing image-profile workload lacks complete bounded native phases")
+            need(isinstance(profile, dict) and apple_image_profile.validate_attempt(profile, context["simulator"]["udid"], document["bundle_id"]) and
+                 profile.get("signed_application_executable_sha256") == document["signed_application_executable_sha256"] and
+                 profile.get("application_plist_sha256") == document["application_plist_sha256"],
+                 "Passing image-profile workload lacks its exact owned tool-attempt/cleanup evidence")
+            # supported/profile_passed are independently reviewed findings gates,
+            # not invented native test outcomes. Unsupported remains explicit.
         if cases.get(app.IMAGE_LIFETIME_CASE) == "passed":
             observation = protocol.get("image_lifetime_observation")
             need(isinstance(observation, dict) and type(observation.get("marker_count")) is int and

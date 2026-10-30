@@ -2,7 +2,7 @@
 
 Mach-O and protocol/SDK records below are explicitly simulated. The actual
 immutable Arm64 simulator job, real KGP XML and complete native lifecycle are
-still required. This suite is not substituted for the seventeen required native cases.
+still required. This suite is not substituted for the eighteen required native cases.
 """
 from collections import Counter
 import copy
@@ -47,6 +47,7 @@ REQUIRED = (
     ("navigation.NativeBarOwnershipTest", "emptyTabsClearSelectionAndRepopulationClampsIndex"),
     ("navigation.NativeBarOwnershipTest", "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"),
     ("utils.NativeVectorThemeAcceptanceTest", "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated"),
+    ("utils.UIImageMemoryDiagnosticsTest", "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile"),
 )
 
 
@@ -65,6 +66,19 @@ def synthetic_appearance_receipt(device=DEVICE):
         driver.request(step, style)
     driver.restore()
     return driver.receipt
+
+
+def synthetic_image_profile_receipt(device=DEVICE):
+    """An explicitly unsupported fake tool attempt, NOT native/profile evidence."""
+    import apple_image_profile
+    return {"schema_version": 1, "simulator_udid": device,
+            "bundle_identifier": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" + "a" * 12 + ".t" + TOKEN,
+            "signed_application_executable_sha256": "c" * 64, "application_plist_sha256": "d" * 64,
+            "process_id": 12345, "darwin_heap_requests": apple_image_profile.DARWIN_REQUESTS.copy(),
+            "ASan_verified": False, "private_files_uploaded": False, "prepared": True,
+            "attempt_completion_ack_created": True, "owned_ack_removed": True,
+            "owned_private_tree_removed": True, "supported": False, "profile_passed": False,
+            "errors": [{"error": "Synthetic unsupported profile, not real Apple evidence"}]}
 
 
 class IosApplicationReceipts(unittest.TestCase):
@@ -113,6 +127,7 @@ class IosApplicationReceipts(unittest.TestCase):
             "signed_application_executable_sha256": "c" * 64, "application_plist_sha256": "d" * 64,
             "packages_published": False, "release_readiness_certified": False,
             "system_appearance_driver": synthetic_appearance_receipt(),
+            "image_memory_profile": synthetic_image_profile_receipt(),
             "steps": {
                 "foreign-app-preflight": {"exit_code": 2, "preexisting_app_absence_verified": True},
                 "adhoc-sign-local-verification-app": {"exit_code": 0, "remote_signing_or_publication": False},
@@ -127,6 +142,7 @@ class IosApplicationReceipts(unittest.TestCase):
                 "testcases": copy.deepcopy(self.cases), "counts": r.case_counts(self.cases), "stream_bytes": 100,
                 "image_lifetime_observation": {"marker_count": 63, "last_phase": "verified", "last_iteration": None,
                     "main_thread": True, "retained_image_bytes_verified": True},
+                "image_profile_observations": [{"phase": "ready"}, {"phase": "complete", "rounds": 23}],
                 "system_appearance_observations": [{"phase": phase, "step": step, "style": style}
                     for phase, step, style in a.SYSTEM_APPEARANCE_STEPS]}}
         self.modules = [{"module": "calf-ui", "task": TASK, "testcases": self.xml_cases(self.cases)}]
@@ -155,8 +171,8 @@ class IosApplicationReceipts(unittest.TestCase):
         self.assertFalse(result["errors"])
         app = result["ios_applications"][0]
         self.assertTrue(app["protocol_xml_agreement"])
-        self.assertEqual(17, app["counts"]["executed"])
-        self.assertEqual(17, app["required_native_cases_found"])
+        self.assertEqual(18, app["counts"]["executed"])
+        self.assertEqual(18, app["required_native_cases_found"])
         self.assertEqual(r.sha256(self.receipt_path), app["receipt_sha256"])
 
     def test_missing_identity_case_is_rejected_even_when_protocol_and_xml_match(self):

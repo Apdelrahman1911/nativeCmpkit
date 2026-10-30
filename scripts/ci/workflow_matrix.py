@@ -98,6 +98,7 @@ PROFILES = {
     "ios-vector-rendering-iphone-recovery": ("ios-iphone",),
     "ios-vector-native-screen-pair": ("ios-ipad",),
     "ios-slider-recovery": ("ios-iphone",),
+    "ios-image-memory": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -221,6 +222,7 @@ MODULE_SUBSETS = {
     "ios-vector-rendering-iphone-recovery": "calf-ui",
     "ios-vector-native-screen-pair": "calf-ui",
     "ios-slider-recovery": "calf-ui",
+    "ios-image-memory": "calf-ui",
     "android-webview": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
@@ -338,6 +340,9 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row["test-focus"] = "ios-native-slider-pair-structure"
             row["serial-test-focus"] = "ios-native-slider-tap-cancellation"
+    if profile == "ios-image-memory":
+        for row in rows:
+            row["test-focus"] = "ios-native-image-memory"
     if profile in {"ios-slider-tap", "ios-slider-pair-structure"}:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-tap-cancellation" if profile == "ios-slider-tap" else

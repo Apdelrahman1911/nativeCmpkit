@@ -1,0 +1,20 @@
+{
+  "build_only": true,
+  "build_tasks": [
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution"
+  ],
+  "dependency_task": ":nativecmpkitSampleCompileDependencies",
+  "library_verification": false,
+  "mode": "linux",
+  "physical_device_verification": false,
+  "release_readiness_certified": false,
+  "sample_minSdk_lowered": false,
+  "schema_version": 1,
+  "scope": "Sample app builds/compile graphs only; ZERO test executions requested or inferred, no accepted method replay",
+  "tests": []
+}

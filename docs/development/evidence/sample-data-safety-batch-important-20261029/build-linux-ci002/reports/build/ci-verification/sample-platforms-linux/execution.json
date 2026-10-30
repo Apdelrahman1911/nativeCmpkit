@@ -1,0 +1,38 @@
+{
+  "build_only": true,
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/sample-platforms.init.gradle.kts",
+    "-Dnativecmpkit.sampleProducerRoot=/home/runner/work/nativeCmpkit/nativeCmpkit",
+    "-PnativecmpkitSampleMode=linux",
+    ":sample:android:assembleDebug",
+    ":sample:desktop:jvmJar",
+    ":sample:web-js:jsBrowserProductionWebpack",
+    ":sample:web-js:jsBrowserDistribution",
+    ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+    ":sample:web-wasm:wasmJsBrowserDistribution",
+    ":nativecmpkitSampleCompileDependencies"
+  ],
+  "ended_ns": 1793322580132610414,
+  "execution": {
+    "elapsed_seconds": 2787.56,
+    "exit_code": 0
+  },
+  "source_revision": "01057aad57ec0ac34c28c1ef8ea59b716651e2c6",
+  "started_ns": 1793319792577220348,
+  "test_success_inferred": false
+}

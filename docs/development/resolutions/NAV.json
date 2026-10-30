@@ -1713,9 +1713,10 @@
   },
   {
     "id": "NAV-016",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
-      "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency."
+      "Build owner removed unused libs.jetbrains.navigation.compose declaration from sample/common while retaining the actual adaptive navigation dependency.",
+      "Reviewed shared Linux/Apple actual Gradle builds and six compile graphs against all three original NAV-016 criteria; retained sample minSdk24. Closed #154/completed after comment/readback, preserving original body/title/labels. Linux output observer remains failed; missing JVM JAR hash is not inferred and is not required to establish the actual successful Gradle build."
     ],
     "affected_paths": [
       "sample/common/build.gradle.kts"
@@ -1767,11 +1768,19 @@
           "docs/development/evidence/sample-data-safety-batch-important-20261029/web-build-repair001/important001.json",
           "docs/development/evidence/sample-data-safety-batch-important-20261029/web-build-repair001/kgp-routing-review.json"
         ]
+      },
+      {
+        "command": "Independent authenticated run40979092763 actual Gradle/process/task/graph and run40974963662 framework/Xcode original-criteria review; no test replay",
+        "result": "All three original NAV-016 criteria satisfied: Linux actual Gradle0/2787.56s builds Android/JVM/JS/Wasm; fresh JVM jvmJar TaskState executed=true, failed/skipped/no_source/up_to_date=false, while aggregate observer remains FAILED/missing JAR hash explicit. Apple Gradle0/3592.88s builds both Common frameworks/nonempty hashes and real unsigned Calf Xcode0/58.75s. Six real resolved main graphs omit unused Navigation; minSdk remains24. Zero tests requested/executed. Owner inputs held across both immutable revisions/current. #154 closed/completed/read back before documentation; NAV-008/#100 remain open; no device/minimum/ABI/package-consumer or release/security gate waived.",
+        "evidence": [
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/build-linux-ci002/build-review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/build-apple-ci001/build-review.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/NAV-016-original-criteria-acceptance.json",
+          "docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/NAV-016-closure-readback.json"
+        ]
       }
     ],
-    "remaining": [
-      "Inspect sample dependency/compile results; no measured artifact-size claim from source deletion alone."
-    ],
+    "remaining": [],
     "compatibility": "Shared build change owned by audit_build; no used public dependency removed from library API."
   },
   {

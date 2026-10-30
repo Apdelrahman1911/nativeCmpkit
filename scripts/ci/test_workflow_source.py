@@ -118,15 +118,26 @@ class WorkflowSourceTests(unittest.TestCase):
     def test_dependency_caches_use_exact_declaration_runtime_and_slot_not_every_commit(self):
         source = WORKFLOW.read_text()
         keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
-        self.assertEqual(4, len(keys))
-        for key in keys:
+        # The library save action delegates to the restore action's exact primary
+        # key. Keep all four configured declaration/runtime recipes constrained.
+        saved_primary = "${{ steps.dependency-cache.outputs.cache-primary-key }}"
+        self.assertEqual(5, len(keys))
+        self.assertEqual(1, keys.count(saved_primary))
+        configured = [key for key in keys if key != saved_primary]
+        self.assertEqual(4, len(configured))
+        for key in configured:
             self.assertNotIn('github.sha', key)
             self.assertNotIn('hashFiles(', key)
             self.assertIn('steps.cache-inputs.outputs.digest', key)
             self.assertIn('steps.runtime.outputs.fingerprint', key)
             self.assertIn('-v2-', key)
-        library_key, = [key for key in keys if key.startswith("nativecmpkit-deps-v2-")]
-        sample_key, = [key for key in keys if key.startswith("nativecmpkit-sample-deps-v2-")]
+        library_key, = [key for key in configured if key.startswith("nativecmpkit-deps-v2-")]
+        sample_key, = [key for key in configured if key.startswith("nativecmpkit-sample-deps-v2-")]
+        library_job = source.split("\n  library-tests:\n", 1)[1].split("\n  webview-consumer:\n", 1)[0]
+        self.assertIn("id: dependency-cache\n        uses: actions/cache/restore@", library_job)
+        saved = library_job.split("- name: Save checked registry dependencies even when library tests fail", 1)[1].split("- name:", 1)[0]
+        self.assertIn("uses: actions/cache/save@", saved)
+        self.assertEqual([saved_primary], re.findall(r"(?m)^\s*key: ([^\n]+)$", saved))
         self.assertIn("steps.cache-inputs.outputs.selection", library_key)
         self.assertNotIn("matrix.test-modules", library_key)
         self.assertIn("matrix.mode", sample_key)

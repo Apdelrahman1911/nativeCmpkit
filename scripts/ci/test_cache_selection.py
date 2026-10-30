@@ -30,9 +30,19 @@ class CacheSelectionTests(unittest.TestCase):
     def test_multi_module_workflow_never_embeds_the_raw_comma_separated_selector_in_a_cache_key(self):
         source = (Path(__file__).resolve().parents[2] / ".github/workflows/gradle.yml").read_text()
         keys = re.findall(r"(?m)^\s*key: ([^\n]+)$", source)
-        # Library, independent Core/IO and WebView producers, and the sample-only host.
-        self.assertEqual(4, len(keys))
-        library_key, = [key for key in keys if key.startswith("nativecmpkit-deps-v2-")]
+        # Four configured producer keys plus the library save action's exact
+        # restored primary key. A delegated save must not invent a fifth recipe.
+        saved_primary = "${{ steps.dependency-cache.outputs.cache-primary-key }}"
+        self.assertEqual(5, len(keys))
+        self.assertEqual(1, keys.count(saved_primary))
+        configured = [key for key in keys if key != saved_primary]
+        self.assertEqual(4, len(configured))
+        library_key, = [key for key in configured if key.startswith("nativecmpkit-deps-v2-")]
+        library_job = source.split("\n  library-tests:\n", 1)[1].split("\n  webview-consumer:\n", 1)[0]
+        self.assertIn("id: dependency-cache\n        uses: actions/cache/restore@", library_job)
+        saved = library_job.split("- name: Save checked registry dependencies even when library tests fail", 1)[1].split("- name:", 1)[0]
+        self.assertIn("uses: actions/cache/save@", saved)
+        self.assertEqual([saved_primary], re.findall(r"(?m)^\s*key: ([^\n]+)$", saved))
         self.assertNotIn("matrix.test-modules", library_key)
         self.assertIn("steps.cache-inputs.outputs.selection", library_key)
         self.assertTrue(all(',' not in key for key in keys))

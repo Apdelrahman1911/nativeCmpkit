@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Exact-primary cache guard recovery — 2026-10-30
+
+Actual [41111395809](evidence/android-camera-provider-20261030/restoration-ci005/README.md)
+at0766fe31 FAILED in tooling: CI1149 methods/1147pass/two stale key-count guards.
+ZERO native/cache-action/XML/artifacts. [Only those guards repaired](evidence/dependency-cache-failure-safe-20261030/guard-recovery001/README.md):
+four constrained recipes plus one exact restored-primary save linked to real actions;
+two reds/two fresh synthetic passes.989/1066 inputs differ from compile only at two
+guards; unchanged55 camera guards/reporter0/38.01s/receiver0/14.0s compile reused.
+No workflow/production/native assertion change; #13/#40 open/90closed82open.
+Next four API35 cases only; all solo/capacity/publishing/security gates remain.
+
 ## Restoration foreground contract prepared — 2026-10-30
 
 Actual [41107030315](evidence/android-camera-provider-20261030/restoration-ci004/README.md)

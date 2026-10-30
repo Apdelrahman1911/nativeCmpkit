@@ -1,5 +1,14 @@
 # Android camera restoration verification — 2026-10-30
 
+## Tooling-only key guard failure repaired without native replay
+
+[41111395809](evidence/android-camera-provider-20261030/restoration-ci005/README.md)
+fails two stale cache key-count guards of1149 CI-script methods, **zero native**.
+[Two-guard repair](evidence/dependency-cache-failure-safe-20261030/guard-recovery001/README.md)
+passes2/2 focused methods; workflow and all camera/production/native inputs remain
+unchanged. Reuse55 camera guards and reporter/receiver compilation, not runtime
+or old XML. All four API35 scenarios/#13 still require immutable execution.
+
 ## Genuine foreground contract prepared after actual receipt/save timeout
 
 [41107030315](evidence/android-camera-provider-20261030/restoration-ci004/README.md)

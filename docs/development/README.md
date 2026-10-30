@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## Related WebView recovery, failed cases only — 2026-10-30
+
+[Owning Android parser/FX readiness/final UIKit child cleanup](evidence/webview-identity-batch-important-20261030/recovery-tools001/README.md) requests4 previously failed/unexecuted cases, no12-success runtime replay. Actual Compose1.12 wrapper-removal source reviewed; original parent-null/disposal/configuration checks stay, retained-parent assertion strengthens cleanup. Initial4 red/owning7 failed6pass/prose-call guard corrected1/1; shared164/164 synthetic/all981held, zero local Kotlin/native. Memory41002405707 remains independent at de6c1618. #62/#72/#89/#140/#141 stay open pending actual original criteria;78closed/94open. Single-agent/max2/8GiB and publishing/Pages/main/history/release/security gates stay.
+
 ## Failed-case-only memory readiness recovery — 2026-10-30
 
 [Owning PID/file handoff](evidence/image-memory-batch-important-20261030/readiness-repair001/README.md) preserves exact executable checks, original210s/4096-round/pixel/GC/allocation assertions and strict-startup failure. Shared165 remains failed163pass/two stale fixture expectations; only owning2/2 rerun/all980held. Zero local native/profile executions; one-case Darwin recovery excludes two accepted stress/nine image methods. Actual WebView pair yields12 accepted target executions, two failures and Android zero-start controller rejection; original criteria and #62/#72/#89/#140/#141 stay open. Single-agent/max2/8GiB; no publishing/Pages/main/history or release/security waiver.

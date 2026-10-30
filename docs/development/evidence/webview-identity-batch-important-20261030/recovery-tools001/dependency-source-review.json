@@ -1,0 +1,13 @@
+{
+  "actual_Apple_runtime_verification_inferred": false,
+  "bytes": 1042837,
+  "reviewed_paths": {
+    "iosMain/androidx/compose/ui/viewinterop/UIKitInteropContainer.ios.kt": "119-141: wrapper removal/update scheduled in the next presented CATransaction.",
+    "iosMain/androidx/compose/ui/viewinterop/UIKitInteropViewHolder.ios.kt": "42-45: removes grouping wrapper from superview; does not explicitly detach the WKWebView child.",
+    "iosMain/androidx/compose/ui/viewinterop/UIKitView.ios.kt": "onRelease signals that the instance has left composition forever and will not be reused."
+  },
+  "root_cause_scope": "The failed conjunction did not establish which value was non-null. Source separately confirms final child detachment relied on wrapper lifetime. Explicit child removal at final release and retained-parent assertion eliminate that ownership dependence without relaxing the failed predicate.",
+  "sha256": "db7a743cfdd14af5c2490f232bea0f53df166583b55d7fdc2a36ea0849089f5c",
+  "source_archive_executed": false,
+  "source_url": "https://repo.maven.apache.org/maven2/org/jetbrains/compose/ui/ui-iosarm64/1.12.0/ui-iosarm64-1.12.0-sources.jar"
+}

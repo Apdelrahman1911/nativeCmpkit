@@ -721,12 +721,21 @@ UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS] = {
                 "methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},),
     "scope": "Six failed real WebKit lifecycle/document/value/configuration methods and one new controlled native bridge ownership method only. The four accepted unchanged application-host methods are reused, not replayed. All actual Worker/runtime/binary/install/owned cleanup and real document predicates remain required. No assertion/timeout relaxation, physical swipes/video/network/authentication/minimum/ABI/consumer/security/release certification.",
 }
+IOS_WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-ios-native-remount-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REMOUNT_RECOVERY_FOCUS] = {
+    "module": "calf-webview",
+    "groups": ({"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+                "methods": IOS_WEBVIEW_LIFECYCLE_METHODS[:1], "declared_methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},),
+    "scope": "Only the failed real native creation/remount method with deterministic final native child detachment and a retained actual Compose wrapper. All original null-parent/disposal/remount/configuration assertions remain. Six accepted native methods and four accepted host methods are reused, not replayed. Actual Worker/runtime/binary/install/owned cleanup remains required; no physical/network/playback/minimum/ABI/consumer/security/release certification.",
+}
 IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
     IOS_WEBVIEW_LIFECYCLE_GROUPS[0],
     UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
 )
 
 WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
+WEBVIEW_IDENTITY_RECOVERY_FOCUS = "webview-public-identity-recovery"
+WEBVIEW_IDENTITY_FOCUSES = (WEBVIEW_IDENTITY_FOCUS, WEBVIEW_IDENTITY_RECOVERY_FOCUS)
 WEBVIEW_IDENTITY_METHOD = "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
 WEBVIEW_IDENTITY_SPECS = {
     "desktop": {
@@ -751,18 +760,32 @@ _BROWSER_IDENTITY_SPEC = {
 WEBVIEW_IDENTITY_SPECS.update(js=_BROWSER_IDENTITY_SPEC, wasm=_BROWSER_IDENTITY_SPEC)
 
 
-def webview_identity_identities(suite: str) -> list[dict]:
+def webview_identity_methods(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> tuple[str, ...]:
+    if focus not in WEBVIEW_IDENTITY_FOCUSES or (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite not in {"desktop", "android-device"}):
+        raise ValueError("Unknown finite WebView identity recovery selection")
+    methods = WEBVIEW_IDENTITY_SPECS[suite]["methods"]
+    return methods[:1] if focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite == "desktop" else methods
+
+
+def webview_identity_filter(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> str:
+    methods = webview_identity_methods(suite, focus)
+    classname = WEBVIEW_IDENTITY_SPECS[suite]["classname"]
+    return classname + "." + methods[0] if len(methods) == 1 else classname
+
+
+def webview_identity_identities(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> list[dict]:
     spec = WEBVIEW_IDENTITY_SPECS[suite]
     suffix = "[desktop]" if suite == "desktop" else ""
-    return [{"classname": spec["classname"], "name": method + suffix} for method in spec["methods"]]
+    return [{"classname": spec["classname"], "name": method + suffix} for method in webview_identity_methods(suite, focus)]
 
 
-def webview_identity_case_inventory(suite: str, cases: list[dict]) -> bool:
+def webview_identity_case_inventory(suite: str, cases: list[dict], focus: str = WEBVIEW_IDENTITY_FOCUS) -> bool:
     spec = WEBVIEW_IDENTITY_SPECS[suite]
+    methods = webview_identity_methods(suite, focus)
     if suite not in {"js", "wasm"}:
-        return (len(cases) == len(spec["methods"]) and
+        return (len(cases) == len(methods) and
                 {(c["classname"], c["name"]) for c in cases} ==
-                {(c["classname"], c["name"]) for c in webview_identity_identities(suite)})
+                {(c["classname"], c["name"]) for c in webview_identity_identities(suite, focus)})
     actual = []
     target = "js" if suite == "js" else "wasmJs"
     for case in cases:
@@ -771,7 +794,7 @@ def webview_identity_case_inventory(suite: str, cases: list[dict]) -> bool:
                 not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
             return False
         actual.append(method)
-    return len(actual) == len(spec["methods"]) and set(actual) == set(spec["methods"])
+    return len(actual) == len(methods) and set(actual) == set(methods)
 
 
 BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
@@ -945,7 +968,8 @@ def validate_webview_device_network_fixture(root: Path) -> None:
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
-            (focus == WEBVIEW_IDENTITY_FOCUS and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",)) or
+            (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
+             (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"})) or
             (focus == DESKTOP_SAVER_STATE_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus in LINUX_PICKER_PORTAL_FOCUSES and suite == "desktop" and modules == ("calf-file-picker",)) or
             (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
@@ -1223,7 +1247,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
-    elif focus == WEBVIEW_IDENTITY_FOCUS:
+    elif focus in WEBVIEW_IDENTITY_FOCUSES:
         spec = WEBVIEW_IDENTITY_SPECS[suite]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1235,9 +1259,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 spec["source"] not in selected[0]["test_source_files"]):
             raise ValueError("Public WebView identity/value declarations changed; review the exact finite native selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = spec["classname"]
-        selected[0]["required_testcases"] = webview_identity_identities(suite)
+        selected[0]["test_filter"] = webview_identity_filter(suite, focus)
+        selected[0]["required_testcases"] = webview_identity_identities(suite, focus)
         result["scope"] = "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification."
+        if focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS:
+            result["scope"] = "Only the failed Desktop public cold-start/remount method or two unexecuted Android public creation/value methods. Two accepted FX and four accepted browser executions are reused, not replayed. Original source declaration, real native, exact XML/fresh-task/runtime/input gates remain; no physical/minimum/other-engine/network/ABI/consumer/security/release certification."
     elif focus in ANDROID_SAVE_IDENTITY_FOCUSES:
         for group in ANDROID_SAVE_IDENTITY_GROUPS:
             source = safe_path(root, group["source"]).read_text(encoding="utf-8")
@@ -1441,14 +1467,14 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
-    if focus == WEBVIEW_IDENTITY_FOCUS:
+    if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]
         spec = WEBVIEW_IDENTITY_SPECS.get(suite)
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or spec is None or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-webview" or expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
-                expected[0].get("test_filter") != spec["classname"] or
-                expected[0].get("required_testcases") != webview_identity_identities(suite) or
+                expected[0].get("test_filter") != webview_identity_filter(suite, focus) or
+                expected[0].get("required_testcases") != webview_identity_identities(suite, focus) or
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite public WebView identity/value plan")
         return True
@@ -1761,8 +1787,8 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_IDENTITY_FOCUS:
-            policy_errors = ([] if webview_identity_case_inventory(test_plan["suite"], module_cases) else
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
+            policy_errors = ([] if webview_identity_case_inventory(test_plan["suite"], module_cases, test_plan["explicit_test_focus"]) else
                              ["WebView identity/value XML must contain exactly every new method with actual target identities"])
             scenarios = [{**c, "source": WEBVIEW_IDENTITY_SPECS[test_plan["suite"]]["source"], "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
@@ -2503,7 +2529,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, UNSUPPORTED_PERMISSION_FOCUS,
-                                           WEBVIEW_IDENTITY_FOCUS,
+                                           *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,

@@ -128,6 +128,10 @@ private fun releaseIosWebView(state: WebViewState, view: WKWebView, onDispose: (
         { observer?.stopObserving(view) },
         { view.navigationDelegate = null },
         { view.stopLoading() },
+        // UIKitView removes its grouping wrapper, not this child. A caller retaining
+        // the native view or wrapper must not keep the released child attached until GC.
+        // onRelease guarantees that this instance will never be reused by Compose.
+        { view.removeFromSuperview() },
         {
             if (hasSameNativeWebView(state.webView, view)) {
                 state.nativeObserver = null

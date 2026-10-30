@@ -1,0 +1,65 @@
+{
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "operation": "plan",
+  "profile": "webview-identity-recovery",
+  "slots": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-recovery"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "desktop-linux-x64",
+      "suite": "desktop"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-ios-native-remount-recovery"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "ios-iphone",
+      "suite": "ios"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-public-identity-recovery"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "android-device-api35",
+      "suite": "android-device"
+    }
+  ],
+  "source_only": true
+}

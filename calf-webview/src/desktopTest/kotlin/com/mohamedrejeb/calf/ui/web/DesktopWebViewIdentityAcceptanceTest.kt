@@ -25,6 +25,9 @@ class DesktopWebViewIdentityAcceptanceTest {
         val second = state("owner-b")
         val host = WindowHost(first, WebViewNavigator(scope))
         try {
+            // Public composition creates JFXPanel asynchronously. Its real onCreated
+            // callback, not test order or an artificial Platform.startup, proves FX ready.
+            host.awaitCreation(first)
             host.awaitDocument(first, "owner-a")
             val oldView = onFxThread {
                 val native = assertNotNull(first.webView)
@@ -241,6 +244,9 @@ class DesktopWebViewIdentityAcceptanceTest {
             }
         }
         fun update(action: WindowHost.() -> Unit) = SwingUtilities.invokeAndWait { action() }
+        suspend fun awaitCreation(state: WebViewState) = withTimeout(20_000) {
+            while (created.none { it.state === state }) { failure.get()?.let { throw it }; delay(10) }
+        }
         suspend fun awaitGeneration(expected: String) = withTimeout(10_000) {
             while (observedGeneration.get() != expected) { failure.get()?.let { throw it }; delay(10) }
         }

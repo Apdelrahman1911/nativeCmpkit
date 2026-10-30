@@ -94,6 +94,9 @@ class IosWebViewLifecycleAcceptanceTest {
                 assertEquals(0.875, assertNotNull(state.webView).alpha)
                 assertNotNull(state.webView)
             }
+            // Keep the real Compose wrapper alive: final child detachment must not
+            // depend on wrapper deallocation, autorelease timing or Kotlin GC.
+            val retainedParent = runOnIdle { assertNotNull(first.superview) }
             runOnIdle { mounted = false }
             waitForIdle()
             waitForNative { state.webView == null && first.superview == null }
@@ -103,6 +106,7 @@ class IosWebViewLifecycleAcceptanceTest {
                 assertNull(state.navigator)
                 assertNull(first.navigationDelegate)
                 assertNull(first.superview)
+                assertFalse(retainedParent.subviews.any { sameNativeObject(it, first) })
                 assertEquals(1, disposed.size)
                 assertTrue(sameNativeObject(first, disposed.single()))
                 state.content = document("remounted")

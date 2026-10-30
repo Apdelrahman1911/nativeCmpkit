@@ -47,6 +47,7 @@ PROFILES = {
     "webview-identity-browser": ("browser-js", "browser-wasm"),
     "webview-identity-wasm": ("browser-wasm",),
     "webview-identity-android": ("android-device-api35",),
+    "webview-identity-recovery": ("desktop-linux-x64", "ios-iphone", "android-device-api35"),
     "webview-lifetime": ("android-device-api35", "desktop-linux-x64", "desktop-macos-arm64", "desktop-macos-x64", "desktop-windows-x64"),
     "webview-lifetime-android": ("android-device-api35",),
     "webview-lifetime-android-media": ("android-device-api35",),
@@ -171,6 +172,7 @@ MODULE_SUBSETS = {
     "webview-identity-browser": "calf-webview",
     "webview-identity-wasm": "calf-webview",
     "webview-identity-android": "calf-webview",
+    "webview-identity-recovery": "calf-webview",
     "webview-lifetime": "calf-webview",
     "webview-lifetime-android": "calf-webview",
     "webview-lifetime-android-media": "calf-webview",
@@ -258,7 +260,8 @@ def matrix(profile: str) -> dict:
             row["test-modules"] = MODULE_SUBSETS[profile]
     if profile.startswith("webview-identity"):
         for row in rows:
-            row["test-focus"] = "webview-public-identity-values"
+            row["test-focus"] = ("webview-ios-native-remount-recovery" if row["suite"] == "ios" else
+                                 "webview-public-identity-recovery") if profile == "webview-identity-recovery" else "webview-public-identity-values"
     if profile.startswith("webview-lifetime"):
         order = {"android-device-api35": 0, "desktop-linux-x64": 1, "desktop-macos-arm64": 2,
                  "desktop-macos-x64": 3, "desktop-windows-x64": 4}
@@ -413,8 +416,14 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
                   ([row, {**row, "test-focus": row["serial-test-focus"]}]
                    if row.get("serial-test-focus") else [row])]
     for row in selections:
-        command = [sys.executable, "-B", str(root / "scripts/ci/library_tests.py"), "plan",
-                   "--suite", row["suite"]]
+        if row["suite"] == "android-device":
+            # Validate the controller actually invoked by the host, not a different
+            # parser which can accept a focus the emulator controller rejects.
+            command = [sys.executable, "-B", str(root / "scripts/ci/android_device_tests.py"), "plan",
+                       "--api-level", row["emulator-api"], "--output", "build/ci-plan"]
+        else:
+            command = [sys.executable, "-B", str(root / "scripts/ci/library_tests.py"), "plan",
+                       "--suite", row["suite"]]
         modules = row.get("test-modules", "").split(",") if row.get("test-modules") else []
         for module in modules:
             command += ["--module", module]

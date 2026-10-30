@@ -279,16 +279,22 @@ def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("operation", nargs="?", choices=["plan", "run"], default="run",
+                        help="Read-only source plan or actual owned emulator execution; old invocations still run")
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
     parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS,
-                                            lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
+                                            lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()
     modules = tuple(args.module) if args.module else None
     if args.focus is not None and not lt.allowed_test_focus("android-device", modules, args.focus):
         parser.error("--focus requires its exact reviewed single --module")
+    if args.operation == "plan":
+        print(json.dumps(lt.plan(lt.ROOT, "android-device", only_modules=modules,
+                                 **({"focus": args.focus} if args.focus is not None else {})), indent=2, sort_keys=True))
+        return 0
     def interrupted(*_) -> None:
         raise KeyboardInterrupt()
     for number in (signal.SIGINT, signal.SIGTERM):

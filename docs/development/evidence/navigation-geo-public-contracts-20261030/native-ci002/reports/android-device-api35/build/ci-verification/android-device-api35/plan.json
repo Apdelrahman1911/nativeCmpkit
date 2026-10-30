@@ -1,0 +1,114 @@
+{
+  "api_level": 35,
+  "assembly_command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+    ":calf-navigation:assembleAndroidDeviceTest"
+  ],
+  "avd_name": "nativecmpkit-api35-7df9056ecf91",
+  "create_avd_command": [
+    "/usr/local/lib/android/sdk/cmdline-tools/23.0/bin/avdmanager",
+    "create",
+    "avd",
+    "--name",
+    "nativecmpkit-api35-7df9056ecf91",
+    "--package",
+    "system-images;android-35;google_apis;x86_64",
+    "--device",
+    "pixel_6",
+    "--force"
+  ],
+  "launch_command": [
+    "/usr/local/lib/android/sdk/emulator/emulator",
+    "-avd",
+    "nativecmpkit-api35-7df9056ecf91",
+    "-port",
+    "5588",
+    "-no-window",
+    "-no-snapshot",
+    "-no-audio",
+    "-no-boot-anim",
+    "-gpu",
+    "swiftshader_indirect",
+    "-accel",
+    "on",
+    "-memory",
+    "2048",
+    "-cores",
+    "2",
+    "-camera-back",
+    "none",
+    "-camera-front",
+    "none"
+  ],
+  "reserve_mib": 8192,
+  "scope": "API35 software-GPU/KVM library instrumentation; no physical-device/minimum-API or system-picker certification",
+  "serial": "emulator-5588",
+  "source_revision": "6224793702b7952df918d63680342c195fde5fda",
+  "source_suite": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-navigation/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-navigation",
+        "project": ":calf-navigation",
+        "report_directory": "calf-navigation/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+            "name": "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose"
+          }
+        ],
+        "task": ":calf-navigation:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+        "test_source_files": [
+          "calf-navigation/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/navigation/AndroidAdaptiveNavigationBackTest.kt",
+          "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+          "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+          "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+          "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-navigation/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-navigation"
+    ],
+    "explicit_test_focus": "android-adaptive-navigation-back",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "One genuine Android system BACK/public adaptive host/factory/duplicate-visit/current-owner/disposal method only. Predictive progress/animations, native UIKit stacks, desktop shortcuts and browser history remain unsupported. No accepted unchanged test replay, physical/minimum-platform/ABI/packaged-consumer/security/release certification.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-io",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  }
+}

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `2b95eb5e73a7d58fc0a91641b723df47c58b0a2a5652e00bb8a916b23c4017d1`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f4cd8269380452e4d3701dbec1d71f6c60214bd2ab36f1a92e17cb99177b719e`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 33 |
-| partially-verified | 42 |
-| verified | 83 |
+| partially-verified | 41 |
+| verified | 84 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -153,7 +153,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 105 | [NAV-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/93) | Medium | 2 | M | verified | NAV-003, NAV-004 | 4 / 0 |
 | 106 | [NAV-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/94) | Medium | 2 | M | verified | NAV-001, NAV-002 | 3 / 0 |
 | 107 | [NAV-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/95) | Medium | 2 | M | verified | NAV-001 | 3 / 0 |
-| 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | partially-verified | — | 3 / 5 |
+| 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | verified | — | 3 / 0 |
 | 109 | [NAV-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) | Medium | 2 | M | implemented | — | 4 / 1 |
 | 110 | [NAV-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98) | Medium | 2 | M | unresolved | NAV-009 | 4 / 2 |
 | 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | implemented | — | 3 / 1 |
@@ -2485,7 +2485,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 108. NAV-008 — Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract
 
-**Medium · partially-verified · original effort L** — [nativeCmpkit #96](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort L** — [nativeCmpkit #96](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -2497,11 +2497,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
-- Verify consumer compilation of both factory/bridge identities on Android and non-Android targets.
-- Native UIKit interactive back/browser history/desktop shortcuts/per-entry ViewModel owners remain explicitly unsupported; no native-stack rewrite performed.
-- Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
-- Current public API-transitivity repair and six-target standalone common/Android consumer await immutable compilation; one actual Android completed system-BACK/current-owner/disposal method awaits immutable device execution. Predictive-progress/animation/native-stack features are explicitly unsupported, not fabricated passes.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All three original requirements reviewed for the intentionally minimal independent/unpublished contract. Actual six-target source consumer passes at6fd89634; exact guard-only applicability allows reuse. Actual API35 Android BACK41030070984 at62247937 passes1/1/Gradle0/52.02s with real runtime/current-owner/disposal/duplicate-saveable assertions, all924/1001 inputs/filter/fresh marker/owned graceful shutdown.39 accepted common/host/restoration/descriptor outcomes reused on exact source/runtime dependencies. Predictive animation/gestures, UIKit native stacks, desktop shortcuts, browser history and per-entry lifecycle/ViewModel owners explicitly unsupported. No physical/minimum/packaged/ABI/dependency/legal/security/release certification.
 
 **Compatibility / scope:** Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing legacy platform bridge is not silently unified or removed.
 
@@ -2626,7 +2624,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Medium · unresolved · original effort M** — [nativeCmpkit #103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
-**Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (partially-verified; original order 108).
+**Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (verified; original order 108).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3358,7 +3356,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Low · verified · original effort S** — [nativeCmpkit #154](https://github.com/Apdelrahman1911/nativeCmpkit/issues/154); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
-**Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (partially-verified; original order 108).
+**Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (verified; original order 108).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3585,7 +3583,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5934b007a1c5a7a97bb94025083554c84e0ec8d41c536168c896fc28ae16805c` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `81a3ecd7237c2937d2291cd01f4c55c3f69c35c79aacd0f01f5b4369b9aa3fa9` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |

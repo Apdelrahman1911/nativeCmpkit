@@ -1,0 +1,93 @@
+{
+  "accepted_unrelated_native_methods_replayed": false,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_templates": {
+    "android-device-api35": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+      ":calf-navigation:connectedAndroidDeviceTest"
+    ]
+  },
+  "fresh_target_test_executions_requested": 1,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "android-adaptive-navigation-back",
+      "test-modules": "calf-navigation"
+    }
+  ],
+  "plans": {
+    "android-device-api35": {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-navigation/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-navigation",
+          "project": ":calf-navigation",
+          "report_directory": "calf-navigation/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+              "name": "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose"
+            }
+          ],
+          "task": ":calf-navigation:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+          "test_source_files": [
+            "calf-navigation/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/navigation/AndroidAdaptiveNavigationBackTest.kt",
+            "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavControllerTest.kt",
+            "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/AdaptiveNavTypeCodecTest.kt",
+            "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/CheckedNavArraysTest.kt",
+            "calf-navigation/src/commonTest/kotlin/com/mohamedrejeb/calf/navigation/NavArgumentAndBundleTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-navigation/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-navigation"
+      ],
+      "explicit_test_focus": "android-adaptive-navigation-back",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "One genuine Android system BACK/public adaptive host/factory/duplicate-visit/current-owner/disposal method only. Predictive progress/animations, native UIKit stacks, desktop shortcuts and browser history remain unsupported. No accepted unchanged test replay, physical/minimum-platform/ABI/packaged-consumer/security/release certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-io",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  },
+  "profile": "android-navigation-back"
+}

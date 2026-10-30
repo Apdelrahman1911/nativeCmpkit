@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Navigation/geo batch fully closed — 2026-10-30
+
+**#96/NAV-008 and #115/PERM-019 CLOSED/completed** after original criteria,
+actual results and independent [readbacks](docs/development/evidence/navigation-geo-public-contracts-20261030/nav-closure001/README.md),
+before documentation. **86closed/86open/172total**;
+33implemented/41partial/84verified/six unresolved audit dispositions.
+Fresh native41030070984 at62247937: Android1/1/one XML/Gradle0/52.02s, exact924/
+1001 inputs/filter/fresh marker/Enforcing runtime/owned graceful shutdown verified.
+Six source compiler tasks at6fd89634 pass0/169.04s;39 nav and10 geo relevant
+accepted outcomes reused on exact applicable bytes, not replayed. Same six-task
+consumer must not be double-counted. Initial41028301775 remains tooling-failed/
+zero native; owning exact inventory guard and private version-key recovery stay.
+Modules remain unpublished experiments; unsupported native-stack/predictive/
+shortcut/history/per-entry ViewModel/acquisition policies explicit. Single-agent/
+max2heavy/8GiB and publishing/Pages/main/history/security/readiness gates unchanged.
+
 ## Geo subset closed; Android BACK recovery queued — 2026-10-30
 
 **#115/PERM-019 CLOSED/completed** after both original criteria and independent

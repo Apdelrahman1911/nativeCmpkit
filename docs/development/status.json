@@ -46,7 +46,7 @@
     "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "d7ac2264f87929568fe77f43660d57d4921a52ebcd3c9f099d6fb51469ba19fc",
-    "docs/development/resolutions/NAV.json": "5934b007a1c5a7a97bb94025083554c84e0ec8d41c536168c896fc28ae16805c",
+    "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
     "docs/development/resolutions/PERM-geo.json": "81a3ecd7237c2937d2291cd01f4c55c3f69c35c79aacd0f01f5b4369b9aa3fa9",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "2b95eb5e73a7d58fc0a91641b723df47c58b0a2a5652e00bb8a916b23c4017d1",
+  "input_fingerprint": "f4cd8269380452e4d3701dbec1d71f6c60214bd2ab36f1a92e17cb99177b719e",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 33,
-      "partially-verified": 42,
-      "verified": 83,
+      "partially-verified": 41,
+      "verified": 84,
       "unresolved": 6,
       "not-applicable": 0
     },
@@ -19666,12 +19666,12 @@
         "mapping_key": "audit:NAV-008",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "8987ba5693499153e562229825df0ed04bb5d2bfeac2a21bcfa288d837c7979f",
+      "owner_record_sha256": "08836244d778813a1b8e5cf75cfa8471cda5b812b5b16ddd4786a779f7cfa1b0",
       "owner_record": {
         "id": "NAV-008",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Documented the independent adaptive Compose contract and distinct legacy AndroidX platform bridge.",
           "Added explicitly named rememberAdaptiveNavController and canNavigateBack; retained existing factory/bridge signatures.",
@@ -19812,16 +19812,41 @@
               "docs/development/evidence/navigation-geo-public-contracts-20261030/implementation001/important-tools.json"
             ],
             "scope": "Source integration for intentionally unpublished experiments, not packages/ABI or a sample. Exactly one new native Android BACK method requested; accepted unchanged nav/geo runtime tests must be reused only after exact applicability review."
+          },
+          {
+            "command": "Actual immutable six-target source consumer; see consumer-matrix001 command/result and current-input reuse record",
+            "result": "PASS six fresh compiler tasks/0/169.04s at6fd89634 with1007 held inputs. Current relevant inputs unchanged except synthetic diagnostic guard; accepted result reused, not repeated. Zero runtime tests; Apple KLIB only. Existing Android Navigation public API dependency export fixes actual source consumer red.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/consumer-matrix001/build.log.result.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/consumer-matrix001/marker-review.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/consumer-matrix001/reuse-at-62247937.json"
+            ],
+            "scope": "Unpublished source integration, not packaged Maven/ABI/Apple linking."
+          },
+          {
+            "command": "android-navigation-back workflow41030070984 at6224793702b7952df918d63680342c195fde5fda; actual full command in native-ci002/review.json",
+            "result": "PASS1/1 genuine Android completed-system-BACK method/one fresh XML, actual Gradle0/52.02s. All924 before/after and1001 exact historical Git inputs, real Enforcing API35/current controller/one-event duplicate pop/saved entry state/handler disposal/fallback/fresh task+filter/owned graceful emulator shutdown independently reviewed. Initial41028301775 stays failed at tooling with zero native executions.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/native-ci002/review.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/native-ci002/archive.json"
+            ],
+            "scope": "One real emulator native input method, not predictive gesture/progress, physical/minimum/device/heap or whole CI/release readiness."
+          },
+          {
+            "command": "Independent39-selected-runtime exact source/XML/runtime/task applicability and three original criteria; no accepted suite replay",
+            "result": "20 common owner/pop/restore executions across Desktop/JS/Wasm/iOS from40528445496 plus16 current Desktop host/state and three retained JVM descriptor/array outcomes from40616313571 reused. All31 prior nav paths retained, sole old test change matches later accepted revision; owning production bodies/runtime dependency versions unchanged. Chosen experimental/minimal contract and unsupported native-stack/lifecycle requirements explicitly documented. #96 independently CLOSED/completed preserving body/title/labels.",
+            "evidence": [
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/nav-closure001/nav-runtime-reuse-review.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/nav-closure001/NAV-008-original-criteria-acceptance.json",
+              "docs/development/evidence/navigation-geo-public-contracts-20261030/nav-closure001/NAV-008-closure-readback.json"
+            ],
+            "scope": "Scoped actual common/host/native-simulator state and Android input contracts, not native UIKit navigation, shortcut/history support, per-entry ViewModel provisioning, physical/minimum/whole-library ABI."
           }
         ],
-        "remaining": [
-          "Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.",
-          "Verify consumer compilation of both factory/bridge identities on Android and non-Android targets.",
-          "Native UIKit interactive back/browser history/desktop shortcuts/per-entry ViewModel owners remain explicitly unsupported; no native-stack rewrite performed.",
-          "Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.",
-          "Current public API-transitivity repair and six-target standalone common/Android consumer await immutable compilation; one actual Android completed system-BACK/current-owner/disposal method awaits immutable device execution. Predictive-progress/animation/native-stack features are explicitly unsupported, not fabricated passes."
-        ],
-        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing legacy platform bridge is not silently unified or removed."
+        "remaining": [],
+        "compatibility": "Public package/class names and legacy navigate/pop signatures retained; ADR0004 defines corrected behavior and limits. No whole-library ABI certification. Existing legacy platform bridge is not silently unified or removed.",
+        "required_tests_review": "docs/development/evidence/navigation-geo-public-contracts-20261030/nav-closure001/NAV-008-original-criteria-acceptance.json",
+        "verification_scope": "All three original requirements reviewed for the intentionally minimal independent/unpublished contract. Actual six-target source consumer passes at6fd89634; exact guard-only applicability allows reuse. Actual API35 Android BACK41030070984 at62247937 passes1/1/Gradle0/52.02s with real runtime/current-owner/disposal/duplicate-saveable assertions, all924/1001 inputs/filter/fresh marker/owned graceful shutdown.39 accepted common/host/restoration/descriptor outcomes reused on exact source/runtime dependencies. Predictive animation/gestures, UIKit native stacks, desktop shortcuts, browser history and per-entry lifecycle/ViewModel owners explicitly unsupported. No physical/minimum/packaged/ABI/dependency/legal/security/release certification."
       },
       "closure_or_release_authorized_by_index": false
     },
@@ -20518,7 +20543,7 @@
         {
           "id": "NAV-008",
           "original_order": 108,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/96"
         }
       ],
@@ -26580,7 +26605,7 @@
         {
           "id": "NAV-008",
           "original_order": 108,
-          "reported_status": "partially-verified",
+          "reported_status": "verified",
           "issue_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/96"
         }
       ],

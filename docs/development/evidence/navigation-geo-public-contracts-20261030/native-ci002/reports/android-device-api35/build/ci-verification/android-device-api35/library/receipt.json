@@ -1,0 +1,143 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+    ":calf-navigation:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 52.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-navigation"
+  ],
+  "explicit_test_focus": "android-adaptive-navigation-back",
+  "finished_at_utc": "2026-10-30T09:07:44.457651+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "3874e0ab7a234a70b517a90e2e950276efe8c4100e2901dff059c2ec91347190",
+  "inputs_before_sha256": "3874e0ab7a234a70b517a90e2e950276efe8c4100e2901dff059c2ec91347190",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-navigation",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+          "disposition": "required-executed",
+          "name": "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose",
+          "required_on_host": true,
+          "source": "calf-navigation/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/navigation/AndroidAdaptiveNavigationBackTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-navigation/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-7df9056ecf91(AVD) - 15.xml",
+          "sha256": "819e4bb1ea3c217cff533bf08862e8f38a271a3c696f20364ad1169cd1fefc38",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-navigation:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+          "name": "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest",
+      "name": "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose"
+    }
+  ],
+  "runtime_receipt_sha256": "fec18783b64ee26651420ea233470c7b1abd6a8156a97c0efc41a9f63327db65",
+  "schema_version": 1,
+  "scope": "One genuine Android system BACK/public adaptive host/factory/duplicate-visit/current-owner/disposal method only. Predictive progress/animations, native UIKit stacks, desktop shortcuts and browser history remain unsupported. No accepted unchanged test replay, physical/minimum-platform/ABI/packaged-consumer/security/release certification.",
+  "source_revision": "6224793702b7952df918d63680342c195fde5fda",
+  "source_revision_after": "6224793702b7952df918d63680342c195fde5fda",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T09:06:52.438580+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-navigation:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

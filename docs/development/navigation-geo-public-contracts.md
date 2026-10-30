@@ -1,5 +1,17 @@
 # Navigation/geo public contract batch — #96/#115
 
+## Batch verified and closed
+
+**#96/#115 CLOSED/completed** after all original criteria and independent
+[readbacks](evidence/navigation-geo-public-contracts-20261030/nav-closure001/README.md).
+Actual native41030070984 passes1/1/Gradle0/52.02s with exact runtime/input/filter/
+marker and owned cleanup. Same six fresh source compiler tasks (not12) and exact
+39nav/10geo scoped runtime outcomes reused, no accepted suite replay.86closed/
+86open. Both modules remain unpublished experiments; unsupported features and all
+independent physical/minimum/packaged/ABI/resource/security/release gates remain.
+
+## Earlier checkpoints (historical)
+
 ## Verified geo subset; native navigation still pending
 
 #115 is independently CLOSED/completed; see [both original criteria/readback](evidence/navigation-geo-public-contracts-20261030/geo-closure001/README.md).

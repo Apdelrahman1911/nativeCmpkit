@@ -1,0 +1,111 @@
+{
+  "all999_CI_inputs_still_exact": true,
+  "all_original_criteria_reviewed": true,
+  "closure_eligible": true,
+  "current_source_revision": "113830695a17b0300b89ae9277e217793b6daf90",
+  "finding_id": "NATIVE-038",
+  "fresh_accepted_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+      "status": "passed"
+    }
+  ],
+  "fresh_platform": {
+    "accepted_methods": [
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+        "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+        "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+        "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+        "status": "passed"
+      }
+    ],
+    "command": [
+      "./gradlew",
+      "--continue",
+      "--no-daemon",
+      "--console=plain",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts",
+      "--no-parallel",
+      "--stacktrace",
+      "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+      "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+      "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      ":calf-webview:connectedAndroidDeviceTest"
+    ],
+    "execution": {
+      "elapsed_seconds": 86.04,
+      "exit_code": 0
+    },
+    "fresh_XML_reports": 1,
+    "fresh_executed": 3,
+    "slot": "android-device-api35",
+    "suite": "android-device"
+  },
+  "fresh_result_receipt_sha256": "4d0f01a31d5a5bd518ce714ea9483189de32f894f619566663a25a37218edd91",
+  "fresh_run_id": 41025222430,
+  "fresh_target_executions": 3,
+  "issue_number": 90,
+  "local_host_methods": 3,
+  "owning_source_bindings": {
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt": "f860c983f012e7896caafa8b5b9c0ee3527de14ab146009741460919e0d65bff",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidPopupRejectionTest.kt": "b0f4599f1862326292370ce721715d5378d5579f979a15daa83071acbc98a1d8",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": "3d32645991c56f523087a3cf60a5aba5bbd567b9c9686768157cf7e01875b9f7",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/AndroidPopupRejection.kt": "e507bfdbc413b62e68f3c14b2ca6aef244bf37a75bfa9a43a9a8f4c084fcb83b",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt": "05d60ea7470f486cac176046b4b3dd5752f501e8a6cc55e291cf01cd649190db"
+  },
+  "packages_releases_deployments_or_Pages_created": false,
+  "release_readiness_certified": false,
+  "remaining_for_original_finding": [],
+  "required_tests": [
+    {
+      "evidence": "Three genuine API35 Chromium device methods pass, including target=_blank with JavaScript on/off, all eight JavaScript/automatic-popup/multiple-window flag combinations, automatic window.open and genuinely user-activated scripted window.open. Native DOM touch, userActivation and actual document/title/network assertions are used, not injected onCreateWindow calls. Engine-blocked script requests do not fabricate events; true multiple-window mode records rejection, false mode follows documented Android current-view navigation.",
+      "original_requirement": "target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Deny-only is the explicitly chosen original recommended policy: same-origin, a different owned HTTP-server origin and nativecmpkit-untrusted:// links all produce a bounded observable rejection without parent navigation, child creation or a cross-origin request. No popup origin/scheme is accepted under this policy, no destination is guessed and no external handler or transport is delivered. Raw supportMultipleWindows=false intentionally bypasses child interception and has no promised origin filtering; managed login/payment child-window UI remains unsupported.",
+      "original_requirement": "Accepted and denied popup origins/schemes yield documented outcomes.",
+      "status": "verified"
+    },
+    {
+      "evidence": "Rejected windows create no child to close; the actual mounted native container retains one owner. Genuine native BACK input preserves parent history and also returns from the documented current-view fallback. Replacement releases the old native parent/state, keeps the two settings owners independent, and final disposal clears each native reference/parent with exactly-once disposal. Both owned HTTP workers terminate. Three fresh Robolectric host methods separately verify stale/detached/uninitialized callbacks, zero transport delivery, and 1000 bounded latest-state events without reapplying settings. This verifies owned lifecycle behavior, not a heap-profile or physical/minimum-device certification.",
+      "original_requirement": "Child window closure, back navigation and dispose release all resources.",
+      "status": "verified"
+    }
+  ],
+  "retained_limitations": [
+    "Actual API35 x86_64 Enforcing emulator/Chromium only; no physical/minimum Android or other engine/version certification.",
+    "Managed child-window/login/payment UI intentionally unsupported. The optional raw false flag is current-view navigation, not deny-only or trusted origin filtering.",
+    "Latest metadata is bounded, UI-thread only, nonpersistent and not a security token or exactly-once event stream. No heap/ABI/packaged consumer/dependency/legal/security/release gate cleared."
+  ],
+  "reviewed_at_utc": "2026-10-30T08:30:11.072989+00:00",
+  "unrelated_five_file_source_consumer_draft_not_validated_by_this_run": true
+}

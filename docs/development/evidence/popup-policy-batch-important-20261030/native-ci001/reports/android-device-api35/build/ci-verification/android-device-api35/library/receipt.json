@@ -1,0 +1,176 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 86.04,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "android-webview-popup-policy",
+  "finished_at_utc": "2026-10-30T08:25:13.165199+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "11d89a93f806f7d295b5155a9c25af5c858cf17e645e13307926a2bf65c517e2",
+  "inputs_before_sha256": "11d89a93f806f7d295b5155a9c25af5c858cf17e645e13307926a2bf65c517e2",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "disposition": "required-executed",
+          "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "disposition": "required-executed",
+          "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "disposition": "required-executed",
+          "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+          "required_on_host": true,
+          "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-webview/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-9377921708b3(AVD) - 15.xml",
+          "sha256": "134d15d32b4ec79763e43e22e682dce1c157ca235e187ed610fd56159a407e0b",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup"
+    }
+  ],
+  "runtime_receipt_sha256": "c2efa1cc5619353920237d5c6ccce53c8736a82fe03b6edb53befeaaa33c9af8",
+  "schema_version": 1,
+  "scope": "Three actual public Android Chromium popup/link/script/settings/back/replacement/cleanup methods only. Explicit deny-only default; raw false multiple-window mode navigates the current view. No child-window UI, accepted unrelated test replay, physical/minimum-platform/ABI/consumer/security/release certification.",
+  "source_revision": "113830695a17b0300b89ae9277e217793b6daf90",
+  "source_revision_after": "113830695a17b0300b89ae9277e217793b6daf90",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T08:23:47.122218+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-webview:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

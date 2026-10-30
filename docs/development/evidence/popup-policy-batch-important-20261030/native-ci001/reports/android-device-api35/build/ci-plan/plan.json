@@ -1,0 +1,58 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+          "name": "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup"
+        }
+      ],
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest",
+      "test_source_files": [
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "android-webview-popup-policy",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Three actual public Android Chromium popup/link/script/settings/back/replacement/cleanup methods only. Explicit deny-only default; raw false multiple-window mode navigates the current view. No child-window UI, accepted unrelated test replay, physical/minimum-platform/ABI/consumer/security/release certification.",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-io",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

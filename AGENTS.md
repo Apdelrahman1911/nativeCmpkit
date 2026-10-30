@@ -1,5 +1,18 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android popup policy verified and closed — 2026-10-30
+
+**[#90/NATIVE-038 CLOSED/completed](docs/development/evidence/popup-policy-batch-important-20261030/closure001/README.md)** after all three
+original criteria/source/results and independent readback, before documentation.
+Actual41025222430 at11383069 passes3/3 native methods/one fresh XML, Gradle0/86.04s;
+exact922/999 Git inputs/filter/task marker/Enforcing runtime/owned cleanup reviewed.
+Host3/3 retained; no accepted native identity/lifetime/dropdown replay.
+**84closed/88open/172total**;34implemented/42partial/82verified/six unresolved.
+Deny-only/default and raw false current-view fallback are explicit; child UI,
+physical/minimum/heap/ABI/packaged consumer/security/release remain unsupported
+or independently gated. Solo/max2heavy/8GiB, no publishing/Pages/main/history change.
+
+
 ## Android popup policy: focused host pass, native request pending — 2026-10-30
 
 [Owning policy/implementation evidence](docs/development/evidence/popup-policy-batch-important-20261030/implementation001/README.md)

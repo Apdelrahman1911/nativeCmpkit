@@ -52,8 +52,12 @@ The source guard first failed against the unobservable handler. The
 pass 93 synthetic methods and **3/3 fresh actual Robolectric host methods**;
 device APK compilation/assembly also passes, exit0/653.17s, all922/999 inputs held.
 Host shadows are not native popup input: **zero device methods executed here**.
-Immutable Chromium verification and original-criteria review remain pending;
-#90 stays open. A source/tooling/compile pass does not close it.
+[Immutable Chromium41025222430](evidence/popup-policy-batch-important-20261030/native-ci001/README.md)
+subsequently passes3/3 actual native methods, Gradle0/86.04s, with exact922/999
+inputs/runtime/class/task marker and owned cleanup reviewed.
+[All three original criteria and independent readback](evidence/popup-policy-batch-important-20261030/closure001/README.md)
+verify **#90 CLOSED/completed**. The host result above remains host-only; no
+accepted unrelated runtime tests were replayed.
 
 No physical/minimum Android, child-window UI, heap/ABI/consumer/security/release
 certification. No registry packages, release, deployment, Pages or main/history

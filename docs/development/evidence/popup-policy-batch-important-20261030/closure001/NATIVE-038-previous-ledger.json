@@ -1,0 +1,63 @@
+{
+  "affected_paths": [
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+    "docs/development/NATIVE.md",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/AndroidPopupRejection.kt",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidPopupRejectionTest.kt",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+    "docs/decisions/0012-android-popup-rejection-contract.md",
+    "docs/development/android-popup-policy.md"
+  ],
+  "changes": [
+    "Make Android onCreateWindow explicitly reject popups without opening arbitrary external handlers or leaking child views; document deny-only limitation. This is not a rendered multiple-window implementation.",
+    "ADR0012 retains deny-only default but makes current-owner rejection observable through the bounded AndroidPopupRejection/lastPopupRejection additive API. No child/external-handler/transport/guessed-origin behavior; raw false multiple-window fallback is explicitly documented."
+  ],
+  "compatibility": "Existing public package/classes and supportMultipleWindows default/setter retained. AndroidPopupRejection and private-set lastPopupRejection are additive. False native mode may navigate the parent and is not child-window support; true exposes explicit bounded rejection. No whole-library ABI certification.",
+  "id": "NATIVE-038",
+  "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-038",
+  "previous_verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+  "priority": "Medium",
+  "remaining": [
+    "Scoped deny-only policy chosen/documented in ADR0012; managed child-window login/payment flows intentionally unsupported, not silently completed. Pending actual native verification and all original criteria review.",
+    "Original required test pending full target verification: target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
+    "Original required test pending full target verification: Accepted and denied popup origins/schemes yield documented outcomes.",
+    "Original required test pending full target verification: Child window closure, back navigation and dispose release all resources."
+  ],
+  "status": "partially-verified",
+  "tests": [
+    {
+      "applicable_passed_cases": [],
+      "command": "Lead Xvfb batch command recorded verbatim in docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+      "evidence": [
+        "docs/development/evidence/native/first-desktop-android.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.summary.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log.result.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.inputs.json",
+        "docs/development/evidence/gradle/first-native-and-third-android-host.log"
+      ],
+      "result": "Batch exit1. WebView25 common/JDK-cookie cases passed,1 JUnit class-initialization error; zero5JavaFX scenarios and zero Android-host executions. Android/Desktop production compilation succeeded. Only explicitly listed passed cases are applicable evidence.",
+      "scope": "Held, hash-bound modified-working-tree diagnostic; subsequent six harness-source repairs NOT RERUN. Original native/browser/device/Compose integration acceptance tests remain open.",
+      "scoped_tasks": [
+        "calf-webview:desktopTest",
+        "calf-webview:testAndroidHostTest"
+      ]
+    },
+    {
+      "command": "Exact fresh host/device APK command in docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/build.log.result.json",
+      "evidence": [
+        "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/README.md",
+        "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/host-local001/review.json",
+        "docs/development/evidence/popup-policy-batch-important-20261030/implementation001/important001/review.json"
+      ],
+      "result": "PASS exit0/653.17s:3/3 fresh Robolectric production-handler/Compose-state methods; Android native test APK compiles/assembles.93 important synthetic tool methods/actionlint pass. ZERO actual device execution; all922 library/999 combined inputs unchanged. Dirty held-source diagnostic, not immutable release verification.",
+      "scope": "Exactly3 host methods, no accepted native identity/lifetime/dropdown tests replayed. Three authored genuine Chromium device methods await one immutable finite profile.",
+      "scoped_tasks": [
+        ":calf-webview:testAndroidHostTest",
+        ":calf-webview:assembleAndroidDeviceTest"
+      ]
+    }
+  ],
+  "title": "Android enables multiple WebView windows but supplies no window-creation handler",
+  "verification_scope": "Dirty held922/999 inputs:3/3 actual Robolectric handler/state ownership/transport/bounded-event methods and native APK compilation/assembly pass exit0/653.17s;93 important synthetic tools/actionlint pass. ZERO native device execution; one immutable exact3-method Chromium verification/original-criteria review pending. #90 stays open; independent platform/device/ABI/consumer/security/release gates remain."
+}

@@ -259,7 +259,7 @@ class OwnedApplicationTests(unittest.TestCase):
         for line in complete_lines(): protocol.feed(line)
         return {"process_exit": 0, **protocol.finish(0)}
 
-    def fixture_run(self, control=None, contexts=None, launch=None, arguments=None):
+    def fixture_run(self, control=None, contexts=None, launch=None, arguments=None, image_diagnostics=None):
         with patch.object(a.runtime, "capture", side_effect=contexts or [self.before, self.before]), \
                 patch.object(a, "execute_control", side_effect=control or self.control), \
                 patch.object(a, "forward_application", side_effect=launch or self.launch), \
@@ -273,7 +273,8 @@ class OwnedApplicationTests(unittest.TestCase):
             profile.return_value.prepare.return_value = None
             profile.return_value.receipt = {"owned_ack_removed": True, "owned_readiness_removed": True, "owned_private_tree_removed": True,
                                             "supported": False, "profile_passed": False}
-            return a.run(self.binary.relative_to(self.root).as_posix(), arguments or list(a.TEST_ARGUMENTS))
+            return a.run(self.binary.relative_to(self.root).as_posix(), arguments or list(a.TEST_ARGUMENTS),
+                         image_diagnostics=image_diagnostics)
 
     def test_owned_staging_reserve_guard_still_refuses_install(self):
         with patch.object(a.runtime, "capture", return_value=self.before), \
@@ -294,6 +295,48 @@ class OwnedApplicationTests(unittest.TestCase):
         self.assertFalse(result["packages_published"])
         self.assertEqual(self.binary.read_bytes(), macho())
         self.assertEqual({DEVICE}, {cmd[3] for cmd in self.commands if len(cmd) > 3 and cmd[2] in {"install", "uninstall", "terminate", "get_app_container"}})
+
+    def test_finite_debug_recovery_signs_before_install_and_retains_owned_lifecycle(self):
+        focus = a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS
+        self.expected_timeout = a.application_timeout_seconds(focus)
+        arguments = [*sorted(a.TEST_ARGUMENTS), "--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus)]
+        def control(argv, timeout=90):
+            if argv[:2] == ["/usr/bin/codesign", "--display"]:
+                self.commands.append(argv)
+                return subprocess.CompletedProcess(argv, 0, plistlib.dumps({"get-task-allow": True}), b"")
+            return self.control(argv, timeout)
+        result = self.fixture_run(control=control, arguments=arguments, image_diagnostics="darwin-tools")
+        self.assertTrue(result["transport_passed"])
+        self.assertEqual(focus, result["explicit_test_focus"])
+        self.assertFalse(result["strict_runtime_assertions_attested"])
+        debug = result["steps"]["adhoc-sign-local-verification-app"]["debug_profile"]
+        self.assertTrue(debug["owned_entitlement_input_removed"])
+        self.assertTrue(debug["signed_debug_flag_observation"]["ios_debug_allowed"])
+        self.assertFalse(debug["attach_authorization_proven"])
+        signer = next(i for i, argv in enumerate(self.commands) if "--entitlements" in argv and "--force" in argv)
+        installer = next(i for i, argv in enumerate(self.commands) if "install" in argv)
+        self.assertLess(signer, installer)
+        self.assertTrue(result["cleanup"]["owned_app_absence_verified"])
+        self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+        self.assertFalse(any(self.root.rglob("owned-image-profile-debug.entitlements.plist")))
+        self.assertFalse(result["image_memory_profile"]["profile_passed"], "Simulated transport is not memory evidence")
+
+    def test_failed_debug_readback_blocks_install_and_preserves_failure_cleanup(self):
+        focus = a.lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS
+        arguments = [*sorted(a.TEST_ARGUMENTS), "--ktest_gradle_filter=" + a.lt.ui_application_focus_filter(focus)]
+        def control(argv, timeout=90):
+            if argv[:2] == ["/usr/bin/codesign", "--display"]:
+                self.commands.append(argv)
+                return subprocess.CompletedProcess(argv, 0, plistlib.dumps({"get-task-allow": False}), b"")
+            return self.control(argv, timeout)
+        result = self.fixture_run(control=control, contexts=[self.before], arguments=arguments,
+                                  image_diagnostics="darwin-tools")
+        self.assertFalse(result["transport_passed"])
+        self.assertEqual("adhoc-sign-local-verification-app", result["error"]["phase"])
+        self.assertFalse(any("install" in argv or "launch" in argv for argv in self.commands))
+        self.assertTrue(result["steps"]["adhoc-sign-local-verification-app"]["debug_profile"]["owned_entitlement_input_removed"])
+        self.assertTrue(result["cleanup"]["owned_local_bundle_removed"])
+        self.assertFalse(any(self.root.rglob("owned-image-profile-debug.entitlements.plist")))
 
     def test_selected_slider_deadline_is_forwarded_without_changing_other_owned_profiles(self):
         # Simulated frames validate the Python caller contract, not sliders/UIKit.

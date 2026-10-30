@@ -42,6 +42,11 @@ Single-agent containment and all publishing/security restrictions remain.
 
 ### Authorized now
 
+- The finite failed-image-profile recovery may ad-hoc sign its **owned disposable
+  test app only** with one explicit debug prerequisite, exact signed readback and
+  exclusive-input cleanup; see [ADR0012](../decisions/0012-owned-profile-debug-signing.md).
+  This grants no elevation, credentials, public binary signing, publication or
+  inference of debugger authorization/profile success. Other modes stay unchanged.
 - Repair source/tests/build tooling; acquire necessary dependencies and run
   bounded local or hosted verification, including local-only Maven staging and
   independent packaged consumers. Local staging is not registry publication.

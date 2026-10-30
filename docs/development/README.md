@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Owned failed-profile debugging prerequisite — 2026-10-30
+
+[ADR0012](../decisions/0012-owned-profile-debug-signing.md) scopes one test-only
+`get-task-allow` input to the finite failed-image-profile recovery. Exclusive/
+no-follow0600 input, exact signed readback/owned cleanup; other strict/full/native
+modes keep original signer. No credentials/elevation/public binary signing or
+attachment/profile inference. Twelve distinct important synthetic methods and
+one-case source CLI pass; ZERO actual Codesign/Apple/native/profile outcomes.
+[Held candidate](evidence/image-profile-debug-prerequisite-20261030/README.md) preserves TDD/private caller failures.
+#141 stays open; previous150s timeout/zero rows/leaks and strict startup remain
+unfixed, unknown/unwaived.86closed/86open; all single-agent/max2heavy/8GiB and
+publishing/Pages/main/history/native/minimum/ABI/consumer/security/readiness gates stay.
+
 ## Navigation/geo batch fully closed — 2026-10-30
 
 **#96/NAV-008 and #115/PERM-019 CLOSED/completed** after original criteria,

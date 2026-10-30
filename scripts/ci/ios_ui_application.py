@@ -22,6 +22,7 @@ import re
 import selectors
 import shutil
 import signal
+import stat
 import struct
 import subprocess
 import sys
@@ -904,6 +905,68 @@ def application_host(binary_relative: str, focus: str | None) -> dict:
     return {"module": module, **host}
 
 
+def profile_debug_entitlements(focus: str | None) -> dict | None:
+    """One disposable failed-profile recovery only; never public binary signing."""
+    if focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS:
+        return {"get-task-allow": True}
+    if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
+        raise ValueError("Unknown verification signing mode")
+    return None
+
+
+def sign_owned_debug_profile_application(root: Path, app: Path, focus: str, details: dict) -> subprocess.CompletedProcess:
+    """Ad-hoc sign an owned local profile app with one explicit debugger flag.
+
+    No credentials, elevation, device configuration, public frameworks or package
+    signing. A readback is a prerequisite observation, not attach authorization or
+    a successful profile. All other modes retain their exact previous signer.
+    """
+    requested = profile_debug_entitlements(focus)
+    if requested is None or not isinstance(details, dict) or details:
+        raise ValueError("Use one new finite debug-profile signing receipt")
+    app = lt.safe_path(root, app.relative_to(root).as_posix())
+    base = lt.safe_path(root, "build/ci-verification")
+    if (not app.is_relative_to(base) or app.parent == base or
+            app.name != "NativeCmpkitLibraryTests.app" or not app.is_dir()):
+        raise ValueError("Only an owned disposable verification bundle may be signed")
+    path = lt.safe_path(root, (app.parent / "owned-image-profile-debug.entitlements.plist").relative_to(root).as_posix())
+    payload = plistlib.dumps(requested, sort_keys=True)
+    details.update(policy="failed-darwin-profile-recovery-only", ios_debug_requested=True,
+                   mac_debug_requested=False, requested_entitlements_sha256=hashlib.sha256(payload).hexdigest(),
+                   owned_entitlement_input_removed=False, public_framework_or_package_signing=False,
+                   raw_entitlements_or_paths_uploaded=False, attach_authorization_proven=False)
+    identity = lambda s: (s.st_dev, s.st_ino, s.st_size, s.st_mtime_ns, s.st_ctime_ns,
+                          s.st_uid, s.st_nlink, s.st_mode)
+    # Exclusive/no-follow and0600: never replace an earlier/foreign input.
+    stream = open(path, "xb", opener=lambda name, flags: os.open(name, flags | os.O_NOFOLLOW, 0o600))
+    expected = identity(os.fstat(stream.fileno()))
+    try:
+        with stream:
+            stream.write(payload)
+            stream.flush()
+            expected = identity(os.fstat(stream.fileno()))
+        result = execute_control(["/usr/bin/codesign", "--force", "--sign", "-", "--entitlements",
+                                  str(path), str(app)], 120)
+        if result.returncode == 0:
+            import apple_image_profile
+            observed = execute_control(["/usr/bin/codesign", "--display", "--entitlements", ":-", str(app)], 30)
+            flags = apple_image_profile.debug_entitlement_observation(observed)
+            details["signed_debug_flag_observation"] = flags
+            if not flags["ios_debug_allowed"] or flags["mac_debug_allowed"]:
+                raise ValueError("The owned profile app lacks its exact requested signed debug flag")
+        return result
+    finally:
+        before = path.lstat()
+        if (identity(before) != expected or not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or
+                before.st_uid != os.getuid() or before.st_size != len(payload)):
+            raise ValueError("Debug-profile input ownership changed; refuse deletion")
+        body = path.read_bytes()
+        if body != payload or identity(path.lstat()) != expected or path.is_symlink():
+            raise ValueError("Debug-profile input payload changed; refuse deletion")
+        path.unlink()
+        details["owned_entitlement_input_removed"] = True
+
+
 def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:
     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
@@ -966,8 +1029,14 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         shutil.copy2(binary, app / APP_EXECUTABLE)
         (app / "Info.plist").write_bytes(plistlib.dumps(app_information(bundle_id, identity["minimum_os"]), sort_keys=True))
         phase = "adhoc-sign-local-verification-app"
-        sign = execute_control(["/usr/bin/codesign", "--force", "--sign", "-", str(app)], 120)
-        receipt["steps"][phase] = {**control_status(sign), "remote_signing_or_publication": False}
+        if profile_debug_entitlements(focus) is not None:
+            debug_details = {}
+            receipt["steps"][phase] = {"remote_signing_or_publication": False, "debug_profile": debug_details}
+            sign = sign_owned_debug_profile_application(root, app, focus, debug_details)
+            receipt["steps"][phase].update(control_status(sign))
+        else:
+            sign = execute_control(["/usr/bin/codesign", "--force", "--sign", "-", str(app)], 120)
+            receipt["steps"][phase] = {**control_status(sign), "remote_signing_or_publication": False}
         if sign.returncode:
             raise RuntimeError("Ad-hoc local application signing failed")
         signed_hash, plist_hash = lt.sha256(app / APP_EXECUTABLE), lt.sha256(app / "Info.plist")

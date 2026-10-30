@@ -624,7 +624,7 @@ IOS_IMAGE_DARWIN_FOCUSES = (IOS_IMAGE_DARWIN_FOCUS, IOS_IMAGE_PROFILE_RECOVERY_F
 UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_PROFILE_RECOVERY_FOCUS] = {
     "groups": ({"classname": IOS_IMAGE_MEMORY_CLASS, "source": IOS_IMAGE_MEMORY_SOURCE,
                 "methods": IOS_IMAGE_MEMORY_METHODS[-1:], "declared_methods": IOS_IMAGE_MEMORY_METHODS},),
-    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
+    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. This finite recovery alone ad-hoc signs its disposable verification app with one explicit get-task-allow flag and requires signed readback/owned-input cleanup; no elevated permissions or public binary signing, and attachment authorization is not inferred. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
 }
 IOS_APPLICATION_SOURCES += (IOS_IMAGE_MEMORY_SOURCE,)
 IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES

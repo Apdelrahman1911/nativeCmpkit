@@ -355,7 +355,11 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertNotIn("putExtra(Intent.EXTRA_STREAM", native)
         for value in ("checkUriPermission", 'openFileDescriptor(uri, "w")', "AutoCloseOutputStream", "getCallingPackage", "checkSignatures"):
             self.assertIn(value, activity)
-        for value in ("getPackagesForUid", "request.sendingUid", "checkSignatures", '"Unknown operation"'):
+        # The contract is refusal through protocolError, not a diagnostic's exact
+        # wording. Retain unknown/live/completion guards after finite control grew.
+        for value in ("getPackagesForUid", "request.sendingUid", "checkSignatures", 'result.putString("protocolError",',
+                      'refusedClear ||', '!"snapshot".equals(operation)', '!"clear".equals(operation)',
+                      '!"complete".equals(operation)', '("complete".equals(operation) && !completion)'):
             self.assertIn(value, service)
         self.assertIn('android:protectionLevel="signature"', (l.ROOT / base / "src/main/AndroidManifest.xml").read_text())
         for value in ("maven-publish", "module.publication", "publishTo"):
@@ -484,6 +488,19 @@ class CameraRestorationComponentOwnershipTests(unittest.TestCase):
         self.assertIn("result.size() + n <= 4096", client)
         self.assertIn("commandline.inputStream().use", client)
         self.assertIn("Process.killProcess(pid)", client)
+
+    def test_effective_component_state_uses_real_intent_resolution_not_manifest_enabled(self):
+        service, client, _ = self.sources()
+        self.assertNotIn(".enabled != arm", service)
+        self.assertIn("pm.queryIntentActivities", service)
+        self.assertIn("new Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(getPackageName())", service)
+        self.assertIn("PackageManager.MATCH_DEFAULT_ONLY", service)
+        self.assertIn("handlers.size() != (arm ? 1 : 0)", service)
+        self.assertIn("handler.activityInfo.applicationInfo.uid != Process.myUid()", service)
+        self.assertIn("component.equals(new ComponentName", service)
+        self.assertIn('result.putInt("nativeHandlerCount", handlers.size())', service)
+        self.assertIn('reply.getInt("nativeHandlerCount")', client)
+        self.assertIn('assertFalse(reply.getBoolean("manifestComponentEnabled"))', client)
 
 
 class CameraArchiveTests(unittest.TestCase):

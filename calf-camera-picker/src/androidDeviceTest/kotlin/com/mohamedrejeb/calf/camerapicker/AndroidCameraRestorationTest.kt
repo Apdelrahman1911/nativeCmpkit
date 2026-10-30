@@ -240,6 +240,10 @@ class AndroidCameraRestorationTest {
     }
 
     private fun assertDelayedControl(owner: OwnedCameraReceiver, reply: android.os.Bundle, lease: String, armed: Boolean) {
+        for (key in setOf("delayedControlVerified", "componentOwnerUid", "componentState",
+            "originalComponentState", "manifestComponentEnabled", "nativeHandlerCount")) {
+            assertTrue(reply.containsKey(key), "Missing native component readback: $key")
+        }
         assertTrue(reply.getBoolean("delayedControlVerified"))
         assertEquals(delayed.flattenToString(), reply.getString("controlledComponent"))
         assertEquals(lease, reply.getString("controlledLease"))
@@ -248,6 +252,8 @@ class AndroidCameraRestorationTest {
         assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, reply.getInt("originalComponentState"))
         assertEquals(if (armed) PackageManager.COMPONENT_ENABLED_STATE_ENABLED else PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
             reply.getInt("componentState"))
+        assertFalse(reply.getBoolean("manifestComponentEnabled"))
+        assertEquals(if (armed) 1 else 0, reply.getInt("nativeHandlerCount"))
     }
 
     private fun tasks(nonce: String): List<ActivityManager.AppTask> {

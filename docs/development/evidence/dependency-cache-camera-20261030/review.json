@@ -1,0 +1,28 @@
+{
+  "BUILD007_or_full_dependency_trust_or_release_gate_closed": false,
+  "actionlint_passed": true,
+  "actual_added_key_inputs": [
+    "tests/consumer/android-camera-receiver/build.gradle.kts",
+    "tests/consumer/android-camera-receiver/settings.gradle.kts"
+  ],
+  "actual_selected_dependency_input_count": 80,
+  "affected_code": "scripts/ci/dependency_cache_inputs.py:selected_inputs(libraries)",
+  "confirmed_source_defect": "Independent Android camera receiver declarative build inputs were absent from library dependency cache key although CI assembles the receiver.",
+  "declarations_partition_key": true,
+  "existing_cache_paths_permissions_or_action_references_changed": false,
+  "failure_safe_cache_save_NOT_implemented": true,
+  "final_fail_error_skip": 0,
+  "final_synthetic_methods": 43,
+  "initial_failed_subtest_outcomes": 9,
+  "initial_synthetic_methods": 2,
+  "input_snapshot_held": true,
+  "native_or_GitHub_cache_action_executions": 0,
+  "observed_at_utc": "2026-10-30T17:45:20.689101+00:00",
+  "other_actual_CI_result_NOT_inferred": true,
+  "production_or_library_API_changed": false,
+  "repair": "Include fixed camera receiver PROJECT_FILES with the existing bounded regular-file/hash checks. No source/output/APK/signing/XML enters the key or cache.",
+  "root_cause": "Finite source-receiver list had geo/share/share-documents but omitted newly added camera receiver.",
+  "source_revision_before_commit": "774fbb1e23438d394b264eeb3a2ba376f59c22f4",
+  "source_tree_dirty": true,
+  "success_only_cache_save_policy_unchanged": true
+}

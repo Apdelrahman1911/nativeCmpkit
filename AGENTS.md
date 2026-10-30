@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera tooling/native-state owning batch prepared — 2026-10-30
+
+Actual [41100261882](docs/development/evidence/android-camera-provider-20261030/restoration-ci002/README.md)
+at774fbb1e FAILED before native jobs:1122 CI synthetic methods/1121pass/one stale
+error-wording guard; ZERO native/XML/artifacts. Earlier original CLI reply remains
+unknown. Independent Android15 source confirms ComponentInfo.enabled is manifest,
+not override; **not reached**, not that tooling/earlier failure's cause.
+[Owning repair](docs/development/evidence/android-camera-provider-20261030/restoration-native-state001/README.md)
+retains disabled manifest/DEFAULT lease, exact actual setting, real package-scoped
+implicit-handler0/1/exact component+UID/missing-field refusal and restore-before-close.
+Unknown/live/failed-complete guards are preserved without brittle diagnostic text.
+Two reds/52 important synthetic passes/five overlapping later-source controls and
+Actionlint pass; serial reporterAPK0/37.01s/receiver0/14.0s,987/1064 held inputs,
+ZERO native. [Camera dependency-key omission](docs/development/evidence/dependency-cache-camera-20261030/README.md)
+also repaired: actual receiver build/settings now keyed,43 focused synthetic passes;
+no cached outputs/signing/XML, measured speedup or failure-safe save implementation.
+#13/#40 stay open;90closed/82open,30implemented/40partial/88verified/six unresolved.
+Next four failed API35 restoration scenarios only; accepted provider/IO/host/unrelated
+results not replayed. Publishing/Pages/main/history/native/consumer/ABI/dependency/
+legal/security/readiness and solo/8GiB/max2heavy gates unchanged.
+
 ## Restoration actual failure / owning repair; IO precheck pass — 2026-10-30
 
 Actual [camera41095539115](docs/development/evidence/android-camera-provider-20261030/restoration-ci001/README.md)

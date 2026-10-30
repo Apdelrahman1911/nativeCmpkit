@@ -54,6 +54,29 @@ class DependencyCacheInputTests(unittest.TestCase):
         self.assertNotEqual(held, self.key())
         self.assertIn('tests/consumer/android-share-documents/build.gradle.kts', d.selected_inputs(self.root, 'libraries'))
 
+    def test_camera_receiver_declarations_partition_the_key_without_caching_outputs_or_signing_inputs(self):
+        fixture = 'tests/consumer/android-camera-receiver/'
+        for name in d.PROJECT_FILES:
+            with self.subTest(configuration=name):
+                before = self.key()
+                self.write(fixture + name, 'synthetic-camera-declaration-' + name)
+                self.assertNotEqual(before, self.key())
+                self.assertIn(fixture + name, d.selected_inputs(self.root, 'libraries'))
+        held = self.key()
+        for name in ('src/main/java/Camera.java', 'build/outputs/apk/debug/old.apk',
+                     'build/test-results/old.xml', 'build/android-user/debug.keystore',
+                     'build/ci-verification/receipt.json'):
+            self.write(fixture + name, 'not-a-dependency-cache-input')
+        self.assertEqual(held, self.key())
+
+    def test_camera_receiver_linked_declaration_is_refused_not_silently_omitted(self):
+        outside = self.write('outside-camera.gradle.kts', 'synthetic-linked-configuration')
+        declaration = self.root / 'tests/consumer/android-camera-receiver/build.gradle.kts'
+        declaration.parent.mkdir(parents=True)
+        declaration.symlink_to(outside)
+        with self.assertRaises(ValueError):
+            self.key()
+
     def test_repeat_keys_are_exact_content_bound_and_include_all_configured_builds(self):
         values = d.selected_inputs(self.root, 'libraries')
         self.assertIn('calf-core/build.gradle.kts', values)

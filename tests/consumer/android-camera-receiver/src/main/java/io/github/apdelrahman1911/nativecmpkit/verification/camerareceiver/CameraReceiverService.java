@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,8 +15,10 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.Process;
 import android.os.RemoteException;
+import android.provider.MediaStore;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /** Signature/UID/nonce-bound observation/completion only; no arbitrary URI, file access or grant command. */
@@ -101,10 +104,25 @@ public final class CameraReceiverService extends Service {
             // This is the recipient's real SDK operation. DONT_KILL_APP retains
             // its bound service/lease; no shell text, root, grant or state fallback.
             pm.setComponentEnabledSetting(component, wanted, PackageManager.DONT_KILL_APP);
+            // ComponentInfo.enabled is the parsed manifest flag, NOT the user's
+            // runtime override. Require that disabled default to remain unchanged,
+            // and separately verify actual unflagged implicit intent resolution.
+            final boolean manifestEnabled = pm.getActivityInfo(component, PackageManager.MATCH_DISABLED_COMPONENTS).enabled;
+            final List<ResolveInfo> handlers = pm.queryIntentActivities(
+                    new Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(getPackageName()), PackageManager.MATCH_DEFAULT_ONLY);
             if (pm.getComponentEnabledSetting(component) != wanted ||
-                    pm.getActivityInfo(component, PackageManager.MATCH_DISABLED_COMPONENTS).enabled != arm) {
+                    manifestEnabled || handlers.size() != (arm ? 1 : 0)) {
                 result.putString("protocolError", "Native delayed-component state not verified");
                 return result;
+            }
+            if (arm) {
+                final ResolveInfo handler = handlers.get(0);
+                if (handler == null || handler.activityInfo == null || handler.activityInfo.applicationInfo == null ||
+                        handler.activityInfo.applicationInfo.uid != Process.myUid() ||
+                        !component.equals(new ComponentName(handler.activityInfo.packageName, handler.activityInfo.name))) {
+                    result.putString("protocolError", "Foreign or unknown native delayed handler");
+                    return result;
+                }
             }
             result.putBoolean("delayedControlVerified", true);
             result.putString("controlledComponent", component.flattenToString());
@@ -113,6 +131,8 @@ public final class CameraReceiverService extends Service {
             result.putInt("componentOwnerUid", Process.myUid());
             result.putInt("componentState", wanted);
             result.putInt("originalComponentState", originalDelayedState);
+            result.putBoolean("manifestComponentEnabled", manifestEnabled);
+            result.putInt("nativeHandlerCount", handlers.size());
             if (!arm) { delayedLease = null; originalDelayedState = null; }
         } catch (Exception failure) {
             // Preserve refusal and partial lease, never accept missing native readback.

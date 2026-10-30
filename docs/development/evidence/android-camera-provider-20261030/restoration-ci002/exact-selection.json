@@ -1,0 +1,121 @@
+{
+  "accepted_API23_API35_provider_host22_or_unrelated_methods_replayed": false,
+  "actual_dont_keep_display_rotation_same_UID_kernel_death_and_restored_cancellation_required": true,
+  "actual_foreign_UID_signatures_grants_and_closed_descriptors_required": true,
+  "bounded_maximum_parallel_jobs": 2,
+  "bounded_same_UID_cmdline_native_absence_and_exact_process_name_before_SIGKILL_required": true,
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+    ":calf-camera-picker:connectedAndroidDeviceTest"
+  ],
+  "distinct_native_methods_requested": 4,
+  "fixed_recipient_UID_SDK_lease_original_DEFAULT_and_exact_native_readback_required": true,
+  "fresh_owned_AVD_and_XML": true,
+  "fresh_target_executions_requested": 4,
+  "manual_URI_grants_or_registry_results_or_save_state": false,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "android-camera-real-restoration",
+      "test-modules": "calf-camera-picker"
+    }
+  ],
+  "native_APIs_requested": [
+    35
+  ],
+  "nonce_UID_task_PID_output_and_exact_setting_component_cleanup_required": true,
+  "profile": "android-camera-restoration",
+  "public_Compose_launcher_and_OS_registry_state_result_required": true,
+  "serial_AVDs_same_host": false,
+  "source_consumer_not_sample_or_packaged_Maven": true,
+  "source_plan": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-camera-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-camera-picker",
+        "project": ":calf-camera-picker",
+        "report_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+            "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+            "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+            "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+            "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+          }
+        ],
+        "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "test_source_files": [
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt",
+          "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-camera-picker"
+    ],
+    "explicit_test_focus": "android-camera-real-restoration",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Four new real public Compose/ActivityResultRegistry camera-restoration methods on owned API35: don't-keep-activities, real display rotation, actual same-UID kernel process death and restored cancellation, with native foreign-UID grants/closed descriptors/nonce-bound task/PID/temp/output/setting/component ownership. Bytes and external recipient are synthetic; no manually injected restored result/state/grant. Accepted provider/host/portable methods are not replayed; not hardware/vendor/physical/minimum-API/packaged/API-ABI/heap/security/release certification.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-geo",
+      "calf-io",
+      "calf-navigation",
+      "calf-share",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  },
+  "synthetic_camera_bytes_and_external_recipient": true
+}

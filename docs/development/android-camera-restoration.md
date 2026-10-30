@@ -1,5 +1,17 @@
 # Android camera restoration verification — 2026-10-30
 
+## Recovery002 failed before native; final state repair compiled
+
+[41100261882](evidence/android-camera-provider-20261030/restoration-ci002/README.md)
+fails one diagnostic-wording guard (1121/1122 script methods pass), native skipped.
+A separate [source-confirmed fixture flag defect](evidence/android-camera-provider-20261030/restoration-native-state001/README.md)
+confused manifest enabled with runtime override. Correctly require unchanged disabled
+manifest, actual setting and real own-package implicit-handler0/1 with exact UID/
+component/readback fields. Current reporter/receiver compile0/37.01s and0/14.0s,
+987/1064 held inputs;52 synthetic methods plus five overlapping final controls pass.
+**Zero new native executions; #13 stays open.** All historical failed snapshots below
+retain their own observations, not current success.
+
 ## Actual first result and current repair
 
 [41095539115](evidence/android-camera-provider-20261030/restoration-ci001/README.md)

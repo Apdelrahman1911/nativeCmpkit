@@ -329,6 +329,39 @@ class ControllerReceipts(unittest.TestCase):
         self.assertIn("-accel", mocks["popen"].call_args.args[0])
         self.assertNotIn("-selinux", mocks["popen"].call_args.args[0])
 
+    def test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
+                         explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)
+        with self.controlled() as mocks, patch.object(c.android_camera_receiver, "OwnedCameraReceiver") as factory, \
+                patch.object(c.android_camera_receiver, "archive_focused_reports", return_value={}):
+            factory.return_value.close.return_value = {"owned_recipient_removed": True}
+            result = c.run(self.root, self.relative, only_modules=("calf-camera-picker",),
+                           focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS, api_level=23)
+        self.assertTrue(result["passed"])
+        plan = json.loads((self.root / self.relative / "plan.json").read_text())
+        self.assertEqual(["--device", "Nexus 5", "--force"], plan["create_avd_command"][-3:])
+        calls = mocks["execute"].call_args_list
+        self.assertEqual(2, len(calls))
+        self.assertEqual(plan["create_avd_command"], calls[0].args[1])
+        self.assertEqual(":calf-camera-picker:assembleAndroidDeviceTest", calls[1].args[1][-1])
+        self.assertEqual(c.SERIAL, calls[0].kwargs["env"]["ANDROID_SERIAL"])
+        self.assertEqual(c.SERIAL, calls[1].kwargs["env"]["ANDROID_SERIAL"])
+
+    def test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite(self):
+        self.plan.update(suite="android-device", expected=[{"project": ":calf-camera-picker", "module": "calf-camera-picker"}],
+                         explicit_test_focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS)
+        with self.controlled() as mocks, patch.object(c.android_camera_receiver, "OwnedCameraReceiver") as factory:
+            mocks["execute"].return_value = {"exit_code": 1}
+            result = c.run(self.root, self.relative, only_modules=("calf-camera-picker",),
+                           focus=c.lt.ANDROID_CAMERA_PROVIDER_FOCUS, api_level=23)
+        self.assertFalse(result["passed"])
+        self.assertEqual({"owned-avd-create"}, set(result["setup_stages"]))
+        mocks["execute"].assert_called_once()
+        self.assertIn("avdmanager", mocks["execute"].call_args.args[1][0])
+        mocks["popen"].assert_not_called()
+        mocks["tests"].assert_not_called()
+        factory.assert_not_called()
+
     def test_explicit_subset_is_identical_for_assembly_discovery_execution_and_receipts(self):
         self.plan = {"expected": [{"project": ":calf-webview"}], "complete_suite_requested": False,
                      "explicit_module_subset": ["calf-webview"],

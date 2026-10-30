@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "ad16d86935ac605b36b6a092be53dbee1438a7277d9bf667fa78e71fefbb9fa6",
+    "docs/development/resolutions/BUILD.json": "ca699fee8d49227bfe7996841541cb8ac6f10c923f39cfb98308aa8f154c7fad",
     "docs/development/resolutions/IO.json": "b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6",
     "docs/development/resolutions/NATIVE.json": "f58abc6684af8bcaa48e80c46b7b4dd840ab3578a569eebf590e47e4c992794c",
     "docs/development/resolutions/NAV.json": "5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac",
@@ -54,15 +54,15 @@
     "docs/migration/issue-map.json": "48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f",
     "docs/roadmap/backlog.json": "fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05"
   },
-  "input_fingerprint": "ab81be4de97f603b585b9671b373b8d995585b29a05356b47aebb0cc5bc82ee1",
+  "input_fingerprint": "fa2892b8ab4e2080152c1997ef2e7058b6fbd0b603505fca2b78b0296001ca8d",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 32,
-      "partially-verified": 39,
+      "implemented": 31,
+      "partially-verified": 40,
       "verified": 87,
       "unresolved": 6,
       "not-applicable": 0
@@ -9116,12 +9116,12 @@
         "mapping_key": "audit:BUILD-002",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "0a04d6e3876cb3af9cd9484c0e49ebb4caed1ab5e2f3492a57bd4a52cf30c0b1",
+      "owner_record_sha256": "58f7788bd779f04869deec3c227f6abd553d3a32a62de689d4513ebd8875222f",
       "owner_record": {
         "id": "BUILD-002",
-        "status": "implemented",
+        "status": "partially-verified",
         "changes": [
           "All six JavaFX modules aligned to21.0.13; official artifact/class-bytecode and exact-coordinate advisory checks performed read-only."
         ],
@@ -9134,10 +9134,16 @@
             "command": "Read-only public registry observations; exact request URLs and class-bytecode samples are in the receipt",
             "result": "Persisted receipt inspected: all30 JavaFX21.0.13 classifier/module HEADs returned200;10 sampled classfiles major61; six exact Maven-coordinate OSV queries had no matches. Not full resolved-graph, bundled-engine or runtime clearance.",
             "evidence": "docs/development/evidence/build/javafx-registry-observation.json"
+          },
+          {
+            "command": "Two bounded actual Gradle init-script desktop graph acquisitions plus108+34 public exact-coordinate OSV queries; precise commands/scripts/input/runtime/HTTP receipts archived below.",
+            "result": "Both acquisitions exit0/39.01s and0/46.01s;24 projects/72 configurations/142 coordinates/79 observed artifact identities;all984 exact Git inputs held,all79 current cache hashes read back,all six JavaFX21.0.13 modules resolved,zero OSV matches. ZERO tests/native; no remote-byte trust or all-host/engine/release clearance.",
+            "evidence": "docs/development/evidence/desktop-resolved-dependencies-20261030/README.md"
           }
         ],
         "remaining": [
-          "Persist full resolved-graph advisory receipt and execute engine/media/TLS/cookie/navigation tests on supported hosts."
+          "Full actual Linux library runtime/compile/test Maven coordinate checks are reviewed. Other-host resolved graph/classifier matrices and actual media/TLS/cookies/navigation/JavaScript/rendering on every desktop host remain required; zero OSV matches do not certify bundled engines or independent trust.",
+          "Document sandboxed untrusted-code execution support boundaries and finish the three original BUILD-002 acceptance criteria; no dependency/security/release waiver."
         ],
         "compatibility": "Requires JDK17-compatible runtime selected explicitly by consumer."
       },

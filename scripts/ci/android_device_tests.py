@@ -230,7 +230,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     connected = lt.gradle_command("android-device", plan, android_serial=SERIAL)
     assemble = connected[:-len(plan["expected"])] + [item["project"] + ":assembleAndroidDeviceTest" for item in plan["expected"]]
     create = [str(home / "cmdline-tools/23.0/bin/avdmanager"), "create", "avd", "--name", name,
-              "--package", assets["system_image"], "--device", "Nexus5" if api_level == 23 else "pixel_6", "--force"]
+              "--package", assets["system_image"], "--device", "Nexus 5" if api_level == 23 else "pixel_6", "--force"]
     launch = [str(home / "emulator/emulator"), "-avd", name, "-port", str(PORT), "-no-window", "-no-snapshot",
               "-no-audio", "-no-boot-anim", "-gpu", "swiftshader_indirect", "-accel", "on", "-memory", "2048",
               "-cores", "2", "-camera-back", "emulated" if lt.android_camera_receiver_required(plan) else "none", "-camera-front", "none"]
@@ -255,7 +255,13 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     verified = False
     log = None
     try:
-        for stage, command, timeout in (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120)):
+        stages = (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120))
+        if lt.android_camera_receiver_required(plan):
+            # Validate the finite camera's real SDK device profile before a costly APK
+            # compilation. This creates only our private AVD; launch still waits for
+            # both prerequisites. Other profiles preserve their existing setup order.
+            stages = stages[::-1]
+        for stage, command, timeout in stages:
             execution = lt.execute(root, command, output / (stage + ".log"), timeout, RESERVE_MIB, env=env)
             result["setup_stages"][stage] = execution
             if execution["exit_code"] != 0 or execution.get("stop_reason"):

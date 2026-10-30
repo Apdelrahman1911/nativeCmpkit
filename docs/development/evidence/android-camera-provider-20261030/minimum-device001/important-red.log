@@ -1,0 +1,35 @@
+test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation (test_android_device_controller.ControllerReceipts.test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation) ... FAIL
+test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite (test_android_device_controller.ControllerReceipts.test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite) ... FAIL
+
+======================================================================
+FAIL: test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation (test_android_device_controller.ControllerReceipts.test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_device_controller.py", line 342, in test_camera_minimum_uses_official_device_id_and_creates_owned_avd_before_compilation
+    self.assertEqual(["--device", "Nexus 5", "--force"], plan["create_avd_command"][-3:])
+AssertionError: Lists differ: ['--device', 'Nexus 5', '--force'] != ['--device', 'Nexus5', '--force']
+
+First differing element 1:
+'Nexus 5'
+'Nexus5'
+
+- ['--device', 'Nexus 5', '--force']
+?                    -
+
++ ['--device', 'Nexus5', '--force']
+
+======================================================================
+FAIL: test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite (test_android_device_controller.ControllerReceipts.test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_device_controller.py", line 358, in test_camera_avd_refusal_never_starts_compilation_receiver_emulator_or_native_suite
+    self.assertEqual({"owned-avd-create"}, set(result["setup_stages"]))
+AssertionError: Items in the first set but not the second:
+'owned-avd-create'
+Items in the second set but not the first:
+'apk-assembly'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.009s
+
+FAILED (failures=2)

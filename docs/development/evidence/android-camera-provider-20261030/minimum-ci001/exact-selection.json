@@ -1,0 +1,115 @@
+{
+  "accepted_API35_native_methods_replayed": false,
+  "accepted_host22_and_other_native_or_portable_methods_replayed": false,
+  "actual_foreign_UID_signatures_grants_and_closed_descriptors_required": true,
+  "bounded_maximum_parallel_jobs": 2,
+  "command_template": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+    ":calf-camera-picker:connectedAndroidDeviceTest"
+  ],
+  "distinct_native_methods_requested": 4,
+  "fresh_owned_AVD_and_XML_for_each_API": true,
+  "fresh_target_executions_requested": 4,
+  "manual_URI_grants": false,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "23",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api23-camera",
+      "suite": "android-device",
+      "test-focus": "android-camera-provider-contracts",
+      "test-modules": "calf-camera-picker"
+    }
+  ],
+  "native_APIs_requested": [
+    23
+  ],
+  "profile": "android-camera-provider-minimum",
+  "serial_AVDs_same_host": false,
+  "source_consumer_not_sample_or_packaged_Maven": true,
+  "source_plan": {
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-camera-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-camera-picker",
+        "project": ":calf-camera-picker",
+        "report_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+            "name": "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+            "name": "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+            "name": "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+            "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput"
+          }
+        ],
+        "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+        "test_source_files": [
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt",
+          "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt",
+          "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-camera-picker"
+    ],
+    "explicit_test_focus": "android-camera-provider-contracts",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Four actual public Compose camera-provider methods: installed signature-protected separate native UID/system-created grants, and an actual implicit capture intent with no available native handler and exact owned-AVD system-camera state restoration. Controlled recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-file-picker",
+      "calf-geo",
+      "calf-io",
+      "calf-navigation",
+      "calf-share",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  },
+  "synthetic_camera_bytes_and_recipient_selection": true
+}

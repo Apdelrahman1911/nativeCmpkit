@@ -1,0 +1,51 @@
+import groovy.json.JsonOutput
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.artifacts.result.UnresolvedDependencyResult
+import java.security.MessageDigest
+
+def digest = { File file ->
+    def md = MessageDigest.getInstance('SHA-256')
+    file.withInputStream { input ->
+        byte[] buffer = new byte[65536]
+        int count
+        while ((count = input.read(buffer)) >= 0) if (count > 0) md.update(buffer, 0, count)
+    }
+    md.digest().encodeHex().toString()
+}
+gradle.projectsEvaluated {
+    rootProject.tasks.register('nativeCmpKitAuditDesktopDependencies') {
+        doLast {
+            def configs = rootProject.allprojects.findAll { it.path.startsWith(':calf-') }
+                .collect { p -> [p, p.configurations.findByName('desktopRuntimeClasspath')] }
+                .findAll { it[1] != null }.sort { it[0].path }
+            if (configs.size() != 24) throw new GradleException('Review the exact included desktop library configuration count; expected24')
+            def rows = []
+            configs.each { pair ->
+                def p = pair[0]; def c = pair[1]
+                def rr = c.incoming.resolutionResult
+                def problems = rr.allDependencies.findAll { it instanceof UnresolvedDependencyResult }
+                def modules = rr.allComponents.collect { component ->
+                    def id = component.id
+                    id instanceof ModuleComponentIdentifier ? [group: id.group, name: id.module, version: id.version] : null
+                }.findAll { it != null }.unique().sort { it.group + ':' + it.name + ':' + it.version }
+                def artifacts = c.incoming.artifactView {
+                    componentFilter { id -> id instanceof ModuleComponentIdentifier }
+                }.artifacts.artifacts.collect { artifact ->
+                    def id = artifact.id.componentIdentifier
+                    if (!artifact.file.isFile()) throw new GradleException('Resolved external artifact is not a regular file')
+                    [group: id.group, name: id.module, version: id.version, filename: artifact.file.name,
+                     bytes: artifact.file.length(), sha256: digest(artifact.file)]
+                }.sort { it.group + ':' + it.name + ':' + it.version + ':' + it.filename }
+                rows.add([project: p.path, configuration: c.name, modules: modules, artifacts: artifacts,
+                          unresolved: problems.collect { [type: it.failure.class.name] }, complete: problems.isEmpty()])
+            }
+            File output = new File(rootProject.projectDir, 'build/ci-verification/desktop-dependency-audit-20261030/graph.json')
+            if (output.exists()) throw new GradleException('Preserve the previous immutable graph receipt')
+            output.parentFile.mkdirs()
+            output.text = JsonOutput.prettyPrint(JsonOutput.toJson([scope: 'All24 declared library desktopRuntimeClasspath configurations; external artifacts only. No Gradle/plugin/Android/Apple/npm/Cargo graph, independent trust, runtime correctness, publication or release certification.',
+                configurations: rows, complete: rows.every { it.complete }, packages_published: false])) + '\n'
+            if (!rows.every { it.complete }) throw new GradleException('Unresolved library desktop graph: no advisory completeness claim')
+            println('NATIVECMPKIT_DESKTOP_GRAPH configurations=' + rows.size() + ' external-coordinates=' + rows.collectMany { it.modules }.unique().size())
+        }
+    }
+}

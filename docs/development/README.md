@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Minimum camera SDK device owning repair — 2026-10-30
+
+Actual41076903983 at62b632c7 FAILED: APK0/281.08s/984+1061 exact inputs;
+owned AVD1/2.0s, ZERO emulator/native/XML. Actual SDK rejects invalid `Nexus5`;
+[repair](evidence/android-camera-provider-20261030/minimum-device001/README.md)
+uses official `Nexus 5` and creates only the owned camera AVD before costly compile.
+Two reds retained,54 focused synthetic methods/actual SDK profile discovery pass;
+API23 four native methods still required, accepted API35 four/host22/compiled APK
+not replayed. Old serial early causes stay unknown; #78/#13/#80/#141 stay open.
+Reviewed desktop graph24projects/72configs/142coordinates/79 observed byte identities,
+108+34 OSV queries/zero matches: BUILD-002 partial, ZERO runtime/security clearance.
+89closed/83open; single-agent/8GiB/max2heavy/all publishing/Pages/main/history gates stay.
+
 ## API35 camera contracts accepted; only minimum API remains
 
 [41073167954](evidence/android-camera-provider-20261030/native-ci002/README.md)

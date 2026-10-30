@@ -18,10 +18,11 @@ CODEC = "sample/common/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/sample/ut
 
 
 class SamplePlatformVerificationTests(unittest.TestCase):
-    def _built_target_fixture(self, root, *, missing_wasm=False):
+    def _built_target_fixture(self, root, *, missing_wasm=False,
+                              jvm_output="sample/desktop/build/libs/sample-jvm.jar"):
         import sample_platform_verification as sample
         paths = {"android": "sample/android/build/outputs/apk/debug/app-debug.apk",
-                 "jvm": "sample/desktop/build/libs/sample-jvm.jar",
+                 "jvm": jvm_output,
                  "js": "sample/web-js/build/dist/js/productionExecutable/web.js",
                  "wasm": "sample/web-wasm/build/dist/wasmJs/productionExecutable/web.js"}
         for target, relative in paths.items():
@@ -36,10 +37,61 @@ class SamplePlatformVerificationTests(unittest.TestCase):
             failed = missing_wasm and task == ":sample:web-wasm:wasmJsBrowserProductionWebpack"
             if missing_wasm and task == ":sample:web-wasm:wasmJsBrowserDistribution":
                 continue
+            archive = {"archive_file": jvm_output} if task == ":sample:desktop:jvmJar" else {}
             (output / f"task-build-{index}.json").write_text(json.dumps({
                 "schema_version": 1, "task": task, "executed": True, "failed": failed,
                 "skipped": False, "skip_message": None, "up_to_date": False, "no_source": False,
-                "observed_epoch_ms": 1, "test_success_inferred": False}))
+                "observed_epoch_ms": 1, "test_success_inferred": False, **archive}))
+
+    def test_versioned_jvm_output_is_bound_to_the_actual_archive_task_not_a_guessed_suffix(self):
+        import sample_platform_verification as sample
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            relative = "sample/desktop/build/libs/desktop-jvm-0.1.0-SNAPSHOT.jar"
+            self._built_target_fixture(root, jvm_output=relative)
+            # A neighbouring source/old archive is not the jvmJar producer's output.
+            (root / "sample/desktop/build/libs/old-jvm.jar").write_bytes(b"not the producer")
+            result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+            self.assertTrue(result["targets"]["jvm"]["passed"])
+            self.assertEqual(relative, result["targets"]["jvm"]["output"]["path"])
+            self.assertEqual(hashlib.sha256((root / relative).read_bytes()).hexdigest(),
+                             result["targets"]["jvm"]["output"]["sha256"])
+
+    def test_missing_foreign_or_aliased_archive_property_never_selects_a_neighbouring_jar(self):
+        import sample_platform_verification as sample
+        for mutation in (None, True, "../foreign.jar", "foreign/producer.jar",
+                         "sample/desktop/build/libs/missing.jar", "sample/desktop/build/libs/not-a-jar.txt"):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self._built_target_fixture(root)
+                path = root / "build/ci-verification/sample-platforms-linux/task-build-1.json"
+                row = json.loads(path.read_text())
+                row["archive_file"] = mutation
+                path.write_text(json.dumps(row))
+                result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+                self.assertFalse(result["targets"]["jvm"]["passed"])
+                self.assertIsNone(result["targets"]["jvm"]["output"])
+                self.assertTrue(all(result["targets"][other]["passed"] for other in ("android", "js", "wasm")))
+        source = (ROOT / "scripts/ci/sample-platforms.init.gradle.kts").read_text()
+        self.assertIn("(task as AbstractArchiveTask).archiveFile.get().asFile", source)
+        self.assertIn('mapOf("archive_file"', source)
+
+    def test_declared_archive_symlink_or_hardlink_cannot_certify_the_task_output(self):
+        import os
+        import sample_platform_verification as sample
+        for link in ("symlink", "hardlink"):
+            with self.subTest(link=link), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self._built_target_fixture(root)
+                path = root / "sample/desktop/build/libs/sample-jvm.jar"
+                original = root / "unrelated.bin"
+                path.rename(original)
+                if link == "symlink":
+                    path.symlink_to(original)
+                else:
+                    os.link(original, path)
+                result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+                self.assertFalse(result["targets"]["jvm"]["passed"])
 
     def test_missing_wasm_does_not_erase_three_independent_target_outputs_or_task_results(self):
         import sample_platform_verification as sample

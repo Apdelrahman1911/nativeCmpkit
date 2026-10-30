@@ -106,6 +106,41 @@ class AppleImageProfileTests(unittest.TestCase):
         self.driver.close()
         self.assertTrue(p.validate_attempt(self.driver.receipt, DEVICE, BUNDLE))
 
+    def test_owned_symbol_in_metadata_does_not_certify_unrelated_allocation_rows(self):
+        path = self.output / "allocation.xml"
+        path.write_text('<trace-query-result><metadata name="' + p.NATIVE_SYMBOLS[0] +
+                        '"/><row><frame name="unrelated"/></row></trace-query-result>')
+        summary = p.allocation_summary(path)
+        self.assertEqual(1, summary["rows"])
+        self.assertFalse(summary["owned_library_frame_seen"])
+        self.assertEqual([], summary["matched_fixed_symbols"])
+
+    def test_actual_row_frame_and_backtrace_references_are_correlated_not_global_symbols(self):
+        path = self.output / "allocation.xml"
+        symbol = p.NATIVE_SYMBOLS[0]
+        for row in ('<frame name="' + symbol + '"/>', '<frame ref="native"/>',
+                    '<backtrace ref="stack"/>'):
+            with self.subTest(row=row):
+                path.write_text('<trace-query-result><frame id="native" name="' + symbol +
+                                '"/><backtrace id="stack"><frame ref="native"/></backtrace>' +
+                                '<row>' + row + '</row><row><frame name="unrelated"/></row></trace-query-result>')
+                summary = p.allocation_summary(path)
+                self.assertEqual(2, summary["rows"])
+                self.assertEqual(1, summary["owned_allocation_rows"])
+                self.assertEqual([symbol], summary["matched_fixed_symbols"])
+
+    def test_missing_cyclic_or_ambiguous_references_cannot_invent_an_owned_frame(self):
+        path = self.output / "allocation.xml"
+        for xml in ('<row><frame ref="missing"/></row>',
+                    '<backtrace id="loop"><backtrace ref="loop"/></backtrace><row><backtrace ref="loop"/></row>'):
+            with self.subTest(xml=xml):
+                path.write_text('<trace-query-result>' + xml + '</trace-query-result>')
+                self.assertFalse(p.allocation_summary(path)["owned_library_frame_seen"])
+        path.write_text('<trace-query-result><frame id="same" name="' + p.NATIVE_SYMBOLS[0] +
+                        '"/><frame id="same" name="unrelated"/><row><frame ref="same"/></row></trace-query-result>')
+        with self.assertRaises(ValueError):
+            p.allocation_summary(path)
+
     def test_actual_command_failure_does_not_retry_or_invent_native_profile_success(self):
         self.prepare()
         def execute(*arguments):

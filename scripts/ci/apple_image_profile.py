@@ -30,13 +30,47 @@ ATTEMPT_SECONDS = 180
 
 def allocation_summary(path: Path) -> dict:
     tree, payload = discovery.bounded_xml(path)
-    rows = sum(node.tag.rsplit("}", 1)[-1] == "row" for node in tree.iter())
+    tag = lambda node: node.tag.rsplit("}", 1)[-1]
+    rows, definitions = [], {}
+    for index, node in enumerate(tree.iter()):
+        if index >= 200_000:
+            raise ValueError("Allocation XML exceeds its semantic inspection bound")
+        if tag(node) == "row":
+            rows.append(node)
+        if tag(node) in {"frame", "backtrace"} and node.get("id"):
+            key = (tag(node), node.get("id"))
+            if key in definitions:
+                raise ValueError("Ambiguous native allocation frame/backtrace reference")
+            definitions[key] = node
     symbols = set()
-    for node in tree.iter():
-        for value in (node.text or "", *node.attrib.values()):
-            symbols.update(symbol for symbol in NATIVE_SYMBOLS if symbol in value)
-    return {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest(), "rows": rows,
-            "owned_library_frame_seen": bool(symbols), "matched_fixed_symbols": sorted(symbols),
+    owned_rows = 0
+    for row in rows:
+        pending, visited_references, matched = list(row), set(), set()
+        inspected = 0
+        while pending:
+            node = pending.pop()
+            inspected += 1
+            if inspected > 4096:
+                raise ValueError("Allocation row/backtrace exceeds its traversal bound")
+            if tag(node) == "frame":
+                # Only actual stack-frame fields in this allocation row (or its
+                # explicit frame/backtrace references) establish correlation.
+                # Symbol-bearing metadata beside an unrelated row is not evidence.
+                for value in (node.text or "", node.get("name", ""), node.get("fmt", "")):
+                    matched.update(symbol for symbol in NATIVE_SYMBOLS if symbol in value)
+            reference = (tag(node), node.get("ref"))
+            if reference[0] in {"frame", "backtrace"} and reference[1] and reference not in visited_references:
+                visited_references.add(reference)
+                definition = definitions.get(reference)
+                if definition is not None:
+                    pending.append(definition)
+            pending.extend(node)
+        if matched:
+            owned_rows += 1
+            symbols.update(matched)
+    return {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest(), "rows": len(rows),
+            "owned_allocation_rows": owned_rows,
+            "owned_library_frame_seen": owned_rows > 0, "matched_fixed_symbols": sorted(symbols),
             "raw_rows_addresses_values_or_trace_uploaded": False}
 
 
@@ -161,7 +195,7 @@ class ImageProfileDriver:
             # A real PID-specific zero is required. Never parse missing output as no leaks.
             outcome = execute(["/usr/bin/leaks", str(pid)], "leaks")
             self.receipt["leak_summary"] = leak_summary(self.private / "leaks.log", pid)
-            self.receipt["supported"] = any(e["rows"] > 0 and e["owned_library_frame_seen"]
+            self.receipt["supported"] = any(e["owned_allocation_rows"] > 0 and e["owned_library_frame_seen"]
                                               for e in self.receipt["exports"])
             self.receipt["profile_passed"] = (self.receipt["supported"] and outcome["exit_code"] == 0 and
                 not outcome.get("stop_reason") and self.receipt["leak_summary"]["leaks"] == 0 and

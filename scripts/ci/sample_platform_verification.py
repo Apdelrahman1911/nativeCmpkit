@@ -205,7 +205,7 @@ def inspect_graph(root: Path, mode: str) -> dict:
 
 def build_outputs(root: Path, selected: dict, *, started_ns: int, ended_ns: int) -> dict:
     patterns = ({"android": ("sample/android/build/outputs/apk/debug", "*.apk"),
-                 "jvm": ("sample/desktop/build/libs", "*-jvm.jar"),
+                 "jvm": ("sample/desktop/build/libs", None),
                  "js": ("sample/web-js/build/dist/js/productionExecutable", "web.js"),
                  "wasm": ("sample/web-wasm/build/dist/wasmJs/productionExecutable", "web.js")}
                 if selected["mode"] == "linux" else
@@ -242,7 +242,16 @@ def build_outputs(root: Path, selected: dict, *, started_ns: int, ended_ns: int)
                 observed["errors"].append({"error": "Actual sample task evidence rejected", "task": task,
                                             "reason": type(error).__name__})
         try:
-            files = sorted(lt.safe_path(root, directory).glob(pattern))
+            if target == "jvm":
+                # The successful task's public archiveFile property binds its actual
+                # versioned JAR. A different nonempty file is never equivalent proof.
+                relative = observed["tasks"][0].get("archive_file") if observed["tasks"] else None
+                if (not isinstance(relative, str) or len(relative) > 1024 or
+                        Path(relative).parent.as_posix() != directory or Path(relative).suffix != ".jar"):
+                    raise ValueError("Missing or foreign declared JVM archive output")
+                files = [lt.safe_path(root, relative)]
+            else:
+                files = sorted(lt.safe_path(root, directory).glob(pattern))
             if len(files) != 1 or not files[0].is_file() or not files[0].stat().st_size:
                 raise ValueError("Expected one actual nonempty sample output")
             path = lt.safe_path(root, files[0].relative_to(root).as_posix())

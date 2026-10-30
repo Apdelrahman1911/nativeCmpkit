@@ -1,5 +1,9 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related CI ownership repair while native batch runs — 2026-10-30
+
+[Two red guards →39/39 important tooling methods](docs/development/evidence/ci-evidence-ownership-batch-important-20261030/README.md), all967 held, ZERO local runtime builds. JVM outputs now bind the public archiveFile, not a guessed suffix/old neighbour; actual Gradle observer execution is still pending. Image profiles now require frame/row correlation, not a library symbol in unrelated metadata. Single immutable [40986082530/45c6086d](docs/development/evidence/image-memory-batch-important-20261030/native-ci001/README.md) continues; no accepted native-method replay. Any old-parser positive alone cannot clear UI-038. #140/#141 remain open pending actual review;78closed/94open. Single-agent/max2/8GiB reserve; all publishing/Pages/main/history and independent release/security gates stay.
+
 ## Shared sample-build cleanup closed — 2026-10-30
 
 **#154/NAV-016 CLOSED/completed** after [all three original criteria](docs/development/evidence/sample-data-safety-batch-important-20261029/github-closure002/README.md), before documentation. Linux40979092763 actual Gradle0/2787.56s builds Android/JVM/JS/Wasm; fresh public JVM TaskState executed/not failed/skipped/NO-SOURCE/UP-TO-DATE. Aggregate workflow/report **remains FAILED** at output-name observation; no missing JAR hash/distribution pass inferred. Apple40974963662 builds both Common frameworks0/3592.88s and real unsigned Xcode0/58.75s. Six actual graphs omit unused Navigation; minSdk24 retained. ZERO test replay. **78closed/94open**; NAV-008/#100 remain open. Next shared #140/#141 memory diagnostics candidate is still native-unverified. Single-agent/max2/8GiB reserve; publishing/Pages/main/history and independent release/security gates stay.

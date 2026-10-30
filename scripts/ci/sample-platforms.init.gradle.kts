@@ -5,6 +5,7 @@ import org.gradle.api.artifacts.result.UnresolvedDependencyResult
 import org.gradle.api.execution.TaskExecutionListener
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.TaskState
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 import java.nio.file.Files
 import java.nio.file.StandardOpenOption
 import java.security.MessageDigest
@@ -63,10 +64,19 @@ gradle.projectsEvaluated {
             if (task.project.rootProject.projectDir.canonicalFile != sampleRoot) return
             val index = buildTasks.indexOf(task.path)
             if (index < 0) return
+            // jvmJar includes the configured project version in its filename.
+            // Observe the public producer property, never guess a suffix or pick a nearby old JAR.
+            val archive = if (task.path == ":sample:desktop:jvmJar") {
+                val file = (task as AbstractArchiveTask).archiveFile.get().asFile
+                check(file.absoluteFile == file.canonicalFile && file.toPath().startsWith(sampleRoot.toPath())) {
+                    "Sample archive must remain in the exact producer checkout without aliases"
+                }
+                mapOf("archive_file" to sampleRoot.toPath().relativize(file.toPath()).joinToString("/"))
+            } else emptyMap()
             freshReceipt("task-build-$index.json", mapOf("schema_version" to 1, "task" to task.path,
                 "executed" to state.executed, "failed" to (state.failure != null), "skipped" to state.skipped,
                 "skip_message" to state.skipMessage, "up_to_date" to state.upToDate, "no_source" to state.noSource,
-                "observed_epoch_ms" to System.currentTimeMillis(), "test_success_inferred" to false))
+                "observed_epoch_ms" to System.currentTimeMillis(), "test_success_inferred" to false) + archive)
         }
     })
     if (mode == "linux") {

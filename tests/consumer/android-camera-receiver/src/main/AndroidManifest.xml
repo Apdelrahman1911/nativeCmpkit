@@ -7,6 +7,12 @@
         <activity android:name=".CameraReceiverActivity" android:exported="true"
             android:permission="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER"
             android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <activity android:name=".CameraDelayedReceiverActivity" android:exported="true" android:enabled="false"
+            android:configChanges="orientation|screenSize" android:resizeableActivity="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar">
+            <intent-filter><action android:name="android.media.action.IMAGE_CAPTURE" /><category android:name="android.intent.category.DEFAULT" /></intent-filter>
+        </activity>
         <service android:name=".CameraReceiverService" android:exported="true"
             android:permission="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER" />
     </application>

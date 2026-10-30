@@ -371,6 +371,63 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertNotIn('matrix.slot }}/camera-receiver/*.apk', source)
 
 
+class CameraRestorationPlanTests(unittest.TestCase):
+    """Synthetic finite-selection/ownership source checks, not native outcomes."""
+    def plan(self):
+        return l.plan(l.ROOT, "android-device", only_modules=("calf-camera-picker",), focus=l.ANDROID_CAMERA_RESTORATION_FOCUS)
+
+    def test_restoration_runs_only_four_new_real_os_methods_on_owned_api35(self):
+        row, = w.matrix("android-camera-restoration")["include"]
+        self.assertEqual(("android-device-api35", "35", "calf-camera-picker", l.ANDROID_CAMERA_RESTORATION_FOCUS),
+                         tuple(row[k] for k in ("slot", "emulator-api", "test-modules", "test-focus")))
+        self.assertNotIn("serial-emulator-api", row)
+        plan = self.plan(); expected, = plan["expected"]
+        self.assertEqual(l.android_camera_restoration_identities(), expected["required_testcases"])
+        self.assertEqual(l.ANDROID_CAMERA_RESTORATION_CLASS, expected["test_filter"])
+        self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_camera_receiver_required(plan))
+        self.assertEqual(0, w.preflight_plans("android-camera-restoration")["slots"][0]["exit_code"])
+        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.MINIMUM_MODULES["android-device"]))
+        with self.assertRaises(ValueError): device.validate_api_selection(23, ("calf-camera-picker",), l.ANDROID_CAMERA_RESTORATION_FOCUS)
+        for filter_ in (l.ANDROID_CAMERA_PROVIDER_CLASS, l.ANDROID_CAMERA_RESTORATION_CLASS + "#onlyOne", "Foreign"):
+            bad = deepcopy(plan); bad["expected"][0]["test_filter"] = filter_
+            with self.assertRaises(ValueError): l.validate_test_focus(bad)
+
+    def test_restoration_rejects_missing_extra_failed_skipped_or_stale_xml(self):
+        plan = self.plan(); expected, = plan["expected"]; cases = expected["required_testcases"]
+        variants = [cases, [], cases[:-1], cases + l.android_camera_provider_identities(), cases * 2,
+                    [cases[0] | {"outcome": "<failure/>"}, *cases[1:]], [cases[0] | {"outcome": "<skipped/>"}, *cases[1:]]]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory); report = root / expected["report_directory"] / "TEST-synthetic.xml"; report.parent.mkdir(parents=True)
+            for variant in variants:
+                report.write_text("<testsuite>" + "".join('<testcase classname="' + c["classname"] + '" name="' + c["name"] + '">' + c.get("outcome", "") + '</testcase>' for c in variant) + "</testsuite>")
+                now = time.time_ns()
+                result = l.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000, Counter({expected["task"]: 1}))
+                self.assertEqual(variant != cases, bool(result["errors"]))
+            self.assertTrue(l.collect_reports(root, plan, now + 10_000_000_000, now + 11_000_000_000, Counter({expected["task"]: 1}))["errors"])
+
+    def test_native_draft_uses_public_launcher_real_death_and_scoped_balanced_cleanup(self):
+        source = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
+        client = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text()
+        base = l.ROOT / "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver"
+        service = (base / "CameraReceiverService.java").read_text(); activity = (base / "CameraDelayedReceiverActivity.java").read_text()
+        self.assertIn("rememberCameraPickerResultLauncher(", client)
+        for value in ("LocalActivityResultRegistryOwner", "dispatchResult(", "grantUriPermission(", "onActivityResult("):
+            self.assertNotIn(value, client)
+        for value in ("Process.killProcess(pid)", "setRotation(", "always_finish_activities", "Os.poll(",
+                      "result.size() + n <= 65536", "tasksGone && externalTerminated", "primary.addSuppressed", "cleanupFailure?.let { throw it }"):
+            self.assertIn(value, source)
+        self.assertNotIn("for (name in outputs() - before)", source)
+        self.assertIn("killOwnedClient", source); self.assertIn("processName, shell", source)
+        self.assertIn('assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")', source)
+        self.assertIn('assertEquals("Deleted 1 rows"', source)
+        self.assertIn('android:process=":nativecmpkit_camera_client"', (l.ROOT / "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml").read_text())
+        self.assertIn('android:enabled="false"', (l.ROOT / "tests/consumer/android-camera-receiver/src/main/AndroidManifest.xml").read_text())
+        self.assertIn("getCallingPackage()", activity); self.assertIn("checkSignatures", activity)
+        self.assertIn("getPackagesForUid(request.sendingUid)", service)
+        self.assertIn('packet.equals(owner.report.getString("packet"))', activity)
+        self.assertNotIn("grantUriPermission(", activity + service)
+
+
 class CameraArchiveTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(); self.addCleanup(self.temp.cleanup); self.root = Path(self.temp.name)

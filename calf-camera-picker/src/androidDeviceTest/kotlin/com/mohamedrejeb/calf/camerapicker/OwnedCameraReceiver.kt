@@ -77,14 +77,24 @@ internal class OwnedCameraReceiver : AutoCloseable {
         request("snapshot")
     }
 
-    fun request(operation: String): Bundle {
+    fun request(operation: String): Bundle = request(operation, null, false)
+
+    fun complete(packet: String, cancel: Boolean): Bundle {
+        check(packet.matches(Regex("[a-f0-9]{32}")))
+        return request("complete", packet, cancel)
+    }
+
+    private fun request(operation: String, packet: String?, cancel: Boolean): Bundle {
         assertNotEquals(Looper.getMainLooper(), Looper.myLooper(), "Never block the native grant callback Looper")
         assertNull(protocolError); check(!closed)
         val remote = assertNotNull(endpoint)
         val nonce = UUID.randomUUID().toString().replace("-", "")
         val reply = Reply(); check(pending.put(nonce, reply) == null)
         val message = Message.obtain().apply {
-            replyTo = replies; data = Bundle().apply { putString("nonce", nonce); putString("operation", operation) }
+            replyTo = replies; data = Bundle().apply {
+                putString("nonce", nonce); putString("operation", operation)
+                if (packet != null) { putString("packet", packet); putBoolean("cancel", cancel) }
+            }
         }
         try {
             remote.send(message)

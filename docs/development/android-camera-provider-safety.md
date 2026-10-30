@@ -1,5 +1,17 @@
 # Android camera provider / output safety — 2026-10-30
 
+## Final additive provider acceptance
+
+**[#78 verified and closed](evidence/android-camera-provider-20261030/closure001/README.md)**
+after original-criteria review/readback. One fresh API23 no-handler method in
+successful41090899608 complements three accepted API23 methods in
+still-failed41087017676 and four API35 methods in still-failed41073167954.
+Eight target executions/four distinct methods; host22 reused without replay.
+All three provider acceptance criteria pass. The dated preparation/failure
+observations below retain their historical status, not the current disposition.
+[#13 real restoration](android-camera-restoration.md) and separate native,
+hardware, consumer/API-ABI/security/release requirements remain open.
+
 Related original findings: [#78/NATIVE-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78),
 [#13/NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) and
 NATIVE-024. **No closure or native pass is inferred from this preparation.**

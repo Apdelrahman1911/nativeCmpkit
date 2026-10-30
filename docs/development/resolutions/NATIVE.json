@@ -3617,9 +3617,10 @@
     "id": "NATIVE-022",
     "title": "Android camera hardcodes a host FileProvider authority without public setup or validation",
     "priority": "Medium",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
-      "Add configurable camera authority, validation/failure outcomes, narrow provider setup guide and coordinated sample camera/outgoing-share path allowlist."
+      "Add configurable camera authority, validation/failure outcomes, narrow provider setup guide and coordinated sample camera/outgoing-share path allowlist.",
+      "2026-10-30: repair API23 private file-URI output to use the configured narrow FileProvider, preserving public packages/signatures/default authority; production repair d95a0502131ca5113888e0ee29a9d596b8879645."
     ],
     "affected_paths": [
       "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
@@ -3705,17 +3706,22 @@
         "command": "Actual41087017676 at9b698c6e: exact four-method API23 public camera/provider native selection",
         "result": "FAILED overall;3/4 native methods pass, Gradle1/61.02s/one fresh XML; installed-byte stream/foreign UID/signature/grant/closed descriptor/narrow/cancel cases and owned receiver/AVD cleanup pass. System-camera DEFAULT restoration fails; fourth method is not accepted. Prior API35four/host22 reused, no replay or closure.",
         "evidence": "docs/development/evidence/android-camera-provider-20261030/minimum-ci004/README.md"
+      },
+      {
+        "command": "Immutable camera native API35 run41073167954 (four accepted methods), API23 run41087017676 (three accepted methods; fourth failed and NOT accepted), fresh API23 one-method recovery41090899608 at76f6054c2c5128965aeeb03f8b21855e3e195748; original-criteria review and issue readback.",
+        "result": "All three original acceptance criteria PASS; eight target executions of four distinct native methods. Latest recovery workflow SUCCESS:1/1 actual API23 method/one fresh XML, Gradle0/73.02s. Earlier overall failures remain failed. #78 read back closed/completed; no other closure.",
+        "evidence": [
+          "docs/development/evidence/android-camera-provider-20261030/nohandler-ci001/review.json",
+          "docs/development/evidence/android-camera-provider-20261030/closure001/criteria-review.json",
+          "docs/development/evidence/android-camera-provider-20261030/closure001/issue-readback.json",
+          "docs/development/evidence/android-camera-provider-20261030/closure001/comment-readback.json"
+        ],
+        "scope": "Owned enforcing API23/35 AVDs, real public minimal Compose source consumer/AndroidX FileProvider, native different-UID grants/signatures/writes/closed descriptors, actual implicit zero handlers and exact system-camera enabled-state recovery. Synthetic bytes/recipient; not physical/vendor camera, packaged Maven consumer, API-ABI, heap/security/release certification. Accepted host22 and native methods reused with exact source applicability, not replayed."
       }
     ],
-    "remaining": [
-      "Minimal actual consumer/receiver and API23/24+ provider grants need device tests; guide is not proof of a valid host manifest.",
-      "Original required test pending full target verification: Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.",
-      "Original required test pending full target verification: Host with its own provider authority and no installed camera intent handler.",
-      "Original required test pending full target verification: Only camera-owned files can be granted through recommended provider configuration.",
-      "API23 native implicit-no-handler/exact system-camera DEFAULT restoration still requires one fresh corrected method; see minimum-state001. Original camera restoration/performance/Apple/native and release gates remain separate."
-    ],
-    "compatibility": "Null keeps legacy ${applicationId}.provider; correct host provider setup remains required on API24+ camera.",
-    "verification_scope": "Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.",
+    "remaining": [],
+    "compatibility": "Public packages/signatures and null default ${applicationId}.provider retained. Correct narrow host FileProvider setup is now required on API23 as well as API24+; this deliberately repairs unusable private file:// output on minimum Android.",
+    "verification_scope": "Verified original NATIVE-022 provider/setup/narrow-root/no-handler contract on API23 and API35. Exact immutable/source-applicability, installed-byte/UID/signature/URI/grant/descriptor/cleanup receipts and issue78 closed/completed readback are archived. Failed previous runs remain failures; results are scoped, not general camera or release certification.",
     "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-022"
   },
   {

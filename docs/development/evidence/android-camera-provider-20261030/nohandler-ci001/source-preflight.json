@@ -1,0 +1,29 @@
+{
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "operation": "plan",
+  "profile": "android-camera-no-handler-minimum",
+  "slots": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "23",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-camera-picker",
+        "--focus",
+        "android-camera-no-handler-recovery"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "android-device-api23-camera",
+      "suite": "android-device"
+    }
+  ],
+  "source_only": true
+}

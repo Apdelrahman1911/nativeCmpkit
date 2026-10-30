@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `eca8787eb7543cf846baf1759a26d33c38a1dc0f61f1f3c7ad58c418fe7917d8`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a17c1d1b622085283320519a137a54e65855df9e0394a28aa014fa36736f9264`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 30 |
-| partially-verified | 41 |
-| verified | 87 |
+| partially-verified | 40 |
+| verified | 88 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -135,7 +135,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 87 | [NATIVE-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/75) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 88 | [NATIVE-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/76) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 89 | [NATIVE-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/77) | Medium | 2 | M | implemented | — | 3 / 4 |
-| 90 | [NATIVE-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78) | Medium | 2 | M | partially-verified | — | 3 / 5 |
+| 90 | [NATIVE-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78) | Medium | 2 | M | verified | — | 3 / 0 |
 | 91 | [NATIVE-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79) | Medium | 2 | M | implemented | NATIVE-020 | 3 / 4 |
 | 92 | [NATIVE-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) | Medium | 2 | M | implemented | — | 3 / 6 |
 | 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 5 |
@@ -2092,7 +2092,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 90. NATIVE-022 — Android camera hardcodes a host FileProvider authority without public setup or validation
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #78](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort M** — [nativeCmpkit #78](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2104,15 +2104,11 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Minimal actual consumer/receiver and API23/24+ provider grants need device tests; guide is not proof of a valid host manifest.
-- Original required test pending full target verification: Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.
-- Original required test pending full target verification: Host with its own provider authority and no installed camera intent handler.
-- Original required test pending full target verification: Only camera-owned files can be granted through recommended provider configuration.
-- API23 native implicit-no-handler/exact system-camera DEFAULT restoration still requires one fresh corrected method; see minimum-state001. Original camera restoration/performance/Apple/native and release gates remain separate.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
+**Owner verification scope:** Verified original NATIVE-022 provider/setup/narrow-root/no-handler contract on API23 and API35. Exact immutable/source-applicability, installed-byte/UID/signature/URI/grant/descriptor/cleanup receipts and issue78 closed/completed readback are archived. Failed previous runs remain failures; results are scoped, not general camera or release certification.
 
-**Compatibility / scope:** Null keeps legacy $\{applicationId\}.provider; correct host provider setup remains required on API24+ camera.
+**Compatibility / scope:** Public packages/signatures and null default $\{applicationId\}.provider retained. Correct narrow host FileProvider setup is now required on API23 as well as API24+; this deliberately repairs unusable private file:// output on minimum Android.
 
 ### 91. NATIVE-023 — iOS camera has no in-flight presentation guard or lifecycle-bound cleanup
 
@@ -3576,7 +3572,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `ca699fee8d49227bfe7996841541cb8ac6f10c923f39cfb98308aa8f154c7fad` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `b030b3c2249488dd710f58b842538a54907e30f594ade63e897bd2d94218e1f6` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `cbdcc69030f241f88655c834032c41daef333ff464c10d360c739d3ab735c278` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `4d423246ba34aa80984022cc085823c1d560bb803138546b1fddf2370df66492` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |

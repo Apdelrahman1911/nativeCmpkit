@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera provider closed; real restoration prepared — 2026-10-30
+
+**#78/NATIVE-022 closed/completed**, all three original criteria reviewed and
+[read back](docs/development/evidence/android-camera-provider-20261030/closure001/README.md):
+90closed/82open/172total. Fresh41090899608 at76f6054c succeeds1/1 actual API23
+method/one XML/Gradle0/73.02s; reuse API23three/API35four/host22, no replay.
+Eight accepted target executions/four distinct methods; prior failures stay failed.
+[Four real-OS restoration fixtures](docs/development/android-camera-restoration.md)
+now compile reporter0/34.01s/receiver0/11.0s,987/1064 held inputs and128 important
+synthetic guards/Actionlint pass. Retain five-error nullable-task compiler failure
+and two one-off manifest-parser refusals. **ZERO restoration native executions;
+#13 stays open** pending finite `android-camera-restoration` API35 CI/source/results
+review. Production unchanged. Solo/8GiB/max2heavy and publishing/Pages/main/history/
+native/consumer/API-ABI/dependency/legal/security/readiness gates remain.
+
 ## API23 camera three passes / exact state recovery — 2026-10-30
 
 Actual41087017676 at9b698c6e FAILED: API23 **3/4 native methods pass**, one XML,

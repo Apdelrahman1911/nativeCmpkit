@@ -191,7 +191,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     # Other profiles retain their original no-output-on-preflight-refusal contract.
     focus_options = {"focus": focus} if focus is not None else {}
     plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
-    diagnostics = focus in lt.ANDROID_CAMERA_PROVIDER_FOCUSES
+    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES
     if diagnostics:
         output.mkdir(parents=True)
     preflight = {"api_level": api_level, "status": "running", "stage": "sdk-assets",
@@ -311,7 +311,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                          android_user_home=(output / "android-user").relative_to(root).as_posix(),
                          only_modules=only_modules, **focus_options)
         result["test_suite_passed"] = receipt["passed"]
-        if focus in lt.ANDROID_CAMERA_PROVIDER_FOCUSES and any(item.get("reports") for item in receipt.get("modules", [])):
+        if focus in lt.ANDROID_CAMERA_FOCUSES and any(item.get("reports") for item in receipt.get("modules", [])):
             result["camera_fresh_reports"] = android_camera_receiver.archive_focused_reports(root, output, receipt, plan)
         result["test_totals"] = receipt["totals"]
     except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
@@ -431,7 +431,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[23, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_PROVIDER_FOCUSES,
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

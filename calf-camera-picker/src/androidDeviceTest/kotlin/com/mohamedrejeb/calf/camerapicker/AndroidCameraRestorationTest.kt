@@ -1,0 +1,353 @@
+// SPDX-License-Identifier: Apache-2.0
+@file:Suppress("DEPRECATION")
+package com.mohamedrejeb.calf.camerapicker
+
+import android.app.ActivityManager
+import android.app.UiAutomation
+import android.content.ComponentName
+import android.content.Intent
+import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.content.res.Configuration
+import android.net.Uri
+import android.os.Build
+import android.os.ParcelFileDescriptor
+import android.os.Process
+import android.os.SystemClock
+import android.provider.MediaStore
+import android.system.Os
+import android.system.OsConstants
+import android.system.StructPollfd
+import android.util.Xml
+import android.view.WindowManager
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.util.UUID
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.xmlpull.v1.XmlPullParser
+import kotlin.test.*
+
+/**
+ * Real public TakePicture launcher/Android registry, external foreground Activity,
+ * don't-keep-activities, display rotation and kernel process death/restoration.
+ * Reporter survives in another process; Android alone saves/delivers the result.
+ * Bytes/recipient are synthetic, not a hardware photo, vendor UI or physical device.
+ */
+@RunWith(AndroidJUnit4::class)
+class AndroidCameraRestorationTest {
+    private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
+    private val context get() = instrumentation.targetContext
+    private val pm get() = context.packageManager
+    private val manager get() = context.getSystemService(ActivityManager::class.java)
+    private val client = ComponentName(context, CameraRestorationVerificationActivity::class.java)
+    private val delayed = ComponentName(OwnedCameraReceiver.PACKAGE, "${OwnedCameraReceiver.PACKAGE}.CameraDelayedReceiverActivity")
+    private val processName get() = "${context.packageName}:nativecmpkit_camera_client"
+    private val expectedBytes = "NativeCmpKit synthetic native camera output".encodeToByteArray()
+
+    @Test fun nativeDontKeepActivitiesRestoresOneReadableCapturedFile() = capture(dontKeep = true)
+    @Test fun nativeRotationRecreatesCallerWhileExternalCaptureIsForeground() = capture(rotate = true)
+    @Test fun nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess() = capture(kill = true)
+    @Test fun nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri() = capture(kill = true, cancel = true)
+
+    private fun capture(dontKeep: Boolean = false, rotate: Boolean = false, kill: Boolean = false, cancel: Boolean = false) {
+        assertEquals("true", InstrumentationRegistry.getArguments().getString("nativecmpkitOwnedCameraReceiver"))
+        assertEquals(35, Build.VERSION.SDK_INT); assertTrue(Build.HARDWARE in setOf("ranchu", "goldfish"))
+        assertEquals("com.mohamedrejeb.calf.calfcamerapicker.test", context.packageName)
+        assertTrue(pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)); assertEquals(0, Process.myUid() / 100_000)
+        val clientInfo = pm.getActivityInfo(client, 0)
+        assertFalse(clientInfo.exported); assertEquals(processName, clientInfo.processName)
+        assertEquals(0, clientInfo.configChanges and (ActivityInfo.CONFIG_ORIENTATION or ActivityInfo.CONFIG_SCREEN_SIZE))
+        val nonce = UUID.randomUUID().toString().replace("-", "")
+        val prefName = "nativecmpkit-camera-restoration-$nonce"
+        assertFalse(preferenceFile(prefName).exists()); assertTrue(tasks(nonce).isEmpty())
+        val before = outputs()
+        val originalFinish = setting("global", "always_finish_activities", setOf("null", "0", "1"))
+        val originalAutoRotate = setting("system", "accelerometer_rotation", setOf("null", "0", "1"))
+        val originalUserRotation = setting("system", "user_rotation", setOf("null", "0", "1", "2", "3"))
+        val originalRotation = context.getSystemService(WindowManager::class.java).defaultDisplay.rotation.also { check(it in 0..3) }
+        val originalDelayed = pm.getComponentEnabledSetting(delayed)
+        assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, originalDelayed)
+        assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
+        val initialHandlers = handlers()
+        val initialStates = initialHandlers.associate { component ->
+            val pkg = component.packageName
+            assertTrue(pkg in setOf("com.android.camera", "com.android.camera2", "com.google.android.GoogleCamera"))
+            assertTrue(pm.getApplicationInfo(pkg, 0).flags and ApplicationInfo.FLAG_SYSTEM != 0)
+            pkg to pm.getApplicationEnabledSetting(pkg).also { assertTrue(it in setOf(0, 1)) }
+        }
+        var receiver: OwnedCameraReceiver? = null
+        var sibling: File? = null
+        var ownedOutput: File? = null
+        var tasksGone = false
+        var externalTerminated = false
+        var changedDelayed = false
+        var changedFinish = false
+        var changedRotation = false
+        val changedPackages = mutableListOf<String>()
+        var primaryFailure: Throwable? = null
+        try {
+            val siblingFile = File.createTempFile("nativecmpkit-restoration-sibling-", ".txt", context.cacheDir)
+            sibling = siblingFile
+            siblingFile.writeText("untouched cache sibling")
+            val currentReceiver = OwnedCameraReceiver()
+            receiver = currentReceiver // Retain a partial binding before connect can fail.
+            currentReceiver.connect(); currentReceiver.request("clear")
+            for (pkg in initialStates.keys) {
+                changedPackages += pkg // Restore even if a bounded command reply is uncertain.
+                assertEquals("Package $pkg new state: disabled-user", shell("pm disable-user --user 0 $pkg"))
+                assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER, pm.getApplicationEnabledSetting(pkg))
+            }
+            changedDelayed = true
+            assertEquals("Component ${delayed.toShortString()} new state: enabled", shell("pm enable --user 0 ${delayed.flattenToShortString()}"))
+            assertEquals(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, pm.getComponentEnabledSetting(delayed))
+            waitUntil { handlers() == setOf(delayed) }
+            assertEquals(delayed, pm.resolveActivity(Intent(MediaStore.ACTION_IMAGE_CAPTURE), PackageManager.MATCH_DEFAULT_ONLY)?.let {
+                ComponentName(it.activityInfo.packageName, it.activityInfo.name)
+            })
+            if (dontKeep) {
+                changedFinish = true
+                assertEquals("", shell("settings put global always_finish_activities 1"))
+                assertEquals("1", setting("global", "always_finish_activities", setOf("1")))
+            }
+            context.startActivity(Intent().setComponent(client).putExtra("nativecmpkit.nonce", nonce)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK))
+            waitUntil {
+                val report = currentReceiver.request("snapshot")
+                if (report.getBoolean("received")) {
+                    assertEquals(context.packageName, report.getString("caller"))
+                    ownedOutput = outputFor(Uri.parse(assertNotNull(report.getString("uri"))), before)
+                }
+                report.getBoolean("received") && snapshot(prefName).integer("saves") > 0
+            }
+            val held = currentReceiver.request("snapshot")
+            assertEquals(MediaStore.ACTION_IMAGE_CAPTURE, held.getString("action")); assertEquals(context.packageName, held.getString("caller"))
+            assertTrue(held.getBoolean("holdingActivity")); assertTrue(held.getBoolean("readGranted"))
+            assertTrue(held.getBoolean("writeGranted")); assertTrue(held.getBoolean("clipMatches"))
+            assertEquals(0, held.getInt("opens")); assertEquals(0, held.getInt("closes"))
+            val uri = Uri.parse(assertNotNull(held.getString("uri")))
+            assertEquals(assertNotNull(ownedOutput), outputFor(uri, before))
+            val started = snapshot(prefName)
+            assertEquals(nonce, started["nonce"]); assertEquals(Process.myUid(), started.integer("uid"))
+            assertTrue(started.integer("orientation") in setOf(Configuration.ORIENTATION_PORTRAIT, Configuration.ORIENTATION_LANDSCAPE))
+            val firstPid = started.integer("pid")
+            assertTrue(firstPid > 0); assertNotEquals(Process.myPid(), firstPid); assertNotEquals(held.getInt("activityPid"), firstPid)
+            assertEquals(1, started.integer("launches")); assertEquals(0, started.integer("results")); assertTrue(started.integer("stops") > 0)
+            assertEquals(delayed, assertNotNull(tasks(nonce).single().taskInfo).topActivity, "External native capture is really foreground")
+            if (dontKeep) {
+                waitUntil { snapshot(prefName).integer("destroys") > 0 }
+                assertEquals(true, snapshot(prefName)["nonFinishingDestroyed"])
+            }
+            if (rotate) {
+                changedRotation = true
+                val wasPortrait = started.integer("orientation") == Configuration.ORIENTATION_PORTRAIT
+                assertTrue(instrumentation.uiAutomation.setRotation(if (wasPortrait) UiAutomation.ROTATION_FREEZE_90 else UiAutomation.ROTATION_FREEZE_0))
+                waitUntil { context.resources.configuration.orientation != started.integer("orientation") }
+                assertEquals(delayed, assertNotNull(tasks(nonce).single().taskInfo).topActivity)
+            }
+            if (kill) {
+                killOwnedClient(firstPid) // Actual same-UID SIGKILL, never reporter or a foreign process.
+                assertEquals(delayed, assertNotNull(tasks(nonce).single().taskInfo).topActivity)
+                assertEquals(0, snapshot(prefName).integer("results"))
+            }
+            val done = currentReceiver.complete(assertNotNull(held.getString("packet")), cancel)
+            assertTrue(done.getBoolean("completed")); assertFalse(done.getBoolean("holdingActivity"))
+            assertEquals(cancel, done.getBoolean("cancelled")); assertNull(done.getString("writeError"))
+            assertEquals(if (cancel) 0 else 1, done.getInt("opens")); assertEquals(done.getInt("opens"), done.getInt("closes"))
+            waitUntil { snapshot(prefName).integer("results") == 1 }
+            val terminal = snapshot(prefName)
+            assertEquals(1, terminal.integer("launches")); assertEquals(1, terminal.integer("results"))
+            assertTrue(terminal.integer("creates") >= 2, "Caller Activity really recreated, not an injected restored callback")
+            if (kill) assertNotEquals(firstPid, terminal.integer("pid"))
+            if (rotate) assertNotEquals(started.integer("orientation"), terminal.integer("orientation"))
+            if (cancel) {
+                assertEquals("cancelled", terminal["kind"]); assertEquals("", terminal["uri"]); assertEquals(before, outputs())
+                assertFailsWith<java.io.FileNotFoundException> { context.contentResolver.openInputStream(uri)!!.use { it.read() } }
+            } else {
+                assertEquals("captured", terminal["kind"]); assertEquals(uri.toString(), terminal["uri"])
+                assertContentEquals(expectedBytes, context.contentResolver.openInputStream(uri)!!.use { it.readBytes() })
+                assertEquals(setOf(assertNotNull(ownedOutput).name), outputs() - before)
+            }
+            waitUntil { tasks(nonce).isEmpty() }; instrumentation.waitForIdleSync()
+            assertEquals(1, snapshot(prefName).integer("results")); assertEquals("untouched cache sibling", siblingFile.readText())
+        } catch (failure: Throwable) {
+            primaryFailure = failure
+            throw failure
+        } finally {
+            val primary = primaryFailure
+            var cleanupFailure: Throwable? = null
+            fun cleanup(action: () -> Unit) {
+                try { action() } catch (failure: Throwable) {
+                    if (primary != null) { if (failure !== primary) primary.addSuppressed(failure) }
+                    else { val prior = cleanupFailure; if (prior == null) cleanupFailure = failure else prior.addSuppressed(failure) }
+                }
+            }
+            cleanup {
+                for (task in tasks(nonce)) task.finishAndRemoveTask()
+                waitUntil { tasks(nonce).isEmpty() }; tasksGone = true
+            }
+            cleanup {
+                receiver?.let { owner ->
+                    check(tasksGone)
+                    waitUntil { !owner.request("snapshot").getBoolean("holdingActivity") }; externalTerminated = true
+                }
+            }
+            cleanup { receiver?.close() }
+            cleanup {
+                val pid = snapshot(prefName).integer("pid")
+                if (pid > 0 && processState(pid) == "present") killOwnedClient(pid)
+            }
+            cleanup {
+                // Only this nonce-bound actual EXTRA_OUTPUT, never sweep a cache diff.
+                ownedOutput?.let { file ->
+                    if (file.exists()) {
+                        check(tasksGone && externalTerminated) { "Do not unlink an unverified in-flight external output" }
+                        assertTrue(file.delete())
+                    }
+                }
+                assertEquals(before, outputs())
+            }
+            cleanup { sibling?.let { if (it.exists()) assertTrue(it.delete()) } }
+            cleanup { if (preferenceFile(prefName).exists()) assertTrue(context.deleteSharedPreferences(prefName)) }
+            if (changedRotation) {
+                cleanup { assertTrue(instrumentation.uiAutomation.setRotation(originalRotation)) }
+                cleanup { assertTrue(instrumentation.uiAutomation.setRotation(UiAutomation.ROTATION_UNFREEZE)) }
+                cleanup { restoreSetting("system", "accelerometer_rotation", originalAutoRotate) }
+                cleanup { restoreSetting("system", "user_rotation", originalUserRotation) }
+                cleanup { waitUntil { context.getSystemService(WindowManager::class.java).defaultDisplay.rotation == originalRotation } }
+            }
+            if (changedFinish) cleanup { restoreSetting("global", "always_finish_activities", originalFinish) }
+            if (changedDelayed) cleanup {
+                assertEquals("Component ${delayed.toShortString()} new state: default", shell("pm default-state --user 0 ${delayed.flattenToShortString()}"))
+                assertEquals(originalDelayed, pm.getComponentEnabledSetting(delayed))
+                assertFalse(pm.getActivityInfo(delayed, PackageManager.MATCH_DISABLED_COMPONENTS).enabled)
+            }
+            for (pkg in changedPackages.asReversed()) cleanup {
+                val original = initialStates.getValue(pkg)
+                val command = if (original == 0) "default-state" else "enable"
+                assertEquals("Package $pkg new state: ${if (original == 0) "default" else "enabled"}", shell("pm $command --user 0 $pkg"))
+                assertEquals(original, pm.getApplicationEnabledSetting(pkg))
+            }
+            cleanup { waitUntil { handlers() == initialHandlers } }
+            cleanupFailure?.let { throw it }
+        }
+    }
+
+    private fun tasks(nonce: String): List<ActivityManager.AppTask> {
+        // TaskInfo may strip intent extras. Use the real same-UID Activity's committed
+        // nonce/task ID, plus exact own component; never guess a task or rely on extras.
+        val state = snapshot("nativecmpkit-camera-restoration-$nonce")
+        if (state.isEmpty()) return emptyList()
+        assertEquals(nonce, state["nonce"]); assertEquals(Process.myUid(), state.integer("uid"))
+        val id = state.integer("task").also { check(it > 0) }
+        return manager.appTasks.filter { task ->
+            // SDK37 explicitly permits null. Never count unavailable information as
+            // task absence; read each native snapshot once, not twice across a race.
+            val info = assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")
+            info.taskId == id && info.baseIntent.component == client
+        }
+    }
+    private fun handlers() = pm.queryIntentActivities(Intent(MediaStore.ACTION_IMAGE_CAPTURE), PackageManager.MATCH_DEFAULT_ONLY)
+        .map { ComponentName(it.activityInfo.packageName, it.activityInfo.name) }.toSet()
+    private fun outputs() = File(context.cacheDir, "nativecmpkit-camera").listFiles().orEmpty().map { it.name }.toSet()
+    private fun outputFor(uri: Uri, before: Set<String>): File {
+        assertEquals("content", uri.scheme); assertEquals("${context.packageName}.camera-files", uri.authority)
+        assertEquals(2, uri.pathSegments.size); assertEquals("camera", uri.pathSegments[0])
+        val name = uri.pathSegments[1]
+        check(name.matches(Regex("capture-[A-Za-z0-9._-]+\\.jpg")) && ".." !in name && name !in before)
+        val directory = File(context.cacheDir, "nativecmpkit-camera").canonicalFile
+        return File(directory, name).also { check(it.canonicalFile == it && it.parentFile == directory) }
+    }
+    private fun Map<String, Any>.integer(key: String) = get(key)?.let { assertIs<Int>(it) } ?: 0
+    private fun preferenceFile(name: String): File {
+        check(name.matches(Regex("nativecmpkit-camera-restoration-[a-f0-9]{32}")))
+        val root = File(context.applicationInfo.dataDir).canonicalFile.also { check(it.isDirectory) }
+        val directory = File(root, "shared_prefs").also {
+            check(it.canonicalFile == it); if (it.exists()) check(it.isDirectory)
+        }
+        return File(directory, "$name.xml").also { check(it.canonicalFile == it) }
+    }
+
+    /** Read actual committed native preferences, not cached cross-process SharedPreferences. */
+    private fun snapshot(name: String): Map<String, Any> {
+        val file = preferenceFile(name)
+        if (!file.exists()) return emptyMap()
+        check(file.isFile && file.length() in 1..16384)
+        val bytes = file.inputStream().use { input ->
+            val result = ByteArrayOutputStream(); val block = ByteArray(4096)
+            while (true) {
+                val n = input.read(block); if (n < 0) break
+                check(result.size() + n <= 16384); result.write(block, 0, n)
+            }
+            result.toByteArray()
+        }
+        val text = bytes.decodeToString(throwOnInvalidSequence = true)
+        check(!text.contains("<!DOCTYPE", ignoreCase = true) && !text.contains("<!ENTITY", ignoreCase = true))
+        val allowed = setOf("nonce", "pid", "uid", "task", "creates", "orientation", "results", "kind", "uri", "launches", "saves", "stops", "destroys", "configurationDestroyed", "nonFinishingDestroyed")
+        val result = mutableMapOf<String, Any>()
+        ByteArrayInputStream(bytes).use { input ->
+            val xml = Xml.newPullParser().apply { setInput(input, "UTF-8") }
+            var event = xml.eventType
+            while (event != XmlPullParser.END_DOCUMENT) {
+                check(event != XmlPullParser.DOCDECL)
+                if (event == XmlPullParser.START_TAG) {
+                    if (xml.depth == 1) check(xml.name == "map")
+                    else {
+                        check(xml.depth == 2)
+                        val key = checkNotNull(xml.getAttributeValue(null, "name")); check(key in allowed && key !in result)
+                        result[key] = when (xml.name) {
+                            "string" -> xml.nextText()
+                            "int" -> checkNotNull(xml.getAttributeValue(null, "value")).toInt()
+                            "boolean" -> checkNotNull(xml.getAttributeValue(null, "value")).toBooleanStrict()
+                            else -> error("Unknown owned native preference type")
+                        }
+                    }
+                }
+                event = xml.next()
+            }
+        }
+        return result
+    }
+    private fun processState(pid: Int): String {
+        check(pid > 0 && pid != Process.myPid())
+        return shell("run-as ${context.packageName} sh -c 'if test -d /proc/$pid; then echo present; else echo absent; fi'")
+            .also { check(it in setOf("present", "absent")) }
+    }
+    private fun killOwnedClient(pid: Int) {
+        check(pid > 0 && pid != Process.myPid())
+        assertEquals(processName, shell("run-as ${context.packageName} cat /proc/$pid/cmdline").trimEnd('\u0000'))
+        Process.killProcess(pid)
+        waitUntil { processState(pid) == "absent" }
+    }
+    private fun setting(namespace: String, key: String, allowed: Set<String>) = shell("settings get $namespace $key").also { check(it in allowed) }
+    private fun restoreSetting(namespace: String, key: String, value: String) {
+        if (value == "null") assertEquals("Deleted 1 rows", shell("settings delete $namespace $key"))
+        else assertEquals("", shell("settings put $namespace $key $value"))
+        assertEquals(value, shell("settings get $namespace $key"))
+    }
+    private fun shell(command: String): String {
+        val descriptor = instrumentation.uiAutomation.executeShellCommand(command)
+        return ParcelFileDescriptor.AutoCloseInputStream(descriptor).use { input ->
+            val result = ByteArrayOutputStream(); val block = ByteArray(4096)
+            val deadline = SystemClock.uptimeMillis() + 10_000
+            val poll = StructPollfd().apply { fd = descriptor.fileDescriptor; events = (OsConstants.POLLIN or OsConstants.POLLHUP).toShort() }
+            while (true) {
+                val remaining = deadline - SystemClock.uptimeMillis(); check(remaining > 0) { "Owned camera control read timed out" }
+                check(Os.poll(arrayOf(poll), remaining.toInt()) > 0) { "Owned camera control read timed out" }
+                check(poll.revents.toInt() and (OsConstants.POLLERR or OsConstants.POLLNVAL) == 0)
+                val n = input.read(block); if (n < 0) break
+                check(n > 0 && result.size() + n <= 65536) { "Unbounded owned camera control reply" }
+                result.write(block, 0, n)
+            }
+            result.toByteArray().decodeToString(throwOnInvalidSequence = true).trim()
+        }
+    }
+    private fun waitUntil(condition: () -> Boolean) {
+        val start = System.nanoTime()
+        while (!condition()) { check(System.nanoTime() - start < 30_000_000_000L) { "Owned native camera condition did not complete" }; Thread.sleep(30) }
+    }
+}

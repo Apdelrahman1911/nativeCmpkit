@@ -1,0 +1,147 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "23",
+    "boot_completed": "1",
+    "release": "6.0",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest#nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+    ":calf-camera-picker:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 73.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-camera-picker"
+  ],
+  "explicit_test_focus": "android-camera-no-handler-recovery",
+  "finished_at_utc": "2026-10-30T16:44:45.328294+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "a7a8d2caa78d5ae7392101c7e82a1beda2f7a076faf1ddba62734a2dcb1e4c08",
+  "inputs_before_sha256": "a7a8d2caa78d5ae7392101c7e82a1beda2f7a076faf1ddba62734a2dcb1e4c08",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 0,
+      "module": "calf-camera-picker",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "disposition": "required-executed",
+          "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+          "required_on_host": true,
+          "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api23-1c89ae056b8f(AVD) - 6.0.xml",
+          "sha256": "5fb1e7f5e3b4ce8927fe524ce197177eb19cf7efb358681b886ed591840884b1",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+          "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+          "status": "passed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest",
+      "name": "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput"
+    }
+  ],
+  "runtime_receipt_sha256": "1129f00ee6362532aae8fc40195de409f01bff5142c0ba5a6c6522be00688d8a",
+  "schema_version": 1,
+  "scope": "Only the failed actual implicit no-camera-handler/restoration method from41087017676. Three accepted API23 provider methods and four API35 methods are reused, not replayed. Exact original state restoration, native launch failure/no orphan, fresh XML, owned UID/AVD cleanup and every refusal remain required. No camera hardware/process-death/physical/packaged/API-ABI/security/release certification.",
+  "source_revision": "76f6054c2c5128965aeeb03f8b21855e3e195748",
+  "source_revision_after": "76f6054c2c5128965aeeb03f8b21855e3e195748",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-30T16:43:32.309837+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-camera-picker:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

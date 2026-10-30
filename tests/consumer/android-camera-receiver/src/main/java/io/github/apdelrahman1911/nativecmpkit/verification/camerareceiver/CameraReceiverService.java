@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.UUID;
 
-/** Signature/UID/nonce-bound observation only; no arbitrary capture, file access or grant command. */
+/** Signature/UID/nonce-bound observation/completion only; no arbitrary URI, file access or grant command. */
 public final class CameraReceiverService extends Service {
     static final String REPORTER = "com.mohamedrejeb.calf.calfcamerapicker.test";
     static final byte[] BYTES = "NativeCmpKit synthetic native camera output".getBytes(StandardCharsets.UTF_8);
@@ -25,6 +25,7 @@ public final class CameraReceiverService extends Service {
     private final String generation = UUID.randomUUID().toString();
     private final Messenger endpoint = new Messenger(new Handler(Looper.getMainLooper(), message -> { handle(message); return true; }));
     static void receive(Bundle report) { received = new Bundle(report); intents++; }
+    static void update(Bundle report) { received = new Bundle(report); }
     @Override public IBinder onBind(Intent intent) { return endpoint.getBinder(); }
     private void handle(Message request) {
         String[] packages = getPackageManager().getPackagesForUid(request.sendingUid);
@@ -34,11 +35,15 @@ public final class CameraReceiverService extends Service {
         if (!nonce.matches("[a-f0-9]{32}")) return;
         String operation = request.getData().getString("operation", "");
         if ("clear".equals(operation)) received = null;
+        boolean completion = "complete".equals(operation) && CameraDelayedReceiverActivity.complete(
+                request.getData().getString("packet", ""), request.getData().getBoolean("cancel", false));
         Bundle result = received == null ? new Bundle() : new Bundle(received);
-        if (!"snapshot".equals(operation) && !"clear".equals(operation)) result.putString("protocolError", "Unknown operation");
+        if ((!"snapshot".equals(operation) && !"clear".equals(operation) && !"complete".equals(operation)) ||
+                ("complete".equals(operation) && !completion)) result.putString("protocolError", "Unknown operation");
         result.putString("nonce", nonce); result.putString("generation", generation);
         result.putInt("uid", Process.myUid()); result.putInt("pid", Process.myPid());
         result.putInt("intents", intents); result.putBoolean("received", received != null);
+        result.putBoolean("holdingActivity", CameraDelayedReceiverActivity.isHolding());
         Message reply = Message.obtain(); reply.setData(result);
         try { request.replyTo.send(reply); } catch (RemoteException disconnected) { /* Reporter owns its bounded timeout. */ }
         finally { reply.recycle(); }

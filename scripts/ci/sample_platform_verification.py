@@ -203,7 +203,7 @@ def inspect_graph(root: Path, mode: str) -> dict:
             "sample_app_declared_minSdk": 24, "sample_minSdk_lowered": False, "minimum_platform_certified": False}
 
 
-def build_outputs(root: Path, selected: dict) -> dict:
+def build_outputs(root: Path, selected: dict, *, started_ns: int, ended_ns: int) -> dict:
     patterns = ({"android": ("sample/android/build/outputs/apk/debug", "*.apk"),
                  "jvm": ("sample/desktop/build/libs", "*-jvm.jar"),
                  "js": ("sample/web-js/build/dist/js/productionExecutable", "web.js"),
@@ -211,14 +211,84 @@ def build_outputs(root: Path, selected: dict) -> dict:
                 if selected["mode"] == "linux" else
                 {"ios-device": ("sample/common/build/bin/iosArm64/debugFramework/Common.framework", "Common"),
                  "ios-simulator": ("sample/common/build/bin/iosSimulatorArm64/debugFramework/Common.framework", "Common")})
-    result = {}
+    tasks = ({"android": BUILD_TASKS["linux"][:1], "jvm": BUILD_TASKS["linux"][1:2],
+              "js": BUILD_TASKS["linux"][2:4], "wasm": BUILD_TASKS["linux"][4:6]}
+             if selected["mode"] == "linux" else
+             {"ios-device": BUILD_TASKS["apple"][:1], "ios-simulator": BUILD_TASKS["apple"][1:2]})
+    result = {"schema_version": 1, "targets": {}, "errors": [], "test_success_inferred": False}
     for target, (directory, pattern) in patterns.items():
-        files = sorted(lt.safe_path(root, directory).glob(pattern))
-        if len(files) != 1 or not files[0].is_file() or not files[0].stat().st_size:
-            raise ValueError("Expected actual nonempty sample target output: " + target)
-        path = lt.safe_path(root, files[0].relative_to(root).as_posix())
-        result[target] = {"path": path.relative_to(root).as_posix(), "bytes": path.stat().st_size,
-                          "sha256": lt.sha256(path), "uploaded": False}
+        observed = {"passed": False, "output": None, "tasks": [], "errors": []}
+        for task in tasks[target]:
+            index = BUILD_TASKS[selected["mode"]].index(task)
+            relative = "build/ci-verification/sample-platforms-" + selected["mode"] + f"/task-build-{index}.json"
+            try:
+                path = lt.safe_path(root, relative)
+                if not path.is_file() or path.stat().st_nlink != 1 or not 0 < path.stat().st_size <= 8192:
+                    raise ValueError("Missing or unbounded task evidence")
+                row = json.loads(path.read_bytes())
+                boolean_keys = ("executed", "failed", "skipped", "up_to_date", "no_source", "test_success_inferred")
+                if (row.get("schema_version") != 1 or row.get("task") != task or
+                        any(type(row.get(key)) is not bool for key in boolean_keys) or
+                        type(row.get("observed_epoch_ms")) is not int or
+                        not started_ns // 1_000_000 <= row["observed_epoch_ms"] <= ended_ns // 1_000_000 or
+                        row.get("skip_message") not in (None, "UP-TO-DATE", "FROM-CACHE", "SKIPPED", "NO-SOURCE") or
+                        row["test_success_inferred"]):
+                    raise ValueError("Task evidence identity, types or time window rejected")
+                observed["tasks"].append({**row, "path": relative, "sha256": lt.sha256(path)})
+                if (not row["executed"] or row["failed"] or row["no_source"] or
+                        row["skipped"] and row["skip_message"] not in ("UP-TO-DATE", "FROM-CACHE")):
+                    raise ValueError("Task did not successfully build its output")
+            except (OSError, ValueError, KeyError) as error:
+                observed["errors"].append({"error": "Actual sample task evidence rejected", "task": task,
+                                            "reason": type(error).__name__})
+        try:
+            files = sorted(lt.safe_path(root, directory).glob(pattern))
+            if len(files) != 1 or not files[0].is_file() or not files[0].stat().st_size:
+                raise ValueError("Expected one actual nonempty sample output")
+            path = lt.safe_path(root, files[0].relative_to(root).as_posix())
+            if path.stat().st_nlink != 1:
+                raise ValueError("Sample output must not be hardlinked")
+            observed["output"] = {"path": path.relative_to(root).as_posix(), "bytes": path.stat().st_size,
+                                    "sha256": lt.sha256(path), "uploaded": False}
+        except (OSError, ValueError) as error:
+            observed["errors"].append({"error": "Actual sample target output rejected", "reason": type(error).__name__})
+        observed["passed"] = not observed["errors"]
+        result["targets"][target] = observed
+        result["errors"] += [{"target": target, **error} for error in observed["errors"]]
+    return result
+
+
+def inspect_web_node_environments(root: Path, *, started_ns: int, ended_ns: int) -> dict:
+    """Actual public project/root spec and executable witnesses, not PATH node."""
+    result = {}
+    for target, project, task in (("js", ":sample:web-js", BUILD_TASKS["linux"][2]),
+                                   ("wasm", ":sample:web-wasm", BUILD_TASKS["linux"][4])):
+        relative = "build/ci-verification/sample-platforms-linux/node-webpack-" + target + ".json"
+        path = lt.safe_path(root, relative)
+        if not path.is_file() or path.stat().st_nlink != 1 or not 0 < path.stat().st_size <= 8192:
+            raise ValueError("Missing actual selected webpack Node environment witness")
+        data = json.loads(path.read_bytes())
+        rows = data.get("environments")
+        if (data.get("schema_version") != 1 or data.get("task") != task or
+                type(data.get("observed_epoch_ms")) is not int or
+                not started_ns // 1_000_000 <= data["observed_epoch_ms"] <= ended_ns // 1_000_000 or
+                data.get("test_success_inferred") is not False or not isinstance(rows, list) or len(rows) != 2 or
+                [row.get("project") for row in rows] != [":", project]):
+            raise ValueError("Wrong webpack Node witness task/project/time window")
+        for row in rows:
+            executable = row.get("executable")
+            if (row.get("configured_version") != "24.16.0" or row.get("observed_version") != "v24.16.0" or
+                    type(row.get("version_exit_code")) is not int or row["version_exit_code"] != 0 or
+                    row.get("passed") is not True or not isinstance(executable, str) or
+                    not Path(executable).is_absolute() or Path(executable).name != "node" or
+                    not isinstance(row.get("extension"), str) or not row["extension"].endswith("NodeJsSpec") or
+                    not re.fullmatch(r"[0-9a-f]{64}", row.get("executable_sha256", ""))):
+                raise ValueError("Actual selected webpack Node version/executable rejected")
+        if rows[0]["executable"] != rows[1]["executable"] or rows[0]["executable_sha256"] != rows[1]["executable_sha256"]:
+            raise ValueError("Root and project select different Node executables")
+        result[target] = {"path": relative, "sha256": lt.sha256(path), "task": task,
+                          "environments": rows, "root_and_project_same_pinned_executable": True,
+                          "test_success_inferred": False}
     return result
 
 
@@ -304,12 +374,20 @@ def run(root: Path, mode: str, simulator: str | None, timeout: int, *, build_onl
                    "sample_suites": receipts, "errors": errors, "library_verification": False,
                    "physical_device_verification": False, "packages_releases_deployments_or_Pages_created": False,
                    "release_readiness_certified": False, "scope": selected["scope"]}
-        try:
-            receipt["gradle_daemon"] = daemon_jvm.observation(output / "gradle.log")
-            receipt["compile_dependency_graph"] = inspect_graph(root, mode)
-            receipt["actual_built_outputs"] = build_outputs(root, selected)
-        except (OSError, ValueError, KeyError) as error:
-            errors.append({"error": "Actual sample build/dependency/daemon evidence rejected", "reason": type(error).__name__})
+        # Independent observers preserve a successful target even if another
+        # observer/target fails. No error is waived or converted to whole success.
+        observers = [("gradle_daemon", lambda: daemon_jvm.observation(output / "gradle.log")),
+                     ("compile_dependency_graph", lambda: inspect_graph(root, mode)),
+                     ("actual_built_outputs", lambda: build_outputs(root, selected, started_ns=started_ns, ended_ns=ended_ns))]
+        if mode == "linux":
+            observers.append(("web_node_environments", lambda: inspect_web_node_environments(root, started_ns=started_ns, ended_ns=ended_ns)))
+        for key, observer in observers:
+            try:
+                receipt[key] = observer()
+                if key == "actual_built_outputs":
+                    errors += receipt[key]["errors"]
+            except (OSError, ValueError, KeyError) as error:
+                errors.append({"error": "Actual sample evidence rejected", "observer": key, "reason": type(error).__name__})
         if mode == "apple":
             listing = subprocess.run(["xcodebuild", "-list", "-json", "-project", "sample/ios/Calf.xcodeproj"],
                                      cwd=root, capture_output=True, timeout=180)

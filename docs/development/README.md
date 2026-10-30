@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Shared Web build ownership repair — 2026-10-30
+
+[Owning Node/independent-output repair](evidence/sample-data-safety-batch-important-20261029/web-build-repair001/README.md) passes86/86 synthetic important
+methods/all963held; five-method red/two failures/ten errors and wrong actionlint
+caller-path preserved, lint-only correction passes. Actual Linux40971665663
+FAILED1/1993.47s/zero tests at project Node26 versus root-only24 pin. Modern
+NodeJsPlugin/WasmNodeJsPlugin callbacks now cover allprojects, with public real
+project/root executable witnesses and independent per-target task/output receipts.
+ZERO local heavy builds, no50Linux/17Apple completed-method replay. Apple40974963662
+continues independently on535b0353; #100/#154 remain open pending original criteria.
+77closed/95open, ledger unchanged; single-agent/max2/8GiB reserve and all publishing,
+Pages/main/history/independent native/minimum/ABI/consumer/security gates stay.
+
 ## Shared Apple outcomes and exact graph repair — 2026-10-29
 
 [Original Apple postmortem](evidence/sample-data-safety-batch-important-20261029/platform-apple-ci001/postmortem001/README.md) reviews17/17 reported native sample methods/

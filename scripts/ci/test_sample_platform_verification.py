@@ -18,7 +18,78 @@ CODEC = "sample/common/src/nonAndroidTest/kotlin/com/mohamedrejeb/calf/sample/ut
 
 
 class SamplePlatformVerificationTests(unittest.TestCase):
-    def _sample_run_fixture(self, root, *, parser_error=False, build_only=False):
+    def _built_target_fixture(self, root, *, missing_wasm=False):
+        import sample_platform_verification as sample
+        paths = {"android": "sample/android/build/outputs/apk/debug/app-debug.apk",
+                 "jvm": "sample/desktop/build/libs/sample-jvm.jar",
+                 "js": "sample/web-js/build/dist/js/productionExecutable/web.js",
+                 "wasm": "sample/web-wasm/build/dist/wasmJs/productionExecutable/web.js"}
+        for target, relative in paths.items():
+            if target == "wasm" and missing_wasm:
+                continue
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(("synthetic-output-" + target).encode())
+        output = root / "build/ci-verification/sample-platforms-linux"
+        output.mkdir(parents=True)
+        for index, task in enumerate(sample.BUILD_TASKS["linux"]):
+            failed = missing_wasm and task == ":sample:web-wasm:wasmJsBrowserProductionWebpack"
+            if missing_wasm and task == ":sample:web-wasm:wasmJsBrowserDistribution":
+                continue
+            (output / f"task-build-{index}.json").write_text(json.dumps({
+                "schema_version": 1, "task": task, "executed": True, "failed": failed,
+                "skipped": False, "skip_message": None, "up_to_date": False, "no_source": False,
+                "observed_epoch_ms": 1, "test_success_inferred": False}))
+
+    def test_missing_wasm_does_not_erase_three_independent_target_outputs_or_task_results(self):
+        import sample_platform_verification as sample
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._built_target_fixture(root, missing_wasm=True)
+            result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+            self.assertEqual({"android", "jvm", "js", "wasm"}, set(result["targets"]))
+            self.assertTrue(all(result["targets"][name]["passed"] for name in ("android", "jvm", "js")))
+            self.assertFalse(result["targets"]["wasm"]["passed"])
+            self.assertTrue(result["errors"])
+            self.assertTrue(all(result["targets"][name]["output"]["sha256"] for name in ("android", "jvm", "js")))
+            self.assertTrue(result["targets"]["wasm"]["tasks"][0]["failed"])
+
+    def test_file_alone_cannot_substitute_for_missing_failed_skipped_foreign_or_stale_task_evidence(self):
+        import sample_platform_verification as sample
+        for mutation in ("missing", "failed", "skipped", "foreign", "stale", "no-source", "duplicate"):
+            with self.subTest(mutation=mutation), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self._built_target_fixture(root)
+                path = root / "build/ci-verification/sample-platforms-linux/task-build-0.json"
+                data = json.loads(path.read_text())
+                if mutation == "missing":
+                    path.unlink()
+                else:
+                    changes = {"failed": {"failed": True}, "skipped": {"skipped": True, "skip_message": "SKIPPED"},
+                               "foreign": {"task": ":foreign:assembleDebug"}, "stale": {"observed_epoch_ms": 0},
+                               "no-source": {"no_source": True}, "duplicate": {"executed": "true"}}
+                    path.write_text(json.dumps({**data, **changes[mutation]}))
+                result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+                self.assertFalse(result["targets"]["android"]["passed"])
+                self.assertTrue(result["errors"])
+                self.assertTrue(all(result["targets"][name]["passed"] for name in ("jvm", "js", "wasm")))
+
+    def test_actual_up_to_date_and_cache_task_states_require_real_output_but_are_not_fresh_tests(self):
+        import sample_platform_verification as sample
+        for skip in ("UP-TO-DATE", "FROM-CACHE"):
+            with self.subTest(skip=skip), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                self._built_target_fixture(root)
+                path = root / "build/ci-verification/sample-platforms-linux/task-build-0.json"
+                data = json.loads(path.read_text())
+                path.write_text(json.dumps({**data, "skipped": True, "skip_message": skip,
+                                           "up_to_date": skip == "UP-TO-DATE"}))
+                result = sample.build_outputs(root, {"mode": "linux"}, started_ns=1_000_000, ended_ns=2_000_000)
+                self.assertEqual([], result["errors"])
+                self.assertTrue(result["targets"]["android"]["passed"])
+                self.assertFalse(result["targets"]["android"]["tasks"][0]["test_success_inferred"])
+
+    def _sample_run_fixture(self, root, *, parser_error=False, build_only=False, observer_error=None):
         """Synthetic process/runtime only; use the REAL report parser/policy.
 
         This checks the orchestration boundary that the source-only guards
@@ -55,15 +126,35 @@ class SamplePlatformVerificationTests(unittest.TestCase):
              mock.patch.object(sample.runtime_context, "capture", return_value=context), \
              mock.patch.object(libraries, "execute", side_effect=execute), \
              mock.patch.object(libraries, "git_revision", return_value=context["source_revision"]), \
-             mock.patch.object(sample.daemon_jvm, "observation", return_value={"major": 17}), \
-             mock.patch.object(sample, "inspect_graph", return_value={"synthetic": True}), \
-             mock.patch.object(sample, "build_outputs", return_value={"synthetic": True}):
+             mock.patch.object(sample.daemon_jvm, "observation", return_value={"major": 17},
+                               side_effect=ValueError("synthetic refusal") if observer_error == "gradle_daemon" else None), \
+             mock.patch.object(sample, "inspect_graph", return_value={"synthetic": True},
+                               side_effect=ValueError("synthetic refusal") if observer_error == "compile_dependency_graph" else None), \
+             mock.patch.object(sample, "build_outputs", return_value={"synthetic": True, "errors": []}), \
+             mock.patch.object(sample, "inspect_web_node_environments", return_value={"synthetic": True},
+                               side_effect=ValueError("synthetic refusal") if observer_error == "web_node_environments" else None):
             if parser_error:
                 with mock.patch.object(libraries, "collect_reports", side_effect=ValueError("synthetic parser refusal")):
                     return sample.run(root, "linux", None, 1)
             if build_only:
                 return sample.run(root, "linux", None, 1, build_only=True)
             return sample.run(root, "linux", None, 1)
+
+    def test_observer_failure_preserves_every_other_observation_process_and_final_inputs(self):
+        for key in ("gradle_daemon", "compile_dependency_graph", "web_node_environments"):
+            with self.subTest(key=key), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                receipt = self._sample_run_fixture(root, build_only=True, observer_error=key)
+                self.assertFalse(receipt["passed"])
+                self.assertNotIn(key, receipt)
+                self.assertEqual([key], [error["observer"] for error in receipt["errors"]])
+                self.assertIn("actual_built_outputs", receipt)
+                for other in {"gradle_daemon", "compile_dependency_graph", "web_node_environments"} - {key}:
+                    self.assertIn(other, receipt)
+                self.assertEqual(0, receipt["execution"]["exit_code"])
+                self.assertEqual(receipt["inputs_before_sha256"], receipt["inputs_after_sha256"])
+                self.assertTrue((root / "build/ci-verification/sample-platforms-linux/execution.json").is_file())
+                self.assertFalse((root / "build/ci-verification/.library-tests.lock").exists())
 
     def test_actual_shared_collector_policy_accepts_the_owning_exact_sample_boundary(self):
         # Real40963671526 passed16+17+17 cases, then its owning collector

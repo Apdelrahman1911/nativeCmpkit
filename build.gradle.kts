@@ -4,7 +4,7 @@ import org.gradle.api.publish.maven.tasks.PublishToMavenLocal
 import java.io.File
 import io.github.apdelrahman1911.nativecmpkit.buildlogic.PublicationVersionPolicy
 import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin
+import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec
@@ -29,7 +29,7 @@ plugins {
 }
 
 // JS and Wasm have separate KGP environments and lock stores. These exact
-// versions preserve the inspected KGP 2.4.20 defaults; pins/registry checksums
+// versions retain the project's reviewed Node24/Yarn pins; registry checksums
 // are a TOFU bootstrap, not an independently reviewed supply-chain trust root.
 fun BaseYarnRootEnvSpec.freezeNativeCmpkitDependencies() {
     version.set("1.22.22")
@@ -38,11 +38,16 @@ fun BaseYarnRootEnvSpec.freezeNativeCmpkitDependencies() {
     yarnLockAutoReplace.set(false)
     reportNewYarnLock.set(true)
 }
-plugins.withType<NodeJsRootPlugin> {
-    extensions.configure<NodeJsEnvSpec> { version.set("24.16.0") }
-}
-plugins.withType<WasmNodeJsPlugin> {
-    extensions.configure<WasmNodeJsEnvSpec> { version.set("24.16.0") }
+// KGP2.4.20 creates a modern spec in EACH project. NpmProject/webpack use
+// that local spec, not the root setup spec. Pin every late-applied instance:
+// otherwise Wasm inherits26.2.0 while the root only installs24.16.0.
+allprojects {
+    plugins.withType<NodeJsPlugin> {
+        extensions.configure<NodeJsEnvSpec> { version.set("24.16.0") }
+    }
+    plugins.withType<WasmNodeJsPlugin> {
+        extensions.configure<WasmNodeJsEnvSpec> { version.set("24.16.0") }
+    }
 }
 plugins.withType<YarnPlugin> {
     extensions.configure<YarnRootEnvSpec> { freezeNativeCmpkitDependencies() }

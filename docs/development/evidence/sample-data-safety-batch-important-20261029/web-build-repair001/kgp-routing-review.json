@@ -1,0 +1,51 @@
+{
+  "artifact_coordinate": "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.20:gradle96",
+  "artifact_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+  "dependency_security_or_release_readiness_certified": false,
+  "inspection_command": "javap -c -p -classpath <actual cached KGP2.4.20 jar> <class>",
+  "local_Gradle_or_browser_executions": 0,
+  "observations": [
+    {
+      "actual_disassembly_sha256": "1fc3d7ded3c8238f233c88876ec590a8ba842330f5ff15a469cfdadbf3900dad",
+      "class": "KotlinWebpack",
+      "observed_routing": "doExecute obtains npmProject.nodeExecutable"
+    },
+    {
+      "actual_disassembly_sha256": "68b86e2fcd661e02a1d63b562fb17e5cb0af04a8ab4a51511f47aba575afb07f",
+      "class": "NpmProject$nodeExecutable$2",
+      "observed_routing": "invoke reads project NodeJsEnvSpec.executable Provider"
+    },
+    {
+      "actual_disassembly_sha256": "007619b700ea9d39b71746fcdc907af7a3ba5e53a37b9f64463d717e4dd013de",
+      "class": "NpmProject$nodeJs$2$2",
+      "observed_routing": "invoke selects WasmNodeJsPlugin.Companion.getKotlinNodeJsEnvSpec(NpmProject.project)"
+    },
+    {
+      "actual_disassembly_sha256": "2b1e8111592a5be81d0f8d22bb0c5df52ab94a996ebdbd13e8f3710ae4d17357",
+      "class": "WasmNodeJsPlugin$Companion",
+      "observed_routing": "getKotlinNodeJsEnvSpec returns the passed project's extension, not its root's modern spec"
+    },
+    {
+      "actual_disassembly_sha256": "4ef8323cdc3f3d514a13cee528f59bc5cad39b4bd09aed2b43b2ab229b6b13a0",
+      "class": "NodeJsPluginApplier",
+      "observed_routing": "apply creates its modern spec in the passed project"
+    },
+    {
+      "actual_disassembly_sha256": "2296eac1c68e1e559e45e1632beef7df65af54d6049c0076e8533b279f52a300",
+      "class": "NodeJsPluginApplier$createNodeJsEnvSpec$1$4",
+      "observed_routing": "version convention reads the separate legacy root version"
+    },
+    {
+      "actual_disassembly_sha256": "38d1202523f3dbfd8625406110380cc7fbef22e21103f86fbd653afb927492bd",
+      "class": "WasmNodeJsRootPlugin",
+      "observed_routing": "kotlinToolingSetup sets legacy root version26.2.0"
+    }
+  ],
+  "repair_uses_modern_public_per_project_plugins_not_deprecated_root_extension_mutation": true,
+  "reviewed_at_utc": "2026-10-30T00:18:18.728904+00:00",
+  "root_only_modern_pin_did_not_pin_project_specs": true,
+  "root_spec_pin_before_repair": "24.16.0",
+  "runtime_failed_task": ":sample:web-wasm:wasmJsBrowserProductionWebpack",
+  "runtime_failure_run": 40971665663,
+  "runtime_selected_node_version": "26.2.0"
+}

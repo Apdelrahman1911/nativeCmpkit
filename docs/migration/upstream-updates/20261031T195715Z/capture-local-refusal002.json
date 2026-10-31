@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-31T20:01:47.329339+00:00",
+  "stage": "independent REST source issue count",
+  "outcome": "exporter reserve guard after a successful GET",
+  "cause": "The existing exporter uses an 80-request reserve; this REST search response has a separate limit30/remaining29 resource. Its HTTP200 body/headers were already retained.",
+  "request_http_status": 200,
+  "search_quota_limit": 30,
+  "search_quota_remaining": 29,
+  "recovery": "Preserve the general core reserve; permit only these five bounded successful REST search count reads with observed remaining>=20, retaining the first successful response without a retry.",
+  "github_mutations_performed": false
+}

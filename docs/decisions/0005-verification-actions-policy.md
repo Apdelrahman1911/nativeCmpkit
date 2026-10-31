@@ -2,9 +2,16 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
+**Current owner amendment, 2026-10-31:** use as many useful parallel agents as
+capacity permits. Disjoint bounded delegation is authorized; the lead owns
+integration, Git/GitHub mutations, immutable verification requests and closures.
+Keep heavy local builds serial, at least 8 GiB reserve and at most two combined
+heavy requests. This supersedes the solo/two-agent limits below, not historical
+receipts. Actions permissions, publishing/security and history gates are unchanged.
+
 **Owner amendments, 2026-10-27:** optional permission for up to two subagents is
 retained historically. The subsequently supplied maintainer instructions for
-this contained continuation require **single-agent execution** without spawning,
+that contained continuation required **single-agent execution** without spawning,
 resuming or delegation. The lead retains integration/Git/GitHub ownership.
 Verification authority and publishing/security restrictions remain unchanged.
 
@@ -15,8 +22,8 @@ allowlist and mandatory SHA pinning for a supervised verification window. That
 prevented autonomous platform checks. The owner has now enabled **Allow all
 actions and reusable workflows**, explicitly accepted no mandatory SHA pinning,
 and authorized routine CI/development/dependency/consumer verification without
-additional approval. Current supplied instructions require solo work; earlier
-agent handoffs and the optional amendment do not authorize current delegation.
+additional approval. The 2026-10-31 amendment now authorizes parallel work; earlier
+solo/two-agent restrictions remain historical.
 
 ## Decision
 
@@ -24,8 +31,8 @@ agent handoffs and the optional amendment do not authorize current delegation.
   not just documentation. Existing SHA references may remain as voluntary
   reproducibility controls; named action versions are not rejected solely for
   being non-SHA references. Review newly used actions and executed source.
-- Run single-agent under the supplied maintainer instructions, without spawning,
-  resuming or delegation. Necessary immutable development commits/pushes and reviewed
+- Delegate disjoint bounded work under the 2026-10-31 owner instruction; the lead
+  integrates and freezes inputs. Necessary immutable development commits/pushes and reviewed
   verification dispatches are authorized. Preserve history and upstream
   read-only boundaries; do not dispatch inherited historical workflows.
 - Separate **verification authority** from **publication readiness**. Use minimum

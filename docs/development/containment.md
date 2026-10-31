@@ -1,13 +1,25 @@
 # Contained development with authorized verification CI
 
+## Current parallel-execution amendment — 2026-10-31
+
+The owner now explicitly requests as many useful parallel agents as capacity
+permits, superseding the historical solo/two-agent limits below. Assign disjoint
+bounded tasks and avoid duplicate accepted tests. The lead owns integration,
+Git/GitHub mutations, immutable requests and acceptance/closure. Heavy local builds
+remain serial with at least 8 GiB reserve, and at most two combined heavy hosted
+requests. Related-patch important tests and immediate verified-subset closures
+remain the execution order. No publishing, permission, security, Pages, `main` or
+history restriction is relaxed.
+
 ## Current owner decisions — 2026-10-26–27
 
 The owner explicitly enabled **Allow all actions and reusable workflows** and
 authorized that configuration **without mandatory SHA pinning**, automatic CI
 configuration/fixes/execution with minimum permissions, and continued development,
 Android/Apple/Windows/dependency/consumer verification. Routine development and
-verification require no further approval. The current supplied maintainer
-instructions require **contained single-agent execution**.
+verification require no further approval. The then-current supplied maintainer
+instructions required **contained single-agent execution**, superseded by the
+2026-10-31 amendment above.
 
 On **2026-10-27** the owner first reaffirmed single-agent containment, then
 explicitly permitted **up to two agents if useful**, asked to close completed
@@ -38,7 +50,8 @@ verified issues in that batch immediately; do not wait for unrelated issue fixes
 full documentation preflights or whole-release gates. Reuse valid unchanged
 evidence without calling it a fresh run. A batch is not permission to close its
 unverified members. Read back and document the exact closed subset afterward.
-Single-agent containment and all publishing/security restrictions remain.
+The original single-agent requirement is historical; all publishing/security
+restrictions remain, with the parallel-execution amendment above now applicable.
 
 ### Authorized now
 
@@ -95,8 +108,8 @@ homes. No new token permissions or publishing/security gate is authorized.
 - No automatic issue closure on a source patch, compile, stale/empty report or
   unrelated passing suite. Native/device, consumer, ABI, legal and dependency
   gates require their own reviewed execution and exact scope.
-- No subagents or delegation, destructive history changes
-  or unrelated feature/refactor work.
+- No destructive history changes or unrelated feature/refactor work.
+  Parallel delegation follows the bounded 2026-10-31 amendment above.
   Preserve all other projects/caches; local builds retain an 8 GiB disk reserve.
 
 ## Observed controls and evidence boundaries

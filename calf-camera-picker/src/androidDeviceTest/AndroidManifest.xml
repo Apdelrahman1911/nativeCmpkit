@@ -2,13 +2,15 @@
     <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver.BIND_RECEIVER" />
     <queries>
         <package android:name="io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver" />
+        <package android:name="com.android.shell" />
         <intent><action android:name="android.media.action.IMAGE_CAPTURE" /></intent>
     </queries>
     <application>
         <activity android:name="com.mohamedrejeb.calf.camerapicker.CameraProviderVerificationActivity"
             android:exported="false" android:theme="@android:style/Theme.Material.Light.NoActionBar" />
         <activity android:name="com.mohamedrejeb.calf.camerapicker.CameraRestorationVerificationActivity"
-            android:process=":nativecmpkit_camera_client" android:exported="false"
+            android:process=":nativecmpkit_camera_client" android:exported="true"
+            android:permission="android.permission.DUMP"
             android:theme="@android:style/Theme.Material.Light.NoActionBar" />
         <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.camera-files"
             android:exported="false" android:grantUriPermissions="true" android:process=":nativecmpkit_camera_provider">

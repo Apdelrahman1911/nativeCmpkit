@@ -5,6 +5,7 @@ from copy import deepcopy
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 import time
@@ -626,6 +627,153 @@ class CameraRestorationForegroundTests(unittest.TestCase):
         self.assertIn('terminal.integer("creates") >= 2', source)
         self.assertIn("Process.killProcess(pid)", source)
         self.assertIn("tasksGone && externalTerminated", source)
+
+
+class CameraRestorationShellEntryTests(unittest.TestCase):
+    """Synthetic protected native-entry guards; never an Android runtime pass."""
+    def sources(self):
+        manifest = ET.fromstring((l.ROOT / "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml").read_bytes())
+        source = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
+        client = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text()
+        return manifest, source, client
+
+    def test_only_disposable_client_is_shell_accessible_with_a_platform_privileged_permission(self):
+        manifest, _, _ = self.sources()
+        android = "{http://schemas.android.com/apk/res/android}"
+        activities = {node.get(android + "name"): node for node in manifest.findall("application/activity")}
+        client = activities["com.mohamedrejeb.calf.camerapicker.CameraRestorationVerificationActivity"]
+        self.assertEqual("true", client.get(android + "exported"))
+        self.assertEqual("android.permission.DUMP", client.get(android + "permission"))
+        self.assertEqual(":nativecmpkit_camera_client", client.get(android + "process"))
+        self.assertIsNone(client.get(android + "configChanges"))
+        self.assertIn("com.android.shell", [node.get(android + "name") for node in manifest.findall("queries/package")])
+        self.assertEqual("false", activities["com.mohamedrejeb.calf.camerapicker.CameraProviderVerificationActivity"].get(android + "exported"))
+        self.assertTrue(all(node.get(android + "exported") == "false" for node in manifest.findall("application/provider")))
+
+    def test_native_entry_checks_actual_fixed_shell_uid_and_permission_not_a_guessed_bypass(self):
+        _, source, _ = self.sources()
+        self.assertIn("assertTrue(clientInfo.exported)", source)
+        self.assertIn('assertEquals("android.permission.DUMP", clientInfo.permission)', source)
+        self.assertIn('pm.getApplicationInfo("com.android.shell", 0).uid', source)
+        self.assertIn('pm.checkPermission("android.permission.DUMP", "com.android.shell")', source)
+        self.assertIn("assertEquals(2000,", source)
+        self.assertNotIn("assertFalse(clientInfo.exported)", source)
+
+    def test_platform_permission_protects_only_entry_without_manual_grants_or_registry_injection(self):
+        manifest, source, client = self.sources()
+        android = "{http://schemas.android.com/apk/res/android}"
+        self.assertEqual(1, sum(node.get(android + "permission") == "android.permission.DUMP" for node in manifest.iter()))
+        for forbidden in ("adoptShellPermissionIdentity", "dropShellPermissionIdentity", "grantUriPermission(", "object : ActivityResultRegistry", "dispatchResult(", "su "):
+            self.assertNotIn(forbidden, source + client)
+        self.assertIn("rememberCameraPickerResultLauncher(", client)
+        self.assertIn("super.onSaveInstanceState(state)", client)
+        self.assertIn("Process.killProcess(pid)", source)
+
+
+class CameraRestorationObservationTests(unittest.TestCase):
+    def sources(self):
+        return ((l.ROOT / l.ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text(),
+                (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text())
+
+    def test_reader_uses_only_immutable_receipt_and_retains_bounded_strict_parser(self):
+        _, source = self.sources()
+        body = source.split("private fun snapshot(name: String)", 1)[1].split("private fun processState", 1)[0]
+        self.assertIn('val file = observationFile(name, "receipt")', body)
+        self.assertNotIn("val file = preferenceFile(name)", body)
+        for required in ("file.length() in 1..16384", "result.size() + n <= 16384",
+                         "decodeToString(throwOnInvalidSequence = true)", "XmlPullParser.DOCDECL",
+                         'key in allowed && key !in result', 'toBooleanStrict()'):
+            self.assertIn(required, body)
+
+    def test_each_native_commit_publishes_exact_bounded_bytes_after_sync_before_rename(self):
+        client, _ = self.sources()
+        self.assertEqual(10, client.split("private fun launchWhenForeground", 1)[1].count(".commitReceipt()"))
+        self.assertNotIn(".commit().also", client)
+        helper = client.split("private fun SharedPreferences.Editor.commitReceipt()", 1)[1].split("private fun launchWhenForeground", 1)[0]
+        for required in ("Looper.myLooper() == Looper.getMainLooper()", "check(commit())",
+                         '"$preferenceName.xml"', "native.inputStream().use", "result.size() + n <= 16384",
+                         '"$preferenceName.receipt-pending"', "check(it.createNewFile())",
+                         "stream.fd.sync()", "Os.rename(pending.path, published.path)",
+                         "primary.addSuppressed(failure)"):
+            self.assertIn(required, helper)
+        self.assertLess(helper.index("check(commit())"), helper.index("native.inputStream().use"))
+        self.assertLess(helper.index("stream.fd.sync()"), helper.index("Os.rename("))
+        self.assertNotIn("writeText", helper)
+        self.assertNotIn("AtomicFile", helper)
+
+    def test_owned_observation_cleanup_requires_task_and_client_termination(self):
+        _, source = self.sources()
+        self.assertIn("var clientTerminated = false", source)
+        self.assertIn("clientTerminated = true", source)
+        self.assertIn("check(tasksGone && clientTerminated)", source)
+        self.assertIn('for (suffix in setOf("receipt", "receipt-pending"))', source)
+        self.assertIn("observationFile(prefName, suffix)", source)
+        self.assertLess(source.index('assertEquals("absent", processState(pid))'),
+                        source.index("check(tasksGone && clientTerminated)"))
+        self.assertNotIn("for (name in outputs() - before)", source)
+
+    def test_preflight_refuses_existing_client_tasks_and_missing_receipt_never_implies_task_absence(self):
+        _, source = self.sources()
+        preflight = source.split("        try {\n            val siblingFile", 1)[0]
+        self.assertIn('assertTrue(clientTaskSnapshots().isEmpty(), "Refuse a pre-existing own client task")', preflight)
+        tasks = source.split("private fun clientTaskSnapshots", 1)[1].split("private fun delayedIntent", 1)[0]
+        self.assertIn('task to assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")', tasks)
+        self.assertIn("info.baseIntent.component == client", tasks)
+        self.assertIn('check(candidates.isEmpty()) { "Missing caller receipt', tasks)
+        self.assertIn('check(candidates.all { (_, info) -> info.taskId == id })', tasks)
+        self.assertNotIn("finishAndRemoveTask", tasks)
+
+    def test_attempted_launch_without_native_pid_refuses_process_absence_and_observation_deletion(self):
+        _, source = self.sources()
+        self.assertIn("var clientLaunchAttempted = false", source)
+        self.assertIn("clientLaunchAttempted = true", source)
+        self.assertLess(source.index("clientLaunchAttempted = true"), source.index('val entry = shell("am start'))
+        body = source.split('val pid = snapshot(prefName).integer("pid")', 1)[1].split('// Only this nonce-bound actual EXTRA_OUTPUT', 1)[0]
+        self.assertIn('assertEquals("absent", processState(pid))', body)
+        self.assertIn('else check(!clientLaunchAttempted)', body)
+        self.assertLess(body.index('else check(!clientLaunchAttempted)'), body.index('clientTerminated = true'))
+
+
+class CameraRestorationObservationHostTests(unittest.TestCase):
+    OLD = b'<map><int name="results" value="0"/></map>'
+    NEW = b'<map><int name="results" value="1"/><string name="kind">captured</string></map>'
+
+    def test_android_shared_preferences_raw_rewrite_can_be_missing_then_partial(self):
+        with tempfile.TemporaryDirectory() as directory:
+            native = Path(directory) / "owned.xml"
+            native.write_bytes(self.OLD)
+            native.rename(native.with_suffix(".xml.bak"))
+            self.assertFalse(native.exists(), "Raw readers can observe absence during the native backup rename")
+            with native.open("xb") as stream:
+                stream.write(b'<map><int name="results"')
+                stream.flush()
+                with self.assertRaises(ET.ParseError):
+                    ET.fromstring(native.read_bytes())
+
+    def test_atomic_publication_keeps_partial_writer_hidden_and_old_reader_immutable(self):
+        with tempfile.TemporaryDirectory() as directory:
+            published = Path(directory) / "owned.receipt"
+            pending = Path(directory) / "owned.receipt-pending"
+            published.write_bytes(self.OLD)
+            with published.open("rb") as old_reader:
+                prefix = old_reader.read(9)
+                with pending.open("xb") as stream:
+                    stream.write(self.NEW[:15]); stream.flush()
+                    self.assertEqual(self.OLD, published.read_bytes())
+                    stream.write(self.NEW[15:]); stream.flush(); os.fsync(stream.fileno())
+                os.replace(pending, published)
+                self.assertEqual(self.OLD, prefix + old_reader.read())
+            self.assertEqual(self.NEW, published.read_bytes())
+            self.assertEqual("map", ET.fromstring(published.read_bytes()).tag)
+            self.assertFalse(pending.exists())
+
+    def test_exclusive_pending_refuses_unknown_existing_file_without_truncating_it(self):
+        with tempfile.TemporaryDirectory() as directory:
+            pending = Path(directory) / "owned.receipt-pending"
+            pending.write_bytes(b"preexisting-owned-unknown-state")
+            with self.assertRaises(FileExistsError):
+                pending.open("xb")
+            self.assertEqual(b"preexisting-owned-unknown-state", pending.read_bytes())
 
 
 class CameraArchiveTests(unittest.TestCase):

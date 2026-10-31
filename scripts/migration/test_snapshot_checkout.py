@@ -8,6 +8,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 SNAPSHOT = "docs/migration/upstream-updates/20991231T235959Z/source/issue.json"
 DRAFT = "docs/development/upstream-sync-20991231T235959Z/drafts/upstream-0027-comment.md"
+REFRESH_DRAFT = "docs/development/upstream-refresh-20991231T235959Z/drafts/upstream-0027-comment.md"
 
 
 class SnapshotCheckoutTests(unittest.TestCase):
@@ -58,9 +59,14 @@ class SnapshotCheckoutTests(unittest.TestCase):
         self.stage(DRAFT, b"# Attributed public discussion\n\nOriginal author text \r\n\n")
         self.git("diff", "--cached", "--check")
 
+    def test_refresh_author_draft_preserves_bytes_and_authored_whitespace(self):
+        self.round_trip(REFRESH_DRAFT, b"# Attributed public discussion\n\nOriginal author text \r\n\tNext line\r\n\n")
+        self.git("diff", "--cached", "--check")
+
     def test_current_docs_source_and_refresh_readme_keep_whitespace_guards(self):
         for name in (
             "docs/development/upstream-sync-20991231T235959Z/README.md",
+            "docs/development/upstream-refresh-20991231T235959Z/README.md",
             "docs/development/current.md", "scripts/example.py",
         ):
             with self.subTest(path=name):

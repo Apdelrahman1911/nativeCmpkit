@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-31T20:07:08.498731+00:00",
+  "stage": "aggregate report verification",
+  "outcome": "existing single-root verifier refused nested supplement sidecar path",
+  "cause": "The reused verifier assumes every raw response_body is relative to its input directory. The report includes a separately frozen related-source-history archive whose sidecars are relative to that supplement. The 38-file supplement already verified at its actual root.",
+  "recovery": "Verify report file-set/hashes at the report root and raw response bodies at the separately recorded supplement root; keep the original report manifest as an additive failure artifact.",
+  "raw_main_snapshot_rewritten": false,
+  "raw_supplement_rewritten": false,
+  "github_mutations_performed": false
+}

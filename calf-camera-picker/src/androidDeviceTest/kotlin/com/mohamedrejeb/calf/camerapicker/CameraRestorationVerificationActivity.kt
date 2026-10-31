@@ -4,16 +4,20 @@ package com.mohamedrejeb.calf.camerapicker
 
 import android.content.ComponentName
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
 import android.os.Process
 import android.provider.MediaStore
+import android.system.Os
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.DisposableEffect
 import androidx.lifecycle.Lifecycle
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.Locale
 
@@ -26,13 +30,48 @@ import java.util.Locale
  */
 class CameraRestorationVerificationActivity : ComponentActivity() {
     private lateinit var nonce: String
-    private val preferences get() = getSharedPreferences("nativecmpkit-camera-restoration-$nonce", 0)
+    private val preferenceName get() = "nativecmpkit-camera-restoration-$nonce"
+    private val preferences get() = getSharedPreferences(preferenceName, 0)
     private var restored = false
     private var launched = false
     private var firstDraw = false
     private var activeLauncher: CameraPickerLauncher? = null
     private var drawObserver: ViewTreeObserver? = null
     private lateinit var drawListener: ViewTreeObserver.OnDrawListener
+
+    /** Publish only exact committed native XML; raw SharedPreferences files are rewritten in place. */
+    private fun SharedPreferences.Editor.commitReceipt() {
+        check(Looper.myLooper() == Looper.getMainLooper()) // This fixture's sole writer.
+        check(commit())
+        val directory = File(File(applicationInfo.dataDir).canonicalFile, "shared_prefs").also {
+            check(it.canonicalFile == it && it.isDirectory)
+        }
+        val native = File(directory, "$preferenceName.xml").also {
+            check(it.canonicalFile == it && it.isFile && it.length() in 1..16384)
+        }
+        val bytes = native.inputStream().use { input ->
+            val result = ByteArrayOutputStream(); val block = ByteArray(4096)
+            while (true) {
+                val n = input.read(block); if (n < 0) break
+                check(n > 0 && result.size() + n <= 16384); result.write(block, 0, n)
+            }
+            result.toByteArray()
+        }
+        val published = File(directory, "$preferenceName.receipt").also { check(it.canonicalFile == it) }
+        val pending = File(directory, "$preferenceName.receipt-pending").also {
+            check(it.canonicalFile == it); check(it.createNewFile()) // Exclusive nonce-owned temporary.
+        }
+        var primary: Throwable? = null
+        try {
+            pending.outputStream().use { stream -> stream.write(bytes); stream.fd.sync() }
+            // Same-directory rename leaves every already-open reader on a complete immutable inode.
+            Os.rename(pending.path, published.path)
+        } catch (failure: Throwable) { primary = failure; throw failure }
+        finally {
+            try { check(!pending.exists() || pending.delete()) }
+            catch (failure: Throwable) { if (primary != null) primary.addSuppressed(failure) else throw failure }
+        }
+    }
 
     private fun launchWhenForeground() {
         val current = activeLauncher ?: return
@@ -44,7 +83,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         check(preferences.getInt("launches", 0) == 0)
         launched = true
         preferences.edit().putInt("launches", 1).putBoolean("foregroundLaunch", true)
-            .commit().also { check(it) }
+            .commitReceipt()
         current.launch()
     }
 
@@ -74,7 +113,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         check(packageManager.getComponentEnabledSetting(recipient) == PackageManager.COMPONENT_ENABLED_STATE_ENABLED)
         check(preferences.getInt("externalLaunches", 0) == 0)
         preferences.edit().putInt("externalLaunches", 1).putInt("selectionUid", info.applicationInfo.uid)
-            .putInt("selectionRequestCode", requestCode).commit().also { check(it) }
+            .putInt("selectionRequestCode", requestCode).commitReceipt()
         super.startActivityForResult(Intent(intent).setComponent(recipient), requestCode, options)
     }
 
@@ -86,7 +125,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         preferences.edit().putString("nonce", nonce).putInt("pid", Process.myPid())
             .putInt("uid", Process.myUid()).putInt("task", taskId)
             .putInt("creates", preferences.getInt("creates", 0) + 1)
-            .putInt("orientation", resources.configuration.orientation).commit().also { check(it) }
+            .putInt("orientation", resources.configuration.orientation).commitReceipt()
         if (!restored) {
             val decor = window.decorView
             val observer = decor.viewTreeObserver
@@ -94,7 +133,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
                 if (!firstDraw) {
                     firstDraw = true
                     preferences.edit().putInt("draws", preferences.getInt("draws", 0) + 1)
-                        .commit().also { check(it) }
+                        .commitReceipt()
                     // Never launch/reenter Activity during the native draw callback.
                     check(decor.post { launchWhenForeground() })
                 }
@@ -116,7 +155,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
                 preferences.edit().putInt("results", preferences.getInt("results", 0) + 1)
                     .putString("kind", kind)
                     .putString("uri", (outcome as? CameraPickerResult.Captured)?.file?.uri?.toString() ?: "")
-                    .commit().also { check(it) }
+                    .commitReceipt()
                 // A terminal callback owns no extra external request. Keep the source
                 // result file caller-owned; the reporter reads/closes it independently.
                 finishAndRemoveTask()
@@ -131,26 +170,26 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
 
     override fun onSaveInstanceState(state: Bundle) {
         super.onSaveInstanceState(state) // Real ComponentActivity / Compose / registry state.
-        preferences.edit().putInt("saves", preferences.getInt("saves", 0) + 1).commit().also { check(it) }
+        preferences.edit().putInt("saves", preferences.getInt("saves", 0) + 1).commitReceipt()
     }
 
     override fun onPostResume() {
         super.onPostResume()
-        preferences.edit().putInt("resumes", preferences.getInt("resumes", 0) + 1).commit().also { check(it) }
+        preferences.edit().putInt("resumes", preferences.getInt("resumes", 0) + 1).commitReceipt()
         launchWhenForeground()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (::nonce.isInitialized) {
-            preferences.edit().putBoolean("windowFocused", hasFocus).commit().also { check(it) }
+            preferences.edit().putBoolean("windowFocused", hasFocus).commitReceipt()
             launchWhenForeground()
         }
     }
 
     override fun onStop() {
         super.onStop()
-        preferences.edit().putInt("stops", preferences.getInt("stops", 0) + 1).commit().also { check(it) }
+        preferences.edit().putInt("stops", preferences.getInt("stops", 0) + 1).commitReceipt()
     }
 
     override fun onDestroy() {
@@ -158,7 +197,7 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         drawObserver = null
         preferences.edit().putInt("destroys", preferences.getInt("destroys", 0) + 1)
             .putBoolean("configurationDestroyed", isChangingConfigurations)
-            .putBoolean("nonFinishingDestroyed", !isFinishing).commit().also { check(it) }
+            .putBoolean("nonFinishingDestroyed", !isFinishing).commitReceipt()
         super.onDestroy()
     }
 }

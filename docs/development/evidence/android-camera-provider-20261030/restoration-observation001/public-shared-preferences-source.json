@@ -1,0 +1,26 @@
+{
+  "actual41112748929_cause_proven": false,
+  "decoded_bytes": 30970,
+  "decoded_sha256": "a1daeb52d3211428131f08ae236709059b3c46ab8d050a59d09a935e5ca6f8cd",
+  "revision": "android-15.0.0_r1",
+  "running_emulator_framework_extracted": false,
+  "symbols": [
+    {
+      "lines": [
+        785,
+        811
+      ],
+      "name": "SharedPreferencesImpl.writeToFile",
+      "observation": "Renames current XML to backup, creates destination stream then writes map in place; raw readers can observe no base file or partial XML."
+    },
+    {
+      "lines": [
+        840,
+        849
+      ],
+      "name": "SharedPreferencesImpl.writeToFile",
+      "observation": "Sync/close then delete backup after successful map write."
+    }
+  ],
+  "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/core/java/android/app/SharedPreferencesImpl.java?format=TEXT"
+}

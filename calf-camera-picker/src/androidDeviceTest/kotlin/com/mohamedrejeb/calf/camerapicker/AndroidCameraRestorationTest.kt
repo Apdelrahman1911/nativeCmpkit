@@ -60,11 +60,20 @@ class AndroidCameraRestorationTest {
         assertEquals("com.mohamedrejeb.calf.calfcamerapicker.test", context.packageName)
         assertTrue(pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)); assertEquals(0, Process.myUid() / 100_000)
         val clientInfo = pm.getActivityInfo(client, 0)
-        assertFalse(clientInfo.exported); assertEquals(processName, clientInfo.processName)
+        // Only the disposable fixture entry is exported, protected by a platform
+        // privileged permission. Shell cannot normally start private Activities;
+        // verify its actual user0 identity/permission, never adopt/root/grant it.
+        assertTrue(clientInfo.exported); assertEquals("android.permission.DUMP", clientInfo.permission)
+        assertEquals(Process.myUid(), clientInfo.applicationInfo.uid)
+        assertEquals(2000, pm.getApplicationInfo("com.android.shell", 0).uid)
+        assertEquals(PackageManager.PERMISSION_GRANTED, pm.checkPermission("android.permission.DUMP", "com.android.shell"))
+        assertEquals(processName, clientInfo.processName)
         assertEquals(0, clientInfo.configChanges and (ActivityInfo.CONFIG_ORIENTATION or ActivityInfo.CONFIG_SCREEN_SIZE))
         val nonce = UUID.randomUUID().toString().replace("-", "")
         val prefName = "nativecmpkit-camera-restoration-$nonce"
-        assertFalse(preferenceFile(prefName).exists()); assertTrue(tasks(nonce).isEmpty())
+        assertFalse(preferenceFile(prefName).exists())
+        assertTrue(clientTaskSnapshots().isEmpty(), "Refuse a pre-existing own client task")
+        assertTrue(tasks(nonce).isEmpty())
         val before = outputs()
         val originalFinish = setting("global", "always_finish_activities", setOf("null", "0", "1"))
         val originalAutoRotate = setting("system", "accelerometer_rotation", setOf("null", "0", "1"))
@@ -78,6 +87,8 @@ class AndroidCameraRestorationTest {
         var ownedOutput: File? = null
         var tasksGone = false
         var externalTerminated = false
+        var clientTerminated = false
+        var clientLaunchAttempted = false
         var changedDelayed = false
         var changedFinish = false
         var changedRotation = false
@@ -101,6 +112,7 @@ class AndroidCameraRestorationTest {
             // The reporter survives in a background process. Start only this fixed
             // nonce-bound owned Activity through Android's native shell entry; no
             // external camera, URI grant or registry state/result is injected.
+            clientLaunchAttempted = true // Retain attempted ownership before shell/readback can fail.
             val entry = shell("am start -W --user 0 -n ${client.flattenToString()} --es nativecmpkit.nonce $nonce -f 0x18000000")
             assertEquals(listOf("Status: ok"), entry.lines().filter { it.startsWith("Status:") })
             assertEquals(listOf("Activity: ${client.flattenToString()}"), entry.lines().filter { it.startsWith("Activity:") })
@@ -210,7 +222,11 @@ class AndroidCameraRestorationTest {
             cleanup { receiver?.close() }
             cleanup {
                 val pid = snapshot(prefName).integer("pid")
-                if (pid > 0 && processState(pid) == "present") killOwnedClient(pid)
+                if (pid > 0) {
+                    if (processState(pid) == "present") killOwnedClient(pid)
+                    assertEquals("absent", processState(pid))
+                } else check(!clientLaunchAttempted) { "Missing native caller PID after attempted launch; do not infer process absence" }
+                clientTerminated = true
             }
             cleanup {
                 // Only this nonce-bound actual EXTRA_OUTPUT, never sweep a cache diff.
@@ -223,7 +239,14 @@ class AndroidCameraRestorationTest {
                 assertEquals(before, outputs())
             }
             cleanup { sibling?.let { if (it.exists()) assertTrue(it.delete()) } }
-            cleanup { if (preferenceFile(prefName).exists()) assertTrue(context.deleteSharedPreferences(prefName)) }
+            cleanup {
+                check(tasksGone && clientTerminated) { "Do not unlink a live caller's observation files" }
+                for (suffix in setOf("receipt", "receipt-pending")) {
+                    val file = observationFile(prefName, suffix)
+                    if (file.exists()) assertTrue(file.delete())
+                }
+                assertTrue(context.deleteSharedPreferences(prefName))
+            }
             if (changedRotation) {
                 cleanup { assertTrue(instrumentation.uiAutomation.setRotation(originalRotation)) }
                 cleanup { assertTrue(instrumentation.uiAutomation.setRotation(UiAutomation.ROTATION_UNFREEZE)) }
@@ -253,19 +276,24 @@ class AndroidCameraRestorationTest {
         assertEquals(if (armed) 1 else 0, reply.getInt("nativeHandlerCount"))
     }
 
+    private fun clientTaskSnapshots(): List<Pair<ActivityManager.AppTask, ActivityManager.RecentTaskInfo>> =
+        manager.appTasks.map { task ->
+            // SDK37 permits null. Refuse unavailable information, including during preflight.
+            task to assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")
+        }.filter { (_, info) -> info.baseIntent.component == client }
+
     private fun tasks(nonce: String): List<ActivityManager.AppTask> {
-        // TaskInfo may strip intent extras. Use the real same-UID Activity's committed
-        // nonce/task ID, plus exact own component; never guess a task or rely on extras.
+        // Use one native snapshot per task and exact committed nonce/UID/task ownership.
+        val candidates = clientTaskSnapshots()
         val state = snapshot("nativecmpkit-camera-restoration-$nonce")
-        if (state.isEmpty()) return emptyList()
+        if (state.isEmpty()) {
+            check(candidates.isEmpty()) { "Missing caller receipt for an existing native task; do not infer task absence" }
+            return emptyList()
+        }
         assertEquals(nonce, state["nonce"]); assertEquals(Process.myUid(), state.integer("uid"))
         val id = state.integer("task").also { check(it > 0) }
-        return manager.appTasks.filter { task ->
-            // SDK37 explicitly permits null. Never count unavailable information as
-            // task absence; read each native snapshot once, not twice across a race.
-            val info = assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")
-            info.taskId == id && info.baseIntent.component == client
-        }
+        check(candidates.all { (_, info) -> info.taskId == id }) { "Refuse a competing own client task" }
+        return candidates.filter { (_, info) -> info.taskId == id }.map { (task, _) -> task }
     }
     private fun delayedIntent() = Intent(MediaStore.ACTION_IMAGE_CAPTURE).setPackage(OwnedCameraReceiver.PACKAGE)
     private fun assertDelayedRecipient(owner: OwnedCameraReceiver) {
@@ -301,9 +329,14 @@ class AndroidCameraRestorationTest {
         return File(directory, "$name.xml").also { check(it.canonicalFile == it) }
     }
 
-    /** Read actual committed native preferences, not cached cross-process SharedPreferences. */
+    private fun observationFile(name: String, suffix: String): File {
+        check(suffix in setOf("receipt", "receipt-pending"))
+        return File(preferenceFile(name).parentFile, "$name.$suffix").also { check(it.canonicalFile == it) }
+    }
+
+    /** Read exact committed native XML from immutable atomic publication, never cached preferences. */
     private fun snapshot(name: String): Map<String, Any> {
-        val file = preferenceFile(name)
+        val file = observationFile(name, "receipt")
         if (!file.exists()) return emptyMap()
         check(file.isFile && file.length() in 1..16384)
         val bytes = file.inputStream().use { input ->

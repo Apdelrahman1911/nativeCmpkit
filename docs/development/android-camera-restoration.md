@@ -1,5 +1,29 @@
 # Android camera restoration verification — 2026-10-30
 
+## Protected entry and atomic observation batch — 2026-10-31
+
+[Actual41112748929](evidence/android-camera-provider-20261030/restoration-ci006/README.md)
+fails4/4 native API35 methods/one XML, Gradle1/49.01s, at empty own-client shell
+Status readback. Actual cause unknown; sixteen cumulative restoration executions
+accept zero methods. Source-confirmed
+[protected DUMP entry](evidence/android-camera-provider-20261030/restoration-shell-entry001/README.md)
+changes only the disposable fixture; runtime Shell UID/granted permission are
+required, never assumed. DUMP is privileged/development-grantable, not shell-exclusive.
+
+Parallel implementation review found a separate raw-preference polling race:
+Android15 rewrites SharedPreferences XML in place. The
+[owning observation patch](evidence/android-camera-provider-20261030/restoration-observation001/README.md)
+publishes only exact committed native bytes on the main thread via exclusive
+nonce-owned file/fsync/atomic same-directory rename. The reporter keeps bounded
+strict XML/type/identity validation; it never invents registry state or lifecycle.
+Existing own client tasks/unknown task information/missing attempted-launch PID
+refuse absence and unsafe observation deletion. All four native criteria remain.
+66 important synthetic/host methods pass after integration, not Android execution. ReporterAPK0/48.01s holds989/1066 inputs; unchanged receiver0/14.0s compilation reused, not native.
+New native verification must run only the four failed API35 cases; accepted provider,
+minimumAPI23 and host outcomes are not replayed. #13 stays open until original
+criteria/source/results review. Actual cache after-failure save is now independently
+terminal-success observed; a hit/speedup/security gate is not inferred.
+
 ## Tooling-only key guard failure repaired without native replay
 
 [41111395809](evidence/android-camera-provider-20261030/restoration-ci005/README.md)
@@ -63,7 +87,7 @@ executions.** Provider #78 is separately [verified and closed](evidence/android-
 
 `AndroidCameraRestorationTest` uses the public
 `rememberCameraPickerResultLauncher`, real Compose saved state and Android's
-ActivityResultRegistry. Its nonexported consumer Activity runs in a separate
+ActivityResultRegistry. Its permission-protected test consumer Activity runs in a separate
 same-UID process from the surviving instrumentation reporter. No injected
 registry result/state or manual URI grant is used.
 

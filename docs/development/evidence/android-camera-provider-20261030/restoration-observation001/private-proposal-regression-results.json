@@ -1,0 +1,47 @@
+{
+  "scope": "New focused synthetic/host observation contracts only",
+  "phases": [
+    {
+      "phase": "original-source-red",
+      "exit_code": 1,
+      "log": "original-source-red.log",
+      "native_executions": 0
+    },
+    {
+      "phase": "private-patch-green",
+      "exit_code": 1,
+      "log": "private-patch-green.log",
+      "native_executions": 0
+    },
+    {
+      "phase": "original-owning-refusal-red",
+      "exit_code": 1,
+      "log": "original-owning-refusal-red.log",
+      "native_executions": 0
+    },
+    {
+      "phase": "private-final-green",
+      "exit_code": 0,
+      "log": "private-final-green.log",
+      "native_executions": 0
+    },
+    {
+      "phase": "persistent-eight-green",
+      "exit_code": 0,
+      "methods": 8,
+      "failures": 0,
+      "errors": 0,
+      "log": "persistent-eight-green.log",
+      "native_executions": 0
+    }
+  ],
+  "final_passed": true,
+  "final_new_methods_passed": 9,
+  "original_new_source_refusals": 5,
+  "retained_initial_private_failure": "First proposed green executed 7 methods: 6 passed, one failed because the new guard counted the extension definition as an eleventh call. Only the owning guard was corrected; later implementation additions justify the final nine-method check.",
+  "shared_source_mutations": false,
+  "native_executions": 0,
+  "builds_executed": 0,
+  "persistent_added_method_count": 8,
+  "private_equivalence_check_passed": true
+}

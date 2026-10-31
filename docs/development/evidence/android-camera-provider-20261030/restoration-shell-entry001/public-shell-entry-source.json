@@ -1,0 +1,60 @@
+{
+  "DUMP_exclusive_to_shell": false,
+  "actual_running_shell_permission_or_empty_output_cause_proven": false,
+  "public_source_context_not_exact_running_emulator_attestation": true,
+  "runtime_framework_or_shell_APK_extracted": false,
+  "source_confirms_previous_nonexported_entry_contract_mismatch": true,
+  "sources": [
+    {
+      "decoded_bytes": 62500,
+      "decoded_sha256": "270eb225c4cfbde73a45f13db7b48d710ac7e2875f534299811a0119d1a4283a",
+      "lines": [
+        163
+      ],
+      "path": "packages/Shell/AndroidManifest.xml",
+      "repository": "platform/frameworks/base",
+      "review": "Shell source requests DUMP and does not request START_ANY_ACTIVITY.",
+      "revision": "android-15.0.0_r1",
+      "symbol": "Shell uses-permission",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/packages/Shell/AndroidManifest.xml?format=TEXT"
+    },
+    {
+      "decoded_bytes": 137792,
+      "decoded_sha256": "6a7487644a6ccc79feb6422788c6c9855b92467bfd9914ca620ddfc911f268c4",
+      "lines": [
+        1126,
+        1133,
+        1135,
+        1141,
+        1158,
+        1162,
+        1170,
+        1317,
+        1320,
+        1323
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+      "repository": "platform/frameworks/base",
+      "review": "START_ANY_ACTIVITY bypass and ordinary exported/component permission checks; a foreign nonexported target without a bypass is denied.",
+      "revision": "android-15.0.0_r1",
+      "symbol": "checkStartAnyActivityPermission/getComponentRestrictionForCallingPackage",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java?format=TEXT"
+    },
+    {
+      "decoded_bytes": 478281,
+      "decoded_sha256": "c66715acdf5029b617b34263b348e88cc616ac331e3e61a57efd4c73982e02fe",
+      "lines": [
+        4158,
+        4159,
+        4934,
+        4935
+      ],
+      "path": "core/res/AndroidManifest.xml",
+      "repository": "platform/frameworks/base",
+      "review": "DUMP is signature|privileged|development; it is not shell-exclusive. START_ANY_ACTIVITY is signature.",
+      "revision": "android-15.0.0_r1",
+      "symbol": "START_ANY_ACTIVITY/DUMP permission declarations",
+      "url": "https://android.googlesource.com/platform/frameworks/base/+/android-15.0.0_r1/core/res/AndroidManifest.xml?format=TEXT"
+    }
+  ]
+}

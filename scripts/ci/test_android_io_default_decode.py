@@ -1,0 +1,269 @@
+"""New modeled default-decode/source/focus guards. ZERO Android/bitmap/Coil executions."""
+from collections import Counter
+from copy import deepcopy
+from pathlib import Path
+import hashlib
+import os
+import re
+import shutil
+import sys
+import tempfile
+import time
+import unittest
+from unittest.mock import patch
+import xml.etree.ElementTree as ET
+
+import android_device_tests as device
+import android_io_documents as helper
+import library_tests as r
+import workflow_matrix as matrix
+
+FOCUS = 'android-io-default-decode'
+CLASS = 'com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest'
+SOURCE = 'calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt'
+METHODS = (
+    'defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel',
+    'defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection',
+    'repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors',
+)
+
+class AndroidIoDefaultDecodeGuards(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix='nativecmpkit-default-decode-model-')
+        self.addCleanup(temporary.cleanup); self.root = Path(temporary.name)
+        self.write('settings.gradle.kts', 'include(\n    ":calf-io",\n)\n')
+        self.write('calf-io/src/commonTest/kotlin/Unrelated.kt', '// retained and not requested\n')
+        for relative in helper.SOURCE_FILES:
+            self.copy(relative)
+        for path in (r.ROOT / 'calf-io/src/androidDeviceTest').rglob('*'):
+            if path.is_file(): self.copy(path.relative_to(r.ROOT).as_posix())
+
+    def copy(self, relative):
+        target = self.root / relative; target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes((r.ROOT / relative).read_bytes())
+
+    def write(self, relative, value):
+        target = self.root / relative; target.parent.mkdir(parents=True, exist_ok=True); target.write_text(value)
+        return target
+
+    def plan(self):
+        return r.plan(self.root, 'android-device', only_modules=('calf-io',), focus=FOCUS)
+
+    def identities(self):
+        return [{'classname': CLASS, 'name': method} for method in METHODS]
+
+    def source(self):
+        return (self.root / SOURCE).read_text()
+
+    def collect(self, cases=None, *, marker=1, split=False, age=0):
+        plan = self.plan(); cases = self.identities() if cases is None else cases
+        folder = self.root / plan['expected'][0]['report_directory']
+        if folder.exists(): shutil.rmtree(folder)
+        chunks = [cases[:1], cases[1:]] if split else [cases]
+        for index, chunk in enumerate(chunks):
+            suite = ET.Element('testsuite')
+            for case in chunk:
+                node = ET.SubElement(suite, 'testcase', classname=case['classname'], name=case['name'])
+                if case.get('status', 'passed') != 'passed': ET.SubElement(node, case['status'])
+            target = folder / ('TEST-default-model-' + str(index) + '.xml')
+            target.parent.mkdir(parents=True, exist_ok=True); target.write_bytes(ET.tostring(suite))
+        now = time.time_ns()
+        return r.collect_reports(self.root, plan, now - 1_000_000_000 + age, now + 1_000_000_000 + age,
+                                 Counter({plan['expected'][0]['task']: marker}))
+
+    def test_exact_three_default_methods_and_class_filter_exclude_all_five_prior_methods(self):
+        plan = self.plan(); item, = plan['expected']
+        self.assertTrue(r.validate_test_focus(plan)); self.assertFalse(plan['complete_suite_requested'])
+        self.assertEqual(CLASS, item['test_filter']); self.assertEqual(self.identities(), item['required_testcases'])
+        self.assertIn(SOURCE, item['test_source_files']); self.assertIn(r.ANDROID_IO_DEVICE_SOURCE, item['test_source_files'])
+        self.assertFalse(set(METHODS) & set(r.ANDROID_IO_PROVIDER_METHODS))
+        self.assertNotIn(r.android_io_oversize_identities()[0], item['required_testcases'])
+
+    def test_finite_profile_retains_eleven_full_slots_and_eight_android_modules(self):
+        row, = matrix.matrix(FOCUS)['include']
+        self.assertEqual(('android-device-api35', 'calf-io', FOCUS), (row['slot'], row['test-modules'], row['test-focus']))
+        self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(8, len(r.MINIMUM_MODULES['android-device']))
+        self.assertEqual(5, len(r.android_io_provider_identities()))
+        choices = re.search(r'options: \[([^\n]+)\]', (r.ROOT / '.github/workflows/gradle.yml').read_text()).group(1)
+        self.assertEqual(set(matrix.PROFILES), {part.strip() for part in choices.split(',')})
+
+    def test_new_test_source_and_native_provider_are_selected_inputs_not_outputs(self):
+        before = r.snapshot_inputs(self.root)
+        self.assertEqual(hashlib.sha256((self.root / SOURCE).read_bytes()).hexdigest(), before[SOURCE])
+        provider = 'calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt'
+        self.assertIn(provider, before)
+        self.write('calf-io/build/outputs/fake.xml', '<testsuite/>')
+        self.assertEqual(before, r.snapshot_inputs(self.root))
+
+    def test_wrong_suite_module_duplicate_wildcard_and_minimum_api_refuse_before_host_or_outputs(self):
+        for suite, modules, focus in (('desktop', ('calf-io',), FOCUS), ('android-host', ('calf-io',), FOCUS),
+                ('android-device', ('calf-ui',), FOCUS), ('android-device', ('calf-io', 'calf-io'), FOCUS),
+                ('android-device', ('calf-io', 'calf-ui'), FOCUS), ('android-device', ('calf-io',), 'android-io-default-*')):
+            with self.subTest(suite=suite, modules=modules), self.assertRaises(ValueError):
+                r.plan(self.root, suite, only_modules=modules, focus=focus)
+        with patch.object(device, 'require_host') as host:
+            with self.assertRaises(ValueError):
+                device.run(self.root, 'build/ci-verification/refused', only_modules=('calf-io',), focus=FOCUS, api_level=23)
+            host.assert_not_called()
+        self.assertFalse((self.root / 'build').exists())
+
+    def test_changed_declarations_ignore_custom_decoder_and_missing_source_refuse(self):
+        path = self.root / SOURCE; original = path.read_text()
+        for changed in (original.replace(METHODS[0], 'unreviewed'), original.replace('@Test', '@Ignore @Test', 1),
+                        original.replace('class AndroidIoDefaultDecodeTest', 'class ChangedTest'),
+                        original.replace('package com.mohamedrejeb.calf.io', 'package foreign.io'),
+                        original + '\n@Test fun unreviewedExtra() {}\n',
+                        original.replace('.size(Size.ORIGINAL)', '.decoderFactory(unsafe).size(Size.ORIGINAL)'),
+                        original.replace('ImageLoader.Builder(context)', 'ImageLoader.Builder(context).imageDecoderEnabled(false)')):
+            with self.subTest(change=hashlib.sha256(changed.encode()).hexdigest()):
+                path.write_text(changed)
+                with self.assertRaises(ValueError): self.plan()
+        path.unlink()
+        with self.assertRaises((OSError, ValueError)): self.plan()
+
+    def test_tampered_filter_task_inventory_report_source_and_scope_cannot_run(self):
+        original = self.plan()
+        for key, value in (('test_filter', CLASS + '*'), ('module', 'calf-file-picker-coil'), ('project', ':calf-ui'),
+                ('task', ':calf-io:testAndroidHostTest'), ('report_directory', 'calf-ui/build/test-results/forged'),
+                ('required_testcases', self.identities()[:-1]), ('test_source_files', [])):
+            changed = deepcopy(original); changed['expected'][0][key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError): r.validate_test_focus(changed)
+        for key, value in (('complete_suite_requested', True), ('explicit_module_subset', []), ('suite', 'android-host')):
+            changed = deepcopy(original); changed[key] = value
+            with self.subTest(key=key), self.assertRaises(ValueError): r.validate_test_focus(changed)
+
+    def test_same_unchanged_helper_contract_is_required_for_the_new_cross_uid_default_case(self):
+        plan = self.plan(); self.assertTrue(r.android_io_documents_required(plan))
+        self.assertEqual(35, plan['android_io_documents']['verification_api_level'])
+        self.assertEqual(helper.source_contract(self.root), plan['android_io_documents']['source_contract'])
+        self.assertNotIn(SOURCE, helper.SOURCE_FILES, 'New selected test is frozen in library inputs, not a helper rebuild')
+        for mutation in ({}, None):
+            changed = deepcopy(plan)
+            if mutation is None: changed.pop('android_io_documents')
+            else: changed['android_io_documents'] = mutation
+            with self.assertRaises(ValueError): r.validate_test_focus(changed)
+
+    def test_accepted_preopen_oversize_has_no_helper_or_new_default_methods(self):
+        accepted = r.plan(self.root, 'android-device', only_modules=('calf-io',), focus=r.ANDROID_IO_OVERSIZE_FOCUS)
+        self.assertFalse(r.android_io_documents_required(accepted)); self.assertNotIn('android_io_documents', accepted)
+        self.assertEqual(r.android_io_oversize_identities(), accepted['expected'][0]['required_testcases'])
+
+    def test_synthetic_three_case_xml_needs_one_fresh_report_and_exact_task_marker(self):
+        result = self.collect(); self.assertEqual([], result['errors'])
+        self.assertEqual(3, result['totals']['executed']); self.assertEqual(3, result['totals']['passed'])
+        self.assertEqual(1, len(result['modules'][0]['reports']))
+        self.assertTrue(all(case['source'] == SOURCE for case in result['modules'][0]['native_scenarios']))
+        for options in ({'marker': 0}, {'marker': 2}, {'age': 10_000_000_000}, {'split': True}):
+            with self.subTest(options=options): self.assertTrue(self.collect(**options)['errors'])
+
+    def test_missing_duplicate_foreign_prior_failed_and_skipped_xml_cannot_be_native_green(self):
+        cases = self.identities()
+        for altered in ([], cases[:-1], cases + [cases[0]], cases + r.android_io_provider_identities()[:1],
+                [dict(case, classname='foreign.DecodeTest') for case in cases],
+                [dict(case, name=case['name'] + '[android]') for case in cases],
+                *([dict(case, status=status) if index == 0 else case for index, case in enumerate(cases)]
+                    for status in ('failure', 'error', 'skipped'))):
+            with self.subTest(size=len(altered)): self.assertTrue(self.collect(altered)['errors'])
+
+    def test_assembly_has_no_native_task_or_owned_helper_flag_and_native_requires_preparation(self):
+        plan = self.plan()
+        assembly = r.gradle_command('android-device', plan, root=self.root, android_serial=device.SERIAL, for_assembly=True)
+        self.assertEqual(':calf-io:assembleAndroidDeviceTest', assembly[-1])
+        self.assertFalse(any('nativecmpkitOwnedIoDocuments=' in value for value in assembly))
+        self.assertNotIn(':calf-io:connectedAndroidDeviceTest', assembly)
+        with self.assertRaises(ValueError): r.gradle_command('android-device', plan, root=self.root, android_serial=device.SERIAL)
+
+    def test_png_uses_native_lossless_encoder_real_null_binary_metadata_and_partial_fetch(self):
+        source = self.source(); first = source.split('@Test fun ' + METHODS[0], 1)[1].split('@Test fun ', 1)[0]
+        for token in ('Bitmap.CompressFormat.PNG', 'DeviceIoFileProvider.UNKNOWN_SIZE', 'assertNull(source.getSize(context)',
+                      'bytes.size > 64 * 1024', 'requirePartialFetch = true', 'decoded.getPixels', 'assertContentEquals(pixels, actual',
+                      'assertEquals(0, localStats(uri).getInt("opens")'):
+            self.assertIn(token, first)
+        self.assertIn('buffered.buffer.size < expectedBytes.size.toLong()', source)
+        self.assertIn('buffered.peek().use', source); self.assertIn('peek.readByteArray(prefix.size.toLong())', source)
+        witness = source.split('private inner class DefaultDecodeWitness', 1)[1].split('private inner class DefaultPipeline', 1)[0]
+        self.assertNotIn('.readByteArray()', witness); self.assertNotIn('.readBytes()', witness)
+        self.assertIn('file.outputStream().use', source); self.assertIn('encoded.compress(format, 100, output)', source)
+
+    def test_jpeg_writes_native_exif_and_checks_independent_rotation_and_reflection_pixels(self):
+        source = self.source(); jpeg = source.split('@Test fun ' + METHODS[1], 1)[1].split('@Test fun ', 1)[0]
+        for token in ('Bitmap.CompressFormat.JPEG', 'ExifInterface.ORIENTATION_ROTATE_90', 'ExifInterface.ORIENTATION_TRANSVERSE',
+                'setAttribute(ExifInterface.TAG_ORIENTATION', 'saveAttributes()', 'getAttributeInt(ExifInterface.TAG_ORIENTATION',
+                'assertEquals(height, decoded.width)', 'assertEquals(width, decoded.height)', 'assertRgbNear(expected[index], samples[index])'):
+            self.assertIn(token, jpeg)
+        self.assertNotIn('ExifUtils', jpeg); self.assertNotIn('BitmapFactory.decode', jpeg)
+        self.assertIn('intArrayOf(Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN)', jpeg)
+        self.assertIn('intArrayOf(Color.YELLOW, Color.GREEN, Color.BLUE, Color.RED)', jpeg)
+
+    def test_actual_pipeline_adds_only_fetcher_and_observer_never_replaces_default_decoder(self):
+        source = self.source(); pipeline = source.split('private inner class DefaultPipeline', 1)[1].split('private fun pipeline', 1)[0]
+        self.assertIn('.components { add(KmpFileFetcher.Factory()) }', pipeline)
+        self.assertIn('.eventListenerFactory', pipeline); self.assertIn('return loader.execute(request)', pipeline)
+        self.assertIn('.size(Size.ORIGINAL)', pipeline); self.assertIn('.allowHardware(false)', pipeline)
+        self.assertIn('.memoryCachePolicy(CachePolicy.DISABLED).diskCachePolicy(CachePolicy.DISABLED)', pipeline)
+        for bypass in ('decoderFactory(', 'imageDecoderEnabled(', 'BitmapFactory.decode', 'add(BitmapFactoryDecoder', 'Decoder.Factory'):
+            self.assertNotIn(bypass, source)
+        self.assertIn('assertIs<BitmapFactoryDecoder>(decoder', source)
+        self.assertIn('assertNull(actual.source.metadata); assertNull(actual.source.fileOrNull()', source)
+
+    def test_repeated_corrupt_default_case_has_actual_grant_uid_and_monotonic_close_witnesses(self):
+        source = self.source(); corrupt = source.split('@Test fun ' + METHODS[2], 1)[1].split('/** Observes', 1)[0]
+        for token in ('grantPersistedTree()', 'repeat(4)', 'DeviceDescriptorIdentity.fromProviderRegularFile',
+                'assertIs<ErrorResult>', 'assertIs<IllegalStateException>', 'witness.assertOutcome(success = false)',
+                'waitUntil { remoteStats(control, id).getInt("closes") == count }', 'assertEquals(count, final.getInt("opens"))',
+                'assertEquals(0, final.getInt("closeErrors"))', 'openDeviceDescriptorsFor(assertNotNull(witness.identity.get()))'):
+            self.assertIn(token, corrupt)
+        self.assertIn('assertNotEquals(Process.myUid(), it.getInt("uid"))', source)
+        self.assertIn('context.checkSelfPermission("android.permission.MANAGE_DOCUMENTS")', source)
+        self.assertIn('caller.ioDocumentResultCode', source); self.assertIn('result.clipData', source)
+        self.assertNotIn('grantUriPermission(', source)
+
+    def test_successful_native_bitmaps_are_owned_before_result_contract_assertions(self):
+        source = self.source()
+        marker = 'bitmap(assertIs<BitmapImage>(result.image).bitmap) { decoded ->'
+        contract = 'assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)'
+        for method in METHODS[:2]:
+            with self.subTest(method=method):
+                body = source.split('@Test fun ' + method, 1)[1].split('@Test fun ', 1)[0]
+                start = body.index(marker) + len(marker)
+                depth, end = 1, start
+                while depth and end < len(body):
+                    depth += (body[end] == '{') - (body[end] == '}')
+                    end += 1
+                self.assertEqual(0, depth, 'The concrete bitmap ownership block must close')
+                self.assertIn(contract, body[start:end - 1],
+                              'Any result-contract assertion must run inside deterministic bitmap recycling')
+
+    def test_native_ownership_checks_predecode_and_after_and_preserves_primary_cleanup_errors(self):
+        source = self.source()
+        self.assertIn('assertEquals(1, openDeviceDescriptorsFor(native)', source)
+        self.assertIn('assertEquals(0, openDeviceDescriptorsFor(assertNotNull(identity.get())))', source)
+        self.assertIn('assertNotEquals(Looper.getMainLooper(), Looper.myLooper())', source)
+        self.assertIn('pipeline.loader.shutdown()', source); self.assertIn('bitmap.recycle()', source)
+        self.assertIn('file.createNewFile()', source); self.assertIn('directory.canonicalFile.parentFile', source)
+        self.assertIn('first.addSuppressed(failure)', source); self.assertIn('if (primary == null) cleanup?.let { throw it }', source)
+        self.assertIn('control.close()', source); self.assertIn('releaseBookmark(context)', source)
+        self.assertIn('20_000_000_000L', source)
+
+    def test_source_limits_are_explicit_not_minimum_platform_memory_key_or_security_certification(self):
+        plan = self.plan(); scope = plan['scope']
+        for limit in ('No kernel seek/ImageDecoder metadata route', 'peak memory', 'request-key/invalidation',
+                      'other-platform', 'security/release', 'same-UID', 'separate-UID'):
+            self.assertIn(limit, scope)
+        self.assertFalse(plan['android_io_documents']['source_contract']['native_or_compile_success_inferred'])
+        self.assertIn('assertEquals(35, Build.VERSION.SDK_INT)', self.source())
+        self.assertIn('file.length() in 1L..512L * 1024L', self.source())
+        self.assertNotIn('org.robolectric', self.source())
+        self.assertNotIn('http', self.source())
+
+    def test_workflow_reuses_exact_sdk_helper_identity_order_and_has_no_permissions_or_publish_delta(self):
+        workflow = (r.ROOT / '.github/workflows/gradle.yml').read_text()
+        self.assertIn("inputs.profile == 'android-io-default-decode'", workflow)
+        self.assertIn('build-tools;36.0.0', workflow)
+        controller = (r.ROOT / 'scripts/ci/android_device_tests.py').read_text()
+        self.assertIn('lt.ANDROID_IO_DEFAULT_DECODE_FOCUS', controller)
+        owning = controller.split('if lt.android_io_documents_required(plan):', 1)[1].split('if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:', 1)[0]
+        self.assertLess(owning.index('io_documents.prepare()'), owning.index('output / "apk-assembly.log"'))
+        self.assertIn('validate_prepared_receipt', owning)
+
+if __name__ == '__main__': unittest.main()

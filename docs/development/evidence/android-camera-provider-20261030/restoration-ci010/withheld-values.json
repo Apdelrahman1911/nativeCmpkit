@@ -1,0 +1,83 @@
+{
+  "schema": "nativecmpkit-public-evidence-withheld-values-v1",
+  "run_id": 41246939704,
+  "source_revision": "6eaac5e01e5631d567e571c32d6523d663a8a184",
+  "value_digest_encoding": "SHA-256 of the original scalar UTF-8 bytes, without JSON quotes or a trailing newline.",
+  "reformatted_JSON_scope": "Only the two disclosed JSON files are reserialized after substitutions. All other copied files, including both failure XMLs, remain byte-exact.",
+  "commands_are_display_only_not_executable_requests": true,
+  "private_prefix_substitutions": [
+    {
+      "original_file": "build/ci-verification/android-device-api35/plan.json",
+      "archived_file": "reports/build/ci-verification/android-device-api35/plan.json",
+      "json_pointer": "/create_avd_command/0",
+      "original_scalar_utf8_bytes": 60,
+      "original_scalar_sha256": "d6b1f52db8bfcdaa9ed2b7a4e97ba35d9097538fb1d2a208155e5e558b680038",
+      "replacement": "${ANDROID_SDK_ROOT}/cmdline-tools/23.0/bin/avdmanager",
+      "reason": "Private absolute command prefix; archived command is display-only provenance, not an executable verification request."
+    },
+    {
+      "original_file": "build/ci-verification/android-device-api35/plan.json",
+      "archived_file": "reports/build/ci-verification/android-device-api35/plan.json",
+      "json_pointer": "/launch_command/0",
+      "original_scalar_utf8_bytes": 44,
+      "original_scalar_sha256": "9de252cab9fec1472e5b7140069c5917e7eb864f0b1edea5a04ce6596dcdb995",
+      "replacement": "${ANDROID_SDK_ROOT}/emulator/emulator",
+      "reason": "Private absolute command prefix; archived command is display-only provenance, not an executable verification request."
+    },
+    {
+      "original_file": "request-frozen/source-preflight.json",
+      "archived_file": "request-frozen/source-preflight.json",
+      "json_pointer": "/slots/0/command/0",
+      "original_scalar_utf8_bytes": 16,
+      "original_scalar_sha256": "31f2aee4e71d21fbe5cf8b01ff0e069b9275f58929596ceb00d14d90e3e16cd6",
+      "replacement": "python3",
+      "reason": "Private absolute command prefix; archived command is display-only provenance, not an executable verification request."
+    },
+    {
+      "original_file": "request-frozen/source-preflight.json",
+      "archived_file": "request-frozen/source-preflight.json",
+      "json_pointer": "/slots/0/command/2",
+      "original_scalar_utf8_bytes": 62,
+      "original_scalar_sha256": "9d188dc5762db46fe8ee973fa8ef4411199d71a707636ade2721a84fdd464159",
+      "replacement": "scripts/ci/android_device_tests.py",
+      "reason": "Private absolute command prefix; archived command is display-only provenance, not an executable verification request."
+    }
+  ],
+  "whole_artifact_objects_withheld_hash_only": [
+    {
+      "origin": "original-artifact-object",
+      "original_path": "build/ci-runtime/library-cache-restore.json",
+      "original_bytes": 931,
+      "original_sha256": "544878bd9cbd73bd7799c0d29e0e54a48d1b3bf5df5594ebaf9496d76e24c171",
+      "content_archived": false,
+      "reason": "Cache-action receipt omitted from this compact camera-only archive; original bytes and hash retained, no cache trust or speedup inference."
+    },
+    {
+      "origin": "original-artifact-object",
+      "original_path": "build/ci-runtime/library-cache-save.json",
+      "original_bytes": 1010,
+      "original_sha256": "b68e85f7f509cfa83c92b9a57ab35e08601987e18075c74320352fc6ad58edf8",
+      "content_archived": false,
+      "reason": "Cache-action receipt omitted from this compact camera-only archive; original bytes and hash retained, no cache trust or speedup inference."
+    },
+    {
+      "origin": "original-artifact-object",
+      "original_path": "build/ci-runtime/library-dependencies.json",
+      "original_bytes": 10771,
+      "original_sha256": "877cf46477cf5d25f917f010384378c1d2d0afc5f79ecee3a8103b103b322c5a",
+      "content_archived": false,
+      "reason": "Dependency recipe omitted from this compact camera-only archive; original bytes and hash retained, no dependency or security clearance."
+    },
+    {
+      "origin": "original-artifact-object",
+      "original_path": "build/ci-verification/android-device-api35/failure-diagnostics.json",
+      "original_bytes": 28031,
+      "original_sha256": "79d4712f5fbec9f8964b81b21615fbd6ac60165943015b89767e2af8f87e5315",
+      "content_archived": false,
+      "reason": "Entire diagnostic JSON withheld: it embeds raw log excerpts and private hosted-runner paths. Exact original failure XML is separately preserved without redaction."
+    }
+  ],
+  "raw_zip_logs_APKs_keys_native_binaries_source_bodies_or_private_paths_included": false,
+  "original_failure_text_redacted": false,
+  "public_Android_OS_path_retained": "The fixed framework.jar location in the original NoSuchFieldException is a public Android OS path, not a private machine path."
+}

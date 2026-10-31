@@ -1,0 +1,81 @@
+{
+  "all_original_criteria_and_actual_source_results_cleanup_review_required": true,
+  "camera_hardware_vendor_minimum_or_release_security_pass_inferred": false,
+  "changed_reporter_compiler0_41_01_reused_exact_selected_inputs": true,
+  "fresh_target_executions_requested": 1,
+  "genuine_running_ABI_transaction_permission_native_setting_complete_readback_and_exact_restore_required": true,
+  "manual_grants_force_destroy_guessed_transaction_or_hidden_policy_bypass": false,
+  "matrix": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "test-focus": "android-camera-real-restoration-dont-keep",
+      "test-modules": "calf-camera-picker"
+    }
+  ],
+  "only_one_failed_case_requested": true,
+  "plans": [
+    {
+      "complete_suite_requested": false,
+      "expected": [
+        {
+          "agp_declared_xml_directory": "calf-camera-picker/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+          "module": "calf-camera-picker",
+          "project": ":calf-camera-picker",
+          "report_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain",
+          "required_testcases": [
+            {
+              "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+              "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+            }
+          ],
+          "task": ":calf-camera-picker:connectedAndroidDeviceTest",
+          "test_filter": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest#nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+          "test_source_files": [
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt",
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt",
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt",
+            "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt",
+            "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt"
+          ],
+          "test_source_sets": [
+            "commonTest",
+            "androidDeviceTest"
+          ],
+          "utp_results_directory": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain"
+        }
+      ],
+      "explicit_module_subset": [
+        "calf-camera-picker"
+      ],
+      "explicit_test_focus": "android-camera-real-restoration-dont-keep",
+      "inherited_test_source_sets": [
+        "commonTest",
+        "materialTest",
+        "androidDeviceTest"
+      ],
+      "schema_version": 1,
+      "scope": "Only the failed native don't-keep-activities method from41242704209. Three accepted rotation/kernel-process-death/cancellation methods are reused by exact applicable source, not replayed. Genuine native service toggle/readback and exact original scalar/runtime restoration preserve the unchanged Activity destruction/public launcher/registry/grants/readable-file criteria. The scalar/cache contract gap is distinct from the unknown actual timeout cause. No forced Activity destruction, manual state/result/grant, hardware/vendor/physical/minimum/packaged/API-ABI/heap/security/release certification.",
+      "suite": "android-device",
+      "test_bearing_modules_not_requested": [
+        "calf-file-picker",
+        "calf-geo",
+        "calf-io",
+        "calf-navigation",
+        "calf-share",
+        "calf-ui",
+        "calf-webview"
+      ],
+      "uncovered": []
+    }
+  ],
+  "profile": "android-camera-restoration-dont-keep",
+  "runtime_reflection_and_native_dump_availability_unknown_refuses_before_mutation": true,
+  "three_accepted_native009_cases_replayed": false
+}

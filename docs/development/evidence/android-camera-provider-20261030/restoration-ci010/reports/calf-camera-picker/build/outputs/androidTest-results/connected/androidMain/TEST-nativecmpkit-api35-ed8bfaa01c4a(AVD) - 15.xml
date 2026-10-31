@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="1" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-31T22:20:25" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" tests="1" failures="1" errors="0" skipped="0" time="0.367" timestamp="2026-10-31T22:20:25" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="nativeDontKeepActivitiesRestoresOneReadableCapturedFile" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" time="0.367">
+      <failure>java.lang.NoSuchFieldException: No field TRANSACTION_setAlwaysFinish in class Landroid/app/IActivityManager$Stub; (declaration of 'android.app.IActivityManager$Stub' appears in /system/framework/framework.jar)
+	at java.lang.Class.getDeclaredField(Native Method)
+	at com.mohamedrejeb.calf.camerapicker.OwnedAlwaysFinish.runningTransaction(OwnedAlwaysFinish.kt:94)
+	at com.mohamedrejeb.calf.camerapicker.OwnedAlwaysFinish.&lt;init&gt;(OwnedAlwaysFinish.kt:38)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture(AndroidCameraRestorationTest.kt:108)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture$default(AndroidCameraRestorationTest.kt:57)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.nativeDontKeepActivitiesRestoresOneReadableCapturedFile(AndroidCameraRestorationTest.kt:52)
+</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

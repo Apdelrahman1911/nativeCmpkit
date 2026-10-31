@@ -1,0 +1,152 @@
+{
+  "global_prior_evidence_not_reset_or_recounted": true,
+  "issues": {
+    "45": {
+      "finding": "IO-008",
+      "original_body_sha256": "b1d663c1802b0b0fc5b137a53def6a27ab4da928a153731b0e64312ff94a902d",
+      "original_criteria": [
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "No Apple/iCloud/third-party folder callback or security scope execution.",
+          "criterion": "iCloud/third-party folder access after callback",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "Regular Android descriptor closure is observed, not Apple security-scope balancing.",
+          "criterion": "Stream open/read/close balances scope",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [
+            "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead"
+          ],
+          "boundary_or_remaining_requirement": "Fixed synthetic read-only tree grant release/revoke and owned secondary client restart verified. No DocumentsUI/system/cloud provider, arbitrary folder, whole-app restart or reboot.",
+          "criterion": "Android SAF grant release/revoke/restart",
+          "current_run_disposition": "accepted-fixed-API35-subset"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "No iOS stale bookmark or Apple access denial.",
+          "criterion": "iOS stale bookmark and access denial",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "Sandbox-owned helper backing files are not fresh public sandbox-local file:// path regression acceptance.",
+          "criterion": "Sandbox-local file path",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "No actual picked save destination reopened after callback.",
+          "criterion": "Save destination reopened after callback",
+          "current_run_disposition": "not-executed-in-this-run"
+        }
+      ],
+      "original_state": "open",
+      "original_title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false
+    },
+    "55": {
+      "finding": "IO-019",
+      "original_body_sha256": "0d464d334603dc0bab942f59db598d400f17ab7495207ec88b1439b4033ca16c",
+      "original_criteria": [
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "Fixed owned DocumentsProvider only; no ExternalStorageProvider, Downloads or cloud/system provider execution.",
+          "criterion": "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [
+            "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+            "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+          ],
+          "boundary_or_remaining_requirement": "Public fixed tree exists/name/isDirectory observed before and after owned secondary-client restart and transient provider reacquisition; not all providers or reboot.",
+          "criterion": "Folder exists/name/isDirectory immediately and after restart",
+          "current_run_disposition": "accepted-fixed-API35-subset"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "No new single-document or file:// regression method; tree-child metadata is not those broader regressions.",
+          "criterion": "Single-document and file:// regression tests",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+            "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+          ],
+          "boundary_or_remaining_requirement": "Actual revoked tree/child denial and stale unstable Binder DeadObjectException with production metadata/content recovery. No permanent unavailability or all provider failure policies.",
+          "criterion": "Permission denial and unavailable provider",
+          "current_run_disposition": "accepted-denial-and-transient-death-subset"
+        }
+      ],
+      "original_state": "open",
+      "original_title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence",
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false
+    },
+    "57": {
+      "finding": "IO-021",
+      "original_body_sha256": "a6f7ebbddca0ce06e2728b1ce478c45f67453293735369c8dba39a63b497791f",
+      "original_criteria": [
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "No peak-memory, large-image or target-comparison benchmark.",
+          "criterion": "Large image peak-memory benchmark by target",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [
+            "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+          ],
+          "boundary_or_remaining_requirement": "Actual production fetcher/Coil engine closes real transferred source after explicit injected decoder failure; no default bitmap decoder/EXIF/seek coverage.",
+          "criterion": "Decoder failure closes source",
+          "current_run_disposition": "accepted-API35-injected-decoder-failure"
+        },
+        {
+          "accepted_methods": [
+            "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess"
+          ],
+          "boundary_or_remaining_requirement": "Actual coroutine cancellation closes real source under explicitly injected paused decoder; no every-stage or every-target inference.",
+          "criterion": "Coil cancellation closes provider stream",
+          "current_run_disposition": "accepted-API35-injected-pause-cancellation"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "Caches disabled for lifecycle checks; no stable request key or modified-file invalidation policy execution.",
+          "criterion": "Stable request key and modified-file invalidation policy",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [],
+          "boundary_or_remaining_requirement": "Non-main Looper assertions show these source reads are correctly dispatched. They do not execute main-thread misuse guidance/test/sample.",
+          "criterion": "Main-thread misuse guidance test/sample",
+          "current_run_disposition": "not-executed-in-this-run"
+        },
+        {
+          "accepted_methods": [
+            "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+          ],
+          "boundary_or_remaining_requirement": "Full fixed binary payload equals actual Coil source bytes, with bookmark/survivor read parity supporting IO. Not all file types/targets/default bitmap decoding.",
+          "criterion": "Binary content parity",
+          "current_run_disposition": "accepted-fixed-binary-source-parity"
+        }
+      ],
+      "original_state": "open",
+      "original_title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false
+    }
+  },
+  "no_GitHub_mutations_by_reviewer": true,
+  "original_issue_state_snapshots": "request-copy/issue-{45,55,57}-before.json",
+  "run_attempt": 1,
+  "run_id": 41245152018,
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14"
+}

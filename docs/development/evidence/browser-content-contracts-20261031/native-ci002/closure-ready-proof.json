@@ -1,0 +1,203 @@
+{
+  "accepted_original_browser_or18plus1_guard_replay": false,
+  "actual_counts": {
+    "failed_or_error_or_skipped_or_NA_target_executions": 0,
+    "original_XML_files": 2,
+    "passed_target_executions": 4,
+    "target_executions": 4,
+    "unique_methods": 2
+  },
+  "artifact_download_attempts_each": 1,
+  "attempt": 1,
+  "audit_id": "NATIVE-004",
+  "cleanup_verified": {
+    "bounded_HTTP_session_close_under_NonCancellable": true,
+    "controller_Gradle_and_owning_job_success_both_targets": true,
+    "load_and_message_listener_removal": true,
+    "native_viewport_detachment_and_exact_disposal": true,
+    "no_cleanup_error_waived": true,
+    "passing_whole_methods_include_finally": true
+  },
+  "closure_ready": true,
+  "fresh_task_marker_each": 1,
+  "issue": 63,
+  "new_builds_tests_dispatches_Git_GitHub_mutations_by_result_reviewer": 0,
+  "original_ZIP_and_XML_hashes_counts_and_runtime_daemon_agreement_independently_verified": true,
+  "original_criteria": [
+    {
+      "criterion": "Direct and remembered Data\u2192Url\u2192Data transitions",
+      "required_method": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
+      "source_evidence": "BrowserWebViewContentAcceptanceTest.kt:25-95: both remember factories, direct and remembered changes, actual native connected document/title/page/attributes and stable owner/frame/dispose assertions.",
+      "targets": [
+        "JS",
+        "Wasm"
+      ],
+      "verified": true
+    },
+    {
+      "criterion": "Navigator/state native iframe attributes and document equivalence",
+      "required_method": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
+      "source_evidence": "BrowserWebViewContentAcceptanceTest.kt:54-66 and191-209: actual all-attribute/document snapshots after each public state/navigator URL/HTML path; actual document completion, not src alone.",
+      "targets": [
+        "JS",
+        "Wasm"
+      ],
+      "verified": true
+    },
+    {
+      "criterion": "Cross-origin CSP/XFO refusal cannot retain or misreport old content",
+      "required_method": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument",
+      "source_evidence": "BrowserWebViewContentAcceptanceTest.kt:101-188: exact second-origin native trusted positive postMessage before refusals; actual server request counts and emitted frame-ancestors none/XFO DENY receipts; newer trusted native load plus requested URL/Finished/unreadable document; srcdoc/title/lastLoadedUrl clearance; absent denied script before and after public inline recovery and later real posted-message receipt barrier. Null cross-origin readability alone not accepted.",
+      "targets": [
+        "JS",
+        "Wasm"
+      ],
+      "verified": true
+    }
+  ],
+  "original_issue_body_sha256": "6aca8789eb7910fb3dfb2b66f297aab826785958788ea4bb4c07a00bc7bac694",
+  "original_issue_state_before": "open",
+  "owning_browser_label_reader_refusal_preserved": "browser-label-reader-refusal001.json (canonical KGP ChromeHeadless156 spelling; no native/CI cause)",
+  "prior_native001_both_startup_failures_preserved": true,
+  "reviewed_at_utc": "2026-10-31T22:23:51.757619+00:00",
+  "run": 41246979957,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41246979957",
+  "schema_version": 1,
+  "scope_limits": [
+    "Only this two-method Chromium JS/Wasm native library acceptance; no other engines, physical/vendor/minimum, production network or untrusted sandbox security audit.",
+    "No #64/#65/#40 or consumer/packaging/API-ABI/GC/heap/dependency/legal/security/readiness/publishing clearance.",
+    "Lead owns issue mutation/readback and later sanitized public archive; no pending follow-up documentation may delay verified closure."
+  ],
+  "serial_two_target_job_windows_verified": true,
+  "source_integrity": {
+    "30_relevant_reviewed_sources_frozen": true,
+    "additional_camera_only_control_changes_reviewed_and_exact_browser_plans_unchanged": true,
+    "all1012_library1089_combined_inputs_independently_match_immutable_Git": true,
+    "approved_DI_postimages_exact": true,
+    "native_HTTP_header_message_order_assertions_public_production_and_API_bytes_unchanged": true
+  },
+  "source_revision": "6eaac5e01e5631d567e571c32d6523d663a8a184",
+  "source_tree_clean_and_inputs_unchanged_each": true,
+  "targets": [
+    {
+      "actual_browser": {
+        "name": "Google Chrome",
+        "version": "156.0.8078.47"
+      },
+      "actual_cases": [
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_java": {
+        "major": 17,
+        "version": "17.0.21"
+      },
+      "artifact_id": 13060375411,
+      "execution": {
+        "elapsed_seconds": 263.07,
+        "exit_code": 0
+      },
+      "job_completed_at": "2026-10-31T22:17:36Z",
+      "job_id": 124672773900,
+      "job_started_at": "2026-10-31T22:12:32Z",
+      "original_ZIP_sha256": "1de4a56e7d8637388b09caa3467568ba28e8215004e359c61449faafda1e34e1",
+      "original_reports": [
+        {
+          "actual_counts": {
+            "errors": 0,
+            "executed": 2,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 2,
+            "skipped": 0,
+            "tests": 2,
+            "unexpected_skipped": 0
+          },
+          "original_XML_retained": true,
+          "path": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest.xml",
+          "sha256": "e115c4e925e9410ef8543d001bd8b4446c34fdde87aab5f6f57f5eaa4bd01f7d",
+          "zip_mtime": [
+            2026,
+            10,
+            31,
+            22,
+            17,
+            26
+          ]
+        }
+      ],
+      "raw_results_record": "independent-browser-js-review.json",
+      "slot": "browser-js",
+      "whole_criteria_and_cleanup_accepted": true
+    },
+    {
+      "actual_browser": {
+        "name": "Google Chrome",
+        "version": "156.0.8078.47"
+      },
+      "actual_cases": [
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        },
+        {
+          "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+          "status": "passed"
+        }
+      ],
+      "actual_java": {
+        "major": 17,
+        "version": "17.0.21"
+      },
+      "artifact_id": 13060196399,
+      "execution": {
+        "elapsed_seconds": 270.07,
+        "exit_code": 0
+      },
+      "job_completed_at": "2026-10-31T22:22:50Z",
+      "job_id": 124672773967,
+      "job_started_at": "2026-10-31T22:17:37Z",
+      "original_ZIP_sha256": "4f1bc218de0868e6eb0e98fc8a69e37080d440cfcb823faa27bef87180a755d9",
+      "original_reports": [
+        {
+          "actual_counts": {
+            "errors": 0,
+            "executed": 2,
+            "failures": 0,
+            "not_applicable": 0,
+            "passed": 2,
+            "skipped": 0,
+            "tests": 2,
+            "unexpected_skipped": 0
+          },
+          "original_XML_retained": true,
+          "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest.xml",
+          "sha256": "a2ff942273fd1461dcab6c9ba72d04f98ccfbb8b29dbe2313e35e9d21110f7a1",
+          "zip_mtime": [
+            2026,
+            10,
+            31,
+            22,
+            22,
+            40
+          ]
+        }
+      ],
+      "raw_results_record": "independent-browser-wasm-review.json",
+      "slot": "browser-wasm",
+      "whole_criteria_and_cleanup_accepted": true
+    }
+  ],
+  "terminal_conclusion": "success",
+  "verdict": "All original criteria verified; lead may close #63 completed immediately and independently read back."
+}

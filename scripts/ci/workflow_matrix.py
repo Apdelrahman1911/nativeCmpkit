@@ -31,6 +31,7 @@ PROFILES = {
     "android-geo-prerequisites": ("android-device-api35",),
     "android-share-grants": ("android-device-api35",),
     "android-io-provider-lifecycle": ("android-device-api35",),
+    "android-io-default-decode": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
     "android-camera-provider-minimum": ("android-device-api35",),
     "android-camera-no-handler-minimum": ("android-device-api35",),
@@ -122,6 +123,8 @@ PROFILES = {
     "ios-image-memory": ("ios-iphone",),
     "ios-image-memory-darwin": ("ios-iphone",),
     "ios-image-profile-recovery": ("ios-iphone",),
+    # Separate SDK help/identity discovery; no library/device/consumer execution.
+    "ios-appinfo-capability": (),
     "ios-webview-lifecycle": ("ios-iphone",),
     "ios-webview-recovery": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
@@ -159,6 +162,7 @@ MODULE_SUBSETS = {
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
     "android-io-provider-lifecycle": "calf-io",
+    "android-io-default-decode": "calf-io",
     "android-camera-provider": "calf-camera-picker",
     "android-camera-provider-minimum": "calf-camera-picker",
     "android-camera-no-handler-minimum": "calf-camera-picker",
@@ -474,6 +478,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-provider-lifecycle":
         for row in rows:
             row["test-focus"] = "android-io-provider-lifecycle"
+    if profile == "android-io-default-decode":
+        for row in rows:
+            row["test-focus"] = "android-io-default-decode"
     if profile == "android-io-oversize":
         for row in rows:
             row["test-focus"] = "io-device-known-oversize"

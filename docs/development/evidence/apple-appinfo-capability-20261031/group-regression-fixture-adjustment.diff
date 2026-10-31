@@ -1,0 +1,25 @@
+--- before-fixture-adjustment/test_apple_appinfo_capability.py
++++ final/test_apple_appinfo_capability.py
+@@ -285,18 +285,19 @@
+             # The failing old child exits naturally within this wait; never target an unknown PID/group.
+             time.sleep(.8)
+             self.assertFalse(survived.exists(),'Exited leader left its owned pipe-descendant alive beyond the capture timeout.')
++        fake_pid=max(os.getpid(),os.getpgrp(),os.getsid(0))+1_000_000
+         class ForeignSession:
+-            pid,returncode = 12345,None
++            pid,returncode = fake_pid,None
+         with patch.object(module.os,'getpgid',return_value=54321), \
+              patch.object(module.os,'getsid',return_value=54321), \
+              patch.object(module.os,'killpg') as signal_group:
+             with self.assertRaises(module.CapabilityError): module.stop(ForeignSession())
+             signal_group.assert_not_called()
+         class AlreadyReaped:
+-            pid,returncode = 12345,0
++            pid,returncode = fake_pid,0
+         with patch.object(module.os,'killpg') as signal_group:
+             with self.assertRaises(module.CapabilityError): module.stop(AlreadyReaped())
+-            self.assertEqual([(12345,0)],[(call.args[0],call.args[1]) for call in signal_group.call_args_list])
++            self.assertEqual([(fake_pid,0)],[(call.args[0],call.args[1]) for call in signal_group.call_args_list])
+ 
+ 
+ if __name__ == '__main__':

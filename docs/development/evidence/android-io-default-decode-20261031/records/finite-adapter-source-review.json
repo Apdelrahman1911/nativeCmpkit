@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only source/AST differences, not fresh profile/plan/XML test execution",
+  "changes": [
+    {
+      "path": "scripts/ci/library_tests.py",
+      "preimage_sha256": "95b7140f75bd5993a038e95166861600d88a3779d1875b7bbb9fa11cdefc834d",
+      "candidate_sha256": "4055b19b208cf58763ae803510072a747fa0ff0425d6bbdacea27f34c66027c3",
+      "changed_top_level_functions_or_classes": [
+        "allowed_test_focus",
+        "main",
+        "android_io_documents_required",
+        "plan",
+        "collect_reports",
+        "validate_test_focus"
+      ],
+      "added_top_level_functions_or_classes": [
+        "android_io_default_decode_identities"
+      ],
+      "removed_top_level_functions_or_classes": []
+    },
+    {
+      "path": "scripts/ci/workflow_matrix.py",
+      "preimage_sha256": "61e551f7f6c82bda2785f1aa537bf71eb1890760ee134f1461b0e9d5d0e9a048",
+      "candidate_sha256": "86b342920421eb9565192fd4852bb2aaaa3b4587ed3f95fdeb09160558126df1",
+      "changed_top_level_functions_or_classes": [
+        "matrix"
+      ],
+      "added_top_level_functions_or_classes": [],
+      "removed_top_level_functions_or_classes": []
+    },
+    {
+      "path": "scripts/ci/android_device_tests.py",
+      "preimage_sha256": "335924b759516f3d14594b0523c4fa1d23d598d71841f17f2c5a8ae5c179c560",
+      "candidate_sha256": "f515336f8e7ce8f6caa6f14b976f004aa4e765d075f56aabfa8b4f2d83a2f361",
+      "changed_top_level_functions_or_classes": [
+        "_run",
+        "main"
+      ],
+      "added_top_level_functions_or_classes": [],
+      "removed_top_level_functions_or_classes": []
+    }
+  ],
+  "adapter_sha256": "1ddf07d72cb85a4cfcccd759ab150a24efe8863d13a4089ba6d672635e657a5c",
+  "permissions_recipe_changes": false,
+  "profile_admission": "One exact android-device-api35 slot / calf-io / android-io-default-decode focus",
+  "native_filter": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+  "required_junit_methods": [
+    "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+    "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+    "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors"
+  ],
+  "required_report": "Exactly three unique methods in one fresh XML and actual task marker; missing/duplicate/foreign/failed/skipped cases do not become green",
+  "runtime_api23_for_this_focus": "Refused before native work",
+  "helper": "Existing exact source/APK/signer/private-certificate/API35-only prepared identity remains mandatory before reporter compile/native flag",
+  "old_five_io_methods_and_helper_changed_or_requested": false,
+  "full_eleven_slots_and_eight_android_modules_retained": true,
+  "camera_dont_keep_and_browser_hooks_retained_by_exact_selected_source_readback": true,
+  "existing_runner_timeout_ms": 120000,
+  "existing_gradle_controller_deadline_seconds": 1800,
+  "new_native_tests_or_builds_executed": 0
+}

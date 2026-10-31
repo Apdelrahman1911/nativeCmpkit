@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "scope": "Original private candidate only; no production/native correctness finding or actual failed native run",
+  "findings": [
+    {
+      "id": "COIL-DEFAULT-CANDIDATE-001",
+      "priority": "Low",
+      "status": "Confirmed by source; minimal private owning repair prepared; source regression red/green verified",
+      "original_locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:80-82",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:125-127"
+      ],
+      "owning_disposal_code": "AndroidIoDefaultDecodeTest.kt:270,353-365",
+      "supporting_pinned_source": "Coil 3.6.2 commonMain/coil3/RealImageLoader.kt:167-172 does not recycle uncached returned bitmaps",
+      "root_cause": "A successful default decode allocates the returned Bitmap before dataSource/isSampled assertions run, but those assertions were outside the existing bitmap/recycle finally ownership scope.",
+      "impact": "If either result-contract assertion fails after successful decode, this candidate test misses deterministic disposal of its returned native bitmap. Eventual GC may reclaim it; no permanent production leak, measured memory regression or actual native failure is asserted.",
+      "smallest_repair": "Move the unchanged PNG/JPEG dataSource/isSampled assertions inside the existing bitmap(assertIs<BitmapImage>(result.image).bitmap) block; no helper/production/timeout/source/decoder/property change.",
+      "compatibility_and_risk": "Private new test only. All three JUnit identities, source conditions, assertions, pixel geometry, grants, default decoder and 370 lines remain unchanged. Caches and UI target are absent, so the returned bitmap remains test-owned.",
+      "required_tests": [
+        "One direct source regression requires both result-contract checks within the concrete bitmap ownership block",
+        "Fresh compilation of the repaired native class",
+        "Three actually executed default decoder methods and original native cleanup/results review"
+      ],
+      "verification": "One NEW lexical source method: original exit1/two PNG-JPEG subfailures, repaired exit0/1pass. This is not native bitmap/GC proof. Accepted18 source models and accepted5 native IO methods were not replayed.",
+      "red_receipt": "red001/result.json",
+      "green_receipt": "green001/result.json",
+      "native_compile_or_execution_results": 0
+    }
+  ],
+  "other_production_defects_confirmed_by_this_review": 0,
+  "issues_closed_or_release_legal_security_clearance": false
+}

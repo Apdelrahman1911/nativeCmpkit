@@ -1,0 +1,143 @@
+--- a/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosure.kt
++++ b/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosure.kt
+@@ -15,6 +15,7 @@
+ import java.security.MessageDigest
+ import java.util.ArrayDeque
+ import java.util.Base64
++import java.util.Collections
+ 
+ /**
+  * One JDK-only, bounded Yarn Classic registry profile for actual root/workspace manifests.
+@@ -64,12 +65,14 @@
+ 
+     class CheckedGraph internal constructor(
+         private val root: Path,
+-        val inputs: List<InputReceipt>,
++        inputs: List<InputReceipt>,
+         val workspaceCount: Int, val seedCount: Int,
+         val stanzaCount: Int, val selectorCount: Int,
+         val reachableStanzas: Int, val reachableSelectors: Int,
+         val declaredEdges: Int, val localLinks: Int,
+     ) {
++        // Kotlin List is only read-only. Neither getter callers nor constructor aliases may alter receipts.
++        val inputs: List<InputReceipt> = Collections.unmodifiableList(ArrayList(inputs))
+         val outcome: String get() = "declared-selector-closure"
+         val profile: String get() = "registry-sha512-v1"
+ 
+--- a/convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosureModelTest.kt
++++ b/convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosureModelTest.kt
+@@ -8,6 +8,7 @@
+ import org.junit.Assert.assertEquals
+ import org.junit.Assert.assertFalse
+ import org.junit.Assert.assertTrue
++import org.junit.Assert.assertThrows
+ import org.junit.Assert.fail
+ import java.nio.file.Files
+ import java.nio.file.FileSystemException
+@@ -376,6 +377,39 @@
+             write(path, original)
+         }
+         result.recheck()
++    }
++
++    @Test fun checkedInputReceiptsAreAnUnmodifiableOwnedSnapshot() {
++        val workspacePath = "generated/packages/one/package.json"
++        write(manifestPath, manifest(workspaces = listOf("packages/one")))
++        write(workspacePath, workspace(name = "LocalOne"))
++        val result = check()
++        val expected = result.inputs.toList()
++        assertEquals(listOf(lockPath, manifestPath, workspacePath), expected.map { it.path })
++
++        // The JVM getter exposes java.util.List even when Kotlin's property type is read-only.
++        val writable = result.inputs as MutableList<DeclaredYarnClosure.InputReceipt>
++        assertThrows(UnsupportedOperationException::class.java) { writable.removeAt(1) }
++        assertThrows(UnsupportedOperationException::class.java) { writable[0] = writable[0].copy(sha256 = "0".repeat(64)) }
++        assertThrows(UnsupportedOperationException::class.java) { writable.clear() }
++        val iterator = writable.listIterator()
++        iterator.next()
++        assertThrows(UnsupportedOperationException::class.java) { iterator.remove() }
++        assertEquals(expected, result.inputs)
++
++        // An unmodifiable view without a copy would still retain this writable constructor alias.
++        val supplied = expected.toMutableList()
++        val copied = DeclaredYarnClosure.CheckedGraph(root, supplied,
++            result.workspaceCount, result.seedCount, result.stanzaCount, result.selectorCount,
++            result.reachableStanzas, result.reachableSelectors, result.declaredEdges, result.localLinks)
++        supplied.clear()
++        assertEquals(expected, copied.inputs)
++        val working = "generated/yarn.lock"
++        write(working, header)
++        copied.requireWorkingLock(working)
++        write(workspacePath, workspace(name = "LocalOne") + "\n")
++        rejected("checked-input-changed") { copied.recheck() }
++        rejected("checked-input-changed") { copied.requireWorkingLock(working) }
+     }
+ 
+     @Test fun graphReadyReceiptCannotBeReplacedBeforeClosure() {
+--- a/docs/development/yarn-declared-selector-core.md
++++ b/docs/development/yarn-declared-selector-core.md
+@@ -30,9 +30,18 @@
+ claim. BUILD-007/#40 remains open; publishing and all independent readiness gates
+ are unchanged.
+ 
++## Owned receipt snapshot
++
++`CheckedGraph.inputs` keeps the same read-only public `List<InputReceipt>` getter,
++but copies constructor inputs into a private JDK unmodifiable list. A Kotlin
++read-only type alone is not JVM immutability: exposing a multi-element `toList()`
++backing list permits removing or replacing receipts used by later rechecks. The
++copy also disconnects a writable constructor alias. Immutable receipt fields and
++fresh rechecks are retained; no filesystem atomicity or resolver trust is added.
++
+ ## Repository-owned tests
+ 
+-`DeclaredYarnClosureModelTest` contains **31 synthetic JVM model methods**. Every
++`DeclaredYarnClosureModelTest` contains **32 synthetic JVM model methods**. Every
+ lock and manifest is generated from authored Kotlin strings inside a fresh
+ exclusive temp tree. No generated project/third-party package JSON, existing
+ package lock, raw Yarn fixture, host cache, network input or private fixture path
+@@ -50,19 +59,34 @@
+ 
+ The earlier private33-method/model compiler evidence remains unchanged. Twenty-nine
+ synthetic method bodies are byte-preserved here; the combined filesystem method
+-is split into two with repository-capability setup, and three external snapshot/
+-raw-input methods are deliberately excluded. That evidence does not prove this
++is split into two with repository-capability setup, one new receipt-snapshot
++regression is authored, and three external snapshot/raw-input methods are deliberately
++excluded. That evidence does not prove this
+ new ordinary fixture setup ran. **At preparation, zero repository methods or
+-Gradle tasks have executed.** Do not add31 to the historical33 as unique coverage.
++Gradle tasks have executed.** Do not add32 to the historical33 as unique coverage.
+ 
+-Example owning compiler check, once scheduled by the lead:
++One owning convention compile/test request, once scheduled and externally bounded
++by the lead with the required 8 GiB reserve and serial local-build capacity:
+ 
+ ```sh
+-./gradlew -p convention-plugins compileKotlin compileTestKotlin --no-configuration-cache
++JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
++./gradlew -p convention-plugins compileKotlin compileTestKotlin test \
++  --tests 'io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.existingLeafAndAncestorSymlinksAreRefused' \
++  --tests 'io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.existingNonregularStoredInputIsRefusedWithoutSymlinkCapability' \
++  --tests 'io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.checkedInputReceiptsAreAnUnmodifiableOwnedSnapshot' \
++  --offline --no-daemon --no-configuration-cache --no-build-cache --max-workers=1 --no-parallel \
++  '-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8' \
++  -Pkotlin.compiler.execution.strategy=in-process
+ ```
+ 
+-This command typechecks the inert utility and test setup only. It does not run a
+-library/sample/native test, install Yarn, enforce ordinary dependency closure,
+-verify target hosts, clear security requirements or authorize publication. A later
+-finite test request should select genuinely changed/unverified fixture boundaries
+-and reuse applicable accepted model results instead of replaying them as progress.
++This single request typechecks the inert utility and test setup, then selects only
++the two changed filesystem fixtures and one new receipt-snapshot regression. It
++does not replay the 29 applicable accepted synthetic bodies or existing publication
++tests. Inspect the exact three fresh XML methods and every failure/skip; a symlink
++capability skip is not verification. A missing offline cache input must remain a
++real refusal, not trigger an automatic network/install or validation bypass.
++
++Compilation and these synthetic methods do not run library/sample/native tests,
++install Yarn, enforce ordinary dependency closure, establish convention dependency
++trust, verify other hosts, clear security requirements or authorize publication.
++The lead must preserve source/results hashes and owned process/output cleanup.

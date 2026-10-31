@@ -1,0 +1,170 @@
+diff --git a/.github/workflows/gradle.yml b/.github/workflows/gradle.yml
+index 9391800d..0d717bc3 100644
+--- a/.github/workflows/gradle.yml
++++ b/.github/workflows/gradle.yml
+@@ -10,7 +10,7 @@ on:
+         type: choice
+         required: true
+         default: core
+-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-io-provider-lifecycle, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
++        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+ 
+ permissions:
+   contents: read
+diff --git a/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js b/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js
+index d07c84ff..62fb26d7 100644
+--- a/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js
++++ b/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js
+@@ -46,6 +46,8 @@
+       '</p><script>document.documentElement.setAttribute("data-nativecmpkit-ready", "yes");' +
+       'parent.postMessage(' + JSON.stringify(message) + ', "*");</script>');
+   };
++  // Karma's legacy DI parser only infers classic function arguments; this factory owns no services.
++  middleware.$inject = [];
+   config.plugins = (config.plugins || ['karma-*']).concat({
+     'middleware:nativecmpkit-iframe-fixture': ['factory', middleware]
+   });
+diff --git a/scripts/ci/library_tests.py b/scripts/ci/library_tests.py
+index bfdede54..e5959d6f 100644
+--- a/scripts/ci/library_tests.py
++++ b/scripts/ci/library_tests.py
+@@ -837,20 +837,32 @@ def android_camera_provider_filter(focus: str) -> str:
+ 
+ 
+ ANDROID_CAMERA_RESTORATION_FOCUS = "android-camera-real-restoration"
++ANDROID_CAMERA_DONT_KEEP_FOCUS = "android-camera-real-restoration-dont-keep"
++ANDROID_CAMERA_RESTORATION_FOCUSES = (ANDROID_CAMERA_RESTORATION_FOCUS, ANDROID_CAMERA_DONT_KEEP_FOCUS)
+ ANDROID_CAMERA_RESTORATION_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest"
+ ANDROID_CAMERA_RESTORATION_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+ ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt"
++ANDROID_CAMERA_ALWAYS_FINISH_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt"
+ ANDROID_CAMERA_RESTORATION_METHODS = (
+     "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+     "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+     "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+     "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+ )
+-ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, ANDROID_CAMERA_RESTORATION_FOCUS)
++ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)
+ 
+ 
+-def android_camera_restoration_identities() -> list[dict]:
+-    return [{"classname": ANDROID_CAMERA_RESTORATION_CLASS, "name": method} for method in ANDROID_CAMERA_RESTORATION_METHODS]
++def android_camera_restoration_identities(focus: str = ANDROID_CAMERA_RESTORATION_FOCUS) -> list[dict]:
++    if focus not in ANDROID_CAMERA_RESTORATION_FOCUSES:
++        raise ValueError("Unknown finite Android camera restoration selection")
++    methods = ANDROID_CAMERA_RESTORATION_METHODS[:1] if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_METHODS
++    return [{"classname": ANDROID_CAMERA_RESTORATION_CLASS, "name": method} for method in methods]
++
++
++def android_camera_restoration_filter(focus: str) -> str:
++    android_camera_restoration_identities(focus)  # Never broaden an unknown focus.
++    return (ANDROID_CAMERA_RESTORATION_CLASS + "#" + ANDROID_CAMERA_RESTORATION_METHODS[0]
++            if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_CLASS)
+ 
+ 
+ def android_camera_receiver_required(test_plan: dict) -> bool:
+@@ -1527,7 +1539,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
+         selected[0]["test_filter"] = ui_application_focus_filter(focus)
+         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
+         result["scope"] = spec["scope"]
+-    elif focus == ANDROID_CAMERA_RESTORATION_FOCUS:
++    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
+         source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding="utf-8")
+         client = safe_path(root, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text(encoding="utf-8")
+         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+@@ -1536,13 +1548,15 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
+                 "package com.mohamedrejeb.calf.camerapicker" not in source or
+                 "class CameraRestorationVerificationActivity" not in client or
+                 any(name not in selected[0]["test_source_files"] for name in
+-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE)) or
++                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE)) or
+                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source + client)):
+             raise ValueError("Android camera restoration declarations changed; review the exact four-method selection")
+         result["explicit_test_focus"] = focus
+-        selected[0]["test_filter"] = ANDROID_CAMERA_RESTORATION_CLASS
+-        selected[0]["required_testcases"] = android_camera_restoration_identities()
++        selected[0]["test_filter"] = android_camera_restoration_filter(focus)
++        selected[0]["required_testcases"] = android_camera_restoration_identities(focus)
+         result["scope"] = "Four new real public Compose/ActivityResultRegistry camera-restoration methods on owned API35: don't-keep-activities, real display rotation, actual same-UID kernel process death and restored cancellation, with native foreign-UID grants/closed descriptors/nonce-bound task/PID/temp/output/setting/component ownership. Bytes and external recipient are synthetic; no manually injected restored result/state/grant. Accepted provider/host/portable methods are not replayed; not hardware/vendor/physical/minimum-API/packaged/API-ABI/heap/security/release certification."
++        if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS:
++            result["scope"] = "Only the failed native don't-keep-activities method from41242704209. Three accepted rotation/kernel-process-death/cancellation methods are reused by exact applicable source, not replayed. Genuine native service toggle/readback and exact original scalar/runtime restoration preserve the unchanged Activity destruction/public launcher/registry/grants/readable-file criteria. The scalar/cache contract gap is distinct from the unknown actual timeout cause. No forced Activity destruction, manual state/result/grant, hardware/vendor/physical/minimum/packaged/API-ABI/heap/security/release certification."
+     elif focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
+         source = safe_path(root, ANDROID_CAMERA_PROVIDER_SOURCE).read_text(encoding="utf-8")
+         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+@@ -1907,14 +1921,14 @@ def validate_test_focus(test_plan: dict) -> bool:
+                 any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
+             raise ValueError("Invalid finite Android IO provider/Coil plan")
+         return True
+-    if focus == ANDROID_CAMERA_RESTORATION_FOCUS:
++    if focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
+         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                 expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
+-                expected[0].get("test_filter") != ANDROID_CAMERA_RESTORATION_CLASS or
+-                expected[0].get("required_testcases") != android_camera_restoration_identities() or
++                expected[0].get("test_filter") != android_camera_restoration_filter(focus) or
++                expected[0].get("required_testcases") != android_camera_restoration_identities(focus) or
+                 any(name not in expected[0]["test_source_files"] for name in
+-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE))):
++                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE))):
+             raise ValueError("Invalid finite Android camera real-restoration plan")
+         return True
+     if focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
+@@ -2318,7 +2332,7 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
+             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                          for c in module_cases]
+-        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_CAMERA_RESTORATION_FOCUS:
++        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_RESTORATION_FOCUSES:
+             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+             actual = {(c["classname"], c["name"]) for c in module_cases}
+             policy_errors = ([] if actual == required else
+diff --git a/scripts/ci/test_webview_content_focus.py b/scripts/ci/test_webview_content_focus.py
+index 7854698f..cc5622ce 100644
+--- a/scripts/ci/test_webview_content_focus.py
++++ b/scripts/ci/test_webview_content_focus.py
+@@ -201,6 +201,13 @@ class WebViewContentFocusTests(unittest.TestCase):
+             with self.assertRaises(ValueError):
+                 lt.snapshot_inputs(root)
+ 
++    def test_owned_karma_factory_explicitly_declares_no_injected_services_before_registration(self):
++        fixture = (lt.ROOT / FIXTURE).read_text()
++        declarations = re.findall(r"(?m)^\s*middleware\.\$inject\s*=\s*([^;\r\n]+);", fixture)
++        self.assertEqual(["[]"], declarations, "The arrow factory must bypass legacy DI inference with exact empty metadata")
++        self.assertEqual(1, fixture.count("$inject"), "No later or alternate injection override")
++        self.assertLess(fixture.index("middleware.$inject = [];"), fixture.index("config.plugins ="))
++
+     def test_owning_methods_use_real_public_dom_loads_headers_messages_and_preserved_cleanup(self):
+         source = (lt.ROOT / SOURCE).read_text()
+         for required in ("ComposeViewport", "WebView(", "rememberWebViewState(", "rememberWebViewStateWithHTMLData(",
+diff --git a/scripts/ci/workflow_matrix.py b/scripts/ci/workflow_matrix.py
+index c050ada0..9e294b77 100644
+--- a/scripts/ci/workflow_matrix.py
++++ b/scripts/ci/workflow_matrix.py
+@@ -35,6 +35,7 @@ PROFILES = {
+     "android-camera-provider-minimum": ("android-device-api35",),
+     "android-camera-no-handler-minimum": ("android-device-api35",),
+     "android-camera-restoration": ("android-device-api35",),
++    "android-camera-restoration-dont-keep": ("android-device-api35",),
+     "browser": ("browser-js", "browser-wasm"),
+     "browser-picker": ("browser-js", "browser-wasm"),
+     "browser-coil-io": ("browser-js", "browser-wasm"),
+@@ -162,6 +163,7 @@ MODULE_SUBSETS = {
+     "android-camera-provider-minimum": "calf-camera-picker",
+     "android-camera-no-handler-minimum": "calf-camera-picker",
+     "android-camera-restoration": "calf-camera-picker",
++    "android-camera-restoration-dont-keep": "calf-camera-picker",
+     "android-navigation-back": "calf-navigation",
+     "ios-webview-lifecycle": "calf-webview",
+     "ios-webview-recovery": "calf-webview",
+@@ -325,6 +327,9 @@ def matrix(profile: str) -> dict:
+     if profile == "android-camera-restoration":
+         for row in rows:
+             row["test-focus"] = "android-camera-real-restoration"
++    if profile == "android-camera-restoration-dont-keep":
++        for row in rows:
++            row["test-focus"] = "android-camera-real-restoration-dont-keep"
+     if profile == "android-share-grants":
+         for row in rows:
+             row["test-focus"] = "android-share-uri-grants"

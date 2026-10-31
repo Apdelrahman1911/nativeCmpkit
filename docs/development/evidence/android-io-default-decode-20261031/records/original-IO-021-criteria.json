@@ -1,0 +1,67 @@
+{
+  "source": "docs/audit/findings/IO.json",
+  "source_sha256": "e5037e36b810cfc21f2af009dbf6501f3453c57093e4ee53c197c1ca35937f5c",
+  "finding": {
+    "id": "IO-021",
+    "title": "Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+    "priority": "Medium",
+    "status": "improvement",
+    "modules": [
+      "calf-file-picker-coil",
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt",
+        "lines": "22-32",
+        "symbol": "fetch"
+      },
+      {
+        "path": "calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt",
+        "lines": "12",
+        "symbol": "readByteArray"
+      },
+      {
+        "path": "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt",
+        "lines": "35-41",
+        "symbol": "readByteArray"
+      },
+      {
+        "path": "calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt",
+        "lines": "7-8",
+        "symbol": "eager web source"
+      },
+      {
+        "path": "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
+        "lines": "18-24,73-82",
+        "symbol": "readByteArray docs"
+      }
+    ],
+    "root_cause": "Fetcher always materializes a ByteArray then copies it into an Okio Buffer before decoding, despite native streaming IO now being available. readByteArray is suspend but performs blocking IO on Android/iOS/Desktop without dispatcher switching. Web source is intentionally buffered; iOS also materializes NSData before ByteArray.",
+    "impact": "Large media produce multiple encoded-data copies plus decoder allocations, increasing latency and OOM pressure. UI callers may assume suspend means nonblocking even though source() alone documents dispatcher ownership. MEMORY labeling and lack of a supplied stable KmpFile cache key also merit integration tests.",
+    "recommendation": "Add native streaming adapters/URI or file mappers to Coil (or the official kotlinx-io/Okio bridge) with correct close/cancellation ownership; keep a bounded browser fallback. Document readByteArray blocking/size semantics, add decode-size guidance, and verify dataSource/keying behavior with Coil rather than inferring it.",
+    "risks": "Changing fetchers may affect EXIF, seek requirements, caching and thread selection. Do not label intended read-all behavior a security vulnerability; source() is already available for large-file consumers.",
+    "required_tests": [
+      "Large image peak-memory benchmark by target",
+      "Decoder failure closes source",
+      "Coil cancellation closes provider stream",
+      "Stable request key and modified-file invalidation policy",
+      "Main-thread misuse guidance test/sample",
+      "Binary content parity"
+    ],
+    "evidence": [
+      "Fetcher lines 25-26 allocate through readByteArray and then Buffer.write.",
+      "source() implementation and docs explicitly provide native streaming while web remains whole-buffer.",
+      "No heap benchmark or complete Coil runtime test was run, so this is an improvement with quantified benchmarks required, not a measured regression."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/537",
+      "https://github.com/MohamedRejeb/Calf/issues/537#issuecomment-5653462009"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "IO-001",
+      "IO-020"
+    ]
+  }
+}

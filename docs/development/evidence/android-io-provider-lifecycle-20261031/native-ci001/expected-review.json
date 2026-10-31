@@ -1,0 +1,197 @@
+{
+  "API": 35,
+  "GitHub_branch": "development/preview-hardening",
+  "GitHub_event": "workflow_dispatch",
+  "GitHub_workflow": ".github/workflows/gradle.yml",
+  "accepted_native_or_host_suite_replay_allowed": false,
+  "all_broader_issue_gates_remain_open": true,
+  "exact_selection": {
+    "android_io_documents": {
+      "package": "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments",
+      "source_contract": {
+        "native_or_compile_success_inferred": false,
+        "source_inputs": {
+          "calf-io/build.gradle.kts": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+          "calf-io/src/androidDeviceTest/AndroidManifest.xml": "cb84470ea798ffae20812273941ce83b3229e5c17e4029c16d55a185197d45ce",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt": "511856f77602a8441dd8c6007518a9ec49e8cf48ac883405c8ff97e6d8c56c4c",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt": "7ef591196e344c48a671513bf5bc65e09b1278ac707b64acc86a4e83cfe34e7f",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt": "53d314ae5849d93c9a5be672682d0c3e3e18d571b9ad1c2d9faa14c96d5d6e8b",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/IoBookmarkClientService.kt": "adb2c550fb47088875e44fd89d9aa24faea073291cbdaeadb3f43ebea2b71f27",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt": "cb7a50ddb6ad3bd0b8300d92e616027eb16e83233da1715dc8c8076c0511615b",
+          "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+          "tests/consumer/android-io-documents/build.gradle.kts": "9b551151d1bf5d593510c8afa4decbbee45166d928e82a6b10a48cac4eb414be",
+          "tests/consumer/android-io-documents/gradle.properties": "9bdf5fc8f73662d4e80072838783cc65fdae29b6b1c6a53de5d4cf8e20c8d44f",
+          "tests/consumer/android-io-documents/settings.gradle.kts": "fc245433f2a211141b5075fd4a158507fcf12ace776169e861a6d5afe2f8940b",
+          "tests/consumer/android-io-documents/src/main/AndroidManifest.xml": "e4029c4d6f8283116e0bc91b0640d86a2baebec27478d1573e9a1e680d48c235",
+          "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoControlService.java": "42c11da04ce1c9053116dfb5a6f94ee9aaab81df6ac9a6373493c2243f7bc15c",
+          "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoDocumentGrantActivity.java": "d1c0ed3fadec71b4f13cb5472ead036f0dbb003f79050d4a2bc6d7e25fb6e8ef",
+          "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoFixture.java": "92f8c4927e2ce50ae7f53c10d3c2e11f44c75e4095c2d8b05567ec996df00545",
+          "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoProviderWitnessService.java": "dab17677719780bb459445ca2ba5b1b73318e1c064421a521a52713d1a785589",
+          "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/OwnedIoDocumentsProvider.java": "fc3e824bef5a7ac57cc700aaf842468c4f361b7f425410a6c93c97b381b738c7"
+        },
+        "source_inputs_sha256": "31b4ee38de7d8b1593b130dbfdf8a85c5af8a73162f0ccc360fd2afe46c3d9c6",
+        "source_policy_verified": true
+      },
+      "source_fixture": "tests/consumer/android-io-documents",
+      "verification_api_level": 35
+    },
+    "complete_suite_requested": false,
+    "expected": [
+      {
+        "agp_declared_xml_directory": "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+        "module": "calf-io",
+        "project": ":calf-io",
+        "report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+            "name": "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+            "name": "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+            "name": "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+            "name": "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+            "name": "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess"
+          }
+        ],
+        "task": ":calf-io:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+        "test_source_files": [
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/IoBookmarkClientService.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+          "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+          "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt"
+        ],
+        "test_source_sets": [
+          "commonTest",
+          "androidDeviceTest"
+        ],
+        "utp_results_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain"
+      }
+    ],
+    "explicit_module_subset": [
+      "calf-io"
+    ],
+    "explicit_test_focus": "android-io-provider-lifecycle",
+    "inherited_test_source_sets": [
+      "commonTest",
+      "materialTest",
+      "androidDeviceTest"
+    ],
+    "schema_version": 1,
+    "scope": "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification.",
+    "suite": "android-device",
+    "test_bearing_modules_not_requested": [
+      "calf-camera-picker",
+      "calf-file-picker",
+      "calf-geo",
+      "calf-navigation",
+      "calf-share",
+      "calf-ui",
+      "calf-webview"
+    ],
+    "uncovered": []
+  },
+  "helper_source_contract": {
+    "native_or_compile_success_inferred": false,
+    "source_inputs": {
+      "calf-io/build.gradle.kts": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+      "calf-io/src/androidDeviceTest/AndroidManifest.xml": "cb84470ea798ffae20812273941ce83b3229e5c17e4029c16d55a185197d45ce",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt": "511856f77602a8441dd8c6007518a9ec49e8cf48ac883405c8ff97e6d8c56c4c",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt": "7ef591196e344c48a671513bf5bc65e09b1278ac707b64acc86a4e83cfe34e7f",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt": "53d314ae5849d93c9a5be672682d0c3e3e18d571b9ad1c2d9faa14c96d5d6e8b",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/IoBookmarkClientService.kt": "adb2c550fb47088875e44fd89d9aa24faea073291cbdaeadb3f43ebea2b71f27",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt": "b4f0eb8a67926e7a06668c9396907e8609104e71d39ae5802ed1556bbb71172a",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt": "cb7a50ddb6ad3bd0b8300d92e616027eb16e83233da1715dc8c8076c0511615b",
+      "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+      "tests/consumer/android-io-documents/build.gradle.kts": "9b551151d1bf5d593510c8afa4decbbee45166d928e82a6b10a48cac4eb414be",
+      "tests/consumer/android-io-documents/gradle.properties": "9bdf5fc8f73662d4e80072838783cc65fdae29b6b1c6a53de5d4cf8e20c8d44f",
+      "tests/consumer/android-io-documents/settings.gradle.kts": "fc245433f2a211141b5075fd4a158507fcf12ace776169e861a6d5afe2f8940b",
+      "tests/consumer/android-io-documents/src/main/AndroidManifest.xml": "e4029c4d6f8283116e0bc91b0640d86a2baebec27478d1573e9a1e680d48c235",
+      "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoControlService.java": "42c11da04ce1c9053116dfb5a6f94ee9aaab81df6ac9a6373493c2243f7bc15c",
+      "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoDocumentGrantActivity.java": "d1c0ed3fadec71b4f13cb5472ead036f0dbb003f79050d4a2bc6d7e25fb6e8ef",
+      "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoFixture.java": "92f8c4927e2ce50ae7f53c10d3c2e11f44c75e4095c2d8b05567ec996df00545",
+      "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoProviderWitnessService.java": "dab17677719780bb459445ca2ba5b1b73318e1c064421a521a52713d1a785589",
+      "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/OwnedIoDocumentsProvider.java": "fc3e824bef5a7ac57cc700aaf842468c4f361b7f425410a6c93c97b381b738c7"
+    },
+    "source_inputs_sha256": "31b4ee38de7d8b1593b130dbfdf8a85c5af8a73162f0ccc360fd2afe46c3d9c6",
+    "source_policy_verified": true
+  },
+  "profile": "android-io-provider-lifecycle",
+  "raw_APK_console_or_key_upload_allowed": false,
+  "request_file_hashes": {
+    "dispatch-attempt.json": "a8fe293d823ea1121609614823328a9cbad6ff600f6bb0240de5e58ab4bbf09e",
+    "dispatch.json": "4757e7ebd946a81c347b0d3db5a5869936700f431190af2e92c92502f10befdc",
+    "exact-combined-inputs.json": "f15067c8290ca99e0989fdcc0effdca8e4c7ed6266231e1af90de1899659b80a",
+    "exact-library-inputs.json": "bb8a2698295a8b9ef55c264465b97c71c1ce999864bc1ffc87969db4a69ba2e4",
+    "exact-selection.json": "483684bc1e975bf9064e6ffa0cdea80e3a84ec344678b6403043dbf87b63c30c",
+    "issue-45-before.json": "cee8907ce34e576d61c5f14a7f031b3dc33ee6ea7845f8f34b7f0fb4ed784b26",
+    "issue-55-before.json": "6428d9a9605e01da8f35676d1b959ae50c591d1ba69d3397184207da38efd4a4",
+    "issue-57-before.json": "786c332dbb0a0d36b728103cccd632034446dfee62d8b42123d8f767bbee8038",
+    "observed-run.json": "591c5235d6e3ad03e29de5fc2002700b2bb1fc6119a3ab73be9bea75cdd9c1d0",
+    "preflight.json": "43ca98329eeec564f10f0e39ce2991aa3a80dac829171c2b133668cace0b03dd",
+    "request.json": "137c2849e840c08c7c6de5f6fb436f08c94f2870f320f742e1787cf28d8c5f42",
+    "source-preflight.json": "a1250640945b6f66c46dd9f61c4694905be36d04c668dab0957e382893bf5a2e"
+  },
+  "required_acceptance_gates": [
+    "terminal run readback, original attempt and immutable HEAD",
+    "controller/library Git source and all input maps exact",
+    "fresh exact five-case XML hash/size/time, zero skip and no foreign/duplicate case",
+    "one actual connectedAndroidDeviceTest task marker and expected filter",
+    "Enforcing owned API35 emulator and SDK/compiler correspondence",
+    "strict API35 modern signer and exact private-key certificate match",
+    "helper source/installed APK identity equality, separate native UID/signatures and absence of MANAGE_DOCUMENTS on reporter",
+    "actual read/persistable/prefix Activity-result grants, public bookmark release/revoke and native client/provider Binder deaths",
+    "actual Coil injected decoder failure/cancel source close1/native FD0 assertions",
+    "preserved failed preparations/native outcomes and no arbitrary root cause",
+    "owned helper identity reverified/uninstalled and emulator graceful exit/ADB disappearance"
+  ],
+  "required_case_source_locations": {
+    "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess": {
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+      "starts_at_line": 155,
+      "status": "not-yet-reviewed-as-executed"
+    },
+    "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead": {
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+      "starts_at_line": 131,
+      "status": "not-yet-reviewed-as-executed"
+    },
+    "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers": {
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+      "starts_at_line": 95,
+      "status": "not-yet-reviewed-as-executed"
+    },
+    "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead": {
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+      "starts_at_line": 67,
+      "status": "not-yet-reviewed-as-executed"
+    },
+    "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease": {
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+      "starts_at_line": 40,
+      "status": "not-yet-reviewed-as-executed"
+    }
+  },
+  "run_attempt": 1,
+  "run_id": 41245152018,
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14"
+}

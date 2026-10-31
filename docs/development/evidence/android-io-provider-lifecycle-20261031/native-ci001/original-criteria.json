@@ -1,0 +1,45 @@
+{
+  "45": {
+    "finding": "IO-008",
+    "original_body_sha256": "b1d663c1802b0b0fc5b137a53def6a27ab4da928a153731b0e64312ff94a902d",
+    "original_required_criteria": [
+      "iCloud/third-party folder access after callback",
+      "Stream open/read/close balances scope",
+      "Android SAF grant release/revoke/restart",
+      "iOS stale bookmark and access denial",
+      "Sandbox-local file path",
+      "Save destination reopened after callback"
+    ],
+    "state_before": "open",
+    "title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+    "whole_issue_closure_permitted": false
+  },
+  "55": {
+    "finding": "IO-019",
+    "original_body_sha256": "0d464d334603dc0bab942f59db598d400f17ab7495207ec88b1439b4033ca16c",
+    "original_required_criteria": [
+      "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+      "Folder exists/name/isDirectory immediately and after restart",
+      "Single-document and file:// regression tests",
+      "Permission denial and unavailable provider"
+    ],
+    "state_before": "open",
+    "title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence",
+    "whole_issue_closure_permitted": false
+  },
+  "57": {
+    "finding": "IO-021",
+    "original_body_sha256": "a6f7ebbddca0ce06e2728b1ce478c45f67453293735369c8dba39a63b497791f",
+    "original_required_criteria": [
+      "Large image peak-memory benchmark by target",
+      "Decoder failure closes source",
+      "Coil cancellation closes provider stream",
+      "Stable request key and modified-file invalidation policy",
+      "Main-thread misuse guidance test/sample",
+      "Binary content parity"
+    ],
+    "state_before": "open",
+    "title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+    "whole_issue_closure_permitted": false
+  }
+}

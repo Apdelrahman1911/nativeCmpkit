@@ -1,0 +1,49 @@
+diff --git a/calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt b/calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt
+--- a/calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt
++++ b/calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt
+@@ -78,8 +78,8 @@
+         val witness = DefaultDecodeWitness(bytes, "image/png", { identity }, requirePartialFetch = true)
+         pipeline { loader ->
+             val result = assertIs<SuccessResult>(runBlocking(Dispatchers.IO) { loader.execute(source, witness) })
+-            assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)
+             bitmap(assertIs<BitmapImage>(result.image).bitmap) { decoded ->
++                assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)
+                 assertEquals(width, decoded.width); assertEquals(height, decoded.height)
+                 assertEquals(Bitmap.Config.ARGB_8888, decoded.config)
+                 val actual = IntArray(width * height)
+@@ -123,8 +123,8 @@
+                 assertEquals("image/jpeg", source.getMimeType(context)); assertEquals(bytes.size.toLong(), source.getSize(context))
+                 val witness = DefaultDecodeWitness(bytes, "image/jpeg", { identity })
+                 val result = assertIs<SuccessResult>(runBlocking(Dispatchers.IO) { loader.execute(source, witness) })
+-                assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)
+                 bitmap(assertIs<BitmapImage>(result.image).bitmap) { decoded ->
++                    assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)
+                     assertEquals(height, decoded.width); assertEquals(width, decoded.height)
+                     assertEquals(Bitmap.Config.ARGB_8888, decoded.config)
+                     val samples = intArrayOf(
+diff --git a/scripts/ci/test_android_io_default_decode.py b/scripts/ci/test_android_io_default_decode.py
+--- a/scripts/ci/test_android_io_default_decode.py
++++ b/scripts/ci/test_android_io_default_decode.py
+@@ -218,6 +218,22 @@
+         self.assertIn('caller.ioDocumentResultCode', source); self.assertIn('result.clipData', source)
+         self.assertNotIn('grantUriPermission(', source)
+ 
++    def test_successful_native_bitmaps_are_owned_before_result_contract_assertions(self):
++        source = self.source()
++        marker = 'bitmap(assertIs<BitmapImage>(result.image).bitmap) { decoded ->'
++        contract = 'assertEquals(DataSource.DISK, result.dataSource); assertFalse(result.isSampled)'
++        for method in METHODS[:2]:
++            with self.subTest(method=method):
++                body = source.split('@Test fun ' + method, 1)[1].split('@Test fun ', 1)[0]
++                start = body.index(marker) + len(marker)
++                depth, end = 1, start
++                while depth and end < len(body):
++                    depth += (body[end] == '{') - (body[end] == '}')
++                    end += 1
++                self.assertEqual(0, depth, 'The concrete bitmap ownership block must close')
++                self.assertIn(contract, body[start:end - 1],
++                              'Any result-contract assertion must run inside deterministic bitmap recycling')
++
+     def test_native_ownership_checks_predecode_and_after_and_preserves_primary_cleanup_errors(self):
+         source = self.source()
+         self.assertIn('assertEquals(1, openDeviceDescriptorsFor(native)', source)

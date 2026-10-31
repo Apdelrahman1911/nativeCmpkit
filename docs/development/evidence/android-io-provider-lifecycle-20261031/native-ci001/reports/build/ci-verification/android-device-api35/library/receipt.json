@@ -1,0 +1,215 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+    ":calf-io:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 45.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "explicit_test_focus": "android-io-provider-lifecycle",
+  "finished_at_utc": "2026-10-31T21:57:24.528879+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+  "inputs_before_sha256": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "disposition": "required-executed",
+          "name": "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "disposition": "required-executed",
+          "name": "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "disposition": "required-executed",
+          "name": "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "disposition": "required-executed",
+          "name": "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "disposition": "required-executed",
+          "name": "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 5,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 5,
+          "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-5b881c952b1d(AVD) - 15.xml",
+          "sha256": "9aaf68a6a2ee847760ba1970b2413aaa4836a32fafec43301589b21fd2f1ab7a",
+          "skipped": 0,
+          "tests": 5,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-io:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "name": "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "name": "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "name": "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "name": "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+          "name": "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess"
+    }
+  ],
+  "runtime_receipt_sha256": "4cc48c80b294f509ced536f6660e81b9908a277eefe3d7c4099fdc823a9a9686",
+  "schema_version": 1,
+  "scope": "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification.",
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "source_revision_after": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-31T21:56:39.511522+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-io:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

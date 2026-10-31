@@ -1,0 +1,14 @@
+test_trusted_graph_receipts_are_copied_and_not_mutable_through_either_alias (__main__.TrustedReceiptSnapshotSource.test_trusted_graph_receipts_are_copied_and_not_mutable_through_either_alias) ... FAIL
+
+======================================================================
+FAIL: test_trusted_graph_receipts_are_copied_and_not_mutable_through_either_alias (__main__.TrustedReceiptSnapshotSource.test_trusted_graph_receipts_are_copied_and_not_mutable_through_either_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test_trusted_receipt_snapshot_source.py", line 22, in test_trusted_graph_receipts_are_copied_and_not_mutable_through_either_alias
+    self.assertNotIn('        val inputs: List<InputReceipt>,', graph,
+AssertionError: '        val inputs: List<InputReceipt>,' unexpectedly found in '    class CheckedGraph internal constructor(\n        private val root: Path,\n        val inputs: List<InputReceipt>,\n        val workspaceCount: Int, val seedCount: Int,\n        val stanzaCount: Int, val selectorCount: Int,\n        val reachableStanzas: Int, val reachableSelectors: Int,\n        val declaredEdges: Int, val localLinks: Int,\n    ) {\n        val outcome: String get() = "declared-selector-closure"\n        val profile: String get() = "registry-sha512-v1"\n\n        /** Re-read every checked input at each invocation/store boundary. Never cache this result. */\n        fun recheck() {\n            withReader(root) { reader ->\n                inputs.forEach { expected ->\n                    val actual = reader.read(expected.path, expected.cap).receipt\n                    requireSame(expected, actual)\n                }\n            }\n        }\n\n        /** Mandatory after restore and before/after install, including warm/direct entry guards. */\n        fun requireWorkingLock(workingLock: String): InputReceipt {\n            recheck()\n            return withReader(root) { reader ->\n                val actual = reader.read(workingLock, inputs.first().cap).receipt\n                if (actual.bytes != inputs.first().bytes || actual.sha256 != inputs.first().sha256) {\n                    refuse("working-lock-mismatch", workingLock)\n                }\n                actual\n            }\n        }\n    }\n\n' : Read-only Kotlin type must not expose the writable trusted constructor list
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

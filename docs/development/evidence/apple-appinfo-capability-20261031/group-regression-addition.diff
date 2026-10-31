@@ -1,0 +1,57 @@
+--- before-regression/test_apple_appinfo_capability.py
++++ with-regression/test_apple_appinfo_capability.py
+@@ -250,5 +250,54 @@
+         self.assertEqual(set(workflow_matrix.PROFILES),{value.strip() for value in choices.split(',')})
+ 
+ 
++    def test_exited_leader_pipe_descendant_is_stopped_without_foreign_group_signals(self):
++        import os
++        import time
++        module = self.subject()
++        with tempfile.TemporaryDirectory() as temporary:
++            root = Path(temporary)
++            child_ready, leader_ready, survived = (root/name for name in ('child.json','leader.json','survived'))
++            child_script = (
++                'import json,os,pathlib,signal,sys,time;'
++                'signal.signal(signal.SIGTERM,signal.SIG_IGN);'
++                'pathlib.Path(sys.argv[1]).write_text(json.dumps({"pid":os.getpid(),"group":os.getpgrp(),"session":os.getsid(0)}));'
++                'time.sleep(.65);pathlib.Path(sys.argv[2]).write_text("owned descendant survived capture timeout")'
++            )
++            leader_script = (
++                'import json,os,pathlib,subprocess,sys,time\n'
++                'child=subprocess.Popen([sys.executable,"-B","-c",'+repr(child_script)+',sys.argv[1],sys.argv[3]],stdin=subprocess.DEVNULL)\n'
++                'deadline=time.monotonic()+1\n'
++                'while not pathlib.Path(sys.argv[1]).exists() and time.monotonic()<deadline: time.sleep(.005)\n'
++                'pathlib.Path(sys.argv[2]).write_text(json.dumps({"pid":os.getpid(),"child":child.pid,"group":os.getpgrp(),"session":os.getsid(0)}))\n'
++                'print("OWNED_LEADER_EXITED",flush=True)\n'
++            )
++            value = module.capture((sys.executable,'-B','-c',leader_script,str(child_ready),str(leader_ready),str(survived)),root,.25)
++            self.assertEqual('timeout',value.stop_reason)
++            self.assertEqual(0,value.exit_code,'The direct owned leader must have exited successfully before pipe timeout.')
++            self.assertIn(b'OWNED_LEADER_EXITED',value.stdout)
++            leader,child = json.loads(leader_ready.read_text()),json.loads(child_ready.read_text())
++            self.assertEqual(leader['child'],child['pid'])
++            self.assertEqual(leader['pid'],leader['group'])
++            self.assertEqual(leader['pid'],leader['session'])
++            self.assertEqual(leader['pid'],child['group'])
++            self.assertEqual(leader['pid'],child['session'])
++            self.assertNotEqual(os.getpgrp(),child['group'])
++            # The failing old child exits naturally within this wait; never target an unknown PID/group.
++            time.sleep(.8)
++            self.assertFalse(survived.exists(),'Exited leader left its owned pipe-descendant alive beyond the capture timeout.')
++        class ForeignSession:
++            pid,returncode = 12345,None
++        with patch.object(module.os,'getpgid',return_value=54321), \
++             patch.object(module.os,'getsid',return_value=54321), \
++             patch.object(module.os,'killpg') as signal_group:
++            with self.assertRaises(module.CapabilityError): module.stop(ForeignSession())
++            signal_group.assert_not_called()
++        class AlreadyReaped:
++            pid,returncode = 12345,0
++        with patch.object(module.os,'killpg') as signal_group:
++            with self.assertRaises(module.CapabilityError): module.stop(AlreadyReaped())
++            self.assertEqual([(12345,0)],[(call.args[0],call.args[1]) for call in signal_group.call_args_list])
++
++
+ if __name__ == '__main__':
+     unittest.main()

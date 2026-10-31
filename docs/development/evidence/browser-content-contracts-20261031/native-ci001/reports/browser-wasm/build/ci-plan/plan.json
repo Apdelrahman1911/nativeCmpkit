@@ -1,0 +1,74 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "browser_http_fixture": "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js",
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/test-results/wasmJsBrowserTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+          "name": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument"
+        }
+      ],
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+      "test_source_files": [
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "webTest",
+        "wasmJsTest"
+      ]
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-browser-content-transitions",
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "wasmJsTest"
+  ],
+  "schema_version": 1,
+  "scope": "Two exact public Compose iframe direct/remembered/navigator transition and genuine second-loopback-origin CSP/X-Frame-Options refusal methods only. Local Karma HTTP responses and native load/postMessage/DOM observations; no accepted browser replay, full suite, other engine, production server, packaged consumer, ABI, security or release certification.",
+  "suite": "wasm",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

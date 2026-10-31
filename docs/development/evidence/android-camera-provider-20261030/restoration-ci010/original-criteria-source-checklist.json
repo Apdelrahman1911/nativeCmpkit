@@ -1,0 +1,105 @@
+{
+  "observed_at_utc": "2026-10-31T22:19:00.480489+00:00",
+  "run_id": 41246939704,
+  "source_revision": "6eaac5e01e5631d567e571c32d6523d663a8a184",
+  "issue_number": 13,
+  "original_issue_body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+  "criteria": [
+    {
+      "original": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "status": "not_verified; actual010 refused before native toggle/launch",
+      "new_method": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+      "sources": {
+        "native_scalar_and_service_state_arm": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            107,
+            112
+          ]
+        },
+        "foreground_destruction": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            155,
+            159
+          ]
+        },
+        "real_result_and_readable_owned_file": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            172,
+            193
+          ]
+        },
+        "exact_native_scalar_restoration": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt",
+          "lines": [
+            55,
+            81
+          ]
+        }
+      }
+    },
+    {
+      "original": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "status": "partial_verified_native009; foreground recreation timing not established",
+      "accepted_methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ],
+      "verified": "Real orientation change and same-UID kernel process death occur with the delayed capture Activity still top; one success and new Activity/PID are asserted after return.",
+      "not_verified": "A caller onCreate/new orientation while the external recipient remains foreground. Camera010 can add real non-finishing foreground destruction but still checks creates>=2 only after completion.",
+      "sources": {
+        "rotate_while_external_top": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            160,
+            166
+          ]
+        },
+        "kernel_death_while_external_top": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            167,
+            171
+          ]
+        },
+        "completion_before_recreation_check": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            172,
+            183
+          ]
+        }
+      },
+      "minimum_test_only_verification_delta": "Before complete(), require a new nonce/UID-bound creates count, new orientation and zero results while the recipient remains actual top. Do not force lifecycle, synthesize saved state/result, change hidden policy, replay accepted methods, or assume stopped-Activity immediate recreation is guaranteed."
+    },
+    {
+      "original": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "status": "verified_native009",
+      "accepted_method": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+      "sources": {
+        "native_cancelled_no_uri_read_refusal_exact_output_set": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            172,
+            193
+          ]
+        },
+        "bounded_owned_cleanup_and_sibling_unchanged": {
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            197,
+            259
+          ]
+        }
+      },
+      "verified": "Real foreground-held recipient followed by same-UID process death, native cancelled result, one result/empty URI/read denial, original outputs restored, foreign cache sibling unchanged; exact owned task/PID/output/temp/component/setting cleanup reviewed."
+    }
+  ],
+  "closure_ready_even_if_camera010_passes_under_required_foreground_recreation_interpretation": false,
+  "dont_keep_foreground_destruction_is_not_silently_substituted_for_foreground_recreation": true,
+  "original_failed_runs_remain_failed": true,
+  "no_hardware_minimum_vendor_release_or_security_acceptance_inferred": true,
+  "actual010_review": "independent-actual-review.json"
+}

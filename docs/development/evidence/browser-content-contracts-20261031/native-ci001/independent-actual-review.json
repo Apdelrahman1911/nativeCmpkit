@@ -1,0 +1,322 @@
+{
+  "accepted_target_executions": 0,
+  "actual_browser_acceptance": false,
+  "actual_target_executions": 0,
+  "actual_unique_methods_executed": 0,
+  "all_frozen_source_integrity_verified": true,
+  "attempt": 1,
+  "audit_id": "NATIVE-004",
+  "criteria": [
+    {
+      "criterion": "Data\u2192Url\u2192Data transitions via direct state assignment and remembered-state updates.",
+      "required_method": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
+      "required_targets": [
+        "js",
+        "wasm"
+      ],
+      "status": "not verified; both target methods unexecuted after Karma DI startup failure"
+    },
+    {
+      "criterion": "Navigator and state loaders produce the same iframe attributes and page.",
+      "required_method": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
+      "required_targets": [
+        "js",
+        "wasm"
+      ],
+      "status": "not verified; both target methods unexecuted after Karma DI startup failure"
+    },
+    {
+      "criterion": "Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new.",
+      "required_method": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument",
+      "required_targets": [
+        "js",
+        "wasm"
+      ],
+      "status": "not verified; both target methods unexecuted after Karma DI startup failure"
+    }
+  ],
+  "expected_target_executions": 4,
+  "expected_unique_methods": 2,
+  "issue": 63,
+  "issue_closure_permitted": false,
+  "new_tests_builds_or_dispatches_by_this_result_review": 0,
+  "old_accepted_suite_replays": 0,
+  "original_artifacts": [
+    {
+      "api_digest_verified": true,
+      "artifact_id": 13058923373,
+      "bytes": 107283,
+      "json_files": 11,
+      "sha256": "9bc5f2bdbf216c4c98fd3c50077b1ee77db717292f564c74f0f5d372bfbaf1e8",
+      "slot": "browser-js",
+      "xml_files": 0
+    },
+    {
+      "api_digest_verified": true,
+      "artifact_id": 13059263288,
+      "bytes": 107322,
+      "json_files": 11,
+      "sha256": "4d04969df9c102a525af30361af65ca9804c2bbaccbf0e722f4100374ee89bb5",
+      "slot": "browser-wasm",
+      "xml_files": 0
+    }
+  ],
+  "original_body_sha256": "6aca8789eb7910fb3dfb2b66f297aab826785958788ea4bb4c07a00bc7bac694",
+  "original_xml_files": 0,
+  "privacy": {
+    "raw_ZIP_job_logs_and_runner_paths_archived_publicly": false,
+    "repository_relative_source_CLI_paths": 2,
+    "sanitized_public_copies_separately_hashed": true,
+    "withheld_artifact_excerpt_texts": 2
+  },
+  "results": [
+    {
+      "accepted_target_methods": 0,
+      "browser_workload_executed": false,
+      "combined_immutable_request_input_count": 1087,
+      "conclusion": "failure",
+      "configured_browser_identity": {
+        "name": "Google Chrome",
+        "version": "155.0.8059.84"
+      },
+      "executed_target_methods": 0,
+      "execution": {
+        "elapsed_seconds": 229.07,
+        "exit_code": 1
+      },
+      "failure_origin": "Karma server factory dependency injection startup; actual TypeError and secondary circular cleanup diagnostic retained.",
+      "fresh_selected_task_markers": {
+        ":calf-webview:jsBrowserTest": 1
+      },
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.20.1",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.20.1+1",
+        "schema_version": 1
+      },
+      "host": {
+        "architecture": "x64",
+        "python": "3.12.3",
+        "system": "Linux"
+      },
+      "inputs_before_and_after_exactly_equal_frozen_library_map": true,
+      "inputs_digest": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+      "java": {
+        "major": 17,
+        "version": "17.0.20.1"
+      },
+      "job_completed_at": "2026-10-31T21:52:58Z",
+      "job_id": 124667345726,
+      "job_started_at": "2026-10-31T21:48:30Z",
+      "library_input_count": 1010,
+      "native_assertions_and_cleanup_executed": false,
+      "original_xml_files": 0,
+      "passed_target_methods": 0,
+      "plan_exactly_equals_frozen_request": true,
+      "receipt_errors": [
+        {
+          "error": "Browser WebView content XML must contain exactly both methods with actual target identities",
+          "module": "calf-webview"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-webview"
+        }
+      ],
+      "receipt_totals": {
+        "errors": 0,
+        "executed": 0,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "unexpected_skipped": 0
+      },
+      "requested_target_methods": 2,
+      "runtime_receipt_sha256_verified": true,
+      "slot": "browser-js",
+      "source_and_after_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+      "suite": "js"
+    },
+    {
+      "accepted_target_methods": 0,
+      "browser_workload_executed": false,
+      "combined_immutable_request_input_count": 1087,
+      "conclusion": "failure",
+      "configured_browser_identity": {
+        "name": "Google Chrome",
+        "version": "156.0.8078.47"
+      },
+      "executed_target_methods": 0,
+      "execution": {
+        "elapsed_seconds": 273.09,
+        "exit_code": 1
+      },
+      "failure_origin": "Karma server factory dependency injection startup; actual TypeError and secondary circular cleanup diagnostic retained.",
+      "fresh_selected_task_markers": {
+        ":calf-webview:wasmJsBrowserTest": 1
+      },
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.21",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.21+9",
+        "schema_version": 1
+      },
+      "host": {
+        "architecture": "x64",
+        "python": "3.12.3",
+        "system": "Linux"
+      },
+      "inputs_before_and_after_exactly_equal_frozen_library_map": true,
+      "inputs_digest": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+      "java": {
+        "major": 17,
+        "version": "17.0.21"
+      },
+      "job_completed_at": "2026-10-31T21:58:13Z",
+      "job_id": 124667345725,
+      "job_started_at": "2026-10-31T21:52:59Z",
+      "library_input_count": 1010,
+      "native_assertions_and_cleanup_executed": false,
+      "original_xml_files": 0,
+      "passed_target_methods": 0,
+      "plan_exactly_equals_frozen_request": true,
+      "receipt_errors": [
+        {
+          "error": "Browser WebView content XML must contain exactly both methods with actual target identities",
+          "module": "calf-webview"
+        },
+        {
+          "error": "No actual non-skipped library testcases",
+          "module": "calf-webview"
+        }
+      ],
+      "receipt_totals": {
+        "errors": 0,
+        "executed": 0,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 0,
+        "skipped": 0,
+        "tests": 0,
+        "unexpected_skipped": 0
+      },
+      "requested_target_methods": 2,
+      "runtime_receipt_sha256_verified": true,
+      "slot": "browser-wasm",
+      "source_and_after_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+      "suite": "wasm"
+    }
+  ],
+  "reviewed_at_utc": "2026-10-31T22:07:09.227997+00:00",
+  "root_cause_assessment": {
+    "CI_node_package_version_mismatch_or_java_minor_difference_cause_inferred": false,
+    "actual_observed": "Both Karma server startup attempts report the same TypeError followed by the same DI cleanup cycle. No HTTP/native assertions execute.",
+    "confirmed_owned_factory_defect": "Frozen zero-argument arrow factory lacks explicit injection metadata. The independently observed installed di@0.0.1 classic-function-only annotation parser reproduces the exact original TypeError; explicit middleware.$inject=[] makes actual local Injector invocation succeed.",
+    "minimal_repair_changes_HTTP_Kotlin_native_production_assertions_or_public_API": false,
+    "repair_native_browser_verification_pending": true,
+    "separate_local_observation_not_CI_dependency_byte_clearance": true,
+    "source_location": "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js:7 (original factory); explicit empty metadata required before provider registration."
+  },
+  "run": 41245182190,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41245182190",
+  "runtime_acceptance_checks": [
+    {
+      "evidence": "One parent-owned POST attempt, full SHA/run/attempt/profile; max-parallel1 and serial JS then Wasm actual job windows.",
+      "id": "RESULT-01",
+      "status": "verified request identity"
+    },
+    {
+      "evidence": "Tooling succeeds; both browser jobs fail. No partial green or library pass inferred.",
+      "id": "RESULT-02",
+      "status": "verified terminal failure preserved"
+    },
+    {
+      "evidence": "Runtime/receipt SHA and clean source agree. Before/after maps equal all1010 frozen library inputs and hashes.",
+      "id": "RESULT-03",
+      "status": "verified immutable source integrity"
+    },
+    {
+      "evidence": "30 reviewed source files unchanged; prior independent all1087 combined Git-blob verification retained.",
+      "id": "RESULT-04",
+      "status": "verified frozen applicability"
+    },
+    {
+      "evidence": "Linux x64/JDK17/Gradle9.7.1/Rust1.98.0 and selected JS Chrome155.0.8059.84 /Wasm Chrome156.0.8078.47 identities agree; no actual browser workload/XML target suffix.",
+      "id": "RESULT-05",
+      "status": "configured runtime verified; browser execution unverified"
+    },
+    {
+      "evidence": "No security-ignore fixture change in reviewed sources. Server DI fails before policy delivery.",
+      "id": "RESULT-06",
+      "status": "source-reviewed no bypass; enforcement unexecuted"
+    },
+    {
+      "evidence": "Both actual plans exactly equal request: calf-webview only, exact focus/class/two methods/HTTP fixture.",
+      "id": "RESULT-07",
+      "status": "verified finite plans"
+    },
+    {
+      "evidence": "Anti-cache/failures-fatal init retained; one selected task marker per invocation. Each selected task fails during Karma startup.",
+      "id": "RESULT-08",
+      "status": "verified fresh task invocation, not testcase execution"
+    },
+    {
+      "evidence": "Both independently checked archives contain11 JSON and zero XML; receipt reports are empty.",
+      "id": "RESULT-09",
+      "status": "not satisfied; zero original XML"
+    },
+    {
+      "evidence": "No original JS case or target identity exists.",
+      "id": "RESULT-10",
+      "status": "not satisfied; JS methods unexecuted"
+    },
+    {
+      "evidence": "No original Wasm case or target identity exists.",
+      "id": "RESULT-11",
+      "status": "not satisfied; Wasm methods unexecuted"
+    },
+    {
+      "evidence": "Original ZIP hashes equal API digests; all22 JSON entry hashes match. Both independent case counts and receipt totals are zero.",
+      "id": "RESULT-12",
+      "status": "verified zero counts and archive hashes"
+    },
+    {
+      "evidence": "No native positive control/header/request/load/clear-state/recovery/message-barrier assertions executed.",
+      "id": "RESULT-13",
+      "status": "not satisfied; composite policy witnesses unexecuted"
+    },
+    {
+      "evidence": "Karma server close emits the secondary circular-dependency diagnostic. No method finally/session/listener/viewport cleanup was executed or accepted.",
+      "id": "RESULT-14",
+      "status": "not satisfied; cleanup failure retained"
+    },
+    {
+      "evidence": "Expected two distinct methods/four target executions; actual zero/zero. #63 stays open; parent owns closure.",
+      "id": "RESULT-15",
+      "status": "not satisfied; all original criteria remain open"
+    },
+    {
+      "evidence": "No #64/#65/#40/security/engine/packaged consumer/ABI/memory/release/publishing acceptance inferred.",
+      "id": "RESULT-16",
+      "status": "verified bounded conclusions"
+    }
+  ],
+  "schema_version": 1,
+  "serial_job_windows_verified": true,
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "terminal_observation_utc": "2026-10-31T21:59:28Z",
+  "tooling_conclusion": "success",
+  "tooling_job_id": 124667026359,
+  "unrelated_release_security_or_dependency_clearance": false,
+  "workflow_conclusion": "failure"
+}

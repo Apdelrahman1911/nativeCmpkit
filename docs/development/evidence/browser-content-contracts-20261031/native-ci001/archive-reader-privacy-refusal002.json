@@ -1,0 +1,17 @@
+{
+  "actual_private_path_fields": 2,
+  "actual_private_path_record": "request/source-preflight.json (two source-CLI command arguments)",
+  "additional_false_positive_fields": 2,
+  "error_kind": "AssertionError",
+  "native_acceptance": false,
+  "native_executions": 0,
+  "observed_at_utc": "2026-10-31T22:07:09.140255+00:00",
+  "operation": "Independent public-archive privacy reader, not tests or CI",
+  "original_CI_failure_cause": false,
+  "owning_error": "Raw serialized JSON checking mistook letter-colon followed by escaped newline for a Windows drive path in two safe task-failure excerpts. Two real absolute checkout paths in source-preflight commands also require repository-relative qualification.",
+  "remedy": "Scan recursively decoded JSON strings (text files directly), keep all private-path refusals, qualify only the two exact source-CLI path arguments and preserve original hashes/field records.",
+  "run": 41245182190,
+  "schema_version": 1,
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "status": "initial privacy reader refused"
+}

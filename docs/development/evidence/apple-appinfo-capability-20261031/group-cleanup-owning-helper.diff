@@ -1,0 +1,69 @@
+--- prior-private/apple_appinfo_capability.py
++++ repaired-private/apple_appinfo_capability.py
+@@ -60,20 +60,35 @@
+ 
+ 
+ def stop(process):
+-    if process.poll() is not None: return
+-    try: os.killpg(process.pid, signal.SIGTERM)
+-    except ProcessLookupError: pass
+-    try: process.wait(timeout=1)
+-    except subprocess.TimeoutExpired:
+-        try: os.killpg(process.pid, signal.SIGKILL)
+-        except ProcessLookupError: pass
+-        process.wait(timeout=2)
++    """Signal only this anchored owned session; never reap before its last signal."""
++    pid=process.pid
++    need(type(pid) is int and pid>1 and pid not in (os.getpgrp(),os.getsid(0)),
++         'owned_control_process_group_required')
++    if process.returncode is not None:
++        # Once reaped, a group identifier may be reused. Never signal it again.
++        try: os.killpg(pid,0)
++        except ProcessLookupError: return
++        raise CapabilityError('reaped_control_group_still_present')
++    def anchored_signal(value):
++        # Cached returncode, not poll()/wait(): the unreaped child anchors PID/SID.
++        try:
++            group,session=os.getpgid(pid),os.getsid(pid)
++        except ProcessLookupError:
++            raise CapabilityError('owned_control_leader_unavailable') from None
++        need(group==pid and session==pid,'owned_control_session_changed')
++        try: os.killpg(pid,value)
++        except ProcessLookupError:
++            raise CapabilityError('owned_control_group_unavailable') from None
++    anchored_signal(signal.SIGTERM)
++    time.sleep(.05)
++    anchored_signal(signal.SIGKILL)
++    process.wait(timeout=2)
+ 
+ 
+ def capture(argv, cwd, timeout):
+     """Bound pipe reads before retaining bytes; stop only this owned process group."""
+     outputs = {'stdout':bytearray(), 'stderr':bytearray()}
+-    deadline, reason = time.monotonic()+timeout, None
++    deadline, reason, group_stopped = time.monotonic()+timeout, None, False
+     process = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.DEVNULL,
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+     try:
+@@ -90,14 +105,17 @@
+                     outputs[key.data].extend(chunk[:available])
+                     if len(chunk)>available:
+                         reason='output-bound'; break
+-            if reason is not None: stop(process)
++            if reason is not None:
++                stop(process);group_stopped=True
+             else:
+                 try: process.wait(timeout=max(.001,deadline-time.monotonic()))
+                 except subprocess.TimeoutExpired:
+-                    reason='timeout'; stop(process)
++                    reason='timeout';stop(process);group_stopped=True
+     finally:
+-        stop(process)
+-        process.stdout.close(); process.stderr.close()
++        try:
++            if not group_stopped: stop(process)
++        finally:
++            process.stdout.close();process.stderr.close()
+     return Result(process.returncode,bytes(outputs['stdout']),bytes(outputs['stderr']),reason)
+ 
+ 

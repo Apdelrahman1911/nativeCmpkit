@@ -1,5 +1,15 @@
 # Android I/O provider lifecycle verification
 
+## Actual result — 2026-10-31
+
+[Native41245152018](evidence/android-io-provider-lifecycle-20261031/native-ci001/README.md)
+now passes all five API35 methods/one exact original XML/Gradle0/45.02s;
+real framework grants, own secondary-client restart, revocation, unstable Binder
+death/recovery and injected-Coil error/cancellation/descriptor closure execute.
+Only the [mapped original-criterion subsets](evidence/android-io-provider-lifecycle-20261031/native-ci001/criterion-subset-review.json)
+are accepted. #45/#55/#57 remain open; earlier preparation observations below
+retain their historical scope. No accepted lifecycle replay is required.
+
 ## Scope and execution flow
 
 `calf-io/src/androidDeviceTest/.../AndroidIoProviderLifecycleTest.kt` exercises

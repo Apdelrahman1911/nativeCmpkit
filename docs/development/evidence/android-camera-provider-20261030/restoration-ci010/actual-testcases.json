@@ -1,0 +1,22 @@
+{
+  "testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+      "status": "failed"
+    }
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "failure_text": [
+    "java.lang.NoSuchFieldException: No field TRANSACTION_setAlwaysFinish in class Landroid/app/IActivityManager$Stub; (declaration of 'android.app.IActivityManager$Stub' appears in /system/framework/framework.jar)\n\tat java.lang.Class.getDeclaredField(Native Method)\n\tat com.mohamedrejeb.calf.camerapicker.OwnedAlwaysFinish.runningTransaction(OwnedAlwaysFinish.kt:94)\n\tat com.mohamedrejeb.calf.camerapicker.OwnedAlwaysFinish.<init>(OwnedAlwaysFinish.kt:38)\n\tat com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture(AndroidCameraRestorationTest.kt:108)\n\tat com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture$default(AndroidCameraRestorationTest.kt:57)\n\tat com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.nativeDontKeepActivitiesRestoresOneReadableCapturedFile(AndroidCameraRestorationTest.kt:52)\n"
+  ]
+}

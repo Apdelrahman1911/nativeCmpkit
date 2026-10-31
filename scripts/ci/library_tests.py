@@ -155,6 +155,14 @@ ANDROID_IO_PROVIDER_METHODS = (
     "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
     "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
 )
+ANDROID_IO_DEFAULT_DECODE_FOCUS = "android-io-default-decode"
+ANDROID_IO_DEFAULT_DECODE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest"
+ANDROID_IO_DEFAULT_DECODE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt"
+ANDROID_IO_DEFAULT_DECODE_METHODS = (
+    "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+    "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+    "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+)
 ANDROID_IO_OVERSIZE_FOCUS = "io-device-known-oversize"
 ANDROID_IO_DEVICE_CLASS = "com.mohamedrejeb.calf.io.KmpFileDeviceTest"
 ANDROID_IO_DEVICE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt"
@@ -1195,6 +1203,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
              (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
             (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_DEFAULT_DECODE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
             (focus in ANDROID_SAVE_IDENTITY_FOCUSES and suite == "android-device" and
@@ -1301,11 +1310,15 @@ def android_io_provider_identities() -> list[dict]:
     return [{"classname": ANDROID_IO_PROVIDER_CLASS, "name": method} for method in ANDROID_IO_PROVIDER_METHODS]
 
 
+def android_io_default_decode_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_DEFAULT_DECODE_CLASS, "name": method} for method in ANDROID_IO_DEFAULT_DECODE_METHODS]
+
+
 def android_io_documents_required(test_plan: dict) -> bool:
     # The accepted pre-open oversize recovery must not acquire this new helper or
     # replay any lifecycle/Coil cases. Full/unfocused authored IO keeps them all.
     return (test_plan.get("suite") == "android-device" and
-            (test_plan.get("explicit_test_focus") == ANDROID_IO_PROVIDER_FOCUS or
+            (test_plan.get("explicit_test_focus") in {ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS} or
              (test_plan.get("explicit_test_focus") is None and any(
                  item.get("module") == "calf-io" and ANDROID_IO_PROVIDER_SOURCE in item.get("test_source_files", [])
                  for item in test_plan.get("expected", [])))))
@@ -1704,6 +1717,20 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ANDROID_IO_PROVIDER_CLASS
         selected[0]["required_testcases"] = android_io_provider_identities()
         result["scope"] = "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification."
+    elif focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+        source = safe_path(root, ANDROID_IO_DEFAULT_DECODE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_DEFAULT_DECODE_METHODS) or
+                "class AndroidIoDefaultDecodeTest" not in source or "package com.mohamedrejeb.calf.io" not in source or
+                ANDROID_IO_DEFAULT_DECODE_SOURCE not in selected[0]["test_source_files"] or
+                ANDROID_IO_DEVICE_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                "decoderFactory(" in source or "imageDecoderEnabled(" in source):
+            raise ValueError("Android default decode declarations changed; review the exact three new methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_DEFAULT_DECODE_CLASS
+        selected[0]["required_testcases"] = android_io_default_decode_identities()
+        result["scope"] = "Three new actual API35 default Coil BitmapFactoryDecoder library methods only: native PNG binary unknown-size/encoded streaming/pixel parity, native JPEG EXIF rotation/reflection/bounds replay and repeated corrupt-image cross-UID descriptor closure. No injected decoder or replay of the five provider-lifecycle/accepted oversize methods. Local PNG/JPEG provider is separate-process same-UID; corrupt bytes use the existing separate-UID actual tree grant. No kernel seek/ImageDecoder metadata route, physical/min23/vendor/cloud, peak memory, request-key/invalidation, packaged consumer/API-ABI, other-platform or security/release certification."
     elif focus == ANDROID_IO_OVERSIZE_FOCUS:
         source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1920,6 +1947,17 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("required_testcases") != android_io_provider_identities() or
                 any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
             raise ValueError("Invalid finite Android IO provider/Coil plan")
+        return True
+    if focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != ANDROID_IO_DEFAULT_DECODE_CLASS or
+                expected[0].get("required_testcases") != android_io_default_decode_identities() or
+                any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_DEFAULT_DECODE_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
+            raise ValueError("Invalid finite Android default Coil decode plan")
         return True
     if focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -2415,6 +2453,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
                              ["Android IO XML must contain exactly all five selected new methods in one fresh report, no missing, duplicate or unrelated cases"])
             scenarios = [{**c, "source": ANDROID_IO_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android default decode XML must contain exactly all three new methods in one fresh report, no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_DEFAULT_DECODE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_OVERSIZE_FOCUS:
@@ -3195,7 +3241,7 @@ def main() -> int:
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")

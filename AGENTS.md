@@ -1,5 +1,44 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Browser issue closed; I/O runtime accepted; focused next batch — 2026-10-31
+
+**#63/NATIVE-004 CLOSED/completed**, after all three original criteria and
+[independent source/results/readback](docs/development/evidence/browser-content-contracts-20261031/native-ci002/README.md): actual41246979957 at6eaac5e0
+succeeds JS2/2 + Wasm2/2, two distinct methods/four target executions/two original
+XML; Gradle0/263.07s and0/270.07s,1012/1089 exact Git inputs, real Chromium
+documents/HTTP CSP-XFO/positive-message/recovery and owned cleanup reviewed.
+Previous DI startup failure remains failed. [Current issue-state readback](docs/development/evidence/issue-state-readback-20261031/README.md)
+also corrects85 stale mapping observations without any new closure.
+**91closed/81open/172total**;
+29implemented/40partial/89verified/six unresolved audit dispositions.
+
+[Actual I/O41245152018](docs/development/evidence/android-io-provider-lifecycle-20261031/native-ci001/README.md) at5585edac succeeds5/5 API35 native methods/one
+original XML/Gradle0/45.02s: real fixed-tree grants/bookmark/restart/revocation,
+unstable Binder death/recovery and injected-Coil error/cancel/source closure.
+1010 actual library hashes/1087 combined preflight match Git; no uploaded actual
+combined map. #45/#55/#57 remain open beyond these exact subsets.
+
+[Serial local owning batch](docs/development/evidence/important-coil-yarn-local-20261031/README.md) compiles the default-Coil reporterAPK
+0/156.03s and passes exactly3/3 fresh Yarn JVM methods/one original XML,0/32.01s,
+no skips and1018/1095 inputs held. **ZERO default-Coil native executions**; three
+API35 methods next, not accepted lifecycle/oversize/host replay. Yarn core stays
+inert; ordinary root closure/alias/Git/reader/argv/#40/security gates remain open.
+[Apple capability](docs/development/evidence/apple-appinfo-capability-20261031/README.md) is help-only/fixed tool identity/read-only, no
+Gradle/simulator/app/profile; actual SDK syntax not yet observed. #141 stays open.
+
+[Camera41246939704](docs/development/evidence/android-camera-provider-20261030/restoration-ci010/README.md) FAILS1/1 API35/one failed execution/one original
+XML/Gradle1/49.02s at unavailable reflected TRANSACTION_setAlwaysFinish, before
+service mutation/caller/capture; absent-versus-hidden cause unknown.25 cumulative
+restoration executions/three earlier accepted methods retained, not replayed.
+#13 remains open, including foreground-recreation timing; next owning supported
+Settings UI lease must preserve Developer Options master and exact restoration.
+No guessed Binder/hidden-policy bypass/scalar-only/forced-destroy substitute.
+[17 affected routing guards](docs/development/evidence/coil-apple-routing-20261031/README.md) pass once; all126
+current profiles/11 full slots/eight Android modules/minimum permissions retained.
+Parallel disjoint work/serial local builds/8GiB/max2heavy and all minimum/native/
+consumer/API-ABI/dependency/legal/security/readiness/publishing/Pages/main/history
+gates remain. No release, deployment or package is authorized by these passes.
+
 ## Camera/Karma owning recovery; inert consumer tooling integrated — 2026-10-31
 
 [Camera one-case repair](docs/development/evidence/android-camera-provider-20261030/restoration-dont-keep001/README.md)

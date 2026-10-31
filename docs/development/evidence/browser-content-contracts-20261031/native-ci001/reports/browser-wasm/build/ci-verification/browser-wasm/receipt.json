@@ -1,0 +1,127 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:wasmJsBrowserTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Browser WebView content XML must contain exactly both methods with actual target identities",
+      "module": "calf-webview"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 273.09,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-browser-content-transitions",
+  "finished_at_utc": "2026-10-31T21:58:06.620462+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+  "inputs_before_sha256": "5b01d41f97a5374dd725ecef966e1976080f9ad535812ce8420e82ce02fe6985",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+      "name": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+      "name": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument"
+    }
+  ],
+  "runtime_receipt_sha256": "eb5a589f7750200acd71cb433c55b72e786efffe59bc0dd1232d00136173c843",
+  "schema_version": 1,
+  "scope": "Two exact public Compose iframe direct/remembered/navigator transition and genuine second-loopback-origin CSP/X-Frame-Options refusal methods only. Local Karma HTTP responses and native load/postMessage/DOM observations; no accepted browser replay, full suite, other engine, production server, packaged consumer, ABI, security or release certification.",
+  "source_revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "source_revision_after": "5585edacd97dfb0eb928507a9e9017630dfc7c14",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-31T21:53:33.530908+00:00",
+  "suite": "wasm",
+  "task_execution_markers": {
+    ":calf-webview:wasmJsBrowserTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

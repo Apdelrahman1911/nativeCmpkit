@@ -1,0 +1,76 @@
+{
+  "scope": "One owning source guard, preserved red then green; neither run is JVM/compiler/model acceptance.",
+  "source_guard_py_sha256": "7abdbcf7e10510368b83a4bb34855aecac0193560b359041dab7a3f761f30d47",
+  "runs": [
+    {
+      "label": "inert-v1-source-red",
+      "kind": "new_owning_source_guard_only",
+      "tests": 1,
+      "exit_code": 1,
+      "elapsed_seconds": 0.0747,
+      "jvm_model_or_compiler_executed": false,
+      "logs": {
+        "stdout": {
+          "archive": {
+            "path": "source-guards/inert-v1-source-red.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "original_digest": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "transform": "Byte-preserved."
+        },
+        "stderr": {
+          "archive": {
+            "path": "source-guards/inert-v1-source-red.stderr",
+            "bytes": 2514,
+            "sha256": "2dc037a9092fd55b31e42672d47d7e38d2a0df9b8ad48f9f68e0fa92600a2dc0"
+          },
+          "original_digest": {
+            "bytes": 2586,
+            "sha256": "7885932e9f648bc91da4cf52f02d41d552000b02c507eed08854b825ff154223"
+          },
+          "transform": "Only private review-directory prefix removed from traceback filenames."
+        }
+      }
+    },
+    {
+      "label": "owned-snapshot-source-green",
+      "kind": "new_owning_source_guard_only",
+      "tests": 1,
+      "exit_code": 0,
+      "elapsed_seconds": 0.07,
+      "jvm_model_or_compiler_executed": false,
+      "logs": {
+        "stdout": {
+          "archive": {
+            "path": "source-guards/owned-snapshot-source-green.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "original_digest": {
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "transform": "Byte-preserved."
+        },
+        "stderr": {
+          "archive": {
+            "path": "source-guards/owned-snapshot-source-green.stderr",
+            "bytes": 296,
+            "sha256": "eccbded9518bb336a666b3514e984adf0f9d092e7a1f6ddf57a20fd72aa488be"
+          },
+          "original_digest": {
+            "bytes": 296,
+            "sha256": "eccbded9518bb336a666b3514e984adf0f9d092e7a1f6ddf57a20fd72aa488be"
+          },
+          "transform": "Byte-preserved."
+        }
+      }
+    }
+  ],
+  "source_refusal_not_runtime_reproduction": true,
+  "actual_jvm_or_gradle_results_in_this_archive": 0
+}

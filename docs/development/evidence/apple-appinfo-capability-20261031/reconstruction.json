@@ -1,0 +1,63 @@
+{
+  "checked_at_utc": "2026-10-31T22:31:29.426594+00:00",
+  "file_identity_assumption": "These small frozen source snapshots are regular, fixed and trusted; this is not an adversarial filesystem or bounded-FIFO/growth security attestation.",
+  "final_candidate_reconstruction": [
+    {
+      "forward_exact": true,
+      "inverse_exact": true,
+      "path": ".github/workflows/gradle.yml",
+      "postimage_sha256": "854764038252872ba9ecbd48c4d2db561f9f4d688e33a7e0acbb6b2a5a93882b",
+      "preimage_absent": false,
+      "preimage_sha256": "458127467aaa764b40d43a81245c64f50da53c9a92ab97b6cd8a7091711fbbf2"
+    },
+    {
+      "forward_exact": true,
+      "inverse_exact": true,
+      "path": "scripts/ci/workflow_matrix.py",
+      "postimage_sha256": "e0981cf634429b4d342525aa7d19f6b39a435dce676443f09c223547b08f049e",
+      "preimage_absent": false,
+      "preimage_sha256": "86b342920421eb9565192fd4852bb2aaaa3b4587ed3f95fdeb09160558126df1"
+    },
+    {
+      "forward_exact": true,
+      "inverse_exact": true,
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "postimage_sha256": "673efdd9253df0bf0c48f0cdff06573eafab8fe9fd0cb0e468ec184f26f3cf1b",
+      "preimage_absent": true,
+      "preimage_sha256": null
+    },
+    {
+      "forward_exact": true,
+      "inverse_exact": true,
+      "path": "scripts/ci/test_apple_appinfo_capability.py",
+      "postimage_sha256": "0a82a9793e749daa451f71756db746f3196a2892d7cb08868af92b50cab27a66",
+      "preimage_absent": true,
+      "preimage_sha256": null
+    }
+  ],
+  "group_repair": {
+    "diff": "group-cleanup-owning-helper.diff",
+    "final_helper_sha256": "673efdd9253df0bf0c48f0cdff06573eafab8fe9fd0cb0e468ec184f26f3cf1b",
+    "inverse_and_forward_exact": true,
+    "inverse_red_helper_sha256": "38b71429a698592d75e700af3df0e7def11567335c1b3b60915c33bc96debae9",
+    "only_changed_functions": [
+      "stop",
+      "capture"
+    ]
+  },
+  "patch": "capability-only.patch",
+  "regression_reconstruction": {
+    "addition_diff": "group-regression-addition.diff",
+    "all_twenty_old_method_segments_exact": true,
+    "final_test_sha256": "0a82a9793e749daa451f71756db746f3196a2892d7cb08868af92b50cab27a66",
+    "fixture_only_diff": "group-regression-fixture-adjustment.diff",
+    "forward_and_inverse_exact": true,
+    "initial_red_and_first_group_green_test_sha256": "c865e7029264dbd5880eab70ede836d0ff9ef2879cf97ee944194a297d003418",
+    "only_new_regression_changed_after_first_green": true,
+    "original_twenty_method_test_sha256": "713bdf33d1ffa7c3cbe3f73cbf4ecfb233f483d6203943ccfd84c1ed43236e6b"
+  },
+  "schema_version": 1,
+  "scope": "Pure in-memory exact unified-diff reconstruction and byte/hash comparisons. No Git apply, helper/test execution, build or SDK invocation during archive preparation.",
+  "selected_current_preimages_not_clean_commit": true,
+  "source_freeze": "source-freeze.json"
+}

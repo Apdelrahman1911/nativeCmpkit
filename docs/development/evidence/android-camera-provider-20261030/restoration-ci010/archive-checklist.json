@@ -1,0 +1,56 @@
+{
+  "scope": "Archive-preservation checks only; these are not CI test executions, new source verification, native acceptance or issue closure.",
+  "run_id": 41246939704,
+  "source_revision": "6eaac5e01e5631d567e571c32d6523d663a8a184",
+  "checks": [
+    {
+      "check": "Existing ZIP byte count and API/manifests SHA-256 match",
+      "passed": true
+    },
+    {
+      "check": "Exactly all 24 original ZIP object sizes and SHA-256 match the existing manifest",
+      "passed": true
+    },
+    {
+      "check": "20 selected objects and 23 existing metadata files archived; four objects hash-only",
+      "passed": true
+    },
+    {
+      "check": "41 copied originals are byte-exact; only two JSON files have four disclosed private-prefix substitutions",
+      "passed": true
+    },
+    {
+      "check": "Both failed XML byte hashes and sole testcase/failure text remain unchanged",
+      "passed": true
+    },
+    {
+      "check": "Completed failure, Gradle exit one, sole native failure and issue13-open verdict retained",
+      "passed": true
+    },
+    {
+      "check": "Initial reviewer canonical-versus-raw digest refusal retained byte-exact",
+      "passed": true
+    },
+    {
+      "check": "All 46 JSON and two XML files parse without executing artifact data",
+      "passed": true
+    },
+    {
+      "check": "Every public file passes private-path/token/binary-extension scan",
+      "passed": true
+    },
+    {
+      "check": "49 entries in SHA256SUMS strictly verify all public files except the checksum list itself",
+      "passed": true
+    },
+    {
+      "check": "No downloaded files, tests, builds, dispatches, mutations or accepted-suite replay during packaging",
+      "passed": true
+    }
+  ],
+  "archive_checks_are_not_the_41_existing_source_result_integrity_checks": true,
+  "public_file_count_including_SHA256SUMS": 50,
+  "SHA256SUMS_entry_count": 49,
+  "original_native_failure_preserved": true,
+  "native_verdict_changed": false
+}

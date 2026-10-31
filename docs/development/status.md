@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `93fa09dfbf5dd0f0f596af6c4865d7089ff1983d576fdb574016a7d46d3f54c1`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `b5b9e58a5a0a51e5557913d77d512e56c51ff65ffa79098852e395fa6c85264b`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 30 |
+| implemented | 29 |
 | partially-verified | 40 |
-| verified | 88 |
+| verified | 89 |
 | unresolved | 6 |
 | not-applicable | 0 |
 
@@ -79,7 +79,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | verified | — | 3 / 0 |
 | 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 10 |
-| 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 10 |
+| 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 11 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 10 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
 | 37 | [PERM-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/18) | High | 1 | M | verified | PERM-001 | 3 / 0 |
@@ -112,15 +112,15 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
 | 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 9 |
-| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 6 |
+| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 7 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
-| 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 11 |
+| 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 12 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
 | 71 | [IO-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/59) | Medium | 2 | M | verified | IO-006 | 5 / 0 |
 | 72 | [IO-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/60) | Medium | 2 | M | verified | IO-015 | 4 / 0 |
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
-| 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | implemented | — | 3 / 4 |
+| 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
 | 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
@@ -916,6 +916,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
 - Post-plugin desktop001 bookmark round-trips do not clear actual Android persisted/provider or Apple security-scope grant/restart/stale-bookmark lifetime tests.
 - Host002 proves shadow-managed bookmark permission bookkeeping, not actual persisted/revoked OS URI grants, external-provider read access, process restart or Apple security-scope lifetime. Those device and immutable-source gates remain.
+- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
 
 **Compatibility / scope:** New APIs are opt-in. URI restoration alone gives no grant. Persisted Android grants are application-global, not automatically reference-counted for unrelated callers.
 
@@ -1599,6 +1600,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Diagnose the actual API35 provider startup/death/null-size observation and the separate DocumentFile MIME-projection mismatch. Regular FileProvider metadata success is not SAF tree/folder or persisted/cross-UID grant verification; preserve those tests.
 - Host002 confirms only the in-process Robolectric tree-child fixture. Actual framework IPC, external/cloud provider identity, grant revocation/process death and device004 known-size metadata/query behavior remain unverified; no lowering assertions or replacing native checks with host results.
+- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
 
 **Compatibility / scope:** Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content.
 
@@ -1650,6 +1652,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Browser004 contains no Coil compile/test despite full helper-discovered browser-suite success. Retain genuine Coil target compilation, fetch/decode/error/cancellation/size-limit/peak-memory coverage and immutable consumers; common IO prerequisites do not clear those gates.
 - Post-plugin desktop001 executes no Coil module. Actual Coil decoder failure/request cancellation, modified-file key policy, native provider ownership and target memory measurements remain required.
 - Host002 contains no Coil task. Retain genuine per-target Coil compilation/consumer/fetch/decode/error/request-cancel/size-cap/key-policy/memory tests and native provider ownership, regardless of shared IO prerequisites.
+- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
 
 **Compatibility / scope:** Existing Fetcher/Factory constructors preserved; browser oversized fetches now error. Source-byte cap does not bound decoded bitmap allocation. Mutable-file request key/invalidation policy still needs integration guidance.
 
@@ -1761,7 +1764,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 75. NATIVE-004 — Web state-driven URL loading does not clear existing iframe srcdoc
 
-**Medium · implemented · original effort S** — [nativeCmpkit #63](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort S** — [nativeCmpkit #63](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -1773,12 +1776,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Original required test pending full target verification: Data→Url→Data transitions via direct state assignment and remembered-state updates.
-- Original required test pending full target verification: Navigator and state loaders produce the same iframe attributes and page.
-- Original required test pending full target verification: Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** 2026-10-31 original3 criteria fully verified on actual Chromium JS and Wasm at6eaac5e0; #63 closed/read back before documentation. Two distinct methods/four target executions, native document/message/HTTP header and cleanup assertions complete; no cross-origin-unreadability-only inference. See native-ci002/README.md. Earlier failed history remains; independent platform/consumer/API-ABI/dependency/legal/security/readiness gates not promoted.
 
 **Compatibility / scope:** Same content API; stale inline-page behavior intentionally removed.
 
@@ -3578,14 +3578,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4111035c05eca3014d742fdad2980b4bbfa362f87746eb55c8b56873438d87c4` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `29769f0a08c1a5d1c26bd57eafc1ae6aead53a069ac187b6e78b5f3950a505d7` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `16991eec11581a1ca2b98cbb0768eb86e04ad0e8689575986e634ba41dc76204` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `cd316afc422cec08235bd0e4ccafaba65b1dc9986122c81bd8f4e3569cc368e5` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0b67ff06dafffac8455058ec14680665e96d0133ee168f2b1c76d7a1abf57aa2` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |
-| [docs/migration/issue-map.json](../migration/issue-map.json) | `48ae3333fab2272b4081a988ee079d6b108f4e5dadf76f8a2e4893414df49e4f` |
-| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `fac4a819427517ae0a90edc485fa884b5a2e1e1044d3e64a949e8e6333d8aa05` |
+| [docs/migration/issue-map.json](../migration/issue-map.json) | `8a1064d5517ad8644112bf297f924055617ca283d011de2b893c8e8607797944` |
+| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `c0d9b81913c7b4fec83cb9b5f91380bc20fa460019b7140797b3f0e601be1ca9` |
 
 No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "source_archive": "docs/migration/upstream-updates/20261031T195715Z/destination/issues.json",
+  "archive_sha256": "79a589e5d07e76e311948bb8446e64514c42472a9c556bfed924e1d4edf1b3f7",
+  "issues": [
+    {
+      "number": 3,
+      "state_observed_in_archive": "open",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/3",
+      "title": "[High][BUILD-006] Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness",
+      "original_body_sha256": "ce0c076795bcd95387f34954fab9633c078d319faddb76462d83ec55324a5023",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Verify per-module test counts are nonzero where expected\n- Exercise all regressions listed in module finding required_tests\n- Build isolated minimum-supported-SDK and Kotlin/Compose-version consumers\n- Assert Kotlin/JNI/Swift API compatibility against the retained compatibility surface",
+      "progress_or_closure_from_this_proposal": false
+    },
+    {
+      "number": 40,
+      "state_observed_in_archive": "open",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/40",
+      "title": "[Medium][BUILD-007] Dependency and workflow trust is not reproducibly verified beyond the wrapper",
+      "original_body_sha256": "c3345d7ac454991643a17001b2b41543373abe6d641584f8d218624bab62be9d",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Reject an intentionally modified downloaded build artifact in a local verification fixture\n- Check frozen JS/Python dependency installation from empty caches\n- Validate action SHA updates and least-privilege workflow permissions\n- Re-run full resolved-graph security scans after dependency updates",
+      "progress_or_closure_from_this_proposal": false
+    },
+    {
+      "number": 103,
+      "state_observed_in_archive": "open",
+      "url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/103",
+      "title": "[Medium][NAV-018] Derived Apache-2.0 source attribution needs reconstruction and artifact verification",
+      "original_body_sha256": "aa302441b2a5956c24199a9d4023b47efa9c5808ecfd5304bb7651be95f4afbc",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Compare distinctive source/docs against pinned AndroidX NavArgument/NavType and AOSP BaseBundle/Bundle headers.\n- Trace original Calf introduction commits and record whether the exact imported revision can be established.\n- Verify source and future binary distributions retain all established Apache notices.\n- Verify Compose Cupertino/Kyant source and notice correspondence, preserving copyright text and recording whether exact original copy revisions can be recovered.",
+      "progress_or_closure_from_this_proposal": false
+    }
+  ],
+  "note": "Owner has explicitly waived mandatory action SHA pinning; original issue body/criteria are preserved, not silently rewritten. User authorization is not release/dependency/legal clearance."
+}

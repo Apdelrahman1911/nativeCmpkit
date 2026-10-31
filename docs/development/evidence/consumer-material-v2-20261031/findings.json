@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "scope": "Owning defects in the original inert consumer-v2 tooling proposal; no released-library defect or GitHub issue closure inferred",
+  "original_adapter_sha256": "3abfaabb0e977c9f709c87e92f488f0cf345d9bc87606ab4c2077504dc079239",
+  "integrated_adapter_sha256": "ba1b20bc0cb9d18c6d7092f6c22df93ebcea7d97aac9ef60c5a402e7466d29c2",
+  "status": "Small owning repairs integrated in the working tree; exact source hashes read back; saved narrowly affected results reused",
+  "findings": [
+    {
+      "id": "CV2-001",
+      "priority": "Medium",
+      "status": "Confirmed on original proposal; repaired before inert-tooling adoption",
+      "original_code": [
+        "tests/consumer/native_license_material_v2.py:215-229",
+        "tests/consumer/native_license_material_v2.py:352-355"
+      ],
+      "current_owning_code": [
+        "tests/consumer/native_license_material_v2.py:217-254",
+        "tests/consumer/native_license_material_v2.py:379-382"
+      ],
+      "root_cause": "Frozen dataclass prevented attribute reassignment but retained mutable caller-owned nested containers; exporter reused nested origin/package references.",
+      "evidence": "Editing emitted text_origin.revision also edited the supposedly independent inspector reference; separate constructor and direct-nesting controls reproduced mutable manifest, payload and observation aliases.",
+      "impact": "Self-mutated origin/proof material could pass the proposed independent correspondence inspector. No v1 collection, staging, notice, legal or publishing bypass was demonstrated.",
+      "fix": "Recursively copy validated JSON containers into read-only mapping proxies/tuples and export detached ordinary JSON containers. Inspector comparison algorithm is unchanged.",
+      "compatibility_and_risk": "Only the newly proposed Python internal mappings become intentionally read-only; exporter remains plain dict/list JSON. No Kotlin/Rust/public library API change. This does not validate provenance or isolate against arbitrary malicious in-process code.",
+      "required_controls": [
+        "defensive constructor snapshots",
+        "nested map/list/payload/observation mutation refusal",
+        "detached serializable export",
+        "forged exported-origin rejection"
+      ],
+      "synthetic_test_locations": [
+        "tests/consumer/test_native_license_material_v2.py:51-71",
+        "tests/consumer/test_native_license_material_v2.py:73-82"
+      ],
+      "result_references": [
+        "private-fixture-red001-summary.json",
+        "private-fixture-green001-summary.json",
+        "synthetic-red001-result.json",
+        "synthetic-green001-result.json"
+      ]
+    },
+    {
+      "id": "CV2-002",
+      "priority": "Low",
+      "status": "Confirmed on original proposal; repaired before inert-tooling adoption",
+      "original_code": [
+        "tests/consumer/native_license_material_v2.py:250-254"
+      ],
+      "current_owning_code": [
+        "tests/consumer/native_license_material_v2.py:275-281"
+      ],
+      "root_cause": "Per-package crate proof path was used as a dictionary key before canonical/type validation.",
+      "evidence": "List/dict paths raised raw TypeError. Synthetic null/integer/traversal/noncanonical controls also proved proof reads occurred before refusal in the original proposal.",
+      "impact": "Malformed material escaped the InvalidArtifact diagnostic contract or caused premature proof reads. No false successful collection or network/code execution was demonstrated.",
+      "fix": "Validate canonical path membership in the exact three-proof-name set before reading or using dictionary keys; retain exact set/cardinality and duplicate rejection.",
+      "compatibility_and_risk": "Malformed material intentionally refuses earlier under the existing InvalidArtifact contract. Valid exact paths retain their meaning. No broad exception swallowing or relaxed proof acceptance.",
+      "required_controls": [
+        "list",
+        "dict",
+        "null",
+        "integer",
+        "traversal",
+        "noncanonical path",
+        "refusal before proof/provenance read"
+      ],
+      "synthetic_test_locations": [
+        "tests/consumer/test_native_license_material_v2.py:84-108"
+      ],
+      "result_references": [
+        "private-fixture-red001-summary.json",
+        "private-fixture-green001-summary.json",
+        "synthetic-red001-result.json",
+        "synthetic-green001-result.json"
+      ]
+    }
+  ],
+  "new_github_issues_or_closures_from_this_work": 0,
+  "release_legal_security_readiness_clearance": false
+}

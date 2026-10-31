@@ -46,6 +46,8 @@
       '</p><script>document.documentElement.setAttribute("data-nativecmpkit-ready", "yes");' +
       'parent.postMessage(' + JSON.stringify(message) + ', "*");</script>');
   };
+  // Karma's legacy DI parser only infers classic function arguments; this factory owns no services.
+  middleware.$inject = [];
   config.plugins = (config.plugins || ['karma-*']).concat({
     'middleware:nativecmpkit-iframe-fixture': ['factory', middleware]
   });

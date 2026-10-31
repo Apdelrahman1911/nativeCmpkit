@@ -1,0 +1,117 @@
+{
+  "actionlint": {
+    "arguments": [
+      "-shellcheck=",
+      "-pyflakes=",
+      ".github/workflows/gradle.yml"
+    ],
+    "existing_binary_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4",
+    "exit_code": 0,
+    "pyflakes_enabled": false,
+    "same_accepted_omissions": true,
+    "shellcheck_enabled": false,
+    "source_only": true,
+    "version": "1.7.12"
+  },
+  "plans": {
+    "all_existing_profile_matrix_outputs_equal_frozen_current_base": true,
+    "all_full_slots": 11,
+    "api23_refusal_exit_code": 2,
+    "final_library_input_count": 1012,
+    "full_android_modules": 8,
+    "new_Gradle_builds": 0,
+    "new_runtime_tests": 0,
+    "one_case_filter": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest#nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+    "operation": "source-only plan",
+    "preflights": [
+      {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "android-camera-restoration-dont-keep",
+        "slots": [
+          {
+            "api_level": 35,
+            "exit_code": 0,
+            "expected_modules": 1,
+            "focus": "android-camera-real-restoration-dont-keep",
+            "module": "calf-camera-picker",
+            "slot": "android-device-api35",
+            "suite": "android-device"
+          }
+        ],
+        "source_only": true
+      },
+      {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "android-camera-restoration",
+        "slots": [
+          {
+            "api_level": 35,
+            "exit_code": 0,
+            "expected_modules": 1,
+            "focus": "android-camera-real-restoration",
+            "module": "calf-camera-picker",
+            "slot": "android-device-api35",
+            "suite": "android-device"
+          }
+        ],
+        "source_only": true
+      },
+      {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "android-io-provider-lifecycle",
+        "slots": [
+          {
+            "api_level": 35,
+            "exit_code": 0,
+            "expected_modules": 1,
+            "focus": "android-io-provider-lifecycle",
+            "module": "calf-io",
+            "slot": "android-device-api35",
+            "suite": "android-device"
+          }
+        ],
+        "source_only": true
+      },
+      {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "webview-content-transitions",
+        "slots": [
+          {
+            "exit_code": 0,
+            "expected_modules": 1,
+            "focus": "webview-browser-content-transitions",
+            "module": "calf-webview",
+            "slot": "browser-js",
+            "suite": "js"
+          },
+          {
+            "exit_code": 0,
+            "expected_modules": 1,
+            "focus": "webview-browser-content-transitions",
+            "module": "calf-webview",
+            "slot": "browser-wasm",
+            "suite": "wasm"
+          }
+        ],
+        "source_only": true
+      }
+    ],
+    "replayed_twenty_model_guards": 0,
+    "required_testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+      }
+    ],
+    "revision": "5585edacd97dfb0eb928507a9e9017630dfc7c14"
+  },
+  "scope": "Previously completed pure source-only plan/Actionlint checks; no rerun during archive preparation."
+}

@@ -201,6 +201,13 @@ class WebViewContentFocusTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 lt.snapshot_inputs(root)
 
+    def test_owned_karma_factory_explicitly_declares_no_injected_services_before_registration(self):
+        fixture = (lt.ROOT / FIXTURE).read_text()
+        declarations = re.findall(r"(?m)^\s*middleware\.\$inject\s*=\s*([^;\r\n]+);", fixture)
+        self.assertEqual(["[]"], declarations, "The arrow factory must bypass legacy DI inference with exact empty metadata")
+        self.assertEqual(1, fixture.count("$inject"), "No later or alternate injection override")
+        self.assertLess(fixture.index("middleware.$inject = [];"), fixture.index("config.plugins ="))
+
     def test_owning_methods_use_real_public_dom_loads_headers_messages_and_preserved_cleanup(self):
         source = (lt.ROOT / SOURCE).read_text()
         for required in ("ComposeViewport", "WebView(", "rememberWebViewState(", "rememberWebViewStateWithHTMLData(",

@@ -1,0 +1,167 @@
+{
+  "changed_combined_inputs_since_tooling001": [
+    "scripts/ci/test_desktop_saver_state_focus.py"
+  ],
+  "expected_sha": "7380a04674c2dc83583a45953418ec2c823b4258",
+  "finite_selection": {
+    "expected": [
+      {
+        "module": "calf-ui",
+        "native_test_host": "genuine-uikit-application",
+        "project": ":calf-ui",
+        "report_directory": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest",
+        "required_testcases": [
+          {
+            "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest",
+            "name": "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile[iosSimulatorArm64]"
+          }
+        ],
+        "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+        "test_filter": "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest.actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+        "test_source_sets": [
+          "commonTest",
+          "iosTest"
+        ]
+      }
+    ],
+    "fresh_target_executions_requested": 1,
+    "matrix": [
+      {
+        "arch": "arm64",
+        "python": "python3",
+        "runner": "macos-26",
+        "simulator-kind": "iphone",
+        "slot": "ios-iphone",
+        "suite": "ios",
+        "test-focus": "ios-native-image-allocation-profile-recovery",
+        "test-modules": "calf-ui"
+      }
+    ],
+    "profile": "ios-image-profile-recovery",
+    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. This finite recovery alone ad-hoc signs its disposable verification app with one explicit get-task-allow flag and requires signed readback/owned-input cleanup; no elevated permissions or public binary signing, and attachment authorization is not inferred. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification."
+  },
+  "frozen_maps": {
+    "exact-combined-inputs.json": {
+      "all_exact_frozen_Git_blob_SHA256_match": true,
+      "count": 1071,
+      "frozen_map_sha256": "3551759a9369708ce2f8a34f77a928fcd139b9b4361ce59eac1e7d1e31cc9584",
+      "mismatched_paths": [],
+      "working_files_match_frozen_map": true
+    },
+    "exact-library-inputs.json": {
+      "all_exact_frozen_Git_blob_SHA256_match": true,
+      "count": 994,
+      "frozen_map_sha256": "87cca3a05a7579ff5762871168141357bf615d391ebbb0820f2e313e85cd270e",
+      "mismatched_paths": [],
+      "working_files_match_frozen_map": true
+    }
+  },
+  "head_before": "7380a04674c2dc83583a45953418ec2c823b4258",
+  "native_workload_instrumentation_or_profile_pass_inferred": false,
+  "reviewed_at_utc": "2026-10-31T21:19:26.056824+00:00",
+  "run_attempt": 1,
+  "run_id": 41242777493,
+  "source_snapshots": {
+    ".github/workflows/gradle.yml": {
+      "bytes": 47375,
+      "disk_matches_git": true,
+      "sha256": "9ce4e4808728c82acbd715e461c5a11e1bfaa5769022a7d9b054e8df6315b9b0"
+    },
+    "calf-ui/build.gradle.kts": {
+      "bytes": 5990,
+      "disk_matches_git": true,
+      "sha256": "1471bd0366099b02cb4f20edeafe18764d70b1154d12ea2a08599ccd69c59333"
+    },
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/ImageUtils.kt": {
+      "bytes": 5638,
+      "disk_matches_git": true,
+      "sha256": "d3c804ed86981b9f8d41afbd66f060043ea1b7e284768085855f0b3d6cb7b225"
+    },
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt": {
+      "bytes": 16360,
+      "disk_matches_git": true,
+      "sha256": "f1f028ef4fb20b31c0407c6a2ff56805d2c4a0dd8b2a9db77c80366fc2cd447e"
+    },
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt": {
+      "bytes": 17121,
+      "disk_matches_git": true,
+      "sha256": "149bfc6129b059013d3f5679be49fbcb51751f0569bd495d7e7cbc8175d10b39"
+    },
+    "docs/decisions/0012-owned-profile-debug-signing.md": {
+      "bytes": 2888,
+      "disk_matches_git": true,
+      "sha256": "6e5999dfe743bfa69abfe407362deb36a0fe6f3368a453d19d982f7578a972db"
+    },
+    "scripts/ci/apple_crash_diagnostics.py": {
+      "bytes": 17677,
+      "disk_matches_git": true,
+      "sha256": "abf2982668843acdd3a60f6d424224c7880f8d6550edcbb8b1b83a00ddb27c0e"
+    },
+    "scripts/ci/apple_image_profile.py": {
+      "bytes": 28711,
+      "disk_matches_git": true,
+      "sha256": "1cc22cf87aa14334e3a9db83a154a06905ec80beec158b2d7b11539bef1d9759"
+    },
+    "scripts/ci/apple_launch_diagnostics.py": {
+      "bytes": 8136,
+      "disk_matches_git": true,
+      "sha256": "3eede95b0e20be7ef5664eb7728aebb55cfdbec8eddf0384a70a8ba4045d2219"
+    },
+    "scripts/ci/apple_memory_discovery.py": {
+      "bytes": 9875,
+      "disk_matches_git": true,
+      "sha256": "d428f02a8b8cee901b1e1bbecd49879b560953bd255dd6dda30f8294f8df29af"
+    },
+    "scripts/ci/daemon-jvm.init.gradle.kts": {
+      "bytes": 1845,
+      "disk_matches_git": true,
+      "sha256": "5bf8ed9dfb2039ef92984aa24caaacd47585dfc7c78211431cc6573a67161178"
+    },
+    "scripts/ci/failure_diagnostics.py": {
+      "bytes": 10291,
+      "disk_matches_git": true,
+      "sha256": "356a7e16a0acab689a36c8da92fc03e40078414801303edaf6b3bce1a21f62a7"
+    },
+    "scripts/ci/fresh-tests.init.gradle.kts": {
+      "bytes": 7940,
+      "disk_matches_git": true,
+      "sha256": "bc14e3ac5105e6a337c896f4f7e88dd565e8862b2b2dc0d8ff055f40ab8cb9d4"
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "bytes": 78903,
+      "disk_matches_git": true,
+      "sha256": "47dbe352b9b91d6c69c7e9cc139eb5a171a731cf37c4bbe8026053a8a056fc37"
+    },
+    "scripts/ci/library_tests.py": {
+      "bytes": 223373,
+      "disk_matches_git": true,
+      "sha256": "357b34296f4af614445f551b49a889dff8fa684a8c3f6fdf99cbe833141d062d"
+    },
+    "scripts/ci/native_test_policy.py": {
+      "bytes": 16282,
+      "disk_matches_git": true,
+      "sha256": "f85ee93e3e9e3e01317eca72617db9c3639a68a4122ceed208602d045a025d4e"
+    },
+    "scripts/ci/runtime_context.py": {
+      "bytes": 14085,
+      "disk_matches_git": true,
+      "sha256": "e23aff04c665dc1041dc9e27db775135223ace15c63a651e17b94a7155731712"
+    },
+    "scripts/ci/test_apple_profile_frame_ownership.py": {
+      "bytes": 10307,
+      "disk_matches_git": true,
+      "sha256": "f1d0983ec14d5491272da3f33310c0e7110f8f2bf8397ba7087bc10b1a73cf66"
+    },
+    "scripts/ci/test_desktop_saver_state_focus.py": {
+      "bytes": 12082,
+      "disk_matches_git": true,
+      "sha256": "ba13d4f256c8d99e0d2a26bbfb7995c36dcff10548c3ceddd4e1e6a282f26fe2"
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "bytes": 27811,
+      "disk_matches_git": true,
+      "sha256": "4e7f79038d3ab4ce848b21d8a9b9f5c2cb880333eab361915964db7f474fa4ab"
+    }
+  },
+  "tracked_edits_or_GitHub_mutations": false
+}

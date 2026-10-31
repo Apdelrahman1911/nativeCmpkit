@@ -35,6 +35,7 @@ PROFILES = {
     "android-camera-provider-minimum": ("android-device-api35",),
     "android-camera-no-handler-minimum": ("android-device-api35",),
     "android-camera-restoration": ("android-device-api35",),
+    "android-camera-restoration-dont-keep": ("android-device-api35",),
     "browser": ("browser-js", "browser-wasm"),
     "browser-picker": ("browser-js", "browser-wasm"),
     "browser-coil-io": ("browser-js", "browser-wasm"),
@@ -162,6 +163,7 @@ MODULE_SUBSETS = {
     "android-camera-provider-minimum": "calf-camera-picker",
     "android-camera-no-handler-minimum": "calf-camera-picker",
     "android-camera-restoration": "calf-camera-picker",
+    "android-camera-restoration-dont-keep": "calf-camera-picker",
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
@@ -325,6 +327,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-camera-restoration":
         for row in rows:
             row["test-focus"] = "android-camera-real-restoration"
+    if profile == "android-camera-restoration-dont-keep":
+        for row in rows:
+            row["test-focus"] = "android-camera-real-restoration-dont-keep"
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"

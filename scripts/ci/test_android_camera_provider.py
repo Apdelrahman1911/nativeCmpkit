@@ -419,8 +419,11 @@ class CameraRestorationPlanTests(unittest.TestCase):
         for value in ("LocalActivityResultRegistryOwner", "dispatchResult(", "grantUriPermission(", "onActivityResult("):
             self.assertNotIn(value, client)
         for value in ("Process.killProcess(pid)", "setRotation(", "always_finish_activities", "Os.poll(",
-                      "result.size() + n <= 65536", "tasksGone && externalTerminated", "primary.addSuppressed", "cleanupFailure?.let { throw it }"):
+                      "result.size() + n <= maximumBytes", "tasksGone && externalTerminated", "primary.addSuppressed", "cleanupFailure?.let { throw it }"):
             self.assertIn(value, source)
+        self.assertIn("private fun shell(command: String, maximumBytes: Int = 65536)", source)
+        self.assertIn('maximumBytes == 65536 || command == "dumpsys activity processes" && maximumBytes == 1_048_576', source)
+        self.assertNotIn("result.size() + n <= 1_048_576", source)
         self.assertNotIn("for (name in outputs() - before)", source)
         self.assertIn("killOwnedClient", source); self.assertIn("processName, ownedClientCommandline(pid)", source)
         self.assertIn('assertNotNull(task.taskInfo, "Unknown native task; do not infer absence")', source)

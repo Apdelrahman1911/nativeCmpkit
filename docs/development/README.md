@@ -1,5 +1,40 @@
 # NativeCmpKit development after the audit
 
+## Camera/Karma owning recovery; inert consumer tooling integrated — 2026-10-31
+
+[Camera one-case repair](evidence/android-camera-provider-20261030/restoration-dont-keep001/README.md)
+now compiles reporter0/41.01s on1012/1089 held inputs. Genuine native always-finish
+setter/readback/restore replaces scalar-only test setup; actual availability still
+unverified. Request only failed Dont-keep method; reuse three accepted camera cases.
+[Browser41245182190](evidence/browser-content-contracts-20261031/di-recovery001/README.md)
+FAILS before tests: JS1/229.07s/Wasm1/273.09s/ZERO native/XML. Exact arrow-factory
+DI cause reproduced; explicit empty injection metadata and one owning guard fixed,
+all native/HTTP expectations retained. Four unexecuted content cases next.
+[Inert consumer-v2](evidence/consumer-material-v2-20261031/README.md)
+adds repaired defensive proof snapshots/path checks, separate schema and three
+synthetic-only tests; accepted results reused, no real catalog/notices/v1 fallback.
+#13/#63/#45/#55/#57 remain open,90closed/82open; minimum/native/consumer/ABI/legal/
+security/publishing/Pages/main/history and8GiB/serial-local/max2-heavy gates stay.
+
+## Actual Apple refusal archived; native-parent bridge gap — 2026-10-31
+
+[Apple41242777493](evidence/apple-profile-native-20261031/README.md)
+at7380a046 FAILS/Gradle1/924.51s/ZERO native/XML/PID/profile; console1/2.46s.
+140 integrity/source/result checks pass on994 actual/1071 frozen Git inputs and
+owned signing/install/app/profile cleanup. One owned query102rows/79owned23rejected
+observes fixed NSOSStatusErrorDomain−10814, not a proven cause. Deterministic1085-byte
+plist matches actual hash; no signing/launch/plist/timeout change justified.
+First narrow actual SDK capability/interface/schema discovery before more costly
+profile attempts; no broad inventory/log fallback. #141 and prior failures stay
+open/unfixed/unwaived, zero Instruments/exports/leaks/row or native acceptance.
+
+[Native parent source review](evidence/native-parent-ownership-20261031/README.md)
+confirms14 source observations/zero executions: macOS JAWT Lock/Unlock no-ops and
+plain pointer getter bypasses real CFRetainedResource.execute guard. No complete
+borrow-to-owner transfer proved; scoped guard/native lifetime protocol required.
+Do not merge main-thread-refusal-only patch as #58 fix. No source/issue closure,
+publishing/Pages/main/history/security/readiness or capacity-policy change.
+
 ## Camera three actual passes; I/O lifecycle compiler/signature verification — 2026-10-31
 
 [Camera41242704209](evidence/android-camera-provider-20261030/restoration-ci009/README.md)

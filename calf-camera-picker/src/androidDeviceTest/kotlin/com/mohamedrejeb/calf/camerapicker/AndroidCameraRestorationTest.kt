@@ -90,7 +90,7 @@ class AndroidCameraRestorationTest {
         var clientTerminated = false
         var clientLaunchAttempted = false
         var changedDelayed = false
-        var changedFinish = false
+        var alwaysFinish: OwnedAlwaysFinish? = null
         var changedRotation = false
         var primaryFailure: Throwable? = null
         try {
@@ -105,8 +105,9 @@ class AndroidCameraRestorationTest {
             assertEquals(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, pm.getComponentEnabledSetting(delayed))
             assertDelayedRecipient(currentReceiver)
             if (dontKeep) {
-                changedFinish = true
-                assertEquals("", shell("settings put global always_finish_activities 1"))
+                val finishOwner = OwnedAlwaysFinish(pm, originalFinish) { command, maximumBytes -> shell(command, maximumBytes) }
+                alwaysFinish = finishOwner // Retain ownership before the native setter can fail.
+                finishOwner.arm()
                 assertEquals("1", setting("global", "always_finish_activities", setOf("1")))
             }
             // The reporter survives in a background process. Start only this fixed
@@ -254,7 +255,7 @@ class AndroidCameraRestorationTest {
                 cleanup { restoreSetting("system", "user_rotation", originalUserRotation) }
                 cleanup { waitUntil { context.getSystemService(WindowManager::class.java).defaultDisplay.rotation == originalRotation } }
             }
-            if (changedFinish) cleanup { restoreSetting("global", "always_finish_activities", originalFinish) }
+            alwaysFinish?.let { owner -> cleanup { owner.restore() } }
             cleanupFailure?.let { throw it }
         }
     }
@@ -414,7 +415,10 @@ class AndroidCameraRestorationTest {
         else assertEquals("", shell("settings put $namespace $key $value"))
         assertEquals(value, shell("settings get $namespace $key"))
     }
-    private fun shell(command: String): String {
+    private fun shell(command: String, maximumBytes: Int = 65536): String {
+        check(maximumBytes == 65536 || command == "dumpsys activity processes" && maximumBytes == 1_048_576) {
+            "Refuse a widened owned camera control query"
+        }
         val descriptor = instrumentation.uiAutomation.executeShellCommand(command)
         return ParcelFileDescriptor.AutoCloseInputStream(descriptor).use { input ->
             val result = ByteArrayOutputStream(); val block = ByteArray(4096)
@@ -425,7 +429,7 @@ class AndroidCameraRestorationTest {
                 check(Os.poll(arrayOf(poll), remaining.toInt()) > 0) { "Owned camera control read timed out" }
                 check(poll.revents.toInt() and (OsConstants.POLLERR or OsConstants.POLLNVAL) == 0)
                 val n = input.read(block); if (n < 0) break
-                check(n > 0 && result.size() + n <= 65536) { "Unbounded owned camera control reply" }
+                check(n > 0 && result.size() + n <= maximumBytes) { "Unbounded owned camera control reply" }
                 result.write(block, 0, n)
             }
             result.toByteArray().decodeToString(throwOnInvalidSequence = true).trim()

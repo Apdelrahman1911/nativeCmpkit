@@ -837,20 +837,32 @@ def android_camera_provider_filter(focus: str) -> str:
 
 
 ANDROID_CAMERA_RESTORATION_FOCUS = "android-camera-real-restoration"
+ANDROID_CAMERA_DONT_KEEP_FOCUS = "android-camera-real-restoration-dont-keep"
+ANDROID_CAMERA_RESTORATION_FOCUSES = (ANDROID_CAMERA_RESTORATION_FOCUS, ANDROID_CAMERA_DONT_KEEP_FOCUS)
 ANDROID_CAMERA_RESTORATION_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest"
 ANDROID_CAMERA_RESTORATION_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
 ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt"
+ANDROID_CAMERA_ALWAYS_FINISH_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt"
 ANDROID_CAMERA_RESTORATION_METHODS = (
     "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
     "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
     "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
     "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
 )
-ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, ANDROID_CAMERA_RESTORATION_FOCUS)
+ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES)
 
 
-def android_camera_restoration_identities() -> list[dict]:
-    return [{"classname": ANDROID_CAMERA_RESTORATION_CLASS, "name": method} for method in ANDROID_CAMERA_RESTORATION_METHODS]
+def android_camera_restoration_identities(focus: str = ANDROID_CAMERA_RESTORATION_FOCUS) -> list[dict]:
+    if focus not in ANDROID_CAMERA_RESTORATION_FOCUSES:
+        raise ValueError("Unknown finite Android camera restoration selection")
+    methods = ANDROID_CAMERA_RESTORATION_METHODS[:1] if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_METHODS
+    return [{"classname": ANDROID_CAMERA_RESTORATION_CLASS, "name": method} for method in methods]
+
+
+def android_camera_restoration_filter(focus: str) -> str:
+    android_camera_restoration_identities(focus)  # Never broaden an unknown focus.
+    return (ANDROID_CAMERA_RESTORATION_CLASS + "#" + ANDROID_CAMERA_RESTORATION_METHODS[0]
+            if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_CLASS)
 
 
 def android_camera_receiver_required(test_plan: dict) -> bool:
@@ -1527,7 +1539,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
         result["scope"] = spec["scope"]
-    elif focus == ANDROID_CAMERA_RESTORATION_FOCUS:
+    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
         source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding="utf-8")
         client = safe_path(root, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1536,13 +1548,15 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 "package com.mohamedrejeb.calf.camerapicker" not in source or
                 "class CameraRestorationVerificationActivity" not in client or
                 any(name not in selected[0]["test_source_files"] for name in
-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE)) or
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE)) or
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source + client)):
             raise ValueError("Android camera restoration declarations changed; review the exact four-method selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = ANDROID_CAMERA_RESTORATION_CLASS
-        selected[0]["required_testcases"] = android_camera_restoration_identities()
+        selected[0]["test_filter"] = android_camera_restoration_filter(focus)
+        selected[0]["required_testcases"] = android_camera_restoration_identities(focus)
         result["scope"] = "Four new real public Compose/ActivityResultRegistry camera-restoration methods on owned API35: don't-keep-activities, real display rotation, actual same-UID kernel process death and restored cancellation, with native foreign-UID grants/closed descriptors/nonce-bound task/PID/temp/output/setting/component ownership. Bytes and external recipient are synthetic; no manually injected restored result/state/grant. Accepted provider/host/portable methods are not replayed; not hardware/vendor/physical/minimum-API/packaged/API-ABI/heap/security/release certification."
+        if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS:
+            result["scope"] = "Only the failed native don't-keep-activities method from41242704209. Three accepted rotation/kernel-process-death/cancellation methods are reused by exact applicable source, not replayed. Genuine native service toggle/readback and exact original scalar/runtime restoration preserve the unchanged Activity destruction/public launcher/registry/grants/readable-file criteria. The scalar/cache contract gap is distinct from the unknown actual timeout cause. No forced Activity destruction, manual state/result/grant, hardware/vendor/physical/minimum/packaged/API-ABI/heap/security/release certification."
     elif focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
         source = safe_path(root, ANDROID_CAMERA_PROVIDER_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1907,14 +1921,14 @@ def validate_test_focus(test_plan: dict) -> bool:
                 any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
             raise ValueError("Invalid finite Android IO provider/Coil plan")
         return True
-    if focus == ANDROID_CAMERA_RESTORATION_FOCUS:
+    if focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
-                expected[0].get("test_filter") != ANDROID_CAMERA_RESTORATION_CLASS or
-                expected[0].get("required_testcases") != android_camera_restoration_identities() or
+                expected[0].get("test_filter") != android_camera_restoration_filter(focus) or
+                expected[0].get("required_testcases") != android_camera_restoration_identities(focus) or
                 any(name not in expected[0]["test_source_files"] for name in
-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE))):
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE))):
             raise ValueError("Invalid finite Android camera real-restoration plan")
         return True
     if focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
@@ -2318,7 +2332,7 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_CAMERA_RESTORATION_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_RESTORATION_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required else

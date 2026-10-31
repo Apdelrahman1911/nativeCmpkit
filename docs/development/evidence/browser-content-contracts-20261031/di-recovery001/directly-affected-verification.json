@@ -1,0 +1,87 @@
+{
+  "actual_original_source_red": {
+    "errors": 0,
+    "failures": 1,
+    "new_method_runs": 1,
+    "passed": false
+  },
+  "five_modeled_unsafe_refusals": [
+    {
+      "errors": 0,
+      "failures": 1,
+      "mutation": "missing",
+      "new_method_runs": 1,
+      "passed": false,
+      "unsafe_rejected": true
+    },
+    {
+      "errors": 0,
+      "failures": 1,
+      "mutation": "web-server-injection",
+      "new_method_runs": 1,
+      "passed": false,
+      "unsafe_rejected": true
+    },
+    {
+      "errors": 0,
+      "failures": 1,
+      "mutation": "null",
+      "new_method_runs": 1,
+      "passed": false,
+      "unsafe_rejected": true
+    },
+    {
+      "errors": 0,
+      "failures": 1,
+      "mutation": "later-override",
+      "new_method_runs": 1,
+      "passed": false,
+      "unsafe_rejected": true
+    },
+    {
+      "errors": 0,
+      "failures": 1,
+      "mutation": "after-registration",
+      "new_method_runs": 1,
+      "passed": false,
+      "unsafe_rejected": true
+    }
+  ],
+  "local_framework_observation": {
+    "command": [
+      "node",
+      "<private-evidence>/browser063-review/di-recovery001/observe-installed-di.js",
+      "<repository>/build/js/node_modules/di",
+      "<private-evidence>/browser063-review/di-recovery001/preimages/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js",
+      "<private-evidence>/browser063-review/di-recovery001/postimages/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js"
+    ],
+    "elapsed_seconds": 0.056,
+    "exit_code": 0,
+    "observation": {
+      "explicit_empty_metadata_actual_injector": {
+        "handler_arity": 3,
+        "passed": true,
+        "required_services": 0,
+        "returned_middleware_type": "function"
+      },
+      "native_browser_http_or_build_executions": 0,
+      "observed_di_version": "0.0.1",
+      "original_arrow_auto_annotation": {
+        "message": "Cannot read properties of null (reading '1')",
+        "name": "TypeError",
+        "source": "di/lib/annotation.js",
+        "zero_dependency_metadata_absent": true
+      }
+    }
+  },
+  "new_native_browser_or_HTTP_executions": 0,
+  "new_owning_method_positive_executions": 1,
+  "new_shared_source_edits_builds_Git_GitHub_or_dispatches": false,
+  "repaired_new_owning_method": {
+    "errors": 0,
+    "failures": 0,
+    "new_method_runs": 1,
+    "passed": true
+  },
+  "unrelated_accepted_methods_replayed": 0
+}

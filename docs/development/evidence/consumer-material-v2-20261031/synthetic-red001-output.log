@@ -1,0 +1,201 @@
+test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) ... 
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='list') ... ERROR
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='dict') ... ERROR
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='NoneType') ... FAIL
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='int') ... FAIL
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='str') ... FAIL
+  test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='str') ... FAIL
+test_synthetic_export_is_plain_detached_json_and_edited_origin_is_rejected (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_export_is_plain_detached_json_and_edited_origin_is_rejected) ... FAIL
+test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) ... 
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive manifest snapshot') ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive payload snapshot') ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive observation snapshot') ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='revision') ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary=0) ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='synthetic-unit-only/manifest.json') ... FAIL
+  test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='revision') ... FAIL
+
+======================================================================
+ERROR: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='list')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 107, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    material.load_material(reader, record)
+  File "tests/consumer/native_license_material_v2.py", line 253, in load_material
+    crate = {item["path"]: reader.file(item, {"path"}) for item in data["crate_files"]}
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='dict')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 107, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    material.load_material(reader, record)
+  File "tests/consumer/native_license_material_v2.py", line 253, in load_material
+    crate = {item["path"]: reader.file(item, {"path"}) for item in data["crate_files"]}
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+======================================================================
+FAIL: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='NoneType')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 108, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    self.assertEqual([path], reader.reads)
+AssertionError: Lists differ: ['obj[18 chars]json'] != ['obj[18 chars]json', 'synthetic-proof-0', 'synthetic-proof-1[18 chars]f-2']
+
+Second list contains 3 additional elements.
+First extra element 1:
+'synthetic-proof-0'
+
+- ['objc2-0.0.0/manifest.json']
+?                             ^
+
++ ['objc2-0.0.0/manifest.json',
+?                             ^
+
++  'synthetic-proof-0',
++  'synthetic-proof-1',
++  'synthetic-proof-2']
+
+======================================================================
+FAIL: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='int')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 108, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    self.assertEqual([path], reader.reads)
+AssertionError: Lists differ: ['obj[18 chars]json'] != ['obj[18 chars]json', 'synthetic-proof-0', 'synthetic-proof-1[18 chars]f-2']
+
+Second list contains 3 additional elements.
+First extra element 1:
+'synthetic-proof-0'
+
+- ['objc2-0.0.0/manifest.json']
+?                             ^
+
++ ['objc2-0.0.0/manifest.json',
+?                             ^
+
++  'synthetic-proof-0',
++  'synthetic-proof-1',
++  'synthetic-proof-2']
+
+======================================================================
+FAIL: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='str')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 108, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    self.assertEqual([path], reader.reads)
+AssertionError: Lists differ: ['obj[18 chars]json'] != ['obj[18 chars]json', 'synthetic-proof-0', 'synthetic-proof-1[18 chars]f-2']
+
+Second list contains 3 additional elements.
+First extra element 1:
+'synthetic-proof-0'
+
+- ['objc2-0.0.0/manifest.json']
+?                             ^
+
++ ['objc2-0.0.0/manifest.json',
+?                             ^
+
++  'synthetic-proof-0',
++  'synthetic-proof-1',
++  'synthetic-proof-2']
+
+======================================================================
+FAIL: test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read) (path_type='str')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 108, in test_synthetic_bad_crate_path_refuses_before_provenance_or_proof_read
+    self.assertEqual([path], reader.reads)
+AssertionError: Lists differ: ['obj[18 chars]json'] != ['obj[18 chars]json', 'synthetic-proof-0', 'synthetic-proof-1[18 chars]f-2']
+
+Second list contains 3 additional elements.
+First extra element 1:
+'synthetic-proof-0'
+
+- ['objc2-0.0.0/manifest.json']
+?                             ^
+
++ ['objc2-0.0.0/manifest.json',
+?                             ^
+
++  'synthetic-proof-0',
++  'synthetic-proof-1',
++  'synthetic-proof-2']
+
+======================================================================
+FAIL: test_synthetic_export_is_plain_detached_json_and_edited_origin_is_rejected (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_export_is_plain_detached_json_and_edited_origin_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 80, in test_synthetic_export_is_plain_detached_json_and_edited_origin_is_rejected
+    with self.assertRaises(InvalidArtifact):
+AssertionError: InvalidArtifact not raised
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive manifest snapshot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 60, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    self.assertEqual(before, held.evidence_record())
+AssertionError: {'sch[124 chars]6': 'a38ab5e86bfa0fe11ce2af6cfda7e1c82a5a0ba98[829 chars]0'}]} != {'sch[124 chars]6': '5649ab751f495064fed325f75853390c9093485e4[832 chars]f'}]}
+Diff is 1690 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive payload snapshot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 62, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    self.assertEqual(payloads, held.contents)
+AssertionError: {'synthetic-unit-only/manifest.json': b'synthetic constructor bytes\n'} != {'synthetic-unit-only/manifest.json': b'external mutation'}
+- {'synthetic-unit-only/manifest.json': b'synthetic constructor bytes\n'}
++ {'synthetic-unit-only/manifest.json': b'external mutation'}
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='defensive observation snapshot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 64, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    self.assertEqual("synthetic-source", held.git_observations["source"]["revision"])
+AssertionError: 'synthetic-source' != 'external mutation'
+- synthetic-source
++ external mutation
+
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='revision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 70, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    with self.assertRaises(TypeError):
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 70, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    with self.assertRaises(TypeError):
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='synthetic-unit-only/manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 70, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    with self.assertRaises(TypeError):
+AssertionError: TypeError not raised
+
+======================================================================
+FAIL: test_synthetic_snapshot_owns_nested_state_and_is_read_only (test_native_license_material_v2.PendingMaterialSyntheticTest.test_synthetic_snapshot_owns_nested_state_and_is_read_only) (boundary='revision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "tests/consumer/test_native_license_material_v2.py", line 70, in test_synthetic_snapshot_owns_nested_state_and_is_read_only
+    with self.assertRaises(TypeError):
+AssertionError: TypeError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+FAILED (failures=12, errors=2)

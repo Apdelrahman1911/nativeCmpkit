@@ -1,0 +1,780 @@
+{
+  "reviewed_at": "2026-10-31T21:21:04.675396+00:00",
+  "scope": "Independent read-only source applicability and original #13 checklist for immutable native009; prior exact ten native sources unchanged",
+  "issue": {
+    "number": 13,
+    "title": "[High][NATIVE-019] Android camera loses its output URI across Activity/process recreation",
+    "observed_state": "open",
+    "body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+    "original_criteria_preserved": true
+  },
+  "source_identity": "preflight-source.json: all 994 library/1071 combined request input bytes match Git; all ten prior native sources unchanged; only owning synthetic guard differs from held compile",
+  "dependencies": "Catalog pins androidx.activity:activity-compose1.13.0 and androidx.core:core1.19.1. Exact existing cached1.13.0 AAR/class javap corroborates TakePicture/ComponentActivity/Registry/Compose mechanisms. AndroidX public mirror revision6916da12cf40dcac40e665d2af25dbe2ad8b18c1 is corroboration, not asserted release-source identity. AOSP tag android-15.0.0_r1. Actual CI dependency AAR bytes were not uploaded.",
+  "no_additional_definite_launch_contract_mismatch_found": true,
+  "intent_assertions": [
+    {
+      "assertion": "action == ACTION_IMAGE_CAPTURE",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L94",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          94,
+          94
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt#L276-L294",
+          "path": "activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt",
+          "lines": [
+            276,
+            294
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "component/package/selector == null",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L94-L95",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          94,
+          95
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt#L276-L294",
+          "path": "activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt",
+          "lines": [
+            276,
+            294
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L178-L231",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            178,
+            231
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/content/Intent.java#L7915-L7917",
+          "path": "core/java/android/content/Intent.java",
+          "lines": [
+            7915,
+            7917
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "data/type/categories == null",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L96",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          96,
+          96
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt#L276-L294",
+          "path": "activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt",
+          "lines": [
+            276,
+            294
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L178-L231",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            178,
+            231
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "clipData == null before framework migration",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L97",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          97,
+          97
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt#L276-L294",
+          "path": "activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt",
+          "lines": [
+            276,
+            294
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L178-L231",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            178,
+            231
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/Instrumentation.java#L1998-L2005",
+          "path": "core/java/android/app/Instrumentation.java",
+          "lines": [
+            1998,
+            2005
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/content/Intent.java#L12835-L12849",
+          "path": "core/java/android/content/Intent.java",
+          "lines": [
+            12835,
+            12849
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "requestCode > 0",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L97",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          97,
+          97
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L376-L385",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            376,
+            385
+          ]
+        }
+      ],
+      "pinned_javap": "existing-dependency-bytecode/ActivityResultRegistry.javap.txt:780-788 nextInt(2147418112)+65536"
+    },
+    {
+      "assertion": "exact READ|WRITE grant bits == 3",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L98-L101",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          98,
+          101
+        ]
+      },
+      "static_status": "compatible_after_owning_flags_repair",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt#L276-L294",
+          "path": "activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt",
+          "lines": [
+            276,
+            294
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/content/Intent.java#L7106-L7115",
+          "path": "core/java/android/content/Intent.java",
+          "lines": [
+            7106,
+            7115
+          ]
+        }
+      ],
+      "pinned_javap": "../read-only-dependency-bytecode/ActivityResultContracts$TakePicture.javap.txt createIntent offsets30-35"
+    },
+    {
+      "assertion": "EXTRA_OUTPUT is the original content Uri at own camera-files authority",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L102-L103",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          102,
+          103
+        ]
+      },
+      "static_status": "compatible_with_owned_provider_configuration",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L45-L57",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            45,
+            57
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/core/core/src/main/java/androidx/core/content/FileProvider.java#L892-L926",
+          "path": "core/core/src/main/java/androidx/core/content/FileProvider.java",
+          "lines": [
+            892,
+            926
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "exact camera/capture-*.jpg two-segment path, bounded filename, canonical owned zero-length file",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L104-L109",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          104,
+          109
+        ]
+      },
+      "static_status": "compatible",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L45-L57",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            45,
+            57
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_paths.xml#L1-L2",
+          "path": "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_paths.xml",
+          "lines": [
+            1,
+            2
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/core/core/src/main/java/androidx/core/content/FileProvider.java#L892-L926",
+          "path": "core/core/src/main/java/androidx/core/content/FileProvider.java",
+          "lines": [
+            892,
+            926
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "fixed recipient component/exported/foreign UID/signature permission/signatures/granted permission/ENABLED state",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L110-L117",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          110,
+          117
+        ]
+      },
+      "static_status": "owning_native_preconditions_retained_not_synthetic_acceptance",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L82-L106",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            82,
+            106
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L262-L311",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            262,
+            311
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java#L66-L139",
+          "path": "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java",
+          "lines": [
+            66,
+            139
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/tests/consumer/android-camera-receiver/src/main/AndroidManifest.xml#L1-L22",
+          "path": "tests/consumer/android-camera-receiver/src/main/AndroidManifest.xml",
+          "lines": [
+            1,
+            22
+          ]
+        }
+      ]
+    },
+    {
+      "assertion": "no duplicate external launch; original requestCode/options preserved; only copied component selected",
+      "fixture": {
+        "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L118-L121",
+        "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+        "lines": [
+          118,
+          121
+        ]
+      },
+      "static_status": "compatible_genuine_Activity_dispatch",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L178-L231",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            178,
+            231
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/content/Intent.java#L7840-L7880",
+          "path": "core/java/android/content/Intent.java",
+          "lines": [
+            7840,
+            7880
+          ]
+        }
+      ]
+    }
+  ],
+  "genuine_mechanisms": [
+    {
+      "name": "genuine_public_launcher_and_saved_request",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L76-L87",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "lines": [
+            76,
+            87
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L148-L171",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "lines": [
+            148,
+            171
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L44-L57",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            44,
+            57
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L137-L159",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            137,
+            159
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt#L49-L60",
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+          "lines": [
+            49,
+            60
+          ]
+        }
+      ],
+      "finding": "No reflection/adaptor/manual saved state/result. Pending uri+ownedPath is assigned before genuine TakePicture launch and remembered via library saver. Restored fixture never launches again."
+    },
+    {
+      "name": "genuine_AndroidX_registry_and_Android_recreation",
+      "evidence": [
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity-compose/src/main/java/androidx/activity/compose/ActivityResultRegistry.kt#L91-L106",
+          "path": "activity/activity-compose/src/main/java/androidx/activity/compose/ActivityResultRegistry.kt",
+          "lines": [
+            91,
+            106
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L161-L199",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            161,
+            199
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L214-L231",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            214,
+            231
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L245-L295",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            245,
+            295
+          ]
+        },
+        {
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L320-L330",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            320,
+            330
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/ActivityThread.java#L6264-L6304",
+          "path": "core/java/android/app/ActivityThread.java",
+          "lines": [
+            6264,
+            6304
+          ]
+        }
+      ],
+      "finding": "Saveable Compose registration key, real registry launched/request mappings and pending-result save/restore, real ComponentActivity saved-state integration, Android save/stop/destroy/relaunch and native pending-result merge. In-flight unregister retains request-code mapping."
+    },
+    {
+      "name": "genuine_framework_URI_grants_and_foreign_descriptor",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L90-L121",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "lines": [
+            90,
+            121
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/Instrumentation.java#L1998-L2005",
+          "path": "core/java/android/app/Instrumentation.java",
+          "lines": [
+            1998,
+            2005
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/content/Intent.java#L12835-L12849",
+          "path": "core/java/android/content/Intent.java",
+          "lines": [
+            12835,
+            12849
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/uri/UriGrantsManagerService.java#L1658-L1664",
+          "path": "services/core/java/com/android/server/uri/UriGrantsManagerService.java",
+          "lines": [
+            1658,
+            1664
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java#L29-L46",
+          "path": "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java",
+          "lines": [
+            29,
+            46
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java#L56-L76",
+          "path": "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraDelayedReceiverActivity.java",
+          "lines": [
+            56,
+            76
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L137-L154",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            137,
+            154
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L171-L189",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            171,
+            189
+          ]
+        }
+      ],
+      "finding": "Only recipient selection redirected on a copy at Activity launch. Android performs actual EXTRA_OUTPUT-to-ClipData migration/grants. Foreign receiver records its actual native UID/grants/ClipData, opens only real incoming URI and closes the sole write descriptor before native setResult/finish. No manual grant/ClipData/registry-result injection."
+    },
+    {
+      "name": "kernel_process_death_and_native_restored_result",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L166-L181",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            166,
+            181
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L377-L409",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            377,
+            409
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/os/Process.java#L1439-L1440",
+          "path": "core/java/android/os/Process.java",
+          "lines": [
+            1439,
+            1440
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityRecord.java#L4397-L4422",
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "lines": [
+            4397,
+            4422
+          ]
+        }
+      ],
+      "finding": "Exact same-UID/cmdline prior to real killProcess SIGKILL; only actual ENOENT/ESRCH satisfies kernel absence, EACCES/unknown refused. Successful restored result/new PID remains required; a caller save receipt alone is not direct AMS mHaveState confirmation. No application self-restoration or simulated process death."
+    },
+    {
+      "name": "terminal_state_and_cleanup_ownership",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L77-L109",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            77,
+            109
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt#L53-L60",
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+          "lines": [
+            53,
+            60
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L193-L258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            193,
+            258
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java#L96-L139",
+          "path": "tests/consumer/android-camera-receiver/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/camerareceiver/CameraReceiverService.java",
+          "lines": [
+            96,
+            139
+          ]
+        }
+      ],
+      "finding": "Pending cleared before terminal callback; duplicate/stale registry result with no pending state ignored; cancellation deletes only canonical library-owned file; disposal does not unlink an in-flight external output; exact nonce task/process/receiver DEFAULT+handler0/setting readback gates retained; cleanup failures propagated/suppressed with primary, not laundered into success."
+    }
+  ],
+  "original_criteria": [
+    {
+      "criterion": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "method": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+      "status": "pending_actual_native008_review",
+      "fixture_evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L107-L118",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            107,
+            118
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L120-L158",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            120,
+            158
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L171-L192",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            171,
+            192
+          ]
+        }
+      ],
+      "acceptance_checks": "Exact actual always_finish_activities1; public launcher after actual RESUMED/focus/first draw; held external native top Activity and saved/stopped caller; non-finishing destruction while held; creates>=2; same output URI; one Captured result; exact readable bytes; one output; descriptor use/closure; final result count1."
+    },
+    {
+      "criterion": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ],
+      "status": "pending_actual_native008_review_with_rotation_timing_limit",
+      "fixture_evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L145-L182",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            145,
+            182
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L377-L409",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            377,
+            409
+          ]
+        }
+      ],
+      "acceptance_checks": "Actual external native task top before/after rotation and kill; changed display orientation during held capture; caller creates>=2 and changed orientation checked after terminal return; same-UID exact process cmdline/stat before real SIGKILL, actual ENOENT/ESRCH kernel absence, distinct restored PID, restored URI and exactly one readable success.",
+      "timing_limit": "The rotation branch does not assert caller recreation before external completion. Android15 may defer STOPPING/STOPPED/invisible configuration checks unless ignoreVisibility. Do not claim immediate/in-held caller recreation from a passing terminal creates/orientation assertion; retain this exact original-criterion timing distinction for closure review."
+    },
+    {
+      "criterion": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "method": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+      "status": "pending_actual_native008_review",
+      "fixture_evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L166-L192",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            166,
+            192
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L77-L109",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            77,
+            109
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt#L49-L60",
+          "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt",
+          "lines": [
+            49,
+            60
+          ]
+        }
+      ],
+      "acceptance_checks": "Real held-caller kernel death/new restored PID; real external RESULT_CANCELED through original registry; one Cancelled result and empty URI; exact output set returns to before; original URI open fails; untouched sibling preserved; pending cleared before callback; canonical library-owned temp deletion only."
+    }
+  ],
+  "caveats": [
+    {
+      "kind": "acceptance_wording_limit_not_observed_failure",
+      "name": "rotation_recreation_timing",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L159-L164",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            159,
+            164
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L180-L182",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            180,
+            182
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityRecord.java#L9908-L9912",
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "lines": [
+            9908,
+            9912
+          ]
+        }
+      ],
+      "finding": "The rotation branch does not assert caller recreation before external completion. Android15 may defer STOPPING/STOPPED/invisible configuration checks unless ignoreVisibility. Do not claim immediate/in-held caller recreation from a passing terminal creates/orientation assertion; retain this exact original-criterion timing distinction for closure review."
+    },
+    {
+      "kind": "potential_test_only_conservative_refusal_race_not_observed_failure",
+      "name": "task_disappearance_between_native_reads",
+      "evidence": [
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L279-L296",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            279,
+            296
+          ]
+        },
+        {
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L159-L165",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "lines": [
+            159,
+            165
+          ]
+        },
+        {
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/AppTaskImpl.java#L96-L108",
+          "path": "services/core/java/com/android/server/wm/AppTaskImpl.java",
+          "lines": [
+            96,
+            108
+          ]
+        }
+      ],
+      "finding": "manager.appTasks enumeration then taskInfo read is not atomic with genuine finishAndRemoveTask. Android15 getTaskInfo throws IllegalArgumentException when the task has disappeared. Current fixture conservatively propagates it; no actual native007 cause or deterministic native008 blocker is inferred. Unknown task state must not be silently accepted as absence; any owning future recovery needs bounded genuine re-snapshot and preserved ownership/refusal gates."
+    }
+  ],
+  "prohibitions": "No shared edits/builds/native or accepted-method replay/dispatch/POST/GitHub mutation. No hardware/vendor/physical/minimum/packaged/API-ABI/security/release inference. No static finding assigned as actual caught launch exception site. #13 cannot close on this static checklist or pending native008.",
+  "evidence_indexes": [
+    "frozen-source-identities.json",
+    "frozen-source-recheck.json",
+    "public-source/facts.json",
+    "public-source/additional-facts.json",
+    "existing-dependency-bytecode/facts.json",
+    "../read-only-dependency-bytecode/facts.json",
+    "../public-contract-source/facts.json"
+  ],
+  "immutable_native009": {
+    "run_id": 41242704209,
+    "attempt": 1,
+    "head_sha": "7380a04674c2dc83583a45953418ec2c823b4258",
+    "profile": "android-camera-restoration",
+    "status": "pending_actual_run_review"
+  },
+  "previous_checklist": {
+    "path": "/dev/shm/nativecmpkit-parallel-20261031/camera-review/native007/preflight008/original-criteria-checklist.json",
+    "sha256": "5077d90825618527d250ba8f895a878fca9eca27051ecbdcf32adad857b1ea6b",
+    "reused_static_dependency_and_public_source_facts_only": true,
+    "no_inferred_native_pass": true
+  },
+  "filename_literal_byte_recheck": "filename-literal-source-observation.json"
+}

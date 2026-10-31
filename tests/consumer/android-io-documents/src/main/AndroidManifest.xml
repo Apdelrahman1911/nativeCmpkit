@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source fixture only: content authority requires real grants; control is signature-protected. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfio.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit owned IO document source">
+        <activity android:name=".IoDocumentGrantActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name=".IoControlService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO" />
+        <service android:name=".IoProviderWitnessService" android:exported="true"
+            android:process=":nativecmpkit_io_provider"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO" />
+        <provider android:name=".OwnedIoDocumentsProvider" android:authorities="${applicationId}.documents"
+            android:exported="true" android:grantUriPermissions="true"
+            android:permission="android.permission.MANAGE_DOCUMENTS" android:process=":nativecmpkit_io_provider">
+            <intent-filter><action android:name="android.content.action.DOCUMENTS_PROVIDER" /></intent-filter>
+        </provider>
+    </application>
+</manifest>

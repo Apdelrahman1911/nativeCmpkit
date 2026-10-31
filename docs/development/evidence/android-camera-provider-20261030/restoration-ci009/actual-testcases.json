@@ -1,0 +1,41 @@
+{
+  "original_report": "calf-camera-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-d96f655b5be9(AVD) - 15.xml",
+  "source_sha256": "d6958967f2abe5f7daab625d08cc4c0cf6ec2426b9d390f5fea5ec2f3936b395",
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+      "time": "4.356",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+      "time": "32.987",
+      "status": "failed",
+      "problem_type": null,
+      "problem_message": null,
+      "problem_text_sha256": "16494ddb45cb714d6fd4c112f2b42dba916b851703ac37ba36a13b470751f610",
+      "problem_headline": "java.lang.IllegalStateException: Owned native camera condition did not complete",
+      "public_source_frames": [
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.waitUntil(AndroidCameraRestorationTest.kt:436)",
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.waitUntil$default(AndroidCameraRestorationTest.kt:434)",
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture(AndroidCameraRestorationTest.kt:156)",
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture$default(AndroidCameraRestorationTest.kt:57)",
+        "at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.nativeDontKeepActivitiesRestoresOneReadableCapturedFile(AndroidCameraRestorationTest.kt:52)"
+      ]
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+      "time": "2.201",
+      "status": "passed"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+      "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+      "time": "2.996",
+      "status": "passed"
+    }
+  ]
+}

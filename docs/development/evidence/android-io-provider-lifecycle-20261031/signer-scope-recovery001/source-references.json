@@ -1,0 +1,121 @@
+[
+  {
+    "URL": "https://android.googlesource.com/platform/tools/apksig/+/android-15.0.0_r1/src/apksigner/java/com/android/apksigner/ApkSignerTool.java?format=TEXT",
+    "file": "ApkSignerTool.android15.java",
+    "reviewed_facts": [
+      {
+        "fact": "Explicit min/max SDK flags are integer verify options.",
+        "lines": [
+          524,
+          528
+        ]
+      },
+      {
+        "fact": "Valid min/max range is passed into the ApkVerifier builder.",
+        "lines": [
+          583,
+          596
+        ]
+      }
+    ],
+    "sha256": "a1bf21cbf606d21bee4f79e032c93ad6ef7429d5b75f936dfb4b10055787abe9"
+  },
+  {
+    "URL": "https://android.googlesource.com/platform/tools/apksig/+/android-15.0.0_r1/src/main/java/com/android/apksig/ApkVerifier.java?format=TEXT",
+    "file": "ApkVerifier.android15.java",
+    "reviewed_facts": [
+      {
+        "fact": "Explicit minimum overrides the manifest-derived default.",
+        "lines": [
+          638,
+          650
+        ]
+      },
+      {
+        "fact": "API35 checks modern APK signing schemes; v2 is fallback when no v3-or-newer block is found.",
+        "lines": [
+          217,
+          307
+        ]
+      },
+      {
+        "fact": "JAR/v1 runs for min below N or no modern block, not for API35 coverage with a verified modern block.",
+        "lines": [
+          338,
+          357
+        ]
+      },
+      {
+        "fact": "The observed unprotected META-INF warning is the JAR_SIG_UNPROTECTED_ZIP_ENTRY issue.",
+        "lines": [
+          2436,
+          2447
+        ]
+      },
+      {
+        "fact": "Builder docs define minimum/maximum checked platform bounds and overriding manifest minSDK.",
+        "lines": [
+          3500,
+          3532
+        ]
+      }
+    ],
+    "sha256": "e0e006a494783ab12991296d2f710bd5ef24f6782e5f225109f650fe1200d1fe"
+  },
+  {
+    "URL": "https://android.googlesource.com/platform/tools/apksig/+/android-15.0.0_r1/src/main/java/com/android/apksig/internal/apk/v2/V2SchemeVerifier.java?format=TEXT",
+    "file": "V2SchemeVerifier.android15.java",
+    "reviewed_facts": [
+      {
+        "fact": "Protected bytes include file data before the signing block, central directory and EOCD.",
+        "lines": [
+          105,
+          121
+        ]
+      },
+      {
+        "fact": "The v2 result becomes verified only after actual content integrity checking without errors.",
+        "lines": [
+          145,
+          163
+        ]
+      }
+    ],
+    "sha256": "c33606383a44f77189144acbefc777f53b42d48901f5c3cfae36b9ff91bc5799"
+  },
+  {
+    "URL": "https://android.googlesource.com/platform/tools/apksig/+/android-15.0.0_r1/src/main/java/com/android/apksig/internal/apk/v3/V3SchemeVerifier.java?format=TEXT",
+    "file": "V3SchemeVerifier.android15.java",
+    "reviewed_facts": [
+      {
+        "fact": "V3 also slices the APK byte regions and invokes shared actual content integrity verification.",
+        "lines": [
+          155,
+          179
+        ]
+      }
+    ],
+    "sha256": "83dac593c7e85cca7a8af23c317dc2d43f8adbad89142e87f9582cd70cdb7d7d"
+  },
+  {
+    "URL": "https://android.googlesource.com/platform/tools/apksig/+/android-15.0.0_r1/src/main/java/com/android/apksig/internal/apk/ApkSigningBlockUtils.java?format=TEXT",
+    "file": "ApkSigningBlockUtils.android15.java",
+    "reviewed_facts": [
+      {
+        "fact": "Content integrity uses the APK byte regions and normalized EOCD, independently of platform range.",
+        "lines": [
+          130,
+          168
+        ]
+      },
+      {
+        "fact": "Computed content digests must equal signer expected digests; mismatch is a v2/v3 error.",
+        "lines": [
+          194,
+          224
+        ]
+      }
+    ],
+    "sha256": "57b724a9299b78bdb4d6580d143382daa6f056be279ce129739a1d47f9f72b16"
+  }
+]

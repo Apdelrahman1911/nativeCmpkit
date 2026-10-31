@@ -1,0 +1,21 @@
+[
+  {
+    "command": [
+      "./gradlew",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-p",
+      "tests/consumer/android-io-documents",
+      "assembleDebug"
+    ],
+    "execution": {
+      "elapsed_seconds": 26.01,
+      "exit_code": 0
+    }
+  }
+]

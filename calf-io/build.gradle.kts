@@ -17,6 +17,9 @@ kotlin {
             implementation(libs.androidx.test.core)
             implementation(libs.androidx.test.junit)
             implementation(libs.androidx.core)
+            // Actual native IO/Coil lifecycle checks share one self-instrumenting APK.
+            implementation(projects.calfFilePickerCoil)
+            implementation(libs.coil)
         }
     }
 

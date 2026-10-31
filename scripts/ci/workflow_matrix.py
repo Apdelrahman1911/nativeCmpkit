@@ -30,6 +30,7 @@ PROFILES = {
     "android-geo-provider": ("android-device-api35",),
     "android-geo-prerequisites": ("android-device-api35",),
     "android-share-grants": ("android-device-api35",),
+    "android-io-provider-lifecycle": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
     "android-camera-provider-minimum": ("android-device-api35",),
     "android-camera-no-handler-minimum": ("android-device-api35",),
@@ -156,6 +157,7 @@ MODULE_SUBSETS = {
     "android-geo-provider": "calf-geo",
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
+    "android-io-provider-lifecycle": "calf-io",
     "android-camera-provider": "calf-camera-picker",
     "android-camera-provider-minimum": "calf-camera-picker",
     "android-camera-no-handler-minimum": "calf-camera-picker",
@@ -464,6 +466,9 @@ def matrix(profile: str) -> dict:
     if profile in {"ui-date-platforms", "ui-date-browser", "ui-date-js", "ui-date-wasm", "ui-date-android"}:
         for row in rows:
             row["test-focus"] = "material-date-transaction"
+    if profile == "android-io-provider-lifecycle":
+        for row in rows:
+            row["test-focus"] = "android-io-provider-lifecycle"
     if profile == "android-io-oversize":
         for row in rows:
             row["test-focus"] = "io-device-known-oversize"

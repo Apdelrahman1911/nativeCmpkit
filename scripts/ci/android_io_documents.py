@@ -1,0 +1,301 @@
+"""Exact disposable API35 IO source and failure-safe owned preparation.
+
+Source/APK/signing identity refusals precede the finite reporter compile. Native
+UIDs, grants, Binder death, provider descriptors and Coil results remain real test
+assertions, never inferred from these helper/source receipts. No outputs cached.
+"""
+from __future__ import annotations
+
+import hashlib
+import os
+from pathlib import Path
+import re
+import subprocess
+import xml.etree.ElementTree as ET
+
+from android_geo_probe import metadata_apk
+from android_share_recipient import OwnedShareRecipient
+import library_tests as lt
+
+PACKAGE = "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments"
+FIXTURE = "tests/consumer/android-io-documents"
+PERMISSION = PACKAGE + ".CONTROL_IO"
+REPORTER = "com.mohamedrejeb.calf.calfio.test"
+KOTLIN = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/"
+JAVA = FIXTURE + "/src/main/java/" + PACKAGE.replace(".", "/") + "/"
+JAVA_NAMES = ("IoControlService", "IoDocumentGrantActivity", "IoFixture",
+              "IoProviderWitnessService", "OwnedIoDocumentsProvider")
+KOTLIN_NAMES = ("AndroidIoGrantActivity", "AndroidIoProviderContract", "AndroidIoProviderLifecycleTest",
+               "DeviceDescriptorProbe", "IoBookmarkClientService", "KmpFileDeviceTest", "OwnedIoEndpoint")
+SOURCE_FILES = tuple(sorted(("gradle/libs.versions.toml", "calf-io/build.gradle.kts",
+    "calf-io/src/androidDeviceTest/AndroidManifest.xml", FIXTURE + "/build.gradle.kts",
+    FIXTURE + "/settings.gradle.kts", FIXTURE + "/gradle.properties", FIXTURE + "/src/main/AndroidManifest.xml",
+    *(JAVA + name + ".java" for name in JAVA_NAMES), *(KOTLIN + name + ".kt" for name in KOTLIN_NAMES))))
+# Explicit installed SDK recipe, not a searched/guessed signer or tool fallback.
+SIGNER_REVISION = "36.0.0"
+MAX_HOST_BYTES = 1024**2
+ANDROID = "{http://schemas.android.com/apk/res/android}"
+
+
+def require(condition: bool, message: str) -> None:
+    if not condition:
+        raise ValueError(message)
+
+
+def validate_manifest(payload: bytes, *, compiled: bool) -> dict:
+    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536, "Expected bounded owned manifest bytes")
+    try:
+        manifest = ET.fromstring(payload, parser=ET.XMLParser(target=lt.NoDtdBuilder()))
+    except ET.ParseError as error:
+        raise ValueError("Owned IO manifest is not XML") from error
+    require(manifest.tag == "manifest" and (manifest.get("package") == PACKAGE if compiled else manifest.get("package") in {None, PACKAGE}) and
+            manifest.get(ANDROID + "sharedUserId") is None and manifest.get(ANDROID + "sharedUserMaxSdkVersion") is None,
+            "Wrong owned IO manifest package or shared-UID bypass")
+    require(all(node.tag in {"permission", "queries", "application", "uses-sdk"} for node in manifest) and
+            (compiled or not manifest.findall("uses-sdk")), "Unexpected owned IO manifest declarations")
+    queries = manifest.findall("queries")
+    require(len(queries) == 1 and len(queries[0]) == 1 and queries[0][0].tag == "package" and
+            queries[0][0].get(ANDROID + "name") == REPORTER, "Only the fixed reporter package is visible to the helper")
+    require(not manifest.findall("uses-permission") and not manifest.findall("uses-permission-sdk-23"),
+            "The helper must not acquire broad content or runtime permissions")
+    permissions, applications = manifest.findall("permission"), manifest.findall("application")
+    require(len(permissions) == len(applications) == 1, "Expected one signature permission and application")
+    permission, app = permissions[0], applications[0]
+    levels = {"signature", "0x00000002", "0x2", "2"} if compiled else {"signature"}
+    require(permission.get(ANDROID + "name") == PERMISSION and permission.get(ANDROID + "protectionLevel") in levels,
+            "Only the fixed signature-level control permission is permitted")
+    require(app.get(ANDROID + "allowBackup") == "false" and app.get(ANDROID + "permission") is None and
+            app.get(ANDROID + "process") is None and app.get(ANDROID + "enabled") in {None, "true"},
+            "No helper-wide process/permission override, disabled app or backup")
+    activities, services, providers = app.findall("activity"), app.findall("service"), app.findall("provider")
+    require((len(activities), len(services), len(providers)) == (1, 2, 1) and
+            all(node.tag in {"activity", "service", "provider"} for node in app) and
+            all(node.get(ANDROID + "enabled") in {None, "true"} for node in app), "Unexpected or disabled helper components")
+    def component_name(node):
+        value = node.get(ANDROID + "name", "")
+        return PACKAGE + value if value.startswith(".") else value
+    require(component_name(activities[0]) == PACKAGE + ".IoDocumentGrantActivity" and
+            activities[0].get(ANDROID + "exported") == "true" and
+            activities[0].get(ANDROID + "permission") == PERMISSION and
+            activities[0].get(ANDROID + "process") is None and len(activities[0]) == 0,
+            "Grant dispatch must remain explicit and signature-protected")
+    expected_services = {PACKAGE + ".IoControlService": None,
+                         PACKAGE + ".IoProviderWitnessService": ":nativecmpkit_io_provider"}
+    require({component_name(service) for service in services} == set(expected_services), "Wrong helper services")
+    for service in services:
+        expected_process = expected_services[component_name(service)]
+        actual_process = service.get(ANDROID + "process")
+        legal_processes = {expected_process}
+        if compiled and expected_process is not None:
+            legal_processes.add(PACKAGE + expected_process)
+        require(service.get(ANDROID + "exported") == "true" and
+                service.get(ANDROID + "permission") == PERMISSION and actual_process in legal_processes and
+                len(service) == 0, "Wrong helper service permission/process boundary")
+    provider = providers[0]
+    require(component_name(provider) == PACKAGE + ".OwnedIoDocumentsProvider" and
+            provider.get(ANDROID + "authorities") == (PACKAGE + ".documents" if compiled else "${applicationId}.documents") and
+            provider.get(ANDROID + "permission") == "android.permission.MANAGE_DOCUMENTS" and
+            provider.get(ANDROID + "readPermission") is None and provider.get(ANDROID + "writePermission") is None and
+            provider.get(ANDROID + "exported") == "true" and provider.get(ANDROID + "grantUriPermissions") == "true" and
+            provider.get(ANDROID + "process") in ({":nativecmpkit_io_provider", PACKAGE + ":nativecmpkit_io_provider"} if compiled else {":nativecmpkit_io_provider"}) and
+            len(provider) == 1 and provider[0].tag == "intent-filter" and len(provider[0]) == 1 and
+            provider[0][0].tag == "action" and provider[0][0].get(ANDROID + "name") == "android.content.action.DOCUMENTS_PROVIDER",
+            "Content must require actual Android grants, never control-signature access, extra routes or grant/path overrides")
+    if compiled:
+        sdk = manifest.findall("uses-sdk")
+        require(len(sdk) == 1 and sdk[0].get(ANDROID + "minSdkVersion") == "23" and
+                sdk[0].get(ANDROID + "targetSdkVersion") == "37" and
+                sdk[0].get(ANDROID + "maxSdkVersion") is None and app.get(ANDROID + "debuggable") == "true",
+                "Unexpected compiled helper SDK/debug variant")
+    return {"content_requires_android_grant": True, "signature_control_only": True,
+            "fixed_helper_components_verified": True, "manifest_sha256": hashlib.sha256(payload).hexdigest(),
+            "compiled_manifest_inspected": compiled, "native_grant_UID_or_result_inferred": False}
+
+
+def validate_source_receipt(contract: dict) -> None:
+    require(isinstance(contract, dict) and set(contract) == {"source_policy_verified", "source_inputs", "source_inputs_sha256", "native_or_compile_success_inferred"} and
+            contract.get("source_policy_verified") is True and
+            contract.get("native_or_compile_success_inferred") is False, "Missing source-only IO policy witness")
+    inputs = contract.get("source_inputs")
+    require(isinstance(inputs, dict) and tuple(sorted(inputs)) == SOURCE_FILES and
+            all(isinstance(value, str) and re.fullmatch(r"[a-f0-9]{64}", value) for value in inputs.values()) and
+            contract.get("source_inputs_sha256") == lt.input_digest(inputs), "Unknown or changed IO source identity")
+
+
+def source_contract(root: Path) -> dict:
+    texts, inputs = {}, {}
+    for relative in SOURCE_FILES:
+        path = lt.safe_path(root, relative); before = path.stat()
+        require(path.is_file() and before.st_nlink == 1 and 0 < before.st_size <= 256 * 1024,
+                "Missing, linked or unbounded owned IO source")
+        payload = path.read_bytes(); after = path.stat()
+        require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns), "IO source changed while reading")
+        inputs[relative] = hashlib.sha256(payload).hexdigest(); texts[relative] = payload.decode("utf-8")
+    actual = {path.relative_to(root).as_posix() for path in lt.source_files(root, FIXTURE + "/src")}
+    require(actual == {FIXTURE + "/src/main/AndroidManifest.xml", *(JAVA + name + ".java" for name in JAVA_NAMES)},
+            "Unexpected helper source inventory")
+    validate_manifest(texts[FIXTURE + "/src/main/AndroidManifest.xml"].encode(), compiled=False)
+    reporter = ET.fromstring(texts["calf-io/src/androidDeviceTest/AndroidManifest.xml"],
+                             parser=ET.XMLParser(target=lt.NoDtdBuilder()))
+    permissions = [node.get(ANDROID + "name") for node in reporter.findall("uses-permission")]
+    app = reporter.find("application")
+    require(permissions == [PERMISSION] and not reporter.findall("uses-permission-sdk-23") and app is not None and
+            reporter.get(ANDROID + "sharedUserId") is None and app.get(ANDROID + "permission") is None and
+            app.get(ANDROID + "process") is None, "Reporter must not bypass Android content grants or native UID/process boundaries")
+    grant = app.findall("activity"); client = app.findall("service")
+    require(len(grant) == len(client) == 1 and grant[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.AndroidIoGrantActivity" and
+            grant[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.IoBookmarkClientService" and
+            client[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "process") == ":nativecmpkit_io_client",
+            "The reporter client/grant Activity must remain private")
+    require('applicationId = "' + PACKAGE + '"' in texts[FIXTURE + "/build.gradle.kts"] and
+            'namespace = "' + PACKAGE + '"' in texts[FIXTURE + "/build.gradle.kts"] and
+            all(token in texts[FIXTURE + "/build.gradle.kts"] for token in (
+                'compileSdk = libs.versions.android.compileSdk.get().toInt()',
+                'minSdk = libs.versions.android.minSdk.get().toInt()',
+                'targetSdk = libs.versions.android.compileSdk.get().toInt()',
+                'sourceCompatibility = JavaVersion.VERSION_17', 'targetCompatibility = JavaVersion.VERSION_17')) and
+            'from(files("../../../gradle/libs.versions.toml"))' in texts[FIXTURE + "/settings.gradle.kts"] and
+            'implementation(projects.calfFilePickerCoil)' in texts['calf-io/build.gradle.kts'] and
+            'implementation(libs.coil)' in texts['calf-io/build.gradle.kts'], "Unexpected helper/reporter build inputs")
+    catalog = texts['gradle/libs.versions.toml']
+    require('android-minSdk = "23"' in catalog and 'android-compileSdk = "37"' in catalog and 'coil = "3.6.2"' in catalog,
+            "The exact source SDK/Coil declaration changed")
+    for relative, required in {
+        JAVA + "IoFixture.java": ("checkSignatures", "Build.VERSION.SDK_INT != 35", "getPackagesForUid"),
+        JAVA + "IoControlService.java": ("message.sendingUid", 'nonce.matches("[a-f0-9]{32}")', "revokeUriPermission(IoFixture.tree()"),
+        JAVA + "IoProviderWitnessService.java": ("message.sendingUid", "Process.killProcess(Process.myPid())", "delivered"),
+        JAVA + "IoDocumentGrantActivity.java": ("getCallingPackage()", "checkSignatures", "FLAG_GRANT_PERSISTABLE_URI_PERMISSION", "FLAG_GRANT_PREFIX_URI_PERMISSION"),
+        KOTLIN + "OwnedIoEndpoint.kt": ("message.sendingUid != owner.uid", "binder.linkToDeath", "death.await", "thread.quitSafely(); thread.join(10_000)", "check(pending.isEmpty())"),
+        KOTLIN + "IoBookmarkClientService.kt": ("message.sendingUid == Process.myUid()", "getSharedPreferences", ".commit()", "Process.killProcess(Process.myPid())"),
+        KOTLIN + "AndroidIoProviderLifecycleTest.kt": ("withImageLoader { loader ->", "withContext(NonCancellable)", "first.addSuppressed(failure)", "acquireUnstableContentProviderClient", "assertFailsWith<DeadObjectException>"),
+    }.items():
+        require(all(token in texts[relative] for token in required), "Owned nonce/UID/signature/service/cleanup source contract changed")
+    lifecycle = texts[KOTLIN + "AndroidIoProviderLifecycleTest.kt"]
+    require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", lifecycle) == list(lt.ANDROID_IO_PROVIDER_METHODS) and
+            not re.search(r"@(Ignore|Disabled|IgnoredTest)\b", lifecycle), "Every new lifecycle method must remain authored and enabled")
+    all_code = "\n".join(texts[JAVA + name + ".java"] for name in JAVA_NAMES) + "\n" + "\n".join(texts[KOTLIN + name + ".kt"] for name in KOTLIN_NAMES if name != "KmpFileDeviceTest")
+    require("grantUriPermission(" not in all_code and "Runtime.getRuntime" not in all_code and "acquireContentProviderClient(" not in texts[KOTLIN + "AndroidIoProviderLifecycleTest.kt"],
+            "Manual grant, shell process or stable provider-death bypass is forbidden")
+    contract = {"source_policy_verified": True, "source_inputs": inputs, "source_inputs_sha256": lt.input_digest(inputs),
+                "native_or_compile_success_inferred": False}
+    validate_source_receipt(contract)
+    return contract
+
+
+def signer_certificate(result: subprocess.CompletedProcess) -> str:
+    require(isinstance(result.stdout, bytes) and isinstance(result.stderr, bytes) and
+            len(result.stdout) + len(result.stderr) <= MAX_HOST_BYTES and result.returncode == 0 and not result.stderr.strip(),
+            "APK signature verification unavailable")
+    text = result.stdout.decode("utf-8")
+    require(not re.search(r"(?im)\b(?:warning|error|does not verify)\b", text), "APK signer reported a warning or unverified detail")
+    certificates = re.findall(r"(?m)^Signer #1 certificate SHA-256 digest: ([a-f0-9]{64})$", text)
+    require(len(certificates) == 1 and re.search(r"(?m)^Number of signers: 1$", text) is not None and
+            re.search(r"(?m)^Verified using v[23] scheme \([^\r\n]+\): true$", text) is not None and
+            not re.search(r"(?m)^Signer #[2-9][0-9]* ", text), "Expected one verified actual APK signer")
+    return certificates[0]
+
+
+def validate_prepared_receipt(receipt: dict, expected_source: dict | None = None) -> None:
+    require(isinstance(receipt, dict) and receipt.get("package") == PACKAGE and receipt.get("source_fixture") == FIXTURE and
+            receipt.get("prepare_status") == "passed" and receipt.get("recipient_installed") is True and
+            receipt.get("verification_api_level") == 35 and receipt.get("manual_URI_grant") is False and
+            receipt.get("automatic_runtime_permission_grant") is False, "Owned IO helper preparation has not passed")
+    digest = receipt.get("source_apk_sha256")
+    installed, policy = receipt.get("installed_readback"), receipt.get("apk_policy")
+    require(isinstance(digest, str) and re.fullmatch(r"[a-f0-9]{64}", digest) and isinstance(installed, dict) and
+            installed.get("apk_sha256") == digest and installed.get("exact_one_APK_path_observed") is True and
+            isinstance(policy, dict) and policy.get("compiled_manifest_inspected") is True and
+            policy.get("content_requires_android_grant") is True and policy.get("signature_control_only") is True and
+            policy.get("certificate_sha256") == policy.get("private_key_certificate_sha256") and
+            isinstance(policy.get("certificate_sha256"), str) and re.fullmatch(r"[a-f0-9]{64}", policy["certificate_sha256"]),
+            "Owned helper APK, signing key or manifest identity disagrees")
+    require(type(policy.get("signature_verification_min_sdk_version")) is int and
+            policy["signature_verification_min_sdk_version"] == 35 and
+            type(policy.get("signature_verification_max_sdk_version")) is int and
+            policy["signature_verification_max_sdk_version"] == 35,
+            "Owned helper signature verification must be explicitly API35-only")
+    source = receipt.get("source_contract")
+    validate_source_receipt(source)
+    require(expected_source is None or source == expected_source, "Helper and reporter source plans differ")
+
+
+class OwnedIoDocuments(OwnedShareRecipient):
+    PACKAGE, FIXTURE, OUTPUT = PACKAGE, FIXTURE, "io-documents"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.receipt.update(verification_api_level=35,
+            scope="Actual separate-UID DocumentsProvider with signature-only control and Activity-result read/persistable/prefix grants of one fixed synthetic folder. Native client/provider restart, revocation and Coil source close checks remain test assertions. No real DocumentsUI/system/cloud provider, bitmap decoder, memory/key benchmark, consumer/API-ABI or release certification.")
+
+    def host(self, command: list[str]) -> subprocess.CompletedProcess:
+        result = subprocess.run(command, cwd=self.root, env=self.environment, capture_output=True, timeout=30)
+        require(len(result.stdout) + len(result.stderr) <= MAX_HOST_BYTES, "Unbounded helper APK inspection")
+        return result
+
+    def inspectors(self) -> tuple[Path, Path]:
+        analyzer = self.home / "cmdline-tools/23.0/bin/apkanalyzer"
+        signer = self.home / ("build-tools/" + SIGNER_REVISION + "/apksigner")
+        require(all(path.is_file() and os.access(path, os.X_OK) for path in (analyzer, signer)),
+                "The explicit official APK inspector/signer recipe is unavailable")
+        return analyzer, signer
+
+    def inspect_apk(self, apk: Path) -> dict:
+        analyzer, signer = self.inspectors()
+        manifest = self.host([str(analyzer), "manifest", "print", str(apk)])
+        require(manifest.returncode == 0 and not manifest.stderr.strip(), "Compiled helper manifest unavailable")
+        policy = validate_manifest(manifest.stdout, compiled=True)
+        # Only the authorized API35 runtime is checked; APK minSdk23 support is not inferred.
+        certificate = signer_certificate(self.host([str(signer), "verify", "--verbose", "--print-certs",
+            "--min-sdk-version", "35", "--max-sdk-version", "35", str(apk)]))
+        key = Path(self.environment["ANDROID_USER_HOME"]) / "debug.keystore"
+        checked = lt.safe_path(self.root, key.relative_to(self.root).as_posix())
+        before = checked.stat()
+        require(checked.is_file() and before.st_nlink == 1 and 0 < before.st_size <= 65536,
+                "The exact private controller debug key is unavailable")
+        # Public default debug-key credentials only; never persist key bytes/paths/output.
+        exported = self.host(["keytool", "-exportcert", "-keystore", str(checked), "-alias", "androiddebugkey", "-storepass", "android"])
+        require(exported.returncode == 0 and not exported.stderr.strip() and 0 < len(exported.stdout) <= 16384,
+                "The actual private debug-key certificate is unavailable")
+        after = checked.stat()
+        require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns, before.st_nlink) ==
+                (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns, after.st_nlink),
+                "The exact private debug-key input changed during certificate readback")
+        expected = hashlib.sha256(exported.stdout).hexdigest()
+        require(certificate == expected, "Helper was not signed by the controller's exact private key")
+        return policy | {"certificate_sha256": certificate, "private_key_certificate_sha256": expected,
+                         "apk_signer_revision": SIGNER_REVISION,
+                         "signature_verification_min_sdk_version": 35, "signature_verification_max_sdk_version": 35,
+                         "raw_manifest_certificate_key_or_paths_uploaded": False}
+
+    def prepare(self):
+        self.receipt["prepare_status"] = "running"
+        try:
+            self.receipt["source_contract"] = source_contract(self.root)
+            self.inspectors()  # Reject a missing fixed SDK recipe before helper/reporter compilation.
+            super().prepare()
+            apk = metadata_apk(self.root, fixture=self.FIXTURE, package=self.PACKAGE)
+            require(lt.sha256(apk) == self.digest, "Owned helper APK changed before policy inspection")
+            self.receipt["apk_policy"] = self.inspect_apk(apk)
+            require(lt.sha256(apk) == self.digest and source_contract(self.root) == self.receipt["source_contract"],
+                    "Helper source or APK changed during preparation")
+            self.receipt["prepare_status"] = "passed"
+            validate_prepared_receipt(self.receipt)
+            return self.receipt
+        except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+            self.receipt.update(prepare_status="failed", prepare_error=type(error).__name__)
+            raise
+        finally:
+            lt.write_json(self.output / "receipt.json", self.receipt)
+
+    def close(self):
+        self.receipt["cleanup_status"] = "running"
+        try:
+            super().close()
+            self.receipt["cleanup_status"] = "passed"
+            return self.receipt
+        except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+            self.receipt.update(cleanup_status="failed", cleanup_error=type(error).__name__, owned_recipient_removed=False)
+            raise
+        finally:
+            lt.write_json(self.output / "receipt.json", self.receipt)

@@ -1,5 +1,31 @@
 # NativeCmpKit development after the audit
 
+## Camera three actual passes; I/O lifecycle compiler/signature verification — 2026-10-31
+
+[Camera41242704209](evidence/android-camera-provider-20261030/restoration-ci009/README.md)
+at7380a046 remains FAILED:4 actual API35 methods/3pass/one Dont-keep destroy-wait
+failure, one XML/Gradle1/77.02s.36 independent integrity/source/results checks pass;
+994/1071 exact Git/Enforcing/installed recipient and owned cleanup reviewed.
+Twenty-four cumulative restoration executions contain three accepted; reuse those
+three, recover only the failed method. Global scalar-only setting did not prove
+AMS cached always-finish state; source-confirmed fixture gap, not actual009 cause.
+Rotation recreation is asserted after return, not immediate external-foreground
+recreation. #13 stays open; rejected filename-escaping alarm preserved, no regex fix.
+
+[Android I/O lifecycle batch](evidence/android-io-provider-lifecycle-20261031/README.md)
+integrates25 reviewed test/controller files, no production API change. HelperAPK
+0/26.01s and reporterAPK0/104.03s hold1010/1087 inputs; ZERO new native execution.
+Original broad/minSDK unsigned app-metadata warning refusal retained. Same APK
+strict modern signer/private-certificate readback passes exact API35-only range;
+two owning adapter/test files require integer35/35 receipts, parsers/helper/native
+inputs unchanged.42 modeled results+19 overlapping controls reused; eight new
+signer models pass/four initial reds retained; four affected existing guards pass.
+Only five new API35 lifecycle/Coil methods next, not accepted oversize/host suites.
+#45/#55/#57 remain open beyond these fixed-tree/injected-decoder criteria.
+90closed/82open172total;30implemented/40partial/88verified/six unresolved.
+Parallel disjoint review/serial local builds/8GiB/max2heavy/minimum read-only tokens
+and publishing/Pages/main/history/native/consumer/ABI/legal/security gates stay.
+
 ## Owning serial guard recovery — 2026-10-31
 
 Both finite requests at5e9cfdd1 stopped before native work:

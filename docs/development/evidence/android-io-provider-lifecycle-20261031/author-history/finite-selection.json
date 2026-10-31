@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "prepared_only": true,
+  "native_executions": 0,
+  "proposal_profile": "android-io-provider-lifecycle",
+  "proposal_focus": "android-io-provider-lifecycle",
+  "slot": "android-device-api35",
+  "api_level": 35,
+  "modules": [
+    "calf-io"
+  ],
+  "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+  "complete_suite_requested": false,
+  "test_filter": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+  "required_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+      "name": "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess"
+    }
+  ],
+  "instrumentation_arguments": {
+    "class": "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest",
+    "timeout_msec": "120000",
+    "nativecmpkitOwnedIoDocuments": "true"
+  },
+  "expected_task": ":calf-io:connectedAndroidDeviceTest",
+  "expected_report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+  "helper": {
+    "package": "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments",
+    "fixture": "tests/consumer/android-io-documents",
+    "ownership_adapter": "scripts/ci/android_io_documents.py"
+  },
+  "accepted_oversize_or_host_methods_to_replay": [],
+  "fresh_result_requirements": [
+    "exact five unique class/method identities",
+    "one fresh native XML",
+    "no missing, extra, duplicate, failure, error or skip",
+    "actual task execution marker",
+    "exact held Git input maps",
+    "owned Enforcing API35 boot",
+    "source and installed helper APK-byte identities",
+    "actual native UID/signature and read-only grant checks",
+    "owned app cleanup and graceful emulator child exit"
+  ],
+  "closure_inferred": false,
+  "publishing_or_release_authorized": false
+}

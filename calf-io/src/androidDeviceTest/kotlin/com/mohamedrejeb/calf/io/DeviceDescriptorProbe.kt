@@ -37,6 +37,11 @@ internal data class DeviceDescriptorIdentity private constructor(
             return verified(device, inode, mode, fdInfoInode)
         }
 
+        fun fromProviderRegularFile(device: Long, inode: Long, mode: Int, fdInfoInode: Long): DeviceDescriptorIdentity {
+            check(OsConstants.S_ISREG(mode)) { "The provider must report its actual REG descriptor" }
+            return verified(device, inode, mode, fdInfoInode)
+        }
+
         private fun verified(device: Long, inode: Long, mode: Int, fdInfoInode: Long): DeviceDescriptorIdentity {
             check(OsConstants.S_ISREG(mode) || OsConstants.S_ISFIFO(mode)) { "Only calibrated files and pipes are measured" }
             check(inode != 0L && fdInfoInode == inode) { "Kernel fdinfo and stat inode do not identify the same fixture" }

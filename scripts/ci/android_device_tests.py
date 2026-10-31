@@ -28,6 +28,7 @@ import android_webview_heap
 import android_geo_probe
 import android_share_recipient
 import android_camera_receiver
+import android_io_documents
 
 API = 35
 PORT = 5588
@@ -39,7 +40,7 @@ IMAGE = f"system-images;android-{API};google_apis;x86_64"
 def preflight_error_origin(error: Exception) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
     allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
-               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py"}
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py"}
     directory = Path(__file__).resolve().parent
     origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
     frame = error.__traceback__
@@ -191,7 +192,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     # Other profiles retain their original no-output-on-preflight-refusal contract.
     focus_options = {"focus": focus} if focus is not None else {}
     plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
-    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES
+    io_documents_required = lt.android_io_documents_required(plan)
+    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES or focus == lt.ANDROID_IO_PROVIDER_FOCUS
     if diagnostics:
         output.mkdir(parents=True)
     preflight = {"api_level": api_level, "status": "running", "stage": "sdk-assets",
@@ -228,8 +230,13 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                ANDROID_USER_HOME=str(output / "android-user"), ANDROID_SERIAL=SERIAL)
     (output / "avd").mkdir()
     (output / "android-user").mkdir()
-    connected = lt.gradle_command("android-device", plan, android_serial=SERIAL)
-    assemble = connected[:-len(plan["expected"])] + [item["project"] + ":assembleAndroidDeviceTest" for item in plan["expected"]]
+    if io_documents_required:
+        # This is an actual assembly-only command: no connected task or helper
+        # instrumentation bit can exist before the helper identity passes.
+        assemble = lt.gradle_command("android-device", plan, android_serial=SERIAL, root=root, for_assembly=True)
+    else:
+        connected = lt.gradle_command("android-device", plan, android_serial=SERIAL)
+        assemble = connected[:-len(plan["expected"])] + [item["project"] + ":assembleAndroidDeviceTest" for item in plan["expected"]]
     create = [str(home / "cmdline-tools/23.0/bin/avdmanager"), "create", "avd", "--name", name,
               "--package", assets["system_image"], "--device", "Nexus 5" if api_level == 23 else "pixel_6", "--force"]
     launch = [str(home / "emulator/emulator"), "-avd", name, "-port", str(PORT), "-no-window", "-no-snapshot",
@@ -253,11 +260,14 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     share_recipient = None
     share_documents = None
     camera_receiver = None
+    io_documents = None
     verified = False
     log = None
     deferred_api23_assembly = diagnostics and api_level == 23
     if deferred_api23_assembly:
         result["reporter_compile_deferred_until_receiver_byte_identity"] = True
+    if io_documents_required:
+        result["reporter_compile_deferred_until_io_documents_identity"] = True
     try:
         stages = (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120))
         if lt.android_camera_receiver_required(plan):
@@ -265,8 +275,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             # compilation. This creates only our private AVD; launch still waits for
             # both prerequisites. Other profiles preserve their existing setup order.
             stages = stages[::-1]
-        if deferred_api23_assembly:
-            # A minimum-only receiver/package-path refusal must not waste a full
+        if deferred_api23_assembly or io_documents_required:
+            # An IO helper/source/APK/signature/manifest refusal or a
+            # minimum-only receiver/package-path refusal must not waste a full
             # library APK compilation. Both APKs still use the exact private key
             # environment, and the reporter/native suite cannot run without a
             # successfully byte-identified receiver and actual enforcing boot.
@@ -303,13 +314,27 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                 result["setup_stages"]["apk-assembly"] = execution
                 if execution["exit_code"] != 0 or execution.get("stop_reason"):
                     raise RuntimeError("Reporter setup failed before any device test execution")
+        if lt.android_io_documents_required(plan):
+            io_documents = android_io_documents.OwnedIoDocuments(root, output, home, SERIAL,
+                lambda: process.poll() is None and avd_name(home) == name, environment=env)
+            result["io_documents"] = io_documents.prepare()
+            android_io_documents.validate_prepared_receipt(result["io_documents"],
+                plan["android_io_documents"]["source_contract"])
+            # Every actual helper identity/permission/service-source guard must
+            # pass before the costly reporter compile and any native task.
+            execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)
+            result["setup_stages"]["apk-assembly"] = execution
+            if execution["exit_code"] != 0 or execution.get("stop_reason"):
+                raise RuntimeError("Reporter setup failed before any IO device test execution")
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()
         receipt = lt.run(root, "android-device", (output / "library").relative_to(root).as_posix(),
                          None, 1800, RESERVE_MIB, android_serial=SERIAL,
                          android_user_home=(output / "android-user").relative_to(root).as_posix(),
-                         only_modules=only_modules, **focus_options)
+                         only_modules=only_modules,
+                         **({"android_io_documents_receipt": dict(io_documents.receipt)} if io_documents is not None else {}),
+                         **focus_options)
         result["test_suite_passed"] = receipt["passed"]
         if focus in lt.ANDROID_CAMERA_FOCUSES and any(item.get("reports") for item in receipt.get("modules", [])):
             result["camera_fresh_reports"] = android_camera_receiver.archive_focused_reports(root, output, receipt, plan)
@@ -350,6 +375,15 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["camera_receiver"] = dict(camera_receiver.receipt) | {
                             "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
                         result["camera_receiver_cleanup_error_origin"] = preflight_error_origin(error)
+                if io_documents is not None:
+                    try:
+                        result["io_documents"] = io_documents.close()
+                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+                        # Preserve preparation/APK/source facts, including a
+                        # failed prepare, instead of laundering it to green.
+                        result["io_documents"] = dict(io_documents.receipt) | {
+                            "cleanup_status": "failed", "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
+                        result["io_documents_cleanup_error_origin"] = preflight_error_origin(error)
                 if share_documents is not None:
                     try:
                         result["share_documents"] = share_documents.close()
@@ -358,7 +392,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             finally:
                 if process is not None:
                     result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
-                    if (camera_receiver is not None and verified and
+                    if ((camera_receiver is not None or io_documents is not None) and verified and
                             result["emulator_shutdown"].get("clean_shutdown") is True):
                         removed = wait_for_owned_transport_removal(home)
                         result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
@@ -390,7 +424,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                             (share_documents is None or (result.get("share_documents", {}).get("owned_recipient_removed") is True and
                              not result["share_documents"].get("cleanup_error"))) and
                             (camera_receiver is None or (result.get("camera_receiver", {}).get("owned_recipient_removed") is True and
-                             not result["camera_receiver"].get("cleanup_error"))))
+                             not result["camera_receiver"].get("cleanup_error"))) and
+                            (not io_documents_required or (result.get("io_documents", {}).get("prepare_status") == "passed" and
+                             result["io_documents"].get("cleanup_status") == "passed" and
+                             result["io_documents"].get("owned_recipient_removed") is True and
+                             not result["io_documents"].get("prepare_error") and not result["io_documents"].get("cleanup_error"))))
         result["finished_at_utc"] = lt.utc_now()
         lt.write_json(output / "controller.json", result)
     return result
@@ -431,7 +469,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[23, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES,
+    parser.add_argument("--focus", choices=[lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

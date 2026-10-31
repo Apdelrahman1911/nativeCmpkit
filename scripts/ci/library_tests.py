@@ -145,6 +145,16 @@ DROPDOWN_SOURCE_SETS = {"desktop": "desktopTest", "android-device": "androidDevi
                         "js": "jsTest", "wasm": "wasmJsTest"}
 DROPDOWN_PACKAGE_PATH = "/kotlin/com/mohamedrejeb/calf/ui/dropdown/"
 DROPDOWN_SCENARIOS_SOURCE = "calf-ui/src/materialTest" + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceScenarios.kt"
+ANDROID_IO_PROVIDER_FOCUS = "android-io-provider-lifecycle"
+ANDROID_IO_PROVIDER_CLASS = "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest"
+ANDROID_IO_PROVIDER_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt"
+ANDROID_IO_PROVIDER_METHODS = (
+    "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+    "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+    "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers",
+    "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
+    "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
+)
 ANDROID_IO_OVERSIZE_FOCUS = "io-device-known-oversize"
 ANDROID_IO_DEVICE_CLASS = "com.mohamedrejeb.calf.io.KmpFileDeviceTest"
 ANDROID_IO_DEVICE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt"
@@ -1172,6 +1182,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (DATE_TRANSACTION_MODULE,)) or
             (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
              (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
+            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
             (focus in ANDROID_SAVE_IDENTITY_FOCUSES and suite == "android-device" and
@@ -1272,6 +1283,34 @@ def dropdown_case_inventory(suite: str, cases: list[dict], focus: str = DROPDOWN
         names.append(name)
     methods = dropdown_methods(focus)
     return len(names) == len(methods) and set(names) == set(methods)
+
+
+def android_io_provider_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_PROVIDER_CLASS, "name": method} for method in ANDROID_IO_PROVIDER_METHODS]
+
+
+def android_io_documents_required(test_plan: dict) -> bool:
+    # The accepted pre-open oversize recovery must not acquire this new helper or
+    # replay any lifecycle/Coil cases. Full/unfocused authored IO keeps them all.
+    return (test_plan.get("suite") == "android-device" and
+            (test_plan.get("explicit_test_focus") == ANDROID_IO_PROVIDER_FOCUS or
+             (test_plan.get("explicit_test_focus") is None and any(
+                 item.get("module") == "calf-io" and ANDROID_IO_PROVIDER_SOURCE in item.get("test_source_files", [])
+                 for item in test_plan.get("expected", [])))))
+
+
+def validate_android_io_documents_plan(test_plan: dict) -> None:
+    contract = test_plan.get("android_io_documents")
+    if not android_io_documents_required(test_plan):
+        if contract is not None:
+            raise ValueError("Owned IO helper cannot be supplied to an unrelated or accepted recovery focus")
+        return
+    import android_io_documents
+    if (not isinstance(contract, dict) or set(contract) != {"package", "source_fixture", "verification_api_level", "source_contract"} or
+            contract.get("package") != android_io_documents.PACKAGE or contract.get("source_fixture") != android_io_documents.FIXTURE or
+            contract.get("verification_api_level") != 35):
+        raise ValueError("Missing exact API35 owned IO helper/source plan")
+    android_io_documents.validate_source_receipt(contract["source_contract"])
 
 
 def android_io_oversize_identities() -> list[dict]:
@@ -1638,6 +1677,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["required_testcases"] = android_save_identity_identities(focus)
         result["scope"] = ("Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; "
                 if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; ") + "original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
+    elif focus == ANDROID_IO_PROVIDER_FOCUS:
+        source = safe_path(root, ANDROID_IO_PROVIDER_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_PROVIDER_METHODS) or
+                "class AndroidIoProviderLifecycleTest" not in source or "package com.mohamedrejeb.calf.io" not in source or
+                ANDROID_IO_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
+                ANDROID_IO_DEVICE_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android IO lifecycle declarations changed; review the exact five new methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_PROVIDER_CLASS
+        selected[0]["required_testcases"] = android_io_provider_identities()
+        result["scope"] = "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification."
     elif focus == ANDROID_IO_OVERSIZE_FOCUS:
         source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1821,6 +1873,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = NATIVE_SHARE_BOUNDARY_CLASS
         selected[0]["required_testcases"] = native_share_boundary_identities()
         result["scope"] = "Five exact actual native loader boundary methods only; other share/JNI suites are NOT requested or counted"
+    if android_io_documents_required(result):
+        import android_io_documents
+        # Pure source refusal before controller output, AVD/helper/reporter cost.
+        result["android_io_documents"] = {"package": android_io_documents.PACKAGE,
+            "source_fixture": android_io_documents.FIXTURE, "verification_api_level": 35,
+            "source_contract": android_io_documents.source_contract(root)}
     return result
 
 
@@ -1831,12 +1889,24 @@ def native_share_boundary_identities() -> list[dict]:
 
 def validate_test_focus(test_plan: dict) -> bool:
     """No arbitrary Gradle filters, module escape, skip list or broad pass claim."""
+    validate_android_io_documents_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
     if focus is None:
         if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
             raise ValueError("Test filters require the finite reviewed focus")
         return False
     expected = test_plan["expected"]
+    if focus == ANDROID_IO_PROVIDER_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != ANDROID_IO_PROVIDER_CLASS or
+                expected[0].get("required_testcases") != android_io_provider_identities() or
+                any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
+            raise ValueError("Invalid finite Android IO provider/Coil plan")
+        return True
     if focus == ANDROID_CAMERA_RESTORATION_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -2107,7 +2177,7 @@ def snapshot_inputs(root: Path) -> dict[str, str]:
         if path.is_file():
             inputs.add(path)
     for tree in ("gradle", "convention-plugins", "scripts/ci", "scripts/native", "kotlin-js-store",
-                 "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver"):
+                 "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver", "tests/consumer/android-io-documents"):
         inputs.update(source_files(root, tree))
     for module in projects(root):
         # KGP appends module-owned Karma config fragments to browser task inputs.
@@ -2325,6 +2395,14 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_PROVIDER_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android IO XML must contain exactly all five selected new methods in one fresh report, no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_OVERSIZE_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -2474,8 +2552,18 @@ def quarantine_reports(root: Path, output: Path, test_plan: dict) -> list[str]:
 
 def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                    kotlin_user_home: str | None = None, root: Path = ROOT,
-                   android_serial: str | None = None) -> list[str]:
+                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,
+                   for_assembly: bool = False) -> list[str]:
     boundary_focus = validate_test_focus(test_plan)
+    if for_assembly and suite != "android-device":
+        raise ValueError("Only the device controller may request an assembly-only command")
+    io_required = android_io_documents_required(test_plan)
+    if android_io_documents_receipt is not None and not io_required:
+        raise ValueError("No owned IO preparation for unrelated or accepted recovery methods")
+    if io_required and not for_assembly:
+        import android_io_documents
+        android_io_documents.validate_prepared_receipt(android_io_documents_receipt,
+            test_plan["android_io_documents"]["source_contract"])
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
@@ -2509,6 +2597,10 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true")
         if android_share_recipient_required(test_plan):
             command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true")
+        if io_required and not for_assembly:
+            # This bit is only emitted after exact source/APK/manifest/private-key
+            # identity passed, never for an assembly-only or standalone command.
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true")
         if boundary_focus:
             item = test_plan["expected"][0]
             argument = "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
@@ -2532,7 +2624,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         # dependency integrity, recursive cache validation or filesystem isolation.
         command.append(f"-Pkotlin.user.home={home}")
     for item in test_plan["expected"]:
-        command.append(item["task"])
+        command.append(item["project"] + ":assembleAndroidDeviceTest" if for_assembly else item["task"])
         if boundary_focus and suite != "android-device":
             # KGP2.4.20 KotlinJsTest inherits AbstractTestTask's --tests filter.
             # Android instrumentation instead consumes its supported class argument.
@@ -2919,14 +3011,17 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
 
 def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
         only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
-        android_serial: str | None = None, android_user_home: str | None = None, focus: str | None = None) -> dict:
+        android_serial: str | None = None, android_user_home: str | None = None, focus: str | None = None,
+        android_io_documents_receipt: dict | None = None) -> dict:
     output = safe_path(root, output_relative)
     allowed = root / "build/ci-verification"
     if output == allowed or not output.is_relative_to(allowed) or output.exists():
         raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
     test_plan = plan(root, suite, only_modules=only_modules, **({"focus": focus} if focus is not None else {}))
+    if android_io_documents_required(test_plan) and android_user_home is None:
+        raise ValueError("Owned IO instrumentation requires the controller's existing private signing home")
     command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
-                             android_serial=android_serial)
+                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt)
     execution_environment = android_device_environment(android_serial) if android_serial else None
     if android_user_home is not None:
         if android_serial is None:
@@ -3086,7 +3181,7 @@ def main() -> int:
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")

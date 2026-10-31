@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="4" failures="1" errors="0" skipped="0" time="0.000" timestamp="2026-10-31T21:24:41" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" tests="4" failures="1" errors="0" skipped="0" time="42.540" timestamp="2026-10-31T21:24:41" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" time="4.356" />
+    <testcase name="nativeDontKeepActivitiesRestoresOneReadableCapturedFile" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" time="32.987">
+      <failure>java.lang.IllegalStateException: Owned native camera condition did not complete
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.waitUntil(AndroidCameraRestorationTest.kt:436)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.waitUntil$default(AndroidCameraRestorationTest.kt:434)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture(AndroidCameraRestorationTest.kt:156)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.capture$default(AndroidCameraRestorationTest.kt:57)
+	at com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest.nativeDontKeepActivitiesRestoresOneReadableCapturedFile(AndroidCameraRestorationTest.kt:52)
+</failure>
+    </testcase>
+    <testcase name="nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" time="2.201" />
+    <testcase name="nativeRotationRecreatesCallerWhileExternalCaptureIsForeground" classname="com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest" time="2.996" />
+  </testsuite>
+</testsuites>

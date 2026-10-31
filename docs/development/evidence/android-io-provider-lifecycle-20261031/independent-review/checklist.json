@@ -1,0 +1,188 @@
+{
+  "accepted_modeled_methods_replayed": 0,
+  "checks": [
+    {
+      "conclusion": "All 25 unified diffs reconstruct candidate bytes exactly from current HEAD preimages.",
+      "id": "patch-preimages",
+      "locations": [
+        "implementation.patch",
+        "preimages-final.json",
+        "candidate-manifest-final.json"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "18 unchanged reviewed inputs retain their prior review; expanded adapter now reviewed separately.",
+      "id": "prior-fixture-review",
+      "locations": [
+        "fixture-review-readback-final.json",
+        "../io-review/REVIEW.md"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Only one exact new fixture/package pair added; duplicate metadata, release/foreign/split/path/linked/unbounded refusals preserved.",
+      "id": "metadata-allowlist",
+      "locations": [
+        "scripts/ci/android_geo_probe.py:31"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Helper provider requires MANAGE_DOCUMENTS; fixed components use signature control only; reporter requests control only and native MANAGE_DOCUMENTS denial remains mandatory.",
+      "id": "minimal-permissions",
+      "locations": [
+        "scripts/ci/android_io_documents.py:45",
+        "scripts/ci/android_io_documents.py:139",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:280"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Inherited install refuses preexisting packages and has no -g/-r; installed hash matches inspected APK. One v2/v3 signer must match exact private debug-key DER certificate under stat stability, with source/APK recheck.",
+      "id": "signer-and-installed-bytes",
+      "locations": [
+        "scripts/ci/android_share_recipient.py:67",
+        "scripts/ci/android_io_documents.py:186",
+        "scripts/ci/android_io_documents.py:238",
+        "scripts/ci/android_io_documents.py:262"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Owned Enforcing boot then helper preparation/receipt-source validation precede reporter assembly and connected tests. Assembly-only has no native task or IO instrumentation bit.",
+      "id": "helper-before-reporter",
+      "locations": [
+        "scripts/ci/android_device_tests.py:233",
+        "scripts/ci/android_device_tests.py:278",
+        "scripts/ci/android_device_tests.py:317",
+        "scripts/ci/library_tests.py:2553"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Native IO bit requires passed prepare, installed/source APK agreement, compiled policy, signer/private certificate equality and exact planned source identity. Same controller signing home is used by helper, reporter and connected execution.",
+      "id": "prepared-receipt",
+      "locations": [
+        "scripts/ci/android_io_documents.py:199",
+        "scripts/ci/library_tests.py:2563",
+        "scripts/ci/library_tests.py:3020"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Failed/uncertain installs and prepare/cleanup errors retain receipts; cleanup rechecks owned lease and digest before force-stop/uninstall, refuses unknown/foreign bytes, and cannot turn failed prepare green.",
+      "id": "partial-failure-cleanup",
+      "locations": [
+        "scripts/ci/android_share_recipient.py:80",
+        "scripts/ci/android_share_recipient.py:91",
+        "scripts/ci/android_io_documents.py:276",
+        "scripts/ci/android_io_documents.py:282",
+        "scripts/ci/android_device_tests.py:378"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Controller pass requires passed helper prepare/cleanup/removal plus source stability, actual graceful child exit and owned ADB disappearance; no forced shutdown success.",
+      "id": "owned-engine-cleanup",
+      "locations": [
+        "scripts/ci/android_device_tests.py:393",
+        "scripts/ci/android_device_tests.py:415"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Explicit cmdline23/platform37.0/build-tools36.0.0/API35 recipe is provisioned for finite IO and full35 profiles. Actual helper build/settings/properties/manifest/catalog and adapter recipe are keyed; Java/test/APK/signing/XML outputs remain excluded. Cache save semantics and contents:read permission remain unchanged.",
+      "id": "sdk-and-cache",
+      "locations": [
+        ".github/workflows/gradle.yml:15",
+        ".github/workflows/gradle.yml:306",
+        "scripts/ci/dependency_cache_inputs.py:89",
+        ".github/workflows/gradle.yml:535"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "Exactly five new unique methods in one fresh XML, actual task marker and existing fresh-report/skip/failure refusals; accepted precheck excluded from finite selection.",
+      "id": "finite-results",
+      "locations": [
+        "scripts/ci/library_tests.py:1677",
+        "scripts/ci/library_tests.py:1898",
+        "scripts/ci/library_tests.py:2398"
+      ],
+      "status": "passed-source"
+    },
+    {
+      "conclusion": "All11 has one full API35 eight-module device slot. Full API23 already refuses before setup; finite camera23 excludes IO. No slot/filter/skip changes required.",
+      "id": "full-and-minimum-slots",
+      "locations": [
+        "scripts/ci/workflow_matrix.py:14",
+        "scripts/ci/workflow_matrix.py:319",
+        "scripts/ci/android_device_tests.py:437",
+        "scripts/ci/library_tests.py:1292",
+        "api-selection.json"
+      ],
+      "status": "passed-source-plan"
+    },
+    {
+      "conclusion": "Fixtures require real client/provider self-kill/Binder death/new PID+generation, framework source-owner revocation and public post-event metadata/byte reads; modeled helper receipts cannot establish those outcomes.",
+      "id": "real-provider-events",
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:40",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:67",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:95"
+      ],
+      "status": "required-native-unexecuted"
+    },
+    {
+      "conclusion": "Coil executes real native-source transfer with injected decoder failure/cancellation and exact close/FD assertions. These five methods do not exercise default bitmap decode, unknown-size byte streams, peak memory or modified-file/key policy.",
+      "id": "coil-default-decode-boundary",
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:131",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:155",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt:219",
+        "scripts/ci/library_tests.py:1692"
+      ],
+      "status": "passed-source-scope"
+    },
+    {
+      "conclusion": "All 42 distinct modeled OK lines and all 11 log hashes read back; earlier failures retained. No accepted methods or suites replayed. Actionlint receipt is source-only, ShellCheck/Pyflakes integrations omitted as disclosed.",
+      "id": "guard-evidence-reuse",
+      "locations": [
+        "guard-outcomes-final.json"
+      ],
+      "status": "passed-evidence-readback"
+    },
+    {
+      "conclusion": "README lines9-10 bind v1 19-file hash and lines76-87 say hooks are absent; current proof/manifest/patch contain 25 files and completed hooks. Update handoff narrative without discarding v1 failure/provenance history.",
+      "id": "readme-v1-correction",
+      "locations": [
+        "../android-io/README.md:9",
+        "../android-io/README.md:76"
+      ],
+      "status": "nonblocking-documentation"
+    }
+  ],
+  "current_preimages_verified_at_head": "7380a04674c2dc83583a45953418ec2c823b4258",
+  "decision": "ready-for-lead-contained-source-integration",
+  "default_bitmap_decode_certified": false,
+  "issues_that_must_remain_open": [
+    45,
+    55,
+    57
+  ],
+  "native_executions": 0,
+  "patch_sha256": "11552d98ceae0b9f3cc9c67fcce91f895ad26652c7e8c39e37204d324f62623a",
+  "publishing_Pages_main_history_security_readiness_gates_changed": false,
+  "required_before_runtime_acceptance": [
+    "Freeze integrated source/build/dependency/signing inputs; do not substitute old fixture/compiler bytes for changed payloads.",
+    "Lead completes only necessary compiler and affected cross-owner checks after heavy capacity frees; builds serial with 8 GiB reserve, at most two combined heavy requests.",
+    "Lead requests only five unique new API35 methods; independently review fresh XML/task/filter/marker/Enforcing boot/helper identities/native event assertions and owned app/emulator/ADB cleanup.",
+    "Retain historic null-size/signal9 unknown failure and all failed receipt/compiler/native outcomes.",
+    "Map actual results to original issue criteria; broader provider/bookmark/default-decode/memory/key criteria stay open."
+  ],
+  "review_scope": "Source, pure plans, patch reconstruction and recorded synthetic result readback only. No builds/native/CI/Git/GitHub mutations.",
+  "schema_version": 1,
+  "source_confirmed_blockers": [],
+  "unknown_size_stream_certified": false
+}

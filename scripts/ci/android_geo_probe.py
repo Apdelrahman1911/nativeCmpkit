@@ -34,6 +34,7 @@ def metadata_apk(root: Path, *, fixture: str = FIXTURE, package: str = PACKAGE) 
         ("tests/consumer/android-camera-receiver", "io.github.apdelrahman1911.nativecmpkit.verification.camerareceiver"),
         ("tests/consumer/android-share-recipient", "io.github.apdelrahman1911.nativecmpkit.verification.sharerecipient"),
         ("tests/consumer/android-share-documents", "io.github.apdelrahman1911.nativecmpkit.verification.sharedocuments"),
+        ("tests/consumer/android-io-documents", "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments"),
     }:
         raise ValueError("Only exact reviewed disposable fixture/package pairs are permitted")
     base = lt.safe_path(root, fixture + "/build/outputs/apk/debug")

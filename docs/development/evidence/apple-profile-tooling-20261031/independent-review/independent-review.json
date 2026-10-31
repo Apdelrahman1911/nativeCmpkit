@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "observed_at_utc": "2026-10-31T21:03:00.708317+00:00",
+  "reviewer": "apple_actual_profile_review",
+  "operation": "read-only independent actual CI review",
+  "run": {
+    "id": 41241378533,
+    "head_sha": "5e9cfdd1126ba535475f920bdbba827d72eed535",
+    "head_branch": "development/preview-hardening",
+    "status": "completed",
+    "conclusion": "failure",
+    "created_at": "2026-10-31T20:58:32Z",
+    "updated_at": "2026-10-31T21:00:12Z",
+    "run_started_at": "2026-10-31T20:58:32Z",
+    "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41241378533"
+  },
+  "run_attempt": 1,
+  "request_profile": "ios-image-profile-recovery",
+  "dispatch_attempts": 1,
+  "frozen_input_review": {
+    "observed_at_utc": "2026-10-31T21:00:07.069663+00:00",
+    "revision": "5e9cfdd1126ba535475f920bdbba827d72eed535",
+    "git_blob_header_errors": [],
+    "map_reviews": {
+      "exact-library-inputs.json": {
+        "count": 994,
+        "git_mismatches": [],
+        "worktree_mismatches": []
+      },
+      "exact-combined-inputs.json": {
+        "count": 1071,
+        "git_mismatches": [],
+        "worktree_mismatches": []
+      }
+    },
+    "frozen_library_subset_exact": true,
+    "compiled_or_tests_executed": false
+  },
+  "original_criteria": [
+    "Inject color-space/context/image creation failure and assert all owned resources release.",
+    "Zero/negative/truncated/huge vector dimensions and normal repeated conversions.",
+    "Instruments allocation/leak profile and GC stress."
+  ],
+  "selection": {
+    "fresh_target_executions_requested": 1,
+    "one_failed_profile_workload_only": true,
+    "accepted_nine_UIImage_and_two_native_stress_methods_replayed": false,
+    "owned_allocation_rows_and_same_PID_zero_leak_summary_required": true,
+    "same_single_owned_launch_query_required": true,
+    "same_field_exact_NativeCmpKit_namespace_required": true
+  },
+  "actual_results": {
+    "overall": "failure",
+    "tooling_job_id": 124655821288,
+    "tooling_failed_step": "Offline verification-tool adversarial fixtures (not library passes)",
+    "scripts_ci_methods": 1190,
+    "scripts_ci_passed": 1189,
+    "scripts_ci_failed": 1,
+    "scripts_ci_elapsed_seconds": 66.84,
+    "preceding_offline_suites": [
+      {
+        "methods": 35,
+        "status": "pass"
+      },
+      {
+        "methods": 80,
+        "status": "pass"
+      },
+      {
+        "methods": 84,
+        "status": "pass"
+      }
+    ],
+    "library_job": "skipped",
+    "artifact_count": 0,
+    "fresh_XML_files": 0,
+    "fresh_Apple_or_library_methods": 0,
+    "Apple_Gradle_codesign_install_launch_record_export_leaks_commands": 0,
+    "fresh_Apple_runtime_or_binary_identity_receipts": 0,
+    "Apple_cleanup_reached": false,
+    "previous_native_or_profile_results_promoted": false
+  },
+  "owning_blocker": {
+    "failing_method": "FAIL: test_real_fixture_keeps_visible_Compose_JNI_writer_disposal_and_disclosed_parent_boundary (test_desktop_saver_state_focus.DesktopSaverStateFocusTests.test_real_fixture_keeps_visible_Compose_JNI_writer_disposal_and_disclosed_parent_boundary)",
+    "file": "scripts/ci/test_desktop_saver_state_focus.py",
+    "line": 149,
+    "workflow_file": ".github/workflows/gradle.yml",
+    "workflow_line": 228,
+    "expected_final_serial_term": "picker-saver-state",
+    "actual_later_serial_term": "webview-content-transitions",
+    "diagnosis": "Stale exact-prose workflow guard requires picker-saver-state to be last despite unchanged serial membership and concurrency limits.",
+    "minimal_recovery": "Only repair owning guard to retain exact four-profile serial expression / saver-state membership and 1-or-2 caps. Preserve workflow, native/source assertions and all accepted outcomes."
+  },
+  "limits": {
+    "issue_141_stays_open": true,
+    "actual_Apple_launch_cause": "unknown; no Apple launch ran",
+    "prior_strict_timeout_pre_PID_failures": "failed, unfixed and unwaived",
+    "owned_allocation_rows_or_same_PID_zero_leak_result": false,
+    "publishing_Pages_main_history_security_readiness_gate_changes": false,
+    "raw_logs_or_private_files_archived_publicly": false
+  },
+  "private_original_log": {
+    "bytes": 555475,
+    "sha256": "039fd24ca0645d682d32d88678afe41ae013b3fc4fb0be96c5c14effe264dac1",
+    "retained_under_owned_scratch": true,
+    "public_archive_eligible": false
+  },
+  "reviewer_mutations": {
+    "shared_source_edits": 0,
+    "Git_or_GitHub_writes": 0,
+    "POSTs": 0,
+    "builds_or_tests": 0
+  }
+}

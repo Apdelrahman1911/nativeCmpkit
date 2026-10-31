@@ -13,6 +13,24 @@ compete for the same files. Publishing/Pages/main/history/security/readiness gat
 are unchanged. Use important-test batches and close verified subsets immediately
 after original-criteria/source/results review, before follow-up documentation.
 
+## Finite requests stopped in tooling; serial guard repaired — 2026-10-31
+
+Actual [camera41240921685](docs/development/evidence/android-camera-provider-20261030/restoration-ci008/README.md)
+and [Apple41241378533](docs/development/evidence/apple-profile-tooling-20261031/README.md)
+at5e9cfdd1 FAILED before native:1190 CI methods/1189pass/one stale saver-serial
+guard. ZERO native/cache-action/XML/artifacts; twenty cumulative restoration
+executions remain zero accepted. [Only owning guard repaired](docs/development/evidence/serial-profile-guard-recovery-20261031/README.md):
+exact four approved serial profiles/order-independent membership/serial1/default2;
+source red and missing-import recovery refusal retained, final1/1 plus five unsafe
+refusals/one reordered positive pass. Only test_desktop_saver_state_focus.py differs
+from the accepted three-task compile; no workflow/production/native assertion
+change or accepted1189 replay.994/1071 counts retained. Camera four unexecuted flags
+cases and one Apple failed-profile workload next, not accepted suites. #13/#63/
+#141/#40 remain open/90closed82open172total; publishing/Pages/main/history/native/
+consumer/ABI/dependency/legal/security/readiness/capacity gates unchanged. Several
+parallel reviewers reached provider rate limits; saved private proposals/evidence
+remain, lead continues integration without automatic failed-session retries.
+
 ## Important camera/browser compilation and Apple correlation — 2026-10-31
 
 Actual [41238298009](docs/development/evidence/android-camera-provider-20261030/restoration-ci007/README.md)

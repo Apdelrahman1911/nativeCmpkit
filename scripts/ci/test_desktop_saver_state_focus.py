@@ -3,6 +3,7 @@ from collections import Counter
 import copy
 import os
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import time
@@ -146,7 +147,14 @@ class DesktopSaverStateFocusTests(unittest.TestCase):
             self.assertIn(phrase, source)
         self.assertNotIn("PlatformFilePicker.save(", source)
         workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
-        self.assertIn("inputs.profile == 'picker-saver-state') && 1 || 2", workflow)
+        # Membership, not the position of the saver clause, owns serialization.
+        # Keep the exact approved profiles and serial1/default2 capacity limits.
+        serial = re.search(r"^      max-parallel: \$\{\{ \((.+)\) && 1 \|\| 2 \}\}$", workflow, re.M)
+        self.assertIsNotNone(serial)
+        self.assertCountEqual(
+            ["inputs.profile == '" + profile + "'" for profile in (
+                "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions")],
+            serial.group(1).split(" || "))
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertNotIn("packages: write", workflow)
 

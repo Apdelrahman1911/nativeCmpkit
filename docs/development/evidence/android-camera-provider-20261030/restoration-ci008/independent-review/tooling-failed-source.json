@@ -1,0 +1,40 @@
+[
+  {
+    "path": "scripts/ci/test_desktop_saver_state_focus.py",
+    "immutable_sha": "5e9cfdd1126ba535475f920bdbba827d72eed535",
+    "sha256": "8cd7a861db90453737d663beb2b1813458516ad4e8ba335e5873507bae906f09",
+    "relevant_lines": [
+      {
+        "line": 135,
+        "text": "def test_real_fixture_keeps_visible_Compose_JNI_writer_disposal_and_disclosed_parent_boundary(self):"
+      },
+      {
+        "line": 149,
+        "text": "self.assertIn(\"inputs.profile == 'picker-saver-state') && 1 || 2\", workflow)"
+      },
+      {
+        "line": 157,
+        "text": "\"{{ inputs.profile == 'picker-saver-state' && runner.os == 'Linux' && 'SOFTWARE_FAST' || '' }}\", workflow)"
+      }
+    ]
+  },
+  {
+    "path": ".github/workflows/gradle.yml",
+    "immutable_sha": "5e9cfdd1126ba535475f920bdbba827d72eed535",
+    "sha256": "9ce4e4808728c82acbd715e461c5a11e1bfaa5769022a7d9b054e8df6315b9b0",
+    "relevant_lines": [
+      {
+        "line": 93,
+        "text": "max-parallel: 1"
+      },
+      {
+        "line": 228,
+        "text": "max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}"
+      },
+      {
+        "line": 593,
+        "text": "max-parallel: 2"
+      }
+    ]
+  }
+]

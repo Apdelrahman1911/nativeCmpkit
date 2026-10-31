@@ -1,0 +1,26 @@
+{
+  "events": [
+    {
+      "kind": "reader-path-failure",
+      "exit_code": 2,
+      "paths": [
+        "scripts/ci/native_ui_test_host.py",
+        "scripts/ci/apple_native_profiles.py",
+        "scripts/ci/ci_matrix.py",
+        ".github/workflows/verify.yml"
+      ],
+      "corrected_by": "rg --files source discovery; no source mutation"
+    },
+    {
+      "kind": "reader-output-truncation",
+      "file": "exact-library-inputs.json and exact-combined-inputs.json",
+      "corrected_by": "flat-map counts and bounded summaries; no evidence substitution"
+    },
+    {
+      "kind": "reader-path-failure",
+      "exit_code": 1,
+      "path": "docs/development/resolutions/UI-038.md",
+      "corrected_by": "read matching resolution JSON after rg --files discovery"
+    }
+  ]
+}

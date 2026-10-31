@@ -1,0 +1,89 @@
+{
+  "reviewed_at": "2026-10-31T21:06:00.666940+00:00",
+  "run": {
+    "id": 41240921685,
+    "attempt": 1,
+    "head_sha": "5e9cfdd1126ba535475f920bdbba827d72eed535",
+    "status": "completed",
+    "conclusion": "failure",
+    "completed_at": "2026-10-31T20:54:07Z",
+    "requested_profile_from_lead": "android-camera-restoration; four original methods only; actual profile selector skipped"
+  },
+  "checks": {
+    "exact_run_attempt_sha": true,
+    "run_completed_failure": true,
+    "tooling_only_failed": true,
+    "all_downstream_skipped": true,
+    "no_artifacts": true,
+    "main_1190_methods_and_one_failure_in_original_job_log": true,
+    "exact_failed_guard_and_origin": true,
+    "no_native_or_profile_selector_run": true,
+    "original_issue13_unchanged_open": true
+  },
+  "all_review_checks_pass": true,
+  "observed_failure": {
+    "job_id": 124654461275,
+    "job": "tooling",
+    "step": "Offline verification-tool adversarial fixtures (not library passes)",
+    "source_path": "scripts/ci/test_desktop_saver_state_focus.py",
+    "source_line": 149,
+    "method": "DesktopSaverStateFocusTests.test_real_fixture_keeps_visible_Compose_JNI_writer_disposal_and_disclosed_parent_boundary",
+    "expected_stale_literal": "inputs.profile == 'picker-saver-state') && 1 || 2",
+    "immutable_actual_workflow_line": 228,
+    "immutable_actual_workflow": "max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}",
+    "main_scripts_ci_methods": 1190,
+    "main_scripts_ci_passed": 1189,
+    "main_scripts_ci_failed": 1,
+    "main_scripts_ci_errors": 0,
+    "main_scripts_ci_elapsed_seconds": 67.272,
+    "separate_prior_synthetic_groups": [
+      {
+        "methods": 35,
+        "elapsed_seconds": 0.061,
+        "result": "OK"
+      },
+      {
+        "methods": 80,
+        "elapsed_seconds": 0.192,
+        "result": "OK"
+      },
+      {
+        "methods": 84,
+        "elapsed_seconds": 1.583,
+        "result": "OK"
+      }
+    ],
+    "result_interpretation": "Owning desktop synthetic max-parallel adjacency guard is stale after addition of another serial profile. Existing picker-saver-state serial1/default2 policy remains in immutable workflow. No camera native exception/cause can be diagnosed from this tooling failure."
+  },
+  "actual_native_review": {
+    "compiler_or_APK_build_invocations": 0,
+    "native_methods": 0,
+    "XML_files": 0,
+    "artifacts": 0,
+    "native_dependency_cache_actions": 0,
+    "input_before_after_native_receipt": "not reached / unavailable; do not borrow native007 receipt",
+    "native_runtime_and_Enforcing_receipt": "not reached / unavailable",
+    "installed_APK_identity_or_receiver_UID_receipt": "not reached / unavailable",
+    "owned_AVD_receiver_transport_cleanup_receipt": "not reached / unavailable because native job never started; not a verified cleanup outcome"
+  },
+  "issue13": {
+    "number": 13,
+    "finding": "NATIVE-019",
+    "state": "open",
+    "title": "[High][NATIVE-019] Android camera loses its output URI across Activity/process recreation",
+    "body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+    "original_body_and_title_unchanged": true,
+    "all_three_original_criteria": "unverified by native008; previous source/static/synthetic/compile evidence does not substitute for missing native results"
+  },
+  "static_contract_review": "../native007/preflight008/original-criteria-checklist.md and .json; all ten frozen/live/accepted Git source identities matched. No additional definite intent mismatch found; rotation timing limitation and potential taskInfo disappearance conservative-refusal race retained, not actual failure causes.",
+  "evidence": {
+    "metadata_observation": "20261031T210307Z-summary.json",
+    "original_job_log": "tooling-job-124654461275.log",
+    "job_log_sha256": "2bcccc4166fa452dbb89514d892cf00d9eb02c0c9d2b1be4b2a78403df63866c",
+    "job_log_bytes": 555539,
+    "bounded_log_analysis": "tooling-log-observation.json",
+    "immutable_failed_guard_and_workflow": "tooling-failed-source.json, immutable-source/",
+    "public_source_indexes": "../native007/preflight008/public-source/facts.json and additional-facts.json; existing-dependency-bytecode/facts.json; ../native007/read-only-dependency-bytecode/facts.json"
+  },
+  "reviewer_actions": "Read-only GETs/local source/hash inspection plus private evidence writes only. No shared edits, builds/tests/native replay/POST/dispatch/GitHub issue mutation. Lead owns any owning guard repair, immutable re-request, archive and closure."
+}

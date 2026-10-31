@@ -1,5 +1,25 @@
 # NativeCmpKit development after the audit
 
+## Owning serial guard recovery — 2026-10-31
+
+Both finite requests at5e9cfdd1 stopped before native work:
+[camera41240921685](evidence/android-camera-provider-20261030/restoration-ci008/README.md)
+and [Apple41241378533](evidence/apple-profile-tooling-20261031/README.md).
+Each has1190 CI synthetic methods/1189pass/one stale saver-serial guard, no artifacts,
+XML, native or cache-action outcome. The workflow correctly retains saver serial1;
+the old guard incorrectly required it to be the last OR term.
+
+[One-file owning correction](evidence/serial-profile-guard-recovery-20261031/README.md)
+validates exactly four approved profiles regardless of ordering and keeps serial1/
+default2 limits. Final1/1 source guard and six modeled controls pass; initial red
+and missing-import recovery refusal remain preserved. No workflow/production/
+native assertion change or1189 accepted-method replay. The three-task compilation
+is reusable on exact sole-test-guard difference, not fresh compilation or native
+acceptance. Twenty cumulative camera restoration executions still zero accepted;
+#13/#63/#141 remain open;90closed/82open/172total. Lead continues saved private IO/
+dependency/consumer work after several reviewer-provider rate limits. No publishing
+or other gate/capacity change.
+
 ## Important camera/browser/Apple batch prepared — 2026-10-31
 
 [Actual camera41238298009](evidence/android-camera-provider-20261030/restoration-ci007/README.md)

@@ -1,0 +1,194 @@
+{
+  "run_id": 41250376146,
+  "run_attempt": 1,
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "issues": {
+    "45": {
+      "finding": "IO-008",
+      "original_title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+      "original_body_sha256": "b1d663c1802b0b0fc5b137a53def6a27ab4da928a153731b0e64312ff94a902d",
+      "original_state": "open",
+      "original_criteria": [
+        {
+          "criterion": "iCloud/third-party folder access after callback",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "No Apple/iCloud/third-party folder callback or security scope execution.",
+          "remaining_requirement": "No Apple/iCloud/third-party folder callback or security scope execution."
+        },
+        {
+          "criterion": "Stream open/read/close balances scope",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "Regular Android descriptor closure is observed, not Apple security-scope balancing.",
+          "remaining_requirement": "Regular Android descriptor closure is observed, not Apple security-scope balancing."
+        },
+        {
+          "criterion": "Android SAF grant release/revoke/restart",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [
+            "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead"
+          ],
+          "previous_scope_retained": "Fixed synthetic read-only tree grant release/revoke and owned secondary client restart verified. No DocumentsUI/system/cloud provider, arbitrary folder, whole-app restart or reboot.",
+          "remaining_requirement": "Fixed synthetic read-only tree grant release/revoke and owned secondary client restart verified. No DocumentsUI/system/cloud provider, arbitrary folder, whole-app restart or reboot.",
+          "current_run_additive_prerequisite_only": "Corrupt default decode additionally executes actual fixed read-only tree grant/bookmark release, but does not newly exercise restart or post-revocation read. The stronger prior two lifecycle methods remain accepted, not replayed."
+        },
+        {
+          "criterion": "iOS stale bookmark and access denial",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "No iOS stale bookmark or Apple access denial.",
+          "remaining_requirement": "No iOS stale bookmark or Apple access denial."
+        },
+        {
+          "criterion": "Sandbox-local file path",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "Sandbox-owned helper backing files are not fresh public sandbox-local file:// path regression acceptance.",
+          "remaining_requirement": "Sandbox-owned helper backing files are not fresh public sandbox-local file:// path regression acceptance."
+        },
+        {
+          "criterion": "Save destination reopened after callback",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "No actual picked save destination reopened after callback.",
+          "remaining_requirement": "No actual picked save destination reopened after callback."
+        }
+      ],
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false,
+      "global_prior_evidence_not_reset_or_recounted": true
+    },
+    "55": {
+      "finding": "IO-019",
+      "original_title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence",
+      "original_body_sha256": "0d464d334603dc0bab942f59db598d400f17ab7495207ec88b1439b4033ca16c",
+      "original_state": "open",
+      "original_criteria": [
+        {
+          "criterion": "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "Fixed owned DocumentsProvider only; no ExternalStorageProvider, Downloads or cloud/system provider execution.",
+          "remaining_requirement": "Fixed owned DocumentsProvider only; no ExternalStorageProvider, Downloads or cloud/system provider execution."
+        },
+        {
+          "criterion": "Folder exists/name/isDirectory immediately and after restart",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [
+            "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+            "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+          ],
+          "previous_scope_retained": "Public fixed tree exists/name/isDirectory observed before and after owned secondary-client restart and transient provider reacquisition; not all providers or reboot.",
+          "remaining_requirement": "Public fixed tree exists/name/isDirectory observed before and after owned secondary-client restart and transient provider reacquisition; not all providers or reboot."
+        },
+        {
+          "criterion": "Single-document and file:// regression tests",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "No new single-document or file:// regression method; tree-child metadata is not those broader regressions.",
+          "remaining_requirement": "No new single-document or file:// regression method; tree-child metadata is not those broader regressions.",
+          "current_run_noncriterion_observation": "PNG/JPEG use openable FileProvider content URIs, not DocumentsContract single-document or public file:// regression cases; do not relabel them as this whole criterion."
+        },
+        {
+          "criterion": "Permission denial and unavailable provider",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [
+            "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+            "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers"
+          ],
+          "previous_scope_retained": "Actual revoked tree/child denial and stale unstable Binder DeadObjectException with production metadata/content recovery. No permanent unavailability or all provider failure policies.",
+          "remaining_requirement": "Actual revoked tree/child denial and stale unstable Binder DeadObjectException with production metadata/content recovery. No permanent unavailability or all provider failure policies."
+        }
+      ],
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false,
+      "global_prior_evidence_not_reset_or_recounted": true
+    },
+    "57": {
+      "finding": "IO-021",
+      "original_title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+      "original_body_sha256": "a6f7ebbddca0ce06e2728b1ce478c45f67453293735369c8dba39a63b497791f",
+      "original_state": "open",
+      "original_criteria": [
+        {
+          "criterion": "Large image peak-memory benchmark by target",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "No peak-memory, large-image or target-comparison benchmark.",
+          "remaining_requirement": "Large-image peak-memory benchmarks remain unexecuted by target. Partial encoded buffering at fetchEnd is streaming evidence, not a heap benchmark; test reference bytes/bitmaps allocate."
+        },
+        {
+          "criterion": "Decoder failure closes source",
+          "accepted_current_native_methods": [
+            "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors"
+          ],
+          "current_run_disposition": "accepted-default-decoder-API35-failure-subset",
+          "previous_accepted_methods_reused_without_replay": [
+            "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+          ],
+          "previous_scope_retained": "Actual production fetcher/Coil engine closes real transferred source after explicit injected decoder failure; no default bitmap decoder/EXIF/seek coverage.",
+          "remaining_requirement": "Actual unmodified default BitmapFactoryDecoder corrupt failure closes the transferred real source on four sequential rounds. Earlier injected-source failure remains accepted. Other native targets/platforms and every failure stage are not certified."
+        },
+        {
+          "criterion": "Coil cancellation closes provider stream",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [
+            "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess"
+          ],
+          "previous_scope_retained": "Actual coroutine cancellation closes real source under explicitly injected paused decoder; no every-stage or every-target inference.",
+          "remaining_requirement": "Earlier actual injected-paused-decoder cancellation closes provider source and is reused on exact owning bytes. No new unmodified default-decoder cancellation, concurrent-stage or all-target certification."
+        },
+        {
+          "criterion": "Stable request key and modified-file invalidation policy",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "Caches disabled for lifecycle checks; no stable request key or modified-file invalidation policy execution.",
+          "remaining_requirement": "Memory/disk request caches are disabled for this suite. Stable request key and modified-file invalidation policy/integration remains unexecuted."
+        },
+        {
+          "criterion": "Main-thread misuse guidance test/sample",
+          "accepted_current_native_methods": [],
+          "current_run_disposition": "not-newly-executed-for-original-criterion",
+          "previous_accepted_methods_reused_without_replay": [],
+          "previous_scope_retained": "Non-main Looper assertions show these source reads are correctly dispatched. They do not execute main-thread misuse guidance/test/sample.",
+          "remaining_requirement": "Actual fetch/default decode off-main assertions pass with explicitly scheduled IO. Main-thread misuse guidance/test/sample is not executed and remains required."
+        },
+        {
+          "criterion": "Binary content parity",
+          "accepted_current_native_methods": [
+            "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+            "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection"
+          ],
+          "current_run_disposition": "accepted-default-native-PNG-pixel-and-JPEG-EXIF-subset",
+          "previous_accepted_methods_reused_without_replay": [
+            "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead"
+          ],
+          "previous_scope_retained": "Full fixed binary payload equals actual Coil source bytes, with bookmark/survivor read parity supporting IO. Not all file types/targets/default bitmap decoding.",
+          "remaining_requirement": "Every native PNG output pixel and unchanged original bytes match; JPEG dimensions/rotation/reflection and specified RGB tolerance match. Earlier full fixed binary Coil source read parity is retained. No new whole corrupt payload read, every format/target/metadata ImageDecoder or consumer certification."
+        }
+      ],
+      "recommended_state": "remain-open",
+      "whole_issue_closure_permitted": false,
+      "global_prior_evidence_not_reset_or_recounted": true
+    }
+  },
+  "all16_original_criteria_reviewed": true,
+  "global_prior_evidence_not_reset_or_recounted": true,
+  "no_GitHub_mutation_by_reviewer": true
+}

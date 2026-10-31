@@ -157,8 +157,12 @@ internal class BrowserWebViewOwner(
                 WebViewNavigator.NavigationEvent.Back -> frame.contentWindow?.history?.back()
                 WebViewNavigator.NavigationEvent.Forward -> frame.contentWindow?.history?.forward()
                 WebViewNavigator.NavigationEvent.Reload -> {
-                    state.beginRequest(state.requestedUrl)
-                    try { frame.contentWindow?.location?.reload() } catch (_: Throwable) { load(lastContent) }
+                    try {
+                        // Rejections and redirects can leave requestedUrl different from the
+                        // actual readable document. Reload that document, not stale request UI.
+                        state.beginRequest(frame.contentWindow?.location?.href)
+                        frame.contentWindow?.location?.reload()
+                    } catch (_: Throwable) { load(lastContent) } // Opaque/cross-origin: replay the accepted loader.
                 }
                 WebViewNavigator.NavigationEvent.StopLoading -> {
                     frame.contentWindow?.stop()

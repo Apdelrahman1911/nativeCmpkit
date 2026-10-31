@@ -160,7 +160,7 @@ class CameraAlwaysFinishSourceTests(unittest.TestCase):
     def test_scalar_only_toggle_is_replaced_only_inside_the_dont_keep_branch(self):
         source = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
         branch = source.split("if (dontKeep) {", 1)[1].split("// The reporter", 1)[0]
-        self.assertIn("OwnedAlwaysFinish(pm, originalFinish)", branch)
+        self.assertIn("OwnedAlwaysFinish(pm, instrumentation.uiAutomation, originalFinish)", branch)
         self.assertIn("alwaysFinish = finishOwner", branch)
         self.assertLess(branch.index("alwaysFinish = finishOwner"), branch.index("finishOwner.arm()"))
         self.assertNotIn("settings put global always_finish_activities 1", source)
@@ -176,18 +176,19 @@ class CameraAlwaysFinishSourceTests(unittest.TestCase):
         for forbidden in ("adoptShellPermissionIdentity", "setHiddenApiExemptions", "hidden_api_policy", "su ", "setprop "):
             self.assertNotIn(forbidden, source)
 
-    def test_running_binder_signature_transaction_name_and_descriptor_are_verified_before_mutation(self):
+    def test_public_settings_identity_ui_and_native_readback_replace_inaccessible_binder_before_mutation(self):
         source = helper_source()
-        for token in ('Class.forName("android.app.IActivityManager")',
-                      'getDeclaredMethod("setAlwaysFinish", Boolean::class.javaPrimitiveType)',
-                      "method.returnType == Void.TYPE", 'Class.forName("android.app.IActivityManager\\$Stub")',
-                      'getDeclaredField("TRANSACTION_setAlwaysFinish")', "Modifier.isStatic(field.modifiers)",
-                      "Modifier.isFinal(field.modifiers)", 'getDeclaredMethod("getDefaultTransactionName", Int::class.javaPrimitiveType)',
-                      'name.invoke(null, transaction) == "setAlwaysFinish"', 'shell("service list", CONTROL_BYTES)',
-                      "entries.single { it.second == \"activity\" }.third == SERVICE_DESCRIPTOR"):
-            self.assertIn(token, source)
-        self.assertIn('shell("service call activity $transaction i32 ${if (enabled) 1 else 0}", CONTROL_BYTES)', source)
-        self.assertNotRegex(source, r"service call activity [0-9]")
+        ui = (l.ROOT / "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt").read_text()
+        self.assertIn("OwnedDeveloperSettingsUi(pm, ui, shell)", source)
+        for token in ('checkSignatures("android", SETTINGS_PACKAGE)', "applicationInfo.uid == 1000",
+                      "Intent(SETTINGS_ACTION)", "activeLease = lease", "assertOwned(rows.single(), lease)",
+                      "assertTop(lease)", "verifyNative(clicked)"):
+            self.assertIn(token, ui)
+        self.assertIn('settingsUi.setNative(enabled, before.scalar == "1")', source)
+        self.assertIn("check(expected.native == enabled)", source)
+        self.assertIn("check(readStableState() == expected)", source)
+        for forbidden in ("Class.forName", "getDeclaredField", "TRANSACTION_setAlwaysFinish", "service call activity"):
+            self.assertNotIn(forbidden, source + ui)
 
     def test_complete_bounded_native_query_refuses_unknown_rows_without_exporting_process_bodies(self):
         source = helper_source()
@@ -230,15 +231,22 @@ class CameraAlwaysFinishSourceTests(unittest.TestCase):
         self.assertIn("original.scalar == expectedOriginalScalar", source)
         self.assertNotIn("settings put global always_finish_activities", source)
 
-    def test_exact_no_exception_reply_is_required_and_primary_cleanup_failures_are_preserved(self):
+    def test_native_scalar_ui_agreement_is_required_and_primary_cleanup_failures_are_preserved(self):
         source = helper_source()
-        self.assertIn('Regex("""Result: Parcel\\(\\s*00000000\\s+\'\\.\\.\\.\\.\'\\s*\\)""").matches(reply)', source)
+        ui = (l.ROOT / "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt").read_text()
+        self.assertIn("check(readStableState() == expected)", source)
+        self.assertIn("check(expected.native == enabled)", source)
+        self.assertIn("check(selected.widget.isChecked == enabled)", ui)
+        self.assertIn("verifyNative(clicked)", ui)
+        self.assertIn("initial.addSuppressed(failure)", ui)
+        self.assertIn("cleanup { closeSettings() }", ui)
+        self.assertIn("cleanup { restoreFlags() }", ui)
         caller = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
         self.assertIn("alwaysFinish?.let { owner -> cleanup { owner.restore() } }", caller)
         self.assertIn("primary.addSuppressed(failure)", caller)
         self.assertIn("cleanupFailure?.let { throw it }", caller)
         for forbidden in ("recreate()", "dispatchResult(", "grantUriPermission(", "performDestroy", "callActivityOnDestroy"):
-            self.assertNotIn(forbidden, source)
+            self.assertNotIn(forbidden, source + ui)
 
 
 class CameraAlwaysFinishBoundaryModelTests(unittest.TestCase):

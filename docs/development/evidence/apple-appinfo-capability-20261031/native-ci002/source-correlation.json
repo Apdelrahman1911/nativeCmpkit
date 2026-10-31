@@ -1,0 +1,80 @@
+{
+  "narrow_private_repair_scope": "Observe an exactly owned disappeared child with bounded wait plus absent-group readback before treating it as completed; never signal after reaping. Unknown exit/live group stays refused. Preserve bounded partial control metadata and fixed refusal before cleanup, with one stop attempt and no new SDK operation.",
+  "original_failure": {
+    "elapsed_seconds": 17.72,
+    "error_guard": "owned_control_leader_unavailable",
+    "error_type": "CapabilityError",
+    "helper_exit_code": 2
+  },
+  "original_receipt": {
+    "bytes": 5361,
+    "sha256": "641261c6a76a0033c116e076a89b67db6b58498c30c50ca0d65281b06b75f7c7"
+  },
+  "proved_from_original_source_and_receipt": [
+    "collect:250 assigned Xcode26.6/build17F113; collect:251 next invokes the single fixed help control.",
+    "The observed guard can only arise at stop:75\u201377 when getpgid/getsid raises ProcessLookupError with cached Popen.returncode still None. The Popen child exists in that capture flow; no returned help Result was recorded.",
+    "call:213 invokes control before call:225 records command metadata. A control cleanup exception loses the help stdout/stderr/exit/stop-reason observation.",
+    "capture:108\u2013116 has no stop-attempt latch; an initial stop exception can enter finally and attempt stop again. This is source behavior, not proof that the actual run used both attempts."
+  ],
+  "schema_version": 1,
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "source_sites": [
+    {
+      "lines": [
+        67,
+        75,
+        77,
+        82,
+        84
+      ],
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "symbol": "stop"
+    },
+    {
+      "lines": [
+        92,
+        108,
+        109,
+        112,
+        113,
+        114,
+        116,
+        119
+      ],
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "symbol": "capture"
+    },
+    {
+      "lines": [
+        213,
+        225,
+        226
+      ],
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "symbol": "collect.call"
+    },
+    {
+      "lines": [
+        250,
+        251,
+        252,
+        253
+      ],
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "symbol": "collect"
+    }
+  ],
+  "unobserved": [
+    "Whether help finished before the owner observation.",
+    "Whether the refused owner probe was before TERM or before KILL.",
+    "Whether the stop path was timeout, output-bound, or another pending capture exception.",
+    "The help exit code, stdout/stderr bytes, SDK help support and exact usage outcome.",
+    "Post-help Git/source/tool identity and owned control group termination/reaping."
+  ],
+  "unsupported_diagnoses": [
+    "Do not call this SDK appinfo unsupported.",
+    "Do not claim the help command finished normally before the owner observation.",
+    "Do not infer a 15-second help timeout solely from the 17.72-second total.",
+    "Do not equate private-output deletion with child/group cleanup."
+  ]
+}

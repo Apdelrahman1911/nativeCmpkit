@@ -60,7 +60,7 @@ def host():
 
 
 def stop(process):
-    """Signal only this anchored owned session; never reap before its last signal."""
+    """Signal only an anchored owned session; never signal after an owned wait."""
     pid=process.pid
     need(type(pid) is int and pid>1 and pid not in (os.getpgrp(),os.getsid(0)),
          'owned_control_process_group_required')
@@ -69,53 +69,74 @@ def stop(process):
         try: os.killpg(pid,0)
         except ProcessLookupError: return
         raise CapabilityError('reaped_control_group_still_present')
+    def completed_or_refuse(guard):
+        # ESRCH is not proof of completion. Wait only this Popen-owned child,
+        # then accept only a missing group. A live/reused group is never signalled.
+        try: code=process.wait(timeout=2)
+        except subprocess.TimeoutExpired: raise CapabilityError(guard) from None
+        need(type(code) is int and type(process.returncode) is int and
+             process.returncode==code,'owned_control_exit_unobserved')
+        try: os.killpg(pid,0)
+        except ProcessLookupError: return True
+        raise CapabilityError('reaped_control_group_still_present')
     def anchored_signal(value):
-        # Cached returncode, not poll()/wait(): the unreaped child anchors PID/SID.
+        # Cached returncode, not poll(): the unreaped child anchors PID/SID.
         try:
             group,session=os.getpgid(pid),os.getsid(pid)
         except ProcessLookupError:
-            raise CapabilityError('owned_control_leader_unavailable') from None
+            return completed_or_refuse('owned_control_leader_unavailable')
         need(group==pid and session==pid,'owned_control_session_changed')
         try: os.killpg(pid,value)
         except ProcessLookupError:
-            raise CapabilityError('owned_control_group_unavailable') from None
-    anchored_signal(signal.SIGTERM)
+            return completed_or_refuse('owned_control_group_unavailable')
+        return False
+    if anchored_signal(signal.SIGTERM): return
     time.sleep(.05)
-    anchored_signal(signal.SIGKILL)
+    if anchored_signal(signal.SIGKILL): return
     process.wait(timeout=2)
 
 
 def capture(argv, cwd, timeout):
-    """Bound pipe reads before retaining bytes; stop only this owned process group."""
+    """Bound pipe reads; preserve partial metadata if the single owned stop refuses."""
     outputs = {'stdout':bytearray(), 'stderr':bytearray()}
-    deadline, reason, group_stopped = time.monotonic()+timeout, None, False
+    deadline, reason, stop_attempted = time.monotonic()+timeout, None, False
     process = subprocess.Popen(argv, cwd=cwd, stdin=subprocess.DEVNULL,
                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+    def owned_stop():
+        nonlocal stop_attempted
+        stop_attempted=True
+        stop(process)
     try:
-        with selectors.DefaultSelector() as selected:
-            for name in outputs: selected.register(getattr(process,name), selectors.EVENT_READ, name)
-            while selected.get_map() and reason is None:
-                if time.monotonic() >= deadline:
-                    reason='timeout'; break
-                for key,_ in selected.select(min(.05,max(0,deadline-time.monotonic()))):
-                    chunk=os.read(key.fileobj.fileno(),4096)
-                    if not chunk:
-                        selected.unregister(key.fileobj); continue
-                    available=MAX_COMMAND_BYTES-sum(len(body) for body in outputs.values())
-                    outputs[key.data].extend(chunk[:available])
-                    if len(chunk)>available:
-                        reason='output-bound'; break
-            if reason is not None:
-                stop(process);group_stopped=True
-            else:
-                try: process.wait(timeout=max(.001,deadline-time.monotonic()))
-                except subprocess.TimeoutExpired:
-                    reason='timeout';stop(process);group_stopped=True
-    finally:
         try:
-            if not group_stopped: stop(process)
+            with selectors.DefaultSelector() as selected:
+                for name in outputs: selected.register(getattr(process,name), selectors.EVENT_READ, name)
+                while selected.get_map() and reason is None:
+                    if time.monotonic() >= deadline:
+                        reason='timeout'; break
+                    for key,_ in selected.select(min(.05,max(0,deadline-time.monotonic()))):
+                        chunk=os.read(key.fileobj.fileno(),4096)
+                        if not chunk:
+                            selected.unregister(key.fileobj); continue
+                        available=MAX_COMMAND_BYTES-sum(len(body) for body in outputs.values())
+                        outputs[key.data].extend(chunk[:available])
+                        if len(chunk)>available:
+                            reason='output-bound'; break
+                if reason is not None:
+                    owned_stop()
+                else:
+                    try: process.wait(timeout=max(.001,deadline-time.monotonic()))
+                    except subprocess.TimeoutExpired:
+                        reason='timeout';owned_stop()
         finally:
-            process.stdout.close();process.stderr.close()
+            if not stop_attempted: owned_stop()
+    except CapabilityError as error:
+        # No success inference: an unknown exit remains None, with a fixed stop
+        # reason. collect records only bounded hashes before re-raising this guard.
+        error.control_result=Result(process.returncode,bytes(outputs['stdout']),
+                                    bytes(outputs['stderr']),reason or 'owned-control-refusal')
+        raise
+    finally:
+        process.stdout.close();process.stderr.close()
     return Result(process.returncode,bytes(outputs['stdout']),bytes(outputs['stderr']),reason)
 
 
@@ -210,9 +231,18 @@ def collect(root=ROOT, *, control=control):
         remaining=TOTAL_SECONDS-(time.monotonic()-started)
         need(remaining>0,'total_discovery_timeout')
         timeout=min(COMMAND_SECONDS,remaining)
-        result=control(COMMANDS[name],root,timeout)
-        need(isinstance(result,Result) and type(result.exit_code) is int and
+        control_error=None
+        try: result=control(COMMANDS[name],root,timeout)
+        except CapabilityError as error:
+            result=getattr(error,'control_result',None)
+            if result is None: raise
+            control_error=error
+        need(isinstance(result,Result) and
+             (type(result.exit_code) is int or (control_error is not None and result.exit_code is None)) and
              isinstance(result.stdout,bytes) and isinstance(result.stderr,bytes),'control_result_shape')
+        if control_error is not None:
+            need(result.stop_reason in ('timeout','output-bound','owned-control-refusal'),
+                 'partial_control_stop_reason_required')
         need(len(result.stdout)+len(result.stderr)<=MAX_COMMAND_BYTES,'control_output_bound')
         total+=len(result.stdout)+len(result.stderr)
         need(total<=MAX_TOTAL_BYTES,'total_private_output_bound')
@@ -222,7 +252,11 @@ def collect(root=ROOT, *, control=control):
             descriptor=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
             with os.fdopen(descriptor,'wb') as target: target.write(body)
             info=path.stat();owned.append((path,info.st_dev,info.st_ino,len(body),digest(body)))
-        receipt['commands'].append({'name':name,'argv':list(COMMANDS[name]),'timeout_seconds':timeout,**metadata(result)})
+        entry={'name':name,'argv':list(COMMANDS[name]),'timeout_seconds':timeout,**metadata(result)}
+        if control_error is not None:
+            entry.update(control_error_guard=str(control_error),owned_control_cleanup_refused=True)
+        receipt['commands'].append(entry)
+        if control_error is not None: raise control_error
         need(result.stop_reason is None,'control_stopped_before_complete_output')
         return result
     try:

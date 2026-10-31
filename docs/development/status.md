@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `b5b9e58a5a0a51e5557913d77d512e56c51ff65ffa79098852e395fa6c85264b`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c8901711010669886af74b51742ed6282f2e72225e4928a05a4db6e20ed5449b`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -916,7 +916,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Execute the non-file NSURL/local-path isolation regressions on Apple; verify no implicit network read/local-resource access, with ordinary file URL read/stream/bookmark behavior retained.
 - Post-plugin desktop001 bookmark round-trips do not clear actual Android persisted/provider or Apple security-scope grant/restart/stale-bookmark lifetime tests.
 - Host002 proves shadow-managed bookmark permission bookkeeping, not actual persisted/revoked OS URI grants, external-provider read access, process restart or Apple security-scope lifetime. Those device and immutable-source gates remain.
-- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
+- 2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.
 
 **Compatibility / scope:** New APIs are opt-in. URI restoration alone gives no grant. Persisted Android grants are application-global, not automatically reference-counted for unrelated callers.
 
@@ -1600,7 +1600,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
 - Diagnose the actual API35 provider startup/death/null-size observation and the separate DocumentFile MIME-projection mismatch. Regular FileProvider metadata success is not SAF tree/folder or persisted/cross-UID grant verification; preserve those tests.
 - Host002 confirms only the in-process Robolectric tree-child fixture. Actual framework IPC, external/cloud provider identity, grant revocation/process death and device004 known-size metadata/query behavior remain unverified; no lowering assertions or replacing native checks with host results.
-- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
+- 2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.
 
 **Compatibility / scope:** Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content.
 
@@ -1652,7 +1652,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Browser004 contains no Coil compile/test despite full helper-discovered browser-suite success. Retain genuine Coil target compilation, fetch/decode/error/cancellation/size-limit/peak-memory coverage and immutable consumers; common IO prerequisites do not clear those gates.
 - Post-plugin desktop001 executes no Coil module. Actual Coil decoder failure/request cancellation, modified-file key policy, native provider ownership and target memory measurements remain required.
 - Host002 contains no Coil task. Retain genuine per-target Coil compilation/consumer/fetch/decode/error/request-cancel/size-cap/key-policy/memory tests and native provider ownership, regardless of shared IO prerequisites.
-- 2026-10-31 actual lifecycle5 accepted only the mapped fixed API35 tree/restart/revocation/transient Binder and explicitly injected-Coil failure/cancellation/byte-closure subsets; see native-ci001/criterion-subset-review.json. Those earlier broad pending lines are historical, not a claim the newly accepted subsets remain unexecuted. System/cloud/Apple/single-document/file:// and per-target peak-memory/key-policy/consumer gates remain; only three new default-Coil native methods next, not accepted lifecycle replay.
+- 2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.
 
 **Compatibility / scope:** Existing Fetcher/Factory constructors preserved; browser oversized fetches now error. Source-byte cap does not bound decoded bitmap allocation. Mutable-file request key/invalidation policy still needs integration guidance.
 
@@ -3578,7 +3578,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4111035c05eca3014d742fdad2980b4bbfa362f87746eb55c8b56873438d87c4` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `cd316afc422cec08235bd0e4ccafaba65b1dc9986122c81bd8f4e3569cc368e5` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0b67ff06dafffac8455058ec14680665e96d0133ee168f2b1c76d7a1abf57aa2` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |

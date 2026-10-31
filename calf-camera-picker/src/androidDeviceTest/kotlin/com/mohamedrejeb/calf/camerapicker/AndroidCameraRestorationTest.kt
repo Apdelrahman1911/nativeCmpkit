@@ -105,8 +105,8 @@ class AndroidCameraRestorationTest {
             assertEquals(PackageManager.COMPONENT_ENABLED_STATE_ENABLED, pm.getComponentEnabledSetting(delayed))
             assertDelayedRecipient(currentReceiver)
             if (dontKeep) {
-                val finishOwner = OwnedAlwaysFinish(pm, originalFinish) { command, maximumBytes -> shell(command, maximumBytes) }
-                alwaysFinish = finishOwner // Retain ownership before the native setter can fail.
+                val finishOwner = OwnedAlwaysFinish(pm, instrumentation.uiAutomation, originalFinish) { command, maximumBytes -> shell(command, maximumBytes) }
+                alwaysFinish = finishOwner // Retain ownership before the genuine Settings UI/native setter can fail.
                 finishOwner.arm()
                 assertEquals("1", setting("global", "always_finish_activities", setOf("1")))
             }

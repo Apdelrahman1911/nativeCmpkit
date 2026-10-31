@@ -44,6 +44,7 @@ PROFILES = {
     "browser-coil-io-wasm": ("browser-wasm",),
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-content-transitions": ("browser-js", "browser-wasm"),
+    "webview-request-state": ("browser-js", "browser-wasm"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
@@ -182,6 +183,7 @@ MODULE_SUBSETS = {
     "webview-browser": "calf-webview",
     # Two missing original iframe criteria methods only; accepted Browser004 stays reusable.
     "webview-content-transitions": "calf-webview",
+    "webview-request-state": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -340,6 +342,9 @@ def matrix(profile: str) -> dict:
     if profile == "webview-content-transitions":
         for row in rows:
             row["test-focus"] = "webview-browser-content-transitions"
+    if profile == "webview-request-state":
+        for row in rows:
+            row["test-focus"] = "webview-browser-request-state"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

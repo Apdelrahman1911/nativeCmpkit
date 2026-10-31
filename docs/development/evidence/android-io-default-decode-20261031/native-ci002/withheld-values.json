@@ -1,0 +1,59 @@
+{
+  "only_hashes_of_private_originals_in_archive": true,
+  "values": [
+    {
+      "object": "reports/build/ci-verification/android-device-api35/plan.json",
+      "field": "create_avd_command[0]",
+      "original_scalar_sha256": "d6b1f52db8bfcdaa9ed2b7a4e97ba35d9097538fb1d2a208155e5e558b680038",
+      "original_scalar_bytes": 60,
+      "replacement": "<android-sdk>/cmdline-tools/23.0/bin/avdmanager",
+      "reason": "Absolute installed SDK command prefix withheld; display-only command is not an executable verification request"
+    },
+    {
+      "object": "reports/build/ci-verification/android-device-api35/plan.json",
+      "field": "launch_command[0]",
+      "original_scalar_sha256": "9de252cab9fec1472e5b7140069c5917e7eb864f0b1edea5a04ce6596dcdb995",
+      "original_scalar_bytes": 44,
+      "replacement": "<android-sdk>/emulator/emulator",
+      "reason": "Absolute installed SDK command prefix withheld; display-only command is not an executable verification request"
+    },
+    {
+      "object": "source-preflight.json",
+      "field": "slots[0].command[0]",
+      "original_scalar_sha256": "31f2aee4e71d21fbe5cf8b01ff0e069b9275f58929596ceb00d14d90e3e16cd6",
+      "original_scalar_bytes": 16,
+      "replacement": "<python3>",
+      "reason": "Absolute local execution prefix withheld; display only, no extra plan/build/test execution"
+    },
+    {
+      "object": "source-preflight.json",
+      "field": "slots[0].command[2]",
+      "original_scalar_sha256": "9d188dc5762db46fe8ee973fa8ef4411199d71a707636ade2721a84fdd464159",
+      "original_scalar_bytes": 62,
+      "replacement": "<repository-root>/scripts/ci/android_device_tests.py",
+      "reason": "Absolute local execution prefix withheld; display only, no extra plan/build/test execution"
+    }
+  ],
+  "private_original_objects": [
+    {
+      "kind": "raw native artifact ZIP",
+      "sha256": "86c4dcdcf899e2ccfd8e800c4491086aeab7db22a1bb2db4e9c968b7b1d0af25",
+      "bytes": 215435
+    },
+    {
+      "kind": "raw GET artifacts.json",
+      "sha256": "53b107287799327909f56226433ebddbf67207c16f531b38337702d3f3efacdc",
+      "bytes": 778
+    },
+    {
+      "kind": "raw GET jobs-attempt1.json",
+      "sha256": "8c47f15d20df58c289d7d91ba7f0ab8921a7ee4de1a8c75f268c756ef99906b6",
+      "bytes": 13057
+    },
+    {
+      "kind": "raw GET run-attempt1.json",
+      "sha256": "af36b96510ae708955c9b792f60ba7aaba64aa28fd8e36879a8b27d1e3a75df9",
+      "bytes": 13492
+    }
+  ]
+}

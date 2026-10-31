@@ -1,0 +1,11 @@
+# Actual help-only request — owned-control refusal
+
+[41250396548](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41250396548), attempt1, revision `69a93c6d879435d4c620979b992a77161baae615`, remains **FAILED**. Tooling passes1301/1301 CI methods in57.936s. The actual macOS helper exits2 after**17.72s**; its original receipt says `unavailable / CapabilityError / owned_control_leader_unavailable`.
+
+Six fixed Git/SDK identity commands return successfully. The actual pre-help observations are Darwin arm64/Python3.15.1, Xcode26.6/build17F113, the exact immutable Git/source hashes and three selected tool byte identities. The prescribed single help control is reached, but no help Result, stdout/stderr metadata, exit/stop reason, usage or support outcome survives its owning-control refusal. `source-correlation.json` distinguishes the exact source site from unobserved timing/cause. Do not infer that help finished normally, timed out, or is unsupported. Post-help source/tool identity is unobserved.
+
+One original artifact was downloaded once; API digest equals ZIP SHA256. It contains only the receipt. The intact privacy-safe `original-receipt.json` hash is retained. `owned_private_output_removed=true` verifies the source-owned private-file cleanup only; actual owned child/group completion is unobserved, not certified. Raw ZIP and job logs stay private and are represented here only by identities.
+
+All four capability inputs are unchanged.193/194 prior frozen routing files match; the sole changed file is the owning workflow-choice guard. Reuse17 routing passes/43 integrity assertions without rerun. No agent SDK commands, old models, real-child fixtures, second artifact download, shared edits, dispatch or Git/GitHub mutation occurred.
+
+Only a narrowly reviewed owned-control transport repair can precede a future lead-selected request. No appinfo payload query, inventory/boot/install/launch or profiling expansion is justified. **#141 stays open**; launch refusal cause remains unknown and prior strict/timeout/pre-PID failures remain failed, unfixed and unwaived. Fixed trusted file inputs are not adversarial FIFO/growth/time-bounded identity-read or security certification.

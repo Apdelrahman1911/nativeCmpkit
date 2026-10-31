@@ -147,8 +147,13 @@ class WorkflowSourceTests(unittest.TestCase):
 
     def test_focused_four_runtime_matrix_can_coexist_with_one_native_application_job(self):
         source = WORKFLOW.read_text()
-        self.assertIn("max-parallel: " + chr(36) +
-                      "{{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}", source)
+        serial = re.search(r"^      max-parallel: \$\{\{ \((.+)\) && 1 \|\| 2 \}\}$", source, re.M)
+        self.assertIsNotNone(serial)
+        self.assertCountEqual(
+            ["inputs.profile == '" + profile + "'" for profile in (
+                "navigation-geo-matrix", "browser-coil-io", "picker-saver-state",
+                "webview-request-state", "webview-content-transitions")],
+            serial.group(1).split(" || "))
         self.assertIn("fail-fast: false", source)
         self.assertEqual(4, len(workflow_matrix.matrix("navigation-geo-matrix")["include"]))
         self.assertEqual(2, len(workflow_matrix.matrix("browser-coil-io")["include"]))

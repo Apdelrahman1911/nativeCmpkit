@@ -1,0 +1,73 @@
+{
+  "issue": 64,
+  "finding": "NATIVE-005",
+  "original_title": "[Medium][NATIVE-005] WebView request state is not reset consistently on Desktop, iOS and Web",
+  "original_issue_body_sha256": "ef381a103187e11b10be1c72975fb630bdb7b9d6418c7de095553823ca0d5194",
+  "original_issue_snapshot": "docs/migration/upstream-updates/20261031T195715Z/destination/issues.json",
+  "classification": "Medium, confirmed-source owning Reload defect; added genuine runtime fixtures remain uncompiled/unexecuted",
+  "closure_ready": false,
+  "native_executions_by_this_task": 0,
+  "source_locations": [
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+      "symbol": "BrowserWebViewOwner.navigate / Reload",
+      "preimage_lines": "159-162",
+      "root_cause": "After unsupported URL B rejection or HTTP redirect, state.requestedUrl can differ from readable native current A; old Reload beganRequest(B) while location.reload() loads A.",
+      "proposed_lines": "159-167"
+    }
+  ],
+  "original_criteria": [
+    {
+      "text": "- Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
+      "status": "partial; not closure-ready",
+      "proposed_browser_methods": [
+        "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata",
+        "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata",
+        "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery"
+      ],
+      "required_next": "Compile then execute exactly these three methods on JS and Wasm, independently review original XML/markers/runtime/source/session cleanup. Separately complete actual Android/Desktop/iOS failure/reload/stop/redirect matrices; accepted common/identity cases are not substitutions."
+    },
+    {
+      "text": "- Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
+      "status": "accepted #63 transitions/framing subset reused; native transport refusal pending; true offline status not asserted",
+      "accepted_reference": "Run41246979957 at6eaac5e: two exact methods/four passing JS/Wasm executions; unchanged original fixture and relevant loader/test source; no replay.",
+      "proposed_browser_method": "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery",
+      "limit": "Actual response.destroy before any headers/body is a genuine owned TCP-response refusal/unavailable navigation, not global Chrome/OS offline, DNS failure, TLS failure or reliable iframe-error inference."
+    },
+    {
+      "text": "- iOS provisional DNS/TLS failure before commit resets the previous request errors.",
+      "status": "unverified native iOS; unchanged didStartProvisionalNavigation resets source before commit, not an executed DNS/TLS regression",
+      "required_next": "Genuine WKWebView provisional DNS and TLS failures before commit, repeated failure, success/reload/stop/redirect state and actual host/cleanup verification on required Apple targets."
+    }
+  ],
+  "already_closed_do_not_reopen_or_replay": [
+    {
+      "issue": 65,
+      "finding": "NATIVE-006",
+      "snapshot_state": "closed/completed",
+      "accepted_run": 40613563594,
+      "accepted_revision": "b7ba5c80"
+    },
+    {
+      "issue": 11,
+      "finding": "NATIVE-010",
+      "snapshot_state": "closed/completed",
+      "accepted_js_revision": "aff41c55",
+      "accepted_wasm_run": 40640259029,
+      "accepted_wasm_revision": "fe81d7a9"
+    }
+  ],
+  "browser_semantics": [
+    "Opaque sandbox srcdoc does not expose parent DOM/storage even with allow-scripts; allow-same-origin is still absent. Sandbox changes govern later navigation, not immediate revocation of a committed Trusted document.",
+    "Trusted test content is host-controlled only; same-origin readable window.location/stop can be observed. Opaque/cross-origin window.stop/history/evaluation remain browser-protected; no unsafe workaround or fabricated completion is introduced.",
+    "Framing/network failure may fire load rather than error, with inaccessible error-page metadata. A terminal event is not HTTP/CSP/TLS/authentication success. New refusal witnesses additionally require actual owned request/close receipts and old-document clearance.",
+    "No popups/user-gesture/nested/CSP/security replay is needed for closed #11. Its accepted automation-popup assumptions are retained, not promoted to physical activation or other-engine proof.",
+    "PostMessage sender wildcard is restricted by receiving exact native iframe WindowProxy identity, same origin, trusted event and session token; no library bridge or CORS bypass is claimed."
+  ],
+  "compatibility": {
+    "public_signatures_packages_licensing_and_attribution": "unchanged",
+    "intentional_correction": "Readable native Reload records the actual reloaded current URL, not a previous rejected or redirect-start URL; opaque/cross-origin fallback still uses last accepted content.",
+    "inline_reload_note": "A readable inline native reload may identify its actual about:srcdoc URL; GET-only HTTP(S) saver policy remains unchanged. This is request metadata, not a new public API or network-success guarantee."
+  },
+  "release_readiness": "No publication/Pages/main/history/native/consumer/ABI/dependency/legal/security/readiness gate is lifted."
+}

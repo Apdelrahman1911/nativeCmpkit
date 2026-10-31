@@ -300,5 +300,284 @@ class AppinfoCapabilityTests(unittest.TestCase):
             self.assertEqual([(fake_pid,0)],[(call.args[0],call.args[1]) for call in signal_group.call_args_list])
 
 
+class AppinfoControlRecoveryTests(unittest.TestCase):
+    """New mocked transport guards only; no SDK or real child execution."""
+
+    def subject(self):
+        return importlib.import_module('apple_appinfo_capability')
+
+    class Process:
+        pid = 7311
+        def __init__(self, code=0, unknown=False):
+            self.returncode = None
+            self.code, self.unknown, self.waits = code, unknown, []
+            class Pipe:
+                closed = False
+                def fileno(self): return 42
+                def close(self): self.closed = True
+            self.stdout, self.stderr = Pipe(), Pipe()
+        def wait(self, timeout):
+            self.waits.append(timeout)
+            if self.unknown:
+                raise subprocess.TimeoutExpired(('owned-fixed-control',), timeout)
+            self.returncode = self.code
+            return self.code
+        def poll(self): raise AssertionError('must not reap before final owned signal')
+
+    def owner(self, process, *, lookup=None, group_present=False, vanish_on_signal=False):
+        from contextlib import ExitStack
+        module, events = self.subject(), []
+        def getpgid(pid):
+            events.append(('owner', pid))
+            if lookup is not None: return lookup(pid)
+            return process.pid
+        def killpg(pid, value):
+            events.append(('group-read' if value == 0 else 'signal', pid, value))
+            if value == 0:
+                if not group_present: raise ProcessLookupError()
+            elif vanish_on_signal:
+                raise ProcessLookupError()
+        stack = ExitStack()
+        stack.enter_context(patch.object(module.os, 'getpgrp', return_value=900))
+        stack.enter_context(patch.object(module.os, 'getsid', side_effect=lambda pid: 901 if pid == 0 else process.pid))
+        stack.enter_context(patch.object(module.os, 'getpgid', side_effect=getpgid))
+        stack.enter_context(patch.object(module.os, 'killpg', side_effect=killpg))
+        stack.enter_context(patch.object(module.time, 'sleep'))
+        return stack, events
+
+    def disappeared(self, pid):
+        raise ProcessLookupError()
+
+    def test_disappeared_owner_requires_owned_exit_and_absent_group_without_signal(self):
+        module, process = self.subject(), self.Process()
+        stack, events = self.owner(process, lookup=self.disappeared)
+        with stack: module.stop(process)
+        self.assertEqual([2], process.waits)
+        self.assertEqual(0, process.returncode)
+        self.assertEqual([('owner', process.pid), ('group-read', process.pid, 0)], events)
+
+    def test_disappeared_owner_unknown_exit_keeps_original_refusal_without_signal(self):
+        module, process = self.subject(), self.Process(unknown=True)
+        stack, events = self.owner(process, lookup=self.disappeared)
+        with stack, self.assertRaisesRegex(module.CapabilityError, '^owned_control_leader_unavailable$'):
+            module.stop(process)
+        self.assertEqual([2], process.waits)
+        self.assertIsNone(process.returncode)
+        self.assertEqual([('owner', process.pid)], events)
+
+    def test_disappeared_owner_live_or_reused_group_refuses_after_wait_without_signal(self):
+        module, process = self.subject(), self.Process()
+        stack, events = self.owner(process, lookup=self.disappeared, group_present=True)
+        with stack, self.assertRaisesRegex(module.CapabilityError, '^reaped_control_group_still_present$'):
+            module.stop(process)
+        self.assertEqual([2], process.waits)
+        self.assertFalse(any(event[0] == 'signal' for event in events))
+
+    def test_owner_disappearing_after_TERM_never_gets_KILL_after_owned_wait(self):
+        module, process, probes = self.subject(), self.Process(code=-15), []
+        def lookup(pid):
+            probes.append(pid)
+            if len(probes) > 1: raise ProcessLookupError()
+            return pid
+        stack, events = self.owner(process, lookup=lookup)
+        with stack: module.stop(process)
+        self.assertEqual([2], process.waits)
+        self.assertEqual(-15, process.returncode)
+        self.assertEqual([('signal', process.pid, module.signal.SIGTERM)],
+                         [event for event in events if event[0] == 'signal'])
+        self.assertEqual(('group-read', process.pid, 0), events[-1])
+
+    def test_group_vanishing_between_identity_and_signal_needs_owned_wait_not_fallback_signal(self):
+        module, process = self.subject(), self.Process()
+        stack, events = self.owner(process, vanish_on_signal=True)
+        with stack: module.stop(process)
+        self.assertEqual([2], process.waits)
+        self.assertEqual([('signal', process.pid, module.signal.SIGTERM)],
+                         [event for event in events if event[0] == 'signal'])
+        self.assertEqual(('group-read', process.pid, 0), events[-1])
+
+    def test_changed_session_and_owner_permission_denial_keep_no_wait_no_signal_refusals(self):
+        module = self.subject()
+        def denied(pid): raise PermissionError('PRIVATE_OWNER_ERROR')
+        for lookup, kind in ((lambda pid: 123, module.CapabilityError), (denied, PermissionError)):
+            with self.subTest(category=kind.__name__):
+                process = self.Process()
+                stack, events = self.owner(process, lookup=lookup)
+                with stack, self.assertRaises(kind): module.stop(process)
+                self.assertEqual([], process.waits)
+                self.assertFalse(any(event[0] == 'signal' for event in events))
+
+    def captured(self, payload, *, stop_error=None, limit=None, real_stop=False):
+        from contextlib import ExitStack
+        from types import SimpleNamespace
+        module, process = self.subject(), self.Process()
+        class Selector:
+            def __init__(self): self.members = {}
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def register(self, pipe, event, name):
+                self.members[name] = SimpleNamespace(fileobj=pipe, data=name)
+            def get_map(self): return self.members
+            def select(self, timeout): return [(self.members['stdout'], 1)]
+            def unregister(self, pipe):
+                for name, key in list(self.members.items()):
+                    if key.fileobj is pipe: del self.members[name]
+        stack = ExitStack()
+        popen = stack.enter_context(patch.object(module.subprocess, 'Popen', return_value=process))
+        stack.enter_context(patch.object(module.selectors, 'DefaultSelector', return_value=Selector()))
+        stack.enter_context(patch.object(module.os, 'read', return_value=payload))
+        stack.enter_context(patch.object(module.time, 'monotonic', side_effect=[0, 0, 0, 2]))
+        if limit is not None: stack.enter_context(patch.object(module, 'MAX_COMMAND_BYTES', limit))
+        stop = None
+        events = []
+        if real_stop:
+            owned, events = self.owner(process, lookup=self.disappeared)
+            stack.enter_context(owned)
+        else:
+            stop = stack.enter_context(patch.object(module, 'stop', side_effect=stop_error))
+        result, error = None, None
+        with stack:
+            try: result = module.capture(module.COMMANDS['help'], ROOT, 1)
+            except module.CapabilityError as refusal: error = refusal
+        self.assertEqual(module.COMMANDS['help'], popen.call_args.args[0])
+        self.assertTrue(popen.call_args.kwargs['start_new_session'])
+        self.assertTrue(process.stdout.closed and process.stderr.closed)
+        return result, error, process, stop, events
+
+    def test_timeout_refusal_preserves_partial_bytes_unknown_exit_and_exactly_one_stop(self):
+        module = self.subject()
+        payload = b'PRIVATE_CAPTURE_SENTINEL'
+        result, error, process, stop, _ = self.captured(
+            payload, stop_error=module.CapabilityError('owned_control_leader_unavailable'))
+        self.assertIsNone(result)
+        self.assertEqual(1, stop.call_count)
+        self.assertEqual('owned_control_leader_unavailable', str(error))
+        partial = getattr(error, 'control_result', None)
+        self.assertIsInstance(partial, module.Result)
+        self.assertIsNone(partial.exit_code)
+        self.assertEqual(payload, partial.stdout)
+        self.assertEqual('timeout', partial.stop_reason)
+        self.assertFalse(module.valid(partial))
+
+    def test_output_bound_refusal_preserves_only_bounded_prefix_and_one_stop(self):
+        module = self.subject()
+        result, error, _, stop, _ = self.captured(
+            b'x' * 64, limit=32, stop_error=module.CapabilityError('owned_control_leader_unavailable'))
+        self.assertIsNone(result)
+        self.assertEqual(1, stop.call_count)
+        partial = getattr(error, 'control_result', None)
+        self.assertIsInstance(partial, module.Result)
+        self.assertEqual(b'x' * 32, partial.stdout)
+        self.assertEqual('output-bound', partial.stop_reason)
+        self.assertFalse(module.help_observation(partial)['capability_available'])
+
+    def test_timeout_with_observed_disappeared_child_still_never_becomes_help_acceptance(self):
+        module = self.subject()
+        result, error, process, _, events = self.captured(USAGE, real_stop=True)
+        self.assertIsNone(error)
+        self.assertEqual(0, result.exit_code)
+        self.assertEqual('timeout', result.stop_reason)
+        self.assertEqual([2], process.waits)
+        self.assertFalse(any(event[0] == 'signal' for event in events))
+        self.assertFalse(module.help_observation(result)['capability_available'])
+
+    def partial_collect(self, partial):
+        module = self.subject()
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        for name in module.SOURCE_INPUTS:
+            path = root / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(b'FIXED_SYNTHETIC_SOURCE\n')
+        developer = root / 'fixed-sdk/Developer'
+        developer.mkdir(parents=True)
+        calls = []
+        failure = module.CapabilityError('owned_control_leader_unavailable')
+        if partial is not None: failure.control_result = partial
+        def control(argv, cwd, timeout):
+            calls.append(tuple(argv))
+            name = next(key for key, value in module.COMMANDS.items() if value == tuple(argv))
+            values = {'source': (SHA + '\n').encode(), 'clean': b'',
+                      'developer': (str(developer) + '\n').encode(),
+                      'simctl': (str(developer / 'usr/bin/simctl') + '\n').encode(),
+                      'xcodebuild': (str(developer / 'usr/bin/xcodebuild') + '\n').encode(),
+                      'xcode-version': b'Xcode 26.6\nBuild version 17F113\n'}
+            if name == 'help': raise failure
+            return module.Result(0, values[name], b'', None)
+        def identity(path, basename):
+            return {'basename': basename, 'bytes': 1, 'sha256': 'f' * 64,
+                    'path_sha256': 'e' * 64, 'canonical_path_sha256': 'd' * 64}
+        with patch.object(module, 'host', return_value={'system': 'Darwin', 'architecture': 'arm64', 'python': '3.15.1'}), \
+             patch.object(module.shutil, 'disk_usage', return_value=(0, 0, 10 * 1024**3)), \
+             patch.object(module, 'tool_identity', side_effect=identity):
+            value = module.collect(root, control=control)
+        self.assertEqual([module.COMMANDS[name] for name in
+                          ('source', 'clean', 'developer', 'simctl', 'xcodebuild', 'xcode-version', 'help')], calls)
+        self.assertEqual(1, calls.count(module.COMMANDS['help']))
+        self.assertEqual('unavailable', value['status'])
+        self.assertFalse(value['capability_available'])
+        self.assertFalse(value['subsequent_appinfo_ready'])
+        self.assertFalse(value['appinfo_output_schema_observed'])
+        self.assertTrue(value['owned_private_output_removed'])
+        self.assertFalse((root / module.OUTPUT / 'private').exists())
+        self.assertNotIn('PRIVATE_CAPTURE_SENTINEL', json.dumps(value))
+        self.assertNotIn(str(root), json.dumps(value))
+        self.assertNotIn('help', value)
+        self.assertNotIn('inputs_after', value)
+        return value
+
+    def test_unknown_exit_partial_help_is_recorded_once_with_hashes_and_original_refusal(self):
+        module = self.subject()
+        payload = USAGE + b'PRIVATE_CAPTURE_SENTINEL'
+        value = self.partial_collect(module.Result(None, payload, b'', 'timeout'))
+        self.assertEqual('owned_control_leader_unavailable', value['error_guard'])
+        self.assertEqual(7, len(value['commands']))
+        help_value = value['commands'][-1]
+        self.assertEqual('help', help_value['name'])
+        self.assertIsNone(help_value['exit_code'])
+        self.assertEqual('timeout', help_value['stop_reason'])
+        self.assertEqual(len(payload), help_value['stdout_bytes'])
+        self.assertEqual(hashlib.sha256(payload).hexdigest(), help_value['stdout_sha256'])
+        self.assertTrue(help_value['owned_control_cleanup_refused'])
+        self.assertEqual('owned_control_leader_unavailable', help_value['control_error_guard'])
+        self.assertEqual(sum(v['stdout_bytes'] + v['stderr_bytes'] for v in value['commands']),
+                         value['private_bytes_captured'])
+
+    def test_known_zero_exit_partial_help_with_cleanup_refusal_is_recorded_but_not_green(self):
+        module = self.subject()
+        value = self.partial_collect(module.Result(0, USAGE, b'PRIVATE_CAPTURE_SENTINEL', 'owned-control-refusal'))
+        self.assertEqual('owned_control_leader_unavailable', value['error_guard'])
+        self.assertEqual(7, len(value['commands']))
+        self.assertEqual(0, value['commands'][-1]['exit_code'])
+        self.assertTrue(value['commands'][-1]['owned_control_cleanup_refused'])
+
+    def test_control_refusal_without_partial_result_never_fabricates_help_completion(self):
+        value = self.partial_collect(None)
+        self.assertEqual('owned_control_leader_unavailable', value['error_guard'])
+        self.assertEqual(6, len(value['commands']))
+        self.assertFalse(any(v['name'] == 'help' for v in value['commands']))
+
+    def test_invalid_partial_exit_stop_reason_or_byte_bound_refuses_before_snapshot_publication(self):
+        module = self.subject()
+        cases = [(module.Result(True, USAGE, b'', 'timeout'), 'control_result_shape'),
+                 (module.Result(None, b'x' * (module.MAX_COMMAND_BYTES + 1), b'', 'timeout'), 'control_output_bound'),
+                 (module.Result(0, USAGE, b'', None), 'partial_control_stop_reason_required')]
+        for partial, guard in cases:
+            with self.subTest(guard=guard):
+                value = self.partial_collect(partial)
+                self.assertEqual(guard, value['error_guard'])
+                self.assertEqual(6, len(value['commands']))
+
+    def test_transport_recovery_keeps_original_four_Result_fields_fixed_commands_and_bounds(self):
+        module = self.subject()
+        self.assertEqual(['exit_code', 'stdout', 'stderr', 'stop_reason'], list(module.Result.__dataclass_fields__))
+        self.assertEqual({'source', 'clean', 'developer', 'simctl', 'xcodebuild', 'xcode-version', 'help'}, set(module.COMMANDS))
+        self.assertEqual(('/usr/bin/xcrun', 'simctl', 'help', 'appinfo'), module.COMMANDS['help'])
+        self.assertEqual(4, len(module.SOURCE_INPUTS))
+        self.assertEqual((128 * 1024, 512 * 1024, 15, 90),
+                         (module.MAX_COMMAND_BYTES, module.MAX_TOTAL_BYTES, module.COMMAND_SECONDS, module.TOTAL_SECONDS))
+
+
 if __name__ == '__main__':
     unittest.main()

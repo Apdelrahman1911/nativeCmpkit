@@ -1,5 +1,43 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Default decoder accepted; owning camera/browser/Apple batch — 2026-10-31
+
+[Actual41250376146](docs/development/evidence/android-io-default-decode-20261031/native-ci002/README.md)
+at69a93c6d succeeds3/3 API35 native methods/one original XML/Gradle0/40.02s.
+Independent review accepts native PNG streaming/every-pixel fidelity, default JPEG
+EXIF6/7 and four corrupt-default-decode cross-UID closure rounds.1018/1095 frozen
+hashes match Git; four actual maps are1018-library maps, **no actual combined map**.
+Installed identity/grants/owned uninstall/graceful emulator+ADB cleanup reviewed;
+five earlier lifecycle cases reused on47 unchanged sources/declarations, not replayed.
+#45/#55/#57 stay open for original remaining provider/Apple/memory/key criteria.
+
+[Camera Settings UI lease](docs/development/evidence/camera-settings-ui-20261031/README.md)
+removes unavailable reflection, preserves already-enabled master1/exact native/
+scalar/UI state/accessibility flags/nonce-owned task restoration.35 important
+models reused; [shared compiler](docs/development/evidence/camera-browser-settings-compile-20261031/README.md)
+passes0/103.03s with1023/1100 held inputs, ZERO new camera/browser executions.
+Recover only one failed Dont-keep method; #13 foreground-recreation criterion stays.
+[Browser Reload patch](docs/development/evidence/browser-request-state-20261031/README.md)
+uses readable actual location, retains opaque fallback/127 profiles/all11 slots.
+One stale serial guard repaired; independent review caught fixture budget/lease
+cleanup blockers before native dispatch. Three-file owning repair preserves native
+method bodies, exempts close from work budget and requires exact acquired lease;
+poll32/500ms/original15s. Three reds/three new passes include actual bounded localhost
+HTTP close/deletion/harness cleanup, not browser. Changed fixture helper recompiles
+JS/Wasm0/38.01s/1023+1100held, ZERO browser; camera APK not rebuilt. Exactly six
+missing browser target executions next; no accepted#63/#65/#11 replay/substitution.
+
+[Actual Apple41250396548](docs/development/evidence/apple-appinfo-capability-20261031/native-ci002/README.md)
+FAILED/helper2/17.72s/owned-control leader unavailable; six identities pass but help
+exit/output/support/stop phase remain unknown. [Owning transport repair](docs/development/evidence/apple-appinfo-control-recovery-20261031/README.md)
+retains exact owned wait/absent-group readback/no signals after reap/one stop latch/
+partial nonacceptance.14 new models reused; three affected Linux synthetic-child
+regressions freshly pass3/3/1.4061s, not Darwin/SDK acceptance. #141 stays open;
+only unchanged help-only next, no payload/simulator/profile expansion.
+91closed/81open172total;29implemented/40partial/89verified/six unresolved.
+Useful disjoint agents/serial local builds/8GiB/max2heavy and all native/minimum/
+consumer/ABI/dependency/legal/security/readiness/publishing/Pages/main/history gates stay.
+
 ## Focused requests stopped in tooling; owning membership guard recovered — 2026-10-31
 
 [Actual41249622333/41249673735](docs/development/evidence/workflow-option-guard-recovery-20261031/README.md)

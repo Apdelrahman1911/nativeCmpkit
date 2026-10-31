@@ -1,0 +1,181 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+    ":calf-io:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 40.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "explicit_test_focus": "android-io-default-decode",
+  "finished_at_utc": "2026-10-31T23:07:43.619593+00:00",
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "d71ad61be23c0c81aa2a00fbcfa443f08f4d21ee66231a595adcc9529e0a4b6b",
+  "inputs_before_sha256": "d71ad61be23c0c81aa2a00fbcfa443f08f4d21ee66231a595adcc9529e0a4b6b",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "disposition": "required-executed",
+          "name": "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "disposition": "required-executed",
+          "name": "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "disposition": "required-executed",
+          "name": "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-bab1e75eb919(AVD) - 15.xml",
+          "sha256": "f865db6092e318b5eca730b6c675dec92cec47d4e6e389cc3480ecdd947d8bb8",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-io:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "name": "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "name": "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+          "name": "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors"
+    }
+  ],
+  "runtime_receipt_sha256": "f3dcef53c4ee697aa234c6ee99bf8506e53ccdb445f176ecff0c01f18652b920",
+  "schema_version": 1,
+  "scope": "Three new actual API35 default Coil BitmapFactoryDecoder library methods only: native PNG binary unknown-size/encoded streaming/pixel parity, native JPEG EXIF rotation/reflection/bounds replay and repeated corrupt-image cross-UID descriptor closure. No injected decoder or replay of the five provider-lifecycle/accepted oversize methods. Local PNG/JPEG provider is separate-process same-UID; corrupt bytes use the existing separate-UID actual tree grant. No kernel seek/ImageDecoder metadata route, physical/min23/vendor/cloud, peak memory, request-key/invalidation, packaged consumer/API-ABI, other-platform or security/release certification.",
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "source_revision_after": "69a93c6d879435d4c620979b992a77161baae615",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-10-31T23:07:03.604164+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-io:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

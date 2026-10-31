@@ -1,0 +1,210 @@
+{
+  "snapshot": "frozen request issue-before API objects; not refreshed/edited by reviewer",
+  "run_id": 41250376146,
+  "run_attempt": 1,
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "issues": {
+    "45": {
+      "number": 45,
+      "id": 6014980216,
+      "title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs",
+      "state": "open",
+      "state_reason": null,
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/45",
+      "author": "Apdelrahman1911",
+      "created_at": "2026-10-24T16:17:15Z",
+      "updated_at": "2026-10-31T22:47:34Z",
+      "labels": [
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: area:io",
+          "id": 12821063271,
+          "name": "area:io",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHmZw",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/area:io"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: audit",
+          "id": 12821065878,
+          "name": "audit",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/audit"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: evidence:risk",
+          "id": 12821067778,
+          "name": "evidence:risk",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DH4Ag",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/evidence:risk"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "fbca04",
+          "default": false,
+          "description": "nativeCmpkit audit classification: priority:medium",
+          "id": 12821069828,
+          "name": "priority:medium",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DIABA",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/priority:medium"
+        }
+      ],
+      "body": "<!-- nativecmpkit-item:audit:IO-008 -->\n## Classification\n- **Finding:** IO-008\n- **Priority:** Medium\n- **Evidence status:** `risk` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-io`, `calf-file-picker`\n- **Estimated complexity:** L\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt:81-95,109-122,316-322`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt#L81-L95) \u2014 `folder results and asCopy=false`\n- [`calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:22-31,35-36,55-57`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt#L22-L31) \u2014 `raw NSURL wrappers/read/metadata`\n- [`calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt:9-11`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt#L9-L11) \u2014 `source`\n- [`calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt:180-185,207-214,237-242`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt#L180-L185) \u2014 `SAF URI results`\n\n## Root cause\nFolder selection returns an external NSURL directly and no operation in these modules balances start/stopAccessingSecurityScopedResource or models bookmarks. Android returns SAF/photo URIs without an opt-in persisted grant/bookmark abstraction. Common KmpFile does not express ownership or access expiry.\n\n## Impact and preconditions\nExternal folder/provider access and restored references can fail outside a callback/session or after process restart, despite metadata strings still existing. Nonfolder iOS picks are copied, reducing but not eliminating lifetime concerns for manually wrapped or exported URLs. Exact behavior depends on provider and OS.\n\n## Supporting evidence\n- Baseline iOS folder branch uses KmpFile(nsUrl) and forOpeningContentTypes asCopy=false.\n- No startAccessingSecurityScopedResource or takePersistableUriPermission call is present in the audited baseline modules.\n- PR #551/c70d35c is unmerged prior work on persisted bookmarks; platform consequences here are explicitly risk-classified.\n\n## Recommended solution\nDefine explicit ephemeral versus owned versus persisted file handles. Add scoped-access helpers and opt-in bookmark/persistable-permission APIs with release/revocation handling; do not blanket-persist every selection. Document paths that are safe only while access is held.\n\n## Risks and compatibility\nSecurity scopes must be balanced on all exits and must remain active while streaming, not merely while opening. Persisting user permissions is a policy choice and should be explicit. Already sandbox-owned copies must not require successful scope acquisition.\n\n## Required tests / acceptance criteria\n- iCloud/third-party folder access after callback\n- Stream open/read/close balances scope\n- Android SAF grant release/revoke/restart\n- iOS stale bookmark and access denial\n- Sandbox-local file path\n- Save destination reopened after callback\n\n## Dependencies\n- None identified.\n\n## Historical context\n- https://github.com/MohamedRejeb/Calf/pull/551\n- https://github.com/MohamedRejeb/Calf/commit/c70d35c\n- https://github.com/MohamedRejeb/Calf/issues/495\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/IO.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/IO.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+      "body_sha256": "b1d663c1802b0b0fc5b137a53def6a27ab4da928a153731b0e64312ff94a902d",
+      "original_full_API_object_sha256": "4ecbcc2ecdcacba172280a960ec259ada6006ac72f6bbac80108159e7a42686f",
+      "acceptance_criteria": [
+        "iCloud/third-party folder access after callback",
+        "Stream open/read/close balances scope",
+        "Android SAF grant release/revoke/restart",
+        "iOS stale bookmark and access denial",
+        "Sandbox-local file path",
+        "Save destination reopened after callback"
+      ]
+    },
+    "55": {
+      "number": 55,
+      "id": 6014985794,
+      "title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence",
+      "state": "open",
+      "state_reason": null,
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/55",
+      "author": "Apdelrahman1911",
+      "created_at": "2026-10-24T16:17:53Z",
+      "updated_at": "2026-10-31T22:47:40Z",
+      "labels": [
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: area:io",
+          "id": 12821063271,
+          "name": "area:io",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHmZw",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/area:io"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: audit",
+          "id": 12821065878,
+          "name": "audit",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/audit"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: evidence:risk",
+          "id": 12821067778,
+          "name": "evidence:risk",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DH4Ag",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/evidence:risk"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "fbca04",
+          "default": false,
+          "description": "nativeCmpkit audit classification: priority:medium",
+          "id": 12821069828,
+          "name": "priority:medium",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DIABA",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/priority:medium"
+        }
+      ],
+      "body": "<!-- nativecmpkit-item:audit:IO-019 -->\n## Classification\n- **Finding:** IO-019\n- **Priority:** Medium\n- **Evidence status:** `risk` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-io`, `calf-file-picker`\n- **Estimated complexity:** M\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt:229-251`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-file-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/picker/FilePickerLauncher.android.kt#L229-L251) \u2014 `pickFolder/OpenDocumentTree`\n- [`calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt:12-19,40-51`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt#L12-L19) \u2014 `exists/getName/isDirectory`\n\n## Root cause\nOpenDocumentTree results retain tree URIs but KmpFile metadata always uses DocumentFile.fromSingleUri, not fromTreeUri or a normalized tree document URI. exists attempts to open an InputStream, which is a content-readability operation rather than a directory existence test.\n\n## Impact and preconditions\nA successfully picked directory can be reported nonexistent, unnamed or not a directory on providers that do not support opening a tree URI as a stream or querying it as a single document. Exact provider behavior varies, so this finding is not labeled an instrumented Android failure.\n\n## Supporting evidence\n- Folder callback at 241 returns KmpFile(uri) unchanged.\n- All metadata routes in KmpFile.android.kt use fromSingleUri; exists only tests openInputStream.\n\n## Recommended solution\nRecognize tree/document/file URI forms, use tree-aware metadata and existence queries, and separate directory capabilities from byte-stream capabilities. Preserve the original URI/grant for child enumeration.\n\n## Risks and compatibility\nDocumentFile.fromSingleUri accepts URIs without validating their semantic kind, so its construction alone does not prove a provider query succeeds. Provider exceptions and revoked grants need explicit handling.\n\n## Required tests / acceptance criteria\n- ExternalStorageProvider, Downloads and cloud-provider folder URIs\n- Folder exists/name/isDirectory immediately and after restart\n- Single-document and file:// regression tests\n- Permission denial and unavailable provider\n\n## Dependencies\n- IO-008\n- IO-010\n\n## Historical context\n- None identified.\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/IO.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/IO.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+      "body_sha256": "0d464d334603dc0bab942f59db598d400f17ab7495207ec88b1439b4033ca16c",
+      "original_full_API_object_sha256": "6b85644bde3e3177dfce7cf9231a014c6f5cfba7c7a63c06677557e847d6dd7d",
+      "acceptance_criteria": [
+        "ExternalStorageProvider, Downloads and cloud-provider folder URIs",
+        "Folder exists/name/isDirectory immediately and after restart",
+        "Single-document and file:// regression tests",
+        "Permission denial and unavailable provider"
+      ]
+    },
+    "57": {
+      "number": 57,
+      "id": 6014986913,
+      "title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance",
+      "state": "open",
+      "state_reason": null,
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/57",
+      "author": "Apdelrahman1911",
+      "created_at": "2026-10-24T16:18:01Z",
+      "updated_at": "2026-10-31T22:47:46Z",
+      "labels": [
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: area:io",
+          "id": 12821063271,
+          "name": "area:io",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHmZw",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/area:io"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: audit",
+          "id": 12821065878,
+          "name": "audit",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DHwlg",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/audit"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "c5def5",
+          "default": false,
+          "description": "nativeCmpkit audit classification: evidence:improvement",
+          "id": 12821067399,
+          "name": "evidence:improvement",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DH2hw",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/evidence:improvement"
+        },
+        {
+          "archived_at": null,
+          "archived_by": null,
+          "color": "fbca04",
+          "default": false,
+          "description": "nativeCmpkit audit classification: priority:medium",
+          "id": 12821069828,
+          "name": "priority:medium",
+          "node_id": "LA_kwDOVV8PH88AAAAC_DIABA",
+          "url": "https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/labels/priority:medium"
+        }
+      ],
+      "body": "<!-- nativecmpkit-item:audit:IO-021 -->\n## Classification\n- **Finding:** IO-021\n- **Priority:** Medium\n- **Evidence status:** `improvement` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-file-picker-coil`, `calf-io`\n- **Estimated complexity:** L\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt:22-32`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt#L22-L32) \u2014 `fetch`\n- [`calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt:12`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/desktopMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.desktop.kt#L12) \u2014 `readByteArray`\n- [`calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt:35-41`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt#L35-L41) \u2014 `readByteArray`\n- [`calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt:7-8`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/webMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.web.kt#L7-L8) \u2014 `eager web source`\n- [`calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt:18-24,73-82`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt#L18-L24) \u2014 `readByteArray docs`\n\n## Root cause\nFetcher always materializes a ByteArray then copies it into an Okio Buffer before decoding, despite native streaming IO now being available. readByteArray is suspend but performs blocking IO on Android/iOS/Desktop without dispatcher switching. Web source is intentionally buffered; iOS also materializes NSData before ByteArray.\n\n## Impact and preconditions\nLarge media produce multiple encoded-data copies plus decoder allocations, increasing latency and OOM pressure. UI callers may assume suspend means nonblocking even though source() alone documents dispatcher ownership. MEMORY labeling and lack of a supplied stable KmpFile cache key also merit integration tests.\n\n## Supporting evidence\n- Fetcher lines 25-26 allocate through readByteArray and then Buffer.write.\n- source() implementation and docs explicitly provide native streaming while web remains whole-buffer.\n- No heap benchmark or complete Coil runtime test was run, so this is an improvement with quantified benchmarks required, not a measured regression.\n\n## Recommended solution\nAdd native streaming adapters/URI or file mappers to Coil (or the official kotlinx-io/Okio bridge) with correct close/cancellation ownership; keep a bounded browser fallback. Document readByteArray blocking/size semantics, add decode-size guidance, and verify dataSource/keying behavior with Coil rather than inferring it.\n\n## Risks and compatibility\nChanging fetchers may affect EXIF, seek requirements, caching and thread selection. Do not label intended read-all behavior a security vulnerability; source() is already available for large-file consumers.\n\n## Required tests / acceptance criteria\n- Large image peak-memory benchmark by target\n- Decoder failure closes source\n- Coil cancellation closes provider stream\n- Stable request key and modified-file invalidation policy\n- Main-thread misuse guidance test/sample\n- Binary content parity\n\n## Dependencies\n- IO-001\n- IO-020\n\n## Historical context\n- https://github.com/MohamedRejeb/Calf/issues/537\n- https://github.com/MohamedRejeb/Calf/issues/537#issuecomment-5653462009\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/IO.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/IO.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+      "body_sha256": "a6f7ebbddca0ce06e2728b1ce478c45f67453293735369c8dba39a63b497791f",
+      "original_full_API_object_sha256": "00281d07872d3901af39e0c6d78f9f5c1ad919bcf21a210c474a2f74404206e1",
+      "acceptance_criteria": [
+        "Large image peak-memory benchmark by target",
+        "Decoder failure closes source",
+        "Coil cancellation closes provider stream",
+        "Stable request key and modified-file invalidation policy",
+        "Main-thread misuse guidance test/sample",
+        "Binary content parity"
+      ]
+    }
+  }
+}

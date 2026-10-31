@@ -1,0 +1,29 @@
+{
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "operation": "plan",
+  "profile": "android-io-default-decode",
+  "slots": [
+    {
+      "command": [
+        "<python3>",
+        "-B",
+        "<repository-root>/scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-io",
+        "--focus",
+        "android-io-default-decode"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "android-device-api35",
+      "suite": "android-device"
+    }
+  ],
+  "source_only": true
+}

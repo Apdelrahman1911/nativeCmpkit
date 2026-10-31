@@ -851,6 +851,7 @@ ANDROID_CAMERA_RESTORATION_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCa
 ANDROID_CAMERA_RESTORATION_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
 ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt"
 ANDROID_CAMERA_ALWAYS_FINISH_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt"
+ANDROID_CAMERA_SETTINGS_UI_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt"
 ANDROID_CAMERA_RESTORATION_METHODS = (
     "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
     "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
@@ -939,6 +940,37 @@ def webview_content_case_inventory(suite: str, cases: list[dict]) -> bool:
             return False
         methods.append(method)
     return len(methods) == len(WEBVIEW_CONTENT_METHODS) and set(methods) == set(WEBVIEW_CONTENT_METHODS)
+
+
+WEBVIEW_REQUEST_FOCUS = "webview-browser-request-state"
+WEBVIEW_REQUEST_MODULE = "calf-webview"
+WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest"
+WEBVIEW_REQUEST_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt"
+WEBVIEW_REQUEST_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-request-fixture.js"
+WEBVIEW_REQUEST_METHODS = (
+    "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata",
+    "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata",
+    "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery",
+)
+
+
+def webview_request_identities() -> list[dict]:
+    return [{"classname": WEBVIEW_REQUEST_CLASS, "name": method} for method in WEBVIEW_REQUEST_METHODS]
+
+
+def webview_request_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"}:
+        return False
+    classname = SUITES[suite][0] + "." + WEBVIEW_REQUEST_CLASS
+    target = "js" if suite == "js" else "wasmJs"
+    methods = []
+    for case in cases:
+        method, separator, suffix = case["name"].partition("[")
+        if (case["classname"] != classname or not separator or not re.fullmatch(
+                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
+            return False
+        methods.append(method)
+    return len(methods) == len(WEBVIEW_REQUEST_METHODS) and set(methods) == set(WEBVIEW_REQUEST_METHODS)
 
 
 WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
@@ -1187,6 +1219,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
+            (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
@@ -1561,7 +1594,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 "package com.mohamedrejeb.calf.camerapicker" not in source or
                 "class CameraRestorationVerificationActivity" not in client or
                 any(name not in selected[0]["test_source_files"] for name in
-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE)) or
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE, ANDROID_CAMERA_SETTINGS_UI_SOURCE)) or
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source + client)):
             raise ValueError("Android camera restoration declarations changed; review the exact four-method selection")
         result["explicit_test_focus"] = focus
@@ -1668,6 +1701,22 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["required_testcases"] = webview_content_identities()
         selected[0]["browser_http_fixture"] = WEBVIEW_CONTENT_FIXTURE
         result["scope"] = "Two exact public Compose iframe direct/remembered/navigator transition and genuine second-loopback-origin CSP/X-Frame-Options refusal methods only. Local Karma HTTP responses and native load/postMessage/DOM observations; no accepted browser replay, full suite, other engine, production server, packaged consumer, ABI, security or release certification."
+    elif focus == WEBVIEW_REQUEST_FOCUS:
+        source = safe_path(root, WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = WEBVIEW_REQUEST_CLASS.rsplit(".", 1)
+        if (len(methods) != len(WEBVIEW_REQUEST_METHODS) or set(methods) != set(WEBVIEW_REQUEST_METHODS) or
+                not re.search(r"\bclass\s+" + re.escape(classname) + r"\b", source) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                WEBVIEW_REQUEST_SOURCE not in selected[0]["test_source_files"] or
+                not safe_path(root, WEBVIEW_REQUEST_FIXTURE).is_file()):
+            raise ValueError("Browser request-state declarations or owned HTTP fixture changed; review the exact three methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = WEBVIEW_REQUEST_CLASS
+        selected[0]["required_testcases"] = webview_request_identities()
+        selected[0]["browser_http_fixture"] = WEBVIEW_REQUEST_FIXTURE
+        result["scope"] = "Three exact public Compose browser request-state methods: rejected options/retry/native reload, genuine owned HTTP redirect/native stop, and real pre-header TCP-response refusal/native metadata recovery. No accepted #63/#65/#11 replay, system-offline/DNS/TLS or reliable iframe-error claim, other target/engine, full-suite, packaged consumer, ABI, security or release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
         spec = WEBVIEW_IDENTITY_SPECS[suite]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
@@ -1966,7 +2015,7 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("test_filter") != android_camera_restoration_filter(focus) or
                 expected[0].get("required_testcases") != android_camera_restoration_identities(focus) or
                 any(name not in expected[0]["test_source_files"] for name in
-                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE))):
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE, ANDROID_CAMERA_SETTINGS_UI_SOURCE))):
             raise ValueError("Invalid finite Android camera real-restoration plan")
         return True
     if focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
@@ -2034,6 +2083,18 @@ def validate_test_focus(test_plan: dict) -> bool:
                 WEBVIEW_CONTENT_SOURCE not in expected[0]["test_source_files"] or
                 expected[0].get("browser_http_fixture") != WEBVIEW_CONTENT_FIXTURE):
             raise ValueError("Invalid finite browser WebView content/HTTP-fixture plan")
+        return True
+    if focus == WEBVIEW_REQUEST_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != WEBVIEW_REQUEST_MODULE or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != WEBVIEW_REQUEST_CLASS or
+                expected[0].get("required_testcases") != webview_request_identities() or
+                WEBVIEW_REQUEST_SOURCE not in expected[0]["test_source_files"] or
+                expected[0].get("browser_http_fixture") != WEBVIEW_REQUEST_FIXTURE):
+            raise ValueError("Invalid finite browser WebView request-state/HTTP-fixture plan")
         return True
     if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]
@@ -2430,6 +2491,12 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if webview_content_case_inventory(test_plan["suite"], module_cases) else
                              ["Browser WebView content XML must contain exactly both methods with actual target identities"])
             scenarios = [{**c, "source": WEBVIEW_CONTENT_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_REQUEST_FOCUS:
+            policy_errors = ([] if webview_request_case_inventory(test_plan["suite"], module_cases) else
+                             ["Browser WebView request-state XML must contain exactly all three methods with actual target identities"])
+            scenarios = [{**c, "source": WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
@@ -3229,7 +3296,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES,
-                                           WEBVIEW_CONTENT_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,
+                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,

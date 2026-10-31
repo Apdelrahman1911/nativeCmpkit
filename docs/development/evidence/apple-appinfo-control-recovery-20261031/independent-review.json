@@ -1,0 +1,97 @@
+{
+  "kind": "independent-source-review",
+  "reviewed_patch_sha256": "529072a01503bebbfff7259e6e3e24ef006d5a0961bca6073374c46e581081fc",
+  "verdict": "Source-coherent owning ESRCH/latch/partial-metadata correction; suitable for lead integration with exact frozen applicability review, not native acceptance.",
+  "new_source_blocking_defects_found": 0,
+  "original_run": {
+    "id": 41250396548,
+    "revision": "69a93c6d879435d4c620979b992a77161baae615",
+    "status": "failed",
+    "helper_exit": 2,
+    "elapsed_seconds": 17.72,
+    "guard": "owned_control_leader_unavailable",
+    "help_completion_stop_phase_cause_support_and_child_group_cleanup": "unknown; never reclassified by this source review"
+  },
+  "confirmed_source_observations": [
+    {
+      "id": "ACT-001",
+      "location": "scripts/ci/apple_appinfo_capability.py:62-81",
+      "finding": "Confirmed source safety: already-cached returncode never enables TERM/KILL; only signal0 readback occurs, with present/unknown group refused. ESRCH recovery uses retained process.wait(timeout=2), requires matching exact integer returncode and then absence readback.",
+      "native_verified": false
+    },
+    {
+      "id": "ACT-002",
+      "location": "scripts/ci/apple_appinfo_capability.py:82-96",
+      "finding": "Confirmed source safety: before each nonzero signal group and session must equal retained PID. ESRCH at either identity or signal switches to owned wait/absence recovery; return/refusal prevents all later TERM/KILL after that wait. Unknown exit/session or permission errors do not trigger a guessed fallback target.",
+      "native_verified": false
+    },
+    {
+      "id": "ACT-003",
+      "location": "scripts/ci/apple_appinfo_capability.py:102-139",
+      "finding": "Confirmed owning latch correction: stop_attempted is set before stop(process). Every explicit timeout/output-bound stop and exceptional finally reaches at most one owned stop attempt. Refusal preserves bounded partial arrays in CapabilityError.control_result; pipes close separately.",
+      "native_verified": false
+    },
+    {
+      "id": "ACT-004",
+      "location": "scripts/ci/apple_appinfo_capability.py:229-260,285,295-314",
+      "finding": "Confirmed no-green path: partial Result requires allowed stop reason, exact byte shape/bound and known int or explicit unknown None under a control error. Fixed metadata/hashes are appended, then original control error is raised before help_observation; no available syntax/schema/native/readiness claim can arise from partial output, even known exit0 with valid Usage.",
+      "native_verified": false
+    },
+    {
+      "id": "ACT-005",
+      "location": "scripts/ci/apple_appinfo_capability.py:22-34,143-174,301-326; .github/workflows/gradle.yml:88-115",
+      "finding": "Source/patch retains fixed four inputs, six identity command tuples and one help tuple, 15s/128KiB capture budgets, 90s/512KiB collection budgets, existing2s owned wait, 5min help-only macOS job, read-only permissions and receipt-only upload. Non-owning helper and cleanup/parser functions are unchanged.",
+      "native_verified": false
+    }
+  ],
+  "limitations": [
+    {
+      "id": "ACT-L01",
+      "classification": "unverified-native-assumption-not-new-confirmed-defect",
+      "priority": "Medium",
+      "location": "scripts/ci/apple_appinfo_capability.py:64-96",
+      "description": "PID anchoring assumes the retained Popen remains sole waiter with normal child-reaping semantics; source creates one local Popen and does not poll before final signal, but mocks do not prove Darwin zombie/group behavior or externally changed SIGCHLD/external reaping. No nonzero post-wait signal path was found.",
+      "recommendation": "Retain finite owned helper-only actual observation, no security/process-reuse certification. Do not add external waiters or poll before final signal."
+    },
+    {
+      "id": "ACT-L02",
+      "classification": "confirmed-inherited-observation-boundary-not-proven-leak",
+      "priority": "Low",
+      "location": "scripts/ci/apple_appinfo_capability.py:69-81,93-96",
+      "description": "signal0 absence is an instant group readback; after the ordinary final KILL path the existing owned wait is unchanged. Detached/native processes or all descendant cleanup are not measured or certified. A live/reused group during recovery is refused without further signaling.",
+      "recommendation": "Preserve explicit private-file versus owned group/native cleanup distinctions in future evidence; original child/group completion remains unknown."
+    },
+    {
+      "id": "ACT-L03",
+      "classification": "confirmed-inherited-budget-boundary-not-new-timeout-expansion",
+      "priority": "Low",
+      "location": "scripts/ci/apple_appinfo_capability.py:24-25,75,94-96,102,127,177-186,231-233",
+      "description": "15s/90s remain capture/collection budgets, not strict overall wall-clock limits including existing up-to2s cleanup/.05s sleep and EOF file identity reads. Command bytes and aggregate retained bytes remain bounded; fixed-file FIFO/replacement/growth time limits remain uncertified.",
+      "recommendation": "Describe deadlines and separate cleanup/5min workflow ceiling accurately; do not label these numbers proof of adversarial wall-time/file-I/O bounds."
+    },
+    {
+      "id": "ACT-L04",
+      "classification": "confirmed-narrow-partial-error-scope-not-new-native-failure",
+      "priority": "Low",
+      "location": "scripts/ci/apple_appinfo_capability.py:130-139,235-245,295-298",
+      "description": "Partial control_result preservation applies to CapabilityError owning refusals, not every possible OSError/SubprocessError/pipe close exception. Those still yield unavailable/type-only evidence through existing outer guards; simultaneous read/cleanup failures are not independently modeled by the14 selected new methods.",
+      "recommendation": "Do not claim all transport exceptions now preserve partial bytes or infer a cause for the original run. Any future actual different exception needs its own bounded owning repair, not broad retry/SDK expansion."
+    }
+  ],
+  "existing_proofs": {
+    "mock_methods": 14,
+    "mock_passes": 14,
+    "seconds": 0.055018,
+    "preimage_reds": 6,
+    "preimage_failures": 4,
+    "preimage_errors": 2,
+    "reviewer_replays": 0,
+    "original21_and_accepted17_routing_43_integrity_replays": 0,
+    "only_mock_semantics_not_Darwin_or_child_validation": true
+  },
+  "operations": {
+    "SDK_real_child_native_build_download_shared_edit_Git_GitHub_dispatch_or_delegation": 0
+  },
+  "issue141": "open; original strict/timeout/prePID failures failed, unfixed, unwaived",
+  "no_appinfo_payload_inventory_boot_install_launch_profile_security_or_readiness_expansion": true
+}

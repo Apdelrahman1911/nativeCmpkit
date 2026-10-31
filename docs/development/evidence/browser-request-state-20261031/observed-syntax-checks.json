@@ -1,0 +1,29 @@
+{
+  "kind": "observed-private-source-syntax-checks-not-native",
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--check",
+        "after/calf-webview/karma.config.d/nativecmpkit-request-fixture.js"
+      ],
+      "exit_code": 0,
+      "source_sha256": "84ee97a90e885110b7536e178b2271d0ddc68dcc1164fc5dee23a892cbe1626c",
+      "note": "One actual node syntax-only tool call; no HTTP/browser execution."
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        "-shellcheck=",
+        "-pyflakes=",
+        "after/.github/workflows/gradle.yml"
+      ],
+      "version": "1.7.12",
+      "exit_code": 0,
+      "source_sha256": "e6e65b92f2af0336fa189e1200cd0967dd42301148a19998e70b27c0ecc738ea",
+      "note": "One actual explicit private workflow check; shellcheck/pyflakes intentionally disabled, no dispatch."
+    }
+  ],
+  "native_executions": 0,
+  "accepted_suites_replayed": false
+}

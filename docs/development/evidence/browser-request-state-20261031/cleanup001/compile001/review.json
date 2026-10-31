@@ -1,0 +1,34 @@
+{
+  "all_inputs_held": true,
+  "base_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "changed_since_shared_compile": [
+    "calf-webview/karma.config.d/nativecmpkit-request-fixture.js",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt",
+    "scripts/ci/apple_appinfo_capability.py",
+    "scripts/ci/test_apple_appinfo_capability.py",
+    "scripts/ci/test_webview_request_focus.py"
+  ],
+  "combined_inputs": 1100,
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    ":calf-webview:compileTestKotlinJs",
+    ":calf-webview:compileTestKotlinWasmJs"
+  ],
+  "execution": {
+    "elapsed_seconds": 38.01,
+    "exit_code": 0
+  },
+  "library_inputs": 1023,
+  "new_native_browser_or_library_tests": 0,
+  "security_release_or_API_ABI_acceptance": false,
+  "source_tree_dirty": true,
+  "unchanged_camera_APK_not_rebuilt": true,
+  "unrelated_accepted_tests_replayed": false
+}

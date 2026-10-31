@@ -1,0 +1,42 @@
+{
+  "display": {
+    "combined_inputs": 1100,
+    "library_inputs": 1023,
+    "new_build_native_executions": 0,
+    "one_exact_original_dont_keep_method_requested_by_plan": true,
+    "one_merged_controller_guard_pass": true,
+    "preflight": {
+      "Gradle_builds_executed": 0,
+      "library_tests_executed": 0,
+      "operation": "plan",
+      "profile": "android-camera-restoration-dont-keep",
+      "slots": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "scripts/ci/android_device_tests.py",
+            "plan",
+            "--api-level",
+            "35",
+            "--output",
+            "build/ci-plan",
+            "--module",
+            "calf-camera-picker",
+            "--focus",
+            "android-camera-real-restoration-dont-keep"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "android-device-api35",
+          "suite": "android-device"
+        }
+      ],
+      "source_only": true
+    },
+    "private35_test_scope_reused_not_replayed": true
+  },
+  "display_not_original_bytes": true,
+  "original_bytes": 1003,
+  "original_sha256": "11a3cf6bb7eb618b8644b4922eb93436fb4e871083cc3223735fd2c2c9a4506f"
+}

@@ -1,0 +1,159 @@
+{
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        59,
+        95
+      ],
+      "XML_seconds": "0.157",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 1,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Real native seeded257x193 ARGB8888 PNG encode, >64KiB binary payload and explicitly unknown-size row from a real separate-process same-UID private FileProvider. Public metadata must not open it; actual source-only KmpFileFetcher, non-main dispatch, one native REG FD and non-consuming16-byte peek are observed before the unmodified default BitmapFactoryDecoder. Partial encoded buffering is asserted; all49601 opaque/transparent output pixels, dimensions/config/DISK/unsampled result and unchanged backing bytes match. Reporter native FD0 is required before fixture deletion.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Native PNG decoder/encoded streaming and full decoded pixel parity",
+        "Success source closure and test-owned bitmap/file cleanup"
+      ],
+      "limitations": [
+        "No peak-memory benchmark; test reference bytes and native bitmap allocations exist",
+        "No cross-UID assertion for PNG; this provider is same UID in a different process",
+        "No file:// or DocumentsUI/cloud-provider parity",
+        "No metadata ImageDecoder or kernel-seek path"
+      ]
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        97,
+        144
+      ],
+      "XML_seconds": "0.916",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 2,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Real native96x64 four-quadrant JPEGs and Android ExifInterface orientation6(clockwise90) and7(transverse) are written/read. The same source-only default BitmapFactoryDecoder receives initial-position buffered content; actual64x96 ARGB8888 output must match independent geometry and interior RGB values within12. Both fresh requests require one open, real native REG FD through fetch/decode, default decoder identity, source byte immutability and reporter FD0. Null metadata/no staged file is asserted.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Default buffered bounds/EXIF-compatible decoding for rotation and reflection",
+        "Success source/bitmap closure in each of two native requests"
+      ],
+      "limitations": [
+        "JPEG is lossy: only specified interior RGB tolerance, not whole decoded-pixel equality",
+        "Default route is observed; individual internal inJustDecodeBounds/lseek calls are not independently logged",
+        "No kernel seek or metadata ImageDecoder route",
+        "No other EXIF orientations, device/vendor/target or cache policy certification"
+      ]
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        146,
+        175
+      ],
+      "XML_seconds": "3.915",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 4,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Existing separate-UID DocumentsProvider grants one fixed read-only tree through genuine foreground Activity-result READ/PERSISTABLE/PREFIX flags, ClipData and public bookmark creation. Native service/reply signatures, UIDs, nonce, PID/process/generation and denied MANAGE_DOCUMENTS/ungranted preconditions are checked. Four sequential unmodified default BitmapFactoryDecoder corrupt-image failures produce the exact null-bitmap IllegalStateException, one fetch/start/error and no success/decodeEnd each. Actual cross-UID REG stat/fdinfo identity and reporter FD1 precede decoding; remote opens/closes grow1..4 with zero writes/closeErrors, and reporter FD0 follows every failure. Finally releases bookmark, checks quiescent counts before reset and joins owned endpoint thread.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Unmodified default-decoder failure releases actual transferred source on four sequential rounds",
+        "Actual fixed URI grant and deterministic endpoint/bookmark cleanup"
+      ],
+      "limitations": [
+        "Corrupt bytes are prefix/length/calibration checked, not newly read in full for binary parity",
+        "No default-decoder cancellation or concurrent requests",
+        "No native peak heap/resource stress benchmark beyond four bounded rounds",
+        "Grant/release prerequisite does not newly execute restart or revoked public reads"
+      ]
+    }
+  ],
+  "execution_flow_and_ownership_review": {
+    "production_stream_route": {
+      "locations": [
+        "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt:37-57",
+        "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFileSource.android.kt:8-10"
+      ],
+      "review": "Real ContentResolver InputStream to kotlinx-io/Okio buffered source-only ImageSource; native DISK classification; construction-failure close; ownership transferred to Coil. No new production patch by this reviewer."
+    },
+    "default_registry_witness": {
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:177-236"
+      ],
+      "review": "Only the production KmpFileFetcher factory is added; no decoder factory is injected. Observational event listener requires BitmapFactoryDecoder at decodeStart/End, one actual transferred REG FD, no metadata/staged file and exact event outcomes.16-byte peek is non-consuming and not a replacement source."
+    },
+    "same_uid_native_source": {
+      "locations": [
+        "calf-io/src/androidDeviceTest/AndroidManifest.xml:10-20",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:275-286",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt:36-54,98-121,124-136"
+      ],
+      "review": "Private real registered AndroidX FileProvider owns constrained cache files, delegates normal native open, deliberately changes only unknown-size metadata, checks reporter UID/provider process declaration and provider PID differs. PNG/JPEG do not claim separate UID."
+    },
+    "native_descriptor_calibration": {
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt:11-89",
+        "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/OwnedIoDocumentsProvider.java:68-106,142-154"
+      ],
+      "review": "Actual REG stat device/inode agrees with strict kernel fdinfo inode; reporter enumerates original descriptors before probe duplication, counts exact inode+device, tolerates only proven EBADF races and closes every duplicate. Cross-UID provider callback publishes closes after closeErrors. Positive FD1 then FD0 is asserted; no heap/global leak guarantee."
+    },
+    "actual_native_grant_and_identity": {
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:302-335",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt:24-31",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt:42-55,70-79,94-125",
+        "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoDocumentGrantActivity.java:13-24",
+        "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoControlService.java:16-38"
+      ],
+      "review": "Actual foreground Activity result creates read-only grant; reporter lacks MANAGE_DOCUMENTS and URI access beforehand, correct flags/ClipData/native permission and persisted read-only grant are checked. Control is signature-only and authentic Messenger nonce/UID/process/generation bound; no manual grant. Raw numeric native identity values are not independently exported."
+    },
+    "failure_safe_native_cleanup": {
+      "locations": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt:238-280,321-369",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt:137-146",
+        "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/OwnedIoDocumentsProvider.java:46-59"
+      ],
+      "review": "Sequential loader shutdown; test-owned bitmap recycle; descriptor-zero check before exclusive owned-directory deletion; bookmark release; all fixed source counts/errors/writes quiescent before reset; endpoint unbind and quitSafely/join pending-empty. Primary failure preserved and cleanup failures cannot turn a method green. Normal paths execute; not every failure-path runtime calibration."
+    },
+    "helper_host_identity_and_ownership": {
+      "locations": [
+        "scripts/ci/android_io_documents.py:186-220,236-283,291-301",
+        "scripts/ci/android_share_recipient.py:25-65,67-109",
+        "scripts/ci/android_device_tests.py:317-328,378-433"
+      ],
+      "review": "Actual source/installed APK hash, compiled manifest and modern single-signer/private certificate readback, API35-only integer range, fixed live AVD lease and exact hash recheck before force-stop/uninstall/absence. Controller receives actual native result and cleanup remains required. No downloaded APK/key or package validation beyond receipt/source scope."
+    },
+    "fresh_original_results": {
+      "locations": [
+        "scripts/ci/fresh-tests.init.gradle.kts:27-100",
+        "scripts/ci/library_tests.py:2315-2358,2589-2610,3076-3082,3107-3119,3134-3190"
+      ],
+      "review": "Fresh task outputs cannot use cache/up-to-date, effective class/serial and AGP output are verified, collector requires one marker, bounded regular unchanged XML mtime in invocation +/-2s, no duplicate/foreign/skip and exact three methods. Original stat is not exported; naive XML/ZIP timestamp alone is not independent freshness/timezone evidence."
+    }
+  },
+  "new_production_findings": [],
+  "new_native_host_or_model_tests_run_by_reviewer": 0,
+  "source_read_from_immutable_Git_only": true,
+  "raw_UID_PID_generation_and_original_stat_values_independently_exported": false
+}

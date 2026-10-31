@@ -1,0 +1,104 @@
+{
+  "run_id": 41250376146,
+  "run_attempt": 1,
+  "source_revision": "69a93c6d879435d4c620979b992a77161baae615",
+  "profile": "android-io-default-decode",
+  "native_methods_accepted": 3,
+  "distinct_method_identities": 3,
+  "accepted_target_executions": 3,
+  "internal_image_requests": 7,
+  "internal_requests_not_additive_test_coverage": true,
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        59,
+        95
+      ],
+      "XML_seconds": "0.157",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 1,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Real native seeded257x193 ARGB8888 PNG encode, >64KiB binary payload and explicitly unknown-size row from a real separate-process same-UID private FileProvider. Public metadata must not open it; actual source-only KmpFileFetcher, non-main dispatch, one native REG FD and non-consuming16-byte peek are observed before the unmodified default BitmapFactoryDecoder. Partial encoded buffering is asserted; all49601 opaque/transparent output pixels, dimensions/config/DISK/unsampled result and unchanged backing bytes match. Reporter native FD0 is required before fixture deletion.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Native PNG decoder/encoded streaming and full decoded pixel parity",
+        "Success source closure and test-owned bitmap/file cleanup"
+      ],
+      "limitations": [
+        "No peak-memory benchmark; test reference bytes and native bitmap allocations exist",
+        "No cross-UID assertion for PNG; this provider is same UID in a different process",
+        "No file:// or DocumentsUI/cloud-provider parity",
+        "No metadata ImageDecoder or kernel-seek path"
+      ]
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        97,
+        144
+      ],
+      "XML_seconds": "0.916",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 2,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Real native96x64 four-quadrant JPEGs and Android ExifInterface orientation6(clockwise90) and7(transverse) are written/read. The same source-only default BitmapFactoryDecoder receives initial-position buffered content; actual64x96 ARGB8888 output must match independent geometry and interior RGB values within12. Both fresh requests require one open, real native REG FD through fetch/decode, default decoder identity, source byte immutability and reporter FD0. Null metadata/no staged file is asserted.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Default buffered bounds/EXIF-compatible decoding for rotation and reflection",
+        "Success source/bitmap closure in each of two native requests"
+      ],
+      "limitations": [
+        "JPEG is lossy: only specified interior RGB tolerance, not whole decoded-pixel equality",
+        "Default route is observed; individual internal inJustDecodeBounds/lseek calls are not independently logged",
+        "No kernel seek or metadata ImageDecoder route",
+        "No other EXIF orientations, device/vendor/target or cache policy certification"
+      ]
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest",
+      "name": "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+      "status": "accepted-passed",
+      "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+      "source_sha256": "16081265d0b06b2f109c29fe0361c130a5bb5b49cfbc63c7301ce9155f408f7a",
+      "source_lines": [
+        146,
+        175
+      ],
+      "XML_seconds": "3.915",
+      "target_executions": 1,
+      "internal_image_requests_reached_by_passing_whole_method": 4,
+      "internal_requests_are_not_target_execution_or_method_counts": true,
+      "accepted_boundary": "Existing separate-UID DocumentsProvider grants one fixed read-only tree through genuine foreground Activity-result READ/PERSISTABLE/PREFIX flags, ClipData and public bookmark creation. Native service/reply signatures, UIDs, nonce, PID/process/generation and denied MANAGE_DOCUMENTS/ungranted preconditions are checked. Four sequential unmodified default BitmapFactoryDecoder corrupt-image failures produce the exact null-bitmap IllegalStateException, one fetch/start/error and no success/decodeEnd each. Actual cross-UID REG stat/fdinfo identity and reporter FD1 precede decoding; remote opens/closes grow1..4 with zero writes/closeErrors, and reporter FD0 follows every failure. Finally releases bookmark, checks quiescent counts before reset and joins owned endpoint thread.",
+      "related_original_issue_numbers": [
+        57
+      ],
+      "proven_scope": [
+        "Unmodified default-decoder failure releases actual transferred source on four sequential rounds",
+        "Actual fixed URI grant and deterministic endpoint/bookmark cleanup"
+      ],
+      "limitations": [
+        "Corrupt bytes are prefix/length/calibration checked, not newly read in full for binary parity",
+        "No default-decoder cancellation or concurrent requests",
+        "No native peak heap/resource stress benchmark beyond four bounded rounds",
+        "Grant/release prerequisite does not newly execute restart or revoked public reads"
+      ]
+    }
+  ],
+  "actual_uploaded_combined1095_map": null,
+  "earlier_five_lifecycle_host_oversize_and_camera_replays": 0,
+  "all_issue_closures_refused": true,
+  "recovery_recommended": null
+}

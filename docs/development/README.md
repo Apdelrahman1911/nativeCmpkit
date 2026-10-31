@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Focused CI owning guard recovery — 2026-10-31
+
+[Both immutable requests failed before platforms](evidence/workflow-option-guard-recovery-20261031/README.md):
+1300/1301 CI methods pass per request; only an old option-adjacency assertion fails.
+One owning membership repair passes1/1 and preserves ten modeled refusals. No new
+Android native or Apple SDK commands/results; unchanged compiled inputs and routing
+results are reused. [Four verified partial progress comments](evidence/verified-io-camera-progress-20261031/README.md)
+are read back with zero closures;91closed/81open. Three default-Coil native cases
+and fixed Apple help-only request remain unexecuted. Publishing/security/readiness
+and capacity restrictions remain unchanged.
+
 ## Browser issue closed; I/O runtime accepted; focused next batch — 2026-10-31
 
 **#63/NATIVE-004 CLOSED/completed**, after all three original criteria and

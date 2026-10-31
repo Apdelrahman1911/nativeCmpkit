@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused requests stopped in tooling; owning membership guard recovered — 2026-10-31
+
+[Actual41249622333/41249673735](docs/development/evidence/workflow-option-guard-recovery-20261031/README.md)
+at540c1c1e remain FAILED: each1301 CI methods/1300pass/one stale option-adjacency
+guard; ZERO native/Apple SDK/help/artifacts. Only that guard now uses the existing
+strict literal parser and four exact required memberships;1/1 owning pass plus
+11 modeled variants/ten refusals, not native tests.1018/1095 inputs differ from
+accepted reporterAPK0/156.03s/Yarn3/3 only at the guard; reuse, no local replay.
+The [independent Apple review](docs/development/evidence/apple-appinfo-capability-20261031/native-ci001/README.md)
+retains194 exact source identities/17 accepted routing passes/43 checks without
+rerun; no appinfo payload or simulator/profile expansion is justified. Recover
+only the unchanged three-case default-Coil and fixed help-only capability requests.
+[Four progress comments](docs/development/evidence/verified-io-camera-progress-20261031/README.md)
+to#45/#55/#57/#13 completed/read back, original issue fields retained; zero closures.
+91closed/81open/172total; all native/consumer/ABI/dependency/legal/security/readiness/
+publishing/Pages/main/history/serial-local/8GiB/max2heavy gates unchanged.
+
 ## Browser issue closed; I/O runtime accepted; focused next batch — 2026-10-31
 
 **#63/NATIVE-004 CLOSED/completed**, after all three original criteria and

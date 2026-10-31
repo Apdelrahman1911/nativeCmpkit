@@ -1,0 +1,98 @@
+{
+  "final_four_files_identical_to_accepted_source_review": true,
+  "reused_routing_inputs": {
+    "all_match_immutable_Git": true,
+    "bytes": 2288142,
+    "files": 194,
+    "original43_integrity_assertions_rerun": 0,
+    "tests_rerun": 0
+  },
+  "runtime_limits": "All intended SDK commands, tool identities, help syntax and cleanup remain unobserved because the macOS job was skipped.",
+  "schema_version": 1,
+  "source_revision": "540c1c1e13156a7233eee0e0f940cee12a36d6b4",
+  "sources": [
+    {
+      "bytes": 48883,
+      "path": ".github/workflows/gradle.yml",
+      "sha256": "854764038252872ba9ecbd48c4d2db561f9f4d688e33a7e0acbb6b2a5a93882b"
+    },
+    {
+      "bytes": 28711,
+      "path": "scripts/ci/workflow_matrix.py",
+      "sha256": "e0981cf634429b4d342525aa7d19f6b39a435dce676443f09c223547b08f049e"
+    },
+    {
+      "bytes": 14912,
+      "path": "scripts/ci/apple_appinfo_capability.py",
+      "sha256": "673efdd9253df0bf0c48f0cdff06573eafab8fe9fd0cb0e468ec184f26f3cf1b"
+    },
+    {
+      "bytes": 17964,
+      "path": "scripts/ci/test_apple_appinfo_capability.py",
+      "sha256": "0a82a9793e749daa451f71756db746f3196a2892d7cb08868af92b50cab27a66"
+    },
+    {
+      "bytes": 12246,
+      "path": "scripts/ci/test_ios_image_darwin_focus.py",
+      "sha256": "bf842d9aad1b7e2f923e91551bfc5b8383d52e8f4296b1c2cc8a1715a0faac5f"
+    }
+  ],
+  "static_contract": {
+    "always_schema_observed_false_and_subsequent_appinfo_ready_false": true,
+    "bounds": {
+      "command_capture_bytes": 131072,
+      "command_capture_timeout_seconds": 15,
+      "total_capture_bytes": 524288,
+      "total_command_budget_seconds": 90
+    },
+    "checkout_credentials_disabled": true,
+    "contents_read_only": true,
+    "empty_library_profile": true,
+    "file_digest_limitation": "Regular-file/128 MiB preflight and before/after identity checks read to EOF. Adversarial FIFO replacement refusal and growth/time-bounded file reads are not guaranteed. Fixed trusted inputs only; no detached-child/native cleanup or security certification.",
+    "five_minute_macos26_job": true,
+    "fixed_commands": {
+      "clean": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain",
+        "--untracked-files=normal"
+      ],
+      "developer": [
+        "/usr/bin/xcode-select",
+        "--print-path"
+      ],
+      "help": [
+        "/usr/bin/xcrun",
+        "simctl",
+        "help",
+        "appinfo"
+      ],
+      "simctl": [
+        "/usr/bin/xcrun",
+        "--find",
+        "simctl"
+      ],
+      "source": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "xcode-version": [
+        "/usr/bin/xcrun",
+        "xcodebuild",
+        "-version"
+      ],
+      "xcodebuild": [
+        "/usr/bin/xcrun",
+        "--find",
+        "xcodebuild"
+      ]
+    },
+    "help_usage_candidate_only": "Usage: simctl appinfo <device> <app bundle identifier>",
+    "needs_tooling": true,
+    "no_app_device_command_or_output_arguments": true,
+    "no_inventory_boot_install_launch_appinfo_payload_or_profile_command": true,
+    "preview_branch_only": true,
+    "receipt_only_upload": true
+  }
+}

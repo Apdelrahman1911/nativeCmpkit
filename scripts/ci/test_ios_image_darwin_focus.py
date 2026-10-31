@@ -11,6 +11,7 @@ import ios_ui_application as app
 import library_tests as lt
 import test_ios_application_receipts as receipts
 import test_ios_ui_application as frames
+from test_ios_io_profile import profile_options
 import workflow_matrix as matrix
 
 
@@ -168,7 +169,12 @@ class IosImageDarwinFocusTests(unittest.TestCase):
 
     def test_workflow_is_a_finite_reports_only_request_with_no_new_permissions_or_publication(self):
         workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
-        self.assertIn("ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle", workflow)
+        # Literal membership owns the scope, not adjacency: adding the separate
+        # help-only capability must not hide or remove any existing native mode.
+        options = profile_options(workflow)
+        for profile in ("ios-image-memory", "ios-image-memory-darwin",
+                        "ios-image-profile-recovery", "ios-webview-lifecycle"):
+            self.assertIn(profile, options)
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertNotIn("packages: write", workflow)
         self.assertNotIn("id-token: write", workflow)

@@ -1,0 +1,58 @@
+{
+  "action_revision": "55cc8345863c7cc4c66a329aec7e433d2d1c52a9",
+  "actual_cache_hit_not_inferred_from_source": true,
+  "api_private_bytes": 6252,
+  "api_private_sha256": "b559f05f0b3cb22c9cf57b1e4d6c6bd4261468011d0639b30e8e6f9e128038e2",
+  "bounded_public_source_lines": [
+    {
+      "line": 18,
+      "source": "core.setOutput(Outputs.CacheHit, \"false\");"
+    },
+    {
+      "line": 45,
+      "source": "const cacheKey = await cache.restoreCache("
+    },
+    {
+      "line": 53,
+      "source": "if (!cacheKey) {"
+    },
+    {
+      "line": 54,
+      "source": "// `cache-hit` is intentionally not set to `false` here to preserve existing behavior"
+    },
+    {
+      "line": 72,
+      "source": "stateProvider.setState(State.CacheMatchedKey, cacheKey);"
+    },
+    {
+      "line": 74,
+      "source": "const isExactKeyMatch = utils.isExactKeyMatch("
+    },
+    {
+      "line": 76,
+      "source": "cacheKey"
+    },
+    {
+      "line": 79,
+      "source": "core.setOutput(Outputs.CacheHit, isExactKeyMatch.toString());"
+    },
+    {
+      "line": 81,
+      "source": "core.info(`Cache found and can be restored from key: ${cacheKey}`);"
+    },
+    {
+      "line": 83,
+      "source": "core.info(`Cache restored from key: ${cacheKey}`);"
+    },
+    {
+      "line": 86,
+      "source": "return cacheKey;"
+    }
+  ],
+  "exit_code": 0,
+  "method": "GET",
+  "observed_at_utc": "2026-10-31T20:23:16.228971+00:00",
+  "source_blob": "54bef49aa92d8689062800cdae296710ffc55341",
+  "source_bytes": 3830,
+  "source_sha256": "a826ba32c328383f17db138d061c684481c18220fd72733e4bfd552be456c1ec"
+}

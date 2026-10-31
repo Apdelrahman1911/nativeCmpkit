@@ -1,0 +1,774 @@
+diff --git a/.github/workflows/gradle.yml b/.github/workflows/gradle.yml
+--- a/.github/workflows/gradle.yml
++++ b/.github/workflows/gradle.yml
+@@ -10,7 +10,7 @@
+         type: choice
+         required: true
+         default: core
+-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
++        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-io-oversize, android-saver-identity, android-saver-identity-missing, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+ 
+ permissions:
+   contents: read
+@@ -225,7 +225,7 @@
+       # Serial focused continuations can coexist with one immutable UIKit
+       # diagnostic without exceeding two combined library jobs. Complete
+       # profiles retain two-way execution; no target or test is removed.
+-      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state') && 1 || 2 }}
++      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}
+       matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
+     runs-on: ${{ matrix.runner }}
+     timeout-minutes: 90
+diff --git a/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js b/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js
+new file mode 100644
+--- /dev/null
++++ b/calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js
+@@ -0,0 +1,53 @@
++// SPDX-License-Identifier: Apache-2.0
++// Local test responses on Karma's existing server; no package, file, or external-network access.
++// The different loopback host name supplies a genuine second browser origin.
++(() => {
++  const prefix = '/nativecmpkit-iframe-fixture/';
++  const sessions = new Map();
++  const middleware = () => (request, response, next) => {
++    const url = new URL(request.url, 'http://localhost');
++    if (!url.pathname.startsWith(prefix)) return next();
++    const action = url.pathname.slice(prefix.length);
++    const token = url.searchParams.get('token');
++    const stage = url.searchParams.get('stage') || 'receipt';
++    if (request.method !== 'GET' || !/^[a-z0-9]{1,40}$/.test(token || '') ||
++        !/^[a-z0-9-]{1,60}$/.test(stage) || !['allow', 'csp', 'xfo', 'receipt', 'close'].includes(action)) {
++      response.writeHead(400); response.end(); return;
++    }
++    response.setHeader('Cache-Control', 'no-store');
++    response.setHeader('Content-Type', 'text/html; charset=utf-8');
++    if (action === 'close') {
++      sessions.delete(token);
++      response.end('<script>parent.postMessage(' + JSON.stringify('closed|' + token) + ', "*")</script>');
++      return;
++    }
++    if (!sessions.has(token)) {
++      if (sessions.size >= 64) { response.writeHead(503); response.end(); return; }
++      sessions.set(token, { allow: 0, csp: 0, xfo: 0, cspPolicy: '', xfoPolicy: '' });
++    }
++    const counts = sessions.get(token);
++    let message;
++    if (action === 'receipt') {
++      message = ['receipt', token, counts.allow, counts.csp, counts.xfo,
++        counts.cspPolicy, counts.xfoPolicy].join('|');
++    } else {
++      counts[action]++;
++      if (action === 'csp') {
++        response.setHeader('Content-Security-Policy', "frame-ancestors 'none'");
++        counts.cspPolicy = response.getHeader('Content-Security-Policy');
++      }
++      if (action === 'xfo') {
++        response.setHeader('X-Frame-Options', 'DENY');
++        counts.xfoPolicy = response.getHeader('X-Frame-Options');
++      }
++      message = ['page', token, stage].join('|');
++    }
++    response.end('<!doctype html><title>' + stage + '</title><p id="nativecmpkit-page">' + stage +
++      '</p><script>document.documentElement.setAttribute("data-nativecmpkit-ready", "yes");' +
++      'parent.postMessage(' + JSON.stringify(message) + ', "*");</script>');
++  };
++  config.plugins = (config.plugins || ['karma-*']).concat({
++    'middleware:nativecmpkit-iframe-fixture': ['factory', middleware]
++  });
++  config.middleware = (config.middleware || []).concat('nativecmpkit-iframe-fixture');
++})();
+diff --git a/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt b/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt
+new file mode 100644
+--- /dev/null
++++ b/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt
+@@ -0,0 +1,281 @@
++// SPDX-License-Identifier: Apache-2.0
++@file:Suppress("INVISIBLE_MEMBER", "INVISIBLE_REFERENCE")
++@file:OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
++
++package com.mohamedrejeb.calf.ui.web
++
++import androidx.compose.foundation.layout.size
++import androidx.compose.runtime.*
++import androidx.compose.ui.Modifier
++import androidx.compose.ui.unit.dp
++import androidx.compose.ui.window.ComposeViewport
++import androidx.compose.ui.window.LocalComposeWindow
++import kotlinx.browser.document
++import kotlinx.browser.window
++import kotlinx.coroutines.*
++import kotlinx.coroutines.test.runTest
++import org.w3c.dom.HTMLIFrameElement
++import org.w3c.dom.HTMLElement
++import org.w3c.dom.MessageEvent
++import kotlin.random.Random
++import kotlin.test.*
++
++/** Real public Compose/DOM loads. Framing responses come from the owned Karma HTTP server. */
++class BrowserWebViewContentAcceptanceTest {
++    @Test fun directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments() = runTest {
++        withContext(Dispatchers.Default) {
++            withFixture { fixture ->
++                for (urlFactory in listOf(true, false)) {
++                    var rememberedUrl by mutableStateOf(fixture.url("allow", "initial-url"))
++                    var rememberedHtml by mutableStateOf(html("initial-data"))
++                    var observed: WebViewState? = null
++                    var created = 0
++                    var disposed = 0
++                    val navigator = WebViewNavigator(this)
++                    val viewport = Viewport {
++                        val owner = if (urlFactory) rememberWebViewState(rememberedUrl)
++                            else rememberWebViewStateWithHTMLData(rememberedHtml)
++                        owner.settings.browserSandboxPolicy = BrowserSandboxPolicy.Trusted
++                        owner.settings.javaScriptEnabled = true
++                        SideEffect { observed = owner }
++                        WebView(owner, Modifier.size(160.dp), navigator = navigator,
++                            onCreated = { created++ }, onDispose = { disposed++ })
++                    }
++                    var primary: Throwable? = null
++                    try {
++                        awaitCondition { observed != null }
++                        val owner = assertNotNull(observed)
++                        val frame = awaitDocument(owner, if (urlFactory) "initial-url" else "initial-data")
++                        owner.content = WebContent.Data(html("direct-data"))
++                        assertSame(frame, awaitDocument(owner, "direct-data"))
++                        assertFalse(frame.hasAttribute("src"))
++                        assertTrue(frame.hasAttribute("srcdoc"))
++
++                        val sharedUrl = fixture.url("allow", "shared-url")
++                        owner.content = WebContent.Url(sharedUrl)
++                        awaitDocument(owner, "shared-url")
++                        assertFalse(frame.hasAttribute("srcdoc"))
++                        assertEquals(sharedUrl, frame.getAttribute("src"))
++                        val stateUrl = snapshot(frame)
++                        owner.content = WebContent.Data(html("shared-data"))
++                        awaitDocument(owner, "shared-data")
++                        val stateData = snapshot(frame)
++                        navigator.loadUrl(sharedUrl)
++                        awaitDocument(owner, "shared-url")
++                        assertEquals(stateUrl, snapshot(frame), "Compare the actual page and attributes, not src alone")
++                        navigator.loadHtml(html("shared-data"))
++                        awaitDocument(owner, "shared-data")
++                        assertEquals(stateData, snapshot(frame))
++
++                        if (urlFactory) {
++                            rememberedUrl = fixture.url("allow", "remembered-url")
++                            awaitDocument(owner, "remembered-url")
++                            assertFalse(frame.hasAttribute("srcdoc"))
++                            owner.content = WebContent.Data(html("remembered-back-data"))
++                            awaitDocument(owner, "remembered-back-data")
++                        } else {
++                            owner.content = WebContent.Url(fixture.url("allow", "remembered-out-url"))
++                            awaitDocument(owner, "remembered-out-url")
++                            rememberedHtml = html("remembered-back-data")
++                            awaitDocument(owner, "remembered-back-data")
++                            owner.content = WebContent.Url(fixture.url("allow", "remembered-out-again"))
++                            awaitDocument(owner, "remembered-out-again")
++                            rememberedHtml = html("remembered-final-data")
++                            awaitDocument(owner, "remembered-final-data")
++                        }
++                        assertSame(owner, observed)
++                        assertSame(frame, owner.iframe)
++                        assertFalse(frame.hasAttribute("src"))
++                        assertEquals(1, created)
++                        assertEquals(0, disposed)
++                        viewport.close()
++                        awaitCondition { owner.iframe == null && !frame.isConnected }
++                        assertEquals(1, disposed)
++                    } catch (error: Throwable) { primary = error; throw error }
++                    finally { runWebViewCleanup(primary, { viewport.close() }) }
++                }
++            }
++        }
++    }
++
++    @Test fun realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument() = runTest {
++        withContext(Dispatchers.Default) {
++            withFixture { fixture ->
++                val owner = WebViewState(WebContent.Data(html("initial"))).apply {
++                    settings.browserSandboxPolicy = BrowserSandboxPolicy.Trusted
++                    settings.javaScriptEnabled = true
++                }
++                val navigator = WebViewNavigator(this)
++                val viewport = Viewport { WebView(owner, Modifier.size(160.dp), navigator = navigator) }
++                var frame: HTMLIFrameElement? = null
++                var loads = 0
++                val messages = mutableListOf<String>()
++                val loadListener = browserEventListener { event ->
++                    assertTrue(event.isTrusted, "Only a native browser load can finish the framing request")
++                    loads++
++                }
++                val messageListener = browserEventListener { event ->
++                    val message = event as? MessageEvent ?: return@browserEventListener
++                    if (message.source === frame?.contentWindow && message.origin == fixture.crossOrigin) {
++                        assertTrue(message.isTrusted, "Do not accept dispatched security-witness messages")
++                        messages += message.data.toString()
++                    }
++                }
++                var primary: Throwable? = null
++                try {
++                    frame = awaitDocument(owner, "initial")
++                    val native = assertNotNull(frame)
++                    native.addEventListener("load", loadListener)
++                    window.addEventListener("message", messageListener)
++                    // An unblocked page at the exact second origin must execute before testing refusal.
++                    val positive = fixture.url("allow", "cross-origin-control", crossOrigin = true)
++                    owner.content = WebContent.Url(positive)
++                    awaitCondition { messages.contains("page|${fixture.token}|cross-origin-control") &&
++                        owner.loadingState == LoadingState.Finished }
++                    assertFalse(native.hasAttribute("srcdoc"))
++                    val positiveReceipt = fixture.receipt()
++                    assertEquals(listOf("1", "0", "0"), positiveReceipt.subList(2, 5))
++
++                    for (mode in listOf("csp", "xfo")) {
++                        val oldTitle = "old-$mode"
++                        owner.content = WebContent.Data(html(oldTitle))
++                        awaitDocument(owner, oldTitle)
++                        val oldUrl = assertNotNull(owner.lastLoadedUrl)
++                        assertEquals(oldTitle, owner.pageTitle)
++                        assertEquals(oldTitle, native.contentDocument?.title)
++                        val before = loads
++                        val target = fixture.url(mode, "blocked-$mode", crossOrigin = true)
++                        if (mode == "csp") owner.content = WebContent.Url(target) else navigator.loadUrl(target)
++                        awaitCondition { owner.requestedUrl == target && loads > before &&
++                            owner.loadingState == LoadingState.Finished && native.contentDocument == null }
++                        val receipt = fixture.receipt()
++                        assertEquals(1, receipt[if (mode == "csp") 3 else 4].toInt(), "The browser actually requested the refused page")
++                        assertEquals("frame-ancestors 'none'", receipt[5], "Receipt records the actual emitted CSP response header")
++                        if (mode == "xfo") assertEquals("DENY", receipt[6], "Receipt records the actual emitted XFO header")
++                        assertFalse(native.hasAttribute("srcdoc"))
++                        assertEquals(target, native.getAttribute("src"))
++                        assertNull(native.contentDocument, "The old readable document is gone; a pending about:blank load is not a refusal witness")
++                        assertTrue(owner.pageTitle.isNullOrEmpty(), "A refusal must not preserve a previous title or report the target page title")
++                        assertNotEquals(oldUrl, owner.lastLoadedUrl)
++                        assertNotEquals(target, owner.lastLoadedUrl, "Requested URL is not an observed successful destination")
++                        assertFalse(messages.contains("page|${fixture.token}|blocked-$mode"))
++                        owner.content = WebContent.Data(html("recovered-$mode"))
++                        assertSame(native, awaitDocument(owner, "recovered-$mode"))
++                        assertFalse(native.hasAttribute("src"))
++                        fixture.receipt() // A real later browser round trip, not a sleep-based denial witness.
++                        assertFalse(messages.contains("page|${fixture.token}|blocked-$mode"))
++                    }
++                    viewport.close()
++                    awaitCondition { owner.iframe == null && !native.isConnected }
++                } catch (error: Throwable) { primary = error; throw error }
++                finally { runWebViewCleanup(primary, { viewport.close() },
++                    { frame?.removeEventListener("load", loadListener) },
++                    { window.removeEventListener("message", messageListener) }) }
++            }
++        }
++    }
++
++    private suspend fun withFixture(block: suspend (Fixture) -> Unit) {
++        val fixture = Fixture()
++        var primary: Throwable? = null
++        try { block(fixture) } catch (error: Throwable) { primary = error; throw error }
++        finally { withContext(NonCancellable) {
++            try { fixture.close() } catch (cleanup: Throwable) {
++                val error = primary
++                if (error == null) throw cleanup
++                if (error !== cleanup) error.addSuppressed(cleanup)
++            }
++        } }
++    }
++
++    private fun html(stage: String) = "<!doctype html><title>$stage</title><p id='nativecmpkit-page'>$stage</p>" +
++        "<script>document.documentElement.setAttribute('data-nativecmpkit-ready','yes')</script>"
++    private fun snapshot(frame: HTMLIFrameElement) =
++        (0 until frame.attributes.length).map { index ->
++            val attribute = assertNotNull(frame.attributes.item(index))
++            attribute.name to attribute.value
++        }.sortedBy { it.first } to listOf(frame.contentDocument?.title,
++            frame.contentDocument?.getElementById("nativecmpkit-page")?.textContent)
++    private suspend fun awaitDocument(owner: WebViewState, stage: String): HTMLIFrameElement {
++        awaitCondition {
++            try {
++                val frame = owner.iframe
++                frame != null && frame.isConnected && frame.contentDocument?.title == stage &&
++                    frame.contentDocument?.documentElement?.getAttribute("data-nativecmpkit-ready") == "yes" &&
++                    frame.contentDocument?.getElementById("nativecmpkit-page")?.textContent == stage &&
++                    owner.pageTitle == stage && owner.loadingState == LoadingState.Finished
++            } catch (_: Throwable) { false } // The preceding cross-origin page can still be committed.
++        }
++        return assertNotNull(owner.iframe)
++    }
++    private suspend fun awaitCondition(check: () -> Boolean) = withTimeout(15_000) { while (!check()) delay(10) }
++
++    private class Fixture {
++        val token = "nck" + Random.nextInt(1_000_000_000).toString()
++        val crossOrigin: String
++        init {
++            check(window.location.protocol == "http:") { "Use Karma's owned HTTP fixture origin" }
++            val host = when (window.location.hostname) {
++                "localhost" -> "127.0.0.1"
++                "127.0.0.1" -> "localhost"
++                else -> error("No guessed or external fixture origin")
++            }
++            check(window.location.port.isNotEmpty())
++            crossOrigin = "http://$host:${window.location.port}"
++            check(crossOrigin != window.location.origin)
++        }
++        fun url(action: String, stage: String, crossOrigin: Boolean = false) =
++            "${if (crossOrigin) this.crossOrigin else window.location.origin}/nativecmpkit-iframe-fixture/$action?token=$token&stage=$stage"
++        suspend fun receipt(): List<String> = roundTrip("receipt").split('|').also {
++            assertEquals(7, it.size); assertEquals("receipt", it[0]); assertEquals(token, it[1])
++        }
++        suspend fun close() { assertEquals("closed|$token", roundTrip("close")) }
++        private suspend fun roundTrip(action: String): String {
++            val native = (document.createElement("iframe") as HTMLIFrameElement).apply { style.display = "none" }
++            val received = CompletableDeferred<String>()
++            val listener = browserEventListener { event ->
++                val message = event as? MessageEvent ?: return@browserEventListener
++                if (message.source === native.contentWindow && message.origin == window.location.origin) {
++                    if (message.isTrusted) received.complete(message.data.toString())
++                    else received.completeExceptionally(AssertionError("Synthetic fixture receipt"))
++                }
++            }
++            window.addEventListener("message", listener)
++            var primary: Throwable? = null
++            try {
++                native.src = url(action, "receipt")
++                document.body!!.appendChild(native)
++                return withTimeout(15_000) { received.await() }
++            } catch (error: Throwable) { primary = error; throw error }
++            finally { runWebViewCleanup(primary,
++                { window.removeEventListener("message", listener) }, { native.remove() }) }
++        }
++    }
++
++    /** Uses the same actual ComposeViewport disposal handle as the accepted identity fixtures. */
++    private class Viewport(content: @Composable () -> Unit) {
++        private val container = (document.createElement("div") as HTMLElement).apply {
++            style.width = "320px"; style.height = "240px"
++        }
++        private var releaseWindow: (() -> Unit)? = null
++        private var closed = false
++        init {
++            try {
++                document.body!!.appendChild(container)
++                ComposeViewport(container) {
++                    val composeWindow = checkNotNull(LocalComposeWindow.current)
++                    SideEffect {
++                        releaseWindow = { composeWindow.dispose() }
++                        if (closed) window.setTimeout({ releaseOnce(); null }, 0)
++                    }
++                    if (!closed) content()
++                }
++            } catch (error: Throwable) {
++                try { close() } catch (cleanup: Throwable) { if (cleanup !== error) error.addSuppressed(cleanup) }
++                throw error
++            }
++        }
++        private fun releaseOnce() { val release = releaseWindow ?: return; releaseWindow = null; release() }
++        fun close() { closed = true; try { releaseOnce() } finally { container.remove() } }
++    }
++}
+diff --git a/scripts/ci/library_tests.py b/scripts/ci/library_tests.py
+--- a/scripts/ci/library_tests.py
++++ b/scripts/ci/library_tests.py
+@@ -881,6 +881,36 @@
+     return [{"classname": ANDROID_POPUP_CLASS, "name": method} for method in ANDROID_POPUP_METHODS]
+ 
+ 
++WEBVIEW_CONTENT_FOCUS = "webview-browser-content-transitions"
++WEBVIEW_CONTENT_MODULE = "calf-webview"
++WEBVIEW_CONTENT_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest"
++WEBVIEW_CONTENT_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt"
++WEBVIEW_CONTENT_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js"
++WEBVIEW_CONTENT_METHODS = (
++    "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
++    "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument",
++)
++
++
++def webview_content_identities() -> list[dict]:
++    return [{"classname": WEBVIEW_CONTENT_CLASS, "name": method} for method in WEBVIEW_CONTENT_METHODS]
++
++
++def webview_content_case_inventory(suite: str, cases: list[dict]) -> bool:
++    if suite not in {"js", "wasm"}:
++        return False
++    classname = SUITES[suite][0] + "." + WEBVIEW_CONTENT_CLASS
++    target = "js" if suite == "js" else "wasmJs"
++    methods = []
++    for case in cases:
++        method, separator, suffix = case["name"].partition("[")
++        if (case["classname"] != classname or not separator or not re.fullmatch(
++                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
++            return False
++        methods.append(method)
++    return len(methods) == len(WEBVIEW_CONTENT_METHODS) and set(methods) == set(WEBVIEW_CONTENT_METHODS)
++
++
+ WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
+ WEBVIEW_IDENTITY_RECOVERY_FOCUS = "webview-public-identity-recovery"
+ WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-public-remount-recovery"
+@@ -1126,6 +1156,7 @@
+             (focus in ANDROID_CAMERA_FOCUSES and suite == "android-device" and modules == ("calf-camera-picker",)) or
+             (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
+             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
++            (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
+             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
+              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
+              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
+@@ -1555,6 +1586,22 @@
+         selected[0]["test_filter"] = ANDROID_POPUP_CLASS
+         selected[0]["required_testcases"] = android_popup_identities()
+         result["scope"] = "Three actual public Android Chromium popup/link/script/settings/back/replacement/cleanup methods only. Explicit deny-only default; raw false multiple-window mode navigates the current view. No child-window UI, accepted unrelated test replay, physical/minimum-platform/ABI/consumer/security/release certification."
++    elif focus == WEBVIEW_CONTENT_FOCUS:
++        source = safe_path(root, WEBVIEW_CONTENT_SOURCE).read_text(encoding="utf-8")
++        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
++        package, classname = WEBVIEW_CONTENT_CLASS.rsplit(".", 1)
++        if (len(methods) != len(WEBVIEW_CONTENT_METHODS) or set(methods) != set(WEBVIEW_CONTENT_METHODS) or
++                not re.search(r"\bclass\s+" + re.escape(classname) + r"\b", source) or
++                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
++                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
++                WEBVIEW_CONTENT_SOURCE not in selected[0]["test_source_files"] or
++                not safe_path(root, WEBVIEW_CONTENT_FIXTURE).is_file()):
++            raise ValueError("Browser WebView content declarations or owned HTTP fixture changed; review the exact two methods")
++        result["explicit_test_focus"] = focus
++        selected[0]["test_filter"] = WEBVIEW_CONTENT_CLASS
++        selected[0]["required_testcases"] = webview_content_identities()
++        selected[0]["browser_http_fixture"] = WEBVIEW_CONTENT_FIXTURE
++        result["scope"] = "Two exact public Compose iframe direct/remembered/navigator transition and genuine second-loopback-origin CSP/X-Frame-Options refusal methods only. Local Karma HTTP responses and native load/postMessage/DOM observations; no accepted browser replay, full suite, other engine, production server, packaged consumer, ABI, security or release certification."
+     elif focus in WEBVIEW_IDENTITY_FOCUSES:
+         spec = WEBVIEW_IDENTITY_SPECS[suite]
+         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
+@@ -1854,6 +1901,18 @@
+                 ANDROID_POPUP_SOURCE not in expected[0]["test_source_files"]):
+             raise ValueError("Invalid finite Android popup policy plan")
+         return True
++    if focus == WEBVIEW_CONTENT_FOCUS:
++        suite = test_plan["suite"]
++        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
++                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
++                expected[0]["module"] != WEBVIEW_CONTENT_MODULE or
++                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
++                expected[0].get("test_filter") != WEBVIEW_CONTENT_CLASS or
++                expected[0].get("required_testcases") != webview_content_identities() or
++                WEBVIEW_CONTENT_SOURCE not in expected[0]["test_source_files"] or
++                expected[0].get("browser_http_fixture") != WEBVIEW_CONTENT_FIXTURE):
++            raise ValueError("Invalid finite browser WebView content/HTTP-fixture plan")
++        return True
+     if focus in WEBVIEW_IDENTITY_FOCUSES:
+         suite = test_plan["suite"]
+         spec = WEBVIEW_IDENTITY_SPECS.get(suite)
+@@ -2051,7 +2110,9 @@
+                  "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver"):
+         inputs.update(source_files(root, tree))
+     for module in projects(root):
+-        for relative in (f"{module}/src", f"{module}/native", f"{module}/.cargo", f"{module}/gradle"):
++        # KGP appends module-owned Karma config fragments to browser task inputs.
++        # Hold the actual HTTP framing fixture, not only its Kotlin caller.
++        for relative in (f"{module}/src", f"{module}/native", f"{module}/.cargo", f"{module}/gradle", f"{module}/karma.config.d"):
+             inputs.update(source_files(root, relative))
+         for name in ("build.gradle.kts", "gradle.properties", "gradle.lockfile"):
+             path = safe_path(root, f"{module}/{name}")
+@@ -2241,6 +2302,12 @@
+             policy_errors = ([] if actual == required else
+                              ["Android popup XML must contain exactly all three selected native methods, no missing or unrelated cases"])
+             scenarios = [{**c, "source": ANDROID_POPUP_SOURCE, "required_on_host": True,
++                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
++                         for c in module_cases]
++        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_CONTENT_FOCUS:
++            policy_errors = ([] if webview_content_case_inventory(test_plan["suite"], module_cases) else
++                             ["Browser WebView content XML must contain exactly both methods with actual target identities"])
++            scenarios = [{**c, "source": WEBVIEW_CONTENT_SOURCE, "required_on_host": True,
+                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                          for c in module_cases]
+         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
+@@ -3007,7 +3074,7 @@
+     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
+     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
+     parser.add_argument("--focus", choices=list(dict.fromkeys([NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES,
+-                                           *WEBVIEW_IDENTITY_FOCUSES,
++                                           WEBVIEW_CONTENT_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,
+                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
+                                            IOS_SWITCH_CANCELLATION_FOCUS,
+                                            IOS_SWITCH_OWNERSHIP_FOCUS,
+diff --git a/scripts/ci/test_webview_content_focus.py b/scripts/ci/test_webview_content_focus.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/ci/test_webview_content_focus.py
+@@ -0,0 +1,239 @@
++"""Finite #63 iframe selection guards; synthetic tooling, not browser acceptance."""
++from collections import Counter
++import copy
++import json
++import os
++from pathlib import Path
++import re
++import subprocess
++import sys
++import tempfile
++import time
++import unittest
++from xml.etree import ElementTree as ET
++
++import library_tests as lt
++import workflow_matrix as matrix
++
++
++FOCUS = "webview-browser-content-transitions"
++PROFILE = "webview-content-transitions"
++CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest"
++SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt"
++FIXTURE = "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js"
++METHODS = (
++    "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
++    "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument",
++)
++
++
++class WebViewContentFocusTests(unittest.TestCase):
++    def plan(self, suite="js", root=lt.ROOT):
++        return lt.plan(root, suite, only_modules=("calf-webview",), focus=FOCUS)
++
++    def identities(self, suite):
++        target = "js" if suite == "js" else "wasmJs"
++        return [{"classname": lt.SUITES[suite][0] + "." + CLASS,
++                 "name": method + "[" + target + ", browser, ChromeHeadless synthetic-tooling]"}
++                for method in METHODS]
++
++    def source_root(self, directory):
++        root = Path(directory).resolve()
++        (root / "settings.gradle.kts").write_text('include(\n    ":calf-webview",\n)\n')
++        build = root / "calf-webview/build.gradle.kts"
++        build.parent.mkdir()
++        build.write_text("// Synthetic discovery model, never built\n")
++        for relative in (SOURCE, FIXTURE):
++            path = root / relative
++            path.parent.mkdir(parents=True, exist_ok=True)
++            path.write_bytes((lt.ROOT / relative).read_bytes())
++        return root
++
++    def collect(self, suite, cases=None, outcome="", markers=1, stale=False, duplicate=False):
++        plan = self.plan(suite)
++        with tempfile.TemporaryDirectory() as directory:
++            root = Path(directory)
++            selected, = plan["expected"]
++            folder = root / selected["report_directory"]
++            folder.mkdir(parents=True)
++            xml = ET.Element("testsuite")
++            for case in self.identities(suite) if cases is None else cases:
++                node = ET.SubElement(xml, "testcase", **case)
++                if outcome:
++                    ET.SubElement(node, outcome)
++            path = folder / "TEST-explicitly-synthetic.xml"
++            path.write_bytes(ET.tostring(xml))
++            if duplicate:
++                (folder / "TEST-duplicate.xml").write_bytes(path.read_bytes())
++            now = time.time_ns()
++            if stale:
++                os.utime(path, ns=(now - 20_000_000_000, now - 20_000_000_000))
++            return lt.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000,
++                                      Counter({selected["task"]: markers}), host_system="Linux")
++
++    def test_finite_profile_has_only_two_browser_targets_and_keeps_full_and_android_inventories(self):
++        self.assertIn(PROFILE, matrix.PROFILES)
++        rows = matrix.matrix(PROFILE)["include"]
++        self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in rows])
++        self.assertTrue(all(row["test-modules"] == "calf-webview" and row["test-focus"] == FOCUS for row in rows))
++        self.assertEqual(4, sum(len(self.plan(row["suite"])["expected"][0]["required_testcases"]) for row in rows))
++        self.assertEqual({"desktop-linux-x64", "android-host", "browser-js", "browser-wasm",
++                          "desktop-macos-arm64", "ios-iphone", "desktop-windows-x64", "desktop-linux-arm64",
++                          "desktop-macos-x64", "ios-ipad", "android-device-api35"},
++                         {row["slot"] for row in matrix.matrix("all")["include"]})
++        self.assertEqual(("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
++                          "calf-navigation", "calf-share", "calf-camera-picker"), lt.MINIMUM_MODULES["android-device"])
++        for profile in ("all", "browser", "webview-browser", "webview-wasm", "core", "android-device"):
++            self.assertTrue(all("test-focus" not in row for row in matrix.matrix(profile)["include"]))
++
++    def test_exact_two_method_plan_holds_owned_http_fixture_and_uses_existing_gradle_filter_transport(self):
++        for suite in ("js", "wasm"):
++            plan = self.plan(suite)
++            selected, = plan["expected"]
++            self.assertTrue(lt.validate_test_focus(plan))
++            self.assertFalse(plan["complete_suite_requested"])
++            self.assertEqual(":calf-webview:" + lt.SUITES[suite][0], selected["task"])
++            self.assertEqual(CLASS, selected["test_filter"])
++            self.assertEqual([{"classname": CLASS, "name": method} for method in METHODS], selected["required_testcases"])
++            self.assertEqual(FIXTURE, selected["browser_http_fixture"])
++            self.assertIn(SOURCE, selected["test_source_files"])
++            command = lt.gradle_command(suite, plan)
++            self.assertEqual(1, command.count("--tests"))
++            self.assertEqual(CLASS, command[command.index("--tests") + 1])
++            self.assertNotIn("publish", " ".join(command))
++
++    def test_real_readonly_cli_accepts_only_exact_browser_suite_module_and_focus(self):
++        for suite in ("js", "wasm"):
++            command = [sys.executable, "-B", str(lt.ROOT / "scripts/ci/library_tests.py"), "plan",
++                       "--suite", suite, "--module", "calf-webview", "--focus", FOCUS]
++            result = subprocess.run(command, cwd=lt.ROOT, capture_output=True, text=True, timeout=30)
++            self.assertEqual(0, result.returncode, result.stderr)
++            self.assertEqual(self.plan(suite), json.loads(result.stdout))
++        result = subprocess.run(command[:-1] + ["unreviewed-wildcard"], cwd=lt.ROOT,
++                                capture_output=True, text=True, timeout=30)
++        self.assertNotEqual(0, result.returncode)
++
++    def test_wrong_suite_module_filter_task_inventory_source_fixture_and_full_claim_are_rejected(self):
++        for suite, modules in (("ios", ("calf-webview",)), ("desktop", ("calf-webview",)),
++                               ("android-host", ("calf-webview",)), ("android-device", ("calf-webview",)),
++                               ("js", None), ("wasm", ("calf-io",)), ("js", ("calf-webview", "calf-ui"))):
++            with self.assertRaises(ValueError):
++                lt.plan(lt.ROOT, suite, only_modules=modules, focus=FOCUS)
++        for suite in ("js", "wasm"):
++            for key, value in (("module", "calf-ui"), ("task", ":calf-webview:publish"), ("test_filter", "*"),
++                               ("required_testcases", []), ("test_source_files", []), ("browser_http_fixture", "foreign.js")):
++                plan = self.plan(suite)
++                plan["expected"][0][key] = value
++                with self.assertRaises(ValueError):
++                    lt.validate_test_focus(plan)
++            plan = self.plan(suite)
++            plan["complete_suite_requested"] = True
++            with self.assertRaises(ValueError):
++                lt.validate_test_focus(plan)
++
++    def test_exact_native_target_class_and_name_inventories_have_fresh_nonzero_synthetic_xml(self):
++        for suite in ("js", "wasm"):
++            result = self.collect(suite)
++            self.assertEqual([], result["errors"], result["errors"])
++            self.assertEqual(2, result["totals"]["passed"])
++            self.assertEqual(2, len(result["modules"][0]["native_scenarios"]))
++            self.assertTrue(all(c["source"] == SOURCE for c in result["modules"][0]["native_scenarios"]))
++
++    def test_missing_extra_duplicate_foreign_class_and_wrong_target_xml_cannot_be_laundered(self):
++        for suite in ("js", "wasm"):
++            cases = self.identities(suite)
++            variants = [[], cases[:-1], cases * 2, cases + [{**cases[0], "name": "unrelated"}]]
++            for key, value in (("classname", "Foreign.AcceptanceTest"), ("classname", CLASS),
++                               ("name", "unrelated"), ("name", METHODS[0] + "[desktop]"),
++                               ("name", METHODS[0] + "[wasmJs" if suite == "js" else METHODS[0] + "[js")):
++                changed = copy.deepcopy(cases)
++                changed[0][key] = value
++                variants.append(changed)
++            other = self.identities("wasm" if suite == "js" else "js")
++            variants.append(other)
++            for changed in variants:
++                with self.subTest(suite=suite, cases=changed):
++                    self.assertTrue(self.collect(suite, cases=changed)["errors"])
++
++    def test_failed_skipped_errored_stale_duplicate_reports_and_wrong_markers_stay_red(self):
++        for suite in ("js", "wasm"):
++            for changed in ({"outcome": "failure"}, {"outcome": "error"}, {"outcome": "skipped"},
++                            {"stale": True}, {"duplicate": True}, {"markers": 0}, {"markers": 2}):
++                with self.subTest(suite=suite, changed=changed):
++                    self.assertTrue(self.collect(suite, **changed)["errors"])
++
++    def test_valid_source_precedes_missing_renamed_extra_or_ignored_declaration_refusal(self):
++        for suite in ("js", "wasm"):
++            with tempfile.TemporaryDirectory() as directory:
++                root = self.source_root(directory)
++                self.assertTrue(lt.validate_test_focus(self.plan(suite, root)))
++                path = root / SOURCE
++                original = path.read_text()
++                for changed in (original.replace(METHODS[0], "wrongMethod", 1), original + "\n@Test fun extra() {}\n",
++                                original.replace("@Test", "@Ignore @Test", 1),
++                                original.replace("@Test", "@IgnoredTest", 1)):
++                    path.write_text(changed)
++                    with self.assertRaises(ValueError):
++                        self.plan(suite, root)
++                path.write_text(original)
++                self.assertTrue(lt.validate_test_focus(self.plan(suite, root)))
++                path.unlink()
++                with self.assertRaises(ValueError):
++                    self.plan(suite, root)
++
++    def test_owned_karma_fixture_is_required_confined_and_hashed_as_an_actual_build_input(self):
++        with tempfile.TemporaryDirectory() as directory:
++            root = self.source_root(directory)
++            self.assertTrue(lt.validate_test_focus(self.plan("js", root)))
++            before = lt.snapshot_inputs(root)
++            self.assertIn(FIXTURE, before)
++            path = root / FIXTURE
++            path.write_text(path.read_text() + "\n// Explicit synthetic mutation\n")
++            after = lt.snapshot_inputs(root)
++            self.assertNotEqual(before[FIXTURE], after[FIXTURE])
++            self.assertNotEqual(lt.input_digest(before), lt.input_digest(after))
++            path.unlink()
++            with self.assertRaises(ValueError):
++                self.plan("js", root)
++            path.symlink_to(root / SOURCE)
++            with self.assertRaises(ValueError):
++                self.plan("wasm", root)
++            with self.assertRaises(ValueError):
++                lt.snapshot_inputs(root)
++
++    def test_owning_methods_use_real_public_dom_loads_headers_messages_and_preserved_cleanup(self):
++        source = (lt.ROOT / SOURCE).read_text()
++        for required in ("ComposeViewport", "WebView(", "rememberWebViewState(", "rememberWebViewStateWithHTMLData(",
++                         "owner.content = WebContent.Data", "owner.content = WebContent.Url", "navigator.loadUrl",
++                         "navigator.loadHtml", "snapshot(frame)", "frame.attributes", "native.contentDocument == null",
++                         "contentDocument?.title", "owner.pageTitle",
++                         "owner.lastLoadedUrl", "event.isTrusted", "message.isTrusted", "message.source", "message.origin",
++                         "fixture.receipt()", "NonCancellable", "error.addSuppressed(cleanup)", "composeWindow.dispose()"):
++            self.assertIn(required, source)
++        for forbidden in ("dispatchEvent(", "@Ignore", "assumeTrue(", "assumeFalse(", "BrowserWebViewOwner("):
++            self.assertNotIn(forbidden, source)
++        self.assertNotRegex(source, r"(?m)^import\s+[^\n]*\bsample\.")
++        fixture = (lt.ROOT / FIXTURE).read_text()
++        for required in ("sessions.size >= 64", "request.method !== 'GET'", "'no-store'",
++                         "'Content-Security-Policy'", "frame-ancestors 'none'", "'X-Frame-Options'", "'DENY'",
++                         "response.getHeader(", "sessions.delete(token)", "middleware:nativecmpkit-iframe-fixture"):
++            self.assertIn(required, fixture)
++        for forbidden in ("require(", "child_process", "fetch(", "https://", "file://"):
++            self.assertNotIn(forbidden, fixture)
++
++    def test_workflow_serializes_only_new_profile_and_retains_readonly_evidence_boundaries(self):
++        workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
++        options = re.search(r"options: \[([^\n]+)\]", workflow).group(1)
++        self.assertIn(PROFILE, {option.strip() for option in options.split(",")})
++        library_job = workflow.split("\n  library-tests:\n", 1)[1].split("\n  consumer-core-io:\n", 1)[0]
++        self.assertIn("|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}", library_job)
++        self.assertIn("fail-fast: false", library_job)
++        self.assertIn("permissions:\n  contents: read", workflow)
++        self.assertIn("persist-credentials: false", library_job)
++        upload = library_job.split("- name: Keep receipts and actual selected-task XML", 1)[1]
++        for forbidden in ("*.jar", "*.aar", "*.apk", "*.kexe", "*.app", "*.hprof"):
++            self.assertNotIn(forbidden, upload)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/scripts/ci/test_workflow_source.py b/scripts/ci/test_workflow_source.py
+--- a/scripts/ci/test_workflow_source.py
++++ b/scripts/ci/test_workflow_source.py
+@@ -148,7 +148,7 @@
+     def test_focused_four_runtime_matrix_can_coexist_with_one_native_application_job(self):
+         source = WORKFLOW.read_text()
+         self.assertIn("max-parallel: " + chr(36) +
+-                      "{{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state') && 1 || 2 }}", source)
++                      "{{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}", source)
+         self.assertIn("fail-fast: false", source)
+         self.assertEqual(4, len(workflow_matrix.matrix("navigation-geo-matrix")["include"]))
+         self.assertEqual(2, len(workflow_matrix.matrix("browser-coil-io")["include"]))
+diff --git a/scripts/ci/workflow_matrix.py b/scripts/ci/workflow_matrix.py
+--- a/scripts/ci/workflow_matrix.py
++++ b/scripts/ci/workflow_matrix.py
+@@ -40,6 +40,7 @@
+     "browser-coil-io-js": ("browser-js",),
+     "browser-coil-io-wasm": ("browser-wasm",),
+     "webview-browser": ("browser-js", "browser-wasm"),
++    "webview-content-transitions": ("browser-js", "browser-wasm"),
+     "webview-wasm": ("browser-wasm",),
+     "share-browser": ("browser-js", "browser-wasm"),
+     "ui-date-browser": ("browser-js", "browser-wasm"),
+@@ -171,6 +172,8 @@
+     "browser-coil-io-wasm": "calf-file-picker-coil",
+     # Real public WebView/Compose viewport disposal on both browser backends only.
+     "webview-browser": "calf-webview",
++    # Two missing original iframe criteria methods only; accepted Browser004 stays reusable.
++    "webview-content-transitions": "calf-webview",
+     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
+     "webview-wasm": "calf-webview",
+     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
+@@ -323,6 +326,9 @@
+     if profile == "android-share-grants":
+         for row in rows:
+             row["test-focus"] = "android-share-uri-grants"
++    if profile == "webview-content-transitions":
++        for row in rows:
++            row["test-focus"] = "webview-browser-content-transitions"
+     if profile.startswith("webview-identity"):
+         for row in rows:
+             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

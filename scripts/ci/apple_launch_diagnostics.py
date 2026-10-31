@@ -26,6 +26,20 @@ FIXED_CATEGORIES = {
     "required-entitlement-missing": r"\bmissing required entitlement\b|\brequired entitlement is missing\b",
     "application-unregistered": r"\bapplication is not registered\b|\bno such application\b",
 }
+MAX_ERROR_IDENTITIES = 16
+# NSError codes are domain-specific. Retain observations from fixed Foundation
+# and launch-service domains; do not serialize arbitrary private domain strings
+# or infer a causal chain from their order in a localized diagnostic message.
+ERROR_DOMAINS = {
+    "FBSOpenApplicationServiceErrorDomain", "FBSOpenApplicationErrorDomain",
+    "RBSRequestErrorDomain", "RBSErrorDomain", "NSPOSIXErrorDomain",
+    "NSMachErrorDomain", "NSOSStatusErrorDomain", "NSCocoaErrorDomain",
+}
+ERROR_DOMAIN_PATTERN = "(?:" + "|".join(re.escape(name) for name in sorted(ERROR_DOMAINS)) + ")"
+ERROR_IDENTITY_PATTERN = re.compile(
+    r"(?<![A-Za-z0-9_.-])(?:Error[ \t]+Domain=(" + ERROR_DOMAIN_PATTERN +
+    r")[ \t]+Code=(-?[0-9]{1,10})(?![A-Za-z0-9_.-])|\(domain=(" + ERROR_DOMAIN_PATTERN +
+    r"),[ \t]*code=(-?[0-9]{1,10})\))")
 
 
 def timestamp(text: str) -> dt.datetime:
@@ -60,7 +74,7 @@ def summarize(payload: bytes, bundle: str, started: str, ended: str) -> dict:
         raise ValueError("Expected bounded system-log event array")
     token = re.compile(r"(?<![A-Za-z0-9_.-])" + re.escape(bundle) + r"(?![A-Za-z0-9_.-])")
     count, rejected = 0, 0
-    processes, categories = set(), set()
+    processes, categories, error_identities = set(), set(), set()
     for row in rows:
         if not isinstance(row, dict):
             raise ValueError("Expected actual system-log event object")
@@ -76,9 +90,19 @@ def summarize(payload: bytes, bundle: str, started: str, ended: str) -> dict:
         count += 1
         processes.add(process)
         categories.update(name for name, pattern in FIXED_CATEGORIES.items() if re.search(pattern, message, re.I))
+        for match in ERROR_IDENTITY_PATTERN.finditer(message):
+            domain, code = ((match[1], match[2]) if match[1] is not None else (match[3], match[4]))
+            code = int(code)
+            if not -(2**31) <= code < 2**31:
+                raise ValueError("Unbounded owned launch-error numeric identity")
+            error_identities.add((domain, code))
+            if len(error_identities) > MAX_ERROR_IDENTITIES:
+                raise ValueError("Unbounded owned launch-error identity set")
     return {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest(),
             "events_examined": len(rows), "owned_system_rows": count, "rejected_events": rejected,
             "system_process_names": sorted(processes), "matched_fixed_categories": sorted(categories),
+            "observed_error_identities": [{"domain": domain, "code": code}
+                                          for domain, code in sorted(error_identities)],
             "raw_messages_paths_or_log_uploaded": False, "root_cause_proven": False,
             "native_functionality_verified": False}
 

@@ -94,7 +94,11 @@ class CameraRestorationVerificationActivity : ComponentActivity() {
         check(intent.action == MediaStore.ACTION_IMAGE_CAPTURE && intent.component == null)
         check(intent.`package` == null && intent.selector == null)
         check(intent.data == null && intent.type == null && intent.categories == null)
-        check(intent.clipData == null && intent.flags == 0 && requestCode > 0)
+        check(intent.clipData == null && requestCode > 0)
+        // Pinned AndroidX Activity1.13.0 TakePicture supplies READ|WRITE grants.
+        // Inspect exact original bits; Android still owns EXTRA_OUTPUT/ClipData migration.
+        check(intent.flags == (Intent.FLAG_GRANT_READ_URI_PERMISSION or
+            Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
         val uri = checkNotNull(intent.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT))
         check(uri.scheme == "content" && uri.authority == "$packageName.camera-files")
         check(uri.pathSegments.size == 2 && uri.pathSegments[0] == "camera")

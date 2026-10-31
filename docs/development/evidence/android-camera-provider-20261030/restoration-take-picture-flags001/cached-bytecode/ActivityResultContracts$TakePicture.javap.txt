@@ -1,0 +1,81 @@
+Compiled from "ActivityResultContracts.kt"
+public class androidx.activity.result.contract.ActivityResultContracts$TakePicture extends androidx.activity.result.contract.ActivityResultContract<android.net.Uri, java.lang.Boolean> {
+  public androidx.activity.result.contract.ActivityResultContracts$TakePicture();
+    Code:
+       0: aload_0
+       1: invokespecial #9                  // Method androidx/activity/result/contract/ActivityResultContract."<init>":()V
+       4: return
+
+  public android.content.Intent createIntent(android.content.Context, android.net.Uri);
+    Code:
+       0: aload_1
+       1: ldc           #17                 // String context
+       3: invokestatic  #23                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+       6: aload_2
+       7: ldc           #25                 // String input
+       9: invokestatic  #23                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+      12: new           #27                 // class android/content/Intent
+      15: dup
+      16: ldc           #29                 // String android.media.action.IMAGE_CAPTURE
+      18: invokespecial #32                 // Method android/content/Intent."<init>":(Ljava/lang/String;)V
+      21: ldc           #34                 // String output
+      23: aload_2
+      24: checkcast     #36                 // class android/os/Parcelable
+      27: invokevirtual #40                 // Method android/content/Intent.putExtra:(Ljava/lang/String;Landroid/os/Parcelable;)Landroid/content/Intent;
+      30: iconst_1
+      31: invokevirtual #44                 // Method android/content/Intent.addFlags:(I)Landroid/content/Intent;
+      34: iconst_2
+      35: invokevirtual #44                 // Method android/content/Intent.addFlags:(I)Landroid/content/Intent;
+      38: dup
+      39: ldc           #46                 // String addFlags(...)
+      41: invokestatic  #49                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullExpressionValue:(Ljava/lang/Object;Ljava/lang/String;)V
+      44: areturn
+
+  public final androidx.activity.result.contract.ActivityResultContract$SynchronousResult<java.lang.Boolean> getSynchronousResult(android.content.Context, android.net.Uri);
+    Code:
+       0: aload_1
+       1: ldc           #17                 // String context
+       3: invokestatic  #23                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+       6: aload_2
+       7: ldc           #25                 // String input
+       9: invokestatic  #23                 // Method kotlin/jvm/internal/Intrinsics.checkNotNullParameter:(Ljava/lang/Object;Ljava/lang/String;)V
+      12: aconst_null
+      13: areturn
+
+  public final java.lang.Boolean parseResult(int, android.content.Intent);
+    Code:
+       0: iload_1
+       1: iconst_m1
+       2: if_icmpne     9
+       5: iconst_1
+       6: goto          10
+       9: iconst_0
+      10: invokestatic  #63                 // Method java/lang/Boolean.valueOf:(Z)Ljava/lang/Boolean;
+      13: areturn
+
+  public android.content.Intent createIntent(android.content.Context, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: checkcast     #70                 // class android/net/Uri
+       6: invokevirtual #72                 // Method createIntent:(Landroid/content/Context;Landroid/net/Uri;)Landroid/content/Intent;
+       9: areturn
+
+  public androidx.activity.result.contract.ActivityResultContract$SynchronousResult getSynchronousResult(android.content.Context, java.lang.Object);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: aload_2
+       3: checkcast     #70                 // class android/net/Uri
+       6: invokevirtual #76                 // Method getSynchronousResult:(Landroid/content/Context;Landroid/net/Uri;)Landroidx/activity/result/contract/ActivityResultContract$SynchronousResult;
+       9: areturn
+
+  public java.lang.Object parseResult(int, android.content.Intent);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: aload_2
+       3: invokevirtual #79                 // Method parseResult:(ILandroid/content/Intent;)Ljava/lang/Boolean;
+       6: areturn
+}

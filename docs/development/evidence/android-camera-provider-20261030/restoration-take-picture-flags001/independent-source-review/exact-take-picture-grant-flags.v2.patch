@@ -1,0 +1,42 @@
+--- a/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt
++++ b/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt
+@@ -94,7 +94,11 @@
+         check(intent.action == MediaStore.ACTION_IMAGE_CAPTURE && intent.component == null)
+         check(intent.`package` == null && intent.selector == null)
+         check(intent.data == null && intent.type == null && intent.categories == null)
+-        check(intent.clipData == null && intent.flags == 0 && requestCode > 0)
++        check(intent.clipData == null && requestCode > 0)
++        // Pinned AndroidX Activity1.13.0 TakePicture supplies READ|WRITE grants.
++        // Inspect exact original bits; Android still owns EXTRA_OUTPUT/ClipData migration.
++        check(intent.flags == (Intent.FLAG_GRANT_READ_URI_PERMISSION or
++            Intent.FLAG_GRANT_WRITE_URI_PERMISSION))
+         val uri = checkNotNull(intent.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT))
+         check(uri.scheme == "content" && uri.authority == "$packageName.camera-files")
+         check(uri.pathSegments.size == 2 && uri.pathSegments[0] == "camera")
+--- a/scripts/ci/test_android_camera_provider.py
++++ b/scripts/ci/test_android_camera_provider.py
+@@ -515,10 +515,23 @@
+         self.assertIn("override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?)", client)
+         self.assertIn("super.startActivityForResult(Intent(intent).setComponent(recipient), requestCode, options)", client)
+         for forbidden in ("LocalActivityResultRegistryOwner", "object : ActivityResultRegistry", "dispatchResult(",
+-                          "onActivityResult(", "grantUriPermission(", "setClipData(", "FLAG_GRANT_"):
++                          "onActivityResult(", "grantUriPermission(", "setClipData(",
++                          ".addFlags(", ".setFlags("):
+             self.assertNotIn(forbidden, client)
++        self.assertNotRegex(client, r"intent\.(?:flags|clipData)\s*=(?!=)")
+         self.assertIn("super.onSaveInstanceState(state)", client)
+         self.assertIn("rememberCameraPickerResultLauncher(", client)
++
++    def test_pinned_take_picture_read_write_grant_flags_are_checked_exactly_before_selection(self):
++        _, client = self.sources()
++        body = client.split("override fun startActivityForResult", 1)[1].split("override fun onCreate", 1)[0]
++        compact = " ".join(body.split())
++        self.assertIn("check(intent.flags == (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))", compact)
++        self.assertIn("intent.clipData == null && requestCode > 0", body)
++        for forbidden in ("intent.flags == 0", "intent.flags and", "FLAG_GRANT_PERSISTABLE_URI_PERMISSION",
++                          "FLAG_GRANT_PREFIX_URI_PERMISSION"):
++            self.assertNotIn(forbidden, body)
++        self.assertLess(body.index("check(intent.flags"), body.index("super.startActivityForResult("))
+ 
+     def test_original_take_picture_action_and_owned_content_output_are_checked_before_selection(self):
+         _, client = self.sources()

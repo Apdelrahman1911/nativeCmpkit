@@ -1,0 +1,55 @@
+{
+  "acceptance_requirement": "Review fresh original JS/Wasm XML, exactly-once task markers, actual Chrome runtime, selected source/input hashes before/after and all original three criteria; private synthetic success cannot close the issue.",
+  "combined_heavy_limit_requires_lead_coordination": 2,
+  "compiler_tasks_executed": 0,
+  "dispatch_executed": false,
+  "finding": "NATIVE-004",
+  "fresh_browser_tests_executed": 0,
+  "held_candidate_files": {
+    "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js": "6f1d3082bfc5cde7a14596c01fa70f0f5c37e82c7ed2098b6596f43376ec9a39",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt": "82607c7c2782127efdff8c46e55e6f983896521a8274b37cc549a9c132921083"
+  },
+  "http_fixture": "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js",
+  "issue": 63,
+  "matrix": {
+    "include": [
+      {
+        "arch": "x64",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "browser-js",
+        "suite": "js",
+        "test-focus": "webview-browser-content-transitions",
+        "test-modules": "calf-webview"
+      },
+      {
+        "arch": "x64",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "browser-wasm",
+        "suite": "wasm",
+        "test-focus": "webview-browser-content-transitions",
+        "test-modules": "calf-webview"
+      }
+    ]
+  },
+  "maximum_parallel_library_jobs": 1,
+  "operation": "private proposal only",
+  "profile": "webview-content-transitions",
+  "ref": null,
+  "ref_requirement": "A newly reviewed immutable commit containing this candidate; current HEAD does not contain the new tests.",
+  "reserve_mib": 8192,
+  "selected_cases_per_target": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+      "name": "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest",
+      "name": "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument"
+    }
+  ],
+  "test_source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt",
+  "total_requested_browser_executions": 4,
+  "workflow": ".github/workflows/gradle.yml"
+}

@@ -1,5 +1,56 @@
 # NativeCmpKit development after the audit
 
+## Important camera/browser/Apple batch prepared — 2026-10-31
+
+[Actual camera41238298009](evidence/android-camera-provider-20261030/restoration-ci007/README.md)
+has concluded **failure:0/4**, not the nonterminal state recorded below. Shell
+entry passes, then all four report `failed-launch`; actual caught exception site
+is unknown. All989/1066 exact Git inputs, installed receiver identity and owned
+cleanup are independently reviewed. Twenty cumulative restoration executions,
+zero accepted; #13 remains open.
+
+[Exact pinned AndroidX flags repair](evidence/android-camera-provider-20261030/restoration-take-picture-flags001/README.md)
+preserves real launch/grants/registry and four native assertions.67 focused checks
+pass. [One bounded three-task build](evidence/camera-browser-fixtures-20261031/README.md)
+passes0/58.01s with994/1071 held inputs: camera reporter APK and JS/Wasm browser
+test compilation. The initial missing-rustc preflight is preserved; **zero new
+native/browser tests**. [New browser content fixtures](evidence/browser-content-contracts-20261031/README.md)
+and18 distinct source/tooling guards prepare four real JS/Wasm executions for
+the three original #63 criteria. No successful original browser methods replayed.
+
+[Apple allocation-frame ownership repair](evidence/apple-allocation-frame-ownership-20261031/README.md)
+is now integrated and21 modeled checks pass. It is not actual owned allocation
+or same-PID zero-leak evidence; #141 and actual launch cause remain open/unknown.
+Its prior diagnostic16 checks remain modeled, not new Apple executions. Exact
+cache-hit/restore/post-work/save-skipped evidence does not close #40 supply-chain
+verification. IO lifecycle/native provider hooks remain private pending review.
+
+No issue closure this batch yet:90closed/82open/172total; audit30implemented/
+40partial/88verified/six unresolved. Lead owns immutable requests and closes
+verified subsets immediately after original-criteria/source/results review.
+Parallel disjoint work, serial local builds,8GiB reserve/max2heavy and all
+publishing/Pages/main/history/native/consumer/ABI/legal/security gates remain.
+
+## Earlier parallel continuation — 2026-10-31
+
+The owner's latest amendment authorizes useful disjoint parallel agents; the lead
+integrates changes and owns immutable verification and immediate verified-subset
+closures. Local builds remain serial with8GiB reserve; at most two combined heavy
+requests, read-only verification tokens and all publishing/security gates remain.
+
+Camera restoration [41238298009](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41238298009)
+at61003963 requests only its four still-unverified API35 cases. Nonterminal request
+is not acceptance; #13 remains open pending source/results/original-criteria review.
+[Apple diagnostic observations](evidence/apple-launch-error-identities-20261031/README.md)
+pass sixteen distinct modeled checks, zero Apple/profile executions; an independent
+allocation-frame ownership correction is required before the next profile request.
+All16 open Calf issues already have unique current contexts in the
+[fresh upstream review](upstream-refresh-20261031T195715Z/README.md); zero imports
+or source-driven closures required. Original
+[author bytes and whitespace red/green](evidence/upstream-refresh-attributes-20261031/README.md)
+remain preserved. Last independently reconciled counts:90closed/82open/172total;
+no new closure or release/security clearance is inferred from this preparation.
+
 ## Exact-primary cache guard recovery — 2026-10-30
 
 Actual [41111395809](evidence/android-camera-provider-20261030/restoration-ci005/README.md)

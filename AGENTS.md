@@ -13,7 +13,31 @@ compete for the same files. Publishing/Pages/main/history/security/readiness gat
 are unchanged. Use important-test batches and close verified subsets immediately
 after original-criteria/source/results review, before follow-up documentation.
 
-## Current protected-entry / atomic-observation camera batch — 2026-10-31
+## Important camera/browser compilation and Apple correlation — 2026-10-31
+
+Actual [41238298009](docs/development/evidence/android-camera-provider-20261030/restoration-ci007/README.md)
+at61003963 FAILS4/4 API35 restoration methods/one XML/Gradle1/62.02s:
+shell entry passes, then `failed-launch`; caught exception site remains unknown.
+Twenty cumulative restoration executions/ZERO accepted. Exact989/1066 Git inputs,
+installed receiver and owned graceful cleanup independently reviewed. Cache exact
+hit/restore/post-work/save-skipped are observed separately, not speedup/#40 trust.
+[Pinned TakePicture flags repair](docs/development/evidence/android-camera-provider-20261030/restoration-take-picture-flags001/README.md)
+requires original READ|WRITE3 instead of0; no flag/ClipData/manual-grant/registry
+mutation, production change or weakened four native methods.67 important methods
+pass. [Three-task compile](docs/development/evidence/camera-browser-fixtures-20261031/README.md)
+passes0/58.01s on held994/1071 inputs: camera reporter and browser JS/Wasm tests;
+ZERO native/browser executions. Retain initial rustc-PATH preflight failure.
+[Browser two-method/four-target-execution fixture](docs/development/evidence/browser-content-contracts-20261031/README.md)
+passes18 distinct important guards/Actionlint, not browser/CSP/XFO acceptance.
+[Apple frame correlation](docs/development/evidence/apple-allocation-frame-ownership-20261031/README.md)
+rejects foreign basenames without exact same-field namespace;8new+13related modeled
+methods pass, not actual Instruments/leaks. Fixed error-domain/code observations
+remain one owned query; native cause unknown. #13/#63/#141/#40 remain open;
+90closed/82open172total. Four failed camera cases and finite failed-image profile
+only next; IO hooks stay private until reviewed. Publishing/Pages/main/history/
+minimum/consumer/ABI/dependency/legal/security/readiness and capacity gates stay.
+
+## Earlier protected-entry / atomic-observation camera batch — 2026-10-31
 
 [Actual41112748929](docs/development/evidence/android-camera-provider-20261030/restoration-ci006/README.md)
 at0e5bfccf FAILS4/4 native/one XML/Gradle1/49.01s: own-client Status stdout empty;
@@ -1874,13 +1898,13 @@ with minimum permissions; routine development, dependency acquisition and CI
 verification do not require further approval. Existing exact action references
 may remain for reproducibility, but must not be imposed as an owner-mandated
 allowlist or repository requirement. This supersedes earlier disabled-Actions
-and six-action allowlist instructions; the current single-agent policy follows.
+and six-action allowlist instructions. Parallel execution follows the later
+2026-10-31 amendment at the beginning of this file.
 
-Earlier on **2026-10-27**, the owner optionally authorized up to two subagents.
-The subsequently supplied maintainer instructions for this contained continuation
-require **single-agent execution**: do not spawn, resume or delegate to subagents.
-Retain earlier handoffs as history. The lead owns integration and Git/GitHub
-mutations; verification requirements and publishing/security gates are unchanged.
+The earlier **2026-10-27** two-agent/solo instructions are historical. The owner's
+latest **2026-10-31** instruction authorizes useful disjoint parallel agents within
+capacity. The lead owns integration and Git/GitHub mutations; serial local builds,
+the two-heavy-request limit and publishing/security gates are unchanged.
 
 The same later decision names the library **NativeCmpKit**. Use that spelling
 for current display/root-project/POM identities. Keep lowercase Maven coordinates,
@@ -2781,8 +2805,8 @@ being unpublished.
 
 Read `docs/development/containment.md` and `docs/development/README.md` before
 continuing post-audit work. Current containment permits autonomous verification
-Actions with all actions allowed and no required SHA pinning, with single-agent
-execution under the supplied current maintainer instructions. Publishing, releases and Pages
+Actions with all actions allowed and no required SHA pinning, with useful disjoint
+parallel agents under the owner's 2026-10-31 amendment. Publishing, releases and Pages
 remain gated. Changes are additive
 on `development/preview-hardening`; main preserves the completed issue-sync point.
 The historical CI run above does not validate these later source changes.

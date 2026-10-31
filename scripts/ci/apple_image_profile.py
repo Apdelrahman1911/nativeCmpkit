@@ -25,6 +25,13 @@ import library_tests as lt
 import runtime_context as runtime
 
 NATIVE_SYMBOLS = ("com.mohamedrejeb.calf.ui.utils", "UIImageMemoryDiagnosticsTest", "ImageUtils.kt")
+# A basename or unqualified test class cannot own an allocation frame. Require
+# the complete namespace in the same frame field; optional labels are whole symbols.
+NATIVE_FRAME_SYMBOL_PATTERNS = (
+    re.compile(r"(?<![\w.$])" + re.escape(NATIVE_SYMBOLS[0]) + r"(?=$|[.#(:\s])"),
+    re.compile(r"(?<![\w$])" + re.escape(NATIVE_SYMBOLS[1]) + r"(?![\w$])"),
+    re.compile(r"(?<![\w.$])" + re.escape(NATIVE_SYMBOLS[2]) + r"(?![\w.$])"),
+)
 DARWIN_REQUESTS = {"MallocScribble": "1", "MallocGuardEdges": "1", "MallocErrorAbort": "1",
                    "MallocStackLogging": "1"}
 ATTEMPT_SECONDS = 180
@@ -136,7 +143,9 @@ def allocation_summary(path: Path) -> dict:
                 # explicit frame/backtrace references) establish correlation.
                 # Symbol-bearing metadata beside an unrelated row is not evidence.
                 for value in (node.text or "", node.get("name", ""), node.get("fmt", "")):
-                    matched.update(symbol for symbol in NATIVE_SYMBOLS if symbol in value)
+                    if NATIVE_FRAME_SYMBOL_PATTERNS[0].search(value):
+                        matched.update(symbol for symbol, pattern in zip(NATIVE_SYMBOLS, NATIVE_FRAME_SYMBOL_PATTERNS)
+                                       if pattern.search(value))
             reference = (tag(node), node.get("ref"))
             if reference[0] in {"frame", "backtrace"} and reference[1] and reference not in visited_references:
                 visited_references.add(reference)

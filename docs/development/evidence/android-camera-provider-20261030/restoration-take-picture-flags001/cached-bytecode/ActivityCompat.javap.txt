@@ -1,0 +1,370 @@
+Compiled from "ActivityCompat.java"
+public class androidx.core.app.ActivityCompat extends androidx.core.content.ContextCompat {
+  private static androidx.core.app.ActivityCompat$PermissionCompatDelegate sDelegate;
+
+  protected androidx.core.app.ActivityCompat();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method androidx/core/content/ContextCompat."<init>":()V
+       4: return
+
+  public static void setPermissionCompatDelegate(androidx.core.app.ActivityCompat$PermissionCompatDelegate);
+    Code:
+       0: aload_0
+       1: putstatic     #7                  // Field sDelegate:Landroidx/core/app/ActivityCompat$PermissionCompatDelegate;
+       4: return
+
+  public static androidx.core.app.ActivityCompat$PermissionCompatDelegate getPermissionCompatDelegate();
+    Code:
+       0: getstatic     #7                  // Field sDelegate:Landroidx/core/app/ActivityCompat$PermissionCompatDelegate;
+       3: areturn
+
+  public static boolean invalidateOptionsMenu(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #13                 // Method android/app/Activity.invalidateOptionsMenu:()V
+       4: iconst_1
+       5: ireturn
+
+  public static void startActivityForResult(android.app.Activity, android.content.Intent, int, android.os.Bundle);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: invokevirtual #18                 // Method android/app/Activity.startActivityForResult:(Landroid/content/Intent;ILandroid/os/Bundle;)V
+       7: return
+
+  public static void startIntentSenderForResult(android.app.Activity, android.content.IntentSender, int, android.content.Intent, int, int, int, android.os.Bundle) throws android.content.IntentSender$SendIntentException;
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: aload_3
+       4: iload         4
+       6: iload         5
+       8: iload         6
+      10: aload         7
+      12: invokevirtual #22                 // Method android/app/Activity.startIntentSenderForResult:(Landroid/content/IntentSender;ILandroid/content/Intent;IIILandroid/os/Bundle;)V
+      15: return
+
+  public static void finishAffinity(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #26                 // Method android/app/Activity.finishAffinity:()V
+       4: return
+
+  public static void finishAfterTransition(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #29                 // Method android/app/Activity.finishAfterTransition:()V
+       4: return
+
+  public static android.net.Uri getReferrer(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #32                 // Method android/app/Activity.getReferrer:()Landroid/net/Uri;
+       4: areturn
+
+  public static <T extends android.view.View> T requireViewById(android.app.Activity, int);
+    Code:
+       0: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+       3: bipush        28
+       5: if_icmplt     17
+       8: aload_0
+       9: iload_1
+      10: invokestatic  #42                 // Method androidx/core/app/ActivityCompat$Api28Impl.requireViewById:(Landroid/app/Activity;I)Ljava/lang/Object;
+      13: checkcast     #48                 // class android/view/View
+      16: areturn
+      17: aload_0
+      18: iload_1
+      19: invokevirtual #50                 // Method android/app/Activity.findViewById:(I)Landroid/view/View;
+      22: astore_2
+      23: aload_2
+      24: ifnonnull     37
+      27: new           #54                 // class java/lang/IllegalArgumentException
+      30: dup
+      31: ldc           #56                 // String ID does not reference a View inside this Activity
+      33: invokespecial #58                 // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+      36: athrow
+      37: aload_2
+      38: areturn
+
+  public static void setEnterSharedElementCallback(android.app.Activity, androidx.core.app.SharedElementCallback);
+    Code:
+       0: aload_1
+       1: ifnull        15
+       4: new           #61                 // class androidx/core/app/ActivityCompat$SharedElementCallback21Impl
+       7: dup
+       8: aload_1
+       9: invokespecial #63                 // Method androidx/core/app/ActivityCompat$SharedElementCallback21Impl."<init>":(Landroidx/core/app/SharedElementCallback;)V
+      12: goto          16
+      15: aconst_null
+      16: astore_2
+      17: aload_0
+      18: aload_2
+      19: invokevirtual #66                 // Method android/app/Activity.setEnterSharedElementCallback:(Landroid/app/SharedElementCallback;)V
+      22: return
+
+  public static void setExitSharedElementCallback(android.app.Activity, androidx.core.app.SharedElementCallback);
+    Code:
+       0: aload_1
+       1: ifnull        15
+       4: new           #61                 // class androidx/core/app/ActivityCompat$SharedElementCallback21Impl
+       7: dup
+       8: aload_1
+       9: invokespecial #63                 // Method androidx/core/app/ActivityCompat$SharedElementCallback21Impl."<init>":(Landroidx/core/app/SharedElementCallback;)V
+      12: goto          16
+      15: aconst_null
+      16: astore_2
+      17: aload_0
+      18: aload_2
+      19: invokevirtual #70                 // Method android/app/Activity.setExitSharedElementCallback:(Landroid/app/SharedElementCallback;)V
+      22: return
+
+  public static void postponeEnterTransition(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #73                 // Method android/app/Activity.postponeEnterTransition:()V
+       4: return
+
+  public static void startPostponedEnterTransition(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #76                 // Method android/app/Activity.startPostponedEnterTransition:()V
+       4: return
+
+  public static void requestPermissions(android.app.Activity, java.lang.String[], int);
+    Code:
+       0: getstatic     #7                  // Field sDelegate:Landroidx/core/app/ActivityCompat$PermissionCompatDelegate;
+       3: ifnull        21
+       6: getstatic     #7                  // Field sDelegate:Landroidx/core/app/ActivityCompat$PermissionCompatDelegate;
+       9: aload_0
+      10: aload_1
+      11: iload_2
+      12: invokeinterface #79,  4           // InterfaceMethod androidx/core/app/ActivityCompat$PermissionCompatDelegate.requestPermissions:(Landroid/app/Activity;[Ljava/lang/String;I)Z
+      17: ifeq          21
+      20: return
+      21: new           #85                 // class java/util/HashSet
+      24: dup
+      25: invokespecial #87                 // Method java/util/HashSet."<init>":()V
+      28: astore_3
+      29: iconst_0
+      30: istore        4
+      32: iload         4
+      34: aload_1
+      35: arraylength
+      36: if_icmpge     122
+      39: aload_1
+      40: iload         4
+      42: aaload
+      43: invokestatic  #88                 // Method android/text/TextUtils.isEmpty:(Ljava/lang/CharSequence;)Z
+      46: ifeq          84
+      49: new           #54                 // class java/lang/IllegalArgumentException
+      52: dup
+      53: new           #94                 // class java/lang/StringBuilder
+      56: dup
+      57: invokespecial #96                 // Method java/lang/StringBuilder."<init>":()V
+      60: ldc           #97                 // String Permission request for permissions
+      62: invokevirtual #99                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      65: aload_1
+      66: invokestatic  #103                // Method java/util/Arrays.toString:([Ljava/lang/Object;)Ljava/lang/String;
+      69: invokevirtual #99                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      72: ldc           #109                // String  must not contain null or empty values
+      74: invokevirtual #99                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      77: invokevirtual #111                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      80: invokespecial #58                 // Method java/lang/IllegalArgumentException."<init>":(Ljava/lang/String;)V
+      83: athrow
+      84: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+      87: bipush        33
+      89: if_icmpge     116
+      92: aload_1
+      93: iload         4
+      95: aaload
+      96: ldc           #116                // String android.permission.POST_NOTIFICATIONS
+      98: invokestatic  #118                // Method android/text/TextUtils.equals:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Z
+     101: ifeq          116
+     104: aload_3
+     105: iload         4
+     107: invokestatic  #122                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     110: invokeinterface #128,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     115: pop
+     116: iinc          4, 1
+     119: goto          32
+     122: aload_3
+     123: invokeinterface #134,  1          // InterfaceMethod java/util/Set.size:()I
+     128: istore        4
+     130: iload         4
+     132: ifle          146
+     135: aload_1
+     136: arraylength
+     137: iload         4
+     139: isub
+     140: anewarray     #138                // class java/lang/String
+     143: goto          147
+     146: aload_1
+     147: astore        5
+     149: iload         4
+     151: ifle          207
+     154: iload         4
+     156: aload_1
+     157: arraylength
+     158: if_icmpne     162
+     161: return
+     162: iconst_0
+     163: istore        6
+     165: iconst_0
+     166: istore        7
+     168: iload         6
+     170: aload_1
+     171: arraylength
+     172: if_icmpge     207
+     175: aload_3
+     176: iload         6
+     178: invokestatic  #122                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     181: invokeinterface #140,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+     186: ifne          201
+     189: aload         5
+     191: iload         7
+     193: iinc          7, 1
+     196: aload_1
+     197: iload         6
+     199: aaload
+     200: aastore
+     201: iinc          6, 1
+     204: goto          168
+     207: aload_0
+     208: instanceof    #143                // class androidx/core/app/ActivityCompat$RequestPermissionsRequestCodeValidator
+     211: ifeq          224
+     214: aload_0
+     215: checkcast     #143                // class androidx/core/app/ActivityCompat$RequestPermissionsRequestCodeValidator
+     218: iload_2
+     219: invokeinterface #145,  2          // InterfaceMethod androidx/core/app/ActivityCompat$RequestPermissionsRequestCodeValidator.validateRequestPermissionsRequestCode:(I)V
+     224: aload_0
+     225: aload_1
+     226: iload_2
+     227: invokevirtual #149                // Method android/app/Activity.requestPermissions:([Ljava/lang/String;I)V
+     230: return
+
+  public static boolean shouldShowRequestPermissionRationale(android.app.Activity, java.lang.String);
+    Code:
+       0: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+       3: bipush        33
+       5: if_icmpge     19
+       8: ldc           #116                // String android.permission.POST_NOTIFICATIONS
+      10: aload_1
+      11: invokestatic  #118                // Method android/text/TextUtils.equals:(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Z
+      14: ifeq          19
+      17: iconst_0
+      18: ireturn
+      19: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+      22: bipush        32
+      24: if_icmplt     33
+      27: aload_0
+      28: aload_1
+      29: invokestatic  #152                // Method androidx/core/app/ActivityCompat$Api32Impl.shouldShowRequestPermissionRationale:(Landroid/app/Activity;Ljava/lang/String;)Z
+      32: ireturn
+      33: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+      36: bipush        31
+      38: if_icmpne     47
+      41: aload_0
+      42: aload_1
+      43: invokestatic  #158                // Method androidx/core/app/ActivityCompat$Api31Impl.shouldShowRequestPermissionRationale:(Landroid/app/Activity;Ljava/lang/String;)Z
+      46: ireturn
+      47: aload_0
+      48: aload_1
+      49: invokevirtual #161                // Method android/app/Activity.shouldShowRequestPermissionRationale:(Ljava/lang/String;)Z
+      52: ireturn
+
+  public static boolean isLaunchedFromBubble(android.app.Activity);
+    Code:
+       0: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+       3: bipush        31
+       5: if_icmplt     13
+       8: aload_0
+       9: invokestatic  #164                // Method androidx/core/app/ActivityCompat$Api31Impl.isLaunchedFromBubble:(Landroid/app/Activity;)Z
+      12: ireturn
+      13: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+      16: bipush        30
+      18: if_icmpne     44
+      21: aload_0
+      22: invokestatic  #168                // Method androidx/core/app/ActivityCompat$Api30Impl.getDisplay:(Landroid/content/ContextWrapper;)Landroid/view/Display;
+      25: ifnull        42
+      28: aload_0
+      29: invokestatic  #168                // Method androidx/core/app/ActivityCompat$Api30Impl.getDisplay:(Landroid/content/ContextWrapper;)Landroid/view/Display;
+      32: invokevirtual #174                // Method android/view/Display.getDisplayId:()I
+      35: ifeq          42
+      38: iconst_1
+      39: goto          43
+      42: iconst_0
+      43: ireturn
+      44: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+      47: bipush        29
+      49: if_icmpne     85
+      52: aload_0
+      53: invokevirtual #179                // Method android/app/Activity.getWindowManager:()Landroid/view/WindowManager;
+      56: invokeinterface #183,  1          // InterfaceMethod android/view/WindowManager.getDefaultDisplay:()Landroid/view/Display;
+      61: ifnull        83
+      64: aload_0
+      65: invokevirtual #179                // Method android/app/Activity.getWindowManager:()Landroid/view/WindowManager;
+      68: invokeinterface #183,  1          // InterfaceMethod android/view/WindowManager.getDefaultDisplay:()Landroid/view/Display;
+      73: invokevirtual #174                // Method android/view/Display.getDisplayId:()I
+      76: ifeq          83
+      79: iconst_1
+      80: goto          84
+      83: iconst_0
+      84: ireturn
+      85: iconst_0
+      86: ireturn
+
+  public static androidx.core.view.DragAndDropPermissionsCompat requestDragAndDropPermissions(android.app.Activity, android.view.DragEvent);
+    Code:
+       0: aload_0
+       1: aload_1
+       2: invokestatic  #189                // Method androidx/core/view/DragAndDropPermissionsCompat.request:(Landroid/app/Activity;Landroid/view/DragEvent;)Landroidx/core/view/DragAndDropPermissionsCompat;
+       5: areturn
+
+  public static void recreate(android.app.Activity);
+    Code:
+       0: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+       3: bipush        28
+       5: if_icmplt     15
+       8: aload_0
+       9: invokevirtual #195                // Method android/app/Activity.recreate:()V
+      12: goto          38
+      15: new           #198                // class android/os/Handler
+      18: dup
+      19: aload_0
+      20: invokevirtual #200                // Method android/app/Activity.getMainLooper:()Landroid/os/Looper;
+      23: invokespecial #204                // Method android/os/Handler."<init>":(Landroid/os/Looper;)V
+      26: astore_1
+      27: aload_1
+      28: aload_0
+      29: invokedynamic #207,  0            // InvokeDynamic #0:run:(Landroid/app/Activity;)Ljava/lang/Runnable;
+      34: invokevirtual #211                // Method android/os/Handler.post:(Ljava/lang/Runnable;)Z
+      37: pop
+      38: return
+
+  public static void setLocusContext(android.app.Activity, androidx.core.content.LocusIdCompat, android.os.Bundle);
+    Code:
+       0: getstatic     #36                 // Field android/os/Build$VERSION.SDK_INT:I
+       3: bipush        30
+       5: if_icmplt     14
+       8: aload_0
+       9: aload_1
+      10: aload_2
+      11: invokestatic  #215                // Method androidx/core/app/ActivityCompat$Api30Impl.setLocusContext:(Landroid/app/Activity;Landroidx/core/content/LocusIdCompat;Landroid/os/Bundle;)V
+      14: return
+
+  private static void lambda$recreate$0(android.app.Activity);
+    Code:
+       0: aload_0
+       1: invokevirtual #219                // Method android/app/Activity.isFinishing:()Z
+       4: ifne          18
+       7: aload_0
+       8: invokestatic  #223                // Method androidx/core/app/ActivityRecreator.recreate:(Landroid/app/Activity;)Z
+      11: ifne          18
+      14: aload_0
+      15: invokevirtual #195                // Method android/app/Activity.recreate:()V
+      18: return
+}

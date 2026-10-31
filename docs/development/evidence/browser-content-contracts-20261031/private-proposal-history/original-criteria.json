@@ -1,0 +1,13 @@
+{
+  "finding": "NATIVE-004",
+  "issue": 63,
+  "title": "[Medium][NATIVE-004] Web state-driven URL loading does not clear existing iframe srcdoc",
+  "state_observed": "open",
+  "source": "Prior bounded read-only open-issues GET archived in ../open-issues.json",
+  "issue_body_sha256": "6aca8789eb7910fb3dfb2b66f297aab826785958788ea4bb4c07a00bc7bac694",
+  "original_required_criteria": [
+    "Data→Url→Data transitions via direct state assignment and remembered-state updates.",
+    "Navigator and state loaders produce the same iframe attributes and page.",
+    "Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new."
+  ]
+}

@@ -1,0 +1,17 @@
+test_refresh_author_draft_preserves_bytes_and_authored_whitespace (checkout_owning.SnapshotCheckoutTests.test_refresh_author_draft_preserves_bytes_and_authored_whitespace) ... FAIL
+test_current_docs_source_and_refresh_readme_keep_whitespace_guards (checkout_owning.SnapshotCheckoutTests.test_current_docs_source_and_refresh_readme_keep_whitespace_guards) ... ok
+
+======================================================================
+FAIL: test_refresh_author_draft_preserves_bytes_and_authored_whitespace (checkout_owning.SnapshotCheckoutTests.test_refresh_author_draft_preserves_bytes_and_authored_whitespace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 63, in test_refresh_author_draft_preserves_bytes_and_authored_whitespace
+    self.round_trip(REFRESH_DRAFT, b"# Attributed public discussion\n\nOriginal author text \r\n\tNext line\r\n\n")
+  File "/root/projects/nativeCmpKit/scripts/migration/test_snapshot_checkout.py", line 47, in round_trip
+    self.assertEqual(payload, self.git("show", ":" + name).stdout)
+AssertionError: b'# Attributed public discussion\n\nOriginal author text \r\n\tNext line\r\n\n' != b'# Attributed public discussion\n\nOriginal author text \n\tNext line\n\n'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.032s
+
+FAILED (failures=1)

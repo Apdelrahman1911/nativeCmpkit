@@ -515,10 +515,23 @@ class CameraRestorationRecipientSelectionTests(unittest.TestCase):
         self.assertIn("override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?)", client)
         self.assertIn("super.startActivityForResult(Intent(intent).setComponent(recipient), requestCode, options)", client)
         for forbidden in ("LocalActivityResultRegistryOwner", "object : ActivityResultRegistry", "dispatchResult(",
-                          "onActivityResult(", "grantUriPermission(", "setClipData(", "FLAG_GRANT_"):
+                          "onActivityResult(", "grantUriPermission(", "setClipData(",
+                          ".addFlags(", ".setFlags("):
             self.assertNotIn(forbidden, client)
+        self.assertNotRegex(client, r"intent\.(?:flags|clipData)\s*=(?!=)")
         self.assertIn("super.onSaveInstanceState(state)", client)
         self.assertIn("rememberCameraPickerResultLauncher(", client)
+
+    def test_pinned_take_picture_read_write_grant_flags_are_checked_exactly_before_selection(self):
+        _, client = self.sources()
+        body = client.split("override fun startActivityForResult", 1)[1].split("override fun onCreate", 1)[0]
+        compact = " ".join(body.split())
+        self.assertIn("check(intent.flags == (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION))", compact)
+        self.assertIn("intent.clipData == null && requestCode > 0", body)
+        for forbidden in ("intent.flags == 0", "intent.flags and", "FLAG_GRANT_PERSISTABLE_URI_PERMISSION",
+                          "FLAG_GRANT_PREFIX_URI_PERMISSION"):
+            self.assertNotIn(forbidden, body)
+        self.assertLess(body.index("check(intent.flags"), body.index("super.startActivityForResult("))
 
     def test_original_take_picture_action_and_owned_content_output_are_checked_before_selection(self):
         _, client = self.sources()

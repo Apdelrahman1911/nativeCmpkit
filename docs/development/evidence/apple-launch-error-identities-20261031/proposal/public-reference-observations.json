@@ -1,0 +1,159 @@
+[
+  {
+    "url": "https://developer.apple.com/tutorials/data/documentation/foundation/nserror/code.json",
+    "bytes": 11944,
+    "sha256": "993d79bee27383e2147dfb7bdbcdc1c1d447123a3fa8e92df2b3e89d882a3742",
+    "observed_at_utc": "2026-10-31T20:02:12.068166+00:00",
+    "abstract": [
+      {
+        "text": "The error code.",
+        "type": "text"
+      }
+    ],
+    "discussion": [
+      {
+        "declarations": [
+          {
+            "languages": [
+              "swift"
+            ],
+            "platforms": [
+              "iOS",
+              "iPadOS",
+              "Mac Catalyst",
+              "macOS",
+              "tvOS",
+              "visionOS",
+              "watchOS"
+            ],
+            "tokens": [
+              {
+                "kind": "keyword",
+                "text": "var"
+              },
+              {
+                "kind": "text",
+                "text": " "
+              },
+              {
+                "kind": "identifier",
+                "text": "code"
+              },
+              {
+                "kind": "text",
+                "text": ": "
+              },
+              {
+                "identifier": "doc://com.apple.documentation/documentation/Swift/Int",
+                "kind": "typeIdentifier",
+                "preciseIdentifier": "s:Si",
+                "text": "Int"
+              },
+              {
+                "kind": "text",
+                "text": " { "
+              },
+              {
+                "kind": "keyword",
+                "text": "get"
+              },
+              {
+                "kind": "text",
+                "text": " }"
+              }
+            ]
+          }
+        ],
+        "kind": "declarations"
+      },
+      {
+        "content": [
+          {
+            "anchor": "Discussion",
+            "level": 2,
+            "text": "Discussion",
+            "type": "heading"
+          },
+          {
+            "inlineContent": [
+              {
+                "text": "Note that errors are domain-specific.",
+                "type": "text"
+              }
+            ],
+            "type": "paragraph"
+          }
+        ],
+        "kind": "content"
+      }
+    ]
+  },
+  {
+    "url": "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ErrorHandlingCocoa/ErrorObjectsDomains/ErrorObjectsDomains.html",
+    "bytes": 40770,
+    "sha256": "b47d92006f6b8144dad4f631db4a6b5986aec9dac1dacc21d3389643e5dd5170",
+    "observed_at_utc": "2026-10-31T20:02:13.028299+00:00",
+    "selected_excerpts": [
+      {
+        "term": "domain-specific error code",
+        "text": "on and either ask the user to attempt to recover from the error or attempt to correct the error on its own. The core attributes of an NSError object\u2014or, simply, an error object\u2014are an error domain, a domain-specific error code, and a \u201cuser info\u201d dictionary containing objects related to the error, most significantly description and recovery strings. This chapter explains the reason for error objects, describes their attributes, and discusses how you use them in Cocoa code. Why Have Error Objects? Because they are objects, instances of the NSError class have several advantages over simple error codes and error strings. They encapsulate several pieces of error information at once, including localized error strings of various kinds. NSError objects can also be archived and copied , and they can be passed around in an application and modified."
+      },
+      {
+        "term": "NSPOSIXErrorDomain",
+        "text": "ive from the various POSIX-conforming \u201cflavors\u201d of UNIX, such as BSD. The Foundation framework declares in NSError.h the following string constants for the four major error domains: NSMachErrorDomain NSPOSIXErrorDomain NSOSStatusErrorDomain NSCocoaErrorDomain The above sequence of domain constants indicates the general layering of the domains, with the Mach error domain at the lowest layer. You get the domain of an error by sending an NSError object a domain message. In addition to the four major domains, there are error domains that are specific to frameworks or even to groups of classes or individual classes. For example, the Web Kit framework has its own domain for errors in its Objective-C implementation, WebKitErrorDomain . Within the Foundation framework, the URL classes have their own error domain ( NSURLErrorDomain ) as do the XML"
+      },
+      {
+        "term": "NSUnderlyingErrorKey",
+        "text": "epresented by the containing NSError . You can query this underlying error object to obtain more specific information about the cause of the error. You access the underlying error object by using the NSUnderlyingErrorKey dictionary key. Domain-Specific Keys Many of the various error domains specify keys for accessing particular items of information from the user info dictionary. This information supplements the other information in the error object. For example, the Cocoa domain defines the keys NSStringEncodingErrorKey , NSURLErrorKey , and NSFilePathErrorKey . Check the header files or documentation of error domains to find out what domain-specific keys they declare. Next Previous Copyright \u00a9 2005, 2011 Apple Inc. All Rights Reserved. Terms of Use | Privacy Policy | Updated: 2011-01-07 Sending feedback\u2026 We\u2019re sorry, an error has occurre"
+      }
+    ]
+  },
+  {
+    "url": "https://raw.githubusercontent.com/apple-oss-distributions/xnu/main/bsd/sys/errno.h",
+    "bytes": 14075,
+    "sha256": "b16e5eb195f153793b14c3826e6b04db945e9ed6a37c5a9046196555bded6906",
+    "observed_at_utc": "2026-10-31T20:02:13.624474+00:00",
+    "selected_lines": [
+      {
+        "line": 90,
+        "text": "#define EPERM           1               /* Operation not permitted */"
+      },
+      {
+        "line": 91,
+        "text": "#define ENOENT          2               /* No such file or directory */"
+      },
+      {
+        "line": 92,
+        "text": "#define ESRCH           3               /* No such process */"
+      },
+      {
+        "line": 97,
+        "text": "#define ENOEXEC         8               /* Exec format error */"
+      },
+      {
+        "line": 103,
+        "text": "#define EACCES          13              /* Permission denied */"
+      },
+      {
+        "line": 131,
+        "text": "#define EAGAIN          35              /* Resource temporarily unavailable */"
+      },
+      {
+        "line": 132,
+        "text": "#define EWOULDBLOCK     EAGAIN          /* Operation would block */"
+      },
+      {
+        "line": 146,
+        "text": "#define ENOTSUP         45              /* Operation not supported */"
+      },
+      {
+        "line": 156,
+        "text": "#define EOPNOTSUPP       ENOTSUP        /* Operation not supported on socket */"
+      },
+      {
+        "line": 180,
+        "text": "#define ECONNREFUSED    61              /* Connection refused */"
+      }
+    ]
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "scope": "Fresh focused synthetic source checks only; no Kotlin/compiler/native execution, accepted-runtime replay or security/release certification",
+  "base_source_revision": "61003963e187ce8f1af8ccfb2ece7063bfd0abc3",
+  "red_real_source": {
+    "tests_run": 1,
+    "failures": 1,
+    "errors": 0,
+    "log": "red-real-source-focused.log"
+  },
+  "red_stale_guard": {
+    "tests_run": 2,
+    "failures": 1,
+    "errors": 0,
+    "log": "red-stale-mutation-guard-focused.log"
+  },
+  "first_green_failed_and_preserved": {
+    "tests_run": 6,
+    "failures": 1,
+    "errors": 0,
+    "cause": "assignment substring matched equality",
+    "log": "patched-focused.log"
+  },
+  "fresh_green_v2": {
+    "tests_run": 6,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": true,
+    "log": "patched-v2-focused.log"
+  },
+  "following_private_count_assertion_failure_preserved": "focused-v2-postcheck-failure.json",
+  "checks_overlap_not_additive": true,
+  "new_persistent_methods": 1,
+  "existing_owning_guard_repaired": 1,
+  "separate_static_equivalence": {
+    "native_test_source_byte_identical": true,
+    "native_test_sha256": "b94fd8a83b977af4a19c5698ba73e9bf66c74897e830157f90774510ca364143",
+    "sole_client_change_is_exact_flags_assertion": true,
+    "committed_native_receipt_calls_unchanged": 10,
+    "publication_keys_unchanged": true,
+    "production_source_changed": false,
+    "receiver_source_changed": false,
+    "manifest_changed": false
+  },
+  "static_assignment_regex_vectors": {
+    "equality_accepted": true,
+    "flags_assignment_refused": true,
+    "clipdata_assignment_refused": true
+  },
+  "version_contract_static_evidence": {
+    "catalog_activity_version": "1.13.0",
+    "catalog_sha256": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "cached_activity_aar_sha256": "bd4f19a5f00effed0eecad0a310b1f2169b9fc66236a3ba743a222eb77747ee1",
+    "take_picture_class_sha256": "a7f47a1bf65e71cd0b5375b20f244b2186a1ee8c83d471e0e816697e6d1bd3f7",
+    "native_flags_from_existing_class_bytecode": [
+      1,
+      2
+    ],
+    "required_exact_bits": 3,
+    "actual_CI_dependency_bytes_hash_verified": false,
+    "public_android15_declarations": {
+      "revision": "android-15.0.0_r1",
+      "read": 1,
+      "write": 2,
+      "source_sha256": "6302bb5501ac5050de8b7f4e58eef5fd7f1ca0e8042a4588c37dd6b53ec25cfc"
+    },
+    "public_androidx_mirror_corrobates_not_release_identity": {
+      "exit_code": 0,
+      "request": "repos/androidx/androidx/contents/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt?ref=6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+      "revision": "6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+      "applicability": "Public source corroboration; cached 1.13.0 bytecode is version-bound proof; current mirror is not asserted to be exact release source",
+      "git_blob_sha": "261cc9f47d66ca920304d482421ea62591d5e916",
+      "sha256": "eec7dcc8d97d2daccf1c3d88f0f46ac65d8ef1e3d5aa8f59782cd27b47d42889",
+      "bytes": 49488,
+      "html_url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/contract/ActivityResultContracts.kt"
+    }
+  },
+  "final_patch": "exact-take-picture-grant-flags.v2.patch",
+  "final_patch_sha256": "0e30d52a1d6af05b54a64b6528295bda92902b9ae2a5e8065d09ebc9d967131a",
+  "final_client_sha256": "8aeb2acf56287c08619c854f4da21c3f0c4f95d7dba19e17ca6ceacff03a0c12",
+  "final_tests_sha256": "997026330b5f65a909baca7b588c111ea88605b08f2ed52749e0c9ac1fbd4783"
+}

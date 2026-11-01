@@ -1,0 +1,13 @@
+# Android WebView request — independent actual review
+
+Run [41282126027](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41282126027), attempt 1, immutable `f9848a4f3cde520d5f8e284f7df7e10bb2b208bc` **FAILED**.
+
+Original API35 / Android15 / x86_64 / Enforcing XML: **2 executed, 0 passed, 2 failed, no errors/skips/N/A**. Native Gradle **1 / 89.03s**; reporter assembly **0 / 336.09s** and owned AVD creation **0 / 2.0s** are setup, not native passes. Exactly the two requested original methods ran in one fresh XML (SHA256 `c533bf583f4a635c7f1edde8075ec82a7e9e8845178c8852e9d8887d710afe85`; 5705 bytes). The literal suite time is `0.000`; the XML timestamp has no timezone suffix.
+
+Both original held-start predicates failed. Their last bounded in-wait samples report an exact acquired request still held (`pending=1`, zero response bytes, unreleased gate), but `hasStart=false`, generation/start/finish/native-error counters zero. Stop sample also has `sameOwner=true`, `stopInvoked=false`, `peerEof=0`. This is **not a proven cause**, provider version or every-instant callback history. **Zero accepted native methods**; both original literal methods remain. Public Stop, Stop EOF, 302, Reload and later fail/fail/recovery criteria are unaccepted.
+
+All four actual **1115-library** input maps exactly match freeze046 and the already acquired immutable Git bindings. The **1192-combined** map is sample/workflow preflight identity only; **no actual combined map is uploaded**. Actual plans exactly match dispatch047. 81 passive identity/integrity/source/result checks pass; no build, native/model execution, original reacquisition or accepted-suite replay was performed by this reviewer.
+
+The original controller records the exact planned owned emulator child's graceful shutdown, clean exit0, no forced group. Separate reporter installed-byte/signer/package identity, direct installed runner-class readback, reporter uninstall and owned ADB removal are **unobserved** in these originals. Do not substitute source/configuration for those readbacks. No detected known suppressed fixture/early-EOF signatures in these two XML failure bodies; this is not full cleanup certification.
+
+Only public-safe derivative facts, source hashes/maps, original provenance hashes, exact source plan and retained refusals are included. Raw original job logs, XML stack transcripts, device logcat/protobufs, private machine paths, serials/PIDs/AVD identities and certificate/key material are excluded. Earlier failures and unknown causes remain failed/unknown; no issue closure or publishing/security/readiness change follows.

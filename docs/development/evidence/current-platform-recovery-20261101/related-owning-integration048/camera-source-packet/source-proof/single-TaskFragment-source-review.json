@@ -1,0 +1,66 @@
+{
+  "review_kind": "Passive source-only supplement; no candidate afterimage or native acceptance",
+  "prior_checkpoint_archive_sha256": "ef2c81e68e9cd862f768ad6224c5f1a5b7cda2f405d05db7ea0b54e852017456",
+  "single_source_request": {
+    "ref": "refs/tags/android-15.0.0_r1",
+    "repository": "platform/frameworks/base",
+    "path": "services/core/java/com/android/server/wm/TaskFragment.java",
+    "http_status": 200,
+    "bytes": 145722,
+    "sha256": "f1f0c42abbff8d91a5aba6b5a63819d14d8d5c7340701f8aa44fad01c3111e82",
+    "computed_git_blob_sha1": "7f6499f0f4b5c8092f1f1877618c5274b7328581",
+    "resolved_commit": null,
+    "source_requests": 1,
+    "automatic_retries": 0,
+    "redirects_followed": 0
+  },
+  "findings": [
+    {
+      "id": "TF1",
+      "fact": "TaskFragment extends WindowContainer and asTaskFragment returns this. The previously reviewed Task extends TaskFragment and delegates actual dump to this inherited overload.",
+      "source": "TaskFragment.java:127,702\u2013705;Task.java:218,5955\u20135957"
+    },
+    {
+      "id": "TF2",
+      "fact": "With nonnull dumpPackage, headers are not printed eagerly. The full child loop still runs without task-owner, visibility, lifecycle-state, top/base, user or package predicate before recursion. Each child TaskFragment is recursively dumped with the same package.",
+      "source": "TaskFragment.java:3243\u20133269"
+    },
+    {
+      "id": "TF3",
+      "fact": "Every direct ActivityRecord child is sent to ActivityRecord.dumpActivity; that reviewed method applies exact packageName equality and prints the matching Activity before optional client output, with no lifecycle-state predicate. This supports refusal of nested Settings below a foreign root/top as well as started/resumed records present in the hierarchy.",
+      "source": "TaskFragment.java:3270\u20133274;ActivityRecord.java:1380\u20131448"
+    },
+    {
+      "id": "TF4",
+      "fact": "The direct ActivityRecord.dumpActivity boolean is ignored. For nonnull package, printed starts false and only ORs recursive TaskFragment return values, which also ignore direct Activity results. Thus matching nested Activity rows can print while all task dump returns remain false and ATMS prints final (nothing). Strict rejection of EVERY extra row, not terminal/boolean alone, remains essential.",
+      "source": "TaskFragment.java:3245,3257\u20133277;ActivityTaskManagerService.java:4351\u20134353"
+    },
+    {
+      "id": "TF5",
+      "fact": "Full matching ancestor/task headers are emitted through headerPrinter while a matching child Activity is printed. The absence-only grammar refuses those rows, unknown client output/errors, and waiting-to-stop/finish rows from the previously reviewed global lists.",
+      "source": "TaskFragment.java:3246\u20133255,3270\u20133274;ActivityTaskSupervisor.java:2253\u20132266;RootWindowContainer.java:3789\u20133796"
+    }
+  ],
+  "nested_dump_evidence_gap": "Closed for this retrieved exact-tag source at the narrow source-semantics level; native behavior and current candidate preservation still require separate review",
+  "remaining_binding_limit": "Permitted single TEXT response supplied no recorded resolved commit ID. Ref/path/provenance/source SHA256 and computed Git blob are bound, but no exact commit or upstream-advertised blob equality is inferred. No second metadata request or retry.",
+  "qualification_scope": "Exact-tag/source-hash semantics only; not commit-qualified candidate integration or native acceptance",
+  "not_inferred": [
+    "Actual camera refusal cause",
+    "Settings observer presence from process row",
+    "Actual dumpsys command output or Android runtime behavior",
+    "Universal application lifecycle/observer timing",
+    "Unchanged candidate state/write/boot/refusal/changed-kernel/UI lease gates before candidate review"
+  ],
+  "acceptance_reference": "Camera009 source-only original C2/C3 stay accepted by reference; only original Dont-keep1 remains; no immediate pre-return onCreate or extra scenario",
+  "reviewer_activity": {
+    "source_requests": 1,
+    "automatic_retries": 0,
+    "original_artifact_reads": 0,
+    "native_executions": 0,
+    "tests_models": 0,
+    "builds": 0,
+    "git_operations": 0,
+    "live_edits": 0,
+    "subagents": 0
+  }
+}

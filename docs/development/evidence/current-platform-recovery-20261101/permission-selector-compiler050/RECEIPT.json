@@ -1,0 +1,60 @@
+{
+  "accepted_compilation_only": true,
+  "accepted_native_replays": 0,
+  "all_before_after_equal": true,
+  "base_revision": "f9848a4f3cde520d5f8e284f7df7e10bb2b208bc",
+  "combined_inputs": 1194,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 39.01,
+    "exit_code": 0
+  },
+  "free_bytes_after": 42656600064,
+  "free_bytes_before": 42660442112,
+  "fresh_native_executions": 0,
+  "issue_closures": 0,
+  "kind": "actual-held-source-permission-selector-reporter-compiler-only",
+  "library_inputs": 1117,
+  "protected_unrelated_process_alive_after": true,
+  "protected_unrelated_process_alive_before": true,
+  "raw_private_log_sha256": "f1154ab2192d201ce902ccf9bd19ba4b139419129ec2ad6126ef7a7a86377d7c",
+  "raw_private_result_sha256": "049e91dcd1d23d480163687f4cd1c67283988f42f0f1737059082d450095435b",
+  "release_security_clearance": false,
+  "reserve_mib": 8192,
+  "runtime": [
+    {
+      "gradle_version": "9.7.1",
+      "java_vendor": "Ubuntu",
+      "java_version": "17.0.20",
+      "launcher_home_configured": true,
+      "launcher_home_matches_daemon": true,
+      "major": 17,
+      "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+      "schema_version": 1
+    }
+  ],
+  "schema": 1,
+  "source_tree_dirty": true,
+  "started_utc": "2026-11-01T07:05:31.646625+00:00",
+  "task_markers": [
+    "> Task :calf-permissions:calf-permissions-core:packageAndroidDeviceTestResources UP-TO-DATE",
+    "> Task :calf-permissions:calf-permissions-core:compileAndroidDeviceTest",
+    "> Task :calf-permissions:calf-permissions-core:compileAndroidDeviceTestNavigationResources UP-TO-DATE",
+    "> Task :calf-permissions:calf-permissions-core:packageAndroidDeviceTest",
+    "> Task :calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+  ],
+  "wrapper_exit": 0
+}

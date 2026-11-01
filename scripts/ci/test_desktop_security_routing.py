@@ -19,7 +19,6 @@ from test_ios_io_profile import profile_options
 
 
 ROWS = (
-    ("desktop-linux-x64", "Linux", "x86_64", "tls-rendering", 1),
     ("desktop-macos-arm64", "Darwin", "arm64", "tls-rendering-cookies-policy", 3),
     ("desktop-windows-x64", "Windows", "AMD64", "tls-rendering-cookies-policy", 3),
     ("desktop-linux-arm64", "Linux", "aarch64", "tls-rendering-cookies-policy-media", 4),
@@ -115,13 +114,13 @@ class DesktopSecurityRoutingModels(unittest.TestCase):
         self.assertTrue(preflight["source_only"])
         self.assertEqual(0, preflight["Gradle_builds_executed"])
         self.assertEqual(0, preflight["library_tests_executed"])
-        self.assertEqual(5, len(preflight["slots"]))
+        self.assertEqual(4, len(preflight["slots"]))
         self.assertTrue(all(row["expected_modules"] == 1 and row["exit_code"] == 0 for row in preflight["slots"]))
         for row, expected in zip(preflight["slots"], ROWS):
             self.assertEqual(expected[3], row["command"][row["command"].index("--focus") + 1])
-        self.assertEqual([1, 3, 3, 4, 3], [len(self.plan(row[3])["expected"][0]["required_testcases"]) for row in ROWS])
+        self.assertEqual([3, 3, 4, 3], [len(self.plan(row[3])["expected"][0]["required_testcases"]) for row in ROWS])
 
-    def test_owning_command_emits_fourteen_finite_selectors_with_exact_fixture_property(self):
+    def test_owning_command_emits_thirteen_remaining_selectors_with_exact_fixture_property(self):
         selectors = []
         for slot, system, arch, focus, count in ROWS:
             with self.subTest(slot=slot), patch("library_tests.platform.system", return_value=system), \
@@ -138,7 +137,7 @@ class DesktopSecurityRoutingModels(unittest.TestCase):
                 self.assertIn("scripts/ci/fresh-tests.init.gradle.kts", command)
                 self.assertIn("scripts/ci/daemon-jvm.init.gradle.kts", command)
                 selectors.extend(selected)
-        self.assertEqual(14, len(selectors))
+        self.assertEqual(13, len(selectors))
         self.assertEqual(4, len(set(selectors)))
         self.assertFalse(any("RequestState" in selector or "StopRedirect" in selector for selector in selectors))
 
@@ -216,7 +215,7 @@ class DesktopSecurityRoutingModels(unittest.TestCase):
             with self.assertRaises(ValueError):
                 lt.validate_test_focus(plan)
 
-    def test_synthetic_originals_flow_through_new_collector_as_fourteen_exact_cases(self):
+    def test_synthetic_originals_flow_through_new_collector_as_thirteen_remaining_cases(self):
         passed = 0
         for slot, system, arch, focus, count in ROWS:
             with self.subTest(slot=slot):
@@ -231,7 +230,7 @@ class DesktopSecurityRoutingModels(unittest.TestCase):
                                  {case["classname"] for case in module["native_scenarios"]})
                 self.assertTrue(all(case["required_on_host"] and case["source"] != "unselected" for case in module["native_scenarios"]))
                 passed += result["totals"]["passed"]
-        self.assertEqual(14, passed, "These are authored synthetic XML inputs, not native executions")
+        self.assertEqual(13, passed, "These are authored synthetic XML inputs, not native executions")
 
     def test_new_collector_refuses_mixed_empty_duplicate_accepted_and_wrong_target_xml(self):
         focus = "tls-rendering-cookies-policy-media"

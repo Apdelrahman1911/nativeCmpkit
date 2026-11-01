@@ -1,0 +1,79 @@
+{
+  "review_kind": "Passive source-only checkpoint, not source qualification of a candidate afterimage and not native/compiler/test acceptance",
+  "assignment_context": {
+    "actual_run_id": "41279823497",
+    "immutable_commit": "b8b696bffcab7cd2eeebeb7ec45450b97d38f423",
+    "context_origin": "Task assignment only; original artifacts not inspected or reacquired",
+    "failure_cause": "unknown; not inferred"
+  },
+  "fixed_command": "dumpsys activity -p com.android.settings activities",
+  "candidate_grammar": {
+    "header": "ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)",
+    "display_rows": "One or more unique nonnegative Display #N (activities from top to bottom): lines",
+    "terminal": "  (nothing)",
+    "other_rows": "Refuse every other row; terminal marker alone is unsafe",
+    "transport_gates": "Require exact command success, empty stderr, bounded safe bytes (not independently reviewed here)"
+  },
+  "supported_source_facts": [
+    {
+      "id": "F1",
+      "fact": "Development Settings observer is registered in fragment onStart and unregistered in onStop. A process/package/dependency row alone does not establish that active fragment.",
+      "source": "DevelopmentSettingsDashboardFragment.java:215\u2013235"
+    },
+    {
+      "id": "F2",
+      "fact": "Fixed -p option sets the exact package and dumpClient=true; dump display defaults to INVALID_DISPLAY. Literal activities routes to ATMS dump with dumpAll=true. No -v/-f/-d/--user restriction is requested.",
+      "source": "ActivityManagerService.java:10681\u201310718,10855\u201310868"
+    },
+    {
+      "id": "F3",
+      "fact": "ATMS routes the command while holding mGlobalLock, prints the exact header, invokes RootWindowContainer.dumpActivities, and separately prints the matching top-resumed Activity. General supervisor/process/UID/starting-process summaries are omitted under the package filter.",
+      "source": "ActivityTaskManagerService.java:4310\u20134354,6760\u20136765"
+    },
+    {
+      "id": "F4",
+      "fact": "Outer activities dump iterates connected displays, root tasks and focused Activities; it also iterates global finishing and stopping lists. With the default INVALID_DISPLAY filter, no display is intentionally excluded.",
+      "source": "RootWindowContainer.java:3758\u20133799"
+    },
+    {
+      "id": "F5",
+      "fact": "printThisActivity and ActivityRecord.dumpActivity use exact packageName equality; dumpActivity prints matching rows without a Activity-state predicate before optional client output.",
+      "source": "ActivityTaskSupervisor.java:2228\u20132251;ActivityRecord.java:1380\u20131448"
+    },
+    {
+      "id": "F6",
+      "fact": "dumpHistoryList never updates its printed=false local, even when matching records print. Therefore the terminal (nothing) can coexist with stop/finish rows. Header can be cleared after an earlier filtered record; reject extra rows even without a list header.",
+      "source": "ActivityTaskSupervisor.java:2253\u20132266;ActivityTaskManagerService.java:4351\u20134353"
+    },
+    {
+      "id": "F7",
+      "fact": "Recent-task package predicates use task intent/affinity/original/real/caller or exposed base/top fields; these are not all nested Activity records. The existing summary readers are not completeness proof.",
+      "source": "RecentTasks.java:1883\u20131909,1930\u20131957;Task.java:3388\u20133409"
+    },
+    {
+      "id": "F8",
+      "fact": "Task extends TaskFragment, and the actual root-task dump overload delegates to an inherited dump method. Separate getDumpActivitiesLocked(\"all\") traversal is not used by the reviewed activities dump and cannot substitute for its proof.",
+      "source": "Task.java:218,5955\u20135957,5983\u20136010"
+    }
+  ],
+  "source_qualification": "WITHHELD: cached TaskFragment.java is missing; nested task/TaskFragment Activity traversal and package filtering are not proved",
+  "conditional_limits": [
+    "Missing inherited implementation is an evidence gap, not a proven omission or actual failure cause.",
+    "No candidate implementation/afterimage was provided or independently reviewed during this checkpoint; preservation of state/write/boot/refusal/changed-kernel/UI lease gates is a requirement, not verified by this reviewer.",
+    "mStartingProcessActivities omission is visible under nonnull dumpPackage, but the reviewed startProcessAsync excerpt does not establish an active fragment outside hierarchy/wait lists. No concrete omission claim is made.",
+    "A dump snapshot is not a durable lock on application fragment callbacks or future Activity starts. Native behavior and command output remain unobserved by this reviewer.",
+    "Camera009 source-only original C2/C3 stay accepted by reference; no immediate pre-return onCreate requirement or new scenario is added."
+  ],
+  "reviewer_activity": {
+    "new_source_requests": 0,
+    "network": 0,
+    "original_artifact_reads": 0,
+    "native_executions": 0,
+    "tests_models": 0,
+    "builds": 0,
+    "git_operations": 0,
+    "live_edits": 0,
+    "subagents": 0
+  },
+  "next_bounded_source_step": "Author/lead may provide the exact android-15.0.0_r1 TaskFragment inherited dump source identity for passive review; reviewer does not acquire it."
+}

@@ -33,6 +33,7 @@ SCALAR = "always_finish_activities"
 PROCESS_HEADER = "ACTIVITY MANAGER RUNNING PROCESSES (dumpsys activity processes)"
 READINESS = "  mProcessesReady=true mSystemReady=true mBooted=true mFactoryTest=0"
 RECENTS_HEADER = "ACTIVITY MANAGER RECENT TASKS (dumpsys activity recents)"
+ACTIVITIES_HEADER = "ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)"
 CONTROL_BYTES = 65536
 DUMP_BYTES = 1048576
 ANDROID = "{http://schemas.android.com/apk/res/android}"
@@ -280,6 +281,24 @@ def parse_native(result: subprocess.CompletedProcess) -> tuple[bool, bool]:
             "Unknown native always-finish field")
     settings = re.search(r"(?<![A-Za-z0-9_.$])com\.android\.settings(?=$|[/:,\s}\]])", text) is not None
     return bool(fields), settings
+
+
+def parse_settings_activity_absence(result: subprocess.CompletedProcess) -> None:
+    """Require complete traversal emptiness, never a terminal sentinel alone."""
+    payload = result_bytes(result, CONTROL_BYTES)
+    require(not any(char in payload for char in (b"\r", b"\0", b"\x1b")), "Unsafe Settings activity bytes")
+    rows = payload.decode("utf-8").removesuffix("\n").split("\n")
+    require(len(rows) >= 3 and rows[0] == ACTIVITIES_HEADER and rows.count(ACTIVITIES_HEADER) == 1 and
+            rows[-1] == "  (nothing)" and rows.count("  (nothing)") == 1,
+            "Settings Activity absence header/footer is unproved")
+    displays = set()
+    for row in rows[1:-1]:
+        display = re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", row)
+        require(display is not None, "Settings Activity absence traversal is unproved")
+        identifier = int(display[1])
+        require(identifier <= 2147483647 and identifier not in displays,
+                "Unknown or duplicate Settings Activity display traversal")
+        displays.add(identifier)
 
 
 def parse_recents(result: subprocess.CompletedProcess) -> None:
@@ -820,7 +839,11 @@ class OwnedDeveloperPrerequisite:
         require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing", "Non-enforcing guest refused")
         master, scalar = self.state_row(MASTER), self.state_row(SCALAR)
         native, settings = parse_native(self.control("shell", "dumpsys", "activity", "processes", limit=DUMP_BYTES))
-        require(not fresh or not settings, "Settings process/package/dependency record present in fresh epoch")
+        if fresh:
+            # A cached process/package token is not a live Settings Activity.
+            # The all-Activity reader also rejects nested/stopping/finishing rows.
+            parse_settings_activity_absence(self.control("shell", "dumpsys", "activity", "-p",
+                                                        "com.android.settings", "activities"))
         require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, "State changed around native read")
         parse_recents(self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"))
         parse_live_tasks(self.control("shell", "am", "stack", "list"))

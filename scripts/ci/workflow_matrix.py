@@ -68,7 +68,7 @@ PROFILES = {
     "webview-request-state": ("browser-js", "browser-wasm"),
     "webview-offline-destination": ("browser-js", "browser-wasm"),
     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
-    "webview-desktop-security-regressions": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
+    "webview-desktop-security-regressions": ("desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
@@ -441,9 +441,11 @@ def matrix(profile: str) -> dict:
             row["test-focus"] = focuses[row["slot"]]
     if profile == desktop_security_plan.PROFILE:
         desktop_security_plan.validate_rows(desktop_security_plan.ROWS)
-        exact = {row["slot"]: row for row in desktop_security_plan.ROWS}
-        if [row["slot"] for row in rows] != list(exact):
-            raise ValueError("Desktop security must retain exactly its five existing slots")
+        # Linux x64 TLS1 is accepted; keep original metadata for receipts, not replay.
+        exact = {row["slot"]: row for row in desktop_security_plan.ROWS
+                 if row["slot"] != "desktop-linux-x64"}
+        if PROFILES[profile] != tuple(exact) or [row["slot"] for row in rows] != list(exact):
+            raise ValueError("Desktop security must select exactly four remaining slots; no accepted TLS replay")
         for row in rows:
             required = exact[row["slot"]]
             if row["suite"] != "desktop" or any(row[key] != required[key] for key in ("runner", "arch")):

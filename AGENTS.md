@@ -1,5 +1,35 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related prerequisites verified; missing-only native batch next — 2026-11-01
+
+[Exact nine-path integration](docs/development/evidence/current-platform-recovery-20261101/related-owning-integration048/README.md)
+replaces camera ANY-process veto with complete strict Activities absence; signature/
+scalar/native/boot/kernel/ownership/cleanup gates stay. [Important28](docs/development/evidence/current-platform-recovery-20261101/camera-important049/README.md)
+pass28/28 once/0.309487s, plus [one owning stale admission red→green](docs/development/evidence/current-platform-recovery-20261101/camera-admission-guard052/README.md).
+Only original Dont-keep1 remains; accepted camera009 C2/C3 never replayed.
+Permission canonical resource-ID/readback is fixture-only; reviewed3 reused and
+[actual reporter compiler050](docs/development/evidence/current-platform-recovery-20261101/permission-selector-compiler050/README.md)
+passes0/39.01s/JDK17.0.20/Gradle9.7.1/ZERO native. [Final freeze053](docs/development/evidence/current-platform-recovery-20261101/related-final-freeze053/README.md)
+is1117/1194 inputs; differs from compiler/model receipts solely at owning Python
+admission guard, not false whole-map equality. Six source plans reused, Desktop8
+reused; four-host13 excludes accepted Linux TLS1. Next camera1/permission2, max2heavy.
+
+[Android41282126027](docs/development/evidence/current-platform-recovery-20261101/android-webview-actual054/README.md)
+remains FAILED2/2/one XML/Gradle1/89.03s at first held-start gates: acquired socket,
+pending1/zero bytes/unreleased, no start in last samples. Provider/timing cause
+unknown; all four actual1115 maps match immutablef9848a4f,1192 is preflight only.
+Graceful owned emulator exit0 observed; direct installed identity/uninstall/ADB
+readbacks unavailable. [Additive XML-time correction](docs/development/evidence/current-platform-recovery-20261101/android-webview-actual054/android-webview-suite-time-correction001/README.md)
+preserves the original seal: container0.000s/native suite27.261s; failures unchanged.
+iOS41282118143 is terminal GitHub SUCCESS; original native/results review is still
+pending independently, DNS1 excluded. No native acceptance follows its green status.
+[Node public archive055](docs/development/evidence/current-platform-recovery-20261101/node-archive-public055/README.md)
+is authenticated/passively inventoried only; no extraction/execution/cache seed/
+resolver/offline/U1/security clearance. Prior U1 stays failed. #13/#64/#102/#40 open;
+**92closed/80open/172total**,27implemented/42partial/90verified/five unresolved,
+ZERO new closures. All publishing/Pages/main/history/native/consumer/API-ABI/legal/
+dependency/security/readiness and serial local/8GiB DISK/max2hosted gates remain.
+
 ## WebView owning recovery ready; failed prerequisites retained — 2026-11-01
 
 [Linux TLS002](docs/development/evidence/current-platform-recovery-20261101/tls-actual034/README.md)

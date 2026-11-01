@@ -4,7 +4,41 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
-## Latest acceptance and next missing-only pair
+## Current related prerequisite patch / missing-only execution
+
+The [nine-path batch](evidence/current-platform-recovery-20261101/related-owning-integration048/README.md)
+is integrated without production/API or native-criterion changes. Complete camera
+Activities absence is source-qualified and passes [28/28 important checks](evidence/current-platform-recovery-20261101/camera-important049/README.md)
+once; the one subsequently discovered stale admission guard has its own retained
+[one-method red/green](evidence/current-platform-recovery-20261101/camera-admission-guard052/README.md).
+Permission resource-namespace selectors retain exact actual allowed-app resource
+readback; three reviewed controls reused. [Actual reporter compilation](evidence/current-platform-recovery-20261101/permission-selector-compiler050/README.md)
+passes0/39.01s, zero native. [Final source freeze053](evidence/current-platform-recovery-20261101/related-final-freeze053/README.md)
+holds1117/1194 inputs; only the owning Python guard differs from those accepted
+compiler/model receipts. Six real source CLI plans reused, not replayed. Next
+Dont-keep1 and Call/denial2; Desktop remaining13/four hosts waits for two free slots.
+Accepted camera009 C2/C3, picker1 and Linux x64 TLS1 stay excluded.
+
+[Android actual41282126027](evidence/current-platform-recovery-20261101/android-webview-actual054/README.md)
+stays FAILED2/2/one XML/Gradle1/89.03s. Last samples show acquired held requests,
+zero response bytes and no observed starts before the failing gates; no provider
+or callback root cause is inferred. Four actual1115 maps exactly bind immutable
+f9848a4f;1192 combined is preflight only. Owned graceful emulator exit0 is observed;
+direct installed reporter identity/runner/uninstall/ADB readbacks unavailable.
+[Additive XML-time correction](evidence/current-platform-recovery-20261101/android-webview-actual054/android-webview-suite-time-correction001/README.md)
+distinguishes the root container0.000s from native suite27.261s without changing
+the original seal or failed result. iOS41282118143 is terminal GitHub SUCCESS;
+sole-reviewer original native/results acceptance is pending, not inferred from
+the green status. Accepted DNS1 is not selected. [Node055](evidence/current-platform-recovery-20261101/node-archive-public055/README.md)
+is authenticated/passively inventoried prerequisite evidence only, not extraction,
+normal resolver/offline/U1 or security/readiness acceptance.
+
+No new issue closure:92closed/80open/172total,27implemented/42partial/90verified/five
+unresolved. Keep every failed original and all publishing/security/native/consumer/
+ABI/legal/dependency gates. Source and relevant-tests review precede immutable
+native requests; close fully verified subsets immediately afterward.
+
+## Prior WebView preparation at f9848a4f
 
 - [TLS002 independent review](evidence/current-platform-recovery-20261101/tls-actual034/README.md)
   accepts **one Linux x64 native TLS/rendering cell**,1/1/one fresh XML,

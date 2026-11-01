@@ -43,10 +43,10 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "7d628d8f0128b8203b2d60dcd14800f5b380cecb2c06efb0a1ac6d1a1b3c2c48",
+    "docs/development/resolutions/BUILD.json": "f067290fad8b919146e0cbd3bbfb6c37100fb0237cf6a5e0e3726531b6ba619f",
     "docs/development/resolutions/IO.json": "5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02",
-    "docs/development/resolutions/NATIVE.json": "c4b28131c894d30904727ec209c177b84bb2c2f51d33367a3013768f70a2f614",
-    "docs/development/resolutions/NAV.json": "41f1955f56ec1017edb45e38f324eeed5e5b0a69da97a2a0570f22af3faf3c4e",
+    "docs/development/resolutions/NATIVE.json": "dcf88e36115e2acf343fbd45076f1ac2954719e8ac06e81798aecd0e135b5b88",
+    "docs/development/resolutions/NAV.json": "fbb7e2639db3bbe529a50f4373b422bee2dbac5eaa525618a48c86d0a6d6bc09",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "e818c705058e3b64de06a924081e0b79608f55d553dc258153c0ee79e07fbbd7",
     "docs/roadmap/backlog.json": "c0d9b81913c7b4fec83cb9b5f91380bc20fa460019b7140797b3f0e601be1ca9"
   },
-  "input_fingerprint": "a948613ea240df4057c332fb055f9ec826f29b0f3b387f0bcc46a5942f0ad981",
+  "input_fingerprint": "6e697bc69e3c26ceecb2013b72426eee10e9d66b8949ba20eb467908c5d52132",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -2658,7 +2658,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "7571bc4ece3a45bb12f557bddf7834238e78a2d9c9aa24d8db161d42a6c6d168",
+      "owner_record_sha256": "aef51c0027de7e2ad99ac78997af0b61df86405f3313f87ca5117feb43a34859",
       "owner_record": {
         "id": "NATIVE-019",
         "title": "Android camera loses its output URI across Activity/process recreation",
@@ -2668,7 +2668,8 @@
           "Save Android pending capture URI and owned path before launch; restore owner consumes once, preserves configuration recreation and never deletes arbitrary saved paths.",
           "Post-review: non-finishing Activity destruction is detected from actual Activity flags/lifecycle, not only isChangingConfigurations or a navigation LifecycleOwner; pending output/request survives restoration without unlinking a still-writable external output.",
           "2026-11-01: Correct inherited stricter interpretation additively: original criteria2/3 are accepted from camera009; only Dont-keep remains. This does not rewrite old archives, waive original acceptance, infer camera011 master value/cause or change production.",
-          "2026-11-01: Preserve actual013 original prelaunch capture confinement refusal with complete owned evidence; do not infer native success or replay camera009 three."
+          "2026-11-01: Preserve actual013 original prelaunch capture confinement refusal with complete owned evidence; do not infer native success or replay camera009 three.",
+          "2026-11-01: Integrate source-qualified complete Settings-Activity absence boundary and retain native/scalar/kernel/cleanup gates. Camera28 plus one stale owning guard pass; original Dont-keep remains."
         ],
         "affected_paths": [
           "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
@@ -2907,6 +2908,16 @@
               "docs/development/evidence/current-platform-recovery-20261101/camera-actual035/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/camera-literal-correction044/CORRECTION.json"
             ]
+          },
+          {
+            "command": "Exact important28 in camera-important049/run.py plus one owning AdmissionModels red/green in camera-admission-guard052; six actual source-only CLI plans in related-source-freeze051",
+            "result": "PASS28/28 synthetic once/0.309487s; retained stale owning red1 then corrected green1. ZERO native execution; original camera009 C2/C3 reused, Dont-keep1 not accepted.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/camera-important049/REPORT.json",
+              "docs/development/evidence/current-platform-recovery-20261101/camera-admission-guard052/REPORT.json",
+              "docs/development/evidence/current-platform-recovery-20261101/related-final-freeze053/REVIEW.json"
+            ],
+            "scope": "Complete native Activities source/grammar/models only. Native method and every actual Developer Options/capture/restoration/ownership requirement remain unchanged; no release/security inference."
           }
         ],
         "remaining": [
@@ -9292,13 +9303,14 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "2526425bbc99124257232106a531adc5ae12809adda9efdf2161bb1f28c8e1c7",
+      "owner_record_sha256": "818aa80e7124d3e132d08f1c226ecb24ca7cf23579baaddef546ebe79effdb5d",
       "owner_record": {
         "id": "BUILD-002",
         "status": "partially-verified",
         "changes": [
           "All six JavaFX modules aligned to21.0.13; official artifact/class-bytecode and exact-coordinate advisory checks performed read-only.",
-          "2026-11-01: Prepare finite JavaFX security/regression routing and exact unfinished-negative-TLS-write fixture arbitration, preserving ordinary PKIX/hostname/rendering/native assertions and fail-closed teardown."
+          "2026-11-01: Prepare finite JavaFX security/regression routing and exact unfinished-negative-TLS-write fixture arbitration, preserving ordinary PKIX/hostname/rendering/native assertions and fail-closed teardown.",
+          "2026-11-01: Narrow existing security dispatch to four remaining hosts/13 original cells; accepted Linux x64 TLS1 excluded. Original five-host metadata/native methods remain exact."
         ],
         "affected_paths": [
           "gradle/libs.versions.toml",
@@ -9322,6 +9334,15 @@
               "docs/development/evidence/current-platform-recovery-20261101/tls-actual034/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/tls-finished-write-integration032/README.md"
             ]
+          },
+          {
+            "command": "Exact Desktop8 important controls and four source-only row plans in desktop-source-packet/REPORT.json; applied afterimages independently checked without replay",
+            "result": "Reused8/8 synthetic and source plans; current six related CLI plans pass source-only. ZERO new Desktop native tests/compilers.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/related-owning-integration048/desktop-source-packet/REPORT.json",
+              "docs/development/evidence/current-platform-recovery-20261101/related-final-freeze053/REVIEW.json"
+            ],
+            "scope": "Finite missing-only routing and no-replay controls only. Original other-host TLS/PKIX/rendering/cookie/policy/media/classifier/security requirements remain; separate #64 request10 unchanged."
           }
         ],
         "remaining": [
@@ -13338,7 +13359,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "4c15a9ee3b718b690ea46b34a23e61fec27a3250622eb2cd93d7ffe063a1fa4b",
+      "owner_record_sha256": "6f26e1e3d710d79ea88632b1fb402465b0e2591717588820317b0215d0a8507b",
       "owner_record": {
         "id": "NATIVE-005",
         "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
@@ -13350,7 +13371,8 @@
           "2026-11-01: Accept exact new browser request-state subset from original source/results/cleanup, preserve all failures and remaining every-target/offline/Apple obligations.",
           "2026-11-01: Integrate additive Android/Desktop/iOS held-native request regressions and bounded localhost WK transport; no production rewrite or API change.",
           "2026-11-01: Complete the missing #64 platform fixture preparations and real four-task Linux compilation; preserve accepted unchanged native subsets without replay.",
-          "2026-11-01: Integrate source-qualified iOS native-pointer current-request phases and weak known-navigation identity; gate page metadata on genuine current commit. Android original two native bodies gain only bounded failure diagnostics. Public API signatures and original native assertions remain unchanged."
+          "2026-11-01: Integrate source-qualified iOS native-pointer current-request phases and weak known-navigation identity; gate page metadata on genuine current commit. Android original two native bodies gain only bounded failure diagnostics. Public API signatures and original native assertions remain unchanged.",
+          "2026-11-01: Preserve independent original Android41282126027 failure and exact last held-start operands; zero accepted native methods, provider/timing cause unknown."
         ],
         "affected_paths": [
           "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
@@ -13606,6 +13628,15 @@
               "docs/development/evidence/current-platform-recovery-20261101/composed-webview-ci-preflight042/REPORT.json",
               "docs/development/evidence/current-platform-recovery-20261101/ios-webview-actual009/README.md"
             ]
+          },
+          {
+            "command": "Original Android41282126027 attempt1, immutablef9848a4f; exact source-selected connectedAndroidDeviceTest command in the independent provenance/source plan",
+            "result": "FAILED2/2 actual API35/one fresh XML/Gradle1/89.03s at initial held-start gates. Last samples have pending1/zero response bytes/unreleased and no start observation. No native method accepted.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/android-webview-actual054/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/android-webview-actual054/NATIVE-METHODS.json"
+            ],
+            "scope": "Four actual1115 source maps match original immutable Git;1192 combined is preflight only. Graceful owned emulator exit0 observed; installed identity/uninstall/ADB readbacks unavailable. No cause, Stop/redirect/Reload or release/security inference."
           }
         ],
         "remaining": [
@@ -20914,14 +20945,15 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "f14144272662811ce120bc9cfaa74d8e3e6a0873be0654c206dcc89d91947b36",
+      "owner_record_sha256": "6ce373ba645d26fa7b6219235f70f6fe260804cc7a990c96075da1f6790e084b",
       "owner_record": {
         "id": "NAV-015",
         "status": "implemented",
         "changes": [
           "Removed undeclared Call demo row and unrelated SMS/all-files Android declarations; capped legacy storage SDK ranges.",
           "Added modern calendar and local-network iOS demo configuration after coordinating with permission owner.",
-          "2026-11-01: Accept actual API35 public-library document/photo picker method for literal criterion3 only; preserve Call/denial failures and all original compatibility obligations."
+          "2026-11-01: Accept actual API35 public-library document/photo picker method for literal criterion3 only; preserve Call/denial failures and all original compatibility obligations.",
+          "2026-11-01: Repair only PERMISSION exact resource-ID lookup using the actual allowed window app Resources and canonical tagged namespace; MEDIA/DOCUMENTS/original native bodies/deadlines retained."
         ],
         "affected_paths": [
           "sample/android/src/main/AndroidManifest.xml",
@@ -20957,6 +20989,15 @@
               "docs/development/evidence/current-platform-recovery-20261101/permission-actual043/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/permission-actual043/LITERAL-CRITERIA-AND-CLOSURE.json"
             ]
+          },
+          {
+            "command": "./gradlew --offline --no-daemon --no-parallel --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:assembleAndroidDeviceTest",
+            "result": "PASS compiler0/39.01s/JDK17.0.20/Gradle9.7.1; ZERO native. Three exact reviewed synthetic selector/preservation methods reused without replay; Call/denial2 still require native verification.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/permission-selector-compiler050/RECEIPT.json",
+              "docs/development/evidence/current-platform-recovery-20261101/related-owning-integration048/permission-reviewed-packet/README.md"
+            ],
+            "scope": "Test-only resource identity and reporter compilation, not installed vendor namespace/dispatch or permission result acceptance. Accepted picker1 unchanged/excluded; API33/34 media and storage requirements remain."
           }
         ],
         "remaining": [

@@ -1730,7 +1730,8 @@
     "changes": [
       "Removed undeclared Call demo row and unrelated SMS/all-files Android declarations; capped legacy storage SDK ranges.",
       "Added modern calendar and local-network iOS demo configuration after coordinating with permission owner.",
-      "2026-11-01: Accept actual API35 public-library document/photo picker method for literal criterion3 only; preserve Call/denial failures and all original compatibility obligations."
+      "2026-11-01: Accept actual API35 public-library document/photo picker method for literal criterion3 only; preserve Call/denial failures and all original compatibility obligations.",
+      "2026-11-01: Repair only PERMISSION exact resource-ID lookup using the actual allowed window app Resources and canonical tagged namespace; MEDIA/DOCUMENTS/original native bodies/deadlines retained."
     ],
     "affected_paths": [
       "sample/android/src/main/AndroidManifest.xml",
@@ -1766,6 +1767,15 @@
           "docs/development/evidence/current-platform-recovery-20261101/permission-actual043/README.md",
           "docs/development/evidence/current-platform-recovery-20261101/permission-actual043/LITERAL-CRITERIA-AND-CLOSURE.json"
         ]
+      },
+      {
+        "command": "./gradlew --offline --no-daemon --no-parallel --console=plain --no-configuration-cache --max-workers=1 -Dorg.gradle.jvmargs=\"-Xmx2048m -Dfile.encoding=UTF-8\" -Pkotlin.compiler.execution.strategy=in-process --init-script scripts/ci/daemon-jvm.init.gradle.kts :calf-permissions:calf-permissions-core:assembleAndroidDeviceTest",
+        "result": "PASS compiler0/39.01s/JDK17.0.20/Gradle9.7.1; ZERO native. Three exact reviewed synthetic selector/preservation methods reused without replay; Call/denial2 still require native verification.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/permission-selector-compiler050/RECEIPT.json",
+          "docs/development/evidence/current-platform-recovery-20261101/related-owning-integration048/permission-reviewed-packet/README.md"
+        ],
+        "scope": "Test-only resource identity and reporter compilation, not installed vendor namespace/dispatch or permission result acceptance. Accepted picker1 unchanged/excluded; API33/34 media and storage requirements remain."
       }
     ],
     "remaining": [

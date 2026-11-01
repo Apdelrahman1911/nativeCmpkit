@@ -1,0 +1,301 @@
+{
+  "actual_vendor_archive_inventoried_or_requested_by_controls": false,
+  "archive_extraction_execution_Gradle_Node_cache_or_U1_acceptance": false,
+  "controls": 41,
+  "inventory_client_SHA256": "0ef3d06117ee6fe524942d01fa0c982f3388092c8ab680bc9bcd97f2fd22d38f",
+  "passes": 41,
+  "positive_cases": 5,
+  "private_controls_record_SHA256": "3fbd47e6f8c37b3be7b4bd8fe4da6adabdc136e90e95abbfe0d500cb3a66b651",
+  "record_type": "public-safe-fresh-finite-in-memory-passive-parser-controls-not-native-runtime-or-U1",
+  "refusal_cases": 36,
+  "results": [
+    {
+      "case": "safe-explicit-directory-tree",
+      "expected_inventory_pass": true,
+      "matched": true,
+      "observed_inventory_pass": true,
+      "observed_refusal": null
+    },
+    {
+      "case": "safe-relative-parent-symlink-inside-root",
+      "expected_inventory_pass": true,
+      "matched": true,
+      "observed_inventory_pass": true,
+      "observed_refusal": null
+    },
+    {
+      "case": "safe-regular-hardlink-target",
+      "expected_inventory_pass": true,
+      "matched": true,
+      "observed_inventory_pass": true,
+      "observed_refusal": null
+    },
+    {
+      "case": "safe-GNU-long-name-and-long-link",
+      "expected_inventory_pass": true,
+      "matched": true,
+      "observed_inventory_pass": true,
+      "observed_refusal": null
+    },
+    {
+      "case": "safe-local-PAX-path",
+      "expected_inventory_pass": true,
+      "matched": true,
+      "observed_inventory_pass": true,
+      "observed_refusal": null
+    },
+    {
+      "case": "member-parent-traversal",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_TRAVERSAL_OR_ALIAS_REFUSAL"
+    },
+    {
+      "case": "absolute-member-path",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_PATH_REFUSAL"
+    },
+    {
+      "case": "member-backslash",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_PATH_REFUSAL"
+    },
+    {
+      "case": "other-archive-root",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_OUTSIDE_SOLE_ROOT_REFUSAL"
+    },
+    {
+      "case": "root-not-directory",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "SOLE_ROOT_NOT_DIRECTORY_REFUSAL"
+    },
+    {
+      "case": "duplicate-material-path",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "DUPLICATE_CANONICAL_MEMBER_PATH_REFUSAL"
+    },
+    {
+      "case": "duplicate-directory-trailing-slash-alias",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "DUPLICATE_CANONICAL_MEMBER_PATH_REFUSAL"
+    },
+    {
+      "case": "missing-explicit-parent",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MISSING_EXPLICIT_MEMBER_PARENT_REFUSAL"
+    },
+    {
+      "case": "member-under-symlink-parent",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_ANCESTOR_LINK_OR_NON_DIRECTORY_REFUSAL"
+    },
+    {
+      "case": "symlink-leaves-root",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "LINK_TARGET_OUTSIDE_SOLE_ROOT_REFUSAL"
+    },
+    {
+      "case": "absolute-symlink-target",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "LINK_TARGET_PATH_REFUSAL"
+    },
+    {
+      "case": "hardlink-outside-root",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "HARDLINK_TARGET_OUTSIDE_SOLE_ROOT_REFUSAL"
+    },
+    {
+      "case": "dangling-symlink-target",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "DANGLING_LINK_TARGET_REFUSAL"
+    },
+    {
+      "case": "symlink-resolution-cycle",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "LINK_RESOLUTION_CYCLE_REFUSAL"
+    },
+    {
+      "case": "hardlink-to-directory",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "HARDLINK_TERMINAL_NOT_REGULAR_REFUSAL"
+    },
+    {
+      "case": "special-character-member",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "SPECIAL_OR_UNSUPPORTED_MEMBER_TYPE_REFUSAL"
+    },
+    {
+      "case": "privileged-member-mode",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "PRIVILEGED_OR_INVALID_MEMBER_MODE_REFUSAL"
+    },
+    {
+      "case": "nonregular-member-payload",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "NONREGULAR_MEMBER_WITH_PAYLOAD_REFUSAL"
+    },
+    {
+      "case": "declared-expanded-size-over-cap",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_DECLARED_SIZE_REFUSAL"
+    },
+    {
+      "case": "raw-header-count-cap",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "TAR_MEMBER_HEADER_CAP_REFUSAL"
+    },
+    {
+      "case": "expanded-stream-byte-cap",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "EXPANDED_BYTE_CAP_REFUSAL"
+    },
+    {
+      "case": "gzip-CRC-refusal",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "GZIP_DECODE_OR_CRC_TRAILER_REFUSAL"
+    },
+    {
+      "case": "truncated-gzip-trailer",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "TRUNCATED_GZIP_REFUSAL"
+    },
+    {
+      "case": "concatenated-gzip-members",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "CONCATENATED_GZIP_OR_TRAILING_COMPRESSED_BYTES_REFUSAL"
+    },
+    {
+      "case": "trailing-compressed-non-gzip",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "CONCATENATED_GZIP_OR_TRAILING_COMPRESSED_BYTES_REFUSAL"
+    },
+    {
+      "case": "tar-checksum-refusal",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "TAR_HEADER_CHECKSUM_OR_ENCODING_REFUSAL"
+    },
+    {
+      "case": "nonzero-member-padding",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "NONZERO_MEMBER_PADDING_REFUSAL"
+    },
+    {
+      "case": "truncated-tar-header",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "TRUNCATED_TAR_REFUSAL"
+    },
+    {
+      "case": "single-zero-tar-end-block",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "SINGLE_ZERO_END_MARKER_REFUSAL"
+    },
+    {
+      "case": "nonzero-bytes-after-tar-end",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "NONZERO_BYTES_AFTER_TAR_END_REFUSAL"
+    },
+    {
+      "case": "PAX-path-traversal",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "MEMBER_TRAVERSAL_OR_ALIAS_REFUSAL"
+    },
+    {
+      "case": "PAX-sparse-or-unknown-semantics",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "UNSUPPORTED_PAX_SEMANTICS_REFUSAL"
+    },
+    {
+      "case": "duplicate-PAX-key",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "DUPLICATE_PAX_KEY_REFUSAL"
+    },
+    {
+      "case": "global-PAX-refusal",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "SPECIAL_OR_UNSUPPORTED_MEMBER_TYPE_REFUSAL"
+    },
+    {
+      "case": "per-extension-byte-cap",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "EXTENSION_BYTE_CAP_REFUSAL"
+    },
+    {
+      "case": "orphan-GNU-long-name",
+      "expected_inventory_pass": false,
+      "matched": true,
+      "observed_inventory_pass": false,
+      "observed_refusal": "ORPHAN_EXTENSION_REFUSAL"
+    }
+  ],
+  "schema": 1
+}

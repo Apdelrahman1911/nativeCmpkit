@@ -1,0 +1,153 @@
+{
+  "elapsed_seconds": 0.241582,
+  "native_methods_requested_if_later_dispatched": 2,
+  "preflight": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "android-permission-demo-call-denial-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "scripts/ci/android_device_tests.py",
+          "plan",
+          "--api-level",
+          "35",
+          "--output",
+          "build/ci-plan",
+          "--module",
+          "calf-permissions/core",
+          "--focus",
+          "android-permission-demo-call-denial-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "android-device-api35-permission-call-denial-recovery",
+        "suite": "android-device"
+      }
+    ],
+    "source_only": true
+  },
+  "profile": "android-permission-demo-call-denial-recovery",
+  "rows": [
+    {
+      "arch": "x64",
+      "emulator-api": "35",
+      "python": "python3",
+      "runner": "ubuntu-24.04",
+      "slot": "android-device-api35-permission-call-denial-recovery",
+      "suite": "android-device",
+      "test-focus": "android-permission-demo-call-denial-recovery",
+      "test-modules": "calf-permissions/core"
+    }
+  ],
+  "source_plans": [
+    {
+      "focus": "android-permission-demo-call-denial-recovery",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+        }
+      ],
+      "slot": "android-device-api35-permission-call-denial-recovery",
+      "source_plan": {
+        "android_permission_demo": {
+          "package": "io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo",
+          "source_contract": {
+            "native_or_compile_success_inferred": false,
+            "source_inputs": {
+              "calf-permissions/core/build.gradle.kts": "efeb49abd8966b7c9ad024b471099a80ecc8ce45037543a4319faea4497f2af1",
+              "calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml": "345c33c5823504ffe3ec3a6882fcf0a9460c18e6957a9626bb952054516deb77",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt": "112dacafc003b0df9670afd5bd6ea326bae5709ff1dafc1ab405650b6ec2850c",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt": "1018be28c520de3405ade706bc47dcd9142e34e5599a857801bf75a2388cf1c6",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt": "cb3a99d39de7b56ae5afe5d36b8652a1bf5423fc5b736edadc6cdbc47a773e2c",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt": "24db0092c0962c91cd84a14c707f3d992f855ee915293d40955c383c0e1f0af9",
+              "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+              "tests/consumer/android-permission-demo/build.gradle.kts": "9101371c9ed467461568bf75325618b557075433176e2c4af52a17b5bee83f68",
+              "tests/consumer/android-permission-demo/gradle.properties": "512f06a0ec0aa07af0a4cb0d5b7d50c5e5918c117362fa6a5cff5106b69aeb4f",
+              "tests/consumer/android-permission-demo/settings.gradle.kts": "06d489191e029cc76fed000f32fd072112d8a12c33fbd22c9ec6ec3db2cb34e0",
+              "tests/consumer/android-permission-demo/src/main/AndroidManifest.xml": "532a193e07181da4c1af56151f51fa7c8fd3de7f0af6b4449f2df01480a42ff5",
+              "tests/consumer/android-permission-demo/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissiondemo/PermissionDemoActivity.kt": "d362dd03e9788b9fdfc24344d6d15c3c98d60fa182bc7a7ef4e52a1f42e91c89",
+              "tests/consumer/android-permission-demo/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissiondemo/PermissionDemoService.kt": "2c96ab8759d196432b77a9e52c00c7a0fc072862a94d1295b6afa2e55c5021b0"
+            },
+            "source_inputs_sha256": "446df81762472b7f0b30d3061a6a0968cd36f4fc11a42764d1f5f1a20ec2d3ef",
+            "source_policy_verified": true
+          },
+          "source_fixture": "tests/consumer/android-permission-demo"
+        },
+        "complete_suite_requested": false,
+        "expected": [
+          {
+            "agp_declared_xml_directory": "calf-permissions/core/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+            "module": "calf-permissions/core",
+            "project": ":calf-permissions:calf-permissions-core",
+            "report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+            "required_testcases": [
+              {
+                "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+                "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+              },
+              {
+                "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+                "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+              }
+            ],
+            "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+            "test_filter": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification",
+            "test_filter_argument": "annotation",
+            "test_source_files": [
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedStorageProbe.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt",
+              "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt",
+              "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/CallbackPermissionStateTest.kt",
+              "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionRequestTest.kt",
+              "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/RememberPermissionCallbacksFixture.kt",
+              "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt"
+            ],
+            "test_source_sets": [
+              "commonTest",
+              "androidDeviceTest"
+            ],
+            "utp_results_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain"
+          }
+        ],
+        "explicit_module_subset": [
+          "calf-permissions/core"
+        ],
+        "explicit_test_focus": "android-permission-demo-call-denial-recovery",
+        "finite_only_device_modules_not_requested": [],
+        "inherited_test_source_sets": [
+          "commonTest",
+          "materialTest",
+          "androidDeviceTest"
+        ],
+        "schema_version": 1,
+        "scope": "Only the two failed actual API35 Call/denial methods from the unchanged complete three-method source: genuine approved fresh Call request/grant and microphone denial/permanent-denial/rationale/one callback per request. Reuse the independently accepted document/photo picker; never replay it or broaden to storage/media/accepted suites. Timeout observations are finite scalars, not native dispatch/grant/callback proof. No phone call, recording, sample UI, packaged/minimum/ABI/security/release inference.",
+        "suite": "android-device",
+        "test_bearing_modules_not_requested": [
+          "calf-camera-picker",
+          "calf-file-picker",
+          "calf-geo",
+          "calf-io",
+          "calf-navigation",
+          "calf-share",
+          "calf-ui",
+          "calf-webview"
+        ],
+        "uncovered": []
+      },
+      "suite": "android-device"
+    }
+  ]
+}

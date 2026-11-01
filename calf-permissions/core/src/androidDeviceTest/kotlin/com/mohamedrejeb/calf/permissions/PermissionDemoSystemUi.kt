@@ -76,7 +76,22 @@ internal class PermissionDemoSystemUi : AutoCloseable {
     private fun clickId(packages: Set<String>, vararg ids: String,
         requestFacts: String = "requestReplyReturned=-1") = click(packages, { root ->
         val packageName = assertNotNull(root.packageName).toString()
-        ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }
+        if (packages == PERMISSION) {
+            // Android 15 PermissionController retains its R namespace, not the window app package.
+            val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
+            val resourcePackage = "com.android.permissioncontroller"
+            val resourceNames = ids.map { id ->
+                val expected = "$resourcePackage:id/$id"
+                val resourceId = resources.getIdentifier(id, "id", resourcePackage)
+                assertTrue(resourceId != 0, "The original permission control resource is unavailable")
+                assertTrue(resources.getResourceName(resourceId) == expected,
+                    "The permission control resource namespace is not exact")
+                expected
+            }
+            resourceNames.flatMap { root.findAccessibilityNodeInfosByViewId(it) }
+        } else {
+            ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }
+        }
     }, requestFacts = requestFacts)
 
     private fun click(packages: Set<String>, nodes: (AccessibilityNodeInfo) -> List<AccessibilityNodeInfo>,

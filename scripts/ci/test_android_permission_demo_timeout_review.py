@@ -8,7 +8,7 @@ import unittest
 
 TREE = Path(os.environ.get("PERMISSION_TIMEOUT_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 KOTLIN = "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/"
-UI_BEFORE_SHA256 = "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd"
+UI_BEFORE_SHA256 = "4fbabce53f8a07f80c59d60bb4ed0be84beb75cd12584b55ea8d8a99f48c412e"
 NATIVE_BEFORE_SHA256 = "e55b84ffd061767e66ae128b57ea9262c4f6e0c2af2446ebd6a53231e9d569cf"
 
 UI_DELTAS = (('import android.Manifest\n'
@@ -49,11 +49,41 @@ UI_DELTAS = (('import android.Manifest\n'
  ('    private fun clickId(packages: Set<String>, vararg ids: String,\n'
   '        requestFacts: String = "requestReplyReturned=-1") = click(packages, { root ->\n'
   '        val packageName = assertNotNull(root.packageName).toString()\n'
-  '        ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '        if (packages == PERMISSION) {\n'
+  '            // Android 15 PermissionController retains its R namespace, not the window app package.\n'
+  '            val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)\n'
+  '            val resourcePackage = "com.android.permissioncontroller"\n'
+  '            val resourceNames = ids.map { id ->\n'
+  '                val expected = "$resourcePackage:id/$id"\n'
+  '                val resourceId = resources.getIdentifier(id, "id", resourcePackage)\n'
+  '                assertTrue(resourceId != 0, "The original permission control resource is unavailable")\n'
+  '                assertTrue(resources.getResourceName(resourceId) == expected,\n'
+  '                    "The permission control resource namespace is not exact")\n'
+  '                expected\n'
+  '            }\n'
+  '            resourceNames.flatMap { root.findAccessibilityNodeInfosByViewId(it) }\n'
+  '        } else {\n'
+  '            ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '        }\n'
   '    }, requestFacts = requestFacts)\n',
   '    private fun clickId(packages: Set<String>, vararg ids: String) = click(packages, { root ->\n'
   '        val packageName = assertNotNull(root.packageName).toString()\n'
-  '        ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '        if (packages == PERMISSION) {\n'
+  '            // Android 15 PermissionController retains its R namespace, not the window app package.\n'
+  '            val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)\n'
+  '            val resourcePackage = "com.android.permissioncontroller"\n'
+  '            val resourceNames = ids.map { id ->\n'
+  '                val expected = "$resourcePackage:id/$id"\n'
+  '                val resourceId = resources.getIdentifier(id, "id", resourcePackage)\n'
+  '                assertTrue(resourceId != 0, "The original permission control resource is unavailable")\n'
+  '                assertTrue(resources.getResourceName(resourceId) == expected,\n'
+  '                    "The permission control resource namespace is not exact")\n'
+  '                expected\n'
+  '            }\n'
+  '            resourceNames.flatMap { root.findAccessibilityNodeInfosByViewId(it) }\n'
+  '        } else {\n'
+  '            ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '        }\n'
   '    })\n'),
  ('    private fun click(packages: Set<String>, nodes: (AccessibilityNodeInfo) -> '
   'List<AccessibilityNodeInfo>,\n'
@@ -104,6 +134,30 @@ UI_DELTAS = (('import android.Manifest\n'
   '+\n'
   '            "maxExactQueryNodes=$maxExactQueryNodes,maxVisibleMatches=$maxVisibleMatches;$requestFacts")\n',
   '        fail("The exact required native OS control was not observed within the bound")\n'))
+UI_RESOURCE_SELECTOR_DELTAS = ((
+  '    private fun clickId(packages: Set<String>, vararg ids: String) = click(packages, { root ->\n'
+  '        val packageName = assertNotNull(root.packageName).toString()\n'
+  '        if (packages == PERMISSION) {\n'
+  '            // Android 15 PermissionController retains its R namespace, not the window app package.\n'
+  '            val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)\n'
+  '            val resourcePackage = "com.android.permissioncontroller"\n'
+  '            val resourceNames = ids.map { id ->\n'
+  '                val expected = "$resourcePackage:id/$id"\n'
+  '                val resourceId = resources.getIdentifier(id, "id", resourcePackage)\n'
+  '                assertTrue(resourceId != 0, "The original permission control resource is unavailable")\n'
+  '                assertTrue(resources.getResourceName(resourceId) == expected,\n'
+  '                    "The permission control resource namespace is not exact")\n'
+  '                expected\n'
+  '            }\n'
+  '            resourceNames.flatMap { root.findAccessibilityNodeInfosByViewId(it) }\n'
+  '        } else {\n'
+  '            ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '        }\n'
+  '    })\n',
+  '    private fun clickId(packages: Set<String>, vararg ids: String) = click(packages, { root ->\n'
+  '        val packageName = assertNotNull(root.packageName).toString()\n'
+  '        ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }\n'
+  '    })\n'),)
 NATIVE_DELTAS = (('        val request = consumer.request("request-call")\n'
   '        ui.permissionButtonAfterRequest(request, Manifest.permission.CALL_PHONE, '
   '"permission_allow_button")\n',
@@ -185,6 +239,26 @@ class AndroidPermissionDemoTimeoutReviewTests(unittest.TestCase):
         ):
             self.assertEqual(1, source.count(old))
             with self.subTest(owning_mutation=old), self.assertRaises(AssertionError):
+                reverse_observation_only(source.replace(old, changed, 1), UI_DELTAS, UI_BEFORE_SHA256)
+
+    def test_approved_permission_resource_readback_is_the_only_new_pre_observation_selector_delta(self):
+        source = self.source("PermissionDemoSystemUi.kt")
+        baseline = reverse_observation_only(source, UI_DELTAS, UI_BEFORE_SHA256)
+        reverse_observation_only(baseline, UI_RESOURCE_SELECTOR_DELTAS,
+            "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd")
+        for old, changed in (
+            ("if (packages == PERMISSION)", "if (true)"),
+            ("getResourcesForApplication(packageName)", "getResourcesForApplication(OwnedPermissionDemo.PACKAGE)"),
+            ('val resourcePackage = "com.android.permissioncontroller"', 'val resourcePackage = packageName'),
+            ('val resourcePackage = "com.android.permissioncontroller"', 'val resourcePackage = "com.android.permissioncontroller.resources"'),
+            ('resources.getIdentifier(id, "id", resourcePackage)', 'resources.getIdentifier(id, "id", packageName)'),
+            ("resourceId != 0", "true"),
+            ("resources.getResourceName(resourceId) == expected", "true"),
+            ('ids.flatMap { root.findAccessibilityNodeInfosByViewId("$packageName:id/$it") }',
+             'ids.flatMap { root.findAccessibilityNodeInfosByViewId("com.android.permissioncontroller:id/$it") }'),
+        ):
+            self.assertEqual(1, source.count(old))
+            with self.subTest(resource_selector_mutation=old), self.assertRaises(AssertionError):
                 reverse_observation_only(source.replace(old, changed, 1), UI_DELTAS, UI_BEFORE_SHA256)
 
     def test_two_first_click_replies_are_observation_only_and_picker_and_later_criteria_remain_byte_exact(self):

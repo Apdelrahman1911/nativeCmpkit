@@ -1,0 +1,27 @@
+{
+  "lead_freeze_recipe_precondition": {
+    "before_any_freeze_output_or_native_execution": true,
+    "initial_recipe": "WebView packaged-consumer inputs (1143 after adding workflow) are not the compiler/preflight combined library+sample/workflow recipe (1192).",
+    "kind": "lead incorrect combined-map recipe refused before output",
+    "no_consumer_or_sample_test_inference": true,
+    "repair": "Use actual sample_platform_verification.inputs recipe; exact1115-library and1192-combined compiler/preflight equality proved."
+  },
+  "native_failures_or_causes_not_altered_by_reviewer_refusals": true,
+  "reviewer_connected_marker_range_precondition": {
+    "failed_precondition": "Earliest whole-file runtime marker was incorrectly assumed to be the Android connected-task marker. The earlier AbstractTestTask block has its own unrelated runtime marker.",
+    "kind": "Passive reviewer marker-range precondition refusal before derivative output",
+    "new_native_or_model_execution": false,
+    "original_failure_or_cause_implication": false,
+    "public_safe_packet_written_before_refusal": false,
+    "resolution": "Restrict lexical ordering to the frozen connectedAndroidDeviceTest block. No source, result, native assertion or original download changes.",
+    "schema_version": 1
+  },
+  "reviewer_selected_path_precondition": {
+    "kind": "Reviewer selected-path precondition refusal before any Git blob/source read",
+    "native_run_or_evidence_implication": false,
+    "original_immutable_maps_changed": false,
+    "requested_unmapped_path": "calf-webview/src/androidMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.android.kt",
+    "resolution": "Use the exact unique frozen map path, not a directory naming assumption.",
+    "schema_version": 1
+  }
+}

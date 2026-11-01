@@ -1,0 +1,134 @@
+{
+  "review_kind": "Independent static-only exact-afterimage review",
+  "source_qualification": "Qualified for root integration/freezing of only the four reviewed candidate paths, subject to exact live-preimage check; not compiler/model/native acceptance",
+  "paths": [
+    "scripts/ci/android_camera_developer_prerequisite.py",
+    "scripts/ci/test_android_camera_developer_prerequisite.py",
+    "scripts/ci/test_android_camera_documented_data_default.py",
+    "scripts/ci/test_android_camera_settings_activity_boundary.py"
+  ],
+  "candidate_scope": "Three existing owning CI files plus one new focused model file; no native UI/test method, workflow/profile, production, dependency, ABI or publishing path in this proposal",
+  "identity_binding": "Supplied private preimage/candidate bytes independently frozen and compared; not a new Git or whole-live-input map",
+  "static_parses": 7,
+  "helper_preservation": {
+    "whole_restored_ast_exact_preimage": true,
+    "whole_preimage_ast_sha256": "a15f841951909384da6893c6d66fd5d850a5d1c60d918ad0d5b9cc703f6f4ac2",
+    "new_reader_ast_sha256": "97cb9c3d5c33b9676560c0952e061720247a6f91cfa2768b5b75ed66c18dd7b6",
+    "existing_exact_source_definitions": 58,
+    "only_changed_existing_definition": "OwnedDeveloperPrerequisite.snapshot",
+    "new_definitions": [
+      "parse_settings_activity_absence"
+    ],
+    "only_other_helper_ast_delta": "ACTIVITIES_HEADER literal"
+  },
+  "owning_fixture_preservation": [
+    {
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "pre_definition_count": 59,
+      "post_definition_count": 60,
+      "exact_source_preserved_count": 58,
+      "changed": [
+        "OwnedDeveloperPrerequisite.snapshot"
+      ],
+      "added": [
+        "parse_settings_activity_absence"
+      ],
+      "removed": []
+    },
+    {
+      "path": "scripts/ci/test_android_camera_developer_prerequisite.py",
+      "pre_definition_count": 139,
+      "post_definition_count": 139,
+      "exact_source_preserved_count": 136,
+      "changed": [
+        "DeviceModel.__init__",
+        "DeviceModel.runner"
+      ],
+      "added": [
+        "LifecycleModels.test_started_settings_activity_new_epoch_gate_refuses_even_with_terminal_nothing"
+      ],
+      "removed": [
+        "LifecycleModels.test_cached_settings_process_not_death_proof_new_epoch_gate_refuses"
+      ]
+    },
+    {
+      "path": "scripts/ci/test_android_camera_documented_data_default.py",
+      "pre_definition_count": 19,
+      "post_definition_count": 19,
+      "exact_source_preserved_count": 19,
+      "changed": [],
+      "added": [],
+      "removed": []
+    }
+  ],
+  "documented_default_guard": {
+    "all_19_existing_definitions_exact_source": true,
+    "only_file_delta": "BASE_MODULE_AST_SHA256 constant",
+    "preimage_stripped_ast_sha256": "d4962dd7a931e14522ab8d2cca15700cf0790fad45719793aa5db6e6af88d400",
+    "candidate_stripped_ast_sha256": "ae4a3c43c238a3c1585d946e5692a6953e57094da31aa28d58207d7516084f41",
+    "both_independently_match_declared_constants": true,
+    "launch_hash_unchanged": true
+  },
+  "reader_static_assessment": [
+    "Existing result_bytes requires binary stdout/stderr, combined CONTROL_BYTES cap, accepted success code and empty stderr; unchanged result/runner/control identities retained.",
+    "Reader explicitly rejects CR/NUL/ESC, decodes UTF-8, removes at most one final LF and never strips/drops blank lines.",
+    "Exact sole header, final sole indented (nothing), and at least one display row required.",
+    "Every intermediate row must be an exact canonical unsigned decimal Java-int-range display ID; duplicate IDs, noncanonical/negative/overflow and extra fields refuse.",
+    "Every Activity, ancestor/task, resumed, stop/finish, blank, client, console or error row refuses even if terminal (nothing) is present.",
+    "Fresh-only fixed -p-before-activities command executes between native parse and unchanged master/scalar reread; all boot/identity/recents/live brackets remain exact.",
+    "Stable fresh call sites at original acquisition, post-master initialization and changed-kernel/final restoration remain exact; nonfresh dispatch/prebarrier cleanup and all action/no-retry/acceptance gates unchanged."
+  ],
+  "pinned_source_match": {
+    "prior_eight_source_checkpoint_sha256": "ef2c81e68e9cd862f768ad6224c5f1a5b7cda2f405d05db7ea0b54e852017456",
+    "single_TaskFragment_supplement_sha256": "129084dbe4d99496eb28659dbec5925e40e1ccf8cac359cb5c55bad613f3df0a",
+    "TaskFragment_sha256": "f1f0c42abbff8d91a5aba6b5a63819d14d8d5c7340701f8aa44fad01c3111e82",
+    "TaskFragment_computed_git_blob_sha1": "7f6499f0f4b5c8092f1f1877618c5274b7328581",
+    "TaskFragment_ref": "refs/tags/android-15.0.0_r1",
+    "resolved_commit": null,
+    "semantic_source_lines": [
+      "ActivityManagerService.java:10681\u201310718,10861\u201310868",
+      "ActivityTaskManagerService.java:4310\u20134354,6760\u20136765",
+      "RootWindowContainer.java:3758\u20133799",
+      "Task.java:218,5955\u20135957",
+      "TaskFragment.java:3243\u20133277",
+      "ActivityTaskSupervisor.java:2228\u20132266",
+      "ActivityRecord.java:1380\u20131448",
+      "DevelopmentSettingsDashboardFragment.java:215\u2013235"
+    ],
+    "important_semantics": "Both inherited TaskFragment.dump and dumpHistoryList ignore direct Activity-return booleans; printed matching Activities can coexist with terminal (nothing). Unconditional recursive child traversal plus exact ActivityRecord package filtering supports nested refusal; strict extra-row rejection is essential."
+  },
+  "unexecuted_model_assessment": {
+    "new_methods": 26,
+    "class_method_counts": {
+      "ActivityAbsenceGrammarModels": 9,
+      "ActivityBoundaryModels": 15,
+      "ActivityBoundarySourceGuard": 2
+    },
+    "fixture_base_inherited_test_methods": [],
+    "setup": "NoNativeActions patches subprocess/process signals/system/socket during setUp; ModelFixture supplies only fake guest/runner/clock and owned temporary modeled files. Source/helper modules are dynamically imported only when lead runs models; reviewer did not import them.",
+    "coverage": "Exact reader adversaries; cached-process/dependency-only no-Activity admission; nested/resumed/global wait-list refusal; old recents/live refusal preserved; changed-kernel barrier/no-compensation/exact restoration/uncertain failures/no-retry/master1 noop assertions.",
+    "positive_expected_eight_commands": "Source control-flow agrees with 2 original + 2 post-enable + 2 changed-kernel + 2 post-restore fresh snapshots; not runtime observed.",
+    "execution_precondition": "Private model TREE must include the two unchanged convention/module files used by ModelFixture; candidate-only four files are not a complete standalone fixture tree. Bind those unchanged inputs separately for any lead execution.",
+    "row_limit": "Activity rows are illustrative synthetic source-backed adversaries, not actual dumpsys output or an observed actual callback/failure cause."
+  },
+  "static_blockers": [],
+  "remaining_limits": [
+    "No candidate imports, test/model executions, build/compiler, Android SDK/native, original actual artifact reads, live edits or Git operations by reviewer.",
+    "Missing resolved_commit remains a provenance limit; exact tag/path/content hashes are bound, not an inferred upstream commit or whole input map.",
+    "Actual camera41279823497 remains before-native failed and cause unknown; no native acceptance inferred.",
+    "Native UI lease/method files are outside the four-path proposal and not reread/replayed by reviewer. Root must preserve their exact frozen identities.",
+    "Camera009 original source-only C2/C3 remain accepted by reference; only original Dont-keep1 remains; no immediate pre-return onCreate or extra scenario."
+  ],
+  "reviewer_activity": {
+    "source_requests_total": 1,
+    "automatic_retries": 0,
+    "candidate_imports": 0,
+    "tests_models": 0,
+    "builds": 0,
+    "native_executions": 0,
+    "original_artifact_reads": 0,
+    "git_operations": 0,
+    "live_edits": 0,
+    "subagents": 0
+  }
+}

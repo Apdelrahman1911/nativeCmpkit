@@ -1,0 +1,110 @@
+{
+  "accepted_methods": [],
+  "immutable_commit": "f9848a4f3cde520d5f8e284f7df7e10bb2b208bc",
+  "interpretation": "In the last bounded in-wait sample each exact acquired request remained held, but the required native-start observation was absent. These are bounded operands, not a proven underlying cause or every-instant-of-wait history. Stop was not invoked and no later Stop EOF/302/Reload/fail-fail/recovery stage is accepted.",
+  "methods": [
+    {
+      "bounded_last_held_start_sample": {
+        "facts": {
+          "bytes": 0,
+          "current": true,
+          "expected": "stopped",
+          "finishes": 0,
+          "generation": 0,
+          "hasStart": false,
+          "nativeErrors": 0,
+          "ownerPresent": true,
+          "peerEof": 0,
+          "pending": 1,
+          "permit": 1,
+          "released": false,
+          "replies": 0,
+          "requests": 1,
+          "sameOwner": true,
+          "stage": "stopped",
+          "starts": 0,
+          "stopInvoked": false
+        },
+        "probe_facts_unavailable": false,
+        "scope": "Last bounded in-wait sample before unwind; not cause"
+      },
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "detected_known_suppressed_fixture_failure_signatures": {
+        "early_header_eof": false,
+        "owned_http_fixture_failed": false,
+        "owned_stop_redirect_fixture_failed": false,
+        "peer_disconnected_before_public_stop": false
+      },
+      "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+      "native_method_accepted": false,
+      "original_failure_message_attribute": null,
+      "original_failure_type_attribute": null,
+      "primary_assertion_text": "java.lang.AssertionError: A forwarded native start and the exact still-held owned request",
+      "source_line": 158,
+      "status": "failed",
+      "testcase_time_seconds_original": "15.275"
+    },
+    {
+      "bounded_last_held_start_sample": {
+        "facts": {
+          "attempts": 1,
+          "bytes": 0,
+          "completed": 0,
+          "current": true,
+          "finishes": 0,
+          "gate": 1,
+          "generation": 0,
+          "hasStart": false,
+          "nativeErrors": 0,
+          "ownerPresent": true,
+          "pending": 1,
+          "refused": 0,
+          "released": false,
+          "stage": "fail-a",
+          "starts": 0
+        },
+        "probe_facts_unavailable": false,
+        "scope": "Last bounded in-wait sample before unwind; not cause"
+      },
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "detected_known_suppressed_fixture_failure_signatures": {
+        "early_header_eof": false,
+        "owned_http_fixture_failed": false,
+        "owned_stop_redirect_fixture_failed": false,
+        "peer_disconnected_before_public_stop": false
+      },
+      "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+      "native_method_accepted": false,
+      "original_failure_message_attribute": null,
+      "original_failure_type_attribute": null,
+      "primary_assertion_text": "java.lang.AssertionError: A real onPageStarted and still-held exact owned HTTP request",
+      "source_line": 75,
+      "status": "failed",
+      "testcase_time_seconds_original": "11.986"
+    }
+  ],
+  "original_counts": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "original_suite_attributes": {
+    "errors": "0",
+    "failures": "2",
+    "hostname": "localhost",
+    "name": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+    "skipped": "0",
+    "tests": "2",
+    "time": "27.261",
+    "timestamp": "2026-11-01T06:57:15"
+  },
+  "original_xml_bytes": 5705,
+  "original_xml_sha256": "c533bf583f4a635c7f1edde8075ec82a7e9e8845178c8852e9d8887d710afe85",
+  "timestamp_timezone_not_declared": true,
+  "zero_suite_time_not_reinterpreted_as_duration": true
+}

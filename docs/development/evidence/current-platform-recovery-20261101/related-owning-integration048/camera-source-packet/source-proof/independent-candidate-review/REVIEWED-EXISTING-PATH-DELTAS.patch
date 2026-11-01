@@ -1,0 +1,109 @@
+--- preimage/scripts/ci/android_camera_developer_prerequisite.py
++++ candidate/scripts/ci/android_camera_developer_prerequisite.py
+@@ -33,6 +33,7 @@
+ PROCESS_HEADER = "ACTIVITY MANAGER RUNNING PROCESSES (dumpsys activity processes)"
+ READINESS = "  mProcessesReady=true mSystemReady=true mBooted=true mFactoryTest=0"
+ RECENTS_HEADER = "ACTIVITY MANAGER RECENT TASKS (dumpsys activity recents)"
++ACTIVITIES_HEADER = "ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)"
+ CONTROL_BYTES = 65536
+ DUMP_BYTES = 1048576
+ ANDROID = "{http://schemas.android.com/apk/res/android}"
+@@ -280,6 +281,24 @@
+             "Unknown native always-finish field")
+     settings = re.search(r"(?<![A-Za-z0-9_.$])com\.android\.settings(?=$|[/:,\s}\]])", text) is not None
+     return bool(fields), settings
++
++
++def parse_settings_activity_absence(result: subprocess.CompletedProcess) -> None:
++    """Require complete traversal emptiness, never a terminal sentinel alone."""
++    payload = result_bytes(result, CONTROL_BYTES)
++    require(not any(char in payload for char in (b"\r", b"\0", b"\x1b")), "Unsafe Settings activity bytes")
++    rows = payload.decode("utf-8").removesuffix("\n").split("\n")
++    require(len(rows) >= 3 and rows[0] == ACTIVITIES_HEADER and rows.count(ACTIVITIES_HEADER) == 1 and
++            rows[-1] == "  (nothing)" and rows.count("  (nothing)") == 1,
++            "Settings Activity absence header/footer is unproved")
++    displays = set()
++    for row in rows[1:-1]:
++        display = re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", row)
++        require(display is not None, "Settings Activity absence traversal is unproved")
++        identifier = int(display[1])
++        require(identifier <= 2147483647 and identifier not in displays,
++                "Unknown or duplicate Settings Activity display traversal")
++        displays.add(identifier)
+ 
+ 
+ def parse_recents(result: subprocess.CompletedProcess) -> None:
+@@ -820,7 +839,11 @@
+         require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing", "Non-enforcing guest refused")
+         master, scalar = self.state_row(MASTER), self.state_row(SCALAR)
+         native, settings = parse_native(self.control("shell", "dumpsys", "activity", "processes", limit=DUMP_BYTES))
+-        require(not fresh or not settings, "Settings process/package/dependency record present in fresh epoch")
++        if fresh:
++            # A cached process/package token is not a live Settings Activity.
++            # The all-Activity reader also rejects nested/stopping/finishing rows.
++            parse_settings_activity_absence(self.control("shell", "dumpsys", "activity", "-p",
++                                                        "com.android.settings", "activities"))
+         require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, "State changed around native read")
+         parse_recents(self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"))
+         parse_live_tasks(self.control("shell", "am", "stack", "list"))
+--- preimage/scripts/ci/test_android_camera_developer_prerequisite.py
++++ candidate/scripts/ci/test_android_camera_developer_prerequisite.py
+@@ -82,6 +82,7 @@
+     return ("\n".join(rows) + "\n").encode()
+ 
+ 
++ACTIVITIES = (camera.ACTIVITIES_HEADER + "\nDisplay #0 (activities from top to bottom):\n  (nothing)\n").encode()
+ RECENTS = (camera.RECENTS_HEADER + "\nmRecentsUid=1000\nmRecentsComponent=ComponentInfo{com.android.launcher3/.QuickstepService}\n"
+            "mFreezeTaskListReordering=false\nmFreezeTaskListReorderingPendingTimeout=false\n  (nothing)\n").encode()
+ LIVE = ("RootTask id=1 bounds=[0,0][1080,2400] displayId=0 userId=0\n configuration={modeled-complete-config}\n"
+@@ -212,6 +213,7 @@
+         self.path = "/data/app/~~owned/reporter-token/base.apk"
+         self.apk_digest, self.installed_digest = None, None
+         self.manifest, self.settings_process, self.recent_tasks, self.live_tasks = MANIFEST, False, RECENTS, LIVE
++        self.settings_activities, self.new_settings_activities = ACTIVITIES, ACTIVITIES
+         self.enable_timeout, self.enable_effect, self.enable_stdout = False, True, b""
+         self.reboot_timeout, self.reboot_effect, self.new_settings_process = False, True, False
+         self.new_master, self.new_scalar, self.new_native = None, None, None
+@@ -265,6 +267,8 @@
+             return cp(("Row: 0 name=" + key + ", value=" + row.value + "\n").encode() if row.present else b"No result found.\n")
+         if args == ("shell", "dumpsys", "activity", "processes"):
+             return cp(native_payload(self.native, self.settings_process))
++        if args == ("shell", "dumpsys", "activity", "-p", "com.android.settings", "activities"):
++            return cp(self.settings_activities)
+         if args == ("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"):
+             return cp(self.recent_tasks)
+         if args == ("shell", "am", "stack", "list"):
+@@ -303,6 +307,7 @@
+             if self.reboot_effect:
+                 self.boot = NEW
+                 self.settings_process = self.new_settings_process
++                self.settings_activities = self.new_settings_activities
+                 self.master = self.new_master if self.new_master is not None else self.master
+                 self.scalar = self.new_scalar if self.new_scalar is not None else self.scalar
+                 self.native = self.new_native if self.new_native is not None else self.scalar == camera.Row(True, "1")
+@@ -460,10 +465,13 @@
+         self.assertEqual(receipt["master_restore_attempts"], 0)
+         self.assertFalse(camera.accepted(receipt, self.disposal()))
+ 
+-    def test_cached_settings_process_not_death_proof_new_epoch_gate_refuses(self):
++    def test_started_settings_activity_new_epoch_gate_refuses_even_with_terminal_nothing(self):
+         self.model().prepare()
+         self.dispatch()
+         self.device.new_settings_process = True
++        self.device.new_settings_activities = ACTIVITIES.replace(b"  (nothing)\n",
++            b"    * Hist #0: ActivityRecord{aa u0 com.android.settings/.Settings$DevelopmentSettingsDashboardActivity t2}\n"
++            b"      state=STARTED\n  (nothing)\n")
+         receipt = self.close_model()
+         self.assertFalse(receipt.get("kernel_barrier_verified", False))
+         self.assertEqual(receipt["master_restore_attempts"], 0)
+--- preimage/scripts/ci/test_android_camera_documented_data_default.py
++++ candidate/scripts/ci/test_android_camera_documented_data_default.py
+@@ -23,7 +23,7 @@
+ 
+ FACT = "documented_data_partition_temp_default_observed"
+ REFUSAL = "Actual supplied mutable path confinement is unproved"
+-BASE_MODULE_AST_SHA256 = "d4962dd7a931e14522ab8d2cca15700cf0790fad45719793aa5db6e6af88d400"
++BASE_MODULE_AST_SHA256 = "ae4a3c43c238a3c1585d946e5692a6953e57094da31aa28d58207d7516084f41"
+ BASE_LAUNCH_AST_SHA256 = "78dd0007e65c3f2f39e67efc8bf4a8ecdd12a9d729a49012a52230d61725ca9b"
+ 
+ 

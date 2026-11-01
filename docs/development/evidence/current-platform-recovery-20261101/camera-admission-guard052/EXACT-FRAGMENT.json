@@ -1,0 +1,8 @@
+{
+  "after_sha256": "3a220ec4dedde9d486d42c0df2e29c803184c0d47dc9be2bfa920b7a31ffe31d",
+  "before_sha256": "220a413ec8f25e13ccdea557687f61d747bcde570ed474f70e2c22b5eae1a2fb",
+  "forward_inverse_exact": true,
+  "new": "    def test_fresh_started_settings_activity_refused_not_killed(self):\n        self.model()\n        self.device.settings_process = True\n        self.device.settings_activities = ACTIVITIES.replace(b\"  (nothing)\\n\",\n            b\"    * Hist #0: ActivityRecord{aa u0 com.android.settings/.Settings$DevelopmentSettingsDashboardActivity t2}\\n\"\n            b\"      state=STARTED\\n  (nothing)\\n\")\n        with self.assertRaises(ValueError):\n            self.owner.prepare()\n        self.assertEqual(self.device.actions, [])\n",
+  "old": "    def test_fresh_settings_process_refused_not_killed(self):\n        self.model()\n        self.device.settings_process = True\n        with self.assertRaises(ValueError):\n            self.owner.prepare()\n        self.assertEqual(self.device.actions, [])\n",
+  "path": "scripts/ci/test_android_camera_developer_prerequisite.py"
+}

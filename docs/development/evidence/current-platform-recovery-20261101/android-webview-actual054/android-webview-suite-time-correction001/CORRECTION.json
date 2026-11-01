@@ -1,0 +1,99 @@
+{
+  "affected_original_derivative_labels": [
+    {
+      "conflict": "Incorrectly labels root testsuites time0.000 as the native suite time.",
+      "correction": "Read root testsuites container time0.000; sole native testsuite time27.261.",
+      "file": "README.md"
+    },
+    {
+      "conflict": "The sentence beginning XML native suite time is literally0.000 mislabels the root-container attribute.",
+      "correction": "Root container time0.000; sole native suite time27.261; timestamp timezone not declared.",
+      "field": "missing_or_unproven_observations",
+      "file": "REVIEW.json"
+    },
+    {
+      "conflict": "None. The stored27.261 native suite attribute is correct.",
+      "correction": "Preserve these original native-suite attributes unchanged.",
+      "field": "original_suite_attributes.time",
+      "file": "NATIVE-METHODS.json"
+    },
+    {
+      "conflict": "The zero-time label refers to the root testsuites container, not the sole native testsuite.",
+      "correction": "Treat only root-container time0.000 as the uninterpreted container attribute.",
+      "field": "zero_suite_time_not_reinterpreted_as_duration",
+      "file": "NATIVE-METHODS.json"
+    }
+  ],
+  "attempt": 1,
+  "correct_interpretation": "The original root testsuites container time is literally0.000; the sole native testsuite time is literally27.261 seconds, equal to15.275+11.986 testcase times. Neither XML timestamp carries a timezone suffix. Gradle wall time remains89.03 seconds and is a separate measure.",
+  "immutable_commit": "f9848a4f3cde520d5f8e284f7df7e10bb2b208bc",
+  "kind": "Additive accuracy correction only; original seal preserved",
+  "observed_utc": "2026-11-01T07:16:33.401056+00:00",
+  "original_packet": {
+    "bytes": 124883,
+    "file": "android-webview-actual-independent001.public-safe.tar.gz",
+    "members": 13,
+    "sha256": "62ea97cb012892c52302d2109ec33431ffdf7073af5eb98666037396cbb8e7fa",
+    "unchanged_and_not_replaced": true
+  },
+  "original_xml": {
+    "bytes": 5705,
+    "root": {
+      "attributes": {
+        "errors": "0",
+        "failures": "2",
+        "hostname": "localhost",
+        "skipped": "0",
+        "tests": "2",
+        "time": "0.000",
+        "timestamp": "2026-11-01T06:57:15"
+      },
+      "tag": "testsuites"
+    },
+    "sha256": "c533bf583f4a635c7f1edde8075ec82a7e9e8845178c8852e9d8887d710afe85",
+    "single_passive_reconciliation_from_already_owned_original_bytes": true,
+    "sole_native_suite": {
+      "attributes": {
+        "errors": "0",
+        "failures": "2",
+        "hostname": "localhost",
+        "name": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+        "skipped": "0",
+        "tests": "2",
+        "time": "27.261",
+        "timestamp": "2026-11-01T06:57:15"
+      },
+      "tag": "testsuite"
+    },
+    "testcase_decimal_sum_seconds": "27.261",
+    "testcases": [
+      {
+        "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+        "status": "failed",
+        "time": "15.275"
+      },
+      {
+        "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+        "status": "failed",
+        "time": "11.986"
+      }
+    ]
+  },
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "run_id": 41282126027,
+  "schema_version": 1,
+  "scope": "No tests, model/native execution, builds, downloads, acquisition retries, live-device or Git/GitHub mutations. No original source, original XML or original sealed derivative was changed. Only this addendum is newly written.",
+  "unchanged_result": {
+    "accepted_native_methods": 0,
+    "both_original_native_methods_still_required": true,
+    "errors": 0,
+    "executed": 2,
+    "failures": 2,
+    "gradle_elapsed_seconds": 89.03,
+    "gradle_exit_code": 1,
+    "no_callback_cause_or_cleanup_acceptance_added": true,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0
+  }
+}

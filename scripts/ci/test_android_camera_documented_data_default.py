@@ -23,7 +23,7 @@ with patch.dict(sys.modules, {SPEC.name: camera}):
 
 FACT = "documented_data_partition_temp_default_observed"
 REFUSAL = "Actual supplied mutable path confinement is unproved"
-BASE_MODULE_AST_SHA256 = "d4962dd7a931e14522ab8d2cca15700cf0790fad45719793aa5db6e6af88d400"
+BASE_MODULE_AST_SHA256 = "ae4a3c43c238a3c1585d946e5692a6953e57094da31aa28d58207d7516084f41"
 BASE_LAUNCH_AST_SHA256 = "78dd0007e65c3f2f39e67efc8bf4a8ecdd12a9d729a49012a52230d61725ca9b"
 
 

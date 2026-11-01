@@ -82,6 +82,7 @@ def native_payload(enabled=False, settings=False):
     return ("\n".join(rows) + "\n").encode()
 
 
+ACTIVITIES = (camera.ACTIVITIES_HEADER + "\nDisplay #0 (activities from top to bottom):\n  (nothing)\n").encode()
 RECENTS = (camera.RECENTS_HEADER + "\nmRecentsUid=1000\nmRecentsComponent=ComponentInfo{com.android.launcher3/.QuickstepService}\n"
            "mFreezeTaskListReordering=false\nmFreezeTaskListReorderingPendingTimeout=false\n  (nothing)\n").encode()
 LIVE = ("RootTask id=1 bounds=[0,0][1080,2400] displayId=0 userId=0\n configuration={modeled-complete-config}\n"
@@ -212,6 +213,7 @@ class DeviceModel:
         self.path = "/data/app/~~owned/reporter-token/base.apk"
         self.apk_digest, self.installed_digest = None, None
         self.manifest, self.settings_process, self.recent_tasks, self.live_tasks = MANIFEST, False, RECENTS, LIVE
+        self.settings_activities, self.new_settings_activities = ACTIVITIES, ACTIVITIES
         self.enable_timeout, self.enable_effect, self.enable_stdout = False, True, b""
         self.reboot_timeout, self.reboot_effect, self.new_settings_process = False, True, False
         self.new_master, self.new_scalar, self.new_native = None, None, None
@@ -265,6 +267,8 @@ class DeviceModel:
             return cp(("Row: 0 name=" + key + ", value=" + row.value + "\n").encode() if row.present else b"No result found.\n")
         if args == ("shell", "dumpsys", "activity", "processes"):
             return cp(native_payload(self.native, self.settings_process))
+        if args == ("shell", "dumpsys", "activity", "-p", "com.android.settings", "activities"):
+            return cp(self.settings_activities)
         if args == ("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"):
             return cp(self.recent_tasks)
         if args == ("shell", "am", "stack", "list"):
@@ -303,6 +307,7 @@ class DeviceModel:
             if self.reboot_effect:
                 self.boot = NEW
                 self.settings_process = self.new_settings_process
+                self.settings_activities = self.new_settings_activities
                 self.master = self.new_master if self.new_master is not None else self.master
                 self.scalar = self.new_scalar if self.new_scalar is not None else self.scalar
                 self.native = self.new_native if self.new_native is not None else self.scalar == camera.Row(True, "1")
@@ -460,10 +465,13 @@ class LifecycleModels(ModelFixture):
         self.assertEqual(receipt["master_restore_attempts"], 0)
         self.assertFalse(camera.accepted(receipt, self.disposal()))
 
-    def test_cached_settings_process_not_death_proof_new_epoch_gate_refuses(self):
+    def test_started_settings_activity_new_epoch_gate_refuses_even_with_terminal_nothing(self):
         self.model().prepare()
         self.dispatch()
         self.device.new_settings_process = True
+        self.device.new_settings_activities = ACTIVITIES.replace(b"  (nothing)\n",
+            b"    * Hist #0: ActivityRecord{aa u0 com.android.settings/.Settings$DevelopmentSettingsDashboardActivity t2}\n"
+            b"      state=STARTED\n  (nothing)\n")
         receipt = self.close_model()
         self.assertFalse(receipt.get("kernel_barrier_verified", False))
         self.assertEqual(receipt["master_restore_attempts"], 0)
@@ -637,9 +645,12 @@ class AdmissionModels(ModelFixture):
             self.owner.prepare()
         self.assertEqual(self.device.actions, [])
 
-    def test_fresh_settings_process_refused_not_killed(self):
+    def test_fresh_started_settings_activity_refused_not_killed(self):
         self.model()
         self.device.settings_process = True
+        self.device.settings_activities = ACTIVITIES.replace(b"  (nothing)\n",
+            b"    * Hist #0: ActivityRecord{aa u0 com.android.settings/.Settings$DevelopmentSettingsDashboardActivity t2}\n"
+            b"      state=STARTED\n  (nothing)\n")
         with self.assertRaises(ValueError):
             self.owner.prepare()
         self.assertEqual(self.device.actions, [])

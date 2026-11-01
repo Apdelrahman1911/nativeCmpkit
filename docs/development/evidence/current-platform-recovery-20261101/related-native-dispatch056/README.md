@@ -1,0 +1,3 @@
+# Related missing-only native requests
+
+Two honest finite requests bind immutable `f97a0e1b13686b015fca7f463a415392bad65ead` and1117 library/1194 combined Git blobs to final-freeze053. Source-only plans are reused without replay. Camera selects only original Dont-keep1; permission selects only Call/first-denial2. Accepted camera009 C2/C3, picker1, IO, DNS1 and Linux x64 TLS1 are excluded. No source/compiler/native acceptance follows dispatch. Every queued/in-progress workflow was conservatively counted before each one-shot POST; maximum two hosted-heavy jobs. The branch was exact before and after each POST. Publishing/security/readiness and main/history controls remain.

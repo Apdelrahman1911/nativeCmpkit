@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `6e697bc69e3c26ceecb2013b72426eee10e9d66b8949ba20eb467908c5d52132`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `15ab3ca385e4043c30dac845830bdab809e2acd7b7b9dd6b7d810fe3cd5016bd`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 4 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 5 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -1793,6 +1793,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Verify an actual offline destination; response/socket destruction is not system offline, DNS/TLS or network certification.
 - Verify actual iOS provisional DNS/TLS failure before commit resets prior errors with genuine WKWebView and owned transport. Browser methods cannot substitute for it.
 - 2026-11-01: Only missing Android request2/Desktop10/iOS request2/browser-offlineJS+Wasm2 executions remain. Actual iOS DNS1 was independently accepted from the still-FAILED41276065062; reuse it without replay. Retain every literal #64 obligation.
+- 2026-11-01: original iOS request2 are now independently accepted from SUCCESS41282118143 on exact1115 original source maps; accepted DNS1 is retained separately without replay. Current missing request-state executions are Android2/Desktop10 plus genuine browser-offlineJS+Wasm2; the prior iOS-request2 pending statement is historical. Every other original#64 obligation remains. Do not infer exact Stop error branch, weak-zeroing or whole-worktree/platform/security acceptance.
 
 **Owner verification scope:** Accept only three complete new request-state methods on each of Chromium JS/Wasm; six target executions are not six distinct methods or the every-target matrix. Preserve accepted earlier content/identity/origin evidence without replay. Original other-platform/offline/WKWebView DNS/TLS obligations remain. Latest source-qualified request repair and Android reporter compile are preparation, not four native passes or issue closure. Accepted iOS DNS1 is reused; next immutable requests select only original Android2 and iOS2.
 
@@ -3571,7 +3572,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `f067290fad8b919146e0cbd3bbfb6c37100fb0237cf6a5e0e3726531b6ba619f` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `dcf88e36115e2acf343fbd45076f1ac2954719e8ac06e81798aecd0e135b5b88` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `cbabd2a38f15812fef190892e0e509dadf179a722367c5329a2b58106545b02f` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `fbb7e2639db3bbe529a50f4373b422bee2dbac5eaa525618a48c86d0a6d6bc09` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |

@@ -1,0 +1,22 @@
+# Actual iOS WebView request2 — independently accepted finite subset
+
+Run **41282118143**, attempt **1**, immutable source **f9848a4f3cde520d5f8e284f7df7e10bb2b208bc**, profile `ios-webview-request-state`, is **SUCCESS**. Independent original-source/results review accepts **two actual native methods / two target executions / one original XML**, both passing with no skips. The actual Gradle invocation exits **0 / 1397.3s**. **54** bounded integrity/source/runtime/protocol/XML/transport/cleanup review checks pass; they are evidence checks, not additional native tests or model reruns.
+
+## Original-only acquisition and binding
+
+Two completed-job logs and the single original artifact ZIP were acquired exactly once. The first artifact pre-GET reserve check refused the temporary volume; the lead directed a new exclusive overlay destination with more than 8 GiB reserve. The still-unacquired artifact was then downloaded once. No deletion, old-log copy, failed-GET retry, new build/run, Git/GitHub mutation, prior-result acquisition or accepted DNS1 replay occurred.
+
+All 13 original archive members read back exactly. Both actual source maps contain **1115 library entries**, equal before/after and equal to the frozen immutable library map. **1192 combined entries are separate predispatch Git-bound evidence; no actual combined map was uploaded.** Fourteen selected source copies plus two exact initializer copies retain their frozen hashes. Later whole-worktree equality is not claimed.
+
+Raw original logs, original XML (including its runner hostname), native app receipt/bundle/Worker/process identities and installed signing/plist data remain private and unmodified. This packet contains reviewed extracts and hashes, **not reconstructed or sanitized XML**. No successful raw Gradle/compiler/linker log, native console stream or binary was uploaded by this workflow; individual compiler/linker task dispositions/timings therefore remain unknown. The original Gradle/native-task, linked/signed Mach-O and installed-byte readback observations are cross-checked as runtime receipts, not independently rehashed local binary artifacts.
+
+## Accepted literal native assertions
+
+- `nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors`: real complete ClientHello/fatal-alert failures assert native public **−1200** before commit, nonblank descriptions, reset of previous errors at the second **real document-link** provisional start, retained old DOM, genuine recovery and native current-URL Reload to generation 2. Unsupported UTF-16 HTML fails without replacing the real DOM. Each failed transport has 8 real ClientHellos/alerts and 56 response bytes; these 16 handshake events are **not 16 native tests**.
+- `nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess`: real native link→HTTP302→final document preserves the requested entry while exposing the actual committed destination/title. Native Stop requires actual **client EOF**, no response/page bytes and no server release/cleanup substitute. Finished/uncommitted metadata and retained old DOM then real recovery pass. The Stop error assertion permits only empty or one native **−999**; the exact observed branch is unlogged, not asserted as −999.
+
+Actual Darwin/Arm64, booted iPhone Air/iOS26.5, Xcode26.6, SDK 26.5 and JDK17/Gradle9.7.1 observations agree across the lifecycle. Linked Mach-O metadata independently retains its distinct SDK 26.4/minimum 15.0 observations. Distinct UIApplication main/owned Worker, native process agreement, Worker termination and console exit 0 are reviewed. Both native methods use the same owned native view/application and assert final state/view-observer/navigator detachment. Exact owned app absence/sign/install/readback/recheck/uninstall/local removal and all fixture listener/connection/thread cleanup pass.
+
+## Boundaries stay open
+
+This current finite TLS/request result certifies neither DNS nor system/genuine browser offline. Accepted DNS1 was excluded and not reacquired. It does not prove generalized stale callback ordering/history, nil-return guarantees, tokenless Stop latching, fixed weak-storage cardinality or real weak-zeroing/lifetime behavior. It does not close whole **#64**: every-target/offline and remaining platform obligations must be reviewed separately. All prior failed iOS attempts remain failed. No physical/minimum-device, consumer, ABI, dependency/legal/security/readiness, publication/Pages/main/history or release gate is waived.

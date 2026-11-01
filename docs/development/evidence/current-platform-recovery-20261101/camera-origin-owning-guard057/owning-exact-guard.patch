@@ -1,0 +1,32 @@
+diff --git a/scripts/ci/test_android_camera_mutable_path_diagnostics.py b/scripts/ci/test_android_camera_mutable_path_diagnostics.py
+index 5f7708ce..5a62f74f 100644
+--- a/scripts/ci/test_android_camera_mutable_path_diagnostics.py
++++ b/scripts/ci/test_android_camera_mutable_path_diagnostics.py
+@@ -1,6 +1,7 @@
+ """New after-refusal models only; no SDK, Gradle, emulator or device execution."""
+ from __future__ import annotations
+ 
++import ast
+ import hashlib
+ import importlib.util
+ import json
+@@ -17,6 +18,9 @@ TREE = Path(os.environ.get("NATIVECMPKIT_CAMERA_MUTABLE_PATH_SOURCE_ROOT",
+ PRIVATE = Path(os.environ.get("NATIVECMPKIT_CAMERA_MUTABLE_PATH_MODEL_TMP",
+                               tempfile.gettempdir())).resolve()
+ HELPER = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
++REQUIRE = next(node for node in ast.parse(HELPER.read_text(encoding="utf-8")).body
++               if isinstance(node, ast.FunctionDef) and node.name == "require")
++REQUIRE_RAISE_LINE = REQUIRE.body[0].body[0].lineno
+ SPEC = importlib.util.spec_from_file_location("camera_mutable_path_diagnostic_helper", HELPER)
+ camera = importlib.util.module_from_spec(SPEC)
+ with patch.dict(sys.modules, {SPEC.name: camera}):
+@@ -118,7 +122,8 @@ class CameraMutablePathDiagnosticTests(unittest.TestCase):
+             self.assertIs(type(error), ValueError)
+             self.assertEqual(str(error), REFUSAL)
+             origin = traceback.extract_tb(error.__traceback__)[-1]
+-            self.assertEqual((origin.name, origin.lineno), ("require", 47))
++            self.assertEqual(Path(origin.filename).resolve(), HELPER)
++            self.assertEqual((origin.name, origin.lineno), ("require", REQUIRE_RAISE_LINE))
+             self.assertFalse(fixture.guest.launch_attempted)
+             self.assertNotIn("mutable_paths_confined", fixture.guest.receipt)
+             self.assertEqual(fixture.guest.avd_files, {})

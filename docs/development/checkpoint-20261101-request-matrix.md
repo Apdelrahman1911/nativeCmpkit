@@ -4,6 +4,31 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Accepted iOS request2 / shared tooling owning recovery
+
+[Actual iOS41282118143](evidence/current-platform-recovery-20261101/ios-webview-actual058/README.md)
+passes2/2 actual native methods/one XML/Gradle0/1397.3s after54 independent original
+source/results/identity/transport/runtime/cleanup checks.1115 actual library inputs
+bind immutablef9848a4f;1192 combined remains predispatch only. Native provisional
+TLS−1200/fail→fail→success/Reload, real link→302 and public Stop/clientEOF execute.
+DNS1 is not replayed; exact Stop empty/−999 branch and individual compiler/linker
+dispositions are unlogged. Whole#64/offline/weak-zeroing/readiness is not certified.
+
+[Camera41284566459 and permission41284584090](evidence/current-platform-recovery-20261101/related-native-dispatch056/README.md)
+atf97a0e1b remain FAILED with ZERO native/XML/artifacts. Both original owning
+tooling logs show1919 methods/17 failure reports/10 failing methods at the same
+stale require-line guard. [One fresh important red/owning repair](evidence/current-platform-recovery-20261101/camera-origin-owning-guard057/README.md)
+derives the actual AST raise and verifies owned source identity without weakening
+any ValueError/state/cleanup criterion;12 affected synthetic methods pass once.
+The earlier static assessment missed the different literal-line consumer.
+
+Next immutable recovery requests are unchanged original Dont-keep1 and Call/
+first-denial2 only. Accepted camera009 C2/C3/picker/IO/DNS/LinuxTLS and now iOS
+request2 are excluded. Native permission denial is the C4 subset, not completion
+of all Android13/14 media criteria. No new closure;92closed/80open/172total and
+all existing capacity/security/publishing gates remain. Earlier sections below
+retain their historical scope, not later-current-state equality.
+
 ## Current related prerequisite patch / missing-only execution
 
 The [nine-path batch](evidence/current-platform-recovery-20261101/related-owning-integration048/README.md)

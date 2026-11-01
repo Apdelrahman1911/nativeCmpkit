@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## iOS request2 accepted; shared owning guard repaired — 2026-11-01
+
+[iOS41282118143](docs/development/evidence/current-platform-recovery-20261101/ios-webview-actual058/README.md)
+passes2/2 actual native/one original XML/Gradle0/1397.3s;54 independent original
+source/results/identity/runtime/transport/cleanup checks accepted. Actual1115
+library maps bind f9848a4f;1192 combined is predispatch only. Native TLS−1200,
+fail→fail→success/Reload, real link→302 and public Stop/client EOF execute; exact
+Stop empty/−999 branch and compiler/linker dispositions remain unlogged. DNS1
+was excluded, no weak-zeroing/offline/whole#64/release inference.
+
+[Finite camera41284566459/permission41284584090](docs/development/evidence/current-platform-recovery-20261101/related-native-dispatch056/README.md)
+at f97a0e1b are FAILED/ZERO native/XML: original owning tooling logs independently
+confirm1919 CI methods/17 failure reports/10 failed methods, all stale mutable-path
+require47 versus live48. [One genuine local red and owning repair](docs/development/evidence/current-platform-recovery-20261101/camera-origin-owning-guard057/README.md)
+retain exact ValueError/message/state/refusals, dynamically bind live AST raise
+and exact owned path;12 affected synthetic methods pass once/0.297684s. No helper,
+workflow, production/native criterion change. Earlier static review missed this
+literal consumer; the separate dynamic AST consumer did not justify omission.
+Next repeat only still-unexecuted Dont-keep1/Call-denial2 with unchanged accepted
+compiler/plan/native inputs, never camera009/picker/IO/DNS/Linux TLS.
+
+92closed/80open/172total;27implemented/42partial/90verified/five unresolved.
+All lead-owned Git/closures, parallel disjoint work, serial local/8GiB DISK/
+max2combined hosted and publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness gates stay. Prior observations below retain
+their original scope and time, not a later-current-state claim.
+
 ## Related prerequisites verified; missing-only native batch next — 2026-11-01
 
 [Exact nine-path integration](docs/development/evidence/current-platform-recovery-20261101/related-owning-integration048/README.md)

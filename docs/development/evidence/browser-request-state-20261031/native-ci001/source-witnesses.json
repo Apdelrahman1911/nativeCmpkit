@@ -1,0 +1,86 @@
+{
+  "commit": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "observed_network_limit": "Owned pre-header TCP response refusal is real transport failure, not an actual system-offline, DNS, TLS, remote production server, or blocked-framing acceptance claim.",
+  "result_binding": "Both original XML reports pass exactly these three expression-bodied asynchronous methods. HTTP/page/native-state witnesses and cleanup assertions are in those methods, not a separate exported per-response telemetry artifact.",
+  "reviewed_witness_groups": [
+    {
+      "id": "request-start-and-option-rejection",
+      "immutable_source_sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+      "lines": "54\u201395",
+      "review": "beginRequest clears title, observed final URL and prior errors, sets requested URL and Loading. Unsupported headers/encoding are explicitly rejected with current-only -2 error and Finished before changing native content.",
+      "source": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt"
+    },
+    {
+      "id": "native-load-terminal-and-unknown-metadata",
+      "immutable_source_sha256": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+      "lines": "55\u201374,133\u2013147",
+      "review": "Accepted URL/data loaders operate on the mounted iframe. Native load ends navigation, clears stale metadata before same-origin reads, and refuses invented cross-origin success/history; error populates only the native -1 current error.",
+      "source": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt"
+    },
+    {
+      "id": "actual-readable-reload-and-native-stop",
+      "immutable_source_sha256": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+      "lines": "159\u2013169",
+      "review": "Readable native location, not a rejected or pre-redirect UI request, begins native Reload; opaque fallback replays only last accepted content. Stop calls native window.stop then marks terminal, not fully loaded HTTP success.",
+      "source": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt"
+    },
+    {
+      "id": "native-rejection-rejection-reload-retry",
+      "immutable_source_sha256": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+      "lines": "25\u201380",
+      "method": "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata",
+      "review": "Both native methods assert real held-response postMessage/Loading; release and actual document readiness; two rejected option kinds and zero rejected HTTP page work; old actual native URL retained despite changed request UI; second native reload of original document; successful retry/current-only metadata/errors; completed response counts and idle fixture.",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt",
+      "target_executions": 2
+    },
+    {
+      "id": "native-redirect-reload-stop-recovery",
+      "immutable_source_sha256": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+      "lines": "83\u2013134",
+      "method": "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata",
+      "review": "Actual emitted Location is compared with the owned terminal held route; native location and requested/final metadata are distinct. Reload reaches terminal without replaying redirect. Native Stop cancels its pending response (holdCancelled=1, pending=0, holdCompleted=0), then a new actual document recovers cleanly. Finished after Stop is explicitly not full HTTP/page success.",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt",
+      "target_executions": 2
+    },
+    {
+      "id": "native-repeated-pre-header-transport-refusal",
+      "immutable_source_sha256": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+      "lines": "137\u2013178",
+      "method": "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery",
+      "review": "Two real response-destroy routes after a prior rejection require trusted terminal activity, inaccessible old document, correct native src/no srcdoc, no old title/final URL, no executable page witness, actual abort/closed counts including browser retries, and no old errors. Only native -1 errors, if emitted, may exist; reliable iframe-error reporting is not claimed. Actual inline document recovery resets request/error state.",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt",
+      "target_executions": 2
+    },
+    {
+      "id": "owned-origin-trusted-events-and-control-lease",
+      "immutable_source_sha256": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+      "lines": "180\u2013183,232\u2013271,286\u2013346",
+      "review": "Only host-controlled pages opt into Trusted. Real native messages require isTrusted, exact contentWindow, actual owned HTTP origin and nonce/stage. Protocol/host/port are validated. Open grants cleanup authority only after exact opened receipt; a rejected/colliding open cannot close another lease. Each control iframe is removed and its listener detached.",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt"
+    },
+    {
+      "id": "bounded-polling-and-failure-preserving-finally",
+      "immutable_source_sha256": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+      "lines": "203\u2013222,274\u2013277,296\u2013345,349\u2013372",
+      "review": "All asynchronous body and cleanup work is returned through expression-bodied runTest. NonCancellable finally retains primary/suppressed failures. Mounted viewport disposal is followed by state.iframe=null and native disconnection checks. Per-session receipt polling is bounded at 32 polls/500ms/original 15s, at most two waits; cleanup removes all native listeners and control iframes.",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt"
+    },
+    {
+      "id": "real-http-and-resource-bounds",
+      "immutable_source_sha256": "f79642ffe053d4ba4b2eb56743bb636cbd0f9663acf1bdf0741731c5e7a0f6f0",
+      "lines": "1\u2013139",
+      "review": "Existing Karma listener only, fixed GET routes, no external socket or supplied redirect destination; 32 sessions/16 stages/4 pending holds/128 work requests. Page bytes provide actual DOM/native-message witnesses; redirect emits 302/Location; abort destroys response before headers/body. Holds expire after 20s and expiry must stay zero in accepted methods.",
+      "source": "calf-webview/karma.config.d/nativecmpkit-request-fixture.js"
+    },
+    {
+      "id": "owned-close-not-end-write-substitution",
+      "immutable_source_sha256": "f79642ffe053d4ba4b2eb56743bb636cbd0f9663acf1bdf0741731c5e7a0f6f0",
+      "lines": "35\u201381,104\u2013129",
+      "review": "Only acquired session close is exempt from exhausted work budget. It destroys only owned response leases, awaits their actual close promises, checks zero pending and exact session identity before deletion, returns exact closed|nonce|0, and caps close at 2s. Release acknowledgement also waits for native response close, not merely end(). Explicit close failure cannot be accepted.",
+      "source": "calf-webview/karma.config.d/nativecmpkit-request-fixture.js"
+    }
+  ],
+  "reviewer_new_executions": 0,
+  "security_policy_weakened_or_test_events_synthesized": false,
+  "source_identity_files_checked": 17
+}

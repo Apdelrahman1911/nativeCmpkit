@@ -1,0 +1,344 @@
+{
+  "accepted63_65_11_replayed": false,
+  "commit": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "completed_at_utc": "2026-11-01T00:15:12Z",
+  "created_at_utc": "2026-11-01T00:02:52Z",
+  "distinct_new_methods": [
+    "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata",
+    "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata",
+    "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery"
+  ],
+  "focus": "webview-browser-request-state",
+  "fresh_target_executions": 6,
+  "github_conclusion": "success",
+  "github_status": "completed",
+  "jobs": [
+    {
+      "completed_at_utc": "2026-11-01T00:04:45Z",
+      "conclusion": "success",
+      "id": 124696211279,
+      "name": "tooling",
+      "started_at_utc": "2026-11-01T00:02:55Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:09:50Z",
+      "conclusion": "success",
+      "id": 124696619765,
+      "name": "browser-js",
+      "started_at_utc": "2026-11-01T00:04:46Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:15:12Z",
+      "conclusion": "success",
+      "id": 124696619816,
+      "name": "browser-wasm",
+      "started_at_utc": "2026-11-01T00:09:52Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:04:45Z",
+      "conclusion": "skipped",
+      "id": 124696620664,
+      "name": "sample-platforms",
+      "started_at_utc": "2026-11-01T00:04:45Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:04:45Z",
+      "conclusion": "skipped",
+      "id": 124696620693,
+      "name": "apple-appinfo-capability",
+      "started_at_utc": "2026-11-01T00:04:45Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:04:45Z",
+      "conclusion": "skipped",
+      "id": 124696620889,
+      "name": "consumer-core-io",
+      "started_at_utc": "2026-11-01T00:04:45Z",
+      "status": "completed"
+    },
+    {
+      "completed_at_utc": "2026-11-01T00:04:45Z",
+      "conclusion": "skipped",
+      "id": 124696620908,
+      "name": "webview-consumer",
+      "started_at_utc": "2026-11-01T00:04:45Z",
+      "status": "completed"
+    }
+  ],
+  "original_xml_reports": 2,
+  "run_attempt": 1,
+  "run_id": 41255011146,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41255011146",
+  "schema_version": 1,
+  "scope": "Three source-bound real Chromium browser request-state methods on JS and Wasm only. Read-only reviewer performed no new tests, compiler, build, model, native dispatch, repository CLI, live-source edit or Git/GitHub write.",
+  "serial_browser_jobs": true,
+  "slots": [
+    {
+      "changed_inputs": [],
+      "cleanup_acceptance_scope": "Awaited in each passing native method: viewport disposal, iframe-null/disconnected assertions, listener/control-iframe cleanup, exact nonce-owned HTTP close acknowledgement after zero pending and session deletion. Not an independently archived Chromium PID/process-tree receipt.",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:jsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 261.08,
+        "exit_code": 0
+      },
+      "finished_at_utc": "2026-11-01T00:09:45.364461+00:00",
+      "fresh_task_markers": 1,
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.21",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.21+9",
+        "schema_version": 1
+      },
+      "job_id": 124696619765,
+      "original_plan_sha256": "d159931f56c7614501f88f0e128e9e9b17f0eeedb9a74bfd9f55bdbeddb2fc93",
+      "original_receipt_sha256": "7c2ad7ca95bd311d2b06762e6a2c29a300cbd0dc655d2a5cfaac876bb7a12f3f",
+      "original_runtime_sha256": "4bf7888f4782aae5b11fcae2e7b7872659163b3f2dc1b3dd47483d0a07b16f48",
+      "original_xml": {
+        "bytes": 1107,
+        "kept_private_due_to_hostname": true,
+        "method_times_seconds_reported": [
+          "0.001",
+          "0.0",
+          "0.0"
+        ],
+        "path": "calf-webview/build/test-results/jsBrowserTest/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest.xml",
+        "sha256": "0ad2f53d13543259fa1b98b3716c7bfe29e89b0cbf62bf87d9f24a27cb0dec1f",
+        "suite_time_seconds_reported": "0.005",
+        "system_output_empty": true,
+        "testcases": [
+          {
+            "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          },
+          {
+            "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          },
+          {
+            "classname": "jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery[js, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          }
+        ],
+        "timestamp_utc": "2026-11-01T00:09:44.777Z"
+      },
+      "public_redacted_xml": {
+        "path": "redacted-reports/browser-js/TEST-jsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest.xml",
+        "sha256": "96d2b7df94e280a41e92fc536b0a2373ce49ceef20d0b8dcc1dfcd203f70510b",
+        "transformation": "Only hostname attribute value replaced with [redacted]; original private XML unchanged"
+      },
+      "quarantined_prior_reports": [],
+      "raw_gradle_log_uploaded": false,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-11-01T00:05:24.023808+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+        "source_tree_dirty": false
+      },
+      "saved_job_warning_markers": 1,
+      "saved_step17_log_sha256": "966f6db309cec4eb269bac515dd1c04cad77e8a9748988ea4a5a559d6c67900f",
+      "slot": "browser-js",
+      "source_tree_dirty": false,
+      "started_at_utc": "2026-11-01T00:05:24.286268+00:00",
+      "suite": "js",
+      "task": ":calf-webview:jsBrowserTest",
+      "totals": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      },
+      "warning_limit": "Saved Actions warning markers include Node.js20 action deprecation; not hidden or changed into a test failure"
+    },
+    {
+      "changed_inputs": [],
+      "cleanup_acceptance_scope": "Awaited in each passing native method: viewport disposal, iframe-null/disconnected assertions, listener/control-iframe cleanup, exact nonce-owned HTTP close acknowledgement after zero pending and session deletion. Not an independently archived Chromium PID/process-tree receipt.",
+      "command": [
+        "./gradlew",
+        "--continue",
+        "--no-daemon",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/fresh-tests.init.gradle.kts",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:wasmJsBrowserTest",
+        "--tests",
+        "com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest"
+      ],
+      "execution": {
+        "elapsed_seconds": 271.07,
+        "exit_code": 0
+      },
+      "finished_at_utc": "2026-11-01T00:15:03.582009+00:00",
+      "fresh_task_markers": 1,
+      "gradle_daemon": {
+        "gradle_version": "9.7.1",
+        "java_vendor": "Eclipse Adoptium",
+        "java_version": "17.0.21",
+        "launcher_home_configured": true,
+        "launcher_home_matches_daemon": true,
+        "major": 17,
+        "runtime_version": "17.0.21+9",
+        "schema_version": 1
+      },
+      "job_id": 124696619816,
+      "original_plan_sha256": "2fc21eeb725a1515b0ecac58453a8cbac3f569dd7b89657ed0231ab266470b3b",
+      "original_receipt_sha256": "6520001abc83505549942d562d37666da98b9ab01499c03a3aa3046dda707d13",
+      "original_runtime_sha256": "a589021eaddb93d464148dbdbd5a7df992e7505a5a74db3b781280b1c2f8bff2",
+      "original_xml": {
+        "bytes": 1135,
+        "kept_private_due_to_hostname": true,
+        "method_times_seconds_reported": [
+          "0.001",
+          "0.0",
+          "0.0"
+        ],
+        "path": "calf-webview/build/test-results/wasmJsBrowserTest/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest.xml",
+        "sha256": "29e0027cefe322017b61c6dfebbb67011296228b321090a95b3c1cd3aac9c801",
+        "suite_time_seconds_reported": "0.005",
+        "system_output_empty": true,
+        "testcases": [
+          {
+            "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          },
+          {
+            "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          },
+          {
+            "classname": "wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest",
+            "name": "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery[wasmJs, browser, ChromeHeadless156.0.0.0, Linux0.0.0]",
+            "status": "passed"
+          }
+        ],
+        "timestamp_utc": "2026-11-01T00:15:02.727Z"
+      },
+      "public_redacted_xml": {
+        "path": "redacted-reports/browser-wasm/TEST-wasmJsBrowserTest.com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest.xml",
+        "sha256": "39d99fd35ae71e3b70d2d75acd5e9ae10b684a3b9321ce29f46a2efc58ce39ae",
+        "transformation": "Only hostname attribute value replaced with [redacted]; original private XML unchanged"
+      },
+      "quarantined_prior_reports": [],
+      "raw_gradle_log_uploaded": false,
+      "runtime": {
+        "android_platform": {
+          "AndroidVersion.ApiLevel": "37.0",
+          "AndroidVersion.CodeName": "",
+          "AndroidVersion.ExtensionLevel": "22",
+          "Pkg.Revision": "2",
+          "package": "platforms;android-37.0"
+        },
+        "browser": {
+          "name": "Google Chrome",
+          "version": "156.0.8078.47"
+        },
+        "compiler_runtime_fingerprint": "80ae963777b13350a4ed67099abab7012e70ac9ef146c3516545438344698d3c",
+        "host": {
+          "architecture": "x64",
+          "python": "3.12.3",
+          "system": "Linux"
+        },
+        "java": {
+          "major": 17,
+          "version": "17.0.21"
+        },
+        "observed_at_utc": "2026-11-01T00:10:32.252237+00:00",
+        "rust": {
+          "commit-date": "2026-08-18",
+          "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+          "host": "x86_64-unknown-linux-gnu",
+          "release": "1.98.0"
+        },
+        "schema_version": 1,
+        "source_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+        "source_tree_dirty": false
+      },
+      "saved_job_warning_markers": 1,
+      "saved_step17_log_sha256": "03e886a22767325b952d1c18e7590720adac091da3bb1cdefa66a1ca541b3a93",
+      "slot": "browser-wasm",
+      "source_tree_dirty": false,
+      "started_at_utc": "2026-11-01T00:10:32.515751+00:00",
+      "suite": "wasm",
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "totals": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 3,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      },
+      "warning_limit": "Saved Actions warning markers include Node.js20 action deprecation; not hidden or changed into a test failure"
+    }
+  ]
+}

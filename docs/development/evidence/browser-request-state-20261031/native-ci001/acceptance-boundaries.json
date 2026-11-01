@@ -1,0 +1,40 @@
+{
+  "close_issue": false,
+  "criterion_dispositions": [
+    {
+      "criterion": 1,
+      "newly_accepted": "Only the two browser targets and three required request-state methods: rejected option failures/retry/readable-native Reload; actual owned redirect/native Stop/recovery; repeated pre-header transport refusal/inline recovery.",
+      "remaining": "Full Android/Desktop/iOS fail\u2192success/fail\u2192fail/reload/stop/redirect matrix remains independent and incomplete."
+    },
+    {
+      "criterion": 2,
+      "newly_accepted": "No additional cross-origin or framing case was replayed. Accepted #63/#65/#11 evidence remains reused and outside this new three-method request.",
+      "remaining": "Actual offline destination remains unverified; owned response destruction is not system-offline, DNS/TLS or production network certification."
+    },
+    {
+      "criterion": 3,
+      "newly_accepted": "None; no Apple/WKWebView execution occurred.",
+      "remaining": "Actual provisional WKWebView DNS/TLS failure before commit resetting previous request errors remains unverified."
+    }
+  ],
+  "finding": "NATIVE-005",
+  "frozen_issue_state": "open",
+  "frozen_issue_title": "[Medium][NATIVE-005] WebView request state is not reset consistently on Desktop, iOS and Web",
+  "frozen_issue_updated_at_utc": "2026-10-24T16:18:29Z",
+  "issue": 64,
+  "issue_mutations_by_reviewer": 0,
+  "original_acceptance_criteria": [
+    "- Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
+    "- Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
+    "- iOS provisional DNS/TLS failure before commit resets the previous request errors."
+  ],
+  "publishing_Pages_main_history_security_readiness_capacity_gates_changed": false,
+  "review_disposition": "accept exact six JS/Wasm target executions as a verified browser request-state subset only",
+  "unwarranted_inferences_refused": [
+    "Iframe load/Finished alone proves HTTP/framing/network/DNS/TLS success",
+    "Server end() or generic job cleanup alone proves native page or owned-resource closure",
+    "Real pre-header TCP response refusal is equivalent to actual offline/DNS/TLS",
+    "Six browser target executions close the full every-target issue",
+    "CI success certifies ABI/consumer/dependency/legal/security/readiness or authorizes release/Pages/publishing/main/history changes"
+  ]
+}

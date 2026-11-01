@@ -1,0 +1,358 @@
+{
+  "reviewed_at_utc": "2026-11-01T00:27:11.664532+00:00",
+  "finding": "NATIVE-019",
+  "issue": 13,
+  "scope": "Additive literal-requirement/source/results interpretation only; no native execution, build, mutation or new retrieval.",
+  "original_issue_body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+  "conclusion": {
+    "criterion2_satisfied_for_original_requirement_by_three_reused_methods": true,
+    "immediate_in_held_client_creation_is_an_added_constraint_not_an_original_requirement": true,
+    "actual009_exact_client_constructor_timing_observed": false,
+    "actual009_deferred_timing_proven": false,
+    "dont_keep_actual_acceptance_missing": true,
+    "issue13_may_close_now": false,
+    "additional_forced_foreground_recreation_method_required": false
+  },
+  "interpretation": "Apply disturbance during the real external-foreground request, then permit Android to choose its legitimate relaunch time; require genuine reconstructed owner before the successful/restored terminal result. Do not equate initiating rotation with proof of recreation: accepted XML plus source terminal creates/orientation checks establish both. Neither issue text nor root cause requires an immediate second onCreate before camera completion or the caller to become foreground while the recipient remains top.",
+  "criteria": [
+    {
+      "literal": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "verdict": "NOT MET: sole genuinely missing actual criterion",
+      "methods": [
+        "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+      ],
+      "accepted_execution": null,
+      "latest_failed_execution": {
+        "run_id": 41254179535,
+        "attempt": 1,
+        "revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+        "outcome": "failed",
+        "passes": 0,
+        "executions": 1,
+        "reason": "Developer Options master must already be enabled and remain unchanged",
+        "actual_master_value": "unknown",
+        "settings_launch_ui_accessibility_task_native_scalar_camera_phases_reached": false
+      },
+      "earlier_native009": "Failed at caller destruction wait before recipient completion; preserve failure and unknown cause.",
+      "required_next": "One unchanged Dont-keep method after a separately proved controller-only prerequisite. Retain actual native/scalar1, non-finishing caller destruction while recipient held, genuine reconstruction, single readable KmpFile, exact original-state/ownership cleanup.",
+      "source": [
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            52,
+            52
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L52-L52"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            107,
+            110
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L107-L110"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            137,
+            192
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L137-L192"
+        }
+      ]
+    },
+    {
+      "literal": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "verdict": "MET within literal Android lifecycle requirement; immediate/in-held constructor timing not claimed",
+      "methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ],
+      "accepted_execution": {
+        "run_id": 41242704209,
+        "attempt": 1,
+        "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+        "statuses": [
+          "passed",
+          "passed"
+        ],
+        "workflow_remains": "failure",
+        "Gradle_exit_code": 1,
+        "Gradle_elapsed_seconds": 77.02
+      },
+      "during_external_foreground": "Source requires saved/stopped native caller, zero early results and exact delayed recipient top; real UiAutomation display rotation and changed reporter orientation, then recipient top recheck; exact same-UID kernel kill with kernel absence, then recipient top recheck.",
+      "after_return": "Source requires real caller creates>=2, changed orientation for rotation, new PID for death, same registry request/URI, one captured result and exact readable bytes, no duplicate callback.",
+      "timing_limit": "Recreation counter/orientation/PID are asserted after completion, so exact in-held creation time remains unknown. This is an observation limit, not an added acceptance gap. Natural OS-deferred recreation on return satisfies this original restoration-before-delivery requirement.",
+      "source": [
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            71,
+            75
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L71-L75"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            137,
+            192
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L137-L192"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            377,
+            409
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L377-L409"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt",
+          "lines": [
+            124,
+            177
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt#L124-L177"
+        }
+      ]
+    },
+    {
+      "literal": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "verdict": "MET for original restored cancellation/native request ownership criterion",
+      "methods": [
+        "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+      ],
+      "accepted_execution": {
+        "run_id": 41242704209,
+        "attempt": 1,
+        "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+        "status": "passed"
+      },
+      "observed_by_passing_source": "Actual held-client kernel death/restored new PID, native RESULT_CANCELED through the real registry, one Cancelled result with empty URI, original URI read fails, owned output set returns to baseline and unrelated cache sibling unchanged, pending consumed before callback.",
+      "source": [
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            166,
+            192
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L166-L192"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+          "lines": [
+            377,
+            409
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt#L377-L409"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            77,
+            109
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L77-L109"
+        }
+      ]
+    }
+  ],
+  "source_backed_lifecycle": [
+    {
+      "fact": "Normal ensureActivityConfiguration uses ignoreVisibility=false; STOPPING/STOPPED/invisible records can skip configuration processing. ignoreVisibility is expressly for impending visibility, not a requirement that invisible clients relaunch immediately.",
+      "source": [
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "lines": [
+            9872,
+            9918
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityRecord.java#L9872-L9918"
+        }
+      ]
+    },
+    {
+      "fact": "When processed, unhandled configuration changes cause real relaunch. Relaunch can finish PAUSED rather than RESUMED, and pending results are supplied when andResume is true.",
+      "source": [
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "lines": [
+            10012,
+            10058
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityRecord.java#L10012-L10058"
+        },
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "lines": [
+            10215,
+            10266
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityRecord.java#L10215-L10266"
+        }
+      ]
+    },
+    {
+      "fact": "Real relaunch saves/stops as needed, destroys non-finishing owner, preserves pending results and launches the replacement. onCreate receives saved state; resume processing delivers pending results before performResume. This is why state must be ready before result delivery, not after the caller has focus.",
+      "source": [
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "core/java/android/app/ActivityThread.java",
+          "lines": [
+            6264,
+            6305
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/ActivityThread.java#L6264-L6305"
+        },
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "core/java/android/app/ActivityThread.java",
+          "lines": [
+            4021,
+            4039
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/ActivityThread.java#L4021-L4039"
+        },
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "core/java/android/app/ActivityThread.java",
+          "lines": [
+            5287,
+            5303
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/core/java/android/app/ActivityThread.java#L5287-L5303"
+        }
+      ]
+    },
+    {
+      "fact": "Process-restored launch carries saved Activity state and pending results through a genuine Android transaction.",
+      "source": [
+        {
+          "repository": "aosp-mirror/platform_frameworks_base",
+          "revision": "android-15.0.0_r1",
+          "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+          "lines": [
+            891,
+            949
+          ],
+          "url": "https://github.com/aosp-mirror/platform_frameworks_base/blob/android-15.0.0_r1/services/core/java/com/android/server/wm/ActivityTaskSupervisor.java#L891-L949"
+        }
+      ]
+    },
+    {
+      "fact": "ComponentActivity restores registry state in onCreate; Compose saves its launcher key and registers its callback; the registry retains results while a callback is unavailable and delivers at registration. Library request Saver reconstruction and pending consumption address the original null-URI defect irrespective of exact relaunch timing. These pinned AndroidX sources corroborate behavior, not proof of runtime byte identity.",
+      "source": [
+        {
+          "repository": "androidx/androidx",
+          "revision": "6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+          "path": "activity/activity/src/main/java/androidx/activity/ComponentActivity.kt",
+          "lines": [
+            320,
+            357
+          ],
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/ComponentActivity.kt#L320-L357"
+        },
+        {
+          "repository": "androidx/androidx",
+          "revision": "6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+          "path": "activity/activity-compose/src/main/java/androidx/activity/compose/ActivityResultRegistry.kt",
+          "lines": [
+            89,
+            106
+          ],
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity-compose/src/main/java/androidx/activity/compose/ActivityResultRegistry.kt#L89-L106"
+        },
+        {
+          "repository": "androidx/androidx",
+          "revision": "6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            161,
+            179
+          ],
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L161-L179"
+        },
+        {
+          "repository": "androidx/androidx",
+          "revision": "6916da12cf40dcac40e665d2af25dbe2ad8b18c1",
+          "path": "activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt",
+          "lines": [
+            260,
+            277
+          ],
+          "url": "https://github.com/androidx/androidx/blob/6916da12cf40dcac40e665d2af25dbe2ad8b18c1/activity/activity/src/main/java/androidx/activity/result/ActivityResultRegistry.kt#L260-L277"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            77,
+            89
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L77-L89"
+        },
+        {
+          "repository": "Apdelrahman1911/nativeCmpkit",
+          "revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+          "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+          "lines": [
+            144,
+            160
+          ],
+          "url": "https://github.com/Apdelrahman1911/nativeCmpkit/blob/7380a04674c2dc83583a45953418ec2c823b4258/calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt#L144-L160"
+        }
+      ]
+    }
+  ],
+  "additive_correction": {
+    "preserve_historical_evidence_unchanged": true,
+    "prior_timing_observation_remains_true": "camera009 asserts reconstruction after return and does not observe immediate in-held creation.",
+    "designation_to_remove_from_current_status_only": "Separate original foreground-recreation criterion still unverified / immediate-in-held creation additionally required.",
+    "prior_artifacts_with_inherited_designation": [
+      "camera011 accepted-source-correspondence.json:foreground_recreation_criterion_still_unverified=true",
+      "camera011 prerequisite-assessment/README.md final sentence",
+      "maintainer/context entries saying #13 foreground-recreation criterion remains"
+    ],
+    "replacement": "Original criteria2 and3 are covered by the three accepted camera009 methods; exact creation time remains unobserved and unclaimed. #13 remains open solely for the original actual Dont-keep capture/restoration criterion.",
+    "no_waiver_no_closure_no_replay": true
+  },
+  "prohibitions": [
+    "Do not infer camera011 master0/null from an equality failure.",
+    "Do not change the test to toggle master, force recreation/callbacks, or relax original results/native/scalar/cleanup assertions.",
+    "Do not replay accepted rotation/death/cancellation methods to resolve invented timing precision.",
+    "No Settings prerequisite implementation follows from this requirement interpretation; observer and exact restoration must be independently proved."
+  ]
+}

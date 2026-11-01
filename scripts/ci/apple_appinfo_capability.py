@@ -34,6 +34,16 @@ COMMANDS = {
 }
 
 
+# Diagnostic observations only. None of these alternatives expands acceptance.
+MAX_HELP_USAGE_LINES, MAX_HELP_USAGE_LINE_BYTES = 8, 4096
+HELP_USAGE_TEMPLATES = (
+    'simctl appinfo <device> <app bundle identifier>',
+    'simctl appinfo <device> <app>',
+    'simctl appinfo <device> <bundle identifier>',
+    'appinfo <device> <app bundle identifier>',
+)
+
+
 class CapabilityError(ValueError):
     """Fixed source guards only; never include raw output, paths or exception bodies."""
 
@@ -160,17 +170,48 @@ def metadata(result):
 def help_observation(result):
     value = {'status':'unavailable','capability_available':False,'known_syntax':None,
              'appinfo_output_schema_observed':False,'native_functionality_verified':False,
-             'raw_help_or_paths_uploaded':False}
+             'raw_help_or_paths_uploaded':False,'refusal_reason':'invalid-control-result',
+             'usage_line_count':None,'strict_usage_line_count':None,
+             'usage_lines_sha256':None,'usage_lines_truncated':False,
+             'usage_prefix_observation':None,'usage_template_observation':None,
+             'usage_template_normalized':False}
     if not valid(result): return value
     value.update(metadata(result))
-    if result.exit_code != 0: return value
+    if result.exit_code != 0:
+        value['refusal_reason']='nonzero-help-exit';return value
     try: text=(result.stdout+b'\n'+result.stderr).decode('utf-8',errors='strict')
-    except UnicodeError: return value
+    except UnicodeError:
+        value['refusal_reason']='utf8-decoding-refused';return value
     # One exact source-reviewed usage form, not a substring/catchall parser.
     syntax='simctl appinfo <device> <app bundle identifier>'
     usages=re.findall(r'(?m)^Usage:[ \t]*([^\r\n]+)\r?$',text)
+    # Broader formatting and listed templates are diagnostic observations only.
+    # Hash at most eight full candidate lines, each capped at 4096 UTF-8 bytes,
+    # with four-byte length prefixes. No arbitrary text or paths enter the receipt.
+    candidates=re.findall(r'(?aim)^([ \t]*usage:[ \t]*([^\r\n]*))\r?$',text)
+    sample=[line.encode('utf-8') for line,_ in candidates[:MAX_HELP_USAGE_LINES]]
+    truncated=(len(candidates)>MAX_HELP_USAGE_LINES or
+               any(len(line)>MAX_HELP_USAGE_LINE_BYTES for line in sample))
+    bounded=[line[:MAX_HELP_USAGE_LINE_BYTES] for line in sample]
+    value.update(usage_line_count=min(len(candidates),MAX_HELP_USAGE_LINES),
+                 strict_usage_line_count=min(len(usages),MAX_HELP_USAGE_LINES),
+                 usage_lines_sha256=digest(b''.join(len(line).to_bytes(4,'big')+line for line in bounded)),
+                 usage_lines_truncated=truncated)
+    if len(candidates)==1 and not truncated:
+        line,body=candidates[0]
+        prefix=('exact' if line.startswith('Usage:') else
+                'indented' if line.lstrip(' \t').startswith('Usage:') else 'other-case')
+        normalized=re.sub(r'[ \t]+',' ',body.strip(' \t')).lower()
+        template=next((item for item in HELP_USAGE_TEMPLATES if normalized==item),None)
+        value.update(usage_prefix_observation=prefix,usage_template_observation=template,
+                     usage_template_normalized=template is not None and body!=template)
     if usages == [syntax]:
-        value.update(status='observed-supported-syntax',capability_available=True,known_syntax=syntax)
+        value.update(status='observed-supported-syntax',capability_available=True,
+                     known_syntax=syntax,refusal_reason=None)
+    else:
+        value['refusal_reason']=('missing-exact-usage-line' if not usages else
+                                 'ambiguous-exact-usage-lines' if len(usages)>1 else
+                                 'unrecognized-exact-usage-syntax')
     return value
 
 

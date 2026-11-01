@@ -1,0 +1,77 @@
+{
+  "KGP2.4.20_context_jar_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+  "actual_xml_method_time_seconds": {
+    "browser-js": [
+      "0.001",
+      "0.0",
+      "0.0"
+    ],
+    "browser-wasm": [
+      "0.001",
+      "0.0",
+      "0.0"
+    ]
+  },
+  "actual_xml_suite_time_seconds": {
+    "browser-js": "0.005",
+    "browser-wasm": "0.005"
+  },
+  "async_failure_or_skipped_assertions_inferred": false,
+  "context_limit": "Static matching-version local dependency/generated code is explanatory context, not the downloaded actual CI bundle or an execution of these methods. The actual raw gradle.log and generated runner bundle were not uploaded; original XML/receipt facts remain the actual result evidence. Exact native per-method wall time cannot be recovered from these artifacts.",
+  "context_observations": [
+    "Kotlin test Jasmine/Mocha adapter passes the returned test callback; the filtering/console adapter returns fn() rather than discarding its Promise.",
+    "kotlinx-coroutines-test createTestResult returns a native Promise; Mocha detects thenables and completes/fails the test on resolution/rejection.",
+    "Karma Kotlin reporter receives a completed result, buffers TestStarted and TestFinished together, and flushes test/suite messages later. It supplies duration but no creation timestamp in those messages.",
+    "KGP2.4.20 TCServiceMessagesClient TestStarted/TestFinished uses getTs(message); getTs reads creation timestamp or currentTimeMillis, not TestFinished duration. Buffered messages therefore do not make XML duration a native wall-clock measurement."
+  ],
+  "local_matching_version_context": [
+    {
+      "bytes": 2987,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "kotlin-web-helpers/3.3.0/src/KotlinTestTeamCityConsoleAdapter.ts",
+      "sha256": "ff7d7f8ad619730cf7b28a6192f70dcf37805cc3bb2f3a922f043f012f289f10"
+    },
+    {
+      "bytes": 11778,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "kotlin-web-helpers/3.3.0/dist/karma-kotlin-reporter.js",
+      "sha256": "7c3232f60952aff254847ae62a866385735e3094197454d755100e962c2f2347"
+    },
+    {
+      "bytes": 6336,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "karma-mocha/lib/adapter.js",
+      "sha256": "d2ecb1de057231e7c5efe6b7a5b36e163c85f49834814ab8fc3a893a3a404933"
+    },
+    {
+      "bytes": 10821,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "mocha/lib/runnable.js",
+      "sha256": "27adb9d627f516542994de7810d926c9ee122e1a0a1d5e5a27e319c31a6afe4c"
+    },
+    {
+      "bytes": 22458,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "Kotlin2.4.20/generated-kotlin-test.js",
+      "sha256": "ad9fde9d24b2091ec1dcf4b8f51eb1f2635c63d30236c169e499e5faee0808f9"
+    },
+    {
+      "bytes": 82143,
+      "context_only_not_actual_ci_artifact": true,
+      "logical_name": "kotlinx-coroutines-test1.11.0/generated-JS",
+      "sha256": "5b41b35cc1b4a91c9c5eca634295802cbd6e791766fded634a53339f0af1cb8a"
+    }
+  ],
+  "new_models_browser_or_test_execution": false,
+  "purpose": "Do not confuse buffered Gradle XML event timing with native browser test duration or infer an asynchronous test defect from milliseconds alone.",
+  "source_entrypoint": {
+    "expression_bodied_runTest_lines": [
+      25,
+      83,
+      137
+    ],
+    "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt",
+    "real_waits_and_cleanups_inside_withContext_Dispatchers_Default": true,
+    "returns_async_TestResult_instead_of_discarding_it": true
+  }
+}

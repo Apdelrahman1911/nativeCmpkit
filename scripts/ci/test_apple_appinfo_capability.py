@@ -579,5 +579,182 @@ class AppinfoControlRecoveryTests(unittest.TestCase):
                          (module.MAX_COMMAND_BYTES, module.MAX_TOTAL_BYTES, module.COMMAND_SECONDS, module.TOTAL_SECONDS))
 
 
+class AppinfoHelpDiagnosticTests(unittest.TestCase):
+    """New diagnostic-only contracts; no SDK, app, build or real control call."""
+    def setUp(self):
+        self.module = importlib.import_module('apple_appinfo_capability')
+        blocked = patch.object(self.module.subprocess, 'Popen',
+                               side_effect=AssertionError('real control is forbidden in these models'))
+        blocked.start()
+        self.addCleanup(blocked.stop)
+
+    def observe(self, payload, *, stderr=False):
+        module = self.module
+        return module.help_observation(module.Result(0, b'' if stderr else payload,
+                                                     payload if stderr else b'', None))
+
+    def assert_unavailable(self, value):
+        self.assertFalse(value['capability_available'])
+        self.assertEqual('unavailable', value['status'])
+        self.assertIsNone(value['known_syntax'])
+        self.assertFalse(value['appinfo_output_schema_observed'])
+        self.assertFalse(value['native_functionality_verified'])
+
+    def test_exact_supported_help_keeps_acceptance_and_only_finite_diagnostics(self):
+        for stderr in (False, True):
+            with self.subTest(stderr=stderr):
+                value = self.observe(USAGE + b'PRIVATE_HELP_DIAGNOSTIC_SENTINEL /private/account/path\n', stderr=stderr)
+                self.assertTrue(value['capability_available'])
+                self.assertIsNone(value['refusal_reason'])
+                self.assertEqual(1, value['usage_line_count'])
+                self.assertEqual(1, value['strict_usage_line_count'])
+                self.assertEqual('exact', value['usage_prefix_observation'])
+                self.assertEqual(value['known_syntax'], value['usage_template_observation'])
+                self.assertFalse(value['usage_template_normalized'])
+                self.assertFalse(value['usage_lines_truncated'])
+                self.assertRegex(value['usage_lines_sha256'], r'^[0-9a-f]{64}$')
+                for token in ('PRIVATE_HELP_DIAGNOSTIC_SENTINEL', '/private/account/path'):
+                    self.assertNotIn(token, json.dumps(value))
+
+    def test_complete_unknown_and_invalid_UTF8_have_distinct_fixed_refusals(self):
+        cases = ((b'unknown help\n', 'missing-exact-usage-line', 0),
+                 (b'Usage: simctl appinfo <device> <unknown>\n', 'unrecognized-exact-usage-syntax', 1),
+                 (b'Usage: simctl appinfo <device> <unknown>\xff\n', 'utf8-decoding-refused', None))
+        for payload, reason, count in cases:
+            with self.subTest(reason=reason):
+                value = self.observe(payload, stderr=True)
+                self.assert_unavailable(value)
+                self.assertEqual(reason, value['refusal_reason'])
+                self.assertEqual(count, value['strict_usage_line_count'])
+                self.assertIsNone(value['usage_template_observation'])
+                self.assertFalse(value['raw_help_or_paths_uploaded'])
+
+    def test_diagnostic_case_indent_and_space_normalization_never_widens_acceptance(self):
+        syntax = 'simctl appinfo <device> <app bundle identifier>'
+        cases = (((' \tUsage: ' + syntax + '\n').encode(), 'indented', 'missing-exact-usage-line'),
+                 (('usage: ' + syntax + '\n').encode(), 'other-case', 'missing-exact-usage-line'),
+                 (('Usage: ' + syntax + ' \t\n').encode(), 'exact', 'unrecognized-exact-usage-syntax'),
+                 (b'Usage: SIMCTL\tappinfo <device> <app  bundle identifier>\n', 'exact', 'unrecognized-exact-usage-syntax'))
+        for payload, prefix, reason in cases:
+            with self.subTest(prefix=prefix, payload=payload):
+                value = self.observe(payload)
+                self.assert_unavailable(value)
+                self.assertEqual(reason, value['refusal_reason'])
+                self.assertEqual(prefix, value['usage_prefix_observation'])
+                self.assertEqual(1, value['usage_line_count'])
+                self.assertEqual(syntax, value['usage_template_observation'])
+
+    def test_allowlisted_alternate_templates_are_observations_without_support(self):
+        templates = ('simctl appinfo <device> <app>',
+                     'simctl appinfo <device> <bundle identifier>',
+                     'appinfo <device> <app bundle identifier>')
+        for template in templates:
+            with self.subTest(template=template):
+                value = self.observe(('Usage: ' + template + '\n').encode())
+                self.assert_unavailable(value)
+                self.assertEqual('unrecognized-exact-usage-syntax', value['refusal_reason'])
+                self.assertEqual(template, value['usage_template_observation'])
+                self.assertEqual(1, value['strict_usage_line_count'])
+
+    def test_arbitrary_usage_text_paths_and_tokens_never_escape_diagnostics(self):
+        payload = b'Usage: /private/account/SECRET_PATH PRIVATE_USAGE_TOKEN <PRIVATE_ARG>\n'
+        value = self.observe(payload)
+        self.assert_unavailable(value)
+        self.assertEqual('unrecognized-exact-usage-syntax', value['refusal_reason'])
+        self.assertIsNone(value['usage_template_observation'])
+        self.assertRegex(value['usage_lines_sha256'], r'^[0-9a-f]{64}$')
+        for token in ('/private/account/SECRET_PATH', 'PRIVATE_USAGE_TOKEN', 'PRIVATE_ARG'):
+            self.assertNotIn(token, json.dumps(value))
+        self.assertNotIn('usage_lines', value)
+        self.assertNotIn('stdout', value)
+        self.assertNotIn('stderr', value)
+
+    def test_usage_line_and_byte_sampling_bounds_keep_ambiguous_or_long_help_unavailable(self):
+        module = self.module
+        many = USAGE * (module.MAX_HELP_USAGE_LINES + 5)
+        value = self.observe(many)
+        self.assert_unavailable(value)
+        self.assertEqual('ambiguous-exact-usage-lines', value['refusal_reason'])
+        self.assertEqual(module.MAX_HELP_USAGE_LINES, value['usage_line_count'])
+        self.assertEqual(module.MAX_HELP_USAGE_LINES, value['strict_usage_line_count'])
+        self.assertTrue(value['usage_lines_truncated'])
+        self.assertIsNone(value['usage_template_observation'])
+        extended = self.observe(many + USAGE)
+        self.assertEqual(value['usage_lines_sha256'], extended['usage_lines_sha256'])
+        prefix = b'Usage: PRIVATE_LONG_USAGE_' + b'x' * module.MAX_HELP_USAGE_LINE_BYTES
+        long_value = self.observe(prefix + b'A\n')
+        changed_tail = self.observe(prefix + b'B\n')
+        self.assert_unavailable(long_value)
+        self.assertTrue(long_value['usage_lines_truncated'])
+        self.assertEqual(1, long_value['usage_line_count'])
+        self.assertIsNone(long_value['usage_template_observation'])
+        self.assertEqual(long_value['usage_lines_sha256'], changed_tail['usage_lines_sha256'])
+        self.assertNotIn('PRIVATE_LONG_USAGE_', json.dumps(long_value))
+
+    def test_invalid_nonzero_and_partial_controls_never_parse_or_observe_usage(self):
+        module = self.module
+        cases = ((module.Result(1, USAGE, b'', None), 'nonzero-help-exit'),
+                 (module.Result(True, USAGE, b'', None), 'invalid-control-result'),
+                 (module.Result(None, USAGE, b'', 'timeout'), 'invalid-control-result'),
+                 (module.Result(0, USAGE, b'', 'timeout'), 'invalid-control-result'),
+                 (module.Result(0, USAGE, b'', 'owned-control-refusal'), 'invalid-control-result'),
+                 (module.Result(0, b'x' * (module.MAX_COMMAND_BYTES + 1), b'', None), 'invalid-control-result'))
+        for result, reason in cases:
+            with self.subTest(reason=reason, stop=result.stop_reason):
+                value = module.help_observation(result)
+                self.assert_unavailable(value)
+                self.assertEqual(reason, value['refusal_reason'])
+                self.assertIsNone(value['usage_line_count'])
+                self.assertIsNone(value['strict_usage_line_count'])
+                self.assertIsNone(value['usage_lines_sha256'])
+                self.assertIsNone(value['usage_template_observation'])
+
+    def test_collect_keeps_fixed_help_only_calls_nonacceptance_and_owned_private_cleanup(self):
+        module = self.module
+        with tempfile.TemporaryDirectory(prefix='appinfo-help-diagnostic-') as temporary:
+            root = Path(temporary)
+            for relative in module.SOURCE_INPUTS:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('owned synthetic source\n')
+            developer = root / 'private-selected-developer'
+            developer.mkdir()
+            calls = []
+            payload = b'Usage: simctl appinfo <device> <app>\nPRIVATE_COLLECT_SENTINEL /private/account/path\n'
+            def fixed_control(argv, cwd, timeout):
+                self.assertIn(tuple(argv), module.COMMANDS.values())
+                self.assertEqual(root, cwd)
+                self.assertGreater(timeout, 0)
+                self.assertLessEqual(timeout, 15)
+                name = next(k for k,v in module.COMMANDS.items() if v == tuple(argv))
+                calls.append(name)
+                bodies = {'source':(SHA+'\n').encode(), 'clean':b'',
+                          'developer':(str(developer)+'\n').encode(),
+                          'simctl':(str(developer/'simctl')+'\n').encode(),
+                          'xcodebuild':(str(developer/'xcodebuild')+'\n').encode(),
+                          'xcode-version':b'Xcode 26.6\nBuild version 17F113\n', 'help':payload}
+                return module.Result(0, b'' if name == 'help' else bodies[name],
+                                     bodies[name] if name == 'help' else b'', None)
+            def identity(path, name):
+                return {'basename':name, 'bytes':1, 'sha256':'a'*64,
+                        'path_sha256':'b'*64, 'canonical_path_sha256':'c'*64}
+            with patch.object(module, 'host', return_value={'system':'Darwin','architecture':'arm64','python':'model'}), \
+                 patch.object(module.shutil, 'disk_usage', return_value=(0,0,10*1024**3)), \
+                 patch.object(module, 'tool_identity', side_effect=identity):
+                receipt = module.collect(root, control=fixed_control)
+            self.assertEqual(['source','clean','developer','simctl','xcodebuild','xcode-version','help','source','clean'], calls)
+            self.assertEqual('unavailable', receipt['status'])
+            self.assertFalse(receipt['capability_available'])
+            self.assert_unavailable(receipt['help'])
+            self.assertEqual('unrecognized-exact-usage-syntax', receipt['help']['refusal_reason'])
+            self.assertEqual('simctl appinfo <device> <app>', receipt['help']['usage_template_observation'])
+            self.assertTrue(receipt['owned_private_output_removed'])
+            self.assertFalse((root/module.OUTPUT/'private').exists())
+            self.assertEqual(['receipt.json'], sorted(p.name for p in (root/module.OUTPUT).iterdir()))
+            for token in ('PRIVATE_COLLECT_SENTINEL', '/private/account/path', 'private-selected-developer'):
+                self.assertNotIn(token, json.dumps(receipt))
+            self.assertFalse(receipt['subsequent_appinfo_ready'])
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Current remaining-platform execution batch — 2026-11-01
+
+See [the current checkpoint and next-run matrix](checkpoint-20261101-request-matrix.md).
+**92 issues closed /80 open /172 total; no new whole-issue closure in this batch.**
+The latest original Android XML independently accepts the real document/photo
+picker method, completing #102.C3 only; Call/denial and storage remain unverified.
+Do not repeat that picker, accepted IO3, camera009's three accepted restoration
+methods or unchanged accepted browser/Desktop cells.
+
+Four actual compiler tasks pass0/89.02s, not native tests. The iOS request2+DNS1,
+camera Dont-keep1, Desktop10 missing host cells, browser offline2 and Android
+request2 have bounded source-bound routes. First request iOS and camera, then
+Desktop's five-host matrix with at most two heavy jobs and no competing request.
+Permission exact-control and KVM diagnostic preparations remain separate private
+work until integration/review; the original native failure causes are unknown.
+Close any verified whole issue promptly after original-criteria/source/results
+review; subset acceptance is not whole-issue or release/security clearance.
+Publishing, packages, releases, deployments, Pages and main integration stay gated.
+
 ## Verified attribution closure and next owning batch — 2026-11-01
 
 **#103/NAV-018 closed/completed**, immediately after important checks, literal

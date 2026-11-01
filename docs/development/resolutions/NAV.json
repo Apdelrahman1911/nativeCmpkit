@@ -1729,7 +1729,8 @@
     "status": "implemented",
     "changes": [
       "Removed undeclared Call demo row and unrelated SMS/all-files Android declarations; capped legacy storage SDK ranges.",
-      "Added modern calendar and local-network iOS demo configuration after coordinating with permission owner."
+      "Added modern calendar and local-network iOS demo configuration after coordinating with permission owner.",
+      "2026-11-01: Accept actual API35 public-library document/photo picker method for literal criterion3 only; preserve Call/denial failures and all original compatibility obligations."
     ],
     "affected_paths": [
       "sample/android/src/main/AndroidManifest.xml",
@@ -1743,11 +1744,25 @@
         "evidence": [
           "docs/development/evidence/navigation/sample-source-checks.log"
         ]
+      },
+      {
+        "checkpoint": "api35-actual004-20261101",
+        "command": "Run41268194715 at exact eafb10f7; android-permission-storage-api35-recovery.",
+        "result": "Original run FAILED. Permission XML3 native methods: picker1 passed/independently accepted, Call and first denial2 fail at exact OS control timeout; Gradle1/72.03s. API35storage2 unexecuted/refused.105 provenance/source/result checks, not new tests; original XML/signer/input maps/owned native app+emulator+ADB cleanup reviewed.",
+        "applicable_passed_cases": [
+          "AndroidPermissionDemoDeviceTest.pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions"
+        ],
+        "evidence": [
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci004/api35/PUBLIC_REVIEW.md",
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci004/api35/LEAD-DELIVERY-VERIFICATION.json"
+        ],
+        "scope": "#102.C3 only: real owned picks/content URI/exact bounded bytes/source preservation/denied media/closed reads with no all-files/SMS or manual URI grants. Not Call/denial/media33+34, complete issue or packaged consumer; do not replay accepted picker."
       }
     ],
     "remaining": [
       "Run Android manifest merge and real permission prompt/device checks; source configuration does not prove OS behavior.",
-      "Permission outcome/capability fixes remain owned by PERM findings; no fake platform parity claim."
+      "Permission outcome/capability fixes remain owned by PERM findings; no fake platform parity claim.",
+      "2026-11-01: Fresh approved Call and denial/permanent-denial2 require owning exact-control observations and native verification; original API33/API34 media selections remain. Accepted picker1 and24-row merged-manifest/source results are reused."
     ],
     "compatibility": "Sample-only narrowing avoids adding sensitive permissions to make an unsupported row appear to work."
   },

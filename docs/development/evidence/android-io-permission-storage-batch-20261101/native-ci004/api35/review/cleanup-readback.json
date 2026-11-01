@@ -1,0 +1,48 @@
+{
+  "failed_native_route_does_not_become_passing_from_cleanup": true,
+  "permission_route": {
+    "actual_exact_local_reclamation": {
+      "evidence_or_cache_removed": false,
+      "removed_directories": [
+        "avd",
+        "android-user"
+      ],
+      "status": "passed"
+    },
+    "actual_owned_app_cleanup": {
+      "cleanup_status": "passed",
+      "owned_identity_reverified": true,
+      "owned_recipient_removed": true,
+      "stop_exit_code": 0,
+      "uninstall_exit_code": 0
+    },
+    "actual_owned_emulator_shutdown": {
+      "clean_shutdown": true,
+      "exit_code": 0,
+      "finished_at_utc": "2026-11-01T03:21:58.736830+00:00",
+      "forced_owned_group": false,
+      "graceful_kill_requested": true,
+      "owned_adb_transport_removed": true,
+      "requested_at_utc": "2026-11-01T03:21:57.011225+00:00"
+    },
+    "archival_before_local_reclamation_source": "android_device_batch.py:384-396,293-327",
+    "batch_controller_hash_matches": true,
+    "controller_original_sha256": "9543bf59d2d1b7cd0455dae02f42d3ba503b2f5432d322d464b80101b1d9ff1a",
+    "helper_final_exactly_equals_controller": true,
+    "helper_original_sha256": "2d3fcad0837dbb2ba434b9a0f9d25c6313fdb11a8fdb8df6a5c1a7c8b9fe0f2b",
+    "original_XML_preserved": true,
+    "prepared_to_final_changed_fields_only": [
+      "cleanup_status",
+      "owned_identity_reverified",
+      "owned_recipient_removed",
+      "stop_exit_code",
+      "uninstall_exit_code"
+    ],
+    "source_APK_installed_APK_signer_exact": true
+  },
+  "storage_normal": {
+    "cleanup_certified": false,
+    "later_all_files_refused": true,
+    "reason": "No controller receipt exists after pre-lease require_host refusal; do not invent native resources/cleanup success."
+  }
+}

@@ -821,6 +821,11 @@ UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_DNS_FOCUS] = {
     "module": "calf-webview", "groups": (IOS_WEBVIEW_DNS_GROUP,),
     "scope": "Exactly one genuine UIApplication/library-WK provisional DNS fail/fail method from two fresh reserved-nonce HTTPS .invalid document links. Actual forwarded NSURLErrorDomain/CannotFindHost/-1003, previous-error reset before zero commits, retained native document/current WK owner and exact delegate/Compose/application cleanup are required. Existing system resolver is nondeterministic; timeout/offline/TLS/other errors refuse. No controlled resolver, resolver override, injected NSError, localhost TLS replay, physical/minimum/ABI/consumer/security/release certification. The thirteen other WK/application-host methods are compiled but not selected.",
 }
+IOS_WEBVIEW_REQUEST_DNS_FOCUS = "webview-ios-native-request-dns"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REQUEST_DNS_FOCUS] = {
+    "module": "calf-webview", "groups": (IOS_WEBVIEW_REQUEST_GROUP, IOS_WEBVIEW_DNS_GROUP),
+    "scope": "Exactly three unexecuted genuine UIApplication/library-WK methods in one existing iPhone/Mac job: the unchanged two localhost request/TLS/Stop/redirect/Reload methods and one reserved-nonce provisional DNS fail/fail method. The localhost fixture/ATS lease is required only for the request group; DNS keeps its existing HTTPS .invalid/system-resolver and actual NSURLErrorDomain/CannotFindHost/-1003/zero-commit/previous-error-reset criteria. Eleven accepted WK/application-host methods are compiled but not selected. Exact Worker/runtime/binary/install/native/XML/owned application and fixture cleanup gates remain. No controlled resolver, resolver override, injected errors, arbitrary loads/certificate trust bypass, physical/minimum/ABI/consumer/security/release certification.",
+}
 IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
     IOS_WEBVIEW_LIFECYCLE_GROUPS[0],
     UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
@@ -979,11 +984,19 @@ ANDROID_WEBVIEW_REQUEST_FOCUS = "android-webview-request-state"
 ANDROID_WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest"
 ANDROID_WEBVIEW_REQUEST_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt"
 ANDROID_WEBVIEW_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+ANDROID_WEBVIEW_REQUEST_METHODS = (
+    ANDROID_WEBVIEW_REQUEST_METHOD,
+    "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+)
 ANDROID_WEBVIEW_REQUEST_HELPER = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt"
 
 
 def android_webview_request_identities() -> list[dict]:
-    return [{"classname": ANDROID_WEBVIEW_REQUEST_CLASS, "name": ANDROID_WEBVIEW_REQUEST_METHOD}]
+    return [{"classname": ANDROID_WEBVIEW_REQUEST_CLASS, "name": method} for method in ANDROID_WEBVIEW_REQUEST_METHODS]
+
+
+def android_webview_request_filter() -> str:
+    return ",".join(ANDROID_WEBVIEW_REQUEST_CLASS + "#" + method for method in ANDROID_WEBVIEW_REQUEST_METHODS)
 
 
 def android_webview_request_fixtures() -> list[str]:
@@ -1051,28 +1064,88 @@ def webview_request_case_inventory(suite: str, cases: list[dict]) -> bool:
     return len(methods) == len(WEBVIEW_REQUEST_METHODS) and set(methods) == set(WEBVIEW_REQUEST_METHODS)
 
 
+WEBVIEW_OFFLINE_FOCUS = "webview-browser-offline-destination"
+WEBVIEW_OFFLINE_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewOfflineDestinationAcceptanceTest"
+WEBVIEW_OFFLINE_METHOD = "previouslyReachableOwnedDestinationBecomesOfflineWithoutStoppingKarmaOrRetainingRequestState"
+WEBVIEW_OFFLINE_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt"
+WEBVIEW_OFFLINE_SOURCE_SHA256 = "3e58d2a06a083c66ba4ce04071bca3f37bb96a21f45a1fbad212b01166c8d885"
+WEBVIEW_OFFLINE_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-offline-fixture.js"
+WEBVIEW_OFFLINE_FIXTURE_SHA256 = "176fed5c2c7661cd4a0b9ad9171d156ac1fc43f4922c0e947d2040d6b57f8111"
+
+
+def webview_offline_identities() -> list[dict]:
+    return [{"classname": WEBVIEW_OFFLINE_CLASS, "name": WEBVIEW_OFFLINE_METHOD}]
+
+
+def webview_offline_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"} or len(cases) != 1:
+        return False
+    target = "js" if suite == "js" else "wasmJs"
+    case, = cases
+    return (case["classname"] == SUITES[suite][0] + "." + WEBVIEW_OFFLINE_CLASS and
+            re.fullmatch(re.escape(WEBVIEW_OFFLINE_METHOD) + r"\[" + re.escape(target) +
+                         r", browser, [^\[\]\r\n]+\]", case["name"]) is not None)
+
+
 WEBVIEW_DESKTOP_REQUEST_FOCUS = "webview-desktop-request-state"
+WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS = "webview-desktop-request-state-stop"
+WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS = "webview-desktop-request-state-stop-redirect"
+WEBVIEW_DESKTOP_REQUEST_FOCUSES = (WEBVIEW_DESKTOP_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS,
+                                 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS)
 WEBVIEW_DESKTOP_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
 WEBVIEW_DESKTOP_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
 WEBVIEW_DESKTOP_REQUEST_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
 WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256 = "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13"
+WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest"
+WEBVIEW_DESKTOP_STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
+WEBVIEW_DESKTOP_REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
 # Same five classifier identities as DesktopJavaFx.kt; declaration, not runtime acceptance.
 WEBVIEW_DESKTOP_REQUEST_HOSTS = frozenset({
     ("Linux", "x64"), ("Linux", "arm64"), ("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64"),
 })
+# Literal missing cells only. Linux x64 Stop and four-host redirect/Reload stay
+# accepted/reused; disposal cancellation is not a public Stop substitute.
+WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS = {
+    WEBVIEW_DESKTOP_REQUEST_FOCUS: WEBVIEW_DESKTOP_REQUEST_HOSTS,
+    WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64")}),
+    WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS: frozenset({("Linux", "arm64")}),
+}
 
 
-def webview_desktop_request_identities() -> list[dict]:
-    return [{"classname": WEBVIEW_DESKTOP_REQUEST_CLASS, "name": WEBVIEW_DESKTOP_REQUEST_METHOD + "[desktop]"}]
+def webview_desktop_request_specs(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
+    if focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        raise ValueError("Unknown finite Desktop request-state focus; no full-suite fallback")
+    specs = [{"classname": WEBVIEW_DESKTOP_REQUEST_CLASS, "method": WEBVIEW_DESKTOP_REQUEST_METHOD,
+              "source": WEBVIEW_DESKTOP_REQUEST_SOURCE, "sha256": WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256}]
+    if focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
+        specs.append({"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_STOP_METHOD,
+                      "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256})
+    if focus == WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS:
+        specs.append({"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_REDIRECT_METHOD,
+                      "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256})
+    return specs
 
 
-def validate_webview_desktop_request_host(system: str, architecture: str) -> None:
-    if not isinstance(system, str) or not isinstance(architecture, str):
-        raise ValueError("Exact supported Desktop request-state host identity is required")
+def webview_desktop_request_identities(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
+    return [{"classname": spec["classname"], "name": spec["method"] + "[desktop]"}
+            for spec in webview_desktop_request_specs(focus)]
+
+
+def webview_desktop_request_filter(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> str:
+    return ",".join(spec["classname"] + "." + spec["method"] for spec in webview_desktop_request_specs(focus))
+
+
+def validate_webview_desktop_request_host(system: str, architecture: str,
+                                         focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> None:
+    if (focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
+            not isinstance(system, str) or not isinstance(architecture, str)):
+        raise ValueError("Exact supported Desktop request-state focus and host identity are required")
     architecture = architecture.lower()
     architecture = {"amd64": "x64", "x86_64": "x64", "aarch64": "arm64"}.get(architecture, architecture)
-    if (system, architecture) not in WEBVIEW_DESKTOP_REQUEST_HOSTS:
-        raise ValueError("Desktop request-state runtime is unsupported; no other-host or full-suite fallback")
+    if (system, architecture) not in WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS[focus]:
+        raise ValueError("Desktop request-state runtime is unsupported for this finite focus; no other-host or full-suite fallback")
 
 
 WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
@@ -1373,7 +1446,8 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_WEBVIEW_REQUEST_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
             (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
-            (focus == WEBVIEW_DESKTOP_REQUEST_FOCUS and suite == "desktop" and modules == ("calf-webview",)) or
+            (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
+            (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
@@ -1763,7 +1837,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
-        if focus == IOS_WEBVIEW_REQUEST_FOCUS:
+        if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):
             fixture = safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE)
             if not fixture.is_file() or fixture.stat().st_nlink != 1:
                 raise ValueError("The new native WK request selection requires its exact owned loopback fixture")
@@ -1861,19 +1935,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
     elif focus == ANDROID_WEBVIEW_REQUEST_FOCUS:
         source = safe_path(root, ANDROID_WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
-        if (methods != [ANDROID_WEBVIEW_REQUEST_METHOD] or
+        if (methods != list(ANDROID_WEBVIEW_REQUEST_METHODS) or
                 "class AndroidWebViewRequestStateDeviceTest" not in source or
                 "package com.mohamedrejeb.calf.ui.web" not in source or
                 not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(selected[0]["test_source_files"]) or
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
-            raise ValueError("Android WebView request declarations changed; review the exact one-method API35 selection")
+            raise ValueError("Android WebView request declarations changed; review the exact two-method API35 selection")
         validate_webview_device_network_fixture(root)
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = ANDROID_WEBVIEW_REQUEST_CLASS + "#" + ANDROID_WEBVIEW_REQUEST_METHOD
+        selected[0]["test_filter"] = android_webview_request_filter()
         selected[0]["required_testcases"] = android_webview_request_identities()
         selected[0]["native_fixture_paths"] = android_webview_request_fixtures()
         selected[0]["verification_api_level"] = 35
-        result["scope"] = "One new actual API35 Chromium held zero-response fail/fail/recovery/native-Reload method on the unchanged real Activity/Compose owner. Normal callbacks forward before observation; native loads bypass common content reset and Reload must use the actual current URL, not retained declarative seed. No accepted test replay, redirect/stop/DNS/TLS/offline/all-target/minimum/physical/ABI/consumer/security/release certification."
+        result["scope"] = "Two new actual API35 Chromium methods: held zero-response fail/fail/recovery/native-Reload, and public navigator Stop with pre-cleanup peer EOF plus actual owned302 redirect/current-final-URL Reload on the unchanged real Activity/Compose owner. Normal callbacks forward before same-owner observations; actual starts reset metadata/errors, and Reload must use the native current URL rather than retained declarative content. No accepted test replay, DNS/TLS/offline/all-target/minimum/physical/ABI/consumer/security/release certification."
     elif focus == ANDROID_POPUP_FOCUS:
         source = safe_path(root, ANDROID_POPUP_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -1919,20 +1993,37 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["required_testcases"] = webview_request_identities()
         selected[0]["browser_http_fixture"] = WEBVIEW_REQUEST_FIXTURE
         result["scope"] = "Three exact public Compose browser request-state methods: rejected options/retry/native reload, genuine owned HTTP redirect/native stop, and real pre-header TCP-response refusal/native metadata recovery. No accepted #63/#65/#11 replay, system-offline/DNS/TLS or reliable iframe-error claim, other target/engine, full-suite, packaged consumer, ABI, security or release certification."
-    elif focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:
-        if (WEBVIEW_DESKTOP_REQUEST_SOURCE not in selected[0]["test_source_files"] or
-                sha256(safe_path(root, WEBVIEW_DESKTOP_REQUEST_SOURCE)) != WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256):
-            raise ValueError("Desktop request-state owning source changed; review the exact held native method and fixture")
+    elif focus == WEBVIEW_OFFLINE_FOCUS:
+        if (WEBVIEW_OFFLINE_SOURCE not in selected[0]["test_source_files"] or
+                sha256(safe_path(root, WEBVIEW_OFFLINE_SOURCE)) != WEBVIEW_OFFLINE_SOURCE_SHA256 or
+                sha256(safe_path(root, WEBVIEW_OFFLINE_FIXTURE)) != WEBVIEW_OFFLINE_FIXTURE_SHA256):
+            raise ValueError("Browser offline-destination owning source/fixture changed; review the exact native method")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = WEBVIEW_DESKTOP_REQUEST_CLASS + "." + WEBVIEW_DESKTOP_REQUEST_METHOD
-        selected[0]["required_testcases"] = webview_desktop_request_identities()
+        selected[0]["test_filter"] = WEBVIEW_OFFLINE_CLASS + "." + WEBVIEW_OFFLINE_METHOD
+        selected[0]["required_testcases"] = webview_offline_identities()
+        selected[0]["test_source_files"] = [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE]
+        selected[0]["test_source_sets"] = ["webTest"]
+        selected[0]["test_source_sha256"] = {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,
+                                              WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256}
+        selected[0]["browser_http_fixture"] = WEBVIEW_OFFLINE_FIXTURE
+        result["scope"] = "One new public Compose browser method only: actual previously reachable leased loopback destination becomes unreachable after its exact listener closes; exact-port native ECONNREFUSED plus trusted Karma controls/native callbacks/metadata and inline recovery. Accepted request/content methods are not selected or replayed. No system-offline/DNS/TLS, fabricated iframe errors, reliable iframe-error reporting, other engine/target, full-suite, consumer/ABI/security/release claim."
+    elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+        for relative, digest in sources.items():
+            if (relative not in selected[0]["test_source_files"] or sha256(safe_path(root, relative)) != digest):
+                raise ValueError("Desktop request-state owning source changed; review the exact selected native methods and fixtures")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = webview_desktop_request_filter(focus)
+        selected[0]["required_testcases"] = webview_desktop_request_identities(focus)
         # Selected-case inventory only. Inherited compilation and snapshot_inputs stay
         # complete; accepted source declarations are compiled, never selected to run.
         # This non-media focus must not infer audio work from unselected source files.
-        selected[0]["test_source_files"] = [WEBVIEW_DESKTOP_REQUEST_SOURCE]
+        selected[0]["test_source_files"] = list(sources)
         selected[0]["test_source_sets"] = ["desktopTest"]
-        selected[0]["test_source_sha256"] = {WEBVIEW_DESKTOP_REQUEST_SOURCE: WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256}
+        selected[0]["test_source_sha256"] = sources
         result["scope"] = "One new real public Compose/JavaFX held pre-header native fail-to-fail-to-success method on the selected supported Desktop host only. Existing accepted stop/reload/redirect and browser fragments are reused, not replayed. Owned loopback transport refusal, not system-offline/DNS/TLS, media, another engine, full-suite, consumer, ABI, security or release certification."
+        if focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
+            result["scope"] = "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
         spec = WEBVIEW_IDENTITY_SPECS[suite]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
@@ -2380,7 +2471,7 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0]["module"] != "calf-webview" or
                 expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
                 expected[0]["report_directory"] != "calf-webview/build/outputs/androidTest-results/connected/androidMain" or
-                expected[0].get("test_filter") != ANDROID_WEBVIEW_REQUEST_CLASS + "#" + ANDROID_WEBVIEW_REQUEST_METHOD or
+                expected[0].get("test_filter") != android_webview_request_filter() or
                 expected[0].get("required_testcases") != android_webview_request_identities() or
                 not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(expected[0]["test_source_files"]) or
                 expected[0].get("native_fixture_paths") != android_webview_request_fixtures() or
@@ -2420,19 +2511,38 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("browser_http_fixture") != WEBVIEW_REQUEST_FIXTURE):
             raise ValueError("Invalid finite browser WebView request-state/HTTP-fixture plan")
         return True
-    if focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:
+    if focus == WEBVIEW_OFFLINE_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("report_directory") != "calf-webview/build/test-results/" + SUITES[suite][0] or
+                expected[0].get("test_filter") != WEBVIEW_OFFLINE_CLASS + "." + WEBVIEW_OFFLINE_METHOD or
+                expected[0].get("required_testcases") != webview_offline_identities() or
+                expected[0].get("test_source_files") != [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE] or
+                expected[0].get("test_source_sets") != ["webTest"] or
+                expected[0].get("test_source_sha256") != {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,
+                                                       WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256} or
+                expected[0].get("browser_http_fixture") != WEBVIEW_OFFLINE_FIXTURE or
+                test_plan.get("inherited_test_source_sets") != list(SUITES[suite][1])):
+            raise ValueError("Invalid finite browser offline-destination source/fixture/selection plan")
+        return True
+
+    if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
                 expected[0]["task"] != ":calf-webview:desktopTest" or
                 expected[0].get("report_directory") != "calf-webview/build/test-results/desktopTest" or
-                expected[0].get("test_filter") != WEBVIEW_DESKTOP_REQUEST_CLASS + "." + WEBVIEW_DESKTOP_REQUEST_METHOD or
-                expected[0].get("required_testcases") != webview_desktop_request_identities() or
-                expected[0].get("test_source_files") != [WEBVIEW_DESKTOP_REQUEST_SOURCE] or
+                expected[0].get("test_filter") != webview_desktop_request_filter(focus) or
+                expected[0].get("required_testcases") != webview_desktop_request_identities(focus) or
+                expected[0].get("test_source_files") != list(sources) or
                 expected[0].get("test_source_sets") != ["desktopTest"] or
-                expected[0].get("test_source_sha256") != {WEBVIEW_DESKTOP_REQUEST_SOURCE: WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256} or
+                expected[0].get("test_source_sha256") != sources or
                 test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
-            raise ValueError("Invalid exact one-method Desktop request-state plan")
+            raise ValueError("Invalid exact finite Desktop request-state plan")
         return True
     if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]
@@ -2509,7 +2619,7 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite Android known-size/no-native-open plan")
         return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
-        if focus == IOS_WEBVIEW_REQUEST_FOCUS and (len(expected) != 1 or
+        if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS) and (len(expected) != 1 or
                 expected[0].get("ios_webview_request_fixture") != IOS_WEBVIEW_REQUEST_FIXTURE or
                 not isinstance(expected[0].get("ios_webview_request_fixture_sha256"), str) or
                 re.fullmatch(r"[0-9a-f]{64}", expected[0]["ios_webview_request_fixture_sha256"]) is None or
@@ -2834,8 +2944,8 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_WEBVIEW_REQUEST_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
-            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
-                             ["Android WebView request XML must contain exactly the one new native method, no missing or unrelated cases"])
+            policy_errors = ([] if actual == required and len(module_cases) == len(ANDROID_WEBVIEW_REQUEST_METHODS) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android WebView request XML must contain exactly both new native methods, no missing/duplicate or unrelated cases"])
             if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
                 policy_errors.append("Android WebView request acceptance requires the explicit Linux API35 enforcing-emulator slot")
             scenarios = [{**c, "source": ANDROID_WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
@@ -2862,12 +2972,27 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_DESKTOP_REQUEST_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_OFFLINE_FOCUS:
+            policy_errors = ([] if webview_offline_case_inventory(test_plan["suite"], module_cases) and
+                             len(reports) == 1 and len(paths) == 1 else
+                             ["Browser offline-destination XML must contain exactly the new method in one fresh target report; no accepted/foreign/duplicate methods"])
+            scenarios = [{**c, "source": WEBVIEW_OFFLINE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
-            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
-                             ["Desktop request-state XML must contain exactly the new method in one fresh report, no missing/duplicate/unrelated cases"])
-            scenarios = [{**c, "source": WEBVIEW_DESKTOP_REQUEST_SOURCE, "required_on_host": True,
+            required_classes = {classname for classname, _ in required}
+            report_classes = [frozenset(c["classname"] for c in cases) for cases in cases_by_report]
+            # Exactly one nonempty original XML per selected class. Mere report
+            # count cannot accept a mixed-class document plus an empty extra XML.
+            exact_class_reports = Counter(report_classes) == Counter(frozenset({classname}) for classname in required_classes)
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == len(required_classes) and exact_class_reports else
+                             ["Desktop request-state XML must contain exactly the selected native methods, one nonempty fresh report per class, no missing/duplicate/empty/mixed/foreign cases"])
+            sources = {spec["classname"]: spec["source"]
+                       for spec in webview_desktop_request_specs(test_plan["explicit_test_focus"])}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
@@ -3097,8 +3222,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Prepared storage row differs from the selected native method")
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
-    if test_plan.get("explicit_test_focus") == WEBVIEW_DESKTOP_REQUEST_FOCUS:
-        validate_webview_desktop_request_host(platform.system(), platform.machine())
+    if test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan["explicit_test_focus"])
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
         raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
     if suite != "ios" and simulator:
@@ -3177,6 +3302,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             # selectors; KGP joins these into one canonical gradle-filter argument.
             filters = (item["test_filter"].split(",")
                        if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS or
+                       test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
                        (test_plan.get("explicit_test_focus") == WEBVIEW_LIFETIME_FOCUS and suite == "desktop")
                        else (item["test_filter"],))
             for selector in filters:
@@ -3467,7 +3593,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             import ios_webview_request_fixture as wk_requests
             fixture_hash = sha256(safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE))
             native_hash = sha256(safe_path(root, IOS_WEBVIEW_REQUEST_SOURCE))
-            if test_plan.get("explicit_test_focus") == IOS_WEBVIEW_REQUEST_FOCUS:
+            if test_plan.get("explicit_test_focus") in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):
                 need(expected.get("ios_webview_request_fixture_sha256") == fixture_hash,
                      "Native WK request fixture changed from its exact preflight identity")
             need(wk_requests.validate_receipt(document.get("webview_request_fixture"),
@@ -3629,8 +3755,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 test_plan["android_permission_demo"]["source_contract"], int(actual_api))
         if context["source_revision"] != revision_before:
             raise ValueError("Source revision changed while preparing the test invocation")
-        if focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:
-            validate_webview_desktop_request_host(context["host"].get("system"), context["host"].get("architecture"))
+        if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+            validate_webview_desktop_request_host(context["host"].get("system"), context["host"].get("architecture"), focus)
         audio = desktop_media_context.OwnedAudio(root, output, test_plan).start()
         if audio.environment is not None:
             execution_environment = audio.environment
@@ -3745,7 +3871,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
-                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,
+                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,

@@ -2170,7 +2170,8 @@
     "status": "partially-verified",
     "changes": [
       "Remove MANAGE_EXTERNAL_STORAGE from ordinary storage declaration examples.",
-      "Cap legacy permissions and explain scoped storage/SAF/MediaStore, media permissions, target-SDK nuances and the separation from special all-files access."
+      "Cap legacy permissions and explain scoped storage/SAF/MediaStore, media permissions, target-SDK nuances and the separation from special all-files access.",
+      "2026-11-01: Preserve API35 storage actual004 pre-lease host refusal; no actual storage functionality accepted."
     ],
     "affected_paths": [
       "docs/permissions.md"
@@ -2237,10 +2238,21 @@
         "report_count": 0,
         "scope": "Zero finding-specific runtime coverage; Android storage/SAF, documentation and distribution-policy gates remain unchanged.",
         "finding_specific_runtime_cases": 0
+      },
+      {
+        "checkpoint": "storage-api35-actual004-20261101",
+        "command": "Run41268194715 at exact eafb10f7; storage-normal and all-files rows after permission recovery.",
+        "result": "ZERO storage native/XML. Normal exits2 at require_host:121 before controller; later FileNotFoundError is secondary, all-files refused. Separate after-refusal KVM character=true/read=false/write=false does not identify original atomic guard/ACL/principal/device/cause.",
+        "evidence": [
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci004/api35/PUBLIC_REVIEW.md",
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/host-lifecycle-source-review001/README.md"
+        ],
+        "scope": "All API28/29legacy-scoped/API30+app-scoped-SAF/all-files native rows remain; docs/static source not OS grant/access proof. Original unknown cause is not fixed by successful earlier child or sole writer."
       }
     ],
     "remaining": [
-      "Android28/29 legacy/scoped and30+ app-scoped/SAF runtime matrix pending; documentation/source validation is not a device access test."
+      "Android28/29 legacy/scoped and30+ app-scoped/SAF runtime matrix pending; documentation/source validation is not a device access test.",
+      "2026-11-01: Original eight storage target selections remain unverified; next finite rows require actual descriptor/SAF/manager/restoration proofs and unchanged strict host admission, no permission regrant fallback."
     ],
     "compatibility": [
       "No runtime storage mapping expansion; old API-range behavior is explained rather than equated with all-files rights."

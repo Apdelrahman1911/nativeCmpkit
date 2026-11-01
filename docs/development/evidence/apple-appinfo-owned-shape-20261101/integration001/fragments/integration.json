@@ -1,0 +1,101 @@
+{
+  "apply_only_exact_unique_before_fragments": true,
+  "commuting_sibling_notes": [
+    "DNS combined-route changes request_fixture_requested expression only; SDK owns calf-ui and returns before the request-fixture branch.",
+    "DNS combined matrix/dispatch additions use ios-webview-provisional-dns anchors; shape uses ios-appinfo-capability anchors.",
+    "Android IO/media profile additions use separate Android literals; latest accepted root preimages already include them."
+  ],
+  "existing_file_pre_post": [
+    {
+      "current_root_still_matches_preimage": true,
+      "forward_and_reverse_exact": true,
+      "fragments": 2,
+      "path": ".github/workflows/gradle.yml",
+      "post_sha256": "6dc947057676497d0bc6c47614d0d42ef2bea95065d3a589830c399b23f03524",
+      "pre_sha256": "e126f5825eb78f96ac6740bfa98c6edd2e747c0c181c32d54b51db6908b6ed50"
+    },
+    {
+      "current_root_still_matches_preimage": true,
+      "forward_and_reverse_exact": true,
+      "fragments": 3,
+      "path": "scripts/ci/ios_ui_application.py",
+      "post_sha256": "fbe26bd5218f7238092192e33848f04798d96fbd1cac2b9feb12556b45d931e9",
+      "pre_sha256": "94c8d8d737aa57f6592d5c731dda4839b4c486f798c63f2999acd61ce8d1c596"
+    },
+    {
+      "current_root_still_matches_preimage": true,
+      "forward_and_reverse_exact": true,
+      "fragments": 2,
+      "path": "scripts/ci/workflow_matrix.py",
+      "post_sha256": "ebf3cd268edcdeca177746e973a745e63460b544ce8e60a283b97ccc54aa4a39",
+      "pre_sha256": "683d8de796206677defde57734d1906c3879a092cec2ae46a414e01ecb855948"
+    }
+  ],
+  "fragment_count": 7,
+  "fragments": [
+    {
+      "after": "def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None,\n        appinfo_shape_only: bool = False) -> dict:\n    if platform.system() != \"Darwin\" or platform.machine().lower() != \"arm64\":\n        raise ValueError(\"Genuine UIKit application execution requires the actual macOS Arm64 host\")\n    if type(appinfo_shape_only) is not bool:\n        raise ValueError(\"The internal SDK prerequisite selector must be an exact boolean\")\n    if appinfo_shape_only:\n        if (binary_relative != EXPECTED_BINARY_DIRECTORY + \"/application.kexe\" or\n                type(arguments) is not list or arguments or image_diagnostics is not None):\n            raise ValueError(\"The SDK prerequisite owns only one ordinary calf-ui app and no native selection\")\n        focus = None\n    else:\n        focus = application_test_focus(arguments, image_diagnostics)\n",
+      "after_sha256": "2881472d9c0caf72ff3f3d6585bdb6327962242221f1d809a61c5b4455773d36",
+      "before": "def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:\n    if platform.system() != \"Darwin\" or platform.machine().lower() != \"arm64\":\n        raise ValueError(\"Genuine UIKit application execution requires the actual macOS Arm64 host\")\n    focus = application_test_focus(arguments, image_diagnostics)\n",
+      "before_sha256": "647ede105a99b1289b11c639f327bde73f8552e2a44a2573de98dcc02b2986d6",
+      "id": "internal-diagnostic-selection",
+      "occurrences": 1,
+      "path": "scripts/ci/ios_ui_application.py"
+    },
+    {
+      "after": "    if appinfo_shape_only:\n        receipt.update(sdk_prerequisite_only=True, sdk_signing_mode=\"ordinary-adhoc\",\n                       native_launch_attempted=False, native_tests_executed=0,\n                       operation=\"owned-install-appinfo-shape-sdk-prerequisite\",\n                       scope=\"SDK lexical prerequisite only. No native test/launch/Worker/WK/profile execution or mandatory-test waiver.\")\n    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:\n        receipt.update(image_diagnostics_mode=\"darwin-tools\", strict_runtime_assertions_attested=False)\n    app = output / \"NativeCmpkitLibraryTests.app\"\n",
+      "after_sha256": "42eebc8fa2bb44a6c0c740c31b63aa3957358251a2bac96209526e8ee44ad733",
+      "before": "    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:\n        receipt.update(image_diagnostics_mode=\"darwin-tools\", strict_runtime_assertions_attested=False)\n    app = output / \"NativeCmpkitLibraryTests.app\"\n",
+      "before_sha256": "35fc81bd2bac19a5a1112ffcb73b8fc8a017cb560565fb1dc2cacfa8daab38d1",
+      "id": "separate-sdk-receipt-kind",
+      "occurrences": 1,
+      "path": "scripts/ci/ios_ui_application.py"
+    },
+    {
+      "after": "        if result.returncode or not installed:\n            raise RuntimeError(\"Owned installation/byte readback failed; do not retry or remove foreign data\")\n        if appinfo_shape_only:\n            import apple_appinfo_shape as appinfo_shape\n            import apple_appinfo_shape_route as appinfo_route\n            phase = \"observe-owned-installed-appinfo-shape-only\"\n            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,\n                before[\"source_revision\"], signed_hash, plist_hash, before, preexisting, result, container)\n            receipt[\"appinfo_shape_prerequisite\"] = appinfo_route.observe_owned_install(context)\n            phase = \"post-sdk-prerequisite-runtime-and-binary\"\n            after = runtime.capture(expected_arch=\"arm64\", apple=True, device=device,\n                                    require_booted=True, require_clean=True)\n            receipt[\"runtime_after\"] = after\n            receipt[\"binary_sha256_after\"] = lt.sha256(binary)\n            if (before[\"source_revision\"] != after[\"source_revision\"] or before[\"simulator\"] != after[\"simulator\"] or\n                    before[\"host\"] != after[\"host\"] or before[\"xcode\"] != after[\"xcode\"] or\n                    receipt[\"binary_sha256_after\"] != binary_hash):\n                raise ValueError(\"Selected device/source/linked binary changed during the SDK prerequisite\")\n            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if request_fixture_requested:\n",
+      "after_sha256": "c97a62172dea0d5ebe0891ff4c69373919b1c83da30c598ee3ccdaa2655f1450",
+      "before": "        if result.returncode or not installed:\n            raise RuntimeError(\"Owned installation/byte readback failed; do not retry or remove foreign data\")\n        if request_fixture_requested:\n",
+      "before_sha256": "c6d806b3f00e68ede6be3e7fcba975c77ad9d94a74d51acd8354aa5df4960998",
+      "id": "after-install-one-query-before-all-native-preparation",
+      "occurrences": 1,
+      "path": "scripts/ci/ios_ui_application.py"
+    },
+    {
+      "after": "    \"ios-appinfo-capability\": (),\n    # Current owned-app shape prerequisite, not a native/library-test selection.\n    \"ios-appinfo-shape\": (),\n",
+      "after_sha256": "96618f23f884faa8bdf0bf552a779f66ca76a39fc9e623a7321075ab7b7c5ad9",
+      "before": "    \"ios-appinfo-capability\": (),\n",
+      "before_sha256": "b80665e70226f84c7af8601cb617235fdbba8548cfe4b0f919c357ede4990a80",
+      "id": "separate-sdk-only-profile-no-library-rows",
+      "occurrences": 1,
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after": "    verified = []\n    rows = matrix(profile)[\"include\"]\n    if profile == \"ios-appinfo-shape\":\n        import apple_appinfo_shape_route\n        return {\"profile\": profile, \"operation\": \"plan\", \"source_only\": True,\n                \"Gradle_builds_executed\": 0, \"library_tests_executed\": 0, \"slots\": [],\n                \"sdk_prerequisites\": [apple_appinfo_shape_route.plan(root)]}\n",
+      "after_sha256": "2bd5f34ee0e0bfcc7899acd668042d1a9ec7f68170ebcc238e88b914fa01bbb3",
+      "before": "    verified = []\n    rows = matrix(profile)[\"include\"]\n",
+      "before_sha256": "56ad84958df892cf1413105037a5507eb87add63642aa81475d5b3d6b64215ca",
+      "id": "SDK-selector-source-preflight-before-library-plans",
+      "occurrences": 1,
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after": "ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle,",
+      "after_sha256": "6e1ac33efee838720c9352f8ae93fc8fca99912de369b1ff50fa5543e70fe75b",
+      "before": "ios-appinfo-capability, ios-webview-lifecycle,",
+      "before_sha256": "8eb10923702c6e547485ede848b9088fb4948a55516ace134200d5c54ce46540",
+      "id": "explicit-sdk-dispatch-option-only",
+      "occurrences": 1,
+      "path": ".github/workflows/gradle.yml"
+    },
+    {
+      "after": "  apple-appinfo-shape:\n    needs: tooling\n    if: inputs.profile == 'ios-appinfo-shape' && github.ref == 'refs/heads/development/preview-hardening'\n    runs-on: macos-26\n    timeout-minutes: 35\n    defaults:\n      run:\n        shell: bash\n    env:\n      GIT_CONFIG_COUNT: '2'\n      GIT_CONFIG_KEY_0: core.autocrlf\n      GIT_CONFIG_VALUE_0: 'false'\n      GIT_CONFIG_KEY_1: core.longpaths\n      GIT_CONFIG_VALUE_1: 'true'\n      CARGO_BUILD_JOBS: '1'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n        with:\n          distribution: temurin\n          java-version: '17'\n          verify-signature: true\n          overwrite-settings: false\n      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6\n        with:\n          min-wrapper-count: 1\n          allow-snapshots: false\n      - name: Reuse the pinned compiler and ordinary SDK setup only\n        run: |\n          command -v rustup\n          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy\n      - uses: android-actions/setup-android@v3\n        with:\n          packages: 'cmdline-tools;23.0 platforms;android-37.0'\n          accept-android-sdk-licenses: true\n          log-accepted-android-sdk-licenses: false\n      - name: Select the existing official SDK23 command-line tools\n        run: |\n          python3 - <<'PYTHON'\n          import os\n          from pathlib import Path\n          manager = Path(os.environ[\"ANDROID_HOME\"]) / \"cmdline-tools/23.0/bin/sdkmanager\"\n          if not manager.is_file():\n              raise SystemExit(\"SDK23 provisioning did not create the expected manager\")\n          with open(os.environ[\"GITHUB_PATH\"], \"a\") as output:\n              output.write(str(manager.parent) + \"\\n\")\n          PYTHON\n      - name: Record one actual simulator; never switch after selection\n        id: runtime\n        run: |\n          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \\\n            --select-simulator iphone --output build/ci-runtime/appinfo-selection.json\n          device=\"$(python3 -c 'import json; print(json.load(open(\"build/ci-runtime/appinfo-selection.json\"))[\"simulator\"][\"udid\"])')\"\n          state=\"$(python3 -c 'import json; print(json.load(open(\"build/ci-runtime/appinfo-selection.json\"))[\"simulator\"][\"state\"])')\"\n          if [[ \"$state\" != Shutdown && \"$state\" != Booted ]]; then\n            echo 'Unknown selected simulator state; never choose another device' >&2\n            exit 1\n          fi\n          # Record the exact original row before any boot attempt, including failure.\n          printf 'device=%s\\ninitial_state=%s\\n' \"$device\" \"$state\" >> \"$GITHUB_OUTPUT\"\n          if [[ \"$state\" == Shutdown ]]; then\n            /usr/bin/xcrun simctl boot \"$device\"\n          fi\n          /usr/bin/xcrun simctl bootstatus \"$device\" -b\n      - name: Fixed link and current owned install; one appinfo shape only\n        env:\n          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}\n        run: python3 -B scripts/ci/apple_appinfo_shape_route.py run --simulator \"$SELECTED_SIMULATOR\"\n      - name: Restore only this job's previously shut-down simulator boot state\n        if: always() && steps.runtime.outputs.initial_state == 'Shutdown'\n        env:\n          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}\n        run: |\n          /usr/bin/xcrun simctl shutdown \"$SELECTED_SIMULATOR\"\n          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \\\n            --simulator \"$SELECTED_SIMULATOR\" --output build/ci-runtime/appinfo-restored.json\n          python3 - <<'PYTHON'\n          import json, os\n          row = json.load(open(\"build/ci-runtime/appinfo-restored.json\"))[\"simulator\"]\n          if row[\"udid\"] != os.environ[\"SELECTED_SIMULATOR\"] or row[\"state\"] != \"Shutdown\":\n              raise SystemExit(\"Exact original simulator boot-state restoration is unavailable\")\n          PYTHON\n      - name: Keep SDK lexical and source receipts only; no app, logs or native XML\n        if: always()\n        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9\n        with:\n          name: apple-appinfo-shape-sdk-prerequisite\n          retention-days: 7\n          if-no-files-found: error\n          path: |\n            build/ci-verification/apple-appinfo-shape/receipt.json\n            build/ci-verification/apple-appinfo-shape/library-inputs-before.json\n            build/ci-verification/apple-appinfo-shape/library-inputs-after.json\n\n  apple-appinfo-capability:\n",
+      "after_sha256": "bd0644396e005fcdfa2531515b7886f6afa8476668ffd7a528af1c427c57d249",
+      "before": "  apple-appinfo-capability:\n",
+      "before_sha256": "7d9743c7a320c16f5872bc7bba5f36a6b59c40f87087d0c02d94a026bbe0fe61",
+      "id": "independent-SDK-prerequisite-job-not-library-row",
+      "occurrences": 1,
+      "path": ".github/workflows/gradle.yml"
+    }
+  ],
+  "schema": "nativecmpkit-exact-fragment-delivery-v1"
+}

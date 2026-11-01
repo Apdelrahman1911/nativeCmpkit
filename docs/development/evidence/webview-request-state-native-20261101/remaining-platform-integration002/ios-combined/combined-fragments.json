@@ -1,0 +1,74 @@
+[
+  {
+    "after": "IOS_WEBVIEW_REQUEST_DNS_FOCUS = \"webview-ios-native-request-dns\"\nUI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REQUEST_DNS_FOCUS] = {\n    \"module\": \"calf-webview\", \"groups\": (IOS_WEBVIEW_REQUEST_GROUP, IOS_WEBVIEW_DNS_GROUP),\n    \"scope\": \"Exactly three unexecuted genuine UIApplication/library-WK methods in one existing iPhone/Mac job: the unchanged two localhost request/TLS/Stop/redirect/Reload methods and one reserved-nonce provisional DNS fail/fail method. The localhost fixture/ATS lease is required only for the request group; DNS keeps its existing HTTPS .invalid/system-resolver and actual NSURLErrorDomain/CannotFindHost/-1003/zero-commit/previous-error-reset criteria. Eleven accepted WK/application-host methods are compiled but not selected. Exact Worker/runtime/binary/install/native/XML/owned application and fixture cleanup gates remain. No controlled resolver, resolver override, injected errors, arbitrary loads/certificate trust bypass, physical/minimum/ABI/consumer/security/release certification.\",\n}\nIOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (",
+    "before": "IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (",
+    "group": "routing",
+    "path": "scripts/ci/library_tests.py"
+  },
+  {
+    "after": "if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):\n            fixture = safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE)",
+    "before": "if focus == IOS_WEBVIEW_REQUEST_FOCUS:\n            fixture = safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE)",
+    "group": "routing",
+    "path": "scripts/ci/library_tests.py"
+  },
+  {
+    "after": "if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS) and (len(expected) != 1 or",
+    "before": "if focus == IOS_WEBVIEW_REQUEST_FOCUS and (len(expected) != 1 or",
+    "group": "routing",
+    "path": "scripts/ci/library_tests.py"
+  },
+  {
+    "after": "if test_plan.get(\"explicit_test_focus\") in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):\n                need(expected.get(\"ios_webview_request_fixture_sha256\") == fixture_hash,",
+    "before": "if test_plan.get(\"explicit_test_focus\") == IOS_WEBVIEW_REQUEST_FOCUS:\n                need(expected.get(\"ios_webview_request_fixture_sha256\") == fixture_hash,",
+    "group": "routing",
+    "path": "scripts/ci/library_tests.py"
+  },
+  {
+    "after": "request_fixture_requested = host[\"module\"] == \"calf-webview\" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)",
+    "before": "request_fixture_requested = host[\"module\"] == \"calf-webview\" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS)",
+    "group": "routing",
+    "path": "scripts/ci/ios_ui_application.py"
+  },
+  {
+    "after": "    \"ios-webview-provisional-dns\": (\"ios-iphone\",),\n    \"ios-webview-request-dns\": (\"ios-iphone\",),",
+    "before": "    \"ios-webview-provisional-dns\": (\"ios-iphone\",),",
+    "group": "routing",
+    "path": "scripts/ci/workflow_matrix.py"
+  },
+  {
+    "after": "    \"ios-webview-provisional-dns\": \"calf-webview\",\n    \"ios-webview-request-dns\": \"calf-webview\",",
+    "before": "    \"ios-webview-provisional-dns\": \"calf-webview\",",
+    "group": "routing",
+    "path": "scripts/ci/workflow_matrix.py"
+  },
+  {
+    "after": "    if profile == \"ios-webview-provisional-dns\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-ios-native-provisional-dns\"\n    if profile == \"ios-webview-request-dns\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-ios-native-request-dns\"",
+    "before": "    if profile == \"ios-webview-provisional-dns\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-ios-native-provisional-dns\"",
+    "group": "routing",
+    "path": "scripts/ci/workflow_matrix.py"
+  },
+  {
+    "after": "ios-webview-provisional-dns, ios-webview-request-dns, windows,",
+    "before": "ios-webview-provisional-dns, windows,",
+    "group": "routing",
+    "path": ".github/workflows/gradle.yml"
+  },
+  {
+    "after": "self.assertEqual({PROFILE, \"ios-webview-request-dns\"}, {name for name in matrix.PROFILES if \"dns\" in name})",
+    "before": "self.assertEqual({PROFILE}, {name for name in matrix.PROFILES if \"dns\" in name})",
+    "group": "affected-guards",
+    "path": "scripts/ci/test_ios_webview_dns_focus.py"
+  },
+  {
+    "after": "lt.ui_application_focus_filter(lt.IOS_WEBVIEW_REQUEST_FOCUS).split(\",\")[0] + \",\" + selected[\"test_filter\"]):",
+    "before": "lt.ui_application_focus_filter(lt.IOS_WEBVIEW_REQUEST_FOCUS) + \",\" + selected[\"test_filter\"]):",
+    "group": "affected-guards",
+    "path": "scripts/ci/test_ios_webview_dns_focus.py"
+  },
+  {
+    "after": "self.assertEqual({\"ios-webview-provisional-dns\", \"ios-webview-request-dns\"},\n                         {value for value in matrix.PROFILES if \"dns\" in value})",
+    "before": "self.assertEqual({\"ios-webview-provisional-dns\"}, {value for value in matrix.PROFILES if \"dns\" in value})",
+    "group": "affected-guards",
+    "path": "scripts/ci/test_ios_webview_request_focus.py"
+  }
+]

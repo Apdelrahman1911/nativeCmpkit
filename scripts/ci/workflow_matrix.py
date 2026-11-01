@@ -64,6 +64,7 @@ PROFILES = {
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-content-transitions": ("browser-js", "browser-wasm"),
     "webview-request-state": ("browser-js", "browser-wasm"),
+    "webview-offline-destination": ("browser-js", "browser-wasm"),
     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
@@ -146,10 +147,13 @@ PROFILES = {
     "ios-image-profile-recovery": ("ios-iphone",),
     # Separate SDK help/identity discovery; no library/device/consumer execution.
     "ios-appinfo-capability": (),
+    # Current owned-app shape prerequisite, not a native/library-test selection.
+    "ios-appinfo-shape": (),
     "ios-webview-lifecycle": ("ios-iphone",),
     "ios-webview-recovery": ("ios-iphone",),
     "ios-webview-request-state": ("ios-iphone",),
     "ios-webview-provisional-dns": ("ios-iphone",),
+    "ios-webview-request-dns": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -214,6 +218,7 @@ MODULE_SUBSETS = {
     "ios-webview-recovery": "calf-webview",
     "ios-webview-request-state": "calf-webview",
     "ios-webview-provisional-dns": "calf-webview",
+    "ios-webview-request-dns": "calf-webview",
     "ios-image-memory-darwin": "calf-ui",
     "ios-image-profile-recovery": "calf-ui",
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
@@ -226,6 +231,7 @@ MODULE_SUBSETS = {
     # Two missing original iframe criteria methods only; accepted Browser004 stays reusable.
     "webview-content-transitions": "calf-webview",
     "webview-request-state": "calf-webview",
+    "webview-offline-destination": "calf-webview",
     "webview-desktop-request-state": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
@@ -411,9 +417,19 @@ def matrix(profile: str) -> dict:
     if profile == "webview-request-state":
         for row in rows:
             row["test-focus"] = "webview-browser-request-state"
-    if profile == "webview-desktop-request-state":
+    if profile == "webview-offline-destination":
         for row in rows:
-            row["test-focus"] = "webview-desktop-request-state"
+            row["test-focus"] = "webview-browser-offline-destination"
+    if profile == "webview-desktop-request-state":
+        focuses = {
+            "desktop-linux-x64": "webview-desktop-request-state",
+            "desktop-macos-arm64": "webview-desktop-request-state-stop",
+            "desktop-windows-x64": "webview-desktop-request-state-stop",
+            "desktop-linux-arm64": "webview-desktop-request-state-stop-redirect",
+            "desktop-macos-x64": "webview-desktop-request-state-stop",
+        }
+        for row in rows:
+            row["test-focus"] = focuses[row["slot"]]
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:
@@ -545,6 +561,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-webview-provisional-dns":
         for row in rows:
             row["test-focus"] = "webview-ios-native-provisional-dns"
+    if profile == "ios-webview-request-dns":
+        for row in rows:
+            row["test-focus"] = "webview-ios-native-request-dns"
     if profile in {"ios-slider-tap", "ios-slider-pair-structure"}:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-tap-cancellation" if profile == "ios-slider-tap" else
@@ -585,6 +604,11 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
     root = (root or Path(__file__).resolve().parents[2]).resolve()
     verified = []
     rows = matrix(profile)["include"]
+    if profile == "ios-appinfo-shape":
+        import apple_appinfo_shape_route
+        return {"profile": profile, "operation": "plan", "source_only": True,
+                "Gradle_builds_executed": 0, "library_tests_executed": 0, "slots": [],
+                "sdk_prerequisites": [apple_appinfo_shape_route.plan(root)]}
     # One host, two independent applications. Validate both real CLIs before
     # requesting that host; the second must not be hidden by a first failure.
     selections = [selection for row in rows for selection in

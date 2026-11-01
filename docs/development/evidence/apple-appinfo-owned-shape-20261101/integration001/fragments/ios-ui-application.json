@@ -1,0 +1,33 @@
+{
+  "pre_sha256": "94c8d8d737aa57f6592d5c731dda4839b4c486f798c63f2999acd61ce8d1c596",
+  "fragments": [
+    {
+      "id": "internal-diagnostic-selection",
+      "path": "scripts/ci/ios_ui_application.py",
+      "before": "def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:\n    if platform.system() != \"Darwin\" or platform.machine().lower() != \"arm64\":\n        raise ValueError(\"Genuine UIKit application execution requires the actual macOS Arm64 host\")\n    focus = application_test_focus(arguments, image_diagnostics)\n",
+      "after": "def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None,\n        appinfo_shape_only: bool = False) -> dict:\n    if platform.system() != \"Darwin\" or platform.machine().lower() != \"arm64\":\n        raise ValueError(\"Genuine UIKit application execution requires the actual macOS Arm64 host\")\n    if type(appinfo_shape_only) is not bool:\n        raise ValueError(\"The internal SDK prerequisite selector must be an exact boolean\")\n    if appinfo_shape_only:\n        if (binary_relative != EXPECTED_BINARY_DIRECTORY + \"/application.kexe\" or\n                type(arguments) is not list or arguments or image_diagnostics is not None):\n            raise ValueError(\"The SDK prerequisite owns only one ordinary calf-ui app and no native selection\")\n        focus = None\n    else:\n        focus = application_test_focus(arguments, image_diagnostics)\n",
+      "before_sha256": "647ede105a99b1289b11c639f327bde73f8552e2a44a2573de98dcc02b2986d6",
+      "after_sha256": "2881472d9c0caf72ff3f3d6585bdb6327962242221f1d809a61c5b4455773d36",
+      "occurrences": 1
+    },
+    {
+      "id": "separate-sdk-receipt-kind",
+      "path": "scripts/ci/ios_ui_application.py",
+      "before": "    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:\n        receipt.update(image_diagnostics_mode=\"darwin-tools\", strict_runtime_assertions_attested=False)\n    app = output / \"NativeCmpkitLibraryTests.app\"\n",
+      "after": "    if appinfo_shape_only:\n        receipt.update(sdk_prerequisite_only=True, sdk_signing_mode=\"ordinary-adhoc\",\n                       native_launch_attempted=False, native_tests_executed=0,\n                       operation=\"owned-install-appinfo-shape-sdk-prerequisite\",\n                       scope=\"SDK lexical prerequisite only. No native test/launch/Worker/WK/profile execution or mandatory-test waiver.\")\n    if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:\n        receipt.update(image_diagnostics_mode=\"darwin-tools\", strict_runtime_assertions_attested=False)\n    app = output / \"NativeCmpkitLibraryTests.app\"\n",
+      "before_sha256": "35fc81bd2bac19a5a1112ffcb73b8fc8a017cb560565fb1dc2cacfa8daab38d1",
+      "after_sha256": "42eebc8fa2bb44a6c0c740c31b63aa3957358251a2bac96209526e8ee44ad733",
+      "occurrences": 1
+    },
+    {
+      "id": "after-install-one-query-before-all-native-preparation",
+      "path": "scripts/ci/ios_ui_application.py",
+      "before": "        if result.returncode or not installed:\n            raise RuntimeError(\"Owned installation/byte readback failed; do not retry or remove foreign data\")\n        if request_fixture_requested:\n",
+      "after": "        if result.returncode or not installed:\n            raise RuntimeError(\"Owned installation/byte readback failed; do not retry or remove foreign data\")\n        if appinfo_shape_only:\n            import apple_appinfo_shape as appinfo_shape\n            import apple_appinfo_shape_route as appinfo_route\n            phase = \"observe-owned-installed-appinfo-shape-only\"\n            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,\n                before[\"source_revision\"], signed_hash, plist_hash, before, preexisting, result, container)\n            receipt[\"appinfo_shape_prerequisite\"] = appinfo_route.observe_owned_install(context)\n            phase = \"post-sdk-prerequisite-runtime-and-binary\"\n            after = runtime.capture(expected_arch=\"arm64\", apple=True, device=device,\n                                    require_booted=True, require_clean=True)\n            receipt[\"runtime_after\"] = after\n            receipt[\"binary_sha256_after\"] = lt.sha256(binary)\n            if (before[\"source_revision\"] != after[\"source_revision\"] or before[\"simulator\"] != after[\"simulator\"] or\n                    before[\"host\"] != after[\"host\"] or before[\"xcode\"] != after[\"xcode\"] or\n                    receipt[\"binary_sha256_after\"] != binary_hash):\n                raise ValueError(\"Selected device/source/linked binary changed during the SDK prerequisite\")\n            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if request_fixture_requested:\n",
+      "before_sha256": "c6d806b3f00e68ede6be3e7fcba975c77ad9d94a74d51acd8354aa5df4960998",
+      "after_sha256": "c97a62172dea0d5ebe0891ff4c69373919b1c83da30c598ee3ccdaa2655f1450",
+      "occurrences": 1
+    }
+  ],
+  "candidate_sha256": "fbe26bd5218f7238092192e33848f04798d96fbd1cac2b9feb12556b45d931e9"
+}

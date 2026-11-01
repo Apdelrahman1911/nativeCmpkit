@@ -1,0 +1,36 @@
+{
+  "accepted_test_replay": 0,
+  "candidate_sha256": {
+    "candidate/scripts/ci/apple_appinfo_shape.py": "d3c9624c8e3b51c8e1b50c7f560df7a9ab67766d2255bc70cb804ea4301e1508",
+    "candidate/scripts/ci/test_apple_appinfo_shape.py": "204d586750110a91e7f7239e39396c94ab068bcfcab7cf7ef26b3ae743efafbe"
+  },
+  "elapsed_seconds": 0.065,
+  "errors": 0,
+  "exit_code": 0,
+  "failures": 0,
+  "host": {
+    "architecture": "x86_64",
+    "python": "3.12.3",
+    "system": "Linux"
+  },
+  "method_names": [
+    "test_one_exact_current_install_query_emits_only_hashes_types_fixed_names_and_counts",
+    "test_candidate_serializer_bytes_never_accept_any_payload_schema_or_duplicate_field_semantics",
+    "test_nonzero_empty_two_streams_nontext_boolean_exit_and_oversize_remain_unavailable",
+    "test_old_bundle_default_device_wrong_source_foreign_install_and_identity_drift_never_query",
+    "test_exclusive_sanitized_record_refuses_a_second_query_even_after_private_cleanup",
+    "test_low_disk_reserve_or_exhausted_observation_budget_prevents_the_one_query",
+    "test_partial_owned_capture_metadata_is_saved_but_exit_zero_never_accepts_it",
+    "test_foreign_private_membership_and_changed_file_modes_are_preserved_and_refuse_acceptance",
+    "test_installed_bytes_changed_during_capture_and_raw_oserror_never_become_readiness"
+  ],
+  "methods": 9,
+  "native_methods": 0,
+  "passes": 9,
+  "previous_eight_passes_retained": "initial-green-eight.json",
+  "reused_unchanged_process_control": "scripts/ci/apple_appinfo_capability.py capture/stop source exact; no accepted child-process regressions replayed.",
+  "schema": "nativecmpkit-apple-appinfo-shape-synthetic-result-v1",
+  "sdk_queries": 0,
+  "stage": "final-owning-reserve-budget-green",
+  "why_affected_eight_reexecuted": "Added owning disk-reserve, observation-budget and record-byte guards; all eight existing new candidate methods exercise that changed collector, plus one genuinely new reserve/budget method. Nine distinct methods; prior overlapping eight are not added."
+}

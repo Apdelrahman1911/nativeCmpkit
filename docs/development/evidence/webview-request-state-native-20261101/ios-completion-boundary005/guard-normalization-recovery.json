@@ -1,0 +1,10 @@
+{
+  "after_expression": "hashlib.sha256(source.replace(helper, \"\", 1).encode()).hexdigest()",
+  "base_guard_and_source_red_records_preserved": true,
+  "before_expression": "hashlib.sha256(source[:start].encode() + source[end:].lstrip(\"\\n\").encode()).hexdigest()",
+  "corrected_guard_sha256": "0229f3de1d266239ddc208fbbd6b273f10b42fa434d13bcc730e7ac2d9e1533f",
+  "initial_guard_sha256": "f26010a2872dd319a01eaf134f6b9859d96114d9b1aefbb325a1ee58ba41a24d",
+  "kind": "guard-only outside-helper newline-preservation repair before first green; no native criterion change",
+  "source_red_replayed": false,
+  "why": "The previous expression deleted a retained blank line after the helper. Exact helper removal preserves all other bytes and matches the frozen outside-helper identity."
+}

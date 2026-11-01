@@ -1,5 +1,36 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Missing-platform batch frozen; actual failures retained — 2026-11-01
+
+Read [the current checkpoint](docs/development/checkpoint-20261101-request-matrix.md).
+Actual camera013/41268143920 remains FAILED before boot at supplied-mutable-path
+confinement: ZERO native/XML, rejected key/value/conjunct/cause unknown. Only
+after-refusal fixed-category Boolean/null diagnostics are added; admission,
+primary exception and FD-owned cleanup are unchanged. #13 needs Dont-keep only;
+accepted camera009 rotation/kernel-death/cancellation three must not be replayed.
+Actual API35/41268194715 remains FAILED: picker1/1 independently accepted for
+#102.C3, Call/denial two fail exact native-button observation, storage ZERO
+native at host admission. Their causes remain unknown; accepted picker and IO3
+are excluded from recoveries. #102/#118 remain open.
+
+Related four-task Desktop/Android-device/JS/Wasm compiler passes0/89.02s on1095/
+1172 held inputs, ZERO native/Apple. Current1097/1174 differ only at iOS helper/
+owning hash guard, camera diagnostic and two new synthetic guards; no selected
+Linux compiler-input change, so compile is reused, not rerun. iOS assertions are
+now outside the Objective-C completion boundary; real Mac compile/native remains.
+Desktop10 missing executions/three methods/five hosts, browser offline2 and
+Android request2 are prepared; original accepted host/browser results unselected.
+Desktop layer explicitly follows offline; no all-five-order commutation claim.
+First finite requests: iOS request2+DNS1 and camera Dont-keep1. Later Desktop
+max-parallel2 consumes both hosted heavy slots; do not overlap another request.
+
+Fresh destination readback:92closed/80open/172total;27implemented/42partial/
+90verified/five unresolved, ZERO new whole-issue closures. All16 open upstream
+issues already reconciled in20261101T001025Z. Lead owns integration/Git/GitHub;
+useful disjoint agents/private preparations, serial local builds/8GiB reserve/
+max2combined hosted-heavy jobs remain. No publishing/Pages/main/history/native/
+consumer/ABI/dependency/legal/security/readiness gate is waived by these subsets.
+
 ## Storage optional-library guard recovered; bounded host diagnostics — 2026-11-01
 
 [Exact owning parser recovery](docs/development/evidence/android-io-permission-storage-batch-20261101/storage-support-parser-repair001/README.md)

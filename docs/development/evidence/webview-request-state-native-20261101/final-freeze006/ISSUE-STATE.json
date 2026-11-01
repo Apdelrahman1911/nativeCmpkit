@@ -1,0 +1,872 @@
+{
+  "count": 172,
+  "counts": {
+    "CLOSED": 92,
+    "OPEN": 80
+  },
+  "issues": [
+    {
+      "number": 1,
+      "state": "CLOSED",
+      "title": "[High][BUILD-001] Desktop WebView POM hard-codes the publisher OS in JavaFX dependencies"
+    },
+    {
+      "number": 2,
+      "state": "OPEN",
+      "title": "[High][BUILD-003] Any nonempty prebuilt native subdirectory suppresses every local native build"
+    },
+    {
+      "number": 3,
+      "state": "OPEN",
+      "title": "[High][BUILD-006] Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness"
+    },
+    {
+      "number": 4,
+      "state": "CLOSED",
+      "title": "[High][IO-001] iOS byte-array reads can overrun native destination memory and mishandle empty files"
+    },
+    {
+      "number": 5,
+      "state": "CLOSED",
+      "title": "[High][IO-002] Android saver loses pending content across recomposition and can report an empty export as success"
+    },
+    {
+      "number": 6,
+      "state": "CLOSED",
+      "title": "[High][IO-003] Desktop composition disposal races raw JNI handles; cancelled creation can leak handles"
+    },
+    {
+      "number": 7,
+      "state": "CLOSED",
+      "title": "[High][IO-004] Desktop save can delete its own source and does not reliably replace existing content"
+    },
+    {
+      "number": 8,
+      "state": "OPEN",
+      "title": "[High][IO-005] iOS saver exports the original source with move semantics and ignores requested file names"
+    },
+    {
+      "number": 9,
+      "state": "CLOSED",
+      "title": "[High][NATIVE-001] Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading"
+    },
+    {
+      "number": 10,
+      "state": "CLOSED",
+      "title": "[High][NATIVE-002] Android and Desktop WebViews retain live native views after composition disposal"
+    },
+    {
+      "number": 11,
+      "state": "CLOSED",
+      "title": "[High][NATIVE-010] Enabling Web JavaScript removes all iframe isolation for inline HTML"
+    },
+    {
+      "number": 12,
+      "state": "CLOSED",
+      "title": "[High][NATIVE-013] Desktop CookieManager overwrites JavaFX and application-global cookie handlers"
+    },
+    {
+      "number": 13,
+      "state": "OPEN",
+      "title": "[High][NATIVE-019] Android camera loses its output URI across Activity/process recreation"
+    },
+    {
+      "number": 14,
+      "state": "CLOSED",
+      "title": "[High][NATIVE-027] Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback"
+    },
+    {
+      "number": 15,
+      "state": "CLOSED",
+      "title": "[High][NAV-001] Adaptive navigation silently discards per-navigation arguments"
+    },
+    {
+      "number": 16,
+      "state": "CLOSED",
+      "title": "[High][NAV-002] Route-keyed saved state aliases duplicate back-stack entries and incompletely fixes #542"
+    },
+    {
+      "number": 17,
+      "state": "CLOSED",
+      "title": "[High][NAV-009] Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired"
+    },
+    {
+      "number": 18,
+      "state": "CLOSED",
+      "title": "[High][PERM-002] Android bulk results are assigned to the first global permission alias, not the requested permissions"
+    },
+    {
+      "number": 19,
+      "state": "OPEN",
+      "title": "[High][PERM-004] Android location requests do not orchestrate fine/coarse and foreground/background prerequisites"
+    },
+    {
+      "number": 20,
+      "state": "OPEN",
+      "title": "[High][PERM-008] iOS multi-permission launch is concurrent and returns singleton results rather than a complete batch"
+    },
+    {
+      "number": 21,
+      "state": "OPEN",
+      "title": "[High][PERM-009] iOS BackgroundLocation cannot upgrade an existing WhenInUse grant to Always"
+    },
+    {
+      "number": 22,
+      "state": "OPEN",
+      "title": "[High][PERM-011] iOS calendar uses the iOS17 full-access API without availability gating or matching usage descriptions"
+    },
+    {
+      "number": 23,
+      "state": "OPEN",
+      "title": "[High][PERM-013] iOS Wi-Fi status observation publishes a Bonjour service and conflates timeout/cancellation with denial"
+    },
+    {
+      "number": 24,
+      "state": "CLOSED",
+      "title": "[High][PERM-018] Android LocationTracker never updates its public location states"
+    },
+    {
+      "number": 25,
+      "state": "CLOSED",
+      "title": "[High][PERM-021] Android LocationTracker suppresses missing-permission checks and ignores provider failures"
+    },
+    {
+      "number": 26,
+      "state": "OPEN",
+      "title": "[High][UI-001] iOS date state and native calendars do not enforce the documented UTC-day/year-range contract"
+    },
+    {
+      "number": 27,
+      "state": "OPEN",
+      "title": "[High][UI-002] Native date conversion treats user-calendar components as Gregorian dates"
+    },
+    {
+      "number": 28,
+      "state": "OPEN",
+      "title": "[High][UI-012] Presented iOS alerts update their text but retain original action and text-field callbacks"
+    },
+    {
+      "number": 29,
+      "state": "OPEN",
+      "title": "[High][UI-013] iOS action sheets are presented without an iPad popover anchor"
+    },
+    {
+      "number": 30,
+      "state": "OPEN",
+      "title": "[High][UI-014] Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks"
+    },
+    {
+      "number": 31,
+      "state": "OPEN",
+      "title": "[High][UI-018] Sheet operation cancellation and disposal can leave native presentation and retained owners behind"
+    },
+    {
+      "number": 32,
+      "state": "OPEN",
+      "title": "[High][UI-020] Native bar measurement permanently stops after several stable frames"
+    },
+    {
+      "number": 33,
+      "state": "OPEN",
+      "title": "[High][UI-021] Native bars live outside the Compose layout/transition hierarchy"
+    },
+    {
+      "number": 34,
+      "state": "CLOSED",
+      "title": "[High][UI-027] Liquid Glass slider retains stale enabled, range, geometry and direction inside drag callbacks"
+    },
+    {
+      "number": 35,
+      "state": "OPEN",
+      "title": "[High][UI-029] Liquid Glass slider and switch lack actionable accessibility and keyboard semantics"
+    },
+    {
+      "number": 36,
+      "state": "CLOSED",
+      "title": "[High][UI-031] Cancelled pointer gestures can commit a Liquid Glass switch toggle"
+    },
+    {
+      "number": 37,
+      "state": "OPEN",
+      "title": "[High][UI-040] calf-ui test coverage omits all native managers and most interactive control families"
+    },
+    {
+      "number": 38,
+      "state": "OPEN",
+      "title": "[Medium][BUILD-004] Packaged native platform matrix omits Linux arm64 and Windows arm64 paths expected by loaders"
+    },
+    {
+      "number": 39,
+      "state": "CLOSED",
+      "title": "[Medium][BUILD-005] Native release binaries have unlocked Rust dependencies and a floating compiler"
+    },
+    {
+      "number": 40,
+      "state": "OPEN",
+      "title": "[Medium][BUILD-007] Dependency and workflow trust is not reproducibly verified beyond the wrapper"
+    },
+    {
+      "number": 41,
+      "state": "CLOSED",
+      "title": "[Medium][BUILD-008] Release version input is embedded directly in executable shell scripts"
+    },
+    {
+      "number": 42,
+      "state": "CLOSED",
+      "title": "[Medium][BUILD-009] Pinned JetBrains-only daemon prevents use of installed JDK 17 and contradicts CI setup"
+    },
+    {
+      "number": 43,
+      "state": "CLOSED",
+      "title": "[Medium][IO-006] Save write failures can report success or escape without a completion/error result"
+    },
+    {
+      "number": 44,
+      "state": "OPEN",
+      "title": "[Medium][IO-007] iOS picker completion is not exactly once and document swipe dismissal is not observed"
+    },
+    {
+      "number": 45,
+      "state": "OPEN",
+      "title": "[Medium][IO-008] Picked-file access lifetime is not represented for security-scoped folders or persisted Android URIs"
+    },
+    {
+      "number": 46,
+      "state": "CLOSED",
+      "title": "[Medium][IO-009] Browser file reads treat DONE as success and do not cancel or propagate FileReader failures"
+    },
+    {
+      "number": 47,
+      "state": "CLOSED",
+      "title": "[Medium][IO-010] File-kind queries misclassify extensionless browser files and nonexistent paths"
+    },
+    {
+      "number": 48,
+      "state": "OPEN",
+      "title": "[Medium][IO-011] Web saver accepts onResult but never calls it or exposes download-only capability"
+    },
+    {
+      "number": 49,
+      "state": "OPEN",
+      "title": "[Medium][IO-012] Immediate web Blob URL revocation can race the browser download"
+    },
+    {
+      "number": 50,
+      "state": "OPEN",
+      "title": "[Medium][IO-013] iOS picked-file copies have no ownership cleanup and are created before result limits are applied"
+    },
+    {
+      "number": 51,
+      "state": "CLOSED",
+      "title": "[Medium][IO-014] Portable path/name metadata exposes encoded or unreadable references instead of the readable file"
+    },
+    {
+      "number": 52,
+      "state": "OPEN",
+      "title": "[Medium][IO-015] Desktop MIME filtering omits modern image formats and silently disables unknown custom filters"
+    },
+    {
+      "number": 53,
+      "state": "CLOSED",
+      "title": "[Medium][IO-017] Some remembered launchers retain stale selection limits, image representation and parent windows"
+    },
+    {
+      "number": 54,
+      "state": "OPEN",
+      "title": "[Medium][IO-018] Multiple selection accepts invalid limits and differs across platform fallback paths"
+    },
+    {
+      "number": 55,
+      "state": "OPEN",
+      "title": "[Medium][IO-019] Android folder selections are wrapped using single-document metadata and stream-based existence"
+    },
+    {
+      "number": 56,
+      "state": "CLOSED",
+      "title": "[Medium][IO-020] Android whole-file read leaks its input stream if reading fails"
+    },
+    {
+      "number": 57,
+      "state": "OPEN",
+      "title": "[Medium][IO-021] Coil fetches eagerly copy whole files and the byte-array API needs explicit scheduling/size guidance"
+    },
+    {
+      "number": 58,
+      "state": "OPEN",
+      "title": "[Medium][IO-023] Native parent-window pointers have unproven lifetime and thread-affinity guarantees"
+    },
+    {
+      "number": 59,
+      "state": "CLOSED",
+      "title": "[Medium][IO-024] JNI path conversion silently replaces non-Unicode filenames"
+    },
+    {
+      "number": 60,
+      "state": "CLOSED",
+      "title": "[Medium][IO-025] iOS Document filter maps an application MIME wildcard to the application-bundle UTI"
+    },
+    {
+      "number": 61,
+      "state": "CLOSED",
+      "title": "[Medium][IO-026] Web picker catches application callback failures as cancellation and lacks disposal cleanup"
+    },
+    {
+      "number": 62,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-003] Android and iOS onCreated run before the advertised native WebView reference exists"
+    },
+    {
+      "number": 63,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-004] Web state-driven URL loading does not clear existing iframe srcdoc"
+    },
+    {
+      "number": 64,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-005] WebView request state is not reset consistently on Desktop, iOS and Web"
+    },
+    {
+      "number": 65,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-006] Web WebView never invokes onDispose and retains iframe/listener references"
+    },
+    {
+      "number": 66,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-007] Non-Android saveable WebView state restores metadata but no content"
+    },
+    {
+      "number": 67,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-008] Replay-one navigation flow replays transient back/forward/stop commands on reattachment"
+    },
+    {
+      "number": 68,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-009] iOS captureBackPresses=false is overridden by settings and URL loads"
+    },
+    {
+      "number": 69,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-011] Browser CookieManager silently misrepresents URL, expiry, HttpOnly and deletion support"
+    },
+    {
+      "number": 70,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-012] Desktop and iOS getCookies do not implement full request-URL cookie matching"
+    },
+    {
+      "number": 71,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-014] Desktop cookie expiry is recalculated from read time and drifts into the future"
+    },
+    {
+      "number": 72,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-015] JavaScript evaluation has inconsistent failure, result and thread semantics"
+    },
+    {
+      "number": 73,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-016] Common WebContent options are silently ignored on several targets"
+    },
+    {
+      "number": 74,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-017] iOS inline-media configuration is changed only after WKWebView construction"
+    },
+    {
+      "number": 75,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-018] Desktop initializes JFXPanel during composition despite historical nested-event-loop crashes"
+    },
+    {
+      "number": 76,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-020] Camera callback/lifetime handling is unstable across recomposition"
+    },
+    {
+      "number": 77,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-021] Camera API silently drops unsupported, cancelled and failed operations"
+    },
+    {
+      "number": 78,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-022] Android camera hardcodes a host FileProvider authority without public setup or validation"
+    },
+    {
+      "number": 79,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-023] iOS camera has no in-flight presentation guard or lifecycle-bound cleanup"
+    },
+    {
+      "number": 80,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-024] Camera capture does synchronous full-resolution PNG work and has no temporary-file ownership policy"
+    },
+    {
+      "number": 81,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-025] ShareResult.Success means chooser launch/service selection rather than completed sharing on some targets"
+    },
+    {
+      "number": 82,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-026] Web clipboard fallback reports success before its promise resolves"
+    },
+    {
+      "number": 83,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-028] Android file sharing forwards file:// URIs without FileProvider conversion"
+    },
+    {
+      "number": 84,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-029] macOS share leaks both the Objective-C delegate and its Arc completion state on every presented picker"
+    },
+    {
+      "number": 85,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-030] macOS sharing blocks a coroutine worker for up to five minutes without cancellation integration"
+    },
+    {
+      "number": 86,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-031] Desktop native share extraction uses one mutable filename across versions, architectures and processes"
+    },
+    {
+      "number": 87,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-032] Share callbacks can be delivered twice when application result handling throws"
+    },
+    {
+      "number": 88,
+      "state": "OPEN",
+      "title": "[Medium][NATIVE-033] Public mobile launch/evaluation operations lack an explicit main-thread contract or enforcement"
+    },
+    {
+      "number": 89,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-037] Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound"
+    },
+    {
+      "number": 90,
+      "state": "CLOSED",
+      "title": "[Medium][NATIVE-038] Android enables multiple WebView windows but supplies no window-creation handler"
+    },
+    {
+      "number": 91,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-003] NavArgument builder rejects missing/null defaults and accepts mismatched typed defaults"
+    },
+    {
+      "number": 92,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-004] AdaptiveBundle violates documented runtime type and fallback contracts"
+    },
+    {
+      "number": 93,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-005] AdaptiveNavType inference and serialization are incomplete and not reliably round-trippable"
+    },
+    {
+      "number": 94,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-006] AdaptiveNavHost retains stale graph closures and does not initialize a replacement controller"
+    },
+    {
+      "number": 95,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-007] Unknown routes and duplicate graph registrations silently render blank or select the first definition"
+    },
+    {
+      "number": 96,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-008] Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract"
+    },
+    {
+      "number": 97,
+      "state": "OPEN",
+      "title": "[Medium][NAV-010] CupertinoIcon leaves the private-use glyph Text semantics exposed"
+    },
+    {
+      "number": 98,
+      "state": "OPEN",
+      "title": "[Medium][NAV-011] Generated icon/symbol catalogues lack a reproducible generator and Apple availability metadata"
+    },
+    {
+      "number": 99,
+      "state": "OPEN",
+      "title": "[Medium][NAV-012] Sample secure password text field logs every entered value"
+    },
+    {
+      "number": 100,
+      "state": "OPEN",
+      "title": "[Medium][NAV-013] Sample image export runs unbounded reads and image allocations without error or concurrency control"
+    },
+    {
+      "number": 101,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-014] Streaming sample cancellation does not interrupt its synchronous read loop"
+    },
+    {
+      "number": 102,
+      "state": "OPEN",
+      "title": "[Medium][NAV-015] Android sample permission menu and manifest disagree and declare unrelated broad permissions"
+    },
+    {
+      "number": 103,
+      "state": "CLOSED",
+      "title": "[Medium][NAV-018] Derived Apache-2.0 source attribution needs reconstruction and artifact verification"
+    },
+    {
+      "number": 104,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-001] Android silently treats an unregistered Permission as granted"
+    },
+    {
+      "number": 105,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-003] Android bulk/child permission requests do not consistently deliver completion callbacks"
+    },
+    {
+      "number": 106,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-005] Remembered permission objects retain obsolete result callbacks after recomposition"
+    },
+    {
+      "number": 107,
+      "state": "OPEN",
+      "title": "[Medium][PERM-006] Permission lifecycle refresh skips previously granted permissions, leaving revocations stale"
+    },
+    {
+      "number": 108,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-007] iOS result callbacks are not main-thread/disposal safe and run before status refresh"
+    },
+    {
+      "number": 109,
+      "state": "OPEN",
+      "title": "[Medium][PERM-010] iOS location delegates consume pending requests on nonterminal events and overwrite overlapping callbacks"
+    },
+    {
+      "number": 110,
+      "state": "OPEN",
+      "title": "[Medium][PERM-012] iOS WriteCalendar requests full read/write access and rejects write-only authorization"
+    },
+    {
+      "number": 111,
+      "state": "OPEN",
+      "title": "[Medium][PERM-014] iOS Bluetooth request lifetime and completion need device-backed hardening"
+    },
+    {
+      "number": 112,
+      "state": "OPEN",
+      "title": "[Medium][PERM-015] iOS RemoteNotification skips APNs registration when notification authorization already exists"
+    },
+    {
+      "number": 113,
+      "state": "OPEN",
+      "title": "[Medium][PERM-016] PermissionStatus loses partial capability, precision and requestability distinctions"
+    },
+    {
+      "number": 114,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-017] Desktop, JS and Wasm permissions are nonfunctional stubs with silent callbacks"
+    },
+    {
+      "number": 115,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-019] Non-Android geolocation trackers only print messages and report fabricated zero coordinates"
+    },
+    {
+      "number": 116,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-020] Android LocationTracker rebinding has no ownership boundary or coroutine cleanup"
+    },
+    {
+      "number": 117,
+      "state": "CLOSED",
+      "title": "[Medium][PERM-022] Android geo data treats missing accuracy/speed/bearing/altitude as real zero measurements"
+    },
+    {
+      "number": 118,
+      "state": "OPEN",
+      "title": "[Medium][PERM-024] Storage guidance asks for all-files access that WriteStorage never requests or verifies"
+    },
+    {
+      "number": 119,
+      "state": "CLOSED",
+      "title": "[Medium][UI-003] Replacing iOS date state can skip initialization effects for the new native picker"
+    },
+    {
+      "number": 120,
+      "state": "CLOSED",
+      "title": "[Medium][UI-004] Empty or reversed date-bound intersections reach native interval APIs without a defined policy"
+    },
+    {
+      "number": 121,
+      "state": "CLOSED",
+      "title": "[Medium][UI-006] Compact Material date dialog can commit stale or newly forbidden scratch selections"
+    },
+    {
+      "number": 122,
+      "state": "OPEN",
+      "title": "[Medium][UI-007] Native range highlighting eagerly allocates every day of a selected range on the UI path"
+    },
+    {
+      "number": 123,
+      "state": "CLOSED",
+      "title": "[Medium][UI-009] Time-state constructor checks the hour twice and never validates the minute on iOS"
+    },
+    {
+      "number": 124,
+      "state": "CLOSED",
+      "title": "[Medium][UI-010] Remembered native time picker keeps writing to the original state after replacement"
+    },
+    {
+      "number": 125,
+      "state": "OPEN",
+      "title": "[Medium][UI-016] iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState"
+    },
+    {
+      "number": 126,
+      "state": "OPEN",
+      "title": "[Medium][UI-017] iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order"
+    },
+    {
+      "number": 127,
+      "state": "CLOSED",
+      "title": "[Medium][UI-019] Changing the sheet confirmation callback recreates remembered sheet state"
+    },
+    {
+      "number": 128,
+      "state": "CLOSED",
+      "title": "[Medium][UI-022] Clearing native navigation-bar items leaves the previous tabs visible"
+    },
+    {
+      "number": 129,
+      "state": "OPEN",
+      "title": "[Medium][UI-023] iOS toolbar does not implement its documented Material fallback"
+    },
+    {
+      "number": 130,
+      "state": "CLOSED",
+      "title": "[Medium][UI-024] Dropdown availability check rejects later iOS major versions and selects a private-gesture fallback"
+    },
+    {
+      "number": 131,
+      "state": "OPEN",
+      "title": "[Medium][UI-025] Native dropdown reports dismissal immediately after opening and cannot follow expanded=false"
+    },
+    {
+      "number": 132,
+      "state": "CLOSED",
+      "title": "[Medium][UI-026] Material dropdown silently drops most public popup and styling parameters"
+    },
+    {
+      "number": 133,
+      "state": "OPEN",
+      "title": "[Medium][UI-028] AdaptiveSlider drops discrete steps on the iOS26 Liquid Glass branch"
+    },
+    {
+      "number": 134,
+      "state": "CLOSED",
+      "title": "[Medium][UI-030] Liquid Glass switch can visually diverge from its controlled checked value"
+    },
+    {
+      "number": 135,
+      "state": "CLOSED",
+      "title": "[Medium][UI-032] Liquid Glass slider arithmetic does not guard zero-length or invalid numeric ranges"
+    },
+    {
+      "number": 136,
+      "state": "CLOSED",
+      "title": "[Medium][UI-033] Cupertino slider accessibility snapping fails for negative target values"
+    },
+    {
+      "number": 137,
+      "state": "CLOSED",
+      "title": "[Medium][UI-034] Cupertino slider gesture state has incomplete keys and uncancelled competing tap animations"
+    },
+    {
+      "number": 138,
+      "state": "OPEN",
+      "title": "[Medium][UI-035] Several iOS adaptive visual and interaction parameters are accepted but unused"
+    },
+    {
+      "number": 139,
+      "state": "CLOSED",
+      "title": "[Medium][UI-036] ImageVector-to-UIImage conversion discards vector paints, transforms and clipping"
+    },
+    {
+      "number": 140,
+      "state": "CLOSED",
+      "title": "[Medium][UI-037] Bitmap-to-UIImage bridge has unverified byte-order, premultiplication and buffer-lifetime assumptions"
+    },
+    {
+      "number": 141,
+      "state": "OPEN",
+      "title": "[Medium][UI-038] Native image conversion leaks CoreGraphics resources on the image-creation failure path"
+    },
+    {
+      "number": 142,
+      "state": "OPEN",
+      "title": "[Medium][UI-042] Damped drag animation launches overlapping jobs per update and tracks velocity with wall-clock time"
+    },
+    {
+      "number": 143,
+      "state": "CLOSED",
+      "title": "[Medium][UI-045] Applying a native view theme also mutates its parent view style"
+    },
+    {
+      "number": 144,
+      "state": "OPEN",
+      "title": "[Low][BUILD-002] Pinned JavaFX media 19 matches a published low-severity security advisory"
+    },
+    {
+      "number": 145,
+      "state": "CLOSED",
+      "title": "[Low][BUILD-010] Desktop resource processing always invokes an untracked release-mode Cargo build"
+    },
+    {
+      "number": 146,
+      "state": "CLOSED",
+      "title": "[Low][BUILD-011] Release staging duplicates both native libraries into both desktop artifacts"
+    },
+    {
+      "number": 147,
+      "state": "CLOSED",
+      "title": "[Low][BUILD-012] Resolved Linux picker graph contains three newly unmaintained D-Bus crates"
+    },
+    {
+      "number": 148,
+      "state": "CLOSED",
+      "title": "[Low][IO-016] MIME lookup is locale-sensitive, parses only comma-space lists, and allocates per entry"
+    },
+    {
+      "number": 149,
+      "state": "CLOSED",
+      "title": "[Low][IO-022] Native cache fallback can lose user isolation and loader trusts external search paths"
+    },
+    {
+      "number": 150,
+      "state": "OPEN",
+      "title": "[Low][NATIVE-034] Share subject is not delivered consistently and iOS assigns controller title instead of item subject"
+    },
+    {
+      "number": 151,
+      "state": "CLOSED",
+      "title": "[Low][NATIVE-035] Maps, media and notification scaffolds must not be represented as implemented features"
+    },
+    {
+      "number": 152,
+      "state": "CLOSED",
+      "title": "[Low][NATIVE-036] Desktop customUserAgent cannot be reset to its documented default using null"
+    },
+    {
+      "number": 153,
+      "state": "CLOSED",
+      "title": "[Low][NATIVE-039] WebView settings changes and error accumulation perform avoidable full updates"
+    },
+    {
+      "number": 154,
+      "state": "CLOSED",
+      "title": "[Low][NAV-016] Sample includes an unused second navigation library with an unnecessary compatibility burden"
+    },
+    {
+      "number": 155,
+      "state": "CLOSED",
+      "title": "[Low][NAV-017] Showcase reports a successful clipboard action that it never performs"
+    },
+    {
+      "number": 156,
+      "state": "CLOSED",
+      "title": "[Low][PERM-023] Specify and test the numerical domain and undefined-bearing policy of LatLng"
+    },
+    {
+      "number": 157,
+      "state": "CLOSED",
+      "title": "[Low][UI-005] Single-date state loses displayed-month intent on iOS and save/restore"
+    },
+    {
+      "number": 158,
+      "state": "CLOSED",
+      "title": "[Low][UI-008] No-selectable-day fallback is intentional but requires an explicit caller-visible validation policy"
+    },
+    {
+      "number": 159,
+      "state": "OPEN",
+      "title": "[Low][UI-011] Native time picker ignores the public is24Hour preference"
+    },
+    {
+      "number": 160,
+      "state": "CLOSED",
+      "title": "[Low][UI-015] rememberAlertDialogIosProperties does not remember changes to textFields"
+    },
+    {
+      "number": 161,
+      "state": "OPEN",
+      "title": "[Low][UI-039] Internal expandable FAB loses expanded items on model updates and is not ready for public exposure"
+    },
+    {
+      "number": 162,
+      "state": "OPEN",
+      "title": "[Low][UI-041] Liquid button eagerly builds an unused highlight shader and lacks a measured effects budget"
+    },
+    {
+      "number": 163,
+      "state": "CLOSED",
+      "title": "[Low][UI-043] A delayed Cupertino button release animation can clear the next press highlight"
+    },
+    {
+      "number": 164,
+      "state": "CLOSED",
+      "title": "[Low][UI-044] Cupertino activity indicator ignores input alpha and draws the first spoke twice"
+    },
+    {
+      "number": 165,
+      "state": "OPEN",
+      "title": "[Low][Upstream #259] Demonstration of AdaptiveCircularProgressIndicator in AdaptiveAlertDialog"
+    },
+    {
+      "number": 166,
+      "state": "OPEN",
+      "title": "[Low][Upstream #78] Contacts and OTP feature"
+    },
+    {
+      "number": 167,
+      "state": "OPEN",
+      "title": "[Low][Upstream #471] Feature request: iOS-native styling customization for AdaptiveNavigationBar and AdaptiveTopBar"
+    },
+    {
+      "number": 168,
+      "state": "OPEN",
+      "title": "[Medium][Upstream #34] Camera issue in webview iOS"
+    },
+    {
+      "number": 169,
+      "state": "OPEN",
+      "title": "[Low][Upstream #343] Support native file preview"
+    },
+    {
+      "number": 170,
+      "state": "OPEN",
+      "title": "[Low][Upstream #72] Zoom in/out in browser"
+    },
+    {
+      "number": 171,
+      "state": "CLOSED",
+      "title": "[Medium][Migration] Unpublish unintended legacy Pages deployment without deleting preserved history"
+    },
+    {
+      "number": 172,
+      "state": "CLOSED",
+      "title": "[Medium] Export browser DOM dependencies used by public Wasm File APIs"
+    }
+  ],
+  "new_closures": 0,
+  "observed_utc": "2026-11-01T03:51:11.476496+00:00",
+  "repository": "Apdelrahman1911/nativeCmpkit"
+}

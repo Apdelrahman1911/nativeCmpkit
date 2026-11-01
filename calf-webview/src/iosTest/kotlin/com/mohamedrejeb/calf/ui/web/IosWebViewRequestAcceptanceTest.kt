@@ -174,9 +174,19 @@ class IosWebViewRequestAcceptanceTest {
         assertFalse(NSThread.isMainThread)
         var result: JavascriptResult? = null
         var calls = 0
-        state.evaluateJavascriptResult(script) { assertTrue(NSThread.isMainThread); calls++; result = it }
-        waitForNative { result != null }
-        return onApplicationMain { assertEquals(1, calls); assertNotNull(result) }
+        var offMain = false
+        state.evaluateJavascriptResult(script) {
+            // Record bounded facts only; never throw through a WebKit completion.
+            if (!NSThread.isMainThread) offMain = true
+            calls++
+            result = it
+        }
+        waitForNative { result != null || offMain }
+        return onApplicationMain {
+            assertFalse(offMain, "WebKit completion left the owned main thread")
+            assertEquals(1, calls)
+            assertNotNull(result)
+        }
     }
 
     private class Stage(private val values: Map<String, Int>) {

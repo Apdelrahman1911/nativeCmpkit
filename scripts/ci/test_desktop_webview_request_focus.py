@@ -67,11 +67,13 @@ class DesktopWebViewRequestFocusTests(unittest.TestCase):
             return lt.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000,
                                       Counter({selected["task"]: markers}), host_system=system)
 
-    def test_profile_selects_only_one_new_method_on_all_five_declared_desktop_hosts(self):
+    def test_profile_selects_only_missing_literal_cells_on_all_five_declared_desktop_hosts(self):
         rows = matrix.matrix(FOCUS)["include"]
         self.assertEqual(list(SLOTS), [row["slot"] for row in rows])
-        self.assertTrue(all(row["suite"] == "desktop" and row["test-modules"] == "calf-webview" and
-                            row["test-focus"] == FOCUS for row in rows))
+        focuses = (FOCUS, FOCUS + "-stop", FOCUS + "-stop", FOCUS + "-stop-redirect", FOCUS + "-stop")
+        self.assertEqual(list(focuses), [row["test-focus"] for row in rows])
+        self.assertTrue(all(row["suite"] == "desktop" and row["test-modules"] == "calf-webview" for row in rows))
+        self.assertEqual([1, 2, 2, 3, 2], [len(lt.webview_desktop_request_identities(focus)) for focus in focuses])
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
         self.assertEqual(["browser-js", "browser-wasm"], [row["slot"] for row in matrix.matrix("webview-request-state")["include"]])
         self.assertTrue(all(row["test-focus"] == "webview-browser-request-state" for row in matrix.matrix("webview-request-state")["include"]))

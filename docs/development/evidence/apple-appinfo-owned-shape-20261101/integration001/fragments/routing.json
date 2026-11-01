@@ -1,0 +1,40 @@
+{
+  "fragments": [
+    {
+      "id": "separate-sdk-only-profile-no-library-rows",
+      "path": "scripts/ci/workflow_matrix.py",
+      "before": "    \"ios-appinfo-capability\": (),\n",
+      "after": "    \"ios-appinfo-capability\": (),\n    # Current owned-app shape prerequisite, not a native/library-test selection.\n    \"ios-appinfo-shape\": (),\n",
+      "before_sha256": "b80665e70226f84c7af8601cb617235fdbba8548cfe4b0f919c357ede4990a80",
+      "after_sha256": "96618f23f884faa8bdf0bf552a779f66ca76a39fc9e623a7321075ab7b7c5ad9",
+      "occurrences": 1
+    },
+    {
+      "id": "SDK-selector-source-preflight-before-library-plans",
+      "path": "scripts/ci/workflow_matrix.py",
+      "before": "    verified = []\n    rows = matrix(profile)[\"include\"]\n",
+      "after": "    verified = []\n    rows = matrix(profile)[\"include\"]\n    if profile == \"ios-appinfo-shape\":\n        import apple_appinfo_shape_route\n        return {\"profile\": profile, \"operation\": \"plan\", \"source_only\": True,\n                \"Gradle_builds_executed\": 0, \"library_tests_executed\": 0, \"slots\": [],\n                \"sdk_prerequisites\": [apple_appinfo_shape_route.plan(root)]}\n",
+      "before_sha256": "56ad84958df892cf1413105037a5507eb87add63642aa81475d5b3d6b64215ca",
+      "after_sha256": "2bd5f34ee0e0bfcc7899acd668042d1a9ec7f68170ebcc238e88b914fa01bbb3",
+      "occurrences": 1
+    },
+    {
+      "id": "explicit-sdk-dispatch-option-only",
+      "path": ".github/workflows/gradle.yml",
+      "before": "ios-appinfo-capability, ios-webview-lifecycle,",
+      "after": "ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle,",
+      "before_sha256": "8eb10923702c6e547485ede848b9088fb4948a55516ace134200d5c54ce46540",
+      "after_sha256": "6e1ac33efee838720c9352f8ae93fc8fca99912de369b1ff50fa5543e70fe75b",
+      "occurrences": 1
+    },
+    {
+      "id": "independent-SDK-prerequisite-job-not-library-row",
+      "path": ".github/workflows/gradle.yml",
+      "before": "  apple-appinfo-capability:\n",
+      "after": "  apple-appinfo-shape:\n    needs: tooling\n    if: inputs.profile == 'ios-appinfo-shape' && github.ref == 'refs/heads/development/preview-hardening'\n    runs-on: macos-26\n    timeout-minutes: 35\n    defaults:\n      run:\n        shell: bash\n    env:\n      GIT_CONFIG_COUNT: '2'\n      GIT_CONFIG_KEY_0: core.autocrlf\n      GIT_CONFIG_VALUE_0: 'false'\n      GIT_CONFIG_KEY_1: core.longpaths\n      GIT_CONFIG_VALUE_1: 'true'\n      CARGO_BUILD_JOBS: '1'\n    steps:\n      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803\n        with:\n          persist-credentials: false\n      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961\n        with:\n          distribution: temurin\n          java-version: '17'\n          verify-signature: true\n          overwrite-settings: false\n      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6\n        with:\n          min-wrapper-count: 1\n          allow-snapshots: false\n      - name: Reuse the pinned compiler and ordinary SDK setup only\n        run: |\n          command -v rustup\n          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy\n      - uses: android-actions/setup-android@v3\n        with:\n          packages: 'cmdline-tools;23.0 platforms;android-37.0'\n          accept-android-sdk-licenses: true\n          log-accepted-android-sdk-licenses: false\n      - name: Select the existing official SDK23 command-line tools\n        run: |\n          python3 - <<'PYTHON'\n          import os\n          from pathlib import Path\n          manager = Path(os.environ[\"ANDROID_HOME\"]) / \"cmdline-tools/23.0/bin/sdkmanager\"\n          if not manager.is_file():\n              raise SystemExit(\"SDK23 provisioning did not create the expected manager\")\n          with open(os.environ[\"GITHUB_PATH\"], \"a\") as output:\n              output.write(str(manager.parent) + \"\\n\")\n          PYTHON\n      - name: Record one actual simulator; never switch after selection\n        id: runtime\n        run: |\n          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \\\n            --select-simulator iphone --output build/ci-runtime/appinfo-selection.json\n          device=\"$(python3 -c 'import json; print(json.load(open(\"build/ci-runtime/appinfo-selection.json\"))[\"simulator\"][\"udid\"])')\"\n          state=\"$(python3 -c 'import json; print(json.load(open(\"build/ci-runtime/appinfo-selection.json\"))[\"simulator\"][\"state\"])')\"\n          if [[ \"$state\" != Shutdown && \"$state\" != Booted ]]; then\n            echo 'Unknown selected simulator state; never choose another device' >&2\n            exit 1\n          fi\n          # Record the exact original row before any boot attempt, including failure.\n          printf 'device=%s\\ninitial_state=%s\\n' \"$device\" \"$state\" >> \"$GITHUB_OUTPUT\"\n          if [[ \"$state\" == Shutdown ]]; then\n            /usr/bin/xcrun simctl boot \"$device\"\n          fi\n          /usr/bin/xcrun simctl bootstatus \"$device\" -b\n      - name: Fixed link and current owned install; one appinfo shape only\n        env:\n          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}\n        run: python3 -B scripts/ci/apple_appinfo_shape_route.py run --simulator \"$SELECTED_SIMULATOR\"\n      - name: Restore only this job's previously shut-down simulator boot state\n        if: always() && steps.runtime.outputs.initial_state == 'Shutdown'\n        env:\n          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}\n        run: |\n          /usr/bin/xcrun simctl shutdown \"$SELECTED_SIMULATOR\"\n          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \\\n            --simulator \"$SELECTED_SIMULATOR\" --output build/ci-runtime/appinfo-restored.json\n          python3 - <<'PYTHON'\n          import json, os\n          row = json.load(open(\"build/ci-runtime/appinfo-restored.json\"))[\"simulator\"]\n          if row[\"udid\"] != os.environ[\"SELECTED_SIMULATOR\"] or row[\"state\"] != \"Shutdown\":\n              raise SystemExit(\"Exact original simulator boot-state restoration is unavailable\")\n          PYTHON\n      - name: Keep SDK lexical and source receipts only; no app, logs or native XML\n        if: always()\n        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9\n        with:\n          name: apple-appinfo-shape-sdk-prerequisite\n          retention-days: 7\n          if-no-files-found: error\n          path: |\n            build/ci-verification/apple-appinfo-shape/receipt.json\n            build/ci-verification/apple-appinfo-shape/library-inputs-before.json\n            build/ci-verification/apple-appinfo-shape/library-inputs-after.json\n\n  apple-appinfo-capability:\n",
+      "before_sha256": "7d9743c7a320c16f5872bc7bba5f36a6b59c40f87087d0c02d94a026bbe0fe61",
+      "after_sha256": "bd0644396e005fcdfa2531515b7886f6afa8476668ffd7a528af1c427c57d249",
+      "occurrences": 1
+    }
+  ]
+}

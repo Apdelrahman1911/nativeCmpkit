@@ -1,0 +1,1458 @@
+diff --git a/scripts/ci/apple_appinfo_shape.py b/scripts/ci/apple_appinfo_shape.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/ci/apple_appinfo_shape.py
+@@ -0,0 +1,310 @@
++"""Private exact-installed-app lexical observation candidate; no payload parser.
++
++This module has no CLI, scheduler, install, launch or profile entry point. A
++separately selected owning harness must supply its current verified installation
++and current selected tool paths. Help acceptance supplies syntax only. Every
++registration/schema/native/profile/readiness claim remains unavailable.
++"""
++from __future__ import annotations
++
++from dataclasses import dataclass
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import shutil
++import stat
++import subprocess
++import time
++
++import apple_appinfo_capability as capability
++import ios_ui_application as application
++import library_tests as lt
++import runtime_context as runtime
++
++ACCEPTED_HELP_RECEIPT_SHA256 = "9c46f397f21aeff951b7d13baf1a7cc9f704cc14a6bba1b1a920920698f6a426"
++ACCEPTED_SYNTAX = "simctl appinfo <device> <bundle identifier>"
++QUERY_PREFIX = ("/usr/bin/xcrun", "simctl", "appinfo")
++PRIVATE_DIRECTORY = "appinfo-shape-private"
++RECORD_NAME = "appinfo-shape-observation.json"
++FIXED_FIELDS = ("CFBundleIdentifier", "CFBundleExecutable", "CFBundlePackageType")
++DELIMITERS = {
++    "left-brace": b"{", "right-brace": b"}", "left-bracket": b"[", "right-bracket": b"]",
++    "left-parenthesis": b"(", "right-parenthesis": b")", "less-than": b"<", "greater-than": b">",
++    "equals": b"=", "colon": b":", "semicolon": b";", "double-quote": b'"',
++}
++
++
++class ShapeError(ValueError):
++    """Only fixed source guard names, never command output or machine paths."""
++
++
++def need(value, guard):
++    if not value:
++        raise ShapeError(guard)
++
++
++def digest(body):
++    return hashlib.sha256(body).hexdigest()
++
++
++@dataclass(frozen=True)
++class OwnedInstallation:
++    root: Path
++    output: Path
++    device: str
++    bundle: str
++    token: str
++    source_revision: str
++    signed_hash: str
++    plist_hash: str
++    runtime_before: dict
++    preexisting: subprocess.CompletedProcess
++    install: subprocess.CompletedProcess
++    container: subprocess.CompletedProcess
++
++
++def lexical_summary(body: bytes) -> dict:
++    """Count raw syntax bytes and fixed own-plist words without parsing fields.
++
++    The three allowlisted names come from the existing generated test app's
++    Info.plist. Their literal occurrence is not a registration field, value,
++    duplicate-field decision or serializer/schema observation.
++    """
++    need(type(body) is bytes and len(body) <= capability.MAX_COMMAND_BYTES, "stream_byte_bound")
++    try:
++        body.decode("utf-8", errors="strict")
++        utf8 = True
++    except UnicodeError:
++        utf8 = False
++    lines = body.split(b"\n")
++    stripped = body.strip(b" \t\r\n")
++    byte_kind = lambda byte: next((name for name, value in DELIMITERS.items() if value == byte), "other-byte")
++    return {
++        "bytes": len(body), "sha256": digest(body), "utf8_decodable": utf8,
++        "nul_byte_count": body.count(b"\0"), "lf_byte_count": body.count(b"\n"),
++        "cr_byte_count": body.count(b"\r"),
++        "nonempty_line_count": sum(bool(line.strip(b" \t\r")) for line in lines),
++        "maximum_line_bytes": max(map(len, lines)),
++        "first_non_whitespace_byte_kind": byte_kind(stripped[:1]) if stripped else "empty",
++        "last_non_whitespace_byte_kind": byte_kind(stripped[-1:]) if stripped else "empty",
++        "fixed_prefix_markers": [name for name, value in
++                                 (("xml-declaration-literal", b"<?xml"), ("bplist00-literal", b"bplist00"))
++                                 if stripped.startswith(value)],
++        "delimiter_byte_counts": {name: body.count(value) for name, value in DELIMITERS.items()},
++        "allowlisted_name_literal_counts": {
++            name: len(re.findall(rb"(?<![A-Za-z0-9_])" + name.encode() + rb"(?![A-Za-z0-9_])", body))
++            for name in FIXED_FIELDS
++        },
++        "serializer_or_field_schema_accepted": False,
++    }
++
++
++def verified_context(context: OwnedInstallation, accepted: dict) -> Path:
++    need(type(context) is OwnedInstallation, "owning_installation_context_required")
++    need(type(context.source_revision) is str and re.fullmatch(r"[0-9a-f]{40}", context.source_revision),
++         "current_source_revision_required")
++    need(type(context.token) is str and re.fullmatch(r"[0-9a-f]{32}", context.token), "current_session_token_required")
++    expected_bundle = ("io.github.apdelrahman1911.nativecmpkit.verification.ui.r" +
++                       context.source_revision[:12] + ".t" + context.token)
++    need(context.bundle == expected_bundle, "exact_current_source_session_bundle_required")
++    need(type(context.device) is str and runtime.UUID.fullmatch(context.device), "explicit_simulator_uuid_required")
++    before = context.runtime_before
++    need(type(before) is dict and before.get("source_revision") == context.source_revision and
++         before.get("source_tree_dirty") is False and before.get("host") == accepted["host"] and
++         before.get("xcode") == accepted["xcode"] and
++         before.get("simulator", {}).get("udid") == context.device and
++         before.get("simulator", {}).get("state") == "Booted", "current_selected_runtime_required")
++    need(capability.host() == accepted["host"], "actual_accepted_Darwin_arm64_Python_required")
++    need(context.root == lt.ROOT and context.root.is_absolute(), "owning_harness_root_required")
++    output = lt.safe_path(context.root, context.output.relative_to(context.root).as_posix())
++    base = lt.safe_path(context.root, "build/ci-verification")
++    need(output.is_relative_to(base) and output.name == context.token and
++         output.parent.name == "native-ui-application" and output.is_dir(), "current_ui_session_output_required")
++    need(all(type(value) is str and re.fullmatch(r"[0-9a-f]{64}", value)
++             for value in (context.signed_hash, context.plist_hash)), "installed_hashes_required")
++    need(type(context.preexisting) is subprocess.CompletedProcess and
++         tuple(context.preexisting.args) == ("/usr/bin/xcrun", "simctl", "get_app_container",
++                                             context.device, context.bundle, "app") and
++         application.missing_app(context.preexisting), "original_foreign_app_absence_required")
++    need(type(context.install) is subprocess.CompletedProcess and type(context.install.returncode) is int and
++         context.install.returncode == 0 and
++         tuple(context.install.args) == ("/usr/bin/xcrun", "simctl", "install", context.device,
++                                        str(output / "NativeCmpkitLibraryTests.app")), "current_successful_owned_install_required")
++    result = context.container
++    need(type(result) is subprocess.CompletedProcess and type(result.returncode) is int and result.returncode == 0 and
++         tuple(result.args) == ("/usr/bin/xcrun", "simctl", "get_app_container", context.device, context.bundle, "app") and
++         type(result.stdout) is bytes and 0 < len(result.stdout) <= 4096 and type(result.stderr) is bytes and
++         not result.stderr, "current_successful_exact_container_query_required")
++    path = capability.actual_path(capability.Result(result.returncode, result.stdout, result.stderr, None))
++    need(application.installed_identity(result, context.bundle, context.signed_hash, context.plist_hash),
++         "installed_owned_bytes_required")
++    return path
++
++
++def selected_tools(accepted: dict, paths: dict[str, Path], developer: Path) -> dict:
++    need(type(paths) is dict and set(paths) == {"xcrun", "simctl", "xcodebuild"} and
++         paths["xcrun"] == Path("/usr/bin/xcrun"), "exact_selected_tool_paths_required")
++    need(type(developer) is Path or isinstance(developer, Path), "selected_developer_directory_required")
++    need(developer.is_absolute() and developer.is_dir() and
++         digest(str(developer).encode()) == accepted["developer_directory_sha256"] and
++         digest(str(developer.resolve(strict=True)).encode()) == accepted["developer_directory_canonical_sha256"],
++         "accepted_developer_directory_identity_required")
++    observed = {name: capability.tool_identity(path, name) for name, path in paths.items()}
++    need(observed == accepted["tool_identities"], "accepted_tool_identities_required")
++    return observed
++
++
++def file_identity(info):
++    return (info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns, info.st_ctime_ns,
++            info.st_uid, info.st_nlink, info.st_mode)
++
++
++def private_directory_identity(path):
++    info = path.lstat()
++    need(stat.S_ISDIR(info.st_mode) and stat.S_IMODE(info.st_mode) == 0o700 and info.st_uid == os.getuid(),
++         "owned_private_directory_required")
++    return info.st_dev, info.st_ino, info.st_uid, info.st_mode
++
++
++def bounded_owned_read(path, expected):
++    before = path.lstat()
++    need(file_identity(before) == expected and stat.S_ISREG(before.st_mode) and
++         before.st_nlink == 1 and before.st_uid == os.getuid() and stat.S_IMODE(before.st_mode) == 0o600 and
++         0 <= before.st_size <= capability.MAX_COMMAND_BYTES, "private_output_identity_changed")
++    descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
++    try:
++        need(file_identity(os.fstat(descriptor)) == expected, "private_output_open_identity_changed")
++        body = os.read(descriptor, capability.MAX_COMMAND_BYTES + 1)
++        os.lseek(descriptor, 0, os.SEEK_SET)
++        need(os.read(descriptor, capability.MAX_COMMAND_BYTES + 1) == body and
++             file_identity(os.fstat(descriptor)) == expected, "private_output_payload_changed")
++    finally:
++        os.close(descriptor)
++    need(file_identity(path.lstat()) == expected and len(body) == before.st_size,
++         "private_output_read_identity_changed")
++    return body
++
++
++def collect(context: OwnedInstallation, *, capability_bytes: bytes, tool_paths: dict[str, Path],
++            developer: Path, capture=capability.capture) -> dict:
++    """One latched query; never controls the simulator/app's mutation or cleanup.
++
++    Current installation/runtime/tool inputs come from the separately approved
++    owning harness. The retained source witness and trusted tool-file reads are
++    not atomic concurrent-writer or detached-child/security certification.
++    """
++    started = time.monotonic()
++    receipt = {
++        "schema_version": 1, "operation": "owned-appinfo-lexical-shape", "status": "unavailable",
++        "query_attempted": False, "query_count": 0, "query_timeout_seconds": capability.COMMAND_SECONDS,
++        "observation_budget_seconds": capability.TOTAL_SECONDS,
++        "maximum_capture_bytes": capability.MAX_COMMAND_BYTES, "owned_private_output_removed": False,
++        "appinfo_output_schema_observed": False, "subsequent_appinfo_ready": False,
++        "registration_observed": False, "registered_container_matches_verified_container": None,
++        "registered_executable_identity_verified": None, "root_cause_proven": False,
++        "native_functionality_verified": False, "profile_passed": False,
++        "packages_published": False, "release_readiness_certified": False,
++        "raw_payload_keys_values_paths_or_inventory_uploaded": False,
++    }
++    private, directory_identity, record, record_descriptor, record_identity = None, None, None, None, None
++    owned = []
++    try:
++        need(type(capability_bytes) is bytes and digest(capability_bytes) == ACCEPTED_HELP_RECEIPT_SHA256,
++             "accepted_immutable_help_receipt_required")
++        accepted = json.loads(capability_bytes)
++        need(accepted["capability_available"] is True and accepted["owned_private_output_removed"] is True and
++             accepted["help"]["known_syntax"] == ACCEPTED_SYNTAX and
++             accepted["appinfo_output_schema_observed"] is False and accepted["subsequent_appinfo_ready"] is False and
++             accepted["host"]["system"] == "Darwin" and accepted["host"]["architecture"] == "arm64",
++             "help_only_syntax_prerequisite_required")
++        container_path = verified_context(context, accepted)
++        tools_before = selected_tools(accepted, tool_paths, developer)
++        need(shutil.disk_usage(context.root).free >= 8192 * 1024**2 + capability.MAX_COMMAND_BYTES + 65536,
++             "eight_GiB_capture_and_record_reserve_required")
++        need(time.monotonic() - started + capability.COMMAND_SECONDS <= capability.TOTAL_SECONDS,
++             "observation_budget_exhausted_before_query")
++        receipt.update(source_revision=context.source_revision, capability_receipt_sha256=digest(capability_bytes),
++                       accepted_syntax=ACCEPTED_SYNTAX, query_argv_template=[*QUERY_PREFIX, "<selected UUID>", "<current owned bundle>"],
++                       simulator_uuid_sha256=digest(context.device.encode()), bundle_identifier_sha256=digest(context.bundle.encode()),
++                       verified_installed_container_path_sha256=digest(str(container_path).encode()),
++                       signed_application_executable_sha256=context.signed_hash, application_plist_sha256=context.plist_hash,
++                       tool_identities_before=tools_before)
++        record = context.output / RECORD_NAME
++        record_descriptor = os.open(record, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
++        record_identity = file_identity(os.fstat(record_descriptor))
++        private = context.output / PRIVATE_DIRECTORY
++        private.mkdir(mode=0o700)
++        directory_identity = private_directory_identity(private)
++        # This exclusive record is the persistent no-retry latch for the session.
++        receipt.update(query_attempted=True, query_count=1)
++        capture_error = False
++        try:
++            result = capture((*QUERY_PREFIX, context.device, context.bundle), context.root, capability.COMMAND_SECONDS)
++        except capability.CapabilityError as error:
++            result = getattr(error, "control_result", None)
++            capture_error = True
++            need(result is not None, "owned_capture_refused_without_result")
++        need(type(result) is capability.Result and (type(result.exit_code) is int or
++             (capture_error and result.exit_code is None)) and type(result.stdout) is bytes and type(result.stderr) is bytes and
++             len(result.stdout) + len(result.stderr) <= capability.MAX_COMMAND_BYTES and
++             result.stop_reason in (None, "timeout", "output-bound", "owned-control-refusal"), "bounded_query_result_required")
++        receipt.update(query=capability.metadata(result), streams={})
++        for name in ("stdout", "stderr"):
++            body, path = getattr(result, name), private / name
++            descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
++            with os.fdopen(descriptor, "wb") as target:
++                target.write(body)
++            expected = file_identity(path.lstat())
++            owned.append((path, expected, digest(body)))
++            receipt["streams"][name] = lexical_summary(body)
++        need(not capture_error and capability.valid(result) and result.exit_code == 0, "incomplete_or_nonzero_query")
++        nonempty = [summary for summary in receipt["streams"].values() if summary["bytes"]]
++        need(len(nonempty) == 1 and nonempty[0]["utf8_decodable"] and nonempty[0]["nul_byte_count"] == 0,
++             "empty_ambiguous_or_nontext_payload")
++        need(verified_context(context, accepted) == container_path, "installed_context_changed_after_query")
++        receipt["tool_identities_after"] = selected_tools(accepted, tool_paths, developer)
++        receipt["status"] = "observed-bounded-lexical-shape"
++    except (OSError, ValueError, TypeError, KeyError, AttributeError, subprocess.SubprocessError) as error:
++        receipt["error_type"] = type(error).__name__
++        if type(error) is ShapeError:
++            receipt["error_guard"] = str(error)
++        receipt["status"] = "unavailable"
++    finally:
++        if private is not None and directory_identity is not None:
++            try:
++                need(private_directory_identity(private) == directory_identity, "private_directory_changed")
++                need(set(private.iterdir()) == {path for path, _, _ in owned}, "private_membership_changed")
++                for path, expected, value in owned:
++                    need(digest(bounded_owned_read(path, expected)) == value, "private_payload_hash_changed")
++                for path, _, _ in owned:
++                    path.unlink()
++                private.rmdir()
++                receipt["owned_private_output_removed"] = not private.exists()
++            except (OSError, ValueError) as error:
++                receipt.update(status="unavailable", cleanup_error_type=type(error).__name__)
++                if type(error) is ShapeError:
++                    receipt["cleanup_error_guard"] = str(error)
++        receipt["elapsed_seconds"] = round(time.monotonic() - started, 3)
++        if receipt["elapsed_seconds"] > capability.TOTAL_SECONDS:
++            receipt.update(status="unavailable", budget_exhausted=True)
++        if record_descriptor is not None:
++            try:
++                need(file_identity(os.fstat(record_descriptor)) == record_identity and
++                     file_identity(record.lstat()) == record_identity, "observation_record_identity_changed")
++                payload = (json.dumps(receipt, indent=2, sort_keys=True) + "\n").encode()
++                need(len(payload) <= 65536, "sanitized_record_byte_bound")
++                with os.fdopen(record_descriptor, "wb") as target:
++                    record_descriptor = None
++                    target.write(payload)
++            except (OSError, ValueError) as error:
++                receipt.update(status="unavailable", record_error_type=type(error).__name__)
++            finally:
++                if record_descriptor is not None:
++                    os.close(record_descriptor)
++    return receipt
++
++
++if __name__ == "__main__":
++    raise SystemExit("Appinfo shape collection requires a separately selected current owning harness; no standalone CLI.")
+diff --git a/scripts/ci/test_apple_appinfo_shape.py b/scripts/ci/test_apple_appinfo_shape.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/ci/test_apple_appinfo_shape.py
+@@ -0,0 +1,255 @@
++"""New synthetic exact-install/privacy controls; ZERO Apple SDK/native queries."""
++from dataclasses import replace
++import copy
++import hashlib
++import json
++import os
++from pathlib import Path
++import plistlib
++import subprocess
++import tempfile
++from types import SimpleNamespace
++import unittest
++from unittest.mock import patch
++
++import apple_appinfo_capability as capability
++import apple_appinfo_shape as shape
++import ios_ui_application as application
++import library_tests as lt
++
++DEVICE = "11111111-1111-1111-1111-111111111111"
++REVISION = "a" * 40
++
++
++class AppleAppinfoShapeTests(unittest.TestCase):
++    def setUp(self):
++        self.temporary = tempfile.TemporaryDirectory(prefix="synthetic-appinfo-shape-")
++        self.addCleanup(self.temporary.cleanup)
++        self.root = Path(self.temporary.name)
++        self.developer = self.root / "synthetic-selected-developer"
++        self.developer.mkdir()
++        self.paths = {"xcrun": Path("/usr/bin/xcrun"), "simctl": Path("/synthetic-selected-tool/simctl"),
++                      "xcodebuild": Path("/synthetic-selected-tool/xcodebuild")}
++        self.identities = {name: {"basename": name, "sha256": hashlib.sha256(name.encode()).hexdigest(),
++                                 "bytes": 100, "path_sha256": "c" * 64, "canonical_path_sha256": "d" * 64}
++                           for name in self.paths}
++        self.host = {"system": "Darwin", "architecture": "arm64", "python": "synthetic"}
++        self.xcode = {"version": "26.6", "build": "17F113"}
++        # All tool/runtime/help records in this suite are simulated. Only the
++        # production collector pins the accepted actual006 receipt hash.
++        accepted = {"capability_available": True, "owned_private_output_removed": True,
++                    "help": {"known_syntax": shape.ACCEPTED_SYNTAX}, "appinfo_output_schema_observed": False,
++                    "subsequent_appinfo_ready": False, "host": self.host, "xcode": self.xcode,
++                    "developer_directory_sha256": shape.digest(str(self.developer).encode()),
++                    "developer_directory_canonical_sha256": shape.digest(str(self.developer.resolve()).encode()),
++                    "tool_identities": self.identities}
++        self.accepted_bytes = json.dumps(accepted, sort_keys=True).encode()
++        for mocker in (
++                patch.object(lt, "ROOT", self.root),
++                patch.object(shape, "ACCEPTED_HELP_RECEIPT_SHA256", shape.digest(self.accepted_bytes)),
++                patch.object(capability, "host", return_value=self.host),
++                patch.object(shape.shutil, "disk_usage", return_value=SimpleNamespace(free=16 * 1024**3)),
++                patch.object(capability, "tool_identity", side_effect=lambda path, name: copy.deepcopy(self.identities[name]))):
++            mocker.start()
++            self.addCleanup(mocker.stop)
++        self.context = self.make_context("b" * 32)
++        self.calls = []
++
++    def make_context(self, token):
++        bundle = "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" + REVISION[:12] + ".t" + token
++        output = self.root / "build/ci-verification/synthetic-ios/native-ui-application" / token
++        output.mkdir(parents=True)
++        installed = self.root / "synthetic-installed" / token / "NativeCmpkitLibraryTests.app"
++        local = output / "NativeCmpkitLibraryTests.app"
++        body = b"Synthetic signed executable; no native binary"
++        info = plistlib.dumps(application.app_information(bundle, "15.0.0"), sort_keys=True)
++        for directory in (installed, local):
++            directory.mkdir(parents=True)
++            (directory / application.APP_EXECUTABLE).write_bytes(body)
++            (directory / "Info.plist").write_bytes(info)
++        container_command = ["/usr/bin/xcrun", "simctl", "get_app_container", DEVICE, bundle, "app"]
++        return shape.OwnedInstallation(
++            self.root, output, DEVICE, bundle, token, REVISION, shape.digest(body), shape.digest(info),
++            {"source_revision": REVISION, "source_tree_dirty": False, "host": copy.deepcopy(self.host),
++             "xcode": copy.deepcopy(self.xcode), "simulator": {"udid": DEVICE, "state": "Booted"}},
++            subprocess.CompletedProcess(container_command, 2, b"", b"(domain=NSPOSIXErrorDomain, code=2)"),
++            subprocess.CompletedProcess(["/usr/bin/xcrun", "simctl", "install", DEVICE, str(local)], 0, b"", b""),
++            subprocess.CompletedProcess(container_command, 0, str(installed).encode() + b"\n", b""))
++
++    def collect(self, result=None, *, context=None, capture=None):
++        def synthetic_capture(command, root, timeout):
++            self.calls.append((command, root, timeout))
++            return result or capability.Result(0, b"arbitrary unknown serializer\n", b"", None)
++        return shape.collect(context or self.context, capability_bytes=self.accepted_bytes,
++                             tool_paths=self.paths, developer=self.developer,
++                             capture=capture or synthetic_capture)
++
++    def assert_unverified(self, receipt):
++        for name in ("appinfo_output_schema_observed", "subsequent_appinfo_ready", "registration_observed",
++                     "root_cause_proven", "native_functionality_verified", "profile_passed", "packages_published",
++                     "release_readiness_certified", "raw_payload_keys_values_paths_or_inventory_uploaded"):
++            self.assertIs(receipt[name], False)
++        self.assertIsNone(receipt["registered_container_matches_verified_container"])
++        self.assertIsNone(receipt["registered_executable_identity_verified"])
++
++    def test_one_exact_current_install_query_emits_only_hashes_types_fixed_names_and_counts(self):
++        private_path = str(Path(self.context.container.stdout.decode().strip()))
++        body = ("CFBundleIdentifier = " + self.context.bundle + ";\n" +
++                "CFBundleExecutable = /private/never-emit-this/owned-executable;\n" +
++                "SecretUnknownRuntimeKey = " + private_path + ";\n").encode()
++        receipt = self.collect(capability.Result(0, body, b"", None))
++        self.assertEqual("observed-bounded-lexical-shape", receipt["status"])
++        self.assertEqual([((*shape.QUERY_PREFIX, DEVICE, self.context.bundle), self.root, 15)], self.calls)
++        self.assertEqual(1, receipt["query_count"])
++        summary = receipt["streams"]["stdout"]
++        self.assertEqual(shape.digest(body), summary["sha256"])
++        self.assertEqual(1, summary["allowlisted_name_literal_counts"]["CFBundleIdentifier"])
++        self.assertEqual(1, summary["allowlisted_name_literal_counts"]["CFBundleExecutable"])
++        self.assertEqual(3, summary["nonempty_line_count"])
++        self.assertIs(receipt["owned_private_output_removed"], True)
++        self.assertFalse((self.context.output / shape.PRIVATE_DIRECTORY).exists())
++        public = json.dumps(receipt)
++        for text in (self.context.bundle, DEVICE, private_path, "/private/never-emit-this", "SecretUnknownRuntimeKey"):
++            self.assertNotIn(text, public)
++        self.assertEqual(receipt, json.loads((self.context.output / shape.RECORD_NAME).read_bytes()))
++        self.assertEqual(0o600, (self.context.output / shape.RECORD_NAME).stat().st_mode & 0o777)
++        self.assert_unverified(receipt)
++
++    def test_candidate_serializer_bytes_never_accept_any_payload_schema_or_duplicate_field_semantics(self):
++        for index, body in enumerate((b'{"CFBundleIdentifier":"untrusted", "CFBundleIdentifier":"duplicate"}\n',
++                                     b'<?xml version="1.0"?><plist><dict><key>CFBundleIdentifier</key></dict></plist>',
++                                     b'{ CFBundleExecutable = "untrusted"; CFBundlePackageType = APPL; }\n',
++                                     b'CFBundleIdentifierX prefixCFBundleIdentifier CFBundleIdentifier\n')):
++            with self.subTest(index=index):
++                context = self.make_context(f"{index + 1:032x}")
++                receipt = self.collect(capability.Result(0, body, b"", None), context=context)
++                self.assertEqual("observed-bounded-lexical-shape", receipt["status"])
++                self.assertIs(receipt["streams"]["stdout"]["serializer_or_field_schema_accepted"], False)
++                if index == 0:
++                    self.assertEqual(2, receipt["streams"]["stdout"]["allowlisted_name_literal_counts"]["CFBundleIdentifier"])
++                if index == 3:
++                    self.assertEqual(1, receipt["streams"]["stdout"]["allowlisted_name_literal_counts"]["CFBundleIdentifier"])
++                self.assert_unverified(receipt)
++
++    def test_nonzero_empty_two_streams_nontext_boolean_exit_and_oversize_remain_unavailable(self):
++        results = (capability.Result(1, b"payload", b"", None), capability.Result(0, b"", b"", None),
++                   capability.Result(0, b"payload", b"diagnostic", None), capability.Result(0, b"\xff", b"", None),
++                   capability.Result(0, b"bplist00\0binary", b"", None), capability.Result(True, b"payload", b"", None),
++                   capability.Result(0, b"x" * (capability.MAX_COMMAND_BYTES + 1), b"", None))
++        for index, result in enumerate(results):
++            with self.subTest(index=index):
++                receipt = self.collect(result, context=self.make_context(f"{index + 20:032x}"))
++                self.assertEqual("unavailable", receipt["status"])
++                self.assertIs(receipt["owned_private_output_removed"], True)
++                self.assert_unverified(receipt)
++
++    def test_old_bundle_default_device_wrong_source_foreign_install_and_identity_drift_never_query(self):
++        changes = (
++            {"bundle": self.context.bundle + ".old"}, {"device": "Booted"}, {"source_revision": "c" * 40},
++            {"token": "c" * 32}, {"signed_hash": "c" * 64},
++            {"preexisting": subprocess.CompletedProcess(self.context.preexisting.args, 0, b"foreign", b"")},
++            {"install": subprocess.CompletedProcess(self.context.install.args, 1, b"", b"")},
++            {"container": subprocess.CompletedProcess(["/usr/bin/xcrun", "simctl", "get_app_container", DEVICE,
++                                                        self.context.bundle + ".foreign", "app"], 0,
++                                                       self.context.container.stdout, b"")},
++            {"runtime_before": {**self.context.runtime_before, "source_tree_dirty": True}},
++            {"runtime_before": {**self.context.runtime_before, "simulator": {"udid": DEVICE, "state": "Shutdown"}}},
++            {"runtime_before": {**self.context.runtime_before, "xcode": {"version": "26.6", "build": "foreign"}}},
++        )
++        for index, fields in enumerate(changes):
++            with self.subTest(index=index):
++                receipt = self.collect(context=replace(self.context, **fields))
++                self.assertEqual("unavailable", receipt["status"])
++                self.assertIs(receipt["query_attempted"], False)
++                self.assert_unverified(receipt)
++        self.assertEqual([], self.calls)
++        with patch.object(capability, "tool_identity", return_value={"sha256": "foreign"}):
++            self.assertIs(self.collect()["query_attempted"], False)
++        self.assertEqual([], self.calls)
++
++    def test_exclusive_sanitized_record_refuses_a_second_query_even_after_private_cleanup(self):
++        first = self.collect()
++        second = self.collect()
++        self.assertEqual("observed-bounded-lexical-shape", first["status"])
++        self.assertEqual("unavailable", second["status"])
++        self.assertIs(second["query_attempted"], False)
++        self.assertEqual(1, len(self.calls))
++        self.assertEqual(first, json.loads((self.context.output / shape.RECORD_NAME).read_bytes()))
++        self.assert_unverified(second)
++
++    def test_low_disk_reserve_or_exhausted_observation_budget_prevents_the_one_query(self):
++        with patch.object(shape.shutil, "disk_usage", return_value=SimpleNamespace(free=8192 * 1024**2)):
++            receipt = self.collect()
++        self.assertEqual("eight_GiB_capture_and_record_reserve_required", receipt["error_guard"])
++        self.assertIs(receipt["query_attempted"], False)
++        self.assertEqual([], self.calls)
++        with patch.object(shape.time, "monotonic", side_effect=(0, 100, 100)):
++            receipt = self.collect()
++        self.assertEqual("observation_budget_exhausted_before_query", receipt["error_guard"])
++        self.assertIs(receipt["query_attempted"], False)
++        self.assertIs(receipt["budget_exhausted"], True)
++        self.assertEqual([], self.calls)
++        self.assert_unverified(receipt)
++
++    def test_partial_owned_capture_metadata_is_saved_but_exit_zero_never_accepts_it(self):
++        for index, reason in enumerate(("timeout", "output-bound", "owned-control-refusal")):
++            context = self.make_context(f"{index + 40:032x}")
++            def partial_capture(command, root, timeout):
++                self.calls.append((command, root, timeout))
++                error = capability.CapabilityError("owned_control_leader_unavailable")
++                error.control_result = capability.Result(0, b"bounded partial payload", b"", reason)
++                raise error
++            receipt = self.collect(context=context, capture=partial_capture)
++            self.assertEqual("unavailable", receipt["status"])
++            self.assertEqual(reason, receipt["query"]["stop_reason"])
++            self.assertEqual(shape.digest(b"bounded partial payload"), receipt["query"]["stdout_sha256"])
++            self.assertIs(receipt["owned_private_output_removed"], True)
++            self.assert_unverified(receipt)
++
++    def test_foreign_private_membership_and_changed_file_modes_are_preserved_and_refuse_acceptance(self):
++        def foreign_capture(command, root, timeout):
++            (self.context.output / shape.PRIVATE_DIRECTORY / "foreign").write_bytes(b"synthetic foreign file")
++            return capability.Result(0, b"payload", b"", None)
++        receipt = self.collect(capture=foreign_capture)
++        self.assertEqual("unavailable", receipt["status"])
++        self.assertIs(receipt["owned_private_output_removed"], False)
++        self.assertTrue((self.context.output / shape.PRIVATE_DIRECTORY / "foreign").exists())
++        self.assertTrue((self.context.output / shape.PRIVATE_DIRECTORY / "stdout").exists())
++        self.assert_unverified(receipt)
++        context = self.make_context("e" * 32)
++        original = shape.lexical_summary
++        def changed_mode(body):
++            target = context.output / shape.PRIVATE_DIRECTORY / "stdout"
++            if target.exists():
++                target.chmod(0o644)
++            return original(body)
++        with patch.object(shape, "lexical_summary", side_effect=changed_mode):
++            receipt = self.collect(context=context)
++        self.assertEqual("unavailable", receipt["status"])
++        self.assertIs(receipt["owned_private_output_removed"], False)
++        self.assertTrue((context.output / shape.PRIVATE_DIRECTORY / "stdout").exists())
++        self.assert_unverified(receipt)
++
++    def test_installed_bytes_changed_during_capture_and_raw_oserror_never_become_readiness(self):
++        def drift_capture(command, root, timeout):
++            container = Path(self.context.container.stdout.decode().strip())
++            (container / application.APP_EXECUTABLE).write_bytes(b"changed synthetic executable")
++            return capability.Result(0, b"payload", b"", None)
++        receipt = self.collect(capture=drift_capture)
++        self.assertEqual("unavailable", receipt["status"])
++        self.assertEqual("installed_owned_bytes_required", receipt["error_guard"])
++        self.assertIs(receipt["owned_private_output_removed"], True)
++        self.assert_unverified(receipt)
++        context = self.make_context("f" * 32)
++        def unavailable_capture(command, root, timeout):
++            raise OSError("/private/never-export-this exception payload")
++        receipt = self.collect(context=context, capture=unavailable_capture)
++        self.assertEqual("unavailable", receipt["status"])
++        self.assertEqual("OSError", receipt["error_type"])
++        self.assertNotIn("never-export-this", json.dumps(receipt))
++        self.assertIs(receipt["owned_private_output_removed"], True)
++        self.assert_unverified(receipt)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/scripts/ci/apple_appinfo_shape_route.py b/scripts/ci/apple_appinfo_shape_route.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/ci/apple_appinfo_shape_route.py
+@@ -0,0 +1,303 @@
++#!/usr/bin/env python3
++"""One selected current-owned-install SDK prerequisite; never a native test route.
++
++The fixed link task supplies a fresh ordinary-signing app. The existing owning
++harness installs/verifies it and returns through its original finally before any
++launch/Worker/WK/profile preparation. Only the pinned helper may query appinfo.
++The output is an SDK lexical-shape receipt, not JUnit, registration or readiness.
++"""
++from __future__ import annotations
++
++import argparse
++import hashlib
++import json
++import os
++from pathlib import Path
++import re
++import stat
++import subprocess
++import sys
++import time
++
++import apple_appinfo_capability as capability
++import apple_appinfo_shape as shape
++import ios_ui_application as application
++import library_tests as lt
++import runtime_context as runtime
++
++PROFILE = "ios-appinfo-shape"
++OUTPUT = "build/ci-verification/apple-appinfo-shape"
++BINARY = "calf-ui/build/bin/iosSimulatorArm64/applicationDebugTest/application.kexe"
++LINK_TASK = ":calf-ui:linkApplicationDebugTestIosSimulatorArm64"
++LINK_COMMAND = ["./gradlew", "--no-daemon", "--no-parallel", "--max-workers=1",
++                "--no-configuration-cache", "--no-build-cache", "--console=plain", LINK_TASK]
++LINK_SECONDS, RESERVE_MIB = 1200, 8192
++HELP_RECEIPT = "docs/development/evidence/apple-appinfo-exact-template-20261101/actual006/receipt.json"
++SOURCE_INPUTS = ("scripts/ci/apple_appinfo_shape_route.py", "scripts/ci/apple_appinfo_shape.py",
++                 "scripts/ci/apple_appinfo_capability.py", "scripts/ci/ios_ui_application.py",
++                 "calf-ui/build.gradle.kts", application.HOST_SOURCE)
++FALSE_FLAGS = ("appinfo_output_schema_observed", "subsequent_appinfo_ready", "registration_observed",
++               "root_cause_proven", "native_functionality_verified", "profile_passed",
++               "packages_published", "release_readiness_certified",
++               "raw_payload_keys_values_paths_or_inventory_uploaded")
++CLEANUP_FLAGS = ("owned_app_identity_reverified", "owned_app_stopped_verified",
++                 "owned_app_absence_verified", "owned_local_bundle_removed")
++NATIVE_PREPARATION_KEYS = ("application_transport", "application_protocol_partial", "startup_failure_observation",
++                           "webview_request_fixture", "image_memory_profile", "system_appearance_driver",
++                           "owned_crash_diagnostics", "owned_launch_diagnostics", "image_diagnostics_mode")
++
++
++class RouteError(ValueError):
++    """Fixed source guard only; never include command output or private paths."""
++
++
++def need(condition, guard):
++    if not condition:
++        raise RouteError(guard)
++
++
++def accepted_help(root: Path) -> bytes:
++    path = lt.safe_path(root, HELP_RECEIPT)
++    before = path.lstat()
++    need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and
++         0 < before.st_size <= 65536, "bounded_pinned_help_source_required")
++    body = path.read_bytes()
++    after = path.lstat()
++    need((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
++         (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns) and
++         hashlib.sha256(body).hexdigest() == shape.ACCEPTED_HELP_RECEIPT_SHA256,
++         "accepted_actual006_help_bytes_required")
++    return body
++
++
++def plan(root: Path) -> dict:
++    """Fixed source-only selector; deliberately not library_tests.plan/run."""
++    accepted_help(root)
++    inputs = {}
++    for relative in SOURCE_INPUTS:
++        path = lt.safe_path(root, relative)
++        need(path.is_file() and not path.is_symlink(), "owning_source_required")
++        inputs[relative] = lt.sha256(path)
++    return {"profile": PROFILE, "operation": "plan", "kind": "sdk-prerequisite",
++            "source_only": True, "sources": inputs, "link_command": LINK_COMMAND.copy(),
++            "link_timeout_seconds": LINK_SECONDS, "reserve_mib": RESERVE_MIB,
++            "selected_binary": BINARY, "output": OUTPUT,
++            "simulator_selector": "one task-recorded explicit UUID, no default or alternate",
++            "accepted_help_receipt_sha256": shape.ACCEPTED_HELP_RECEIPT_SHA256,
++            "native_tests_executed": 0, "selected_native_methods": [],
++            "mandatory_library_tests_waived": False, "library_matrix_slots": [],
++            "launch_worker_WK_profile_preparation_requested": False}
++
++
++def observe_owned_install(context: shape.OwnedInstallation) -> dict:
++    """Only three existing fixed path identities and one pinned appinfo query.
++
++    Fixed path outputs stay in bounded memory, never logs/receipts. The unchanged
++    helper owns private payload files, its persistent query latch and deletion.
++    The 90s limit remains an acceptance budget, not adversarial filesystem timing.
++    """
++    started = time.monotonic()
++    receipt = {"operation": "owned-install-appinfo-shape", "status": "unavailable",
++               "tool_path_resolution": [], "shape": None}
++    try:
++        payload = accepted_help(context.root)
++        selected = {}
++        for name in ("developer", "simctl", "xcodebuild"):
++            remaining = capability.TOTAL_SECONDS - (time.monotonic() - started)
++            need(remaining >= capability.COMMAND_SECONDS, "path_resolution_budget_exhausted")
++            result = capability.control(capability.COMMANDS[name], context.root, capability.COMMAND_SECONDS)
++            need(type(result) is capability.Result and capability.valid(result) and
++                 result.exit_code == 0 and not result.stderr, "fixed_selected_tool_path_unavailable")
++            receipt["tool_path_resolution"].append({"name": name, **capability.metadata(result)})
++            selected[name] = capability.actual_path(result)
++        need(capability.TOTAL_SECONDS - (time.monotonic() - started) >= capability.COMMAND_SECONDS,
++             "shape_budget_exhausted_before_query")
++        receipt["shape"] = shape.collect(context, capability_bytes=payload,
++            tool_paths={"xcrun": Path("/usr/bin/xcrun"), "simctl": selected["simctl"],
++                        "xcodebuild": selected["xcodebuild"]}, developer=selected["developer"])
++        receipt["status"] = receipt["shape"]["status"]
++    except (OSError, ValueError, RuntimeError, TypeError, KeyError, AttributeError, subprocess.SubprocessError) as error:
++        receipt["error_type"] = type(error).__name__
++        if type(error) is RouteError:
++            receipt["error_guard"] = str(error)
++    receipt["elapsed_seconds"] = round(time.monotonic() - started, 3)
++    if receipt["elapsed_seconds"] > capability.TOTAL_SECONDS:
++        receipt.update(status="unavailable", budget_exhausted=True)
++    return receipt
++
++
++def cleanup_verified(document: dict) -> bool:
++    if type(document) is not dict or type(document.get("cleanup")) is not dict:
++        return False
++    cleanup = document["cleanup"]
++    return (all(cleanup.get(key) is True for key in CLEANUP_FLAGS) and
++            type(cleanup.get("uninstall_exit_code")) is int and cleanup["uninstall_exit_code"] == 0 and
++            "error_type" not in cleanup and "local_error_type" not in cleanup)
++
++
++def installation_prerequisite_observed(document: dict) -> bool:
++    if (type(document) is not dict or document.get("sdk_prerequisite_only") is not True or
++            document.get("transport_passed") is not False or document.get("native_launch_attempted") is not False or
++            type(document.get("native_tests_executed")) is not int or document["native_tests_executed"] != 0 or
++            document.get("sdk_signing_mode") != "ordinary-adhoc" or
++            document.get("explicit_test_focus") is not None or document.get("application_protocol") is not None or
++            "error" in document or any(key in document for key in NATIVE_PREPARATION_KEYS) or
++            not cleanup_verified(document)):
++        return False
++    observation = document.get("appinfo_shape_prerequisite")
++    if type(observation) is not dict or observation.get("status") != "observed-bounded-lexical-shape":
++        return False
++    captured = observation.get("shape")
++    return (type(captured) is dict and captured.get("status") == "observed-bounded-lexical-shape" and
++            captured.get("capability_receipt_sha256") == shape.ACCEPTED_HELP_RECEIPT_SHA256 and
++            captured.get("query_attempted") is True and type(captured.get("query_count")) is int and
++            captured["query_count"] == 1 and captured.get("owned_private_output_removed") is True and
++            all(captured.get(key) is False for key in FALSE_FLAGS) and
++            captured.get("registered_container_matches_verified_container") is None and
++            captured.get("registered_executable_identity_verified") is None)
++
++
++def selected_environment(device: str, output: str) -> dict:
++    values = {"NATIVECMPKIT_UIKIT_SIMULATOR": device, "NATIVECMPKIT_UIKIT_RESULT_ROOT": output}
++    before = {key: os.environ.get(key) for key in values}
++    need(all(before[key] in (None, value) for key, value in values.items()), "conflicting_native_environment")
++    os.environ.update(values)
++    return before
++
++
++def restore_environment(before: dict, device: str, output: str):
++    values = {"NATIVECMPKIT_UIKIT_SIMULATOR": device, "NATIVECMPKIT_UIKIT_RESULT_ROOT": output}
++    need(all(os.environ.get(key) == value for key, value in values.items()), "native_environment_changed")
++    for key, value in before.items():
++        if value is None:
++            os.environ.pop(key, None)
++        else:
++            os.environ[key] = value
++
++
++def fresh_link_marker(log: Path) -> bool:
++    """Exactly one executed fixed link task, never a test-runtime marker.
++
++    Plain Gradle console task events attest only this linking prerequisite.
++    UP-TO-DATE, FROM-CACHE, NO-SOURCE, SKIPPED, FAILED or duplicate events refuse
++    availability. Fresh binary/installed identity checks remain separate.
++    """
++    selected = re.compile(r"^> Task " + re.escape(LINK_TASK) + r"(?: (.*))?$")
++    count, all_executed = 0, True
++    with log.open(encoding="utf-8", errors="replace") as stream:
++        for line in stream:
++            match = selected.fullmatch(line.rstrip("\r\n"))
++            if match:
++                count += 1
++                all_executed = all_executed and match.group(1) is None
++    return count == 1 and all_executed
++
++
++def run(device: str, root: Path | None = None) -> dict:
++    root = lt.ROOT if root is None else root
++    need(root == lt.ROOT and type(device) is str and runtime.UUID.fullmatch(device),
++         "one_current_task_recorded_simulator_required")
++    selected = plan(root)
++    output = lt.safe_path(root, OUTPUT)
++    output.mkdir(parents=True, mode=0o700, exist_ok=False)  # Persistent no-retry invocation latch.
++    receipt = {"schema_version": 1, "profile": PROFILE, "operation": "appinfo-shape-sdk-prerequisite",
++               "sdk_prerequisite_available": False, "started_at_utc": lt.utc_now(),
++               "selected_simulator_uuid_sha256": hashlib.sha256(device.encode()).hexdigest(),
++               "native_tests_executed": 0, "selected_native_methods": [], "native_launch_attempted": False,
++               "transport_passed": False, "mandatory_library_tests_waived": False,
++               "registration_observed": False, "appinfo_output_schema_observed": False,
++               "native_functionality_verified": False, "subsequent_appinfo_ready": False,
++               "registered_container_matches_verified_container": None,
++               "registered_executable_identity_verified": None,
++               "profile_passed": False, "root_cause_proven": False, "packages_published": False,
++               "release_readiness_certified": False, "raw_payload_keys_values_paths_or_inventory_uploaded": False,
++               "plan": selected, "link_execution": None, "shape_observation": None,
++               "owning_install_cleanup": None, "inputs_unchanged": False}
++    before, document = None, None
++    try:
++        context = runtime.capture(expected_arch="arm64", apple=True, device=device,
++                                  require_booted=True, require_clean=True)
++        accepted = json.loads(accepted_help(root))
++        need(context["host"] == accepted["host"] and context["xcode"] == accepted["xcode"],
++             "accepted_actual_host_and_Xcode_required")
++        before = lt.snapshot_inputs(root)
++        lt.write_json(output / "library-inputs-before.json", before)
++        receipt.update(source_revision=context["source_revision"], library_input_count=len(before),
++                       library_inputs_before_sha256=lt.input_digest(before),
++                       input_map_scope="existing library snapshot, not combined map")
++        binary = lt.safe_path(root, BINARY)
++        need(not binary.exists(), "fresh_linked_binary_required_no_old_output_reuse")
++        started_ns = time.time_ns()
++        result = lt.execute(root, LINK_COMMAND.copy(), output / "private-link.log", LINK_SECONDS, RESERVE_MIB)
++        need(type(result) is dict, "owning_link_result_required")
++        receipt["link_execution"] = {"exit_code": result.get("exit_code"),
++            "stop_reason_present": bool(result.get("stop_reason")), "elapsed_seconds": result.get("elapsed_seconds"),
++            "task": LINK_TASK, "native_test_tasks_requested": False}
++        need(type(result.get("exit_code")) is int and result["exit_code"] == 0 and not result.get("stop_reason"),
++             "owned_fixed_link_failed_or_incomplete")
++        info = binary.lstat()
++        need(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and 0 < info.st_size <= application.MAX_BINARY_BYTES and
++             started_ns - 2_000_000_000 <= info.st_mtime_ns <= time.time_ns() + 2_000_000_000 and
++             fresh_link_marker(output / "private-link.log"),
++             "fresh_exact_link_marker_and_binary_required")
++        native_output = OUTPUT + "/native-ui-application"
++        old_environment = selected_environment(device, native_output)
++        try:
++            document = application.run(BINARY, [], appinfo_shape_only=True)
++        finally:
++            restore_environment(old_environment, device, native_output)
++        need(type(document) is dict, "owning_install_receipt_required")
++        receipt["shape_observation"] = document.get("appinfo_shape_prerequisite")
++        receipt["owning_install_cleanup"] = {
++            key: document.get("cleanup", {}).get(key) for key in (*CLEANUP_FLAGS, "uninstall_exit_code")}
++        receipt["owning_install_error_present"] = "error" in document
++        receipt["source_revision_after_install"] = document.get("runtime_after", {}).get("source_revision")
++        receipt["binary_sha256_before_install"] = document.get("binary_sha256")
++        receipt["binary_sha256_after_install"] = document.get("binary_sha256_after")
++        need(document.get("source_revision") == context["source_revision"] and
++             document.get("runtime_after", {}).get("source_revision") == context["source_revision"],
++             "same_frozen_source_required_after_install")
++    except (OSError, ValueError, RuntimeError, TypeError, KeyError, AttributeError, subprocess.SubprocessError) as error:
++        receipt["error_type"] = type(error).__name__
++        if type(error) is RouteError:
++            receipt["error_guard"] = str(error)
++    finally:
++        if before is not None:
++            try:
++                after = lt.snapshot_inputs(root)
++                lt.write_json(output / "library-inputs-after.json", after)
++                receipt["library_inputs_after_sha256"] = lt.input_digest(after)
++                receipt["inputs_unchanged"] = before == after
++            except (OSError, ValueError) as error:
++                receipt["input_readback_error_type"] = type(error).__name__
++        receipt["sdk_prerequisite_available"] = ("error_type" not in receipt and
++            receipt["inputs_unchanged"] is True and installation_prerequisite_observed(document))
++        receipt["finished_at_utc"] = lt.utc_now()
++        lt.write_json(output / "receipt.json", receipt)
++    return receipt
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("operation", choices=("plan", "run"))
++    parser.add_argument("--simulator")
++    args = parser.parse_args()
++    if args.operation == "plan":
++        if args.simulator is not None:
++            parser.error("plan is source-only and takes no simulator")
++        print(json.dumps(plan(lt.ROOT), indent=2, sort_keys=True))
++        return 0
++    if args.simulator is None:
++        parser.error("run requires one task-recorded explicit simulator UUID")
++    receipt = run(args.simulator)
++    print("NATIVECMPKIT_APPINFO_SDK_PREREQUISITE observed=" +
++          str(receipt["sdk_prerequisite_available"]).lower(), flush=True)
++    return 0 if receipt["sdk_prerequisite_available"] else 2
++
++
++if __name__ == "__main__":
++    try:
++        sys.exit(main())
++    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
++        print("Owned appinfo SDK prerequisite refused: " + type(error).__name__, file=sys.stderr)
++        sys.exit(2)
+diff --git a/scripts/ci/test_apple_appinfo_shape_route.py b/scripts/ci/test_apple_appinfo_shape_route.py
+new file mode 100644
+--- /dev/null
++++ b/scripts/ci/test_apple_appinfo_shape_route.py
+@@ -0,0 +1,368 @@
++"""New SDK-selector/install/cleanup guards; tools, link and host all simulated.
++
++No accepted nine-method shape suite or process-helper regression is replayed.
++Only tiny owned fixture files are real. No Apple SDK/native/Worker/XML occurs.
++"""
++import ast
++import copy
++from contextlib import contextmanager
++import hashlib
++import io
++import json
++import os
++from pathlib import Path
++import shutil
++import subprocess
++import tempfile
++import unittest
++from unittest.mock import patch
++
++import apple_appinfo_capability as capability
++import apple_appinfo_shape as shape
++import apple_appinfo_shape_route as route
++import ios_ui_application as application
++import library_tests as lt
++import workflow_matrix as wm
++
++DEVICE = "11111111-1111-1111-1111-111111111111"
++REVISION = "a" * 40
++HELP_BYTES = (lt.ROOT / route.HELP_RECEIPT).read_bytes()
++ACCEPTED = json.loads(HELP_BYTES)
++SOURCE_ROOT = Path(wm.__file__).resolve().parents[2]
++
++
++def captured_shape():
++    return {"status": "observed-bounded-lexical-shape",
++            "capability_receipt_sha256": shape.ACCEPTED_HELP_RECEIPT_SHA256,
++            "query_attempted": True, "query_count": 1, "owned_private_output_removed": True,
++            "registered_container_matches_verified_container": None,
++            "registered_executable_identity_verified": None,
++            **{key: False for key in route.FALSE_FLAGS}}
++
++
++def observation():
++    return {"operation": "owned-install-appinfo-shape", "status": "observed-bounded-lexical-shape",
++            "shape": captured_shape(), "tool_path_resolution": []}
++
++
++class AppleAppinfoShapeRouteTests(unittest.TestCase):
++    def setUp(self):
++        self.temporary = tempfile.TemporaryDirectory(prefix="synthetic-appinfo-route-")
++        self.addCleanup(self.temporary.cleanup)
++        self.root = Path(self.temporary.name)
++        self.initialise(self.root)
++        self.root_patch = patch.object(lt, "ROOT", self.root)
++        self.root_patch.start()
++        self.addCleanup(self.root_patch.stop)
++        self.runtime = {"source_revision": REVISION, "source_tree_dirty": False,
++                        "host": copy.deepcopy(ACCEPTED["host"]), "xcode": copy.deepcopy(ACCEPTED["xcode"]),
++                        "simulator": {"udid": DEVICE, "state": "Booted"}}
++
++    def initialise(self, root, *, binary=True):
++        for relative in route.SOURCE_INPUTS:
++            path = root / relative
++            path.parent.mkdir(parents=True, exist_ok=True)
++            path.write_bytes(b"Synthetic source presence, not producer acceptance\n")
++        path = root / route.HELP_RECEIPT
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_bytes(HELP_BYTES)
++        if binary:
++            self.write_binary(root)
++
++    def write_binary(self, root):
++        path = root / route.BINARY
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.write_bytes(b"Synthetic executable bytes, not native Mach-O\n")
++        path.chmod(0o755)
++        return path
++
++    @contextmanager
++    def harness(self, *, root=None, install_exit=0, uninstall_exit=0, observe=None):
++        root = root or self.root
++        state = {"installed": False, "calls": [], "query_contexts": [], "local": None}
++        container = root / "synthetic-installed" / "NativeCmpkitLibraryTests.app"
++        def control(argv, timeout=60):
++            argv = list(argv)
++            state["calls"].append(argv)
++            if argv[:3] == ["/usr/bin/codesign", "--force", "--sign"]:
++                self.assertEqual(["/usr/bin/codesign", "--force", "--sign", "-"], argv[:4])
++                return subprocess.CompletedProcess(argv, 0, b"", b"")
++            self.assertEqual(["/usr/bin/xcrun", "simctl"], argv[:2])
++            action = argv[2]
++            if action == "get_app_container":
++                if state["installed"]:
++                    return subprocess.CompletedProcess(argv, 0, str(container).encode() + b"\n", b"")
++                return subprocess.CompletedProcess(argv, 2, b"", b"(domain=NSPOSIXErrorDomain, code=2)")
++            if action == "install":
++                state["local"] = Path(argv[4])
++                container.parent.mkdir(parents=True, exist_ok=True)
++                shutil.copytree(state["local"], container)
++                state["installed"] = True
++                return subprocess.CompletedProcess(argv, install_exit, b"", b"")
++            if action == "terminate":
++                return subprocess.CompletedProcess(argv, 0, b"", b"")
++            if action == "uninstall":
++                shutil.rmtree(container)
++                state["installed"] = False
++                return subprocess.CompletedProcess(argv, uninstall_exit, b"", b"")
++            raise AssertionError("Unexpected SDK/native control command in synthetic route")
++        def owned_observation(context):
++            state["query_contexts"].append(context)
++            self.assertEqual(root, context.root)
++            self.assertEqual(DEVICE, context.device)
++            self.assertEqual(REVISION, context.source_revision)
++            self.assertEqual(0, context.install.returncode)
++            self.assertEqual(context.bundle, context.container.args[4])
++            self.assertIs(application.installed_identity(context.container, context.bundle,
++                context.signed_hash, context.plist_hash), True)
++            return observe(context) if observe else observation()
++        with patch.object(lt, "ROOT", root), \
++                patch.dict(os.environ, {"NATIVECMPKIT_UIKIT_SIMULATOR": DEVICE,
++                    "NATIVECMPKIT_UIKIT_RESULT_ROOT": route.OUTPUT + "/native-ui-application"}), \
++                patch.object(application.platform, "system", return_value="Darwin"), \
++                patch.object(application.platform, "machine", return_value="arm64"), \
++                patch.object(application.runtime, "capture", side_effect=lambda **kwargs: copy.deepcopy(self.runtime)), \
++                patch.object(application.shutil, "disk_usage", return_value=type("Disk", (), {"free": 16 * 1024**3})()), \
++                patch.object(application, "macho_simulator_identity", return_value={"minimum_os": "15.0.0"}), \
++                patch.object(application, "execute_control", side_effect=control), \
++                patch.object(route, "observe_owned_install", side_effect=owned_observation), \
++                patch.object(application, "forward_application", side_effect=AssertionError("Native launch forbidden")), \
++                patch.object(application, "sign_owned_debug_profile_application", side_effect=AssertionError("ADR0012 forbidden")), \
++                patch.object(application.simulator_appearance, "AppearanceDriver", side_effect=AssertionError("Appearance prep forbidden")):
++            yield state
++
++    def synthetic_document(self):
++        return {"sdk_prerequisite_only": True, "sdk_signing_mode": "ordinary-adhoc",
++                "transport_passed": False, "native_launch_attempted": False, "native_tests_executed": 0,
++                "explicit_test_focus": None, "application_protocol": None,
++                "appinfo_shape_prerequisite": observation(),
++                "cleanup": {**{key: True for key in route.CLEANUP_FLAGS}, "uninstall_exit_code": 0}}
++
++    def test_internal_sdk_selector_refuses_native_arguments_other_modules_profile_and_non_boolean_mode(self):
++        cases = ((route.BINARY, list(application.TEST_ARGUMENTS), None, True),
++                 (route.BINARY, ["--ktest_gradle_filter=foreign"], None, True),
++                 (route.BINARY, [], "darwin-tools", True),
++                 (route.BINARY.replace("calf-ui", "calf-webview"), [], None, True),
++                 (route.BINARY, [], None, 1), (route.BINARY, [], None, False))
++        with self.harness() as state:
++            for binary, arguments, image, mode in cases:
++                with self.subTest(binary=binary, mode=mode):
++                    with self.assertRaises(ValueError):
++                        application.run(binary, arguments, image_diagnostics=image, appinfo_shape_only=mode)
++            self.assertEqual([], state["calls"])
++            self.assertEqual([], state["query_contexts"])
++
++    def test_current_owned_install_returns_before_native_drivers_and_keeps_ordinary_signer_and_original_cleanup(self):
++        with self.harness() as state:
++            document = application.run(route.BINARY, [], appinfo_shape_only=True)
++        self.assertEqual(1, len(state["query_contexts"]))
++        context = state["query_contexts"][0]
++        self.assertEqual(["/usr/bin/xcrun", "simctl", "install", DEVICE,
++            str(context.output / "NativeCmpkitLibraryTests.app")], context.install.args)
++        self.assertEqual(context.output.name, context.token)
++        self.assertIn(REVISION[:12], context.bundle)
++        self.assertIs(document["transport_passed"], False)
++        self.assertIs(document["native_launch_attempted"], False)
++        self.assertEqual(0, document["native_tests_executed"])
++        self.assertIsNone(document["application_protocol"])
++        self.assertIs(route.installation_prerequisite_observed(document), True)
++        self.assertFalse(state["installed"])
++        self.assertFalse(state["local"].exists())
++        actions = [argv[2] for argv in state["calls"] if argv[0] == "/usr/bin/xcrun"]
++        self.assertEqual(["get_app_container", "install", "get_app_container",
++                          "get_app_container", "terminate", "uninstall", "get_app_container"], actions)
++        for name in ("webview_request_fixture", "image_memory_profile", "system_appearance_driver",
++                     "application_protocol_partial", "owned_crash_diagnostics", "owned_launch_diagnostics"):
++            self.assertNotIn(name, document)
++
++    def test_uncertain_install_and_post_query_binary_drift_keep_cleanup_but_cannot_become_sdk_or_native_success(self):
++        with self.harness(install_exit=1) as state:
++            document = application.run(route.BINARY, [], appinfo_shape_only=True)
++        self.assertEqual([], state["query_contexts"])
++        self.assertFalse(state["installed"])
++        self.assertIs(route.cleanup_verified(document), True)
++        self.assertIs(route.installation_prerequisite_observed(document), False)
++        def drift(context):
++            (context.root / route.BINARY).write_bytes(b"Changed synthetic linked binary\n")
++            return observation()
++        with self.harness(observe=drift) as state:
++            document = application.run(route.BINARY, [], appinfo_shape_only=True)
++        self.assertEqual(1, len(state["query_contexts"]))
++        self.assertEqual("post-sdk-prerequisite-runtime-and-binary", document["error"]["phase"])
++        self.assertIs(route.cleanup_verified(document), True)
++        self.assertIs(route.installation_prerequisite_observed(document), False)
++        self.assertIs(document["transport_passed"], False)
++
++    def test_cleanup_and_claim_drift_never_satisfy_dedicated_sdk_availability(self):
++        good = self.synthetic_document()
++        self.assertIs(route.installation_prerequisite_observed(good), True)
++        changes = (("transport_passed", True), ("native_launch_attempted", True),
++                   ("native_tests_executed", 1), ("native_tests_executed", False),
++                   ("sdk_signing_mode", "profile-debug"), ("explicit_test_focus", lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS),
++                   ("application_protocol", {"testcases": []}), ("error", {"type": "ValueError"}))
++        for key, value in changes:
++            with self.subTest(key=key):
++                document = copy.deepcopy(good);document[key] = value
++                self.assertIs(route.installation_prerequisite_observed(document), False)
++        for key in route.NATIVE_PREPARATION_KEYS:
++            with self.subTest(native_preparation=key):
++                document = copy.deepcopy(good);document[key] = {}
++                self.assertIs(route.installation_prerequisite_observed(document), False)
++        for key in route.CLEANUP_FLAGS:
++            with self.subTest(cleanup=key):
++                document = copy.deepcopy(good);document["cleanup"][key] = False
++                self.assertIs(route.installation_prerequisite_observed(document), False)
++        for key in route.FALSE_FLAGS:
++            with self.subTest(claim=key):
++                document = copy.deepcopy(good);document["appinfo_shape_prerequisite"]["shape"][key] = True
++                self.assertIs(route.installation_prerequisite_observed(document), False)
++        for count in (0, 2, True):
++            document = copy.deepcopy(good);document["appinfo_shape_prerequisite"]["shape"]["query_count"] = count
++            self.assertIs(route.installation_prerequisite_observed(document), False)
++
++    def test_fixed_tool_resolution_invokes_pinned_collector_once_and_retains_no_raw_selected_paths(self):
++        context = type("Context", (), {"root": self.root})()
++        paths = {name: Path("/private/synthetic-selected/" + name) for name in ("developer", "simctl", "xcodebuild")}
++        calls = []
++        def control(argv, root, seconds):
++            calls.append((argv, root, seconds))
++            name = next(name for name in paths if capability.COMMANDS[name] == tuple(argv))
++            return capability.Result(0, str(paths[name]).encode() + b"\n", b"", None)
++        with patch.object(capability, "control", side_effect=control), \
++                patch.object(shape, "collect", return_value=captured_shape()) as collect:
++            result = route.observe_owned_install(context)
++        self.assertEqual([capability.COMMANDS[name] for name in paths], [call[0] for call in calls])
++        self.assertTrue(all(call[1:] == (self.root, 15) for call in calls))
++        collect.assert_called_once()
++        self.assertIs(collect.call_args.args[0], context)
++        self.assertEqual(HELP_BYTES, collect.call_args.kwargs["capability_bytes"])
++        self.assertEqual(Path("/usr/bin/xcrun"), collect.call_args.kwargs["tool_paths"]["xcrun"])
++        self.assertEqual(paths["developer"], collect.call_args.kwargs["developer"])
++        self.assertEqual("observed-bounded-lexical-shape", result["status"])
++        self.assertNotIn("/private/synthetic-selected", json.dumps(result))
++
++    def test_fixed_identity_failure_pinned_receipt_drift_and_budget_exhaustion_never_query_or_fallback(self):
++        context = type("Context", (), {"root": self.root})()
++        with patch.object(capability, "control", return_value=capability.Result(1, b"", b"/private/unknown path", None)), \
++                patch.object(shape, "collect", side_effect=AssertionError("Query forbidden")):
++            result = route.observe_owned_install(context)
++        self.assertEqual("unavailable", result["status"])
++        self.assertNotIn("/private/unknown", json.dumps(result))
++        with patch.object(route.time, "monotonic", side_effect=(0, 100, 100)), \
++                patch.object(capability, "control", side_effect=AssertionError("Resolution forbidden")), \
++                patch.object(shape, "collect", side_effect=AssertionError("Query forbidden")):
++            result = route.observe_owned_install(context)
++        self.assertEqual("path_resolution_budget_exhausted", result["error_guard"])
++        self.assertIs(result["budget_exhausted"], True)
++        (self.root / route.HELP_RECEIPT).write_bytes(HELP_BYTES + b"\n")
++        with patch.object(capability, "control", side_effect=AssertionError("Resolution forbidden")):
++            result = route.observe_owned_install(context)
++        self.assertEqual("accepted_actual006_help_bytes_required", result["error_guard"])
++
++    def test_dedicated_read_only_selector_empty_library_matrix_and_cli_cannot_select_or_waive_native_methods(self):
++        with patch.object(wm.subprocess, "run", side_effect=AssertionError("No library process")), \
++                patch.object(lt, "run", side_effect=AssertionError("No library run")):
++            selected = route.plan(self.root)
++            preflight = wm.preflight_plans(route.PROFILE, self.root)
++        self.assertEqual({"include": []}, wm.matrix(route.PROFILE))
++        self.assertNotIn(route.PROFILE, wm.MODULE_SUBSETS)
++        self.assertNotIn(route.PROFILE, lt.UI_APPLICATION_FOCUS_SPECS)
++        self.assertEqual(11, len(wm.SLOTS))
++        self.assertEqual([], selected["selected_native_methods"])
++        self.assertIs(selected["mandatory_library_tests_waived"], False)
++        self.assertEqual(route.LINK_COMMAND, selected["link_command"])
++        self.assertEqual([route.LINK_TASK], [word for word in selected["link_command"] if word.startswith(":")])
++        self.assertEqual([], preflight["slots"])
++        self.assertEqual(0, preflight["library_tests_executed"])
++        self.assertEqual([selected], preflight["sdk_prerequisites"])
++        for extra in (("--binary", "foreign.kexe"), ("--focus", "foreign"), ("--help-receipt", "foreign.json")):
++            with self.subTest(extra=extra), patch.object(route.sys, "argv", ["selector", "plan", *extra]), \
++                    patch("sys.stderr", new_callable=io.StringIO), self.assertRaises(SystemExit):
++                route.main()
++        with self.assertRaises(route.RouteError):
++            route.run("Booted")
++
++    def test_fixed_link_driver_writes_only_sdk_receipt_after_owned_cleanup_and_refuses_session_retry(self):
++        (self.root / route.BINARY).unlink()
++        def link(root, command, log, seconds, reserve):
++            self.assertEqual(route.LINK_COMMAND, command)
++            self.assertEqual((1200, 8192), (seconds, reserve))
++            self.write_binary(root)
++            log.write_text("> Task " + route.LINK_TASK + "\n")
++            return {"exit_code": 0, "elapsed_seconds": 0.001}
++        with self.harness() as state, patch.object(lt, "execute", side_effect=link) as linker, \
++                patch.object(lt, "snapshot_inputs", return_value={"synthetic-owning-source": "a" * 64}):
++            result = route.run(DEVICE)
++            with self.assertRaises(FileExistsError):
++                route.run(DEVICE)
++        self.assertEqual(1, linker.call_count)
++        self.assertEqual(1, len(state["query_contexts"]))
++        self.assertIs(result["sdk_prerequisite_available"], True)
++        self.assertIs(result["transport_passed"], False)
++        self.assertEqual(0, result["native_tests_executed"])
++        self.assertEqual([], result["selected_native_methods"])
++        self.assertIs(result["mandatory_library_tests_waived"], False)
++        self.assertFalse(state["local"].exists())
++        for key in ("registration_observed", "appinfo_output_schema_observed", "profile_passed",
++                    "root_cause_proven", "native_functionality_verified", "subsequent_appinfo_ready",
++                    "packages_published", "release_readiness_certified"):
++            self.assertIs(result[key], False)
++        self.assertEqual(result, json.loads((self.root / route.OUTPUT / "receipt.json").read_bytes()))
++        self.assertIsNone(result["registered_container_matches_verified_container"])
++
++    def test_failed_link_changed_source_or_incomplete_cleanup_refuses_sdk_availability_without_native_fallback(self):
++        for index, failure in enumerate(("link", "source", "cleanup", "cached-link", "skipped-link",
++                                         "no-source-link", "missing-link", "duplicate-link")):
++            with self.subTest(failure=failure):
++                root = self.root / f"fresh-owned-model-{index}"
++                root.mkdir();self.initialise(root, binary=False)
++                def link(root, command, log, seconds, reserve):
++                    if failure == "link":
++                        return {"exit_code": 1, "elapsed_seconds": 0.001}
++                    self.write_binary(root)
++                    marker = "> Task " + route.LINK_TASK
++                    suffixes = {"cached-link": " FROM-CACHE", "skipped-link": " SKIPPED",
++                                "no-source-link": " NO-SOURCE"}
++                    content = marker + suffixes.get(failure, "") + "\n"
++                    if failure == "missing-link":
++                        content = "NATIVECMPKIT_TEST_RUNTIME task=" + route.LINK_TASK + " gradle=synthetic\n"
++                    elif failure == "duplicate-link":
++                        content += marker + "\n"
++                    log.write_text(content)
++                    return {"exit_code": 0, "elapsed_seconds": 0.001}
++                maps = ({"source": "a" * 64}, {"source": ("b" if failure == "source" else "a") * 64})
++                with self.harness(root=root, uninstall_exit=1 if failure == "cleanup" else 0) as state, \
++                        patch.object(lt, "execute", side_effect=link), \
++                        patch.object(lt, "snapshot_inputs", side_effect=maps):
++                    result = route.run(DEVICE, root)
++                self.assertIs(result["sdk_prerequisite_available"], False)
++                self.assertIs(result["transport_passed"], False)
++                self.assertEqual(0, result["native_tests_executed"])
++                self.assertEqual(1 if failure in {"source", "cleanup"} else 0, len(state["query_contexts"]))
++
++    def test_source_wiring_keeps_WK_finally_and_help_only_job_exact_and_uploads_no_private_log_native_xml_or_bundle(self):
++        source = Path(application.__file__).read_text()
++        node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == "run")
++        owner = next(n for n in node.body if isinstance(n, ast.Try) and n.finalbody)
++        wk = owner.finalbody[0]
++        self.assertEqual("request_fixture is not None", ast.get_source_segment(source, wk.test))
++        body = "".join(source.splitlines(keepends=True)[wk.lineno - 1:wk.end_lineno]).encode()
++        self.assertEqual("1e51ca8edf5d2b53d7ff2d5bc8457bb8b9c7963a2edac986db3f5174e2eb720c", hashlib.sha256(body).hexdigest())
++        text = (SOURCE_ROOT / ".github/workflows/gradle.yml").read_text()
++        job = text.split("\n  apple-appinfo-shape:\n", 1)[1].split("\n  apple-appinfo-capability:\n", 1)[0]
++        help_job = text.split("\n  apple-appinfo-capability:\n", 1)[1].split("\n  sample-platforms:\n", 1)[0]
++        self.assertNotIn("apple_appinfo_shape_route", help_job)
++        self.assertNotIn("simctl install", help_job)
++        self.assertIn("inputs.profile == 'ios-appinfo-shape'", job)
++        self.assertIn('apple_appinfo_shape_route.py run --simulator "$SELECTED_SIMULATOR"', job)
++        self.assertLess(job.index("initial_state=%s"), job.index('simctl boot "$device"'))
++        self.assertIn("steps.runtime.outputs.initial_state == 'Shutdown'", job)
++        upload = job.split("path: |", 1)[1]
++        self.assertEqual({route.OUTPUT + "/receipt.json", route.OUTPUT + "/library-inputs-before.json",
++                          route.OUTPUT + "/library-inputs-after.json"}, set(upload.split()))
++        for forbidden in ("private-link.log", ".app", ".kexe", "native-ui-application", "test-results", "help appinfo"):
++            self.assertNotIn(forbidden, upload)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/scripts/ci/ios_ui_application.py b/scripts/ci/ios_ui_application.py
+--- a/scripts/ci/ios_ui_application.py
++++ b/scripts/ci/ios_ui_application.py
+@@ -974,10 +974,19 @@
+         details["owned_entitlement_input_removed"] = True
+ 
+ 
+-def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:
++def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None,
++        appinfo_shape_only: bool = False) -> dict:
+     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
+         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
+-    focus = application_test_focus(arguments, image_diagnostics)
++    if type(appinfo_shape_only) is not bool:
++        raise ValueError("The internal SDK prerequisite selector must be an exact boolean")
++    if appinfo_shape_only:
++        if (binary_relative != EXPECTED_BINARY_DIRECTORY + "/application.kexe" or
++                type(arguments) is not list or arguments or image_diagnostics is not None):
++            raise ValueError("The SDK prerequisite owns only one ordinary calf-ui app and no native selection")
++        focus = None
++    else:
++        focus = application_test_focus(arguments, image_diagnostics)
+     host = application_host(binary_relative, focus)
+     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
+     if not runtime.UUID.fullmatch(device):
+@@ -1004,6 +1013,11 @@
+                "explicit_test_focus": focus,
+                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
+                "steps": {}, "cleanup": {}, "application_protocol": None}
++    if appinfo_shape_only:
++        receipt.update(sdk_prerequisite_only=True, sdk_signing_mode="ordinary-adhoc",
++                       native_launch_attempted=False, native_tests_executed=0,
++                       operation="owned-install-appinfo-shape-sdk-prerequisite",
++                       scope="SDK lexical prerequisite only. No native test/launch/Worker/WK/profile execution or mandatory-test waiver.")
+     if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
+         receipt.update(image_diagnostics_mode="darwin-tools", strict_runtime_assertions_attested=False)
+     app = output / "NativeCmpkitLibraryTests.app"
+@@ -1065,6 +1079,25 @@
+         receipt["steps"][phase]["container_status"] = control_status(container)
+         if result.returncode or not installed:
+             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
++        if appinfo_shape_only:
++            import apple_appinfo_shape as appinfo_shape
++            import apple_appinfo_shape_route as appinfo_route
++            phase = "observe-owned-installed-appinfo-shape-only"
++            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,
++                before["source_revision"], signed_hash, plist_hash, before, preexisting, result, container)
++            receipt["appinfo_shape_prerequisite"] = appinfo_route.observe_owned_install(context)
++            phase = "post-sdk-prerequisite-runtime-and-binary"
++            after = runtime.capture(expected_arch="arm64", apple=True, device=device,
++                                    require_booted=True, require_clean=True)
++            receipt["runtime_after"] = after
++            receipt["binary_sha256_after"] = lt.sha256(binary)
++            if (before["source_revision"] != after["source_revision"] or before["simulator"] != after["simulator"] or
++                    before["host"] != after["host"] or before["xcode"] != after["xcode"] or
++                    receipt["binary_sha256_after"] != binary_hash):
++                raise ValueError("Selected device/source/linked binary changed during the SDK prerequisite")
++            # Return through the original finally. Never fall through to launch,
++            # Worker, WK/profile preparation, transport pass or native test output.
++            return receipt
+         if request_fixture_requested:
+             import ios_webview_request_fixture as wk_requests
+             phase = "prepare-owned-localhost-wk-request-fixture"
+diff --git a/scripts/ci/workflow_matrix.py b/scripts/ci/workflow_matrix.py
+--- a/scripts/ci/workflow_matrix.py
++++ b/scripts/ci/workflow_matrix.py
+@@ -146,6 +146,8 @@
+     "ios-image-profile-recovery": ("ios-iphone",),
+     # Separate SDK help/identity discovery; no library/device/consumer execution.
+     "ios-appinfo-capability": (),
++    # Current owned-app shape prerequisite, not a native/library-test selection.
++    "ios-appinfo-shape": (),
+     "ios-webview-lifecycle": ("ios-iphone",),
+     "ios-webview-recovery": ("ios-iphone",),
+     "ios-webview-request-state": ("ios-iphone",),
+@@ -585,6 +587,11 @@
+     root = (root or Path(__file__).resolve().parents[2]).resolve()
+     verified = []
+     rows = matrix(profile)["include"]
++    if profile == "ios-appinfo-shape":
++        import apple_appinfo_shape_route
++        return {"profile": profile, "operation": "plan", "source_only": True,
++                "Gradle_builds_executed": 0, "library_tests_executed": 0, "slots": [],
++                "sdk_prerequisites": [apple_appinfo_shape_route.plan(root)]}
+     # One host, two independent applications. Validate both real CLIs before
+     # requesting that host; the second must not be hidden by a first failure.
+     selections = [selection for row in rows for selection in
+diff --git a/.github/workflows/gradle.yml b/.github/workflows/gradle.yml
+--- a/.github/workflows/gradle.yml
++++ b/.github/workflows/gradle.yml
+@@ -10,7 +10,7 @@
+         type: choice
+         required: true
+         default: core
+-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
++        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+ 
+ permissions:
+   contents: read
+@@ -84,6 +84,102 @@
+               output.write("sample_matrix=" + json.dumps(sample_matrix, separators=(",", ":")) + "\n")
+               output.write("samples=" + str(bool(sample_matrix["include"])).lower() + "\n")
+           PYTHON
++
++  apple-appinfo-shape:
++    needs: tooling
++    if: inputs.profile == 'ios-appinfo-shape' && github.ref == 'refs/heads/development/preview-hardening'
++    runs-on: macos-26
++    timeout-minutes: 35
++    defaults:
++      run:
++        shell: bash
++    env:
++      GIT_CONFIG_COUNT: '2'
++      GIT_CONFIG_KEY_0: core.autocrlf
++      GIT_CONFIG_VALUE_0: 'false'
++      GIT_CONFIG_KEY_1: core.longpaths
++      GIT_CONFIG_VALUE_1: 'true'
++      CARGO_BUILD_JOBS: '1'
++    steps:
++      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
++        with:
++          persist-credentials: false
++      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
++        with:
++          distribution: temurin
++          java-version: '17'
++          verify-signature: true
++          overwrite-settings: false
++      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
++        with:
++          min-wrapper-count: 1
++          allow-snapshots: false
++      - name: Reuse the pinned compiler and ordinary SDK setup only
++        run: |
++          command -v rustup
++          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
++      - uses: android-actions/setup-android@v3
++        with:
++          packages: 'cmdline-tools;23.0 platforms;android-37.0'
++          accept-android-sdk-licenses: true
++          log-accepted-android-sdk-licenses: false
++      - name: Select the existing official SDK23 command-line tools
++        run: |
++          python3 - <<'PYTHON'
++          import os
++          from pathlib import Path
++          manager = Path(os.environ["ANDROID_HOME"]) / "cmdline-tools/23.0/bin/sdkmanager"
++          if not manager.is_file():
++              raise SystemExit("SDK23 provisioning did not create the expected manager")
++          with open(os.environ["GITHUB_PATH"], "a") as output:
++              output.write(str(manager.parent) + "\n")
++          PYTHON
++      - name: Record one actual simulator; never switch after selection
++        id: runtime
++        run: |
++          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
++            --select-simulator iphone --output build/ci-runtime/appinfo-selection.json
++          device="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["udid"])')"
++          state="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["state"])')"
++          if [[ "$state" != Shutdown && "$state" != Booted ]]; then
++            echo 'Unknown selected simulator state; never choose another device' >&2
++            exit 1
++          fi
++          # Record the exact original row before any boot attempt, including failure.
++          printf 'device=%s\ninitial_state=%s\n' "$device" "$state" >> "$GITHUB_OUTPUT"
++          if [[ "$state" == Shutdown ]]; then
++            /usr/bin/xcrun simctl boot "$device"
++          fi
++          /usr/bin/xcrun simctl bootstatus "$device" -b
++      - name: Fixed link and current owned install; one appinfo shape only
++        env:
++          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
++        run: python3 -B scripts/ci/apple_appinfo_shape_route.py run --simulator "$SELECTED_SIMULATOR"
++      - name: Restore only this job's previously shut-down simulator boot state
++        if: always() && steps.runtime.outputs.initial_state == 'Shutdown'
++        env:
++          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
++        run: |
++          /usr/bin/xcrun simctl shutdown "$SELECTED_SIMULATOR"
++          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
++            --simulator "$SELECTED_SIMULATOR" --output build/ci-runtime/appinfo-restored.json
++          python3 - <<'PYTHON'
++          import json, os
++          row = json.load(open("build/ci-runtime/appinfo-restored.json"))["simulator"]
++          if row["udid"] != os.environ["SELECTED_SIMULATOR"] or row["state"] != "Shutdown":
++              raise SystemExit("Exact original simulator boot-state restoration is unavailable")
++          PYTHON
++      - name: Keep SDK lexical and source receipts only; no app, logs or native XML
++        if: always()
++        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
++        with:
++          name: apple-appinfo-shape-sdk-prerequisite
++          retention-days: 7
++          if-no-files-found: error
++          path: |
++            build/ci-verification/apple-appinfo-shape/receipt.json
++            build/ci-verification/apple-appinfo-shape/library-inputs-before.json
++            build/ci-verification/apple-appinfo-shape/library-inputs-after.json
+ 
+   apple-appinfo-capability:
+     needs: tooling

@@ -1,0 +1,110 @@
+{
+  "Gradle_builds_executed": 0,
+  "SDK_commands_executed": 0,
+  "actual_revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+  "actual_runs": {
+    "api35_actual003": 41265408309,
+    "storage_actual001": 41265416289
+  },
+  "child_credentials_or_parent_environment_changed_by_reviewed_source": false,
+  "confirmed_owning_source_gap_found": false,
+  "direct_between_route_host_KVM_or_ACL_mutation_found": false,
+  "exact_byte_function_and_provisioning_comparisons_passed": 12,
+  "exact_source_pairs_captured": 9,
+  "external_SDK_emulator_ADB_Gradle_and_runner_implementations_exhaustively_reviewed": false,
+  "live_edits_Git_GitHub_mutations_dispatches_or_accepted_suite_replay": false,
+  "native_tests_executed": 0,
+  "negative_result_limited_to_inspected_repository_source": true,
+  "new_proposal_or_tests_warranted_by_confirmed_gap": false,
+  "original_failing_operand_or_actual_cause_observed": false,
+  "original_primary_KVM_condition_ValueError_exit2_unchanged": true,
+  "owned_ADB_transport_absence_is_not_server_restart_or_host_device_removal": true,
+  "production_source_searches": [
+    {
+      "hits": [
+        {
+          "line": 361,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+          "source": "          test -c /dev/kvm"
+        },
+        {
+          "line": 363,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+          "source": "          sudo setfacl -m \"u:$(id -un):rw\" /dev/kvm"
+        },
+        {
+          "line": 364,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+          "source": "          test -r /dev/kvm && test -w /dev/kvm"
+        },
+        {
+          "line": 94,
+          "path": "scripts/ci/android_device_tests.py",
+          "revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+          "source": "    if not Path(\"/dev/kvm\").is_char_device() or not os.access(\"/dev/kvm\", os.R_OK | os.W_OK):"
+        }
+      ],
+      "production_scope": ".github, scripts, tests; modeled test_ files excluded",
+      "revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39"
+    },
+    {
+      "hits": [
+        {
+          "line": 361,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "          test -c /dev/kvm"
+        },
+        {
+          "line": 363,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "          sudo setfacl -m \"u:$(id -un):rw\" /dev/kvm"
+        },
+        {
+          "line": 364,
+          "path": ".github/workflows/gradle.yml",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "          test -r /dev/kvm && test -w /dev/kvm"
+        },
+        {
+          "line": 98,
+          "path": "scripts/ci/android_device_tests.py",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "    probes = ((\"character_device\", lambda: Path(\"/dev/kvm\").is_char_device()),"
+        },
+        {
+          "line": 99,
+          "path": "scripts/ci/android_device_tests.py",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "              (\"read_access\", lambda: os.access(\"/dev/kvm\", os.R_OK)),"
+        },
+        {
+          "line": 100,
+          "path": "scripts/ci/android_device_tests.py",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "              (\"write_access\", lambda: os.access(\"/dev/kvm\", os.W_OK)))"
+        },
+        {
+          "line": 115,
+          "path": "scripts/ci/android_device_tests.py",
+          "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+          "source": "    if not Path(\"/dev/kvm\").is_char_device() or not os.access(\"/dev/kvm\", os.R_OK | os.W_OK):"
+        }
+      ],
+      "production_scope": ".github, scripts, tests; modeled test_ files excluded",
+      "revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea"
+    }
+  ],
+  "pushed_revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+  "reclamation_targets_only_archived_confined_avd_and_android_user_directories": true,
+  "review_kind": "read-only owning lifecycle source review",
+  "reviewer_only_tool_error": "An initial read-only Git search was issued from the private non-repository directory; explicit known-repository -C fixed the search. Not actual CI.",
+  "schema_version": 1,
+  "sealed_actual003_and_prior_diagnostic_archives_unchanged": true,
+  "sole_explicit_KVM_writer": "original workflow step executed once before the batch",
+  "synthetic_methods_executed": 0
+}

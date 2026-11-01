@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `be68da877372c028c88329f1b98676ab48a5f5ba064b8849bb05931d6448c1ed`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8cc92664b569abd659588054a4c2d145bb04672c2430bb668f4b6e63165db3bb`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 1 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 3 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 4 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -159,7 +159,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | implemented | — | 3 / 1 |
 | 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | partially-verified | — | 4 / 3 |
 | 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | verified | — | 4 / 0 |
-| 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 2 |
+| 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 3 |
 | 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | verified | NAV-008 | 4 / 0 |
 | 116 | [PERM-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) | Medium | 2 | M | partially-verified | PERM-013 | 2 / 2 |
 | 117 | [PERM-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109) | Medium | 2 | M | partially-verified | PERM-007, PERM-009 | 2 / 1 |
@@ -170,7 +170,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 122 | [PERM-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/114) | Medium | 2 | L | verified | PERM-016 | 2 / 0 |
 | 123 | [PERM-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/115) | Medium | 2 | XL | verified | PERM-018 | 2 / 0 |
 | 124 | [PERM-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/117) | Medium | 2 | M | verified | PERM-018 | 2 / 0 |
-| 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 1 |
+| 125 | [PERM-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/118) | Medium | 2 | S | partially-verified | — | 2 / 2 |
 | 126 | [UI-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/119) | Medium | 2 | S | verified | — | 3 / 0 |
 | 127 | [UI-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/120) | Medium | 2 | M | verified | — | 3 / 0 |
 | 128 | [UI-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/121) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -514,6 +514,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.
+- 2026-11-01: Only genuine Dont-keep capture/return/readable exactly-once result remains; actual013 prelaunch confinement cause unknown, next bounded observation must preserve refusal and FD cleanup.
 
 **Owner verification scope:** Original criteria2/3 accepted from three complete camera009 native methods. Immediate reconstruction before external camera completion is not an original requirement; exact constructor timing unobserved. Only actual Dont-keep capture/restoration remains unverified. Earlier stricter/pending designations are historical and retained, not changed verdicts.
 
@@ -1789,6 +1790,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Complete the original Android/Desktop/iOS fail→success/fail→fail/reload/stop/redirect matrices with actual platform execution and native request-state observation; prior narrower successful subsets may be reused only on exact applicable bytes.
 - Verify an actual offline destination; response/socket destruction is not system offline, DNS/TLS or network certification.
 - Verify actual iOS provisional DNS/TLS failure before commit resets prior errors with genuine WKWebView and owned transport. Browser methods cannot substitute for it.
+- 2026-11-01: Only missing Android2/Desktop10/iOSrequest2+DNS1/browser-offlineJS+Wasm2 native executions remain; retain every literal #64 obligation and never replay accepted unchanged subsets.
 
 **Owner verification scope:** Accept only three complete new request-state methods on each of Chromium JS/Wasm; six target executions are not six distinct methods or the every-target matrix. Preserve accepted earlier content/identity/origin evidence without replay. Original other-platform/offline/WKWebView DNS/TLS obligations remain.
 
@@ -2602,6 +2604,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Run Android manifest merge and real permission prompt/device checks; source configuration does not prove OS behavior.
 - Permission outcome/capability fixes remain owned by PERM findings; no fake platform parity claim.
+- 2026-11-01: Fresh approved Call and denial/permanent-denial2 require owning exact-control observations and native verification; original API33/API34 media selections remain. Accepted picker1 and24-row merged-manifest/source results are reused.
 
 **Compatibility / scope:** Sample-only narrowing avoids adding sensitive permissions to make an unsupported row appear to work.
 
@@ -2801,6 +2804,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Android28/29 legacy/scoped and30+ app-scoped/SAF runtime matrix pending; documentation/source validation is not a device access test.
+- 2026-11-01: Original eight storage target selections remain unverified; next finite rows require actual descriptor/SAF/manager/restoration proofs and unchanged strict host admission, no permission regrant fallback.
 
 **Compatibility / scope:** No runtime storage mapping expansion; old API-range behavior is explained rather than equated with all-files rights.
 
@@ -3565,10 +3569,10 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `c9e419683eea211d1d38d665dc497644285a43d338130e326e2330a19ef4ad1a` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `249a0f307d17cde0aa1eb6cbefe5d4917eaff5215345bc8925c3ae0640c05e5e` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `21bb7a6326e46690a8e20f9b20a3906bd5d5c0054ceabac45dffd53da4874059` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `61056fb5ac551dc37d3c5177cfbbfa499cacddf473d7a4e34487de944f48c728` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `8c3e736028f11d2ec9822eb82e3d6aa8933f3668cfb26c7cf9f8a7a4383b1672` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `e818c705058e3b64de06a924081e0b79608f55d553dc258153c0ee79e07fbbd7` |

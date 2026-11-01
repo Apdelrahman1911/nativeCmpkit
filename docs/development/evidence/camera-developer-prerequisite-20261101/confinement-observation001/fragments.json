@@ -1,0 +1,21 @@
+{
+  "fragments": [
+    {
+      "after_sha256": "07ca7997a65b07ec760071b5cc3132ccfada1557bd4376b6862761a9e95842d6",
+      "after_utf8": "            try:\n                require(Path(value).is_absolute() and Path(value).is_relative_to(directory) and\n                        \"..\" not in Path(value).parts, \"Actual supplied mutable path confinement is unproved\")\n            except ValueError:\n                try:\n                    def observed_boolean(probe):\n                        try:\n                            observed = probe()\n                        except (Exception, KeyboardInterrupt):\n                            return None\n                        return observed if type(observed) is bool else None\n\n                    key_lower = key.lower()\n                    self.receipt[\"mutable_path_refusal\"] = {\n                        \"schema_version\": 1,\n                        \"observation_phase\": \"after-refusal\",\n                        \"key_is_skin_path\": key == \"skin.path\",\n                        \"key_has_disk_prefix\": key.startswith(\"disk.\"),\n                        \"key_has_hw_prefix\": key.startswith(\"hw.\"),\n                        \"key_has_snapshot_prefix\": key.startswith(\"snapshot.\"),\n                        \"key_contains_path\": \"path\" in key_lower,\n                        \"key_ends_dir\": key_lower.endswith(\".dir\"),\n                        \"key_ends_file\": key_lower.endswith(\".file\"),\n                        \"key_ends_filename\": key_lower.endswith(\".filename\"),\n                        \"is_absolute\": observed_boolean(lambda: Path(value).is_absolute()),\n                        \"is_relative_to_owned_avd\": observed_boolean(lambda: Path(value).is_relative_to(directory)),\n                        \"has_no_parent_component\": observed_boolean(lambda: \"..\" not in Path(value).parts),\n                        \"native_success_inferred\": False,\n                    }\n                    self.journal.write(self.receipt)\n                except (Exception, KeyboardInterrupt):\n                    pass  # Observation must never mask the original confinement refusal.\n                raise\n",
+      "before_sha256": "dceeaef65b57117c6b00b732c44f1adec2990a74729ed60f71fb7f3ec78bb063",
+      "before_utf8": "            require(Path(value).is_absolute() and Path(value).is_relative_to(directory) and\n                    \"..\" not in Path(value).parts, \"Actual supplied mutable path confinement is unproved\")\n",
+      "inverse_composition_matches_complete_preimage": true,
+      "mode": "100644",
+      "occurrences": 1,
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "postimage_sha256": "2195f32e1603b31e063afa444401b77f3bc5d34c0dcc7e0c60cc4c6508e20591",
+      "preimage_sha256": "fc26592ead33a3fab781eb288794f2b969d2a4e269e8e27b6eb0bb039c58287c"
+    }
+  ],
+  "immutable_actual_source_revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+  "integration_owned_by_lead": true,
+  "schema_version": 1,
+  "scope": "after-refusal diagnostics only; original admission remains unchanged",
+  "whole_file_overwrite_permitted": false
+}

@@ -1,0 +1,131 @@
+{
+  "omitted_fields": [],
+  "original_member": "ci-verification/android-device-batch-permission-storage-api35-recovery/batch.json",
+  "original_sha256": "43cd8a9bf60a0f36bc17e51e6cf726c6a917cee6953fd1033e61d6171793ff95",
+  "sanitized_original_fields": {
+    "actual_distinct_methods": 3,
+    "actual_target_executions": 3,
+    "batch": "android-permission-storage-api35-recovery",
+    "finished_at_utc": "2026-11-01T03:22:01.017161+00:00",
+    "native_acceptance_or_issue_closure_inferred": false,
+    "original_XML_execution_count_complete": false,
+    "packages_published": false,
+    "packages_uploaded": false,
+    "passed": false,
+    "refused_profiles": [
+      "android-storage-api35-all-files"
+    ],
+    "release_readiness_certified": false,
+    "requested_distinct_methods": 5,
+    "requested_target_executions": 5,
+    "reserve_mib": 8192,
+    "routes": [
+      {
+        "archive": {
+          "actual_cases": [
+            {
+              "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+              "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+              "status": "failed"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+              "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+              "status": "failed"
+            },
+            {
+              "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+              "name": "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+              "status": "passed"
+            }
+          ],
+          "actual_totals": {
+            "errors": 0,
+            "executed": 3,
+            "failures": 2,
+            "not_applicable": 0,
+            "passed": 1,
+            "skipped": 0,
+            "tests": 3,
+            "unexpected_skipped": 0
+          },
+          "missing_selected_cases": [],
+          "native_success_inferred_from_archival": false,
+          "original_XML_execution_count_complete": true,
+          "original_library_receipt_present": true,
+          "original_reports": [
+            {
+              "archived_path": "build/ci-verification/android-device-batch-permission-storage-api35-recovery/routes/android-permission-demo/fresh-reports/TEST-nativecmpkit-api35-561f015634aa(AVD) - 15.xml",
+              "original_path": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-561f015634aa(AVD) - 15.xml",
+              "sha256": "2e0f612b1599c6775e56ad85d287c02d6c5e3629d32527e5e5e042dbcfeb6f33"
+            }
+          ],
+          "original_result_preserved": true,
+          "profile": "android-permission-demo"
+        },
+        "cleanup_certified": true,
+        "controller_path": "build/ci-verification/android-device-batch-permission-storage-api35-recovery/routes/android-permission-demo/controller.json",
+        "controller_sha256": "9543bf59d2d1b7cd0455dae02f42d3ba503b2f5432d322d464b80101b1d9ff1a",
+        "execution": {
+          "elapsed_seconds": 419.13,
+          "exit_code": 1
+        },
+        "failed_child_origin": {
+          "native_success_inferred": false,
+          "raw_log_uploaded": false,
+          "status": "unavailable"
+        },
+        "local_state_cleanup": {
+          "evidence_or_cache_removed": false,
+          "removed_directories": [
+            "avd",
+            "android-user"
+          ],
+          "status": "passed"
+        },
+        "output": "build/ci-verification/android-device-batch-permission-storage-api35-recovery/routes/android-permission-demo",
+        "passed": false,
+        "profile": "android-permission-demo"
+      },
+      {
+        "adapter_error": "FileNotFoundError",
+        "cleanup_certified": false,
+        "execution": {
+          "elapsed_seconds": 1.0,
+          "exit_code": 2
+        },
+        "failed_child_host_admission": {
+          "native_success_inferred": false,
+          "observations": {
+            "character_device": true,
+            "native_success_inferred": false,
+            "observation_phase": "after-refusal",
+            "read_access": false,
+            "schema_version": 1,
+            "write_access": false
+          },
+          "raw_log_uploaded": false,
+          "status": "retained"
+        },
+        "failed_child_origin": {
+          "native_success_inferred": false,
+          "origin": {
+            "line": 121,
+            "source": "android_device_tests.py",
+            "symbol": "require_host"
+          },
+          "raw_log_uploaded": false,
+          "status": "retained"
+        },
+        "output": "build/ci-verification/android-device-batch-permission-storage-api35-recovery/routes/android-storage-api35-normal",
+        "passed": false,
+        "profile": "android-storage-api35-normal"
+      }
+    ],
+    "same_workspace_compilation_reuse_only": true,
+    "schema_version": 1,
+    "source_revision": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+    "source_unchanged": true,
+    "started_at_utc": "2026-11-01T03:15:00.311095+00:00"
+  }
+}

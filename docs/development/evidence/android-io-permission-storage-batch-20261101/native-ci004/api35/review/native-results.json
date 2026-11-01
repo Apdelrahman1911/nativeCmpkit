@@ -1,0 +1,168 @@
+{
+  "accepted_IO_three_methods_deliberately_excluded": true,
+  "actual_permission_route": {
+    "child_elapsed_seconds": 419.13,
+    "child_exit_code": 1,
+    "controller_test_suite_passed": false,
+    "helper_assembly": {
+      "elapsed_seconds": 220.08,
+      "exit_code": 0
+    },
+    "native_Gradle": {
+      "elapsed_seconds": 72.03,
+      "exit_code": 1
+    },
+    "passed": false,
+    "reporter_assembly": {
+      "elapsed_seconds": 89.03,
+      "exit_code": 0
+    }
+  },
+  "commit": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+  "failed_native_methods": [
+    {
+      "UI_frame_chain": [
+        {
+          "line": 28,
+          "symbol": "permissionButton"
+        },
+        {
+          "line": 47,
+          "symbol": "clickId"
+        },
+        {
+          "line": 89,
+          "symbol": "click"
+        }
+      ],
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "failure_message": "The exact required native OS control was not observed within the bound",
+      "failure_type": "java.lang.AssertionError",
+      "last_owning_UI_frame": {
+        "line": 89,
+        "source": "PermissionDemoSystemUi.kt",
+        "symbol": "click"
+      },
+      "later_native_grant_callback_acceptance": false,
+      "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+      "required_control": "permission_allow_button",
+      "status": "failed",
+      "test_source_line": 44
+    },
+    {
+      "UI_frame_chain": [
+        {
+          "line": 28,
+          "symbol": "permissionButton"
+        },
+        {
+          "line": 47,
+          "symbol": "clickId"
+        },
+        {
+          "line": 89,
+          "symbol": "click"
+        }
+      ],
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "failure_message": "The exact required native OS control was not observed within the bound",
+      "failure_type": "java.lang.AssertionError",
+      "last_owning_UI_frame": {
+        "line": 89,
+        "source": "PermissionDemoSystemUi.kt",
+        "symbol": "click"
+      },
+      "later_native_denial_permanent_denial_acceptance": false,
+      "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+      "required_control": "permission_deny_button",
+      "status": "failed",
+      "test_source_line": 62
+    }
+  ],
+  "freshness": {
+    "archived_or_extracted_mtime_is_not_original_native_freshness_evidence": true,
+    "committed_original_capture_guard": "library_tests.py:2743-2754 and android_device_batch.py:254-257 require original file mtime within started/ended epoch windows (2s margin), unshared stable bytes and exact SHA256 before archival.",
+    "native_window_end_utc": "2026-11-01T03:21:56.467537+00:00",
+    "native_window_start_utc": "2026-11-01T03:20:44.441474+00:00",
+    "original_XML_clock_within_recorded_UTC_window": true,
+    "original_XML_reconstructed_or_modified": false,
+    "original_XML_timestamp": "2026-11-01T03:21:54",
+    "original_XML_timestamp_has_offset": false,
+    "raw_original_mtime_not_separately_uploaded": true
+  },
+  "independently_accepted_subset": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "name": "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+      "status": "passed"
+    }
+  ],
+  "issues_closed": 0,
+  "native_or_model_execution_by_reviewer": 0,
+  "observed": {
+    "distinct_methods": 3,
+    "failed": 2,
+    "original_XML": 1,
+    "passed": 1,
+    "routes_with_native_XML": 1,
+    "skipped": 0,
+    "target_executions": 3
+  },
+  "request": {
+    "distinct_methods": 5,
+    "routes": 3,
+    "target_executions": 5
+  },
+  "requested_but_unexecuted": [
+    {
+      "child_elapsed_seconds": 1.0,
+      "child_exit_code": 2,
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "disposition": "original host prerequisite refusal before controller lease",
+      "failed_child_host_admission": {
+        "native_success_inferred": false,
+        "observations": {
+          "character_device": true,
+          "native_success_inferred": false,
+          "observation_phase": "after-refusal",
+          "read_access": false,
+          "schema_version": 1,
+          "write_access": false
+        },
+        "raw_log_uploaded": false,
+        "status": "retained"
+      },
+      "failed_child_origin": {
+        "native_success_inferred": false,
+        "origin": {
+          "line": 121,
+          "source": "android_device_tests.py",
+          "symbol": "require_host"
+        },
+        "raw_log_uploaded": false,
+        "status": "retained"
+      },
+      "name": "modernAppScopedAndSafDoNotNeedAllFiles",
+      "profile": "android-storage-api35-normal",
+      "secondary_adapter_error": "FileNotFoundError"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "disposition": "refused after uncertain/missing prior controller cleanup; no native execution",
+      "name": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores",
+      "profile": "android-storage-api35-all-files"
+    }
+  ],
+  "run_id": 41268194715,
+  "terminal_run_conclusion": "failure",
+  "unknowns_and_nonacceptance": [
+    "Underlying causes of the two permission-controller exact-control timeouts remain unknown; no active-window/UI-tree/selector-result diagnostic is retained.",
+    "Call grant/callback assertions after source line44 were not reached. First-denial/rationale/permanent-denial/third-request assertions after line62 were not reached.",
+    "The KVM refusal binds the original require_host line121 only. Character-device/read/write observations were separate after-refusal reads, not atomic original predicate/errno/cause proof.",
+    "Actual grant principal, real/effective UID/GID, ACL entries/mask, and /dev/kvm inode/device timeline across children are unobserved. Workflow ACL-step success is an outcome, not proof of those identities or an actual mutation.",
+    "Storage-normal has no controller/helper/reporter policy/boot/runtime/original XML. Secondary FileNotFoundError cannot replace the original host refusal. All-files was refused, not attempted.",
+    "Storage initial/final native state, ordered SAF cleanup/restoration, descriptors and all-files authorization are unobserved in this run.",
+    "API33/34 media and API28/29/30 storage compatibility remain outside this request. Neither #102 nor #118 is whole-issue closure-eligible.",
+    "No packaged consumer, physical/minimum-device, API-ABI, ordinary dependency/cache trust, security, release, publishing, Pages, main or history gate is cleared."
+  ]
+}

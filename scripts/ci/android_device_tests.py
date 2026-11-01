@@ -601,7 +601,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
 def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:
     if focus == lt.ANDROID_WEBVIEW_REQUEST_FOCUS:
         if type(api_level) is not int or api_level != 35 or modules != ("calf-webview",):
-            raise ValueError("The exact one-method Android WebView request selection requires API35 and calf-webview only")
+            raise ValueError("The exact two-method Android WebView request selection requires API35 and calf-webview only")
         return
     if focus in lt.ANDROID_STORAGE_FOCUSES:
         row = lt.storage_plan.row_for(focus)

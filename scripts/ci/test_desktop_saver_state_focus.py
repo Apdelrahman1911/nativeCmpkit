@@ -153,7 +153,7 @@ class DesktopSaverStateFocusTests(unittest.TestCase):
         self.assertIsNotNone(serial)
         self.assertCountEqual(
             ["inputs.profile == '" + profile + "'" for profile in (
-                "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", "webview-request-state")],
+                "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", "webview-request-state", "webview-offline-destination")],
             serial.group(1).split(" || "))
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertNotIn("packages: write", workflow)

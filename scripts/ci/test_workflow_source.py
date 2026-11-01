@@ -152,7 +152,7 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertCountEqual(
             ["inputs.profile == '" + profile + "'" for profile in (
                 "navigation-geo-matrix", "browser-coil-io", "picker-saver-state",
-                "webview-request-state", "webview-content-transitions")],
+                "webview-request-state", "webview-content-transitions", "webview-offline-destination")],
             serial.group(1).split(" || "))
         self.assertIn("fail-fast: false", source)
         self.assertEqual(4, len(workflow_matrix.matrix("navigation-geo-matrix")["include"]))

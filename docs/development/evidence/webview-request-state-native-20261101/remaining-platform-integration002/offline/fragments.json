@@ -1,0 +1,162 @@
+{
+  "catalogue_paths": {
+    ".github/workflows/gradle.yml": {
+      "postimage_bytes": 52954,
+      "postimage_sha256": "f76825fd315d74bfebe6dedea2bba14db6e14aadb62785977c5d017096901b75",
+      "preimage_bytes": 52874,
+      "preimage_sha256": "9eae7881b4307fa1824435a51c80f7fa53e626c77ac4f2dd7362587d8832f599"
+    },
+    "scripts/ci/library_tests.py": {
+      "postimage_bytes": 284479,
+      "postimage_sha256": "75adafc051262ca7ac1b61932e0629c278ff83134efa89fefcebcbeb5c978a21",
+      "preimage_bytes": 279300,
+      "preimage_sha256": "0a2510c07ad48bf10789c507366639e51bacfb23e7cabf7d23bb4ec6a9c080df"
+    },
+    "scripts/ci/test_desktop_saver_state_focus.py": {
+      "postimage_bytes": 12138,
+      "postimage_sha256": "7ce5a355da461b25adf7595240ec4648d68bba4c35babe189a90896c07dfbdef",
+      "preimage_bytes": 12107,
+      "preimage_sha256": "3d4f5080083cff9c260b92e0af35ffea12c3965569f9f89a12251c4ef1c8bf19"
+    },
+    "scripts/ci/test_webview_request_focus.py": {
+      "postimage_bytes": 22884,
+      "postimage_sha256": "d35156023b60896bb37f88713422d97d04a2c409efd62902365763927bed8223",
+      "preimage_bytes": 22853,
+      "preimage_sha256": "1a1cd5997bf0a4544c99d0b2ef4e72ca6e74aafb98e7fc4a7fbcb80a6640c030"
+    },
+    "scripts/ci/test_workflow_source.py": {
+      "postimage_bytes": 10307,
+      "postimage_sha256": "1a1a0410f6ab4e469b6ba04551b7247ec866b17d9f671fae8eb10db3528e0cc2",
+      "preimage_bytes": 10276,
+      "preimage_sha256": "b36add03a202f40ea91111b1789fc09d18bb672ce9a2a8203f261f2cb0ea54a7"
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "postimage_bytes": 34082,
+      "postimage_sha256": "6090d1cbde4f6928db5d8877835bc5c15a490e2cf42f804abd3130d98b5a1981",
+      "preimage_bytes": 33820,
+      "preimage_sha256": "4dbe3ca591338c672888b815152d48936b2bf5b33f81c12c8e7fe64241a97cad"
+    }
+  },
+  "compiled_or_executed": false,
+  "focus": "webview-browser-offline-destination",
+  "fragments": [
+    {
+      "name": "offline constants and exact target identity inventory",
+      "new": "WEBVIEW_OFFLINE_FOCUS = \"webview-browser-offline-destination\"\nWEBVIEW_OFFLINE_CLASS = \"com.mohamedrejeb.calf.ui.web.BrowserWebViewOfflineDestinationAcceptanceTest\"\nWEBVIEW_OFFLINE_METHOD = \"previouslyReachableOwnedDestinationBecomesOfflineWithoutStoppingKarmaOrRetainingRequestState\"\nWEBVIEW_OFFLINE_SOURCE = \"calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt\"\nWEBVIEW_OFFLINE_SOURCE_SHA256 = \"3e58d2a06a083c66ba4ce04071bca3f37bb96a21f45a1fbad212b01166c8d885\"\nWEBVIEW_OFFLINE_FIXTURE = \"calf-webview/karma.config.d/nativecmpkit-offline-fixture.js\"\nWEBVIEW_OFFLINE_FIXTURE_SHA256 = \"176fed5c2c7661cd4a0b9ad9171d156ac1fc43f4922c0e947d2040d6b57f8111\"\n\n\ndef webview_offline_identities() -> list[dict]:\n    return [{\"classname\": WEBVIEW_OFFLINE_CLASS, \"name\": WEBVIEW_OFFLINE_METHOD}]\n\n\ndef webview_offline_case_inventory(suite: str, cases: list[dict]) -> bool:\n    if suite not in {\"js\", \"wasm\"} or len(cases) != 1:\n        return False\n    target = \"js\" if suite == \"js\" else \"wasmJs\"\n    case, = cases\n    return (case[\"classname\"] == SUITES[suite][0] + \".\" + WEBVIEW_OFFLINE_CLASS and\n            re.fullmatch(re.escape(WEBVIEW_OFFLINE_METHOD) + r\"\\[\" + re.escape(target) +\n                         r\", browser, [^\\[\\]\\r\\n]+\\]\", case[\"name\"]) is not None)\n\n\nWEBVIEW_DESKTOP_REQUEST_FOCUS = \"webview-desktop-request-state\"\n",
+      "old": "WEBVIEW_DESKTOP_REQUEST_FOCUS = \"webview-desktop-request-state\"\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline focus is JS/Wasm calf-webview only",
+      "new": "            (focus == WEBVIEW_REQUEST_FOCUS and suite in {\"js\", \"wasm\"} and modules == (WEBVIEW_REQUEST_MODULE,)) or\n            (focus == WEBVIEW_OFFLINE_FOCUS and suite in {\"js\", \"wasm\"} and modules == (\"calf-webview\",)) or\n",
+      "old": "            (focus == WEBVIEW_REQUEST_FOCUS and suite in {\"js\", \"wasm\"} and modules == (WEBVIEW_REQUEST_MODULE,)) or\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline source-bound single-method plan",
+      "new": "    elif focus == WEBVIEW_OFFLINE_FOCUS:\n        if (WEBVIEW_OFFLINE_SOURCE not in selected[0][\"test_source_files\"] or\n                sha256(safe_path(root, WEBVIEW_OFFLINE_SOURCE)) != WEBVIEW_OFFLINE_SOURCE_SHA256 or\n                sha256(safe_path(root, WEBVIEW_OFFLINE_FIXTURE)) != WEBVIEW_OFFLINE_FIXTURE_SHA256):\n            raise ValueError(\"Browser offline-destination owning source/fixture changed; review the exact native method\")\n        result[\"explicit_test_focus\"] = focus\n        selected[0][\"test_filter\"] = WEBVIEW_OFFLINE_CLASS + \".\" + WEBVIEW_OFFLINE_METHOD\n        selected[0][\"required_testcases\"] = webview_offline_identities()\n        selected[0][\"test_source_files\"] = [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE]\n        selected[0][\"test_source_sets\"] = [\"webTest\"]\n        selected[0][\"test_source_sha256\"] = {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,\n                                              WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256}\n        selected[0][\"browser_http_fixture\"] = WEBVIEW_OFFLINE_FIXTURE\n        result[\"scope\"] = \"One new public Compose browser method only: actual previously reachable leased loopback destination becomes unreachable after its exact listener closes; exact-port native ECONNREFUSED plus trusted Karma controls/native callbacks/metadata and inline recovery. Accepted request/content methods are not selected or replayed. No system-offline/DNS/TLS, fabricated iframe errors, reliable iframe-error reporting, other engine/target, full-suite, consumer/ABI/security/release claim.\"\n    elif focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "old": "    elif focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline refuses altered plan fields and full-suite claims",
+      "new": "\n    if focus == WEBVIEW_OFFLINE_FOCUS:\n        suite = test_plan[\"suite\"]\n        if (not allowed_test_focus(suite, tuple(test_plan[\"explicit_module_subset\"]), focus) or\n                test_plan[\"complete_suite_requested\"] is not False or len(expected) != 1 or\n                expected[0][\"module\"] != \"calf-webview\" or expected[0].get(\"project\") != \":calf-webview\" or\n                expected[0][\"task\"] != \":calf-webview:\" + SUITES[suite][0] or\n                expected[0].get(\"report_directory\") != \"calf-webview/build/test-results/\" + SUITES[suite][0] or\n                expected[0].get(\"test_filter\") != WEBVIEW_OFFLINE_CLASS + \".\" + WEBVIEW_OFFLINE_METHOD or\n                expected[0].get(\"required_testcases\") != webview_offline_identities() or\n                expected[0].get(\"test_source_files\") != [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE] or\n                expected[0].get(\"test_source_sets\") != [\"webTest\"] or\n                expected[0].get(\"test_source_sha256\") != {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,\n                                                       WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256} or\n                expected[0].get(\"browser_http_fixture\") != WEBVIEW_OFFLINE_FIXTURE or\n                test_plan.get(\"inherited_test_source_sets\") != list(SUITES[suite][1])):\n            raise ValueError(\"Invalid finite browser offline-destination source/fixture/selection plan\")\n        return True\n\n    if focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "old": "\n    if focus == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline exact fresh single-report result inventory",
+      "new": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == WEBVIEW_OFFLINE_FOCUS:\n            policy_errors = ([] if webview_offline_case_inventory(test_plan[\"suite\"], module_cases) and\n                             len(reports) == 1 and len(paths) == 1 else\n                             [\"Browser offline-destination XML must contain exactly the new method in one fresh target report; no accepted/foreign/duplicate methods\"])\n            scenarios = [{**c, \"source\": WEBVIEW_OFFLINE_SOURCE, \"required_on_host\": True,\n                          \"disposition\": \"required-executed\" if c[\"status\"] == \"passed\" else \"required-not-passed\"}\n                         for c in module_cases]\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "old": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == WEBVIEW_DESKTOP_REQUEST_FOCUS:\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline finite parser choice",
+      "new": "                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, WEBVIEW_DESKTOP_REQUEST_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,\n",
+      "old": "                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_FOCUS, *WEBVIEW_IDENTITY_FOCUSES,\n",
+      "path": "scripts/ci/library_tests.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline exact two browser slots",
+      "new": "    \"webview-request-state\": (\"browser-js\", \"browser-wasm\"),\n    \"webview-offline-destination\": (\"browser-js\", \"browser-wasm\"),\n",
+      "old": "    \"webview-request-state\": (\"browser-js\", \"browser-wasm\"),\n",
+      "path": "scripts/ci/workflow_matrix.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline exact module subset",
+      "new": "    \"webview-request-state\": \"calf-webview\",\n    \"webview-offline-destination\": \"calf-webview\",\n",
+      "old": "    \"webview-request-state\": \"calf-webview\",\n",
+      "path": "scripts/ci/workflow_matrix.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline profile carries only its new focus",
+      "new": "    if profile == \"webview-request-state\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-browser-request-state\"\n    if profile == \"webview-offline-destination\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-browser-offline-destination\"\n",
+      "old": "    if profile == \"webview-request-state\":\n        for row in rows:\n            row[\"test-focus\"] = \"webview-browser-request-state\"\n",
+      "path": "scripts/ci/workflow_matrix.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline additive workflow choice",
+      "new": "webview-request-state, webview-offline-destination, webview-desktop-request-state,",
+      "old": "webview-request-state, webview-desktop-request-state,",
+      "path": ".github/workflows/gradle.yml",
+      "required_occurrences": 1
+    },
+    {
+      "name": "offline adds only one approved serial clause, retains old tail",
+      "new": "|| inputs.profile == 'webview-offline-destination' || inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions'",
+      "old": "|| inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions'",
+      "path": ".github/workflows/gradle.yml",
+      "required_occurrences": 1
+    },
+    {
+      "name": "affected workflow serialization membership guard only",
+      "new": "                \"webview-request-state\", \"webview-content-transitions\", \"webview-offline-destination\")],\n",
+      "old": "                \"webview-request-state\", \"webview-content-transitions\")],\n",
+      "path": "scripts/ci/test_workflow_source.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "affected saver serialization membership guard only",
+      "new": "                \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", \"webview-request-state\", \"webview-offline-destination\")],\n",
+      "old": "                \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", \"webview-request-state\")],\n",
+      "path": "scripts/ci/test_desktop_saver_state_focus.py",
+      "required_occurrences": 1
+    },
+    {
+      "name": "affected accepted request serialization membership guard only",
+      "new": "            \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", PROFILE, \"webview-offline-destination\")],\n",
+      "old": "            \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", PROFILE)],\n",
+      "path": "scripts/ci/test_webview_request_focus.py",
+      "required_occurrences": 1
+    }
+  ],
+  "future_JS_Wasm_target_selections": 2,
+  "live_source_changed": false,
+  "native_methods": 1,
+  "new_files": {
+    "calf-webview/karma.config.d/nativecmpkit-offline-fixture.js": {
+      "bytes": 12078,
+      "sha256": "176fed5c2c7661cd4a0b9ad9171d156ac1fc43f4922c0e947d2040d6b57f8111"
+    },
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt": {
+      "bytes": 16305,
+      "sha256": "3e58d2a06a083c66ba4ce04071bca3f37bb96a21f45a1fbad212b01166c8d885"
+    },
+    "scripts/ci/test_browser_offline_destination_focus.py": {
+      "bytes": 22038,
+      "sha256": "408f16cbc8d97da5bf3072c219f452dbf8f9cd57f62ae56f6558beaf7a7e05eb"
+    }
+  },
+  "private_preparation_only": true,
+  "profile": "webview-offline-destination",
+  "schema_version": 1
+}

@@ -1,0 +1,59 @@
+{
+  "accepted_original_criterion": "#102.C3",
+  "accepted_subset_only": true,
+  "actual_helper_policy": {
+    "all_files_and_sms_absent": true,
+    "certificate_sha256": "75cf056d7b093b72b1f7c9d9cc3aab7219baa430bbfd428507dfbdbfac2937e8",
+    "compiled_manifest_inspected": true,
+    "dedicated_call_variant": true,
+    "manifest_sha256": "c97747196031b37612f2dfac96693a9f009962e8884cba59f7deb7649d0abe95",
+    "private_key_certificate_sha256": "75cf056d7b093b72b1f7c9d9cc3aab7219baa430bbfd428507dfbdbfac2937e8",
+    "raw_manifest_certificate_key_or_paths_uploaded": false,
+    "separate_uid_manifest": true,
+    "signature_control_only": true,
+    "signature_verification_max_sdk_version": 35,
+    "signature_verification_min_sdk_version": 35
+  },
+  "actual_source_and_installed_APK_sha256": "7d2838e10b376a939230f73749b581bdc72a659f4b99c7f2a27e61ac42d34e45",
+  "automatic_runtime_permission_grant": false,
+  "manual_URI_grant": false,
+  "method": {
+    "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+    "name": "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+    "status": "passed"
+  },
+  "native_assertions_completed": [
+    {
+      "proof": "Exact reporter/package signature control, fresh firstInstallTime==lastUpdateTime, distinct consumer UID/PID, declared forbidden permissions absent, typed nonce/native response, stable process/generation and no probeError.",
+      "source": "OwnedPermissionDemo.kt:35-43,84-101,109-159"
+    },
+    {
+      "proof": "Media image/video initially and finally denied; MANAGE_EXTERNAL_STORAGE and unrelated SMS declarations absent; real document and image operations each yield exactly one content URI, equal owned seed hash/bytes and source preservation; activeReads0 and owned seed count2.",
+      "source": "AndroidPermissionDemoDeviceTest.kt:87-109,121-129"
+    },
+    {
+      "proof": "Actual native DocumentsUI exact nonce-owned document and system Photo Picker thumbnail selected through bounded visible unambiguous native controls/system-package checks; no Activity monitor/result injection/coordinates/manual grant.",
+      "source": "PermissionDemoSystemUi.kt:29,31-34,47-89"
+    },
+    {
+      "proof": "Public rememberFilePickerLauncher and KmpFile bounded readByteArray(maxBytes65536); app-owned nonce-seeded MediaStore document/image records, exact owner/name/bytes/hash checked before and after use.",
+      "source": "PermissionDemoActivity.kt:77-88,130-132,174-251"
+    },
+    {
+      "proof": "Passing teardown requires no active read, exact-owned seed row validation/deletion count1, Activity finished/absent, cleanup errors refused through native response, Binder unbound and reporter thread gracefully closed; UI accessibility flags restored.",
+      "source": "AndroidPermissionDemoDeviceTest.kt:30-33; OwnedPermissionDemo.kt:174-192; PermissionDemoActivity.kt:104-117,265-313; PermissionDemoService.kt:30-40"
+    }
+  ],
+  "original_XML_sha256": "2e0f612b1599c6775e56ad85d287c02d6c5e3629d32527e5e5e042dbcfeb6f33",
+  "owned_app_emulator_ADB_cleanup_verified": true,
+  "picker_replay_authorized": false,
+  "proof_basis": "Full original passing testcase, including JUnit before/after lifecycle, correlated to exact immutable source and helper/controller receipts. Assertions are native test proof, not invented per-field runtime snapshots.",
+  "run_id": 41268194715,
+  "scope_exclusions": [
+    "not Call grant acceptance",
+    "not denial/permanent-denial acceptance",
+    "not API33/34 media selection",
+    "not API35 storage permission matrix",
+    "not sample/Maven packaged consumer, physical/minimum/ABI/security/release acceptance"
+  ]
+}

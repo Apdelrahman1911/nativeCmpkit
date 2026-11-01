@@ -974,10 +974,19 @@ def sign_owned_debug_profile_application(root: Path, app: Path, focus: str, deta
         details["owned_entitlement_input_removed"] = True
 
 
-def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None) -> dict:
+def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | None = None,
+        appinfo_shape_only: bool = False) -> dict:
     if platform.system() != "Darwin" or platform.machine().lower() != "arm64":
         raise ValueError("Genuine UIKit application execution requires the actual macOS Arm64 host")
-    focus = application_test_focus(arguments, image_diagnostics)
+    if type(appinfo_shape_only) is not bool:
+        raise ValueError("The internal SDK prerequisite selector must be an exact boolean")
+    if appinfo_shape_only:
+        if (binary_relative != EXPECTED_BINARY_DIRECTORY + "/application.kexe" or
+                type(arguments) is not list or arguments or image_diagnostics is not None):
+            raise ValueError("The SDK prerequisite owns only one ordinary calf-ui app and no native selection")
+        focus = None
+    else:
+        focus = application_test_focus(arguments, image_diagnostics)
     host = application_host(binary_relative, focus)
     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
     if not runtime.UUID.fullmatch(device):
@@ -1004,6 +1013,11 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
                "steps": {}, "cleanup": {}, "application_protocol": None}
+    if appinfo_shape_only:
+        receipt.update(sdk_prerequisite_only=True, sdk_signing_mode="ordinary-adhoc",
+                       native_launch_attempted=False, native_tests_executed=0,
+                       operation="owned-install-appinfo-shape-sdk-prerequisite",
+                       scope="SDK lexical prerequisite only. No native test/launch/Worker/WK/profile execution or mandatory-test waiver.")
     if focus in lt.IOS_IMAGE_DARWIN_FOCUSES:
         receipt.update(image_diagnostics_mode="darwin-tools", strict_runtime_assertions_attested=False)
     app = output / "NativeCmpkitLibraryTests.app"
@@ -1015,7 +1029,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     appearance_driver = None
     image_profile_driver = None
     request_fixture = None
-    request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS)
+    request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)
     native_environment = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
@@ -1065,6 +1079,25 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
+        if appinfo_shape_only:
+            import apple_appinfo_shape as appinfo_shape
+            import apple_appinfo_shape_route as appinfo_route
+            phase = "observe-owned-installed-appinfo-shape-only"
+            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,
+                before["source_revision"], signed_hash, plist_hash, before, preexisting, result, container)
+            receipt["appinfo_shape_prerequisite"] = appinfo_route.observe_owned_install(context)
+            phase = "post-sdk-prerequisite-runtime-and-binary"
+            after = runtime.capture(expected_arch="arm64", apple=True, device=device,
+                                    require_booted=True, require_clean=True)
+            receipt["runtime_after"] = after
+            receipt["binary_sha256_after"] = lt.sha256(binary)
+            if (before["source_revision"] != after["source_revision"] or before["simulator"] != after["simulator"] or
+                    before["host"] != after["host"] or before["xcode"] != after["xcode"] or
+                    receipt["binary_sha256_after"] != binary_hash):
+                raise ValueError("Selected device/source/linked binary changed during the SDK prerequisite")
+            # Return through the original finally. Never fall through to launch,
+            # Worker, WK/profile preparation, transport pass or native test output.
+            return receipt
         if request_fixture_requested:
             import ios_webview_request_fixture as wk_requests
             phase = "prepare-owned-localhost-wk-request-fixture"

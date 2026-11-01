@@ -445,8 +445,39 @@ class OwnedFreshGuest:
                 continue
             # A supplied mutable path must be explicit and confined. No guessed
             # resolution of an unknown relative path or broad key whitelist.
-            require(Path(value).is_absolute() and Path(value).is_relative_to(directory) and
-                    ".." not in Path(value).parts, "Actual supplied mutable path confinement is unproved")
+            try:
+                require(Path(value).is_absolute() and Path(value).is_relative_to(directory) and
+                        ".." not in Path(value).parts, "Actual supplied mutable path confinement is unproved")
+            except ValueError:
+                try:
+                    def observed_boolean(probe):
+                        try:
+                            observed = probe()
+                        except (Exception, KeyboardInterrupt):
+                            return None
+                        return observed if type(observed) is bool else None
+
+                    key_lower = key.lower()
+                    self.receipt["mutable_path_refusal"] = {
+                        "schema_version": 1,
+                        "observation_phase": "after-refusal",
+                        "key_is_skin_path": key == "skin.path",
+                        "key_has_disk_prefix": key.startswith("disk."),
+                        "key_has_hw_prefix": key.startswith("hw."),
+                        "key_has_snapshot_prefix": key.startswith("snapshot."),
+                        "key_contains_path": "path" in key_lower,
+                        "key_ends_dir": key_lower.endswith(".dir"),
+                        "key_ends_file": key_lower.endswith(".file"),
+                        "key_ends_filename": key_lower.endswith(".filename"),
+                        "is_absolute": observed_boolean(lambda: Path(value).is_absolute()),
+                        "is_relative_to_owned_avd": observed_boolean(lambda: Path(value).is_relative_to(directory)),
+                        "has_no_parent_component": observed_boolean(lambda: ".." not in Path(value).parts),
+                        "native_success_inferred": False,
+                    }
+                    self.journal.write(self.receipt)
+                except (Exception, KeyboardInterrupt):
+                    pass  # Observation must never mask the original confinement refusal.
+                raise
             descriptor = open_directory(Path(value).parent)
             os.close(descriptor)
             try:

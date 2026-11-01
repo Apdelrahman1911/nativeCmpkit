@@ -1,0 +1,410 @@
+{
+  "artifacts": [
+    {
+      "created_at": "2026-11-01T03:14:52Z",
+      "digest": "sha256:fc4e0da863a906af06a202eb121bcbef962ce6cefc3b8cc58e4d56ac542847c7",
+      "expired": false,
+      "id": 13068113535,
+      "name": "library-evidence-android-device-api35",
+      "size_in_bytes": 116011,
+      "updated_at": "2026-11-01T03:14:52Z",
+      "workflow_run": {
+        "head_branch": "development/preview-hardening",
+        "head_repository_id": 1432293151,
+        "head_sha": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+        "id": 41268143920,
+        "repository_id": 1432293151
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "completed_at": "2026-11-01T03:13:32Z",
+      "conclusion": "success",
+      "id": 124735164306,
+      "name": "tooling",
+      "started_at": "2026-11-01T03:11:17Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completed_at": "2026-11-01T03:11:19Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "started_at": "2026-11-01T03:11:18Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:11:28Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "started_at": "2026-11-01T03:11:19Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:11:43Z",
+          "conclusion": "success",
+          "name": "Verify complete history, audit and current development indexes",
+          "number": 3,
+          "started_at": "2026-11-01T03:11:28Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:28Z",
+          "conclusion": "success",
+          "name": "Offline verification-tool adversarial fixtures (not library passes)",
+          "number": 4,
+          "started_at": "2026-11-01T03:11:43Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:29Z",
+          "conclusion": "success",
+          "name": "Select only the requested verification profile",
+          "number": 5,
+          "started_at": "2026-11-01T03:13:28Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:29Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 10,
+          "started_at": "2026-11-01T03:13:29Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:29Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 11,
+          "started_at": "2026-11-01T03:13:29Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "completed_at": "2026-11-01T03:14:55Z",
+      "conclusion": "failure",
+      "id": 124735632899,
+      "name": "library-tests (android-device-api35, android-device, ubuntu-24.04, x64, python3, 35, calf-camera-...",
+      "started_at": "2026-11-01T03:13:34Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completed_at": "2026-11-01T03:13:38Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "started_at": "2026-11-01T03:13:35Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:47Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 2,
+          "started_at": "2026-11-01T03:13:38Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:47Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "number": 3,
+          "started_at": "2026-11-01T03:13:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:48Z",
+          "conclusion": "success",
+          "name": "Run gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6",
+          "number": 4,
+          "started_at": "2026-11-01T03:13:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:57Z",
+          "conclusion": "success",
+          "name": "Install the exact compiler using hosted-runner rustup (no bootstrap script)",
+          "number": 5,
+          "started_at": "2026-11-01T03:13:48Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:13:57Z",
+          "conclusion": "skipped",
+          "name": "Linux real UI/native prerequisites",
+          "number": 6,
+          "started_at": "2026-11-01T03:13:57Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:43Z",
+          "conclusion": "success",
+          "name": "Provision SDK on every actual host, including Apple and Windows",
+          "number": 7,
+          "started_at": "2026-11-01T03:13:57Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:43Z",
+          "conclusion": "success",
+          "name": "Select the installed official SDK23 command-line tools",
+          "number": 8,
+          "started_at": "2026-11-01T03:14:43Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:43Z",
+          "conclusion": "skipped",
+          "name": "Select the explicit real Chromium binary",
+          "number": 9,
+          "started_at": "2026-11-01T03:14:43Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:45Z",
+          "conclusion": "success",
+          "name": "Give only this ephemeral runner user the required KVM access",
+          "number": 10,
+          "started_at": "2026-11-01T03:14:43Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:46Z",
+          "conclusion": "success",
+          "name": "Record actual architecture, compiler, SDK and selected simulator",
+          "number": 11,
+          "started_at": "2026-11-01T03:14:45Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:46Z",
+          "conclusion": "success",
+          "name": "Record exact configured dependency inputs, not source commits or archives",
+          "number": 12,
+          "started_at": "2026-11-01T03:14:46Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:47Z",
+          "conclusion": "success",
+          "name": "Explicit dependency/compiler/runtime/slot-keyed cache",
+          "number": 13,
+          "started_at": "2026-11-01T03:14:46Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:47Z",
+          "conclusion": "success",
+          "name": "Validate restored library cache without trusting or deleting its contents",
+          "number": 14,
+          "started_at": "2026-11-01T03:14:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:47Z",
+          "conclusion": "success",
+          "name": "Source-set-aware expected library tests (never samples)",
+          "number": 15,
+          "started_at": "2026-11-01T03:14:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:47Z",
+          "conclusion": "skipped",
+          "name": "Related real JVM/JNI path tests (no native packages uploaded)",
+          "number": 16,
+          "started_at": "2026-11-01T03:14:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "failure",
+          "name": "Fresh actual library suite with strict nonzero receipts",
+          "number": 17,
+          "started_at": "2026-11-01T03:14:47Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Independent minimum-API camera provider verification (same host, fresh AVD and XML)",
+          "number": 18,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Preserve first fresh XML before the related same-host recovery",
+          "number": 19,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Record and boot the second distinct actual native screen",
+          "number": 20,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Independent related native subset; reuse unchanged compilation only",
+          "number": 21,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Preserve second fresh XML and exact independent result",
+          "number": 22,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "skipped",
+          "name": "Require both unresampled actual native screen resolutions",
+          "number": 23,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:50Z",
+          "conclusion": "success",
+          "name": "Show bounded failure diagnostics from public library fixtures",
+          "number": 24,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:51Z",
+          "conclusion": "success",
+          "name": "Recheck exact dependency recipe and known candidate absence after library work",
+          "number": 25,
+          "started_at": "2026-11-01T03:14:50Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:51Z",
+          "conclusion": "success",
+          "name": "Save checked registry dependencies even when library tests fail",
+          "number": 26,
+          "started_at": "2026-11-01T03:14:51Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:52Z",
+          "conclusion": "success",
+          "name": "Keep receipts and actual selected-task XML only; never packages",
+          "number": 27,
+          "started_at": "2026-11-01T03:14:51Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:52Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961",
+          "number": 53,
+          "started_at": "2026-11-01T03:14:52Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:53Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "number": 54,
+          "started_at": "2026-11-01T03:14:52Z",
+          "status": "completed"
+        },
+        {
+          "completed_at": "2026-11-01T03:14:53Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 55,
+          "started_at": "2026-11-01T03:14:53Z",
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "completed_at": "2026-11-01T03:13:32Z",
+      "conclusion": "skipped",
+      "id": 124735633654,
+      "name": "webview-consumer",
+      "started_at": "2026-11-01T03:13:32Z",
+      "status": "completed",
+      "steps": []
+    },
+    {
+      "completed_at": "2026-11-01T03:13:32Z",
+      "conclusion": "skipped",
+      "id": 124735633729,
+      "name": "apple-appinfo-capability",
+      "started_at": "2026-11-01T03:13:32Z",
+      "status": "completed",
+      "steps": []
+    },
+    {
+      "completed_at": "2026-11-01T03:13:32Z",
+      "conclusion": "skipped",
+      "id": 124735633732,
+      "name": "sample-platforms",
+      "started_at": "2026-11-01T03:13:32Z",
+      "status": "completed",
+      "steps": []
+    },
+    {
+      "completed_at": "2026-11-01T03:13:32Z",
+      "conclusion": "skipped",
+      "id": 124735634254,
+      "name": "consumer-core-io",
+      "started_at": "2026-11-01T03:13:33Z",
+      "status": "completed",
+      "steps": []
+    }
+  ],
+  "projection_excludes_actor_machine_paths_environment_and_transcript": true,
+  "raw_metadata_original_hashes": [
+    {
+      "bytes": 13476,
+      "name": "latest-run.json",
+      "sha256": "51953a5dd891dd47ae03b1826bc33606bf437f42228135c15bcf3818ee627f91"
+    },
+    {
+      "bytes": 13057,
+      "name": "jobs-terminal.json",
+      "sha256": "e9261d2eb62a3395f21a3636770cc4dabda8851e196d93534a2f11752d16d490"
+    },
+    {
+      "bytes": 778,
+      "name": "artifacts-terminal.json",
+      "sha256": "d00395b9c702d3c6911d00ce5d76cc9176c057aefc6e8c3c0771d5c26354d6d2"
+    }
+  ],
+  "run": {
+    "conclusion": "failure",
+    "created_at": "2026-11-01T03:11:14Z",
+    "display_title": "nativeCmpkit verification",
+    "event": "workflow_dispatch",
+    "head_sha": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+    "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41268143920",
+    "id": 41268143920,
+    "name": "NativeCmpKit verification",
+    "path": ".github/workflows/gradle.yml",
+    "run_attempt": 1,
+    "run_number": 207,
+    "run_started_at": "2026-11-01T03:11:14Z",
+    "status": "completed",
+    "updated_at": "2026-11-01T03:14:55Z",
+    "workflow_id": 395188384
+  },
+  "schema": "nativecmpkit-camera-actual-github-readback-v1"
+}

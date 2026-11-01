@@ -1,0 +1,45 @@
+{
+  "kind": "independent-function-path-applicability-not-new-runtime",
+  "reviewed_current_commit": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+  "accepted_evidence": [
+    {
+      "run": 40596231788,
+      "revision": "4fb7d886",
+      "original_javafx_xml_sha256": "e3dc441503360d9a1f2adc9d8aae7b598c16cf7b4cdcba774b53b76b22cd9ec8",
+      "source_map_inputs": 734,
+      "stop_methods_passed": 2
+    },
+    {
+      "run": 40612584807,
+      "revision": "8b5ce088",
+      "original_javafx_xml_sha256": "d4cfa7f3d659681cf5158fa1131973e2100306f5998d12a86d39becf349264f9",
+      "source_map_inputs": 741,
+      "stop_methods_passed": 2
+    }
+  ],
+  "byte_identical_methods": {
+    "stopCancelsRealSlowLoadWithoutFeedbackLoop": "65da17f57d004bce64e8790dfbb96f560275b30b7656dcf00c7ddbd88cb8cb2a",
+    "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad": "e90d2a6a0e7a8a372aea4124b2b52e8d5b570535ea5610597a266078929f22ac"
+  },
+  "reuse": "Linux x64 native cancellation/no-feedback/collector-detach-and-reattach subset only",
+  "source_path_applicability_not_whole_file_equality": true,
+  "changed_settings_application_does_not_change_unmutated_default_settings_or_stop_dispatch": true,
+  "current_atomic_handle_does_not_change_fx_confined_owner_native_stop_dispatch": true,
+  "unchanged_owner_and_common_functions": [
+    "creation/listener installation",
+    "load/loadNow/navigate",
+    "disposal/release",
+    "enqueue/exclusive consumer/Stop dispatch",
+    "beginRequest/content acceptance/cleanup"
+  ],
+  "forbidden_inference": [
+    "Stop-specific title/error metadata",
+    "public Compose disposal or GC",
+    "native-owner replacement",
+    "other hosts",
+    "current-runtime certification"
+  ],
+  "four_host_redirect_reload_reuse_untouched": true,
+  "new_tests_or_builds_native_API_executions": 0,
+  "issue64_closed": false
+}

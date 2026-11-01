@@ -1,0 +1,606 @@
+{
+  "baseline_advisory": {
+    "current21_0_13_outside_this_retained_range": true,
+    "cve": "CVE-2024-20925",
+    "cvss31": "3.1",
+    "details": "Vulnerability in the Oracle Java SE, Oracle GraalVM Enterprise Edition product of Oracle Java SE (component: JavaFX).  Supported versions that are affected are Oracle Java SE: 8u391; Oracle GraalVM Enterprise Edition: 20.3.12 and  21.3.8. Difficult to exploit vulnerability allows unauthenticated attacker with network access via multiple protocols to compromise Oracle Java SE, Oracle GraalVM Enterprise Edition.  Successful attacks require human interaction from a person other than the attacker. Successful attacks of this vulnerability can result in  unauthorized update, insert or delete access to some of Oracle Java SE, Oracle GraalVM Enterprise Edition accessible data. Note: This vulnerability applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. This vulnerability does not apply to Java deployments, typically in servers, that load and run only trusted code (e.g., code installed by an administrator). CVSS 3.1 Base Score 3.1 (Integrity impacts).  CVSS Vector: (CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:L/A:N).",
+    "fixed_21_branch_minimum": "21.0.2",
+    "id": "GHSA-47g3-mf24-6559",
+    "not_proof_of_current_complete_advisory_status": true,
+    "old_version19_explicitly_affected": true,
+    "severity": "LOW"
+  },
+  "candidate": {
+    "already_current": true,
+    "later_stable_21_available": false,
+    "not_using_global_EA_or_development21_0_14": true,
+    "source_or_repository_test_delta": [],
+    "source_version_update_justified": false,
+    "version": "21.0.13"
+  },
+  "current_disposition": "partially-verified",
+  "current_pin": "21.0.13",
+  "current_source_lines": {
+    "calf-webview/build.gradle.kts": [
+      {
+        "line": 12,
+        "public_source": "val javaFx = project.javaFxDependencies()"
+      },
+      {
+        "line": 96,
+        "public_source": "// Applications must supply their explicitly selected JavaFX 21 runtime."
+      },
+      {
+        "line": 97,
+        "public_source": "javaFx.forEach { compileOnly(it) }"
+      }
+    ],
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt": [
+      {
+        "line": 11,
+        "public_source": "var javaScriptEnabled: Boolean = false"
+      },
+      {
+        "line": 32,
+        "public_source": "var browserSandboxPolicy: BrowserSandboxPolicy = BrowserSandboxPolicy.Isolated"
+      },
+      {
+        "line": 259,
+        "public_source": "enum class BrowserSandboxPolicy { Isolated, Trusted }"
+      }
+    ],
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": [
+      {
+        "line": 30,
+        "public_source": "* The host supplies matching JavaFX 21 runtime modules/classifiers. JavaFX startup is deferred to"
+      },
+      {
+        "line": 44,
+        "public_source": "\"Desktop WebView needs a graphical session and matching JavaFX 21 base/graphics/controls/\" +"
+      },
+      {
+        "line": 197,
+        "public_source": "{ view.engine.load(null) }, // Release document/media, even if a prior cleanup stage fails."
+      },
+      {
+        "line": 248,
+        "public_source": "is WebContent.Url -> view.engine.load(content.url)"
+      },
+      {
+        "line": 275,
+        "public_source": "else runCatching { view.engine.executeScript(script) }"
+      }
+    ],
+    "convention-plugins/src/main/kotlin/DesktopJavaFx.kt": [
+      {
+        "line": 9,
+        "public_source": "fun Project.javaFxDependencies(): List<String> {"
+      },
+      {
+        "line": 10,
+        "public_source": "val os = System.getProperty(\"os.name\").lowercase()"
+      },
+      {
+        "line": 11,
+        "public_source": "val arch = System.getProperty(\"os.arch\").lowercase()"
+      },
+      {
+        "line": 16,
+        "public_source": "os.contains(\"linux\") && arm64 -> \"linux-aarch64\""
+      },
+      {
+        "line": 18,
+        "public_source": "os.contains(\"mac\") && arm64 -> \"mac-aarch64\""
+      },
+      {
+        "line": 21,
+        "public_source": "\"Supported: Linux x64/arm64, macOS x64/arm64, Windows x64; no classifier fallback.\")"
+      },
+      {
+        "line": 23,
+        "public_source": "val version = the<LibrariesForLibs>().versions.javafx.get()"
+      },
+      {
+        "line": 24,
+        "public_source": "return listOf(\"base\", \"graphics\", \"controls\", \"media\", \"web\", \"swing\")"
+      }
+    ]
+  },
+  "declared_desktop_native_methods_not_executed": [
+    {
+      "methods": [
+        "customGlobalHandlerIsNeverReplacedEvenByReads",
+        "realJdkStoreAppliesPathAndSecureAndHostOnlyScope",
+        "absoluteExpiryDoesNotDriftWithReadTime",
+        "roundTripToAnotherRealJdkStorePreservesTheAbsoluteExpiry",
+        "sessionPastAndSubsecondExpiryNeverInventOrExtendApiLifetime",
+        "supportedTimestampExtremesAreExactAndOverflowInputsFailBeforeMutation",
+        "foreignStoreMetadataIsUnknownRatherThanInvented",
+        "missingHandlerDoesNotInstallAnEmptyGlobalStore"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt"
+    },
+    {
+      "methods": [
+        "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner",
+        "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners",
+        "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt"
+    },
+    {
+      "methods": [
+        "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+        "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+        "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt"
+    },
+    {
+      "methods": [
+        "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
+    },
+    {
+      "methods": [
+        "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal",
+        "twoLibraryManagersConcurrentlyShareTheNativeJarAndActualEngineRequestsKeepEveryValue"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt"
+    },
+    {
+      "methods": [
+        "equalAssignmentsAndNestedBatchesBoundActualNativeApplications",
+        "aThousandCompletedUiNotificationsCoalesceOnTheActualBlockedFxQueue",
+        "aPendingFxApplyCannotObserveAnIncompleteAwtSettingsBatch"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt"
+    },
+    {
+      "methods": [
+        "actualHttpUserAgentChangesFromAToBAndNullRestoresTheNativeDefault",
+        "twoActualViewsKeepIndependentDefaultsAndResetOnlyTheirOwnRequestHeaders"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt"
+    },
+    {
+      "methods": [
+        "customUserAgentCanBeRestoredAndNativeStateIsReleased",
+        "javascriptUsesActualEngineAndTypedJsonResults",
+        "stopCancelsRealSlowLoadWithoutFeedbackLoop",
+        "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
+        "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent",
+        "disposalBeforeQueuedCreationCannotResurrectState",
+        "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError",
+        "throwingCreationCallbackReleasesActualEngineAndScene"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt"
+    }
+  ],
+  "fresh_work": {
+    "Git_network_or_local_operations": 0,
+    "builds": 0,
+    "issue_closure": false,
+    "live_edits": 0,
+    "native_tests": 0,
+    "new_JAR_or_native_downloads": 0,
+    "new_OSV_queries": 0,
+    "new_public_GETs": 17,
+    "source_derived_models_only": true
+  },
+  "literal_requirements": [
+    "Repeat OSV/advisory checks against the full resolved JVM graph",
+    "Regression-test media, TLS, cookies, navigation, JavaScript policy and rendering on all desktop hosts",
+    "Document whether sandboxed untrusted-code execution is supported"
+  ],
+  "observed_at_utc": "2026-11-01T02:39:43.491080+00:00",
+  "oracle_Java_SE_notes": {
+    "oracle-cpujan2024": [
+      "This vulnerability applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. This vulnerability does not apply to Java deployments, typically in servers, that load and run only trusted code (e.g., code installed by an administrator).",
+      "This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security.",
+      "This vulnerability can only be exploited by supplying data to APIs in the specified Component without using Untrusted Java Web Start applications or Untrusted Java applets, such as through a web service."
+    ],
+    "oracle-cpuoct2026": [
+      "This vulnerability applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security. This vulnerability does not apply to Java deployments, typically in servers, that load and run only trusted code (e.g., code installed by an administrator).",
+      "This vulnerability can be exploited by using APIs in the specified Component, e.g., through a web service which supplies data to the APIs. This vulnerability also applies to Java deployments, typically in clients running sandboxed Java Web Start applications or sandboxed Java applets, that load and run untrusted code (e.g., code that comes from the internet) and rely on the Java sandbox for security.",
+      "This vulnerability can only be exploited by supplying data to APIs in the specified Component without using Untrusted Java Web Start applications or Untrusted Java applets, such as through a web service."
+    ]
+  },
+  "oracle_javafx_risk_matrix_rows": {
+    "oracle-cpujan2024": [
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "Low",
+        "cve": "CVE-2024-20923",
+        "cvss31": "3.1",
+        "integrity": "None",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 8769,
+        "supported_versions_affected": "Oracle Java SE: 8u391; Oracle GraalVM Enterprise Edition: 20.3.12, 21.3.8",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "None",
+        "cve": "CVE-2024-20925",
+        "cvss31": "3.1",
+        "integrity": "Low",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 8788,
+        "supported_versions_affected": "Oracle Java SE: 8u391; Oracle GraalVM Enterprise Edition: 20.3.12, 21.3.8",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Local",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "None",
+        "cve": "CVE-2024-20922",
+        "cvss31": "2.5",
+        "integrity": "Low",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle GraalVM Enterprise Edition",
+        "protocol": "None",
+        "public_html_line": 8807,
+        "supported_versions_affected": "Oracle Java SE: 8u391; Oracle GraalVM Enterprise Edition: 20.3.12, 21.3.8",
+        "unauthenticated_remote": "No",
+        "user_interaction": "Required"
+      }
+    ],
+    "oracle-cpuoct2026": [
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "High",
+        "component": "JavaFX (WebKitGTK)",
+        "confidentiality": "High",
+        "cve": "CVE-2026-43660",
+        "cvss31": "7.5",
+        "integrity": "High",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX",
+        "protocol": "Multiple",
+        "public_html_line": 16011,
+        "supported_versions_affected": "Oracle Java SE: 8u503; Oracle JavaFX: 21.0.12, 25.0.4, 27",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "High",
+        "component": "JavaFX (WebKitGTK)",
+        "confidentiality": "None",
+        "cve": "CVE-2026-6732",
+        "cvss31": "5.9",
+        "integrity": "None",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 16314,
+        "supported_versions_affected": "Oracle Java SE: 8u503; Oracle JavaFX: 21.0.12, 25.0.4, 27;Oracle GraalVM Enterprise Edition: 21.3.19.1.1",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "None"
+      },
+      {
+        "attack_complexity": "Low",
+        "attack_vector": "Network",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "Low",
+        "cve": "CVE-2026-91385",
+        "cvss31": "5.4",
+        "integrity": "Low",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 16351,
+        "supported_versions_affected": "Oracle Java SE: 8u503; Oracle JavaFX: 21.0.12, 25.0.4, 27; Oracle GraalVM Enterprise Edition: 21.3.19.1.1",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "Low",
+        "attack_vector": "Network",
+        "availability": "Low",
+        "component": "ImageIO",
+        "confidentiality": "None",
+        "cve": "CVE-2026-91418",
+        "cvss31": "5.3",
+        "integrity": "None",
+        "notes": "See Note 2",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX, Oracle GraalVM for JDK, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 16598,
+        "supported_versions_affected": "Oracle Java SE: 8u503, 8u503-perf, 11.0.32.1, 17.0.20.1, 21.0.12.1, 25.0.4.1, 27; Oracle JavaFX: 21.0.12, 25.0.4, 27; Oracle GraalVM for JDK: 17.0.20.1, 21.0.12.1; Oracle GraalVM Enterprise Edition: 21.3.19.1.1",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "None"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "Low",
+        "component": "JavaFX (gstreamer)",
+        "confidentiality": "Low",
+        "cve": "CVE-2026-46470",
+        "cvss31": "4.2",
+        "integrity": "None",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX",
+        "protocol": "Multiple",
+        "public_html_line": 16731,
+        "supported_versions_affected": "Oracle Java SE: 8u503; Oracle JavaFX: 21.0.12, 25.0.4, 27",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "Low",
+        "cve": "CVE-2026-91402",
+        "cvss31": "3.1",
+        "integrity": "None",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle Java SE, Oracle JavaFX, Oracle GraalVM Enterprise Edition",
+        "protocol": "Multiple",
+        "public_html_line": 16978,
+        "supported_versions_affected": "Oracle Java SE: 8u503; Oracle JavaFX: 21.0.12, 25.0.4, 27; Oracle GraalVM Enterprise Edition: 21.3.19.1.1",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      },
+      {
+        "attack_complexity": "High",
+        "attack_vector": "Network",
+        "availability": "None",
+        "component": "JavaFX",
+        "confidentiality": "Low",
+        "cve": "CVE-2026-91477",
+        "cvss31": "3.1",
+        "integrity": "None",
+        "notes": "See Note 1",
+        "privileges": "None",
+        "product": "Oracle JavaFX",
+        "protocol": "Multiple",
+        "public_html_line": 16997,
+        "supported_versions_affected": "Oracle JavaFX: 25.0.4, 27",
+        "unauthenticated_remote": "Yes",
+        "user_interaction": "Required"
+      }
+    ]
+  },
+  "required_jdk": "17",
+  "reused_graph": {
+    "all_original_archive_hashes_match": true,
+    "all_six_modules_aligned_at_current_pin": true,
+    "configurations": 72,
+    "coordinate_matches": 0,
+    "library_projects": 24,
+    "new_OSV_requests": 0,
+    "observed_artifact_identities": 79,
+    "other_host_graph_or_bundled_engine_clearance": false,
+    "runtime_queries_reused": 108,
+    "source": "docs/development/evidence/desktop-resolved-dependencies-20261030/README.md",
+    "source_revision": "a2ecd026dbaefdac0e5b77a81c035e10076672f1",
+    "supplementary_queries_reused": 34,
+    "unique_Maven_coordinates": 142
+  },
+  "reused_registry": {
+    "artifact_module_classifier_pairs": 30,
+    "classfile_samples": 10,
+    "new_classifier_HEAD_or_binary_downloads": 0,
+    "observed_at_utc": "2026-10-24T19:43:33.316745+00:00",
+    "required_classifiers": [
+      "linux",
+      "linux-aarch64",
+      "mac",
+      "mac-aarch64",
+      "win"
+    ],
+    "sampled_classfiles_are_not_all_loaded_bytecode_or_native_support": true,
+    "sampled_major": 61,
+    "sha256": "55cd35f939e0a70b397c2e335df2f350d637a4ce1ec2e39a50cdeefce4b98e51",
+    "source": "docs/development/evidence/build/javafx-registry-observation.json"
+  },
+  "six_module_maven_metadata": [
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202334",
+      "metadata_relative": "observations/maven-base-metadata.body",
+      "metadata_sha256": "4e585d044001cdaa41c67c5dabca2eae58cfdfc2a9fc3e627a7063d05218b3ce",
+      "module": "org.openjfx:javafx-base",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    },
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202336",
+      "metadata_relative": "observations/maven-graphics-metadata.body",
+      "metadata_sha256": "18ff8255b055961fc0e1e5d25d3113d4499eca30d85986d1357e2fd8deb2cfe0",
+      "module": "org.openjfx:javafx-graphics",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    },
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202330",
+      "metadata_relative": "observations/maven-controls-metadata.body",
+      "metadata_sha256": "19b875fe78429d28a5ae19c0322b9ab16f497e197f66071af16845eb4cbe7a48",
+      "module": "org.openjfx:javafx-controls",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    },
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202335",
+      "metadata_relative": "observations/maven-media-metadata.body",
+      "metadata_sha256": "05157c100d25764db30d67c9166927940d80d3aa86e53ae5950b885995453229",
+      "module": "org.openjfx:javafx-media",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    },
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202339",
+      "metadata_relative": "observations/maven-web-metadata.body",
+      "metadata_sha256": "cbbc45d76e6ce38b621621ca8f307cb84b72fde240c0aea17c4a30815d8a5e25",
+      "module": "org.openjfx:javafx-web",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    },
+    {
+      "available_stable21_0_14": false,
+      "global_latest": "28-ea+12",
+      "global_release": "28-ea+12",
+      "highest_stable_21": "21.0.13",
+      "metadata_last_updated": "20261020202335",
+      "metadata_relative": "observations/maven-swing-metadata.body",
+      "metadata_sha256": "c0dcc5e8c5b26eb4140be36833f3b1792b9c652fa95f0577839d6ca27ddc2bd5",
+      "module": "org.openjfx:javafx-swing",
+      "stable21_versions": [
+        "21",
+        "21.0.1",
+        "21.0.2",
+        "21.0.3",
+        "21.0.4",
+        "21.0.5",
+        "21.0.6",
+        "21.0.7",
+        "21.0.8",
+        "21.0.9",
+        "21.0.10",
+        "21.0.11",
+        "21.0.12",
+        "21.0.13"
+      ]
+    }
+  ],
+  "support_policy": {
+    "JavaScript_and_Java_untrusted_execution_are_not_equivalent": true,
+    "absence_is_source_observation_not_arbitrary_embedding_or_exploit_proof": true,
+    "no_Java_sandbox_or_untrusted_Java_loader_in_reviewed_Desktop_sources": true,
+    "owner_policy_decision_required_before_adopting_supported_scope": true,
+    "supported_untrusted_Java_policy_is_not_yet_explicitly_documented": true,
+    "trusted_Java_does_not_blanket_exclude_Oracle_Note2_data_API_advisories": true
+  },
+  "upstream_21_branch": {
+    "development_version": "21.0.14",
+    "line_is_21": true,
+    "minimum_build_jdk": "17",
+    "mutable_branch_not_pinned_release_or_binary_proof": true,
+    "runtime_java_target": "17",
+    "source_sha256": "f32125e14f339a167201a9a29a75b54830d0337536db125c8ac7bea565d19f57",
+    "unreleased_branch_is_not_update_candidate": true,
+    "url": "https://raw.githubusercontent.com/openjdk/jfx21u/master/build.properties"
+  }
+}

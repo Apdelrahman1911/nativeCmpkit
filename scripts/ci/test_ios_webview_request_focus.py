@@ -144,7 +144,8 @@ class IosWebViewRequestFocusTests(unittest.TestCase):
             self.assertNotIn(lt.IOS_WEBVIEW_REQUEST_CLASS, old["expected"][0]["test_filter"])
             self.assertNotIn("ios_webview_request_fixture", old["expected"][0])
         self.assertIsNone(app.profile_debug_entitlements(FOCUS))
-        self.assertEqual({"ios-webview-provisional-dns"}, {value for value in matrix.PROFILES if "dns" in value})
+        self.assertEqual({"ios-webview-provisional-dns", "ios-webview-request-dns"},
+                         {value for value in matrix.PROFILES if "dns" in value})
 
     def test_focused_application_collection_correlates_current_loopback_sources_pid_binary_and_plist(self):
         fixture = self.fixture()

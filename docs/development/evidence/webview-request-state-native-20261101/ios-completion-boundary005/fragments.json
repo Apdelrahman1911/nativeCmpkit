@@ -1,0 +1,14 @@
+[
+  {
+    "after": "    private fun NativeApplicationUiTest.evaluate(state: WebViewState, script: String): JavascriptResult {\n        assertFalse(NSThread.isMainThread)\n        var result: JavascriptResult? = null\n        var calls = 0\n        var offMain = false\n        state.evaluateJavascriptResult(script) {\n            // Record bounded facts only; never throw through a WebKit completion.\n            if (!NSThread.isMainThread) offMain = true\n            calls++\n            result = it\n        }\n        waitForNative { result != null || offMain }\n        return onApplicationMain {\n            assertFalse(offMain, \"WebKit completion left the owned main thread\")\n            assertEquals(1, calls)\n            assertNotNull(result)\n        }\n    }\n",
+    "before": "    private fun NativeApplicationUiTest.evaluate(state: WebViewState, script: String): JavascriptResult {\n        assertFalse(NSThread.isMainThread)\n        var result: JavascriptResult? = null\n        var calls = 0\n        state.evaluateJavascriptResult(script) { assertTrue(NSThread.isMainThread); calls++; result = it }\n        waitForNative { result != null }\n        return onApplicationMain { assertEquals(1, calls); assertNotNull(result) }\n    }\n",
+    "group": "owned-async-evaluation-helper",
+    "path": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt"
+  },
+  {
+    "after": "569716cf0524d25b1b3c2712dbe040c0ec82cfe3db24f6dac3775e5ec15bd857",
+    "before": "4cd87f0294407f72733815a8c2558d405fa0de906968f52ff9bd71ef01c9f737",
+    "group": "genuinely-affected-native-pin",
+    "path": "scripts/ci/test_ios_webview_request_dns_focus.py"
+  }
+]

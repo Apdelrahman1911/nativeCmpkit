@@ -41,7 +41,7 @@ class IosWebViewDnsFocusTests(unittest.TestCase):
         options = profile_options((lt.ROOT / ".github/workflows/gradle.yml").read_text())
         self.assertEqual(set(matrix.PROFILES), set(options))
         self.assertEqual(1, options.count(PROFILE))
-        self.assertEqual({PROFILE}, {name for name in matrix.PROFILES if "dns" in name})
+        self.assertEqual({PROFILE, "ios-webview-request-dns"}, {name for name in matrix.PROFILES if "dns" in name})
         row, = matrix.matrix(PROFILE)["include"]
         self.assertEqual(("ios-iphone", "ios", "calf-webview", FOCUS),
             tuple(row[k] for k in ("slot", "suite", "test-modules", "test-focus")))
@@ -85,7 +85,7 @@ class IosWebViewDnsFocusTests(unittest.TestCase):
         binary = app.APPLICATION_HOSTS["calf-webview"]["binary_directory"] + "/test.kexe"
         self.assertEqual("calf-webview", app.application_host(binary, FOCUS)["module"])
         for patterns in ("*", CLASS + ".wrongMethod", selected["test_filter"] + "," + selected["test_filter"],
-                         lt.ui_application_focus_filter(lt.IOS_WEBVIEW_REQUEST_FOCUS) + "," + selected["test_filter"]):
+                         lt.ui_application_focus_filter(lt.IOS_WEBVIEW_REQUEST_FOCUS).split(",")[0] + "," + selected["test_filter"]):
             with self.assertRaises(ValueError):
                 app.application_test_focus(sorted(app.TEST_ARGUMENTS) + ["--ktest_gradle_filter=" + patterns])
         for suite, modules in (("desktop", ("calf-webview",)), ("js", ("calf-webview",)),

@@ -1,0 +1,58 @@
+{
+  "accepted_runtime_replays": 0,
+  "actual_daemon_jvm": [
+    {
+      "gradle_version": "9.7.1",
+      "java_vendor": "Ubuntu",
+      "java_version": "17.0.20",
+      "launcher_home_configured": true,
+      "launcher_home_matches_daemon": true,
+      "major": 17,
+      "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+      "schema_version": 1
+    }
+  ],
+  "apple_compiler_or_native": false,
+  "combined_inputs": 1172,
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:compileTestKotlinDesktop",
+    ":calf-webview:assembleAndroidDeviceTest",
+    ":calf-webview:compileTestKotlinJs",
+    ":calf-webview:compileTestKotlinWasmJs"
+  ],
+  "execution": {
+    "elapsed_seconds": 89.02,
+    "exit_code": 0
+  },
+  "free_bytes_after": 45872205824,
+  "free_bytes_before": 45878185984,
+  "inputs_held": true,
+  "issue_closures": 0,
+  "kind": "actual-held-local-compiler-only-not-native-or-packaged-consumer",
+  "library_inputs": 1095,
+  "modified_tree_held": true,
+  "native_executions": 0,
+  "raw_private_log_sha256": "4b1047dc0b8153056cd808f77b45f62b63d7c90b8c9b41ac8502ffd1465c713b",
+  "readiness_or_security_certification": false,
+  "selected_head_before_additive_commit": "eafb10f720393dc3a38b4fd18287718eb49cbaea",
+  "started_utc": "2026-11-01T03:29:03.963796+00:00",
+  "task_markers": [
+    "> Task :calf-webview:compileTestKotlinDesktop",
+    "> Task :calf-webview:compileAndroidDeviceTest",
+    "> Task :calf-webview:compileAndroidDeviceTestNavigationResources UP-TO-DATE",
+    "> Task :calf-webview:assembleAndroidDeviceTest",
+    "> Task :calf-webview:compileTestKotlinJs",
+    "> Task :calf-webview:compileTestKotlinWasmJs"
+  ]
+}

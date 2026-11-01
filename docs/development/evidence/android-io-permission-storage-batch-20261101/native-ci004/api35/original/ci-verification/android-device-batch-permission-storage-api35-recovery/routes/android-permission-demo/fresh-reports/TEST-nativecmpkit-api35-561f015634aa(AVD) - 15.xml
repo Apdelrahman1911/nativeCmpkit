@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="3" failures="2" errors="0" skipped="0" time="0.000" timestamp="2026-11-01T03:21:54" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest" tests="3" failures="2" errors="0" skipped="0" time="47.745" timestamp="2026-11-01T03:21:54" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant" classname="com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest" time="22.183">
+      <failure>java.lang.AssertionError: The exact required native OS control was not observed within the bound
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.AssertionsKt__AssertionsKt.fail(Assertions.kt:1343)
+	at kotlin.test.AssertionsKt.fail(Unknown Source:1)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.click(PermissionDemoSystemUi.kt:89)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.click$default(PermissionDemoSystemUi.kt:52)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.clickId(PermissionDemoSystemUi.kt:47)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.permissionButton(PermissionDemoSystemUi.kt:28)
+	at com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest.callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant(AndroidPermissionDemoDeviceTest.kt:44)
+</failure>
+    </testcase>
+    <testcase name="denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest" classname="com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest" time="21.036">
+      <failure>java.lang.AssertionError: The exact required native OS control was not observed within the bound
+	at org.junit.Assert.fail(Assert.java:89)
+	at kotlin.test.junit.JUnitAsserter.fail(JUnitSupport.kt:56)
+	at kotlin.test.AssertionsKt__AssertionsKt.fail(Assertions.kt:1343)
+	at kotlin.test.AssertionsKt.fail(Unknown Source:1)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.click(PermissionDemoSystemUi.kt:89)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.click$default(PermissionDemoSystemUi.kt:52)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.clickId(PermissionDemoSystemUi.kt:47)
+	at com.mohamedrejeb.calf.permissions.PermissionDemoSystemUi.permissionButton(PermissionDemoSystemUi.kt:28)
+	at com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest.denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest(AndroidPermissionDemoDeviceTest.kt:62)
+</failure>
+    </testcase>
+    <testcase name="pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions" classname="com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest" time="4.526" />
+  </testsuite>
+</testsuites>

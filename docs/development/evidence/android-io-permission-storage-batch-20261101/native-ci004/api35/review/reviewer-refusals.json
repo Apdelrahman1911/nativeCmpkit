@@ -1,0 +1,30 @@
+{
+  "raw_terminal_transcripts_excluded": true,
+  "refusals": [
+    {
+      "error_type": "FileNotFoundError",
+      "owning_correct_path": "docs/development/evidence/android-io-permission-storage-batch-20261101/criteria-prereview001/readback.json",
+      "scope": "Reviewer path lookup only; never a CI/native/library failure",
+      "stage": "source-only schema read, before artifact download",
+      "terminal_status_not_yet_observed": true,
+      "wrong_requested_path": "docs/development/evidence/android-io-permission-storage-batch-20261101/local001/readback.json"
+    },
+    {
+      "effect": "Lookup corrected using already immutable-verified preliminary source; no duplicate API, test or native execution",
+      "error_type": "FileNotFoundError",
+      "owning_correct_path": "source/local-preliminary/scripts/ci/android_permission_demo.py",
+      "raw_terminal_transcript_retained": false,
+      "scope": "Reviewer staging-path lookup only; never a CI/native/library failure",
+      "stage": "static source review after original artifact extraction",
+      "wrong_requested_path": "source/immutable/scripts/ci/android_permission_demo.py"
+    },
+    {
+      "effect": "No such module; use actual imports from immutable controller instead",
+      "error_type": "FileNotFoundError",
+      "raw_terminal_transcript_retained": false,
+      "scope": "Reviewer guessed source-helper name only; never a CI/native/library failure",
+      "stage": "Additional static source staging after original artifact extraction",
+      "wrong_requested_path": "scripts/ci/android_apk_info.py"
+    }
+  ]
+}

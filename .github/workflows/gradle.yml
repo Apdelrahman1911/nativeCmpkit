@@ -10,7 +10,7 @@ on:
         type: choice
         required: true
         default: core
-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
 
 permissions:
   contents: read
@@ -84,6 +84,102 @@ jobs:
               output.write("sample_matrix=" + json.dumps(sample_matrix, separators=(",", ":")) + "\n")
               output.write("samples=" + str(bool(sample_matrix["include"])).lower() + "\n")
           PYTHON
+
+  apple-appinfo-shape:
+    needs: tooling
+    if: inputs.profile == 'ios-appinfo-shape' && github.ref == 'refs/heads/development/preview-hardening'
+    runs-on: macos-26
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      CARGO_BUILD_JOBS: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Reuse the pinned compiler and ordinary SDK setup only
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Select the existing official SDK23 command-line tools
+        run: |
+          python3 - <<'PYTHON'
+          import os
+          from pathlib import Path
+          manager = Path(os.environ["ANDROID_HOME"]) / "cmdline-tools/23.0/bin/sdkmanager"
+          if not manager.is_file():
+              raise SystemExit("SDK23 provisioning did not create the expected manager")
+          with open(os.environ["GITHUB_PATH"], "a") as output:
+              output.write(str(manager.parent) + "\n")
+          PYTHON
+      - name: Record one actual simulator; never switch after selection
+        id: runtime
+        run: |
+          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
+            --select-simulator iphone --output build/ci-runtime/appinfo-selection.json
+          device="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["udid"])')"
+          state="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["state"])')"
+          if [[ "$state" != Shutdown && "$state" != Booted ]]; then
+            echo 'Unknown selected simulator state; never choose another device' >&2
+            exit 1
+          fi
+          # Record the exact original row before any boot attempt, including failure.
+          printf 'device=%s\ninitial_state=%s\n' "$device" "$state" >> "$GITHUB_OUTPUT"
+          if [[ "$state" == Shutdown ]]; then
+            /usr/bin/xcrun simctl boot "$device"
+          fi
+          /usr/bin/xcrun simctl bootstatus "$device" -b
+      - name: Fixed link and current owned install; one appinfo shape only
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: python3 -B scripts/ci/apple_appinfo_shape_route.py run --simulator "$SELECTED_SIMULATOR"
+      - name: Restore only this job's previously shut-down simulator boot state
+        if: always() && steps.runtime.outputs.initial_state == 'Shutdown'
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          /usr/bin/xcrun simctl shutdown "$SELECTED_SIMULATOR"
+          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
+            --simulator "$SELECTED_SIMULATOR" --output build/ci-runtime/appinfo-restored.json
+          python3 - <<'PYTHON'
+          import json, os
+          row = json.load(open("build/ci-runtime/appinfo-restored.json"))["simulator"]
+          if row["udid"] != os.environ["SELECTED_SIMULATOR"] or row["state"] != "Shutdown":
+              raise SystemExit("Exact original simulator boot-state restoration is unavailable")
+          PYTHON
+      - name: Keep SDK lexical and source receipts only; no app, logs or native XML
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: apple-appinfo-shape-sdk-prerequisite
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-verification/apple-appinfo-shape/receipt.json
+            build/ci-verification/apple-appinfo-shape/library-inputs-before.json
+            build/ci-verification/apple-appinfo-shape/library-inputs-after.json
 
   apple-appinfo-capability:
     needs: tooling
@@ -254,7 +350,7 @@ jobs:
       # Serial focused continuations can coexist with one immutable UIKit
       # diagnostic without exceeding two combined library jobs. Complete
       # profiles retain two-way execution; no target or test is removed.
-      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}
+      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-offline-destination' || inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}
       matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 90

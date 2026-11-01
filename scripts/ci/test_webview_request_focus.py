@@ -317,7 +317,7 @@ class WebViewRequestFocusTests(unittest.TestCase):
         serial = re.search(r"^      max-parallel: \$\{\{ \((.+)\) && 1 \|\| 2 \}\}$", workflow, re.M)
         self.assertIsNotNone(serial)
         self.assertCountEqual(["inputs.profile == '" + profile + "'" for profile in (
-            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", PROFILE)],
+            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", PROFILE, "webview-offline-destination")],
             serial.group(1).split(" || "))
         self.assertIn("|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}", workflow,
                       "The accepted #63 workflow guard remains byte-applicable")

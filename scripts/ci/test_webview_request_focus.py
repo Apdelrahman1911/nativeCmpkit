@@ -317,10 +317,10 @@ class WebViewRequestFocusTests(unittest.TestCase):
         serial = re.search(r"^      max-parallel: \$\{\{ \((.+)\) && 1 \|\| 2 \}\}$", workflow, re.M)
         self.assertIsNotNone(serial)
         self.assertCountEqual(["inputs.profile == '" + profile + "'" for profile in (
-            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", PROFILE, "webview-offline-destination")],
+            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-content-transitions", PROFILE, "webview-offline-destination", "share-clipboard-native")],
             serial.group(1).split(" || "))
-        self.assertIn("|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}", workflow,
-                      "The accepted #63 workflow guard remains byte-applicable")
+        self.assertIn("|| inputs.profile == 'webview-content-transitions' || inputs.profile == 'share-clipboard-native') && 1 || 2 }}", workflow,
+                      "Retain serial1/default2 and the exact approved clipboard addition")
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertIn("persist-credentials: false", workflow)
         self.assertNotIn("packages: write", workflow)

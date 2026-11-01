@@ -314,9 +314,9 @@ class BrowserOfflineDestinationFocusTests(unittest.TestCase):
         serial = re.search(r"^      max-parallel: \$\{\{ \((.+)\) && 1 \|\| 2 \}\}$", workflow, re.M)
         self.assertIsNotNone(serial)
         self.assertCountEqual(["inputs.profile == '" + profile + "'" for profile in (
-            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-request-state", "webview-content-transitions", PROFILE)],
+            "navigation-geo-matrix", "browser-coil-io", "picker-saver-state", "webview-request-state", "webview-content-transitions", PROFILE, "share-clipboard-native")],
             serial.group(1).split(" || "))
-        self.assertIn("inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}", workflow)
+        self.assertIn("inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions' || inputs.profile == 'share-clipboard-native') && 1 || 2 }}", workflow)
         self.assertIn("permissions:\n  contents: read", workflow); self.assertIn("persist-credentials: false", workflow)
         self.assertNotIn("packages: write", workflow)
 

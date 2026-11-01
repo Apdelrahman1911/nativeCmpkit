@@ -2293,3 +2293,6 @@ GitHub Packages can use a purpose-scoped Actions token and authenticated Maven
 consumer configuration; unavailable Central credentials must not be represented
 as a successful Central publication. Publication workflow templates stay outside
 active workflows until all required gates pass. Documentation hosting stays off.
+
+- [Clipboard shared serial-policy owning recovery](evidence/current-platform-recovery-20261101/clipboard-serial-guard-recovery082/README.md): five original stale guards repaired together; native8 still missing.
+- [Four-host Desktop graph capture](desktop-missing-host-dependency-capture.md):27 new synthetic controls accepted, actual graph/security/native results still required.

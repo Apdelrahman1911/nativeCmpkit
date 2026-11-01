@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Clipboard owning guard batch repaired; Desktop graphs prepared — 2026-11-01
+
+[Original080](docs/development/evidence/current-platform-recovery-20261101/clipboard-native-contexts-original080/README.md)
+stays FAILED1986/1981/five stale serial-profile guards; ZERO browser/native.
+[Owning082](docs/development/evidence/current-platform-recovery-20261101/clipboard-serial-guard-recovery082/README.md)
+retains five reds/five greens; only five source expectations repaired. Current1131/
+1208 differs from accepted compilers only at nine CI entries, all Kotlin/build/
+dependency/native bytes retained. [Desktop081](docs/development/desktop-missing-host-dependency-capture.md)
+reuses27 new controls/91 subtests/126 mocked calls without replay; two pinned serial
+collectors/four missing hosts, native step/permissions/upload/cache unchanged.
+ZERO new graphs/native/security; #144 open. Next clipboard8 and #64 offline2 in
+parallel serial1 requests/global2. Actual iOS C3 remains FAILED1native/one XML/zero
+pass at strict callback-zero arm; cause/payload unknown, #50 open.93closed/79open.
+Publishing/Pages/main/history/consumer/ABI/legal/security/readiness gates stay.
+Earlier sections keep their original scope and dates.
+
 ## API34 completed and #102 closed; clipboard prepared — 2026-11-01
 
 [Closure079](docs/development/evidence/current-platform-recovery-20261101/permission102-closure079/README.md)

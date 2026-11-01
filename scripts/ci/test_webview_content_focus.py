@@ -233,7 +233,7 @@ class WebViewContentFocusTests(unittest.TestCase):
         options = re.search(r"options: \[([^\n]+)\]", workflow).group(1)
         self.assertIn(PROFILE, {option.strip() for option in options.split(",")})
         library_job = workflow.split("\n  library-tests:\n", 1)[1].split("\n  consumer-core-io:\n", 1)[0]
-        self.assertIn("|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}", library_job)
+        self.assertIn("|| inputs.profile == 'webview-content-transitions' || inputs.profile == 'share-clipboard-native') && 1 || 2 }}", library_job)
         self.assertIn("fail-fast: false", library_job)
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertIn("persist-credentials: false", library_job)

@@ -43,7 +43,7 @@
     "docs/audit/findings/NAV.json": "6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157",
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
-    "docs/development/resolutions/BUILD.json": "999d2f38583c5638bcc80b9bcc39650157e16ce95ab1af688f2d24859246d40e",
+    "docs/development/resolutions/BUILD.json": "7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c",
     "docs/development/resolutions/IO.json": "75401752ef00c3373363f2f85eb05e04dce9ee23d2244a64c0e02db4ab7ee6a8",
     "docs/development/resolutions/NATIVE.json": "57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956",
     "docs/development/resolutions/NAV.json": "cc3ff343e9d9c9152466d44c70263186933c6e32b474f67928ce6cd6a7316e30",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678",
     "docs/roadmap/backlog.json": "46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c"
   },
-  "input_fingerprint": "9013a44ff7d2505dc6ce8b6f4da5149f0555b30949974b35cef5a2de7e399571",
+  "input_fingerprint": "0cff1ca26abf7916d4545bceed7ad5cb6c36fd5bcbeca8fe1e4091accc488274",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -9326,18 +9326,22 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/BUILD.json",
-      "owner_record_sha256": "384d2d451f3bd55427747d7d533b04a97e27bbafc20a0f86adbe7e6b89b9d6f5",
+      "owner_record_sha256": "44635024157eddb82e70785cd69c8c8ea16dd2e3b7b84886173e57b74809a874",
       "owner_record": {
         "id": "BUILD-002",
         "status": "partially-verified",
         "changes": [
           "All six JavaFX modules aligned to21.0.13; official artifact/class-bytecode and exact-coordinate advisory checks performed read-only.",
           "2026-11-01: Prepare finite JavaFX security/regression routing and exact unfinished-negative-TLS-write fixture arbitration, preserving ordinary PKIX/hostname/rendering/native assertions and fail-closed teardown.",
-          "2026-11-01: Narrow existing security dispatch to four remaining hosts/13 original cells; accepted Linux x64 TLS1 excluded. Original five-host metadata/native methods remain exact."
+          "2026-11-01: Narrow existing security dispatch to four remaining hosts/13 original cells; accepted Linux x64 TLS1 excluded. Original five-host metadata/native methods remain exact.",
+          "2026-11-01 owning081: Add exact profile-only four-host dependency capture, two byte-pinned serial archived collectors and27 privately executed synthetic controls; native step/permissions/upload/cache remain unchanged. ZERO new actual graphs/native/advisory/security acceptance."
         ],
         "affected_paths": [
           "gradle/libs.versions.toml",
-          "calf-webview/build.gradle.kts"
+          "calf-webview/build.gradle.kts",
+          ".github/workflows/gradle.yml",
+          "scripts/ci/desktop_dependency_capture.py",
+          "scripts/ci/test_desktop_dependency_capture.py"
         ],
         "tests": [
           {
@@ -9375,6 +9379,11 @@
             ],
             "result": "Original C3 support boundary now explicitly documented in docs/platforms/desktop.md; no graph/runtime/security test executed by this documentation.",
             "scope": "Untrusted page content may execute under documented WebView policies; arbitrary untrusted application code is not an OS sandbox or supported contained execution. JS/TLS settings do not supply a process sandbox. C1/C2 host graph/runtime gates unchanged."
+          },
+          {
+            "command": "27 independent new Python controls executed once privately; exact helper/global/fragment reuse; six affected live workflow guards and Actionlint",
+            "result": "27/27/91 subtests/126 mocked graphs/2.918s; six owning workflow guards pass0/0.002s; Actionlint0. Actual new graph/native/advisory invocations ZERO; no accepted runtime/compiler replay or whole-input historical-map claim.",
+            "evidence": "docs/development/evidence/current-platform-recovery-20261101/desktop-missing-host-capture-prepared081/README.md"
           }
         ],
         "remaining": [

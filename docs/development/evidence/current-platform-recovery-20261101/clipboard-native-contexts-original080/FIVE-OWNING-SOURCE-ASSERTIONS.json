@@ -1,0 +1,222 @@
+[
+  {
+    "assertion_excerpt": [
+      {
+        "line": 316,
+        "text": "        self.assertCountEqual([\"inputs.profile == '\" + profile + \"'\" for profile in ("
+      },
+      {
+        "line": 317,
+        "text": "            \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-request-state\", \"webview-content-transitions\", PROFILE)],"
+      },
+      {
+        "line": 318,
+        "text": "            serial.group(1).split(\" || \"))"
+      },
+      {
+        "line": 319,
+        "text": "        self.assertIn(\"inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}\", workflow)"
+      },
+      {
+        "line": 320,
+        "text": "        self.assertIn(\"permissions:\\n  contents: read\", workflow); self.assertIn(\"persist-credentials: false\", workflow)"
+      },
+      {
+        "line": 321,
+        "text": "        self.assertNotIn(\"packages: write\", workflow)"
+      },
+      {
+        "line": 322,
+        "text": ""
+      },
+      {
+        "line": 323,
+        "text": "    def modeled(self, mode):"
+      },
+      {
+        "line": 324,
+        "text": "        node = shutil.which(\"node\")"
+      }
+    ],
+    "bound_to_immutable_commit": true,
+    "line": 316,
+    "path": "scripts/ci/test_browser_offline_destination_focus.py",
+    "sha256": "408f16cbc8d97da5bf3072c219f452dbf8f9cd57f62ae56f6558beaf7a7e05eb"
+  },
+  {
+    "assertion_excerpt": [
+      {
+        "line": 154,
+        "text": "        self.assertCountEqual("
+      },
+      {
+        "line": 155,
+        "text": "            [\"inputs.profile == '\" + profile + \"'\" for profile in ("
+      },
+      {
+        "line": 156,
+        "text": "                \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", \"webview-request-state\", \"webview-offline-destination\")],"
+      },
+      {
+        "line": 157,
+        "text": "            serial.group(1).split(\" || \"))"
+      },
+      {
+        "line": 158,
+        "text": "        self.assertIn(\"permissions:\\n  contents: read\", workflow)"
+      },
+      {
+        "line": 159,
+        "text": "        self.assertNotIn(\"packages: write\", workflow)"
+      },
+      {
+        "line": 160,
+        "text": ""
+      },
+      {
+        "line": 161,
+        "text": "    def test_software_renderer_request_is_exact_Linux_nonchooser_profile_not_a_native_or_full_suite_waiver(self):"
+      },
+      {
+        "line": 162,
+        "text": "        workflow = (r.ROOT / \".github/workflows/gradle.yml\").read_text()"
+      }
+    ],
+    "bound_to_immutable_commit": true,
+    "line": 154,
+    "path": "scripts/ci/test_desktop_saver_state_focus.py",
+    "sha256": "7ce5a355da461b25adf7595240ec4648d68bba4c35babe189a90896c07dfbdef"
+  },
+  {
+    "assertion_excerpt": [
+      {
+        "line": 224,
+        "text": "        self.assertIn(\"inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}\", workflow)"
+      },
+      {
+        "line": 225,
+        "text": "        upload = workflow.split(\"- name: Keep receipts and actual selected-task XML\", 1)[1].split(\"\\n  consumer-core-io:\", 1)[0]"
+      },
+      {
+        "line": 226,
+        "text": "        for forbidden in (\"*.jar\", \"*.aar\", \"*.apk\", \"*.kexe\", \"*.app\", \"*.hprof\"):"
+      },
+      {
+        "line": 227,
+        "text": "            self.assertNotIn(forbidden, upload)"
+      },
+      {
+        "line": 228,
+        "text": "        self.assertNotIn(\"packages: write\", workflow)"
+      },
+      {
+        "line": 229,
+        "text": "        self.assertNotIn(\"id-token: write\", workflow)"
+      },
+      {
+        "line": 230,
+        "text": ""
+      },
+      {
+        "line": 231,
+        "text": ""
+      },
+      {
+        "line": 232,
+        "text": "if __name__ == \"__main__\":"
+      }
+    ],
+    "bound_to_immutable_commit": true,
+    "line": 224,
+    "path": "scripts/ci/test_desktop_webview_request_focus.py",
+    "sha256": "a48c1400e151bb394449f84100f5473e6c0cac32384756a728a703dfb0014f96"
+  },
+  {
+    "assertion_excerpt": [
+      {
+        "line": 236,
+        "text": "        self.assertIn(\"|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}\", library_job)"
+      },
+      {
+        "line": 237,
+        "text": "        self.assertIn(\"fail-fast: false\", library_job)"
+      },
+      {
+        "line": 238,
+        "text": "        self.assertIn(\"permissions:\\n  contents: read\", workflow)"
+      },
+      {
+        "line": 239,
+        "text": "        self.assertIn(\"persist-credentials: false\", library_job)"
+      },
+      {
+        "line": 240,
+        "text": "        upload = library_job.split(\"- name: Keep receipts and actual selected-task XML\", 1)[1]"
+      },
+      {
+        "line": 241,
+        "text": "        for forbidden in (\"*.jar\", \"*.aar\", \"*.apk\", \"*.kexe\", \"*.app\", \"*.hprof\"):"
+      },
+      {
+        "line": 242,
+        "text": "            self.assertNotIn(forbidden, upload)"
+      },
+      {
+        "line": 243,
+        "text": ""
+      },
+      {
+        "line": 244,
+        "text": ""
+      }
+    ],
+    "bound_to_immutable_commit": true,
+    "line": 236,
+    "path": "scripts/ci/test_webview_content_focus.py",
+    "sha256": "7d4c549b40db3aabbe8989898a967e157485ab97cc0237512f987d33cb9f9c2d"
+  },
+  {
+    "assertion_excerpt": [
+      {
+        "line": 319,
+        "text": "        self.assertCountEqual([\"inputs.profile == '\" + profile + \"'\" for profile in ("
+      },
+      {
+        "line": 320,
+        "text": "            \"navigation-geo-matrix\", \"browser-coil-io\", \"picker-saver-state\", \"webview-content-transitions\", PROFILE, \"webview-offline-destination\")],"
+      },
+      {
+        "line": 321,
+        "text": "            serial.group(1).split(\" || \"))"
+      },
+      {
+        "line": 322,
+        "text": "        self.assertIn(\"|| inputs.profile == 'webview-content-transitions') && 1 || 2 }}\", workflow,"
+      },
+      {
+        "line": 323,
+        "text": "                      \"The accepted #63 workflow guard remains byte-applicable\")"
+      },
+      {
+        "line": 324,
+        "text": "        self.assertIn(\"permissions:\\n  contents: read\", workflow)"
+      },
+      {
+        "line": 325,
+        "text": "        self.assertIn(\"persist-credentials: false\", workflow)"
+      },
+      {
+        "line": 326,
+        "text": "        self.assertNotIn(\"packages: write\", workflow)"
+      },
+      {
+        "line": 327,
+        "text": ""
+      }
+    ],
+    "bound_to_immutable_commit": true,
+    "line": 319,
+    "path": "scripts/ci/test_webview_request_focus.py",
+    "sha256": "d35156023b60896bb37f88713422d97d04a2c409efd62902365763927bed8223"
+  }
+]

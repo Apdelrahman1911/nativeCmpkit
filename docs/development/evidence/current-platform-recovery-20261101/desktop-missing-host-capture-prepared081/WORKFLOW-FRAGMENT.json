@@ -1,0 +1,25 @@
+{
+  "forward": {
+    "new_utf8": "      - name: Capture missing-host Desktop dependency graphs without native replay\n        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'webview-desktop-security-regressions' }}\n        run: |\n          \"$PYTHON\" scripts/ci/desktop_dependency_capture.py \\\n            --profile webview-desktop-security-regressions --slot \"$SLOT\"\n      - name: Related real JVM/JNI path tests (no native packages uploaded)\n",
+    "occurrences": 1,
+    "old_utf8": "      - name: Related real JVM/JNI path tests (no native packages uploaded)\n"
+  },
+  "inverse": {
+    "new_utf8": "      - name: Related real JVM/JNI path tests (no native packages uploaded)\n",
+    "occurrences": 1,
+    "old_utf8": "      - name: Capture missing-host Desktop dependency graphs without native replay\n        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'webview-desktop-security-regressions' }}\n        run: |\n          \"$PYTHON\" scripts/ci/desktop_dependency_capture.py \\\n            --profile webview-desktop-security-regressions --slot \"$SLOT\"\n      - name: Related real JVM/JNI path tests (no native packages uploaded)\n"
+  },
+  "latest_lead_workflow_max_parallel_change_not_replayed": true,
+  "native_step_including_terminal_newline": {
+    "bytes": 2172,
+    "pre_post_byte_equal": true,
+    "sha256": "299ae0110cb62b9ec89d623c5b39a3ecc2fa3eedfb939590de7607c6f79f45c3"
+  },
+  "observed_at_utc": "2026-11-01T10:37:52.415150+00:00",
+  "postimage_sha256": "92e5036103432b23bf7259bc1813149638447f5a4d5abf21771c28466b2bd176",
+  "preimage_sha256": "397a4fda674c52c48764d5ca45e054a6193cb4d4c22598b43b3ae917b7f87c19",
+  "previous_rebase_preserved_at": "rebase/WORKFLOW-FRAGMENT.json",
+  "scope": "Latest lead clipboard max-parallel1 routing retained; unique literal insertion only. Whole afterimage is reference only, never authority to replace live workflow. Lead must recheck current hash and exact unique fragment.",
+  "source_only_rebase_tests_not_replayed": true,
+  "target": ".github/workflows/gradle.yml"
+}

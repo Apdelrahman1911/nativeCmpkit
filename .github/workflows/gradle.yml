@@ -542,6 +542,11 @@ jobs:
               output.write("\n".join(item["report_directory"] + "/**/TEST-*.xml" for item in plan["expected"]))
               output.write("\nNATIVECMPKIT_REPORTS\n")
           PY
+      - name: Capture missing-host Desktop dependency graphs without native replay
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'webview-desktop-security-regressions' }}
+        run: |
+          "$PYTHON" scripts/ci/desktop_dependency_capture.py \
+            --profile webview-desktop-security-regressions --slot "$SLOT"
       - name: Related real JVM/JNI path tests (no native packages uploaded)
         if: matrix.test-focus == 'picker-native-lifetime'
         run: |

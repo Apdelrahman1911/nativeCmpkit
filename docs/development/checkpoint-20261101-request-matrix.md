@@ -356,3 +356,7 @@ daemons or remove other projects/caches. All Actions are allowed without mandato
 SHA pinning, but verification permissions remain read-only. Publishing/packages/
 releases/deployments/Pages/main/history/native/consumer/API-ABI/dependency/legal/
 security/readiness gates remain unchanged. No done or all-platform claim.
+
+## Owning serial-guard recovery and graph preparation
+
+Clipboard run41299186294 remains tooling-failed/zero native. All five original stale policy expectations are repaired together with exact serial1/default2 retained; #82 native8 and #64 browser-offline2 may run concurrently after immutable binding. Desktop graph capture is prepared for only four missing security hosts,27 synthetic controls accepted, actual graph/native/advisory still missing. iOS run41297173837 failed one actual C3 method at callback-zero arming; payload/cause remain unknown and #50 stays open.93closed/79open/172total; publishing gates unchanged.

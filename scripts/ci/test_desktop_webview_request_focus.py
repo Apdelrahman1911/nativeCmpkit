@@ -221,7 +221,7 @@ class DesktopWebViewRequestFocusTests(unittest.TestCase):
         self.assertIn(FOCUS, {option.strip() for option in options.split(",")})
         self.assertIn("permissions:\n  contents: read", workflow)
         self.assertIn("persist-credentials: false", workflow)
-        self.assertIn("inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}", workflow)
+        self.assertIn("inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions' || inputs.profile == 'share-clipboard-native') && 1 || 2 }}", workflow)
         upload = workflow.split("- name: Keep receipts and actual selected-task XML", 1)[1].split("\n  consumer-core-io:", 1)[0]
         for forbidden in ("*.jar", "*.aar", "*.apk", "*.kexe", "*.app", "*.hprof"):
             self.assertNotIn(forbidden, upload)

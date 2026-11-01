@@ -312,6 +312,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         result["reporter_compile_deferred_until_permission_demo_identity"] = True
     if storage_required:
         result["reporter_compile_deferred_until_storage_identity"] = True
+    if camera_developer_required:
+        result["reporter_compile_deferred_until_camera_read_only_prerequisite"] = True
     try:
         if camera_developer_required:
             # Assign the exclusive owner before creating either root so partial
@@ -321,10 +323,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         stages = (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120))
         if lt.android_camera_receiver_required(plan):
             # Validate the finite camera's real SDK device profile before a costly APK
-            # compilation. This creates only our private AVD; launch still waits for
-            # both prerequisites. Other profiles preserve their existing setup order.
+            # compilation. Only sole Dont-keep may then boot for read-only original
+            # capture before assembly; every other profile keeps its existing order.
             stages = stages[::-1]
-        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required:
+        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or camera_developer_required:
             # An IO helper/source/APK/signature/manifest refusal or a
             # minimum-only receiver/package-path refusal must not waste a full
             # library APK compilation. Both APKs still use the exact private key
@@ -361,9 +363,23 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         verified = True
         lt.write_json(output / "boot.json", identity)
         if guest is not None:
-            # The unchanged Settings UI lease requires master1; admission and
-            # optional one-key initialization precede both test APK installs.
+            # Read-only original custody may fail fast on this already-owned booted
+            # guest. No helper install, master write, reporter dispatch or native
+            # success precedes the unchanged actual reporter assembly and revalidation.
             developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)
+            result["camera_developer_prerequisite"] = developer.capture_before_reporter()
+            try:
+                execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)
+                result["setup_stages"]["apk-assembly"] = execution
+                if execution["exit_code"] != 0 or execution.get("stop_reason"):
+                    raise RuntimeError("Reporter setup failed before any Dont-keep device test execution")
+                developer.record_reporter_assembly_success(execution)
+            except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+                try:
+                    developer.record_reporter_assembly_failure(error)
+                except BaseException:
+                    pass  # Keep the original compile/publication refusal; running/failed can never admit native.
+                raise
             result["camera_developer_prerequisite"] = developer.prepare()
         if lt.android_geo_probe_required(plan):
             geo_probe = android_geo_probe.OwnedGeoProbe(root, output, home, SERIAL,

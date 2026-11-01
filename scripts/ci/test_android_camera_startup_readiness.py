@@ -25,10 +25,10 @@ HELPER_PATH = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
 GUARD_PATH = TREE / "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py"
 STARTUP_INVERSE_PATH = TREE / "scripts/ci/fixtures/android-camera-startup-readiness-inverse.json"
 OBSERVATION_INVERSE_PATH = TREE / "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json"
-EXPECTED_INPUT_SHA256 = {'scripts/ci/android_camera_developer_prerequisite.py': '5318d5893457dca141d08f3d269dc1a21078d42931c7846d4d105b7134154af1', 'scripts/ci/test_android_camera_developer_prerequisite.py': 'c095e438a734d78a1a92de89f3a2f7f04f7d3117a2d31f2e558f57a49910fddc', 'scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py': '5154a82a67a5a987fdfe8d3f70a3d79640e2d387675a80e4cab7e2e0ca6b0da8', 'scripts/ci/fixtures/android-camera-startup-readiness-inverse.json': '4731607e26e6a1a36e8e48bf09f824b2e0df652da8af77db8ad1b95efa627dc2', 'scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json': 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'}
+EXPECTED_INPUT_SHA256 = {'scripts/ci/android_camera_developer_prerequisite.py': 'da07bedb680e9ce36842bbf581f22bf7b3ebf8ab1c5d307b05745069c77bb5a4', 'scripts/ci/test_android_camera_developer_prerequisite.py': '4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb', 'scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py': 'bd539b328cdf586cca655b7a34e5006f7417ee21724308f906fa1d5199d4224e', 'scripts/ci/fixtures/android-camera-startup-readiness-inverse.json': '43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c', 'scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json': 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'}
 PRE_STARTUP_HELPER_SHA256 = "2d2fb89491d5435963b983052a96f7a9e80e02d9b7ed394c0b3d23cf4b194532"
 HISTORICAL_HELPER_SHA256 = "f15163bd0406476d4c8e271aa6fa18c652590c1e1665ee7bb9306ca9140ddfd0"
-UNCHANGED_CAMERA_INPUT_SHA256 = {'convention-plugins/src/main/kotlin/Android.kt': '204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256', 'calf-camera-picker/build.gradle.kts': 'f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7', 'calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt': '357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0', 'scripts/ci/android_device_tests.py': '02bb9ab153f147fab13bf58ff9fccaef754cc66f2dfcc067dc3ad2b1d8726640'}
+UNCHANGED_CAMERA_INPUT_SHA256 = {'convention-plugins/src/main/kotlin/Android.kt': '204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256', 'calf-camera-picker/build.gradle.kts': 'f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7', 'calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt': '357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0', 'scripts/ci/android_device_tests.py': 'daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec'}
 DECLARED_METHODS = (
     "test_sr01_readiness_precedes_complete_capture_and_mutations",
     "test_sr02_finite_user_startup_sequence_has_one_budget",
@@ -663,7 +663,7 @@ class CameraStartupReadinessNewOnlyTests(unittest.TestCase):
         self.assertEqual(hashlib.sha256(historical(source).encode()).hexdigest(), HISTORICAL_HELPER_SHA256)
         startup = json.loads(STARTUP_INVERSE_PATH.read_bytes())
         observation = json.loads(OBSERVATION_INVERSE_PATH.read_bytes())
-        self.assertEqual(len(startup["inverse_fragments"]), 6)
+        self.assertEqual(len(startup["inverse_fragments"]), 17)
         self.assertEqual(len(observation["inverse_fragments"]), 4)
         self.assertEqual(startup["before_sha256"], observation["after_sha256"])
         self.assertEqual(before.index("\n\n\ndef record_settings_activity_absence_refusal("), 62558)

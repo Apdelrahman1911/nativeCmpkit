@@ -32,7 +32,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 19 | **NAV-009** — Embedded Cupertino font requires MIT notices in distributed artifacts; baseline notice gap partially repaired | High | M | — | closed | [#17](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) |
 | 20 | **PERM-011** — iOS calendar uses the iOS17 full-access API without availability gating or matching usage descriptions | High | M | — | open | [#22](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) |
 | 21 | **PERM-018** — Android LocationTracker never updates its public location states | High | M | — | closed | [#24](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) |
-| 22 | **UI-001** — iOS date state and native calendars do not enforce the documented UTC-day/year-range contract | High | M | — | open | [#26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) |
+| 22 | **UI-001** — iOS date state and native calendars do not enforce the documented UTC-day/year-range contract | High | M | — | closed | [#26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) |
 | 23 | **UI-002** — Native date conversion treats user-calendar components as Gregorian dates | High | M | — | open | [#27](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) |
 | 24 | **UI-012** — Presented iOS alerts update their text but retain original action and text-field callbacks | High | M | — | open | [#28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) |
 | 25 | **UI-013** — iOS action sheets are presented without an iPad popover anchor | High | M | — | open | [#29](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) |
@@ -77,7 +77,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 59 | **IO-010** — File-kind queries misclassify extensionless browser files and nonexistent paths | Medium | S | — | closed | [#47](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) |
 | 60 | **IO-011** — Web saver accepts onResult but never calls it or exposes download-only capability | Medium | L | — | open | [#48](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) |
 | 61 | **IO-012** — Immediate web Blob URL revocation can race the browser download | Medium | S | — | open | [#49](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) |
-| 62 | **IO-013** — iOS picked-file copies have no ownership cleanup and are created before result limits are applied | Medium | L | IO-007, IO-008 | open | [#50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) |
+| 62 | **IO-013** — iOS picked-file copies have no ownership cleanup and are created before result limits are applied | Medium | L | IO-007, IO-008 | closed | [#50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) |
 | 63 | **IO-014** — Portable path/name metadata exposes encoded or unreadable references instead of the readable file | Medium | M | IO-008 | closed | [#51](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) |
 | 64 | **IO-015** — Desktop MIME filtering omits modern image formats and silently disables unknown custom filters | Medium | M | — | open | [#52](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) |
 | 65 | **IO-017** — Some remembered launchers retain stale selection limits, image representation and parent windows | Medium | S | IO-003 | closed | [#53](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) |
@@ -126,7 +126,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 108 | **NAV-008** — Navigation exposes two incompatible controller abstractions and lacks a declared platform capability contract | Medium | L | — | closed | [#96](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) |
 | 109 | **NAV-010** — CupertinoIcon leaves the private-use glyph Text semantics exposed | Medium | M | — | open | [#97](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) |
 | 110 | **NAV-011** — Generated icon/symbol catalogues lack a reproducible generator and Apple availability metadata | Medium | M | NAV-009 | open | [#98](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98) |
-| 111 | **NAV-012** — Sample secure password text field logs every entered value | Medium | S | — | open | [#99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) |
+| 111 | **NAV-012** — Sample secure password text field logs every entered value | Medium | S | — | closed | [#99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) |
 | 112 | **NAV-013** — Sample image export runs unbounded reads and image allocations without error or concurrency control | Medium | M | — | open | [#100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) |
 | 113 | **NAV-014** — Streaming sample cancellation does not interrupt its synchronous read loop | Medium | S | — | closed | [#101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) |
 | 114 | **NAV-015** — Android sample permission menu and manifest disagree and declare unrelated broad permissions | Medium | S | — | closed | [#102](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) |

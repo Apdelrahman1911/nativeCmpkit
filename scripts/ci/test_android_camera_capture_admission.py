@@ -16,6 +16,11 @@ import types
 import unittest
 from unittest.mock import patch
 
+try:
+    from .camera_scalar_failfast_source_projection import historical_controller_source
+except ImportError:
+    from camera_scalar_failfast_source_projection import historical_controller_source
+
 TREE = Path(os.environ.get("CAMERA_CAPTURE_ADMISSION_MODEL_TREE", Path(__file__).resolve().parents[2])).resolve()
 PRIVATE = Path(os.environ.get("CAMERA_CAPTURE_ADMISSION_MODEL_TMP", tempfile.gettempdir())).resolve()
 CONTROLLER = TREE / "scripts/ci/android_device_tests.py"
@@ -57,7 +62,7 @@ DEPENDENCIES["android_camera_receiver"].OwnedCameraReceiver = forbidden
 SPEC = importlib.util.spec_from_file_location("camera_capture_admission_controller_under_test", CONTROLLER)
 device = importlib.util.module_from_spec(SPEC)
 with patch.dict(sys.modules, DEPENDENCIES):
-    SPEC.loader.exec_module(device)
+    exec(compile(historical_controller_source(CONTROLLER.read_text()), str(CONTROLLER), "exec"), device.__dict__)
 
 
 # Preserve the real generic require definition and its original public source

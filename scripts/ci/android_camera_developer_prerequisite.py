@@ -236,9 +236,16 @@ def result_bytes(result: subprocess.CompletedProcess, cap: int, *, codes=(0,)) -
     return result.stdout
 
 
-def line(result: subprocess.CompletedProcess, cap: int, pattern: bytes) -> bytes:
+def line(result: subprocess.CompletedProcess, cap: int, pattern: bytes, *, query_identity=None) -> bytes:
     payload = result_bytes(result, cap)
-    require(re.fullmatch(pattern + rb"(?:\r?\n)?", payload) is not None, "Unknown scalar control shape")
+    try:
+        require(re.fullmatch(pattern + rb"(?:\r?\n)?", payload) is not None, "Unknown scalar control shape")
+    except ValueError as error:
+        try:
+            record_scalar_control_refusal(error, result, payload, cap, pattern, query_identity)
+        except BaseException:
+            pass  # Optional fixed facts must not replace the original scalar-shape refusal.
+        raise
     return payload.removesuffix(b"\n").removesuffix(b"\r")
 
 
@@ -253,8 +260,10 @@ class Row:
 
 def parse_row(getter: subprocess.CompletedProcess, query: subprocess.CompletedProcess, key: str) -> Row:
     require(key in (MASTER, SCALAR), "No arbitrary settings key")
-    value = line(getter, 512, rb"(?:null|0|1)").decode()
-    row = line(query, 512, rb"(?:No result found\.|Row: 0 name=" + key.encode() + rb", value=(?:0|1))").decode()
+    value = line(getter, 512, rb"(?:null|0|1)",
+                 query_identity=("global-settings-get-user0", key)).decode()
+    row = line(query, 512, rb"(?:No result found\.|Row: 0 name=" + key.encode() + rb", value=(?:0|1))",
+               query_identity=("global-settings-single-row-user0", key)).decode()
     if row == "No result found.":
         require(value == "null", "Getter and absent-row proof disagree")
         return Row(False, None)
@@ -661,6 +670,13 @@ class Reporter:
             require(match is not None and 10000 <= int(match[1]) <= 19999, "Reporter/helper user0 UID is unknown or shared")
         return path
 
+    def capture_initial_absence(self) -> None:
+        require(not self.initial_absent and not self.dispatch_attempted and not self.remove_attempted,
+                "No initial package-absence recapture or installed reporter substitution")
+        require(self.observe() is None and self.observe(RECEIVER) is None, "Prior test packages exist; never replace them")
+        self.initial_absent = True
+        self.owner.receipt.update(reporter_initial_absent=True, receiver_initial_absent=True)
+
     def freeze(self) -> None:
         require(self.observe() is None and self.observe(RECEIVER) is None, "Prior test packages exist; never replace them")
         self.initial_absent = True
@@ -748,6 +764,10 @@ class OwnedDeveloperPrerequisite:
         self.root, self.home, self.serial, self.guest = root, home, serial, guest
         self.runner, self.clock, self.sleep, self.deadline = runner, clock, sleep, None
         self.startup_deadline, self.startup_last_clock = None, None
+        self.post_reporter_deadline, self.post_reporter_last_clock = None, None
+        self._pre_reporter_capture_attempted, self._pre_reporter_capture_completed = False, False
+        self._pre_reporter_original, self._pre_reporter_startup_home = None, None
+        self._reporter_assembly_completed, self._post_reporter_started = False, False
         self.original, self.new_boot = None, None
         self.enable_attempted, self.enable_completed = False, False
         self.reboot_attempted, self.restore_attempted, self.closed = False, False, False
@@ -781,10 +801,22 @@ class OwnedDeveloperPrerequisite:
                 self.receipt["errors"][-1]["settings_activity_absence_refusal"] = observation
         except BaseException:
             pass  # Diagnostic unavailability never replaces the primary refusal or publication.
+        try:
+            observation = scalar_control_refusal(error, self.receipt["errors"][-1].get("require_call_origin"))
+            if observation is not None:
+                self.receipt["errors"][-1]["scalar_control_refusal"] = observation
+        except BaseException:
+            pass  # Scalar metadata is optional, bounded and never an admission or cleanup decision.
         self.publish()
 
     def run(self, argv: list[str], timeout: float, limit: int) -> subprocess.CompletedProcess:
-        startup_started = None
+        startup_started, post_reporter_started = None, None
+        if self.post_reporter_deadline is not None:
+            require(self.startup_deadline is None and self.deadline is None and
+                    type(timeout) in (int, float) and 0 < timeout < float("inf"),
+                    "Post-reporter commands cannot reuse initial startup or reboot budgets")
+            timeout = min(timeout, 10.0, self.post_reporter_remaining())
+            post_reporter_started = self.post_reporter_last_clock
         if self.startup_deadline is not None:
             require(type(timeout) in (int, float) and 0 < timeout < float("inf"),
                     "Initial startup command timeout is not finite and positive")
@@ -801,6 +833,10 @@ class OwnedDeveloperPrerequisite:
             self.startup_remaining()
             if self.startup_last_clock - startup_started > timeout:
                 raise TimeoutError("Initial startup command exceeded its clamped bound")
+        if post_reporter_started is not None:
+            self.post_reporter_remaining()
+            if self.post_reporter_last_clock - post_reporter_started > timeout:
+                raise TimeoutError("Post-reporter command exceeded its clamped bound")
         return result
 
     def control(self, *arguments: str, timeout=10, limit=CONTROL_BYTES, transient=False) -> subprocess.CompletedProcess:
@@ -820,6 +856,13 @@ class OwnedDeveloperPrerequisite:
         if transient and result.returncode != 0 and result.stdout == b"" and result.stderr in (
                 b"error: device offline\n", b"error: device 'emulator-5588' not found\n", b"error: no devices/emulators found\n"):
             raise Unavailable("Owned reboot transport is not ready")
+        try:
+            if (scalar_query_identity(arguments) is not None and type(result) is subprocess.CompletedProcess and
+                    type(result.args) is list and
+                    result.args == [str(self.home / "platform-tools/adb"), "-s", SERIAL, *arguments]):
+                result._nativecmpkit_scalar_query_context = (_SCALAR_QUERY_CONTEXT, result, arguments)
+        except BaseException:
+            pass  # This per-result observation cannot change the command, ownership or transient refusal.
         return result
 
     def action_guard(self) -> None:
@@ -1007,6 +1050,8 @@ class OwnedDeveloperPrerequisite:
                 raise TimeoutError("Initial startup sleep exceeded its clamped completion bound")
 
     def prepare(self) -> dict:
+        if vars(self).get("_pre_reporter_capture_attempted") is True:
+            return self.complete_after_reporter()
         require(self.receipt["prepare_status"] == "not-started", "No prerequisite acquisition retry")
         self.receipt["prepare_status"] = "running"
         try:
@@ -1052,6 +1097,207 @@ class OwnedDeveloperPrerequisite:
             self.publish()
         except FAILURES as error:
             self.receipt["prepare_status"] = "failed"
+            self.failure("prepare", error)
+            raise
+        return dict(self.receipt)
+
+    def capture_before_reporter(self) -> dict:
+        """Sole owned C1 read-only capture; neither APK compilation nor preparation success."""
+        require(self.receipt["prepare_status"] == "not-started" and not self._pre_reporter_capture_attempted and
+                self.original is None and not self.closed,
+                "No pre-reporter prerequisite capture retry or original-state replacement")
+        self._pre_reporter_capture_attempted = True
+        self.receipt.update(prepare_status="running", reporter_compile_preflight_status="running",
+                            reporter_compile_preflight_read_only=True, reporter_assembly_recorded_passed=False,
+                            post_reporter_revalidation_status="not-started", post_reporter_revalidation_attempts=0,
+                            post_reporter_revalidation_budget_seconds=120.0)
+        try:
+            self.publish()
+            self.devices()
+            require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000", "Actual shell UID2000 required; no root")
+            for name in ("DUMP", "ACCESS_CONTENT_PROVIDERS_EXTERNALLY"):
+                require(permission(self.control("shell", "dumpsys", "package", "check-permission",
+                                                "android.permission." + name, "com.android.shell", "0")), "Read permission not granted")
+            self.reporter.capture_initial_absence()
+            try:
+                startup_boot, startup_home = self.wait_startup_readiness()
+                original = self.stable(fresh=True)
+                require(pair_admitted(original), "Original native/scalar pair is inconsistent")
+                require(original.boot == startup_boot, "Kernel epoch changed before original startup capture")
+                ready, home = self.startup_observation(startup_boot)
+                require(ready and home == startup_home, "Typed startup readiness changed before original capture")
+                self.startup_remaining()  # Includes both complete snapshots, parsing and pair admission.
+                self.receipt["startup_readiness_status"] = "passed"
+                self.startup_remaining()  # Last admission check, after status; no call before original assignment.
+                self.original = original
+            finally:
+                if self.original is None:
+                    self.receipt["startup_readiness_status"] = "failed"
+                self.startup_deadline, self.startup_last_clock = None, None
+            self.receipt.update(original_master=original.master.safe(), original_scalar=original.scalar.safe(),
+                                original_native=original.native, original_boot_id_sha256=hashlib.sha256(original.boot.encode()).hexdigest())
+            self.publish()
+            self._pre_reporter_original, self._pre_reporter_startup_home = self.original, startup_home
+            self._pre_reporter_capture_completed = True
+            self.receipt["reporter_compile_preflight_status"] = "passed"
+            self.publish()
+        except FAILURES as error:
+            self.receipt.update(prepare_status="failed", reporter_compile_preflight_status="failed")
+            self.failure("prepare", error)
+            raise
+        return dict(self.receipt)
+
+    def record_reporter_assembly_success(self, execution: dict) -> None:
+        require(self._pre_reporter_capture_completed and not self._reporter_assembly_completed and
+                not self._post_reporter_started and self.receipt["prepare_status"] == "running" and
+                self.original is self._pre_reporter_original and self.original is not None and not self.closed,
+                "Only this captured C1 may record the sole reporter assembly")
+        require(execution["exit_code"] == 0 and not execution.get("stop_reason"),
+                "Reporter assembly did not pass the unchanged exit/stop guard")
+        self._reporter_assembly_completed = True
+        self.receipt["reporter_assembly_recorded_passed"] = True
+        self.publish()
+
+    def record_reporter_assembly_failure(self, error: BaseException) -> None:
+        require(self._pre_reporter_capture_completed and not self._post_reporter_started and
+                self.receipt["prepare_status"] == "running" and not self.closed,
+                "Only the captured C1 may record its reporter assembly refusal")
+        self.receipt["prepare_status"] = "failed"
+        self.failure("reporter-assembly", error)
+
+    def post_reporter_remaining(self) -> float:
+        """One finite bracketing pass, not the initial60s or new-epoch deadline."""
+        now = self.clock()
+        require(type(now) in (int, float) and float("-inf") < now < float("inf") and
+                type(self.post_reporter_deadline) in (int, float) and
+                float("-inf") < self.post_reporter_deadline < float("inf") and
+                type(self.post_reporter_last_clock) in (int, float) and now >= self.post_reporter_last_clock,
+                "Post-reporter clock is non-finite or moved backwards")
+        self.post_reporter_last_clock = now
+        remaining = self.post_reporter_deadline - now
+        if remaining <= 0:
+            raise TimeoutError("Post-reporter revalidation exceeded its total one-shot bound")
+        return remaining
+
+    def post_reporter_observation(self, expected_boot: str) -> tuple[bool, str | None]:
+        """Typed readiness opportunity only; not Settings Activity absence."""
+        self.post_reporter_remaining()
+        self.guest.verify_live()
+        self.devices()
+        require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
+        require(line(self.control("emu", "avd", "name"), 512,
+                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+                "Actual AVD ownership changed during initial startup")
+        require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
+                "Initial startup requires the actual non-root shell UID2000")
+        for key, expected in (("ro.build.version.sdk", b"35"), ("ro.product.cpu.abi", b"x86_64"),
+                              ("sys.boot_completed", b"1")):
+            require(line(self.control("shell", "getprop", key), 512, re.escape(expected)) == expected,
+                    "Initial startup runtime is not API35/x86_64/completed boot")
+        require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing",
+                "Initial startup requires an Enforcing guest")
+        require(self.startup_scalar("shell", "am", "get-current-user") == "0",
+                "Current user changed during initial startup")
+        state = self.startup_scalar("shell", "am", "get-started-user-state", "0")
+        require(state in ("BOOTING", "RUNNING_LOCKED", "RUNNING_UNLOCKING", "RUNNING_UNLOCKED"),
+                "Unknown or terminal initial startup user0 state")
+        home = self.startup_scalar("shell", "cmd", "package", "resolve-activity", "--components",
+                                   "--query-flags", "0", "--user", "0", "-a", "android.intent.action.MAIN",
+                                   "-c", "android.intent.category.HOME")
+        if home in ("No activity found", "com.android.settings/.FallbackHome"):
+            component = None
+        else:
+            match = re.fullmatch(
+                r"([A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)*)/"
+                r"(\.[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*|"
+                r"[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+)", home)
+            require(match is not None, "Unknown initial startup HOME component shape")
+            package, activity = match.groups()
+            require(package not in ("android", "com.android.settings") and "." in package and
+                    not activity.startswith(package + "."),
+                    "Initial startup HOME is excluded or not canonically flattened")
+            component = home
+        # Recheck the complete fixed identity after typed reads, not just at entry.
+        require(line(self.control("emu", "avd", "name"), 512,
+                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+                "Actual AVD ownership changed during initial startup")
+        require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
+                "Initial startup requires the actual non-root shell UID2000")
+        for key, expected in (("ro.build.version.sdk", b"35"), ("ro.product.cpu.abi", b"x86_64"),
+                              ("sys.boot_completed", b"1")):
+            require(line(self.control("shell", "getprop", key), 512, re.escape(expected)) == expected,
+                    "Initial startup runtime is not API35/x86_64/completed boot")
+        require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing",
+                "Initial startup requires an Enforcing guest")
+        require(self.startup_scalar("shell", "am", "get-current-user") == "0",
+                "Current user changed during initial startup")
+        require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
+        self.devices()
+        self.guest.verify_live()
+        self.post_reporter_remaining()
+        return state == "RUNNING_UNLOCKED" and component is not None, component
+
+    def complete_after_reporter(self) -> dict:
+        """Freeze compiled identity and revalidate the same capture before original master initialization."""
+        require(self._pre_reporter_capture_completed and self._reporter_assembly_completed and
+                not self._post_reporter_started and self.receipt["prepare_status"] == "running" and
+                self.original is self._pre_reporter_original and self.original is not None and not self.closed and
+                self.startup_deadline is None and self.startup_last_clock is None and self.deadline is None,
+                "Only the sole compiled C1 may complete its unchanged original capture once")
+        self._post_reporter_started = True
+        try:
+            self.reporter.freeze()  # Exact compiled APK/metadata/manifest/source identity, not a precompile guess.
+            self.receipt.update(post_reporter_revalidation_status="running", post_reporter_revalidation_attempts=1)
+            started = self.clock()
+            require(type(started) in (int, float) and float("-inf") < started < float("inf"),
+                    "Post-reporter clock is not finite")
+            self.post_reporter_deadline, self.post_reporter_last_clock = started + 120.0, started
+            post_reporter_completed = False
+            try:
+                self.post_reporter_remaining()
+                self.publish()
+                self.guest.verify_live()  # The unchanged live guard includes all captured FD/config identities.
+                for name in ("DUMP", "ACCESS_CONTENT_PROVIDERS_EXTERNALLY"):
+                    require(permission(self.control("shell", "dumpsys", "package", "check-permission",
+                                                    "android.permission." + name, "com.android.shell", "0")), "Read permission not granted")
+                ready, home = self.post_reporter_observation(self.original.boot)
+                require(ready and home == self._pre_reporter_startup_home,
+                        "Typed startup identity changed while the reporter compiled")
+                current = self.stable(fresh=True)
+                require(self.original is self._pre_reporter_original and current == self._pre_reporter_original,
+                        "Exact original master/native/scalar/epoch changed while the reporter compiled")
+                ready, home = self.post_reporter_observation(self.original.boot)
+                require(ready and home == self._pre_reporter_startup_home,
+                        "Typed startup identity changed across post-reporter original-state revalidation")
+                self.reporter.unchanged()
+                self.post_reporter_remaining()
+                self.receipt["post_reporter_revalidation_status"] = "passed"
+                self.post_reporter_remaining()
+                post_reporter_completed = True
+            finally:
+                if not post_reporter_completed:
+                    self.receipt["post_reporter_revalidation_status"] = "failed"
+                self.post_reporter_deadline, self.post_reporter_last_clock = None, None
+            original = self.original  # Never replace it with a postcompile snapshot.
+            if original.master != Row(True, "1"):
+                require(permission(self.control("shell", "dumpsys", "package", "check-permission",
+                                                "android.permission.WRITE_SECURE_SETTINGS", "com.android.shell", "0")), "Write permission not granted")
+                self.enable_attempted = True
+                self.receipt["master_enable_attempts"] = 1
+                self.publish()  # Before the sole possible PUT1.
+                require(result_bytes(self.control("shell", "settings", "--user", "0", "put", "global", MASTER, "1"),
+                                     CONTROL_BYTES) in (b"", b"\n"), "Master initialization reply was not empty success")
+                current = self.stable(fresh=True)
+                require(current.master == Row(True, "1") and current.pair() == original.pair() and current.boot == original.boot,
+                        "Master1 initialization/native pair/original epoch unverified")
+                self.enable_completed = True
+            self.receipt.update(prepare_status="passed", master1_observed=True,
+                                master_initialization_completed=self.enable_completed, master_was_already1=not self.enable_attempted)
+            self.publish()
+        except FAILURES as error:
+            self.receipt["prepare_status"] = "failed"
+            if self.receipt["post_reporter_revalidation_status"] != "passed":
+                self.receipt["post_reporter_revalidation_status"] = "failed"
             self.failure("prepare", error)
             raise
         return dict(self.receipt)
@@ -1331,3 +1577,150 @@ def settings_activity_absence_refusal(error: BaseException, origin: dict | None)
             observation["row_empty"] != (observation["row_bytes"] == 0)):
         return None
     return dict(observation)
+
+
+
+_SCALAR_QUERY_CONTEXT = object()  # Immutable per-module provenance marker; no global observation registry.
+
+
+def scalar_query_identity(arguments: tuple[str, ...]) -> tuple[str, str | None] | None:
+    """Exact fixed owner command identity only. Never publish argv, paths, values or result bodies."""
+    if type(arguments) is not tuple or any(type(part) is not str for part in arguments):
+        return None
+    fixed = {
+        ("emu", "avd", "name"): ("owned-avd-name", None),
+        ("shell", "id", "-u"): ("shell-uid", None),
+        ("shell", "cat", "/proc/sys/kernel/random/boot_id"): ("kernel-boot-id", None),
+        ("shell", "getprop", "ro.build.version.sdk"): ("runtime-sdk", None),
+        ("shell", "getprop", "ro.product.cpu.abi"): ("runtime-abi", None),
+        ("shell", "getprop", "sys.boot_completed"): ("runtime-boot-completed", None),
+        ("shell", "getenforce"): ("selinux-enforcement", None),
+        ("shell", "dumpsys", "package", "check-permission", "android.permission.DUMP", "com.android.shell", "0"):
+            ("shell-dump-permission-user0", None),
+        ("shell", "dumpsys", "package", "check-permission", "android.permission.ACCESS_CONTENT_PROVIDERS_EXTERNALLY", "com.android.shell", "0"):
+            ("shell-content-permission-user0", None),
+        ("shell", "dumpsys", "package", "check-permission", "android.permission.WRITE_SECURE_SETTINGS", "com.android.shell", "0"):
+            ("shell-write-permission-user0", None),
+        ("shell", "settings", "--user", "0", "delete", "global", MASTER): ("global-master-delete-user0", MASTER),
+        ("uninstall", REPORTER): ("owned-reporter-uninstall", None),
+    }
+    if arguments in fixed:
+        return fixed[arguments]
+    for key in (MASTER, SCALAR):
+        if arguments == ("shell", "settings", "--user", "0", "get", "global", key):
+            return "global-settings-get-user0", key
+        if arguments == ("shell", "content", "query", "--user", "0", "--uri",
+                         "content://settings/global/" + key, "--projection", "name:value"):
+            return "global-settings-single-row-user0", key
+    return None
+
+
+def scalar_result_query_identity(error: BaseException, result: subprocess.CompletedProcess,
+                                 query_identity) -> tuple[str, str | None] | None:
+    """Prove a parse_row input position or the exact owner-requested result; never guess another getter."""
+    if query_identity is not None:
+        if (type(query_identity) is not tuple or len(query_identity) != 2 or
+                type(query_identity[0]) is not str or type(query_identity[1]) is not str or
+                query_identity[0] not in ("global-settings-get-user0", "global-settings-single-row-user0") or
+                query_identity[1] not in (MASTER, SCALAR)):
+            return None
+        node = error.__traceback__
+        for _ in range(64):
+            if node is None:
+                return None
+            if node.tb_frame.f_code is line.__code__:
+                name = "getter" if query_identity[0] == "global-settings-get-user0" else "query"
+                caller = node.tb_frame.f_back
+                values = caller.f_locals if caller is not None and caller.f_code is parse_row.__code__ else {}
+                if (type(values.get("key")) is str and values["key"] == query_identity[1] and
+                        values.get(name) is result and node.tb_frame.f_locals.get("result") is result):
+                    return query_identity
+                return None
+            node = node.tb_next
+        return None
+    context = vars(result).get("_nativecmpkit_scalar_query_context")
+    if (type(context) is not tuple or len(context) != 3 or context[0] is not _SCALAR_QUERY_CONTEXT or
+            context[1] is not result or type(result.args) is not list or len(result.args) < 4 or
+            any(type(part) is not str for part in result.args) or result.args[1:3] != ["-s", SERIAL] or
+            tuple(result.args[3:]) != context[2]):
+        return None
+    return scalar_query_identity(context[2])
+
+
+def scalar_control_refusal_observation(error: BaseException, result: subprocess.CompletedProcess,
+                                       payload: bytes, cap: int, pattern: bytes, query_identity) -> dict | None:
+    """Bounded fingerprints/byte shapes only, strictly after the original shape require refused."""
+    if (type(error) is not ValueError or error.args != ("Unknown scalar control shape",) or
+            type(result) is not subprocess.CompletedProcess or type(payload) is not bytes or
+            type(cap) is not int or not 0 < cap <= CONTROL_BYTES or not 0 <= len(payload) <= cap or
+            type(pattern) is not bytes or not 0 < len(pattern) <= CONTROL_BYTES or
+            type(result.stdout) is not bytes or result.stdout is not payload or
+            type(result.stderr) is not bytes or result.stderr != b"" or result.returncode != 0):
+        return None
+    identity = scalar_result_query_identity(error, result, query_identity)
+    if identity is None:
+        return None
+    return {
+        "schema": "nativecmpkit.camera-scalar-control-refusal.v1",
+        "query": identity[0], "setting_key": identity[1], "cap_bytes": cap,
+        "payload_bytes": len(payload), "payload_sha256": hashlib.sha256(payload).hexdigest(),
+        "pattern_bytes": len(pattern), "pattern_sha256": hashlib.sha256(pattern).hexdigest(),
+        "ascii_only": all(value <= 127 for value in payload),
+        "printable_ascii_or_line_endings_only": all(32 <= value <= 126 or value in (10, 13) for value in payload),
+        "lf_bytes": payload.count(b"\n"), "cr_bytes": payload.count(b"\r"),
+        "nul_bytes": payload.count(b"\0"), "escape_bytes": payload.count(b"\x1b"),
+        "tab_bytes": payload.count(b"\t"), "space_bytes": payload.count(b" "),
+        "leading_ascii_spaces": len(payload) - len(payload.lstrip(b" ")),
+        "trailing_ascii_spaces": len(payload) - len(payload.rstrip(b" ")),
+        "terminal_lf": payload.endswith(b"\n"), "terminal_crlf": payload.endswith(b"\r\n"),
+        "empty": not payload,
+    }
+
+
+def record_scalar_control_refusal(error: BaseException, result: subprocess.CompletedProcess,
+                                  payload: bytes, cap: int, pattern: bytes, query_identity) -> None:
+    observation = scalar_control_refusal_observation(error, result, payload, cap, pattern, query_identity)
+    if observation is not None:
+        error._nativecmpkit_scalar_control_refusal = observation
+        error._nativecmpkit_scalar_control_refusal_identity = error
+
+
+def scalar_control_refusal(error: BaseException, origin: dict | None) -> dict | None:
+    """Validate/copy optional facts against the actual live line traceback; never decide admission or cleanup."""
+    if (type(error) is not ValueError or error.args != ("Unknown scalar control shape",) or
+            vars(error).get("_nativecmpkit_scalar_control_refusal_identity") is not error or
+            type(origin) is not dict or any(type(key) is not str for key in origin) or
+            set(origin) != {"source", "symbol", "line"} or
+            origin["source"] != "android_camera_developer_prerequisite.py" or origin["symbol"] != "line" or
+            type(origin["line"]) is not int or not 0 < origin["line"] < 20000 or
+            origin != require_call_origin(error)):
+        return None
+    observation = vars(error).get("_nativecmpkit_scalar_control_refusal")
+    integers = ("cap_bytes", "payload_bytes", "pattern_bytes", "lf_bytes", "cr_bytes", "nul_bytes",
+                "escape_bytes", "tab_bytes", "space_bytes", "leading_ascii_spaces", "trailing_ascii_spaces")
+    booleans = ("ascii_only", "printable_ascii_or_line_endings_only", "terminal_lf", "terminal_crlf", "empty")
+    digests = ("payload_sha256", "pattern_sha256")
+    if (type(observation) is not dict or any(type(key) is not str for key in observation) or
+            set(observation) != {"schema", "query", "setting_key", *integers, *booleans, *digests} or
+            observation["schema"] != "nativecmpkit.camera-scalar-control-refusal.v1" or
+            type(observation["query"]) is not str or
+            (observation["setting_key"] is not None and type(observation["setting_key"]) is not str) or
+            any(type(observation[key]) is not int for key in integers) or
+            any(type(observation[key]) is not bool for key in booleans) or
+            any(type(observation[key]) is not str or re.fullmatch(r"[a-f0-9]{64}", observation[key]) is None for key in digests) or
+            not 0 < observation["cap_bytes"] <= CONTROL_BYTES or
+            not 0 <= observation["payload_bytes"] <= observation["cap_bytes"] or
+            not 0 < observation["pattern_bytes"] <= CONTROL_BYTES or
+            any(not 0 <= observation[key] <= observation["payload_bytes"] for key in integers[3:])):
+        return None
+    node = error.__traceback__
+    for _ in range(64):
+        if node is None:
+            return None
+        if node.tb_frame.f_code is line.__code__:
+            values = node.tb_frame.f_locals
+            expected = scalar_control_refusal_observation(error, values.get("result"), values.get("payload"),
+                values.get("cap"), values.get("pattern"), values.get("query_identity"))
+            return dict(observation) if expected is not None and observation == expected else None
+        node = node.tb_next
+    return None

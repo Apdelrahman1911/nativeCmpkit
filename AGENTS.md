@@ -1,5 +1,38 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera fail-fast integrated; current platform originals reviewed — 2026-11-01
+
+[Actual186/integration189/plan190](docs/development/evidence/current-platform-recovery-20261101/camera-failfast186-190/README.md)
+accepts first-only30 synthetic source controls/zero failures, unittest1.694s,
+driver1.820064234s/wrapper1.969752049s. Exact30 ordered fragments/eight owning paths/
+five additions integrate after Share188 dispatch; all47 accepted source/driver
+bindings match without replay,1184/1262 maps. Sole C1 read-only state precedes APK;
+postcompile one-shot/custody/clocks/refusals/primary/cleanup remain strict. Metadata42
+repairs leave every candidate/control byte unchanged; passive305 external sources
+find no stale pin/order/KVM/discovery blocker. ZERO new native/compiler/browser.
+#13 stays open; original scalar cause unknown, accepted camera009 three excluded.
+
+[Focused originals185](docs/development/evidence/current-platform-recovery-20261101/focused-native185/README.md)
+preserve Android41357684810 FAILED2native/0pass/one XML/Gradle1/114.06s;
+actual1179 maps hold,1257 Git-only. ExternalStorage open-tree46/Downloads row35
+have eligible-count0; both reach six-role admission, cause/app variant unknown.
+#55 stays open/cloudC1 separate. Wasm41357698021 is runner-green/XML4/4, but
+awaited native/cleanup acceptance withheld at the external-adapter Promise boundary;
+#82 stays open pending exact source/result qualification. Share13 dispatched once
+in41360713477 at6c8684a3 after both terminal reservations freed; originals pending.
+Do not retry unchanged failed or accepted native populations. Additive183 original
+readback accepts19/19 source controls; earlier qualification seals remain unchanged.
+
+[Current172-issue readback191](docs/development/evidence/current-platform-recovery-20261101/issue-state191/README.md)
+verifies every170 managed original description/title/label/author/timestamp unchanged,
+refreshes three stale observed states, ZERO new closure:96closed/76open,
+25implemented/40partial/94verified/five unresolved. Upstream16 remain mapped at the
+separate1315 acquisition; no fresh comment/timeline acquisition is inferred.
+Lead integration/Git/dispatch/closure; parallel disjoint work authorized, serial local/
+8GiB/max2 combined hosted reservations INCLUDING queued. Actions/all/no mandatory
+SHA pinning/read-only and every publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness gate remain. No release/package publication.
+
 ## Shared CI fixture recovery verified locally — 2026-11-01
 
 [Actual183](docs/development/evidence/current-platform-recovery-20261101/documentsui-bridge183/README.md)

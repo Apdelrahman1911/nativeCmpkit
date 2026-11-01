@@ -1,5 +1,9 @@
 # Android camera restoration verification — 2026-10-30
 
+## Current sole-C1 capture/compile custody — 2026-11-01
+
+[Actual186, integration189 and source plan190](evidence/current-platform-recovery-20261101/camera-failfast186-190/README.md) put genuine read-only original-state capture before reporter assembly for only the remaining don’t-keep-activities C1. Thirty new synthetic controls pass once, and exact47 live bindings reuse those results; zero native methods are executed locally. Postcompile revalidation/primary-error/cleanup/one-shot/deadline guards and every original #13 criterion remain unchanged. The prior native scalar cause is unknown; accepted camera009 three must not be replayed. Fresh finite C1 is required before closure.
+
 ## Protected entry and atomic observation batch — 2026-10-31
 
 [Actual41112748929](evidence/android-camera-provider-20261030/restoration-ci006/README.md)

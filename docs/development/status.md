@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `180b1071d81e43ee53af901d8c6534eca5c97f9087279caaeb34d2c8aa14326c`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `e6c633aa5cc8faf122d4de03949ab731d0d45f63db6980a30b7019124bc7f3e7`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -3579,7 +3579,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `8b249dc60d7921709d9874f8055e7d0953a31c3f4da9221677ffd0bc5a408827` |
-| [docs/migration/issue-map.json](../migration/issue-map.json) | `5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678` |
-| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c` |
+| [docs/migration/issue-map.json](../migration/issue-map.json) | `5d4b9f725741ad2be85383b108a1a0fe019b5ba2fc7930dca07ddd11d0ae490c` |
+| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `6858ce119d09c36f152c8ff0689c6df798bb5a35c64bb71d985583f739c7a664` |
 
 No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.

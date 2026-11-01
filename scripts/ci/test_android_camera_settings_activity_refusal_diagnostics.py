@@ -20,7 +20,7 @@ ATTRIBUTE = "_nativecmpkit_settings_activity_absence_refusal"
 # Only this four-fragment observational addition may be reversed. Entire current
 # and historical helper bytes are checked; no arbitrary AST definitions are stripped.
 OBSERVATION_INVERSE_SHA256 = 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'
-STARTUP_INVERSE_SHA256 = '4731607e26e6a1a36e8e48bf09f824b2e0df652da8af77db8ad1b95efa627dc2'
+STARTUP_INVERSE_SHA256 = '43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c'
 
 def pre_startup_helper_source(source: str) -> str:
     """Normalize only the pinned exact initial-readiness fragments, never an AST."""

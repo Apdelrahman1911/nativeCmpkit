@@ -1,0 +1,24 @@
+{
+  "after_sha256": "daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec",
+  "before_sha256": "02bb9ab153f147fab13bf58ff9fccaef754cc66f2dfcc067dc3ad2b1d8726640",
+  "inverse_fragments": [
+    {
+      "new": "        if guest is not None:\n            # Read-only original custody may fail fast on this already-owned booted\n            # guest. No helper install, master write, reporter dispatch or native\n            # success precedes the unchanged actual reporter assembly and revalidation.\n            developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)\n            result[\"camera_developer_prerequisite\"] = developer.capture_before_reporter()\n            try:\n                execution = lt.execute(root, assemble, output / \"apk-assembly.log\", 900, RESERVE_MIB, env=env)\n                result[\"setup_stages\"][\"apk-assembly\"] = execution\n                if execution[\"exit_code\"] != 0 or execution.get(\"stop_reason\"):\n                    raise RuntimeError(\"Reporter setup failed before any Dont-keep device test execution\")\n                developer.record_reporter_assembly_success(execution)\n            except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:\n                try:\n                    developer.record_reporter_assembly_failure(error)\n                except BaseException:\n                    pass  # Keep the original compile/publication refusal; running/failed can never admit native.\n                raise\n            result[\"camera_developer_prerequisite\"] = developer.prepare()\n",
+      "old": "        if guest is not None:\n            # The unchanged Settings UI lease requires master1; admission and\n            # optional one-key initialization precede both test APK installs.\n            developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)\n            result[\"camera_developer_prerequisite\"] = developer.prepare()\n"
+    },
+    {
+      "new": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required or camera_developer_required:\n",
+      "old": "        if deferred_api23_assembly or io_documents_required or permission_demo_required or storage_required:\n"
+    },
+    {
+      "new": "            # Validate the finite camera's real SDK device profile before a costly APK\n            # compilation. Only sole Dont-keep may then boot for read-only original\n            # capture before assembly; every other profile keeps its existing order.\n",
+      "old": "            # Validate the finite camera's real SDK device profile before a costly APK\n            # compilation. This creates only our private AVD; launch still waits for\n            # both prerequisites. Other profiles preserve their existing setup order.\n"
+    },
+    {
+      "new": "    if storage_required:\n        result[\"reporter_compile_deferred_until_storage_identity\"] = True\n    if camera_developer_required:\n        result[\"reporter_compile_deferred_until_camera_read_only_prerequisite\"] = True\n    try:\n",
+      "old": "    if storage_required:\n        result[\"reporter_compile_deferred_until_storage_identity\"] = True\n    try:\n"
+    }
+  ],
+  "schema": 1,
+  "scope": "Inert historical owning fixtures only; no production import or controller qualification"
+}

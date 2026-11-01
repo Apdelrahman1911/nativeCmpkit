@@ -16,6 +16,11 @@ from unittest.mock import patch
 from pathlib import Path
 import unittest
 
+try:
+    from .camera_scalar_failfast_source_projection import historical_controller_source
+except ImportError:
+    from camera_scalar_failfast_source_projection import historical_controller_source
+
 TREE = Path(os.environ.get("CAMERA_PREREQUISITE_MODEL_TREE", Path(__file__).resolve().parents[2]))
 
 
@@ -1128,7 +1133,7 @@ class ControllerOwnershipModels(unittest.TestCase):
             if model.transport_error:
                 raise ValueError("Modeled unknown post-exit device table")
             return True
-        source = (TREE / "scripts/ci/android_device_tests.py").read_text()
+        source = historical_controller_source((TREE / "scripts/ci/android_device_tests.py").read_text())
         selected = [node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef) and node.name in ("_run", "preflight_error_origin")]
         globals_ = {"__name__": "camera_controller_owning_model", "__file__": str(TREE / "scripts/ci/android_device_tests.py"),
             "Path": Path, "os": os, "re": camera.re, "shutil": shutil, "signal": camera.signal, "uuid": camera.uuid, "time": camera.time,

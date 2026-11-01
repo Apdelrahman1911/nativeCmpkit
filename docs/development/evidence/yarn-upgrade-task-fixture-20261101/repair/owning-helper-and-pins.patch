@@ -1,0 +1,55 @@
+--- a/snapshot/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
++++ b/snapshot/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
+@@ -28,7 +28,7 @@
+  * this root-build action-order claim. Bootstrap is held, not a property-level bypass.
+  */
+ object OrdinaryYarnUpgradeTaskGate {
+-    private fun <T> action(block: (T) -> Unit): Action<T> = object : Action<T> {
++    private fun <T : Any> action(block: (T) -> Unit): Action<T> = object : Action<T> {
+         override fun execute(target: T) = block(target)
+     }
+ 
+--- a/integration/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
++++ b/integration/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
+@@ -28,7 +28,7 @@
+  * this root-build action-order claim. Bootstrap is held, not a property-level bypass.
+  */
+ object OrdinaryYarnUpgradeTaskGate {
+-    private fun <T> action(block: (T) -> Unit): Action<T> = object : Action<T> {
++    private fun <T : Any> action(block: (T) -> Unit): Action<T> = object : Action<T> {
+         override fun execute(target: T) = block(target)
+     }
+ 
+--- a/snapshot/fixture/build.gradle.kts
++++ b/snapshot/fixture/build.gradle.kts
+@@ -78,7 +78,7 @@
+     .joinToString("") { "%02x".format(it.toInt() and 255) }
+ val helperSource = rootDir.parentFile.resolve("convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt")
+ val helperSha256 = digest(helperSource.readBytes())
+-require(helperSha256 == "6473a953ad6c95e0eb00f0e79e2275aac0731976db06356b73bcfa6abfac0f14") { "NCYB-reviewed-helper-source-changed" }
++require(helperSha256 == "5cb4ea67fbf6d8ba22d964ccce03fc5e72bbf78bb16e97b6e254a57a3cd97682") { "NCYB-reviewed-helper-source-changed" }
+ val resultDirectory = layout.buildDirectory.dir("upgrade-fixture/$runId").get().asFile.toPath()
+ require(!Files.exists(resultDirectory)) { "NCYB-run-directory-already-exists" }
+ Files.createDirectories(resultDirectory)
+--- a/tools/classify_case.py
++++ b/tools/classify_case.py
+@@ -13,7 +13,7 @@
+ import stat
+ import freeze_inputs as frozen
+ 
+-HELPER_SHA256 = "6473a953ad6c95e0eb00f0e79e2275aac0731976db06356b73bcfa6abfac0f14"
++HELPER_SHA256 = "5cb4ea67fbf6d8ba22d964ccce03fc5e72bbf78bb16e97b6e254a57a3cd97682"
+ GATE = ":nativeCmpkitRefuseOrdinaryYarnUpgrade"
+ SENTINEL = ":nativeCmpkitActionSentinel"
+ JS_UPGRADE = ":kotlinUpgradeYarnLock"
+--- a/tools/source_contract.py
++++ b/tools/source_contract.py
+@@ -6,7 +6,7 @@
+ import json
+ from pathlib import Path
+ 
+-HELPER_SHA256 = "6473a953ad6c95e0eb00f0e79e2275aac0731976db06356b73bcfa6abfac0f14"
++HELPER_SHA256 = "5cb4ea67fbf6d8ba22d964ccce03fc5e72bbf78bb16e97b6e254a57a3cd97682"
+ 
+ 
+ def checks(helper: bytes, root: str, settings: str, child: str) -> list[dict]:

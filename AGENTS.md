@@ -1,5 +1,14 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Yarn U4 actual evidence archived, not adopted — 2026-11-01
+
+[56 exact files/55 checksums](docs/development/evidence/yarn-upgrade-task-fixture-20261101/INTEGRATION.md)
+retain U4 Gradle1/54.01s generic-bound failure and five-file helper/pin recovery
+0/46.01s: five executed/five up-to-date, one fresh sentinel/gate unselected.
+52-source/runtime/four-receipt readback reused; ZERO new build/model execution or
+root prototype adoption. U1/U2/U3/strict classifier/detached cleanup/network/RSS/
+ordinary dependency trust remain unverified; #40 unresolved/open, all gates stay.
+
 ## Sole camera prerequisite integrated — 2026-11-01
 
 [Three-file owning delta](docs/development/evidence/camera-developer-prerequisite-20261101/implementation001/README.md)

@@ -1,0 +1,41 @@
+{
+    "schema": 1,
+    "case_id": "U4",
+    "run_id": "U4-1f72e180af608ea3",
+    "input_sha256": "614c361b7a1d86b7345e648abaea064186d3c5f1a79118f870b9d60cbac72b9e",
+    "helper_sha256": "5cb4ea67fbf6d8ba22d964ccce03fc5e72bbf78bb16e97b6e254a57a3cd97682",
+    "gradle_version": "9.7.1",
+    "java_major": 17,
+    "configured_kgp_version": "2.4.20",
+    "record_type": "actual-kgp-upgrade-graph",
+    "requested_tasks": [
+        "nativeCmpkitActionSentinel"
+    ],
+    "bindings": {
+        "js_upgrade_typed_provider_identity": true,
+        "wasm_upgrade_typed_provider_identity": true,
+        "js_primary_typed_provider_identity": true,
+        "wasm_primary_typed_provider_identity": true,
+        "gate_typed_provider_identity": true,
+        "js_upgrade_depends_on_primary": true,
+        "wasm_upgrade_depends_on_primary": true,
+        "js_upgrade_depends_on_gate": true,
+        "wasm_upgrade_depends_on_gate": true,
+        "indirect_js_depends_on_actual_upgrade": true,
+        "indirect_wasm_depends_on_actual_upgrade": true,
+        "gate_dependency_free": true
+    },
+    "registered_upgrade_paths": [
+        ":kotlinUpgradeYarnLock",
+        ":kotlinWasmUpgradeYarnLock"
+    ],
+    "root_tasks": [
+        {
+            "path": ":nativeCmpkitActionSentinel",
+            "kind": "other"
+        }
+    ],
+    "all_root_non_gate_tasks_ordered_after_gate": true,
+    "gate_selected_by_actual_object": false,
+    "included_build_actions_in_scope": false
+}

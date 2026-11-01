@@ -1,0 +1,117 @@
+{
+  "U1_U2_U3_authorized": false,
+  "case": {
+    "case_id": "U4",
+    "command_sha256": "3845933ed5bd184ef43b62267f2ffe2167a9046a41e7683387fcac370003b83a",
+    "compile_and_nonselection_case": true,
+    "expected_exit_code": 0,
+    "input_sha256": "f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871",
+    "invocation": {
+      "argv": [
+        "<EXISTING_GRADLE_LAUNCHER>",
+        "--gradle-user-home",
+        "<EXISTING_GRADLE_USER_HOME>",
+        "-p",
+        "<PRIVATE_U4_ROOT>/snapshot/fixture",
+        "nativeCmpkitActionSentinel",
+        "--offline",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--no-build-cache",
+        "--max-workers=1",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pnativecmpkit.fixtureCase=standard",
+        "-Pnativecmpkit.yarnUpgradeTaskPrototype=true",
+        "-Pnativecmpkit.upgradeFixtureCase=U4",
+        "-Pnativecmpkit.fixtureRunId=U4-f46114c63e0fc367",
+        "-Pnativecmpkit.fixtureInputSha256=f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871"
+      ],
+      "environment_overrides": {
+        "JAVA_HOME": "<JDK_17_HOME>",
+        "PATH": "<JDK_17_HOME>/bin:<SYSTEM_EXECUTABLE_PATH>"
+      },
+      "working_directory": "<PRIVATE_U4_ROOT>/snapshot/fixture"
+    },
+    "receipt_directory": "<PRIVATE_U4_ROOT>/snapshot/fixture/build/upgrade-fixture/U4-f46114c63e0fc367",
+    "run_id": "U4-f46114c63e0fc367",
+    "status": "not-executed"
+  },
+  "full_request": {
+    "argv": [
+      "<PYTHON3_LAUNCHER>",
+      "-B",
+      "<REPOSITORY_ROOT>/scripts/audit/run_bounded_build.py",
+      "--cwd",
+      "<PRIVATE_U4_ROOT>/snapshot/fixture",
+      "--log",
+      "<PRIVATE_U4_ROOT>/evidence/U4-original-merged.log",
+      "--timeout",
+      "300",
+      "--reserve-mib",
+      "8192",
+      "--",
+      "<EXISTING_GRADLE_LAUNCHER>",
+      "--gradle-user-home",
+      "<EXISTING_GRADLE_USER_HOME>",
+      "-p",
+      "<PRIVATE_U4_ROOT>/snapshot/fixture",
+      "nativeCmpkitActionSentinel",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--no-build-cache",
+      "--max-workers=1",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pnativecmpkit.fixtureCase=standard",
+      "-Pnativecmpkit.yarnUpgradeTaskPrototype=true",
+      "-Pnativecmpkit.upgradeFixtureCase=U4",
+      "-Pnativecmpkit.fixtureRunId=U4-f46114c63e0fc367",
+      "-Pnativecmpkit.fixtureInputSha256=f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871"
+    ],
+    "environment": {
+      "HOME": "<HOME>",
+      "JAVA_HOME": "<JDK_17_HOME>",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "PATH": "<JDK_17_HOME>/bin:<SYSTEM_EXECUTABLE_PATH>"
+    },
+    "environment_is_minimal_not_inherited": true,
+    "working_directory": "<PRIVATE_U4_ROOT>/snapshot/fixture"
+  },
+  "full_request_sha256": "743056ae08830430726cbdf91854bbfa0f4c25d63bcc2bb14a6d1b4272e895a4",
+  "non_guarantees": [
+    "composite-or-detached-descendant-cleanup",
+    "OS-network-sandbox",
+    "RSS-enforcement"
+  ],
+  "original_command_sha256": "2a79ea480e3cc2ad94946791a1e68b08fa8b8f9a2ff5ca40813d00c7e6bccc27",
+  "original_commands001_sha256": "9b2b7e4f0ceee899a35e3d522db71d60caec98b5ff6551d117c80386496a5f07",
+  "path_derivation": {
+    "new_fixture_directory": "<PRIVATE_U4_ROOT>/snapshot/fixture",
+    "only_inner_invocation_changes": [
+      "-p value",
+      "working_directory"
+    ],
+    "original_fixture_directory": "<ORIGINAL_PRIVATE_U4_ROOT>/snapshot/fixture",
+    "run_id_unchanged": true
+  },
+  "record_type": "explicit-relocated-U4-only-request",
+  "requested_disk_reserve_mib": 8192,
+  "requested_timeout_seconds": 300,
+  "resource_guard": {
+    "bytes": 3487,
+    "path": "<REPOSITORY_ROOT>/scripts/audit/run_bounded_build.py",
+    "sha256": "79bf9f31d1433234a3d62f813e963a9504450ca7a61135340cbe71b2b2be7a14"
+  },
+  "schema": 1,
+  "source_digest": "f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871",
+  "source_manifest_sha256": "01a5db96cffb923855881f71622fbec36a9872427f33f36193ee921d0bb4f3a7",
+  "status": "ready-not-executed",
+  "strict_acceptance_classifier_authorized": false
+}

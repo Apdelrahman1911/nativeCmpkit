@@ -1,0 +1,22 @@
+--- a/snapshot/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
++++ b/snapshot/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
+@@ -28,7 +28,7 @@
+  * this root-build action-order claim. Bootstrap is held, not a property-level bypass.
+  */
+ object OrdinaryYarnUpgradeTaskGate {
+-    private fun <T> action(block: (T) -> Unit): Action<T> = object : Action<T> {
++    private fun <T : Any> action(block: (T) -> Unit): Action<T> = object : Action<T> {
+         override fun execute(target: T) = block(target)
+     }
+ 
+--- a/integration/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
++++ b/integration/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/OrdinaryYarnUpgradeTaskGate.kt
+@@ -28,7 +28,7 @@
+  * this root-build action-order claim. Bootstrap is held, not a property-level bypass.
+  */
+ object OrdinaryYarnUpgradeTaskGate {
+-    private fun <T> action(block: (T) -> Unit): Action<T> = object : Action<T> {
++    private fun <T : Any> action(block: (T) -> Unit): Action<T> = object : Action<T> {
+         override fun execute(target: T) = block(target)
+     }
+ 

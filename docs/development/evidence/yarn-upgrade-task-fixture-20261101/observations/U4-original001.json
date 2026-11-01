@@ -1,0 +1,148 @@
+{
+  "OS_network_sandbox_verified": null,
+  "RSS_enforcement_verified": null,
+  "U1_U2_U3_executions": 0,
+  "actionable_tasks": 6,
+  "actionable_tasks_executed_including_failed_compile": 6,
+  "actual_command": [
+    "<EXISTING_GRADLE_LAUNCHER>",
+    "--gradle-user-home",
+    "<EXISTING_GRADLE_USER_HOME>",
+    "-p",
+    "<PRIVATE_U4_ROOT>/snapshot/fixture",
+    "nativeCmpkitActionSentinel",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pnativecmpkit.fixtureCase=standard",
+    "-Pnativecmpkit.yarnUpgradeTaskPrototype=true",
+    "-Pnativecmpkit.upgradeFixtureCase=U4",
+    "-Pnativecmpkit.fixtureRunId=U4-f46114c63e0fc367",
+    "-Pnativecmpkit.fixtureInputSha256=f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871"
+  ],
+  "actual_working_directory": "<PRIVATE_U4_ROOT>/snapshot/fixture",
+  "artifacts": [
+    {
+      "bytes": 4356,
+      "path": "evidence/U4-original-merged.log",
+      "sha256": "3752b05e9df1c6a0878da08cf56892829b705142663a1df6dc57661ca0f08c7c"
+    },
+    {
+      "bytes": 1212,
+      "path": "evidence/U4-original-merged.log.result.json",
+      "sha256": "d5534925636cb3b782229c5fd9e22b94578ed537e8eac5e375e465427ba4079a"
+    },
+    {
+      "bytes": 118,
+      "path": "evidence/source-before-U4.log",
+      "sha256": "35713ab4593be82f4f307fe70bbc6f9aa0b7a969ed65ced86cf41ecac9986284"
+    },
+    {
+      "bytes": 118,
+      "path": "evidence/source-after-U4.log",
+      "sha256": "35713ab4593be82f4f307fe70bbc6f9aa0b7a969ed65ced86cf41ecac9986284"
+    },
+    {
+      "bytes": 1740,
+      "path": "evidence/runtime-before-U4.json",
+      "sha256": "3d59d6413498916ae30e1c4b616798e05b031b6e732f711dcc53c9c08d4ed0bf"
+    },
+    {
+      "bytes": 1592,
+      "path": "evidence/runtime-after-U4.json",
+      "sha256": "4362c8d53dd799ee9515d46c1cf08d5f69f6379d83712ed98dab16fc3d43e24c"
+    },
+    {
+      "bytes": 13996,
+      "path": "evidence/relocation001.json",
+      "sha256": "886edf1b29cf4f0541f725861b283140ac8394276064ccce4fd11f4166546b0b"
+    }
+  ],
+  "case_id": "U4",
+  "cleanup_verified": null,
+  "compiler_error_fact": "Unbounded helper generic T does not satisfy actual org.gradle.api.Action<T : Any> bound.",
+  "compiler_error_source": "OrdinaryYarnUpgradeTaskGate.kt:31",
+  "complete_bounds_verified": null,
+  "composite_detached_descendant_cleanup_verified": null,
+  "derived_command_sha256": "3845933ed5bd184ef43b62267f2ffe2167a9046a41e7683387fcac370003b83a",
+  "disk_reserve_mib": 8192,
+  "elapsed_seconds": 54.01,
+  "failed_task": ":convention-plugins:compileKotlin",
+  "fixture_receipt_directory_exists": false,
+  "fixture_receipt_files": [],
+  "free_bytes_after": 47015145472,
+  "free_bytes_before": 47358746624,
+  "frozen_source_files": 52,
+  "full_bounded_request_sha256": "743056ae08830430726cbdf91854bbfa0f4c25d63bcc2bb14a6d1b4272e895a4",
+  "gradle_exit_code": 1,
+  "helper_compiler_error_count": 2,
+  "helper_root_child_compile_accepted": false,
+  "helper_sha256": "6473a953ad6c95e0eb00f0e79e2275aac0731976db06356b73bcfa6abfac0f14",
+  "main_root_action_markers": 0,
+  "minimal_environment": {
+    "HOME": "<HOME>",
+    "JAVA_HOME": "<JDK_17_HOME>",
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PATH": "<JDK_17_HOME>/bin:<SYSTEM_EXECUTABLE_PATH>"
+  },
+  "new_helper_or_live_source_repairs": 0,
+  "new_installers_downloads_or_network_retries_invoked": 0,
+  "new_native_executions": 0,
+  "new_original_test_xml": 0,
+  "new_test_methods_executed": 0,
+  "ordinary_root_adoption_or_40_acceptance": false,
+  "original_commands001_preserved": true,
+  "proposed_minimal_source_fix_not_applied": "private fun <T : Any> action(block: (T) -> Unit): Action<T>",
+  "record_type": "actual-U4-compiler-refusal-not-expected-denial",
+  "resource_guard_exit_code": 1,
+  "resource_guard_stop_reason": "normal-child-completion",
+  "resource_guard_timeout_or_disk_stop_reported": false,
+  "run_id": "U4-f46114c63e0fc367",
+  "schema": 1,
+  "sentinel_ran_markers": 0,
+  "six_selected_runtime_input_bytes_before_after_equal": true,
+  "source_before_after_unchanged": true,
+  "source_digest": "f924d39597f168a6ae3edd2ee9bf8bd633b500a6f2d33fa7b151508a85a5c871",
+  "source_manifest_sha256": "01a5db96cffb923855881f71622fbec36a9872427f33f36193ee921d0bb4f3a7",
+  "started_utc": "2026-11-01T01:31:24.427892+00:00",
+  "status": "FAILED-before-main-root-fixture-configuration",
+  "strict_acceptance_classifier_executed": false,
+  "task_markers": [
+    {
+      "path": ":convention-plugins:checkKotlinGradlePluginConfigurationErrors",
+      "suffix": "SKIPPED"
+    },
+    {
+      "path": ":convention-plugins:generateExternalPluginSpecBuilders",
+      "suffix": null
+    },
+    {
+      "path": ":convention-plugins:extractPrecompiledScriptPluginPlugins",
+      "suffix": null
+    },
+    {
+      "path": ":convention-plugins:compilePluginsBlocks",
+      "suffix": null
+    },
+    {
+      "path": ":convention-plugins:generatePrecompiledScriptPluginAccessors",
+      "suffix": null
+    },
+    {
+      "path": ":convention-plugins:generateScriptPluginAdapters",
+      "suffix": null
+    },
+    {
+      "path": ":convention-plugins:compileKotlin",
+      "suffix": "FAILED"
+    }
+  ],
+  "timeout_seconds": 300
+}

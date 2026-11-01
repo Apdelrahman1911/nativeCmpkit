@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c85307f42009b5a48c31bb156630f819cb1dfab1af264c6f0395d2e40c3105ba`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `96afa501cf909dea724fe812e12fcc8f4f42adaa26d8ddf880a748d1baa9e88c`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -78,7 +78,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 30 | [UI-040](https://github.com/Apdelrahman1911/nativeCmpkit/issues/37) | High | 1 | L | unresolved | — | 3 / 5 |
 | 31 | [BUILD-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/38) | Medium | 1 | L | implemented | BUILD-003 | 3 / 1 |
 | 32 | [BUILD-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/39) | Medium | 1 | M | verified | — | 3 / 0 |
-| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 10 |
+| 33 | [BUILD-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/40) | Medium | 1 | L | unresolved | — | 4 / 11 |
 | 34 | [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) | Medium | 1 | L | partially-verified | — | 6 / 11 |
 | 35 | [IO-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/8) | High | 1 | M | partially-verified | IO-008 | 6 / 10 |
 | 36 | [PERM-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/104) | Medium | 1 | M | verified | — | 3 / 0 |
@@ -875,6 +875,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Additive009 supersedes the earlier forced-cleanup gap only for the actually exercised controlled-single-root Linux installed Gradle9.7.1/JDK17 fixture: old20s leak is retained and five owning-controller cleanup scenarios pass. Ordinary wrappers/composites/other hosts/arbitrary descendants/controller SIGKILL and the full ordinary-lock/checksum/trust/consumer/native requirements remain open.009 is exact input binding, not permission for later implicit checksum refresh or independent security certification.
 - Execute fresh immutable ios-ui and consumer-core-io affected profiles with v2 keys/uncached child home and independently inspect actual12 application methods/seven consumer methods/four classpaths/hash/cleanup receipts. Preserve prior failures; all full21-root/native/device/minimum-platform/ABI/legal/ordinary dependency-trust and detached-process gates remain, with no finding or release promotion from DSL/Python/static passes.
 - 2026-10-30 failure-safe library dependency cache: source/60 important synthetic guards/local known-group inspection pass. Review actual hosted restore/miss/precheck/postcheck/save and later exact-key hit; no claim of cache-action execution or measured efficiency yet. Consumer success-only policy/ordinary integrity/advisory/license/native/ABI/release gates remain.
+- Private U4 compiler recovery is accepted only for the archived sentinel prerequisite. Rebase U1/U2/U3 exact current-source requests and prove their unchanged strict classifier/ownership/resource requirements before execution acceptance; no root prototype adoption or #40 trust clearance from U4.
 
 **Compatibility / scope:** No auto-collected checksum is described as independently trusted; baseline audit archives unchanged.
 
@@ -3562,7 +3563,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4111035c05eca3014d742fdad2980b4bbfa362f87746eb55c8b56873438d87c4` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `c9e419683eea211d1d38d665dc497644285a43d338130e326e2330a19ef4ad1a` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `c129f2e8e5d52f3e185e29066a933280b0367bff5141977520f21132dd8dac60` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `21bb7a6326e46690a8e20f9b20a3906bd5d5c0054ceabac45dffd53da4874059` |

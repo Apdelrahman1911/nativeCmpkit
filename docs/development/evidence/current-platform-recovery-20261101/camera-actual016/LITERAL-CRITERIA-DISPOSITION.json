@@ -1,0 +1,105 @@
+{
+  "accepted009_three_originals_reacquired_or_reread": false,
+  "added_immediate_constructor_or_following_request_constraint": false,
+  "criteria": [
+    {
+      "actual016_new_acceptance": false,
+      "disposition": "NOT SATISFIED: actual016 stopped before native",
+      "literal": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "number": 1,
+      "required_future_method": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+    },
+    {
+      "actual016_new_acceptance": false,
+      "disposition": "Reused existing accepted009 applicability, not reverified/reexecuted or supplied by actual016",
+      "literal": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "number": 2,
+      "reused_methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ]
+    },
+    {
+      "actual016_new_acceptance": false,
+      "disposition": "Reused existing accepted009 applicability, not reverified/reexecuted or supplied by actual016",
+      "literal": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "number": 3,
+      "reused_methods": [
+        "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+      ]
+    }
+  ],
+  "criterion1_accepted": false,
+  "exact_checklist_payload_bytes": 87535,
+  "exact_checklist_payload_count": 11,
+  "finding": "NATIVE-019",
+  "future_check_dispositions": [
+    {
+      "actual016_disposition": "verified",
+      "id": "source-and-run",
+      "reason": "Exact immutable run/attempt/original digest and selected source bindings; only two controller library-input maps exist.",
+      "title": "Immutable actual run, selected source and receipts"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "sole-native-result",
+      "reason": "No native library invocation/XML/result; requested one method is not execution.",
+      "title": "Exactly one genuinely executed original Dont-keep method"
+    },
+    {
+      "actual016_disposition": "partial/refused",
+      "id": "fresh-owner-and-master",
+      "reason": "Owned fresh guest/boot/reporter freeze pass; original stable state/master acquisition refused before mutation.",
+      "title": "Actual owned fresh guest and controller-only master prerequisite"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "settings-lease",
+      "reason": "No native Settings lease entered.",
+      "title": "Supported installed Settings UI, cached native true and exact UI ownership"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "real-caller-and-intent",
+      "reason": "No genuine caller/recipient capture request executed.",
+      "title": "Real saved public caller and Android-created external grants"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "real-dont-keep-destruction",
+      "reason": "No non-finishing caller destruction assertion executed.",
+      "title": "Genuine non-finishing destruction while external request is held"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "terminal-readable-file",
+      "reason": "No restored Captured/KmpFile/descriptor/readable-file result.",
+      "title": "OS terminal result through restored owner, exactly one readable KmpFile"
+    },
+    {
+      "actual016_disposition": "not reached",
+      "id": "native-file-task-pid-component-cleanup",
+      "reason": "No native caller/output/component leases entered.",
+      "title": "Exact native cleanup is part of the passing method"
+    },
+    {
+      "actual016_disposition": "failed",
+      "id": "controller-app-master-barrier-cleanup",
+      "reason": "Both app absences read back but original state not acquired; cleanup ValueError retained; zero master/barrier writes.",
+      "title": "Owned app removal, same-epoch native restoration, exact master restoration"
+    },
+    {
+      "actual016_disposition": "verified partial infrastructure only",
+      "id": "engine-transport-root-disposal",
+      "reason": "Graceful owned exit0/ADB absence/confined roots disposal pass; this never compensates prerequisite or native nonacceptance.",
+      "title": "Graceful owned engine/ADB exit and confined root disposal"
+    }
+  ],
+  "issue": 13,
+  "lead_owns_issue_mutation_and_readback": true,
+  "literal_conditional_checklist_SHA256": "cd703c8406e2ad73bb2be7f326814c648c57a143099ad69da4c7cda8c58a7c93",
+  "previous_failed_runs_remain_failed": true,
+  "run_id": 41274764887,
+  "schema": "nativecmpkit.camera-actual016-literal-disposition.v1",
+  "whole_issue_acceptance_or_closure": false
+}

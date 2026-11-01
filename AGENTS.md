@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused WebView requests and camera diagnostics — 2026-11-01
+
+[Android41276056846 and iOS41276065062](docs/development/evidence/current-platform-recovery-20261101/request-dispatch007/README.md)
+use immutable ff41a932 and exact1104/1181 source maps, selecting original Android2
+and iOS request2+DNS1 only. Android is terminal FAILED pending original review;
+iOS remains pending. No native acceptance or closure follows dispatch.
+[Camera actual016](docs/development/evidence/current-platform-recovery-20261101/camera-actual016/README.md)
+and [permission actual005](docs/development/evidence/current-platform-recovery-20261101/permission-actual005/README.md)
+are imported without duplicate acquisitions: ZERO native/XML. Camera predicate
+unknown; permission refusal is the exact comma-selector guard, not a native bug.
+[Failure-only camera callsite](docs/development/evidence/current-platform-recovery-20261101/camera-callsite-diagnostic008/README.md)
+retains all127 require calls/line47 primary ValueError/state/cleanup. Sealed new15
+synthetic controls and18 source checks reused; affected existing24 guards pass,
+ZERO compiler/native. Only a future proven public callsite may be reported.
+One actual offline U1 action failed before the expected gate at missing Node
+distribution resolution; no denial/security acceptance, U2/U3 stopped for review.
+Useful disjoint agents remain authorized; lead owns integration/Git/dispatch/closure.
+Mandatory8GiB reserve is DISK, not an invented passive-javap memory prerequisite.
+92closed/80open; all native/consumer/ABI/dependency/legal/security/readiness,
+publishing/Pages/main/history and max2combined hosted-heavy gates remain.
+
 ## Lossless request prerequisites compiled; finite native requests — 2026-11-01
 
 [Android selector](docs/development/evidence/android-webview-request-selector-20261101/README.md)
@@ -478,7 +499,7 @@ as capacity permits. This supersedes older single-agent instructions for current
 work, not the historical execution records below. Delegate disjoint, bounded
 reviews and fixes; the lead owns integration, Git/GitHub mutations, immutable
 verification requests and issue closure. Freeze selected inputs before accepting
-results. Keep heavy local builds serial, at least 8 GiB reserve and at most two
+results. Keep heavy local builds serial, at least 8 GiB disk reserve and at most two
 combined heavy verification requests; agents must not duplicate accepted suites or
 compete for the same files. Publishing/Pages/main/history/security/readiness gates
 are unchanged. Use important-test batches and close verified subsets immediately

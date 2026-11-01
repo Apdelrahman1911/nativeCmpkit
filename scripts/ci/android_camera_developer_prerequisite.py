@@ -739,6 +739,10 @@ class OwnedDeveloperPrerequisite:
 
     def failure(self, phase: str, error: BaseException) -> None:
         self.receipt["errors"].append({"phase": phase, "class": type(error).__name__})
+        try:
+            self.receipt["errors"][-1]["require_call_origin"] = require_call_origin(error)
+        except BaseException:
+            pass  # Observation must never replace the already-recorded primary refusal.
         self.publish()
 
     def run(self, argv: list[str], timeout: float, limit: int) -> subprocess.CompletedProcess:
@@ -1016,3 +1020,32 @@ def accepted(receipt: dict, disposal: dict) -> bool:
                  "new_boot_epoch_changed", "same_popen_avd_userdata_verified")))
     return (receipt.get("master_was_already1") is True and receipt.get("master_enable_attempts") == 0 and
             receipt.get("normal_reboot_attempts") == 0 and receipt.get("master_restore_attempts") == 0)
+
+
+def require_call_origin(error: BaseException) -> dict:
+    """Bounded failure-only owning callsite; no error text, locals or paths."""
+    unavailable = {"source": "unavailable", "symbol": "unavailable", "line": 0}
+    if type(error) is not ValueError:
+        return unavailable
+    previous, node = None, error.__traceback__
+    for _ in range(64):
+        if node is None:
+            return unavailable
+        if node.tb_frame.f_code is require.__code__:
+            if previous is None or node.tb_next is not None:
+                return unavailable
+            caller = previous.tb_frame.f_code
+            symbol, number = caller.co_name, previous.tb_lineno
+            if (caller.co_filename != require.__code__.co_filename or
+                    re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", symbol) is None or not 0 < number < 20000):
+                return unavailable
+            functions = (globals().get(symbol), *(vars(owner).get(symbol) for owner in
+                         (Journal, OwnedFreshGuest, Reporter, OwnedDeveloperPrerequisite)))
+            if not any(getattr(function, "__code__", None) is caller for function in functions):
+                return unavailable
+            if not any(start <= previous.tb_lasti < stop and line == number
+                       for start, stop, line in caller.co_lines()):
+                return unavailable
+            return {"source": "android_camera_developer_prerequisite.py", "symbol": symbol, "line": number}
+        previous, node = node, node.tb_next
+    return unavailable

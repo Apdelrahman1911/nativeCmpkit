@@ -1,0 +1,28 @@
+{
+  "source_base_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "source_tree_dirty": true,
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-parallel",
+    "--max-workers=1",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-PnativecmpkitVerification=true",
+    "-PnativecmpkitVerificationTargets=all",
+    "-PnativeCmpkit.version=0.1.0-preview.1",
+    "-Dnativecmpkit.derivedApacheStagingRoot=<repository>",
+    "--init-script",
+    "<private-verification>/producer001/stage-derived-apache-ui.init.gradle.kts",
+    "stageDerivedApacheUiVerification"
+  ],
+  "init_sha256": "b00f0c44cd9d65c0ec942b0721daea93d4d8497525194c389f67d6333a38a342",
+  "UI_only7_real_publications_selected": true,
+  "all_candidateUI_directories_absent_before": true,
+  "remote_or_MavenLocal_publication": false,
+  "root21_aggregate_or_navigation_publication": false,
+  "reserve_mib": 8192,
+  "timeout_seconds": 600
+}

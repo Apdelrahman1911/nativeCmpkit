@@ -1,0 +1,114 @@
+test_compiler_klib_families_use_full_companion_text_without_payload_mutation (test_derived_apache_notices.DerivedApacheArtifactTest.test_compiler_klib_families_use_full_companion_text_without_payload_mutation) ... ERROR
+test_jvm_and_android_archive_families_keep_module_scoped_notices (test_derived_apache_notices.DerivedApacheArtifactTest.test_jvm_and_android_archive_families_keep_module_scoped_notices) ... ERROR
+test_missing_or_modified_source_header_and_body_is_rejected (test_derived_apache_notices.DerivedApacheArtifactTest.test_missing_or_modified_source_header_and_body_is_rejected) ... ok
+test_owning_runner_requires_exact_same_coordinate_companion (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_exact_same_coordinate_companion) ... 
+  test_owning_runner_requires_exact_same_coordinate_companion (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_exact_same_coordinate_companion) (module='nativecmpkit-navigation') ... ERROR
+test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant) ... 
+  test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant) (module='nativecmpkit-navigation') ... ERROR
+test_source_archive_inherited_sets_and_notices_for_two_modules_seven_targets (test_derived_apache_notices.DerivedApacheArtifactTest.test_source_archive_inherited_sets_and_notices_for_two_modules_seven_targets) ... ERROR
+test_source_notice_omission_truncation_and_foreign_module_prefix_fail_closed (test_derived_apache_notices.DerivedApacheArtifactTest.test_source_notice_omission_truncation_and_foreign_module_prefix_fail_closed) ... ok
+test_unrelated_core_source_archives_do_not_gain_nav_ui_source_rules (test_derived_apache_notices.DerivedApacheArtifactTest.test_unrelated_core_source_archives_do_not_gain_nav_ui_source_rules) ... ok
+test_wrong_source_set_path_does_not_satisfy_inherited_source_retention (test_derived_apache_notices.DerivedApacheArtifactTest.test_wrong_source_set_path_does_not_satisfy_inherited_source_retention) ... ERROR
+test_existing_navigation_headers_and_pinned_full_license_bytes_are_retained (test_derived_apache_notices.DerivedApacheSourceTest.test_existing_navigation_headers_and_pinned_full_license_bytes_are_retained) ... ok
+test_introduction_trace_matches_retained_added_paths_blobs_and_authors (test_derived_apache_notices.DerivedApacheSourceTest.test_introduction_trace_matches_retained_added_paths_blobs_and_authors) ... ok
+test_known_ui_copyright_headers_and_calf_change_notices_are_explicit (test_derived_apache_notices.DerivedApacheSourceTest.test_known_ui_copyright_headers_and_calf_change_notices_are_explicit) ... ok
+test_renamed_utility_introductions_cannot_use_the_later_path (test_derived_apache_notices.DerivedApacheSourceTest.test_renamed_utility_introductions_cannot_use_the_later_path) ... ok
+test_valid_partial_fixture_passes_but_never_certifies_release (test_verify_artifacts.RepositoryFixtureTest.test_valid_partial_fixture_passes_but_never_certifies_release) ... ok
+test_missing_companion_notice_fails (test_verify_artifacts.RepositoryFixtureTest.test_missing_companion_notice_fails) ... ok
+test_metadata_listed_companion_still_requires_notices (test_verify_artifacts.RepositoryFixtureTest.test_metadata_listed_companion_still_requires_notices) ... ok
+test_tampered_jar_module_hash_fails (test_verify_artifacts.RepositoryFixtureTest.test_tampered_jar_module_hash_fails) ... ok
+
+======================================================================
+ERROR: test_compiler_klib_families_use_full_companion_text_without_payload_mutation (test_derived_apache_notices.DerivedApacheArtifactTest.test_compiler_klib_families_use_full_companion_text_without_payload_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 304, in test_compiler_klib_families_use_full_companion_text_without_payload_mutation
+    verifier = self.verifier(module, target)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+======================================================================
+ERROR: test_jvm_and_android_archive_families_keep_module_scoped_notices (test_derived_apache_notices.DerivedApacheArtifactTest.test_jvm_and_android_archive_families_keep_module_scoped_notices)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 291, in test_jvm_and_android_archive_families_keep_module_scoped_notices
+    verifier = self.verifier(module, target)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+======================================================================
+ERROR: test_owning_runner_requires_exact_same_coordinate_companion (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_exact_same_coordinate_companion) (module='nativecmpkit-navigation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 353, in test_owning_runner_requires_exact_same_coordinate_companion
+    verifier, directory, prefix = self.complete_metadata_fixture(module)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 316, in complete_metadata_fixture
+    verifier = self.verifier(module)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+======================================================================
+ERROR: test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant (test_derived_apache_notices.DerivedApacheArtifactTest.test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant) (module='nativecmpkit-navigation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 341, in test_owning_runner_requires_sources_even_when_metadata_omits_a_sources_variant
+    verifier, directory, prefix = self.complete_metadata_fixture(module)
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 316, in complete_metadata_fixture
+    verifier = self.verifier(module)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+======================================================================
+ERROR: test_source_archive_inherited_sets_and_notices_for_two_modules_seven_targets (test_derived_apache_notices.DerivedApacheArtifactTest.test_source_archive_inherited_sets_and_notices_for_two_modules_seven_targets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 227, in test_source_archive_inherited_sets_and_notices_for_two_modules_seven_targets
+    verifier = self.verifier(module, target)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+======================================================================
+ERROR: test_wrong_source_set_path_does_not_satisfy_inherited_source_retention (test_derived_apache_notices.DerivedApacheArtifactTest.test_wrong_source_set_path_does_not_satisfy_inherited_source_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 256, in test_wrong_source_set_path_does_not_satisfy_inherited_source_retention
+    verifier = self.verifier(module)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/test_derived_apache_notices.py", line 196, in verifier
+    return gate.ArtifactVerifier(gate.ROOT, self.repository, self.VERSION,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repository>/tests/consumer/verify_artifacts.py", line 343, in __init__
+    raise InvalidArtifact("Unknown selected module")
+verify_artifacts.InvalidArtifact: Unknown selected module
+
+----------------------------------------------------------------------
+Ran 17 tests in 1.072s
+
+FAILED (errors=6)

@@ -1,0 +1,27 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-parallel",
+    "--max-workers=1",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-PnativecmpkitVerification=true",
+    "-PnativecmpkitVerificationTargets=all",
+    "-PnativeCmpkit.version=0.1.0-preview.1",
+    "-Dnativecmpkit.derivedApacheStagingRoot=<repository>",
+    "--init-script",
+    "<private-verification>/producer002/stage-derived-apache-ui.init.gradle.kts",
+    "stageDerivedApacheUiVerification"
+  ],
+  "cwd": "<repository>",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-11-01T00:29:43.014054+00:00",
+  "free_bytes_before": 48857522176,
+  "exit_code": 0,
+  "elapsed_seconds": 231.05,
+  "free_bytes_after": 48679735296
+}

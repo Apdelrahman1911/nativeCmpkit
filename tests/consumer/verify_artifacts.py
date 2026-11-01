@@ -35,6 +35,25 @@ NATIVE_PLATFORMS = ("linux-x64", "linux-arm64", "macos-x64", "macos-arm64", "win
 NATIVE_MODULES = {"nativecmpkit-file-picker": "calf-file-picker", "nativecmpkit-share": "calf-share"}
 NATIVE_NAMES = {"calf-file-picker": "calf_filepicker_native", "calf-share": "calf_share_native"}
 NOTICE_PREFIX = "META-INF/nativecmpkit/"
+# The inherited source adaptations covered by NAV-018. Paths are explicit source-set
+# entries, not a basename scan or producer-controlled list. Metadata source archives
+# include all inherited source sets; non-Apple target archives do not include iosMain.
+DERIVED_APACHE_SOURCE_PATHS = {
+    "nativecmpkit-navigation": {
+        "commonMain/com.mohamedrejeb.calf/navigation/" + name + ".kt":
+            "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/" + name + ".kt"
+        for name in ("NavArgument", "AdaptiveNavType", "AdaptiveBaseBundle", "AdaptiveBundle")
+    },
+    "nativecmpkit-ui": {
+        "commonMain/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt":
+            "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        **{"iosMain/com/mohamedrejeb/calf/ui/" + relative:
+            "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/" + relative
+            for relative in ("button/LiquidGlassButton.kt", "slider/LiquidGlassSlider.kt",
+                "utils/DragGestureInspector.kt", "utils/DampedDragAnimation.kt", "utils/InteractiveHighlight.kt")},
+    },
+}
+DERIVED_APACHE_ALL_SOURCE_TARGETS = {"metadata", "iosArm64", "iosSimulatorArm64"}
 CUPERTINO_RESOURCE_PREFIX = "composeResources/com.mohamedrejeb.calf.calf_cupertino_icons.generated.resources/"
 CUPERTINO_FONT_SHA256 = "67c44fe9183b002e79dde7f6977e2988661c9a3e4a3c5fce968787efdbed823c"
 CUPERTINO_MIT_SHA256 = "310d6ab6483280280c9db122bded0a63c09558bc5743720f61dbcbb494db370a"
@@ -345,6 +364,12 @@ class ArtifactVerifier:
         for path in sorted((self.root / "licenses").rglob("*")):
             if path.is_file():
                 self.expected_notices[path.relative_to(self.root).as_posix()] = path.read_bytes()
+        # Snapshot owning source bytes once with notices, not once per archive.
+        self.expected_derived_apache_sources = {
+            module: {entry: (self.root / source).read_bytes() for entry, source
+                in DERIVED_APACHE_SOURCE_PATHS[module].items()}
+            for module in self.modules if module in DERIVED_APACHE_SOURCE_PATHS
+        }
 
     def check(self, name: str, passed: bool, detail: str) -> bool:
         self.checks.append({"name": name, "passed": bool(passed), "detail": detail})
@@ -403,6 +428,20 @@ class ArtifactVerifier:
             entry = prefix + name
             self.check(label + ":notice:" + name, entry in names and archive.read(entry) == data,
                        "Complete source notice bytes accompany this coordinate")
+
+    def derived_apache_sources(self, archive: zipfile.ZipFile, names: set[str],
+                               module: str, target: str, label: str) -> None:
+        """Require exact applicable inherited source bytes, including retained headers.
+
+        This is static source-distribution retention, not authorship reconstruction,
+        compiler/API compatibility, native dependency clearance or release approval.
+        """
+        for entry, data in self.expected_derived_apache_sources[module].items():
+            if entry.startswith("iosMain/") and target not in DERIVED_APACHE_ALL_SOURCE_TARGETS:
+                continue
+            self.check(label + ":derived-apache-source:" + entry,
+                       entry in names and archive.read(entry) == data,
+                       "Exact source/header bytes retained for this publication's inherited source sets")
 
     def native(self, archive: zipfile.ZipFile, names: set[str], module: str, platform: str, label: str) -> None:
         filename = native_filename(module, platform)
@@ -594,13 +633,16 @@ class ArtifactVerifier:
                 names = archive_names(archive)
                 self.check(label + ":crc", archive.testzip() is None, "Archive CRC check; no extraction")
                 primary = path.name == f"{coordinate}-{self.version}.jar" or path.name == f"{coordinate}-{self.version}.aar"
+                derived_sources = module in DERIVED_APACHE_SOURCE_PATHS and path.name == f"{coordinate}-{self.version}-sources.jar"
                 if companion:
                     self.notices(archive, names, label)
                     if module in NATIVE_MODULES:
                         self.native_notices(archive, names, NATIVE_MODULES[module], label)
-                elif primary:
+                elif primary or derived_sources:
                     retained_module = "calf-" + module.removeprefix("nativecmpkit-")
                     self.notices(archive, names, label, NOTICE_PREFIX + retained_module + "/")
+                if derived_sources:
+                    self.derived_apache_sources(archive, names, module, target, label)
                 # KLIBs are not mutated to insert legal text; the verified same-coordinate ZIP accompanies them.
                 native_entries = {name for name in names if name.startswith("native/") and not name.endswith("/")}
                 if target == "desktop" and primary and module in NATIVE_MODULES:
@@ -762,6 +804,10 @@ class ArtifactVerifier:
                 metadata = self.file(directory, prefix + ".module", coordinate + ":module-present")
                 if metadata:
                     self.metadata(metadata, coordinate, module, target)
+                if module in DERIVED_APACHE_SOURCE_PATHS:
+                    sources = self.file(directory, prefix + "-sources.jar", coordinate + ":derived-apache-sources-present")
+                    if sources:
+                        self.archive(sources, coordinate, module, target)
                 notices = self.file(directory, prefix + "-notices.zip", coordinate + ":companion-notices-present")
                 if notices:
                     self.archive(notices, coordinate, module, target, companion=True)

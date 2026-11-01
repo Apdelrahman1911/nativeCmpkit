@@ -76,7 +76,14 @@ including its separate JetBrains2020-2021/respective-authors attribution.
 - [Pinned license](https://github.com/alexzhirkevich/compose-cupertino/blob/f66875aa6f3848b30c38e42a89fc99c9ac24a585/LICENSE.txt)
 
 This reference identifies observed attribution, **not** the exact version
-originally copied into Calf; that import revision remains to be reconstructed.
+originally copied into Calf. Retained Calf history establishes the slider
+introduction; nativeCmpkit commit `6eb7c66eb01b390353100c63882cd102846c7b8d`
+then adds the common path and deletes the historical iOS path. Git reports
+separate A/D events, not a detected rename or byte-identical move. Neither
+observation establishes the original third-party copy revision;
+see [introduction trace](licenses/derived-apache-introduction-history.json).
+The current adaptation is in `calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt`
+and retains the known source copyright/license header and Calf change notice.
 
 ## Kyant AndroidLiquidGlass sample adaptations
 
@@ -126,12 +133,20 @@ AOSP frameworks-base reference commit `1cdfff555f4a21f71ccc978290e2e212e2f8b168`
 
 These are comparison snapshots observed2026-10-24, not verified original-copy
 revisions. The adaptation's removed Android parcel/reflection features and Calf's
-own changes remain attributable through preserved Git history. Reconstruct
-precise imports and restore appropriate source headers in a coordinated change;
-do not label all Calf code as authored by AOSP.
+own changes remain attributable through preserved Git history. The four current
+NAV adaptations retain the established original Apache headers and separate Calf
+change notices; do not label all Calf code as authored by AOSP.
+The [retained-Git introduction trace](licenses/derived-apache-introduction-history.json)
+records exact introduced paths, rename events, commit authors/timestamps and source
+blob hashes. Unknown third-party copy revisions are explicit nulls, not guessed
+from comparison pins or Calf authorship.
 
-**Distribution gate:** the migration preserves these established attributions
-and local license texts in the source tree. Exact copied-version reconstruction,
-any additional upstream notice obligations and inclusion in future binary/web
-distributions remain verification work (`NAV-018`). No release or package
-publication was authorized by adding these notices.
+**Distribution gate:** the source tree preserves these established attributions
+and full license texts. The relocated Cupertino slider and three Kyant utilities
+retain explicit source headers, while original Calf modification notices remain.
+[NAV/UI notice verification](docs/development/derived-apache-notices.md) checks
+source archives and JAR/AAR embedded notices; compiler KLIBs remain unmodified and
+require exact same-coordinate companion notice ZIPs. Actual artifact-family
+acceptance and any additional upstream obligations remain verification work
+(`NAV-018`); source/fixture checks are not legal or release certification.
+No release or package publication is authorized by adding these notices.

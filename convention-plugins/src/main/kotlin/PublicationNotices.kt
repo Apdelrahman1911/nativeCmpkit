@@ -6,8 +6,8 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.tasks.Sync
-import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.bundling.Zip
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.register
 import org.gradle.kotlin.dsl.withType
@@ -52,6 +52,8 @@ fun Project.configurePublicationNotices() {
         duplicatesStrategy = DuplicatesStrategy.FAIL
     }
 
+    // KGP source archives use the current JVM Jar base. The deprecated
+    // org.gradle.api.tasks.bundling.Jar is only a subclass of this type.
     tasks.withType<Jar>().configureEach { from(prepareEmbedded) }
     // AGP 9.4's public BundleAar task extends Zip. Keep the match narrow so
     // independent resource/source archives are not silently rewritten.

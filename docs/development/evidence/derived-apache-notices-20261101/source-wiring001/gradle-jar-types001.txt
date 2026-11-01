@@ -1,0 +1,22 @@
+Compiled from "Jar.java"
+public abstract class org.gradle.api.tasks.bundling.Jar extends org.gradle.jvm.tasks.Jar {
+  public org.gradle.api.tasks.bundling.Jar();
+  public org.gradle.api.tasks.bundling.Jar manifest(groovy.lang.Closure<?>);
+  public org.gradle.jvm.tasks.Jar manifest(groovy.lang.Closure);
+}
+Compiled from "Jar.java"
+public abstract class org.gradle.jvm.tasks.Jar extends org.gradle.api.tasks.bundling.Zip {
+  public static final java.lang.String DEFAULT_EXTENSION;
+  public org.gradle.jvm.tasks.Jar();
+  public java.lang.String getMetadataCharset();
+  public void setMetadataCharset(java.lang.String);
+  public java.lang.String getManifestContentCharset();
+  public void setManifestContentCharset(java.lang.String);
+  public org.gradle.api.java.archives.Manifest getManifest();
+  public void setManifest(org.gradle.api.java.archives.Manifest);
+  public org.gradle.jvm.tasks.Jar manifest(groovy.lang.Closure<?>);
+  public org.gradle.jvm.tasks.Jar manifest(org.gradle.api.Action<? super org.gradle.api.java.archives.Manifest>);
+  public org.gradle.api.file.CopySpec getMetaInf();
+  public org.gradle.api.file.CopySpec metaInf(groovy.lang.Closure<?>);
+  public org.gradle.api.file.CopySpec metaInf(org.gradle.api.Action<? super org.gradle.api.file.CopySpec>);
+}

@@ -1,0 +1,85 @@
+{
+  "actual_source_archive_base_type": "org.gradle.jvm.tasks.Jar",
+  "classes": [
+    {
+      "classes": [
+        {
+          "entry": "org/jetbrains/kotlin/gradle/plugin/mpp/MppSourcesJarKt.class",
+          "sha256": "fdfd9c6eeba0bd5a34ad5af59a0a3524ee96b29741371cacf563586d832df6e2"
+        }
+      ],
+      "jar": "<gradle-home>/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "jar_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed"
+    },
+    {
+      "classes": [
+        {
+          "entry": "org/gradle/jvm/tasks/Jar.class",
+          "sha256": "47d09b500f8abe822952ee1dae24c98eee271815c0e03979f0e467beef860e20"
+        }
+      ],
+      "jar": "<gradle-home>/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/plugins/gradle-platform-jvm-9.7.1.jar",
+      "jar_sha256": "2a1537204f224d68a347ad539f8f4e5a5fd350a7d2fa5eca6dc824a8d90ee57d"
+    },
+    {
+      "classes": [
+        {
+          "entry": "org/gradle/api/tasks/bundling/Jar.class",
+          "sha256": "ff58034ec14b87d56e9544fefcff19641b90a9e9a6503308dfec1c999c42272c"
+        }
+      ],
+      "jar": "<gradle-home>/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/plugins/gradle-language-jvm-9.7.1.jar",
+      "jar_sha256": "8297f982f904597388cf993067af0641611f4c311c46a708bf5d3f72483d82ac"
+    }
+  ],
+  "current_Jar_superclass": "org.gradle.api.tasks.bundling.Zip",
+  "initial_expected_KotlinSourcesJar_probe": {
+    "exit_code": 1,
+    "observations": [
+      {
+        "KotlinSourcesJar_class_count": 0,
+        "jar": "kotlin-gradle-plugin-2.4.20-gradle96.jar"
+      },
+      {
+        "KotlinSourcesJar_class_count": 0,
+        "jar": "kotlin-gradle-plugin-api-2.4.20-gradle96.jar"
+      }
+    ],
+    "refusal": "Exact primary plugin did not contain expected KotlinSourcesJar class; no type guessed/imported."
+  },
+  "legacy_Jar_superclass": "org.gradle.jvm.tasks.Jar",
+  "observed_utc": "2026-11-01T00:26:16.192920+00:00",
+  "queries": [
+    {
+      "command": [
+        "javap",
+        "-classpath",
+        "<gradle-home>/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-gradle-plugin/2.4.20/d64b6d447eecf2b0f6d19bdd677cae3bbce37585/kotlin-gradle-plugin-2.4.20-gradle96.jar",
+        "org.jetbrains.kotlin.gradle.plugin.mpp.MppSourcesJarKt"
+      ],
+      "exit_code": 0,
+      "output_path": "<private-verification>/legal-fixture/source-archive-wiring001/kgp-source-type001.txt",
+      "output_sha256": "85c22d99bcbf1e1c25a46a40a52f7a35bef7dde0b0940d1d403a267517dfe241"
+    },
+    {
+      "command": [
+        "javap",
+        "-classpath",
+        "<gradle-home>/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/plugins/gradle-platform-jvm-9.7.1.jar:<gradle-home>/wrapper/dists/gradle-9.7.1-bin/1w1c7tv4s851m17nbqdsro2tv/gradle-9.7.1/lib/plugins/gradle-language-jvm-9.7.1.jar",
+        "org.gradle.api.tasks.bundling.Jar",
+        "org.gradle.jvm.tasks.Jar"
+      ],
+      "exit_code": 0,
+      "output_path": "<private-verification>/legal-fixture/source-archive-wiring001/gradle-jar-types001.txt",
+      "output_sha256": "34faaf201faebcc0820c2e6248985c33dec5aaa397bd63a92a08afcc13d15356"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Read-only actual cached KGP/Gradle class declarations; no plugin execution, configuration or build",
+  "source_base_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "source_input": {
+    "bytes": 5328,
+    "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+    "sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a"
+  }
+}

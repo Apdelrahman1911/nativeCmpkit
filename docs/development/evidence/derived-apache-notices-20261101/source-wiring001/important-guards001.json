@@ -1,0 +1,66 @@
+{
+  "accepted_method_replays": 0,
+  "actual_distributions_after_repair_accepted": false,
+  "changes": [
+    {
+      "added": false,
+      "after_bytes": 5465,
+      "after_sha256": "38e88fe52c901adf66b81ec5d143b47c072105bc82b747c8af32b9c528bd5a61",
+      "before_sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a",
+      "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt"
+    },
+    {
+      "added": true,
+      "after_bytes": 2302,
+      "after_sha256": "b475c03ecd779753a69ebcce51551518f3338e84a6f12f66dfb1a4a1f906a3c3",
+      "before_sha256": null,
+      "path": "tests/consumer/test_publication_sources_notice_wiring.py"
+    }
+  ],
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "test_publication_sources_notice_wiring.PublicationSourcesNoticeWiringTest.test_real_kmp_sources_jar_base_receives_embedded_notice_provider",
+    "test_publication_sources_notice_wiring.PublicationSourcesNoticeWiringTest.test_complete_notice_layouts_and_compiler_archive_boundary_are_retained"
+  ],
+  "elapsed_seconds": 0.077082,
+  "exit_code": 0,
+  "live_mutations": 0,
+  "log_sha256": "88854e60262cce0ee981adc209e140b06822150cc1fa41c24748043238338ab9",
+  "method_count": 2,
+  "methods": [
+    {
+      "method": "test_publication_sources_notice_wiring.PublicationSourcesNoticeWiringTest.test_real_kmp_sources_jar_base_receives_embedded_notice_provider",
+      "outcome": "ok"
+    },
+    {
+      "method": "test_publication_sources_notice_wiring.PublicationSourcesNoticeWiringTest.test_complete_notice_layouts_and_compiler_archive_boundary_are_retained",
+      "outcome": "ok"
+    }
+  ],
+  "observed_utc": "2026-11-01T00:27:18.502357+00:00",
+  "original_actual_gate_result": "FAILED:773 checks/140 source-notice failures; retained by lead, not rewritten",
+  "patch": {
+    "bytes": 3701,
+    "path": "<private-verification>/legal-fixture/source-archive-wiring001/proposal.patch",
+    "sha256": "aa6c125d72565c551c14a852b02334a93b5b4e77b063e6d9c92e09391542b392"
+  },
+  "private_inputs_after": {
+    "convention-plugins/src/main/kotlin/PublicationNotices.kt": "38e88fe52c901adf66b81ec5d143b47c072105bc82b747c8af32b9c528bd5a61",
+    "tests/consumer/test_publication_sources_notice_wiring.py": "b475c03ecd779753a69ebcce51551518f3338e84a6f12f66dfb1a4a1f906a3c3"
+  },
+  "private_inputs_before": {
+    "convention-plugins/src/main/kotlin/PublicationNotices.kt": "38e88fe52c901adf66b81ec5d143b47c072105bc82b747c8af32b9c528bd5a61",
+    "tests/consumer/test_publication_sources_notice_wiring.py": "b475c03ecd779753a69ebcce51551518f3338e84a6f12f66dfb1a4a1f906a3c3"
+  },
+  "private_inputs_held": true,
+  "read_only_apply_check_exit_code": 0,
+  "real_candidate_compiler_build_ci_consumer_native_executions": 0,
+  "schema_version": 1,
+  "scope": "Two new source/guard methods only; no Gradle, real archive, consumer or native execution",
+  "shared_producer_source_unchanged": true,
+  "working_directory": "<private-verification>/legal-fixture/source-archive-wiring001/after/tests/consumer"
+}

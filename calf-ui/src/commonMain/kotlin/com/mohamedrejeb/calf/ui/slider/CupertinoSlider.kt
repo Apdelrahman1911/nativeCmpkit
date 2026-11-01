@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2023-2024. Compose Cupertino project and open source contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Adapted from Compose Cupertino for Calf and NativeCmpKit.
+ * Comparison snapshot (not a claim of the originally copied revision):
+ * https://github.com/alexzhirkevich/compose-cupertino/blob/f66875aa6f3848b30c38e42a89fc99c9ac24a585/cupertino/src/commonMain/kotlin/io/github/alexzhirkevich/cupertino/CupertinoSlider.kt
+ * The exact originally copied revision is unknown; retained license text:
+ * licenses/compose-cupertino-Apache-2.0.txt (including its JetBrains attribution).
+ * Calf introduction/relocation: licenses/derived-apache-introduction-history.json.
+ */
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 package com.mohamedrejeb.calf.ui.slider
 

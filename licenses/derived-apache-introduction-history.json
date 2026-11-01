@@ -1,0 +1,604 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-10-31T23:27:37.062914+00:00",
+  "reviewed_calf_baseline": "af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6",
+  "scope": "Read-only retained-Git introduction tracing of ten AndroidX/AOSP and Compose Cupertino/Kyant adaptations. Introduction commits prove Calf history, not exact originally copied third-party revisions or legal clearance.",
+  "method": [
+    "git log --follow --name-status <baseline> -- <baseline-source-path>: oldest added path and explicit intermediate rename events",
+    "git diff-tree --root --no-commit-id --name-status -r <introduction> -- <introduced-source-path>: exact added-path observation",
+    "git show --no-patch --format=<commit/author/committer/parents/subject> <introduction>: original public commit metadata, no email addresses",
+    "git show <introduction>:<introduced-source-path> and <baseline>:<baseline-source-path>: exact source SHA256 and Git blob identities",
+    "git merge-base --is-ancestor <introduction> <baseline>: ancestry only; no upstream third-party copy-origin assertion",
+    "For the post-baseline common slider: fixed git log --follow and git diff-tree -M at 6eb7c66eb01b390353100c63882cd102846c7b8d, parent/source object hashes and public metadata. A/D is retained as observed, not converted into a rename assertion."
+  ],
+  "source_history_rewritten": false,
+  "exact_original_copy_revisions_established": false,
+  "records": [
+    {
+      "baseline_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+      "current_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "author": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "committer": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "introduction_subject": "init commit",
+      "introduced_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "git_blob_oid": "d582905d69c70be6ad6b5b1e41cfa5f12839caca",
+        "sha256": "607b21f064cf03fb085ad03906bcffce69861b9b07be111c78b04f8597bd16a8"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt",
+        "git_blob_oid": "d582905d69c70be6ad6b5b1e41cfa5f12839caca",
+        "sha256": "607b21f064cf03fb085ad03906bcffce69861b9b07be111c78b04f8597bd16a8"
+      },
+      "followed_path_events": [
+        {
+          "commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/NavArgument.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+      "current_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "author": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "committer": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "introduction_subject": "init commit",
+      "introduced_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "git_blob_oid": "c65bd3a4849a0e53c8a16d6315adc169fe941081",
+        "sha256": "2a3c2f024c3a76687e1ff9234c4ce01051d020d3ce8ce75602413a82e32be0f5"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt",
+        "git_blob_oid": "c65bd3a4849a0e53c8a16d6315adc169fe941081",
+        "sha256": "2a3c2f024c3a76687e1ff9234c4ce01051d020d3ce8ce75602413a82e32be0f5"
+      },
+      "followed_path_events": [
+        {
+          "commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveNavType.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+      "current_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "author": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "committer": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "introduction_subject": "init commit",
+      "introduced_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "git_blob_oid": "505e6b41bff27788707fbc0bb3c39ee55549695f",
+        "sha256": "88acdf7e5198e1b2991ae17b871223870c4cc98bbc0d41d8771d14fab1366e8a"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt",
+        "git_blob_oid": "505e6b41bff27788707fbc0bb3c39ee55549695f",
+        "sha256": "88acdf7e5198e1b2991ae17b871223870c4cc98bbc0d41d8771d14fab1366e8a"
+      },
+      "followed_path_events": [
+        {
+          "commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBaseBundle.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+      "current_source_path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/9e1b08df630cea4ed29aeca63a44847154b45a90",
+      "author": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "committer": {
+        "name": "M0Coding",
+        "timestamp": "2023-08-21T18:46:13+01:00"
+      },
+      "introduction_subject": "init commit",
+      "introduced_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+        "git_blob_oid": "689e314d4dec27131ed082b2967183adcec0afd3",
+        "sha256": "47d1f58ac1fe29aed1df4417bab77f9be7967a03468d00b4b5ec688a748750ad"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt",
+        "git_blob_oid": "689e314d4dec27131ed082b2967183adcec0afd3",
+        "sha256": "47d1f58ac1fe29aed1df4417bab77f9be7967a03468d00b4b5ec688a748750ad"
+      },
+      "followed_path_events": [
+        {
+          "commit": "9e1b08df630cea4ed29aeca63a44847154b45a90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-navigation/src/commonMain/kotlin/com.mohamedrejeb.calf/navigation/AdaptiveBundle.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+      "current_source_path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "fce1638c011f1d5528cbf0c833bee44b64a97e90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/fce1638c011f1d5528cbf0c833bee44b64a97e90",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T19:18:00+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T19:18:00+01:00"
+      },
+      "introduction_subject": "Implement Adaptive Slider component",
+      "introduced_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "git_blob_oid": "8e4d23152376dba973d9bc94c28abcdc426e9a3b",
+        "sha256": "4aaccdaec9dc98ab3238851905f9b010ada04d00ec185981a516a2bee72e1a2e"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+        "git_blob_oid": "a73c39769951c968ecbe4fae8af7004b0bf3e13e",
+        "sha256": "bf090849033aaf1642a0c4ff08c45130e93d367d05999ca0afe069b65a2367d9"
+      },
+      "followed_path_events": [
+        {
+          "commit": "d4ee7aa545002939392a20affe2e246287fc5c87",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "fce1638c011f1d5528cbf0c833bee44b64a97e90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance",
+      "post_baseline_path_transition": {
+        "commit": "6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "commit_url": "https://github.com/Apdelrahman1911/nativeCmpkit/commit/6eb7c66eb01b390353100c63882cd102846c7b8d",
+        "parent_commit": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+        "author": {
+          "name": "abdelrahman fahmy",
+          "timestamp": "2026-10-26T17:34:30+00:00"
+        },
+        "committer": {
+          "name": "abdelrahman fahmy",
+          "timestamp": "2026-10-26T17:34:30+00:00"
+        },
+        "subject": "Harden preview library and authorize verification-only CI",
+        "path_events": [
+          {
+            "status": "A",
+            "paths": [
+              "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt"
+            ]
+          },
+          {
+            "status": "D",
+            "paths": [
+              "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt"
+            ]
+          }
+        ],
+        "parent_ios_source": {
+          "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+          "git_blob_oid": "a73c39769951c968ecbe4fae8af7004b0bf3e13e",
+          "sha256": "bf090849033aaf1642a0c4ff08c45130e93d367d05999ca0afe069b65a2367d9",
+          "bytes": 29312
+        },
+        "added_common_source": {
+          "path": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/slider/CupertinoSlider.kt",
+          "git_blob_oid": "0d19212498c8c2bca39c955e15dd832d95fbe327",
+          "sha256": "b0d8f7c958b5d2aad91130e99c98cef6fa897d7b5dba9b59befd8207544449f7",
+          "bytes": 13932
+        },
+        "reviewed_baseline_is_ancestor": true,
+        "git_follow_reports_rename": false,
+        "observation": "Git --follow reports a commonMain A event and diff-tree -M reports separate A/D events, not a detected rename. This is a nativeCmpkit source-path replacement/adaptation observation; neither blob identity nor exact original third-party copy revision is inferred."
+      }
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+      "current_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "introduction_subject": "Implement Adaptive Button",
+      "introduced_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+        "git_blob_oid": "ff62e15fdf936c69fb3cb8bee75ee1b3f928f213",
+        "sha256": "92c2b6ece95238db67f6b7ce0f9bbaefe140f2da879e3bcfbd9ee7d0707a6622"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
+        "git_blob_oid": "843e4a7c03eccbfadf8d07dacb9fcb2e23e1157e",
+        "sha256": "f8ebc852a0012d0ce19cc5707b603dfd4434914fc301ab0f4f1abd308fbc7d75"
+      },
+      "followed_path_events": [
+        {
+          "commit": "3d4b53eeef64e0ba19282e03bf9285f705faf6df",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "56ecf758f75e82297eb487f7967d82d28410a212",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "8aadb7c5edfddd0ef9c75b37c61196ebdeccf63a",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "21cbaa1b6a97ba3d35e4b6afbafbbf98724ca0b7",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+      "current_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "fce1638c011f1d5528cbf0c833bee44b64a97e90",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/fce1638c011f1d5528cbf0c833bee44b64a97e90",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T19:18:00+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T19:18:00+01:00"
+      },
+      "introduction_subject": "Implement Adaptive Slider component",
+      "introduced_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "git_blob_oid": "8f4b20a59d0388c091f660244bc25be32321ac51",
+        "sha256": "201ee95ea673a066d25313117aa2b15fbbab8f2f6ae3a84bf406beda2e3d33ba"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt",
+        "git_blob_oid": "76fb3f40ea1351d7a5e5fda908a679a0d73e29f8",
+        "sha256": "c98ad042eeeb6b99ec8d9c5d00d5dc258483c17093a79c7cd2f54c230f1cd99f"
+      },
+      "followed_path_events": [
+        {
+          "commit": "17965c8104cdbfc3a74a0b7bf4e3d99707e4133e",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "fce1638c011f1d5528cbf0c833bee44b64a97e90",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSlider.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+      "current_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "introduction_subject": "Implement Adaptive Button",
+      "introduced_source": {
+        "path": "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/DragGestureInspector.kt",
+        "git_blob_oid": "fb8e65f4d5c54ef3b1804c2c661ed12ab04562e8",
+        "sha256": "124834534babd725a807883736409fc97fd2bd85fa49d5a566edbf5ecc90a064"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
+        "git_blob_oid": "a550b0d5bedd23ea9d93c2f845cd8d58ed3b9978",
+        "sha256": "11c071489962871d6d57acdd6f29ad0f179c41070166f23ea3af44db5abcb8f8"
+      },
+      "followed_path_events": [
+        {
+          "commit": "01a070e9866fd7cb97424f1d09249378cdec0c28",
+          "path_events": [
+            {
+              "status": "R098",
+              "paths": [
+                "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/DragGestureInspector.kt",
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/DragGestureInspector.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+      "current_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "01a070e9866fd7cb97424f1d09249378cdec0c28",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/01a070e9866fd7cb97424f1d09249378cdec0c28",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T14:09:49+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-18T14:09:49+01:00"
+      },
+      "introduction_subject": "Liquid switch improvemnts",
+      "introduced_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "git_blob_oid": "4af768d677a201e9ddd67a1de55aca17d48bdef2",
+        "sha256": "333036d8de978df7a8057d04796aae79991c52c538328084643e51aa012ace98"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
+        "git_blob_oid": "df8218db31873e1b0b2ced4b24092addc235133b",
+        "sha256": "f32fd591536c67651fc7c3a0024379d17c166a88a12e29650f2395db9d29763a"
+      },
+      "followed_path_events": [
+        {
+          "commit": "225b29e802828fd9ced41240bd37b25f24601394",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "01a070e9866fd7cb97424f1d09249378cdec0c28",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    },
+    {
+      "baseline_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
+      "current_source_path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
+      "source_repository": "https://github.com/MohamedRejeb/Calf",
+      "introduction_commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "introduction_commit_url": "https://github.com/MohamedRejeb/Calf/commit/caff0465ffd5ffc23741d5e4f21015bceda8a210",
+      "author": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "committer": {
+        "name": "MohamedRejeb",
+        "timestamp": "2026-03-17T18:16:27+01:00"
+      },
+      "introduction_subject": "Implement Adaptive Button",
+      "introduced_source": {
+        "path": "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/InteractiveHighlight.kt",
+        "git_blob_oid": "6e248393da862e5cf6fa17decea681836ba4ee8d",
+        "sha256": "d4c3a6b56ca31e6a7e273e4376e4f46c30b1d4854f698349a92b14f2dae4b910"
+      },
+      "reviewed_baseline_source": {
+        "path": "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
+        "git_blob_oid": "a378731911da2e1c53bdf038a43613ecf13bc28b",
+        "sha256": "d43956662d224c46ad7ba7860f80785922ca4e450b2e3f2bc4cbeb155a4e2a3c"
+      },
+      "followed_path_events": [
+        {
+          "commit": "ce4af64a4e61a8498b6643fad3a948a477d0a3b4",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "3d4b53eeef64e0ba19282e03bf9285f705faf6df",
+          "path_events": [
+            {
+              "status": "M",
+              "paths": [
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "01a070e9866fd7cb97424f1d09249378cdec0c28",
+          "path_events": [
+            {
+              "status": "R096",
+              "paths": [
+                "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/InteractiveHighlight.kt",
+                "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt"
+              ]
+            }
+          ]
+        },
+        {
+          "commit": "caff0465ffd5ffc23741d5e4f21015bceda8a210",
+          "path_events": [
+            {
+              "status": "A",
+              "paths": [
+                "calf-ui/src/iosArm64Main/kotlin/com/mohamedrejeb/calf/ui/button/InteractiveHighlight.kt"
+              ]
+            }
+          ]
+        }
+      ],
+      "ancestor_of_reviewed_baseline": true,
+      "copied_upstream_revision": null,
+      "copy_revision_status": "not established; Calf introduction is not original upstream copy provenance"
+    }
+  ]
+}

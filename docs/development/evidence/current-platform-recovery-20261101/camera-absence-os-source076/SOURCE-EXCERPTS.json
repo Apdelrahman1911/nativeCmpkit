@@ -1,0 +1,765 @@
+{
+  "immutable_project_source_excerpts": [
+    {
+      "excerpt": "def parse_settings_activity_absence(result: subprocess.CompletedProcess) -> None:\n    \"\"\"Require complete traversal emptiness, never a terminal sentinel alone.\"\"\"\n    payload = result_bytes(result, CONTROL_BYTES)\n    require(not any(char in payload for char in (b\"\\r\", b\"\\0\", b\"\\x1b\")), \"Unsafe Settings activity bytes\")\n    rows = payload.decode(\"utf-8\").removesuffix(\"\\n\").split(\"\\n\")\n    require(len(rows) >= 3 and rows[0] == ACTIVITIES_HEADER and rows.count(ACTIVITIES_HEADER) == 1 and\n            rows[-1] == \"  (nothing)\" and rows.count(\"  (nothing)\") == 1,\n            \"Settings Activity absence header/footer is unproved\")\n    displays = set()\n    for row_index, row in enumerate(rows[1:-1], 1):\n        display = re.fullmatch(r\"Display #(0|[1-9][0-9]{0,9}) \\(activities from top to bottom\\):\", row)\n        try:\n            require(display is not None, \"Settings Activity absence traversal is unproved\")\n        except ValueError as error:\n            try:\n                record_settings_activity_absence_refusal(error, payload, rows, row_index)\n            except BaseException:\n                pass  # Bounded observation must not replace the original refusing require.\n            raise\n        identifier = int(display[1])\n        require(identifier <= 2147483647 and identifier not in displays,\n                \"Unknown or duplicate Settings Activity display traversal\")\n        displays.add(identifier)\n\n\n",
+      "excerpt_sha256": "ab447160fbe0bb010f1741e0e800a95607e9aa0de9dc45d6049ded756215c08b",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        286,
+        310
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "def parse_recents(result: subprocess.CompletedProcess) -> None:\n    payload = result_bytes(result, CONTROL_BYTES)\n    require(not any(char in payload for char in (b\"\\r\", b\"\\0\", b\"\\x1b\")), \"Unsafe recents bytes\")\n    rows = payload.decode().removesuffix(\"\\n\").split(\"\\n\")\n    require(len(rows) >= 5 and rows[0] == RECENTS_HEADER and rows.count(RECENTS_HEADER) == 1 and\n            re.fullmatch(r\"mRecentsUid=[0-9]+\", rows[1]) is not None and\n            re.fullmatch(r\"mRecentsComponent=ComponentInfo\\{[^{}]+}\", rows[2]) is not None and\n            re.fullmatch(r\"mFreezeTaskListReordering=(true|false)\", rows[3]) is not None and\n            re.fullmatch(r\"mFreezeTaskListReorderingPendingTimeout=(true|false)\", rows[4]) is not None and\n            rows[5:] in ([], [\"  (nothing)\"]), \"Settings recent task absence is unproved\")\n\n\ndef parse_live_tasks(result: subprocess.CompletedProcess) -> None:\n    payload = result_bytes(result, CONTROL_BYTES)\n    require(not any(char in payload for char in (b\"\\r\", b\"\\0\", b\"\\x1b\")), \"Unsafe live task bytes\")\n    rows = [row for row in payload.decode().split(\"\\n\") if row]\n    starts = [index for index, row in enumerate(rows) if row.startswith(\"RootTask id=\")]\n    require(bool(starts) and starts[0] == 0, \"Incomplete root task observation\")\n    bounds = r\"\\[-?[0-9]+,-?[0-9]+]\\[-?[0-9]+,-?[0-9]+]\"\n    roots, children = set(), set()\n    for number, start in enumerate(starts):\n        block = rows[start:starts[number + 1] if number + 1 < len(starts) else len(rows)]\n        root = re.fullmatch(r\"RootTask id=([0-9]+) bounds=\" + bounds + r\" displayId=[0-9]+ userId=[0-9]+\", block[0])\n        require(root is not None and root[1] not in roots and len(block) >= 2 and\n                block[1].startswith(\" configuration={\") and block[1].endswith(\"}\"), \"Incomplete root/configuration\")\n        roots.add(root[1])\n        for row in block[2:]:\n            child = re.fullmatch(r\"  taskId=([0-9]+): ([^\\s]+)(?: bounds=\" + bounds +\n                                r\")? userId=[0-9]+ visible=(true|false)(?: topActivity=ComponentInfo\\{([^{}]+)})?\", row)\n            require(child is not None and child[1] not in children and child[2] != \"unknown\", \"Unknown live leaf task\")\n            children.add(child[1])\n            require(not (child[2] == \"com.android.settings\" or child[2].startswith(\"com.android.settings/\") or\n                         (child[4] or \"\").startswith(\"com.android.settings/\")), \"Settings live task remains\")\n\n",
+      "excerpt_sha256": "dfad2af1c6b59cff6d7ef9ddc9ff2ccc7a42fc9b5c649009cb78348e7130c277",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        311,
+        344
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "    def run(self, argv: list[str], timeout: float, limit: int) -> subprocess.CompletedProcess:\n        if self.deadline is not None:\n            timeout = min(timeout, self.deadline - self.clock())\n            if timeout <= 0:\n                raise TimeoutError(\"New-epoch observation exceeded its bound\")\n        result = self.runner(argv, cwd=self.root, timeout=timeout, limit=limit, environment=self.guest.environment)\n        require(isinstance(result.stdout, bytes) and isinstance(result.stderr, bytes) and\n                len(result.stdout) + len(result.stderr) <= limit, \"Runner output is unbounded or not binary\")\n        return result\n\n    def control(self, *arguments: str, timeout=10, limit=CONTROL_BYTES, transient=False) -> subprocess.CompletedProcess:\n        self.guest.verify_live()\n        mutations = {\n            (\"shell\", \"settings\", \"--user\", \"0\", \"put\", \"global\", MASTER, \"1\"),\n            (\"shell\", \"settings\", \"--user\", \"0\", \"put\", \"global\", MASTER, \"0\"),\n            (\"shell\", \"settings\", \"--user\", \"0\", \"delete\", \"global\", MASTER),\n            (\"uninstall\", REPORTER), (\"reboot\",),\n        }\n        if arguments in mutations:\n            # Re-establish the exact ready serial, AVD, actual shell UID and\n            # expected kernel epoch immediately before each latched action.\n            # Snapshot bracketing alone cannot protect this later IPC boundary.\n            self.action_guard()\n        result = self.run([str(self.home / \"platform-tools/adb\"), \"-s\", SERIAL, *arguments], timeout, limit)\n        if transient and result.returncode != 0 and result.stdout == b\"\" and result.stderr in (\n                b\"error: device offline\\n\", b\"error: device 'emulator-5588' not found\\n\", b\"error: no devices/emulators found\\n\"):\n            raise Unavailable(\"Owned reboot transport is not ready\")\n        return result\n",
+      "excerpt_sha256": "7d7b3b3d8d978c4b8ab7e8b7e2738087292650133cf7f02a6378e828fdd08c6d",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        781,
+        808
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "    def snapshot(self, *, fresh: bool) -> Snapshot:\n        self.devices()\n        before_boot = self.boot_id()\n        values = ((\"ro.build.version.sdk\", b\"35\"), (\"ro.product.cpu.abi\", b\"x86_64\"), (\"sys.boot_completed\", b\"1\"))\n        for key, expected in values:\n            require(line(self.control(\"shell\", \"getprop\", key), 512, re.escape(expected)) == expected,\n                    \"New guest runtime does not match API35/x86_64/completed boot\")\n        require(line(self.control(\"shell\", \"getenforce\"), 512, rb\"Enforcing\") == b\"Enforcing\", \"Non-enforcing guest refused\")\n        master, scalar = self.state_row(MASTER), self.state_row(SCALAR)\n        native, settings = parse_native(self.control(\"shell\", \"dumpsys\", \"activity\", \"processes\", limit=DUMP_BYTES))\n        if fresh:\n            # A cached process/package token is not a live Settings Activity.\n            # The all-Activity reader also rejects nested/stopping/finishing rows.\n            parse_settings_activity_absence(self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\",\n                                                        \"com.android.settings\", \"activities\"))\n        require(self.state_row(SCALAR) == scalar and self.state_row(MASTER) == master, \"State changed around native read\")\n        parse_recents(self.control(\"shell\", \"dumpsys\", \"activity\", \"-p\", \"com.android.settings\", \"recents\"))\n        parse_live_tasks(self.control(\"shell\", \"am\", \"stack\", \"list\"))\n        require(self.boot_id() == before_boot, \"Guest rebooted during state observation\")\n        require(line(self.control(\"emu\", \"avd\", \"name\"), 512,\n                     re.escape(self.guest.name.encode()) + rb\"\\nOK\") == self.guest.name.encode() + b\"\\nOK\",\n                \"Actual AVD name changed\")\n        self.devices()\n        return Snapshot(master, scalar, native, before_boot)\n\n    def stable(self, *, fresh: bool) -> Snapshot:\n        first, second = self.snapshot(fresh=fresh), self.snapshot(fresh=fresh)\n        require(first == second, \"State/boot changed across complete snapshots\")\n",
+      "excerpt_sha256": "e37a9d0fde75589d448af58c179ba1b5b45483148a40ea0698865e047a16d449",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        846,
+        873
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "            self.publish()\n            self.devices()\n            require(line(self.control(\"shell\", \"id\", \"-u\"), 512, rb\"2000\") == b\"2000\", \"Actual shell UID2000 required; no root\")\n            for name in (\"DUMP\", \"ACCESS_CONTENT_PROVIDERS_EXTERNALLY\"):\n                require(permission(self.control(\"shell\", \"dumpsys\", \"package\", \"check-permission\",\n                                                \"android.permission.\" + name, \"com.android.shell\", \"0\")), \"Read permission not granted\")\n            self.reporter.freeze()\n            original = self.stable(fresh=True)\n            require(pair_admitted(original), \"Original native/scalar pair is inconsistent\")\n            self.original = original\n            self.receipt.update(original_master=original.master.safe(), original_scalar=original.scalar.safe(),\n                                original_native=original.native, original_boot_id_sha256=hashlib.sha256(original.boot.encode()).hexdigest())\n            self.publish()\n            if original.master != Row(True, \"1\"):\n                require(permission(self.control(\"shell\", \"dumpsys\", \"package\", \"check-permission\",\n                                                \"android.permission.WRITE_SECURE_SETTINGS\", \"com.android.shell\", \"0\")), \"Write permission not granted\")\n",
+      "excerpt_sha256": "5734e49ddb0228d0210ce84e38048cadca21665f92461d7ed54af65289ac778d",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        880,
+        895
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "    def close(self) -> dict:\n        if self.closed:\n            return dict(self.receipt)  # Sticky failures; no cleanup action retry.\n        self.closed = True\n        start_errors = len(self.receipt[\"errors\"])\n        self.receipt[\"cleanup_status\"] = \"running\"\n        try:\n            self.publish()\n            if self.original is not None:\n                self.action_guard()  # Refuse an unrequested epoch before app cleanup, too.\n            self.reporter.cleanup()\n            require(self.receiver_cleanup is not None and self.receiver_cleanup[\"removed\"] is True and\n                    self.reporter.observe(RECEIVER) is None, \"Owned receiver cleanup/absence unproved\")\n            self.receipt[\"receiver_removed\"] = True\n            if self.receiver_cleanup[\"error\"] or self.receiver_cleanup[\"status\"] == \"failed\":\n                self.failure(\"receiver-cleanup\", ValueError(\"Prior receiver cleanup failed\"))\n            require(self.original is not None, \"Original exact state was not acquired\")\n",
+      "excerpt_sha256": "da3c809dc0d34b88082961fcc46f892a50a45fd9b70aefee3017c0d928cad5cf",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        968,
+        984
+      ],
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "source_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
+    },
+    {
+      "excerpt": "    private fun readRecentTasks(): List<RecentTask> {\n        // -p is parsed BEFORE recents. A trailing package argument would not filter this dispatch.\n        val lines = runComplete(\"dumpsys activity -p com.android.settings recents\")\n        check(lines.size >= 5 && lines.first() == RECENTS_HEADER && lines.count { it == RECENTS_HEADER } == 1)\n        check(Regex(\"mRecentsUid=[0-9]+\").matches(lines[1]))\n        check(Regex(\"mRecentsComponent=ComponentInfo\\\\{[^{}]+}\").matches(lines[2]))\n        check(Regex(\"mFreezeTaskListReordering=(true|false)\").matches(lines[3]))\n        check(Regex(\"mFreezeTaskListReorderingPendingTimeout=(true|false)\").matches(lines[4]))\n        val remainder = lines.drop(5)\n        if (remainder.isEmpty() || remainder == listOf(\"  (nothing)\")) return emptyList()\n        check(remainder.first() == \"  Recent tasks:\" && remainder.count { it == \"  Recent tasks:\" } == 1)\n        check(remainder.count { it == RECENTS_VISIBLE } <= 1)\n        val visible = remainder.indexOf(RECENTS_VISIBLE).let { if (it < 0) remainder.size else it }\n        val raw = remainder.subList(1, visible).dropLastWhile { it.isEmpty() }\n",
+      "excerpt_sha256": "92861f9c15f5b3c6bef7c0946287c243e517da41f3f3c575aef23da9154d7de6",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        206,
+        219
+      ],
+      "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
+      "source_sha256": "a1fb76c6092881a3681ec38002b4820f1d0d8282727a4d18fa89968f6b8c5b50"
+    },
+    {
+      "excerpt": "    private fun assertTop(lease: Lease) {\n        val taskId = checkNotNull(lease.taskId)\n        val lines = runComplete(\"dumpsys activity top-resumed\")\n        check(lines.firstOrNull() == TOP_HEADER && lines.count { it == TOP_HEADER } == 1)\n        check(oneRow(lines, \"packageName=\") == \"packageName=com.android.settings processName=com.android.settings\")\n        check(oneRow(lines, \"launchedFromUid=\") == \"launchedFromUid=2000 launchedFromPackage=com.android.shell launchedFromFeature=null userId=0\")\n        check(lines.count { it == lease.intent.toString() } == 1)\n        check(oneRow(lines, \"mActivityComponent=\") == \"mActivityComponent=${component.flattenToShortString()}\")\n        check(Regex(\"\"\"rootOfTask=true task=Task\\{[a-f0-9]+ #$taskId type=standard[^{}]*}\"\"\").matches(oneRow(lines, \"rootOfTask=\")))\n        check(oneRow(lines, \"state=\") == \"state=RESUMED delayedResume=false finishing=false\")\n    }\n\n    private fun readLiveTasks(): LiveTasks {\n        // Native getAllRootTaskInfos includes all leaf task IDs/names, even a\n        // background task. Require complete successful shell output and every\n        // source-backed root/configuration/child row; never infer an unknown\n        // name, silent error or absent recents entry is a removed live task.\n        val lines = runComplete(\"am stack list\").filter { it.isNotEmpty() }\n        check(lines.isNotEmpty())\n        val roots = lines.indices.filter { lines[it].startsWith(\"RootTask id=\") }\n",
+      "excerpt_sha256": "dc782dcd545afb540e61dd67b4e0ef5fad29b28131aa3077137e6fce3793a153",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        239,
+        258
+      ],
+      "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
+      "source_sha256": "a1fb76c6092881a3681ec38002b4820f1d0d8282727a4d18fa89968f6b8c5b50"
+    },
+    {
+      "excerpt": "    private fun runComplete(command: String): List<String> {\n        check(command in setOf(\"dumpsys activity -p com.android.settings recents\", \"dumpsys activity top-resumed\", \"am stack list\") ||\n            Regex(\"am stack remove [1-9][0-9]*\").matches(command) ||\n            Regex(\"am start -W --user 0 '[A-Za-z0-9._:/#%;=+\\\\-]+'\").matches(command))\n        val marker = \"nativecmpkit-settings-\" + UUID.randomUUID().toString().replace(\"-\", \"\")\n        // UiAutomationConnection uses Runtime.exec(String), NOT a shell tokenizer.\n        // Pass one whitespace-free -c argument to the explicit shell. Only the\n        // validated URI is quoted INSIDE that argument; ${IFS} supplies argv\n        // separators there. The final marker includes the actual command status.\n        val encoded = command.replace(\" \", \"\\${IFS}\")\n        val text = shell(\"sh -c $encoded;echo\\${IFS}$marker-\\$?\", CONTROL_BYTES)\n        check(text.none { it == '\\r' || it == '\\u0000' || it == '\\u001b' })\n        val lines = text.lines()\n        check(lines.lastOrNull() == \"$marker-0\" && lines.count { it.contains(marker) } == 1)\n        return lines.dropLast(1)\n",
+      "excerpt_sha256": "52ca5407123a6f1a0a6920e159889b0e5bb86a13b47b87bba996eff8f67a9ea0",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        291,
+        305
+      ],
+      "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt",
+      "source_sha256": "a1fb76c6092881a3681ec38002b4820f1d0d8282727a4d18fa89968f6b8c5b50"
+    },
+    {
+      "excerpt": "    private fun readNative(): Boolean {\n        // Exact no-package `processes` dispatch sets dumpAll=true. ProcessList\n        // prints the header, AMS always prints readiness and the final footer.\n        // Only within that complete source-backed branch is a missing true-only\n        // mAlwaysFinishActivities row evidence of false; arbitrary omission is not.\n        // Inspect in memory only: never log/export unrelated process dump bodies.\n        val text = shell(\"dumpsys activity processes\", DUMP_BYTES)\n        check(text.none { it == '\\r' || it == '\\u0000' || it == '\\u001b' })\n        val lines = text.lines()\n        check(lines.firstOrNull() == PROCESS_HEADER && lines.count { it == PROCESS_HEADER } == 1)\n        val readiness = lines.withIndex().filter { it.value.contains(\"mProcessesReady\") }\n        val footer = lines.withIndex().filter { it.value.contains(\"mForceBackgroundCheck\") }\n        check(readiness.size == 1 && readiness.single().value == READINESS_ROW)\n        check(footer.size == 1 && footer.single().index == lines.lastIndex)\n        check(Regex(\"  mForceBackgroundCheck=(true|false)\").matches(footer.single().value))\n        check(readiness.single().index < footer.single().index)\n        val fields = lines.withIndex().filter { it.value.contains(\"mAlwaysFinishActivities\") }\n        check(fields.size <= 1)\n        if (fields.isEmpty()) return false\n        check(fields.single().value == ALWAYS_FINISH_ROW)\n        check(fields.single().index in 1 until readiness.single().index)\n        return true\n",
+      "excerpt_sha256": "4e18a05cad3bbbfd0af27d8180ebe973b3b646d7e298eb08bcbdd53793142d24",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        117,
+        138
+      ],
+      "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt",
+      "source_sha256": "2010803e066ce0de1a34051ed40a50c9bca08f238a6218dcaabb4e7d0a09bee7"
+    },
+    {
+      "excerpt": "    private fun shell(command: String, maximumBytes: Int = 65536): String {\n        check(maximumBytes == 65536 || command == \"dumpsys activity processes\" && maximumBytes == 1_048_576) {\n            \"Refuse a widened owned camera control query\"\n        }\n        val descriptor = instrumentation.uiAutomation.executeShellCommand(command)\n        return ParcelFileDescriptor.AutoCloseInputStream(descriptor).use { input ->\n            val result = ByteArrayOutputStream(); val block = ByteArray(4096)\n            val deadline = SystemClock.uptimeMillis() + 10_000\n            val poll = StructPollfd().apply { fd = descriptor.fileDescriptor; events = (OsConstants.POLLIN or OsConstants.POLLHUP).toShort() }\n            while (true) {\n                val remaining = deadline - SystemClock.uptimeMillis(); check(remaining > 0) { \"Owned camera control read timed out\" }\n                check(Os.poll(arrayOf(poll), remaining.toInt()) > 0) { \"Owned camera control read timed out\" }\n                check(poll.revents.toInt() and (OsConstants.POLLERR or OsConstants.POLLNVAL) == 0)\n                val n = input.read(block); if (n < 0) break\n                check(n > 0 && result.size() + n <= maximumBytes) { \"Unbounded owned camera control reply\" }\n                result.write(block, 0, n)\n            }\n            result.toByteArray().decodeToString(throwOnInvalidSequence = true).trim()\n        }\n",
+      "excerpt_sha256": "56e446e0a7799bddae04d15768f4ceea2e43e312fba106ed00fa7dc4ceadb0e2",
+      "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+      "lines": [
+        418,
+        436
+      ],
+      "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt",
+      "source_sha256": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0"
+    }
+  ],
+  "official_source_excerpts": [
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    private void doDump(FileDescriptor fd, PrintWriter pw, String[] args, boolean useProto) {\n        if (!DumpUtils.checkDumpAndUsageStatsPermission(mContext, TAG, pw)) return;\n\n        boolean dumpAll = false;\n        boolean dumpClient = false;\n        boolean dumpCheckin = false;\n        boolean dumpCheckinFormat = false;\n        boolean dumpNormalPriority = false;\n        boolean dumpVisibleStacksOnly = false;\n        boolean dumpFocusedStackOnly = false;\n        int dumpDisplayId = INVALID_DISPLAY;\n        String dumpPackage = null;\n        int dumpUserId = UserHandle.USER_ALL;\n\n        int opti = 0;\n        while (opti < args.length) {\n            String opt = args[opti];\n            if (opt == null || opt.length() <= 0 || opt.charAt(0) != '-') {\n                break;\n            }\n            opti++;\n            if (\"-a\".equals(opt)) {\n                dumpAll = true;\n            } else if (\"-c\".equals(opt)) {\n                dumpClient = true;\n            } else if (\"-v\".equals(opt)) {\n                dumpVisibleStacksOnly = true;\n            } else if (\"-f\".equals(opt)) {\n                dumpFocusedStackOnly = true;\n            } else if (\"-p\".equals(opt)) {\n                if (opti < args.length) {\n                    dumpPackage = args[opti];\n                    opti++;\n                } else {\n                    pw.println(\"Error: -p option requires package argument\");\n                    return;\n                }\n                dumpClient = true;\n            } else if (\"--checkin\".equals(opt)) {\n                dumpCheckin = dumpCheckinFormat = true;\n            } else if (\"-C\".equals(opt)) {\n                dumpCheckinFormat = true;\n            } else if (\"--normal-priority\".equals(opt)) {\n                dumpNormalPriority = true;\n            } else if (\"--user\".equals(opt)) {\n                if (opti < args.length) {\n                    dumpUserId = UserHandle.parseUserArg(args[opti]);\n                    if (dumpUserId == UserHandle.USER_CURRENT) {\n                        dumpUserId = mUserController.getCurrentUserId();\n                    }\n                    opti++;\n                } else {\n                    pw.println(\"Error: --user option requires user id argument\");\n                    return;\n                }\n            } else if (\"-d\".equals(opt)) {\n                if (opti < args.length) {\n                    dumpDisplayId = Integer.parseInt(args[opti]);\n                    if (dumpDisplayId == INVALID_DISPLAY) {\n                        pw.println(\"Error: -d cannot be used with INVALID_DISPLAY\");\n                        return;\n                    }\n                    opti++;\n                } else {\n                    pw.println(\"Error: -d option requires display argument\");\n                    return;\n                }\n                dumpClient = true;\n            } else if (\"-h\".equals(opt)) {\n                ActivityManagerShellCommand.dumpHelp(pw, true);\n                return;\n            } else {\n                pw.println(\"Unknown argument: \" + opt + \"; use -h for help\");\n                return;\n            }\n        }\n",
+      "excerpt_sha256": "862b0e707e6a897e17d43020500b09b66773a765b8f64d43a78163efd5f3e720",
+      "lines": [
+        10681,
+        10756
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        }\n\n        int dumpAppId = getAppId(dumpPackage);\n        boolean more = false;\n        // Is the caller requesting to dump a particular piece of data?\n        if (opti < args.length) {\n            String cmd = args[opti];\n            opti++;\n            if (DUMP_ACTIVITIES_CMD.equals(cmd) || DUMP_ACTIVITIES_SHORT_CMD.equals(cmd)\n                    || DUMP_LASTANR_CMD.equals(cmd) || DUMP_LASTANR_TRACES_CMD.equals(cmd)\n                    || DUMP_STARTER_CMD.equals(cmd) || DUMP_CONTAINERS_CMD.equals(cmd)\n                    || DUMP_RECENTS_CMD.equals(cmd) || DUMP_RECENTS_SHORT_CMD.equals(cmd)\n                    || DUMP_TOP_RESUMED_ACTIVITY.equals(cmd)\n                    || DUMP_VISIBLE_ACTIVITIES.equals(cmd)) {\n                mAtmInternal.dump(cmd, fd, pw, args, opti, /* dumpAll= */ true , dumpClient,\n                        dumpPackage, dumpDisplayId);\n            } else if (\"binder-proxies\".equals(cmd)) {\n",
+      "excerpt_sha256": "7bceb12401cbd8057de0b2dcabd2820abe3cca40cb53740ce76d42cffb202d70",
+      "lines": [
+        10853,
+        10869
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "            } else if (\"processes\".equals(cmd) || \"p\".equals(cmd)) {\n                if (opti < args.length) {\n                    dumpPackage = args[opti];\n                    opti++;\n                }\n                synchronized (this) {\n                    synchronized (mProcLock) {\n                        mProcessList.dumpProcessesLSP(\n                                fd, pw, args, opti, true, dumpPackage, dumpAppId);\n                    }\n                }\n            } else if (\"oom\".equals(cmd) || \"o\".equals(cmd)) {\n                synchronized (this) {\n                    mProcessList.dumpOomLocked(fd, pw, false, args, opti, true, dumpPackage, true);\n",
+      "excerpt_sha256": "473bebfbc26f97ac24c6ce3dc4f38dca6bff8ec557abc9468b4b5d36e2d96fe7",
+      "lines": [
+        10916,
+        10929
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "            } else {\n                // Dumping a single activity?\n                if (!mAtmInternal.dumpActivity(fd, pw, cmd, args, opti, dumpAll,\n                        dumpVisibleStacksOnly, dumpFocusedStackOnly, dumpDisplayId, dumpUserId)) {\n                    ActivityManagerShellCommand shell = new ActivityManagerShellCommand(this, true);\n                    int res = shell.exec(this, null, fd, null, args, null,\n                            new ResultReceiver(null));\n                    if (res < 0) {\n                        pw.println(\"Bad activity command, or no activities match: \" + cmd);\n                        pw.println(\"Use -h for help.\");\n                    }\n                }\n            }\n            if (!more) {\n                Binder.restoreCallingIdentity(origId);\n                return;\n            }\n",
+      "excerpt_sha256": "994f71cd48c4afc9c745e5ed610404877098f63797e4402e25e452331630c769",
+      "lines": [
+        11040,
+        11056
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        if (dumpPackage == null) {\n            if (mAlwaysFinishActivities) {\n                pw.println(\"  mAlwaysFinishActivities=\" + mAlwaysFinishActivities);\n            }\n            if (mAllowSpecifiedFifoScheduling) {\n                pw.println(\"  mAllowSpecifiedFifoScheduling=true\");\n            }\n            if (dumpAll) {\n                pw.println(\"  Total persistent processes: \" + numPers);\n                pw.println(\"  mProcessesReady=\" + mProcessesReady\n                        + \" mSystemReady=\" + mSystemReady\n                        + \" mBooted=\" + mBooted\n                        + \" mFactoryTest=\" + mFactoryTest);\n                pw.println(\"  mBooting=\" + mBooting\n                        + \" mCallFinishBooting=\" + mCallFinishBooting\n                        + \" mBootAnimationComplete=\" + mBootAnimationComplete);\n                pw.print(\"  mLastPowerCheckUptime=\");\n                        TimeUtils.formatDuration(mLastPowerCheckUptime, pw);\n                        pw.println(\"\");\n                mOomAdjuster.dumpSequenceNumbersLocked(pw);\n                mOomAdjuster.dumpProcCountsLocked(pw);\n                mAppProfiler.dumpMemoryLevelsLocked(pw);\n                long now = SystemClock.uptimeMillis();\n                pw.print(\"  mLastIdleTime=\");\n                        TimeUtils.formatDuration(now, mLastIdleTime, pw);\n                        pw.print(\" mLowRamSinceLastIdle=\");\n                        TimeUtils.formatDuration(\n                                mAppProfiler.getLowRamTimeSinceIdleLPr(now), pw);\n                        pw.println();\n\n                pw.println();\n                pw.println(\"  ServiceManager statistics:\");\n                ServiceManager.sStatLogger.dump(pw, \"    \");\n                pw.println();\n            }\n        }\n        pw.println(\"  mForceBackgroundCheck=\" + mForceBackgroundCheck);\n    }\n",
+      "excerpt_sha256": "6a018b4503063126c885abd7681a8850cf93af5d9c9c7c5196f6bae7cc576b63",
+      "lines": [
+        11465,
+        11502
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public static class ItemMatcher {\n        ArrayList<ComponentName> components;\n        ArrayList<String> strings;\n        ArrayList<Integer> objects;\n        boolean all;\n\n        public ItemMatcher() {\n            all = true;\n        }\n\n        public void build(String name) {\n            ComponentName componentName = ComponentName.unflattenFromString(name);\n            if (componentName != null) {\n                if (components == null) {\n                    components = new ArrayList<ComponentName>();\n                }\n                components.add(componentName);\n                all = false;\n            } else {\n                int objectId = 0;\n                // Not a '/' separated full component name; maybe an object ID?\n                try {\n                    objectId = Integer.parseInt(name, 16);\n                    if (objects == null) {\n                        objects = new ArrayList<Integer>();\n                    }\n                    objects.add(objectId);\n                    all = false;\n                } catch (RuntimeException e) {\n                    // Not an integer; just do string match.\n                    if (strings == null) {\n                        strings = new ArrayList<String>();\n                    }\n                    strings.add(name);\n                    all = false;\n                }\n            }\n        }\n\n        public int build(String[] args, int opti) {\n            for (; opti<args.length; opti++) {\n                String name = args[opti];\n                if (\"--\".equals(name)) {\n                    return opti+1;\n                }\n                build(name);\n            }\n            return opti;\n        }\n\n        public boolean match(Object object, ComponentName comp) {\n            if (all) {\n                return true;\n            }\n            if (components != null) {\n                for (int i=0; i<components.size(); i++) {\n                    if (components.get(i).equals(comp)) {\n                        return true;\n                    }\n                }\n            }\n            if (objects != null) {\n                for (int i=0; i<objects.size(); i++) {\n                    if (System.identityHashCode(object) == objects.get(i)) {\n                        return true;\n                    }\n                }\n            }\n            if (strings != null) {\n                String flat = comp.flattenToString();\n                for (int i=0; i<strings.size(); i++) {\n                    if (flat.contains(strings.get(i))) {\n                        return true;\n                    }\n                }\n            }\n            return false;\n        }\n",
+      "excerpt_sha256": "9426cb6f6433c244e7f6fd7fb19f5a9ba87183afcc95c4d98937cd0f8a40d473",
+      "lines": [
+        11692,
+        11769
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "e713ead4798bf56ec8b590202e3473384eb8d1f4986a2b05c5124c3acb824285"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public static final String DUMP_ACTIVITIES_CMD = \"activities\";\n    public static final String DUMP_ACTIVITIES_SHORT_CMD = \"a\";\n    public static final String DUMP_LASTANR_CMD = \"lastanr\";\n    public static final String DUMP_LASTANR_TRACES_CMD = \"lastanr-traces\";\n    public static final String DUMP_STARTER_CMD = \"starter\";\n    public static final String DUMP_CONTAINERS_CMD = \"containers\";\n    public static final String DUMP_RECENTS_CMD = \"recents\";\n    public static final String DUMP_RECENTS_SHORT_CMD = \"r\";\n    public static final String DUMP_TOP_RESUMED_ACTIVITY = \"top-resumed\";\n    public static final String DUMP_VISIBLE_ACTIVITIES = \"visible\";\n\n",
+      "excerpt_sha256": "665f11ae19a39658114f6521f8f86a7353013dd3decd3f31564e2d4d7a6ea49f",
+      "lines": [
+        348,
+        358
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void dumpTopResumedActivityLocked(PrintWriter pw) {\n        pw.println(\"ACTIVITY MANAGER TOP-RESUMED (dumpsys activity top-resumed)\");\n        ActivityRecord topRecord = mRootWindowContainer.getTopResumedActivity();\n        if (topRecord != null) {\n            topRecord.dump(pw, \"\", true);\n        }\n    }\n",
+      "excerpt_sha256": "e4d51189eb39b159abf686087322cd575c034c93bc2ba2cd5894e4ecd4b4bcdb",
+      "lines": [
+        4277,
+        4283
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void dumpActivitiesLocked(FileDescriptor fd, PrintWriter pw, String[] args,\n            int opti, boolean dumpAll, boolean dumpClient, String dumpPackage,\n            int displayIdFilter) {\n        dumpActivitiesLocked(fd, pw, args, opti, dumpAll, dumpClient, dumpPackage, displayIdFilter,\n                \"ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)\");\n    }\n\n    void dumpActivitiesLocked(FileDescriptor fd, PrintWriter pw, String[] args,\n            int opti, boolean dumpAll, boolean dumpClient, String dumpPackage, int displayIdFilter,\n            String header) {\n        pw.println(header);\n\n        boolean printedAnything = mRootWindowContainer.dumpActivities(fd, pw, dumpAll, dumpClient,\n                dumpPackage, displayIdFilter);\n        boolean needSep = printedAnything;\n\n        boolean printed = ActivityTaskSupervisor.printThisActivity(pw,\n                mRootWindowContainer.getTopResumedActivity(), dumpPackage, displayIdFilter, needSep,\n                \"  ResumedActivity: \", /* header= */ null);\n        if (printed) {\n            printedAnything = true;\n            needSep = false;\n        }\n\n        if (dumpPackage == null) {\n            if (needSep) {\n                pw.println();\n            }\n            printedAnything = true;\n            mTaskSupervisor.dump(pw, \"  \");\n            mTaskOrganizerController.dump(pw, \"  \");\n            mVisibleActivityProcessTracker.dump(pw, \"  \");\n            mActiveUids.dump(pw, \"  \");\n            if (mDemoteTopAppReasons != 0) {\n                pw.println(\"  mDemoteTopAppReasons=\" + mDemoteTopAppReasons);\n            }\n            if (!mStartingProcessActivities.isEmpty()) {\n                pw.println(\"  mStartingProcessActivities=\" + mStartingProcessActivities);\n            }\n        }\n\n        if (!printedAnything) {\n            pw.println(\"  (nothing)\");\n        }\n    }\n",
+      "excerpt_sha256": "f79b8e025666a07eae66908c130a7c7c8535dd7a6812095a2545ff85e3d093ae",
+      "lines": [
+        4310,
+        4354
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    protected boolean dumpActivity(FileDescriptor fd, PrintWriter pw, String name, String[] args,\n            int opti, boolean dumpAll, boolean dumpVisibleRootTasksOnly,\n            boolean dumpFocusedRootTaskOnly, int displayIdFilter, @UserIdInt int userId,\n            long timeout) {\n        ArrayList<ActivityRecord> activities;\n\n        synchronized (mGlobalLock) {\n            activities = mRootWindowContainer.getDumpActivities(name, dumpVisibleRootTasksOnly,\n                    dumpFocusedRootTaskOnly, userId);\n        }\n\n        if (activities.size() <= 0) {\n            return false;\n        }\n\n        String[] newArgs = new String[args.length - opti];\n        System.arraycopy(args, opti, newArgs, 0, args.length - opti);\n\n        Task lastTask = null;\n        boolean needSep = false;\n        boolean printedAnything = false;\n        for (int i = activities.size() - 1; i >= 0; i--) {\n            ActivityRecord r = activities.get(i);\n            if (needSep) {\n                pw.println();\n            }\n            needSep = true;\n            synchronized (mGlobalLock) {\n                Task task = r.getTask();\n                int displayId = task.getDisplayId();\n                if (displayIdFilter != INVALID_DISPLAY && displayId != displayIdFilter) {\n                    continue;\n                }\n                if (lastTask != task) {\n                    printedAnything = true;\n                    lastTask = task;\n                    pw.print(\"TASK \");\n                    pw.print(lastTask.affinity);\n                    pw.print(\" id=\");\n                    pw.print(lastTask.mTaskId);\n                    pw.print(\" userId=\");\n                    pw.print(lastTask.mUserId);\n                    printDisplayInfoAndNewLine(pw, r);\n                    if (dumpAll) {\n                        lastTask.dump(pw, \"  \");\n                    }\n                }\n            }\n            dumpActivity(\"  \", fd, pw, activities.get(i), newArgs, dumpAll, timeout);\n        }\n        if (!printedAnything) {\n            // Typically happpens when no task matches displayIdFilter\n            pw.println(\"(nothing)\");\n        }\n        return true;\n    }\n\n    /**\n     * Invokes IApplicationThread.dumpActivity() on the thread of the specified activity if\n     * there is a thread associated with the activity.\n     */\n    private void dumpActivity(String prefix, FileDescriptor fd, PrintWriter pw,\n            ActivityRecord r, String[] args, boolean dumpAll, long timeout) {\n        String innerPrefix = prefix + \"  \";\n        IApplicationThread appThread = null;\n        synchronized (mGlobalLock) {\n            pw.print(prefix);\n            pw.print(\"ACTIVITY \");\n            pw.print(r.shortComponentName);\n            pw.print(\" \");\n            pw.print(Integer.toHexString(System.identityHashCode(r)));\n            pw.print(\" pid=\");\n            if (r.hasProcess()) {\n                pw.print(r.app.getPid());\n                appThread = r.app.getThread();\n            } else {\n                pw.print(\"(not running)\");\n            }\n            pw.print(\" userId=\");\n            pw.print(r.mUserId);\n            pw.print(\" uid=\");\n            pw.print(r.getUid());\n            printDisplayInfoAndNewLine(pw, r);\n            if (dumpAll) {\n                r.dump(pw, innerPrefix, /* dumpAll= */ true);\n            }\n        }\n        if (appThread != null) {\n            // flush anything that is already in the PrintWriter since the thread is going\n            // to write to the file descriptor directly\n            pw.flush();\n            try (TransferPipe tp = new TransferPipe()) {\n                appThread.dumpActivity(tp.getWriteFd(), r.token, innerPrefix, args);\n                tp.go(fd, timeout);\n            } catch (IOException e) {\n                pw.println(innerPrefix + \"Failure while dumping the activity: \" + e);\n            } catch (RemoteException e) {\n                pw.println(innerPrefix + \"Got a RemoteException while dumping the activity\");\n            }\n        }\n    }\n",
+      "excerpt_sha256": "83464e6a7f3e25809d852efd3374e016919deb52ce03b1212d08e0d3e2d744f8",
+      "lines": [
+        4387,
+        4487
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "                boolean dumpAll, boolean dumpClient, String dumpPackage, int displayIdFilter) {\n            synchronized (mGlobalLock) {\n                if (DUMP_ACTIVITIES_CMD.equals(cmd) || DUMP_ACTIVITIES_SHORT_CMD.equals(cmd)) {\n                    dumpActivitiesLocked(fd, pw, args, opti, dumpAll, dumpClient, dumpPackage,\n                            displayIdFilter);\n                } else if (DUMP_LASTANR_CMD.equals(cmd)) {\n                    dumpLastANRLocked(pw);\n                } else if (DUMP_LASTANR_TRACES_CMD.equals(cmd)) {\n                    dumpLastANRTracesLocked(pw);\n                } else if (DUMP_STARTER_CMD.equals(cmd)) {\n                    dumpActivityStarterLocked(pw, dumpPackage);\n                } else if (DUMP_CONTAINERS_CMD.equals(cmd)) {\n                    dumpActivityContainersLocked(pw);\n                } else if (DUMP_RECENTS_CMD.equals(cmd) || DUMP_RECENTS_SHORT_CMD.equals(cmd)) {\n                    if (getRecentTasks() != null) {\n                        getRecentTasks().dump(pw, dumpAll, dumpPackage);\n                    }\n                } else if (DUMP_TOP_RESUMED_ACTIVITY.equals(cmd)) {\n",
+      "excerpt_sha256": "802f78d84f174d90a86134597676f61f68ea5619fb0f19dae61d079f09a05f9d",
+      "lines": [
+        6761,
+        6778
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        @Override\n        public boolean dumpActivity(FileDescriptor fd, PrintWriter pw, String name,\n                String[] args, int opti, boolean dumpAll, boolean dumpVisibleRootTasksOnly,\n                boolean dumpFocusedRootTaskOnly, int displayIdFilter,\n                @UserIdInt int userId) {\n            return ActivityTaskManagerService.this.dumpActivity(fd, pw, name, args, opti, dumpAll,\n                    dumpVisibleRootTasksOnly, dumpFocusedRootTaskOnly, displayIdFilter, userId,\n                    /* timeout= */ 5000);\n        }\n",
+      "excerpt_sha256": "8dd5dd90b91506add0751b2594724dcd06a76d3e2aa5b5f82bc1a28ce0cdbe51",
+      "lines": [
+        6973,
+        6981
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    @Override\n    public List<RootTaskInfo> getAllRootTaskInfos() {\n        enforceTaskPermission(\"getAllRootTaskInfos()\");\n        final long ident = Binder.clearCallingIdentity();\n        try {\n            synchronized (mGlobalLock) {\n                return mRootWindowContainer.getAllRootTaskInfos(INVALID_DISPLAY);\n            }\n        } finally {\n            Binder.restoreCallingIdentity(ident);\n        }\n    }\n",
+      "excerpt_sha256": "54e486cf3d0d4e79fe436e7156e44e11c83f23c9a2481155da6c2e9a2b17ecc0",
+      "lines": [
+        2516,
+        2527
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "37ab36dc1c57988da482a1803397d07af254cbc4ee26c6ec6d8d5eb633722199"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    ArrayList<ActivityRecord> getDumpActivities(String name, boolean dumpVisibleRootTasksOnly,\n            boolean dumpFocusedRootTaskOnly, @UserIdInt int userId) {\n        if (dumpFocusedRootTaskOnly) {\n            final Task topFocusedRootTask = getTopDisplayFocusedRootTask();\n            if (topFocusedRootTask != null) {\n                return topFocusedRootTask.getDumpActivitiesLocked(name, userId);\n            } else {\n                return new ArrayList<>();\n            }\n        } else {\n            final RecentTasks recentTasks = mWindowManager.mAtmService.getRecentTasks();\n            final int recentsComponentUid = recentTasks != null\n                    ? recentTasks.getRecentsComponentUid()\n                    : -1;\n            final ArrayList<ActivityRecord> activities = new ArrayList<>();\n            forAllLeafTasks(task -> {\n                final boolean isRecents = (task.effectiveUid == recentsComponentUid);\n                if (!dumpVisibleRootTasksOnly || task.shouldBeVisible(null) || isRecents) {\n                    activities.addAll(task.getDumpActivitiesLocked(name, userId));\n                }\n                return false;\n            });\n            return activities;\n        }\n",
+      "excerpt_sha256": "b86dc3a83c3c8c7321dcf8c880eccba16d0dde8f1b0157c8d7d2f8e4b716730e",
+      "lines": [
+        3702,
+        3725
+      ],
+      "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3b2921d9462d646d7de5c760f9d91347d48fddf6e5317e0d7a6ae9dd0854cc20"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    boolean dumpActivities(FileDescriptor fd, PrintWriter pw, boolean dumpAll, boolean dumpClient,\n            String dumpPackage, int displayIdFilter) {\n        boolean[] printed = {false};\n        boolean[] needSep = {false};\n        for (int displayNdx = getChildCount() - 1; displayNdx >= 0; --displayNdx) {\n            DisplayContent displayContent = getChildAt(displayNdx);\n            if (printed[0]) {\n                pw.println();\n            }\n            if (displayIdFilter != Display.INVALID_DISPLAY\n                    && displayContent.mDisplayId != displayIdFilter) {\n                continue;\n            }\n            pw.print(\"Display #\");\n            pw.print(displayContent.mDisplayId);\n            pw.println(\" (activities from top to bottom):\");\n            displayContent.forAllRootTasks(rootTask -> {\n                if (needSep[0]) {\n                    pw.println();\n                }\n                needSep[0] = rootTask.dump(fd, pw, dumpAll, dumpClient, dumpPackage, false);\n                printed[0] |= needSep[0];\n            });\n            displayContent.forAllTaskDisplayAreas(taskDisplayArea -> {\n                printed[0] |= printThisActivity(pw, taskDisplayArea.getFocusedActivity(),\n                        dumpPackage, needSep[0], \"    Resumed: \", () ->\n                                pw.println(\"  Resumed activities in task display areas\"\n                                        + \" (from top to bottom):\"));\n            });\n        }\n\n        printed[0] |= dumpHistoryList(fd, pw, mTaskSupervisor.mFinishingActivities, \"  \",\n                \"Fin\", false, !dumpAll,\n                false, dumpPackage, true,\n                () -> pw.println(\"  Activities waiting to finish:\"), null);\n        printed[0] |= dumpHistoryList(fd, pw, mTaskSupervisor.mStoppingActivities, \"  \",\n                \"Stop\", false, !dumpAll,\n                false, dumpPackage, true,\n                () -> pw.println(\"  Activities waiting to stop:\"), null);\n\n",
+      "excerpt_sha256": "6b60f35615d8d7a9087dc1c741be78b871119355951c66e7fdc48dd5e30e0776",
+      "lines": [
+        3758,
+        3797
+      ],
+      "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3b2921d9462d646d7de5c760f9d91347d48fddf6e5317e0d7a6ae9dd0854cc20"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        final int numTasks = task.getDescendantTaskCount();\n        info.childTaskIds = new int[numTasks];\n        info.childTaskNames = new String[numTasks];\n        info.childTaskBounds = new Rect[numTasks];\n        info.childTaskUserIds = new int[numTasks];\n        final int[] currentIndex = {0};\n\n        task.forAllLeafTasks(t -> {\n            int i = currentIndex[0];\n            info.childTaskIds[i] = t.mTaskId;\n            info.childTaskNames[i] = t.origActivity != null ? t.origActivity.flattenToString()\n                    : t.realActivity != null ? t.realActivity.flattenToString()\n                    : t.getTopNonFinishingActivity() != null\n                    ? t.getTopNonFinishingActivity().packageName : \"unknown\";\n            info.childTaskBounds[i] = t.mAtmService.getTaskBounds(t.mTaskId);\n            info.childTaskUserIds[i] = t.mUserId;\n            currentIndex[0] = ++i;\n        }, false /* traverseTopToBottom */);\n\n        final ActivityRecord top = task.topRunningActivity();\n        info.topActivity = top != null ? top.intent.getComponent() : null;\n        return info;\n",
+      "excerpt_sha256": "a0c60aa3c00701cd4d720b4394dce3d5d75d9b675bc7513a7b5c868a2316edec",
+      "lines": [
+        2704,
+        2725
+      ],
+      "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3b2921d9462d646d7de5c760f9d91347d48fddf6e5317e0d7a6ae9dd0854cc20"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    /** If displayId == INVALID_DISPLAY, this will get root task infos on all displays */\n    ArrayList<RootTaskInfo> getAllRootTaskInfos(int displayId) {\n        final ArrayList<RootTaskInfo> list = new ArrayList<>();\n        if (displayId == INVALID_DISPLAY) {\n            forAllRootTasks(rootTask -> {\n                list.add(getRootTaskInfo(rootTask));\n            });\n            return list;\n        }\n        final DisplayContent display = getDisplayContent(displayId);\n        if (display == null) {\n            return list;\n        }\n        display.forAllRootTasks(rootTask -> {\n            list.add(getRootTaskInfo(rootTask));\n        });\n        return list;\n    }\n",
+      "excerpt_sha256": "43da637c7c96f44e7936ddf7c298eac9f435963d957cf0ccd52844bc6d8b2a95",
+      "lines": [
+        2746,
+        2763
+      ],
+      "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3b2921d9462d646d7de5c760f9d91347d48fddf6e5317e0d7a6ae9dd0854cc20"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    boolean dump(String prefix, FileDescriptor fd, PrintWriter pw, boolean dumpAll,\n            boolean dumpClient, String dumpPackage, final boolean needSep, Runnable header) {\n        boolean printed = false;\n        Runnable headerPrinter = () -> {\n            if (needSep) {\n                pw.println();\n            }\n            if (header != null) {\n                header.run();\n            }\n\n            dumpInner(prefix, pw, dumpAll, dumpPackage);\n        };\n\n        if (dumpPackage == null) {\n            // If we are not filtering by package, we want to print absolutely everything,\n            // so always print the header even if there are no tasks/activities inside.\n            headerPrinter.run();\n            headerPrinter = null;\n            printed = true;\n        }\n\n        for (int i = mChildren.size() - 1; i >= 0; --i) {\n            WindowContainer child = mChildren.get(i);\n            if (child.asTaskFragment() != null) {\n                printed |= child.asTaskFragment().dump(prefix + \"  \", fd, pw, dumpAll,\n                        dumpClient, dumpPackage, needSep, headerPrinter);\n            } else if (child.asActivityRecord() != null) {\n                ActivityRecord.dumpActivity(fd, pw, i, child.asActivityRecord(), prefix + \"  \",\n                        \"Hist \", true, !dumpAll, dumpClient, dumpPackage, false, headerPrinter,\n                        getTask());\n            }\n        }\n\n        return printed;\n    }\n\n    void dumpInner(String prefix, PrintWriter pw, boolean dumpAll, String dumpPackage) {\n        pw.print(prefix); pw.print(\"* \"); pw.println(toFullString());\n        final Rect bounds = getRequestedOverrideBounds();\n        if (!bounds.isEmpty()) {\n            pw.println(prefix + \"  mBounds=\" + bounds);\n        }\n        if (mIsRemovalRequested) {\n            pw.println(prefix + \"  mIsRemovalRequested=true\");\n        }\n        if (dumpAll) {\n            printThisActivity(pw, mLastPausedActivity, dumpPackage, false,\n                    prefix + \"  mLastPausedActivity: \", null);\n        }\n    }\n",
+      "excerpt_sha256": "e382e2213d3f0a23a49da798ba4539698f01e8aff5c3dbd8515b6d158aafa88f",
+      "lines": [
+        3243,
+        3293
+      ],
+      "path": "services/core/java/com/android/server/wm/TaskFragment.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "f1f0c42abbff8d91a5aba6b5a63819d14d8d5c7340701f8aa44fad01c3111e82"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void addChild(ActivityRecord r) {\n        addChild(r, POSITION_TOP);\n    }\n\n    @Override\n    void addChild(WindowContainer child, int index) {\n        ActivityRecord r = topRunningActivity();\n        mClearedTaskForReuse = false;\n        mClearedTaskFragmentForPip = false;\n        mClearedForReorderActivityToFront = false;\n\n        final ActivityRecord addingActivity = child.asActivityRecord();\n        final boolean isAddingActivity = addingActivity != null;\n        final Task task = isAddingActivity ? getTask() : null;\n\n        // If this task had any activity before we added this one.\n        boolean taskHadActivity = task != null && task.getTopMostActivity() != null;\n        // getActivityType() looks at the top child, so we need to read the type before adding\n        // a new child in case the new child is on top and UNDEFINED.\n        final int activityType = task != null ? task.getActivityType() : ACTIVITY_TYPE_UNDEFINED;\n\n        super.addChild(child, index);\n\n        if (isAddingActivity && task != null) {\n            addingActivity.inHistory = true;\n            task.onDescendantActivityAdded(taskHadActivity, activityType, addingActivity);\n        }\n",
+      "excerpt_sha256": "dc658a3d067f1c2d9b4c61c8dbe9670ad946b9fc954f4d36fd4c6fd516360357",
+      "lines": [
+        2101,
+        2127
+      ],
+      "path": "services/core/java/com/android/server/wm/TaskFragment.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "f1f0c42abbff8d91a5aba6b5a63819d14d8d5c7340701f8aa44fad01c3111e82"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    boolean dump(FileDescriptor fd, PrintWriter pw, boolean dumpAll, boolean dumpClient,\n            String dumpPackage, final boolean needSep) {\n        return dump(\"  \", fd, pw, dumpAll, dumpClient, dumpPackage, needSep, null /* header */);\n    }\n\n    @Override\n    void dumpInner(String prefix, PrintWriter pw, boolean dumpAll, String dumpPackage) {\n        super.dumpInner(prefix, pw, dumpAll, dumpPackage);\n        if (mCreatedByOrganizer) {\n            pw.println(prefix + \"  mCreatedByOrganizer=true\");\n        }\n        if (mLastNonFullscreenBounds != null) {\n            pw.print(prefix); pw.print(\"  mLastNonFullscreenBounds=\");\n            pw.println(mLastNonFullscreenBounds);\n        }\n        if (isLeafTask()) {\n            pw.println(prefix + \"  isSleeping=\" + shouldSleepActivities());\n            printThisActivity(pw, getTopPausingActivity(), dumpPackage, false,\n                    prefix + \"  topPausingActivity=\", null);\n            printThisActivity(pw, getTopResumedActivity(), dumpPackage, false,\n                    prefix + \"  topResumedActivity=\", null);\n            if (mMinWidth != INVALID_MIN_SIZE || mMinHeight != INVALID_MIN_SIZE) {\n                pw.print(prefix); pw.print(\"  mMinWidth=\"); pw.print(mMinWidth);\n",
+      "excerpt_sha256": "58a8eafbcf8c621de32f80ad2f0f551dc650b43dc017e762c5faa1463e77ff30",
+      "lines": [
+        5955,
+        5977
+      ],
+      "path": "services/core/java/com/android/server/wm/Task.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "7892b50f8f82043e1d42f51385f574586489626aedb4706cc9a4632ed5c6ee15"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    ArrayList<ActivityRecord> getDumpActivitiesLocked(String name, @UserIdInt int userId) {\n        ArrayList<ActivityRecord> activities = new ArrayList<>();\n\n        if (\"all\".equals(name)) {\n            forAllActivities((Consumer<ActivityRecord>) activities::add);\n        } else if (\"top\".equals(name)) {\n            final ActivityRecord topActivity = getTopMostActivity();\n            if (topActivity != null) {\n                activities.add(topActivity);\n            }\n        } else {\n            ActivityManagerService.ItemMatcher matcher = new ActivityManagerService.ItemMatcher();\n            matcher.build(name);\n\n            forAllActivities((r) -> {\n                if (matcher.match(r, r.intent.getComponent())) {\n                    activities.add(r);\n                }\n            });\n        }\n        if (userId != UserHandle.USER_ALL) {\n            for (int i = activities.size() - 1; i >= 0; --i) {\n                if (activities.get(i).mUserId != userId) {\n                    activities.remove(i);\n                }\n            }\n        }\n        return activities;\n    }\n",
+      "excerpt_sha256": "73cd874af6f6ed14a6a412e2839305b7c22b93487634bdc66c4c914fc230bf05",
+      "lines": [
+        5983,
+        6011
+      ],
+      "path": "services/core/java/com/android/server/wm/Task.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "7892b50f8f82043e1d42f51385f574586489626aedb4706cc9a4632ed5c6ee15"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    boolean isLeafTask() {\n        for (int i = mChildren.size() - 1; i >= 0; --i) {\n            if (mChildren.get(i).asTask() != null) {\n                return false;\n            }\n        }\n        return true;\n    }\n",
+      "excerpt_sha256": "bbf38218e755243222eef288ed21ed8e1243a27153259d5a59138d6367b2823c",
+      "lines": [
+        2479,
+        2486
+      ],
+      "path": "services/core/java/com/android/server/wm/Task.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "7892b50f8f82043e1d42f51385f574586489626aedb4706cc9a4632ed5c6ee15"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    @Override\n    void forAllLeafTasks(Consumer<Task> callback, boolean traverseTopToBottom) {\n        final int count = mChildren.size();\n        boolean isLeafTask = true;\n        if (traverseTopToBottom) {\n            for (int i = count - 1; i >= 0; --i) {\n                final Task child = mChildren.get(i).asTask();\n                if (child != null) {\n                    isLeafTask = false;\n                    child.forAllLeafTasks(callback, traverseTopToBottom);\n                }\n            }\n        } else {\n            for (int i = 0; i < count; i++) {\n                final Task child = mChildren.get(i).asTask();\n                if (child != null) {\n                    isLeafTask = false;\n                    child.forAllLeafTasks(callback, traverseTopToBottom);\n                }\n            }\n        }\n        if (isLeafTask) callback.accept(this);\n    }\n",
+      "excerpt_sha256": "64d23b88c91b7e3aaf693aaf35417f14ac83b6f4d66cccfeded6a68acfb1030b",
+      "lines": [
+        3133,
+        3155
+      ],
+      "path": "services/core/java/com/android/server/wm/Task.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "7892b50f8f82043e1d42f51385f574586489626aedb4706cc9a4632ed5c6ee15"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    @Override\n    boolean forAllLeafTasks(Predicate<Task> callback) {\n        boolean isLeafTask = true;\n        for (int i = mChildren.size() - 1; i >= 0; --i) {\n            final Task child = mChildren.get(i).asTask();\n            if (child != null) {\n                isLeafTask = false;\n                if (child.forAllLeafTasks(callback)) {\n                    return true;\n                }\n            }\n        }\n        if (isLeafTask) {\n            return callback.test(this);\n        }\n        return false;\n    }\n",
+      "excerpt_sha256": "130b77864a8bcc5370e2410c7b3e91bfdc4c703cdce638e7321915993f5e2b40",
+      "lines": [
+        3176,
+        3192
+      ],
+      "path": "services/core/java/com/android/server/wm/Task.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "7892b50f8f82043e1d42f51385f574586489626aedb4706cc9a4632ed5c6ee15"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    static boolean printThisActivity(PrintWriter pw, ActivityRecord activity, String dumpPackage,\n            boolean needSep, String prefix, Runnable header) {\n        return printThisActivity(pw, activity, dumpPackage, INVALID_DISPLAY, needSep, prefix,\n                header);\n    }\n\n    static boolean printThisActivity(PrintWriter pw, ActivityRecord activity, String dumpPackage,\n            int displayIdFilter, boolean needSep, String prefix, Runnable header) {\n        if (activity != null && (displayIdFilter == INVALID_DISPLAY\n                || displayIdFilter == activity.getDisplayId())) {\n            if (dumpPackage == null || dumpPackage.equals(activity.packageName)) {\n                if (needSep) {\n                    pw.println();\n                }\n                if (header != null) {\n                    header.run();\n                }\n                pw.print(prefix);\n                pw.println(activity);\n                return true;\n            }\n        }\n        return false;\n    }\n\n    static boolean dumpHistoryList(FileDescriptor fd, PrintWriter pw, List<ActivityRecord> list,\n            String prefix, String label, boolean complete, boolean brief, boolean client,\n            String dumpPackage, boolean needNL, Runnable header, Task lastTask) {\n        boolean printed = false;\n        for (int i = list.size() - 1; i >= 0; i--) {\n            final ActivityRecord r = list.get(i);\n            ActivityRecord.dumpActivity(fd, pw, i, r, prefix, label, complete, brief,\n                    client, dumpPackage, needNL, header, lastTask);\n            lastTask = r.getTask();\n            header = null;\n            needNL = client && r.attachedToProcess();\n        }\n        return printed;\n    }\n",
+      "excerpt_sha256": "0ecd5f6e0eb9be59a892767778f7cdd1b576c8861221dbb3ac593823caf6d1b6",
+      "lines": [
+        2228,
+        2266
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "6a7487644a6ccc79feb6422788c6c9855b92467bfd9914ca620ddfc911f268c4"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void cleanupActivity(ActivityRecord r) {\n        // Make sure this record is no longer in the pending finishes list.\n        // This could happen, for example, if we are trimming activities\n        // down to the max limit while they are still waiting to finish.\n        mFinishingActivities.remove(r);\n\n        stopWaitingForActivityVisible(r);\n    }\n",
+      "excerpt_sha256": "539076536db0a2456c7a73a8ae0b2ed8d2fbe788146723d43192d508ba30620a",
+      "lines": [
+        623,
+        630
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "6a7487644a6ccc79feb6422788c6c9855b92467bfd9914ca620ddfc911f268c4"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void removeHistoryRecords(WindowProcessController app) {\n        removeHistoryRecords(mStoppingActivities, app, \"mStoppingActivities\");\n        removeHistoryRecords(mFinishingActivities, app, \"mFinishingActivities\");\n        removeHistoryRecords(mNoHistoryActivities, app, \"mNoHistoryActivities\");\n    }\n\n    private void removeHistoryRecords(ArrayList<ActivityRecord> list, WindowProcessController app,\n            String listName) {\n        int i = list.size();\n        if (DEBUG_CLEANUP) Slog.v(TAG_CLEANUP,\n                \"Removing app \" + this + \" from list \" + listName + \" with \" + i + \" entries\");\n        while (i > 0) {\n            i--;\n            ActivityRecord r = list.get(i);\n            if (DEBUG_CLEANUP) Slog.v(TAG_CLEANUP, \"Record #\" + i + \" \" + r);\n            if (r.app == app) {\n                if (DEBUG_CLEANUP) Slog.v(TAG_CLEANUP, \"---> REMOVING this entry!\");\n                list.remove(i);\n",
+      "excerpt_sha256": "7ad38c12ec64da8b5b285bf68a02f6128c605eaf3fce65e12d74899acf2dcb71",
+      "lines": [
+        2183,
+        2200
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "6a7487644a6ccc79feb6422788c6c9855b92467bfd9914ca620ddfc911f268c4"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    static boolean dumpActivity(FileDescriptor fd, PrintWriter pw, int index, ActivityRecord r,\n            String prefix, String label, boolean complete, boolean brief, boolean client,\n            String dumpPackage, boolean needNL, Runnable header, Task lastTask) {\n        if (dumpPackage != null && !dumpPackage.equals(r.packageName)) {\n            return false;\n        }\n\n        final boolean full = !brief && (complete || !r.isInHistory());\n        if (needNL) {\n            pw.println(\"\");\n        }\n        if (header != null) {\n            header.run();\n        }\n\n        String innerPrefix = prefix + \"  \";\n        String[] args = new String[0];\n        if (lastTask != r.getTask()) {\n            lastTask = r.getTask();\n            pw.print(prefix);\n            pw.print(full ? \"* \" : \"  \");\n            pw.println(lastTask);\n            if (full) {\n                lastTask.dump(pw, prefix + \"  \");\n            } else if (complete) {\n                // Complete + brief == give a summary.  Isn't that obvious?!?\n                if (lastTask.intent != null) {\n                    pw.print(prefix);\n                    pw.print(\"  \");\n                    pw.println(lastTask.intent.toInsecureString());\n                }\n            }\n        }\n        pw.print(prefix); pw.print(full ? \"* \" : \"    \"); pw.print(label);\n        pw.print(\" #\"); pw.print(index); pw.print(\": \");\n        pw.println(r);\n        if (full) {\n            r.dump(pw, innerPrefix, true /* dumpAll */);\n        } else if (complete) {\n            // Complete + brief == give a summary.  Isn't that obvious?!?\n            pw.print(innerPrefix);\n            pw.println(r.intent.toInsecureString());\n            if (r.app != null) {\n                pw.print(innerPrefix);\n                pw.println(r.app);\n            }\n        }\n        if (client && r.attachedToProcess()) {\n            // flush anything that is already in the PrintWriter since the thread is going\n            // to write to the file descriptor directly\n            pw.flush();\n            try {\n                TransferPipe tp = new TransferPipe();\n                try {\n                    r.app.getThread().dumpActivity(\n                            tp.getWriteFd(), r.token, innerPrefix, args);\n                    // Short timeout, since blocking here can deadlock with the application.\n                    tp.go(fd, 2000);\n                } finally {\n                    tp.kill();\n                }\n            } catch (IOException e) {\n                pw.println(innerPrefix + \"Failure while dumping the activity: \" + e);\n            } catch (RemoteException e) {\n                pw.println(innerPrefix + \"Got a RemoteException while dumping the activity\");\n            }\n        }\n        return true;\n    }\n",
+      "excerpt_sha256": "fb3d878af641596f967ba5c94035f8a155728dcdee1d522bc5c8586c09b9f5da",
+      "lines": [
+        1380,
+        1448
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void dump(PrintWriter pw, String prefix, boolean dumpAll) {\n        final long now = SystemClock.uptimeMillis();\n        pw.print(prefix); pw.print(\"packageName=\"); pw.print(packageName);\n                pw.print(\" processName=\"); pw.println(processName);\n        pw.print(prefix); pw.print(\"launchedFromUid=\"); pw.print(launchedFromUid);\n                pw.print(\" launchedFromPackage=\"); pw.print(launchedFromPackage);\n                pw.print(\" launchedFromFeature=\"); pw.print(launchedFromFeatureId);\n                pw.print(\" userId=\"); pw.println(mUserId);\n        pw.print(prefix); pw.print(\"app=\"); pw.println(app);\n        pw.print(prefix); pw.println(intent.toInsecureString());\n        pw.print(prefix); pw.print(\"rootOfTask=\"); pw.print(isRootOfTask());\n                pw.print(\" task=\"); pw.println(task);\n        pw.print(prefix); pw.print(\"taskAffinity=\"); pw.println(taskAffinity);\n        pw.print(prefix); pw.print(\"mActivityComponent=\");\n                pw.println(mActivityComponent.flattenToShortString());\n",
+      "excerpt_sha256": "24aa859eb51d610a4d77b9c193f600c7dd420feecb7e06fc8a1454ee0986030d",
+      "lines": [
+        1094,
+        1108
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        if (!matchParentBounds()) {\n            pw.println(prefix + \"bounds=\" + getBounds());\n        }\n        if (resultTo != null || resultWho != null) {\n            pw.print(prefix); pw.print(\"resultTo=\"); pw.print(resultTo);\n                    pw.print(\" resultWho=\"); pw.print(resultWho);\n                    pw.print(\" resultCode=\"); pw.println(requestCode);\n        }\n",
+      "excerpt_sha256": "6d77494895e1559896dae00a8da02de89002ee773aadc6f447fac6aa52258431",
+      "lines": [
+        1147,
+        1154
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        if (mLastParentBeforePip != null) {\n            pw.println(prefix + \"lastParentTaskIdBeforePip=\" + mLastParentBeforePip.mTaskId);\n        }\n        if (mLaunchIntoPipHostActivity != null) {\n            pw.println(prefix + \"launchIntoPipHostActivity=\" + mLaunchIntoPipHostActivity);\n        }\n",
+      "excerpt_sha256": "182a20e2f2c8ff5acd2bd231560967654ba583550b8a5d89a3188f03e1ddc18e",
+      "lines": [
+        1363,
+        1368
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    private ActivityRecord(ActivityTaskManagerService _service, WindowProcessController _caller,\n            int _launchedFromPid, int _launchedFromUid, String _launchedFromPackage,\n            @Nullable String _launchedFromFeature, Intent _intent, String _resolvedType,\n            ActivityInfo aInfo, Configuration _configuration, ActivityRecord _resultTo,\n            String _resultWho, int _reqCode, boolean _componentSpecified,\n            boolean _rootVoiceInteraction, ActivityTaskSupervisor supervisor,\n            ActivityOptions options, ActivityRecord sourceRecord, PersistableBundle persistentState,\n            TaskDescription _taskDescription, long _createTime) {\n        super(_service.mWindowManager, new Token(), TYPE_APPLICATION, true,\n                null /* displayContent */, false /* ownerCanManageAppTokens */);\n\n        mAtmService = _service;\n        ((Token) token).mActivityRef = new WeakReference<>(this);\n        info = aInfo;\n        mUserId = UserHandle.getUserId(info.applicationInfo.uid);\n        packageName = info.applicationInfo.packageName;\n        intent = _intent;\n\n        // If the class name in the intent doesn't match that of the target, this is probably an\n        // alias. We have to create a new ComponentName object to keep track of the real activity\n        // name, so that FLAG_ACTIVITY_CLEAR_TOP is handled properly.\n        if (info.targetActivity == null\n                || (info.targetActivity.equals(intent.getComponent().getClassName())\n                && (info.launchMode == LAUNCH_MULTIPLE\n                || info.launchMode == LAUNCH_SINGLE_TOP))) {\n            mActivityComponent = intent.getComponent();\n        } else {\n            mActivityComponent =\n                    new ComponentName(info.packageName, info.targetActivity);\n        }\n",
+      "excerpt_sha256": "56ca9b7ca4d2c0092e6b52f8f79fc856b51de233fd303b7f14904845c3a6113d",
+      "lines": [
+        2108,
+        2137
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    @Override\n    boolean forAllActivities(Predicate<ActivityRecord> callback, boolean traverseTopToBottom) {\n        return callback.test(this);\n    }\n\n    @Override\n    void forAllActivities(Consumer<ActivityRecord> callback, boolean traverseTopToBottom) {\n        callback.accept(this);\n    }\n",
+      "excerpt_sha256": "8fecafc3fdc272b651691661e5d2595ee79079ba97088b9ed6c48f7bdde84c03",
+      "lines": [
+        4925,
+        4933
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    @VisibleForTesting\n    boolean addToFinishingAndWaitForIdle() {\n        ProtoLog.v(WM_DEBUG_STATES, \"Enqueueing pending finish: %s\", this);\n        setState(FINISHING, \"addToFinishingAndWaitForIdle\");\n        if (!mTaskSupervisor.mFinishingActivities.contains(this)) {\n            mTaskSupervisor.mFinishingActivities.add(this);\n        }\n        resumeKeyDispatchingLocked();\n        return mRootWindowContainer.resumeFocusedTasksTopActivities();\n    }\n",
+      "excerpt_sha256": "92701e6e911d89bc4f642a2cefe4934ca6c4b864d841b977f5f7e4085c3fbfab",
+      "lines": [
+        4055,
+        4064
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void removeFromHistory(String reason) {\n        finishActivityResults(Activity.RESULT_CANCELED,\n                null /* resultData */, null /* resultGrants */);\n        makeFinishingLocked();\n\n        ProtoLog.i(WM_DEBUG_ADD_REMOVE, \"Removing activity %s, reason= %s \"\n                        + \"callers=%s\", this, reason, Debug.getCallers(5));\n\n        takeFromHistory();\n        removeTimeouts();\n        ProtoLog.v(WM_DEBUG_STATES, \"Moving to DESTROYED: %s (removed from history)\",\n                this);\n        setState(DESTROYED, \"removeFromHistory\");\n        if (DEBUG_APP) Slog.v(TAG_APP, \"Clearing app during remove for activity \" + this);\n        detachFromProcess();\n        // Resume key dispatching if it is currently paused before we remove the container.\n        resumeKeyDispatchingLocked();\n        mDisplayContent.removeAppToken(token);\n\n        cleanUpActivityServices();\n        removeUriPermissionsLocked();\n    }\n",
+      "excerpt_sha256": "b6e7dbc0f772b422a42c3fec91249a86722e1f10dc8d6d1867af36608aa04235",
+      "lines": [
+        4155,
+        4176
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void onRemovedFromDisplay() {\n        if (mRemovingFromDisplay) {\n            return;\n        }\n        mRemovingFromDisplay = true;\n\n        ProtoLog.v(WM_DEBUG_APP_TRANSITIONS, \"Removing app token: %s\", this);\n\n        getDisplayContent().mOpeningApps.remove(this);\n        getDisplayContent().mUnknownAppVisibilityController.appRemovedOrHidden(this);\n        mWmService.mSnapshotController.onAppRemoved(this);\n        mAtmService.mStartingProcessActivities.remove(this);\n\n        mTaskSupervisor.getActivityMetricsLogger().notifyActivityRemoved(this);\n        mTaskSupervisor.mStoppingActivities.remove(this);\n        mLetterboxUiController.destroy();\n\n",
+      "excerpt_sha256": "a8a87eedfff10187803c9be2a3a7ab29a385bd1a89c2a18ad425766ce16b2db5",
+      "lines": [
+        4489,
+        4505
+      ],
+      "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void dump(PrintWriter pw, boolean dumpAll, String dumpPackage) {\n        pw.println(\"ACTIVITY MANAGER RECENT TASKS (dumpsys activity recents)\");\n        pw.println(\"mRecentsUid=\" + mRecentsUid);\n        pw.println(\"mRecentsComponent=\" + mRecentsComponent);\n        pw.println(\"mFreezeTaskListReordering=\" + mFreezeTaskListReordering);\n        pw.println(\"mFreezeTaskListReorderingPendingTimeout=\"\n                + mService.mH.hasCallbacks(mResetFreezeTaskListOnTimeoutRunnable));\n        if (!mHiddenTasks.isEmpty()) {\n            pw.println(\"mHiddenTasks=\" + mHiddenTasks);\n        }\n        if (mTasks.isEmpty()) {\n            return;\n        }\n\n        // Dump raw recent task list\n        boolean printedAnything = false;\n        boolean printedHeader = false;\n        final int size = mTasks.size();\n        for (int i = 0; i < size; i++) {\n            final Task task = mTasks.get(i);\n            if (dumpPackage != null) {\n                boolean match = task.intent != null\n                        && task.intent.getComponent() != null\n                        && dumpPackage.equals(\n                        task.intent.getComponent().getPackageName());\n                if (!match) {\n                    match |= task.affinityIntent != null\n                            && task.affinityIntent.getComponent() != null\n                            && dumpPackage.equals(\n                            task.affinityIntent.getComponent().getPackageName());\n                }\n                if (!match) {\n                    match |= task.origActivity != null\n                            && dumpPackage.equals(task.origActivity.getPackageName());\n                }\n                if (!match) {\n                    match |= task.realActivity != null\n                            && dumpPackage.equals(task.realActivity.getPackageName());\n                }\n                if (!match) {\n                    match |= dumpPackage.equals(task.mCallingPackage);\n                }\n                if (!match) {\n                    continue;\n                }\n            }\n\n            if (!printedHeader) {\n                pw.println(\"  Recent tasks:\");\n                printedHeader = true;\n                printedAnything = true;\n            }\n            pw.print(\"  * Recent #\");\n            pw.print(i);\n            pw.print(\": \");\n            pw.println(task);\n            if (dumpAll) {\n                task.dump(pw, \"    \");\n            }\n        }\n\n        // Dump visible recent task list\n        if (mHasVisibleRecentTasks) {\n            // Reset the header flag for the next block\n            printedHeader = false;\n            ArrayList<ActivityManager.RecentTaskInfo> tasks = getRecentTasksImpl(Integer.MAX_VALUE,\n                    0, true /* getTasksAllowed */, mService.getCurrentUserId(), SYSTEM_UID);\n            for (int i = 0; i < tasks.size(); i++) {\n                final ActivityManager.RecentTaskInfo taskInfo = tasks.get(i);\n                if (dumpPackage != null) {\n                    boolean match = taskInfo.baseIntent != null\n                            && taskInfo.baseIntent.getComponent() != null\n                            && dumpPackage.equals(\n                            taskInfo.baseIntent.getComponent().getPackageName());\n                    if (!match) {\n                        match |= taskInfo.baseActivity != null\n                                && dumpPackage.equals(taskInfo.baseActivity.getPackageName());\n                    }\n                    if (!match) {\n                        match |= taskInfo.topActivity != null\n                                && dumpPackage.equals(taskInfo.topActivity.getPackageName());\n                    }\n                    if (!match) {\n                        match |= taskInfo.origActivity != null\n                                && dumpPackage.equals(taskInfo.origActivity.getPackageName());\n                    }\n                    if (!match) {\n                        match |= taskInfo.realActivity != null\n                                && dumpPackage.equals(taskInfo.realActivity.getPackageName());\n                    }\n                    if (!match) {\n                        continue;\n                    }\n                }\n                if (!printedHeader) {\n                    if (printedAnything) {\n                        // Separate from the last block if it printed\n                        pw.println();\n                    }\n                    pw.println(\"  Visible recent tasks (most recent first):\");\n                    printedHeader = true;\n                    printedAnything = true;\n                }\n\n                pw.print(\"  * RecentTaskInfo #\");\n                pw.print(i);\n                pw.print(\": \");\n                taskInfo.dump(pw, \"    \");\n            }\n        }\n\n        if (!printedAnything) {\n            pw.println(\"  (nothing)\");\n        }\n    }\n",
+      "excerpt_sha256": "06830591e48c8d75b3bcd1f254e6045b2e45b72af96b6fa187059c1210d92c9a",
+      "lines": [
+        1865,
+        1979
+      ],
+      "path": "services/core/java/com/android/server/wm/RecentTasks.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "a468645beee07cf73a25429960f5ac5e3fcec46c8e5eaf3faadb9b109820b1f6"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void forAllActivities(Consumer<ActivityRecord> callback) {\n        forAllActivities(callback, true /*traverseTopToBottom*/);\n    }\n\n    void forAllActivities(Consumer<ActivityRecord> callback, boolean traverseTopToBottom) {\n        if (traverseTopToBottom) {\n            for (int i = mChildren.size() - 1; i >= 0; --i) {\n                mChildren.get(i).forAllActivities(callback, traverseTopToBottom);\n            }\n        } else {\n            final int count = mChildren.size();\n            for (int i = 0; i < count; i++) {\n                mChildren.get(i).forAllActivities(callback, traverseTopToBottom);\n            }\n        }\n    }\n",
+      "excerpt_sha256": "6090a3e9657083d59addcea934e9d8e1209cd5d6087eae791d3fb59059a26ffa",
+      "lines": [
+        1838,
+        1853
+      ],
+      "path": "services/core/java/com/android/server/wm/WindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "123bb9434f4914aa748486567a5ab6eaead08fbb3ef8e663009e13683347dcfc"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    boolean forAllLeafTasks(Predicate<Task> callback) {\n        for (int i = mChildren.size() - 1; i >= 0; --i) {\n            if (mChildren.get(i).forAllLeafTasks(callback)) {\n                return true;\n            }\n        }\n        return false;\n    }\n",
+      "excerpt_sha256": "a68091df2c7ffaa3c5d4a8cf7f2bbc7693f4816f77ba04a7a8b2920ff5aff8e4",
+      "lines": [
+        2078,
+        2085
+      ],
+      "path": "services/core/java/com/android/server/wm/WindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "123bb9434f4914aa748486567a5ab6eaead08fbb3ef8e663009e13683347dcfc"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    void forAllRootTasks(Consumer<Task> callback) {\n        forAllRootTasks(callback, true /* traverseTopToBottom */);\n    }\n\n    void forAllRootTasks(Consumer<Task> callback, boolean traverseTopToBottom) {\n        int count = mChildren.size();\n        if (traverseTopToBottom) {\n            for (int i = count - 1; i >= 0; --i) {\n                mChildren.get(i).forAllRootTasks(callback, traverseTopToBottom);\n            }\n        } else {\n            for (int i = 0; i < count; i++) {\n                mChildren.get(i).forAllRootTasks(callback, traverseTopToBottom);\n                // Root tasks may be removed from this display. Ensure each task will be processed\n                // and the loop will end.\n                int newCount = mChildren.size();\n                i -= count - newCount;\n                count = newCount;\n            }\n        }\n",
+      "excerpt_sha256": "323027c10bf2aa127ed18152c299dbd38e61b5a66fc6f9cf2dd8b325536c5983",
+      "lines": [
+        2204,
+        2223
+      ],
+      "path": "services/core/java/com/android/server/wm/WindowContainer.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "123bb9434f4914aa748486567a5ab6eaead08fbb3ef8e663009e13683347dcfc"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    ActivityManagerShellCommand(ActivityManagerService service, boolean dumping) {\n        mInterface = service;\n        mTaskInterface = service.mActivityTaskManager;\n        mInternal = service;\n        mPm = AppGlobals.getPackageManager();\n        mDumping = dumping;\n    }\n\n    @Override\n    public int onCommand(String cmd) {\n        if (cmd == null) {\n            return handleDefaultCommands(cmd);\n        }\n        final PrintWriter pw = getOutPrintWriter();\n        try {\n            switch (cmd) {\n",
+      "excerpt_sha256": "05aad22cad8e888d1cd6cf64e3e5b22bdd902a4611b0babc7240bde5c6dcdfb9",
+      "lines": [
+        225,
+        240
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3bd23c5a24b80a1084024192381bbe54c1ad00e0b04ba4b76d93ba00281e82b6"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "                default:\n                    return handleDefaultCommands(cmd);\n            }\n        } catch (RemoteException e) {\n            pw.println(\"Remote exception: \" + e);\n        }\n        return -1;\n",
+      "excerpt_sha256": "7972510208ce82d54ef31f43755de9d9c9d20c6b92d0f00eb1cc1d4ca1e51563",
+      "lines": [
+        442,
+        448
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3bd23c5a24b80a1084024192381bbe54c1ad00e0b04ba4b76d93ba00281e82b6"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    int runStack(PrintWriter pw) throws RemoteException {\n        String op = getNextArgRequired();\n        switch (op) {\n            case \"move-task\":\n                return runStackMoveTask(pw);\n            case \"list\":\n                return runStackList(pw);\n            case \"info\":\n                return runRootTaskInfo(pw);\n            case \"remove\":\n                return runRootTaskRemove(pw);\n            default:\n                getErrPrintWriter().println(\"Error: unknown command '\" + op + \"'\");\n                return -1;\n        }\n    }\n",
+      "excerpt_sha256": "cb71b667c45cacc982f0d2d91e5e982d550388054f32f6cfb592198195f299d4",
+      "lines": [
+        3291,
+        3306
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3bd23c5a24b80a1084024192381bbe54c1ad00e0b04ba4b76d93ba00281e82b6"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    int runStackList(PrintWriter pw) throws RemoteException {\n        List<RootTaskInfo> tasks = mTaskInterface.getAllRootTaskInfos();\n        for (RootTaskInfo info : tasks) {\n            pw.println(info);\n        }\n        return 0;\n",
+      "excerpt_sha256": "c81fea9b19efce7fbdad8fa390f5ef4e0df496b62ce49a1a031d6c2ce7d49c79",
+      "lines": [
+        3366,
+        3371
+      ],
+      "path": "services/core/java/com/android/server/am/ActivityManagerShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "3bd23c5a24b80a1084024192381bbe54c1ad00e0b04ba4b76d93ba00281e82b6"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public @NonNull String flattenToString() {\n        return mPackage + \"/\" + mClass;\n    }\n",
+      "excerpt_sha256": "673391149fe021ada18bf1c489a529db59355de3273ec0c2dd5dce92b45f109b",
+      "lines": [
+        219,
+        221
+      ],
+      "path": "core/java/android/content/ComponentName.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "8077358457df668ce7d2f92c058ceaab6562e13d9026ccf85f98ca85d62e1ad4"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public static @Nullable ComponentName unflattenFromString(@NonNull String str) {\n        int sep = str.indexOf('/');\n        if (sep < 0 || (sep+1) >= str.length()) {\n            return null;\n        }\n        String pkg = str.substring(0, sep);\n        String cls = str.substring(sep+1);\n        if (cls.length() > 0 && cls.charAt(0) == '.') {\n            cls = pkg + cls;\n        }\n        return new ComponentName(pkg, cls);\n    }\n",
+      "excerpt_sha256": "ef15818c04d6f38fcd417f905939f642db9606294f1e31c2ae72220e9cba9f83",
+      "lines": [
+        276,
+        287
+      ],
+      "path": "core/java/android/content/ComponentName.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "8077358457df668ce7d2f92c058ceaab6562e13d9026ccf85f98ca85d62e1ad4"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public int exec(Binder target, FileDescriptor in, FileDescriptor out, FileDescriptor err,\n            String[] args, ShellCallback callback, ResultReceiver resultReceiver) {\n        mShellCallback = callback;\n        mResultReceiver = resultReceiver;\n        final int result = super.exec(target, in, out, err, args);\n\n        if (mResultReceiver != null) {\n            mResultReceiver.send(result, null);\n        }\n\n        return result;\n    }\n",
+      "excerpt_sha256": "3f715313f448db06d2c8736960e477bb5396ce38bd5893ff870c3f04e44e9802",
+      "lines": [
+        34,
+        45
+      ],
+      "path": "core/java/android/os/ShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "f019a7ea1e6e186e9208750805c6a1ca66db8cd2d63a4db15859b9d60223e14e"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public int handleDefaultCommands(String cmd) {\n        if (\"dump\".equals(cmd)) {\n            String[] newArgs = new String[getAllArgs().length-1];\n            System.arraycopy(getAllArgs(), 1, newArgs, 0, getAllArgs().length-1);\n            getTarget().doDump(getOutFileDescriptor(), getOutPrintWriter(), newArgs);\n            return 0;\n        }\n        return super.handleDefaultCommands(cmd);\n    }\n",
+      "excerpt_sha256": "afbf4f7c5b939c3e0755df87b8434fcf4cfe9407f172280b6c0317450d3776a9",
+      "lines": [
+        85,
+        93
+      ],
+      "path": "core/java/android/os/ShellCommand.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "f019a7ea1e6e186e9208750805c6a1ca66db8cd2d63a4db15859b9d60223e14e"
+    },
+    {
+      "commit": "810bd8c57bb39c232cad66e5aa007839dd4e55e3",
+      "excerpt": "    public int exec(Binder target, FileDescriptor in, FileDescriptor out, FileDescriptor err,\n            String[] args) {\n        String cmd;\n        int start;\n        if (args != null && args.length > 0) {\n            cmd = args[0];\n            start = 1;\n        } else {\n            cmd = null;\n            start = 0;\n        }\n        init(target, in, out, err, args, start);\n        mCmd = cmd;\n\n        if (DEBUG) {\n            RuntimeException here = new RuntimeException(\"here\");\n            here.fillInStackTrace();\n            Log.d(TAG, \"Starting command \" + mCmd + \" on \" + mTarget, here);\n            Log.d(TAG, \"Calling uid=\" + Binder.getCallingUid()\n                    + \" pid=\" + Binder.getCallingPid());\n        }\n        int res = -1;\n        try {\n            res = onCommand(mCmd);\n            if (DEBUG) Log.d(TAG, \"Executed command \" + mCmd + \" on \" + mTarget);\n        } catch (Throwable e) {\n            // Unlike usual calls, in this case if an exception gets thrown\n            // back to us we want to print it back in to the dump data, since\n            // that is where the caller expects all interesting information to\n            // go.\n            PrintWriter eout = getErrPrintWriter();\n            eout.println();\n            eout.println(\"Exception occurred while executing '\" + mCmd + \"':\");\n            e.printStackTrace(eout);\n        } finally {\n            if (DEBUG) Log.d(TAG, \"Flushing output streams on \" + mTarget);\n            if (mOutPrintWriter != null) {\n                mOutPrintWriter.flush();\n            }\n            if (mErrPrintWriter != null) {\n                mErrPrintWriter.flush();\n            }\n            if (DEBUG) Log.d(TAG, \"Sending command result on \" + mTarget);\n        }\n        if (DEBUG) Log.d(TAG, \"Finished command \" + mCmd + \" on \" + mTarget);\n        return res;\n",
+      "excerpt_sha256": "9552357bdf35c2bcaa88f2130ebaebf255892d2e851ff8256f278e97cc153953",
+      "lines": [
+        74,
+        119
+      ],
+      "path": "java/com/android/modules/utils/BasicShellCommandHandler.java",
+      "repo": "platform/frameworks/libs/modules-utils",
+      "source_sha256": "f56b4ac8f89b0361e31d63790357fc108e6d3d65b4b0338c67ca6c62e8f48bf9"
+    },
+    {
+      "commit": "810bd8c57bb39c232cad66e5aa007839dd4e55e3",
+      "excerpt": "    public PrintWriter getErrPrintWriter() {\n        if (mErr == null) {\n            return getOutPrintWriter();\n        }\n        if (mErrPrintWriter == null) {\n            mErrPrintWriter = new PrintWriter(getRawErrorStream());\n        }\n        return mErrPrintWriter;\n    }\n",
+      "excerpt_sha256": "95b9dc7d5b43a5036b40e7aaab404bc23d0d83267f22c062b38b69d73c4cc8ac",
+      "lines": [
+        169,
+        177
+      ],
+      "path": "java/com/android/modules/utils/BasicShellCommandHandler.java",
+      "repo": "platform/frameworks/libs/modules-utils",
+      "source_sha256": "f56b4ac8f89b0361e31d63790357fc108e6d3d65b4b0338c67ca6c62e8f48bf9"
+    },
+    {
+      "commit": "810bd8c57bb39c232cad66e5aa007839dd4e55e3",
+      "excerpt": "    public int handleDefaultCommands(String cmd) {\n        if (cmd == null || \"help\".equals(cmd) || \"-h\".equals(cmd)) {\n            onHelp();\n        } else {\n            getOutPrintWriter().println(\"Unknown command: \" + cmd);\n        }\n        return -1;\n    }\n",
+      "excerpt_sha256": "b295cb9c093c25b1c6303328c5cf160ce0def6f0db22f32fab5d6957ea44d3d6",
+      "lines": [
+        300,
+        307
+      ],
+      "path": "java/com/android/modules/utils/BasicShellCommandHandler.java",
+      "repo": "platform/frameworks/libs/modules-utils",
+      "source_sha256": "f56b4ac8f89b0361e31d63790357fc108e6d3d65b4b0338c67ca6c62e8f48bf9"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "        @SuppressWarnings(\"resource\")\n        @Override\n        protected void dump(FileDescriptor fd, PrintWriter pw, String[] args) {\n            if (!DumpUtils.checkDumpAndUsageStatsPermission(mContext, TAG, pw)) return;\n            final Computer snapshot = snapshotComputer();\n            final KnownPackages knownPackages = new KnownPackages(\n                    mDefaultAppProvider,\n                    mRequiredInstallerPackage,\n                    mRequiredUninstallerPackage,\n                    mSetupWizardPackage,\n                    mRequiredVerifierPackages,\n                    mDefaultTextClassifierPackage,\n                    mSystemTextClassifierPackageName,\n                    mRequiredPermissionControllerPackage,\n                    mConfiguratorPackage,\n                    mIncidentReportApproverPackage,\n                    mAmbientContextDetectionPackage,\n                    mWearableSensingPackage,\n                    mAppPredictionServicePackage,\n                    COMPANION_PACKAGE_NAME,\n                    mRetailDemoPackage,\n                    mOverlayConfigSignaturePackage,\n                    mRecentsPackage);\n            final ArrayMap<String, FeatureInfo> availableFeatures;\n            availableFeatures = new ArrayMap<>(mAvailableFeatures);\n            final ArraySet<String> protectedBroadcasts;\n            synchronized (mProtectedBroadcasts) {\n                protectedBroadcasts = new ArraySet<>(mProtectedBroadcasts);\n            }\n            new DumpHelper(mPermissionManager, mStorageEventHelper,\n                    mDomainVerificationManager, mInstallerService, mRequiredVerifierPackages,\n                    knownPackages, mChangedPackagesTracker, availableFeatures, protectedBroadcasts,\n                    getPerUidReadTimeouts(snapshot), mSnapshotStatistics\n            ).doDump(snapshot, fd, pw, args);\n        }\n",
+      "excerpt_sha256": "11a1abf67b206d9485087197d7b6f8a4f38c46049d2846015f2095261434e8a6",
+      "lines": [
+        6564,
+        6598
+      ],
+      "path": "services/core/java/com/android/server/pm/PackageManagerService.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "af084c2928f31554d4c08c09f3f9770506ed68ef950f8f01d1433cc2979ec349"
+    },
+    {
+      "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+      "excerpt": "    public void doDump(Computer snapshot, FileDescriptor fd, PrintWriter pw, String[] args) {\n        DumpState dumpState = new DumpState();\n        ArraySet<String> permissionNames = null;\n\n        int opti = 0;\n        while (opti < args.length) {\n            String opt = args[opti];\n            if (opt == null || opt.length() <= 0 || opt.charAt(0) != '-') {\n                break;\n            }\n            opti++;\n\n            if (\"-a\".equals(opt)) {\n                // Right now we only know how to print all.\n            } else if (\"-h\".equals(opt)) {\n                printHelp(pw);\n                return;\n            } else if (\"--checkin\".equals(opt)) {\n                dumpState.setCheckIn(true);\n            } else if (\"--all-components\".equals(opt)) {\n                dumpState.setOptionEnabled(DumpState.OPTION_DUMP_ALL_COMPONENTS);\n            } else if (\"-f\".equals(opt)) {\n                dumpState.setOptionEnabled(DumpState.OPTION_SHOW_FILTERS);\n            } else if (\"--include-apex\".equals(opt)) {\n                dumpState.setOptionEnabled(DumpState.OPTION_INCLUDE_APEX);\n            } else if (\"--proto\".equals(opt)) {\n                dumpProto(snapshot, fd);\n                return;\n            } else {\n                pw.println(\"Unknown argument: \" + opt + \"; use -h for help\");\n            }\n        }\n\n        // Is the caller requesting to dump a particular piece of data?\n        if (opti < args.length) {\n            String cmd = args[opti];\n            opti++;\n            // Is this a package name?\n            if (\"android\".equals(cmd) || cmd.contains(\".\")) {\n                dumpState.setTargetPackageName(cmd);\n                // When dumping a single package, we always dump all of its\n                // filter information since the amount of data will be reasonable.\n                dumpState.setOptionEnabled(DumpState.OPTION_SHOW_FILTERS);\n            } else if (\"check-permission\".equals(cmd)) {\n                if (opti >= args.length) {\n                    pw.println(\"Error: check-permission missing permission argument\");\n                    return;\n                }\n                String perm = args[opti];\n                opti++;\n                if (opti >= args.length) {\n                    pw.println(\"Error: check-permission missing package argument\");\n                    return;\n                }\n\n                String pkg = args[opti];\n                opti++;\n                int user = UserHandle.getUserId(Binder.getCallingUid());\n                if (opti < args.length) {\n                    try {\n                        user = Integer.parseInt(args[opti]);\n                    } catch (NumberFormatException e) {\n                        pw.println(\"Error: check-permission user argument is not a number: \"\n                                + args[opti]);\n                        return;\n                    }\n                }\n\n                // Normalize package name to handle renamed packages and static libs\n                pkg = snapshot.resolveInternalPackageName(pkg,\n                        PackageManager.VERSION_CODE_HIGHEST);\n\n                pw.println(mPermissionManager.checkPermission(\n                        pkg, perm, VirtualDeviceManager.PERSISTENT_DEVICE_ID_DEFAULT, user));\n                return;\n",
+      "excerpt_sha256": "6875781765e85a2f6a9aae419c982eee5e7d385bde7bd5feec5859c27b41ad71",
+      "lines": [
+        92,
+        166
+      ],
+      "path": "services/core/java/com/android/server/pm/DumpHelper.java",
+      "repo": "platform/frameworks/base",
+      "source_sha256": "10523339d132d2e62a0ecccf84e914b570133abf5878969f82eb5f1e2638e7cf"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "exact official reference and immutable project source excerpts; no source executed"
+}

@@ -1,0 +1,389 @@
+{
+  "actual_source_bug_or_Settings_liveness_diagnosed": false,
+  "actual_tests_native_or_compilers_executed": 0,
+  "decision": "No owning command/parser change qualified. Keep strict all-Activity absence and the original refusal.",
+  "direct_selector_replacement_qualified": false,
+  "facts": [
+    {
+      "evidence": [
+        "Original immutable helper AST contains exactly five dumpsys control calls at855/859/862/884/894; correct activities and recents argv are recorded."
+      ],
+      "id": "CAMERA-DUMP-SRC-001",
+      "impact": "A proposed positional command fix would be unrelated to this original failure. Changing the unfiltered processes query would remove required global native-state fields.",
+      "locations": [
+        {
+          "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+          "lines": [
+            855,
+            863
+          ],
+          "path": "scripts/ci/android_camera_developer_prerequisite.py"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            10695,
+            10718
+          ],
+          "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            10858,
+            10868
+          ],
+          "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+          "repo": "platform/frameworks/base"
+        }
+      ],
+      "priority": "High",
+      "recommendation": "Retain the original argv and distinct global processes query. Reject a speculative misplaced-package repair.",
+      "required_tests": [
+        "If any future argv delta is authorized, use exact source-level argv binding and one narrowly scoped owning test before actual native execution; none executed here."
+      ],
+      "risks": [
+        "Official tag is a reference, not proved source identity for the actual Google APIs system image."
+      ],
+      "root_cause": "The global option loop stops at the first non-option. The activities/recents dispatch passes dumpPackage but does not consume a trailing package argument. Original helper uses leading -p correctly.",
+      "status": "reference-source-confirmed",
+      "title": "Original caller already supplies the package filter in the only position the activities/recents option loop consumes",
+      "upstream_refs": []
+    },
+    {
+      "evidence": [
+        "Exact returned boolean at ActivityRecord1447 is not accumulated at TaskFragment3271 or Supervisor2259."
+      ],
+      "id": "CAMERA-DUMP-SRC-002",
+      "impact": "Footer-only absence acceptance would be unsound. This is a reference framework diagnostic control-flow fact, not a NativeCmpKit defect or actual-image liveness diagnosis.",
+      "locations": [
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            3243,
+            3277
+          ],
+          "path": "services/core/java/com/android/server/wm/TaskFragment.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            2253,
+            2266
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1380,
+            1448
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            4326,
+            4354
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+          "repo": "platform/frameworks/base"
+        }
+      ],
+      "priority": "High",
+      "recommendation": "Keep complete body validation and the original refusal. Do not admit arbitrary task/activity/client rows because the footer is present.",
+      "required_tests": [
+        "Unexecuted controls cover matched non-resumed hierarchy records and finishing/stopping records with footer; each must be refused by any future owning absence parser."
+      ],
+      "risks": [
+        "Other reference paths set printedAnything via matched focused/top-resumed summaries; not every present-activity dump has the footer."
+      ],
+      "root_cause": "TaskFragment.dump and dumpHistoryList discard the boolean returned by ActivityRecord.dumpActivity. Their own printed flag remains false on package-filtered activity-only paths. ATMS therefore can print (nothing) even after a matched non-resumed, finishing, or stopping record was emitted.",
+      "status": "reference-source-confirmed",
+      "title": "Terminal (nothing) can coexist with matched ActivityRecord output",
+      "upstream_refs": []
+    },
+    {
+      "evidence": [
+        "Reference no-match branch never invokes matching lazy header or client dump."
+      ],
+      "id": "CAMERA-DUMP-SRC-003",
+      "impact": "Any ActivityRecord marker alone is not a specific Settings-owner proof. Conversely, these detailed bodies are not unconditional harmless global output in the true no-match reference branch.",
+      "locations": [
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1380,
+            1394
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1147,
+            1154
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1363,
+            1368
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1427,
+            1447
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            3243,
+            3293
+          ],
+          "path": "services/core/java/com/android/server/wm/TaskFragment.java",
+          "repo": "platform/frameworks/base"
+        }
+      ],
+      "priority": "Medium",
+      "recommendation": "Do not diagnose the original three marker rows. Keep literal absence grammar; future observations must bind command and exact package/record facts without broad acceptance.",
+      "required_tests": [
+        "Unexecuted controls distinguish primary matched record from unrelated references and client exception output."
+      ],
+      "risks": [
+        "Raw original payload and rejected row are not retained as public/source evidence; official code cannot identify their contents."
+      ],
+      "root_cause": "Exact packageName filter precedes a lazy task header and the selected record dump, but the record may print resultTo/launchIntoPipHostActivity references and client dump bytes. These are not separately package-filtered.",
+      "status": "reference-source-confirmed",
+      "title": "Package-filtered bodies may contain unrelated ActivityRecord references and arbitrary client diagnostics",
+      "upstream_refs": []
+    },
+    {
+      "evidence": [
+        "Package-specific dump skips ATMS global-only sections at4340; display headers are unconditional and unindented atRoot3770\u20133773."
+      ],
+      "id": "CAMERA-DUMP-SRC-004",
+      "impact": "The current strict reader accepts the expected nonzero-display subset of this exact reference no-match output. Unknown rows and blank rows do not become safe merely because they are ASCII.",
+      "locations": [
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            3758,
+            3797
+          ],
+          "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            2228,
+            2266
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskSupervisor.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            4310,
+            4354
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+          "lines": [
+            286,
+            310
+          ],
+          "path": "scripts/ci/android_camera_developer_prerequisite.py"
+        }
+      ],
+      "priority": "High",
+      "recommendation": "Keep the owning gate. No broad row/blank allowance or producer repair is justified by this review.",
+      "required_tests": [
+        "Unexecuted finite grammar controls include one/multiple complete unique displays, body records, truncation, duplicate IDs and unexpected blanks."
+      ],
+      "risks": [
+        "Reference can emit zero-display header/footer when no displays exist; current reader deliberately requires at least one display. No new zero-display acceptance proposed.",
+        "Source tag/image equivalence is not established."
+      ],
+      "root_cause": "Without any package-matched hierarchy, focused/resumed, finishing or stopping record, no lazy task headers run, no printThisActivity matches, package-specific mode skips global supervisor metadata, and printedAnything remains false.",
+      "status": "reference-source-confirmed",
+      "title": "Reference complete no-match branch is already the strict header/display/footer shape",
+      "upstream_refs": []
+    },
+    {
+      "evidence": [
+        "Conditional reference three-line server output and constraints are separately archived in ALTERNATIVE-ROUTE.json."
+      ],
+      "id": "CAMERA-DUMP-SRC-005",
+      "impact": "Replacing the current absence gate with direct-selector no-match could drop unproved coverage. This review does not confirm a real reachable omitted Settings Activity; it refuses an unsupported completeness claim.",
+      "locations": [
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            11040,
+            11051
+          ],
+          "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            11692,
+            11769
+          ],
+          "path": "services/core/java/com/android/server/am/ActivityManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            3702,
+            3725
+          ],
+          "path": "services/core/java/com/android/server/wm/RootWindowContainer.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            5983,
+            6011
+          ],
+          "path": "services/core/java/com/android/server/wm/Task.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            2119,
+            2137
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityRecord.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            3176,
+            3192
+          ],
+          "path": "services/core/java/com/android/server/wm/Task.java",
+          "repo": "platform/frameworks/base"
+        }
+      ],
+      "priority": "High",
+      "recommendation": "Do not replace the gate. If pursued, author a separate owning proposal with exact server output, host transport result, domain equivalence and source-backed tests; no native replay or parser waiver.",
+      "required_tests": [
+        "Prove or explicitly preserve full hierarchy and independent finishing/stopping coverage before substitution.",
+        "Verify all Settings classes/aliases, stopped/not-running/finishing records, all users/displays, selector mutation refusals and exact no-match/error distinctions."
+      ],
+      "risks": [
+        "a is plural activities alias, not a per-activity alias. Literal activity is merely an arbitrary component substring selector.",
+        "Reference server no-match is distinct from host dumpsys exit/stderr/EOF behavior, not executed here."
+      ],
+      "root_cause": "Direct com.android.settings/ falls through to ItemMatcher string matching of intent component names, then only attached leaf-task traversal. It does not independently inspect stopping/finishing collections. Existing producer gate scans all task/fragment descendants and these collections using r.packageName. Equivalence of these domains and component/application package identities has not been proved.",
+      "status": "unverified-completeness; alternative-not-qualified",
+      "title": "Per-activity package selector has a small no-match branch but weaker proved coverage than the owning all-Activity gate",
+      "upstream_refs": []
+    },
+    {
+      "evidence": [
+        "Original helper and OwnedDeveloperSettingsUi already use leading -p for recents, while assertTop validates exact package/launched-from/intent/task fields."
+      ],
+      "id": "CAMERA-DUMP-SRC-006",
+      "impact": "No-match recents shapes and global top-owner verification must not be conflated with all-Activity absence. Hidden rows/current unknown shapes remain refusals, not original failure causes.",
+      "locations": [
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            1865,
+            1979
+          ],
+          "path": "services/core/java/com/android/server/wm/RecentTasks.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            4277,
+            4283
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+          "lines": [
+            6761,
+            6778
+          ],
+          "path": "services/core/java/com/android/server/wm/ActivityTaskManagerService.java",
+          "repo": "platform/frameworks/base"
+        },
+        {
+          "immutable_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+          "lines": [
+            206,
+            248
+          ],
+          "path": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt"
+        }
+      ],
+      "priority": "Medium",
+      "recommendation": "Retain separate strict readers and top identity assertions. Do not apply a trailing-package fix to existing correctly filtered recents calls.",
+      "required_tests": [
+        "Any authorized changes need separate exact empty/nonempty recents and top-owner controls; none run here."
+      ],
+      "risks": [
+        "Current strict recents reader rejects unconfigured UID/component and hidden-task preambles; no relaxation proposed."
+      ],
+      "root_cause": "Recents emits unfiltered preamble and optional mHiddenTasks before filtering task lists. It returns without footer if mTasks is empty, otherwise emits nothing only when both filtered lists have no match. Top-resumed directly dumps the one global top record; it is not package-filtered.",
+      "status": "reference-source-confirmed",
+      "title": "Recents and top-resumed have distinct filtering and completeness domains",
+      "upstream_refs": []
+    }
+  ],
+  "immutable_nativecmpkit_revision": "e16268a68e6582a4cceeed3c18335789d99646d0",
+  "next_scope": "Lead may prepare only source-justified owning diagnostic/proof work; any next actual camera selection remains missing C1/Dont-keep only. No accepted camera009 replay.",
+  "original_camera_outcome_promoted": false,
+  "passive_binding_checks": 97,
+  "policy_preserved": [
+    "lead-owned live integration/Git/GitHub/dispatch/closure",
+    "parallel disjoint work only",
+    "serial local builds/8 GiB DISK reserve/max2 combined hosted-heavy",
+    "named Actions permitted without mandatory SHA pinning",
+    "no publishing/packages/releases/Pages/main/history mutation or security/legal/readiness gate waiver",
+    "no new immediate constructor deadline/platform criterion",
+    "no destructive force-stop Settings",
+    "no broad parser relaxation"
+  ],
+  "proposed_patch_files": 0,
+  "recorded_utc": "2026-11-01T09:57:25.686098+00:00",
+  "reference_proof_complete_for_existing_no_match_branch": true,
+  "reference_source_is_actual_image_source_proof": false,
+  "schema_version": 1,
+  "scope": "source-only Android15 dump argument/filtering/completeness investigation after unchanged failed original camera run",
+  "unexecuted_controls": 20
+}

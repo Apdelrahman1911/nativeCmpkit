@@ -4,6 +4,29 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Current accepted subsets and next finite native verification
+
+[Original076](evidence/current-platform-recovery-20261101/native-subset-owning-review076/README.md):
+denial1/1, provider-outage1/1 and public Stop/302/Reload1/1 are accepted from
+three immutablee16268a6 runs. #102.C4 denial half is complete; only API33/API34
+media remains: serial batch41295656881 FAILED at API34 KVM access before native.
+API33 original XML passes pending independent acceptance; recover only API34. #55.C4 unavailable
+half is complete but named-provider C1 remains. #64 Android requests are complete;
+Desktop10 and real JS/Wasm offline2 remain. Never replay accepted methods.
+
+[Owning077](evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/README.md)
+qualifies #50.C3 for native verification: actual production/test KLIB0/36.01s and
+fresh15 source/adversarial passes. Shared lazy native/controlled provider-arrival
+guard replaces unavailable Photos result construction. C3 alone is missing;
+accepted C1/C2/C4/C5/C6 remain reusable. After remaining tooling/source-only plan
+and immutable binding, request only `ios-picker-provider-cancellation`.
+
+Camera075 remains FAILED before native. Official Android15 source076 does not
+qualify a parser relaxation, incomplete direct selector or unchanged retry.
+#13.C1 needs an owning fix. Current92closed/80open/172total and all lead-owned
+Git/dispatch/closure, capacity, publishing, security and main/history gates stay.
+Historical pending statements below are dated observations, not current replay work.
+
 ## Current related Android owning batch / failed iOS C3
 
 [Batch073](evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)

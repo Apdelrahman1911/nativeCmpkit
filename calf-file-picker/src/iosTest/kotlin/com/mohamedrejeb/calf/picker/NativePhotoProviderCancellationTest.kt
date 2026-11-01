@@ -19,7 +19,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.io.buffered
 import kotlinx.io.readByteArray
 import platform.Foundation.*
-import platform.PhotosUI.PHPickerResult
 import platform.PhotosUI.PHPickerViewController
 import platform.UIKit.UIViewController
 import platform.UniformTypeIdentifiers.UTTypeImage
@@ -32,9 +31,11 @@ import kotlin.test.*
 
 /**
  * Actual public Compose/session + registered Foundation NSItemProvider transport.
- * Only nonempty PHPickerResult arrival is controlled: its typed itemProvider selector
- * returns our real registered provider. No hidden KVC, forged KmpFile, fake progress,
- * manual private continuation resume, Photos-library selection or cloud-scope claim.
+ * Only post-extraction provider arrival is controlled through the installed owning
+ * delegate's internal shared-guard entry. The real registered providers then follow
+ * the public launcher's existing staging path. No unavailable Photos result construction,
+ * hidden KVC, forged KmpFile, fake progress, manual private continuation resume,
+ * Photos-library selection or cloud-scope claim.
  */
 class NativePhotoProviderCancellationTest {
     @Test fun publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging() = runApplicationUiTest {
@@ -67,12 +68,12 @@ class NativePhotoProviderCancellationTest {
             waitForNative { parent.presentedViewController is PHPickerViewController &&
                 !parent.presentedViewController!!.isBeingPresented() }
             val picker = runOnIdle { assertIs<PHPickerViewController>(parent.presentedViewController) }
-            val delegate = runOnIdle { assertNotNull(picker.delegate) }
-            val results = listOf(OwnedProviderResult(first.provider), OwnedProviderResult(pending.provider))
+            val delegate = runOnIdle { assertIs<PhotoPickerDelegate>(picker.delegate) }
+            val providers = listOf(first.provider, pending.provider)
             runOnIdle {
-                assertTrue(sameNativeObject(results[0].itemProvider, first.provider))
-                assertTrue(sameNativeObject(results[1].itemProvider, pending.provider))
-                delegate.picker(picker, results)
+                assertTrue(sameNativeObject(providers[0], first.provider))
+                assertTrue(sameNativeObject(providers[1], pending.provider))
+                delegate.pickerProviders(picker, providers)
             }
             waitForNative { first.provider.clientReturned.value == 1 && pending.firstChunkCopied.value == 1 &&
                 parent.presentedViewController == null }
@@ -98,7 +99,7 @@ class NativePhotoProviderCancellationTest {
             assertEquals(listOf(0), ownedDescriptorCounts(stagedIdentity))
             runOnIdle {
                 assertTrue(delivered.isEmpty()); assertTrue(errors.isEmpty())
-                delegate.picker(picker, results) // Actual delegate duplicate, not a second transport request.
+                delegate.pickerProviders(picker, providers) // Actual delegate duplicate, not a second transport request.
             }
             assertEquals(1, first.starts.value)
             assertEquals(1, pending.starts.value)
@@ -123,7 +124,7 @@ class NativePhotoProviderCancellationTest {
             waitForNative { pending.provider.clientReturned.value == 1 &&
                 pending.provider.deliberateCancellationReturned.value == 1 }
             runOnIdle {
-                delegate.picker(picker, results) // Captured old native delegate after disposal.
+                delegate.pickerProviders(picker, providers) // Captured old native delegate after disposal.
                 retained.launch() // A disposed public launcher must not revive the old owner.
                 assertTrue(delivered.isEmpty()); assertTrue(errors.isEmpty())
                 assertNull(parent.presentedViewController)
@@ -166,11 +167,6 @@ class NativePhotoProviderCancellationTest {
             }
         }
     }
-}
-
-/** Typed arrival fixture only; provider loading still follows the unchanged public implementation. */
-private class OwnedProviderResult(private val supplied: NSItemProvider) : PHPickerResult() {
-    override fun itemProvider(): NSItemProvider = supplied
 }
 
 /** Instrument the real Foundation client callback and return its NSProgress unchanged. */

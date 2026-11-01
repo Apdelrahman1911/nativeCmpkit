@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Current verified Android subsets and iOS owning repair — 2026-11-01
+
+[Three original Android results](evidence/current-platform-recovery-20261101/native-subset-owning-review076/README.md)
+pass1/1 each: denial, provider outage and public Stop/302/Reload. Media batch
+41295656881 fails at API34 KVM access before native; API33 XML passes pending
+independent acceptance. Only API34 needs recovery; #102 remains open; #55 named providers and #64 Desktop10/real
+browser-offline2 remain. No accepted native test is replayed. Camera075 failed
+before native; official Android15 source review qualifies no relaxed retry.
+
+[iOS C3 owning repair](evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/README.md)
+preserves public APIs and real native provider/cancellation/cleanup, using the
+installed delegate's shared guarded post-extraction arrival rather than unavailable
+Photos result construction. Production/test KLIB0/36.01s and15 important source
+guards pass; ZERO fresh Apple links/native executions. #50 C3 alone remains.
+92closed/80open/172total; unchanged dispositions/release/security gates. Earlier
+sections below retain their original dated preparation/result scope.
+
 ## Latest related owning batch — 2026-11-01
 
 [Batch073](evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)

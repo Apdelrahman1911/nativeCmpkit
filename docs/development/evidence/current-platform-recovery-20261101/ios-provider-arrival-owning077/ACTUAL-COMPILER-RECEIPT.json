@@ -1,0 +1,51 @@
+{
+  "Apple_link_sign_install_or_results": 0,
+  "actual_Gradle_execution": {
+    "elapsed_seconds": 36.01,
+    "exit_code": 0
+  },
+  "before_after_exact": true,
+  "combined_inputs": 1201,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "<repository>/scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:compileKotlinIosSimulatorArm64",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64"
+  ],
+  "command_repository_root_replaced_for_public_derivative": true,
+  "current_compile_applicability": {
+    "all_Kotlin_build_and_dependency_bytes_exact": true,
+    "fresh_Apple_link_or_native_outcome": false,
+    "later_differing_inputs": [
+      "scripts/ci/library_tests.py",
+      "scripts/ci/test_ios_picker_provider_cancellation_focus.py"
+    ],
+    "whole_map_equality_with_current_claimed": false
+  },
+  "foreign_processes_signalled": false,
+  "free_bytes_after": 41790242816,
+  "free_bytes_before": 41792372736,
+  "kind": "actual-iOS-production-and-test-KLIB-compiler-not-Apple-link-or-native",
+  "library_inputs": 1124,
+  "native_tests_executed": 0,
+  "not_claimed": [
+    "old whole-input equality",
+    "native cancellation result",
+    "native termination cause",
+    "public API-ABI compatibility certification"
+  ],
+  "observed_utc": "2026-11-01T09:41:57.100616+00:00",
+  "outer_elapsed_seconds": 36.312502679997124,
+  "outer_exit_code": 0,
+  "public_API_unchanged": true
+}

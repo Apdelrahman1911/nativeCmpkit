@@ -1663,7 +1663,8 @@
       "Apply limits before staging, serialize photo provider copies, copy ephemeral provider URLs inside callbacks and release unconsumed results.",
       "Production document staging removes unreturned copies on cancellation/exception; final callback policy rejects partial staging.",
       "Reject non-file staging/cleanup URLs and retain session/provider ownership independently of native dismissal; unreturned copies remain owned until processing completes or cancellation cleanup.",
-      "2026-11-01: Add only missing original C3 public photo/provider-copy cancellation regression and one-method native application route; retain accepted C1/C2/C4/C5/C6 without replay."
+      "2026-11-01: Add only missing original C3 public photo/provider-copy cancellation regression and one-method native application route; retain accepted C1/C2/C4/C5/C6 without replay.",
+      "2026-11-01: Replace unavailable PHPickerResult construction with lazy shared native/controlled provider-arrival guard while preserving existing IO/ensureActive/limit/sequential stage and public APIs."
     ],
     "affected_paths": [
       "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
@@ -1677,7 +1678,8 @@
       "scripts/ci/library_tests.py",
       "scripts/ci/workflow_matrix.py",
       ".github/workflows/gradle.yml",
-      "scripts/ci/test_ios_picker_provider_cancellation_focus.py"
+      "scripts/ci/test_ios_picker_provider_cancellation_focus.py",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt"
     ],
     "tests": [
       {
@@ -1777,6 +1779,18 @@
           "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-original072/README.md"
         ],
         "scope": "Underlying native termination cause unknown; no completed assertion/provider/cancel/descriptor/fixture-cleanup result is inferred. Unavailable-constructor/interoperability warnings do not alone diagnose termination. Original six literal criteria stay evaluated; C1/C2/C4/C5/C6 accepted and only C3 missing."
+      },
+      {
+        "checkpoint": "provider-arrival-owning-20261101-077",
+        "command": "Actual production/test simulator KLIB compiler and15 fresh source/adversarial controls; exact argv/held inputs and preparation failures in owning077.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/ACTUAL-COMPILER-RECEIPT.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/IMPORTANT-CONTROLS.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/PRESERVED-GUARD-FAILURES.json"
+        ],
+        "result": "Production/test KLIBs Gradle0/36.01s;1124/1201 before/after maps held. Final15/15 source controls exit0/1.404267s after preserved8/7+1error,14/11+3error and one genuine exact-five-token red. Current source differs from compiler only at two CI scripts. ZERO Apple link/sign/install/native executions.",
+        "scope": "Installed typed delegate shares pre-traversal controller/session claim with native result entry; controlled post-extraction provider arrival only, not actual Photos extraction. Loader/cancellation/cleanup tail retained; original native termination cause unknown."
       }
     ],
     "remaining": [
@@ -1791,7 +1805,8 @@
       "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.",
       "2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.",
       "2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3.",
-      "2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates."
+      "2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates.",
+      "2026-11-01 owning077: C3 remains sole missing original criterion; now qualify native only on the reviewed shared provider-arrival boundary. KLIB36.01s and15 synthetic passes are not a native result; accepted C1/C2/C4/C5/C6 must not replay."
     ],
     "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable."
   },
@@ -2584,6 +2599,16 @@
           "docs/development/evidence/current-platform-recovery-20261101/related-android-owning-batch073/FAILURES-AND-RECOVERIES.json"
         ],
         "scope": "Fixed own-UID/user0 provider outage with durable exact lease, Binder generation death, read/grant integrity, strict source-qualified FileNotFoundException and restore-before-access/primary-failure preservation. Public SDK UserHandle.getUserHandleForUid equality only. #55 named system/cloud-provider C1 remains missing; #57 untouched."
+      },
+      {
+        "checkpoint": "provider-unavailable-original-20261101-076",
+        "command": "Immutablee16268a6 original run41294135981/attempt1, one existing API35 method; independent once-acquired original review.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/io-provider-unavailable-original076/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/io-provider-unavailable-original076/REVIEW.json"
+        ],
+        "result": "PASS1/1 native/one original XML/Gradle0/36.02s; testcase3.827s.69 passive checks, four actual1124 maps and owned helper/emulator/ADB cleanup independently reviewed;1201 combined predispatch-only.",
+        "scope": "Completes only #55 C4 unavailable-provider half: real grants/Binder death/exact durable component lease/restore-before-access. Post-restart counters do not prove zero outage opens; C1 named providers remains missing; #57 untouched."
       }
     ],
     "remaining": [
@@ -2594,7 +2619,8 @@
       "Diagnose the actual API35 provider startup/death/null-size observation and the separate DocumentFile MIME-projection mismatch. Regular FileProvider metadata success is not SAF tree/folder or persisted/cross-UID grant verification; preserve those tests.",
       "Host002 confirms only the in-process Robolectric tree-child fixture. Actual framework IPC, external/cloud provider identity, grant revocation/process death and device004 known-size metadata/query behavior remain unverified; no lowering assertions or replacing native checks with host results.",
       "2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.",
-      "2026-11-01 batch073: Run only new fixed unavailable-provider1; accepted lifecycle/default-decode methods remain unreplayed. Even a native outage pass completes only C4 subset, not original named system/cloud-provider C1; #55 stays open until its own criteria fully verify."
+      "2026-11-01 batch073: Run only new fixed unavailable-provider1; accepted lifecycle/default-decode methods remain unreplayed. Even a native outage pass completes only C4 subset, not original named system/cloud-provider C1; #55 stays open until its own criteria fully verify.",
+      "2026-11-01 original076: C4 unavailable-provider half now accepted; do not replay it or accepted lifecycle/Coil methods. C1 ExternalStorageProvider/Downloads/cloud-provider real folder behavior remains original missing work, so #55 stays open."
     ],
     "compatibility": "Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content."
   },

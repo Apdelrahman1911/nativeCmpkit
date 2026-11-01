@@ -1,0 +1,44 @@
+{
+  "argv_after_dumpsys_service": [
+    "-p",
+    "com.android.settings",
+    "activities"
+  ],
+  "current_reader_required_scope": [
+    "bounded successful empty-stderr result",
+    "UTF-8, no CR/NUL/ESC",
+    "one exact first header and one exact final nothing footer",
+    "all interior rows exact unindented Display grammar only",
+    "nonnegative signed-int display IDs, no duplicates",
+    "no other rows, no blank allowance, no marker exception"
+  ],
+  "display_row_count": "zero or more in reference; current owning reader deliberately requires at least one",
+  "footer_is_necessary_not_sufficient": true,
+  "inferences_forbidden": [
+    "original rejected row contents",
+    "three marker rows => Settings Activity ownership",
+    "original fresh Settings liveness",
+    "native execution or acceptance",
+    "framework source bug => actual-image bug",
+    "arbitrary concurrent writer absence/future liveness",
+    "ZERO master mutations => master already1"
+  ],
+  "no_match_branches": [
+    "All display/root tasks and their task/fragment/ActivityRecord children are visited without visibility/process/state/user narrowing.",
+    "Exact r.packageName mismatch returns before any task header/record/client dump.",
+    "Focused/resumed summaries compare packageName and therefore print nothing without a package match.",
+    "Finishing/stopping collections are traversed with the same ActivityRecord package filter.",
+    "Package-specific mode skips ATMS global supervisor/task-organizer/process/UID metadata.",
+    "No matched lazy header or client operation means no source-generated body blank/other row; complete result ends in nothing."
+  ],
+  "original_refusal_unchanged": true,
+  "reference_commit": "4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3",
+  "reference_no_match_server_rows": [
+    "ACTIVITY MANAGER ACTIVITIES (dumpsys activity activities)",
+    "Display #<each traversed display id> (activities from top to bottom):",
+    "  (nothing)"
+  ],
+  "schema_version": 1,
+  "scope": "official Android15 reference server output/control flow only",
+  "source_and_actual_image_equivalence_proved": false
+}

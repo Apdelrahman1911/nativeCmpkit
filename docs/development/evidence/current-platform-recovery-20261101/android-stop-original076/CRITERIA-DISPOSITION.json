@@ -1,0 +1,21 @@
+{
+  "accepted_prior_method_replayed": false,
+  "finding": "NATIVE-005",
+  "issue": 64,
+  "next_missing": "Desktop10 and genuine JS/Wasm offline2 only",
+  "original_criteria": [
+    {
+      "disposition": "Android fail/fail/Reload and Stop302Reload accepted cumulatively; Desktop10 remain missing",
+      "literal": "Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target."
+    },
+    {
+      "disposition": "prior browser transitions accepted; genuine JS and Wasm offline2 remain missing",
+      "literal": "Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination."
+    },
+    {
+      "disposition": "separately accepted iOS request2 and DNS reused, not replayed",
+      "literal": "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+    }
+  ],
+  "whole_issue_closure_justified": false
+}

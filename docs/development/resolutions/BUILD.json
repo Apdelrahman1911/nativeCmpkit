@@ -96,12 +96,22 @@
           "docs/development/evidence/current-platform-recovery-20261101/related-final-freeze053/REVIEW.json"
         ],
         "scope": "Finite missing-only routing and no-replay controls only. Original other-host TLS/PKIX/rendering/cookie/policy/media/classifier/security requirements remain; separate #64 request10 unchanged."
+      },
+      {
+        "checkpoint": "desktop-untrusted-sandbox-boundary-20261101-077",
+        "command": "Implementation-level review of JavaFX in-process JVM/native engine model; scoped documentation only.",
+        "evidence": [
+          "docs/platforms/desktop.md"
+        ],
+        "result": "Original C3 support boundary now explicitly documented in docs/platforms/desktop.md; no graph/runtime/security test executed by this documentation.",
+        "scope": "Untrusted page content may execute under documented WebView policies; arbitrary untrusted application code is not an OS sandbox or supported contained execution. JS/TLS settings do not supply a process sandbox. C1/C2 host graph/runtime gates unchanged."
       }
     ],
     "remaining": [
       "Full actual Linux library runtime/compile/test Maven coordinate checks are reviewed. Other-host resolved graph/classifier matrices and actual media/TLS/cookies/navigation/JavaScript/rendering on every desktop host remain required; zero OSV matches do not certify bundled engines or independent trust.",
       "Document sandboxed untrusted-code execution support boundaries and finish the three original BUILD-002 acceptance criteria; no dependency/security/release waiver.",
-      "2026-11-01: Reuse accepted Linux x64 TLS002 cell without native replay. Execute only remaining13 security cells on four other hosts; Desktop request10 is separate. Other-host dependency/classifier graphs and sandbox support boundaries retain original requirements."
+      "2026-11-01: Reuse accepted Linux x64 TLS002 cell without native replay. Execute only remaining13 security cells on four other hosts; Desktop request10 is separate. Other-host dependency/classifier graphs and sandbox support boundaries retain original requirements.",
+      "2026-11-01 owning077: C3 support boundaries are explicitly documented; other-host graph/classifier and13 native security executions remain missing. No JavaFX engine/process sandbox or whole security acceptance is claimed."
     ],
     "compatibility": "Requires JDK17-compatible runtime selected explicitly by consumer."
   },

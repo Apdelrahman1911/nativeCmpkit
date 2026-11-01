@@ -1,5 +1,17 @@
 # Prioritized development roadmap
 
+## Current missing-only platform batch — 2026-11-01
+
+See the [current execution checkpoint](../development/checkpoint-20261101-request-matrix.md).
+Three Android native subsets now pass: denial, unavailable provider and public
+Stop/302/Reload. Prioritize #102's two serial media cells, then #50's sole missing
+provider-copy cancellation criterion. Its owning production/test compiler and
+important source controls pass; real Apple execution is still required. Keep
+#55 named providers, #64 Desktop/offline browser, camera lifecycle #13 and the
+independent dependency/consumer/security blockers open. Reuse valid unchanged
+results, close fully verified related issues promptly, then document. No release
+or publishing follows partial acceptance;92closed/80open remains unchanged.
+
 ## Related batch: verified theme subset closed — 2026-10-29
 
 **[#143/UI-045 CLOSED/completed](../development/evidence/native-vector-theme-batch-important-20261029/serial-native-ci001/README.md)** directly after original three-criteria

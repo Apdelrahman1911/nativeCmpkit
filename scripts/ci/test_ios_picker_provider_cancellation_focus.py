@@ -15,8 +15,201 @@ from test_android_webview_request_state import body_after
 import test_ios_picker_batch_focus as batch
 
 
-def require_provider_witnesses(source):
+PHOTO_DELEGATE_SOURCE = "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt"
+PHOTO_LAUNCHER_SOURCE = "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt"
+
+
+def _kotlin_tokens(source):
+    """Lexical source witnesses only: nested comments and literals cannot supply code tokens."""
+    def comment_end(index):
+        if source.startswith("//", index):
+            end = source.find("\n", index + 2)
+            return len(source) if end < 0 else end
+        depth, index = 1, index + 2
+        while index < len(source) and depth:
+            if source.startswith("/*", index): depth += 1; index += 2
+            elif source.startswith("*/", index): depth -= 1; index += 2
+            else: index += 1
+        if depth: raise ValueError("Unclosed Kotlin source comment")
+        return index
+
+    def literal_end(index):
+        raw = source.startswith('"""', index)
+        quote = '"""' if raw else source[index]
+        index += len(quote)
+        while index < len(source):
+            if not raw and source[index] == "\\": index += 2
+            elif source.startswith(quote, index): return index + len(quote)
+            elif quote != "'" and source.startswith("${", index):
+                # Kotlin templates can themselves contain quoted literals/comments.
+                depth, index = 1, index + 2
+                while index < len(source) and depth:
+                    if source.startswith(("//", "/*"), index): index = comment_end(index)
+                    elif source[index] in "\"'": index = literal_end(index)
+                    elif source[index] == "{": depth += 1; index += 1
+                    elif source[index] == "}": depth -= 1; index += 1
+                    else: index += 1
+                if depth: raise ValueError("Unclosed Kotlin source template")
+            else: index += 1
+        raise ValueError("Unclosed Kotlin source literal")
+
+    tokens, index = [], 0
+    while index < len(source):
+        if source[index].isspace(): index += 1
+        elif source.startswith(("//", "/*"), index): index = comment_end(index)
+        elif source[index] in "\"'":
+            end = literal_end(index)
+            tokens.append(source[index:end]); index = end
+        else:
+            match = re.match(r"[A-Za-z_][A-Za-z_0-9]*|[0-9][A-Za-z_0-9]*|===|!==|==|!=|\|\||&&|->|::|\?\.|\?:|\+=|.",
+                             source[index:])
+            tokens.append(match.group()); index += len(match.group())
+    return tokens
+
+
+def _kotlin_positions(tokens, fragment):
+    wanted = _kotlin_tokens(fragment)
+    return [index for index in range(len(tokens) - len(wanted) + 1)
+            if tokens[index:index + len(wanted)] == wanted]
+
+
+def _kotlin_block(tokens, anchor):
+    matches = _kotlin_positions(tokens, anchor)
+    if len(matches) != 1:
+        raise ValueError("Require one exact executable owning source declaration")
+    start = matches[0] + len(_kotlin_tokens(anchor))
+    if start >= len(tokens) or tokens[start] != "{":
+        raise ValueError("The complete owning source signature must immediately open its block")
+    depth = 1
+    for index in range(start + 1, len(tokens)):
+        if tokens[index] == "{": depth += 1
+        elif tokens[index] == "}": depth -= 1
+        if depth == 0: return tokens[start + 1:index]
+    raise ValueError("Unclosed executable owning Kotlin source block")
+
+
+def require_provider_arrival_boundary(source, delegate_source, launcher_source):
+    """Source-qualify the shared lazy gate; never Photos extraction or native acceptance."""
+    delegate = _kotlin_block(_kotlin_tokens(delegate_source), """
+        internal class PhotoPickerDelegate(
+            private val session: IosDialogSession,
+            private val onPicked: (List<() -> NSItemProvider>) -> Unit,
+            private val onCancelled: () -> Unit,
+        ) : NSObject(), PHPickerViewControllerDelegateProtocol, UIAdaptivePresentationControllerDelegateProtocol
+    """)
+    for signature, expected in (
+        ("override fun picker(picker: PHPickerViewController, didFinishPicking: List<*>)", """
+            finishProviderSources(picker) {
+                didFinishPicking.filterIsInstance<PHPickerResult>().map { result -> { result.itemProvider } }
+            }
+        """),
+        ("internal fun pickerProviders(picker: PHPickerViewController, providers: List<NSItemProvider>,)", """
+            finishProviderSources(picker) { providers.map { provider -> { provider } } }
+        """),
+        ("private fun finishProviderSources(picker: PHPickerViewController, sources: () -> List<() -> NSItemProvider>,)", """
+            if (picker != session.controller || !session.claimResult()) return
+            onPicked(sources())
+        """),
+    ):
+        if _kotlin_block(delegate, signature) != _kotlin_tokens(expected):
+            raise ValueError("Native and controlled lazy arrivals must share controller-before-claim, then traversal")
+    if len(_kotlin_positions(delegate, "finishProviderSources")) != 3 or len(_kotlin_positions(delegate, "onPicked(")) != 1:
+        raise ValueError("No separate or private production arrival may bypass the shared owning gate")
+
+    launcher = _kotlin_tokens(launcher_source)
+    staging = _kotlin_block(launcher, "fun stageAndDeliver(stage: suspend (MutableList<KmpFile>) -> Unit)")
+    if staging != _kotlin_tokens("""
+        session.job = scope.launch {
+            val owned = mutableListOf<KmpFile>()
+            var transferred = false
+            try {
+                val failure = try {
+                    withContext(Dispatchers.IO) { stage(owned) }
+                    currentCoroutineContext().ensureActive()
+                    if (session.cancelled) throw CancellationException("Picker disposed")
+                    null
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (error: Exception) {
+                    if (error is FilePickerException) error else FilePickerException("Could not read picked files", error)
+                }
+                owner.end(session)
+                session.awaitFinished()
+                currentCoroutineContext().ensureActive()
+                if (session.cancelled) throw CancellationException("Picker disposed")
+                if (failure != null) currentOnError(failure)
+                else {
+                    transferred = true
+                    currentOnResult(owned.toList())
+                }
+            } finally {
+                if (!transferred) owned.forEach { it.releaseTemporaryCopy() }
+                owner.end(session)
+            }
+        }
+    """):
+        raise ValueError("Keep the existing IO staging/owner/cancellation/transfer/cleanup path")
+    picked = _kotlin_block(launcher, "val delegate = PhotoPickerDelegate(session, onPicked =")
+    if picked != _kotlin_tokens("""
+        results ->
+        val picked = results.limitedTo(launchMode)
+        session.requestDismissal()
+        stageAndDeliver { files ->
+            for (result in picked) {
+                currentCoroutineContext().ensureActive()
+                val file = result().loadFileRepresentationForTypeIdentifierSuspend(launchType)
+                    ?: throw FilePickerException("A selected photo/video could not be copied")
+                files += file
+            }
+        }
+    """):
+        raise ValueError("Limit before staging and invoke each supplier only after ensureActive inside existing IO staging")
+
+    tokens = _kotlin_tokens(source)
+    method = _kotlin_block(tokens, "@Test fun " + r.IOS_PICKER_PROVIDER_CANCELLATION_METHODS[0] +
+                           "() = runApplicationUiTest")
+    installed = """
+        val picker = runOnIdle { assertIs<PHPickerViewController>(parent.presentedViewController) }
+        val delegate = runOnIdle { assertIs<PhotoPickerDelegate>(picker.delegate) }
+        val providers = listOf(first.provider, pending.provider)
+        runOnIdle {
+            assertTrue(sameNativeObject(providers[0], first.provider))
+            assertTrue(sameNativeObject(providers[1], pending.provider))
+            delegate.pickerProviders(picker, providers)
+        }
+    """
+    if len(_kotlin_positions(method, installed)) != 1:
+        raise ValueError("Require the actual installed typed owning delegate and identical registered native providers")
+    arrivals = _kotlin_positions(method, "delegate.pickerProviders(picker, providers)")
+    if len(arrivals) != 3 or method.count("pickerProviders") != 3 or method.count("delegate") != 5:
+        raise ValueError("Only initial, duplicate and post-disposal arrivals through the installed delegate are allowed")
+    boundaries = ("runOnIdle { included.value = false }", "pending.completeCancelledTransport()",
+                  "pending.provider.deliberateCancellationReturned.value == 1")
+    positions = [_kotlin_positions(method, fragment) for fragment in boundaries]
+    if any(len(matches) != 1 for matches in positions) or not (
+            arrivals[0] < arrivals[1] < positions[0][0] < positions[1][0] < positions[2][0] < arrivals[2]):
+        raise ValueError("Duplicate precedes public disposal; post-disposal arrival follows deliberate native return identity")
+    forbidden = ("PHPickerResult", "OwnedProviderResult", "PhotoPickerDelegate", "IosDialogSession", "IosDialogOwner",
+                 "finishProviderSources", "claimResult", "onPicked", "stageAndDeliver", "stagePickedUrls",
+                 "loadFileRepresentationForTypeIdentifierSuspend", "createPHPickerViewController",
+                 "suspendCancellableCoroutine", "resume", "setValue", "setValueForKey", "valueForKey", "forKey",
+                 "objc_msgSend", "method_setImplementation", "method_exchangeImplementations",
+                 "NSClassFromString", "NSSelectorFromString", "performSelector")
+    # The sole PhotoPickerDelegate token in C3 is its checked installed native type.
+    if tokens.count("PhotoPickerDelegate") != 1 or any(token in tokens for token in forbidden if token != "PhotoPickerDelegate"):
+        raise ValueError("No unavailable/fake result construction, new owner, private arrival or ObjC/KVC bypass")
+    if any(token.startswith('"') and "${" in token for token in method):
+        raise ValueError("Controlled arrival witness code cannot be hidden inside a Kotlin string template")
+    if any(token in method for token in ("loadFileRepresentationForTypeIdentifier", "registerFileRepresentationForTypeIdentifier")):
+        raise ValueError("The C3 arrival must use the public launcher's native loader, not a direct test invocation")
+
+
+def require_provider_witnesses(source, *, delegate_source=None, launcher_source=None):
     """Protect causal/public/native boundaries without pinning unrelated source formatting."""
+    require_provider_arrival_boundary(
+        source,
+        (r.ROOT / PHOTO_DELEGATE_SOURCE).read_text() if delegate_source is None else delegate_source,
+        (r.ROOT / PHOTO_LAUNCHER_SOURCE).read_text() if launcher_source is None else launcher_source,
+    )
     armed = body_after(source, "fun expectDeliberateCancellation(")
     for token in ("protect {", "clientEntered.value == 0 && clientReturned.value == 0",
                   "deliberateCancellationError == null", "deliberateCancellationError = error"):
@@ -45,7 +238,7 @@ def require_provider_witnesses(source):
             "protect { closeHandlesLocked(); removePartialLocked() }" not in cancelled):
         raise ValueError("The actual cooperative producer cancellation must close its handles before removing partial output")
     method = body_after(source, "@Test fun " + r.IOS_PICKER_PROVIDER_CANCELLATION_METHODS[0])
-    steps = ("delegate.picker(picker, results)", "pending.firstChunkCopied.value == 1",
+    steps = ("delegate.pickerProviders(picker, providers)", "pending.firstChunkCopied.value == 1",
              "ownedDescriptorCounts(pending.sourceIdentity, partialIdentity)",
              "runOnIdle { included.value = false }", "pending.cancelled.value == 1 && pending.closedHandles.value == 2",
              "pending.completeCancelledTransport()", "pending.provider.deliberateCancellationReturned.value == 1",
@@ -53,7 +246,7 @@ def require_provider_witnesses(source):
     if any(token not in method for token in steps) or (
             [method.index(token) for token in steps] != sorted(method.index(token) for token in steps)):
         raise ValueError("Real in-flight native copy and public disposal/cleanup precede acknowledged late completion")
-    required = ("override fun itemProvider(): NSItemProvider = supplied", "registerFileRepresentationForTypeIdentifier(",
+    required = ("val providers = listOf(first.provider, pending.provider)", "registerFileRepresentationForTypeIdentifier(",
                 "NSItemProviderRepresentationVisibilityOwnProcess", "progress.cancellationHandler =",
                 "progress.cancellable = true", "NSFileHandle.fileHandleForReadingAtPath(sourcePath)",
                 "NSFileHandle.fileHandleForWritingAtPath(partialPath)", "readDataOfLength(65_536uL)",
@@ -70,6 +263,11 @@ def require_provider_witnesses(source):
 
 
 class IosPickerProviderCancellationFocusTests(unittest.TestCase):
+    def arrival_sources(self):
+        return ((r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text(),
+                (r.ROOT / PHOTO_DELEGATE_SOURCE).read_text(),
+                (r.ROOT / PHOTO_LAUNCHER_SOURCE).read_text())
+
     def plan(self, root=r.ROOT):
         return r.plan(root, "ios", only_modules=("calf-file-picker",),
                       focus=r.IOS_PICKER_PROVIDER_CANCELLATION_FOCUS)
@@ -176,6 +374,153 @@ class IosPickerProviderCancellationFocusTests(unittest.TestCase):
                               ("if (callbackAcknowledged) clean {", "if (true) clean {")):
             with self.subTest(removed=before), self.assertRaises(ValueError):
                 require_provider_witnesses(source.replace(before, after, 1))
+
+    def test_native_and_controlled_entries_share_controller_before_claim_and_one_lazy_gate(self):
+        source, delegate, launcher = self.arrival_sources()
+        require_provider_arrival_boundary(source, delegate, launcher)
+        gate = "if (picker != session.controller || !session.claimResult()) return"
+        mutations = ((gate, "if (!session.claimResult() || picker != session.controller) return"),
+                     (gate, "if (picker != session.controller && !session.claimResult()) return"),
+                     (gate, "if (picker == session.controller || !session.claimResult()) return"),
+                     (gate, "if (picker != session.controller) return"),
+                     ("onPicked(sources())", "onPicked(emptyList())"),
+                     ("private fun finishProviderSources(", "internal fun finishProviderSources("),
+                     ("private val onPicked: (List<() -> NSItemProvider>) -> Unit",
+                      "private val onPicked: (List<NSItemProvider>) -> Unit"))
+        for before, after in mutations:
+            self.assertEqual(1, delegate.count(before))
+            with self.subTest(shared_gate=before, replacement=after), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source, delegate.replace(before, after, 1), launcher)
+
+    def test_no_native_or_controlled_traversal_or_eager_provider_getter_precedes_the_claim(self):
+        source, delegate, launcher = self.arrival_sources()
+        native = """        finishProviderSources(picker) {
+            didFinishPicking.filterIsInstance<PHPickerResult>().map { result ->
+                { result.itemProvider }
+            }
+        }"""
+        controlled = """        finishProviderSources(picker) {
+            providers.map { provider -> { provider } }
+        }"""
+        mutations = ((native, """        val extracted = didFinishPicking.filterIsInstance<PHPickerResult>().map { result ->
+            { result.itemProvider }
+        }
+        finishProviderSources(picker) { extracted }"""),
+                     (controlled, """        val extracted = providers.map { provider -> { provider } }
+        finishProviderSources(picker) { extracted }"""),
+                     ("if (picker != session.controller || !session.claimResult()) return\n        onPicked(sources())",
+                      "val arrived = sources()\n        if (picker != session.controller || !session.claimResult()) return\n        onPicked(arrived)"),
+                     ("{ result.itemProvider }", "result.itemProvider.let { provider -> { provider } }"),
+                     (native, """        if (!session.claimResult()) return
+        onPicked(didFinishPicking.filterIsInstance<PHPickerResult>().map { result -> { result.itemProvider } })"""),
+                     (controlled, """        if (picker != session.controller) return
+        onPicked(providers.map { provider -> { provider } })"""),
+                     ("filterIsInstance<PHPickerResult>()", "filterIsInstance<NSItemProvider>()"))
+        for before, after in mutations:
+            self.assertEqual(1, delegate.count(before))
+            with self.subTest(lazy_arrival=before), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source, delegate.replace(before, after, 1), launcher)
+
+    def test_limit_existing_io_staging_and_ensure_active_precede_each_supplier_invocation(self):
+        source, delegate, launcher = self.arrival_sources()
+        before_load = """currentCoroutineContext().ensureActive()
+                                    val file = result().loadFileRepresentationForTypeIdentifierSuspend(launchType)"""
+        mutations = (("val picked = results.limitedTo(launchMode)", "val picked = results"),
+                     ("val picked = results.limitedTo(launchMode)",
+                      "val picked = results.map { source -> source() }.limitedTo(launchMode).map { provider -> { provider } }"),
+                     ("withContext(Dispatchers.IO) { stage(owned) }", "withContext(Dispatchers.Main) { stage(owned) }"),
+                     ("withContext(Dispatchers.IO) { stage(owned) }", "stage(owned)"),
+                     (before_load, """val provider = result()
+                                    currentCoroutineContext().ensureActive()
+                                    val file = provider.loadFileRepresentationForTypeIdentifierSuspend(launchType)"""),
+                     ("val file = result().loadFileRepresentationForTypeIdentifierSuspend(launchType)",
+                      "val file = result.itemProvider.loadFileRepresentationForTypeIdentifierSuspend(launchType)"),
+                     ("for (result in picked)", "for (result in results)"))
+        for before, after in mutations:
+            self.assertEqual(1, launcher.count(before))
+            with self.subTest(staging_order=before), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source, delegate, launcher.replace(before, after, 1))
+
+    def test_missing_wrong_or_replaced_installed_delegate_and_native_provider_arguments_refuse(self):
+        source, delegate, launcher = self.arrival_sources()
+        installed = "val delegate = runOnIdle { assertIs<PhotoPickerDelegate>(picker.delegate) }"
+        mutations = ((installed, ""),
+                     (installed, "val delegate = runOnIdle { assertNotNull(picker.delegate) as PhotoPickerDelegate }"),
+                     (installed, "val delegate = runOnIdle { assertIs<PhotoPickerDelegate>(null) }"),
+                     ("assertIs<PhotoPickerDelegate>(picker.delegate)", "assertIs<NSObject>(picker.delegate)"),
+                     ("assertIs<PHPickerViewController>(parent.presentedViewController)",
+                      "assertIs<UIViewController>(parent.presentedViewController)"),
+                     ("val providers = listOf(first.provider, pending.provider)", "val providers = listOf(first.provider, first.provider)"),
+                     ("val providers = listOf(first.provider, pending.provider)", "val providers = listOf(pending.provider, first.provider)"),
+                     ("sameNativeObject(providers[0], first.provider)", "providers[0] == first.provider"))
+        for before, after in mutations:
+            self.assertEqual(1, source.count(before))
+            with self.subTest(installed_argument=before), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source.replace(before, after, 1), delegate, launcher)
+
+    def test_fake_result_construction_private_loader_or_bypassed_arrivals_refuse(self):
+        source, delegate, launcher = self.arrival_sources()
+        insertion = "            val partialIdentity = pending.partialIdentity()"
+        self.assertEqual(1, source.count(insertion))
+        bypasses = ("val forged = PHPickerResult()",
+                    "val forged = OwnedProviderResult(first.provider)",
+                    "val newDelegate = PhotoPickerDelegate(IosDialogSession(), {}, {})",
+                    "delegate.finishProviderSources(picker) { providers.map { provider -> { provider } } }",
+                    "delegate.onPicked(providers.map { provider -> { provider } })",
+                    'pending.provider.loadFileRepresentationForTypeIdentifier("public.image") { _, _ -> }',
+                    'picker.setValue(first.provider, forKey = "itemProvider")',
+                    "method_exchangeImplementations(null, null)",
+                    "delegate.pickerProviders(picker, providers)",
+                    'val covert = "${delegate.pickerProviders(picker, providers)}"')
+        for bypass in bypasses:
+            changed = source.replace(insertion, "            " + bypass + "\n" + insertion, 1)
+            with self.subTest(bypassed_arrival=bypass), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(changed, delegate, launcher)
+        arrival = "delegate.pickerProviders(picker, providers)"
+        self.assertEqual(3, source.count(arrival))
+        for replacement in ("delegate.picker(picker, emptyList<Any>())",
+                            "delegate.pickerProviders(picker, emptyList())"):
+            with self.subTest(replaced_arrival=replacement), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source.replace(arrival, replacement, 1), delegate, launcher)
+        with self.assertRaises(ValueError):
+            require_provider_arrival_boundary(source + "\nprivate class OwnedProviderResult : PHPickerResult()\n", delegate, launcher)
+
+    def test_comments_literals_and_duplicate_source_blocks_cannot_spoof_the_owning_witness(self):
+        source, delegate, launcher = self.arrival_sources()
+        gate = "if (picker != session.controller || !session.claimResult()) return"
+        self.assertEqual(1, delegate.count(gate))
+        harmless = delegate.replace(gate, "if (picker /* nested /* } onPicked(fake) */ harmless */ != session.controller || !session.claimResult()) return", 1)
+        require_provider_arrival_boundary(source, harmless, launcher)
+        for replacement in ("/* " + gate + " */",
+                            'val ignored = "' + gate + '"',
+                            'val ignored = """' + gate + '"""'):
+            with self.subTest(noncode_gate=replacement), self.assertRaises(ValueError):
+                require_provider_arrival_boundary(source, delegate.replace(gate, replacement, 1), launcher)
+        with self.assertRaises(ValueError):
+            require_provider_arrival_boundary(source, delegate + "\n" + delegate, launcher)
+        installed = "val delegate = runOnIdle { assertIs<PhotoPickerDelegate>(picker.delegate) }"
+        self.assertEqual(1, source.count(installed))
+        with self.assertRaises(ValueError):
+            require_provider_arrival_boundary(source.replace(installed, "// " + installed, 1), delegate, launcher)
+
+
+    def test_installed_native_delegate_property_and_three_arrivals_require_exact_five_tokens(self):
+        source, delegate, launcher = self.arrival_sources()
+        tokens = _kotlin_block(_kotlin_tokens(source), "@Test fun " + r.IOS_PICKER_PROVIDER_CANCELLATION_METHODS[0] +
+                               "() = runApplicationUiTest")
+        # One local declaration + the actual picker.delegate property + three arrivals.
+        self.assertEqual(5, tokens.count("delegate"))
+        require_provider_arrival_boundary(source, delegate, launcher)
+        insertion = "            val partialIdentity = pending.partialIdentity()"
+        self.assertEqual(1, source.count(insertion))
+        extra = source.replace(insertion, "            val capturedDelegate = delegate\n" + insertion, 1)
+        with self.assertRaises(ValueError):
+            require_provider_arrival_boundary(extra, delegate, launcher)
+        self.assertEqual(1, source.count("assertIs<PhotoPickerDelegate>(picker.delegate)"))
+        missing = source.replace("assertIs<PhotoPickerDelegate>(picker.delegate)",
+                                 "assertIs<PhotoPickerDelegate>(null)", 1)
+        with self.assertRaises(ValueError):
+            require_provider_arrival_boundary(missing, delegate, launcher)
 
 
 if __name__ == "__main__":

@@ -30,7 +30,6 @@ import platform.PhotosUI.PHPickerConfiguration
 import platform.PhotosUI.PHPickerConfigurationAssetRepresentationModeCompatible
 import platform.PhotosUI.PHPickerConfigurationAssetRepresentationModeCurrent
 import platform.PhotosUI.PHPickerFilter
-import platform.PhotosUI.PHPickerResult
 import platform.PhotosUI.PHPickerViewController
 import platform.PhotosUI.PHPickerViewControllerDelegateProtocol
 import platform.UIKit.UIDocumentPickerViewController
@@ -136,7 +135,7 @@ actual fun rememberFilePickerLauncher(
                                 // Deliberately bounded to one provider copy at a time. Limit before copying.
                                 for (result in picked) {
                                     currentCoroutineContext().ensureActive()
-                                    val file = result.itemProvider.loadFileRepresentationForTypeIdentifierSuspend(launchType)
+                                    val file = result().loadFileRepresentationForTypeIdentifierSuspend(launchType)
                                         ?: throw FilePickerException("A selected photo/video could not be copied")
                                     files += file
                                 }

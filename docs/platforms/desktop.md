@@ -65,6 +65,12 @@ must include required runtime modules and host-native dependencies. The sample
 has DMG/MSI/DEB targets and a macOS appearance JVM property, but no installer is
 validated merely by that configuration existing.
 
+## Untrusted desktop-code execution
+
+NativeCmpKit does not support sandboxed execution of untrusted desktop code.
+JavaFX WebView runs in the application's JVM process. JavaScript settings and
+TLS certificate checks are not an operating-system sandbox for untrusted code.
+
 ## Explicitly missing desktop services
 
 Camera launcher is a no-op. Permission states are permanently denied/no-op, not

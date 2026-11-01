@@ -1,5 +1,31 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Three Android subsets accepted; iOS arrival repair — 2026-11-01
+
+[Original076](docs/development/evidence/current-platform-recovery-20261101/native-subset-owning-review076/README.md)
+accepts denial1/1/Gradle0/39.02s, provider-outage1/1/0/36.02s and public
+Stop/302/Reload1/1/0/48.02s at immutablee16268a6; three original XML/four actual1124
+maps each,1201 combined predispatch-only. Passive39/69/49 checks are not tests.
+#102 needs media verification: batch41295656881 FAILED at API34 KVM access;
+API33 original XML pass is pending independent acceptance. Recover only API34;
+#55 needs named providers; #64 needs Desktop10/real browser offline2. Accepted
+Call/picker/IO/Android held method/iOS/DNS are never replayed. Camera075 remains
+failed before native; [Android15 source076](docs/development/evidence/current-platform-recovery-20261101/camera-absence-os-source076/README.md)
+qualifies no parser waiver/replacement or blind retry; #13 C1 still missing.
+
+[iOS owning077](docs/development/evidence/current-platform-recovery-20261101/ios-provider-arrival-owning077/README.md)
+removes unavailable PHPickerResult construction and shares native/controlled lazy
+provider arrival through controller-before-session-claim, retaining IO/staging and
+native cancellation/cleanup tail. Controlled post-extraction arrival is not Photos
+selection/extraction. Actual production/test KLIB0/36.01s,1124/1201 held; later
+two CI-script deltas explicit. Fresh15 important synthetic passes/1.404267s retain
+all lead/guard reds; ZERO Apple links/native. #50 C3 alone next after remaining
+tooling/source-only plan/immutable binding; C1/C2/C4/C5/C6 stay accepted. Original
+native termination cause unknown.92closed/80open/172total and27implemented/
+42partial/90verified/five unresolved unchanged. Lead Git/dispatch/closures,
+disjoint agents/serial local/8GiB/max2hosted and all publishing/security gates stay.
+Earlier entries retain their original observation times and scopes.
+
 ## Related Android owning batch compiled; iOS C3 still incomplete — 2026-11-01
 
 [Batch073](docs/development/evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)

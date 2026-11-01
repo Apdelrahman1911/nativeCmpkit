@@ -1,0 +1,10 @@
+{
+  "observed_utc": "2026-11-01T10:17:19.200470+00:00",
+  "stage": "lead source-only CLI preparation",
+  "exit_code": 2,
+  "cause": "Lead used hosted slot ios-iphone as CLI --suite; actual CLI suite is ios. Argparse correctly refused before planning/native.",
+  "follow_on_parser_error": "JSONDecodeError of empty stdout because lead shell lacked fail-fast",
+  "native_executions": 0,
+  "source_changes": 0,
+  "repair": "Use correct ios suite; explicit subprocess return guard before parsing. Original route/schema/refusals unchanged."
+}

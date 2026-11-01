@@ -1,0 +1,99 @@
+{
+  "entries": [
+    {
+      "failure": {
+        "line": 72,
+        "message": "unmatched ')'",
+        "original_acquisition_repeated": false,
+        "review_code_executed": false,
+        "source_sha256": "b684eeccfcb90b4ac0f2772d9e9c3829be3864e08fe0975dfdcec7e49d70e14d",
+        "type": "SyntaxError"
+      },
+      "id": "P1",
+      "phase": "previous original reviewer invocation",
+      "repair": "Remove one extra closing parenthesis only. The original preimage is retained privately.",
+      "result": "failed before review code execution"
+    },
+    {
+      "failure": {
+        "exit_code": 127,
+        "message": "python: command not found"
+      },
+      "id": "P2",
+      "phase": "read-only schema inspection shell wrapper",
+      "repair": "Use the available python3 executable; no original download or native action.",
+      "result": "failed before Python inspection"
+    },
+    {
+      "actual_original_receipt": "host architecture x64; native ABI x86_64",
+      "expected_by_unexecuted_reviewer": "host architecture x86_64",
+      "id": "P3",
+      "phase": "preexecution review of actual runtime schema",
+      "repair": "Compare the exact canonical source-defined host value x64, while retaining the exact native ABI. No runtime/result/criterion change.",
+      "result": "reviewer assertion assumption corrected before execution"
+    },
+    {
+      "failure": "functions.store was called with an undefined session ID",
+      "id": "P4",
+      "network_repeated_for_repair": false,
+      "original_metadata_retained": true,
+      "phase": "previous metadata result wrapper",
+      "result": "wrapper error after successful metadata acquisition"
+    },
+    {
+      "failure": "minimum120-second interval assertion",
+      "id": "P5",
+      "original_refusal_retained": "metadata-before-interval-refusal.json",
+      "phase": "previous early monitor wrapper",
+      "result": "interval gate refusal before any network call",
+      "retry_network_in_that_refusal": false
+    },
+    {
+      "failure": "1124-map key display exceeded output limit",
+      "id": "P6",
+      "phase": "previous broad JSON top-level display",
+      "repair": "Inspect focused role/schema summaries; no extraction or original acquisition repeated.",
+      "result": "tool output truncated after successful private extraction"
+    },
+    {
+      "actual_observation": "All nine source_revision values are exact. The five real dirty-field records are false, including the selected controller/library/runtime.",
+      "elapsed_seconds": 0.064737,
+      "exit_code": 1,
+      "failure": "08-exact-source-stability",
+      "id": "P7",
+      "native_replayed": false,
+      "originals_modified": false,
+      "partial_failure_retained": "REVIEW-PARTIAL-FAILURE-001.json",
+      "phase": "passive-review001",
+      "repair": "Assert every revision; require the exact five original dirty witnesses and selected controller/library/runtime flags; never infer a missing flag. Retain original before/after/changed-input/source-unchanged checks.",
+      "result": "failed",
+      "root_cause": "The reviewer incorrectly required source_tree_dirty on cache/dependency/source-plan records whose original schema records only source_revision."
+    },
+    {
+      "elapsed_seconds": 0.114592,
+      "exit_code": 0,
+      "id": "P8",
+      "native_methods_accepted": 1,
+      "native_replayed": false,
+      "original_downloads_repeated": 0,
+      "phase": "passive-review002",
+      "result": "passed39 distinct passive checks",
+      "scope": "Denial-only portion of NAV-015 C4; media33/34 still required."
+    }
+  ],
+  "final_distinct_checks_passed": 39,
+  "final_passive_receipt": {
+    "elapsed_seconds": 0.114592,
+    "exit_code": 0,
+    "kind": "passive private original/source/receipt review, not library/native tests",
+    "native_execution_or_original_reacquisition": false,
+    "script_sha256": "831ccb1899949e62dde48e9f1d85bd58d8db9a434c38442530430cd5d749e151",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "78318c6e4ddc966aa4926d4a5936af0f5e69c2325ecc95c62537e9b9fb1de6f3"
+  },
+  "kind": "Reviewer preparation only, not a library test or native repair",
+  "library_source_modified": false,
+  "native_executions_repeated": false,
+  "passed_before_owning_schema_refusal": 10,
+  "review_assertions_executed_so_far": 39
+}

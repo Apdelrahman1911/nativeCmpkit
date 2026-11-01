@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `109e6b673199eb85b5158dda1c2ffff4e1f6e57eec0cc623d31d73ac63e8d9ea`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `19464d5b0a8be608f92ff953bc6ba468ccd1c101f479990defc9f9f1e8da67e5`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -98,7 +98,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
-| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 3 |
+| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 4 |
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | verified | BUILD-005 | 3 / 0 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
@@ -107,12 +107,12 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
-| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 12 |
+| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 13 |
 | 63 | [IO-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | Medium | 2 | M | verified | IO-008 | 5 / 0 |
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
 | 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 9 |
-| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 8 |
+| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 9 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 12 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 7 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 8 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -159,7 +159,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | implemented | — | 3 / 1 |
 | 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | partially-verified | — | 4 / 3 |
 | 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | verified | — | 4 / 0 |
-| 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 5 |
+| 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 6 |
 | 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | verified | NAV-008 | 4 / 0 |
 | 116 | [PERM-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) | Medium | 2 | M | partially-verified | PERM-013 | 2 / 2 |
 | 117 | [PERM-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109) | Medium | 2 | M | partially-verified | PERM-007, PERM-009 | 2 / 1 |
@@ -1276,6 +1276,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Full actual Linux library runtime/compile/test Maven coordinate checks are reviewed. Other-host resolved graph/classifier matrices and actual media/TLS/cookies/navigation/JavaScript/rendering on every desktop host remain required; zero OSV matches do not certify bundled engines or independent trust.
 - Document sandboxed untrusted-code execution support boundaries and finish the three original BUILD-002 acceptance criteria; no dependency/security/release waiver.
 - 2026-11-01: Reuse accepted Linux x64 TLS002 cell without native replay. Execute only remaining13 security cells on four other hosts; Desktop request10 is separate. Other-host dependency/classifier graphs and sandbox support boundaries retain original requirements.
+- 2026-11-01 owning077: C3 support boundaries are explicitly documented; other-host graph/classifier and13 native security executions remain missing. No JavaFX engine/process sandbox or whole security acceptance is claimed.
 
 **Compatibility / scope:** Requires JDK17-compatible runtime selected explicitly by consumer.
 
@@ -1484,6 +1485,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
 - 2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3.
 - 2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates.
+- 2026-11-01 owning077: C3 remains sole missing original criterion; now qualify native only on the reviewed shared provider-arrival boundary. KLIB36.01s and15 synthetic passes are not a native result; accepted C1/C2/C4/C5/C6 must not replay.
 
 **Compatibility / scope:** Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.
 
@@ -1599,6 +1601,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Host002 confirms only the in-process Robolectric tree-child fixture. Actual framework IPC, external/cloud provider identity, grant revocation/process death and device004 known-size metadata/query behavior remain unverified; no lowering assertions or replacing native checks with host results.
 - 2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.
 - 2026-11-01 batch073: Run only new fixed unavailable-provider1; accepted lifecycle/default-decode methods remain unreplayed. Even a native outage pass completes only C4 subset, not original named system/cloud-provider C1; #55 stays open until its own criteria fully verify.
+- 2026-11-01 original076: C4 unavailable-provider half now accepted; do not replay it or accepted lifecycle/Coil methods. C1 ExternalStorageProvider/Downloads/cloud-provider real folder behavior remains original missing work, so #55 stays open.
 
 **Compatibility / scope:** Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content.
 
@@ -1801,6 +1804,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-01: original iOS request2 are now independently accepted from SUCCESS41282118143 on exact1115 original source maps; accepted DNS1 is retained separately without replay. Current missing request-state executions are Android2/Desktop10 plus genuine browser-offlineJS+Wasm2; the prior iOS-request2 pending statement is historical. Every other original#64 obligation remains. Do not infer exact Stop error branch, weak-zeroing or whole-worktree/platform/security acceptance.
 - 2026-11-01: Execute only Android original2 on the reviewed held-transport fixture; source/model/compiler success does not complete native criteria. Retain accepted iOS request2/DNS without replay; Desktop10 and actual JS/Wasm offline2 remain.
 - 2026-11-01 original070/owning073: Android held fail/fail/Reload is accepted on exact body; only original Stop1 needs fresh native verification. Only four declarative-content assertions changed. Accepted iOS request2/DNS stay unreplayed; Desktop10 and genuine JS/Wasm offline2 remain. Earlier Android2-pending statements are historical.
+- 2026-11-01 original076: Both Android methods cumulatively accepted across separate runs; old run failures remain. Current missing original#64 executions: Desktop10 and real browser JS/Wasm offline2 only. Accepted Android/iOS/DNS must not replay.
 
 **Owner verification scope:** Original Android one method and iOS request2/DNS accepted on exact applicable bytes; current Android Stop1 remains missing. Desktop10 and genuine offlineJS/Wasm2 still required. Source/tooling/APK preparation is ZERO new native methods and does not complete #64.
 
@@ -2617,6 +2621,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-01: Fresh approved Call and denial/permanent-denial2 require owning exact-control observations and native verification; original API33/API34 media selections remain. Accepted picker1 and24-row merged-manifest/source results are reused.
 - 2026-11-01: Call C2 now accepted; picker C3/manifest mapping retained unchanged. Only denial1 should run in this recovery, not accepted Call/picker. Source-qualified third-absence query and original media33/34 checks still required; #118 storage remains separate.
 - 2026-11-01 batch073: Execute only original denial1 on qualified fresh ACTIVE-root absence/readiness contract. Call C2/picker C3/manifest source remain accepted and unreplayed; actual API33/34 media choices remain original #102 criteria. ZERO new native result at this checkpoint.
+- 2026-11-01 original076: Denial C4 half is accepted. Only API33/API34 media cells remain for literal#102 acceptance; finite serial media batch41295656881/e16268a6 requested, original review pending. No closure follows dispatch.
 
 **Compatibility / scope:** Sample-only narrowing avoids adding sensitive permissions to make an unsupported row appear to work.
 
@@ -3579,10 +3584,10 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `f067290fad8b919146e0cbd3bbfb6c37100fb0237cf6a5e0e3726531b6ba619f` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `5bdb7bf4c7f99257f960ef6951a92de09c4d29948e4cff903ca9b496e022f288` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `52697a71e7cbc9c7693467593e37fe1a0edb6503445ed023491242321d205ee6` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `9cf966c4b77e23749941b2a5bf698adf570e510264ddee8af25d625542e583cf` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `999d2f38583c5638bcc80b9bcc39650157e16ce95ab1af688f2d24859246d40e` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `75401752ef00c3373363f2f85eb05e04dce9ee23d2244a64c0e02db4ab7ee6a8` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `ed02c7939b3ed32a5c0219e9feb95fb21173a8e0e6f6c6485b01b2069970b643` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `726516f7f4b2988d55c22ab2d7a112df3a1eff4deee5645de677fcf626c203f2` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |

@@ -129,6 +129,7 @@ PROFILES = {
     "ios-picker-batch": ("ios-iphone",),
     "ios-picker-recovery": ("ios-iphone",),
     "ios-picker-admission": ("ios-iphone",),
+    "ios-picker-provider-cancellation": ("ios-iphone",),
     "ios-switch-cancellation": ("ios-iphone",),
     "ios-switch-ownership": ("ios-iphone",),
     "ios-slider-numeric": ("ios-iphone",),
@@ -320,6 +321,7 @@ MODULE_SUBSETS = {
     "ios-picker-batch": "calf-file-picker",
     "ios-picker-recovery": "calf-file-picker",
     "ios-picker-admission": "calf-file-picker",
+    "ios-picker-provider-cancellation": "calf-file-picker",
     "ios-switch-cancellation": "calf-ui",
     "ios-switch-ownership": "calf-ui",
     "ios-slider-numeric": "calf-ui",
@@ -520,6 +522,9 @@ def matrix(profile: str) -> dict:
     if profile == "ios-picker-admission":
         for row in rows:
             row["test-focus"] = "picker-ios-deferred-admission"
+    if profile == "ios-picker-provider-cancellation":
+        for row in rows:
+            row["test-focus"] = "picker-ios-provider-cancellation"
     if profile == "ios-switch-cancellation":
         for row in rows:
             row["test-focus"] = "ios-native-switch-cancellation"

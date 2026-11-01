@@ -1,0 +1,176 @@
+{
+  "accepted_source_results_and_native_suites_not_replayed": true,
+  "additional_guard_repair_proposed": false,
+  "all_guard_plan_model_compiler_native_executions": 0,
+  "guard_source_identities": [
+    {
+      "bytes": 10307,
+      "path": "scripts/ci/test_workflow_source.py",
+      "sha256": "1a1a0410f6ab4e469b6ba04551b7247ec866b17d9f671fae8eb10db3528e0cc2"
+    },
+    {
+      "bytes": 17402,
+      "path": "scripts/ci/test_workflow_matrix.py",
+      "sha256": "adf50de56e5741e4c9ca50c38ce3227ad58e02ae1e010996ec421332982de08f"
+    },
+    {
+      "bytes": 16936,
+      "path": "scripts/ci/test_ios_slider_recovery_focus.py",
+      "sha256": "61bf39832f4cdf580dff4fa4b4441a256b4df0c8c6a3c58f1a5068e07e5d350d"
+    },
+    {
+      "bytes": 7178,
+      "path": "scripts/ci/test_profile_debug_signing.py",
+      "sha256": "61cc8adbc3f4608abfd37f31bd4e3e9325db572d97d352de60d49f0f4bb5cb80"
+    },
+    {
+      "bytes": 46013,
+      "path": "scripts/ci/test_android_storage_probe.py",
+      "sha256": "58c5754b34baa13e9bb6e039bd5dbacb33c2ea3d38805abd4d319060de263066"
+    },
+    {
+      "bytes": 6796,
+      "path": "scripts/ci/test_ios_io_profile.py",
+      "sha256": "459564c344e1e4e92b1d793aa08f46151c5e3021f47ae351d5f2109e35877bde"
+    },
+    {
+      "bytes": 14084,
+      "path": "scripts/ci/test_ios_picker_admission_focus.py",
+      "sha256": "a2d4a2379fc2881d970b5648af98ffe747cf3ae2f969b38a63effdd3656ec1cd"
+    },
+    {
+      "bytes": 9251,
+      "path": "scripts/ci/test_cache_selection.py",
+      "sha256": "9a2a7056a9d97db7e7bd5229c7467ad0b7c6e176b3b1348d8fff10842897a758"
+    }
+  ],
+  "impacts": [
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "WorkflowSourceTests",
+        "lines": "22-24",
+        "method": "test_profile_choices_and_finite_plan_agree",
+        "source": "scripts/ci/test_workflow_source.py"
+      },
+      "static_impact": "One choice and one PROFILES entry are added together; old option order/memberships and all other workflow bytes are unchanged. No deterministic new set-equality or adjacency refusal identified."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "IosIoProfileTests",
+        "lines": "90-98",
+        "method": "test_workflow_exposes_only_the_fixed_profile_with_read_only_verification",
+        "source": "scripts/ci/test_ios_io_profile.py"
+      },
+      "static_impact": "The same dynamic choice/profile equality expands consistently; existing ios-io choice and all read-only permission/token assertions are unchanged."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "IosSliderRecoveryFocusTests",
+        "lines": "132-146",
+        "method": "test_every_registered_native_application_focus_reaches_the_real_cli_and_keeps_its_suite_module_interlock",
+        "source": "scripts/ci/test_ios_slider_recovery_focus.py"
+      },
+      "static_impact": "Its registry-wide sweep now includes the one new picker focus. The new source plan deterministically refuses if route is integrated without the separately qualified fixture; with the byte-exact addition, existing declaration/filter/owning-module checks are the applicable gates. No CLI or plan result is claimed here."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "ProfileDebugSigningTests",
+        "lines": "48-56",
+        "method": "test_strict_full_and_other_library_modes_never_get_debug_entitlements",
+        "source": "scripts/ci/test_profile_debug_signing.py"
+      },
+      "static_impact": "The sweep includes one additional known UI focus. Existing profile_debug_entitlements returns None for this non-profile-recovery focus; no get-task-allow/signing entitlement expansion is proposed."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "StorageOperationalGuards",
+        "lines": "266-275",
+        "method": "test_all_existing_profiles_and_eleven_full_slots_are_unchanged",
+        "source": "scripts/ci/test_android_storage_probe.py"
+      },
+      "static_impact": "Frozen profile membership is a subset check; the new disjoint profile is not a frozen-row mutation. Existing matrix AST mappings/branches and all SLOTS are unchanged, so this additive route introduces no deterministic frozen-hash input change."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "WorkflowMatrixTests",
+        "lines": "254-258",
+        "method": "test_complete_profiles_never_silently_select_a_module_subset",
+        "source": "scripts/ci/test_workflow_matrix.py"
+      },
+      "static_impact": "The new profile is also explicitly added to MODULE_SUBSETS; the unrestricted-profile sweep excludes it. Previous unrestricted/focused memberships and all eleven canonical slots are byte/AST-preserved."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "CacheSelectionTests",
+        "lines": "100-121",
+        "method": "test_every_finite_profile_produces_distinct_slot_bound_action_compatible_keys",
+        "source": "scripts/ci/test_cache_selection.py"
+      },
+      "static_impact": "Its all-profile source-key sweep gains one single-slot calf-file-picker selection. Existing macos-26/macOS arm64/ios-iphone/ios bindings and module selection format apply; no cache action, speedup, output trust or BUILD-007 acceptance is claimed."
+    },
+    {
+      "execution": "not executed",
+      "guard": {
+        "classname": "IosPickerAdmissionFocusTests",
+        "lines": "54-68",
+        "method": "test_nine_changed_new_methods_keep_original26_and7_and_all_host_slots",
+        "source": "scripts/ci/test_ios_picker_admission_focus.py"
+      },
+      "static_impact": "Existing accepted admission profile/group/task/filter bindings are AST-identical. The new independent focus does not add this nine-method selection to the request."
+    }
+  ],
+  "kind": "deterministic static source impact analysis, not test results",
+  "known_route_only_dependency_refusal": "Missing separate corrected fixture source until lead integrates addition002",
+  "literal_workflow_choice_counts": {
+    "after": 154,
+    "before": 153,
+    "one_unique_addition": true,
+    "runtime_profile_count_not_evaluated": true
+  },
+  "native_adapter_unchanged": {
+    "sha256": "bca924f1b7eae2cba5524af86fe05e127470dfdc20d7c6c722494a00eb2989b9",
+    "source": "scripts/ci/ios_ui_application.py",
+    "source_anchors": [
+      {
+        "impact": "APPLICATION_FOCUS_ARGUMENTS derives exact new filter from UI_APPLICATION_FOCUS_SPECS; strict argument multiplicity and exact membership checks remain unchanged",
+        "lines": "103-106,857-898"
+      },
+      {
+        "impact": "Existing exact calf-file-picker application binary/task/owning-module binding applies; new focus does not receive debug entitlements",
+        "lines": "39-49,901-921"
+      },
+      {
+        "impact": "The new PROVIDER_CANCEL console line is not a UIKIT/known structured diagnostic or TeamCity frame; it remains ordinary output and is not acceptance evidence",
+        "lines": "560-564"
+      }
+    ]
+  },
+  "no_test_passes_inferred_from_static_analysis": true,
+  "recorded_utc": "2026-11-01T07:29:14.318107+00:00",
+  "schema_version": 1,
+  "source_discovery_and_XML_interlocks": {
+    "preimage_sha256": "5d081535e1c06cd22571096f89fa4ab45ab555d0efb9d162008bac7c1b440e0e",
+    "source": "scripts/ci/library_tests.py",
+    "source_anchors": [
+      {
+        "impact": "Exactly one method-level selector and task-prefixed/simulator-suffixed testcase; exact ios/single calf-file-picker module requirement",
+        "lines": "455-471,1529-1530"
+      },
+      {
+        "impact": "Existing genuine UIKit task, complete_suite_requested=false, declaration/source/group and exact required-case checks apply",
+        "lines": "1807-1819,1874-1887,2747-2765"
+      },
+      {
+        "impact": "Finite CLI choices automatically include the new registry focus; no parser bypass/edit is needed",
+        "lines": "4032-4047"
+      }
+    ]
+  }
+}

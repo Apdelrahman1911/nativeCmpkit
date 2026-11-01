@@ -1,0 +1,91 @@
+{
+  "scope": "Source-only conditional callback timing qualification against explicitly declared Android15/Chromium126 public source. Not the installed provider, actual callback trace, transport classification or acceptance.",
+  "actual": {
+    "run": 41282126027,
+    "commit": "f9848a4f3cde520d5f8e284f7df7e10bb2b208bc",
+    "failed_methods": 2,
+    "passed_methods": 0,
+    "gradle_exit": 1,
+    "gradle_seconds": "89.03",
+    "sample_boundary": "Last bounded in-wait sample, not every instant of callback dispatch",
+    "common_operands": {
+      "hasStart": false,
+      "generation": 0,
+      "starts": 0,
+      "finishes": 0,
+      "nativeErrors": 0,
+      "current": true,
+      "ownerPresent": true,
+      "pending": 1,
+      "bytes": 0,
+      "released": false
+    },
+    "stop_only_operands": {
+      "sameOwner": true,
+      "stopInvoked": false,
+      "peerEof": 0
+    },
+    "actual_provider": "unknown",
+    "originals_owned_by": "storage_rebase_finish; reviewer read only immutable-source and public-safe derivatives",
+    "safe_derivative_suite_time_addendum": {
+      "communication_scope": "Storage reconciled from its already-owned original, not independently reread here",
+      "root_testsuites_time": "0.000",
+      "sole_native_testsuite_time": "27.261",
+      "addendum_archive_sha256": "7233bd3a3f13fb91e0f02c52d8ca2f4ee4da99f34817e12ed777553fbf2adb2b"
+    }
+  },
+  "source_findings": [
+    {
+      "id": "S1",
+      "source": "WebViewClient.java:94-123,135-162",
+      "observation": "onPageStarted documents main-frame scope and fragment/frame exclusions; no before-response-headers timing promise. onPageCommitVisible separately describes response body reflected in DOM.",
+      "limit": "Does not prove actual provider behavior or equate onPageStarted with onPageCommitVisible."
+    },
+    {
+      "id": "S2",
+      "source": "AwComputedFlags.java:19-35; AwContents.java:748-775; AwWebContentsObserver.java:129-148",
+      "observation": "Declared Chromium126 returns page-start-on-commit true for all renderer initiation and for browser initiation except com.google.android.gms below version15000000. The alternative delegate posts an earlier start only if that flag is false. Normal non-same-document/non-error-page observer posts start after navigation.hasCommitted.",
+      "limit": "Runtime context/package/provider version and flag value not observed; other unacquired native/glue paths are not universal timing proof."
+    },
+    {
+      "id": "S3",
+      "source": "AwContentsClientBridge.java:345-405",
+      "observation": "For a genuine main-frame non-error-URL non-abort error, when commit flag is enabled the bridge posts start, then the received-error callback, then finish. Abort notifications are suppressed (comment explicitly includes WebView.stopLoading).",
+      "limit": "Source textual queue order only; zero-byte EOF -> specific NetError and actual delivery/classification are unproved. Proposal still requires actual matching native main-frame error and finish; no error code is invented."
+    },
+    {
+      "id": "S4",
+      "source": "AwContents.java:2899-2908; AwWebContentsObserver.java:97-117,129-135",
+      "observation": "Actual WebView public stop calls WebContents.stop. Main-frame ERR_ABORTED processing posts finish without posting start, even before the uncommitted navigation returns. HTTP error-page response-code failure is a distinct start+finish path.",
+      "limit": "Not actual Stop evidence. Stop was not invoked in actual41282126027; exact failingURL/peer EOF/finish must be genuinely observed in a new request."
+    },
+    {
+      "id": "S5",
+      "source": "AndroidWebViewRequestStateDeviceTest.kt:65-110,155-217,241-276,322-350,555-590,875-882,912-930",
+      "observation": "Frozen fixture withholds every response byte until recorded start, before a zero-byte refusal, Stop, actual302 and destination/Reload document. That prerequisite can be incompatible with the expressly commit-gated baseline and is not a literal original #64 deadline.",
+      "limit": "This supports an owning prerequisite repair, not diagnosis of why the installed provider recorded no start."
+    },
+    {
+      "id": "S6",
+      "source": "WebView.android.kt:282-287,340-374,523-543; WebViewContracts.kt:54-60,88-95",
+      "observation": "Production real start resets request state through beginRequest under the same current-owner gate; real finish/errors update common state. Public LoadUrl runs real acceptContent, while the native fail/fail fixture bypasses it. Public Reload and Stop call native APIs.",
+      "limit": "Production bytes unchanged by proposal; public accepted Stop state is not substituted for the native fail/fail reset witness."
+    }
+  ],
+  "proposal_qualification": {
+    "held_request": "Wait only for the exact acquired lease, current observed stage and same real native owner; require still-zero bytes/unreleased counters before releasing actual refusal/response. Keep all original wait/hold deadlines.",
+    "reset": "Both probes record and immediately assert resets only after super.onPageStarted from the real matching current-owner callback; existing normal/error terminal assertStarts stays. No beginRequest or synthetic callback is called by the test.",
+    "stop": "Only real matching onPageFinished after stopInvoked may record the already-zero generation for WaitForStop. The finished predicate keeps stage/current-owner guards and same-generation real finish. All other terminal paths retain positive genuine start generation. Existing public Stop, peer EOF, zero response/release/cleanup and common Finished/title/URL/error assertions remain.",
+    "redirect_reload": "Release actual302 from the owned redirect lease, then exact landing lease/document; later genuine destination start/finish/DOM/finalURL remain required. Reload stays public and requires actual current native URL, unchanged declarative content, no-store different DOM and unchanged redirect request count.",
+    "unverified": "One-file private candidate only; no compiler/model/test/native execution or live edits. Parent owns owning guard integration, frozen compile/request, original source/results review and acceptance."
+  },
+  "retained_gates": [
+    "No #64 closure or status change",
+    "No accepted Android/browser/DNS suite replay",
+    "No provider version or cause attribution",
+    "No original-artifact reacquisition or raw originals read",
+    "No build/models/tests/native executed by reviewer",
+    "No production/API/ABI/manifest/workflow/permission/transport/cleanup rewrite",
+    "No publishing, Pages, main, history, security, legal, consumer, readiness or capacity-policy change"
+  ]
+}

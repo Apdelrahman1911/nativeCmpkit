@@ -33,6 +33,12 @@ ORIGINAL_METHOD_BODY_SHA256 = {
 }
 
 
+# Exact current owning sequence only. All historical identities above remain evidence-only.
+HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256 = "9e20cfa28b59157229f343838acdb9b8067a3ed3643f5b5aaf93aaf73e418ad8"
+HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256 = "d94c268cc1a1c3712a11d7e2b5b6350f6003057e64fc53af77155522b4ae3d98"
+HELD_REQUEST_SEQUENCE_METHOD_BODY_SHA256 = {'twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl': '78c76a5cb63279131fb1736fbdf32e2bcb7591a698f676520f03209437fa277e', 'publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner': '0e2e3b3843f4b8c30950fe17dfffa3ef9c68c442f0b8e7e0e62f36276d7061f5'}
+
+
 def agp_ate_map_round_trip(arguments):
     """Literal model of AGP9.4.0 joinToString and ATE1.0.1 split/mapNotNull, not their execution."""
     encoded = ",".join(key + "=" + value for key, value in arguments.items())
@@ -139,8 +145,8 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
 
     def test_stripping_only_selection_metadata_preserves_both_original_bodies_and_exact_diagnostic_helpers(self):
         unselected = source_guard.request_source_without_selection_annotation(self.source)
-        self.assertEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
-        for method, expected in ORIGINAL_METHOD_BODY_SHA256.items():
+        self.assertEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
+        for method, expected in HELD_REQUEST_SEQUENCE_METHOD_BODY_SHA256.items():
             with self.subTest(method=method):
                 self.assertEqual(expected, hashlib.sha256(
                     source_guard.body_after(self.source, "@Test fun " + method).encode()).hexdigest())
@@ -160,7 +166,7 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         with self.assertRaises(ValueError):
             source_guard.compiled_request_source(changed)
         second = self.source.replace("fixture.navigator.stopLoading()", "native.stopLoading()", 1)
-        self.assertNotEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256,
+        self.assertNotEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256,
                             hashlib.sha256(source_guard.request_source_without_selection_annotation(second).encode()).hexdigest())
 
     def test_missing_duplicate_moved_or_fully_qualified_method_annotations_refuse(self):
@@ -469,14 +475,277 @@ private fun observeHeldStartFailure(lastSample: () -> String, wait: () -> Unit) 
 )
 
 
+# The historical diagnostic-only fragment tuple above is intentionally unchanged.
+# Reverse only ONE exact current whole after image, then ONE exact historical diagnostic
+# image. No broad regex, helper stripping, unrecognized source or planner execution.
+HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES = {name: (before, after)
+                                       for name, before, after in DIAGNOSTIC_SOURCE_FRAGMENTS}
+HELD_REQUEST_SEQUENCE_SOURCE_FRAGMENTS = (
+    ('request-failure-held-call',
+     r'''awaitHeldStart(server, probe, stage)''',
+     r'''awaitHeldRequest(server, probe, native, stage)'''),
+    ('request-recovery-held-call',
+     r'''awaitHeldStart(server, probe, server.recovery)''',
+     r'''awaitHeldRequest(server, probe, native, server.recovery)'''),
+    ('request-reload-held-call',
+     r'''awaitHeldStart(server, probe, reload)''',
+     r'''awaitHeldRequest(server, probe, native, reload)'''),
+    ('stop-redirect-marker',
+     r'''    // New #64 Stop/redirect fixture; the compiled fail/fail method above remains unchanged.
+''',
+     r'''    // #64 Stop/redirect fixture retains genuine native callbacks and exact owned HTTP.
+'''),
+    ('stop-held-call',
+     r'''awaitStopRedirectHeld(server, probe, native, server.stopped)''',
+     r'''awaitStopRedirectHeldRequest(server, probe, native, server.stopped)'''),
+    ('redirect-held-call',
+     r'''awaitStopRedirectHeld(server, probe, native, server.redirect, expected = server.landing)''',
+     r'''awaitStopRedirectHeldRequest(server, probe, native, server.redirect, expected = server.landing)'''),
+    ('landing-held-call',
+     r'''awaitStopRedirectHeld(server, probe, native, server.landing)''',
+     r'''awaitStopRedirectHeldRequest(server, probe, native, server.landing)'''),
+    ('stop-reload-held-call',
+     r'''awaitStopRedirectHeld(server, probe, native, reload)''',
+     r'''awaitStopRedirectHeldRequest(server, probe, native, reload)'''),
+    ('stop-held-helper',
+     HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES["stop-held-helper"][1],
+     r'''    private fun awaitStopRedirectHeldRequest(server: AndroidStopRedirectHttpServer, probe: AndroidStopRedirectProbe,
+                                      native: AndroidWebView, stage: AndroidStopRedirectStage,
+                                      expected: AndroidStopRedirectStage = stage) {
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("The current native owner and exact still-held owned request", server, probe) {
+                val lease = onMain {
+                    Triple(probe.isCurrent(expected), probe.ownerIs(native),
+                        runCatching { probe.heldStartFacts(expected) }.getOrDefault("probeFacts=unavailable"))
+                }
+                val requests = stage.requests.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} expected=${expected.name} current=${lease.first} " +
+                    "sameOwner=${lease.second} requests=$requests pending=$pending ${lease.third} " +
+                    "released=${stage.testReleased.get()} permit=${stage.permit.count} " +
+                    "bytes=${stage.responseBytes.get()} replies=${stage.replies.get()} " +
+                    "stopInvoked=${stage.stopInvoked.get()} peerEof=${stage.peerEof.get()}"
+                lease.first && lease.second && requests > 0 && pending > 0
+            }
+        }
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.replies.get())
+        assertEquals(0, stage.peerEof.get())
+        if (stage.reply != AndroidStopRedirectReply.WaitForStop) {
+            assertFalse(stage.testReleased.get())
+            assertEquals(1L, stage.permit.count)
+        }
+        onMain {
+            assertTrue(probe.isCurrent(expected))
+            assertTrue(probe.ownerIs(native))
+            if (stage.reply == AndroidStopRedirectReply.WaitForStop) {
+                // This is the real public LoadUrl acceptance, not a manufactured native start.
+                val snapshot = probe.snapshot()
+                assertEquals(stage.url, snapshot.requested)
+                assertNull(snapshot.loaded)
+                assertNull(snapshot.title)
+                assertTrue(snapshot.errors.isEmpty())
+                assertIs<LoadingState.Loading>(snapshot.loading)
+            }
+        }
+    }
+
+'''),
+    ('request-held-helper',
+     HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES["request-held-helper"][1],
+     r'''    private fun awaitHeldRequest(server: AndroidRequestHttpServer, probe: AndroidRequestProbe,
+                                 native: AndroidWebView, stage: AndroidRequestStage) {
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("The current native owner and still-held exact owned HTTP request", server, probe) {
+                val lease = onMain {
+                    Triple(probe.isCurrent(stage), probe.ownerIs(native),
+                        runCatching { probe.heldStartFacts(stage) }.getOrDefault("probeFacts=unavailable"))
+                }
+                val attempts = stage.attempts.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} current=${lease.first} sameOwner=${lease.second} " +
+                    "attempts=$attempts pending=$pending ${lease.third} " +
+                    "released=${stage.testReleased.get()} gate=${stage.gate.count} " +
+                    "bytes=${stage.responseBytes.get()} refused=${stage.refused.get()} completed=${stage.completed.get()}"
+                lease.first && lease.second && attempts > 0 && pending > 0
+            }
+        }
+        assertFalse(stage.testReleased.get(), "A pre-disconnected endpoint cannot prove the loading interval")
+        assertEquals(1L, stage.gate.count)
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.refused.get())
+        assertEquals(0, stage.completed.get())
+        onMain {
+            assertTrue(probe.isCurrent(stage))
+            assertTrue(probe.ownerIs(native))
+        }
+        // The native load intentionally bypasses acceptContent. Do not reset or demand reset
+        // before Chromium can emit its genuine onPageStarted after the held response/refusal.
+        // That forwarded callback records and asserts the reset at its own actual boundary.
+    }
+
+'''),
+    ('request-owner-readback',
+     r'''    fun isCurrent(stage: AndroidRequestStage) = active?.stage === stage
+''',
+     r'''    fun isCurrent(stage: AndroidRequestStage) = active?.stage === stage
+    fun ownerIs(native: AndroidWebView) = owner.webView === native
+'''),
+    ('AndroidRequestStage-probe-facts',
+     HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES['AndroidRequestStage-probe-facts'][1],
+     r'''    fun heldStartFacts(stage: AndroidRequestStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "hasStart=${hasStart(stage)} generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
+'''),
+    ('AndroidStopRedirectStage-probe-facts',
+     HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES['AndroidStopRedirectStage-probe-facts'][1],
+     r'''    fun heldStartFacts(stage: AndroidStopRedirectStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "hasStart=${hasStart(stage)} generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
+'''),
+    ('request-start-callback',
+     r'''    override fun onPageStarted(view: AndroidWebView, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
+        observe(view) {
+            val observed = checkNotNull(active)
+            check(url == observed.stage.url && ++serial <= 32)
+            observed.generation = serial
+            observed.starts += snapshot()
+        }
+    }
+''',
+     r'''    override fun onPageStarted(view: AndroidWebView, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
+        observe(view) {
+            val observed = checkNotNull(active)
+            check(url == observed.stage.url && ++serial <= 32)
+            observed.generation = serial
+            observed.starts += snapshot()
+            assertStarts(observed.stage) // Assert only after this genuine forwarded native start.
+        }
+    }
+'''),
+    ('stop-finish-predicate',
+     r'''    fun finished(stage: AndroidStopRedirectStage) = hasStart(stage) && active!!.finishes.any { it.first == active!!.generation }
+''',
+     r'''    fun finished(stage: AndroidStopRedirectStage) = isCurrent(stage) &&
+        (hasStart(stage) || (stage.reply == AndroidStopRedirectReply.WaitForStop && stage.stopInvoked.get())) &&
+        active!!.finishes.any { it.first == active!!.generation }
+'''),
+    ('stop-terminal-shape',
+     r'''    fun assertTerminal(stage: AndroidStopRedirectStage, native: AndroidWebView, stopped: Boolean) {
+        assertSame(native, owner.webView); assertTrue(native.isAttachedToWindow)
+        assertStarts(stage); assertTrue(finished(stage))
+        val observed = active!!
+        val nativeErrors = observed.errors.filter { it.generation == observed.generation && it.code != null }
+            .map { it.code!! to (it.description ?: "Unknown error") }
+        assertEquals(nativeErrors, snapshot().errors) // No resource-error filtering or invented cancellation error.
+        assertTrue(nativeErrors.isEmpty())
+        assertEquals(stage.url, snapshot().loaded)
+        assertEquals(LoadingState.Finished, snapshot().loading)
+        assertFalse(owner.isLoading)
+        if (stopped) {
+            assertNull(snapshot().title) // No response/document title was received for the stopped request.
+        } else {
+            assertEquals(stage.title, snapshot().title)
+            assertEquals(stage.url, native.url)
+            assertEquals(stage.title, native.title)
+        }
+    }
+''',
+     r'''    fun assertTerminal(stage: AndroidStopRedirectStage, native: AndroidWebView, stopped: Boolean) {
+        assertSame(native, owner.webView); assertTrue(native.isAttachedToWindow)
+        assertEquals(stopped, stage.reply == AndroidStopRedirectReply.WaitForStop)
+        assertTrue(finished(stage))
+        val observed = active!!
+        if (stopped && !hasStart(stage)) {
+            assertTrue(stage.stopInvoked.get())
+            assertEquals(0, observed.generation) // No start generation was fabricated for a precommit abort.
+            assertTrue(observed.starts.isEmpty())
+        } else assertStarts(stage)
+        val nativeErrors = observed.errors.filter { it.generation == observed.generation && it.code != null }
+            .map { it.code!! to (it.description ?: "Unknown error") }
+        assertEquals(nativeErrors, snapshot().errors) // No resource-error filtering or invented cancellation error.
+        assertEquals(stage.url, snapshot().requested)
+        assertTrue(nativeErrors.isEmpty())
+        assertEquals(stage.url, snapshot().loaded)
+        assertEquals(LoadingState.Finished, snapshot().loading)
+        assertFalse(owner.isLoading)
+        if (stopped) {
+            assertNull(snapshot().title) // No response/document title was received for the stopped request.
+        } else {
+            assertEquals(stage.title, snapshot().title)
+            assertEquals(stage.url, native.url)
+            assertEquals(stage.title, native.title)
+        }
+    }
+'''),
+    ('stop-start-callback',
+     r'''    override fun onPageStarted(view: AndroidWebView, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
+        watch(view) {
+            val observed = checkNotNull(active)
+            val started = checkNotNull(url)
+            check(started in observed.startUrls && ++serial <= 32)
+            observed.generation = serial
+            observed.starts += started to snapshot()
+        }
+    }
+''',
+     r'''    override fun onPageStarted(view: AndroidWebView, url: String?, favicon: Bitmap?) {
+        super.onPageStarted(view, url, favicon)
+        watch(view) {
+            val observed = checkNotNull(active)
+            val started = checkNotNull(url)
+            check(started in observed.startUrls && ++serial <= 32)
+            observed.generation = serial
+            observed.starts += started to snapshot()
+            assertStarts(observed.stage) // A real start still must reset state at this callback boundary.
+        }
+    }
+'''),
+    ('stop-finish-callback',
+     r'''    override fun onPageFinished(view: AndroidWebView, url: String?) {
+        super.onPageFinished(view, url)
+        watch(view) {
+            val observed = checkNotNull(active)
+            if (url == observed.stage.url) {
+                check(observed.generation > 0 && observed.finishes.size < 32)
+                observed.finishes += observed.generation to snapshot()
+            }
+        }
+    }
+''',
+     r'''    override fun onPageFinished(view: AndroidWebView, url: String?) {
+        super.onPageFinished(view, url)
+        watch(view) {
+            val observed = checkNotNull(active)
+            if (url == observed.stage.url) {
+                check(observed.finishes.size < 32)
+                check(observed.generation > 0 ||
+                    (observed.stage.reply == AndroidStopRedirectReply.WaitForStop && observed.stage.stopInvoked.get()))
+                // Only this real matching finish may witness an unchanged generation-zero Stop.
+                observed.finishes += observed.generation to snapshot()
+            }
+        }
+    }
+'''),
+)
+
+
 class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
     """New diagnostic-specific source refusals only; never native or selector-suite acceptance."""
     def setUp(self):
         self.source = (r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text()
-        self.fragments = {name: (before, after) for name, before, after in DIAGNOSTIC_SOURCE_FRAGMENTS}
+        self.fragments = dict(HISTORICAL_DIAGNOSTIC_FRAGMENT_IMAGES)
+        self.fragments.update({name: (before, after)
+                               for name, before, after in HELD_REQUEST_SEQUENCE_SOURCE_FRAGMENTS})
 
     def changed_fragment(self, name, before, after):
         fragment = self.fragments[name][1]
+        self.assertEqual(1, self.source.count(fragment), "Mutation must target the current exact source fragment")
         self.assertEqual(1, fragment.count(before))
         return self.source.replace(fragment, fragment.replace(before, after, 1), 1)
 
@@ -485,12 +754,25 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
             with self.subTest(rejection=label), self.assertRaises((ValueError, AssertionError)):
                 validator(candidate)
 
-    def original_source_before_diagnostics(self, source):
-        # This evidence-only reversal accepts ONE full after image before replacing exact literals.
-        # compiled_request_source never calls this function and never strips diagnostic helper bytes.
-        if hashlib.sha256(source.encode()).hexdigest() != HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256:
-            raise ValueError("Only the exact declared diagnostic after image may be reversed")
+    def original_source_before_sequencing(self, source):
+        # Evidence-only: bind the full exact current image BEFORE any literal normalization.
+        if hashlib.sha256(source.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256:
+            raise ValueError("Only the exact sealed owning sequence after image may be reversed")
         restored = source
+        for name, before, after in HELD_REQUEST_SEQUENCE_SOURCE_FRAGMENTS:
+            if restored.count(after) != 1:
+                raise ValueError("Missing or duplicate exact owning sequence fragment: " + name)
+            restored = restored.replace(after, before, 1)
+        if hashlib.sha256(restored.encode()).hexdigest() != HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256:
+            raise ValueError("Exact sequence reversal did not restore the frozen f984 diagnostic image")
+        return restored
+
+    def original_source_before_diagnostics(self, source):
+        # The current and then historical exact after-image barriers precede all reversal.
+        # compiled_request_source never calls this evidence helper or strips diagnostic bytes.
+        restored = self.original_source_before_sequencing(source)
+        if hashlib.sha256(restored.encode()).hexdigest() != HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256:
+            raise ValueError("Only the exact frozen diagnostic image may be reversed")
         for name, before, after in DIAGNOSTIC_SOURCE_FRAGMENTS:
             if restored.count(after) != 1:
                 raise ValueError("Missing or duplicate exact diagnostic fragment: " + name)
@@ -514,23 +796,35 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
         self.assertEqual(ORIGINAL_SELECTED_SOURCE_SHA256, hashlib.sha256(before.encode()).hexdigest())
         unselected_before = source_guard.request_source_without_selection_annotation(before)
         self.assertEqual(ORIGINAL_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected_before.encode()).hexdigest())
-        start = unselected_before.index(source_guard.STOP_REDIRECT_MEMBER_MARKER)
-        end = unselected_before.index("    private fun awaitHeldStart(", start)
+        start = unselected_before.index(source_guard.HISTORICAL_STOP_REDIRECT_MEMBER_MARKER)
+        end = unselected_before.index(source_guard.HISTORICAL_REQUEST_HELD_HELPER_ANCHOR, start)
         helper = unselected_before.index(source_guard.STOP_REDIRECT_HELPER_MARKER, end)
         original_projection = unselected_before[:start] + unselected_before[end:helper]
         self.assertEqual(source_guard.ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
                          hashlib.sha256(original_projection.encode()).hexdigest())
+        diagnostic = self.original_source_before_sequencing(self.source)
+        self.assertEqual(HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256, hashlib.sha256(diagnostic.encode()).hexdigest())
         self.assertEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(
+            source_guard.request_source_without_selection_annotation(diagnostic).encode()).hexdigest())
+        historical_unselected = source_guard.request_source_without_selection_annotation(diagnostic)
+        historical_start = historical_unselected.index(source_guard.HISTORICAL_STOP_REDIRECT_MEMBER_MARKER)
+        historical_end = historical_unselected.index(source_guard.HISTORICAL_REQUEST_HELD_HELPER_ANCHOR, historical_start)
+        historical_helper = historical_unselected.index(source_guard.STOP_REDIRECT_HELPER_MARKER, historical_end)
+        historical_projection = historical_unselected[:historical_start] + historical_unselected[historical_end:historical_helper]
+        self.assertEqual(source_guard.HELD_START_DIAGNOSTIC_COMPILED_SOURCE_SHA256,
+                         hashlib.sha256(historical_projection.encode()).hexdigest())
+        self.assertEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(
             source_guard.request_source_without_selection_annotation(self.source).encode()).hexdigest())
         self.assertEqual(source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256, hashlib.sha256(
             source_guard.compiled_request_source(self.source).encode()).hexdigest())
         self.assertNotEqual(source_guard.ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
                             source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256)
         for method, digest in ORIGINAL_METHOD_BODY_SHA256.items():
-            for image in (before, self.source):
+            for image in (before, diagnostic):
                 with self.subTest(method=method, before=image is before):
                     self.assertEqual(digest, hashlib.sha256(
                         source_guard.body_after(image, "@Test fun " + method).encode()).hexdigest())
+        self.whole_selector_guard(self.source)  # Current exact body hashes include only reviewed helper call changes.
         self.complete_native_guards(self.source)
 
     def test_literal_reversal_refuses_old_partial_mutated_or_unknown_after_images(self):
@@ -538,7 +832,8 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
         observer = self.fragments["failure-attachment-helper"][1]
         request = self.fragments["AndroidRequestStage-probe-facts"][1]
         self.reject([
-            ("unchanged-original-is-not-the-diagnostic-after-image", before),
+            ("unchanged-original-is-not-the-current-after-image", before),
+            ("previous-diagnostic-image-is-not-the-current-after-image", self.original_source_before_sequencing(self.source)),
             ("partial-request-facts", self.source.replace(request, "", 1)),
             ("duplicate-attachment", self.source.replace(observer, observer + observer, 1)),
             ("changed-sample-bound", self.changed_fragment("failure-attachment-helper", "lastSample().take(768)", "lastSample().take(767)")),
@@ -562,16 +857,20 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
             ("missing-request-facts", self.source.replace(request, "", 1)),
         ])
 
-    def test_all_original_held_predicate_operands_remain_required(self):
+    def test_exact_current_owner_and_acquired_held_request_operands_remain_required(self):
+        # Original acceptance deadlines and genuine callback resets remain; no pre-header start gate.
         self.reject([
-            ("request-start-removed", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "attempts > 0 && pending > 0")),
-            ("request-attempt-zero", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "start.first && attempts >= 0 && pending > 0")),
-            ("request-pending-zero", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "start.first && attempts > 0 && pending >= 0")),
-            ("stop-start-or-owner", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first || start.second && requests > 0 && pending > 0")),
-            ("stop-request-zero", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first && start.second && requests >= 0 && pending > 0")),
-            ("stop-pending-zero", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first && start.second && requests > 0 && pending >= 0")),
-            ("stop-owner-guessed", self.changed_fragment("stop-held-helper", "probe.ownerIs(native)", "true")),
-            ("stop-start-guessed", self.changed_fragment("stop-held-helper", "probe.hasStart(expected)", "true")),
+            ("request-current-removed", self.changed_fragment("request-held-helper", "lease.first && lease.second && attempts > 0 && pending > 0", "lease.second && attempts > 0 && pending > 0")),
+            ("request-owner-removed", self.changed_fragment("request-held-helper", "lease.first && lease.second && attempts > 0 && pending > 0", "lease.first && attempts > 0 && pending > 0")),
+            ("request-attempt-zero", self.changed_fragment("request-held-helper", "lease.first && lease.second && attempts > 0 && pending > 0", "lease.first && lease.second && attempts >= 0 && pending > 0")),
+            ("request-pending-zero", self.changed_fragment("request-held-helper", "lease.first && lease.second && attempts > 0 && pending > 0", "lease.first && lease.second && attempts > 0 && pending >= 0")),
+            ("stop-current-or-owner", self.changed_fragment("stop-held-helper", "lease.first && lease.second && requests > 0 && pending > 0", "lease.first || lease.second && requests > 0 && pending > 0")),
+            ("stop-request-zero", self.changed_fragment("stop-held-helper", "lease.first && lease.second && requests > 0 && pending > 0", "lease.first && lease.second && requests >= 0 && pending > 0")),
+            ("stop-pending-zero", self.changed_fragment("stop-held-helper", "lease.first && lease.second && requests > 0 && pending > 0", "lease.first && lease.second && requests > 0 && pending >= 0")),
+            ("stop-owner-guessed", self.changed_fragment("stop-held-helper", "Triple(probe.isCurrent(expected), probe.ownerIs(native),", "Triple(probe.isCurrent(expected), true,")),
+            ("stop-current-guessed", self.changed_fragment("stop-held-helper", "Triple(probe.isCurrent(expected), probe.ownerIs(native),", "Triple(true, probe.ownerIs(native),")),
+            ("request-owner-guessed", self.changed_fragment("request-held-helper", "Triple(probe.isCurrent(stage), probe.ownerIs(native),", "Triple(probe.isCurrent(stage), true,")),
+            ("request-current-guessed", self.changed_fragment("request-held-helper", "Triple(probe.isCurrent(stage), probe.ownerIs(native),", "Triple(true, probe.ownerIs(native),")),
         ])
 
     def test_optional_probe_facts_cannot_emit_private_values_or_mutate_native_owner(self):
@@ -599,8 +898,8 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
         self.reject([
             ("stop-release-in-wait", self.changed_fragment("stop-held-helper", "val requests = stage.requests.get()", "stage.releaseForTest(); val requests = stage.requests.get()")),
             ("response-write-in-wait", self.changed_fragment("request-held-helper", "val attempts = stage.attempts.get()", "socket.getOutputStream().write(1); val attempts = stage.attempts.get()")),
-            ("request-helper-reset", self.changed_fragment("request-held-helper", "probe.hasStart(stage) to", "probe.arm(stage); probe.hasStart(stage) to")),
-            ("synthetic-start", self.changed_fragment("stop-held-helper", "Triple(probe.hasStart(expected)", "probe.onPageStarted(native, stage.url, null); Triple(probe.hasStart(expected)")),
+            ("request-helper-reset", self.changed_fragment("request-held-helper", "Triple(probe.isCurrent(stage), probe.ownerIs(native),", "probe.arm(stage); Triple(probe.isCurrent(stage), probe.ownerIs(native),")),
+            ("synthetic-start", self.changed_fragment("stop-held-helper", "Triple(probe.isCurrent(expected), probe.ownerIs(native),", "probe.onPageStarted(native, stage.url, null); Triple(probe.isCurrent(expected), probe.ownerIs(native),")),
             ("early-stop-mark", self.changed_fragment("stop-held-helper", "val pending = stage.pending.get()", "stage.stopInvoked.set(true); val pending = stage.pending.get()")),
             ("zero-byte-assertion-weakened", self.changed_fragment("stop-held-helper", "assertEquals(0, stage.responseBytes.get())", "assertTrue(stage.responseBytes.get() >= 0)")),
         ])
@@ -629,7 +928,7 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
         changed_second = second.replace("assertEquals(0, server.stopped.peerEof.get()", "assertEquals(1, server.stopped.peerEof.get()", 1)
         self.assertNotEqual(second, changed_second)
         members_start = self.source.index(source_guard.STOP_REDIRECT_MEMBER_MARKER)
-        members_end = self.source.index("    private fun awaitHeldStart(", members_start)
+        members_end = self.source.index(source_guard.REQUEST_HELD_HELPER_ANCHOR, members_start)
         members = self.source[members_start:members_end]
         changed_members = members.replace("SystemClock.elapsedRealtime() + 10_000", "SystemClock.elapsedRealtime() + 1_000", 1)
         self.assertNotEqual(members, changed_members)
@@ -655,6 +954,33 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
             ("stop-mark-check-inverted", prefix + separate.replace("check(route.stopInvoked.get())", "check(!route.stopInvoked.get())", 1)),
         ], self.complete_native_guards)
 
+
+    def test_only_wait_for_stop_can_finish_without_start_after_public_latch_and_actual_matching_callback(self):
+        self.complete_native_guards(self.source)
+        self.reject([
+            ("no-start-for-non-stop", self.changed_fragment("stop-finish-predicate", "(hasStart(stage) || (stage.reply == AndroidStopRedirectReply.WaitForStop && stage.stopInvoked.get()))", "(hasStart(stage) || stage.stopInvoked.get())")),
+            ("zero-finish-before-public-stop", self.changed_fragment("stop-finish-predicate", "&& stage.stopInvoked.get()", "&& true")),
+            ("foreign-stage-finish", self.changed_fragment("stop-finish-predicate", "= isCurrent(stage) &&", "= true &&")),
+            ("missing-real-finish-record", self.changed_fragment("stop-finish-predicate", "active!!.finishes.any { it.first == active!!.generation }", "true")),
+            ("unmatched-native-finish-url", self.changed_fragment("stop-finish-callback", "if (url == observed.stage.url)", "if (true)")),
+            ("zero-callback-before-public-stop", self.changed_fragment("stop-finish-callback", "&& observed.stage.stopInvoked.get()", "&& true")),
+            ("zero-record-fabricated-for-positive-start", self.changed_fragment("stop-finish-callback", "observed.finishes += observed.generation to snapshot()", "observed.finishes += 0 to snapshot()")),
+            ("zero-terminal-for-document", self.changed_fragment("stop-terminal-shape", "if (stopped && !hasStart(stage))", "if (!hasStart(stage))")),
+            ("zero-terminal-kind-unchecked", self.changed_fragment("stop-terminal-shape", "assertEquals(stopped, stage.reply == AndroidStopRedirectReply.WaitForStop)", "Unit")),
+            ("zero-generation-manufactured", self.changed_fragment("stop-terminal-shape", "assertEquals(0, observed.generation)", "observed.generation = 0")),
+            ("zero-terminal-starts-not-empty", self.changed_fragment("stop-terminal-shape", "assertTrue(observed.starts.isEmpty())", "Unit")),
+        ], self.complete_native_guards)
+
+    def test_real_start_reset_assertions_and_nonstop_positive_generation_cannot_be_waived(self):
+        request_finish = "fun finished(stage: AndroidRequestStage) = hasStart(stage) &&"
+        self.assertEqual(1, self.source.count(request_finish))
+        self.reject([
+            ("request-reset-observation-removed", self.changed_fragment("request-start-callback", "assertStarts(observed.stage)", "Unit")),
+            ("stop-reset-observation-removed", self.changed_fragment("stop-start-callback", "assertStarts(observed.stage)", "Unit")),
+            ("request-helper-reset-instead-of-callback-assertion", self.changed_fragment("request-start-callback", "assertStarts(observed.stage)", "owner.beginRequest(observed.stage.url)")),
+            ("nonstop-finish-without-positive-start", self.source.replace(request_finish, "fun finished(stage: AndroidRequestStage) = isCurrent(stage) &&", 1)),
+            ("error-without-positive-start", self.source.replace("check(observed.generation > 0 && observed.errors.size < 64)", "check(observed.generation >= 0 && observed.errors.size < 64)")),
+        ], self.complete_native_guards)
 
 if __name__ == "__main__":
     unittest.main()

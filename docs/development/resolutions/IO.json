@@ -1662,7 +1662,8 @@
       "Attach explicit releaseTemporaryCopy ownership only to library-staged iOS copies; caller originals are never removed by that API.",
       "Apply limits before staging, serialize photo provider copies, copy ephemeral provider URLs inside callbacks and release unconsumed results.",
       "Production document staging removes unreturned copies on cancellation/exception; final callback policy rejects partial staging.",
-      "Reject non-file staging/cleanup URLs and retain session/provider ownership independently of native dismissal; unreturned copies remain owned until processing completes or cancellation cleanup."
+      "Reject non-file staging/cleanup URLs and retain session/provider ownership independently of native dismissal; unreturned copies remain owned until processing completes or cancellation cleanup.",
+      "2026-11-01: Add only missing original C3 public photo/provider-copy cancellation regression and one-method native application route; retain accepted C1/C2/C4/C5/C6 without replay."
     ],
     "affected_paths": [
       "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
@@ -1671,7 +1672,12 @@
       "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/Staging.kt",
       "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
       "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt",
-      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt"
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt",
+      "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt",
+      "scripts/ci/library_tests.py",
+      "scripts/ci/workflow_matrix.py",
+      ".github/workflows/gradle.yml",
+      "scripts/ci/test_ios_picker_provider_cancellation_focus.py"
     ],
     "tests": [
       {
@@ -1750,6 +1756,17 @@
           "docs/development/evidence/ios-admission-important-20261029/native-ci001/archive-review.json",
           "docs/development/evidence/ios-admission-important-20261029/native-ci001/reports/build/ci-verification/ios-iphone/receipt.json"
         ]
+      },
+      {
+        "checkpoint": "provider-cancellation-owning-preparation-20261101",
+        "command": "Exact new owning synthetic controls/composed scripts/ci suite and actual iOS-only KLIB compiler commands in integration063/compiler066; prior qualification reused without replay.",
+        "result": "Composed1929/1929 synthetic methods pass once/97.562s and include affected outcomes (not additive). Actionlint0. Offline combined compiler invocation remains FAILED1/46.01s after accepted Android APK assembly; new iOS fixture compiler not reached at missing IO0.9.1 KLIB dependencies. iOS-only ordinary configured dependency-resolution recovery passes Gradle0/38.01s;1119/1196 source maps held. ZERO Apple links/native methods, PHPickerResult constructor and interop warnings retained.",
+        "scope": "Only original #50 C3: registered Foundation operations through public Compose/session cancellation, in-flight copy/descriptor/partial/earlier-staging/source ownership; typed Photos arrival controlled. Exact locked native NSError entry/return acknowledgement rejects prior/suppressed/wrapped completion. Native result remains unverified; no #52 expansion, accepted picker/admission/Foundation/IO replay or readiness inference.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/webview-provider-integration063/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/webview-provider-integration063/REPORT.json",
+          "docs/development/evidence/current-platform-recovery-20261101/related-source-compiler066/RECEIPT.json"
+        ]
       }
     ],
     "remaining": [
@@ -1762,7 +1779,8 @@
       "Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.",
       "Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.",
       "2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.",
-      "2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed."
+      "2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.",
+      "2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3."
     ],
     "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable."
   },

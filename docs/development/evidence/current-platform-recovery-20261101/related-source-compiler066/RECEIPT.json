@@ -1,0 +1,125 @@
+{
+  "accepted_compilation_scopes": [
+    "Android WebView device-test APK compiled and assembled within a later-failed invocation",
+    "iOS picker production/test KLIB compiler Gradle0/38.01s via ordinary configured dependency resolution"
+  ],
+  "accepted_native_replays": 0,
+  "android_apk_identity": {
+    "bytes": 13569203,
+    "path": "calf-webview/build/outputs/apk/androidTest/calf-webview-androidTest.apk",
+    "sha256": "9f45fab1a3f013b13f722f99d7ce245ec8a38098a087214fad3d8407afebd118"
+  },
+  "base_revision": "2b9a97c63c8d4d4d1f512399fdd23eb926cef4e2",
+  "before_after_maps_equal_for_both_invocations": true,
+  "fresh_native_tests": 0,
+  "held_combined_inputs": 1196,
+  "held_library_inputs": 1119,
+  "invocations": [
+    {
+      "combined_inputs": 1196,
+      "command": [
+        "./gradlew",
+        "--offline",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:assembleAndroidDeviceTest",
+        ":calf-file-picker:compileTestKotlinIosSimulatorArm64"
+      ],
+      "confirmed_failure": "Offline missing kotlinx-io-core/kotlinx-io-bytestring iosSimulatorArm64 0.9.1 KLIBs; new provider test compiler not reached.",
+      "elapsed_seconds": 46.01,
+      "exit_code": 1,
+      "free_bytes_after": 42442625024,
+      "free_bytes_before": 42444214272,
+      "fresh_native_executions": 0,
+      "library_inputs": 1119,
+      "raw_private_log_sha256": "8d34d2f2bf3d98489c3cfa505f08f2993087a9bd8a1465dca04081aa73b46c8a",
+      "reserve_mib": 8192,
+      "runtime": [
+        {
+          "gradle_version": "9.7.1",
+          "java_vendor": "Ubuntu",
+          "java_version": "17.0.20",
+          "launcher_home_configured": true,
+          "launcher_home_matches_daemon": true,
+          "major": 17,
+          "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+          "schema_version": 1
+        }
+      ],
+      "scope": "Android WebView APK assembled before later iOS dependency failure; whole invocation remains failed",
+      "selected_actual_task_markers": [
+        "> Task :calf-webview:compileAndroidDeviceTest",
+        "> Task :calf-webview:packageAndroidDeviceTest",
+        "> Task :calf-webview:assembleAndroidDeviceTest"
+      ],
+      "source_held": true,
+      "started_utc": "2026-11-01T08:01:32.274462+00:00",
+      "timeout_seconds": 1800
+    },
+    {
+      "combined_inputs": 1196,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-file-picker:compileTestKotlinIosSimulatorArm64"
+      ],
+      "elapsed_seconds": 38.01,
+      "exit_code": 0,
+      "free_bytes_after": 42440257536,
+      "free_bytes_before": 42441490432,
+      "fresh_native_executions": 0,
+      "library_inputs": 1119,
+      "new_fixture_warnings": [
+        {
+          "line": 172,
+          "path": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt",
+          "warning": "PHPickerResult constructor is deprecated/unavailable in Objective-C; typed-result fixture requires actual native verification, not a Photos guarantee"
+        },
+        {
+          "line": 262,
+          "path": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt",
+          "warning": "BetaInteropApi opt-in warning"
+        }
+      ],
+      "raw_private_log_sha256": "936a659458ad7a16ef85402817d12a559b4a0a52d7558a49ee35f7f5b4097a89",
+      "reserve_mib": 8192,
+      "runtime": [
+        {
+          "gradle_version": "9.7.1",
+          "java_vendor": "Ubuntu",
+          "java_version": "17.0.20",
+          "launcher_home_configured": true,
+          "launcher_home_matches_daemon": true,
+          "major": 17,
+          "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+          "schema_version": 1
+        }
+      ],
+      "scope": "test KLIB source compilation only; no Apple link/native",
+      "selected_actual_task_markers": [
+        "> Task :calf-file-picker:compileTestKotlinIosSimulatorArm64"
+      ],
+      "source_held": true,
+      "started_utc": "2026-11-01T08:03:18.369627+00:00",
+      "timeout_seconds": 1800
+    }
+  ],
+  "protected_unrelated_process_alive_after": true,
+  "release_security_clearance": false,
+  "schema": 1
+}

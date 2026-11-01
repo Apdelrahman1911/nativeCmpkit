@@ -1,0 +1,144 @@
+{
+  "Call_limits": "Permission request/grant demonstration only; no telephone call, physical device, sample UI, minimum/packaged/ABI/security or release claim.",
+  "Call_native_assertions_reached": [
+    "Initial actual CALL_PHONE denied/no rationale and public Available/zero callbacks",
+    "Genuine public Call request and real allowed system-app resources",
+    "Exact nonzero resource identity and FQN com.android.permissioncontroller:id/permission_allow_button; refreshed unique visible native control click",
+    "Actual system CALL_PHONE grant plus public Granted/Full and positive result",
+    "Exactly one callback after a later actual observation; cross-UID/signature/response-correlation prerequisites and native fixture cleanup retained"
+  ],
+  "accepted_native_subsets": [
+    {
+      "acceptance": "fresh explicitly approved Call variant; exact source/result/identity/filter/owned-cleanup review complete",
+      "criterion": 2,
+      "finding": "NAV-015",
+      "issue": 102,
+      "method": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+    }
+  ],
+  "cache_dependency_security_publishing_readiness_gates_not_promoted": true,
+  "case_results": [
+    {
+      "class": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "elapsed_seconds": 3.797,
+      "method": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+      "result": "passed"
+    },
+    {
+      "class": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "elapsed_seconds": 2.724,
+      "method": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+      "result": "failed"
+    }
+  ],
+  "denial_failure": {
+    "caller_line": 81,
+    "caller_source": "AndroidPermissionDemoDeviceTest.kt",
+    "failing_conjunction": "root.refresh() && root.isVisibleToUser",
+    "line": 71,
+    "method": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+    "not_inferred": [
+      "Which operand failed or which native window/root",
+      "A third dialog was present or absent",
+      "Failure of first Deny/rationale or permanent denial",
+      "A cause diagnosis of earlier failures"
+    ],
+    "not_observed_to_completion": [
+      "Successful third no-dialog observation",
+      "Third actual callback/result count3",
+      "Final public Unknown requestability assertion"
+    ],
+    "observed_before_failure": "Source-ordered actual first/second Deny controls, denied grants, rationale true then false and callback counts1/2 reached their assertions before line81. This is not a passing denial method or full C4 acceptance.",
+    "owning_function": "permissionDialogVisible",
+    "owning_source": "PermissionDemoSystemUi.kt",
+    "phase": "THIRD request / native no-dialog observation",
+    "refresh_operand_individually_observed": false,
+    "result": "FAILED",
+    "underlying_native_cause": "unknown",
+    "visibility_operand_individually_observed": false
+  },
+  "distinct_native_methods": 2,
+  "earlier_failures_41279833656_and_41284584090_retained": true,
+  "native_API_level": 35,
+  "native_Gradle": {
+    "elapsed_seconds": 32.01,
+    "exit_code": 1
+  },
+  "native_OS_release": "15",
+  "native_SELinux": "Enforcing",
+  "native_target_executions": 2,
+  "new_helper_APK_assembly": {
+    "elapsed_seconds": 211.07,
+    "exit_code": 0
+  },
+  "new_reporter_APK_assembly": {
+    "elapsed_seconds": 102.03,
+    "exit_code": 0
+  },
+  "original_XML_count": 1,
+  "overall_result": "FAILED",
+  "owned_cleanup": {
+    "forced_group": false,
+    "graceful_emulator_exit": true,
+    "helper_identity_reverified": true,
+    "helper_stop_uninstall_removed": true,
+    "owned_ADB_transport_removed": true,
+    "runtime_identity_values_omitted": true
+  },
+  "run_id": 41286117830,
+  "schema_version": 1,
+  "source_revision": "2b9a97c63c8d4d4d1f512399fdd23eb926cef4e2",
+  "tooling_original_suite_summaries": [
+    {
+      "elapsed_seconds": 0.06,
+      "methods": 35,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 0.183,
+      "methods": 80,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 1.632,
+      "methods": 90,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 99.903,
+      "methods": 1919,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 0.421,
+      "methods": 26,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 4.893,
+      "methods": 380,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 0.314,
+      "methods": 67,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 0.012,
+      "methods": 9,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 2.393,
+      "methods": 241,
+      "outcome": "OK"
+    },
+    {
+      "elapsed_seconds": 0.073,
+      "methods": 6,
+      "outcome": "OK"
+    }
+  ],
+  "whole_issue102_or118_closure": false
+}

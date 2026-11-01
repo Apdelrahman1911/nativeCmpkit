@@ -1,0 +1,47 @@
+{
+  "accepted009_C2_C3_replayed": 0,
+  "accepted009_execution_revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+  "accepted009_independent_review_sha256": "5951754d1489458672e939b19efa539d5adaf05383dac8dab860135e7150fa32",
+  "accepted009_original_XML_sha256": "d6958967f2abe5f7daab625d08cc4c0cf6ec2426b9d390f5fea5ec2f3936b395",
+  "accepted009_original_run": 41242704209,
+  "accepted009_overall_outcome_remains_FAILED": "Three accepted rotation/kernel-death/restored-cancellation passes reused; Dont-keep failure remains failed.",
+  "authoritative_literal_correction": "docs/development/evidence/current-platform-recovery-20261101/camera-literal-correction044/CORRECTION.json",
+  "cached_original_issue_snapshot_not_live_readback": true,
+  "criteria": [
+    {
+      "disposition": "NOT MET by this run: helper failed before native; zero executions/XML.",
+      "literal": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "methods": [
+        "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+      ],
+      "number": 1
+    },
+    {
+      "disposition": "Reuse previously accepted camera009 original method(s); not selected or replayed in this run",
+      "literal": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ],
+      "number": 2
+    },
+    {
+      "disposition": "Reuse previously accepted camera009 original method(s); not selected or replayed in this run",
+      "literal": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "methods": [
+        "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+      ],
+      "number": 3
+    }
+  ],
+  "current_original_run": 41286100211,
+  "finding": "NATIVE-019",
+  "issue": 13,
+  "issue_closure_performed_or_authorized": false,
+  "new_actual_Dont_keep_acceptance": false,
+  "no_extra_caller_foreground_or_next_request_criterion": true,
+  "no_immediate_constructor_deadline_before_external_completion": true,
+  "original_body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+  "recorded_utc": "2026-11-01T07:58:00.103890+00:00",
+  "schema_version": 1
+}

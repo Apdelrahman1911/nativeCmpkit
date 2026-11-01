@@ -1,0 +1,309 @@
+
+## WebViewClient.java:94-123
+https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-15.0.0_r1/core/java/android/webkit/WebViewClient.java?format=TEXT
+Decoded source SHA256: 1d4944e1307f10c380342581542d997b4259c85f611027ba6d8ce3cb018e8c39
+Declared baseline only; resolved commit null; installed provider unknown.
+
+   94     /**
+   95      * Notify the host application that a page has started loading. This method
+   96      * is called once for each main frame load so a page with iframes or
+   97      * framesets will call onPageStarted one time for the main frame. This also
+   98      * means that onPageStarted will not be called when the contents of an
+   99      * embedded frame changes, i.e. clicking a link whose target is an iframe,
+  100      * it will also not be called for fragment navigations (navigations to
+  101      * #fragment_id).
+  102      *
+  103      * @param view The WebView that is initiating the callback.
+  104      * @param url The url to be loaded.
+  105      * @param favicon The favicon for this page if it already exists in the
+  106      *            database.
+  107      */
+  108     public void onPageStarted(WebView view, String url, Bitmap favicon) {
+  109     }
+  110 
+  111     /**
+  112      * Notify the host application that a page has finished loading. This method
+  113      * is called only for main frame. Receiving an {@code onPageFinished()} callback does not
+  114      * guarantee that the next frame drawn by WebView will reflect the state of the DOM at this
+  115      * point. In order to be notified that the current DOM state is ready to be rendered, request a
+  116      * visual state callback with {@link WebView#postVisualStateCallback} and wait for the supplied
+  117      * callback to be triggered.
+  118      *
+  119      * @param view The WebView that is initiating the callback.
+  120      * @param url The url of the page.
+  121      */
+  122     public void onPageFinished(WebView view, String url) {
+  123     }
+
+## WebViewClient.java:135-162
+https://android.googlesource.com/platform/frameworks/base/+/refs/tags/android-15.0.0_r1/core/java/android/webkit/WebViewClient.java?format=TEXT
+Decoded source SHA256: 1d4944e1307f10c380342581542d997b4259c85f611027ba6d8ce3cb018e8c39
+Declared baseline only; resolved commit null; installed provider unknown.
+
+  135     /**
+  136      * Notify the host application that {@link android.webkit.WebView} content left over from
+  137      * previous page navigations will no longer be drawn.
+  138      *
+  139      * <p>This callback can be used to determine the point at which it is safe to make a recycled
+  140      * {@link android.webkit.WebView} visible, ensuring that no stale content is shown. It is called
+  141      * at the earliest point at which it can be guaranteed that {@link WebView#onDraw} will no
+  142      * longer draw any content from previous navigations. The next draw will display either the
+  143      * {@link WebView#setBackgroundColor background color} of the {@link WebView}, or some of the
+  144      * contents of the newly loaded page.
+  145      *
+  146      * <p>This method is called when the body of the HTTP response has started loading, is reflected
+  147      * in the DOM, and will be visible in subsequent draws. This callback occurs early in the
+  148      * document loading process, and as such you should expect that linked resources (for example,
+  149      * CSS and images) may not be available.
+  150      *
+  151      * <p>For more fine-grained notification of visual state updates, see {@link
+  152      * WebView#postVisualStateCallback}.
+  153      *
+  154      * <p>Please note that all the conditions and recommendations applicable to
+  155      * {@link WebView#postVisualStateCallback} also apply to this API.
+  156      *
+  157      * <p>This callback is only called for main frame navigations.
+  158      *
+  159      * @param view The {@link android.webkit.WebView} for which the navigation occurred.
+  160      * @param url  The URL corresponding to the page navigation that triggered this callback.
+  161      */
+  162     public void onPageCommitVisible(WebView view, String url) {
+
+## AwComputedFlags.java:15-36
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwComputedFlags.java?format=TEXT
+Decoded source SHA256: 89f513f9e40e22204a31e5ce40d3fcc702e93f294e339abb4c77bbe6fd3ec2c6
+Declared baseline only; resolved commit null; installed provider unknown.
+
+   15     private static final String GMS_PACKAGE = "com.google.android.gms";
+   16 
+   17     private static Boolean sPageStartedOnCommitForBrowserNavigations;
+   18 
+   19     private static boolean computePageStartedOnCommitForBrowserNavigations() {
+   20         if (GMS_PACKAGE.equals(ContextUtils.getApplicationContext().getPackageName())) {
+   21             int gmsPackageVersion = PackageUtils.getPackageVersion(GMS_PACKAGE);
+   22             return gmsPackageVersion >= 15000000;
+   23         }
+   24         return true;
+   25     }
+   26 
+   27     public static boolean pageStartedOnCommitEnabled(boolean isRendererInitiated) {
+   28         // Always enable for renderer-initiated navigations.
+   29         if (isRendererInitiated) return true;
+   30         if (sPageStartedOnCommitForBrowserNavigations != null) {
+   31             return sPageStartedOnCommitForBrowserNavigations;
+   32         }
+   33         sPageStartedOnCommitForBrowserNavigations =
+   34                 computePageStartedOnCommitForBrowserNavigations();
+   35         return sPageStartedOnCommitForBrowserNavigations;
+   36     }
+
+## AwContents.java:748-776
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwContents.java?format=TEXT
+Decoded source SHA256: 9fba36b37ac3f3eb0ea6d7d37d0d9d67d2fc0277bbbc6041a69e0b3b0dc50fca
+Declared baseline only; resolved commit null; installed provider unknown.
+
+  748     // When the navigation is for a newly created WebView (i.e. a popup), intercept the navigation
+  749     // here for implementing shouldOverrideUrlLoading. This is to send the shouldOverrideUrlLoading
+  750     // callback to the correct WebViewClient that is associated with the WebView.
+  751     // Otherwise, use this delegate only to post onPageStarted messages.
+  752     //
+  753     // We are not using WebContentsObserver.didStartLoading because of stale URLs, out of order
+  754     // onPageStarted's and double onPageStarted's.
+  755     //
+  756     private class InterceptNavigationDelegateImpl extends InterceptNavigationDelegate {
+  757         @Override
+  758         public boolean shouldIgnoreNavigation(
+  759                 NavigationHandle navigationHandle,
+  760                 GURL escapedUrl,
+  761                 boolean hiddenCrossFrame,
+  762                 boolean isSandboxedFrame) {
+  763             // The shouldOverrideUrlLoading call might have resulted in posting messages to the
+  764             // UI thread. Using sendMessage here (instead of calling onPageStarted directly)
+  765             // will allow those to run in order.
+  766             if (!AwComputedFlags.pageStartedOnCommitEnabled(
+  767                     navigationHandle.isRendererInitiated())) {
+  768                 GURL url =
+  769                         navigationHandle.getBaseUrlForDataUrl().isEmpty()
+  770                                 ? navigationHandle.getUrl()
+  771                                 : navigationHandle.getBaseUrlForDataUrl();
+  772                 mContentsClient.getCallbackHelper().postOnPageStarted(url.getPossiblyInvalidSpec());
+  773             }
+  774             return false;
+  775         }
+  776     }
+
+## AwContents.java:2899-2909
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwContents.java?format=TEXT
+Decoded source SHA256: 9fba36b37ac3f3eb0ea6d7d37d0d9d67d2fc0277bbbc6041a69e0b3b0dc50fca
+Declared baseline only; resolved commit null; installed provider unknown.
+
+ 2899     /** @see android.webkit.WebView#stopLoading() */
+ 2900     public void stopLoading() {
+ 2901         if (TRACE) Log.i(TAG, "%s stopLoading", this);
+ 2902         if (!isDestroyed(WARN)) mWebContents.stop();
+ 2903     }
+ 2904 
+ 2905     /** @see android.webkit.WebView#reload() */
+ 2906     public void reload() {
+ 2907         if (TRACE) Log.i(TAG, "%s reload", this);
+ 2908         if (!isDestroyed(WARN)) mNavigationController.reload(true);
+ 2909     }
+
+## AwContentsClientBridge.java:345-406
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwContentsClientBridge.java?format=TEXT
+Decoded source SHA256: bb5ba6580325fa2b5a71de9ca1eb1faba005efcbc4af09cf78b330206d30c82b
+Declared baseline only; resolved commit null; installed provider unknown.
+
+  345     @CalledByNative
+  346     private void onReceivedError(
+  347             // WebResourceRequest
+  348             String url,
+  349             boolean isOutermostMainFrame,
+  350             boolean hasUserGesture,
+  351             boolean isRendererInitiated,
+  352             String method,
+  353             String[] requestHeaderNames,
+  354             String[] requestHeaderValues,
+  355             // WebResourceError
+  356             @NetError int errorCode,
+  357             String description,
+  358             boolean safebrowsingHit,
+  359             boolean shouldOmitNotificationsForSafeBrowsingHit) {
+  360         AwContentsClient.AwWebResourceRequest request =
+  361                 new AwContentsClient.AwWebResourceRequest(
+  362                         url,
+  363                         isOutermostMainFrame,
+  364                         hasUserGesture,
+  365                         method,
+  366                         requestHeaderNames,
+  367                         requestHeaderValues);
+  368         AwContentsClient.AwWebResourceError error = new AwContentsClient.AwWebResourceError();
+  369         error.errorCode = ErrorCodeConversionHelper.convertErrorCode(errorCode);
+  370         error.description = description;
+  371 
+  372         String unreachableWebDataUrl = AwContentsStatics.getUnreachableWebDataUrl();
+  373         boolean isErrorUrl =
+  374                 unreachableWebDataUrl != null && unreachableWebDataUrl.equals(request.url);
+  375 
+  376         if ((!isErrorUrl && errorCode != NetError.ERR_ABORTED) || safebrowsingHit) {
+  377             // NetError.ERR_ABORTED error code is generated for the following reasons:
+  378             // - WebView.stopLoading is called;
+  379             // - the navigation is intercepted by the embedder via shouldOverrideUrlLoading;
+  380             // - server returned 204 status (no content).
+  381             //
+  382             // Android WebView does not notify the embedder of these situations using
+  383             // this error code with the WebViewClient.onReceivedError callback.
+  384             if (safebrowsingHit) {
+  385                 if (shouldOmitNotificationsForSafeBrowsingHit) {
+  386                     // With committed interstitials we don't fire these notifications when the
+  387                     // interstitial shows, we instead handle them once the interstitial is
+  388                     // dismissed.
+  389                     return;
+  390                 } else {
+  391                     error.errorCode = WebviewErrorCode.ERROR_UNSAFE_RESOURCE;
+  392                 }
+  393             }
+  394             if (request.isOutermostMainFrame
+  395                     && AwComputedFlags.pageStartedOnCommitEnabled(isRendererInitiated)) {
+  396                 mClient.getCallbackHelper().postOnPageStarted(request.url);
+  397             }
+  398             mClient.getCallbackHelper().postOnReceivedError(request, error);
+  399             if (request.isOutermostMainFrame) {
+  400                 // Need to call onPageFinished after onReceivedError for backwards compatibility
+  401                 // with the classic webview. See also AwWebContentsObserver.didFailLoad which is
+  402                 // used when we want to send onPageFinished alone.
+  403                 mClient.getCallbackHelper().postOnPageFinished(request.url);
+  404             }
+  405         }
+  406     }
+
+## AwWebContentsObserver.java:57-78
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java?format=TEXT
+Decoded source SHA256: 4683bf19f3e16ebc1cb40b70fd43ad0f1be0fc149ed1780aed85919e44b2889f
+Declared baseline only; resolved commit null; installed provider unknown.
+
+   57     @Override
+   58     public void didFinishLoadInPrimaryMainFrame(
+   59             GlobalRenderFrameHostId rfhId,
+   60             GURL url,
+   61             boolean isKnownValid,
+   62             @LifecycleState int rfhLifecycleState) {
+   63         if (rfhLifecycleState != LifecycleState.ACTIVE) return;
+   64         String validatedUrl = isKnownValid ? url.getSpec() : url.getPossiblyInvalidSpec();
+   65         if (getClientIfNeedToFireCallback(validatedUrl) != null) {
+   66             mLastDidFinishLoadUrl = validatedUrl;
+   67         }
+   68     }
+   69 
+   70     @Override
+   71     public void didStopLoading(GURL gurl, boolean isKnownValid) {
+   72         String url = isKnownValid ? gurl.getSpec() : gurl.getPossiblyInvalidSpec();
+   73         if (url.length() == 0) url = ContentUrlConstants.ABOUT_BLANK_DISPLAY_URL;
+   74         AwContentsClient client = getClientIfNeedToFireCallback(url);
+   75         if (client != null && url.equals(mLastDidFinishLoadUrl)) {
+   76             client.getCallbackHelper().postOnPageFinished(url);
+   77             mLastDidFinishLoadUrl = null;
+   78         }
+
+## AwWebContentsObserver.java:97-119
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java?format=TEXT
+Decoded source SHA256: 4683bf19f3e16ebc1cb40b70fd43ad0f1be0fc149ed1780aed85919e44b2889f
+Declared baseline only; resolved commit null; installed provider unknown.
+
+   97     private void processFailedLoad(
+   98             boolean isPrimaryMainFrame, @NetError int errorCode, GURL failingGurl) {
+   99         String failingUrl = failingGurl.getPossiblyInvalidSpec();
+  100         AwContentsClient client = mAwContentsClient.get();
+  101         if (client == null) return;
+  102         String unreachableWebDataUrl = AwContentsStatics.getUnreachableWebDataUrl();
+  103         boolean isErrorUrl =
+  104                 unreachableWebDataUrl != null && unreachableWebDataUrl.equals(failingUrl);
+  105         if (isPrimaryMainFrame && !isErrorUrl) {
+  106             if (errorCode == NetError.ERR_ABORTED) {
+  107                 // Need to call onPageFinished for backwards compatibility with the classic webview.
+  108                 // See also AwContentsClientBridge.onReceivedError.
+  109                 client.getCallbackHelper().postOnPageFinished(failingUrl);
+  110             } else if (errorCode == NetError.ERR_HTTP_RESPONSE_CODE_FAILURE) {
+  111                 // This is a HTTP error that results in an error page. We need to call onPageStarted
+  112                 // and onPageFinished to have the same behavior with HTTP error navigations that
+  113                 // don't result in an error page. See also
+  114                 // AwContentsClientBridge.onReceivedHttpError.
+  115                 client.getCallbackHelper().postOnPageStarted(failingUrl);
+  116                 client.getCallbackHelper().postOnPageFinished(failingUrl);
+  117             }
+  118         }
+  119     }
+
+## AwWebContentsObserver.java:128-155
+https://chromium.googlesource.com/chromium/src/+/refs/tags/126.0.6478.50/android_webview/java/src/org/chromium/android_webview/AwWebContentsObserver.java?format=TEXT
+Decoded source SHA256: 4683bf19f3e16ebc1cb40b70fd43ad0f1be0fc149ed1780aed85919e44b2889f
+Declared baseline only; resolved commit null; installed provider unknown.
+
+  128     @Override
+  129     public void didFinishNavigationInPrimaryMainFrame(NavigationHandle navigation) {
+  130         String url = navigation.getUrl().getPossiblyInvalidSpec();
+  131         if (navigation.errorCode() != NetError.OK && !navigation.isDownload()) {
+  132             processFailedLoad(true, navigation.errorCode(), navigation.getUrl());
+  133         }
+  134 
+  135         if (!navigation.hasCommitted()) return;
+  136 
+  137         mCommittedNavigation = true;
+  138 
+  139         AwContentsClient client = mAwContentsClient.get();
+  140         if (client != null) {
+  141             // OnPageStarted is not called for in-page navigations, which include fragment
+  142             // navigations and navigation from history.push/replaceState.
+  143             // Error page is handled by AwContentsClientBridge.onReceivedError.
+  144             if (!navigation.isSameDocument()
+  145                     && !navigation.isErrorPage()
+  146                     && AwComputedFlags.pageStartedOnCommitEnabled(
+  147                             navigation.isRendererInitiated())) {
+  148                 client.getCallbackHelper().postOnPageStarted(url);
+  149             }
+  150 
+  151             boolean isReload =
+  152                     (navigation.pageTransition() & PageTransition.CORE_MASK)
+  153                             == PageTransition.RELOAD;
+  154             client.getCallbackHelper().postDoUpdateVisitedHistory(url, isReload);
+  155         }

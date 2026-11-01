@@ -1,0 +1,11 @@
+# Permission Call/denial original review — 41284584090
+
+**FAILED before native**, immutable `f97a0e1b13686b015fca7f463a415392bad65ead` / `android-permission-demo-call-denial-recovery`.
+
+- Original CI tooling suite: **1,919 methods / 100.744s / 17 failure reports across 10 distinct methods**. Eight reports are subtests in one method; nine are ordinary failures. All 17 fail the owning hardcoded `require` line47 assertion against original line48 at `test_android_camera_mutable_path_diagnostics.py:121`. The real confinement refusal remains `capture_avd:474`; no refusal was waived.
+- One failed tooling job; native/library and five other jobs skipped. **ZERO native executions, original native XML, uploaded artifacts, new library compilation/installation, dialog/grant/rationale/result or owned native-cleanup observations.** Not a permission/native failure and not a diagnosis of prior dialog timeouts.
+- Sole tooling original acquired once after terminal completion: 747726 bytes, SHA256 `30f2768c21070edd188c1c6c36a7c20e81133a32f535315e0a16034e786561e2`. No artifact/skipped-job/accepted-original acquisition or retry. Raw originals, source snapshots, machine paths and runtime identity/lease material remain private.
+- **1117 library /1194 combined frozen inputs** match the lead immutable Git binding. All 1194 current files matched at the recorded pre-repair passive readback;30 selected snapshots match. These are frozen/current source proofs, **not actual uploaded runner input maps** (none exist). Later changed diagnostic-test readback is excluded from immutable source acceptance.
+- Exact request is **#102 C2 Call + denial subset of C4**. C1 is merged-manifest/menu/API mapping, not these methods. Accepted picker C3 is reused unchanged and excluded. Original Android13/14 media and #118 storage remain separate. **No new native criterion or whole-issue closure.** Prior failed 41279833656 remains failed; no retrospective cause diagnosis.
+
+See the public terminal/acquisition, original tooling, frozen source and literal-criteria JSON derivatives. Reviewer performed no builds/tests/models/native commands, live edits, Git/GitHub/issue changes or dispatch; only passive parsing and sealing. Publishing/Pages/main/history, native/minimum/consumer/ABI/dependency/legal/security/readiness and capacity gates stay unchanged.

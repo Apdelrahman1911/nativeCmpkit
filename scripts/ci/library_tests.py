@@ -767,6 +767,22 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_ADMISSION_FOCUS] = {
     "scope": "Seven changed UIKit/Compose ownership and complete application-host methods plus two controlled deferred-call/real UIKit-completion regressions. Original26/7 selections, protocol/XML/Worker/runtime/binary/cleanup gates retained. No unchanged19-method Foundation/filter/copy/staging replay, OS-refusal/swipe/provider/physical/minimum/release certification.",
 }
 
+# Missing IO-013/#50 C3 only. Keep all accepted picker/admission/IO selections unchanged.
+IOS_PICKER_PROVIDER_CANCELLATION_FOCUS = "picker-ios-provider-cancellation"
+IOS_PICKER_PROVIDER_CANCELLATION_CLASS = "com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest"
+IOS_PICKER_PROVIDER_CANCELLATION_SOURCE = "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt"
+IOS_PICKER_PROVIDER_CANCELLATION_METHODS = (
+    "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_PROVIDER_CANCELLATION_FOCUS] = {
+    "module": "calf-file-picker",
+    "groups": ({"classname": IOS_PICKER_PROVIDER_CANCELLATION_CLASS,
+                "source": IOS_PICKER_PROVIDER_CANCELLATION_SOURCE,
+                "methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS,
+                "declared_methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS},),
+    "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, one deliberate cancellation-error acknowledgement, actual descriptor/partial-copy/earlier-staging cleanup; typed PHPickerResult selection is controlled, not actual Photos/cloud/cross-process/format-filter acceptance. Native direct error identity/propagation/wrapping/suppression remains observed or refused, never inferred. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
+}
+
 IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
 IOS_WEBVIEW_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest"
 IOS_WEBVIEW_LIFECYCLE_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt"

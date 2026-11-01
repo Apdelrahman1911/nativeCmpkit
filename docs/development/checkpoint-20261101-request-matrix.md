@@ -4,6 +4,34 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Current missing-only WebView / provider-cancellation batch
+
+[Integration063](evidence/current-platform-recovery-20261101/webview-provider-integration063/README.md)
+contains the eight source paths qualified independently: real Android callback
+resets, acquired held transport, and only genuine matching post-Stop generation0
+finish; corrected #50 C3 registered-provider cancellation and exact locked native
+completion acknowledgement. Production/API/history/attribution remain unchanged.
+Composed1929/1929 synthetic methods pass once/97.562s, including affected controls
+without additive counting; Actionlint0. [Compiler066](evidence/current-platform-recovery-20261101/related-source-compiler066/README.md)
+holds1119 library/1196 combined inputs. Android APK assembled before offline
+Gradle FAILED1/46.01s at missing iOS IO0.9.1 KLIBs; iOS-only recovery using ordinary
+configured resolution passes0/38.01s. ZERO native/Apple links, warnings retained.
+Next one immutable Android original request2 plus one iPhone #50 C3 method; all
+accepted iOS request2/DNS/picker/admission/Foundation/IO criteria stay unreplayed.
+
+[Camera41286100211 original064](evidence/current-platform-recovery-20261101/camera-absence-original064/README.md)
+remains FAILED/ZERO native at strict interior Display-header grammar297. Actual
+row/category/cause unknown; owned cleanup passes and camera009 C2/C3 retained.
+Observational owning diagnostics need independent review, not a grammar waiver.
+[Permission41286117830 original065](evidence/current-platform-recovery-20261101/permission-third-denial-original065/README.md)
+is FAILED overall with Call C2 independently accepted and denial failing at
+THIRD no-dialog refresh/visibility conjunction; individual operands unknown.
+Call/picker must not replay. Only denial1 remains in that recovery; media/storage
+compatibility are separate original obligations. No new closures or dispositions:
+92closed/80open/172total,27implemented/42partial/90verified/five unresolved.
+All publishing/security/readiness and capacity gates stay. Historical sections
+below retain their prior time/scope and are not current pending-state assertions.
+
 ## Accepted iOS request2 / shared tooling owning recovery
 
 [Actual iOS41282118143](evidence/current-platform-recovery-20261101/ios-webview-actual058/README.md)

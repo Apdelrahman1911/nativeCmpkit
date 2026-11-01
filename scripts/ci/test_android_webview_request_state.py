@@ -75,6 +75,9 @@ def require_native_witnesses(source):
                 "assertSame(probe, it.webViewClient)", "assertIs<AccompanistWebChromeClient>(it.webChromeClient)",
                 "native.loadUrl(stage.url)", "native.loadUrl(server.recovery.url)", "fixture.navigator.reload()",
                 "assertEquals(server.recovery.url, native.url)", "assertEquals(WebContent.Url(server.seed.url), state.content)",
+                "awaitHeldRequest(server, probe, native, stage)", "awaitHeldRequest(server, probe, native, server.recovery)",
+                "awaitHeldRequest(server, probe, native, reload)", "Triple(probe.isCurrent(stage), probe.ownerIs(native),",
+                "lease.first && lease.second && attempts > 0 && pending > 0", "assertStarts(observed.stage)",
                 "owner.webView !== view", "observed.errors += AndroidRequestError", "observed.generation",
                 "assertEquals(nativeErrors, snapshot().errors)", "assertEquals(LoadingState.Loading(0f), it.loading)",
                 "if (closing.get()) return", "acquiredStage = owned", "acquiredStage?.let { owned ->",
@@ -96,12 +99,20 @@ def require_native_witnesses(source):
             raise ValueError("No mock/intercepted/synthetic reset/skip/HTTP-error or manual client replacement")
 
 
-# Original whole-projection evidence remains frozen; only exact reviewed diagnostic bytes advance it.
+# Historical source identities remain frozen. New exact identities refer only to the sealed
+# fixture-only sequence proposal; a source projection is never a fresh compiler/native pass.
 ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "a78930b54606b88fb9e4af3e9e3748d41f1abf5496f05dad84eb8a664afc1f40"
-COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "7daa4a6867b5a9e343306e3c6129c00456b3e08f07bd6fc7b6666c4047353dc5"
+HELD_START_DIAGNOSTIC_COMPILED_SOURCE_SHA256 = "7daa4a6867b5a9e343306e3c6129c00456b3e08f07bd6fc7b6666c4047353dc5"
 HELD_START_DIAGNOSTIC_STOP_HELPER_SHA256 = "278d65e2b0507064a9a3108899bd6367ef2dfb989ffbb78dd842ca888a8b3519"
 HELD_START_DIAGNOSTIC_STOP_FACTS_SHA256 = "de05e2c77e747b6b8a6956c96e789780fbfd5efd402186cf71f86cc888fbd192"
-STOP_REDIRECT_MEMBER_MARKER = "    // New #64 Stop/redirect fixture; the compiled fail/fail method above remains unchanged.\n"
+COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "b078835d65aa2cf44f360700e7fe29bb2c85936843b57de68be507a07a6621b6"
+HELD_REQUEST_SEQUENCE_STOP_HELPER_SHA256 = "72a90ceb6fec5b2870d9af9078e2c3e0d8e83f588bbd7e7965442d1e48bb984a"
+HELD_REQUEST_SEQUENCE_STOP_FACTS_SHA256 = "4bfb41e7164267e12722c6defcdf1e4e29c6d63f078dd3fc4000282c06e884eb"
+HELD_REQUEST_SEQUENCE_STOP_PROBE_SHA256 = "1b072808a0b3a8d9450489599966139fb06e5b147a15347add50af178e24be5b"
+HISTORICAL_STOP_REDIRECT_MEMBER_MARKER = '    // New #64 Stop/redirect fixture; the compiled fail/fail method above remains unchanged.\n'
+STOP_REDIRECT_MEMBER_MARKER = '    // #64 Stop/redirect fixture retains genuine native callbacks and exact owned HTTP.\n'
+HISTORICAL_REQUEST_HELD_HELPER_ANCHOR = '    private fun awaitHeldStart('
+REQUEST_HELD_HELPER_ANCHOR = '    private fun awaitHeldRequest('
 STOP_REDIRECT_HELPER_MARKER = "\n// Separate #64 Stop/redirect helpers; no old request helper is broadened.\n"
 STOP_REDIRECT_METHOD = "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
 
@@ -130,36 +141,94 @@ def request_source_without_selection_annotation(source):
     return source
 
 
+
+# Exact source shapes are explicit in addition to the full observer hash. Generation zero
+# is an unchanged observation only: never a fabricated start, finish or cancellation.
+STOP_ABORT_FINISH_PREDICATE = r'''    fun finished(stage: AndroidStopRedirectStage) = isCurrent(stage) &&
+        (hasStart(stage) || (stage.reply == AndroidStopRedirectReply.WaitForStop && stage.stopInvoked.get())) &&
+        active!!.finishes.any { it.first == active!!.generation }
+'''
+STOP_ABORT_TERMINAL_SHAPE = r'''        assertEquals(stopped, stage.reply == AndroidStopRedirectReply.WaitForStop)
+        assertTrue(finished(stage))
+        val observed = active!!
+        if (stopped && !hasStart(stage)) {
+            assertTrue(stage.stopInvoked.get())
+            assertEquals(0, observed.generation) // No start generation was fabricated for a precommit abort.
+            assertTrue(observed.starts.isEmpty())
+        } else assertStarts(stage)
+'''
+STOP_ABORT_FINISH_CALLBACK = r'''
+        super.onPageFinished(view, url)
+        watch(view) {
+            val observed = checkNotNull(active)
+            if (url == observed.stage.url) {
+                check(observed.finishes.size < 32)
+                check(observed.generation > 0 ||
+                    (observed.stage.reply == AndroidStopRedirectReply.WaitForStop && observed.stage.stopInvoked.get()))
+                // Only this real matching finish may witness an unchanged generation-zero Stop.
+                observed.finishes += observed.generation to snapshot()
+            }
+        }
+    '''
+STOP_GENUINE_START_CALLBACK = r'''
+        super.onPageStarted(view, url, favicon)
+        watch(view) {
+            val observed = checkNotNull(active)
+            val started = checkNotNull(url)
+            check(started in observed.startUrls && ++serial <= 32)
+            observed.generation = serial
+            observed.starts += started to snapshot()
+            assertStarts(observed.stage) // A real start still must reset state at this callback boundary.
+        }
+    '''
+
+
+def require_stop_abort_finish_shape(probe):
+    for label, fragment in (("Stop-only current-stage finish predicate", STOP_ABORT_FINISH_PREDICATE),
+                            ("Stop-only unchanged-zero terminal branch", STOP_ABORT_TERMINAL_SHAPE),
+                            ("actual matching forwarded native finish", STOP_ABORT_FINISH_CALLBACK),
+                            ("reset after a genuine forwarded native start", STOP_GENUINE_START_CALLBACK)):
+        if probe.count(fragment) != 1:
+            raise ValueError("Exact reviewed " + label + " cannot be weakened or projected away")
+    if re.findall(r"observed\.generation\s*=\s*([^\n]+)", probe) != ["serial"]:
+        raise ValueError("Only the genuine start callback may assign a start generation")
+    if probe.count("check(observed.generation > 0 && observed.errors.size < 64)") != 1:
+        raise ValueError("Non-abort native error observations still require a genuine positive start")
+
+
 def require_projected_stop_held_start_diagnostics(source, members, helpers):
-    """Bind exact new diagnostics in the already separate Stop layer; never strip new code."""
-    start = "    private fun awaitStopRedirectHeld("
+    """Bind the exact owning sequence and observer before projecting its separate layer."""
+    start = "    private fun awaitStopRedirectHeldRequest("
     end = "    private fun awaitStopRedirectDocument("
     if members.count(start) != 1 or members.count(end) != 1:
         raise ValueError("Exact separate Stop held-helper anchors must occur once")
     held = members[members.index(start):members.index(end)]
-    if hashlib.sha256(held.encode()).hexdigest() != HELD_START_DIAGNOSTIC_STOP_HELPER_SHA256:
+    if hashlib.sha256(held.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_STOP_HELPER_SHA256:
         raise ValueError("Only the exact reviewed Stop held-helper diagnostic bytes are permitted")
     probe = body_after(helpers, "private class AndroidStopRedirectProbe")
+    if hashlib.sha256(probe.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_STOP_PROBE_SHA256:
+        raise ValueError("Only the exact reviewed Stop observer may be projected away")
+    require_stop_abort_finish_shape(probe)
     start = "    fun heldStartFacts(stage: AndroidStopRedirectStage)"
     end = "    fun finished("
     if probe.count(start) != 1 or probe.count(end) != 1:
         raise ValueError("Exact separate Stop probe-fact anchors must occur once")
     facts = probe[probe.index(start):probe.index(end)]
-    if hashlib.sha256(facts.encode()).hexdigest() != HELD_START_DIAGNOSTIC_STOP_FACTS_SHA256:
+    if hashlib.sha256(facts.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_STOP_FACTS_SHA256:
         raise ValueError("Only the exact bounded read-only Stop probe facts are permitted")
     if source.count("fun heldStartFacts(") != 2 or source.count("observeHeldStartFailure(") != 3:
         raise ValueError("Missing, duplicate or extra held-start diagnostic helpers cannot be projected away")
 
 
 def compiled_request_source(source):
-    """Remove only selector metadata/separate Stop additions; retain exact diagnostic projection bytes."""
+    """Remove only reviewed metadata/separate layer; retain exact current request bytes."""
     source = request_source_without_selection_annotation(source)
     if STOP_REDIRECT_MEMBER_MARKER not in source and STOP_REDIRECT_HELPER_MARKER not in source:
         return source
     if source.count(STOP_REDIRECT_MEMBER_MARKER) != 1 or source.count(STOP_REDIRECT_HELPER_MARKER) != 1:
         raise ValueError("Separate Stop/redirect source anchors must be exactly once")
     start = source.index(STOP_REDIRECT_MEMBER_MARKER)
-    end = source.index("    private fun awaitHeldStart(", start)
+    end = source.index(REQUEST_HELD_HELPER_ANCHOR, start)
     helper = source.index(STOP_REDIRECT_HELPER_MARKER, end)
     require_projected_stop_held_start_diagnostics(source, source[start:end], source[helper:])
     legacy = source[:start] + source[end:helper]
@@ -194,7 +263,7 @@ def require_stop_redirect_witnesses(source):
         raise ValueError("Only actual peer EOF after public Stop and before cleanup can witness cancellation")
     if re.search(r"\.\s*(?:close|shutdownInput|shutdownOutput|write|flush)\s*\(", stop):
         raise ValueError("The EOF reader cannot supply a fixture disconnect/response")
-    method_steps = ("awaitStopRedirectHeld(server, probe, native, server.stopped)",
+    method_steps = ("awaitStopRedirectHeldRequest(server, probe, native, server.stopped)",
                     "assertEquals(0, server.stopped.peerEof.get()", "fixture.navigator.stopLoading()",
                     "server.stopped.peerEof.get() > 0", "server.assertSettled(server.stopped)",
                     "fixture.navigator.loadUrl(server.redirect.url)", "server.redirect.releaseForTest()",
@@ -206,6 +275,8 @@ def require_stop_redirect_witnesses(source):
         raise ValueError("Only the real public navigator Stop invocation is permitted")
     required = (
         "assertTrue(server.stopped.stopInvoked.compareAndSet(false, true))", "probe.finished(server.stopped)",
+        "Triple(probe.isCurrent(expected), probe.ownerIs(native),",
+        "lease.first && lease.second && requests > 0 && pending > 0", "assertStarts(observed.stage)",
         "!state.isLoading && state.loadingState == LoadingState.Finished", "assertSame(native, state.webView)",
         "assertSame(probe, it.webViewClient)", "assertIs<AccompanistWebChromeClient>(it.webChromeClient)",
         "probe.arm(server.landing, setOf(server.redirect.url, server.landing.url))",
@@ -231,7 +302,7 @@ def require_stop_redirect_witnesses(source):
         "assertFalse(stage.testReleased.get())", 'headers["host"] == "127.0.0.1:${listener.localPort}"',
         "ArrayBlockingQueue<Runnable>(8)", "ThreadPoolExecutor(4, 4", "ServerSocket(0, 8, InetAddress.getByName(\"127.0.0.1\"))",
     )
-    new_source = source[source.index(STOP_REDIRECT_MEMBER_MARKER):source.index("    private fun awaitHeldStart(")] + helpers
+    new_source = source[source.index(STOP_REDIRECT_MEMBER_MARKER):source.index(REQUEST_HELD_HELPER_ANCHOR)] + helpers
     if any(token not in new_source for token in required):
         raise ValueError("Missing exact Stop/302/current-owner/metadata/DOM/EOF/finite-lease witness")
     for expression, value in ((r"buffer\.size\(\)\s*<\s*([0-9_]+)\s*\)", 8192),
@@ -463,7 +534,7 @@ class AndroidWebViewRequestStateGuards(unittest.TestCase):
     def test_stop_redirect_source_models_reject_host_disconnect_fake302_raw_stop_or_metadata_and_cleanup_shortcuts(self):
         source = (r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text()
         start = source.index(STOP_REDIRECT_MEMBER_MARKER)
-        end = source.index("    private fun awaitHeldStart(", start)
+        end = source.index(REQUEST_HELD_HELPER_ANCHOR, start)
         helper = source.index(STOP_REDIRECT_HELPER_MARKER, end)
         members, helpers = source[start:end], source[helper:]
         replacements = (

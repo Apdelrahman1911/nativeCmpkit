@@ -1,5 +1,33 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## WebView / provider-cancellation batch compiled — 2026-11-01
+
+[Eight owning source paths](docs/development/evidence/current-platform-recovery-20261101/webview-provider-integration063/README.md)
+retain genuine Android callback-boundary resets and acquired held transport;
+only a real matching post-Stop finish admits unchanged generation0. Chromium126
+is conditional source evidence, not installed-provider attribution or old cause.
+Corrected #50 C3 fixture locks pre-completion zero counts and exact retained
+native NSError entry/return identity; Foundation wrapping/suppression is a
+fixture refusal, not an assumed library guarantee. Typed Photos arrival is
+controlled; accepted C1/C2/C4/C5/C6 and picker/admission/IO methods stay unreplayed.
+Composed1929/1929 synthetic methods pass once/97.562s (affected outcomes included,
+not additive); Actionlint0. [Actual compilers](docs/development/evidence/current-platform-recovery-20261101/related-source-compiler066/README.md)
+hold1119/1196 inputs: Android APK assembled before whole offline invocation
+FAILED1/46.01s on missing iOS IO0.9.1 KLIBs; iOS-only ordinary-resolution recovery
+passes0/38.01s. ZERO Apple links/native methods; constructor/interop warnings
+retained. Next only Android original request2 and iOS provider-cancellation1.
+
+[Camera41286100211](docs/development/evidence/current-platform-recovery-20261101/camera-absence-original064/README.md)
+is FAILED/ZERO native at strict interior Display-header refusal297; actual
+row/category/cause unknown, accepted camera009 C2/C3 retained. [Permission41286117830](docs/development/evidence/current-platform-recovery-20261101/permission-third-denial-original065/README.md)
+remains FAILED overall: Call C2 independently ACCEPTED, denial fails THIRD
+no-dialog refresh/visibility conjunction; individual operands/cause unknown.
+Never replay accepted Call/picker. No issue closure or status promotion;
+92closed/80open/172total and27implemented/42partial/90verified/five unresolved.
+Lead-owned integration/Git/dispatch/closures, disjoint parallel reviews, serial
+local/8GiB DISK/max2combined hosted and all publishing/Pages/main/history/native/
+consumer/API-ABI/dependency/legal/security/readiness gates remain unchanged.
+
 ## iOS request2 accepted; shared owning guard repaired — 2026-11-01
 
 [iOS41282118143](docs/development/evidence/current-platform-recovery-20261101/ios-webview-actual058/README.md)

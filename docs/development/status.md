@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c8901711010669886af74b51742ed6282f2e72225e4928a05a4db6e20ed5449b`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c85307f42009b5a48c31bb156630f819cb1dfab1af264c6f0395d2e40c3105ba`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,10 +25,10 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 29 |
-| partially-verified | 40 |
-| verified | 89 |
-| unresolved | 6 |
+| implemented | 27 |
+| partially-verified | 42 |
+| verified | 90 |
+| unresolved | 5 |
 | not-applicable | 0 |
 
 `implemented` means a recorded source repair, not verified runtime behavior. `partially-verified` preserves target/scenario limits. `unresolved` and `not-applicable` remain explicit owner dispositions. A `verified` record is accepted structurally only with nonempty explicit evidence and no remaining checks; this validator does not read test prose as proof or certify the evidence. The lead must review original acceptance requirements.
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | implemented | — | 3 / 12 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 1 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | implemented | — | 3 / 5 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 3 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -160,7 +160,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | partially-verified | — | 4 / 3 |
 | 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | verified | — | 4 / 0 |
 | 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | implemented | — | 4 / 2 |
-| 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | unresolved | NAV-008 | 4 / 5 |
+| 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | verified | NAV-008 | 4 / 0 |
 | 116 | [PERM-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) | Medium | 2 | M | partially-verified | PERM-013 | 2 / 2 |
 | 117 | [PERM-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109) | Medium | 2 | M | partially-verified | PERM-007, PERM-009 | 2 / 1 |
 | 118 | [PERM-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/110) | Medium | 2 | M | partially-verified | PERM-011 | 2 / 1 |
@@ -501,7 +501,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 15. NATIVE-019 — Android camera loses its output URI across Activity/process recreation
 
-**High · implemented · original effort M** — [nativeCmpkit #13](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**High · partially-verified · original effort M** — [nativeCmpkit #13](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -513,20 +513,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- All five actual-Compose/Activity Robolectric lifecycle fixtures passed the focused JVM rerun after a test-only framework-idling correction. External writers/results remain synthetic and cannot establish physical-camera/process-kill or API24+ URI-grant behavior.
-- Synthetic ActivityResult testing is not actual dont-keep-activities/process-death/camera verification.
-- Original required test pending full target verification: Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.
-- Original required test pending full target verification: Rotate/recreate and simulate process death while external camera is foreground.
-- Original required test pending full target verification: Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
-- 2026-10-30: Actual first restoration request failed4/4 before client launch; unknown component CLI reply cause. Execute all four still-unverified methods after finite owning component/process repair on immutable API35 source, and review every original criterion before closure. Compilation/synthetic controls are zero native passes.
-- 2026-10-30 recovery002: Tooling-only wording guard failure/zero native; owning protocol/state-source repair now compiled. Request four still-unverified API35 cases only, verify actual native handler/lease/readback/process/grant/result/file/cleanup assertions and all original criteria before closure.
-- 2026-10-30 recipient-selection repair: Four original restoration scenarios still require new immutable API35 execution and complete native result/PID/task/grant/descriptor/output/state/cleanup review; no closure from synthetic/compile evidence.
-- 2026-10-30 foreground contract: Four actual41107030315 failures retain unknown conjunction values/cause. Execute four still-unverified API35 scenarios on immutable foreground-gated source and review genuine resume/draw/save, native process/task/recipient/readable exactly-once result/restored cancellation/ownership cleanup and all original criteria before closure. Observe new library-cache restore/fences/save separately; failures never become passes.
-- 2026-10-30 cache guard recovery: Actual005 failed only tooling; request the four unrun native cases on immutable two-guard repair. Reuse same-input camera/compile evidence, inspect actual cache restore/fences/save independently, and never infer native pass or close from synthetic checks.
-- 2026-10-31: Four methods remain unverified after actual006 empty shell readback failure. Run only four API35 cases on immutable protected-entry/atomic-observation source; source-confirmed contract repairs do not establish the unrecorded actual cause. Refuse stale own tasks, unknown native PID/process state or unsafe cleanup; review all original criteria before direct closure.
+- Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.
 
-**Owner verification scope:** Actual41112748929 FAILED4/4 native/one XML/Gradle1/49.01s before a successful own-client Status readback; exact runtime cause unknown. All989/1066 Git inputs/Enforcing/receiver byte identity/owned cleanup verified. Sixteen cumulative restoration executions0accepted. Test-only protected DUMP entry passes58 synthetic/reporterAPK0/36.01s; subsequent exact committed XML atomic observation and conservative task/process cleanup integrate66 important methods0fail, zero new native. All original four native criteria still pending. Additive cache terminal success is download retention only, not native/hit/speedup/trust/#40/release acceptance. New observer reporter APK0/48.01s and unchanged receiver0/14.0s compile reuse hold989/1066 inputs; compilation is zero native.
+**Owner verification scope:** Original criteria2/3 accepted from three complete camera009 native methods. Immediate reconstruction before external camera completion is not an original requirement; exact constructor timing unobserved. Only actual Dont-keep capture/restoration remains unverified. Earlier stricter/pending designations are historical and retained, not changed verdicts.
 
 **Compatibility / scope:** Legacy success callback retained; new pending state fixes activity restoration without changing returned KmpFile type.
 
@@ -1784,7 +1773,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 76. NATIVE-005 — WebView request state is not reset consistently on Desktop, iOS and Web
 
-**Medium · implemented · original effort M** — [nativeCmpkit #64](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · partially-verified · original effort M** — [nativeCmpkit #64](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -1796,13 +1785,11 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Fresh engine-location reset and saver precedence passed the actual Linux JavaFX link/redirect/reload/history regression in the second JVM batch and focused rerun; JS common request/saver contracts also passed. Equivalent real Android/iOS and complete browser load/error matrices remain unverified. A frame load cannot prove HTTP/CSP/authentication success.
-- Original required test pending full target verification: Fail→success, fail→fail, reload, stop and redirects on every target.
-- Original required test pending full target verification: Browser same-origin→cross-origin→inline transitions; blocked framing and offline destination.
-- Original required test pending full target verification: iOS provisional DNS/TLS failure before commit resets the previous request errors.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- Complete the original Android/Desktop/iOS fail→success/fail→fail/reload/stop/redirect matrices with actual platform execution and native request-state observation; prior narrower successful subsets may be reused only on exact applicable bytes.
+- Verify an actual offline destination; response/socket destruction is not system offline, DNS/TLS or network certification.
+- Verify actual iOS provisional DNS/TLS failure before commit resets prior errors with genuine WKWebView and owned transport. Browser methods cannot substitute for it.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Accept only three complete new request-state methods on each of Chromium JS/Wasm; six target executions are not six distinct methods or the every-target matrix. Preserve accepted earlier content/identity/origin evidence without replay. Original other-platform/offline/WKWebView DNS/TLS obligations remain.
 
 **Compatibility / scope:** requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.
 
@@ -2619,7 +2606,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 115. NAV-018 — Derived Apache-2.0 source attribution needs reconstruction and artifact verification
 
-**Medium · unresolved · original effort M** — [nativeCmpkit #103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort M** — [nativeCmpkit #103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) (verified; original order 108).
 
@@ -2632,11 +2619,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Current matching-source checks passed Wasm00437/37, JS00437/37 and desktop00151/51, including both final runtime-surrogate fixtures. These125 target executions reuse51 source methods. Complete required Android/Apple/minimum-platform and immutable-candidate matrix; earlier Linux iOS KLIB compilation predates later repairs and executed zero native tests.
-- Exact originally copied upstream revisions remain unknown (comparison pins are not invented original-copy provenance).
-- Verify all produced source/binary/resource artifacts include applicable notices; UI/build ownership evidence pending.
-- No legal/compliance certification or unrestricted release readiness claim.
-- Both actual U+D800 input preconditions/rejections and original+2 signed-zero regressions now passed on current desktop, JS and Wasm. Preserve earlier failures and precise compiler/cache-stage uncertainty; remaining immutable/consumer/ABI/legal/native gates are unchanged. See browser004-desktop001-verification.json.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All four literal original #103 source/provenance/static-distribution criteria accepted. Current real UI seven-target distributions retain full known notices; NAV has no publication producer and its explicit future archive gate stays required when one is approved. Exact original third-party copy revisions remain honestly unknown. This is not native/ABI/consumer/full legal/security/release clearance.
 
 **Compatibility / scope:** Existing LICENSE/upstream history untouched; original author copyright retained/additionally attributed.
 
@@ -3579,13 +3564,13 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `4111035c05eca3014d742fdad2980b4bbfa362f87746eb55c8b56873438d87c4` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `0b67ff06dafffac8455058ec14680665e96d0133ee168f2b1c76d7a1abf57aa2` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `5b979a01c0b31671088f2ea91431bd8d825126e6916025a9aa1bb8cf3a2a7eac` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `c129f2e8e5d52f3e185e29066a933280b0367bff5141977520f21132dd8dac60` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `21bb7a6326e46690a8e20f9b20a3906bd5d5c0054ceabac45dffd53da4874059` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |
-| [docs/migration/issue-map.json](../migration/issue-map.json) | `8a1064d5517ad8644112bf297f924055617ca283d011de2b893c8e8607797944` |
+| [docs/migration/issue-map.json](../migration/issue-map.json) | `e818c705058e3b64de06a924081e0b79608f55d553dc258153c0ee79e07fbbd7` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `c0d9b81913c7b4fec83cb9b5f91380bc20fa460019b7140797b3f0e601be1ca9` |
 
 No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.

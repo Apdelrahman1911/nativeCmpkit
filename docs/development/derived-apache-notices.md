@@ -1,5 +1,9 @@
 # NAV-018: inherited Apache source and artifact notice retention
 
+**#103 is closed/completed** after all four original criteria, exact committed
+inputs and [GitHub readback](evidence/derived-apache-notices-20261101/closure001/README.md).
+The broader release/legal/native gates below remain separate.
+
 This is a **narrow source/distribution contract**, not full legal clearance, a
 native-dependency finding, runtime/API/ABI acceptance, or release authorization.
 Original #103 criteria remain unchanged. No registry, Pages or release operation

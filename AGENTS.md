@@ -1,5 +1,35 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Verified attribution closure / actual platform subsets — 2026-11-01
+
+**#103/NAV-018 CLOSED/completed**, after all four literal original criteria,
+actual source/distribution review, committed/pushed inputs and
+[readback](docs/development/evidence/derived-apache-notices-20261101/closure001/README.md).
+Real KGP sources used current JVM Jar, not the deprecated subclass: the owning
+import repair preserves all source payloads and adds complete notices. Producer002
+0/231.05s; static seven-target gate773/773;1023/1100/25 frozen inputs match Git.
+Producer001's140 failures and all unknown original copy revisions remain.
+No invented Apple-host obligation; static iOS objects are not native acceptance.
+**92closed/80open/172total;27implemented/42partial/90verified/five unresolved.**
+
+[Camera literal-criteria correction](docs/development/evidence/android-camera-provider-20261030/restoration-criteria001/README.md)
+accepts camera009's three complete native methods for original criteria2/3.
+Immediate client construction before external return was never required; exact
+constructor timing stays unobserved. Only Dont-keep remains. Actual camera011
+fails master1 prerequisite before Settings mutation/capture; value/cause unknown.
+Do not replay accepted rotation/kernel-death/restored cancellation or add forced
+early reconstruction. Exact fresh-owned-AVD prerequisite/restoration still pending.
+
+Browser41255011146 accepts JS3/3 + Wasm3/3, six executions/three methods;69 review
+gates pass. Uploaded maps are1023-library, not combined;1100 frozen Git matches.
+#64 stays open for Android/Desktop/iOS/offline/provisional DNS/TLS. Apple003
+remains failed/helper2/5.47s; bounded help-shape diagnostics change no acceptance,
+ownership/privacy/time gate. #141 stays open; help-only recovery, not profiling.
+Combined IO/permission/storage finite16-execution proposal remains private until
+integration, important guards and serial compile/merged-manifest checks. All useful
+disjoint-agent/serial-local/8GiB/max2heavy/publishing/Pages/main/history/native/
+consumer/ABI/dependency/legal/security/readiness restrictions remain unchanged.
+
 ## Default decoder accepted; owning camera/browser/Apple batch — 2026-10-31
 
 [Actual41250376146](docs/development/evidence/android-io-default-decode-20261031/native-ci002/README.md)

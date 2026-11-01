@@ -1,5 +1,28 @@
 # NativeCmpKit development after the audit
 
+## Verified attribution closure and next owning batch — 2026-11-01
+
+**#103/NAV-018 closed/completed**, immediately after important checks, literal
+original-criterion/source/artifact review and committed-source confirmation; see
+[closure/readback](evidence/derived-apache-notices-20261101/closure001/README.md).
+The actual source-Jar producer omission is fixed at its current JVM Jar hook.
+Seven target families pass773/773 static checks, all705 old source/manifest
+payloads and14primary/companion archives remain exact. Original140 failures stay.
+Source/provenance/static distribution is not full legal/security/release clearance.
+Fresh destination count: **92closed/80open/172total**. Current audit dispositions:
+**27implemented/42partial/90verified/five unresolved**; original530 requirements
+are unchanged. Earlier scopes/pending entries are retained as historical snapshots.
+
+Only one original camera Dont-keep case remains after the
+[literal lifecycle review](evidence/android-camera-provider-20261030/restoration-criteria001/README.md);
+camera009's rotation/kernel death/restored cancellation are accepted, not replayed.
+camera011's master1 failure value/cause remains unknown. Browser six actual new
+request-state executions are accepted narrowly; #64 remains open for other targets,
+actual offline and WKWebView provisional DNS/TLS. Apple003 remains failed; only
+the bounded help-diagnostic recovery is prepared. The combined16-execution Android
+IO/permission/storage batch is still uncompiled/unexecuted. No release, registry
+package, deployment, Pages or `main` integration is authorized by these subsets.
+
 ## Focused CI owning guard recovery — 2026-10-31
 
 [Both immutable requests failed before platforms](evidence/workflow-option-guard-recovery-20261031/README.md):

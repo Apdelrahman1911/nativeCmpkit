@@ -1,0 +1,65 @@
+{
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:compileTestKotlinDesktop",
+    ":calf-webview:assembleAndroidDeviceTest"
+  ],
+  "timeout_seconds": 1800,
+  "reserve_mib": 8192,
+  "started_utc": "2026-11-01T02:43:25.493100+00:00",
+  "free_bytes_before": 46340759552,
+  "exit_code": 0,
+  "elapsed_seconds": 118.02,
+  "free_bytes_after": 46223044608,
+  "kind": "actual-held-local-source-compiler-and-test-apk-not-runtime",
+  "cwd": ".",
+  "selected_head_before_additive_commit": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+  "modified_tree_held": true,
+  "library_inputs": 1079,
+  "combined_inputs": 1156,
+  "inputs_held": true,
+  "actual_daemon_jvm": {
+    "schema_version": 1,
+    "major": 17,
+    "java_version": "17.0.20",
+    "java_vendor": "Ubuntu",
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "gradle_version": "9.7.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true
+  },
+  "actual_compiled_or_assembled_tasks": [
+    ":calf-webview:compileTestKotlinDesktop",
+    ":calf-webview:compileAndroidDeviceTest",
+    ":calf-webview:assembleAndroidDeviceTest"
+  ],
+  "raw_private_result_sha256": "e7986ca63130477ef431bedc465d0048b1401883d36998547f1a340aba40d71b",
+  "raw_private_log_sha256": "15608a872f2debaeac9427f6a713b7420fcabc0ed4bbee111f1e32f428ebc0bd",
+  "test_apk": {
+    "path": "calf-webview/build/outputs/apk/androidTest/calf-webview-androidTest.apk",
+    "sha256": "77f6209578864aaac1716c1a9684e729303901e26963cdc9d0b4e7f850352d9f",
+    "bytes": 13433631,
+    "uploaded": false,
+    "native_execution_inferred": false
+  },
+  "new_desktop_native_methods": 0,
+  "new_android_native_methods": 0,
+  "ios_compiler_or_native": false,
+  "old_accepted_tests_replayed": 0,
+  "issue64_closed": false,
+  "release_readiness_certified": false,
+  "known_warnings": [
+    "Existing Android-host tests still use deprecated createComposeRule; unchanged accepted assertions.",
+    "libandroidx.graphics.path.so packaged without symbol stripping; not native provenance verification."
+  ]
+}

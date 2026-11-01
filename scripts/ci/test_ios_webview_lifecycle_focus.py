@@ -64,7 +64,9 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
         f.setUp()
         f.write("settings.gradle.kts", 'include(\n    ":calf-ui",\n    ":calf-webview",\n)\n')
         f.write("calf-webview/build.gradle.kts", "// synthetic model; never executed")
-        for source in {*lt.IOS_WEBVIEW_APPLICATION_SOURCES, *(g["source"] for g in lt.IOS_WEBVIEW_LIFECYCLE_GROUPS)}:
+        for source in {*lt.IOS_WEBVIEW_APPLICATION_SOURCES,
+                       *(g["source"] for g in lt.IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS),
+                       lt.IOS_WEBVIEW_REQUEST_FIXTURE}:
             f.write(source, (lt.ROOT / source).read_bytes())
         directory = app.APPLICATION_HOSTS["calf-webview"]["binary_directory"]
         binary = f.write(directory + "/test.kexe", f.binary.read_bytes())
@@ -169,21 +171,21 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
         f = self.fixture()
         f.plan = lt.plan(f.root, "ios", only_modules=("calf-webview",))
         f.document["explicit_test_focus"] = None
-        f.document["application_protocol"]["testcases"].append({
-            "classname": lt.IOS_WEBVIEW_LIFECYCLE_CLASS, "name": lt.IOS_WEBVIEW_BRIDGE_METHOD, "status": "passed",
-        })
-        f.document["application_protocol"]["counts"] = lt.case_counts(f.document["application_protocol"]["testcases"])
-        f.modules[0]["testcases"] = f.xml_cases(f.document["application_protocol"]["testcases"])
+        cases = [{"classname": group["classname"], "name": name, "status": "passed"}
+                 for group in lt.IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS for name in group["methods"]]
+        f.document["application_protocol"].update(testcases=cases, counts=lt.case_counts(cases))
+        from test_ios_webview_request_focus import synthetic_webview_request_receipt
+        f.document["webview_request_fixture"] = synthetic_webview_request_receipt(f)
+        f.modules[0]["testcases"] = f.xml_cases(cases)
         f.save()
         result = f.collect()
         self.assertEqual([], result["errors"])
-        self.assertEqual(11, result["ios_applications"][0]["required_native_cases_found"])
+        self.assertEqual(14, result["ios_applications"][0]["required_native_cases_found"])
         f.document["application_protocol"]["testcases"] = f.document["application_protocol"]["testcases"][1:]
         f.document["application_protocol"]["counts"] = lt.case_counts(f.document["application_protocol"]["testcases"])
         f.modules[0]["testcases"] = f.xml_cases(f.document["application_protocol"]["testcases"])
         f.save()
         self.assertTrue(f.collect()["errors"], "An unfiltered module run must not lose a required native-host test")
-
     def test_wrong_task_full_suite_claim_filter_or_required_case_inventory_is_rejected(self):
         for key, value in (("task", ":calf-webview:publish"), ("test_filter", "*"), ("required_testcases", []),
                            ("native_test_host", "command-line"), ("test_source_files", [])):

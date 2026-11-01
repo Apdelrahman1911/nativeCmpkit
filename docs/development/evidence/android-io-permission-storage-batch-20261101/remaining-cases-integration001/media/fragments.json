@@ -1,0 +1,88 @@
+{
+  "basis": "Current #64 staged preimages; cached1c74 map hashes retained separately. No Git verification or full reconstruction here.",
+  "declared_requested_base_revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+  "fragment_count": 8,
+  "fragments": [
+    {
+      "anchor": "    \"android-storage-compatibility\": (\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "96a45d0443ff396fb5ed827e5aed8a424aeb050c4991a9675fb367505b51d098",
+      "current_stage_preimage_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+      "id": "batch-two-existing-media-routes",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/android_device_batch_plan.py",
+      "replacement": "    \"android-media-selection-compatibility\": (\n        \"android-media-selection-api33\", \"android-media-selection-api34\",\n    ),\n    \"android-storage-compatibility\": (\n"
+    },
+    {
+      "anchor": "    \"android-storage-compatibility\": \"calf-permissions/core\",\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "ccfb38c1d3cd6cd6f359ebb7d67a09a7286ad29b6705cac3bbad0266ab0b7eda",
+      "current_stage_preimage_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+      "id": "batch-single-module",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/android_device_batch_plan.py",
+      "replacement": "    \"android-media-selection-compatibility\": \"calf-permissions/core\",\n    \"android-storage-compatibility\": \"calf-permissions/core\",\n"
+    },
+    {
+      "anchor": "    \"android-storage-compatibility\": \"android-device-batch-storage-compatibility\",\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "4d2ab3d198669d092848cf17745b7983ad6f18abaa6b3b70b167cc0bbd57dc20",
+      "current_stage_preimage_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+      "id": "batch-fixed-slot",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/android_device_batch_plan.py",
+      "replacement": "    \"android-media-selection-compatibility\": \"android-device-batch-media-compatibility\",\n    \"android-storage-compatibility\": \"android-device-batch-storage-compatibility\",\n"
+    },
+    {
+      "anchor": "    \"android-storage-compatibility\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64\",\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "ebee684a779371a09c14b3da162d07e9d8a69d058266d375c1403187dd12133c",
+      "current_stage_preimage_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+      "id": "batch-sdk-only33-and34",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/android_device_batch_plan.py",
+      "replacement": "    \"android-media-selection-compatibility\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64\",\n    \"android-storage-compatibility\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64\",\n"
+    },
+    {
+      "anchor": "    \"android-storage-compatibility\": (\"android-device-api35\",),\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "9787b6090cef15919aa17d1a2158542867801223f63eaa5b61806d92ba09330f",
+      "current_stage_preimage_sha256": "4dbe3ca591338c672888b815152d48936b2bf5b33f81c12c8e7fe64241a97cad",
+      "id": "matrix-one-existing-host",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/workflow_matrix.py",
+      "replacement": "    \"android-media-selection-compatibility\": (\"android-device-api35\",),\n    \"android-storage-compatibility\": (\"android-device-api35\",),\n"
+    },
+    {
+      "anchor": "    \"android-storage-compatibility\": \"calf-permissions/core\",\n",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "ccfb38c1d3cd6cd6f359ebb7d67a09a7286ad29b6705cac3bbad0266ab0b7eda",
+      "current_stage_preimage_sha256": "4dbe3ca591338c672888b815152d48936b2bf5b33f81c12c8e7fe64241a97cad",
+      "id": "matrix-single-module",
+      "operation": "replace-exactly-one",
+      "path": "scripts/ci/workflow_matrix.py",
+      "replacement": "    \"android-media-selection-compatibility\": \"calf-permissions/core\",\n    \"android-storage-compatibility\": \"calf-permissions/core\",\n"
+    },
+    {
+      "anchor": "android-storage-compatibility, android-media-selection-api33,",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "c1c64be794d337a82e1617cb68dbc440d57c9e8908987f1fd598691236fad625",
+      "current_stage_preimage_sha256": "9eae7881b4307fa1824435a51c80f7fa53e626c77ac4f2dd7362587d8832f599",
+      "id": "workflow-profile-option",
+      "operation": "replace-exactly-one",
+      "path": ".github/workflows/gradle.yml",
+      "replacement": "android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33,"
+    },
+    {
+      "anchor": "inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64'",
+      "anchor_occurrences_current_preimage": 1,
+      "anchor_sha256": "0bbdbcc8d4f75ced0f192f2e5e09bb1c1ceb6d1904a2fa99863134dc221f9b3c",
+      "current_stage_preimage_sha256": "9eae7881b4307fa1824435a51c80f7fa53e626c77ac4f2dd7362587d8832f599",
+      "id": "workflow-sdk-only33-and34",
+      "operation": "replace-exactly-one",
+      "path": ".github/workflows/gradle.yml",
+      "replacement": "inputs.profile == 'android-media-selection-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64'"
+    }
+  ],
+  "profile": "android-media-selection-compatibility"
+}

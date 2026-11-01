@@ -1,0 +1,46 @@
+{
+  "id": "NATIVE-005",
+  "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
+  "priority": "Medium",
+  "status": "confirmed-source",
+  "modules": [
+    "calf-webview"
+  ],
+  "locations": [
+    {
+      "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+      "lines": "60-90",
+      "symbol": "loadWorker state listener"
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "lines": "208-247,345-383",
+      "symbol": "WKNavigationDelegate and KVO"
+    },
+    {
+      "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+      "lines": "50-65,76-95,183-228",
+      "symbol": "content/navigation loaders and iframe listeners"
+    }
+  ],
+  "root_cause": "Desktop RUNNING does not clear errorsForCurrentRequest. iOS clears errors only at didCommitNavigation, so consecutive provisional failures accumulate old errors. Web never sets Loading when changing src/srcdoc and never clears prior errors/title; its cross-origin load handler cannot read URL/title and leaves old values. Web navigation capability flags are unconditionally false.",
+  "impact": "A successful retry can retain an old error, a new request can appear Finished, and cross-origin content may display a previous page title/URL. Consumers deriving loading/error/security UI from common state receive inconsistent or stale signals.",
+  "recommendation": "Centralize begin-request state reset and terminal-state handling; separate requested URL from observable final URL; explicitly represent unknown cross-origin title/history. Clear errors at provisional request start on iOS and RUNNING on Desktop. Do not infer iframe load success from the load event alone.",
+  "risks": "Browser deliberately hides many iframe errors and cross-origin metadata; do not promise reliable progress/final URL or bypass same-origin policy. History capability may need an explicit unsupported state rather than invented booleans.",
+  "required_tests": [
+    "Fail→success, fail→fail, reload, stop and redirects on every target.",
+    "Browser same-origin→cross-origin→inline transitions; blocked framing and offline destination.",
+    "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+  ],
+  "evidence": [
+    "Android onPageStarted resets errors/title, providing the existing comparison behavior.",
+    "Desktop writes errors only on FAILED; iOS reset is didCommit only; Web event source has no Loading assignment anywhere."
+  ],
+  "upstream_refs": [
+    "https://github.com/MohamedRejeb/Calf/pull/426",
+    "https://github.com/MohamedRejeb/Calf/pull/466",
+    "https://github.com/MohamedRejeb/Calf/issues/39"
+  ],
+  "effort": "M",
+  "dependencies": []
+}

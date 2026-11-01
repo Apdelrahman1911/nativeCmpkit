@@ -31,6 +31,7 @@ WRITE = "android.permission.WRITE_EXTERNAL_STORAGE"
 ALL_FILES = "android.permission.MANAGE_EXTERNAL_STORAGE"
 DYNAMIC = PACKAGE + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 ANDROID = "{http://schemas.android.com/apk/res/android}"
+OPTIONAL_LIBRARIES = frozenset({"androidx.window.extensions", "androidx.window.sidecar"})
 SIGNER_REVISION = "36.0.0"
 MAX_HOST_BYTES = 1024**2
 FLAVORS = tuple(dict.fromkeys(row.flavor for row in storage.ROWS))
@@ -94,6 +95,10 @@ def validate_support_component(node: ET.Element, package: str) -> None:
     component = node.get(ANDROID + "name")
     require(node.get(ANDROID + "process") is None and node.get(ANDROID + "enabled") in {None, "true"},
             "Unexpected support component process/state")
+    if node.tag == "uses-library" and component in OPTIONAL_LIBRARIES:
+        require(node.attrib == {ANDROID + "name": component, ANDROID + "required": "false"} and len(node) == 0,
+                "Only the exact optional AndroidX window libraries are permitted")
+        return
     if node.tag == "provider" and component == "androidx.startup.InitializationProvider":
         require(node.get(ANDROID + "authorities") == package + ".androidx-startup" and
                 node.get(ANDROID + "exported") == "false" and
@@ -116,7 +121,23 @@ def validate_support_component(node: ET.Element, package: str) -> None:
     raise ValueError("Unknown helper merged component; no broad manifest fallback")
 
 
-def validate_manifest(payload: bytes, *, compiled: bool, profile: str | None = None) -> dict:
+def support_refusal_facts(node: ET.Element, payload: bytes) -> dict:
+    """Fixed labels or bounded hashes only; no unreviewed names/values/paths."""
+    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536, "Expected bounded support refusal bytes")
+    tag, component = node.tag, node.get(ANDROID + "name", "")
+    tag_bytes, component_bytes = tag.encode("utf-8"), component.encode("utf-8")
+    return {"schema": "nativecmpkit-storage-support-refusal-facts-v1", "status": "retained",
+        "manifest_bytes": len(payload), "manifest_sha256": hashlib.sha256(payload).hexdigest(),
+        "node_tag": tag if tag in {"activity", "activity-alias", "service", "provider", "receiver", "uses-library", "meta-data"} else "other",
+        "node_tag_bytes": len(tag_bytes), "node_tag_sha256": hashlib.sha256(tag_bytes).hexdigest(),
+        "component_name": component if component in OPTIONAL_LIBRARIES | {
+            "androidx.startup.InitializationProvider", "androidx.profileinstaller.ProfileInstallReceiver"} else "other" if component else "missing",
+        "component_name_bytes": len(component_bytes), "component_name_sha256": hashlib.sha256(component_bytes).hexdigest(),
+        "attribute_count": len(node.attrib), "attribute_names_sha256": hashlib.sha256(json.dumps(sorted(node.attrib)).encode()).hexdigest(),
+        "child_count": len(node), "raw_names_values_paths_or_exception_bodies_uploaded": False, "native_success_inferred": False}
+
+
+def validate_manifest(payload: bytes, *, compiled: bool, profile: str | None = None, support_refusal: dict | None = None) -> dict:
     manifest = xml(payload)
     row = storage.row_for(profile) if compiled else None
     require(manifest.tag == "manifest" and (manifest.get("package") == PACKAGE if compiled else manifest.get("package") in {None, PACKAGE}) and
@@ -177,7 +198,15 @@ def validate_manifest(payload: bytes, *, compiled: bool, profile: str | None = N
     for node in app:
         if node not in owned:
             require(compiled, "Unexpected helper source component")
-            validate_support_component(node, PACKAGE)
+            try:
+                validate_support_component(node, PACKAGE)
+            except ValueError:
+                if type(support_refusal) is dict:
+                    try:
+                        support_refusal.update(support_refusal_facts(node, payload))
+                    except (Exception, KeyboardInterrupt):
+                        pass  # Diagnostic failure never replaces the original refusal.
+                raise
     if compiled:
         sdk = manifest.findall("uses-sdk")
         legacy = "true" if row.flavor == "legacy29" else "false" if row.flavor in {"scoped29", "modern", "allFiles"} else None
@@ -458,7 +487,17 @@ class OwnedStorageProbe(OwnedShareRecipient):
         analyzer, signer = self.inspectors()
         manifest = self.host([str(analyzer), "manifest", "print", str(apk)])
         require(manifest.returncode == 0 and not manifest.stderr.strip(), "Actual compiled manifest unavailable")
-        policy = validate_reporter_manifest(manifest.stdout) if reporter else validate_manifest(manifest.stdout, compiled=True, profile=self.row.profile)
+        support_refusal = {}
+        try:
+            policy = validate_reporter_manifest(manifest.stdout) if reporter else validate_manifest(
+                manifest.stdout, compiled=True, profile=self.row.profile, support_refusal=support_refusal)
+        except ValueError:
+            if support_refusal:
+                try:
+                    self.receipt["compiled_support_refusal"] = support_refusal
+                except (Exception, KeyboardInterrupt):
+                    pass  # Persisting diagnostic facts must not mask the refusal.
+            raise
         api = str(self.row.api)
         certificate = signer_certificate(self.host([str(signer), "verify", "--verbose", "--print-certs",
             "--min-sdk-version", api, "--max-sdk-version", api, str(apk)]))

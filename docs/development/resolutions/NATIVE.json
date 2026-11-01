@@ -802,7 +802,8 @@
     "changes": [
       "Shared request reset clears errors/title/final URL and exposes requestedUrl separately; native start callbacks and browser loaders reset state before a request.",
       "Post-review: Desktop SCHEDULED starts a request from current engine.location, not stale state.requestedUrl; prepared real-FX local A -> native B link -> C redirect/reload/history assertions.",
-      "2026-11-01: Accept exact new browser request-state subset from original source/results/cleanup, preserve all failures and remaining every-target/offline/Apple obligations."
+      "2026-11-01: Accept exact new browser request-state subset from original source/results/cleanup, preserve all failures and remaining every-target/offline/Apple obligations.",
+      "2026-11-01: Integrate additive Android/Desktop/iOS held-native request regressions and bounded localhost WK transport; no production rewrite or API change."
     ],
     "affected_paths": [
       "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
@@ -1007,6 +1008,31 @@
           "docs/development/evidence/browser-request-state-20261031/native-ci001/integrity-checks.json",
           "docs/development/evidence/browser-request-state-20261031/native-ci001/acceptance-boundaries.json",
           "docs/development/evidence/browser-request-state-20261031/native-ci001/lead-readback.json"
+        ]
+      },
+      {
+        "command": "No compiler/native execution in integration001; exact14-file/42-fragment source readback and reuse of sealed owning model results only.",
+        "result": "PREPARED/NOT NATIVE VERIFIED: four new methods/eight target selections; source1078/1155. Root report-schema refusals retained. No accepted model/runtime replay.",
+        "evidence": [
+          "docs/development/evidence/webview-request-state-native-20261101/integration001/README.md",
+          "docs/development/evidence/webview-request-state-native-20261101/integration001/SOURCE-REVIEW.json",
+          "docs/development/evidence/webview-request-state-native-20261101/integration001/finite-source-plans.json"
+        ]
+      },
+      {
+        "command": "Exact serial bounded Gradle invocation in docs/development/evidence/webview-request-state-native-20261101/linux-compile001/RECEIPT.json",
+        "result": "PASS compiler/APK0/118.02s; real JDK17/Gradle9.7.1;1079/1156 exact held inputs. ZERO native runtime/Apple compile/accepted test replay.",
+        "evidence": [
+          "docs/development/evidence/webview-request-state-native-20261101/linux-compile001/README.md",
+          "docs/development/evidence/webview-request-state-native-20261101/linux-compile001/RECEIPT.json"
+        ]
+      },
+      {
+        "command": "No compiler/native execution: exact31 remaining-case/DNS fragments; two still-unrun expanded-catalog source guards passed0.9976s, original sealed models reused.",
+        "result": "PREPARED/NOT NATIVE VERIFIED: one genuine WK provisional DNS method added; Android/Desktop/iOS original target matrix and offline still incomplete. Root1083/1160 map not hosted/consumer evidence; no status promotion.",
+        "evidence": [
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/remaining-cases-integration001/README.md",
+          "docs/development/evidence/android-io-permission-storage-batch-20261101/remaining-cases-integration001/ROOT-IMPORTANT-TWO-GUARDS.json"
         ]
       }
     ],

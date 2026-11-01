@@ -1,0 +1,82 @@
+[
+  {
+    "after": "    \"android-io-permission-storage-api35\": (\n        \"android-io-reference-regressions\", \"android-permission-demo\",\n        \"android-storage-api35-normal\", \"android-storage-api35-all-files\",\n    ),\n    \"android-permission-storage-api35-recovery\": (\n        \"android-permission-demo\", \"android-storage-api35-normal\", \"android-storage-api35-all-files\",\n    ),\n",
+    "before": "    \"android-io-permission-storage-api35\": (\n        \"android-io-reference-regressions\", \"android-permission-demo\",\n        \"android-storage-api35-normal\", \"android-storage-api35-all-files\",\n    ),\n",
+    "current_before_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-three-existing-routes-no-io",
+    "path": "scripts/ci/android_device_batch_plan.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "    \"android-io-permission-storage-api35\": \"calf-io,calf-permissions/core\",\n    \"android-permission-storage-api35-recovery\": \"calf-permissions/core\",\n",
+    "before": "    \"android-io-permission-storage-api35\": \"calf-io,calf-permissions/core\",\n",
+    "current_before_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-single-existing-module",
+    "path": "scripts/ci/android_device_batch_plan.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "    \"android-io-permission-storage-api35\": \"android-device-batch-api35\",\n    \"android-permission-storage-api35-recovery\": \"android-device-batch-permission-storage-api35-recovery\",\n",
+    "before": "    \"android-io-permission-storage-api35\": \"android-device-batch-api35\",\n",
+    "current_before_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-one-fixed-batch-slot",
+    "path": "scripts/ci/android_device_batch_plan.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "    \"android-io-permission-storage-api35\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64\",\n    \"android-permission-storage-api35-recovery\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64\",\n",
+    "before": "    \"android-io-permission-storage-api35\": \"cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64\",\n",
+    "current_before_sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-only-existing-sdk-tools-and-image35",
+    "path": "scripts/ci/android_device_batch_plan.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "    \"android-io-permission-storage-api35\": (\"android-device-api35\",),\n    \"android-permission-storage-api35-recovery\": (\"android-device-api35\",),\n",
+    "before": "    \"android-io-permission-storage-api35\": (\"android-device-api35\",),\n",
+    "current_before_sha256": "4dbe3ca591338c672888b815152d48936b2bf5b33f81c12c8e7fe64241a97cad",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-one-existing-host",
+    "path": "scripts/ci/workflow_matrix.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "    \"android-io-permission-storage-api35\": \"calf-io,calf-permissions/core\",\n    \"android-permission-storage-api35-recovery\": \"calf-permissions/core\",\n",
+    "before": "    \"android-io-permission-storage-api35\": \"calf-io,calf-permissions/core\",\n",
+    "current_before_sha256": "4dbe3ca591338c672888b815152d48936b2bf5b33f81c12c8e7fe64241a97cad",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-one-matrix-module",
+    "path": "scripts/ci/workflow_matrix.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility,",
+    "before": "android-io-permission-storage-api35, android-permission-storage-compatibility,",
+    "current_before_sha256": "9eae7881b4307fa1824435a51c80f7fa53e626c77ac4f2dd7362587d8832f599",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-dispatch-option",
+    "path": ".github/workflows/gradle.yml",
+    "private_mode": "0600"
+  },
+  {
+    "after": "inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-api35-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || ",
+    "before": "inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || ",
+    "current_before_sha256": "9eae7881b4307fa1824435a51c80f7fa53e626c77ac4f2dd7362587d8832f599",
+    "desired_repository_mode": "100644",
+    "group": "permission-storage-api35-recovery",
+    "id": "api35-recovery-explicit-sdk-branch",
+    "path": ".github/workflows/gradle.yml",
+    "private_mode": "0600"
+  }
+]

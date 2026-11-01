@@ -41,7 +41,7 @@ RESERVE_MIB = 8192
 IMAGE = f"system-images;android-{API};google_apis;x86_64"
 
 
-def preflight_error_origin(error: Exception) -> dict:
+def preflight_error_origin(error: Exception, *, skip_prerequisite_require: bool = False) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
     allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
                "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py"}
@@ -52,7 +52,9 @@ def preflight_error_origin(error: Exception) -> dict:
         filename = Path(frame.tb_frame.f_code.co_filename)
         symbol = frame.tb_frame.f_code.co_name
         if (filename.name in allowed and filename.resolve().parent == directory and
-                re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", symbol) and 0 < frame.tb_lineno < 20000):
+                re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", symbol) and 0 < frame.tb_lineno < 20000 and
+                not (skip_prerequisite_require and filename.name == "android_camera_developer_prerequisite.py" and
+                     symbol == "require")):
             origin = {"source": filename.name, "symbol": symbol, "line": frame.tb_lineno}
         frame = frame.tb_next
     return origin
@@ -88,10 +90,34 @@ def sdk_assets(home: Path, api_level: int = API) -> dict:
             "image_revision": image["Pkg.Revision"], "emulator_revision": emulator["Pkg.Revision"]}
 
 
+def record_host_admission_refusal() -> None:
+    """Read-only after-refusal observations, never a cause or permission repair."""
+    facts = {"schema_version": 1, "observation_phase": "after-refusal",
+             "character_device": None, "read_access": None, "write_access": None,
+             "native_success_inferred": False}
+    probes = (("character_device", lambda: Path("/dev/kvm").is_char_device()),
+              ("read_access", lambda: os.access("/dev/kvm", os.R_OK)),
+              ("write_access", lambda: os.access("/dev/kvm", os.W_OK)))
+    for name, probe in probes:
+        try:
+            value = probe()
+            facts[name] = value if type(value) is bool else None
+        except Exception:
+            # One unavailable observation stays null; do not invent denial.
+            pass
+    print("NATIVECMPKIT_ANDROID_HOST_ADMISSION " + json.dumps(facts, sort_keys=True),
+          file=sys.stderr, flush=True)
+
+
 def require_host() -> None:
     if platform.system() != "Linux" or platform.machine().lower() not in {"x86_64", "amd64"}:
         raise ValueError("This explicit instrumentation slot requires a Linux x64 KVM host")
     if not Path("/dev/kvm").is_char_device() or not os.access("/dev/kvm", os.R_OK | os.W_OK):
+        try:
+            record_host_admission_refusal()
+        except Exception:
+            # Diagnostic transport/probe failure cannot replace the primary refusal.
+            pass
         raise ValueError("KVM is unavailable; do not silently substitute slow/unverified acceleration")
 
 
@@ -309,8 +335,19 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             result["setup_stages"][stage] = execution
             if execution["exit_code"] != 0 or execution.get("stop_reason"):
                 raise RuntimeError("Setup failed before any device test execution")
-        if guest is not None:
-            guest.capture_avd(home)
+            if stage == "owned-avd-create" and guest is not None:
+                try:
+                    guest.capture_avd(home)
+                except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+                    # Additional bounded source-only caller facts; keep the original
+                    # innermost controller_error_origin and primary failure intact.
+                    try:
+                        result["camera_guest_capture_error_origin"] = preflight_error_origin(
+                            error, skip_prerequisite_require=True)
+                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt):
+                        result["camera_guest_capture_error_origin"] = {
+                            "source": "unavailable", "symbol": "unavailable", "line": 0}
+                    raise
         log = (output / "emulator.log").open("w", encoding="utf-8")
         if guest is not None:
             guest.before_launch()
@@ -562,6 +599,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
 
 
 def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:
+    if focus == lt.ANDROID_WEBVIEW_REQUEST_FOCUS:
+        if type(api_level) is not int or api_level != 35 or modules != ("calf-webview",):
+            raise ValueError("The exact one-method Android WebView request selection requires API35 and calf-webview only")
+        return
     if focus in lt.ANDROID_STORAGE_FOCUSES:
         row = lt.storage_plan.row_for(focus)
         if type(api_level) is not int or api_level != row.api or modules != (lt.ANDROID_STORAGE_MODULE,):
@@ -605,7 +646,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[23, 28, 29, 30, 33, 34, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[*lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
+    parser.add_argument("--focus", choices=[*lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_WEBVIEW_REQUEST_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

@@ -146,6 +146,51 @@ def failed_child_origin(root: Path, relative: str) -> dict:
     return result
 
 
+def failed_child_host_admission(root: Path, relative: str, origin: dict) -> dict:
+    """Keep only typed fixed-path observations after the original KVM refusal."""
+    result = {"status": "unavailable", "raw_log_uploaded": False, "native_success_inferred": False}
+    marker = b"NATIVECMPKIT_ANDROID_HOST_ADMISSION"
+    prefix = marker + b" "
+    marker_present = False
+    try:
+        body = evidence.read(lt.safe_path(root, relative), 64 * 1024)
+        rows = [row for row in body.split(b"\n") if marker in row]
+        if not rows:
+            return result
+        marker_present = True
+        require(len(rows) == 1 and rows[0].startswith(prefix) and len(rows[0]) <= 512,
+                "Expected one exact bounded host-admission marker")
+        facts = json.loads(rows[0][len(prefix):], object_pairs_hook=evidence.unique_object,
+                           parse_constant=lambda _: require(False, "Nonfinite host-admission JSON"))
+        require(isinstance(facts, dict) and set(facts) == {"schema_version", "observation_phase",
+                    "character_device", "read_access", "write_access", "native_success_inferred"} and
+                type(facts["schema_version"]) is int and facts["schema_version"] == 1 and
+                facts["observation_phase"] == "after-refusal" and facts["native_success_inferred"] is False and
+                all(facts[key] is None or type(facts[key]) is bool
+                    for key in ("character_device", "read_access", "write_access")),
+                "Only fixed typed after-refusal observations may be retained")
+        require(isinstance(origin, dict), "Missing typed original failed-child frame")
+        frame = origin.get("origin", {})
+        require(isinstance(frame, dict) and origin.get("status") == "retained" and frame.get("source") == "android_device_tests.py" and
+                frame.get("symbol") == "require_host" and type(frame.get("line")) is int,
+                "Host observations need the exact original failed host-admission frame")
+        source = evidence.read(lt.safe_path(root, "scripts/ci/android_device_tests.py"), 512 * 1024)
+        syntax = ast.parse(source)
+        function, = [node for node in syntax.body if isinstance(node, ast.FunctionDef) and node.name == "require_host"]
+        lines = source.decode("utf-8").splitlines()
+        require(function.lineno <= frame["line"] <= function.end_lineno and
+                lines[frame["line"] - 1].strip() ==
+                'raise ValueError("KVM is unavailable; do not silently substitute slow/unverified acceleration")',
+                "Host observations must match the exact primary KVM refusal, not another host failure")
+        result.update(status="retained", observations=facts)
+    except FileNotFoundError as error:
+        if marker_present:
+            result.update(status="refused", diagnostic_error=type(error).__name__)
+    except (OSError, ValueError, TypeError, UnicodeError, SyntaxError, RecursionError) as error:
+        result.update(status="refused", diagnostic_error=type(error).__name__)
+    return result
+
+
 def archive_route(root: Path, relative: str, route: dict, inputs: dict, revision: str, controller: dict) -> dict:
     output = lt.safe_path(root, relative)
     summary = output / "fresh-reports.json"
@@ -322,6 +367,10 @@ def run(root: Path, batch: str, relative: str) -> dict:
                 if type(execution.get("exit_code")) is int and execution["exit_code"] != 0:
                     item["failed_child_origin"] = failed_child_origin(
                         root, relative + "/" + route["profile"] + ".log")
+                    admission = failed_child_host_admission(root, relative + "/" + route["profile"] + ".log",
+                                                            item["failed_child_origin"])
+                    if admission.get("status") != "unavailable":
+                        item["failed_child_host_admission"] = admission
                 controller = evidence.document(root, route_relative + "/controller.json")
                 item.update(controller_path=route_relative + "/controller.json",
                             controller_sha256=lt.sha256(root / route_relative / "controller.json"))

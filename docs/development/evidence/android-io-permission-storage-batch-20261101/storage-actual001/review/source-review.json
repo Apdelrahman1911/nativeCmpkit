@@ -1,0 +1,510 @@
+{
+  "api33_api34_original_failure_causes_unknown_and_no_media_replay": true,
+  "api35_two_storage_rows_required_separately_for_full_issue_118": true,
+  "docs_source_criterion_reused_not_test_replayed": true,
+  "issue": {
+    "finding": "PERM-024",
+    "finding_required_tests_equal_original_criteria": true,
+    "literal_original_criteria": [
+      "API28 legacy permission, API29 legacy/scoped target modes, API30+ app-scoped/SAF and all-files absent/present.",
+      "Verify docs examples request the least permissions needed and no Granted result is described as unrestricted disk access."
+    ],
+    "no_issue_closure": true,
+    "number": 118,
+    "title": "[Medium][PERM-024] Storage guidance asks for all-files access that WriteStorage never requests or verifies"
+  },
+  "native_test_shared_assertion_declarations": {
+    "function_lines": {
+      "appScopedAndSaf": 247,
+      "assertManager": 229,
+      "assertShared": 235,
+      "assertWriteRequest": 213,
+      "assertWriteSnapshot": 223,
+      "case": 127,
+      "clickOnlyOwnedSafDocument": 271,
+      "nativeWriteGrant": 168,
+      "setOwnedAllFiles": 307
+    },
+    "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt",
+    "proof_obligations": {
+      "fresh_source_and_native_identity": [
+        "case",
+        "nativeWriteGrant"
+      ],
+      "genuine_system_SAF_select_read_persist_release_and_denial": [
+        "appScopedAndSaf",
+        "clickOnlyOwnedSafDocument"
+      ],
+      "normal_UID_exclusive_descriptor_denial_hash_close_and_unlink": [
+        "assertShared"
+      ],
+      "owned_all_files_default_allow_default_with_native_manager_readback": [
+        "assertManager",
+        "setOwnedAllFiles"
+      ],
+      "public_write_helper_semantics": [
+        "assertWriteRequest",
+        "assertWriteSnapshot"
+      ]
+    }
+  },
+  "python_static_inspection_and_admission_functions": [
+    {
+      "first_line": 119,
+      "last_line": 191,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "validate_manifest"
+    },
+    {
+      "first_line": 194,
+      "last_line": 227,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "validate_reporter_manifest"
+    },
+    {
+      "first_line": 240,
+      "last_line": 305,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "source_contract"
+    },
+    {
+      "first_line": 331,
+      "last_line": 359,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "signer_certificate"
+    },
+    {
+      "first_line": 362,
+      "last_line": 390,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "validate_native_status"
+    },
+    {
+      "first_line": 393,
+      "last_line": 433,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "validate_prepared_receipt"
+    },
+    {
+      "first_line": 457,
+      "last_line": 478,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "inspect_apk"
+    },
+    {
+      "first_line": 504,
+      "last_line": 538,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "prepare"
+    },
+    {
+      "first_line": 540,
+      "last_line": 556,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "prepare_reporter"
+    },
+    {
+      "first_line": 558,
+      "last_line": 604,
+      "path": "scripts/ci/android_storage_probe.py",
+      "symbol": "close"
+    }
+  ],
+  "reviewer_new_tests_builds_installs_native_runs_git_mutations_or_issue_closures": 0,
+  "schema": "nativecmpkit-storage-actual-source-original-criteria-review-v1",
+  "scope": "Read-only immutable source review; native operation proof still requires original selected XML plus actual source/identity/cleanup receipts.",
+  "source_alone_is_not_native_acceptance": true,
+  "source_links": {
+    ".github/workflows/gradle.yml": {
+      "bytes": 52785,
+      "git_blob": "082986eed1ec6aa188e403fbd680fc13fa23fd66",
+      "git_mode": "100644",
+      "sha256": "b87cf046d2bada7cbd41e4a1504420f4812056d017ca5774a50a8782bf1bf5fa"
+    },
+    "calf-permissions/core/build.gradle.kts": {
+      "bytes": 1201,
+      "git_blob": "2f78816777e5802c2d19173ab7d5641f4f79665b",
+      "git_mode": "100644",
+      "sha256": "efeb49abd8966b7c9ad024b471099a80ecc8ce45037543a4319faea4497f2af1"
+    },
+    "calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml": {
+      "bytes": 1892,
+      "git_blob": "c8e83337f1526a54d094d2a09d299668bea7089c",
+      "git_mode": "100644",
+      "sha256": "345c33c5823504ffe3ec3a6882fcf0a9460c18e6957a9626bb952054516deb77"
+    },
+    "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt": {
+      "bytes": 17698,
+      "git_blob": "305816e244dd4dd2d57570ff9c780d504837b5be",
+      "git_mode": "100644",
+      "sha256": "900767e0f86a3157a6f091aed2d75608f19bb52a1e25e47e01ec44f477c95add"
+    },
+    "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedStorageProbe.kt": {
+      "bytes": 12897,
+      "git_blob": "144a7c3040124f9cb4bbe255be8439f1ff7f92d3",
+      "git_mode": "100644",
+      "sha256": "791f3563ddfcb6030f313cad17f7a4a79d3673486103f0f5401c2fca3ee481b0"
+    },
+    "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt": {
+      "bytes": 3305,
+      "git_blob": "60bc750feb4dda72fc16b031e8ef076ffc25db8f",
+      "git_mode": "100644",
+      "sha256": "f4b172cde19beb0cb08f384c02d738b3c3d09d0c61d4d26a7a87ae3ea9ba5ffb"
+    },
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/StoragePermissions.android.kt": {
+      "bytes": 1196,
+      "git_blob": "7148b2fc3a4167385a8eedca1851a3ef8a28a92b",
+      "git_mode": "100644",
+      "sha256": "0cc9bb16daea525e0f18bb6228ed978bf36e654061325613313a4437d0a53736"
+    },
+    "docs/audit/findings/PERM.json": {
+      "bytes": 63713,
+      "git_blob": "5cf184791a5d19b86f918697d44371c74724ae42",
+      "git_mode": "100644",
+      "sha256": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8"
+    },
+    "docs/development/resolutions/PERM-permissions.json": {
+      "bytes": 317403,
+      "git_blob": "ca9fa467f7a3a617e31e7bad512e7cdb8a013198",
+      "git_mode": "100644",
+      "sha256": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620"
+    },
+    "docs/permissions.md": {
+      "bytes": 28044,
+      "git_blob": "cdf5959d62cd51605d6ff55f3aabbbef3f5ff6ab",
+      "git_mode": "100644",
+      "sha256": "c257dbcad78eecc1a643f895a1d29ea3515de2632d49342bc4e941bdb6aea2f9"
+    },
+    "gradle/libs.versions.toml": {
+      "bytes": 7819,
+      "git_blob": "8c9831c8073c0662cc9ef41d418bad1219d652db",
+      "git_mode": "100644",
+      "sha256": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449"
+    },
+    "scripts/ci/android_device_batch.py": {
+      "bytes": 26199,
+      "git_blob": "a43db430615c412f4323f1d74433fe28c19af000",
+      "git_mode": "100644",
+      "sha256": "cf9b31dda06bdc572c4b87650cf2de7986668c4c31589858ae5595a8e6a0d633"
+    },
+    "scripts/ci/android_device_batch_plan.py": {
+      "bytes": 3337,
+      "git_blob": "1f376e55efb08ae3b5acb4ad3d0ff2e78de0a603",
+      "git_mode": "100644",
+      "sha256": "20a100dc2b0936f966db64ecb7b1f63c6cd51e9fdc6eb67d57989e9572876e67"
+    },
+    "scripts/ci/android_storage_compatibility_plan.py": {
+      "bytes": 6549,
+      "git_blob": "b392b89b50bf00bfa95132e142af8e74bee00524",
+      "git_mode": "100644",
+      "sha256": "30e15959121e93decd9893477a584f31a9962f0d76f90fa67be643e2d6eaffa3"
+    },
+    "scripts/ci/android_storage_probe.py": {
+      "bytes": 47662,
+      "git_blob": "e1070bae7b954ee957a48b5b3542d049b9758150",
+      "git_mode": "100644",
+      "sha256": "805b69fd84b9565695615c6c774f5b16289ba60797e5d0885d4fe886fa92ebd1"
+    },
+    "tests/consumer/android-storage-probe/build.gradle.kts": {
+      "bytes": 1385,
+      "git_blob": "db67745dbc055bd4bd7a42b57081c5d711929b82",
+      "git_mode": "100644",
+      "sha256": "68775cdcaeca4703687eab423b8873df24670e67b7c080fe4b54e2f720392987"
+    },
+    "tests/consumer/android-storage-probe/gradle.properties": {
+      "bytes": 147,
+      "git_blob": "b90e60277c1603de13fa101d4dd19dfca6df163f",
+      "git_mode": "100644",
+      "sha256": "aa1735abc270ad5579dcc7e61f9dcae12f60166c93521cc8cf55c6de577f5964"
+    },
+    "tests/consumer/android-storage-probe/settings.gradle.kts": {
+      "bytes": 687,
+      "git_blob": "25bd67715356be962e56bb4adea9e90aa61ee16e",
+      "git_mode": "100644",
+      "sha256": "bb2690230def1e11569c883b878458f9decbdcbaa82a1e21df5f8cb168287420"
+    },
+    "tests/consumer/android-storage-probe/src/allFiles/AndroidManifest.xml": {
+      "bytes": 343,
+      "git_blob": "27088077207c9fb1147b3a065693db0008ad9b6b",
+      "git_mode": "100644",
+      "sha256": "07297621543d90941af706f6e0ff1f072a0f9fb3f2d7d01cb664e67f0ba4eb2e"
+    },
+    "tests/consumer/android-storage-probe/src/legacy28/AndroidManifest.xml": {
+      "bytes": 305,
+      "git_blob": "90e7279058f8e32c839feffe80e8fc22606c228b",
+      "git_mode": "100644",
+      "sha256": "8e49bc26d1b2804cb76d5f19535623dbb61a3687b0962617ed452e6c1e5733e4"
+    },
+    "tests/consumer/android-storage-probe/src/legacy29/AndroidManifest.xml": {
+      "bytes": 368,
+      "git_blob": "efc7c1d5450e44a4fe2dd618a3aede9cf4bb25e9",
+      "git_mode": "100644",
+      "sha256": "a9af58fc9d8745e32a25686a3a5fb35ca134a599a3d7d3e0f02a26d55de1f401"
+    },
+    "tests/consumer/android-storage-probe/src/legacyTarget28/AndroidManifest.xml": {
+      "bytes": 305,
+      "git_blob": "592c054ce273676eb6f26f1b7fe01e0047266234",
+      "git_mode": "100644",
+      "sha256": "8c6021fc672c99f3f151a68e18d7276756ece50ef94d827abe6cd834b7b04669"
+    },
+    "tests/consumer/android-storage-probe/src/main/AndroidManifest.xml": {
+      "bytes": 1541,
+      "git_blob": "17d09dc23837ba3c5d09739170fd616bf0006332",
+      "git_mode": "100644",
+      "sha256": "5be5b130186a16e6270c3c943332e2d54baece0e62bc92d6ecbadec4b2a5739d"
+    },
+    "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbe.kt": {
+      "bytes": 15768,
+      "git_blob": "340e11f2af2ed3d6d8e8ae84db2a36099527f658",
+      "git_mode": "100644",
+      "sha256": "28dd72a8dd3785460bf43848c77bc04b74a21b5e54743eea3195d5997ccdab6f"
+    },
+    "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeControlProvider.kt": {
+      "bytes": 9470,
+      "git_blob": "5ba61ac1e47bb6f186a5757be917770c11a4b945",
+      "git_mode": "100644",
+      "sha256": "3f253bd7542b447a6ab1700e6f03ab129d180c2a44af3323ee20526640f840a8"
+    },
+    "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeIdentity.kt": {
+      "bytes": 2621,
+      "git_blob": "03a95f1b8c4f4102c791c57d11f8e4d4a5d05db8",
+      "git_mode": "100644",
+      "sha256": "fa1f836100c55d5fd9f37154c12929b75dd1c437010e697c93759b2141de37df"
+    },
+    "tests/consumer/android-storage-probe/src/modern/AndroidManifest.xml": {
+      "bytes": 262,
+      "git_blob": "40de25ff63c9040f5635a45a87ca88760532168e",
+      "git_mode": "100644",
+      "sha256": "a3fa71b7f427589bb56682235381db205444e1668bbf57178eb9002670745661"
+    },
+    "tests/consumer/android-storage-probe/src/scoped29/AndroidManifest.xml": {
+      "bytes": 369,
+      "git_blob": "894dbfc7a70c8e465f3befb06559a5aa3c1bbd52",
+      "git_mode": "100644",
+      "sha256": "dd605574a042059e687684e08a480233871a8f714ac5a0dcf627b51b46b90b3d"
+    }
+  },
+  "source_only_plan": {
+    "distinct_methods_requested": 6,
+    "profile": "android-storage-compatibility",
+    "routes": [
+      {
+        "api_level": 28,
+        "flavor": "legacy28",
+        "method_declaration": {
+          "line": 33,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api28",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "api28LegacyPermissionControlsSharedStorage"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/legacy28/AndroidManifest.xml",
+          "requestLegacyExternalStorage": null,
+          "requested_permissions": [
+            {
+              "maxSdkVersion": "28",
+              "name": "android.permission.WRITE_EXTERNAL_STORAGE"
+            }
+          ],
+          "sha256": "8e49bc26d1b2804cb76d5f19535623dbb61a3687b0962617ed452e6c1e5733e4"
+        },
+        "target_sdk": 28,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#api28LegacyPermissionControlsSharedStorage"
+      },
+      {
+        "api_level": 29,
+        "flavor": "legacyTarget28",
+        "method_declaration": {
+          "line": 50,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api29-target28",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "api29Target28LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/legacyTarget28/AndroidManifest.xml",
+          "requestLegacyExternalStorage": null,
+          "requested_permissions": [
+            {
+              "maxSdkVersion": "29",
+              "name": "android.permission.WRITE_EXTERNAL_STORAGE"
+            }
+          ],
+          "sha256": "8c6021fc672c99f3f151a68e18d7276756ece50ef94d827abe6cd834b7b04669"
+        },
+        "target_sdk": 28,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#api29Target28LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+      },
+      {
+        "api_level": 29,
+        "flavor": "legacy29",
+        "method_declaration": {
+          "line": 55,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api29-legacy",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "api29Target29LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/legacy29/AndroidManifest.xml",
+          "requestLegacyExternalStorage": "true",
+          "requested_permissions": [
+            {
+              "maxSdkVersion": "29",
+              "name": "android.permission.WRITE_EXTERNAL_STORAGE"
+            }
+          ],
+          "sha256": "a9af58fc9d8745e32a25686a3a5fb35ca134a599a3d7d3e0f02a26d55de1f401"
+        },
+        "target_sdk": 29,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#api29Target29LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+      },
+      {
+        "api_level": 29,
+        "flavor": "scoped29",
+        "method_declaration": {
+          "line": 60,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api29-scoped",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "api29ScopedAccessStaysBoundedWithNativeWriteGrant"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/scoped29/AndroidManifest.xml",
+          "requestLegacyExternalStorage": "false",
+          "requested_permissions": [
+            {
+              "maxSdkVersion": "29",
+              "name": "android.permission.WRITE_EXTERNAL_STORAGE"
+            }
+          ],
+          "sha256": "dd605574a042059e687684e08a480233871a8f714ac5a0dcf627b51b46b90b3d"
+        },
+        "target_sdk": 29,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#api29ScopedAccessStaysBoundedWithNativeWriteGrant"
+      },
+      {
+        "api_level": 30,
+        "flavor": "modern",
+        "method_declaration": {
+          "line": 81,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api30-normal",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "modernAppScopedAndSafDoNotNeedAllFiles"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/modern/AndroidManifest.xml",
+          "requestLegacyExternalStorage": "false",
+          "requested_permissions": [],
+          "sha256": "a3fa71b7f427589bb56682235381db205444e1668bbf57178eb9002670745661"
+        },
+        "target_sdk": 35,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#modernAppScopedAndSafDoNotNeedAllFiles"
+      },
+      {
+        "api_level": 30,
+        "flavor": "allFiles",
+        "method_declaration": {
+          "line": 93,
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+        },
+        "profile": "android-storage-api30-all-files",
+        "required_testcases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"
+          }
+        ],
+        "source_flavor_manifest": {
+          "compiled_or_native_inference": false,
+          "path": "tests/consumer/android-storage-probe/src/allFiles/AndroidManifest.xml",
+          "requestLegacyExternalStorage": "false",
+          "requested_permissions": [
+            {
+              "name": "android.permission.MANAGE_EXTERNAL_STORAGE"
+            }
+          ],
+          "sha256": "07297621543d90941af706f6e0ff1f072a0f9fb3f2d7d01cb664e67f0ba4eb2e"
+        },
+        "target_sdk": 35,
+        "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
+        "test_filter": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest#modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"
+      }
+    ],
+    "target_executions_requested": 6,
+    "test_methods_authored_without_skips": true
+  },
+  "source_review_observations": [
+    "Source-only helper flavors statically select API28 target28 legacy; API29 target28 default legacy, target29 explicit legacy and scoped; API30 target35 normal and exceptional allFiles.",
+    "Compiled helper predicates require exactly selected SDK/flavor/storage permissions, one signature control, DUMP/UID2000-only cleanup provider, no grant/path cleanup ingress, and exact private signer min=max=actual route API.",
+    "Reporter compiled predicates require the exact library AndroidJUnitRunner/min23/target37 package, no native storage permission, and a MANAGE_DOCUMENTS-protected grantUriPermissions provider.",
+    "Each native request verifies actual helper/reporter installed APK/certificate, unsplit state, separate normal UID and PID, package ownership, SDK/target/flavor, exact nonce and Binder sender identity.",
+    "Protected file operations execute in the ordinary helper UID using O_EXCL and 257-byte payload, exact SHA-256, EOF, descriptor-close invalidation, exclusive owned unlink/ENOENT and only EACCES/EPERM denials.",
+    "API28 legacy WRITE is explicitly native-granted for the test; API29 NotRequired helper never supplies that native prerequisite. Scoped storage remains bounded even with the separate native WRITE grant.",
+    "System OPEN_DOCUMENT resolves an actual system DocumentsUI UID; the native original Activity result, read flag, one fixed nonce URI, persisted read, exact bytes/descriptor close, release/finish and subsequent actual denial are asserted without manual URI grant.",
+    "AllFiles is declaration-only manager=false/mode3 before explicit exact-owned package allow; native manager=true/mode0 and shared-root success are observed, another UID private SAF remains denied, and default/false restoration precedes normal SAF work.",
+    "Helper-UID AtomicFile control uses exact original nonce and installed identity. Unknown/foreign records/grants refuse cleanup. SAF/Activity removal precedes WRITE/app-op restoration, final native absence readback, owned helper removal, graceful AVD/ADB shutdown and exact local AVD/signing reclamation.",
+    "Documentation caps READ at32 and WRITE at28, omits all-files from ordinary XML, explicitly separates Granted/NotRequired from all-files, and explains target/mode plus app-scoped/SAF/media alternatives; production storage mapping remains unchanged."
+  ],
+  "source_revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+  "storage_source_contract": {
+    "native_or_compile_success_inferred": false,
+    "source_inputs": {
+      "calf-permissions/core/build.gradle.kts": "efeb49abd8966b7c9ad024b471099a80ecc8ce45037543a4319faea4497f2af1",
+      "calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml": "345c33c5823504ffe3ec3a6882fcf0a9460c18e6957a9626bb952054516deb77",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt": "900767e0f86a3157a6f091aed2d75608f19bb52a1e25e47e01ec44f477c95add",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedStorageProbe.kt": "791f3563ddfcb6030f313cad17f7a4a79d3673486103f0f5401c2fca3ee481b0",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt": "f4b172cde19beb0cb08f384c02d738b3c3d09d0c61d4d26a7a87ae3ea9ba5ffb",
+      "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+      "scripts/ci/android_storage_compatibility_plan.py": "30e15959121e93decd9893477a584f31a9962f0d76f90fa67be643e2d6eaffa3",
+      "scripts/ci/android_storage_probe.py": "805b69fd84b9565695615c6c774f5b16289ba60797e5d0885d4fe886fa92ebd1",
+      "tests/consumer/android-storage-probe/build.gradle.kts": "68775cdcaeca4703687eab423b8873df24670e67b7c080fe4b54e2f720392987",
+      "tests/consumer/android-storage-probe/gradle.properties": "aa1735abc270ad5579dcc7e61f9dcae12f60166c93521cc8cf55c6de577f5964",
+      "tests/consumer/android-storage-probe/settings.gradle.kts": "bb2690230def1e11569c883b878458f9decbdcbaa82a1e21df5f8cb168287420",
+      "tests/consumer/android-storage-probe/src/allFiles/AndroidManifest.xml": "07297621543d90941af706f6e0ff1f072a0f9fb3f2d7d01cb664e67f0ba4eb2e",
+      "tests/consumer/android-storage-probe/src/legacy28/AndroidManifest.xml": "8e49bc26d1b2804cb76d5f19535623dbb61a3687b0962617ed452e6c1e5733e4",
+      "tests/consumer/android-storage-probe/src/legacy29/AndroidManifest.xml": "a9af58fc9d8745e32a25686a3a5fb35ca134a599a3d7d3e0f02a26d55de1f401",
+      "tests/consumer/android-storage-probe/src/legacyTarget28/AndroidManifest.xml": "8c6021fc672c99f3f151a68e18d7276756ece50ef94d827abe6cd834b7b04669",
+      "tests/consumer/android-storage-probe/src/main/AndroidManifest.xml": "5be5b130186a16e6270c3c943332e2d54baece0e62bc92d6ecbadec4b2a5739d",
+      "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbe.kt": "28dd72a8dd3785460bf43848c77bc04b74a21b5e54743eea3195d5997ccdab6f",
+      "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeControlProvider.kt": "3f253bd7542b447a6ab1700e6f03ab129d180c2a44af3323ee20526640f840a8",
+      "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeIdentity.kt": "fa1f836100c55d5fd9f37154c12929b75dd1c437010e697c93759b2141de37df",
+      "tests/consumer/android-storage-probe/src/modern/AndroidManifest.xml": "a3fa71b7f427589bb56682235381db205444e1668bbf57178eb9002670745661",
+      "tests/consumer/android-storage-probe/src/scoped29/AndroidManifest.xml": "dd605574a042059e687684e08a480233871a8f714ac5a0dcf627b51b46b90b3d"
+    },
+    "source_inputs_sha256": "260e303ffb7abfcc7d0b8db0df6339cb2bc8b9fa1d92af7c0fc8449dafdd3805",
+    "source_policy_verified": true
+  }
+}

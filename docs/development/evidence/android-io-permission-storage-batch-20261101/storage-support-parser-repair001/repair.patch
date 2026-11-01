@@ -1,0 +1,332 @@
+--- a/scripts/ci/android_storage_probe.py
++++ b/scripts/ci/android_storage_probe.py
+@@ -31,6 +31,7 @@
+ ALL_FILES = "android.permission.MANAGE_EXTERNAL_STORAGE"
+ DYNAMIC = PACKAGE + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+ ANDROID = "{http://schemas.android.com/apk/res/android}"
++OPTIONAL_LIBRARIES = frozenset({"androidx.window.extensions", "androidx.window.sidecar"})
+ SIGNER_REVISION = "36.0.0"
+ MAX_HOST_BYTES = 1024**2
+ FLAVORS = tuple(dict.fromkeys(row.flavor for row in storage.ROWS))
+@@ -94,6 +95,10 @@
+     component = node.get(ANDROID + "name")
+     require(node.get(ANDROID + "process") is None and node.get(ANDROID + "enabled") in {None, "true"},
+             "Unexpected support component process/state")
++    if node.tag == "uses-library" and component in OPTIONAL_LIBRARIES:
++        require(node.attrib == {ANDROID + "name": component, ANDROID + "required": "false"} and len(node) == 0,
++                "Only the exact optional AndroidX window libraries are permitted")
++        return
+     if node.tag == "provider" and component == "androidx.startup.InitializationProvider":
+         require(node.get(ANDROID + "authorities") == package + ".androidx-startup" and
+                 node.get(ANDROID + "exported") == "false" and
+@@ -116,7 +121,23 @@
+     raise ValueError("Unknown helper merged component; no broad manifest fallback")
+ 
+ 
+-def validate_manifest(payload: bytes, *, compiled: bool, profile: str | None = None) -> dict:
++def support_refusal_facts(node: ET.Element, payload: bytes) -> dict:
++    """Fixed labels or bounded hashes only; no unreviewed names/values/paths."""
++    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536, "Expected bounded support refusal bytes")
++    tag, component = node.tag, node.get(ANDROID + "name", "")
++    tag_bytes, component_bytes = tag.encode("utf-8"), component.encode("utf-8")
++    return {"schema": "nativecmpkit-storage-support-refusal-facts-v1", "status": "retained",
++        "manifest_bytes": len(payload), "manifest_sha256": hashlib.sha256(payload).hexdigest(),
++        "node_tag": tag if tag in {"activity", "activity-alias", "service", "provider", "receiver", "uses-library", "meta-data"} else "other",
++        "node_tag_bytes": len(tag_bytes), "node_tag_sha256": hashlib.sha256(tag_bytes).hexdigest(),
++        "component_name": component if component in OPTIONAL_LIBRARIES | {
++            "androidx.startup.InitializationProvider", "androidx.profileinstaller.ProfileInstallReceiver"} else "other" if component else "missing",
++        "component_name_bytes": len(component_bytes), "component_name_sha256": hashlib.sha256(component_bytes).hexdigest(),
++        "attribute_count": len(node.attrib), "attribute_names_sha256": hashlib.sha256(json.dumps(sorted(node.attrib)).encode()).hexdigest(),
++        "child_count": len(node), "raw_names_values_paths_or_exception_bodies_uploaded": False, "native_success_inferred": False}
++
++
++def validate_manifest(payload: bytes, *, compiled: bool, profile: str | None = None, support_refusal: dict | None = None) -> dict:
+     manifest = xml(payload)
+     row = storage.row_for(profile) if compiled else None
+     require(manifest.tag == "manifest" and (manifest.get("package") == PACKAGE if compiled else manifest.get("package") in {None, PACKAGE}) and
+@@ -177,7 +198,15 @@
+     for node in app:
+         if node not in owned:
+             require(compiled, "Unexpected helper source component")
+-            validate_support_component(node, PACKAGE)
++            try:
++                validate_support_component(node, PACKAGE)
++            except ValueError:
++                if type(support_refusal) is dict:
++                    try:
++                        support_refusal.update(support_refusal_facts(node, payload))
++                    except (Exception, KeyboardInterrupt):
++                        pass  # Diagnostic failure never replaces the original refusal.
++                raise
+     if compiled:
+         sdk = manifest.findall("uses-sdk")
+         legacy = "true" if row.flavor == "legacy29" else "false" if row.flavor in {"scoped29", "modern", "allFiles"} else None
+@@ -458,7 +487,17 @@
+         analyzer, signer = self.inspectors()
+         manifest = self.host([str(analyzer), "manifest", "print", str(apk)])
+         require(manifest.returncode == 0 and not manifest.stderr.strip(), "Actual compiled manifest unavailable")
+-        policy = validate_reporter_manifest(manifest.stdout) if reporter else validate_manifest(manifest.stdout, compiled=True, profile=self.row.profile)
++        support_refusal = {}
++        try:
++            policy = validate_reporter_manifest(manifest.stdout) if reporter else validate_manifest(
++                manifest.stdout, compiled=True, profile=self.row.profile, support_refusal=support_refusal)
++        except ValueError:
++            if support_refusal:
++                try:
++                    self.receipt["compiled_support_refusal"] = support_refusal
++                except (Exception, KeyboardInterrupt):
++                    pass  # Persisting diagnostic facts must not mask the refusal.
++            raise
+         api = str(self.row.api)
+         certificate = signer_certificate(self.host([str(signer), "verify", "--verbose", "--print-certs",
+             "--min-sdk-version", api, "--max-sdk-version", api, str(apk)]))
+--- /dev/null
++++ b/scripts/ci/test_android_storage_probe_support_recovery.py
+@@ -0,0 +1,247 @@
++"""New owning parser/refusal models only; no SDK, build, install or native run.
++
++Exact support fragments mirror existing local packaged manifests, not the
++uncaptured component in failed storage actual001. No native result is inferred.
++"""
++from copy import deepcopy
++import hashlib
++import json
++from pathlib import Path
++import subprocess
++import tempfile
++import unittest
++from unittest.mock import Mock, patch
++import xml.etree.ElementTree as ET
++
++import android_storage_probe as s
++import android_storage_compatibility_plan as storage
++import library_tests as lt
++
++
++EXTENSIONS = '<uses-library xmlns:android="http://schemas.android.com/apk/res/android" android:name="androidx.window.extensions" android:required="false" />'
++SIDECAR = '<uses-library xmlns:android="http://schemas.android.com/apk/res/android" android:name="androidx.window.sidecar" android:required="false" />'
++STARTUP = '''<provider xmlns:android="http://schemas.android.com/apk/res/android"
++    android:name="androidx.startup.InitializationProvider"
++    android:authorities="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.androidx-startup"
++    android:exported="false">
++    <meta-data android:name="androidx.emoji2.text.EmojiCompatInitializer" android:value="androidx.startup" />
++    <meta-data android:name="androidx.lifecycle.ProcessLifecycleInitializer" android:value="androidx.startup" />
++    <meta-data android:name="androidx.profileinstaller.ProfileInstallerInitializer" android:value="androidx.startup" />
++</provider>'''
++PROFILE = '''<receiver xmlns:android="http://schemas.android.com/apk/res/android"
++    android:name="androidx.profileinstaller.ProfileInstallReceiver"
++    android:directBootAware="false" android:enabled="true" android:exported="true" android:permission="android.permission.DUMP">
++    <intent-filter><action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" /></intent-filter>
++    <intent-filter><action android:name="androidx.profileinstaller.action.SKIP_FILE" /></intent-filter>
++    <intent-filter><action android:name="androidx.profileinstaller.action.SAVE_PROFILE" /></intent-filter>
++    <intent-filter><action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" /></intent-filter>
++</receiver>'''
++
++
++class StorageSupportParserRecoveryModels(unittest.TestCase):
++    """Only this newly authored class runs for the owning repair."""
++
++    def compiled(self, profile="android-storage-api28", *, support=True):
++        row = storage.row_for(profile)
++        manifest = s.xml((lt.ROOT / s.FIXTURE / "src/main/AndroidManifest.xml").read_bytes())
++        manifest.set("package", s.PACKAGE)
++        ET.SubElement(manifest, "uses-sdk", {s.ANDROID + "minSdkVersion": "23", s.ANDROID + "targetSdkVersion": str(row.target)})
++        flavor = s.xml((lt.ROOT / s.FIXTURE / "src" / row.flavor / "AndroidManifest.xml").read_bytes())
++        for node in flavor:
++            if node.tag == "application":
++                manifest.find("application").attrib.update(node.attrib)
++            else:
++                manifest.append(deepcopy(node))
++        app = manifest.find("application")
++        app.set(s.ANDROID + "debuggable", "true")
++        app.find("provider").set(s.ANDROID + "authorities", s.AUTHORITY)
++        if support:
++            for fragment in (EXTENSIONS, SIDECAR, STARTUP, PROFILE):
++                app.append(ET.fromstring(fragment))
++        return manifest
++
++    def unknown(self):
++        # Deliberately unreviewed values: they may be hashed, never emitted raw.
++        return ET.Element("{urn:unreviewed}component", {
++            s.ANDROID + "name": "/" + "tmp" + "/synthetic-private-component",
++            s.ANDROID + "permission": "synthetic-private-attribute-value"})
++
++    def rejected_manifest(self, node):
++        manifest = self.compiled(support=False)
++        manifest.find("application").append(node)
++        return ET.tostring(manifest)
++
++    def inspector(self, payload):
++        helper = s.OwnedStorageProbe.__new__(s.OwnedStorageProbe)
++        helper.row = storage.row_for("android-storage-api28")
++        helper.receipt = {}
++        helper.inspectors = Mock(return_value=(Path("mock-apkanalyzer"), Path("mock-apksigner")))
++        helper.host = Mock(return_value=subprocess.CompletedProcess(["mock"], 0, payload, b""))
++        return helper
++
++    def test_exact_existing_window_extensions_fragment_is_admitted(self):
++        s.validate_support_component(ET.fromstring(EXTENSIONS), s.PACKAGE)
++
++    def test_exact_existing_window_sidecar_fragment_is_admitted(self):
++        s.validate_support_component(ET.fromstring(SIDECAR), s.PACKAGE)
++
++    def test_all_six_frozen_modes_keep_exact_existing_support_shapes(self):
++        for row in storage.ROWS[:6]:
++            with self.subTest(profile=row.profile):
++                result = s.validate_manifest(ET.tostring(self.compiled(row.profile)), compiled=True, profile=row.profile)
++                self.assertTrue(result["compiled_manifest_inspected"])
++                self.assertTrue(result["static_storage_permissions_verified"])
++
++    def test_required_missing_changed_names_and_non_android_attributes_are_refused(self):
++        for change in (lambda n: n.set(s.ANDROID + "required", "true"),
++                       lambda n: n.set(s.ANDROID + "required", "0"),
++                       lambda n: n.attrib.pop(s.ANDROID + "required"),
++                       lambda n: n.set(s.ANDROID + "name", "androidx.window.extensions.extra"),
++                       lambda n: n.set("required", "false"),
++                       lambda n: n.set("{urn:foreign}required", "false"),
++                       lambda n: n.set(s.ANDROID + "exported", "false")):
++            node = ET.fromstring(EXTENSIONS); change(node)
++            with self.subTest(attributes=node.attrib), self.assertRaises(ValueError):
++                s.validate_support_component(node, s.PACKAGE)
++
++    def test_process_state_extra_fields_and_children_never_widen_optional_libraries(self):
++        for change in (lambda n: n.set(s.ANDROID + "process", ":foreign"),
++                       lambda n: n.set(s.ANDROID + "enabled", "false"),
++                       lambda n: n.set(s.ANDROID + "enabled", "true"),
++                       lambda n: ET.SubElement(n, "meta-data", {s.ANDROID + "name": "foreign"})):
++            node = ET.fromstring(SIDECAR); change(node)
++            with self.subTest(shape=ET.tostring(node)), self.assertRaises(ValueError):
++                s.validate_support_component(node, s.PACKAGE)
++
++    def test_optional_libraries_are_compiled_only_and_duplicates_are_refused(self):
++        source = s.xml((lt.ROOT / s.FIXTURE / "src/main/AndroidManifest.xml").read_bytes())
++        source.find("application").append(ET.fromstring(EXTENSIONS))
++        with self.assertRaises(ValueError):
++            s.validate_manifest(ET.tostring(source), compiled=False)
++        for fragment in (EXTENSIONS, SIDECAR):
++            manifest = self.compiled(); manifest.find("application").append(ET.fromstring(fragment))
++            with self.subTest(fragment=fragment), self.assertRaises(ValueError):
++                s.validate_manifest(ET.tostring(manifest), compiled=True, profile="android-storage-api28")
++
++    def test_arbitrary_components_preview_ingress_and_unknown_libraries_stay_refused(self):
++        nodes = [ET.Element("activity", {s.ANDROID + "name": "androidx.compose.ui.tooling.PreviewActivity", s.ANDROID + "exported": "true"}),
++                 ET.Element("uses-library", {s.ANDROID + "name": "unreviewed.library", s.ANDROID + "required": "false"}),
++                 ET.Element("uses-static-library", {s.ANDROID + "name": "androidx.window.extensions", s.ANDROID + "required": "false"}),
++                 self.unknown()]
++        for node in nodes:
++            with self.subTest(tag=node.tag), self.assertRaises(ValueError):
++                s.validate_manifest(self.rejected_manifest(node), compiled=True, profile="android-storage-api28")
++
++    def test_existing_startup_and_dump_receiver_state_guards_remain_exact(self):
++        for fragment, attribute, value in ((STARTUP, "exported", "true"), (STARTUP, "process", ":foreign"),
++                                           (PROFILE, "permission", "unreviewed.permission"), (PROFILE, "enabled", "false")):
++            node = ET.fromstring(fragment); node.set(s.ANDROID + attribute, value)
++            with self.subTest(attribute=attribute), self.assertRaises(ValueError):
++                s.validate_support_component(node, s.PACKAGE)
++
++    def test_unknown_refusal_facts_are_bounded_hashes_and_original_valueerror(self):
++        node = self.unknown(); payload = self.rejected_manifest(node); facts = {}
++        with self.assertRaisesRegex(ValueError, "Unknown helper merged component; no broad manifest fallback") as caught:
++            s.validate_manifest(payload, compiled=True, profile="android-storage-api28", support_refusal=facts)
++        self.assertIs(type(caught.exception), ValueError)
++        self.assertEqual("retained", facts["status"])
++        self.assertEqual("other", facts["node_tag"])
++        self.assertEqual("other", facts["component_name"])
++        self.assertEqual(len(payload), facts["manifest_bytes"])
++        self.assertEqual(hashlib.sha256(payload).hexdigest(), facts["manifest_sha256"])
++        self.assertEqual(hashlib.sha256(node.tag.encode()).hexdigest(), facts["node_tag_sha256"])
++        self.assertEqual(hashlib.sha256(node.get(s.ANDROID + "name").encode()).hexdigest(), facts["component_name_sha256"])
++        self.assertEqual(2, facts["attribute_count"])
++        self.assertEqual(0, facts["child_count"])
++        self.assertLess(len(json.dumps(facts)), 2048)
++        text = json.dumps(facts)
++        for raw in (node.tag, node.get(s.ANDROID + "name"), node.get(s.ANDROID + "permission")):
++            self.assertNotIn(raw, text)
++        self.assertFalse(facts["native_success_inferred"])
++        self.assertFalse(facts["raw_names_values_paths_or_exception_bodies_uploaded"])
++
++    def test_known_invalid_library_diagnostic_does_not_emit_attribute_values(self):
++        node = ET.fromstring(EXTENSIONS); node.set(s.ANDROID + "required", "synthetic-unreviewed-required-value")
++        facts = {}
++        with self.assertRaises(ValueError):
++            s.validate_manifest(self.rejected_manifest(node), compiled=True, profile="android-storage-api28", support_refusal=facts)
++        self.assertEqual("uses-library", facts["node_tag"])
++        self.assertEqual("androidx.window.extensions", facts["component_name"])
++        self.assertNotIn("synthetic-unreviewed-required-value", json.dumps(facts))
++
++    def test_diagnostic_error_does_not_replace_or_suppress_original_refusal(self):
++        facts = {}; payload = self.rejected_manifest(self.unknown())
++        with patch.object(s, "support_refusal_facts", side_effect=RuntimeError("synthetic diagnostic failure")):
++            with self.assertRaisesRegex(ValueError, "Unknown helper merged component; no broad manifest fallback") as caught:
++                s.validate_manifest(payload, compiled=True, profile="android-storage-api28", support_refusal=facts)
++        self.assertIs(type(caught.exception), ValueError)
++        self.assertEqual({}, facts)
++
++    def test_apk_manifest_refusal_records_facts_without_signer_or_native_calls(self):
++        payload = self.rejected_manifest(self.unknown()); helper = self.inspector(payload)
++        with patch.object(s.subprocess, "run", side_effect=AssertionError("No SDK/process call in parser models")):
++            with self.assertRaises(ValueError): helper.inspect_apk(Path("synthetic.apk"))
++        helper.host.assert_called_once_with(["mock-apkanalyzer", "manifest", "print", "synthetic.apk"])
++        self.assertEqual("retained", helper.receipt["compiled_support_refusal"]["status"])
++        self.assertNotIn("apk_policy", helper.receipt)
++        self.assertNotIn("installed_readback", helper.receipt)
++
++    def test_diagnostic_receipt_write_failure_never_masks_original_valueerror(self):
++        for error in (RuntimeError("synthetic receipt-write failure"), KeyboardInterrupt()):
++            class RefusingReceipt(dict):
++                def __setitem__(self, key, value):
++                    raise error
++            helper = self.inspector(self.rejected_manifest(self.unknown()))
++            helper.receipt = RefusingReceipt()
++            with self.subTest(error_type=type(error).__name__), self.assertRaisesRegex(
++                    ValueError, "Unknown helper merged component; no broad manifest fallback") as caught:
++                helper.inspect_apk(Path("synthetic.apk"))
++            self.assertIs(type(caught.exception), ValueError)
++            helper.host.assert_called_once()
++
++    def test_valid_parser_has_no_support_refusal_and_signer_failure_is_not_laundered(self):
++        payload = ET.tostring(self.compiled()); facts = {}
++        s.validate_manifest(payload, compiled=True, profile="android-storage-api28", support_refusal=facts)
++        self.assertEqual({}, facts)
++        helper = self.inspector(payload)
++        helper.host.side_effect = [subprocess.CompletedProcess(["mock"], 0, payload, b""),
++                                   subprocess.CompletedProcess(["mock"], 1, b"synthetic rejected signer", b"")]
++        with self.assertRaises(ValueError): helper.inspect_apk(Path("synthetic.apk"))
++        self.assertEqual(2, helper.host.call_count)
++        self.assertIn("--min-sdk-version", helper.host.call_args.args[0])
++        self.assertEqual(["28", "--max-sdk-version", "28", "synthetic.apk"], helper.host.call_args.args[0][-4:])
++        self.assertNotIn("compiled_support_refusal", helper.receipt)
++
++    def test_prepare_refusal_preserves_failed_state_no_install_and_no_device_cleanup(self):
++        with tempfile.TemporaryDirectory(prefix="storage-support-refusal-model-") as directory:
++            root = Path(directory); output = root / "build/ci-verification/model"; output.mkdir(parents=True)
++            helper = s.OwnedStorageProbe(root, output, root / "mock-sdk", "emulator-5588", lambda: True,
++                environment={"ANDROID_SERIAL": "emulator-5588", "ANDROID_USER_HOME": str(output / "android-user")},
++                profile="android-storage-api28")
++            apk = root / "synthetic.apk"; apk.write_bytes(b"synthetic parser model bytes; not an APK")
++            helper.inspectors = Mock(return_value=(Path("mock-apkanalyzer"), Path("mock-apksigner")))
++            helper.readback = Mock(return_value=None)
++            helper.host = Mock(return_value=subprocess.CompletedProcess(["mock"], 0, self.rejected_manifest(self.unknown()), b""))
++            helper.control = Mock(side_effect=AssertionError("No install or device cleanup in refused model"))
++            with patch.object(s, "source_contract", return_value={"source_only": True}), \
++                 patch.object(s, "metadata_apk", return_value=apk), \
++                 patch.object(s.lt, "execute", return_value={"exit_code": 0, "elapsed_seconds": 0.0}), \
++                 patch.object(s.subprocess, "run", side_effect=AssertionError("No process call in parser models")):
++                with self.assertRaises(ValueError): helper.prepare()
++                self.assertEqual("failed", helper.receipt["prepare_status"])
++                self.assertEqual("ValueError", helper.receipt["prepare_error"])
++                self.assertFalse(helper.install_attempted)
++                self.assertFalse(helper.receipt["recipient_installed"])
++                self.assertEqual(lt.sha256(apk), helper.receipt["source_apk_sha256"])
++                self.assertNotIn("apk_policy", helper.receipt)
++                self.assertNotIn("install_exit_code", helper.receipt)
++                closed = helper.close()
++            self.assertEqual("failed", closed["prepare_status"])
++            self.assertEqual("passed", closed["cleanup_status"])
++            self.assertTrue(closed["owned_recipient_removed"])
++            self.assertFalse(closed["foreign_or_preexisting_recipient_mutated"])
++            helper.control.assert_not_called()
++
++
++if __name__ == "__main__":
++    unittest.main()

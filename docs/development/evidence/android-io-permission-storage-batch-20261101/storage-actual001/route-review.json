@@ -1,0 +1,147 @@
+{
+  "accepted_rows": 0,
+  "actual_native_executions": 0,
+  "failed_child_attempts": 2,
+  "original_XML_files": 0,
+  "original_library_receipts": 0,
+  "refused_routes": 4,
+  "requested_methods": 6,
+  "requested_target_executions": 6,
+  "routes": [
+    {
+      "accepted": false,
+      "api_level": 28,
+      "attempted": true,
+      "child": {
+        "elapsed_seconds": 337.1,
+        "exit_code": 1
+      },
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "exact_observed_boundary": {
+        "line": 116,
+        "source": "android_storage_probe.py",
+        "symbol": "validate_support_component"
+      },
+      "flavor": "legacy28",
+      "helper_assembly": {
+        "elapsed_seconds": 260.08,
+        "exit_code": 0
+      },
+      "installed_identity_signer_native_permission_or_grant_acceptance": false,
+      "local_owned_state_reclaimed": true,
+      "native_executions": 0,
+      "observation": "Compiled helper manifest support-element validator explicitly refused an unknown merged declaration before signer/installation/reporter/native dispatch.",
+      "order": 1,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "owned_cleanup_certified": true,
+      "profile": "android-storage-api28",
+      "required_method": "api28LegacyPermissionControlsSharedStorage",
+      "result": "failed",
+      "target_sdk": 28,
+      "unknowns": [
+        "Rejected tag/name/attribute/child shape was not retained.",
+        "No specific local declaration is established as the actual rejected component."
+      ]
+    },
+    {
+      "accepted": false,
+      "adapter_error": "FileNotFoundError",
+      "api_level": 29,
+      "attempted": true,
+      "child": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 2
+      },
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "exact_observed_boundary": {
+        "line": 95,
+        "source": "android_device_tests.py",
+        "symbol": "require_host"
+      },
+      "flavor": "legacyTarget28",
+      "local_owned_state_reclaimed": false,
+      "native_executions": 0,
+      "observation": "The fixed require_host KVM admission guard refused before controller/plan/preflight artifacts.",
+      "order": 2,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "owned_cleanup_certified": false,
+      "profile": "android-storage-api29-target28",
+      "required_method": "api29Target28LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper",
+      "result": "failed",
+      "target_sdk": 28,
+      "unknowns": [
+        "Which /dev/kvm character-device/read-write predicate failed and why are unknown.",
+        "This source origin does not diagnose the earlier API34 failure."
+      ]
+    },
+    {
+      "accepted": false,
+      "api_level": 29,
+      "attempted": false,
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "flavor": "legacy29",
+      "native_executions": 0,
+      "observation": "Original batch refused this route after the preceding child could not certify cleanup.",
+      "order": 3,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "profile": "android-storage-api29-legacy",
+      "required_method": "api29Target29LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper",
+      "result": "refused-before-attempt",
+      "target_sdk": 29
+    },
+    {
+      "accepted": false,
+      "api_level": 29,
+      "attempted": false,
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "flavor": "scoped29",
+      "native_executions": 0,
+      "observation": "Original batch refused this route after the preceding child could not certify cleanup.",
+      "order": 4,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "profile": "android-storage-api29-scoped",
+      "required_method": "api29ScopedAccessStaysBoundedWithNativeWriteGrant",
+      "result": "refused-before-attempt",
+      "target_sdk": 29
+    },
+    {
+      "accepted": false,
+      "api_level": 30,
+      "attempted": false,
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "flavor": "modern",
+      "native_executions": 0,
+      "observation": "Original batch refused this route after the preceding child could not certify cleanup.",
+      "order": 5,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "profile": "android-storage-api30-normal",
+      "required_method": "modernAppScopedAndSafDoNotNeedAllFiles",
+      "result": "refused-before-attempt",
+      "target_sdk": 35
+    },
+    {
+      "accepted": false,
+      "api_level": 30,
+      "attempted": false,
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+      "flavor": "allFiles",
+      "native_executions": 0,
+      "observation": "Original batch refused this route after the preceding child could not certify cleanup.",
+      "order": 6,
+      "original_XML_files": 0,
+      "original_library_receipts": 0,
+      "profile": "android-storage-api30-all-files",
+      "required_method": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores",
+      "result": "refused-before-attempt",
+      "target_sdk": 35
+    }
+  ],
+  "run_id": 41265416289,
+  "schema": "nativecmpkit-storage-original-route-review-v1",
+  "source_revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39"
+}

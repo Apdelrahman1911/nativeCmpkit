@@ -1,0 +1,31 @@
+{
+  "controller_sha256": "bd31ce4195c31abd7431da65fa3ded2bb963d4ff2e77c267215b6a64694f7d6a",
+  "errors": 1,
+  "exit_code": 1,
+  "failures": 2,
+  "methods_run": 3,
+  "new_test_module_sha256": "a09d123fb8612dc46a5e269047f7c0a98f9f9724b1fcc0844ecf347fb260f1c0",
+  "no_original012_config_schema_or_cause_inferred": true,
+  "not_native_execution": true,
+  "observations": [
+    {
+      "method": "test_capture_before_reporter_and_retained_reverify_before_sole_launch",
+      "safe_fact": "Reporter assembly preceded owned guest capture",
+      "status": "failure"
+    },
+    {
+      "method": "test_capture_refusal_short_circuits_reporter_native_and_preserves_primary",
+      "safe_fact": "Capture refusal occurred after reporter assembly instead of before it",
+      "status": "failure"
+    },
+    {
+      "exception_class": "TypeError",
+      "method": "test_caller_filter_selects_nearest_approved_without_changing_default",
+      "safe_fact": "The original origin helper does not accept the newly proposed optional caller-filter keyword",
+      "status": "error"
+    }
+  ],
+  "original_private_xml_sha256": "e8247b2004d62d52ff47ef5aebab6605f8a35d3ae0a889c1b289a717324f48df",
+  "schema": "nativecmpkit.camera012.new-owning-baseline-refusals.safe.v1",
+  "skips": 0
+}

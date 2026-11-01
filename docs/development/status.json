@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "c9e419683eea211d1d38d665dc497644285a43d338130e326e2330a19ef4ad1a",
     "docs/development/resolutions/IO.json": "5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02",
-    "docs/development/resolutions/NATIVE.json": "c129f2e8e5d52f3e185e29066a933280b0367bff5141977520f21132dd8dac60",
+    "docs/development/resolutions/NATIVE.json": "249a0f307d17cde0aa1eb6cbefe5d4917eaff5215345bc8925c3ae0640c05e5e",
     "docs/development/resolutions/NAV.json": "21bb7a6326e46690a8e20f9b20a3906bd5d5c0054ceabac45dffd53da4874059",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "f5a79d75c91450060b6ec125cb323b4c646fae1782bd3ff1856b3f2a8b61d620",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "e818c705058e3b64de06a924081e0b79608f55d553dc258153c0ee79e07fbbd7",
     "docs/roadmap/backlog.json": "c0d9b81913c7b4fec83cb9b5f91380bc20fa460019b7140797b3f0e601be1ca9"
   },
-  "input_fingerprint": "96afa501cf909dea724fe812e12fcc8f4f42adaa26d8ddf880a748d1baa9e88c",
+  "input_fingerprint": "be68da877372c028c88329f1b98676ab48a5f5ba064b8849bb05931d6448c1ed",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -13306,7 +13306,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "0ff282421f3161d94cf29cd2876dd8b17385d2b00527cbc21cd4b44922eda642",
+      "owner_record_sha256": "5dfe416e0e45f59c4f9dfd0e01a6b531f849f99a0e38b7750135728a7dd145e0",
       "owner_record": {
         "id": "NATIVE-005",
         "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
@@ -13315,7 +13315,8 @@
         "changes": [
           "Shared request reset clears errors/title/final URL and exposes requestedUrl separately; native start callbacks and browser loaders reset state before a request.",
           "Post-review: Desktop SCHEDULED starts a request from current engine.location, not stale state.requestedUrl; prepared real-FX local A -> native B link -> C redirect/reload/history assertions.",
-          "2026-11-01: Accept exact new browser request-state subset from original source/results/cleanup, preserve all failures and remaining every-target/offline/Apple obligations."
+          "2026-11-01: Accept exact new browser request-state subset from original source/results/cleanup, preserve all failures and remaining every-target/offline/Apple obligations.",
+          "2026-11-01: Integrate additive Android/Desktop/iOS held-native request regressions and bounded localhost WK transport; no production rewrite or API change."
         ],
         "affected_paths": [
           "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
@@ -13520,6 +13521,31 @@
               "docs/development/evidence/browser-request-state-20261031/native-ci001/integrity-checks.json",
               "docs/development/evidence/browser-request-state-20261031/native-ci001/acceptance-boundaries.json",
               "docs/development/evidence/browser-request-state-20261031/native-ci001/lead-readback.json"
+            ]
+          },
+          {
+            "command": "No compiler/native execution in integration001; exact14-file/42-fragment source readback and reuse of sealed owning model results only.",
+            "result": "PREPARED/NOT NATIVE VERIFIED: four new methods/eight target selections; source1078/1155. Root report-schema refusals retained. No accepted model/runtime replay.",
+            "evidence": [
+              "docs/development/evidence/webview-request-state-native-20261101/integration001/README.md",
+              "docs/development/evidence/webview-request-state-native-20261101/integration001/SOURCE-REVIEW.json",
+              "docs/development/evidence/webview-request-state-native-20261101/integration001/finite-source-plans.json"
+            ]
+          },
+          {
+            "command": "Exact serial bounded Gradle invocation in docs/development/evidence/webview-request-state-native-20261101/linux-compile001/RECEIPT.json",
+            "result": "PASS compiler/APK0/118.02s; real JDK17/Gradle9.7.1;1079/1156 exact held inputs. ZERO native runtime/Apple compile/accepted test replay.",
+            "evidence": [
+              "docs/development/evidence/webview-request-state-native-20261101/linux-compile001/README.md",
+              "docs/development/evidence/webview-request-state-native-20261101/linux-compile001/RECEIPT.json"
+            ]
+          },
+          {
+            "command": "No compiler/native execution: exact31 remaining-case/DNS fragments; two still-unrun expanded-catalog source guards passed0.9976s, original sealed models reused.",
+            "result": "PREPARED/NOT NATIVE VERIFIED: one genuine WK provisional DNS method added; Android/Desktop/iOS original target matrix and offline still incomplete. Root1083/1160 map not hosted/consumer evidence; no status promotion.",
+            "evidence": [
+              "docs/development/evidence/android-io-permission-storage-batch-20261101/remaining-cases-integration001/README.md",
+              "docs/development/evidence/android-io-permission-storage-batch-20261101/remaining-cases-integration001/ROOT-IMPORTANT-TWO-GUARDS.json"
             ]
           }
         ],

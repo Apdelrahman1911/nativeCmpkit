@@ -1,0 +1,32 @@
+[
+  {
+    "after": "def preflight_error_origin(error: Exception, *, skip_prerequisite_require: bool = False) -> dict:\n",
+    "before": "def preflight_error_origin(error: Exception) -> dict:\n",
+    "current_before_sha256": "bd31ce4195c31abd7431da65fa3ded2bb963d4ff2e77c267215b6a64694f7d6a",
+    "desired_repository_mode": "100644",
+    "group": "camera012-capture-admission",
+    "id": "capture-caller-optional-filter-signature",
+    "path": "scripts/ci/android_device_tests.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "                re.fullmatch(r\"[A-Za-z_][A-Za-z0-9_]{0,127}\", symbol) and 0 < frame.tb_lineno < 20000 and\n                not (skip_prerequisite_require and filename.name == \"android_camera_developer_prerequisite.py\" and\n                     symbol == \"require\")):\n",
+    "before": "                re.fullmatch(r\"[A-Za-z_][A-Za-z0-9_]{0,127}\", symbol) and 0 < frame.tb_lineno < 20000):\n",
+    "current_before_sha256": "bd31ce4195c31abd7431da65fa3ded2bb963d4ff2e77c267215b6a64694f7d6a",
+    "desired_repository_mode": "100644",
+    "group": "camera012-capture-admission",
+    "id": "capture-caller-skip-only-generic-prerequisite-require",
+    "path": "scripts/ci/android_device_tests.py",
+    "private_mode": "0600"
+  },
+  {
+    "after": "            if execution[\"exit_code\"] != 0 or execution.get(\"stop_reason\"):\n                raise RuntimeError(\"Setup failed before any device test execution\")\n            if stage == \"owned-avd-create\" and guest is not None:\n                try:\n                    guest.capture_avd(home)\n                except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:\n                    # Additional bounded source-only caller facts; keep the original\n                    # innermost controller_error_origin and primary failure intact.\n                    try:\n                        result[\"camera_guest_capture_error_origin\"] = preflight_error_origin(\n                            error, skip_prerequisite_require=True)\n                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt):\n                        result[\"camera_guest_capture_error_origin\"] = {\n                            \"source\": \"unavailable\", \"symbol\": \"unavailable\", \"line\": 0}\n                    raise\n",
+    "before": "            if execution[\"exit_code\"] != 0 or execution.get(\"stop_reason\"):\n                raise RuntimeError(\"Setup failed before any device test execution\")\n        if guest is not None:\n            guest.capture_avd(home)\n",
+    "current_before_sha256": "bd31ce4195c31abd7431da65fa3ded2bb963d4ff2e77c267215b6a64694f7d6a",
+    "desired_repository_mode": "100644",
+    "group": "camera012-capture-admission",
+    "id": "capture-immediately-after-successful-owned-avd-create",
+    "path": "scripts/ci/android_device_tests.py",
+    "private_mode": "0600"
+  }
+]

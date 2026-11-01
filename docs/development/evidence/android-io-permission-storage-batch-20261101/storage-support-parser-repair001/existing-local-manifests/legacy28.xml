@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Owned library-test fixture only; never a general sample manifest. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe"
+    android:versionCode="1"
+    android:versionName="verification-only" >
+
+    <uses-sdk
+        android:minSdkVersion="23"
+        android:targetSdkVersion="28" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <permission
+        android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE"
+        android:protectionLevel="signature" />
+
+    <queries>
+        <package android:name="com.mohamedrejeb.calf.calfpermissions.calfpermissionscore.test" />
+
+        <intent>
+            <action android:name="android.intent.action.OPEN_DOCUMENT" />
+
+            <category android:name="android.intent.category.OPENABLE" />
+
+            <data android:mimeType="application/octet-stream" />
+        </intent>
+    </queries>
+
+    <permission
+        android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <application
+        android:allowBackup="false"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:extractNativeLibs="false"
+        android:label="NativeCmpKit storage test"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar" >
+        <activity
+            android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.StorageProbeActivity"
+            android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE" />
+
+        <service
+            android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.StorageProbeService"
+            android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE" />
+
+        <provider
+            android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.StorageProbeControlProvider"
+            android:authorities="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.control"
+            android:exported="true"
+            android:grantUriPermissions="false"
+            android:permission="android.permission.DUMP" />
+
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.androidx-startup"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP" >
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

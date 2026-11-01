@@ -1,0 +1,49 @@
+{
+  "kind": "root-review-not-model-or-native-tests",
+  "existing_files_changed": 7,
+  "new_files": 7,
+  "original_failures_preserved": [
+    {
+      "step": "initial map membership",
+      "exception": "AssertionError",
+      "cause": "Combined-only workflow incorrectly included in library-only set expectation; repaired by each canonical map membership."
+    },
+    {
+      "step": "plan report field",
+      "exception": "KeyError",
+      "field": "expected_modules",
+      "cause": "Root report script used nonexistent field. Actual plan schema uses expected; source/plans unchanged."
+    },
+    {
+      "step": "symbol lookup",
+      "exit_code": 2,
+      "cause": "Dot-separated production package directory differs from slash-separated test package; corrected using tracked file paths."
+    }
+  ],
+  "source_review": {
+    "platform_native_cases": {
+      "android": 1,
+      "desktop": 1,
+      "ios": 2
+    },
+    "old_production_source_bodies_unchanged": true,
+    "native_failures_not_fabricated": true,
+    "local_server_and_received_callbacks_are_real_when_executed": true,
+    "tls_complete_client_hello_plus_native_error_required": true,
+    "no_dns_or_offline_claim": true,
+    "strict_source_freshness_identity_and_owned_cleanup_retained": true,
+    "minimum_token_permissions": "contents: read",
+    "actions_allowed_without_mandatory_sha_pinning": true
+  },
+  "reused_prior_model_outcomes": {
+    "joint": 7,
+    "android": "staged 12 authored models; not a new12/12 run",
+    "desktop": 11,
+    "ios_native_source": 23,
+    "ios_owning": 13
+  },
+  "root_model_replays": 0,
+  "compiler_executions": 0,
+  "native_executions": 0,
+  "issue64_stays_open": true
+}

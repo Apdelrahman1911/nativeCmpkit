@@ -1,0 +1,27 @@
+{
+  "API35_denial_is_not_selected_or_replayed": true,
+  "actual_Android33_or34_accepted_here": false,
+  "criterion": {
+    "criterion": 4,
+    "issue": 102,
+    "literal_original_criterion": "Run permission denial/permanent-denial and Android13/14 media-selection scenarios.",
+    "recorded_local_evidence": "Source tests and offline exact API33/34/35 signer readback only. API34 selection is platform-issued, then observed through public library states.",
+    "required_actual_evidence": "API35 denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest: real first denial/rationale true, permanent denial/rationale false, third no dialog, one callback/request and Unknown requestability. Separate original realPlatformMediaSelectionIsReflectedByPublicLibraryStates XML at API33 and34. API33 public-library request/full image+video/one callback each. API34 VISUAL_USER_SELECTED native true with full media false; public library Available/Limited, legacy denied, zero library callbacks/no lastRequest. Not a library selected-request result or selected/unselected read proof.",
+    "required_profiles": [
+      "android-permission-demo",
+      "android-media-selection-api33",
+      "android-media-selection-api34"
+    ],
+    "source": [
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt:56-85",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt:31-76",
+      "tests/consumer/android-permission-demo/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissiondemo/PermissionDemoActivity.kt:59-62,123-128"
+    ]
+  },
+  "recovery_profile": "android-media-selection-compatibility",
+  "recovery_required_distinct_methods": 1,
+  "recovery_required_original_XML": 2,
+  "recovery_required_target_executions": 2,
+  "storage_is_not_selected_or_replayed": true,
+  "whole_C4_or_issue102_closed": false
+}

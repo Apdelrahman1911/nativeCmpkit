@@ -51,12 +51,12 @@ class IosWebViewNativeIdentityTests(unittest.TestCase):
         self.assertEqual(":calf-webview:" + lt.IOS_APPLICATION_TASK, selected["task"])
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
 
-    def test_original_ten_case_profile_and_unfiltered_eleven_case_contract_are_retained(self):
+    def test_original_ten_case_profile_and_unfiltered_fourteen_case_contract_are_retained(self):
         original = lt.plan(lt.ROOT, "ios", only_modules=("calf-webview",), focus=lt.IOS_WEBVIEW_LIFECYCLE_FOCUS)
         self.assertEqual(10, len(original["expected"][0]["required_testcases"]))
         full = lt.plan(lt.ROOT, "ios", only_modules=("calf-webview",))
         self.assertNotIn("test_filter", full["expected"][0])
-        self.assertEqual(11, sum(len(g["methods"]) for g in lt.IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS))
+        self.assertEqual(14, sum(len(g["methods"]) for g in lt.IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS))
         self.assertNotIn("publish", " ".join(lt.gradle_command("ios", self.plan(), simulator=runtime_fixture.DEVICE)))
 
     def test_real_cli_transports_exact_recovery_and_native_registry_identities(self):

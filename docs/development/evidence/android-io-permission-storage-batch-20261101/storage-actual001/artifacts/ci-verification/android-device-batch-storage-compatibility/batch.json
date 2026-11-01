@@ -1,0 +1,93 @@
+{
+  "actual_distinct_methods": 0,
+  "actual_target_executions": 0,
+  "batch": "android-storage-compatibility",
+  "finished_at_utc": "2026-11-01T02:40:15.426338+00:00",
+  "native_acceptance_or_issue_closure_inferred": false,
+  "original_XML_execution_count_complete": false,
+  "packages_published": false,
+  "packages_uploaded": false,
+  "passed": false,
+  "refused_profiles": [
+    "android-storage-api29-legacy",
+    "android-storage-api29-scoped",
+    "android-storage-api30-normal",
+    "android-storage-api30-all-files"
+  ],
+  "release_readiness_certified": false,
+  "requested_distinct_methods": 6,
+  "requested_target_executions": 6,
+  "reserve_mib": 8192,
+  "routes": [
+    {
+      "archive": {
+        "actual_cases": [],
+        "actual_totals": {
+          "errors": 0,
+          "executed": 0,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 0,
+          "skipped": 0,
+          "tests": 0,
+          "unexpected_skipped": 0
+        },
+        "native_success_inferred_from_archival": false,
+        "original_XML_execution_count_complete": false,
+        "original_library_receipt_present": false,
+        "original_reports": [],
+        "original_result_preserved": true,
+        "profile": "android-storage-api28"
+      },
+      "cleanup_certified": true,
+      "controller_path": "build/ci-verification/android-device-batch-storage-compatibility/routes/android-storage-api28/controller.json",
+      "controller_sha256": "ac8cc92e3e1946a1e55c66ac4e055f4dac18763f3731c84f106b9da4fa46cbf4",
+      "execution": {
+        "elapsed_seconds": 337.1,
+        "exit_code": 1
+      },
+      "failed_child_origin": {
+        "native_success_inferred": false,
+        "raw_log_uploaded": false,
+        "status": "unavailable"
+      },
+      "local_state_cleanup": {
+        "evidence_or_cache_removed": false,
+        "removed_directories": [
+          "avd",
+          "android-user"
+        ],
+        "status": "passed"
+      },
+      "output": "build/ci-verification/android-device-batch-storage-compatibility/routes/android-storage-api28",
+      "passed": false,
+      "profile": "android-storage-api28"
+    },
+    {
+      "adapter_error": "FileNotFoundError",
+      "cleanup_certified": false,
+      "execution": {
+        "elapsed_seconds": 1.0,
+        "exit_code": 2
+      },
+      "failed_child_origin": {
+        "native_success_inferred": false,
+        "origin": {
+          "line": 95,
+          "source": "android_device_tests.py",
+          "symbol": "require_host"
+        },
+        "raw_log_uploaded": false,
+        "status": "retained"
+      },
+      "output": "build/ci-verification/android-device-batch-storage-compatibility/routes/android-storage-api29-target28",
+      "passed": false,
+      "profile": "android-storage-api29-target28"
+    }
+  ],
+  "same_workspace_compilation_reuse_only": true,
+  "schema_version": 1,
+  "source_revision": "1c74cb9a7951610fdb8098869f9daadd918b8a39",
+  "source_unchanged": true,
+  "started_at_utc": "2026-11-01T02:34:36.807132+00:00"
+}

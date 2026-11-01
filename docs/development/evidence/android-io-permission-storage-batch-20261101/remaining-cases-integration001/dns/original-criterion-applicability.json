@@ -1,0 +1,28 @@
+{
+  "DNS_assertions": [
+    "two distinct freshly nonce-qualified HTTPS .invalid retained-document links, existing system resolver",
+    "normal framework WK callbacks forwarded exactly once to the acquired current WebViewState",
+    "first actual NSURLErrorDomain/CannotFindHost/-1003 seeds exactly one public native error",
+    "second actual provisional start observes that exact prior error before forwarding, then empty errors/reset public title/final URL in Loading before any commit",
+    "same retained WK/current state/observer/application window and exact retained DOM title/body/document.URL",
+    "actual same retained WKNavigation start/failure identity; zero commit/finish/postcommit-failure callbacks",
+    "one fresh actual native -1003 error after each failure, no stale accumulation",
+    "bounded existing host waits, exact acquired weak-delegate restoration and genuine host release/root restoration"
+  ],
+  "audit_id": "NATIVE-005",
+  "controlled_resolver_or_uncached_on_wire_query_proven": false,
+  "dispatch_authorized": false,
+  "existing_resolver_DNS_cache_network_policy_or_runner_dependency_nondeterministic": true,
+  "genuine_method_declared_not_executed": true,
+  "issue": 64,
+  "issue64_closed": false,
+  "native_method": "nativeProvisionalDnsFailFailResetsPreviousErrorBeforeCommitOnSameDocument",
+  "native_source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt",
+  "new_distinct_native_methods": 1,
+  "no_resolver_proxy_hosts_ATS_certificate_or_system_offline_change": true,
+  "original_third_criterion": "iOS provisional DNS/TLS failure before commit resets the previous request errors.",
+  "required_target_selection": "one owning genuine iOS Arm64 application method; later real runtime identity required",
+  "sealed_TLS_and_other_platform_work_unmodified_and_not_substituted": true,
+  "source_only_not_Darwin_SDK_compiler_native_DNS_acceptance": true,
+  "timeout_offline_TLS_other_error_or_injected_NSError_cannot_pass": true
+}

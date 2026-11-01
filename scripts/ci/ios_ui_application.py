@@ -201,12 +201,14 @@ def macho_simulator_identity(path: Path) -> dict:
             "executable_uuid": executable_uuids[0] if executable_uuids else None}
 
 
-def app_information(bundle_id: str, minimum_os: str) -> dict:
+def app_information(bundle_id: str, minimum_os: str, *, local_webview_requests: bool = False) -> dict:
     if not re.fullmatch(r"io\.github\.apdelrahman1911\.nativecmpkit\.verification\.ui\.r[0-9a-f]{12}\.t[0-9a-f]{32}", bundle_id):
         raise ValueError("Expected a fresh source-bound owned verification bundle identifier")
     if not re.fullmatch(r"[0-9]+(?:\.[0-9]+){2}", minimum_os):
         raise ValueError("Minimum OS must come from the linked Mach-O")
-    return {"CFBundleIdentifier": bundle_id, "CFBundleExecutable": APP_EXECUTABLE,
+    if type(local_webview_requests) is not bool:
+        raise ValueError("The test-only local-networking mode must be an exact derived boolean")
+    information = {"CFBundleIdentifier": bundle_id, "CFBundleExecutable": APP_EXECUTABLE,
             "CFBundleName": "NativeCmpKit library tests", "CFBundlePackageType": "APPL",
             "CFBundleVersion": "1", "CFBundleShortVersionString": "0.1.0",
             "CFBundleSupportedPlatforms": ["iPhoneSimulator"], "LSRequiresIPhoneOS": True,
@@ -215,6 +217,11 @@ def app_information(bundle_id: str, minimum_os: str) -> dict:
             # check enabled; a fixture crash must not become a silent bypass.
             "CADisableMinimumFrameDurationOnPhone": True,
             "UILaunchScreen": {}, "UIApplicationSupportsIndirectInputEvents": True}
+    if local_webview_requests:
+        # One disposable localhost-only WK fixture. Do not permit arbitrary loads,
+        # insecure public domains, custom CA roots or a TLS authentication bypass.
+        information["NSAppTransportSecurity"] = {"NSAllowsLocalNetworking": True}
+    return information
 
 
 def teamcity_fields(line: str) -> tuple[str, dict] | None:
@@ -1007,6 +1014,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     protocol = NativeProtocol()
     appearance_driver = None
     image_profile_driver = None
+    request_fixture = None
+    request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS)
     native_environment = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
@@ -1027,7 +1036,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             raise OSError("Application staging would violate the owned disk reserve")
         app.mkdir()
         shutil.copy2(binary, app / APP_EXECUTABLE)
-        (app / "Info.plist").write_bytes(plistlib.dumps(app_information(bundle_id, identity["minimum_os"]), sort_keys=True))
+        (app / "Info.plist").write_bytes(plistlib.dumps(app_information(bundle_id, identity["minimum_os"],
+            local_webview_requests=request_fixture_requested), sort_keys=True))
         phase = "adhoc-sign-local-verification-app"
         if profile_debug_entitlements(focus) is not None:
             debug_details = {}
@@ -1055,6 +1065,11 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["steps"][phase]["container_status"] = control_status(container)
         if result.returncode or not installed:
             raise RuntimeError("Owned installation/byte readback failed; do not retry or remove foreign data")
+        if request_fixture_requested:
+            import ios_webview_request_fixture as wk_requests
+            phase = "prepare-owned-localhost-wk-request-fixture"
+            request_fixture = wk_requests.RequestFixture(root, bundle_id, signed_hash, plist_hash)
+            native_environment = request_fixture.prepare()
         if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS, *lt.IOS_IMAGE_DARWIN_FOCUSES):
             import apple_image_profile
             phase = "prepare-owned-image-memory-profile"
@@ -1092,6 +1107,20 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if request_fixture is not None:
+            try:
+                request_fixture.close()
+                receipt["webview_request_fixture"] = request_fixture.receipt
+                if not wk_requests.validate_receipt(request_fixture.receipt,
+                        bundle_id=bundle_id, signed_hash=signed_hash, plist_hash=plist_hash,
+                        native_pid=protocol.observed_launch_pid, fixture_hash=lt.sha256(root / wk_requests.SOURCE),
+                        native_hash=lt.sha256(root / wk_requests.NATIVE_SOURCE)):
+                    receipt["transport_passed"] = False
+                    receipt.setdefault("error", {"phase": "owned-localhost-wk-request-fixture", "type": "EvidenceError"})
+            except (OSError, ValueError, RuntimeError) as cleanup:
+                receipt["webview_request_fixture"] = {"cleanup_error_type": type(cleanup).__name__}
+                receipt["transport_passed"] = False
+                receipt.setdefault("error", {"phase": "owned-localhost-wk-request-fixture-cleanup", "type": type(cleanup).__name__})
         if image_profile_driver is not None:
             image_profile_driver.close()
             receipt["image_memory_profile"] = image_profile_driver.receipt

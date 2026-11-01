@@ -28,7 +28,9 @@ SLOTS = (
 )
 PROFILES = {
     "android-io-permission-storage-api35": ("android-device-api35",),
+    "android-permission-storage-api35-recovery": ("android-device-api35",),
     "android-permission-storage-compatibility": ("android-device-api35",),
+    "android-media-selection-compatibility": ("android-device-api35",),
     "android-storage-compatibility": ("android-device-api35",),
     "android-storage-api28": ("android-device-api35",),
     "android-storage-api29-target28": ("android-device-api35",),
@@ -62,6 +64,7 @@ PROFILES = {
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-content-transitions": ("browser-js", "browser-wasm"),
     "webview-request-state": ("browser-js", "browser-wasm"),
+    "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
@@ -145,6 +148,8 @@ PROFILES = {
     "ios-appinfo-capability": (),
     "ios-webview-lifecycle": ("ios-iphone",),
     "ios-webview-recovery": ("ios-iphone",),
+    "ios-webview-request-state": ("ios-iphone",),
+    "ios-webview-provisional-dns": ("ios-iphone",),
     "windows": ("desktop-windows-x64",),
     "windows-cache": ("desktop-windows-x64",),
     "windows-share-loader": ("desktop-windows-x64",),
@@ -153,6 +158,7 @@ PROFILES = {
     "android-device": ("android-device-api35",),
     "android-webview": ("android-device-api35",),
     "android-webview-popups": ("android-device-api35",),
+    "android-webview-request-state": ("android-device-api35",),
     "android-navigation-back": ("android-device-api35",),
     "android-io-oversize": ("android-device-api35",),
     "android-saver-identity": ("android-device-api35",),
@@ -176,7 +182,9 @@ PROFILES = {
 }
 MODULE_SUBSETS = {
     "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
+    "android-permission-storage-api35-recovery": "calf-permissions/core",
     "android-permission-storage-compatibility": "calf-permissions/core",
+    "android-media-selection-compatibility": "calf-permissions/core",
     "android-storage-compatibility": "calf-permissions/core",
     "android-storage-api28": "calf-permissions/core",
     "android-storage-api29-target28": "calf-permissions/core",
@@ -204,6 +212,8 @@ MODULE_SUBSETS = {
     "android-navigation-back": "calf-navigation",
     "ios-webview-lifecycle": "calf-webview",
     "ios-webview-recovery": "calf-webview",
+    "ios-webview-request-state": "calf-webview",
+    "ios-webview-provisional-dns": "calf-webview",
     "ios-image-memory-darwin": "calf-ui",
     "ios-image-profile-recovery": "calf-ui",
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
@@ -216,6 +226,7 @@ MODULE_SUBSETS = {
     # Two missing original iframe criteria methods only; accepted Browser004 stays reusable.
     "webview-content-transitions": "calf-webview",
     "webview-request-state": "calf-webview",
+    "webview-desktop-request-state": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -317,6 +328,7 @@ MODULE_SUBSETS = {
     "ios-image-memory": "calf-ui",
     "android-webview": "calf-webview",
     "android-webview-popups": "calf-webview",
+    "android-webview-request-state": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
     "android-saver-identity-missing": "calf-file-picker",
@@ -348,6 +360,9 @@ def matrix(profile: str) -> dict:
     if profile == "ui-dropdown-android-recovery":
         for row in rows:
             row["test-focus"] = "material-dropdown-android-dismissal-recovery"
+    if profile == "android-webview-request-state":
+        for row in rows:
+            row["test-focus"] = "android-webview-request-state"
     if profile == "android-webview-popups":
         for row in rows:
             row["test-focus"] = "android-webview-popup-policy"
@@ -396,6 +411,9 @@ def matrix(profile: str) -> dict:
     if profile == "webview-request-state":
         for row in rows:
             row["test-focus"] = "webview-browser-request-state"
+    if profile == "webview-desktop-request-state":
+        for row in rows:
+            row["test-focus"] = "webview-desktop-request-state"
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:
@@ -521,6 +539,12 @@ def matrix(profile: str) -> dict:
     if profile == "ios-webview-recovery":
         for row in rows:
             row["test-focus"] = "webview-ios-native-lifecycle-recovery"
+    if profile == "ios-webview-request-state":
+        for row in rows:
+            row["test-focus"] = "webview-ios-native-request-state"
+    if profile == "ios-webview-provisional-dns":
+        for row in rows:
+            row["test-focus"] = "webview-ios-native-provisional-dns"
     if profile in {"ios-slider-tap", "ios-slider-pair-structure"}:
         for row in rows:
             row["test-focus"] = ("ios-native-slider-tap-cancellation" if profile == "ios-slider-tap" else

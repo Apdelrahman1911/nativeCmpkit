@@ -1,5 +1,58 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Storage optional-library guard recovered; bounded host diagnostics — 2026-11-01
+
+[Exact owning parser recovery](docs/development/evidence/android-io-permission-storage-batch-20261101/storage-support-parser-repair001/README.md)
+admits only two optional Window support declarations; exact attributes/duplicates/
+process/state/namespace/unknown/PreviewActivity refusals remain. All24 delivery
+hashes/preimages/readbacks checked. Source red/16 unique new synthetic methods
+(one affected rerun,17 executions) and six existing compiled manifest shapes reused;
+ZERO new compile/native. Local APK differs from actual001; original rejected
+component remains unknown. [KVM diagnostic](docs/development/evidence/android-io-permission-storage-batch-20261101/host-admission-integration001/README.md)
+retains original conjunction/exit2, only bounded Boolean/null after-refusal facts;
+not original failing operand/cause or permission repair. Current1085 library/1162
+combined inputs; no issue closure or disposition promotion. Next camera Dont-keep
+only, accepted camera009 three and IO3 not replayed. Related pending #64 fixtures
+require their own compilation/native matrix. All parallel/serial-local/8GiB/max2heavy,
+publishing/Pages/main/history/native/consumer/ABI/security/readiness gates stay.
+
+## IO3 accepted; missing-case routing and DNS integrated — 2026-11-01
+
+[Actual003 API35](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci003/api35/PUBLIC_REVIEW.md)
+remains FAILED overall: **three actual IO methods/one original XML independently
+accepted**, Gradle0/27.01s,1071 committed inputs/identity/grants/owned cleanup reviewed.
+Five later permission/storage selections unexecuted; immutable require_host95
+KVM char/read-write operand+cause unknown. No IO replay. [Storage actual001](docs/development/evidence/android-io-permission-storage-batch-20261101/storage-actual001/README.md)
+FAILED/ZERO native/XML: API28 compiled-support refusal116, unknown component; next
+API29 KVM95, four refused. Original/public SDK-path substitutions are explicit.
+[Capture owning diagnostic](docs/development/evidence/camera-developer-prerequisite-20261101/capture-admission-integration002/INTEGRATED.md)
+now runs before costly APK compile, preserves primary failure, adds bounded caller
+only; actual012 cause unknown/#13 open/accepted camera009 three not replayed.
+[Related31 literals](docs/development/evidence/android-io-permission-storage-batch-20261101/remaining-cases-integration001/README.md)
+add remaining-five API35/media33+34/DNS-only routes; seven changed/four new files,
+six exact orders equal,1083/1160 source inputs. Two newly affected root guards2/2;
+sealed API35six/media6+one owning repair/DNS11 reused, not replayed.
+[Linux compiler](docs/development/evidence/webview-request-state-native-20261101/linux-compile001/README.md)
+passes0/118.02s/JDK17/Gradle9.7.1/1079+1156 held; actual Desktop-test/Android-device
+compilers executed, ZERO native/Apple. DNS needs real macOS cinterop; #64 needs
+Android Stop/redirect, Desktop missing host cells, genuine browser offline.
+92closed/80open/172total, no new closure/disposition promotion. Serial local/8GiB/
+max2heavy, read-only verification and all publishing/Pages/main/history/security/
+readiness/native/consumer/ABI gates unchanged. Useful disjoint agents authorized.
+
+## Related native WebView request fixtures integrated — 2026-11-01
+
+[#64 owning integration](docs/development/evidence/webview-request-state-native-20261101/integration001/README.md)
+adds14 files/42 exact commuting fragments; existing production/common/build/native
+test bodies and attribution unchanged. Android1/Desktop1/iOS2 methods/eight target
+selections prepared, **ZERO compiler/native here**. Canonical1078/1155 inputs;
+reused joint7/Desktop11/iOS23+13/staged Android models, no replay. Two root report
+schema refusals and path lookup error retained. DNS/offline/every-target matrix
+remain; #64 open. API35/storage recoveries still bind1c74cb9a, not these later inputs.
+Next compile only after capacity frees; macOS cinterop not certified by Linux.
+92closed/80open/172total/no disposition promotion; max2heavy/serial-local/8GiB and
+all publishing/Pages/main/history/consumer/ABI/security/readiness gates unchanged.
+
 ## Related Android recovery integrated; actual Apple help accepted — 2026-11-01
 
 [Actual002 API35](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci002/api35/PUBLIC_REVIEW.md)

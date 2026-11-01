@@ -41,7 +41,13 @@
     promise.then(value => { cancel(timer); resolve(value); }, error => { cancel(timer); reject(error); });
   });
 
-  function OwnedClipboardHeadless(baseBrowserDecorator, args) {
+  function OwnedClipboardHeadless(baseBrowserDecorator, args, finalConfig) {
+    // Karma has finalized/restored defaults and reapplied CLI options before this owning construction.
+    if (!finalConfig || finalConfig.hostname !== 'localhost' || finalConfig.listenAddress !== '127.0.0.1' ||
+        finalConfig.protocol !== 'http:' || finalConfig.urlRoot !== '/' || !Array.isArray(finalConfig.browsers) ||
+        finalConfig.browsers.length !== 1 || finalConfig.browsers[0] !== 'OwnedClipboardHeadless') {
+      throw new Error('Native clipboard fixture requires the finalized literal owned loopback Karma/Chrome profile');
+    }
     if (args.chromeDataDir || (args.flags && args.flags.length)) throw new Error('Clipboard fixture requires the unmodified disposable Karma profile');
     base.call(this, baseBrowserDecorator, {
       flags: ['--remote-debugging-port=0', '--host-resolver-rules=MAP ' + insecureHost + ' 127.0.0.1']
@@ -90,7 +96,7 @@
     };
   }
   OwnedClipboardHeadless.prototype = Object.create(base.prototype);
-  OwnedClipboardHeadless.$inject = ['baseBrowserDecorator', 'args'];
+  OwnedClipboardHeadless.$inject = ['baseBrowserDecorator', 'args', 'config'];
   const aliveOwner = () => {
     if (owners.size !== 1) throw new Error('Exactly one actual owned Chrome process is required');
     const owner = [...owners][0];
@@ -476,10 +482,14 @@
   config.plugins.push({ 'launcher:OwnedClipboardHeadless': ['type', OwnedClipboardHeadless],
     'middleware:nativecmpkit-clipboard-fixture': ['factory', middleware] });
   config.beforeMiddleware = [...(config.beforeMiddleware || []), 'nativecmpkit-clipboard-fixture'];
-  if (config.hostname !== 'localhost' || config.protocol !== 'http:' || config.urlRoot !== '/' ||
+  // parseConfig uses explicit null sentinels here; undefined/foreign values are never defaults.
+  if ((config.hostname !== null && config.hostname !== 'localhost') ||
+      (config.listenAddress !== null && config.listenAddress !== '127.0.0.1') ||
+      config.protocol !== 'http:' || config.urlRoot !== '/' || !Array.isArray(config.browsers) ||
       config.browsers.length !== 1 || config.browsers[0] !== 'ChromeHeadless') {
     throw new Error('Native clipboard fixture requires the literal owned localhost Karma/Chrome profile');
   }
+  config.hostname = 'localhost';
   config.browsers = ['OwnedClipboardHeadless'];
   config.listenAddress = '127.0.0.1';
 })();

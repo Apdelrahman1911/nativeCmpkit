@@ -1,0 +1,141 @@
+{
+  "actual_test_state": "Booted",
+  "application_finished_at_utc": "2026-11-01T12:23:57.363750+00:00",
+  "application_plist_sha256": "b5b1b7ae342c71a917f70150e6fdfd6e104c972a500af53731b4bad487f7f317",
+  "application_runtime_fingerprint_equals_library": false,
+  "application_runtime_fingerprint_stable_before_after": true,
+  "application_started_at_utc": "2026-11-01T12:22:21.918524+00:00",
+  "application_transport": {
+    "console_cleanup_requested": false,
+    "console_process_exit": 0,
+    "console_process_exit_after_cleanup": 0,
+    "elapsed_seconds": 26.45,
+    "finished_at_utc": "2026-11-01T12:23:30.668539+00:00",
+    "started_at_utc": "2026-11-01T12:23:04.260114+00:00",
+    "timeout_seconds": 1920
+  },
+  "binary_macho_and_installed_byte_facts_scope": "Same-source owned transport and library cross-check witnesses; not trusted-builder attestation. Raw packages are intentionally not uploaded.",
+  "cleanup": {
+    "absence_status": {
+      "error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 2
+    },
+    "owned_app_absence_verified": true,
+    "owned_app_identity_reverified": true,
+    "owned_app_stopped_verified": true,
+    "owned_local_bundle_removed": true,
+    "terminate_exit_code": 3,
+    "terminate_status": {
+      "error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "exit_code": 3
+    },
+    "uninstall_exit_code": 0,
+    "uninstall_status": {
+      "error_identities": [],
+      "exit_code": 0
+    }
+  },
+  "cleanup_interpretation": "Exact owned installed byte identity authorizes cleanup. terminate exit 3 with NSPOSIXErrorDomain/code 3 is the source-defined already-stopped result after native exit; uninstall exit 0 and absence exit 2/code 2 are verified, not ignored errors.",
+  "fingerprint_difference_cause": "Unknown; no cause inferred. The named host/Java/Rust/Xcode/SDK/simulator/source identities agree.",
+  "fixed_commit": "c6bca10d90b81e709c5d76e1e67257fdadd631ca",
+  "foreign_app_preflight": {
+    "error_identities": [
+      {
+        "code": 2,
+        "domain": "NSPOSIXErrorDomain"
+      }
+    ],
+    "exit_code": 2,
+    "preexisting_app_absence_verified": true
+  },
+  "install_owned_app": {
+    "container_status": {
+      "error_identities": [],
+      "exit_code": 0
+    },
+    "error_identities": [],
+    "exit_code": 0,
+    "installed_owned_bytes_verified": true
+  },
+  "library_application_named_runtime_identities_equal": true,
+  "linked_binary_sha256_before_after": "8c3e34c6909d640c672fc3754cf7326c3db0bfecd4a29259ac05378c47cefc0d",
+  "local_adhoc_sign": {
+    "error_identities": [],
+    "exit_code": 0,
+    "remote_signing_or_publication": false
+  },
+  "named_runtime": {
+    "apple_sdks": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.1",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "aarch64-apple-darwin",
+      "release": "1.98.0"
+    },
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    }
+  },
+  "native_activation": {
+    "bounded_exact_owned_launch_process_witness_present": true,
+    "distinct_main_and_owned_worker_verified": true
+  },
+  "native_completion": {
+    "runner_exit": 0,
+    "worker_terminated": true
+  },
+  "native_console_process_exit": 0,
+  "native_console_stream_bytes": 4542,
+  "packages_published": false,
+  "raw_native_binary_uploaded_or_independently_rehashed_by_reviewer": false,
+  "release_readiness_certified": false,
+  "remote_signing_or_publication": false,
+  "reported_macho": {
+    "architecture": "arm64",
+    "file_type": "executable",
+    "minimum_os": "15.0.0",
+    "platform": 7,
+    "sdk": "26.4.0"
+  },
+  "reported_unsigned_signed_macho_uuid_and_load_command_identity_equal": true,
+  "same_selected_simulator_identity_verified_before_and_after": true,
+  "schema": 1,
+  "selection_state": "Shutdown",
+  "signed_application_executable_sha256": "ffbae3a7279551ae94cf7257436897721523d8d600a0abccbf80d30b11447ea3",
+  "simulator": {
+    "device_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+    "runtime_build": "23F77",
+    "runtime_identifier": "com.apple.CoreSimulator.SimRuntime.iOS-26-5",
+    "runtime_version": "26.5",
+    "state": "Booted"
+  },
+  "source_before_after_exact_and_clean": true
+}

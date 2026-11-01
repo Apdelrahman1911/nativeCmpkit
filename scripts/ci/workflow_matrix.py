@@ -49,6 +49,7 @@ PROFILES = {
     "android-io-provider-lifecycle": ("android-device-api35",),
     "android-io-provider-unavailable": ("android-device-api35",),
     "android-io-default-decode": ("android-device-api35",),
+    "android-io-named-system-providers": ("android-device-api35",),
     "android-io-reference-regressions": ("android-device-api35",),
     "android-permission-demo": ("android-device-api35",),
     "android-permission-demo-call-denial-recovery": ("android-device-api35",),
@@ -71,6 +72,11 @@ PROFILES = {
     "webview-offline-destination": ("browser-js", "browser-wasm"),
     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-desktop-security-regressions": ("desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
+    "webview-desktop-request-state-linux-pair": ("desktop-linux-x64", "desktop-linux-arm64"),
+    "webview-desktop-request-state-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
+    "webview-desktop-request-state-windows-single": ("desktop-windows-x64",),
+    "webview-desktop-security-linux-arm64-windows-pair": ("desktop-windows-x64", "desktop-linux-arm64"),
+    "webview-desktop-security-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "share-clipboard-native": ("browser-js", "browser-wasm"),
@@ -214,6 +220,7 @@ MODULE_SUBSETS = {
     "android-io-provider-lifecycle": "calf-io",
     "android-io-provider-unavailable": "calf-io",
     "android-io-default-decode": "calf-io",
+    "android-io-named-system-providers": "calf-io",
     "android-io-reference-regressions": "calf-io",
     "android-permission-demo": "calf-permissions/core",
     "android-permission-demo-call-denial-recovery": "calf-permissions/core",
@@ -247,6 +254,11 @@ MODULE_SUBSETS = {
     "webview-offline-destination": "calf-webview",
     "webview-desktop-request-state": "calf-webview",
     "webview-desktop-security-regressions": "calf-webview",
+    "webview-desktop-request-state-linux-pair": "calf-webview",
+    "webview-desktop-request-state-macos-pair": "calf-webview",
+    "webview-desktop-request-state-windows-single": "calf-webview",
+    "webview-desktop-security-linux-arm64-windows-pair": "calf-webview",
+    "webview-desktop-security-macos-pair": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -361,6 +373,28 @@ MODULE_SUBSETS = {
 def matrix(profile: str) -> dict:
     if profile not in PROFILES:
         raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
+    aliases = {
+        "webview-desktop-request-state-linux-pair": ("webview-desktop-request-state", ("desktop-linux-x64", "desktop-linux-arm64")),
+        "webview-desktop-request-state-macos-pair": ("webview-desktop-request-state", ("desktop-macos-arm64", "desktop-macos-x64")),
+        "webview-desktop-request-state-windows-single": ("webview-desktop-request-state", ("desktop-windows-x64",)),
+        "webview-desktop-security-linux-arm64-windows-pair": ("webview-desktop-security-regressions", ("desktop-windows-x64", "desktop-linux-arm64")),
+        "webview-desktop-security-macos-pair": ("webview-desktop-security-regressions", ("desktop-macos-arm64", "desktop-macos-x64")),
+    }
+    if profile in aliases:
+        parent, slots = aliases[profile]
+        if PROFILES[profile] != slots or MODULE_SUBSETS.get(profile) != "calf-webview":
+            raise ValueError("Finite Desktop alias requires its exact slot tuple and WebView module; no arbitrary subset")
+        # Inherit every existing canonical row field/focus without narrowing its full branch.
+        inherited = [row for row in matrix(parent)["include"] if row["slot"] in slots]
+        if tuple(row["slot"] for row in inherited) != slots:
+            raise ValueError("Finite Desktop alias requires its exact inherited row order; no omitted or added host")
+        desktop_security_plan.validate_rows(desktop_security_plan.ROWS)
+        required = {row["slot"]: row for row in desktop_security_plan.ROWS}
+        if any(row.get("suite") != "desktop" or row.get("test-modules") != "calf-webview" or
+               any(row.get(key) != required[row["slot"]][key] for key in ("runner", "arch"))
+               for row in inherited):
+            raise ValueError("Finite Desktop alias runner/architecture/suite/module drift; no other-host fallback")
+        return {"include": inherited}
     selected = set(PROFILES[profile])
     rows = [dict(slot) for slot in SLOTS if slot["slot"] in selected]
     if profile in MODULE_SUBSETS:
@@ -632,6 +666,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-default-decode":
         for row in rows:
             row["test-focus"] = "android-io-default-decode"
+    if profile == "android-io-named-system-providers":
+        for row in rows:
+            row["test-focus"] = "android-io-named-system-providers"
     if profile == "android-io-reference-regressions":
         for row in rows:
             row["test-focus"] = "android-io-reference-regressions"

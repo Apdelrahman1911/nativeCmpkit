@@ -319,25 +319,46 @@ def source_contract(root: Path) -> dict:
     applications, queries = reporter.findall("application"), reporter.findall("queries")
     require(reporter.tag == "manifest" and len(applications) == len(queries) == 1 and
             all(node.tag in {"uses-permission", "queries", "application"} for node in reporter) and
-            len(queries[0]) == 1 and queries[0][0].tag == "package" and queries[0][0].get(ANDROID + "name") == PACKAGE,
+            not queries[0].attrib and len(queries[0]) in {1, 3} and
+            queries[0][0].tag == "package" and queries[0][0].attrib == {ANDROID + "name": PACKAGE} and
+            len(queries[0][0]) == 0 and
+            (len(queries[0]) == 1 or (
+                queries[0][1].tag == "provider" and queries[0][1].attrib == {ANDROID + "authorities":
+                    "media;com.android.externalstorage.documents;com.android.providers.downloads.documents"} and
+                len(queries[0][1]) == 0 and
+                queries[0][2].tag == "intent" and not queries[0][2].attrib and len(queries[0][2]) == 1 and
+                queries[0][2][0].tag == "action" and
+                queries[0][2][0].attrib == {ANDROID + "name": "android.intent.action.OPEN_DOCUMENT_TREE"} and
+                len(queries[0][2][0]) == 0)),
             "Only the exact helper query and reporter application are permitted")
+    # The exact qualified named-system query pair and caller are an indivisible source-only union.
+    named_system_union = len(queries[0]) == 3
     app = applications[0]
     require(permissions == [PERMISSION] and not reporter.findall("uses-permission-sdk-23") and
             reporter.get(ANDROID + "sharedUserId") is None and reporter.get(ANDROID + "sharedUserMaxSdkVersion") is None and
             app.get(ANDROID + "permission") is None and app.get(ANDROID + "process") is None,
             "Reporter must not bypass Android content grants or native UID/process boundaries")
     grant, client, providers = app.findall("activity"), app.findall("service"), app.findall("provider")
-    require((len(grant), len(client), len(providers)) == (2, 1, 1) and
+    require((len(grant), len(client), len(providers)) == (3 if named_system_union else 2, 1, 1) and
             all(node.tag in {"activity", "service", "provider"} for node in app) and
             all(node.get(ANDROID + "enabled") in {None, "true"} for node in app) and
             {activity.get(ANDROID + "name") for activity in grant} ==
-                {"com.mohamedrejeb.calf.io.AndroidIoGrantActivity", "com.mohamedrejeb.calf.io.AndroidIoSingleDocumentGrantActivity"} and
+                ({"com.mohamedrejeb.calf.io.AndroidIoGrantActivity", "com.mohamedrejeb.calf.io.AndroidIoSingleDocumentGrantActivity"} |
+                 ({"com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity"} if named_system_union else set())) and
             all(activity.get(ANDROID + "exported") == "false" and activity.get(ANDROID + "permission") is None and
                 activity.get(ANDROID + "process") is None and len(activity) == 0 for activity in grant) and
             client[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.IoBookmarkClientService" and
             client[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "process") == ":nativecmpkit_io_client" and
             client[0].get(ANDROID + "permission") is None and len(client[0]) == 0,
             "The exact reporter client and both grant/revoke Activities must remain private")
+    if named_system_union:
+        named_caller = next(activity for activity in grant if
+                            activity.get(ANDROID + "name") == "com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity")
+        require(named_caller.attrib == {
+                    ANDROID + "name": "com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity",
+                    ANDROID + "exported": "false", ANDROID + "theme": "@android:style/Theme.Material.Light.NoActionBar"} and
+                len(named_caller) == 0,
+                "Only the exact nonexported source-bound named-system caller is permitted")
     provider = providers[0]
     require(provider.get(ANDROID + "name") == "com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider" and
             provider.get(ANDROID + "authorities") == "${applicationId}.io-device-files" and

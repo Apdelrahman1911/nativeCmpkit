@@ -1,5 +1,38 @@
 # NativeCmpKit development after the audit
 
+## #99 verified closure; missing-only platform batch — 2026-11-01
+
+[#99 closure/readback](evidence/current-platform-recovery-20261101/secure-alert-input-closure106/README.md)
+completes all three original criteria:10/10 actual native methods/two fresh XMLs,
+Gradle0/1529.38s at immutablec6bca10d; exact1139 actual library maps and bounded
+UIKit/callback/logging/keyboard/masked-display assertions reviewed. Simulator only,
+not physical/all-OS logging/kernel-failure or release/security certification.
+**94closed/78open/172total;25implemented/42partial/92verified/five unresolved.**
+Accepted results are reused without replay; original issues and failures retained.
+
+Next: clipboard8missing native executions, Android local named-provider2 and
+finite Desktop rows. Clipboard and pairs reserve2combined hosted-heavy rows even
+when max-parallel1; singles may coexist only within global2. #55cloud and #50C3
+stay separate/open. Publishing, Pages, main/history/security/readiness stay gated.
+Earlier sections retain their original preparation/result observation times.
+
+## Named-provider admission and finite Desktop batches — 2026-11-01
+
+[Android owning103](evidence/current-platform-recovery-20261101/android-io-named-provider-owning103/README.md)
+passes26 focused controls and reuses the actual reporter compiler; two native
+named providers and cloud coverage remain missing. [Desktop aliases104](desktop-finite-missing-host-batches.md)
+pass10 focused controls and retain canonical native/graph routes, no native result.
+[Clipboard096](evidence/current-platform-recovery-20261101/clipboard-karma-phase-owning096/README.md)
+repairs qualified callback/finalization admission; eight target executions remain.
+[iOS C3 original102](evidence/current-platform-recovery-20261101/ios-provider-cancellation-original102/README.md)
+is still FAILED/zero completed native methods; cause unknown, no blind retry.
+
+**Capacity correction:** `share-clipboard-native` reserves two rows even with
+`max-parallel: 1`; it cannot coexist with another hosted-heavy request. Pair
+Desktop aliases also reserve two; globally at most two including queued rows.
+Earlier coexistence/whole-matrix suggestions below are historical, not permission
+to exceed that bound. Publishing, Pages, main/history/security/readiness stay gated.
+
 ## #102 verified closure and clipboard native preparation — 2026-11-01
 
 [#102 closure](evidence/current-platform-recovery-20261101/permission102-closure079/README.md)

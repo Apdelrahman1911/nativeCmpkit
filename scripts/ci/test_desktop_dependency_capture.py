@@ -557,7 +557,7 @@ class DesktopDependencyCaptureModels(unittest.TestCase):
         start = workflow.index(anchor)
         end = workflow.index("      - name: Related real JVM/JNI path tests", start)
         step = workflow[start:end]
-        self.assertIn("if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'webview-desktop-security-regressions' }}", step)
+        self.assertIn("if: ${{ !cancelled() && steps.plan.outcome == 'success' && (inputs.profile == 'webview-desktop-security-regressions' || inputs.profile == 'webview-desktop-security-linux-arm64-windows-pair' || inputs.profile == 'webview-desktop-security-macos-pair') }}", step)
         self.assertIn('"$PYTHON" scripts/ci/desktop_dependency_capture.py \\\n            --profile webview-desktop-security-regressions --slot "$SLOT"', step)
         self.assertNotIn("continue-on-error", step)
         self.assertNotIn("--focus", step)

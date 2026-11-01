@@ -40,6 +40,7 @@ lt.ANDROID_IO_PROVIDER_FOCUS = "android-io-provider"
 lt.ANDROID_IO_UNAVAILABLE_FOCUS = "android-io-provider-unavailable"
 lt.ANDROID_IO_DEFAULT_DECODE_FOCUS = "android-io-default-decode"
 lt.ANDROID_IO_REFERENCE_FOCUS = "android-io-reference"
+lt.ANDROID_IO_NAMED_SYSTEM_FOCUS = "android-io-named-system-providers"
 lt.WEBVIEW_ANDROID_MEDIA_FOCUS = "webview-android-media"
 for name in ("safe_path", "plan", "android_io_documents_required", "android_permission_demo_required",
              "android_storage_probe_required", "android_camera_receiver_required", "android_geo_probe_required",

@@ -227,7 +227,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     io_documents_required = lt.android_io_documents_required(plan)
     permission_demo_required = lt.android_permission_demo_required(plan)
     storage_required = lt.android_storage_probe_required(plan)
-    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES or focus in {lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS} or permission_demo_required or storage_required
+    diagnostics = focus in lt.ANDROID_CAMERA_FOCUSES or focus in {lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS} or permission_demo_required or storage_required
     if diagnostics:
         output.mkdir(parents=True)
     preflight = {"api_level": api_level, "status": "running", "stage": "sdk-assets",
@@ -600,6 +600,10 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
 
 
 def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:
+    if focus == lt.ANDROID_IO_NAMED_SYSTEM_FOCUS:
+        if type(api_level) is not int or api_level != 35 or modules != ("calf-io",):
+            raise ValueError("Named local system providers require the exact API35 calf-io-only selector")
+        return
     if focus == lt.ANDROID_IO_UNAVAILABLE_FOCUS:
         if type(api_level) is not int or api_level != 35 or modules != ("calf-io",):
             raise ValueError("The exact one-method unavailable-provider selection requires API35 and calf-io only")
@@ -662,7 +666,7 @@ def main() -> int:
     parser.add_argument("--output", required=True)
     parser.add_argument("--api-level", type=int, choices=[23, 28, 29, 30, 33, 34, API], required=True)
     parser.add_argument("--module", action="append", help="Explicit authored device-test subset; never a complete-suite claim")
-    parser.add_argument("--focus", choices=[*lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_WEBVIEW_REQUEST_FOCUS, lt.ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
+    parser.add_argument("--focus", choices=[*lt.ANDROID_STORAGE_FOCUSES, lt.DATE_TRANSACTION_FOCUS, *lt.DROPDOWN_FOCUSES, lt.ANDROID_IO_PROVIDER_FOCUS, lt.ANDROID_IO_UNAVAILABLE_FOCUS, lt.ANDROID_IO_DEFAULT_DECODE_FOCUS, lt.ANDROID_IO_REFERENCE_FOCUS, lt.ANDROID_IO_NAMED_SYSTEM_FOCUS, lt.ANDROID_IO_OVERSIZE_FOCUS, lt.WEBVIEW_LIFETIME_FOCUS, lt.ANDROID_POPUP_FOCUS, lt.ANDROID_WEBVIEW_REQUEST_FOCUS, lt.ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, lt.ANDROID_NAV_BACK_FOCUS, lt.ANDROID_GEO_OWNERSHIP_FOCUS, *lt.ANDROID_GEO_PROVIDER_FOCUSES, lt.ANDROID_SHARE_GRANT_FOCUS, *lt.ANDROID_CAMERA_FOCUSES, *lt.ANDROID_PERMISSION_DEVICE_SPECS,
                                             lt.WEBVIEW_ANDROID_MEDIA_FOCUS, *lt.WEBVIEW_IDENTITY_FOCUSES, *lt.ANDROID_SAVE_IDENTITY_FOCUSES],
                         help="Finite important device methods only; never complete suite coverage")
     args = parser.parse_args()

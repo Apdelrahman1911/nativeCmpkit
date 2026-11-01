@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `7802ca284d2bd7f676ed34f86e0e70f48d43d54202e6462cdc8bc8df9447adc3`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `41bf347a0877523b32720993983edbab1ae8fe312f7136d2c839762cfc9fcc49`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 26 |
+| implemented | 25 |
 | partially-verified | 42 |
-| verified | 91 |
+| verified | 92 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -156,7 +156,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 108 | [NAV-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/96) | Medium | 2 | L | verified | — | 3 / 0 |
 | 109 | [NAV-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/97) | Medium | 2 | M | implemented | — | 4 / 1 |
 | 110 | [NAV-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/98) | Medium | 2 | M | unresolved | NAV-009 | 4 / 2 |
-| 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | implemented | — | 3 / 1 |
+| 111 | [NAV-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) | Medium | 2 | S | verified | — | 3 / 0 |
 | 112 | [NAV-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) | Medium | 2 | M | partially-verified | — | 4 / 3 |
 | 113 | [NAV-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) | Medium | 2 | S | verified | — | 4 / 0 |
 | 114 | [NAV-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) | Medium | 2 | S | verified | — | 4 / 0 |
@@ -2546,7 +2546,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 111. NAV-012 — Sample secure password text field logs every entered value
 
-**Medium · implemented · original effort S** — [nativeCmpkit #99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
+**Medium · verified · original effort S** — [nativeCmpkit #99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99); owner [docs/development/resolutions/NAV.json](resolutions/NAV.json); baseline [docs/audit/findings/NAV.json](../audit/findings/NAV.json).
 
 **Original dependencies:** none.
 
@@ -2558,7 +2558,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Ten finite iOS native methods still unexecuted; real synthetic input, secure keyboard/masked display and current-process stdout/stderr plus descriptor lifecycle/failure controls remain required. Physical/full OS log/concurrency/kernel-failure limitations remain separate.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Sample only; no library API change or secret persistence introduced.
 
@@ -3585,7 +3585,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `772540b03a69150c7052fd7fc63418043fc3b1c50890ec0670b9f5fe7b34f545` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `3b97594b5e2206c46e9f4f82a9b56079b8d93d3b0e557b41c2051222b62cef14` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |

@@ -1,0 +1,83 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "browser_http_fixture": "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js",
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/test-results/wasmJsBrowserTest",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+        }
+      ],
+      "task": ":calf-share:wasmJsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+      "test_source_files": [
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt",
+        "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt",
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
+      ],
+      "test_source_sets": [
+        "webTest",
+        "wasmJsTest"
+      ],
+      "test_source_sha256": {
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js": "0d4ad6774a9eff2722a39c676a85581a0a65d9ae8ad08ffa001e0e1907338e2a",
+        "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt": "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59",
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt": "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+      }
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-share"
+  ],
+  "explicit_test_focus": "web-share-clipboard-native-contexts",
+  "finite_only_device_modules_not_requested": [],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "webTest",
+    "wasmJsTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only four missing literal #82 C3 library methods: secure capability absence, genuine non-trustworthy HTTP context, native document-policy denied permission/NotAllowedError, and trusted active native input with one actual owned-text write. Same emitted JS/Wasm library test bundle, exact new child method only; accepted controlled-Promise methods are not selected/replayed. No clipboard reads, persistent site/UI permission claim, other browser/OS, full-suite, packaged consumer/ABI/security/release certification.",
+  "suite": "wasm",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

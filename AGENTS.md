@@ -1,5 +1,50 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Secure sample-input issue verified and closed — 2026-11-01
+
+**#99/NAV-012 CLOSED/completed**, immediately after all three original criteria
+and [actual original review/readback](docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-closure106/README.md), before docs.
+Actual41302864406/c6bca10d passes10/10 native/two fresh XML/Gradle0/1529.38s;
+1139actual maps match,1215combined is fixed-Git provenance only. Real UIKit
+synthetic callback input/keyboard/masked pixels/current-process stdout-stderr and
+source prevention accepted within iPhone Air/iOS26.5 simulator scope. No physical/
+all-OS logging/genuinely failed kernel/sample-app/API-ABI/security/release inference.
+One unsupported gh field refusal was before mutation, not a test failure; REST
+readback confirms original title/body/labels/author unchanged. **94closed/78open/
+172total;25implemented/42partial/92verified/five unresolved.** #102 is already
+closed, never repeat it. Earlier preparation sections retain their dated scopes.
+Next missing-only clipboard8, then Android local-provider2 and finite Desktop
+rows; pairs reserve2 including queued, never coexist with another request. Lead
+Git/dispatch/closures, serial local heavy/8GiB and all publishing/Pages/main/history/
+consumer/ABI/dependency/legal/security/readiness gates stay unchanged.
+
+## Strict provider admission / finite Desktop aliases — 2026-11-01
+
+[Owning103](docs/development/evidence/current-platform-recovery-20261101/android-io-named-provider-owning103/README.md)
+admits only complete old-or-qualified-new reporter manifest shapes, never hybrids;
+three fragments/only source_contract/33 other nodes retained.26/26 important
+synthetic methods pass once/2.005165s,1146/1222held; accepted8/18/100fourteen not
+replayed. Reporter101 Gradle0/38.522816s reused on exact Kotlin/manifest/build/
+dependency bytes, no native.58 acquired signer warnings/custody limits preserved;
+wrong helper-validator use is not a signer waiver/security pass. #55 remains open.
+[Desktop104](docs/development/desktop-finite-missing-host-batches.md) adds five
+exact aliases/six reversible fragments, passes10/10 important methods once/
+0.390723s/1147/1223held; canonical routes/native/collector unchanged, ZERO native
+or graphs. Old all-profile loop populations not replayed. Related private-prefix
+FileNotFoundError was before edits/imports/tests, recovery only bookkeeping.
+[Clipboard096](docs/development/evidence/current-platform-recovery-20261101/clipboard-karma-phase-owning096/README.md)
+retains39 qualified controls and4 owning passes; eight native executions missing.
+[C3 original102](docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-original102/README.md)
+FAILED: Gradle1/1329.5s/one Unknown XML/open method/zero completed native, console
+child0/9.18s/missing Worker completion; app-exit/copy/cancel cause unknown. #50
+open; C1/C2/C4/C5/C6 accepted reuse, no blind retry. #99 terminal success is still
+under original review at this preparation checkpoint;93closed/79open unchanged.
+**Maximum2 combined hosted-heavy includes queued/reserved rows**: clipboard2
+even with max-parallel1; Desktop pairs2/single1. Never run a pair with another
+request, nor full four/five-host routes under this bound. Lead owns Git/dispatch/
+closures, serial local heavy/8GiB reserve. All security/readiness/publishing/
+Pages/main/history/native/consumer/ABI/dependency/legal gates remain.
+
 ## iOS secure-input/C3 related preparation — 2026-11-01
 
 [Secure087](docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-preparation087/README.md)

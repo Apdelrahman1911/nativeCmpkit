@@ -1,0 +1,85 @@
+{
+  "accepted_tests_replayed": false,
+  "all_configured_combined_inputs_bound_to_staged_git_blobs": true,
+  "combined_input_count": 1223,
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "elapsed_seconds": 0.06759,
+      "exit_code": 0,
+      "index": 1
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "elapsed_seconds": 0.079716,
+      "exit_code": 0,
+      "index": 2
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "elapsed_seconds": 0.297232,
+      "exit_code": 0,
+      "index": 3
+    },
+    {
+      "argv": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml"
+      ],
+      "elapsed_seconds": 0.009056,
+      "exit_code": 0,
+      "index": 4
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "android-io-named-system-providers"
+      ],
+      "elapsed_seconds": 0.07587,
+      "exit_code": 0,
+      "index": 5
+    },
+    {
+      "argv": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "android-device",
+        "--module",
+        "calf-io",
+        "--focus",
+        "android-io-named-system-providers"
+      ],
+      "elapsed_seconds": 0.202312,
+      "exit_code": 0,
+      "index": 6
+    }
+  ],
+  "completed": true,
+  "head_before": "c6bca10d90b81e709c5d76e1e67257fdadd631ca",
+  "inputs_held_before_after": true,
+  "library_input_count": 1147,
+  "native_tests_or_builds_executed": 0,
+  "observed_utc": "2026-11-01T12:48:21.645436+00:00",
+  "publishing_main_or_release": false,
+  "schema": 1,
+  "staged_tree": "ebb34ad6693754cc32cc13c0e8048d771bf5fcf1"
+}

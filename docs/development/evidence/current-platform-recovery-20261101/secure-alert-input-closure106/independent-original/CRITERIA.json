@@ -1,0 +1,71 @@
+{
+  "criteria": [
+    {
+      "criterion_verbatim": "- Type a synthetic password and confirm its bytes never appear in captured test logs.",
+      "disposition": "Verified in the actual selected native fixture, within current-process stdout/stderr capture scope.",
+      "evidence": [
+        "The fixture inserts four fixed public synthetic probes through actual UIKit UIKeyInput; real EditingChanged delivery invokes the exact originating sample callbacks.",
+        "The passed native method asserts exact byte absence independently in bounded stdout and stderr captures after original descriptors restore.",
+        "Nine distinct actual native capture controls cover both real sinks, public positive controls, original descriptor identities and flags, throwable identity, nesting/oversize refusal, and independently attempted controlled cleanup.",
+        "An independent scan finds no exact probe bytes in the original job log or either XML. Raw private captures and all-system/unified logs are not uploaded."
+      ],
+      "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeSecureAlertInputTest.kt",
+      "source_line_ranges": [
+        "45-60",
+        "115-140",
+        "173-180",
+        "267-297"
+      ]
+    },
+    {
+      "criterion_verbatim": "- Source assertion prevents interpolation of secure-field content into logging calls.",
+      "disposition": "Verified by fixed-source prevention assertion and exact source applicability; accepted qualification reused, not replayed.",
+      "evidence": [
+        "The originating sample screen uses the exact isolated helper once; both genuine callbacks contain only no-input-logging comments.",
+        "The owning source regression assertion rejects input logging in the screen and helper; fixed hashes and plan contract also reject recognized logging calls or a changed helper/fixture/capture.",
+        "All seven qualified additions and five full postimages match. The sixth postimage differs only in an unrelated #50/IO-013 scope literal, with #99 code, filter and validators unchanged."
+      ],
+      "source_line_ranges": {
+        "scripts/ci/secure_alert_input_plan.py": "131-159",
+        "scripts/development/test_nav_sample_contracts.py": "13-21"
+      },
+      "sources": [
+        "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput/SampleAlertDialogInputFields.kt",
+        "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt",
+        "scripts/development/test_nav_sample_contracts.py",
+        "scripts/ci/secure_alert_input_plan.py"
+      ]
+    },
+    {
+      "criterion_verbatim": "- Verify secure keyboard/display behavior separately on an iOS device.",
+      "disposition": "Verified separately through actual UIKit keyboard/display assertions on the selected iPhone simulator; physical iPhone verification is not claimed.",
+      "evidence": [
+        "A real booted Arm64 iPhone Air simulator, iOS 26.5, launches the owned UIKit application and generated Kotlin test Worker.",
+        "The unchanged secure field requests NumberPad and secure entry; actual keyboard show notifications, positive in-window frame, fresh epoch and exact first-responder witness precede native input.",
+        "Blurred, attached native hierarchy draws distinguish nonempty secure input from blank, match two distinct equal-length secure probes, and distinguish two nonsecure positive controls.",
+        "No hardware/XCUI keyboard taps, keyboard-vendor layout certification, transient last-character reveal or physical-device conclusion is inferred."
+      ],
+      "physical_device_verified": false,
+      "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeSecureAlertInputTest.kt",
+      "source_line_ranges": [
+        "83-136",
+        "204-297",
+        "299-349"
+      ]
+    }
+  ],
+  "finding": "NAV-012",
+  "issue": 99,
+  "lead_owns_closure_decision": true,
+  "original_criteria_review_complete": true,
+  "original_issue_state_at_readback": "open",
+  "original_title": "[Medium][NAV-012] Sample secure password text field logs every entered value",
+  "reviewer_closed_issue": false,
+  "schema": 1,
+  "scope_exclusions": [
+    "The originating sample screen/application was not compiled or executed; only its exact isolated helper is compiled into the native library test.",
+    "Capture covers current-process stdout/stderr only, not every OS or unified log.",
+    "Controlled refusals surrounding checked successful operations do not prove genuinely failed kernel syscall recovery.",
+    "No owner-secret input, concurrency, clipboard, storage, Instruments/leaks, physical-device, packaged consumer, ABI, dependency-trust, security or release-readiness inference."
+  ]
+}

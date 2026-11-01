@@ -46,7 +46,7 @@
     "docs/development/resolutions/BUILD.json": "7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c",
     "docs/development/resolutions/IO.json": "772540b03a69150c7052fd7fc63418043fc3b1c50890ec0670b9f5fe7b34f545",
     "docs/development/resolutions/NATIVE.json": "57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956",
-    "docs/development/resolutions/NAV.json": "3b97594b5e2206c46e9f4f82a9b56079b8d93d3b0e557b41c2051222b62cef14",
+    "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
@@ -54,16 +54,16 @@
     "docs/migration/issue-map.json": "5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678",
     "docs/roadmap/backlog.json": "46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c"
   },
-  "input_fingerprint": "7802ca284d2bd7f676ed34f86e0e70f48d43d54202e6462cdc8bc8df9447adc3",
+  "input_fingerprint": "41bf347a0877523b32720993983edbab1ae8fe312f7136d2c839762cfc9fcc49",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
     "mapped_findings": 164,
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
-      "implemented": 26,
+      "implemented": 25,
       "partially-verified": 42,
-      "verified": 91,
+      "verified": 92,
       "unresolved": 5,
       "not-applicable": 0
     },
@@ -20823,12 +20823,12 @@
         "mapping_key": "audit:NAV-012",
         "historical_mapping_state": "open"
       },
-      "reported_status": "implemented",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "d5af4a77471daa9f12d728520155e0759407065ecb8602af05b496082af8576c",
+      "owner_record_sha256": "e0bb30817e8cdc9203ecdac288aa2e40733a33334a4639ea9248ff22d7ed2604",
       "owner_record": {
         "id": "NAV-012",
-        "status": "implemented",
+        "status": "verified",
         "changes": [
           "Removed secure/password and personal-name input logging from sample callbacks without removing secure field.",
           "2026-11-01: Bind unchanged original sample descriptors/no-input-log callbacks into a single isolated library iosTest source; no sample app/module execution and no public library API change."
@@ -20856,11 +20856,19 @@
               "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-preparation087/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/SHARED-RESULT.json"
             ]
+          },
+          {
+            "command": "Immutable GitHub Actions ios-secure-alert-input run41302864406 attempt1 at c6bca10d90b81e709c5d76e1e67257fdadd631ca; independent original source/results review; completed closure/readback",
+            "result": "10/10 actual native methods pass in two fresh original XMLs; Gradle0/1529.38s; exact1139 before/after library maps and real UIKit input/callbacks/keyboard/masked pixels/current-process stdout-stderr plus descriptor controls reviewed. Three original criteria accepted within iPhone Air/iOS26.5 simulator scope; physical/full-OS/kernel-failure/consumer/ABI/security/release conclusions are explicitly excluded. #99 CLOSED/completed; original title/body/labels/author unchanged.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-closure106/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-closure106/CLOSURE.json",
+              "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-closure106/independent-original/CRITERIA.json",
+              "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-closure106/independent-original/RESULTS.json"
+            ]
           }
         ],
-        "remaining": [
-          "Ten finite iOS native methods still unexecuted; real synthetic input, secure keyboard/masked display and current-process stdout/stderr plus descriptor lifecycle/failure controls remain required. Physical/full OS log/concurrency/kernel-failure limitations remain separate."
-        ],
+        "remaining": [],
         "compatibility": "Sample only; no library API change or secret persistence introduced."
       },
       "closure_or_release_authorized_by_index": false

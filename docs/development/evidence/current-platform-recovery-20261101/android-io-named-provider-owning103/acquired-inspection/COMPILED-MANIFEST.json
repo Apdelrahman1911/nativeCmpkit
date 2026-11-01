@@ -1,0 +1,211 @@
+{
+  "DTD_or_entity_declarations": false,
+  "application_attributes": {
+    "android:appComponentFactory": "androidx.core.app.CoreComponentFactory",
+    "android:debuggable": "true",
+    "android:extractNativeLibs": "false"
+  },
+  "components": [
+    {
+      "attributes": {
+        "android:exported": "false",
+        "android:name": "com.mohamedrejeb.calf.io.AndroidIoSystemTreeGrantActivity",
+        "android:theme": "@ref/0x1030241"
+      },
+      "origin_qualification": "declared in owning IO device-test manifest",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:exported": "false",
+        "android:name": "com.mohamedrejeb.calf.io.AndroidIoGrantActivity",
+        "android:theme": "@ref/0x1030241"
+      },
+      "origin_qualification": "declared in owning IO device-test manifest",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:exported": "false",
+        "android:name": "com.mohamedrejeb.calf.io.AndroidIoSingleDocumentGrantActivity",
+        "android:theme": "@ref/0x1030241"
+      },
+      "origin_qualification": "declared in owning IO device-test manifest",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:exported": "false",
+        "android:name": "com.mohamedrejeb.calf.io.IoBookmarkClientService",
+        "android:process": ":nativecmpkit_io_client"
+      },
+      "origin_qualification": "declared in owning IO device-test manifest",
+      "type": "service"
+    },
+    {
+      "attributes": {
+        "android:authorities": "com.mohamedrejeb.calf.calfio.test.io-device-files",
+        "android:exported": "false",
+        "android:grantUriPermissions": "true",
+        "android:name": "com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider",
+        "android:process": ":nativecmpkit_io_device_provider"
+      },
+      "origin_qualification": "declared in owning IO device-test manifest",
+      "type": "provider"
+    },
+    {
+      "attributes": {
+        "android:exported": "true",
+        "android:name": "androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity",
+        "android:theme": "@ref/0x7f090008"
+      },
+      "origin_qualification": "AndroidX-named compiled component absent from owning IO device-test manifest; exact merger dependency provenance not inspected",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:exported": "true",
+        "android:name": "androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity",
+        "android:theme": "@ref/0x7f090008"
+      },
+      "origin_qualification": "AndroidX-named compiled component absent from owning IO device-test manifest; exact merger dependency provenance not inspected",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:exported": "true",
+        "android:name": "androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity",
+        "android:theme": "@ref/0x7f090007"
+      },
+      "origin_qualification": "AndroidX-named compiled component absent from owning IO device-test manifest; exact merger dependency provenance not inspected",
+      "type": "activity"
+    },
+    {
+      "attributes": {
+        "android:authorities": "com.mohamedrejeb.calf.calfio.test.androidx-startup",
+        "android:exported": "false",
+        "android:name": "androidx.startup.InitializationProvider"
+      },
+      "origin_qualification": "AndroidX-named compiled component absent from owning IO device-test manifest; exact merger dependency provenance not inspected",
+      "type": "provider"
+    },
+    {
+      "attributes": {
+        "android:directBootAware": "false",
+        "android:enabled": "true",
+        "android:exported": "true",
+        "android:name": "androidx.profileinstaller.ProfileInstallReceiver",
+        "android:permission": "android.permission.DUMP"
+      },
+      "origin_qualification": "AndroidX-named compiled component absent from owning IO device-test manifest; exact merger dependency provenance not inspected",
+      "type": "receiver"
+    }
+  ],
+  "declared_permissions": [
+    {
+      "android:name": "com.mohamedrejeb.calf.calfio.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION",
+      "android:protectionLevel": "0x2"
+    }
+  ],
+  "evidence": "inspection1.stdout",
+  "evidence_sha256": "5ff8f7ea843d2cc172859f006371ad48253d61fa68a954e0e4960b42d3a5be6b",
+  "excluded_inferences": [
+    "installation",
+    "native provider availability or functionality",
+    "actual runtime grants",
+    "min/vendor/physical compatibility",
+    "release manifest or signing clearance"
+  ],
+  "instrumentation": [
+    {
+      "android:functionalTest": "false",
+      "android:handleProfiling": "false",
+      "android:label": "Tests for com.mohamedrejeb.calf.calfio.test",
+      "android:name": "androidx.test.runner.AndroidJUnitRunner",
+      "android:targetPackage": "com.mohamedrejeb.calf.calfio.test"
+    }
+  ],
+  "qualified_facts": [
+    "Printed reporter package com.mohamedrejeb.calf.calfio.test; compileSdk37 / min23 / target37, not runtime support certification.",
+    "Application debuggable=true and extractNativeLibs=false describe the device-test APK, not release packaging.",
+    "AndroidJUnitRunner targets the same reporter package.",
+    "Three owning IO activities exported=false, including AndroidIoSystemTreeGrantActivity.",
+    "Bookmark service and device file provider are nonexported with separate named processes; device provider grants URI permissions.",
+    "Three AndroidX InstrumentationActivityInvoker activities exported=true; do not call all APK activities private.",
+    "AndroidX Startup provider nonexported.",
+    "AndroidX ProfileInstallReceiver exported=true, with android.permission.DUMP; not classified as benign or a newly established blocker.",
+    "Provider and OPEN_DOCUMENT_TREE queries provide visibility only, not URI/runtime grants.",
+    "Owning declaration source is calf-io/src/androidDeviceTest/AndroidManifest.xml; no production manifest modification inferred."
+  ],
+  "queries": [
+    {
+      "attributes": {
+        "android:name": "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments"
+      },
+      "children": [],
+      "type": "package"
+    },
+    {
+      "attributes": {
+        "android:authorities": "media;com.android.externalstorage.documents;com.android.providers.downloads.documents"
+      },
+      "children": [],
+      "type": "provider"
+    },
+    {
+      "attributes": {},
+      "children": [
+        {
+          "attributes": {
+            "android:name": "android.intent.action.OPEN_DOCUMENT_TREE"
+          },
+          "type": "action"
+        }
+      ],
+      "type": "intent"
+    },
+    {
+      "attributes": {
+        "android:name": "androidx.test.orchestrator"
+      },
+      "children": [],
+      "type": "package"
+    },
+    {
+      "attributes": {
+        "android:name": "androidx.test.services"
+      },
+      "children": [],
+      "type": "package"
+    },
+    {
+      "attributes": {
+        "android:name": "com.google.android.apps.common.testing.services"
+      },
+      "children": [],
+      "type": "package"
+    }
+  ],
+  "root_attributes": {
+    "android:compileSdkVersion": "37",
+    "android:compileSdkVersionCodename": "17",
+    "package": "com.mohamedrejeb.calf.calfio.test",
+    "platformBuildVersionCode": "37",
+    "platformBuildVersionName": "17"
+  },
+  "uses_permissions": [
+    {
+      "android:name": "io.github.apdelrahman1911.nativecmpkit.verification.iodocuments.CONTROL_IO"
+    },
+    {
+      "android:name": "android.permission.REORDER_TASKS"
+    },
+    {
+      "android:name": "com.mohamedrejeb.calf.calfio.test.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    }
+  ],
+  "uses_sdk": {
+    "android:minSdkVersion": "23",
+    "android:targetSdkVersion": "37"
+  }
+}

@@ -2,8 +2,9 @@
 
 NATIVE-026/#82 preserves public sharing APIs and reuses accepted JS/Wasm
 controlled-Promise C1/C2 results. `share-clipboard-native` selects only four missing
-environment cases on both targets. Its two jobs run serially so one can coexist
-with another native job under the global max2 limit.
+environment cases on both targets. Its two jobs run serially, but both queued or
+reserved rows count: this profile reserves the entire global two-heavy-row capacity
+and must not coexist with another hosted-heavy request.
 
 [Preparation evidence](evidence/current-platform-recovery-20261101/clipboard-native-contexts-prepared078/README.md)
 contains important controls and actual compilers, **not browser-native acceptance**.

@@ -326,6 +326,7 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
         workflow = matrix_environment()
         native = types.SimpleNamespace(ANDROID_WEBVIEW_REQUEST_FOCUS="android-webview-request-state",
             ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS="android-webview-stop-redirect-recovery",
+            ANDROID_IO_NAMED_SYSTEM_FOCUS="android-io-named-system-providers",
             ANDROID_IO_UNAVAILABLE_FOCUS="android-io-provider-unavailable",
             ANDROID_STORAGE_FOCUSES=frozenset(row.profile for row in workflow["storage_plan"].ROWS),
             storage_plan=workflow["storage_plan"], ANDROID_STORAGE_MODULE=CORE,

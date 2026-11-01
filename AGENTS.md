@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android batch actual tooling failure / exact owning recovery — 2026-11-01
+
+Both [41262577203/41262586150](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci001/ACTUAL-REVIEW.md)
+at a18532a4 remain FAILED: each1501 CI models/1500pass/one stale eight-module
+diagnostic-tree guard; native/compiler/SDK jobs skipped/artifacts0/ZERO native/XML.
+[Only that guard repaired](docs/development/evidence/android-io-permission-storage-batch-20261101/tooling-recovery001/README.md):
+exact nine modules/18 trees, all original confinement/refusal/no-success assertions
+retained, fresh1/1.1068/1145 maps change only its hash; accepted compiler/APK/static/
+12 source-plan results reused without replay. No workflow/production/native change.
+Recover only the same two fixed batches'16 unexecuted targets; #102/#118 open,
+92closed/80open. Separate camera/Apple/consumer/security/release gates unchanged.
+
 ## Android IO/permission/storage finite batch ready — 2026-11-01
 
 [Owning compiler/integration evidence](docs/development/evidence/android-io-permission-storage-batch-20261101/local002/README.md)

@@ -1,0 +1,64 @@
+{
+  "scope": "bounded after-timeout source/compiler observation, not activation/native acceptance",
+  "integration_and_NEW6": {
+    "rows": [
+      {
+        "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt",
+        "before_sha256": "50ed7c6b1f20aad81d504e528e1bf0a9daf4312e179836559a1ac58ec9d064a5",
+        "after_sha256": "c35f183d0a3107ae3cc00871cd6926d250f564187898f7323dbe78a47f19b66c",
+        "fragments": 2
+      },
+      {
+        "path": "scripts/ci/test_ui_alert_important_recovery.py",
+        "before_sha256": "3e2e002736d20a9823906fc22283236887fa19f41789d838c74b929681eb44e4",
+        "after_sha256": "2c0f755ef7d4165e8f8fd8ebbc033dda528e5b8e4e4b55c1de8153b80955462b",
+        "fragments": 3
+      },
+      {
+        "path": "scripts/ci/test_ui_alert_container_timeout_observation.py",
+        "before_sha256": null,
+        "after_sha256": "e46bc1c34b81e0357adc190c97ce46465200ee61bcd112ca268627746c8dff87"
+      }
+    ],
+    "new_controls_requested": 6,
+    "command": [
+      "python3",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/ci",
+      "-p",
+      "test_ui_alert_container_timeout_observation.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "wrapper_seconds": 0.7164745999034494,
+    "library_inputs": 1178,
+    "canonical_combined_inputs": 1256,
+    "inputs_held": true,
+    "historical19_executed": false,
+    "compiler_or_native_executions": 0,
+    "author_seal": "d779e866ed6f24b87652dd86e51d769b6c43744424d00f6ebc1bd4df4a55e692",
+    "independent_source_seal": "8cf062726d9f1665946920b27789906b18cbb3400de2811152f3cd5524f9e409"
+  },
+  "NEW6_unittest_seconds": 0.111,
+  "KLIB182": {
+    "wrapper_exit": 0,
+    "wrapper_seconds": 40.586214518989436,
+    "inputs_held": true,
+    "library_inputs": 1178,
+    "canonical_combined_inputs": 1256,
+    "native_methods": 0
+  },
+  "KLIB182_Gradle_exit": 0,
+  "KLIB182_Gradle_seconds": 40.01,
+  "fresh_test_compiler_production_up_to_date": true,
+  "original_receipts_sha256": {
+    "181": "d2d47f67234793a63f9bb03110df35f7214c0a8e9778785a2b3319137defcc02",
+    "182": "0861cf94bd9d95ec420e75ae868d87896e0d7f4f472823379f22cdeeac7a9feb"
+  },
+  "new_native_executions": 0,
+  "new_issue_closures": 0
+}

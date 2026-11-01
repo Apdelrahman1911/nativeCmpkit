@@ -307,6 +307,7 @@ private fun recordImportantAlertActionTimeoutDiagnostic(
                 "sampled_views=${sample.size} hierarchy_complete=$exhaustive " +
                 "label_matches=${labelled.size} button_trait_matches=${buttons.size} " +
                 "visible_matches=${visible.size} eligible_matches=${eligible.size}")
+            recordImportantAlertContainerTimeoutObservation(alert, title, window, sample)
         }
     } catch (observationFailure: Throwable) {
         // Both reporting operations are best-effort; neither may mask the
@@ -339,4 +340,150 @@ private fun UIView.importantAlertDiagnosticSample(): Pair<List<UIView>, Boolean>
         }
     }
     return sampled to exhaustive
+}
+
+/**
+ * Failure-only public count/index observation from retained alert-descendant views.
+ * Counts are edge facts after the timeout, never native input or eligibility.
+ * Direct index children only; no list getter, nested expansion or backlink walk.
+ * Getter duration/bridging and Objective-C exception handling are not bounded here.
+ */
+private fun recordImportantAlertContainerTimeoutObservation(
+    alert: UIAlertController,
+    title: String,
+    window: UIWindow,
+    sampledViews: List<UIView>,
+) {
+    try {
+        val ownerLimit = 16
+        val perOwnerIndexLimit = 4L
+        val totalIndexLimit = 32
+        val mainThread = platform.Foundation.NSThread.isMainThread
+        val owners = mutableListOf<UIView>()
+        val retained = mutableListOf<platform.darwin.NSObject>()
+        var admitted = false
+        var attachmentsHeld = false
+        var unknown = false
+        var duplicateOwners = 0
+        var detachedOwners = 0
+        var countOwners = 0
+        var negativeCounts = 0
+        var zeroCounts = 0
+        var indexTruncated = false
+        var indexReads = 0
+        var nilChildren = 0
+        var unsupportedChildren = 0
+        var viewChildren = 0
+        var elementChildren = 0
+        var otherObjectChildren = 0
+        var duplicateChildren = 0
+        var selfChildren = 0
+        var labelMatches = 0
+        var buttonMatches = 0
+        var backlinkSourceOwner = 0
+        var backlinkNil = 0
+        var backlinkOther = 0
+        var backlinkUnsupported = 0
+        val ownerPrefixTruncated = sampledViews.size > ownerLimit
+        if (mainThread) {
+            val root = sampledViews.firstOrNull()
+            val alertRoot = alert.view
+            admitted = sameNativeObject(root, alertRoot) &&
+                sameNativeObject(root?.window, window) && sameNativeObject(alertRoot.window, window)
+        }
+        attachmentsHeld = admitted
+        unknown = !admitted || ownerPrefixTruncated
+        if (admitted) {
+            for (position in 0 until minOf(sampledViews.size, ownerLimit)) {
+                val owner = sampledViews[position]
+                if (owners.any { sameNativeObject(it, owner) }) {
+                    duplicateOwners++
+                } else {
+                    owners += owner
+                    retained += owner
+                }
+            }
+            for (owner in owners) {
+                if (!sameNativeObject(owner.window, window)) {
+                    detachedOwners++
+                    attachmentsHeld = false
+                    unknown = true
+                    continue
+                }
+                val count = owner.accessibilityElementCount()
+                countOwners++
+                if (count < 0L) {
+                    negativeCounts++
+                    unknown = true
+                } else {
+                    if (count == 0L) zeroCounts++
+                    val inspectCount = minOf(count, perOwnerIndexLimit, (totalIndexLimit - indexReads).toLong())
+                    if (count > inspectCount) {
+                        indexTruncated = true
+                        unknown = true
+                    }
+                    var index = 0L
+                    while (index < inspectCount) {
+                        val child = owner.accessibilityElementAtIndex(index)
+                        index++
+                        indexReads++
+                        when (child) {
+                            null -> { nilChildren++; unknown = true }
+                            is UIView -> viewChildren++
+                            is UIAccessibilityElement -> elementChildren++
+                            is platform.darwin.NSObject -> otherObjectChildren++
+                            else -> { unsupportedChildren++; unknown = true }
+                        }
+                        val native = child as? platform.darwin.NSObject
+                        if (native != null) {
+                            if (sameNativeObject(native, owner)) selfChildren++
+                            if (retained.any { sameNativeObject(it, native) }) {
+                                duplicateChildren++
+                            } else {
+                                check(retained.size < ownerLimit + totalIndexLimit)
+                                retained += native
+                            }
+                            if (native.accessibilityLabel == title) {
+                                labelMatches++
+                                if ((native.accessibilityTraits and UIAccessibilityTraitButton) != 0UL) buttonMatches++
+                            }
+                        } else if (child is UIAccessibilityElement || child is UIView) {
+                            unknown = true // A type classification cannot invent NSObject metadata availability.
+                        }
+                        if (child is UIAccessibilityElement) {
+                            val backlink = child.accessibilityContainer
+                            val nativeBacklink = backlink as? platform.darwin.NSObject
+                            when {
+                                backlink == null -> { backlinkNil++; unknown = true }
+                                nativeBacklink == null -> { backlinkUnsupported++; unknown = true }
+                                sameNativeObject(nativeBacklink, owner) -> backlinkSourceOwner++
+                                else -> backlinkOther++
+                            }
+                        }
+                    }
+                }
+                if (!sameNativeObject(owner.window, window)) { attachmentsHeld = false; unknown = true }
+            }
+            if (!sameNativeObject(sampledViews.firstOrNull(), alert.view) ||
+                !sameNativeObject(alert.view.window, window)) { attachmentsHeld = false; unknown = true }
+        }
+        // Never emit an object, label, title, error, address, class name or path.
+        println("NATIVECMPKIT_ALERT_ACTION_CONTAINER_TIMEOUT captured=true " +
+            "main_thread=$mainThread admitted=$admitted attachments_held=$attachmentsHeld unknown=$unknown " +
+            "sampled_view_owners=${owners.size} duplicate_view_owners=$duplicateOwners detached_view_owners=$detachedOwners " +
+            "count_owners=$countOwners negative_count_owners=$negativeCounts zero_count_owners=$zeroCounts " +
+            "owner_prefix_truncated=$ownerPrefixTruncated index_truncated=$indexTruncated index_children=$indexReads " +
+            "nil_children=$nilChildren unsupported_children=$unsupportedChildren view_children=$viewChildren " +
+            "element_children=$elementChildren other_object_children=$otherObjectChildren " +
+            "duplicate_children=$duplicateChildren self_children=$selfChildren retained_objects=${retained.size} " +
+            "label_match_children=$labelMatches button_match_children=$buttonMatches " +
+            "element_backlink_source_owner=$backlinkSourceOwner element_backlink_nil=$backlinkNil " +
+            "element_backlink_other=$backlinkOther element_backlink_unsupported=$backlinkUnsupported " +
+            "list_observed=false nested_containers_observed=false child_visibility_observed=false child_window_observed=false")
+    } catch (_: Throwable) {
+        // Discard the observation error; the existing outer finally retains its exact primary.
+        try {
+            println("NATIVECMPKIT_ALERT_ACTION_CONTAINER_TIMEOUT captured=false")
+        } catch (_: Throwable) { /* Reporting cannot replace the original readiness timeout. */ }
+    }
 }

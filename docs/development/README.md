@@ -1,5 +1,30 @@
 # NativeCmpKit development after the audit
 
+## Shared CI fixture recovery — actual183, 2026-11-01
+
+[The owning recovery](evidence/current-platform-recovery-20261101/documentsui-bridge183/README.md)
+passes only13 previously failed source methods plus six new wiring guards:
+19/19,1179/1257 held, zero compiler/native/browser. Native admission and all
+original refusal requirements are retained. Independent source qualification
+and passive shared-alert compatibility are complete; no accepted local population
+replayed and both CI180 originals remain failed. Next development-only immutable
+AndroidLocal2/Wasm4 requests, then Share13 when capacity frees. Counts remain
+96closed/76open; no issue closure or release/security/readiness clearance yet.
+
+## Focused CI180 owning tooling repair and alert source181–182 — 2026-11-01
+
+[CI180 originals](evidence/current-platform-recovery-20261101/focused-ci180-tooling/README.md)
+retain both failed workflows at5539c008:20 failure records/13 stale Android UI
+mutation methods, before profile selection; zero platform/Gradle/XML/artifacts.
+One shared fixture repair is underway before AndroidLocal2/Wasm4/Share13 requests.
+
+[Alert181–182](evidence/current-platform-recovery-20261101/alert-container181-182/README.md)
+passes six NEW source controls once and fresh testKLIB0/40.01s,1178/1256 held.
+The bounded count/index observation runs only after original timeout; all19
+historical bodies and genuine activation/deadline/cleanup remain. No native pass,
+activation replacement or#28 closure. No accepted-population replay. Counts stay
+96closed/76open; publishing and independent readiness/security gates stay closed.
+
 ## Related Share ownership and actual alert failure — 2026-11-01
 
 [Owning168–179](evidence/current-platform-recovery-20261101/share-owning168-179/README.md)

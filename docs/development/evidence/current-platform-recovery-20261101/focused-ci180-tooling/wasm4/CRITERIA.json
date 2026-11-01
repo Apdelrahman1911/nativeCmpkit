@@ -1,0 +1,34 @@
+{
+  "all_consumer_API_ABI_dependency_legal_security_release_readiness_and_publishing_gates_unchanged": true,
+  "closure_recommended": false,
+  "criteria": [
+    {
+      "criterion": "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "disposition": "Prior accepted controlled C1 for JS/Wasm retained on six exact production/harness hashes and three accepted declaration/body fragments; not replayed.",
+      "limit": "Native C3 observer is not replacement independent global unhandled-rejection evidence."
+    },
+    {
+      "criterion": "Resolved promise produces one Success only after completion.",
+      "disposition": "Prior accepted controlled C2 for JS/Wasm retained on the same exact sources/fragments; not replayed.",
+      "limit": "Promise completion does not certify OS paste/readback or recipient delivery."
+    },
+    {
+      "criterion": "Missing clipboard API, insecure context, denied permission and direct user gesture.",
+      "disposition": "Accepted JS four environment paths from run 41308456555 remain applicable on the exact source/helper/seven fixture spans and reviewed Wasm-only source deltas. All four Wasm paths remain unverified.",
+      "missing_Wasm_methods": [
+        "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+        "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+        "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+        "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+      ]
+    }
+  ],
+  "finding": "NATIVE-026",
+  "issue": 82,
+  "new_Wasm_native_outcomes": 0,
+  "no_new_closure_criteria_added": true,
+  "prior_failed_runs_remain_failed": true,
+  "recommended_disposition": "KEEP OPEN",
+  "schema": 1,
+  "title": "[Medium][NATIVE-026] Web clipboard fallback reports success before its promise resolves"
+}

@@ -79,9 +79,10 @@ class NamedSystemIoUiSelectorControls(unittest.TestCase):
         self.refuses_ui()
 
     def test_runtime_strings_cannot_be_resolved_in_the_id_namespace(self):
-        self.replace_ui('resources.getIdentifier(name, "string", namespace)',
-                        'resources.getIdentifier(name, "id", namespace)')
-        self.refuses_ui()
+        self.replace_ui('qualifiedResource("string", name)',
+                        'qualifiedResource("id", name)')
+        with self.assertRaisesRegex(ValueError, "^Application-specific DocumentsUI resource admission changed$"):
+            source.source_contract(self.root)
 
     def test_current_directory_container_ambiguity_cannot_be_admitted(self):
         self.replace_ui('check(selectedContainers.size <= 1)', 'check(selectedContainers.size <= 2)')

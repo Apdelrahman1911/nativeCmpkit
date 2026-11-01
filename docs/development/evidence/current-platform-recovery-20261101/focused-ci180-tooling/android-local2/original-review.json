@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "review_status": "sealed-original-tooling-failure",
+  "reviewed_at": "2026-11-01T22:17:38.363498+00:00",
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "run_id": 41355429513,
+  "run_attempt": 1,
+  "run_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41355429513",
+  "source_revision": "5539c0085dd8e1f3af4302026556aaa7bdabef96",
+  "branch": "development/preview-hardening",
+  "event": "workflow_dispatch",
+  "workflow_path": ".github/workflows/gradle.yml",
+  "requested_profile": "android-io-named-system-providers",
+  "profile_request_provenance": "lead task assignment; original profile-selection step skipped",
+  "executed_profile_selection": false,
+  "run_status": "completed",
+  "run_conclusion": "failure",
+  "created_at": "2026-11-01T22:06:42Z",
+  "completed_at": "2026-11-01T22:09:20Z",
+  "jobs": [
+    {
+      "name": "tooling",
+      "id": 124994340147,
+      "status": "completed",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify complete history, audit and current development indexes",
+          "conclusion": "success"
+        },
+        {
+          "name": "Offline verification-tool adversarial fixtures (not library passes)",
+          "conclusion": "failure"
+        },
+        {
+          "name": "Select only the requested verification profile",
+          "conclusion": "skipped"
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "sample-platforms",
+      "id": 124995038362,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    },
+    {
+      "name": "library-tests",
+      "id": 124995038981,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    },
+    {
+      "name": "consumer-core-io",
+      "id": 124995039129,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    },
+    {
+      "name": "apple-appinfo-capability",
+      "id": 124995039186,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    },
+    {
+      "name": "webview-consumer",
+      "id": 124995039199,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    },
+    {
+      "name": "apple-appinfo-shape",
+      "id": 124995039263,
+      "status": "completed",
+      "conclusion": "skipped",
+      "steps": []
+    }
+  ],
+  "original_artifact_count": 0,
+  "original_xml_count": 0,
+  "new_native_methods_executed": 0,
+  "new_native_passes": 0,
+  "native_zero_basis": "library-tests job skipped with no steps after tooling failure; not inferred only from empty XML",
+  "gradle_exit_code": null,
+  "gradle_exit_reason": "No library Gradle invocation in the skipped job",
+  "tooling": {
+    "failed_step": "Offline verification-tool adversarial fixtures (not library passes)",
+    "process_exit_code": 1,
+    "failed_discovery_directory": "scripts/ci",
+    "test_methods_reported": 2275,
+    "unittest_seconds": 122.049,
+    "failure_records": 20,
+    "unique_failing_methods": 13,
+    "mutation_anchor_count_failures": 18,
+    "strict_refusal_message_mismatches": 2,
+    "earlier_discovery_outcomes": [
+      {
+        "directory": "scripts/audit",
+        "methods": 35,
+        "seconds": 0.062,
+        "status": "OK"
+      },
+      {
+        "directory": "scripts/migration",
+        "methods": 80,
+        "seconds": 0.192,
+        "status": "OK"
+      },
+      {
+        "directory": "scripts/development",
+        "methods": 90,
+        "seconds": 1.664,
+        "status": "OK"
+      }
+    ]
+  },
+  "source_demonstrated_failure_mechanism": {
+    "legacy_setup": "Both legacy control classes copy current UI source before applying their authored mutations",
+    "current_admission_fragment_count": 1,
+    "legacy_refusal_fragment_count": 0,
+    "anchor_failures": "One selector failure at test_android_io_named_system_documents_ui.py:27 plus seventeen resource-refusal failures at test_android_io_named_system_resource_refusal.py:29; each expected one old mutation anchor but found zero",
+    "message_mismatches": "The application/request mutations still apply, but mandatory complete-new-form admission refuses before the old refusal-only expectation",
+    "validator_source": "scripts/ci/android_io_named_system_documents.py",
+    "mandatory_preimage_guard_line": 185,
+    "source_contract_preimage_call_line": 231,
+    "actual_strict_error": "Application-specific DocumentsUI resource admission changed",
+    "expected_legacy_error": "Refusal-only DocumentsUI resource observations changed"
+  },
+  "source_declared_native_selection": {
+    "executed": false,
+    "class": "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest",
+    "methods": [
+      "externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
+      "downloadsProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership"
+    ],
+    "module": "calf-io",
+    "task": ":calf-io:connectedAndroidDeviceTest",
+    "test_filter": "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest",
+    "expected_report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+    "source_path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoNamedSystemProviderTest.kt",
+    "api": 35
+  },
+  "missing_actual_evidence": [
+    "fresh XML for either selected native method",
+    "library native protocol/task/Gradle receipt",
+    "1177-input hosted before/after maps",
+    "API35 runtime and SELinux state",
+    "installed DocumentsUI resource admission and selection",
+    "owned provider/MediaStore row state",
+    "genuine URI result and grants",
+    "public metadata/bounded read/source descriptor ownership",
+    "persist/reopen/release/access-denial assertions",
+    "owned native/emulator cleanup"
+  ],
+  "input_scope": "The lead expected1177 input bindings. This run produced no hosted library-input maps; the15 fixed-Git source snapshots are passive review provenance only.",
+  "issue_scope": "#55/IO-019 remains open; neither Local2 method executed, and cloud-folder C1 remains separate",
+  "limits": [
+    "No native, browser, consumer, API-ABI, dependency-trust, security or release gate is passed by the tooling outcomes",
+    "Earlier failed native runs remain failed",
+    "Source-qualified admission and accepted Android APK/compiler/source outcomes remain separately scoped and are not replayed by this reviewer",
+    "No reviewer repository model, test, build or native execution; no live source/Git/GitHub mutation; no original reacquisition"
+  ],
+  "original_acquisition": {
+    "requests": 4,
+    "logs_downloads": 1,
+    "artifact_downloads": 0,
+    "logs_zip_sha256": "de788a95b01ba86270a1cdfad21230b80a1fc453f84b8b1d320bde1136eae195",
+    "logs_zip_bytes": 255672
+  },
+  "source_files_reviewed": 15,
+  "failure_details": "failure-records.json",
+  "source_binding": "source-binding.json"
+}

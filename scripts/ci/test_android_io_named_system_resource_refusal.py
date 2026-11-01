@@ -1,15 +1,19 @@
-"""Unexecuted NEW refusal-only DocumentsUI source controls.
+"""Historical refusal-only DocumentsUI mutation obligations.
 
-These do not import Kotlin, inspect installed resources, acquire a provider,
-select native UI, compile or certify native/cloud behavior. Select only this
-new class; previously accepted source/native bodies must not be replayed.
+Only a mutation reconstructs the exact old helper text. Its strict postimage
+bridge checks current admission before returning a source receipt; old text
+is never a runtime admission. Select only the12 failed mutation methods, not
+the unchanged accepted receipt control. No Kotlin/resource/provider/native pass.
 """
 from pathlib import Path
+import hashlib
 import shutil
 import tempfile
 import unittest
 
 import android_io_named_system_documents as source
+
+UI_RESOURCE_REFUSAL_POST154_SHA256 = '03a0ebc37215c4b86043f253f4e83b7db39c7fd52652d9ea735e6e7c106ea1dc'
 
 
 class NamedSystemResourceRefusalControls(unittest.TestCase):
@@ -25,13 +29,26 @@ class NamedSystemResourceRefusalControls(unittest.TestCase):
 
     def replace_ui(self, before, after):
         path = self.root / source.UI
-        text = path.read_text()
+        # Current mandatory admission is checked before reconstructing old mutation text.
+        text = source.resource_admission_preimage(path.read_text())
+        self.assertEqual(UI_RESOURCE_REFUSAL_POST154_SHA256, hashlib.sha256(text.encode()).hexdigest())
         self.assertEqual(1, text.count(before), "A mutation must address exactly its authored boundary")
         path.write_text(text.replace(before, after, 1))
 
+    def admitted_source_contract(self):
+        # Never overwrite an inexact legacy obligation or accept an old-only root.
+        path = self.root / source.UI
+        historical = path.read_text()
+        current = source.resource_admission_postimage(historical)
+        path.write_text(current)
+        try:
+            return source.source_contract(self.root)
+        finally:
+            path.write_text(historical)
+
     def refuses_ui(self, message="Refusal-only DocumentsUI resource observations changed"):
         with self.assertRaisesRegex(ValueError, "^" + message + "$"):
-            source.source_contract(self.root)
+            self.admitted_source_contract()
 
     def mutations_refused(self, pairs):
         path = self.root / source.UI
@@ -57,7 +74,7 @@ class NamedSystemResourceRefusalControls(unittest.TestCase):
     def test_string_original_name_guard_cannot_be_weakened(self):
         self.replace_ui('check(value != 0 && resources.getResourceName(value) == "$namespace:string/$name") {',
                         'check(value != 0) {')
-        self.refuses_ui("System UI ownership, exact controls, ambiguity refusal or flag restoration changed")
+        self.refuses_ui("Refusal-only DocumentsUI resource observations changed")
 
     def test_namespace_cannot_be_guessed_from_admitted_application_id(self):
         self.replace_ui('        val namespace = "com.android.documentsui"\n        val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)\n        val value = resources.getIdentifier(id, "id", namespace)',

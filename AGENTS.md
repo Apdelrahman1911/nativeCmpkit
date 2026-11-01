@@ -1,5 +1,47 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared CI fixture recovery verified locally — 2026-11-01
+
+[Actual183](docs/development/evidence/current-platform-recovery-20261101/documentsui-bridge183/README.md)
+repairs seven exact fragments in two Python fixture files, plus six NEW wiring
+guards. Independent source qualification verifies33 files/13 bindings/40 segment
+pins. Only failed13+NEW6 execute:19/19 pass, unittest0.042s/wrapper0.67063s,
+1179/1257 held, ZERO compiler/native/browser. Current admission/Kotlin/manifest/
+controller/workflow/dependencies/APIs and exact refusal requirements unchanged.
+No accepted local populations replayed; both CI180 originals remain FAILED.
+Passive alert compatibility finds no new live Share/Wasm binding to repair.
+Next freeze/push on development only, AndroidLocal2/Wasm4 then Share13 within
+max2 combined hosted-heavy reservations INCLUDING queued. Reuse accepted APK/
+KLIB/runtime evidence only on applicable unchanged bytes. No new issue closure:
+96closed/76open/172total and25implemented/40partial/94verified/five unresolved.
+Camera metadata-only derivative awaits short qualification; no camera integration
+or controls/native yet. Actions/all/no mandatory SHA pinning/read-only, serial
+local/8GiB and every publishing/Pages/main/history/readiness/security gate remain.
+
+## Focused CI180 failed at stale fixtures; bounded alert source prepared — 2026-11-01
+
+Committed/pushed5539c008 on development only; main94d2492e unchanged.
+[Both actual CI180 runs](docs/development/evidence/current-platform-recovery-20261101/focused-ci180-tooling/README.md)
+FAILED before profile selection:2275 source methods each,20 failure records across
+13 old DocumentsUI mutation methods;18 missing anchors/two strict refusal-category
+mismatches. ZERO platform/Gradle/XML/artifacts, not provider/browser failures.
+Both original reviewers sealed once-acquired evidence; no current reservations.
+One owning fixture repair enables AndroidLocal2/Wasm4/Share13 together; do not
+request Share13 against known-failed tooling. Accepted results are not replayed.
+
+[Actual alert181–182](docs/development/evidence/current-platform-recovery-20261101/alert-container181-182/README.md)
+adds after-timeout-only public count/index observation: six NEW source controls
+pass once/0.111s; edited testKLIB0/40.01s,1178/1256 held, production UP-TO-DATE.
+All19 bodies/original predicates/activation/10s/cleanup remain; ZERO new native.
+No activation replacement or original-cause inference;#28 stays open.
+Camera corrected private source still needs exact duplicated stage-hash metadata
+repair/reseal/independent qualification; ZERO controls/native/integration so far.
+#13/#55/#82 stay open;96closed/76open/172total and25implemented/40partial/
+94verified/five unresolved unchanged. Lead integration/Git/dispatch/closure;
+serial local/8GiB/max2 combined hosted reservations INCLUDING queued. Actions/all/
+no mandatory SHA pinning/read-only and all publishing/Pages/main/history/native/
+consumer/API-ABI/dependency/legal/security/readiness gates remain unchanged.
+
 ## Share owning batch compiled; alert native failures preserved — 2026-11-01
 
 [Owning168–179](docs/development/evidence/current-platform-recovery-20261101/share-owning168-179/README.md)

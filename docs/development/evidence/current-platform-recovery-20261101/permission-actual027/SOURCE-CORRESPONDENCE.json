@@ -1,0 +1,85 @@
+{
+  "accepted_picker_marker": false,
+  "actual_tooling_refusal": {
+    "actual_original_log_lines": [
+      5438,
+      5441,
+      5442,
+      5444,
+      5445,
+      5446
+    ],
+    "failed_method_line": 192,
+    "helper": "reverse_observation_only",
+    "mechanism": "Original two observation-only inverse deltas retain the newly approved inline FUNCTION/RUNTIME selection metadata; resulting hash differs from the pre-annotation whole-file baseline. Removing only that exact metadata restores both whole-native and original pre-observation hashes.",
+    "message": "A non-observation selector, native criterion or cleanup changed",
+    "refusal_line": 123,
+    "source": "scripts/ci/test_android_permission_demo_timeout_review.py"
+  },
+  "annotation": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification",
+  "annotation_retention": "RUNTIME",
+  "annotation_target": "FUNCTION",
+  "earlier_native_permission_timeout_causes": "unknown; no reclassification by this distinct synthetic tooling refusal",
+  "exact_two_source_marker_lines": [
+    39,
+    61
+  ],
+  "full_class_filter_unchanged": true,
+  "passive_hash_correspondence": {
+    "UI_legacy_guard_expected_sha256": "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd",
+    "UI_observation_reversed_sha256": "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd",
+    "annotation_metadata_stripped_sha256": "06ab71c08cb881d17af0228f8a50c7df543ed22cf56682ccf2ac0a58e7507f07",
+    "legacy_guard_expected_pre_observation_sha256": "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736",
+    "legacy_guard_reversed_with_new_metadata_sha256": "e55b84ffd061767e66ae128b57ea9262c4f6e0c2af2446ebd6a53231e9d569cf",
+    "metadata_stripped_and_observation_reversed_sha256": "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736",
+    "native_actual_sha256": "1018be28c520de3405ade706bc47dcd9142e34e5599a857801bf75a2388cf1c6",
+    "native_recovery_marker_uses": 2,
+    "native_selection_declaration_count": 1,
+    "previous_whole_native_hash_expected_by_selector_guard": "06ab71c08cb881d17af0228f8a50c7df543ed22cf56682ccf2ac0a58e7507f07",
+    "test_or_model_functions_executed": 0
+  },
+  "revision": "e09076242de99872e4244bb465d3bcfdd0da7319",
+  "source_filter_and_strict_plan_locations": {
+    "scripts/ci/fresh-tests.init.gradle.kts": [
+      63,
+      66,
+      67
+    ],
+    "scripts/ci/library_tests.py": [
+      152,
+      2183,
+      2184,
+      2188,
+      2190,
+      2192,
+      2193,
+      2377,
+      2381,
+      2382,
+      2385,
+      2403,
+      2406,
+      2407,
+      2465,
+      3425,
+      3428
+    ]
+  },
+  "source_only_not_actual_selection": true,
+  "source_selected_methods": [
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+      "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+    }
+  ],
+  "source_test_path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+  "top_level_declaration_lines": [
+    17,
+    18,
+    19
+  ]
+}

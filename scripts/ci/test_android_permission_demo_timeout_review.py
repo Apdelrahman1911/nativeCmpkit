@@ -9,7 +9,7 @@ import unittest
 TREE = Path(os.environ.get("PERMISSION_TIMEOUT_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 KOTLIN = "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/"
 UI_BEFORE_SHA256 = "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd"
-NATIVE_BEFORE_SHA256 = "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736"
+NATIVE_BEFORE_SHA256 = "e55b84ffd061767e66ae128b57ea9262c4f6e0c2af2446ebd6a53231e9d569cf"
 
 UI_DELTAS = (('import android.Manifest\n'
   'import android.os.Bundle\n'
@@ -202,6 +202,62 @@ class AndroidPermissionDemoTimeoutReviewTests(unittest.TestCase):
             self.assertEqual(1, source.count(old))
             with self.subTest(criterion_mutation=old), self.assertRaises(AssertionError):
                 reverse_observation_only(source.replace(old, changed, 1), NATIVE_DELTAS, NATIVE_BEFORE_SHA256)
+
+    def test_approved_call_denial_marker_is_the_only_new_pre_observation_hash_delta(self):
+        source = self.source("AndroidPermissionDemoDeviceTest.kt")
+        baseline = reverse_observation_only(source, NATIVE_DELTAS, NATIVE_BEFORE_SHA256)
+        name = "AndroidPermissionDemoCallDenialVerification"
+        declaration = ("@Target(AnnotationTarget.FUNCTION)\n"
+            "@Retention(AnnotationRetention.RUNTIME)\nannotation class " + name + "\n\n")
+        marker = "    @" + name + "\n"
+        self.assertEqual(1, baseline.count(declaration))
+        self.assertEqual(2, baseline.count(marker))
+        self.assertEqual(3, baseline.count(name))
+        for method in ("callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+                       "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"):
+            self.assertEqual(1, baseline.count(marker + "    @Test fun " + method + "() {"))
+        original = baseline.replace(declaration, "", 1).replace(marker, "")
+        self.assertEqual("ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736",
+            hashlib.sha256(original.encode()).hexdigest())
+        original_source = source.replace(declaration, "", 1).replace(marker, "")
+        self.assertEqual("06ab71c08cb881d17af0228f8a50c7df543ed22cf56682ccf2ac0a58e7507f07",
+            hashlib.sha256(original_source.encode()).hexdigest())
+
+    def test_advanced_hash_refuses_unapproved_annotation_and_new_deadline_callback_changes(self):
+        source = self.source("AndroidPermissionDemoDeviceTest.kt")
+        name = "AndroidPermissionDemoCallDenialVerification"
+        declaration = ("@Target(AnnotationTarget.FUNCTION)\n"
+            "@Retention(AnnotationRetention.RUNTIME)\nannotation class " + name + "\n\n")
+        marker = "    @" + name + "\n"
+        call = "    @Test fun callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant() {"
+        picker = "    @Test fun pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions() {"
+        variants = (
+            ("missing-declaration", source.replace(declaration, "", 1)),
+            ("missing-call-marker", source.replace(marker, "", 1)),
+            ("missing-both-markers", source.replace(marker, "")),
+            ("duplicate-declaration", source.replace(declaration, declaration + declaration, 1)),
+            ("duplicate-call-marker", source.replace(marker, marker + marker, 1)),
+            ("source-retention", source.replace("AnnotationRetention.RUNTIME", "AnnotationRetention.SOURCE", 1)),
+            ("binary-retention", source.replace("AnnotationRetention.RUNTIME", "AnnotationRetention.BINARY", 1)),
+            ("class-target", source.replace("AnnotationTarget.FUNCTION", "AnnotationTarget.CLASS", 1)),
+            ("broader-target", source.replace("AnnotationTarget.FUNCTION", "AnnotationTarget.FUNCTION, AnnotationTarget.CLASS", 1)),
+            ("marker-after-Test", source.replace(marker + call, "    @Test\n" + marker + call.replace("    @Test ", "    "), 1)),
+            ("marker-moved-to-picker", source.replace(marker, "", 1).replace(picker, marker + picker, 1)),
+            ("marker-moved-to-class", source.replace(marker, "", 1).replace("@RunWith(AndroidJUnit4::class)", "@" + name + "\n@RunWith(AndroidJUnit4::class)", 1)),
+            ("nested-declaration", source.replace(declaration, "", 1).replace("class AndroidPermissionDemoDeviceTest {", "class AndroidPermissionDemoDeviceTest {\n" + declaration, 1)),
+            ("declaration-before-imports", source.replace(declaration, "", 1).replace("import android.Manifest\n", declaration + "import android.Manifest\n", 1)),
+            ("fully-qualified-marker", source.replace(marker, "    @com.mohamedrejeb.calf.permissions." + name + "\n", 1)),
+            ("foreign-helper-marker", source + "\n@" + name + "\nfun foreignSelectorHelper() {}\n"),
+            ("foreign-annotation-name", source.replace(name, name + "Foreign")),
+            ("foreign-alias", source.replace("import org.junit.Test\n", "import com.mohamedrejeb.calf.permissions." + name + " as Foreign\nimport org.junit.Test\n", 1)),
+            ("changed-third-request-deadline", source.replace("SystemClock.elapsedRealtime() + 5000", "SystemClock.elapsedRealtime() + 5001", 1)),
+            ("changed-third-callback-count", source.replace('?.getInt("callbacks") == 3', '?.getInt("callbacks") == 4', 1)),
+        )
+        for label, changed in variants:
+            with self.subTest(new_changed_input=label):
+                self.assertNotEqual(source, changed)
+                with self.assertRaises(AssertionError):
+                    reverse_observation_only(changed, NATIVE_DELTAS, NATIVE_BEFORE_SHA256)
 
     def test_request_reply_projection_is_unknown_safe_saturating_and_excludes_raw_bundle_or_ui_data(self):
         source = self.source("PermissionDemoSystemUi.kt")

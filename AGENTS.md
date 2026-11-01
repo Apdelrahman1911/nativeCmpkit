@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared finite-pair blocker repaired; native results still missing — 2026-11-01
+
+Actual [camera41278812558](docs/development/evidence/current-platform-recovery-20261101/camera-actual026/README.md)
+and [permission41278818654](docs/development/evidence/current-platform-recovery-20261101/permission-actual027/README.md)
+remain FAILED: each1836CI/1835pass/one shared stale permission-timeout source hash;
+all downstream jobs skipped/ZERO APK/AVD/native/XML/artifacts. Originals acquired
+once and independent1112/1189 Git bindings retained. [Only the exact owning hash](docs/development/evidence/current-platform-recovery-20261101/shared-guard-repair028/README.md)
+is advanced for the approved annotation; original helper/native bodies/cleanup stay.
+One red/3 focused synthetic passes/20 new refusals retained,1835 unchanged guards
+not replayed locally. [Fresh maps](docs/development/evidence/current-platform-recovery-20261101/shared-guard-freeze029/README.md)
+differ only at that guard; compiler002 and exact pair plans reused. Next Dont-keep1
+and Call/denial2 after immutable binding; accepted camera009/picker/IO/DNS excluded.
+Local JavaFX TLS1 remains FAILED/Gradle1/54.01s/one native failure; server TLS1.3
+Finished Broken-pipe phase identified, endpoint/peer cause unknown. No security
+acceptance. iOS proposal held for a source-conditional older-issued-start defect;
+request2 needs reviewed repair/native, never accepted DNS1 replay.92closed/80open;
+all parallel/serial-local/8GiB disk/max2hosted and publishing/security gates stay.
+
 ## Related compiler accepted; finite owning recovery — 2026-11-01
 
 [Actual related compiler](docs/development/evidence/current-platform-recovery-20261101/related-compiler-success020/README.md)

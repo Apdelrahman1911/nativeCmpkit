@@ -4,6 +4,23 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Shared tooling failure recovered
+
+Camera41278812558 and permission41278818654 at e0907624 both remain terminal
+FAILED:1835/1836 CI methods pass, the same stale permission-timeout source hash
+fails, and every native job is skipped. Independent original reviews are in
+[camera026](evidence/current-platform-recovery-20261101/camera-actual026/README.md) and
+[permission027](evidence/current-platform-recovery-20261101/permission-actual027/README.md).
+[One owning guard recovery](evidence/current-platform-recovery-20261101/shared-guard-repair028/README.md)
+preserves the old helper and every native body; its exact annotated-source hash
+advances, with one red/three focused synthetic passes and20 new mutation refusals.
+[Freeze029](evidence/current-platform-recovery-20261101/shared-guard-freeze029/README.md)
+differs only at that guard: compiler002 and pair plans reused without replay.
+No new native test or issue closure. Next immutable pair remains Dont-keep1 and
+Call/denial2 only. Local JavaFX TLS1 failed (Gradle1/54.01s/one XML); TLS1.3 server
+Finished Broken-pipe observed, endpoint/peer cause not established. iOS request2
+proposal is held for independent source-conditional identity review; DNS1 excluded.
+
 ## Latest related owning patch
 
 - [Compiler002](evidence/current-platform-recovery-20261101/related-compiler-success020/README.md)
@@ -111,8 +128,9 @@ postcommit Git binding and honest predispatch records remain separate.
 
 ## Prioritized finite execution
 
-1. `ios-webview-request-dns`: one Mac/iPhone job; original request2 + reserved
-   `.invalid` DNS1, real UIApplication/WebKit/Worker/results/owned cleanup.
+1. `ios-webview-request-state`: one Mac/iPhone job after owning identity repair;
+   original request2 only, real UIApplication/WebKit/Worker/results/owned cleanup.
+   Independently accepted DNS1 is excluded and must not be replayed.
 2. `android-camera-restoration-dont-keep`: one API35 job; only Dont-keep1;
    observe capture before costly compilation; all original native/restoration
    assertions remain. Close #13 only after literal criteria/results review.

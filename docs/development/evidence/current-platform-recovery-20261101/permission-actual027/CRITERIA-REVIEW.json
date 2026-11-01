@@ -1,0 +1,165 @@
+{
+  "accepted_picker_IO_and_unrequested_storage_media_results_not_revisited": true,
+  "complete_original_acceptance": false,
+  "issue102_or118_closure_authorized": false,
+  "literal_criteria": [
+    {
+      "criterion_number": 1,
+      "current_run_disposition": "Source policy is frozen but actual compiled-manifest/install gating never reached; no current menu/API-range acceptance.",
+      "finding": "NAV-015",
+      "intended_source": [
+        {
+          "lines": [
+            152,
+            181
+          ],
+          "path": "scripts/ci/android_permission_demo.py"
+        }
+      ],
+      "issue": 102,
+      "literal": "Inspect the merged manifest and map every menu permission to its expected declaration/status for supported API levels.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "d9d1a942ee45222fc4f080343da85b285a6cae14882791a87edf2275028c41bd"
+    },
+    {
+      "criterion_number": 2,
+      "current_run_disposition": "Intended fresh approved Call/request/system-grant case only; ZERO current execution.",
+      "finding": "NAV-015",
+      "intended_source": [
+        {
+          "lines": [
+            40,
+            58
+          ],
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+        }
+      ],
+      "issue": 102,
+      "literal": "Test Call on a fresh installation under an explicitly approved demo variant.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "d9d1a942ee45222fc4f080343da85b285a6cae14882791a87edf2275028c41bd"
+    },
+    {
+      "criterion_number": 3,
+      "current_run_disposition": "Accepted picker remains unannotated/excluded; earlier accepted result not reacquired or replayed.",
+      "finding": "NAV-015",
+      "intended_source": [
+        {
+          "lines": [
+            93,
+            115
+          ],
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+        }
+      ],
+      "issue": 102,
+      "literal": "Verify file/image picker operation without MANAGE_EXTERNAL_STORAGE and unrelated SMS permissions.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "d9d1a942ee45222fc4f080343da85b285a6cae14882791a87edf2275028c41bd"
+    },
+    {
+      "criterion_number": 4,
+      "current_run_disposition": "Intended denial/permanent-denial/rationale/exact callback counts only; Android13/14 media selection excluded; ZERO current execution.",
+      "finding": "NAV-015",
+      "intended_source": [
+        {
+          "lines": [
+            62,
+            90
+          ],
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+        },
+        {
+          "lines": [
+            117,
+            125
+          ],
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+        }
+      ],
+      "issue": 102,
+      "literal": "Run permission denial/permanent-denial and Android13/14 media-selection scenarios.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "d9d1a942ee45222fc4f080343da85b285a6cae14882791a87edf2275028c41bd"
+    },
+    {
+      "criterion_number": 1,
+      "current_run_disposition": "Excluded from this exact Call/denial request; no new current evidence.",
+      "finding": "PERM-024",
+      "intended_source": [],
+      "issue": 118,
+      "literal": "API28 legacy permission, API29 legacy/scoped target modes, API30+ app-scoped/SAF and all-files absent/present.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "ec0202bacd5ecc5b4bf4d4d2ebfdb9fe7c24f5030fa3154b35cf3376e4712d04"
+    },
+    {
+      "criterion_number": 2,
+      "current_run_disposition": "Excluded from this exact Call/denial request; no new current evidence.",
+      "finding": "PERM-024",
+      "intended_source": [],
+      "issue": 118,
+      "literal": "Verify docs examples request the least permissions needed and no Granted result is described as unrestricted disk access.",
+      "new_native_acceptance": false,
+      "retained_original_issue_field_sha256": "ec0202bacd5ecc5b4bf4d4d2ebfdb9fe7c24f5030fa3154b35cf3376e4712d04"
+    }
+  ],
+  "original_criteria_source": "docs/development/evidence/android-io-permission-storage-batch-20261101/local001/original-criteria.json",
+  "remote_issue_state_not_refreshed": true,
+  "schema_version": 1,
+  "source_assertions_preserved": {
+    "Call_grant_callback_public_result": {
+      "lines": [
+        41,
+        58
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+    },
+    "UI_flags_restoration": {
+      "lines": [
+        141
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt"
+    },
+    "bounded_exact_OS_UI_controls_no_success_fallback": {
+      "lines": [
+        31,
+        32,
+        42,
+        64,
+        65,
+        79,
+        82,
+        139
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt"
+    },
+    "denial_rationale_callback_and_no_third_dialog": {
+      "lines": [
+        63,
+        89
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+    },
+    "native_teardown": {
+      "lines": [
+        174,
+        188
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt"
+    },
+    "same_UID_nonce_generation_reply_and_foreground_guard": {
+      "lines": [
+        36,
+        43,
+        84,
+        100,
+        109,
+        159,
+        172
+      ],
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt"
+    }
+  },
+  "source_file_sha256": "97a9339a7c4fab37aa0b8c2b80df0b7173450614bf572348a82f2b69001a2b4e",
+  "source_revision": "e09076242de99872e4244bb465d3bcfdd0da7319"
+}

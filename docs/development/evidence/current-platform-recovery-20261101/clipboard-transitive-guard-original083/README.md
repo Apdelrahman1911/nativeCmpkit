@@ -1,0 +1,11 @@
+# Clipboard recovery 41300259008: original failure review
+
+**FAILED before browser execution**, attempt1/immutable `70173ef05ac446a298d3ebcc5651cca8493e32be`. Original tooling124829546814 ran2013 CI methods:2012pass,one failure,60.411s,exit1. All six dependent jobs skipped; zero artifacts/native methods/XML/cleanup. Earlier five serial-capacity assertions now pass in this actual original; none of their native bodies ran.
+
+Sole failure: `scripts/ci/test_desktop_webview_literal_matrix.py:332`, method `test_owning_fixture_bounds_cleanup_and_preserved_old_method_and_production_hashes_are_source_pinned`. Its old ten-method source pin still expects the pre-repair Desktop serial-profile assertion segment. Independent nonexecuting AST/hash readback identifies exactly one discrepancy: expected5ec11d3f6ec37071e059f57088d426527c064bd29f7d9f8ffd5def8e7e12939d versus actual15c9c10c3016b70137379b12a39ec2ac6e9c9fa6dece700acdf45b2e603ade7d. Other nine pins are exact. This is confirmed owning tooling cause, not a browser/native clipboard defect.
+
+Only this completed owning original log/artifact inventory were acquired once. Prior failed41299186294 originals and accepted C1/C2 qualified source/results are reused without acquisition or replay. Twenty passive checks pass; they are not native tests. Current1131 library/1208 combined maps are predispatch-only; Kotlin/build/dependency/native bytes remain compiler-applicable with explicit tooling deltas, not earlier whole-map equality.
+
+NATIVE-026/#82 stays open: all four new methods per JS/Wasm target/eight C3 executions remain missing. Preserve original literal criteria, actual trusted-input/activation/focus, secure/insecure origin/permission/Promise and owned cleanup assertions. The native rejection observer is not replacement unhandled-rejection evidence; absent-API zero counters are not independent no-attempt proof, and Promise completion is not OS paste/readback/recipient delivery. Never read unrelated clipboard contents.
+
+Lead may repair only the owning segment pin after its affected source guard verification, then bind and dispatch still-unexecuted C3 cases. No production/native/compiled-source edits, accepted-method replay, unrelated offline-original acquisition, issue closure, publishing/Pages/main/API-ABI/consumer/dependency/legal/security/release inference follows this packet.

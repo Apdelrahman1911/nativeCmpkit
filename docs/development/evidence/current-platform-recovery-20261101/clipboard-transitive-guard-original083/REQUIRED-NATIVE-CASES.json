@@ -1,0 +1,88 @@
+{
+  "accepted_C1_C2_methods_unselected": true,
+  "all_eight_native_executions_unexecuted": true,
+  "targets": {
+    "js": {
+      "browser_http_fixture": "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js",
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/test-results/jsBrowserTest",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+        }
+      ],
+      "task": ":calf-share:jsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+      "test_source_files": [
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt",
+        "calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt",
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
+      ],
+      "test_source_sets": [
+        "webTest",
+        "jsTest"
+      ],
+      "test_source_sha256": {
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js": "0d4ad6774a9eff2722a39c676a85581a0a65d9ae8ad08ffa001e0e1907338e2a",
+        "calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt": "9d33398d366466f41a3d4a46198a7c8e02e3c23fbfd73af1216aa6b0915ebc05",
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt": "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+      }
+    },
+    "wasm": {
+      "browser_http_fixture": "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js",
+      "module": "calf-share",
+      "project": ":calf-share",
+      "report_directory": "calf-share/build/test-results/wasmJsBrowserTest",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+          "name": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+        }
+      ],
+      "task": ":calf-share:wasmJsBrowserTest",
+      "test_filter": "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest",
+      "test_source_files": [
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt",
+        "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt",
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
+      ],
+      "test_source_sets": [
+        "webTest",
+        "wasmJsTest"
+      ],
+      "test_source_sha256": {
+        "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js": "0d4ad6774a9eff2722a39c676a85581a0a65d9ae8ad08ffa001e0e1907338e2a",
+        "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt": "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59",
+        "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt": "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+      }
+    }
+  }
+}

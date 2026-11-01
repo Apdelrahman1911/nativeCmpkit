@@ -1,0 +1,39 @@
+{
+  "C1": {
+    "actual_native_observer_not_replacement": true,
+    "qualification": "Native fixture observer consumes its rejection; it cannot replace the earlier rejection criterion. Callback-error counter is not an independent global unhandledrejection event collector.",
+    "status": "prior accepted controlled-Promise evidence reused on exact production/harness/method inputs",
+    "test": "rejectedClipboardPromiseProducesOneFailureAndNoSuccess"
+  },
+  "C2": {
+    "qualification": "Promise outcome timing, not OS paste or recipient delivery.",
+    "status": "prior accepted controlled-Promise evidence reused on exact production/harness/method inputs",
+    "test": "clipboardSuccessWaitsForPromiseSettlement"
+  },
+  "C3": {
+    "actual_target_executions": 0,
+    "methods_per_target": 4,
+    "remaining_methods": [
+      "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+      "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+      "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+      "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+    ],
+    "status": "MISSING entirely in recovery41300259008; all downstream jobs skipped",
+    "target_executions_required": 8,
+    "targets": [
+      "js",
+      "wasm"
+    ]
+  },
+  "all_original_literal_criteria_met": false,
+  "closure_recommendation": "KEEP OPEN; repair only the sole owning old-guard segment pin, verify that affected method, then bind and execute only the eight still-unexecuted C3 target cases. Do not replay accepted C1/C2 or change native/production/capacity/security criteria.",
+  "finding_id": "NATIVE-026",
+  "issue_number": 82,
+  "original_required_tests": [
+    "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+    "Resolved promise produces one Success only after completion.",
+    "Missing clipboard API, insecure context, denied permission and direct user gesture."
+  ],
+  "other_gates_unchanged": true
+}

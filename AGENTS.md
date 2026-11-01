@@ -1,5 +1,17 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Browser transitive guard repaired; missing-only native requests — 2026-11-01
+
+Actual41300259008/41300262642 at70173ef0 remain FAILED2013/2012/one stale
+transitive method hash, ZERO browser/native/XML/artifacts. [Owning084](docs/development/evidence/current-platform-recovery-20261101/browser-transitive-owning-recovery084/README.md)
+retains one red/one fresh synthetic green0.413s; only the authorized serial-profile
+method pin advanced, other nine/native/production/workflow bytes unchanged. Current
+1131/1208 maps differ at that one guard only; accepted compiler/runtime work is
+not replayed. Next clipboard8 and #64 offline2, serial1 each/global2. #50 actual
+C3 remains FAILED1native/one XML/zero pass; test-only source review pending.
+93closed/79open; no publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness or capacity gate lifted.
+
 ## Clipboard owning guard batch repaired; Desktop graphs prepared — 2026-11-01
 
 [Original080](docs/development/evidence/current-platform-recovery-20261101/clipboard-native-contexts-original080/README.md)

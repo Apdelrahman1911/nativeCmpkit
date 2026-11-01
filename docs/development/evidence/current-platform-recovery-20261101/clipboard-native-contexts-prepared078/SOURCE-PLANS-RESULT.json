@@ -1,0 +1,70 @@
+{
+  "before_after_exact": true,
+  "kind": "fresh CLI source plans, not browser execution",
+  "library_inputs": 1129,
+  "native_executions": 0,
+  "profile": {
+    "include": [
+      {
+        "arch": "x64",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "browser-js",
+        "suite": "js",
+        "test-focus": "web-share-clipboard-native-contexts",
+        "test-modules": "calf-share"
+      },
+      {
+        "arch": "x64",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "browser-wasm",
+        "suite": "wasm",
+        "test-focus": "web-share-clipboard-native-contexts",
+        "test-modules": "calf-share"
+      }
+    ]
+  },
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "js",
+        "--module",
+        "calf-share",
+        "--focus",
+        "web-share-clipboard-native-contexts"
+      ],
+      "elapsed_seconds": 0.21536779298912734,
+      "exit_code": 0,
+      "native_executions": 0,
+      "native_method_count_required": 4,
+      "plan_sha256": "a77dda79ef6ba20e01d15066306f612405e4ea7b25eba7530688b920ec917abe",
+      "suite": "js"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "wasm",
+        "--module",
+        "calf-share",
+        "--focus",
+        "web-share-clipboard-native-contexts"
+      ],
+      "elapsed_seconds": 0.21576374408323318,
+      "exit_code": 0,
+      "native_executions": 0,
+      "native_method_count_required": 4,
+      "plan_sha256": "f8fa36ceaed0c1d7e89244019fc26c39455703a2f22d5b5708519ecb5db26a3e",
+      "suite": "wasm"
+    }
+  ]
+}

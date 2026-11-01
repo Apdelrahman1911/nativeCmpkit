@@ -1,0 +1,99 @@
+{
+  "later_library_guard_and_workflow_deltas_explicit": true,
+  "native_executions": 0,
+  "results": [
+    {
+      "Gradle_elapsed_seconds": 59.01,
+      "Gradle_exit_code": 0,
+      "accepted_native_replayed": false,
+      "before_after_combined_exact": true,
+      "before_after_library_exact": true,
+      "combined_input_count": 1206,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-share:compileTestDevelopmentExecutableKotlinJs"
+      ],
+      "compile_task_marker_seen": true,
+      "daemon_observations": [
+        {
+          "gradle_version": "9.7.1",
+          "java_vendor": "Ubuntu",
+          "java_version": "17.0.20",
+          "launcher_home_configured": true,
+          "launcher_home_matches_daemon": true,
+          "major": 17,
+          "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+          "schema_version": 1
+        }
+      ],
+      "foreign_processes_signalled": false,
+      "free_bytes_after": 41411833856,
+      "free_bytes_before": 41452478464,
+      "kind": "actual clipboard source compiler, not browser native",
+      "library_input_count": 1129,
+      "native_methods_executed": 0,
+      "observed_utc": "2026-11-01T10:32:22.440447+00:00",
+      "outer_elapsed_seconds": 59.39682777796406,
+      "outer_exit_code": 0,
+      "package_or_release_clearance": false,
+      "raw_log_sha256": "01fcb07981eab0f5f4817c94e3fda20a92a36306728866c5c31b9f4975d2e37b",
+      "target": "js"
+    },
+    {
+      "Gradle_elapsed_seconds": 50.01,
+      "Gradle_exit_code": 0,
+      "accepted_native_replayed": false,
+      "before_after_combined_exact": true,
+      "before_after_library_exact": true,
+      "combined_input_count": 1206,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-share:compileTestDevelopmentExecutableKotlinWasmJs"
+      ],
+      "compile_task_marker_seen": true,
+      "daemon_observations": [
+        {
+          "gradle_version": "9.7.1",
+          "java_vendor": "Ubuntu",
+          "java_version": "17.0.20",
+          "launcher_home_configured": true,
+          "launcher_home_matches_daemon": true,
+          "major": 17,
+          "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+          "schema_version": 1
+        }
+      ],
+      "foreign_processes_signalled": false,
+      "free_bytes_after": 41402687488,
+      "free_bytes_before": 41411092480,
+      "kind": "actual clipboard source compiler, not browser native",
+      "library_input_count": 1129,
+      "native_methods_executed": 0,
+      "observed_utc": "2026-11-01T10:33:12.929357+00:00",
+      "outer_elapsed_seconds": 50.23918750300072,
+      "outer_exit_code": 0,
+      "package_or_release_clearance": false,
+      "raw_log_sha256": "cb3f86aecd669779c8fb27f7dbe26547dabc3ef27d33351491dc203f64322c1b",
+      "target": "wasm"
+    }
+  ],
+  "same_Kotlin_and_build_inputs_held_for_both_compilers": true
+}

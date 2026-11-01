@@ -129,7 +129,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 111 | **NAV-012** — Sample secure password text field logs every entered value | Medium | S | — | open | [#99](https://github.com/Apdelrahman1911/nativeCmpkit/issues/99) |
 | 112 | **NAV-013** — Sample image export runs unbounded reads and image allocations without error or concurrency control | Medium | M | — | open | [#100](https://github.com/Apdelrahman1911/nativeCmpkit/issues/100) |
 | 113 | **NAV-014** — Streaming sample cancellation does not interrupt its synchronous read loop | Medium | S | — | closed | [#101](https://github.com/Apdelrahman1911/nativeCmpkit/issues/101) |
-| 114 | **NAV-015** — Android sample permission menu and manifest disagree and declare unrelated broad permissions | Medium | S | — | open | [#102](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) |
+| 114 | **NAV-015** — Android sample permission menu and manifest disagree and declare unrelated broad permissions | Medium | S | — | closed | [#102](https://github.com/Apdelrahman1911/nativeCmpkit/issues/102) |
 | 115 | **NAV-018** — Derived Apache-2.0 source attribution needs reconstruction and artifact verification | Medium | M | NAV-008 | closed | [#103](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) |
 | 116 | **PERM-006** — Permission lifecycle refresh skips previously granted permissions, leaving revocations stale | Medium | M | PERM-013 | open | [#107](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) |
 | 117 | **PERM-010** — iOS location delegates consume pending requests on nonterminal events and overwrite overlapping callbacks | Medium | M | PERM-007, PERM-009 | open | [#109](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109) |

@@ -76,3 +76,11 @@ large files, typed-array/byte round-trips and resource cleanup. Validate UI zoom
 RTL, keyboard navigation and high-DPI DOM overlay alignment. Shared/common tests
 need Skiko webpack bundling (`withBrowserTestBundling`); a Node/unit test or stub
 of a browser API does not prove a real chooser or download worked.
+
+## Clipboard native-context verification — 2026-11-01
+
+The [four library-level context fixtures](../development/share-clipboard-native-contexts.md)
+use real origins/document-policy/permission state and trusted CDP input, with no
+clipboard reads or fabricated activation. JS/Wasm test compilers pass; native
+execution and cleanup remain unverified. Controlled-Promise results are reused;
+native Promise completion is not OS paste/readback or release certification.

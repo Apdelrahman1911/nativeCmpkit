@@ -1184,6 +1184,53 @@ def webview_offline_case_inventory(suite: str, cases: list[dict]) -> bool:
                          r", browser, [^\[\]\r\n]+\]", case["name"]) is not None)
 
 
+SHARE_CLIPBOARD_NATIVE_FOCUS = "web-share-clipboard-native-contexts"
+SHARE_CLIPBOARD_NATIVE_CLASS = "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest"
+SHARE_CLIPBOARD_NATIVE_METHODS = (
+    "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+    "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+    "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+    "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite",
+)
+SHARE_CLIPBOARD_NATIVE_SOURCE = "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt"
+SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256 = "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+SHARE_CLIPBOARD_NATIVE_FIXTURE = "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
+SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "0d4ad6774a9eff2722a39c676a85581a0a65d9ae8ad08ffa001e0e1907338e2a"
+SHARE_CLIPBOARD_NATIVE_HELPERS = {
+    "js": ("calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt", "9d33398d366466f41a3d4a46198a7c8e02e3c23fbfd73af1216aa6b0915ebc05"),
+    "wasm": ("calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt", "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59"),
+}
+
+
+def share_clipboard_native_sources(suite: str) -> dict[str, str]:
+    if suite not in SHARE_CLIPBOARD_NATIVE_HELPERS:
+        raise ValueError("Native clipboard context focus supports only exact JS/Wasm slots")
+    helper, digest = SHARE_CLIPBOARD_NATIVE_HELPERS[suite]
+    return {SHARE_CLIPBOARD_NATIVE_SOURCE: SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256,
+            helper: digest, SHARE_CLIPBOARD_NATIVE_FIXTURE: SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256}
+
+
+def share_clipboard_native_identities() -> list[dict]:
+    return [{"classname": SHARE_CLIPBOARD_NATIVE_CLASS, "name": method}
+            for method in SHARE_CLIPBOARD_NATIVE_METHODS]
+
+
+def share_clipboard_native_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"} or len(cases) != len(SHARE_CLIPBOARD_NATIVE_METHODS):
+        return False
+    target = "js" if suite == "js" else "wasmJs"
+    names = []
+    for case in cases:
+        if case["classname"] != SUITES[suite][0] + "." + SHARE_CLIPBOARD_NATIVE_CLASS:
+            return False
+        match = re.fullmatch("(" + "|".join(map(re.escape, SHARE_CLIPBOARD_NATIVE_METHODS)) +
+                             r")\[" + re.escape(target) + r", browser, [^\[\]\r\n]+\]", case["name"])
+        if match is None:
+            return False
+        names.append(match.group(1))
+    return Counter(names) == Counter(SHARE_CLIPBOARD_NATIVE_METHODS)
+
+
 WEBVIEW_DESKTOP_REQUEST_FOCUS = "webview-desktop-request-state"
 WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS = "webview-desktop-request-state-stop"
 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS = "webview-desktop-request-state-stop-redirect"
@@ -1545,6 +1592,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
             (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
             (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
+            (focus == SHARE_CLIPBOARD_NATIVE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-share",)) or
             (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
             (focus in desktop_security_plan.FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
@@ -2117,6 +2165,21 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["required_testcases"] = webview_request_identities()
         selected[0]["browser_http_fixture"] = WEBVIEW_REQUEST_FIXTURE
         result["scope"] = "Three exact public Compose browser request-state methods: rejected options/retry/native reload, genuine owned HTTP redirect/native stop, and real pre-header TCP-response refusal/native metadata recovery. No accepted #63/#65/#11 replay, system-offline/DNS/TLS or reliable iframe-error claim, other target/engine, full-suite, packaged consumer, ABI, security or release certification."
+    elif focus == SHARE_CLIPBOARD_NATIVE_FOCUS:
+        sources = share_clipboard_native_sources(suite)
+        if any((relative != SHARE_CLIPBOARD_NATIVE_FIXTURE and relative not in selected[0]["test_source_files"]) or
+               sha256(safe_path(root, relative)) != digest for relative, digest in sources.items()):
+            raise ValueError("Native clipboard context owning method/helper/fixture changed; review the exact four C3 paths")
+        source = safe_path(root, SHARE_CLIPBOARD_NATIVE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if methods != list(SHARE_CLIPBOARD_NATIVE_METHODS) or re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            raise ValueError("Native clipboard context declarations are not the exact four unignored methods")
+        result["explicit_test_focus"] = focus
+        selected[0].update(test_filter=SHARE_CLIPBOARD_NATIVE_CLASS,
+                           required_testcases=share_clipboard_native_identities(), required_original_xml=1,
+                           test_source_files=list(sources), test_source_sets=["webTest", "jsTest" if suite == "js" else "wasmJsTest"],
+                           test_source_sha256=sources, browser_http_fixture=SHARE_CLIPBOARD_NATIVE_FIXTURE)
+        result["scope"] = "Only four missing literal #82 C3 library methods: secure capability absence, genuine non-trustworthy HTTP context, native document-policy denied permission/NotAllowedError, and trusted active native input with one actual owned-text write. Same emitted JS/Wasm library test bundle, exact new child method only; accepted controlled-Promise methods are not selected/replayed. No clipboard reads, persistent site/UI permission claim, other browser/OS, full-suite, packaged consumer/ABI/security/release certification."
     elif focus == WEBVIEW_OFFLINE_FOCUS:
         if (WEBVIEW_OFFLINE_SOURCE not in selected[0]["test_source_files"] or
                 sha256(safe_path(root, WEBVIEW_OFFLINE_SOURCE)) != WEBVIEW_OFFLINE_SOURCE_SHA256 or
@@ -2739,6 +2802,25 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("browser_http_fixture") != WEBVIEW_REQUEST_FIXTURE):
             raise ValueError("Invalid finite browser WebView request-state/HTTP-fixture plan")
         return True
+    if focus == SHARE_CLIPBOARD_NATIVE_FOCUS:
+        suite = test_plan["suite"]
+        sources = share_clipboard_native_sources(suite)
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-share" or expected[0].get("project") != ":calf-share" or
+                expected[0]["task"] != ":calf-share:" + SUITES[suite][0] or
+                expected[0].get("report_directory") != "calf-share/build/test-results/" + SUITES[suite][0] or
+                expected[0].get("test_filter") != SHARE_CLIPBOARD_NATIVE_CLASS or
+                expected[0].get("required_testcases") != share_clipboard_native_identities() or
+                type(expected[0].get("required_original_xml")) is not int or expected[0]["required_original_xml"] != 1 or
+                expected[0].get("test_source_files") != list(sources) or
+                expected[0].get("test_source_sets") != ["webTest", "jsTest" if suite == "js" else "wasmJsTest"] or
+                expected[0].get("test_source_sha256") != sources or
+                expected[0].get("browser_http_fixture") != SHARE_CLIPBOARD_NATIVE_FIXTURE or
+                test_plan.get("inherited_test_source_sets") != list(SUITES[suite][1])):
+            raise ValueError("Invalid finite native clipboard context method/helper/fixture selection plan")
+        return True
+
     if focus == WEBVIEW_OFFLINE_FOCUS:
         suite = test_plan["suite"]
         if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
@@ -3228,6 +3310,13 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if webview_request_case_inventory(test_plan["suite"], module_cases) else
                              ["Browser WebView request-state XML must contain exactly all three methods with actual target identities"])
             scenarios = [{**c, "source": WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == SHARE_CLIPBOARD_NATIVE_FOCUS:
+            policy_errors = ([] if share_clipboard_native_case_inventory(test_plan["suite"], module_cases) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 else
+                             ["Native clipboard context XML needs exactly four new target methods in one fresh original report; no accepted/foreign/duplicate/missing methods"])
+            scenarios = [{**c, "source": SHARE_CLIPBOARD_NATIVE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_OFFLINE_FOCUS:
@@ -4173,7 +4262,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
-                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
+                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, SHARE_CLIPBOARD_NATIVE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,

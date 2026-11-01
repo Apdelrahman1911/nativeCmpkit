@@ -73,6 +73,7 @@ PROFILES = {
     "webview-desktop-security-regressions": ("desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
+    "share-clipboard-native": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
     "ui-date-js": ("browser-js",),
     "ui-date-platforms": ("browser-js", "browser-wasm", "android-device-api35"),
@@ -248,6 +249,7 @@ MODULE_SUBSETS = {
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
     "share-browser": "calf-share",
+    "share-clipboard-native": "calf-share",
     # Four important public dialog transactions, not an unrelated UI suite replay.
     "ui-date-browser": "calf-ui",
     "ui-date-js": "calf-ui",
@@ -435,6 +437,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"
+    if profile == "share-clipboard-native":
+        for row in rows:
+            row["test-focus"] = "web-share-clipboard-native-contexts"
     if profile == "webview-content-transitions":
         for row in rows:
             row["test-focus"] = "webview-browser-content-transitions"

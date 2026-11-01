@@ -1,5 +1,13 @@
 # Native features: camera, sharing, WebView and dormant modules
 
+## Current clipboard development checkpoint — 2026-11-01
+
+[Native-context fixtures](../development/share-clipboard-native-contexts.md) add
+four missing JS/Wasm clipboard environment cases without changing public APIs or
+production dependencies. Actual compilers/important source controls pass; native
+permission/activation/Promise/owned-cleanup acceptance remains pending. Baseline
+implementation/history below retain their original scope.
+
 ## Scope and reading guide
 
 Reviewed baseline: **`af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`**. This document describes the implementation, not an aspirational API. All **47 tracked files** in `calf-camera-picker`, `calf-share`, `calf-webview`, `calf-maps`, `calf-media`, and `calf-notifications` were read, including build/native/cinterop files and unsupported actuals. Exact baseline file/symbol coverage is at the end. Findings are in [the area audit](../audit/native-features.md) and [`NATIVE.json`](../audit/findings/NATIVE.json); [test procedures and executed probes](../testing/native-features.md) distinguish source evidence from device verification.

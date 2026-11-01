@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `41bf347a0877523b32720993983edbab1ae8fe312f7136d2c839762cfc9fcc49`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `85080aa9a192c3b76c4054fe3e4d1f45ad9c5920e8b96700e2af7ca30e6d8bb3`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 25 |
-| partially-verified | 42 |
-| verified | 92 |
+| partially-verified | 41 |
+| verified | 93 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -107,7 +107,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 59 | [IO-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/47) | Medium | 2 | S | verified | — | 5 / 0 |
 | 60 | [IO-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/48) | Medium | 2 | L | implemented | — | 5 / 6 |
 | 61 | [IO-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/49) | Medium | 2 | S | implemented | — | 4 / 5 |
-| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | partially-verified | IO-007, IO-008 | 6 / 13 |
+| 62 | [IO-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50) | Medium | 2 | L | verified | IO-007, IO-008 | 6 / 0 |
 | 63 | [IO-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/51) | Medium | 2 | M | verified | IO-008 | 5 / 0 |
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
@@ -1458,7 +1458,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 62. IO-013 — iOS picked-file copies have no ownership cleanup and are created before result limits are applied
 
-**Medium · partially-verified · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
+**Medium · verified · original effort L** — [nativeCmpkit #50](https://github.com/Apdelrahman1911/nativeCmpkit/issues/50); owner [docs/development/resolutions/IO.json](resolutions/IO.json); baseline [docs/audit/findings/IO.json](../audit/findings/IO.json).
 
 **Original dependencies:** [IO-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/44) (implemented; original order 57), [IO-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/45) (partially-verified; original order 34).
 
@@ -1473,19 +1473,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Repeated pick/release disk accounting
-- Select 100 files with maxItems=1 and assert only one staged
-- Cancel during provider copy
-- Failure halfway through multi-select
-- Returned file lifetime and explicit persistence
-- OS purge behavior documented
-- Current post-cross-review IO/picker production and all63 authored iOS-specific methods compiled to KLIB on Linux; execute Apple linking/simulator/device and hosted/provider cases on immutable source. KLIB compilation executes zero native tests.
-- Hosted UIKit: accepted/rejected attached-window presentation, staging gate with competing owner, disposal while presenting/dismissing/exporting, interactive rollback and absent/refused coordinator. Verify true native safe points and no premature staging deletion or stranded owner.
-- 2026-10-29 important batch: preserve iOS UIKit export presentation rejection, nil PHPicker delegate and interrupted BasicText host25/26 results. Recover failed/changed methods with complete actual app/Worker/binary/runtime/cleanup evidence; do not replay unchanged19 completed filter/copy/staging methods or accepted other-host suites unnecessarily.
-- 2026-10-29 recovery now genuinely passes9/9 with complete app/Worker/runtime/binary/cleanup receipts, including export cancellation and retained public PHPicker configurations; previous rejection/nil-delegate/BasicText interruption remains historical failed evidence, not current failure. This focused selection does not certify the other original provider/swipe/export/destination/OS-refusal/platform requirements above. IO-017/#53 is independently verified and closed; never-completing refusal still retains ownership fail-closed.
-- 2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3.
-- 2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates.
-- 2026-11-01 owning077: C3 remains sole missing original criterion; now qualify native only on the reviewed shared provider-arrival boundary. KLIB36.01s and15 synthetic passes are not a native result; accepted C1/C2/C4/C5/C6 must not replay.
+- None recorded. This does not itself prove the original requirements passed.
 
 **Compatibility / scope:** Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.
 
@@ -3583,7 +3571,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `772540b03a69150c7052fd7fc63418043fc3b1c50890ec0670b9f5fe7b34f545` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `7543444c770d34140b85222dad0041a8c4d8c9c392b0ee6b3e6cf7ff7af98f26` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |

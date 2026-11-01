@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "reviewed_utc": "2026-11-01T18:19:26.938192+00:00",
+  "status": "ACCEPTED_ACTUAL_NATIVE_C3_ONLY",
+  "criterion": "#50.C3",
+  "whole_issue_closure_authorized_or_performed": false,
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "run_id": 41332244867,
+  "run_attempt": 1,
+  "source_revision": "ebaac40b1752bf90d08100830179884a6223bea4",
+  "profile": "ios-picker-provider-cancellation",
+  "original_run_metadata_conclusion": "success",
+  "tooling_job_id": 124924602872,
+  "native_job_id": 124925279104,
+  "actual_results": {
+    "native_methods": 1,
+    "original_XML_reports": 1,
+    "passed": 1,
+    "failure": 0,
+    "error": 0,
+    "skip": 0,
+    "Gradle_exit": 0,
+    "Gradle_elapsed_seconds": 1384.93,
+    "XML_suite_seconds": 3.999,
+    "XML_testcase_seconds": 3.955,
+    "application_protocol_seconds": 9.5,
+    "application_transport_seconds": 9.51,
+    "passive_original_checks": 53,
+    "passive_checks_are_not_additional_native_tests": true,
+    "actual_case": "com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest.publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+    "original_XML_sha256": "4915b59a9384a5b657bc335c944d866498402524566cde9e0050e159961146bf",
+    "original_application_receipt_sha256": "786b5b044b104cea2b3d0a9c4c675041dcbf5f748b34be9a4e3a19ab13b10c9a"
+  },
+  "important_observations": {
+    "XML_registered_provider_witness": {
+      "starts": 2,
+      "native_child_cancel": 1,
+      "pending_handles_closed": 2,
+      "staging_baseline_restored": true,
+      "public_callbacks": 0,
+      "native_client_returns": 2,
+      "held_registered_producer_returns": 1,
+      "client_before_held_completion": [
+        1,
+        1
+      ],
+      "snapshot_scope": "Descriptive paired native client state only; no zero-callback order or NSError identity guarantee."
+    },
+    "native_application_activation": {
+      "main_worker": 1,
+      "owned_worker": 2
+    },
+    "native_completion": {
+      "runner_exit": 0,
+      "worker_terminated": true
+    },
+    "observed_launch_PID": 61545,
+    "console_exit": 0,
+    "failure_only_main_return_or_PID_observations": {
+      "main_return_marker_found_in_retained_XML_or_job_log": false,
+      "typed_lifecycle_failure_recorded": false,
+      "owned_launch_PID_failure_scalar_present": false,
+      "interpretation": "Successful transport is ineligible for the exact missing-completion failure-only ps query. No live/not-observed/unavailable native-state scalar or exit cause is inferred."
+    },
+    "cleanup": {
+      "owned_identity_reverified": true,
+      "terminate_exit": 3,
+      "terminate_error_identities": [
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        },
+        {
+          "code": 3,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "stopped_verified": true,
+      "uninstall_exit": 0,
+      "absence_exit": 2,
+      "absence_error_identities": [
+        {
+          "code": 2,
+          "domain": "NSPOSIXErrorDomain"
+        }
+      ],
+      "absence_verified": true,
+      "owned_local_bundle_removed": true,
+      "native_exit_cause_proven": false
+    }
+  },
+  "source_applicability": {
+    "schema": 1,
+    "revision": "ebaac40b1752bf90d08100830179884a6223bea4",
+    "actual_library_inputs": {
+      "count": 1149,
+      "before_after_file_sha256": "8caa494e847424412c741f8fba504f828c6a3e869d1d0995b2f6b1f6e3c4cc8c",
+      "held_preflight118_byte_equality": true,
+      "canonical_receipt_input_digest": "9490e67054db18bd03cc074b9cabbe240ccdcfc47c2f5ad09ef527dbf85f40da"
+    },
+    "combined_inputs": {
+      "count": 1225,
+      "sha256": "55e1f63500e488e21cbfd2f026ed64d11c6a6bb3fe066ea7e37810230af89e10",
+      "scope": "Held predispatch map only; not an additional actual archive map"
+    },
+    "selected_frozen_sources": [
+      {
+        "path": ".github/workflows/gradle.yml",
+        "sha256": "2784425f04cc411d670e54259473bc59190b945aade0e1a787762b12875c770f",
+        "present_in_actual_library_map": false
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "sha256": "0de5dba86a152b9b631ea66743e9509b75af02c6fcf32d83dffdb634c77a57ea",
+        "present_in_actual_library_map": true
+      },
+      {
+        "path": "scripts/ci/workflow_matrix.py",
+        "sha256": "60a15ad05a5c808bc80498abaf9863b117b6ea0f82dc8cc68e27915a015e44c8",
+        "present_in_actual_library_map": true
+      },
+      {
+        "path": "scripts/ci/ios_ui_application.py",
+        "sha256": "42056448d9f023ab3c136d164956350900117a30610457c91ee0b16de85f3244",
+        "present_in_actual_library_map": true
+      },
+      {
+        "path": "calf-file-picker/build.gradle.kts",
+        "sha256": "c89af41eef7ff43de667d2bbd090feab559a6d18d349a9d8510d91986f940044",
+        "present_in_actual_library_map": true
+      },
+      {
+        "path": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt",
+        "sha256": "4836a1197ac5fb3b44f176175874934fb08d1f91bd23af452402cdd75234da2b",
+        "present_in_actual_library_map": true
+      },
+      {
+        "path": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHost.kt",
+        "sha256": "f481cffad7e44c4bc04b9aa6e611544286fd3bd2bd0d92cfa694e453043dd388",
+        "present_in_actual_library_map": true
+      }
+    ],
+    "compiler111_reused_scope": "KLIB compilation only,0 links/native; current actual native result separately reviewed",
+    "camera_only_delta_since_compiler111": [
+      "scripts/ci/android_camera_developer_prerequisite.py",
+      "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json",
+      "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py",
+      "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py"
+    ],
+    "subsequent_live_integrations_used_for_adjudication": false,
+    "source_freshness": "No later live source, project imports, Git commands or source reacquisition used."
+  },
+  "runtime_scope": {
+    "host": {
+      "architecture": "arm64",
+      "python": "3.15.1",
+      "system": "Darwin"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "xcode": {
+      "build": "17F113",
+      "version": "26.6"
+    },
+    "simulator_type": "com.apple.CoreSimulator.SimDeviceType.iPhone-Air",
+    "runtime_version": "26.5",
+    "runtime_build": "23F77",
+    "simulator_UUID_sha256": "9790babeeb8f9fd8898287dfbee6ceb8b3ce5e04ed64dcf5f65630a39086bfa1",
+    "compiler_runtime_fingerprint": "4c13093e3a7553a19be5e04e898175662ef194c04e0de22a1f6c3b9c1247608b",
+    "MachO_linked_sdk": "26.4.0",
+    "actual_selected_SDKs": {
+      "iphoneos": "26.5",
+      "iphonesimulator": "26.5",
+      "macosx": "26.5"
+    },
+    "minimum_OS_field_is_metadata_not_execution": true
+  },
+  "original_gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "actual_criterion_qualification": [
+    "Public Compose photo launcher; genuine registered Foundation providers via installed delegate shared guard; controlled post-extraction arrival only.",
+    "Real partial input/output descriptors open before public disposal; earlier staged copy has byte/read/descriptor calibration.",
+    "Public composition disposal cancels actual child progress once and releases partial descriptors/output and earlier library staging.",
+    "Actual held registered producer invocation/normal return and actual native client callback entry/return required separately; first client already returned before held completion remains allowed.",
+    "Duplicate/old delegate/disposed launcher cannot deliver result/error or recreate presentation/transport; provider-owned source survives with unchanged bytes.",
+    "Independent fixture cleanup must pass after the criterion marker; marker alone is not completion or acceptance."
+  ],
+  "original_custody": {
+    "required_terminal_acquisitions_once": 4,
+    "artifact_id": 13094572768,
+    "artifact_name": "library-evidence-ios-iphone",
+    "artifact_members": 13,
+    "original_hashes": {
+      "tooling-log": "dbdf85e748b5b3dca517d1f39e052887394b21b0e72113f81e00fb671ce3cd21",
+      "native-log": "ff6ad1417535df1d24466755adad3e14eeeee4249669663e7faf2aad727dde22",
+      "artifact-inventory": "43662acffa56dee3f26e23cc0e75e54237c69e56eebb57dca709f610d6cc756a",
+      "artifact-archive": "2e73d1028d6212f2b277775b2f80e64530bcfd59b41b1aa925de9b0e68911cd6"
+    },
+    "artifact_API_digest_matches_original_archive": true,
+    "original_retry_reconstruction_extraction_or_execution": 0,
+    "metadata_rounds": 8,
+    "originals_acquired_only_after_terminal": true
+  },
+  "review_only_refusals_retained": [
+    {
+      "type": "AssertionError",
+      "stage": "pre-acquisition reviewer job-name assumption",
+      "reason": "API native job matrix name is bounded/truncated to100 characters; a too-long prefix was refused before original marker or network. Exact retained immutable job ID/name/run/SHA was then used.",
+      "original_network_calls": 0,
+      "original_files_created": 0,
+      "native_or_test_failure": false
+    },
+    {
+      "type": "TypeError",
+      "stage": "reviewer exclusive marker file creation before network",
+      "reason": "Path.open does not support opener; builtin open preserves exclusive/O_NOFOLLOW0600 semantics. No original marker or network call occurred before the refusal.",
+      "original_network_calls": 0,
+      "original_files_created": 0,
+      "native_or_test_failure": false
+    }
+  ],
+  "retained_limits": [
+    "The locked [1,1] client snapshot is descriptive. It is not a required zero-callback order, retained NSError identity proof, a generic Foundation/library guarantee or a diagnosis of any older failed attempt.",
+    "Normal real Worker completion, one completed original native testcase/XML and independent owned cleanup are reviewed separately from the provider marker and console exit0. The provider marker alone cannot satisfy completion.",
+    "The failure-only exact-PID ps query is ineligible on this successful transport and has no live/not-observed/unavailable scalar here. Observed launch PID, typed marker absence and cleanup controls do not prove native exit cause.",
+    "Inner Gradle/native lifecycle raw log frames and compiler/linker warning dispositions were not uploaded by the fixed JSON/XML-only artifact policy; the original structured runtime/protocol receipt and original XML are the owning witnesses, not a fabricated raw transcript.",
+    "Runtime actually executed on Darwin Arm64/Xcode26.6/iPhone Air iOS26.5/JDK17.0.21/Gradle9.7.1. MachO SDK26.4 and minimumOS15 are metadata, not actual SDK26.4/minimumOS/physical execution.",
+    "Preboot selection was Shutdown, then selected runtime/app before and after were Booted. No original simulator-restoration receipt is in this artifact; no restoration claim or additional C3 criterion is invented.",
+    "Accepted C1/C2/C4/C5/C6 picker/admission/IO methods were not selected or replayed. Current C3 is now independently accepted only on this original finite row; older failures stay failed.",
+    "Post-extraction provider arrival is controlled through the installed delegate guard. No Photos-library/cloud/nonempty PHPickerResult extraction, forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host acceptance follows.",
+    "No whole#50, consumer/API-ABI/dependency/legal/security/ordinary-trust/readiness/publication/Pages/main/history clearance or issue/status promotion is performed by this reviewer."
+  ],
+  "reviewer_operations": {
+    "project_imports_tests_models_compilers_native_probes_Git_dispatch_children_live_edits": 0,
+    "target_metadata_acquisition_rounds": 8,
+    "required_terminal_original_acquisitions": 4,
+    "original_acquisition_retry_or_reconstruction": 0,
+    "archive_extraction_or_execution": 0,
+    "private_passive_text_hash_JSON_XML_source_inspection": true
+  }
+}

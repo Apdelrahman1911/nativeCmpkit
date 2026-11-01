@@ -1,5 +1,45 @@
 # Remaining-platform execution checkpoint — 2026-11-01
 
+## Next finite UIKit alert/date-year request
+
+[Preparation134](evidence/current-platform-recovery-20261101/uikit-important-preparation134/README.md):
+#26/#28 open; final native year/date predicate repaired, eight new important
+synthetic controls accepted once, serial production/test iOS KLIB and Desktop-test
+compiler0/88.02s;1157/1233 exact inputs, ZERO native/Material tests. Real two-suite
+source plans/preflight and Actionlint pass; no stale owning guard identified.
+Next `ios-alert-date-important`: one macos-26 Arm64 iPhone App10(alert4/date6),
+then serial independent Material2 with distinct tasks/XML/receipts; no native
+accessibility fallback or failure masking. Optional preimage red remains parked.
+One sole original reviewer owns monitoring/acquisition; lead Git/dispatch/closure.
+Observe metadata capacity before dispatch, max2 combined hosted-heavy INCLUDING
+queued/reserved. Accepted8/JS4/Windowsrequest/picker/camera populations excluded.
+95closed/77open/172total;25implemented/41partial/93verified/five unresolved.
+Android local2, WindowsStop1 and Wasm4 originals failed; no blind native retries.
+Publishing/Pages/main/history/native/consumer/ABI/dependency/legal/security/
+release-readiness gates remain unchanged. Prior entries retain their dated scope.
+
+## iOS picked-copy ownership verified and closed — 2026-11-01
+
+**#50/IO-013 CLOSED/completed**, immediately after original six-criterion review
+and [actual C3 acceptance/readback](evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/README.md), before docs.
+Actual41332244867 at ebaac40b passes1 native method/1 original XML/Gradle0/
+1384.93s;53 passive source/results/runtime/identity/lifecycle/cleanup checks pass.
+Exact1149 actual before/after match118;1225combined remains predispatch-only.
+C1/C2/C4/C5 reuse43 applicable pins/retained dependencies, C6 purge/release KDoc
+read back. Native client/held producer return and runner0/Worker termination
+are separate witnesses, not zero-ordering/NSError/exit-cause inference. Controlled
+post-extraction cooperative provider/simulator scope, not Photos/cloud/physical/
+full-platform/consumer/ABI/security/release. Earlier failures remain failed.
+**95closed/77open/172total;25implemented/41partial/93verified/five unresolved.**
+#51/IO-014 and already-closed #99/#102/#171 unchanged. Android local2 requested
+once41336313048 at41c409c9/1152library1228canonical combined; assigned sole
+reviewer, #55cloudC1 separate. Wasm41335099897/Windows41335200671 terminal FAIL;
+sole reviewers own originals, #82/#64 stay open. No reacquisition/accepted replay.
+Lead Git/dispatch/closure, serial local/8GiB/max2combined hosted-heavy including
+queued/reserved and Actions/all/no mandatory SHA pinning/read-only remain.
+Publishing/Pages/main/history/native/consumer/ABI/dependency/legal/security/
+release-readiness gates unchanged. Earlier dated checkpoints retain their scope.
+
 ## Current related Wasm / WindowsStop / AndroidIO recovery120–124
 
 [Focused source/compile/preflight](evidence/current-platform-recovery-20261101/wasm-windows-io-recovery120/README.md):

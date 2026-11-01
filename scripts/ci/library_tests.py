@@ -439,6 +439,41 @@ ANDROID_PERMISSION_COMPLETION_METHODS = (
     "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
     "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
 )
+# New finite related UI regressions only. Accepted alert/date/dropdown bodies
+# remain unselected; native accessibility/delegate delivery is not a touch claim.
+UI_ALERT_DATE_IMPORTANT_FOCUS = "ui-native-alert-date-important"
+UI_DATE_YEAR_PREDICATE_RED_FOCUS = "ui-native-date-year-predicate-red"
+UI_DATE_YEAR_NATIVE_FOCUSES = (UI_ALERT_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_PREDICATE_RED_FOCUS)
+UI_ALERT_IMPORTANT_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest"
+UI_ALERT_IMPORTANT_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt"
+UI_ALERT_IMPORTANT_METHODS = (
+    "publicRecordSwapUpdatesVisibleIntentAndConfirmsOnlyB",
+    "publicFieldCallbackAndEnabledChangesKeepControllerAndField",
+    "actionReorderRebuildsAndRefusesStaleIndexDispatch",
+    "publicConfirmAndCancelRemovalRemainOnceAndImmediatelyReopen",
+)
+UI_DATE_YEAR_NATIVE_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateYearPolicyImportantTest"
+UI_DATE_YEAR_NATIVE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateYearPolicyImportantTest.kt"
+UI_DATE_YEAR_NATIVE_METHODS = (
+    "publicInlineCalendarSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicWheelsSelectBothYearEndpointsAndRejectAdjacentYears",
+    "publicCompactSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicRangeCalendarSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicRuleChangesNeverSnapBeyondYearRange",
+    "publicNativeYearPredicateRejectsDateTrueUserPicksAndRecovers",
+)
+UI_DATE_YEAR_SHARED_SOURCE = "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateYearPolicyImportantScenarios.kt"
+UI_DATE_YEAR_MATERIAL_FOCUS = "ui-material-year-policy-important"
+UI_DATE_YEAR_MATERIAL_CLASS = "com.mohamedrejeb.calf.ui.datepicker.MaterialDateYearPolicyImportantTest"
+UI_DATE_YEAR_MATERIAL_SOURCE = "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/MaterialDateYearPolicyImportantTest.kt"
+UI_DATE_YEAR_MATERIAL_METHODS = (
+    "materialRuleChangesNeverSnapBeyondYearRange",
+    "publicMaterialYearPredicateRejectsDateTruePicksAndRecovers",
+)
+UI_DATE_YEAR_MATERIAL_SOURCES = (
+    UI_DATE_YEAR_MATERIAL_SOURCE, UI_DATE_YEAR_SHARED_SOURCE,
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DayCells.kt",
+)
 UI_DATE_BOUNDS_FOCUS = "ui-native-date-bounds"
 UI_DATE_BOUNDS_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest"
 UI_DATE_BOUNDS_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt"
@@ -489,6 +524,24 @@ UI_APPLICATION_FOCUS_SPECS = {
 }
 
 
+UI_APPLICATION_FOCUS_SPECS[UI_ALERT_DATE_IMPORTANT_FOCUS] = {
+    "groups": (
+        {"classname": UI_ALERT_IMPORTANT_CLASS, "source": UI_ALERT_IMPORTANT_SOURCE,
+         "methods": UI_ALERT_IMPORTANT_METHODS},
+        {"classname": UI_DATE_YEAR_NATIVE_CLASS, "source": UI_DATE_YEAR_NATIVE_SOURCE,
+         "methods": UI_DATE_YEAR_NATIVE_METHODS},
+    ),
+    "scope": "Ten new important application methods only: four latest-record/field/action/reorder/modal alert regressions and six public year-endpoint/rule/native-year-predicate date regressions. Exact attached owned UIKit controls, controlled ValueChanged/EditingChanged and actual retained calendar-delegate delivery; supported native accessibility action must qualify and may not fall back to a manager/private handler. Neither accessibility nor delegate delivery is an outside touch, OS gesture or physical/XCUI input. Shared constructor/setter/date-bounds/month/dropdown and old alert acceptance are reused without replay. Same-host Material two-method companion remains an independent Desktop result. No #30/#131 closure, older/physical/iPad/all-OS/consumer/API-ABI/dependency/security/release certification.",
+}
+UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
+    "groups": (
+        {"classname": UI_DATE_YEAR_NATIVE_CLASS, "source": UI_DATE_YEAR_NATIVE_SOURCE,
+         "methods": (UI_DATE_YEAR_NATIVE_METHODS[5],), "declared_methods": UI_DATE_YEAR_NATIVE_METHODS},
+    ),
+    "scope": "One new native-year-predicate regression method only, retaining its complete six-method declaration. Development preimage-red/repaired-green selection for actual public inline/wheels/compact/range policy and recovery; controlled native target/delegate delivery, not native taps. Exclude alert4, the other five new date methods, Material2 and every previously accepted method. A source-confirmed predicted red is not executed evidence or an added whole-issue acceptance gate. No physical/older/all-OS/iPad/consumer/API-ABI/security/release certification.",
+}
+
+
 UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {
     "groups": (
         {"classname": secure_alert.NATIVE_CLASS, "source": secure_alert.NATIVE, "methods": secure_alert.NATIVE_METHODS},
@@ -519,6 +572,11 @@ def ui_application_focus_identities(focus: str) -> list[dict]:
 
 def ui_date_bounds_identities() -> list[dict]:
     return ui_application_focus_identities(UI_DATE_BOUNDS_FOCUS)
+
+
+def ui_date_year_material_identities() -> list[dict]:
+    return [{"classname": UI_DATE_YEAR_MATERIAL_CLASS, "name": method + "[desktop]"}
+            for method in UI_DATE_YEAR_MATERIAL_METHODS]
 
 
 def android_permission_completion_identities() -> list[dict]:
@@ -1638,6 +1696,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
              modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
             (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
              modules == (DATE_TRANSACTION_MODULE,)) or
+            (focus == UI_DATE_YEAR_MATERIAL_FOCUS and suite == "desktop" and modules == ("calf-ui",)) or
             (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
              (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
             (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
@@ -2012,6 +2071,22 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             "profile": row.profile, "verification_api_level": row.api, "target_sdk": row.target, "flavor": row.flavor,
             "source_contract": android_storage_probe.source_contract(root)}
         result["scope"] = "One exact finite storage API/flavor/target method, not unrestricted Android/default-suite coverage. Separate-UID public WriteStorage, real normal-UID descriptor bytes, actual system SAF and native WRITE/all-files restoration remain required. No manual URI grant, source/sample substitution, physical/vendor/settings-dialog/process-restoration/consumer/API-ABI/security/release certification."
+    elif focus == UI_DATE_YEAR_MATERIAL_FOCUS:
+        source = safe_path(root, UI_DATE_YEAR_MATERIAL_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = UI_DATE_YEAR_MATERIAL_CLASS.rsplit(".", 1)
+        if (methods != list(UI_DATE_YEAR_MATERIAL_METHODS) or
+                "class " + classname not in source or "package " + package not in source or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                any(path not in selected[0]["test_source_files"] for path in UI_DATE_YEAR_MATERIAL_SOURCES)):
+            raise ValueError("New important Material year declarations changed; require both exact methods and their owned helpers")
+        shared = safe_path(root, UI_DATE_YEAR_SHARED_SOURCE).read_text(encoding="utf-8")
+        if re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", shared):
+            raise ValueError("New important Material year declarations changed; shared assertions must remain zero-test and enabled")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = UI_DATE_YEAR_MATERIAL_CLASS
+        selected[0]["required_testcases"] = ui_date_year_material_identities()
+        result["scope"] = "Two new important public Material year-policy companions only: actual rule-change setter retention/in-range snapping and actual disabled/enabled single/range calendar click policy. The shared zero-test assertions execute against this Material actual independently of the same-host UIKit application. Never replay accepted date-transaction/bounds/month/dropdown/old alert methods or claim native/physical/older/all-OS/consumer/API-ABI/dependency/security/release certification."
     elif focus in UI_APPLICATION_FOCUS_SPECS:
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
         for group in ui_application_focus_groups(focus):
@@ -2023,6 +2098,14 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
+            if focus in UI_DATE_YEAR_NATIVE_FOCUSES and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New important alert/year source must retain all enabled native declarations")
+        if focus in UI_DATE_YEAR_NATIVE_FOCUSES:
+            if UI_DATE_YEAR_SHARED_SOURCE not in selected[0]["test_source_files"]:
+                raise ValueError("New important alert/year source requires its exact shared zero-test assertions")
+            shared = safe_path(root, UI_DATE_YEAR_SHARED_SOURCE).read_text(encoding="utf-8")
+            if re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", shared):
+                raise ValueError("New important alert/year source shared assertions must remain zero-test and enabled")
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
@@ -3024,6 +3107,18 @@ def validate_test_focus(test_plan: dict) -> bool:
                 ANDROID_IO_DEVICE_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite Android known-size/no-native-open plan")
         return True
+    if focus == UI_DATE_YEAR_MATERIAL_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-ui" or expected[0].get("project") != ":calf-ui" or
+                expected[0].get("task") != ":calf-ui:desktopTest" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/desktopTest" or
+                expected[0].get("native_test_host") is not None or
+                expected[0].get("test_filter") != UI_DATE_YEAR_MATERIAL_CLASS or
+                expected[0].get("required_testcases") != ui_date_year_material_identities() or
+                any(path not in expected[0].get("test_source_files", []) for path in UI_DATE_YEAR_MATERIAL_SOURCES)):
+            raise ValueError("Invalid finite two-method important Material year-policy plan")
+        return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
         if focus == secure_alert.FOCUS:
             if len(expected) != 1:
@@ -3035,6 +3130,11 @@ def validate_test_focus(test_plan: dict) -> bool:
                 re.fullmatch(r"[0-9a-f]{64}", expected[0]["ios_webview_request_fixture_sha256"]) is None or
                 IOS_WEBVIEW_REQUEST_FIXTURE not in expected[0].get("test_source_files", [])):
             raise ValueError("Invalid finite two-method native WK loopback fixture identity")
+        if focus in UI_DATE_YEAR_NATIVE_FOCUSES and (len(expected) != 1 or
+                UI_DATE_YEAR_SHARED_SOURCE not in expected[0].get("test_source_files", []) or
+                expected[0].get("project") != ":calf-ui" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
+            raise ValueError("Invalid finite important alert/year application source/report plan")
         application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -3296,6 +3396,29 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
                              ["Storage XML must contain exactly the selected one method in one fresh report, no missing/duplicate/unrelated cases"])
             scenarios = [{**c, "source": ANDROID_STORAGE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == UI_DATE_YEAR_MATERIAL_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 2 and len(reports) == 1 and len(paths) == 1 else
+                             ["Important Material year XML must contain exactly both new methods in one fresh report; no missing/duplicate/foreign/empty cases"])
+            scenarios = [{**c, "source": UI_DATE_YEAR_MATERIAL_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in UI_DATE_YEAR_NATIVE_FOCUSES:
+            groups = ui_application_focus_groups(test_plan["explicit_test_focus"])
+            sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"] for group in groups}
+            group_inventories = [{(IOS_APPLICATION_TASK + "." + group["classname"], method + "[iosSimulatorArm64]")
+                                 for method in group["methods"]} for group in groups]
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(groups) and len(paths) == len(groups) and
+                             all({(c["classname"], c["name"]) for c in cases} in group_inventories
+                                 for cases in cases_by_report) else
+                             [f"Important alert/year application XML must contain exactly all {len(required)} selected methods, one fresh report per selected class; no missing/duplicate/foreign/empty cases"])
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] in UI_APPLICATION_FOCUS_SPECS:
@@ -4372,7 +4495,7 @@ def main() -> int:
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
                                            ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, ANDROID_IO_NAMED_SYSTEM_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
-                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS,
+                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_MATERIAL_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")
     parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")

@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c",
-    "docs/development/resolutions/IO.json": "772540b03a69150c7052fd7fc63418043fc3b1c50890ec0670b9f5fe7b34f545",
+    "docs/development/resolutions/IO.json": "7543444c770d34140b85222dad0041a8c4d8c9c392b0ee6b3e6cf7ff7af98f26",
     "docs/development/resolutions/NATIVE.json": "57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678",
     "docs/roadmap/backlog.json": "46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c"
   },
-  "input_fingerprint": "41bf347a0877523b32720993983edbab1ae8fe312f7136d2c839762cfc9fcc49",
+  "input_fingerprint": "85080aa9a192c3b76c4054fe3e4d1f45ad9c5920e8b96700e2af7ca30e6d8bb3",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 25,
-      "partially-verified": 42,
-      "verified": 92,
+      "partially-verified": 41,
+      "verified": 93,
       "unresolved": 5,
       "not-applicable": 0
     },
@@ -10813,12 +10813,12 @@
         "mapping_key": "audit:IO-013",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "3928e8ede10e3b9b1082299f31ffabdf846bdce032f2685285a6904392b43de0",
+      "owner_record_sha256": "f1ae61880cbe20d5eb66941f23be6c45cfa0401e1f9fac8c21fdd109758df5c2",
       "owner_record": {
         "id": "IO-013",
-        "status": "partially-verified",
+        "status": "verified",
         "changes": [
           "Attach explicit releaseTemporaryCopy ownership only to library-staged iOS copies; caller originals are never removed by that API.",
           "Apply limits before staging, serialize photo provider copies, copy ephemeral provider URLs inside callbacks and release unconsumed results.",
@@ -10961,9 +10961,23 @@
               "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/README.md",
               "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/RESULT.json"
             ]
+          },
+          {
+            "command": "Immutable ios-picker-provider-cancellation run41332244867 attempt1 at ebaac40b1752bf90d08100830179884a6223bea4; independent original C3 review, whole six-criterion source/reuse matrix and completed closure/readback before documentation",
+            "result": "C3 passes1 actual native method/1 original XML, zero failures/errors/skips, Gradle0/1384.93s;53 passive checks accept genuine native client/producer return, public cancellation, descriptor/partial/earlier-staging/source preservation, Worker completion and owned identity/cleanup. Actual1149 before/after maps equal preflight118;1225combined predispatch-only. C1/C2/C4/C5 reused on43 exact applicable source/configuration pins and retained dependencies, C6 documented purge/durable-storage/release readback. All six original IO-013 criteria complete; #50 closed/completed18:21:06Z, original title/body/labels/author preserved. Earlier failures remain failed; controlled-provider/iPhoneAir iOS26.5 simulator scope, no Photos/cloud/cross-process/synchronous-copy/physical/full-platform/consumer/ABI/security/release inference.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/CLOSURE.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/independent-original/REPORT.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/independent-original/C3-WITNESS.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/passive-matrix/CRITERIA-MATRIX.json",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/passive-matrix/PRIOR-SAME-INPUT-READBACK.json"
+            ]
           }
         ],
-        "remaining": [
+        "remaining": [],
+        "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.",
+        "historical_remaining_before_completed_closure": [
           "Repeated pick/release disk accounting",
           "Select 100 files with maxItems=1 and assert only one staged",
           "Cancel during provider copy",
@@ -10977,8 +10991,7 @@
           "2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3.",
           "2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates.",
           "2026-11-01 owning077: C3 remains sole missing original criterion; now qualify native only on the reviewed shared provider-arrival boundary. KLIB36.01s and15 synthetic passes are not a native result; accepted C1/C2/C4/C5/C6 must not replay."
-        ],
-        "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable."
+        ]
       },
       "closure_or_release_authorized_by_index": false
     },

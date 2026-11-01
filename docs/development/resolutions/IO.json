@@ -1657,7 +1657,7 @@
   },
   {
     "id": "IO-013",
-    "status": "partially-verified",
+    "status": "verified",
     "changes": [
       "Attach explicit releaseTemporaryCopy ownership only to library-staged iOS copies; caller originals are never removed by that API.",
       "Apply limits before staging, serialize photo provider copies, copy ephemeral provider URLs inside callbacks and release unconsumed results.",
@@ -1800,9 +1800,23 @@
           "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/README.md",
           "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/RESULT.json"
         ]
+      },
+      {
+        "command": "Immutable ios-picker-provider-cancellation run41332244867 attempt1 at ebaac40b1752bf90d08100830179884a6223bea4; independent original C3 review, whole six-criterion source/reuse matrix and completed closure/readback before documentation",
+        "result": "C3 passes1 actual native method/1 original XML, zero failures/errors/skips, Gradle0/1384.93s;53 passive checks accept genuine native client/producer return, public cancellation, descriptor/partial/earlier-staging/source preservation, Worker completion and owned identity/cleanup. Actual1149 before/after maps equal preflight118;1225combined predispatch-only. C1/C2/C4/C5 reused on43 exact applicable source/configuration pins and retained dependencies, C6 documented purge/durable-storage/release readback. All six original IO-013 criteria complete; #50 closed/completed18:21:06Z, original title/body/labels/author preserved. Earlier failures remain failed; controlled-provider/iPhoneAir iOS26.5 simulator scope, no Photos/cloud/cross-process/synchronous-copy/physical/full-platform/consumer/ABI/security/release inference.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/CLOSURE.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/independent-original/REPORT.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/independent-original/C3-WITNESS.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/passive-matrix/CRITERIA-MATRIX.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-picked-copy-closure129/passive-matrix/PRIOR-SAME-INPUT-READBACK.json"
+        ]
       }
     ],
-    "remaining": [
+    "remaining": [],
+    "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable.",
+    "historical_remaining_before_completed_closure": [
       "Repeated pick/release disk accounting",
       "Select 100 files with maxItems=1 and assert only one staged",
       "Cancel during provider copy",
@@ -1816,8 +1830,7 @@
       "2026-11-01: Only original C3 provider-copy cancellation still requires fresh one-method ios-picker-provider-cancellation native execution and original source/results/identity/cleanup review. Accepted C1/C2/C4/C5/C6 are retained on exact applicability; earlier broad pending lines are historical. No fixture compile or synthetic result completes C3.",
       "2026-11-01 original072: Only C3 remains missing; attempt2 starts but does not complete native testcase/Worker. Qualify an owning fixture diagnostic/correction before any further attempt; no blind retries. Genuine C3 acceptance permits immediate #50 closure without added Photos/cloud/physical/full-platform gates.",
       "2026-11-01 owning077: C3 remains sole missing original criterion; now qualify native only on the reviewed shared provider-arrival boundary. KLIB36.01s and15 synthetic passes are not a native result; accepted C1/C2/C4/C5/C6 must not replay."
-    ],
-    "compatibility": "Release only after all stream/Coil/share consumers finish. Temporary copies can be purged by the OS; copy to durable storage for permanence. Failed release returns false and is not promised retryable."
+    ]
   },
   {
     "id": "IO-014",

@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "issue": 50,
+  "finding": "IO-013",
+  "mapping_correction": "IO-014 is separate issue51; no reopen or mutation is authorized",
+  "original_body_sha256": "ac3d00a9ab6797d86d5ac7df49b1b45f666033abb4b8e23566be4f3ed3923acb",
+  "criteria": [
+    {
+      "ordinal": 1,
+      "criterion": "Repeated pick/release disk accounting",
+      "disposition": "accepted-reused",
+      "accepted_method": "NativePickedCopyBoundaryTest.repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline",
+      "boundary": "Thirty real Foundation copy/read/release cycles return owned directory count to baseline and preserve the source; no hosted chooser requirement is added.",
+      "accepted_run": 40826758875
+    },
+    {
+      "ordinal": 2,
+      "criterion": "Select 100 files with maxItems=1 and assert only one staged",
+      "disposition": "accepted-reused",
+      "accepted_method": "PickedCopyOwnershipTest.oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory",
+      "boundary": "Accepted bounded 100 URL selections with maxItems1 create only one owned staging directory; fixture uses 100 references to its owned source, not an OS chooser or 100 distinct physical files.",
+      "accepted_run": 40826758875
+    },
+    {
+      "ordinal": 3,
+      "criterion": "Cancel during provider copy",
+      "disposition": "pending-sole-original-review",
+      "new_method": "NativePhotoProviderCancellationTest.publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+      "new_run": 41332244867,
+      "new_revision_reported": "ebaac40b",
+      "metadata_status_reported": "SUCCESS, not native acceptance",
+      "sole_original_reviewer": "ios_provider_c3_original_review",
+      "source_boundary": "Current code uses a genuine public Compose/session photo launcher and two registered Foundation provider operations; second producer is held after a real64KiB file-handle copy while earlier returned provider staging exists. Public composition disposal cancels real progress, closes both owned producer handles, removes its partial copy and all unreturned library staging, preserves source bytes, suppresses old delegate/disposed-launcher delivery and separately acknowledges actual native client and held producer completion returns. Post-extraction provider arrival is controlled, not real Photos extraction/cloud/cross-process or synchronous NSFileManager copy-interruptibility evidence.",
+      "native_outcome_asserted_by_this_matrix": false,
+      "historical_partial_not_substituted": "PickedCopyOwnershipTest.cancellationBetweenCopiesRemovesEveryUnreturnedCopy is accepted between-copy cancellation only, not C3 completion."
+    },
+    {
+      "ordinal": 4,
+      "criterion": "Failure halfway through multi-select",
+      "disposition": "accepted-reused",
+      "accepted_method": "StagePickedUrlsTest.anUnreadableFileIsReportedAndTheOthersAreKept",
+      "positive_control": "StagePickedUrlsTest.everyReadableFileIsDeliveredWithoutAFailure",
+      "boundary": "Real readable first input followed by an unreadable second input produces one-of-two partial failure while preserving the first staged result; bounded staging-category evidence, not NSItemProvider mid-copy execution or final public callback success.",
+      "accepted_run": 40826758875
+    },
+    {
+      "ordinal": 5,
+      "criterion": "Returned file lifetime and explicit persistence",
+      "disposition": "accepted-reused",
+      "accepted_methods": [
+        "NativePickedCopyBoundaryTest.readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess",
+        "NativePickedCopyBoundaryTest.sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease",
+        "PickedCopyOwnershipTest.releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent"
+      ],
+      "boundary": "Returned temporary copies remain readable after controlled origin deletion; an explicit caller-owned copy survives temporary release; sources are preserved and release is idempotent. OS permanence is not inferred from a sandbox temporary persistence fixture.",
+      "accepted_run": 40826758875
+    },
+    {
+      "ordinal": 6,
+      "criterion": "OS purge behavior documented",
+      "disposition": "accepted-documentation-readback",
+      "owning_references": [
+        "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt:5-10",
+        "docs/development/IO.md:166-179"
+      ],
+      "boundary": "Explicit OS-purge warning, durable app-storage copy guidance, final-reader-before-release and owned-only/nonretryable cleanup policy exist. Literal criterion requires documentation, not an OS-purge execution."
+    }
+  ],
+  "earlier_literal_audit_reference": "docs/development/evidence/current-platform-recovery-20261101/io-literal-closure-audit039/criterion-audit.json",
+  "accepted_prior_criteria": [1,2,4,5,6],
+  "remaining_whole_issue_blocker": "Only C3 original native/source/protocol/lifecycle/identity/owned-cleanup acceptance by its sole reviewer",
+  "whole_issue_closure_eligible_now": false,
+  "whole_issue_closure_eligible_when_C3_accepted": true,
+  "additional_Photos_cloud_swipe_physical_OS_purge_execution_full_platform_consumer_ABI_dependency_security_release_gate_added": false,
+  "earlier_broad_resolution_pending_lines_are_historical_not_new_original_criteria": true,
+  "prior_failed_runs_remain_failed": true,
+  "issue_or_repository_mutations": 0,
+  "tests_imports_builds_network_Git_or_original_C3_acquisitions": 0
+}

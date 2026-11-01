@@ -98,7 +98,7 @@ internal fun rememberDatePickerManager(
         },
         resolveSelection = { pickedMillis ->
             resolvePickedDay(pickedMillis, state.dateBounds, state.selectableDates)
-                .takeIf { utcYearOf(it) in state.yearRange } ?: state.selectedDateMillis
+                .takeIf { state.isDaySelectable(it) } ?: state.selectedDateMillis
         },
     )
 }

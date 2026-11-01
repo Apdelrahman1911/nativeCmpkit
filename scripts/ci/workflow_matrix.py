@@ -136,6 +136,8 @@ PROFILES = {
     "ios-date-replacement": ("ios-iphone",),
     "ios-date-compact": ("ios-iphone",),
     "ios-dates-important": ("ios-iphone",),
+    "ios-alert-date-important": ("ios-iphone",),
+    "ios-date-year-predicate-red": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
     "ios-picker-batch": ("ios-iphone",),
@@ -339,6 +341,8 @@ MODULE_SUBSETS = {
     "ios-date-replacement": "calf-ui",
     "ios-date-compact": "calf-ui",
     "ios-dates-important": "calf-ui",
+    "ios-alert-date-important": "calf-ui",
+    "ios-date-year-predicate-red": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
     "ios-io": "calf-io,calf-file-picker-coil",
@@ -583,6 +587,13 @@ def matrix(profile: str) -> dict:
     if profile == "ios-dates-important":
         for row in rows:
             row["test-focus"] = "ui-native-important-dates"
+    if profile in ("ios-alert-date-important", "ios-date-year-predicate-red"):
+        if (PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or
+                len(rows) != 1 or tuple(rows[0].get(key) for key in ("slot", "suite", "runner", "arch", "simulator-kind", "test-modules")) !=
+                ("ios-iphone", "ios", "macos-26", "arm64", "iphone", "calf-ui")):
+            raise ValueError("Important alert/year profiles require the one fixed Arm64 iPhone host and calf-ui module")
+        rows[0]["test-focus"] = ("ui-native-alert-date-important" if profile == "ios-alert-date-important" else
+                                "ui-native-date-year-predicate-red")
     if profile == "ios-saver-write-failure":
         for row in rows:
             row["test-focus"] = "ios-native-saver-write-failure"
@@ -720,6 +731,10 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
                   ([row, {**row, "test-focus": row["serial-test-focus"]}]
                    if row.get("serial-test-focus") else [row])]
     selections += [{**row, "emulator-api": row["serial-emulator-api"]} for row in rows if row.get("serial-emulator-api")]
+    # One related UIKit application followed serially by two Material methods.
+    # Different suite/task/report trees: never use the second-UIKit-app mechanism.
+    if profile == "ios-alert-date-important":
+        selections += [{**rows[0], "suite": "desktop", "test-focus": "ui-material-year-policy-important"}]
     for row in selections:
         if row.get("android-batch"):
             command = [sys.executable, "-B", str(root / "scripts/ci/android_device_batch.py"), "plan",

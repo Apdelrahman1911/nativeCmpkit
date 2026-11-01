@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "operation": "Passive in-memory/pipe byte reconstruction only; no source file was modified",
+  "catalogue": {
+    "path": "gradle/libs.versions.toml",
+    "accepted_sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "current_sha256": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "removed_additive_lines_for_exact_reverse_proof": [
+      "# Test-only public back-event input: exact existing Compose UI1.12 runtime dependency.",
+      "jetbrains-navigationevent = \"1.1.0\"",
+      "jetbrains-navigationevent-compose = { module = \"org.jetbrains.androidx.navigationevent:navigationevent-compose\", version.ref = \"jetbrains-navigationevent\" }"
+    ],
+    "reconstructed_sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3",
+    "all_existing_versions_and_coordinates_retained_exactly": true,
+    "existing_Kotlin_Compose_coroutines_IO_versions": ["2.4.20", "1.12.0", "1.11.0", "0.9.1"]
+  },
+  "io_build": {
+    "path": "calf-io/build.gradle.kts",
+    "accepted_sha256": "efca37d14a8c7a7844bb5608f55918c03fde7ffa4f640c3c30710f3931320ea9",
+    "current_sha256": "480ef3a1cd3a75dd7b60df1a86812064ea7233ed950a34d1cd9941fff489e449",
+    "removed_additive_lines_for_exact_reverse_proof": [
+      "            // Actual native IO/Coil lifecycle checks share one self-instrumenting APK.",
+      "            implementation(projects.calfFilePickerCoil)",
+      "            implementation(libs.coil)"
+    ],
+    "reconstructed_sha256": "efca37d14a8c7a7844bb5608f55918c03fde7ffa4f640c3c30710f3931320ea9",
+    "scope_of_additions": "androidDeviceTest only; common/iOS dependency declarations retained exactly",
+    "existing_androidx_core_line_was_not_an_addition": true,
+    "existing_proposal_lineage_reference": "docs/development/evidence/android-io-provider-lifecycle-20261031/io-integration001/proposal-postimages.json"
+  },
+  "initial_nonmatching_IO_reconstruction_preserved": {
+    "additional_line_removed": "            implementation(libs.androidx.core)",
+    "observed_sha256": "2fd9f09cc186d428afdc06e2d4411dd62005dc8bff90a637109a12c568af1bd2",
+    "expected_sha256": "efca37d14a8c7a7844bb5608f55918c03fde7ffa4f640c3c30710f3931320ea9",
+    "disposition": "Not equal and not used to claim applicability; subsequent exact three-line proof retained the existing AndroidX-core declaration",
+    "source_changes_test_repairs_or_control_replays": 0
+  },
+  "whole_tree_equivalence_not_claimed": true,
+  "other_known_changed_paths": [
+    "build.gradle.kts",
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt",
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt",
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt",
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt",
+    "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+    "scripts/ci/library_tests.py"
+  ],
+  "other_changed_paths_boundary": "Old accepted three Foundation fixtures directly call unchanged staging/read/release APIs, not public photo/session/presentation paths. Current C3 and full current native source/protocol applicability belong to the sole original reviewer. Root Node/Yarn/publication changes are not declared whole-input equality or fresh Foundation runtime results."
+}

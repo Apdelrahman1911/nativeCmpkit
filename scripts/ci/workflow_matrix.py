@@ -49,6 +49,7 @@ PROFILES = {
     "android-io-default-decode": ("android-device-api35",),
     "android-io-reference-regressions": ("android-device-api35",),
     "android-permission-demo": ("android-device-api35",),
+    "android-permission-demo-call-denial-recovery": ("android-device-api35",),
     "android-media-selection-api33": ("android-device-api35",),
     "android-media-selection-api34": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
@@ -206,6 +207,7 @@ MODULE_SUBSETS = {
     "android-io-default-decode": "calf-io",
     "android-io-reference-regressions": "calf-io",
     "android-permission-demo": "calf-permissions/core",
+    "android-permission-demo-call-denial-recovery": "calf-permissions/core",
     "android-media-selection-api33": "calf-permissions/core",
     "android-media-selection-api34": "calf-permissions/core",
     "android-camera-provider": "calf-camera-picker",
@@ -387,6 +389,10 @@ def matrix(profile: str) -> dict:
     if profile == "android-permission-demo":
         for row in rows:
             row["test-focus"] = "android-permission-demo-contracts"
+    if profile == "android-permission-demo-call-denial-recovery":
+        for row in rows:
+            row.update(slot="android-device-api35-permission-call-denial-recovery",
+                **{"test-focus": "android-permission-demo-call-denial-recovery"})
     if profile in {"android-media-selection-api33", "android-media-selection-api34"}:
         api = profile.rsplit("api", 1)[1]
         for row in rows:

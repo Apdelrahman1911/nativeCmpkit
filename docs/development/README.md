@@ -13,8 +13,12 @@ Four actual compiler tasks pass0/89.02s, not native tests. The iOS request2+DNS1
 camera Dont-keep1, Desktop10 missing host cells, browser offline2 and Android
 request2 have bounded source-bound routes. First request iOS and camera, then
 Desktop's five-host matrix with at most two heavy jobs and no competing request.
-Permission exact-control and KVM diagnostic preparations remain separate private
-work until integration/review; the original native failure causes are unknown.
+The actual iOS41270913975/camera41270929101 retries remain tooling-failed with
+ZERO native/XML/artifacts; [the owning full-source guard is repaired](evidence/webview-request-state-native-20261101/tooling-full-source-boundary008/README.md).
+Permission Call/denial-only and diagnostic-only KVM timeline are integrated;
+[narrow reporter compile](evidence/android-io-permission-storage-batch-20261101/permission-device-compile006/README.md)
+passes0/45.01s on1101/1178 held inputs, ZERO native. Original native failure
+causes remain unknown; exact two-case recovery must not replay the accepted picker.
 Close any verified whole issue promptly after original-criteria/source/results
 review; subset acceptance is not whole-issue or release/security clearance.
 Publishing, packages, releases, deployments, Pages and main integration stay gated.

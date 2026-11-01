@@ -1,0 +1,224 @@
+--- /dev/null
++++ b/scripts/ci/android_kvm_timeline.py
+@@ -0,0 +1,221 @@
++"""Read-only fixed-/dev/kvm facts for the owned finite CI batches, never admission."""
++from __future__ import annotations
++import argparse
++import errno
++import json
++import os
++import platform
++import stat
++import struct
++import sys
++import android_device_batch_plan as fixed
++
++MARKER = "NATIVECMPKIT_KVM_OBSERVATION "
++PHASES = ("acl-before", "acl-after", "child-before", "child-after", "admission-before",
++          "admission-after", "reclaim-before", "reclaim-after", "unavailable")
++MAX_GROUPS = 64
++MAX_ACL_ENTRIES = 64
++MAX_JSON_BYTES = 4096
++MAX_CHILD_LOG_BYTES = 65536
++UINT32_ID_MAX = 0xfffffffe
++
++
++def active(api_level: int | None = None, focus: str | None = None) -> bool:
++    batch = os.environ.get("ANDROID_BATCH")
++    if (os.environ.get("GITHUB_ACTIONS") != "true" or os.environ.get("SUITE") != "android-device"
++            or batch not in fixed.BATCHES):
++        return False
++    return ((api_level is None and focus is None) or
++            any(fixed.SELECTIONS[profile][0] == api_level and fixed.SELECTIONS[profile][2] == focus
++                for profile in fixed.BATCHES[batch]))
++
++
++def empty(phase: str) -> dict:
++    return {"schema_version": 1, "phase": phase if phase in PHASES else "unavailable",
++            "status": "failed-observation", "uid": None, "euid": None, "gid": None, "egid": None,
++            "groups": None, "node": None, "node_stable": None, "acl_status": "failed-observation",
++            "selected_uid_present": None, "selected_uid_permissions": None, "acl_mask": None,
++            "selected_uid_masked_permissions": None, "native_success_inferred": False}
++
++
++def number(value, maximum: int = UINT32_ID_MAX) -> int:
++    if type(value) is not int or not 0 <= value <= maximum:
++        raise ValueError("Unestablished bounded numerical observation")
++    return value
++
++
++def node(info) -> dict:
++    return {"device": number(info.st_dev, 2**64 - 1), "inode": number(info.st_ino, 2**64 - 1),
++            "rdev": number(info.st_rdev, 2**64 - 1), "uid": number(info.st_uid), "gid": number(info.st_gid),
++            "mode": stat.S_IMODE(number(info.st_mode, 0xffff)),
++            "ctime_ns": number(info.st_ctime_ns, 2**64 - 1), "character_device": stat.S_ISCHR(info.st_mode)}
++
++
++def selected_acl(body: bytes, uid: int) -> tuple[bool, int | None, int | None]:
++    """Validate the bounded Linux LE format; retain only this real UID row and mask."""
++    number(uid)
++    if (type(body) is not bytes or not 28 <= len(body) <= 4 + 8 * MAX_ACL_ENTRIES
++            or (len(body) - 4) % 8 or struct.unpack_from("<I", body)[0] != 2):
++        raise ValueError("Unestablished bounded ACL format")
++    seen, base, selected, mask, named, rank = set(), set(), None, None, False, -1
++    ranks = {1: 0, 2: 1, 4: 2, 8: 3, 16: 4, 32: 5}
++    for tag, permissions, identity in struct.iter_unpack("<HHI", body[4:]):
++        if (tag not in ranks or permissions > 7 or ranks[tag] < rank or (tag, identity) in seen
++                or (tag in (2, 8)) != (identity != 0xffffffff)):
++            raise ValueError("Unestablished exact ACL entry")
++        seen.add((tag, identity)); rank = ranks[tag]
++        if tag in (1, 4, 32):
++            base.add(tag)
++        elif tag == 16:
++            mask = permissions
++        else:
++            named = True
++            if tag == 2 and identity == uid:
++                selected = permissions
++    if base != {1, 4, 32} or (named and mask is None):
++        raise ValueError("Incomplete ACL or effective mask")
++    return selected is not None, selected, mask
++
++
++def validate(value: dict) -> dict:
++    if (type(value) is not dict or set(value) != set(empty("unavailable"))
++            or type(value["schema_version"]) is not int or value["schema_version"] != 1
++            or value["phase"] not in PHASES or value["status"] not in {"observed", "failed-observation"}
++            or value["acl_status"] not in {"observed", "absent", "failed-observation"}
++            or value["native_success_inferred"] is not False):
++        raise ValueError("Unknown numerical observation shape")
++    for key in ("uid", "euid", "gid", "egid"):
++        if value[key] is not None:
++            number(value[key])
++    groups = value["groups"]
++    if groups is not None:
++        if type(groups) is not list or len(groups) > MAX_GROUPS or groups != sorted(set(groups)):
++            raise ValueError("Unknown self groups")
++        for group in groups:
++            number(group)
++    info = value["node"]
++    if info is not None:
++        if (type(info) is not dict or set(info) != {"device", "inode", "rdev", "uid", "gid", "mode", "ctime_ns", "character_device"}
++                or type(info["character_device"]) is not bool):
++            raise ValueError("Unknown fixed node shape")
++        for key in ("device", "inode", "rdev", "ctime_ns"):
++            number(info[key], 2**64 - 1)
++        for key in ("uid", "gid"):
++            number(info[key])
++        number(info["mode"], 0o7777)
++    for key in ("node_stable", "selected_uid_present"):
++        if value[key] is not None and type(value[key]) is not bool:
++            raise ValueError("Unknown observation boolean")
++    for key in ("selected_uid_permissions", "acl_mask", "selected_uid_masked_permissions"):
++        if value[key] is not None:
++            number(value[key], 7)
++    if value["selected_uid_present"] is True:
++        if (value["uid"] is None or value["selected_uid_permissions"] is None or value["acl_mask"] is None
++                or value["selected_uid_masked_permissions"] != value["selected_uid_permissions"] & value["acl_mask"]):
++            raise ValueError("Unestablished selected UID mask")
++    elif value["selected_uid_permissions"] is not None or value["selected_uid_masked_permissions"] is not None:
++        raise ValueError("Unexpected selected UID permissions")
++    if (value["acl_status"] == "failed-observation" and any(value[key] is not None for key in
++            ("selected_uid_present", "selected_uid_permissions", "acl_mask", "selected_uid_masked_permissions"))):
++        raise ValueError("Unknown ACL must stay null")
++    if (value["acl_status"] == "absent" and (value["selected_uid_present"] is not False or value["acl_mask"] is not None)):
++        raise ValueError("Absent ACL cannot synthesize permissions")
++    if (value["status"] == "observed" and (any(value[key] is None for key in ("uid", "euid", "gid", "egid", "groups"))
++            or info is None or not info["character_device"] or value["node_stable"] is not True
++            or value["acl_status"] == "failed-observation" or type(value["selected_uid_present"]) is not bool)):
++        raise ValueError("Partial observations cannot be observed")
++    return value
++
++
++def observe(phase: str) -> dict:
++    value = empty(phase)
++    try:
++        if (phase not in PHASES or phase == "unavailable" or not active() or platform.system() != "Linux"
++                or platform.machine().lower() not in {"x86_64", "amd64"}):
++            return value
++        for key, probe in (("uid", os.getuid), ("euid", os.geteuid), ("gid", os.getgid), ("egid", os.getegid)):
++            value[key] = number(probe())
++        groups = os.getgroups()
++        if type(groups) is not list or len(groups) > MAX_GROUPS:
++            return value
++        value["groups"] = sorted(set(number(group) for group in groups))
++        before = value["node"] = node(os.lstat("/dev/kvm"))
++        if not before["character_device"]:
++            return value
++        try:
++            present, permissions, mask = selected_acl(os.getxattr("/dev/kvm", "system.posix_acl_access", follow_symlinks=False), value["uid"])
++            value.update(acl_status="observed", selected_uid_present=present,
++                         selected_uid_permissions=permissions, acl_mask=mask,
++                         selected_uid_masked_permissions=permissions & mask if present else None)
++        except OSError as error:
++            if error.errno == errno.ENODATA:
++                value.update(acl_status="absent", selected_uid_present=False)
++        except Exception:
++            pass
++        value["node_stable"] = before == node(os.lstat("/dev/kvm"))
++        if not value["node_stable"]:
++            value.update(acl_status="failed-observation", selected_uid_present=None,
++                         selected_uid_permissions=None, acl_mask=None, selected_uid_masked_permissions=None)
++        elif value["acl_status"] != "failed-observation":
++            value["status"] = "observed"
++        return validate(value)
++    except Exception:
++        # No exception bodies, names, raw ACL, process files, environment, cause or repair.
++        return value
++
++
++def emit(phase: str) -> None:
++    try:
++        body = json.dumps(validate(observe(phase)), sort_keys=True)
++        if len(body.encode()) > MAX_JSON_BYTES:
++            body = json.dumps(empty(phase), sort_keys=True)
++        print(MARKER + body, file=sys.stderr, flush=True)
++    except Exception:
++        # Transport failure cannot replace the original admission exception.
++        pass
++
++
++def child_observations(body: bytes) -> dict:
++    result = {"status": "failed-observation", "observations": None}
++    def unique(pairs):
++        value = {}
++        for key, entry in pairs:
++            if key in value:
++                raise ValueError("Duplicate observation key")
++            value[key] = entry
++        return value
++    try:
++        if type(body) is not bytes or len(body) > MAX_CHILD_LOG_BYTES:
++            return result
++        rows = [row for row in body.split(b"\n") if MARKER.encode() in row]
++        if len(rows) != 2:
++            return result
++        observations = []
++        for row, phase in zip(rows, ("admission-before", "admission-after")):
++            if not row.startswith(MARKER.encode()) or len(row) > len(MARKER) + MAX_JSON_BYTES:
++                return result
++            value = validate(json.loads(row[len(MARKER):], object_pairs_hook=unique,
++                                        parse_constant=lambda _: (_ for _ in ()).throw(ValueError("Nonfinite observation"))))
++            if value["phase"] != phase:
++                return result
++            observations.append(value)
++        result.update(status="retained", observations=observations)
++    except Exception:
++        pass
++    return result
++
++
++def main() -> int:
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument("--phase", required=True, choices=("acl-before", "acl-after"))
++    phase = parser.parse_args().phase
++    try:
++        value = validate(observe(phase))
++    except Exception:
++        value = empty(phase)
++    print(json.dumps(value, sort_keys=True))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())

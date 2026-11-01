@@ -1,0 +1,98 @@
+{
+  "CI_methods": {
+    "elapsed_seconds": 74.139,
+    "errors": 0,
+    "executed": 1747,
+    "failed": 1,
+    "passed": 1746,
+    "skipped": 0
+  },
+  "assertion": "AssertionError: ValueError not raised",
+  "failed_method": "test_android_webview_request_state.AndroidWebViewRequestStateGuards.test_source_models_reject_reset_masking_filtering_early_cleanup_or_unbounded_fixture_shortcuts",
+  "failed_step": {
+    "completed_at": "2026-11-01T03:54:55Z",
+    "conclusion": "failure",
+    "name": "Offline verification-tool adversarial fixtures (not library passes)",
+    "number": 4,
+    "started_at": "2026-11-01T03:53:39Z",
+    "status": "completed"
+  },
+  "job_id": 124743330463,
+  "kind": "sanitized original failed-tooling result records, not reconstructed JUnit or a rerun",
+  "native_XML_files": 0,
+  "native_methods_executed": 0,
+  "original_log": {
+    "bytes": 652457,
+    "mode": "0600",
+    "sha256": "6b83832e7b840799460e55dac4a17e88d60ccf43212f5964a0e1635cf0069b1e"
+  },
+  "original_records": [
+    {
+      "original_line": 5342,
+      "text": "FAIL: test_source_models_reject_reset_masking_filtering_early_cleanup_or_unbounded_fixture_shortcuts (test_android_webview_request_state.AndroidWebViewRequestStateGuards.test_source_models_reject_reset_masking_filtering_early_cleanup_or_unbounded_fixture_shortcuts)"
+    },
+    {
+      "original_line": 5343,
+      "text": "----------------------------------------------------------------------"
+    },
+    {
+      "original_line": 5344,
+      "text": "Traceback (most recent call last):"
+    },
+    {
+      "original_line": 5345,
+      "text": "File \"test_android_webview_request_state.py\", line 377, in test_source_models_reject_reset_masking_filtering_early_cleanup_or_unbounded_fixture_shortcuts"
+    },
+    {
+      "original_line": 5346,
+      "text": "with self.assertRaises(ValueError): require_native_witnesses(source + \"\\nfun masked() { state.errorsForCurrentRequest = emptyList() }\\n\")"
+    },
+    {
+      "original_line": 5347,
+      "text": "AssertionError: ValueError not raised"
+    },
+    {
+      "original_line": 5348,
+      "text": ""
+    },
+    {
+      "original_line": 5349,
+      "text": "----------------------------------------------------------------------"
+    },
+    {
+      "original_line": 5350,
+      "text": "Ran 1747 tests in 74.139s"
+    },
+    {
+      "original_line": 5351,
+      "text": ""
+    },
+    {
+      "original_line": 5352,
+      "text": "FAILED (failures=1)"
+    },
+    {
+      "original_line": 5353,
+      "text": "##[error]Process completed with exit code 1."
+    }
+  ],
+  "other_tooling_count_records_nonadditive_non_native": [
+    "Ran 35 tests in 0.048s",
+    "OK",
+    "Ran 80 tests in 0.154s",
+    "OK",
+    "Ran 90 tests in 1.335s",
+    "OK",
+    "Ran 1747 tests in 74.139s",
+    "FAILED (failures=1)"
+  ],
+  "process_exit": 1,
+  "raw_log_archived": false,
+  "run_id": 41270913975,
+  "sanitization": [
+    "Removed GitHub log timestamps",
+    "Reduced traceback machine path to public source basename; no other selected result/assertion text changed"
+  ],
+  "source_file": "scripts/ci/test_android_webview_request_state.py",
+  "source_line": 377
+}

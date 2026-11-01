@@ -22,6 +22,7 @@ import subprocess
 import sys
 
 import android_device_batch_plan as fixed
+import android_kvm_timeline as kvm_timeline
 import android_device_tests as device
 import archive_focused_junit as evidence
 import library_tests as lt
@@ -327,6 +328,14 @@ def reclaim_owned_state(root: Path, relative: str, route: dict, revision: str) -
     return result
 
 
+def child_kvm_observations(root: Path, relative: str) -> dict:
+    try:
+        body = evidence.read(lt.safe_path(root, relative), kvm_timeline.MAX_CHILD_LOG_BYTES)
+        return kvm_timeline.child_observations(body)
+    except Exception:
+        return {"status": "failed-observation", "observations": None}
+
+
 def run(root: Path, batch: str, relative: str) -> dict:
     selection = plan(root, batch)
     output = lt.safe_path(root, relative)
@@ -361,9 +370,15 @@ def run(root: Path, batch: str, relative: str) -> dict:
             try:
                 require(lt.snapshot_inputs(root) == inputs and control_inputs(root) == controls and
                         lt.git_revision(root) == revision, "Batch source or workflow identity changed")
-                execution = lt.execute(root, command(root, route_relative, route),
-                                       output / (route["profile"] + ".log"), ROUTE_TIMEOUT_SECONDS, RESERVE_MIB)
+                item["kvm_timeline"] = [kvm_timeline.observe("child-before")]
+                try:
+                    execution = lt.execute(root, command(root, route_relative, route),
+                                           output / (route["profile"] + ".log"), ROUTE_TIMEOUT_SECONDS, RESERVE_MIB)
+                finally:
+                    item["kvm_timeline"].append(kvm_timeline.observe("child-after"))
                 item["execution"] = execution
+                item["kvm_admission_observations"] = child_kvm_observations(
+                    root, relative + "/" + route["profile"] + ".log")
                 if type(execution.get("exit_code")) is int and execution["exit_code"] != 0:
                     item["failed_child_origin"] = failed_child_origin(
                         root, relative + "/" + route["profile"] + ".log")
@@ -392,7 +407,11 @@ def run(root: Path, batch: str, relative: str) -> dict:
                                   item["cleanup_certified"] is True and not item["archive"].get("missing_selected_cases"))
                 require(item["cleanup_certified"] and not execution.get("stop_reason"),
                         "Uncertified prior cleanup or a stopped controller refuses remaining routes")
-                item["local_state_cleanup"] = reclaim_owned_state(root, route_relative, route, revision)
+                item["kvm_timeline"].append(kvm_timeline.observe("reclaim-before"))
+                try:
+                    item["local_state_cleanup"] = reclaim_owned_state(root, route_relative, route, revision)
+                finally:
+                    item["kvm_timeline"].append(kvm_timeline.observe("reclaim-after"))
                 require(item["local_state_cleanup"].get("status") == "passed", "Prior private AVD/signing state reclamation failed")
             except (Exception, KeyboardInterrupt) as error:
                 item["adapter_error"] = type(error).__name__

@@ -1,0 +1,29 @@
+{
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "operation": "plan",
+  "profile": "android-permission-demo-call-denial-recovery",
+  "slots": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "./scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-permissions/core",
+        "--focus",
+        "android-permission-demo-call-denial-recovery"
+      ],
+      "exit_code": 0,
+      "expected_modules": 1,
+      "slot": "android-device-api35-permission-call-denial-recovery",
+      "suite": "android-device"
+    }
+  ],
+  "source_only": true
+}

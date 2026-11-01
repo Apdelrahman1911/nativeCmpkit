@@ -40,8 +40,8 @@ class AndroidPermissionDemoDeviceTest {
         assertFalse(before.getBoolean("granted"))
         assertEquals("Available", before.getString("availability"))
         assertEquals(0, before.getInt("callbacks"))
-        consumer.request("request-call")
-        ui.permissionButton("permission_allow_button")
+        val request = consumer.request("request-call")
+        ui.permissionButtonAfterRequest(request, Manifest.permission.CALL_PHONE, "permission_allow_button")
         val native = consumer.await { it.getBundle("Call")?.getInt("callbacks") == 1 }
         val state = assertNotNull(native.getBundle("Call"))
         assertTrue(native.getBoolean(Manifest.permission.CALL_PHONE))
@@ -58,8 +58,8 @@ class AndroidPermissionDemoDeviceTest {
         assertFalse(initial.getBoolean(Manifest.permission.RECORD_AUDIO))
         assertFalse(initial.getBoolean(Manifest.permission.RECORD_AUDIO + ".rationale"))
         assertEquals(0, initial.getBundle("RecordAudio")?.getInt("callbacks"))
-        consumer.request("request-microphone")
-        ui.permissionButton("permission_deny_button")
+        val request = consumer.request("request-microphone")
+        ui.permissionButtonAfterRequest(request, Manifest.permission.RECORD_AUDIO, "permission_deny_button")
         val denied = consumer.await { it.getBundle("RecordAudio")?.getInt("callbacks") == 1 }
         assertDenied(denied, rationale = true, count = 1)
         consumer.ready()

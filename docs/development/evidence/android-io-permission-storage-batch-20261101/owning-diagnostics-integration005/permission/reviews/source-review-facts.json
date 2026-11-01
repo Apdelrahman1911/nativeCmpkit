@@ -1,0 +1,148 @@
+{
+  "accepted_picker": {
+    "criterion": "#102.C3",
+    "extraction_end_exclusive": "    private fun assertDenied(",
+    "extraction_notes": "UTF-8 source bytes, including four-space indentation and trailing whitespace/newlines before the next private helper; no normalization",
+    "extraction_start_inclusive": "    @Test fun pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions()",
+    "method_block_bytes": 1423,
+    "native_executions_accepted": 1,
+    "replayed": false,
+    "selected_by_recovery": false,
+    "unchanged_method_block_sha256": "a641bc382f3e4a379bb9cd480e181fab91f43c139b489535d8e5652f8ea87761"
+  },
+  "actual_failure_native_lines": {
+    "Call": 44,
+    "first_microphone_denial": 62
+  },
+  "actual_failure_observation": "Both first exact-control clicks timed out; absence versus selector versus request-dispatch cause remains unknown. No later native grant, callback or rationale assertions were reached.",
+  "actual_native_commit": "eafb10f7",
+  "actual_original_xml_sha256_supplied_by_independent_archive_reviewer": "2e0f612b1599c6775e56ad85d287c02d6c5e3629d32527e5e5e042dbcfeb6f33",
+  "actual_revision": "actual004",
+  "actual_run": "41268194715",
+  "added_scalar_observations": {
+    "maxExactQueryNodes": "-1 unknown or 0..128 already acquired nodes",
+    "maxVisibleMatches": "-1 unknown or 0..1 already filtered matches",
+    "requestReplyBooleanFields": [
+      "grant",
+      "rationale",
+      "resumed",
+      "focused"
+    ],
+    "requestReplyBooleanValues": {
+      "-1": "unknown",
+      "0": "false",
+      "1": "true"
+    },
+    "requestReplyCallbacksCapped4": "-1 unknown; 0..3 exact; 4 means at least four",
+    "requestReplyKind": {
+      "1": "Call",
+      "2": "microphone"
+    },
+    "requestReplyReturned": "1 means an already validated public request reply returned, not native request-dispatch proof",
+    "samples_and_exact_queries_cap": 512,
+    "windowKindsMask": {
+      "1": "null root",
+      "16": "other",
+      "2": "missing package",
+      "4": "owned app",
+      "8": "existing allowed OS package"
+    }
+  },
+  "all_original_request_selector_success_refusal_assertion_cleanup_semantics_preserved": true,
+  "first_call_exact_control_ids": [
+    "permission_allow_button"
+  ],
+  "first_microphone_denial_exact_control_ids": [
+    "permission_deny_button"
+  ],
+  "later_denial_original_control_ids": [
+    "permission_deny_button",
+    "permission_deny_and_dont_ask_again_button"
+  ],
+  "native_preimage_immutable_byte_matches": {
+    "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt": "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736",
+    "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt": "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd"
+  },
+  "no_new_query_site_namespace_selector_or_window_read": true,
+  "no_raw_bundle_package_text_ui_tree_screenshot_or_transcript_recorded": true,
+  "original_polling": {
+    "deadline_milliseconds": 20000,
+    "maximum_ancestors": 6,
+    "maximum_exact_query_nodes": 128,
+    "maximum_visible_matches": 1,
+    "sleep_milliseconds": 40
+  },
+  "original_safe_diagnostic_log_count": 0,
+  "original_stack_sites": [
+    "PermissionDemoSystemUi.permissionButton:28",
+    "PermissionDemoSystemUi.clickId:47",
+    "PermissionDemoSystemUi.click:89"
+  ],
+  "recovery": {
+    "all_original_declarations_required": 3,
+    "api": 35,
+    "complete_unchanged_helper_source_count": 13,
+    "complete_unchanged_helper_sources": [
+      "calf-permissions/core/build.gradle.kts",
+      "calf-permissions/core/src/androidDeviceTest/AndroidManifest.xml",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt",
+      "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt",
+      "gradle/libs.versions.toml",
+      "tests/consumer/android-permission-demo/build.gradle.kts",
+      "tests/consumer/android-permission-demo/gradle.properties",
+      "tests/consumer/android-permission-demo/settings.gradle.kts",
+      "tests/consumer/android-permission-demo/src/main/AndroidManifest.xml",
+      "tests/consumer/android-permission-demo/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissiondemo/PermissionDemoActivity.kt",
+      "tests/consumer/android-permission-demo/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/permissiondemo/PermissionDemoService.kt"
+    ],
+    "modules": [
+      "calf-permissions/core"
+    ],
+    "original_batches_unchanged": true,
+    "original_one_xml_exact_identity_non_skipped_outcome_gates_unchanged": true,
+    "original_three_method_profile_unchanged": true,
+    "profile": "android-permission-demo-call-denial-recovery",
+    "selected_methods": [
+      "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+      "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+    ],
+    "slot": "android-device-api35-permission-call-denial-recovery",
+    "whole_class_filter_for_recovery_refused": true
+  },
+  "required_next_step": "Lead-only exact-fragment composition and final-input freeze/review, then compiler verification and finite two-method native source/results review. Do not replay the accepted picker.",
+  "selector_and_action_sites": {
+    "preimages": {
+      "active_window_read_sites": 2,
+      "native_click_action_sites": 1,
+      "text_query_sites": 1,
+      "view_id_query_sites": 1
+    },
+    "staging": {
+      "active_window_read_sites": 2,
+      "native_click_action_sites": 1,
+      "text_query_sites": 1,
+      "view_id_query_sites": 1
+    }
+  },
+  "shared_preimages_frozen_current_not_actual": {
+    ".github/workflows/gradle.yml": "14cb949bc8d8c003ade00f97cf08aa4ade1e6b01cb44abfdcf94943709864860",
+    "scripts/ci/library_tests.py": "6fec059035514d8f50d004efffe65e180a619cf90fc902b18693264e068d097e",
+    "scripts/ci/workflow_matrix.py": "64099b1ad5775313b55a34d432d16ef9d9362dc53356bc717a497e875471e483"
+  },
+  "verification": {
+    "Kotlin_builds": 0,
+    "accepted_suite_replay": 0,
+    "fresh_source_scalar_and_routing_models": 12,
+    "integrated": false,
+    "native_executions": 0,
+    "native_or_compile_acceptance": false,
+    "owning_initial_reds": 2,
+    "private_delivery_only": true,
+    "private_seal_metadata_parser_initial_refusals": 1,
+    "routing_model_methods": 7,
+    "source_models_rerun_at_sealing": 0,
+    "timeout_model_methods": 5
+  }
+}

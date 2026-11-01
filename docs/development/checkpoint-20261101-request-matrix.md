@@ -13,10 +13,16 @@ This checkpoint records reviewed preparation, not a release or all-platform pass
 | Local WebView compilers | [related-compile002](evidence/webview-request-state-native-20261101/related-compile002/README.md) | Actual Desktop-test, Android-device, JS-test, Wasm-test compilers and device APK, exit0/89.02s,1095/1172 held maps | ZERO native/browser/Apple executions. Later changes do not affect those selected compilation inputs; reuse, do not replay. |
 | Browser request state | Earlier accepted original JS3+Wasm3 | Six target executions/three methods; narrow unchanged-source reuse | Genuine offline destinations and other original platform/provisional criteria remain for #64. |
 | IO reference regressions | native-ci003, run41265408309, FAILED overall | Three original API35 IO methods independently accepted | Do not include them in permission/storage recovery. IO whole issues retain separate original obligations. |
+| iOS request/DNS retry | [actual007](evidence/webview-request-state-native-20261101/actual007/README.md), run41270913975 at7cb5f46d, FAILED | Original tooling/source/frozen-map review only:1747 methods/1746pass/one failure; all dependent jobs skipped/artifacts0 | ZERO Apple compiler/native/XML. Request2+DNS1 and owned cleanup remain unexecuted; #64 stays open. |
+| Camera Dont-keep retry | [actual014](evidence/camera-developer-prerequisite-20261101/actual014/README.md), run41270929101 at7cb5f46d, FAILED | Its distinct original tooling log/run/map/source review;1747 methods/1746pass/one shared guard failure; artifacts0 | ZERO native/controller/Settings/capture/confinement diagnostics/XML; #13 stays open. |
+| Permission reporter compiler | [permission-device-compile006](evidence/android-io-permission-storage-batch-20261101/permission-device-compile006/README.md) | Actual single-device-reporter APK compiler, exit0/45.01s/JDK17/Gradle9.7.1;1101/1178 exact held inputs | ZERO native executions. Neither picker/IO nor WebView/helper builds replayed; Call/denial2 still require real OS verification. |
 
-Both latest REQUEST.json records were persisted retrospectively and explicitly
+The two eafb10f7 REQUEST.json records were persisted retrospectively and explicitly
 say so. They are not predispatch records. Original failures, partial results,
 logs/hashes and missing XML are preserved; no report is reconstructed.
+The later two tooling-failed requests have genuine predispatch records in
+[finite-dispatch007](evidence/webview-request-state-native-20261101/finite-dispatch007/README.md).
+Their sealed reviews were imported without reacquiring either original log.
 
 ## Owning preparation
 
@@ -45,12 +51,31 @@ logs/hashes and missing XML are preserved; no report is reconstructed.
 - [JavaFX21 metadata review](evidence/javafx21-current-security-20261101/review001/README.md)
  observes21.0.13 already the latest stable21. No version-only change justified;
  #144/security/provenance remain open.
+- [Full-source boundary repair](evidence/webview-request-state-native-20261101/tooling-full-source-boundary008/README.md):
+  the appended forbidden reset disappeared during legacy fixture projection.
+  Only the full-input guard moves before projection, with one new regression;
+  all native sources/assertions/public Stop remain. Two red methods/three failure
+  events and subsequent2/2 fresh passes are retained; no native inference.
+- [Owning permission/KVM integration](evidence/android-io-permission-storage-batch-20261101/owning-diagnostics-integration005/README.md):
+  31 exact replacements/seven paths/four additions; both orders commute and exact
+  inverse readback passes.20 sealed new synthetic outcomes reused, not rerun.
+  Two failed Call/denial methods only, bounded observations, accepted picker exact
+  and excluded. Fixed self/ACL/node timeline does not mutate KVM or diagnose the
+  original failure; protected admission/refusal/cleanup/ACL writer remain exact.
 
-The final frozen maps are in `evidence/webview-request-state-native-20261101/final-freeze006/`.
+The first frozen maps are in `evidence/webview-request-state-native-20261101/final-freeze006/`.
 Compared with the89.02s compile,1097 library/1174 combined inputs add two synthetic
 guards and change only the iOS fixture/its guard pin and camera Python diagnostics.
 Selected Linux source, runtime/dependency/build declarations are unchanged.
 This is a narrow compiler-applicability statement, not whole-map equality.
+The later1101/1178 maps are held by the new permission compiler receipt. Its
+source delta is confined to permission fixtures/routing/KVM observations and the
+owning Python guard; selected WebView compiler inputs remain applicable. The
+two prior native workflows remain bound to7cb5f46d, not this later integration.
+The latest [final-freeze009](evidence/webview-request-state-native-20261101/final-freeze009/README.md)
+matches the permission compiler inputs exactly and contains three source-only
+CLI plans. Its simple additive pattern checks are not security clearance; later
+postcommit Git binding and honest predispatch records remain separate.
 
 ## Prioritized finite execution
 
@@ -65,8 +90,9 @@ This is a narrow compiler-applicability statement, not whole-map equality.
 4. `webview-offline-destination`: original JS/Wasm offline1 each, serial jobs.
 5. `android-webview-request-state`: exact original two native methods, no accepted
    identity/lifetime/old browser replay.
-6. Integrate/review private permission two-case and diagnostic-only KVM proposals;
-   one narrow serial permission-device compile; Call/denial2 recovery only.
+6. Execute the now-integrated/compiled
+   `android-permission-demo-call-denial-recovery`: Call/denial2 only; accepted
+   picker excluded and original request/button selectors/bounds/cleanup retained.
    Original media33/34 and storage28/29/30/35 rows still require actual execution.
 7. Appinfo SDK shape separately before any further failed native-profile recovery;
    genuine clipboard/native-parent/dependency/consumer gaps retain their own gates.

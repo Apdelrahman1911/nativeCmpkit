@@ -147,6 +147,7 @@ DROPDOWN_SOURCE_SETS = {"desktop": "desktopTest", "android-device": "androidDevi
 DROPDOWN_PACKAGE_PATH = "/kotlin/com/mohamedrejeb/calf/ui/dropdown/"
 DROPDOWN_SCENARIOS_SOURCE = "calf-ui/src/materialTest" + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceScenarios.kt"
 ANDROID_PERMISSION_DEMO_FOCUS = "android-permission-demo-contracts"
+ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = "android-permission-demo-call-denial-recovery"
 ANDROID_MEDIA_SELECTION_FOCUS = "android-media-selection"
 ANDROID_PERMISSION_DEVICE_SPECS = {
     ANDROID_PERMISSION_DEMO_FOCUS: {
@@ -158,6 +159,20 @@ ANDROID_PERMISSION_DEVICE_SPECS = {
             "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
         ),
         "scope": "Three new API35 library/source-app tests only: approved fresh Call grant, actual denial/permanent-denial, real document/photo picker and bounded synthetic reads. No sample UI, phone call, recording, Android13/14 selected-media or packaged/minimum/ABI/security/release inference.",
+    },
+    ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "declared_methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+            "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+        ),
+        "methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+        ),
+        "scope": "Only the two failed actual API35 Call/denial methods from the unchanged complete three-method source: genuine approved fresh Call request/grant and microphone denial/permanent-denial/rationale/one callback per request. Reuse the independently accepted document/photo picker; never replay it or broaden to storage/media/accepted suites. Timeout observations are finite scalars, not native dispatch/grant/callback proof. No phone call, recording, sample UI, packaged/minimum/ABI/security/release inference.",
     },
     ANDROID_MEDIA_SELECTION_FOCUS: {
         "classname": "com.mohamedrejeb.calf.permissions.AndroidMediaSelectionDeviceTest",
@@ -2118,12 +2133,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]
         source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
-        if (methods != list(spec["methods"]) or spec["source"] not in selected[0]["test_source_files"] or
+        if (methods != list(spec.get("declared_methods", spec["methods"])) or spec["source"] not in selected[0]["test_source_files"] or
                 "class " + spec["classname"].rsplit(".", 1)[1] not in source or
                 "package com.mohamedrejeb.calf.permissions" not in source or re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
             raise ValueError("Native permission declarations changed; review the exact new finite selection")
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = spec["classname"]
+        selected[0]["test_filter"] = android_permission_device_filter(focus)
         selected[0]["required_testcases"] = android_permission_device_identities(focus)
         result["scope"] = spec["scope"]
     elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
@@ -2308,6 +2323,13 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
     return result
 
 
+def android_permission_device_filter(focus: str) -> str:
+    spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]  # Unknown focus must never become a whole-class fallback.
+    if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
+        return ",".join(spec["classname"] + "#" + method for method in spec["methods"])
+    return spec["classname"]
+
+
 def android_permission_device_identities(focus: str) -> list[dict]:
     spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]
     return [{"classname": spec["classname"], "name": method} for method in spec["methods"]]
@@ -2357,7 +2379,7 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("project") != ":calf-permissions:calf-permissions-core" or
                 expected[0].get("task") != ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest" or
                 expected[0].get("report_directory") != "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain" or
-                expected[0].get("test_filter") != spec["classname"] or
+                expected[0].get("test_filter") != android_permission_device_filter(focus) or
                 expected[0].get("required_testcases") != android_permission_device_identities(focus) or
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid exact native permission/media plan")

@@ -1,0 +1,47 @@
+{
+  "Kotlin_builds_executed": 0,
+  "accepted_suites_replayed": 0,
+  "elapsed_seconds": 0.004372264025732875,
+  "errors": 0,
+  "external_processes_executed": 0,
+  "failures": 2,
+  "input_sha256": {
+    "preimages/.github/workflows/gradle.yml": "14cb949bc8d8c003ade00f97cf08aa4ade1e6b01cb44abfdcf94943709864860",
+    "preimages/calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt": "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736",
+    "preimages/calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt": "5391623a81d9ca2d18d1ebe35e7931ce3c0ba4f56e737da5f2272a76ceae6ffd",
+    "preimages/scripts/ci/library_tests.py": "6fec059035514d8f50d004efffe65e180a619cf90fc902b18693264e068d097e",
+    "preimages/scripts/ci/workflow_matrix.py": "64099b1ad5775313b55a34d432d16ef9d9362dc53356bc717a497e875471e483",
+    "reference/scripts/ci/android_device_batch_plan.py": "40d4bfda3ee2b019fead6a3e14be9df633857d12b4219d520021a2bfaac6fc60",
+    "reference/scripts/ci/android_device_tests.py": "9f8d257cc95ed4686be449b287f372ec753f0ceaff02436ada389491a7ae796f",
+    "reference/scripts/ci/android_permission_demo.py": "3d15995ed7c76393cec609ee6413280e25043d72285f17302e005f0960efa381",
+    "reference/scripts/ci/android_storage_compatibility_plan.py": "30e15959121e93decd9893477a584f31a9962f0d76f90fa67be643e2d6eaffa3",
+    "reference/scripts/ci/test_ios_io_profile.py": "459564c344e1e4e92b1d793aa08f46151c5e3021f47ae351d5f2109e35877bde",
+    "staging/scripts/ci/test_android_permission_demo_call_denial_recovery.py": "7ced8968b2344e90e8a3d973fbfb0861ba901748b4051c385bf760819b89b0be",
+    "staging/scripts/ci/test_android_permission_demo_timeout_review.py": "ea848465798c283290bb822d1ae608cc847d4453d913964f907f24436de8f692"
+  },
+  "inputs_held": true,
+  "mode": "baseline",
+  "native_tests_executed": 0,
+  "passed": 0,
+  "results": [
+    {
+      "classname": "test_android_permission_demo_timeout_review.AndroidPermissionDemoTimeoutReviewTests",
+      "error_type": "AssertionError",
+      "message": "Missing or ambiguous owning observation-only delta",
+      "name": "test_timeout_delta_preserves_every_original_selector_action_refusal_and_resource_cleanup",
+      "status": "failure"
+    },
+    {
+      "classname": "test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests",
+      "error_type": "AssertionError",
+      "message": "'ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = \"android-permission-demo-call-denial-recovery\"' not found in '#!/usr/bin/env python3\\n\"\"\"Fresh, bounded library test runs with source-bound, sanitized JUnit receipts.\\n\\nThis repository-specific runner deliberately has no arbitrary Gradle arguments,\\npublication command, source fallback, arbitrary skip list, or cached-report\\nsuccess path. Two exact native host-inapplicable scenarios are reported N/A,\\nnever counted as passed; every applicable native scenario remains required.\\nIt is NOT a sandbox or a trusted-builder attestation. Coordinate other builds;\\nits lock covers only other invocations of this helper in the same checkout.\\n\"\"\"\\nfrom __future__ import annotations\\n\\nimport argparse\\nfrom collections import Counter\\nimport datetime as dt\\nimport hashlib\\nimport json\\nimport os\\nfrom pathlib import Path\\nimport platform\\nimport re\\nimport shutil\\nimport signal\\nimport subprocess\\nimport sys\\nimport time\\nimport xml.etree.ElementTree as ET\\n\\nimport runtime_context\\nimport native_test_policy\\nimport daemon_jvm\\nimport desktop_media_context\\nimport picker_dialog_context\\nimport android_storage_compatibility_plan as storage_plan\\n\\nROOT = Path(__file__).resolve().parents[2]\\nSUITES = {\\n    \"desktop\": (\"desktopTest\", (\"commonTest\", \"materialTest\", \"nonAndroidTest\", \"desktopTest\")),\\n    \"android-host\": (\"testAndroidHostTest\", (\"commonTest\", \"materialTest\", \"androidHostTest\")),\\n    \"android-device\": (\"connectedAndroidDeviceTest\", (\"commonTest\", \"materialTest\", \"androidDeviceTest\")),\\n    \"js\": (\"jsBrowserTest\", (\"commonTest\", \"materialTest\", \"nonAndroidTest\", \"webTest\", \"jsTest\")),\\n    \"wasm\": (\"wasmJsBrowserTest\", (\"commonTest\", \"materialTest\", \"nonAndroidTest\", \"webTest\", \"wasmJsTest\")),\\n    \"ios\": (\"iosSimulatorArm64Test\", (\"commonTest\", \"nonAndroidTest\", \"nativeTest\", \"appleTest\", \"iosTest\", \"iosSimulatorArm64Test\")),\\n}\\n# Guard the current minimum, independently of discovery, so deleting a module\\'s\\n# last tests cannot turn a missing suite into a green \"not ap [bounded model message]",
+      "name": "test_new_focus_selects_only_call_and_denial_with_complete_original_declarations",
+      "status": "failure"
+    }
+  ],
+  "skipped": 0,
+  "source_only": true,
+  "tests": 2,
+  "xml": "TEST-permission-demo-actual004-baseline.xml",
+  "xml_sha256": "3c127332ce5e97d3a601feb182325075d23c676b644bb8b19216902ae6dc3dc1"
+}

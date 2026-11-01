@@ -44,6 +44,9 @@ def body_after(source, anchor):
 
 
 def require_native_witnesses(source):
+    # Check the full fixture before projecting away the separate Stop/redirect layer.
+    if re.search(r"\.errorsForCurrentRequest\s*=", source):
+        raise ValueError("Manual request resets are forbidden anywhere in the full native fixture")
     source = compiled_request_source(source)
     for name, invocation in (("onPageStarted", "super.onPageStarted(view, url, favicon)"),
                              ("onReceivedError", "super.onReceivedError(view, request, error)"),
@@ -384,6 +387,22 @@ class AndroidWebViewRequestStateGuards(unittest.TestCase):
                          hashlib.sha256(compiled_request_source(source).encode()).hexdigest())
         self.assertEqual([r.ANDROID_WEBVIEW_REQUEST_METHOD, STOP_REDIRECT_METHOD],
                          re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source))
+
+    def test_full_source_manual_reset_is_refused_before_separate_helper_projection(self):
+        source = (r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text()
+        legacy = compiled_request_source(source)
+        require_native_witnesses(source)  # The genuine separate public Stop remains allowed.
+        masked = "\nfun masked() { state.errorsForCurrentRequest = emptyList() }\n"
+        candidates = (
+            ("legacy-tail", legacy + masked),
+            ("separate-helper-tail", source + masked),
+            ("separate-native-method", source.replace(
+                "fixture.navigator.stopLoading()",
+                "state.errorsForCurrentRequest = emptyList()\n                    fixture.navigator.stopLoading()", 1)),
+        )
+        for location, candidate in candidates:
+            with self.subTest(location=location), self.assertRaises(ValueError):
+                require_native_witnesses(candidate)
 
     def test_public_stop_actual302_and_final_url_reload_require_real_forwarded_eof_metadata_owner_and_dom_witnesses(self):
         require_stop_redirect_witnesses((r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text())

@@ -1,5 +1,37 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared tooling boundary repaired; permission reporter compiled — 2026-11-01
+
+Actual [iOS41270913975](docs/development/evidence/webview-request-state-native-20261101/actual007/README.md)
+and [camera41270929101](docs/development/evidence/camera-developer-prerequisite-20261101/actual014/README.md)
+at7cb5f46d remain FAILED: each1747CI methods/1746pass/one shared source-guard
+failure; all dependent jobs skipped/artifacts0/ZERO compiler/native/XML. Both
+sealed original reviews and1097/1174 Git-bound maps are archived; no logs reacquired.
+[Only the owning guard repaired](docs/development/evidence/webview-request-state-native-20261101/tooling-full-source-boundary008/README.md):
+full-source manual-reset refusal now precedes legacy projection. Native source and
+all original assertions remain; two reds/three failure events then2/2 fresh passes,
+initial counter/importer namespace refusals preserved, no accepted runtime replay.
+
+[Call/denial and KVM integration](docs/development/evidence/android-io-permission-storage-batch-20261101/owning-diagnostics-integration005/README.md)
+is now applied:31 exact commuting fragments/seven existing paths/four additions;
+20 new sealed synthetic outcomes reused, not rerun. Exact two failed permission
+methods only; picker body/hash and original three/full/batch declarations retained.
+Bounded request/window/query observations do not diagnose selectors/dispatch.
+KVM self/ACL/node timeline does not repair grants; original admission/refusal/
+cleanup and sole ACL writer remain exact. Five original batch tables unchanged.
+[Actual narrow reporter compile](docs/development/evidence/android-io-permission-storage-batch-20261101/permission-device-compile006/README.md)
+passes0/45.01s/JDK17/Gradle9.7.1 with1101/1178 held inputs, ZERO native. Accepted
+WebView four-task/89.02s compilation, picker/IO/camera009/browser/Desktop results
+are reused on their applicable unchanged inputs, not replayed.
+
+Next same iOS request2+DNS1 and camera Dont-keep1 only; then Desktop10/five-host
+max-parallel2 (both hosted slots), browser offline2, Android request2, permission
+Call/denial2 and still-unexecuted media/storage rows. #13/#64/#102/#118 stay open;
+92closed/80open/172total,27implemented/42partial/90verified/five unresolved.
+Useful private disjoint agents/lead-owned integration, serial local/8GiB reserve/
+max2combined hosted-heavy and all publishing/Pages/main/history/native/consumer/
+ABI/dependency/legal/security/readiness gates remain. No done/release claim.
+
 ## Missing-platform batch frozen; actual failures retained — 2026-11-01
 
 Read [the current checkpoint](docs/development/checkpoint-20261101-request-matrix.md).

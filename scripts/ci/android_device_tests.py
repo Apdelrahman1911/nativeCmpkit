@@ -32,6 +32,7 @@ import android_camera_receiver
 import android_io_documents
 import android_permission_demo
 import android_storage_probe
+import android_kvm_timeline as kvm_timeline
 import android_camera_developer_prerequisite as camera_developer
 
 API = 35
@@ -620,7 +621,14 @@ def run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None, 
     if focus is not None and not lt.allowed_test_focus("android-device", only_modules, focus):
         raise ValueError("Device focus requires its exact reviewed suite and single module")
     validate_api_selection(api_level, only_modules, focus)
-    require_host()
+    observing = kvm_timeline.active(api_level, focus)
+    if observing:
+        kvm_timeline.emit("admission-before")
+    try:
+        require_host()
+    finally:
+        if observing:
+            kvm_timeline.emit("admission-after")
     output = lt.safe_path(root, relative)
     base = lt.safe_path(root, "build/ci-verification")
     if output == base or not output.is_relative_to(base) or output.exists():

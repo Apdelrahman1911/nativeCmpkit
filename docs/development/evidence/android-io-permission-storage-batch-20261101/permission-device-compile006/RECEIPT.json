@@ -1,0 +1,52 @@
+{
+  "WebView_compiler_replay": false,
+  "accepted_picker_or_IO_replays": 0,
+  "actual_daemon_jvm": [
+    {
+      "gradle_version": "9.7.1",
+      "java_vendor": "Ubuntu",
+      "java_version": "17.0.20",
+      "launcher_home_configured": true,
+      "launcher_home_matches_daemon": true,
+      "major": 17,
+      "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+      "schema_version": 1
+    }
+  ],
+  "combined_inputs": 1178,
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+  ],
+  "dirty_source_held": true,
+  "execution": {
+    "elapsed_seconds": 45.01,
+    "exit_code": 0
+  },
+  "free_bytes_after": 45389783040,
+  "free_bytes_before": 45394042880,
+  "head_before_additive_commit": "7cb5f46d2b3b820cfe6b485ab04c8f75cbbeed72",
+  "helper_consumer_build_replay": false,
+  "issue_closures": 0,
+  "kind": "actual-held-permission-device-compiler-only-not-native",
+  "library_inputs": 1101,
+  "native_executions": 0,
+  "raw_private_log_sha256": "5672754ed068b82d012a918e8c3b3f9886afda0a358c46003945a6564010ccf9",
+  "release_or_security_certification": false,
+  "started_utc": "2026-11-01T04:02:31.724885+00:00",
+  "task_markers": [
+    "> Task :calf-permissions:calf-permissions-core:compileAndroidDeviceTest",
+    "> Task :calf-permissions:calf-permissions-core:compileAndroidDeviceTestNavigationResources UP-TO-DATE",
+    "> Task :calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+  ]
+}

@@ -103,9 +103,12 @@ class AndroidGeoOwnershipTests(unittest.TestCase):
 
     def test_full_native_plan_retains_all_existing_modules_and_all_eleven_host_slots(self):
         plan = lt.plan(lt.ROOT, "android-device")
-        self.assertTrue(plan["complete_suite_requested"])
+        self.assertFalse(plan["complete_suite_requested"])
         self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"],
                          [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(lt.MINIMUM_MODULES["android-device"]),
+                         [item["module"] for item in plan["expected"]] + ["calf-permissions/core"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
         self.assertEqual(11, len(wm.matrix("all")["include"]))
 
     def test_exact_instrumentation_filter_minimum_permissions_and_no_publication(self):

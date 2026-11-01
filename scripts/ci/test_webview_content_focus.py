@@ -82,7 +82,7 @@ class WebViewContentFocusTests(unittest.TestCase):
                           "desktop-macos-x64", "ios-ipad", "android-device-api35"},
                          {row["slot"] for row in matrix.matrix("all")["include"]})
         self.assertEqual(("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
-                          "calf-navigation", "calf-share", "calf-camera-picker"), lt.MINIMUM_MODULES["android-device"])
+                          "calf-navigation", "calf-share", "calf-camera-picker", "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
         for profile in ("all", "browser", "webview-browser", "webview-wasm", "core", "android-device"):
             self.assertTrue(all("test-focus" not in row for row in matrix.matrix(profile)["include"]))
 

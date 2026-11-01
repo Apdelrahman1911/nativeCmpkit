@@ -1,0 +1,34 @@
+{
+  "complete_original_acceptance": false,
+  "issue_fields_changed": false,
+  "issues": [
+    {
+      "criteria": [
+        "Inspect the merged manifest and map every menu permission to its expected declaration/status for supported API levels.",
+        "Test Call on a fresh installation under an explicitly approved demo variant.",
+        "Verify file/image picker operation without MANAGE_EXTERNAL_STORAGE and unrelated SMS permissions.",
+        "Run permission denial/permanent-denial and Android13/14 media-selection scenarios."
+      ],
+      "finding": "NAV-015",
+      "number": 102,
+      "retained_state": "open",
+      "sha256": "d9d1a942ee45222fc4f080343da85b285a6cae14882791a87edf2275028c41bd",
+      "title": "[Medium][NAV-015] Android sample permission menu and manifest disagree and declare unrelated broad permissions"
+    },
+    {
+      "criteria": [
+        "API28 legacy permission, API29 legacy/scoped target modes, API30+ app-scoped/SAF and all-files absent/present.",
+        "Verify docs examples request the least permissions needed and no Granted result is described as unrestricted disk access."
+      ],
+      "finding": "PERM-024",
+      "number": 118,
+      "retained_state": "OPEN",
+      "sha256": "ec0202bacd5ecc5b4bf4d4d2ebfdb9fe7c24f5030fa3154b35cf3376e4712d04",
+      "title": "[Medium][PERM-024] Storage guidance asks for all-files access that WriteStorage never requests or verifies"
+    }
+  ],
+  "merged_manifest_generation_now_executed": true,
+  "native_target_executions_still_required": 13,
+  "schema": "nativecmpkit-original-criteria-source-review-v1",
+  "source_only_independent_review_sha256": "b6ddcad8ddea2f30eb0ead4839202affed99c628f121311538fce08f82b3c22a"
+}

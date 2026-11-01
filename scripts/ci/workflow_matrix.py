@@ -10,6 +10,8 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import android_storage_compatibility_plan as storage_plan
+import android_device_batch_plan as android_batch_plan
 
 SLOTS = (
     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
@@ -25,6 +27,16 @@ SLOTS = (
     {"slot": "android-device-api35", "suite": "android-device", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3", "emulator-api": "35"},
 )
 PROFILES = {
+    "android-io-permission-storage-api35": ("android-device-api35",),
+    "android-permission-storage-compatibility": ("android-device-api35",),
+    "android-storage-api28": ("android-device-api35",),
+    "android-storage-api29-target28": ("android-device-api35",),
+    "android-storage-api29-legacy": ("android-device-api35",),
+    "android-storage-api29-scoped": ("android-device-api35",),
+    "android-storage-api30-normal": ("android-device-api35",),
+    "android-storage-api30-all-files": ("android-device-api35",),
+    "android-storage-api35-normal": ("android-device-api35",),
+    "android-storage-api35-all-files": ("android-device-api35",),
     "core": ("desktop-linux-x64", "android-host"),
     "android-geo-ownership": ("android-device-api35",),
     "android-geo-provider": ("android-device-api35",),
@@ -32,6 +44,10 @@ PROFILES = {
     "android-share-grants": ("android-device-api35",),
     "android-io-provider-lifecycle": ("android-device-api35",),
     "android-io-default-decode": ("android-device-api35",),
+    "android-io-reference-regressions": ("android-device-api35",),
+    "android-permission-demo": ("android-device-api35",),
+    "android-media-selection-api33": ("android-device-api35",),
+    "android-media-selection-api34": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
     "android-camera-provider-minimum": ("android-device-api35",),
     "android-camera-no-handler-minimum": ("android-device-api35",),
@@ -158,12 +174,26 @@ PROFILES = {
     "tooling": (),
 }
 MODULE_SUBSETS = {
+    "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
+    "android-permission-storage-compatibility": "calf-permissions/core",
+    "android-storage-api28": "calf-permissions/core",
+    "android-storage-api29-target28": "calf-permissions/core",
+    "android-storage-api29-legacy": "calf-permissions/core",
+    "android-storage-api29-scoped": "calf-permissions/core",
+    "android-storage-api30-normal": "calf-permissions/core",
+    "android-storage-api30-all-files": "calf-permissions/core",
+    "android-storage-api35-normal": "calf-permissions/core",
+    "android-storage-api35-all-files": "calf-permissions/core",
     "android-geo-ownership": "calf-geo",
     "android-geo-provider": "calf-geo",
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
     "android-io-provider-lifecycle": "calf-io",
     "android-io-default-decode": "calf-io",
+    "android-io-reference-regressions": "calf-io",
+    "android-permission-demo": "calf-permissions/core",
+    "android-media-selection-api33": "calf-permissions/core",
+    "android-media-selection-api34": "calf-permissions/core",
     "android-camera-provider": "calf-camera-picker",
     "android-camera-provider-minimum": "calf-camera-picker",
     "android-camera-no-handler-minimum": "calf-camera-picker",
@@ -299,6 +329,17 @@ def matrix(profile: str) -> dict:
     if profile in MODULE_SUBSETS:
         for row in rows:
             row["test-modules"] = MODULE_SUBSETS[profile]
+    if profile in android_batch_plan.BATCHES:
+        for row in rows:
+            row.update(slot=android_batch_plan.SLOTS[profile], **{"android-batch": profile})
+            row.pop("emulator-api")
+        return {"include": rows}
+    if profile in {row.profile for row in storage_plan.ROWS}:
+        storage = storage_plan.row_for(profile)
+        for row in rows:
+            row.update(slot="android-device-" + profile.removeprefix("android-"), **{
+                "emulator-api": str(storage.api), "test-focus": profile, "storage-flavor": storage.flavor,
+                "storage-target-sdk": str(storage.target)})
     if profile == "ui-dropdown-platforms":
         for row in rows:
             row["test-focus"] = "material-dropdown-contract"
@@ -320,6 +361,14 @@ def matrix(profile: str) -> dict:
     if profile == "android-geo-prerequisites":
         for row in rows:
             row["test-focus"] = "geo-android-real-prerequisites"
+    if profile == "android-permission-demo":
+        for row in rows:
+            row["test-focus"] = "android-permission-demo-contracts"
+    if profile in {"android-media-selection-api33", "android-media-selection-api34"}:
+        api = profile.rsplit("api", 1)[1]
+        for row in rows:
+            row.update(slot="android-device-api" + api + "-media",
+                **{"emulator-api": api, "test-focus": "android-media-selection"})
     if profile == "android-camera-provider":
         for row in rows:
             row["test-focus"] = "android-camera-provider-contracts"
@@ -486,6 +535,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-default-decode":
         for row in rows:
             row["test-focus"] = "android-io-default-decode"
+    if profile == "android-io-reference-regressions":
+        for row in rows:
+            row["test-focus"] = "android-io-reference-regressions"
     if profile == "android-io-oversize":
         for row in rows:
             row["test-focus"] = "io-device-known-oversize"
@@ -514,7 +566,10 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
                    if row.get("serial-test-focus") else [row])]
     selections += [{**row, "emulator-api": row["serial-emulator-api"]} for row in rows if row.get("serial-emulator-api")]
     for row in selections:
-        if row["suite"] == "android-device":
+        if row.get("android-batch"):
+            command = [sys.executable, "-B", str(root / "scripts/ci/android_device_batch.py"), "plan",
+                       "--batch", row["android-batch"]]
+        elif row["suite"] == "android-device":
             # Validate the controller actually invoked by the host, not a different
             # parser which can accept a focus the emulator controller rejects.
             command = [sys.executable, "-B", str(root / "scripts/ci/android_device_tests.py"), "plan",
@@ -523,7 +578,7 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
             command = [sys.executable, "-B", str(root / "scripts/ci/library_tests.py"), "plan",
                        "--suite", row["suite"]]
         modules = row.get("test-modules", "").split(",") if row.get("test-modules") else []
-        for module in modules:
+        for module in ([] if row.get("android-batch") else modules):
             command += ["--module", module]
         if row.get("test-focus"):
             command += ["--focus", row["test-focus"]]
@@ -531,10 +586,17 @@ def preflight_plans(profile: str, root: Path | None = None) -> dict:
         if result.returncode:
             raise ValueError(f"Read-only profile CLI preflight failed for {row['slot']}; exit {result.returncode}")
         plan = json.loads(result.stdout)
-        if not isinstance(plan, dict) or plan.get("suite") != row["suite"] or not plan.get("expected"):
+        expected = plan.get("expected", []) if isinstance(plan, dict) else []
+        if row.get("android-batch") and isinstance(plan, dict):
+            if (plan.get("batch") != row["android-batch"] or plan.get("source_only") is not True or
+                    [route.get("profile") for route in plan.get("routes", [])] !=
+                    list(android_batch_plan.BATCHES[row["android-batch"]])):
+                raise ValueError("Read-only Android batch CLI changed the exact route union")
+            expected = [item for route in plan["routes"] for item in route["source_suite"]["expected"]]
+        if not isinstance(plan, dict) or plan.get("suite") != row["suite"] or not expected:
             raise ValueError(f"Read-only profile CLI returned an invalid/empty plan for {row['slot']}")
         verified.append({"slot": row["slot"], "suite": row["suite"], "command": command,
-                         "expected_modules": len(plan["expected"]), "exit_code": result.returncode})
+                         "expected_modules": len(expected), "exit_code": result.returncode})
     return {"profile": profile, "operation": "plan", "source_only": True,
             "Gradle_builds_executed": 0, "library_tests_executed": 0, "slots": verified}
 

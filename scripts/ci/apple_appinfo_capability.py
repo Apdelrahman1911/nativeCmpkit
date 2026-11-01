@@ -34,7 +34,7 @@ COMMANDS = {
 }
 
 
-# Diagnostic observations only. None of these alternatives expands acceptance.
+# Finite diagnostics only; acceptance uses the separate exact pair below.
 MAX_HELP_USAGE_LINES, MAX_HELP_USAGE_LINE_BYTES = 8, 4096
 HELP_USAGE_TEMPLATES = (
     'simctl appinfo <device> <app bundle identifier>',
@@ -182,8 +182,9 @@ def help_observation(result):
     try: text=(result.stdout+b'\n'+result.stderr).decode('utf-8',errors='strict')
     except UnicodeError:
         value['refusal_reason']='utf8-decoding-refused';return value
-    # One exact source-reviewed usage form, not a substring/catchall parser.
-    syntax='simctl appinfo <device> <app bundle identifier>'
+    # Two exact source-reviewed usage forms, not a substring/catchall parser.
+    syntaxes=('simctl appinfo <device> <app bundle identifier>',
+              'simctl appinfo <device> <bundle identifier>')
     usages=re.findall(r'(?m)^Usage:[ \t]*([^\r\n]+)\r?$',text)
     # Broader formatting and listed templates are diagnostic observations only.
     # Hash at most eight full candidate lines, each capped at 4096 UTF-8 bytes,
@@ -205,9 +206,9 @@ def help_observation(result):
         template=next((item for item in HELP_USAGE_TEMPLATES if normalized==item),None)
         value.update(usage_prefix_observation=prefix,usage_template_observation=template,
                      usage_template_normalized=template is not None and body!=template)
-    if usages == [syntax]:
+    if len(usages)==1 and usages[0] in syntaxes:
         value.update(status='observed-supported-syntax',capability_available=True,
-                     known_syntax=syntax,refusal_reason=None)
+                     known_syntax=usages[0],refusal_reason=None)
     else:
         value['refusal_reason']=('missing-exact-usage-line' if not usages else
                                  'ambiguous-exact-usage-lines' if len(usages)>1 else

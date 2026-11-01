@@ -24,12 +24,16 @@ REPORTER = "com.mohamedrejeb.calf.calfio.test"
 KOTLIN = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/"
 JAVA = FIXTURE + "/src/main/java/" + PACKAGE.replace(".", "/") + "/"
 JAVA_NAMES = ("IoControlService", "IoDocumentGrantActivity", "IoFixture",
-              "IoProviderWitnessService", "OwnedIoDocumentsProvider")
+              "IoProviderWitnessService", "IoSingleDocumentGrantActivity", "OwnedIoDocumentsProvider")
 KOTLIN_NAMES = ("AndroidIoGrantActivity", "AndroidIoProviderContract", "AndroidIoProviderLifecycleTest",
+               "AndroidIoReferenceRegressionTest", "AndroidIoSingleDocumentGrantActivity",
                "DeviceDescriptorProbe", "IoBookmarkClientService", "KmpFileDeviceTest", "OwnedIoEndpoint")
+REFERENCE_PROVIDER = KOTLIN + "instrumentation/DeviceIoFileProvider.kt"
+REFERENCE_PATHS = "calf-io/src/androidDeviceTest/res/xml/nativecmpkit_io_device_paths.xml"
 SOURCE_FILES = tuple(sorted(("gradle/libs.versions.toml", "calf-io/build.gradle.kts",
     "calf-io/src/androidDeviceTest/AndroidManifest.xml", FIXTURE + "/build.gradle.kts",
     FIXTURE + "/settings.gradle.kts", FIXTURE + "/gradle.properties", FIXTURE + "/src/main/AndroidManifest.xml",
+    REFERENCE_PROVIDER, REFERENCE_PATHS,
     *(JAVA + name + ".java" for name in JAVA_NAMES), *(KOTLIN + name + ".kt" for name in KOTLIN_NAMES))))
 # Explicit installed SDK recipe, not a searched/guessed signer or tool fallback.
 SIGNER_REVISION = "36.0.0"
@@ -68,17 +72,20 @@ def validate_manifest(payload: bytes, *, compiled: bool) -> dict:
             app.get(ANDROID + "process") is None and app.get(ANDROID + "enabled") in {None, "true"},
             "No helper-wide process/permission override, disabled app or backup")
     activities, services, providers = app.findall("activity"), app.findall("service"), app.findall("provider")
-    require((len(activities), len(services), len(providers)) == (1, 2, 1) and
+    require((len(activities), len(services), len(providers)) == (2, 2, 1) and
             all(node.tag in {"activity", "service", "provider"} for node in app) and
             all(node.get(ANDROID + "enabled") in {None, "true"} for node in app), "Unexpected or disabled helper components")
     def component_name(node):
         value = node.get(ANDROID + "name", "")
         return PACKAGE + value if value.startswith(".") else value
-    require(component_name(activities[0]) == PACKAGE + ".IoDocumentGrantActivity" and
-            activities[0].get(ANDROID + "exported") == "true" and
-            activities[0].get(ANDROID + "permission") == PERMISSION and
-            activities[0].get(ANDROID + "process") is None and len(activities[0]) == 0,
-            "Grant dispatch must remain explicit and signature-protected")
+    require({component_name(activity) for activity in activities} ==
+            {PACKAGE + ".IoDocumentGrantActivity", PACKAGE + ".IoSingleDocumentGrantActivity"},
+            "Only the exact tree and ordinary-document owner Activities are permitted")
+    for activity in activities:
+        require(activity.get(ANDROID + "exported") == "true" and
+                activity.get(ANDROID + "permission") == PERMISSION and
+                activity.get(ANDROID + "process") is None and len(activity) == 0,
+                "Every grant/revoke dispatch must remain explicit and signature-protected")
     expected_services = {PACKAGE + ".IoControlService": None,
                          PACKAGE + ".IoProviderWitnessService": ":nativecmpkit_io_provider"}
     require({component_name(service) for service in services} == set(expected_services), "Wrong helper services")
@@ -122,6 +129,51 @@ def validate_source_receipt(contract: dict) -> None:
             contract.get("source_inputs_sha256") == lt.input_digest(inputs), "Unknown or changed IO source identity")
 
 
+def validate_reference_sources(texts: dict[str, str]) -> None:
+    """Source-only owning restrictions; never proof of a returned grant/read/PFD."""
+    reference = texts[KOTLIN + "AndroidIoReferenceRegressionTest.kt"]
+    caller = texts[KOTLIN + "AndroidIoSingleDocumentGrantActivity.kt"]
+    owner = texts[JAVA + "IoSingleDocumentGrantActivity.java"]
+    require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", reference) == list(lt.ANDROID_IO_REFERENCE_METHODS) and
+            re.search(r"\bclass\s+AndroidIoReferenceRegressionTest\b", reference) is not None and
+            re.search(r"(?m)^package\s+com\.mohamedrejeb\.calf\.io\s*$", reference) is not None and
+            not re.search(r"@(Ignore|Disabled|IgnoredTest)\b", reference) and
+            reference.count("= runBlocking(Dispatchers.IO)") == len(lt.ANDROID_IO_REFERENCE_METHODS),
+            "Every exact native reference method must remain enabled and off the main Looper")
+    require(all(token in reference for token in (
+        'assertNull(uri.query,', 'OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE',
+        'assertNull(reference.createBookmark(context),', 'assertNull(KmpFile.fromBookmark(uri.toString(), context))',
+        'assertEquals(0, openDeviceDescriptorsFor(identity))', 'assertFailsWith<FileNotFoundException>',
+        'assertTrue(directory.deleteRecursively()); assertFalse(directory.exists())',
+        'first.addSuppressed(failure)', 'assertContentEquals(sentinel, sibling.readBytes())',
+        'ownerTransaction(owner, revoke = true)', 'heldBookmark = assertNotNull(reference.createBookmark(context))',
+        'assertEquals(read or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION, result.flags and grantMask)',
+        'assertUriPermission(AndroidIoProviderContract.tree, read, PackageManager.PERMISSION_DENIED)',
+        'assertUriPermission(sibling, read, PackageManager.PERMISSION_DENIED)',
+        'assertEquals(owner.getInt("uid"), actual.getIntExtra("uid", -1))',
+        'assertEquals(owner.getString("generation"), actual.getStringExtra("generation"))')),
+        "Reference metadata, real ownership, denial, bookmark or failure-safe cleanup source changed")
+    transaction = reference.split("private suspend fun ownerTransaction", 1)
+    require(len(transaction) == 2, "Missing genuine ordinary-document owner transaction")
+    scoped = re.search(r"ActivityScenario\.launch\(AndroidIoSingleDocumentGrantActivity::class\.java\)\.use\s*\{\s*scenario\s*->(.*?)\n        \}\n        return assertNotNull\(result\)", transaction[1], re.S)
+    require(scoped is not None and "onResult(actual)" in scoped[1] and
+            "startActivityForResult(" in caller and "firstDraw && hasWindowFocus()" in caller and
+            "resultCode = code" in caller and "resultCount = 1" in caller and
+            "IoSingleDocumentGrantActivity" in caller,
+            "Bookmark callback must remain inside the real foreground grant-owning Activity scope")
+    flags = re.findall(r"result\.addFlags\(([^)\r\n]*)\);", owner)
+    require(flags == ["Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION"] and
+            'Uri document = DocumentsContract.buildDocumentUri(IoFixture.AUTHORITY, "bookmark.txt");' in owner and
+            all(token in owner for token in (
+                "getCallingPackage()", "checkSignatures", "IoFixture.requireReporter", 'nonce.matches("[a-f0-9]{32}")',
+                "DocumentsContract.isDocumentUri(this, document)", "DocumentsContract.isTreeUri(document)",
+                'result.setDataAndType(document, "text/plain");', "result.setClipData(ClipData.newRawUri(",
+                "revokeUriPermission(document, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);",
+                "setResult(code, result);", "finish();", 'result = new Intent().putExtra("protocolError",')) and
+            not any(token in owner for token in ("getParcelableExtra", "getData()", "FLAG_GRANT_PREFIX_URI_PERMISSION")),
+            "Only one fixed ordinary document may receive read/persistable result flags or actual owner revoke")
+
+
 def source_contract(root: Path) -> dict:
     texts, inputs = {}, {}
     for relative in SOURCE_FILES:
@@ -139,15 +191,42 @@ def source_contract(root: Path) -> dict:
     reporter = ET.fromstring(texts["calf-io/src/androidDeviceTest/AndroidManifest.xml"],
                              parser=ET.XMLParser(target=lt.NoDtdBuilder()))
     permissions = [node.get(ANDROID + "name") for node in reporter.findall("uses-permission")]
-    app = reporter.find("application")
-    require(permissions == [PERMISSION] and not reporter.findall("uses-permission-sdk-23") and app is not None and
-            reporter.get(ANDROID + "sharedUserId") is None and app.get(ANDROID + "permission") is None and
-            app.get(ANDROID + "process") is None, "Reporter must not bypass Android content grants or native UID/process boundaries")
-    grant = app.findall("activity"); client = app.findall("service")
-    require(len(grant) == len(client) == 1 and grant[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.AndroidIoGrantActivity" and
-            grant[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.IoBookmarkClientService" and
-            client[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "process") == ":nativecmpkit_io_client",
-            "The reporter client/grant Activity must remain private")
+    applications, queries = reporter.findall("application"), reporter.findall("queries")
+    require(reporter.tag == "manifest" and len(applications) == len(queries) == 1 and
+            all(node.tag in {"uses-permission", "queries", "application"} for node in reporter) and
+            len(queries[0]) == 1 and queries[0][0].tag == "package" and queries[0][0].get(ANDROID + "name") == PACKAGE,
+            "Only the exact helper query and reporter application are permitted")
+    app = applications[0]
+    require(permissions == [PERMISSION] and not reporter.findall("uses-permission-sdk-23") and
+            reporter.get(ANDROID + "sharedUserId") is None and reporter.get(ANDROID + "sharedUserMaxSdkVersion") is None and
+            app.get(ANDROID + "permission") is None and app.get(ANDROID + "process") is None,
+            "Reporter must not bypass Android content grants or native UID/process boundaries")
+    grant, client, providers = app.findall("activity"), app.findall("service"), app.findall("provider")
+    require((len(grant), len(client), len(providers)) == (2, 1, 1) and
+            all(node.tag in {"activity", "service", "provider"} for node in app) and
+            all(node.get(ANDROID + "enabled") in {None, "true"} for node in app) and
+            {activity.get(ANDROID + "name") for activity in grant} ==
+                {"com.mohamedrejeb.calf.io.AndroidIoGrantActivity", "com.mohamedrejeb.calf.io.AndroidIoSingleDocumentGrantActivity"} and
+            all(activity.get(ANDROID + "exported") == "false" and activity.get(ANDROID + "permission") is None and
+                activity.get(ANDROID + "process") is None and len(activity) == 0 for activity in grant) and
+            client[0].get(ANDROID + "name") == "com.mohamedrejeb.calf.io.IoBookmarkClientService" and
+            client[0].get(ANDROID + "exported") == "false" and client[0].get(ANDROID + "process") == ":nativecmpkit_io_client" and
+            client[0].get(ANDROID + "permission") is None and len(client[0]) == 0,
+            "The exact reporter client and both grant/revoke Activities must remain private")
+    provider = providers[0]
+    require(provider.get(ANDROID + "name") == "com.mohamedrejeb.calf.io.instrumentation.DeviceIoFileProvider" and
+            provider.get(ANDROID + "authorities") == "${applicationId}.io-device-files" and
+            provider.get(ANDROID + "exported") == "false" and provider.get(ANDROID + "grantUriPermissions") == "true" and
+            provider.get(ANDROID + "process") == ":nativecmpkit_io_device_provider" and
+            all(provider.get(ANDROID + name) is None for name in ("permission", "readPermission", "writePermission")) and
+            len(provider) == 1 and provider[0].tag == "meta-data" and
+            provider[0].get(ANDROID + "name") == "android.support.FILE_PROVIDER_PATHS" and
+            provider[0].get(ANDROID + "resource") == "@xml/nativecmpkit_io_device_paths" and len(provider[0]) == 0,
+            "Only the original private same-UID separate-process FileProvider with its fixed path resource is permitted")
+    paths = ET.fromstring(texts[REFERENCE_PATHS], parser=ET.XMLParser(target=lt.NoDtdBuilder()))
+    require(paths.tag == "paths" and len(paths) == 1 and paths[0].tag == "cache-path" and
+            paths[0].attrib == {"name": "io-device", "path": "nativecmpkit-io-device/"} and len(paths[0]) == 0,
+            "Only the exact owned cache directory may be exposed by FileProvider")
     require('applicationId = "' + PACKAGE + '"' in texts[FIXTURE + "/build.gradle.kts"] and
             'namespace = "' + PACKAGE + '"' in texts[FIXTURE + "/build.gradle.kts"] and
             all(token in texts[FIXTURE + "/build.gradle.kts"] for token in (
@@ -174,7 +253,8 @@ def source_contract(root: Path) -> dict:
     lifecycle = texts[KOTLIN + "AndroidIoProviderLifecycleTest.kt"]
     require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", lifecycle) == list(lt.ANDROID_IO_PROVIDER_METHODS) and
             not re.search(r"@(Ignore|Disabled|IgnoredTest)\b", lifecycle), "Every new lifecycle method must remain authored and enabled")
-    all_code = "\n".join(texts[JAVA + name + ".java"] for name in JAVA_NAMES) + "\n" + "\n".join(texts[KOTLIN + name + ".kt"] for name in KOTLIN_NAMES if name != "KmpFileDeviceTest")
+    validate_reference_sources(texts)
+    all_code = "\n".join(texts[JAVA + name + ".java"] for name in JAVA_NAMES) + "\n" + "\n".join(texts[KOTLIN + name + ".kt"] for name in KOTLIN_NAMES if name != "KmpFileDeviceTest") + "\n" + texts[REFERENCE_PROVIDER]
     require("grantUriPermission(" not in all_code and "Runtime.getRuntime" not in all_code and "acquireContentProviderClient(" not in texts[KOTLIN + "AndroidIoProviderLifecycleTest.kt"],
             "Manual grant, shell process or stable provider-death bypass is forbidden")
     contract = {"source_policy_verified": True, "source_inputs": inputs, "source_inputs_sha256": lt.input_digest(inputs),
@@ -226,7 +306,7 @@ class OwnedIoDocuments(OwnedShareRecipient):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.receipt.update(verification_api_level=35,
-            scope="Actual separate-UID DocumentsProvider with signature-only control and Activity-result read/persistable/prefix grants of one fixed synthetic folder. Native client/provider restart, revocation and Coil source close checks remain test assertions. No real DocumentsUI/system/cloud provider, bitmap decoder, memory/key benchmark, consumer/API-ABI or release certification.")
+            scope="Actual separate-UID DocumentsProvider with signature-only control. Exact tree read/persistable/prefix or ordinary-document read/persistable Activity-result grants remain native test assertions, as do owned client/provider restart, owner revocation and descriptor/Coil source-close checks. No real DocumentsUI/system/cloud provider, default decoder, memory/key benchmark, consumer/API-ABI or release certification.")
 
     def host(self, command: list[str]) -> subprocess.CompletedProcess:
         result = subprocess.run(command, cwd=self.root, env=self.environment, capture_output=True, timeout=30)

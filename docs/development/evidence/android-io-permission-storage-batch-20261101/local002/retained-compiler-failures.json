@@ -1,0 +1,121 @@
+{
+  "count": 8,
+  "earlier_public_receipt": "../local001/review.json",
+  "original_attempts_remain_failed": true,
+  "original_invocations": [
+    {
+      "IO_reporter_assembly_completed_inside_failed_invocation": false,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "tests/consumer/android-storage-probe",
+        "assembleLegacy28Debug",
+        "assembleLegacyTarget28Debug",
+        "assembleLegacy29Debug",
+        "assembleScoped29Debug",
+        "assembleModernDebug",
+        "assembleAllFilesDebug"
+      ],
+      "diagnostics": [
+        {
+          "column": 77,
+          "line": 186,
+          "message": "Unresolved reference 'OPSTR_MANAGE_EXTERNAL_STORAGE'.",
+          "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbe.kt"
+        },
+        {
+          "column": 24,
+          "line": 261,
+          "message": "Unresolved reference 'unlink'.",
+          "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbe.kt"
+        },
+        {
+          "column": 41,
+          "line": 101,
+          "message": "Calf Permissions is experimental. The API may be changed in the future.",
+          "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeControlProvider.kt"
+        },
+        {
+          "column": 59,
+          "line": 133,
+          "message": "Unresolved reference 'OPSTR_MANAGE_EXTERNAL_STORAGE'.",
+          "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeControlProvider.kt"
+        }
+      ],
+      "elapsed_seconds": 73.02,
+      "exact_private_log_identity": {
+        "bytes": 11177,
+        "sha256": "2fe393a627a1f4c5a6faf9f996b8345da91d4d05b46621d1272e1dbd0aa5b736"
+      },
+      "exit_code": 1,
+      "failed_task": ":compileLegacy28DebugKotlin",
+      "name": "six-storage-flavors",
+      "native_executions": 0,
+      "original_failure_retained": true,
+      "working_directory": "repository root"
+    },
+    {
+      "IO_reporter_assembly_completed_inside_failed_invocation": true,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        ":calf-io:assembleAndroidDeviceTest",
+        ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+      ],
+      "diagnostics": [
+        {
+          "column": 53,
+          "line": 92,
+          "message": "Unresolved reference 'assertNotContains'.",
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+        },
+        {
+          "column": 39,
+          "line": 97,
+          "message": "Unresolved reference 'assertNotContains'.",
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt"
+        },
+        {
+          "column": 45,
+          "line": 25,
+          "message": "Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>?' & 'Serializable?']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.",
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt"
+        },
+        {
+          "column": 45,
+          "line": 63,
+          "message": "Type argument for reified type parameter 'T' was inferred to the intersection of ['Comparable<*>?' & 'Serializable?']. Reification of an intersection type results in the common supertype being used. This may lead to subtle issues and an explicit type argument is encouraged.",
+          "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt"
+        }
+      ],
+      "elapsed_seconds": 103.02,
+      "exact_private_log_identity": {
+        "bytes": 23465,
+        "sha256": "7ff647833c5df7924078d1c183358386c2cf1799b486101d055ac4c6a69a3a9c"
+      },
+      "exit_code": 1,
+      "failed_task": ":calf-permissions:calf-permissions-core:compileAndroidDeviceTest",
+      "name": "both-reporters-core-once",
+      "native_executions": 0,
+      "original_failure_retained": true,
+      "working_directory": "repository root"
+    }
+  ],
+  "raw_logs_copied": false,
+  "sanitization": "Only machine file-URI/workspace prefixes removed; repository paths, line/column and diagnostic messages retained exactly.",
+  "schema": "nativecmpkit-retained-eight-compiler-diagnostics-v1",
+  "underlying_native_failure_inferred": false
+}

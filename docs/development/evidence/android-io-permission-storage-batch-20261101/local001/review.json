@@ -1,0 +1,197 @@
+{
+  "accepted_scoped_source_models_reused": {
+    "accepted_scoped_models_replayed_locally": 0,
+    "all_adapter_AST_workflow_bytes_match": true,
+    "distinct_scoped_models_accepted": 41,
+    "owning_proof_sha256": "006443036523d84703f176dc89635a0105954d2d6048b0f019312a0286afd1c8",
+    "scope": "Exact64 tested/provided postimages and owning AST/Actionlint identities match current integration; unchanged scoped models reused, no fresh41/41 suite or native result inferred. Separate legal/Apple overlay is retained in new live1064/1141 freezes."
+  },
+  "aggregate_reporter_command_failed": true,
+  "build_results": [
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "tests/consumer/android-io-documents",
+        "assembleDebug"
+      ],
+      "elapsed_seconds": 17.0,
+      "exit_code": 0,
+      "free_bytes_after": 48537116672,
+      "free_bytes_before": 48537530368,
+      "name": "io-helper",
+      "native_executions": 0,
+      "private_log": {
+        "bytes": 2972,
+        "sha256": "cbd06b36db5970c3c05a6cbe59815c2032b704a1068a667fa64863128404a04f"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T00:55:15.631611+00:00",
+      "timeout_seconds": 1200,
+      "working_directory": "repository root"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "tests/consumer/android-permission-demo",
+        "assembleDebug"
+      ],
+      "elapsed_seconds": 107.02,
+      "exit_code": 0,
+      "free_bytes_after": 48275124224,
+      "free_bytes_before": 48537116672,
+      "name": "permission-helper",
+      "native_executions": 0,
+      "private_log": {
+        "bytes": 26277,
+        "sha256": "29d1d6a4e3b3f0c3f3d4c38430212475ba42066e9d8e65e9a02e9b6b1c6c7dbb"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T00:55:32.692454+00:00",
+      "timeout_seconds": 1200,
+      "working_directory": "repository root"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "tests/consumer/android-storage-probe",
+        "assembleLegacy28Debug",
+        "assembleLegacyTarget28Debug",
+        "assembleLegacy29Debug",
+        "assembleScoped29Debug",
+        "assembleModernDebug",
+        "assembleAllFilesDebug"
+      ],
+      "elapsed_seconds": 73.02,
+      "exit_code": 1,
+      "free_bytes_after": 48102432768,
+      "free_bytes_before": 48275124224,
+      "name": "six-storage-flavors",
+      "native_executions": 0,
+      "private_log": {
+        "bytes": 11177,
+        "sha256": "2fe393a627a1f4c5a6faf9f996b8345da91d4d05b46621d1272e1dbd0aa5b736"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T00:57:19.773479+00:00",
+      "timeout_seconds": 1200,
+      "working_directory": "repository root"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        ":calf-io:assembleAndroidDeviceTest",
+        ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+      ],
+      "elapsed_seconds": 103.02,
+      "exit_code": 1,
+      "free_bytes_after": 47815733248,
+      "free_bytes_before": 48027443200,
+      "name": "both-reporters-core-once",
+      "native_executions": 0,
+      "private_log": {
+        "bytes": 23465,
+        "sha256": "7ff647833c5df7924078d1c183358386c2cf1799b486101d055ac4c6a69a3a9c"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T01:02:59.623938+00:00",
+      "timeout_seconds": 1200,
+      "working_directory": "repository root"
+    },
+    {
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        ":sample:android:processDebugMainManifest",
+        ":sample:android:processReleaseMainManifest"
+      ],
+      "elapsed_seconds": 53.01,
+      "exit_code": 0,
+      "free_bytes_after": 47708831744,
+      "free_bytes_before": 47814815744,
+      "name": "sample-merged-manifests",
+      "native_executions": 0,
+      "private_log": {
+        "bytes": 9243,
+        "sha256": "0f0c452438123d43a0edab1702292cb683a4c80f2ca6eae272b1af576e7dbf2e"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T01:05:40.789692+00:00",
+      "timeout_seconds": 1200,
+      "working_directory": "repository root"
+    }
+  ],
+  "committed_base": "e9162681d598a63564667a0ca47ac1df94134fdb",
+  "dirty_source": true,
+  "exact_supplied_postimages": 64,
+  "fresh_IO_reporter_task_line": ":calf-io:assembleAndroidDeviceTest",
+  "io_reporter_task_completed": true,
+  "issues_stay_open": [
+    45,
+    55,
+    102,
+    118
+  ],
+  "native_executions": 0,
+  "permission_reporter_task_failed": ":calf-permissions:calf-permissions-core:compileAndroidDeviceTest",
+  "recorded_at_utc": "2026-11-01T01:11:42.239033+00:00",
+  "release_or_native_acceptance": false,
+  "schema": "nativecmpkit-held-android-compile-and-manifest-v1",
+  "source_hold": {
+    "groups": {
+      "combined": {
+        "after": 1141,
+        "before": 1141,
+        "exact": true
+      },
+      "library": {
+        "after": 1064,
+        "before": 1064,
+        "exact": true
+      },
+      "support": {
+        "after": 64,
+        "before": 64,
+        "exact": true
+      }
+    },
+    "observed_at": "2026-11-01T01:07:56.678915+00:00"
+  },
+  "source_patch_sha256": "b5d4f39c83c35eec6bc5ef0b6383d891e53058fbc5c41a108933b84f8d01b9f1"
+}

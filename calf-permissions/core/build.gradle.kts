@@ -5,6 +5,15 @@ plugins {
 }
 
 kotlin {
+    sourceSets.matching { it.name == "androidDeviceTest" }.configureEach {
+        dependencies {
+            implementation(libs.junit)
+            implementation(libs.androidx.test.runner)
+            implementation(libs.androidx.test.core)
+            implementation(libs.androidx.test.junit)
+        }
+    }
+
     sourceSets.named("androidHostTest").dependencies {
         implementation(libs.junit)
         implementation(libs.robolectric)

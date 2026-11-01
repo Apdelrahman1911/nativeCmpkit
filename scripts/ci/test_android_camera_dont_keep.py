@@ -93,7 +93,7 @@ class CameraDontKeepFocusTests(unittest.TestCase):
         self.assertEqual(4, len(l.android_camera_restoration_identities()))
         self.assertEqual(l.ANDROID_CAMERA_RESTORATION_CLASS, l.android_camera_restoration_filter(l.ANDROID_CAMERA_RESTORATION_FOCUS))
         self.assertEqual(11, len(w.matrix("all")["include"]))
-        self.assertEqual(8, len(l.MINIMUM_MODULES["android-device"]))
+        self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
         source = (l.ROOT / l.ANDROID_CAMERA_RESTORATION_SOURCE).read_text()
         self.assertEqual(list(l.ANDROID_CAMERA_RESTORATION_METHODS), re.findall(r"@Test\s+fun\s+(\w+)\s*\(\s*\)", source))
 

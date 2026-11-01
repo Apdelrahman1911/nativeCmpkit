@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Explicitly approved disposable Call variant. Never add these permissions to the general sample. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <!-- Explicit selection avoids Android14's implicit false-grant compatibility mode. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfpermissions.calfpermissionscore.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit approved Call permission test variant">
+        <activity android:name=".PermissionDemoActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name=".PermissionDemoService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO" />
+    </application>
+</manifest>

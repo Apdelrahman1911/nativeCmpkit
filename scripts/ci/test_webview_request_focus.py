@@ -224,7 +224,10 @@ class WebViewRequestFocusTests(unittest.TestCase):
         self.assertTrue(all(row["test-modules"] == "calf-webview" and row["test-focus"] == FOCUS for row in rows))
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
         self.assertEqual(("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui",
-                          "calf-navigation", "calf-share", "calf-camera-picker"), lt.MINIMUM_MODULES["android-device"])
+                          "calf-navigation", "calf-share", "calf-camera-picker", "calf-permissions/core"), lt.MINIMUM_MODULES["android-device"])
+        default = lt.plan(lt.ROOT, "android-device")
+        self.assertEqual(8, len(default["expected"]))
+        self.assertEqual(["calf-permissions/core"], default["finite_only_device_modules_not_requested"])
         for suite in ("js", "wasm"):
             plan = self.plan(suite)
             selected, = plan["expected"]

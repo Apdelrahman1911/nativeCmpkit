@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- No broad storage permission in the common app; static exceptional flavors only. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE"
+        android:protectionLevel="signature" />
+    <queries>
+        <package android:name="com.mohamedrejeb.calf.calfpermissions.calfpermissionscore.test" />
+        <intent>
+            <action android:name="android.intent.action.OPEN_DOCUMENT" />
+            <category android:name="android.intent.category.OPENABLE" />
+            <data android:mimeType="application/octet-stream" />
+        </intent>
+    </queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit storage test"
+        android:theme="@android:style/Theme.Material.Light.NoActionBar">
+        <activity android:name=".StorageProbeActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE" />
+        <service android:name=".StorageProbeService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE" />
+        <provider android:name=".StorageProbeControlProvider" android:authorities="${applicationId}.control"
+            android:exported="true" android:permission="android.permission.DUMP" android:grantUriPermissions="false" />
+    </application>
+</manifest>

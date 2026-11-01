@@ -53,6 +53,10 @@ class AndroidVerificationContractTests(unittest.TestCase):
         plan = r.plan(r.ROOT, "android-device")
         self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"],
                          [item["module"] for item in plan["expected"]])
+        self.assertEqual(list(r.MINIMUM_MODULES["android-device"]),
+                         [item["module"] for item in plan["expected"]] + ["calf-permissions/core"])
+        self.assertFalse(plan["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], plan["finite_only_device_modules_not_requested"])
 
     def test_missing_physical_or_injected_serials_are_rejected_before_execution(self):
         for serial in (None, "", "personal-phone", "emulator-5588 --info", "emulator-5588;echo", "emulator-5589"):

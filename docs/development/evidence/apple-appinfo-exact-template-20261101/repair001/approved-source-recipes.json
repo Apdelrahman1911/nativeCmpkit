@@ -1,0 +1,18 @@
+[
+  [
+    "# Diagnostic observations only. None of these alternatives expands acceptance.",
+    "# Finite diagnostics only; acceptance uses the separate exact pair below."
+  ],
+  [
+    "    # One exact source-reviewed usage form, not a substring/catchall parser.\n    syntax='simctl appinfo <device> <app bundle identifier>'",
+    "    # Two exact source-reviewed usage forms, not a substring/catchall parser.\n    syntaxes=('simctl appinfo <device> <app bundle identifier>',\n              'simctl appinfo <device> <bundle identifier>')"
+  ],
+  [
+    "    if usages == [syntax]:",
+    "    if len(usages)==1 and usages[0] in syntaxes:"
+  ],
+  [
+    "                     known_syntax=syntax,refusal_reason=None)",
+    "                     known_syntax=usages[0],refusal_reason=None)"
+  ]
+]

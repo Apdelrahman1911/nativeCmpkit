@@ -1,0 +1,288 @@
+{
+  "Android_WebView_request_state_separate_profile_not_selected": true,
+  "batches": {
+    "android-io-permission-storage-api35": {
+      "SDK_packages": "cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64",
+      "cache_module_selection": "calf-io,calf-permissions/core",
+      "distinct_methods": 8,
+      "requested_executions": 8,
+      "routes": 4,
+      "slot": "android-device-batch-api35"
+    },
+    "android-permission-storage-compatibility": {
+      "SDK_packages": "cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64",
+      "cache_module_selection": "calf-permissions/core",
+      "distinct_methods": 7,
+      "requested_executions": 8,
+      "routes": 8,
+      "slot": "android-device-batch-compatibility"
+    }
+  },
+  "distinct_original_methods": 13,
+  "measured_speedup_or_host_runtime_fit_claimed": false,
+  "native_executions": 0,
+  "native_or_issue_acceptance_inferred": false,
+  "original_routes": 12,
+  "permission_and_storage_target_executions": 13,
+  "rationale": [
+    "Two finite one-row hosted requests replace twelve independent route requests without changing any original API/module/focus/method selection.",
+    "Serial children may naturally reuse same-checkout Gradle compilation; every route still requests its original assembly and fresh native task.",
+    "Original individual profiles remain available; all11 full matrix slots remain unchanged.",
+    "Failed tests remain red; only certified prior owned cleanup permits independent later routes.",
+    "Archive bounded original XML before shared report quarantine; uncertified cleanup, stopped controller, source/workflow changes or bad archival refuse later routes.",
+    "Remove only certified completed route avd/android-user trees after archival; retain receipts/XML/compilation/caches/foreign paths."
+  ],
+  "raw_fixed_batch_plan_identity": {
+    "bytes": 97901,
+    "sha256": "65be258340f156911f9b7d83254ee7b79c0e0556bd4f1395edb9ab578f5ba9a5"
+  },
+  "requested_target_executions": 16,
+  "routes": [
+    {
+      "actual_source_plan_sha256": "123dba50333412d01e6f226c094949b8761a4a4bd3e075ddad5f2519aca9d363",
+      "api_level": 35,
+      "batch": "android-io-permission-storage-api35",
+      "focus": "android-io-reference-regressions",
+      "module": "calf-io",
+      "original_XML_report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-io-reference-regressions",
+      "original_slot": "android-device-api35",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess"
+        }
+      ],
+      "serial_order": 1,
+      "task": ":calf-io:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "27cc37efccdf08920164f942dc0cefaef0db9dad5b48f607ad9bfa4e12674d79",
+      "api_level": 35,
+      "batch": "android-io-permission-storage-api35",
+      "focus": "android-permission-demo-contracts",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-permission-demo",
+      "original_slot": "android-device-api35",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions"
+        }
+      ],
+      "serial_order": 2,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "0dc02c9a6d79b3968a3a05d6c87051098160bec58ae54b8c12b9bcee686acdd4",
+      "api_level": 35,
+      "batch": "android-io-permission-storage-api35",
+      "focus": "android-storage-api35-normal",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api35-normal",
+      "original_slot": "android-device-storage-api35-normal",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "modernAppScopedAndSafDoNotNeedAllFiles"
+        }
+      ],
+      "serial_order": 3,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "4917ca8296415b9116c6210fd0348c309679065e775635a2a66fab68daac6fff",
+      "api_level": 35,
+      "batch": "android-io-permission-storage-api35",
+      "focus": "android-storage-api35-all-files",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api35-all-files",
+      "original_slot": "android-device-storage-api35-all-files",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"
+        }
+      ],
+      "serial_order": 4,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "707f91592ad9f4ef1d392fa8b48c27c188b20203e478003f542acbac3eac0b57",
+      "api_level": 33,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-media-selection",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-media-selection-api33",
+      "original_slot": "android-device-api33-media",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidMediaSelectionDeviceTest",
+          "name": "realPlatformMediaSelectionIsReflectedByPublicLibraryStates"
+        }
+      ],
+      "serial_order": 1,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "707f91592ad9f4ef1d392fa8b48c27c188b20203e478003f542acbac3eac0b57",
+      "api_level": 34,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-media-selection",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-media-selection-api34",
+      "original_slot": "android-device-api34-media",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidMediaSelectionDeviceTest",
+          "name": "realPlatformMediaSelectionIsReflectedByPublicLibraryStates"
+        }
+      ],
+      "serial_order": 2,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "cfc51bfa9294e4ae8bdf3309c28452900f671e0024d716de650c8e2b0fb67b5d",
+      "api_level": 28,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api28",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api28",
+      "original_slot": "android-device-storage-api28",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "api28LegacyPermissionControlsSharedStorage"
+        }
+      ],
+      "serial_order": 3,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "a0634a7e71e220d2ebd246243e821708b18eb057f7273fe34b147ec31a64196c",
+      "api_level": 29,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api29-target28",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api29-target28",
+      "original_slot": "android-device-storage-api29-target28",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "api29Target28LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+        }
+      ],
+      "serial_order": 4,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "6d8f8b16b308148c12264b353b2a9bda76acbc4eabb01f2c94f3e35d2c6dcdd5",
+      "api_level": 29,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api29-legacy",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api29-legacy",
+      "original_slot": "android-device-storage-api29-legacy",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "api29Target29LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"
+        }
+      ],
+      "serial_order": 5,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "667d331692640f022a7248129f0ac5957824935f7d72c34271c976f369ff995d",
+      "api_level": 29,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api29-scoped",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api29-scoped",
+      "original_slot": "android-device-storage-api29-scoped",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "api29ScopedAccessStaysBoundedWithNativeWriteGrant"
+        }
+      ],
+      "serial_order": 6,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "d191323ea96a6ad5c9f5ceba01ce48e7e49a086f6f25096d8b62e111c39022fa",
+      "api_level": 30,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api30-normal",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api30-normal",
+      "original_slot": "android-device-storage-api30-normal",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "modernAppScopedAndSafDoNotNeedAllFiles"
+        }
+      ],
+      "serial_order": 7,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    },
+    {
+      "actual_source_plan_sha256": "2b87d07c4d374f46728980a6da363e4c085dce17f018f08e4b09331954a0dcdc",
+      "api_level": 30,
+      "batch": "android-permission-storage-compatibility",
+      "focus": "android-storage-api30-all-files",
+      "module": "calf-permissions/core",
+      "original_XML_report_directory": "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain",
+      "original_profile": "android-storage-api30-all-files",
+      "original_slot": "android-device-storage-api30-all-files",
+      "required_original_methods": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+          "name": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"
+        }
+      ],
+      "serial_order": 8,
+      "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest"
+    }
+  ],
+  "schema": "nativecmpkit-two-fixed-android-batch-source-plan-v1",
+  "separate_IO_target_executions": 3,
+  "source_only": true,
+  "unchanged_restrictions": {
+    "at_most_two_combined_heavy_hosted_requests": true,
+    "evidence_uploads": "Only bounded JSON receipts and original archived XML; no APK/key/log/candidate package glob.",
+    "existing_dependency_cache_keys_and_fences_preserved": true,
+    "hosted_job_timeout_minutes": 90,
+    "local_heavy_builds_serial": true,
+    "publishing_Pages_main_history_security_readiness_gates_relaxed": false,
+    "reserve_mib": 8192,
+    "route_timeout_seconds": 4200,
+    "token_permissions": "contents: read; no added write permissions"
+  }
+}

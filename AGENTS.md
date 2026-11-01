@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android IO/permission/storage finite batch ready — 2026-11-01
+
+[Owning compiler/integration evidence](docs/development/evidence/android-io-permission-storage-batch-20261101/local002/README.md)
+retains all eight original diagnostics and accepts six storage assemblies0/67.02s,
+permission reporter0/35.01s; unchanged IO/helper/sample results reused, not replayed.
+[Four compiled surfaces](docs/development/evidence/android-io-permission-storage-batch-20261101/compiled-surfaces001/README.md)
+are static only. Two fixed serial profiles request12 routes/16 target executions/
+13 distinct methods, fresh owned AVD/signing/results and archival before quarantine;
+uncertain cleanup refuses later routes. Final1068/1145 maps differ from accepted
+Android integration only at the two [exact Apple help-template repair](docs/development/evidence/apple-appinfo-exact-template-20261101/README.md)
+hashes. Actual41260881097 stays failed/unavailable, help0/stdout0/stderr100;
+4/4 focused models/26 refusals are not SDK/native evidence. ZERO new native here.
+#102/#118 require both actual batches and all six literal criteria in the
+[independent prereview](docs/development/evidence/android-io-permission-storage-batch-20261101/criteria-prereview001/MAP.md).
+Close verified whole issues promptly together; do not replay accepted tests.
+92closed/80open/172total;27implemented/42partial/90verified/five unresolved.
+#13 needs only original Dont-keep; #141 remains open/help-only next. Useful disjoint
+agents/serial local builds/8GiB disk reserve/max2 hosted requests and read-only
+verification permissions remain. Publishing/Pages/main/history/security/readiness
+gates are unchanged; no packaged consumer/ABI/runtime inference from assemblies.
+
 ## Actual Apple tooling refusal / UTC guard recovered — 2026-11-01
 
 [41258633262](docs/development/evidence/apple-appinfo-tooling-rendering-20261101/actual004/REVIEW.md)
@@ -2626,7 +2647,7 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The latest read-only refresh is `docs/migration/upstream-updates/20261027T014340Z/`;
+  The latest read-only refresh is `docs/migration/upstream-updates/20261101T001025Z/`;
   all16 open issues still have exactly one current destination context, with
   no imports/comments/closures needed. Review evidence is in
   `docs/development/upstream-refresh-20261027T014340Z/`; original posting/readback

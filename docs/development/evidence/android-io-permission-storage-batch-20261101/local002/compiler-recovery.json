@@ -1,0 +1,184 @@
+{
+  "actual_serial_recovery_results": [
+    {
+      "BUILD_SUCCESSFUL_observed": true,
+      "assembly_only": true,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-p",
+        "tests/consumer/android-storage-probe",
+        "assembleLegacy28Debug",
+        "assembleLegacyTarget28Debug",
+        "assembleLegacy29Debug",
+        "assembleScoped29Debug",
+        "assembleModernDebug",
+        "assembleAllFilesDebug"
+      ],
+      "compiler_error_records_present": 0,
+      "declared_assembly_task_outcomes": [
+        ":assembleLegacy28Debug",
+        ":assembleLegacyTarget28Debug",
+        ":assembleLegacy29Debug",
+        ":assembleScoped29Debug",
+        ":assembleModernDebug",
+        ":assembleAllFilesDebug"
+      ],
+      "elapsed_seconds": 67.02,
+      "exit_code": 0,
+      "free_bytes_after": 47456841728,
+      "free_bytes_before": 47694168064,
+      "name": "six-storage-flavors",
+      "native_executions": 0,
+      "private_log_identity": {
+        "bytes": 24820,
+        "sha256": "64dc65e394546816c193268850f0ebd25e9897c217f7492c133db61200bd99d7"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T01:10:34.666347+00:00",
+      "timeout_seconds": 1200,
+      "warning_records_present": 22,
+      "working_directory": "repository root"
+    },
+    {
+      "BUILD_SUCCESSFUL_observed": true,
+      "assembly_only": true,
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--console=plain",
+        "--no-parallel",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+      ],
+      "compiler_error_records_present": 0,
+      "declared_assembly_task_outcomes": [
+        ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest"
+      ],
+      "elapsed_seconds": 35.01,
+      "exit_code": 0,
+      "free_bytes_after": 47422226432,
+      "free_bytes_before": 47456841728,
+      "name": "permission-reporter-once",
+      "native_executions": 0,
+      "private_log_identity": {
+        "bytes": 14888,
+        "sha256": "6d0c16147810b3137337df6e212cc79be5a8c7e9c2557430da477641d447e0cf"
+      },
+      "reserve_mib": 8192,
+      "started_utc": "2026-11-01T01:11:41.756008+00:00",
+      "timeout_seconds": 1200,
+      "warning_records_present": 17,
+      "working_directory": "repository root"
+    }
+  ],
+  "dirty_snapshot": true,
+  "earlier_failed_invocations_not_relabelled": true,
+  "files": [
+    {
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+      "postimage": {
+        "bytes": 6640,
+        "sha256": "ce60b4bb2b430b70726c5ff8a41838e9a015a18adb338bc5a099cfaf13813736"
+      },
+      "postimage_matches_current_Android_source": true,
+      "preimage": {
+        "bytes": 6560,
+        "sha256": "132f877fb7e3903454b7db8b21591967096381317f055a24ee4243f8ee4f451a"
+      }
+    },
+    {
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt",
+      "postimage": {
+        "bytes": 10166,
+        "sha256": "cb3a99d39de7b56ae5afe5d36b8652a1bf5423fc5b736edadc6cdbc47a773e2c"
+      },
+      "postimage_matches_current_Android_source": true,
+      "preimage": {
+        "bytes": 10076,
+        "sha256": "7363d1a0792097235728ed3ba5a1aa266fa842b8f8973f783031897af1c99aa6"
+      }
+    },
+    {
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/StorageTestDocumentsProvider.kt",
+      "postimage": {
+        "bytes": 3305,
+        "sha256": "f4b172cde19beb0cb08f384c02d738b3c3d09d0c61d4d26a7a87ae3ea9ba5ffb"
+      },
+      "postimage_matches_current_Android_source": true,
+      "preimage": {
+        "bytes": 3293,
+        "sha256": "c945a0fbf1cd95c8dca0701abf5bf244e9b6b9f458ee27ea6de0f1c3dbd47e9b"
+      }
+    },
+    {
+      "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbe.kt",
+      "postimage": {
+        "bytes": 15768,
+        "sha256": "28dd72a8dd3785460bf43848c77bc04b74a21b5e54743eea3195d5997ccdab6f"
+      },
+      "postimage_matches_current_Android_source": true,
+      "preimage": {
+        "bytes": 15686,
+        "sha256": "8a4ab0b2db78ef105a7d971f715ee1b7afc72fd5dcc8cada8817f41b758231aa"
+      }
+    },
+    {
+      "path": "tests/consumer/android-storage-probe/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/verification/storageprobe/StorageProbeControlProvider.kt",
+      "postimage": {
+        "bytes": 9470,
+        "sha256": "3f253bd7542b447a6ab1700e6f03ab129d180c2a44af3323ee20526640f840a8"
+      },
+      "postimage_matches_current_Android_source": true,
+      "preimage": {
+        "bytes": 9306,
+        "sha256": "9dfc7becafd72ac82cd9e3994ecdc477f02934a4cf754f7aba6421499d992a15"
+      }
+    }
+  ],
+  "input_hold_reference": "input-witnesses.json",
+  "installations_or_device_tests": 0,
+  "new_native_executions": 0,
+  "observed_patch_integration_at": "2026-11-01T01:10:34.558707+00:00",
+  "owning_five_Kotlin_file_patch_sha256": "3cd778252b33d46a4d8c009bb34ea06491aab2ee9a2c82f462b0af2af2d5be51",
+  "owning_repairs": [
+    "Resolve the MANAGE_EXTERNAL_STORAGE AppOps name through public nullable permissionToOp; checkNotNull refuses missing runtime mapping.",
+    "Use throwing public Os.remove, preserving descriptor close, original lstat/ENOENT and primary-failure cleanup checks.",
+    "Use the existing ExperimentalPermissionsApi file opt-in for the storage control fixture.",
+    "Replace nonexistent assertNotContains with equivalent forbidden-membership assertFalse plus a public-safe diagnostic.",
+    "Explicitly type both heterogeneous MatrixCursor arrays as Any?; do not suppress or waive the compiler diagnostics."
+  ],
+  "raw_logs_APKs_keys_signing_payloads_not_copied": true,
+  "recorded_base_commit": "e9162681d598a63564667a0ca47ac1df94134fdb",
+  "recovery_builds_not_reexecuted_by_documentation_agent": true,
+  "repaired_actual_compiler_diagnostics": 8,
+  "reused_not_rebuilt_here": {
+    "IO_reporter": "Assembly completed within earlier aggregate reporter invocation that remained failed overall.",
+    "io_helper": {
+      "elapsed_seconds": 17.0,
+      "exit_code": 0
+    },
+    "permission_helper": {
+      "elapsed_seconds": 107.02,
+      "exit_code": 0
+    },
+    "receipt": "../local001/review.json",
+    "sample_merged_manifests": {
+      "debug_and_release_correspondence": "Each independently reviewed 24 menu rows / 16 source inputs.",
+      "elapsed_seconds": 53.01,
+      "exit_code": 0
+    }
+  },
+  "runtime_permissionToOp_mapping_inferred": false,
+  "schema": "nativecmpkit-owning-android-compiler-recovery-v1",
+  "warnings_not_converted_to_native_acceptance": true
+}

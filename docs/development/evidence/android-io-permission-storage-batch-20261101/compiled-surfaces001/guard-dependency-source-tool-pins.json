@@ -1,0 +1,98 @@
+{
+  "actual_merger_report_sha256": "9b0a872021e2fa0e5e703d3b0c44037ce9579c2a20013a756642ef7519e667ee",
+  "actual_permission_helper_tools": [
+    {
+      "argv": [
+        "<SDK_BUILD_TOOLS_36.0.0>/aapt2",
+        "dump",
+        "xmltree",
+        "--file",
+        "AndroidManifest.xml",
+        "tests/consumer/android-permission-demo/build/outputs/apk/debug/nativecmpkit-owned-android-permission-demo-debug.apk"
+      ],
+      "exit_code": 0,
+      "helper": "permission",
+      "operation": "manifest",
+      "seconds": 0.009026148007251322,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 9064,
+      "stdout_sha256": "68e62dac1c4089b89acbdae648fc710dfef38a285f5c6f97aaa4b247630c8759",
+      "tool_sha256": "1a6a396b9cd071f7040071fdd108718cb98c3c9f4960044f373b288993d19eb7"
+    },
+    {
+      "argv": [
+        "<SDK_BUILD_TOOLS_36.0.0>/aapt2",
+        "dump",
+        "badging",
+        "tests/consumer/android-permission-demo/build/outputs/apk/debug/nativecmpkit-owned-android-permission-demo-debug.apk"
+      ],
+      "exit_code": 0,
+      "helper": "permission",
+      "operation": "badging",
+      "seconds": 0.011094096000306308,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 8545,
+      "stdout_sha256": "731e3b8d71c5b90c26af20d7961c354f43620a5674df554743425d42c6e486dc",
+      "tool_sha256": "1a6a396b9cd071f7040071fdd108718cb98c3c9f4960044f373b288993d19eb7"
+    },
+    {
+      "argv": [
+        "<SDK_BUILD_TOOLS_36.0.0>/apksigner",
+        "verify",
+        "--verbose",
+        "--print-certs",
+        "--min-sdk-version",
+        "35",
+        "--max-sdk-version",
+        "35",
+        "tests/consumer/android-permission-demo/build/outputs/apk/debug/nativecmpkit-owned-android-permission-demo-debug.apk"
+      ],
+      "exit_code": 0,
+      "helper": "permission",
+      "operation": "signer-api35",
+      "seconds": 0.3185049230232835,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 955,
+      "stdout_sha256": "78e2ee38d8787d3e94d6e049200993e4f3451e9c07d7388770f6389166c8f4f7",
+      "tool_sha256": "b47549e373b895ce6ca620d0c7887e674d9615ffa837a86ac601dcfd04adb0f0"
+    }
+  ],
+  "apk_rebuilt_for_adapter_change": false,
+  "compile_sdk": 37,
+  "dependency_manifest_inputs": [
+    {
+      "AAR_code_security_or_dependency_trust_inferred": false,
+      "actual_merger_origin_observed": true,
+      "consumed_transformed_manifest_bytes": 1281,
+      "consumed_transformed_manifest_sha256": "306a36b5bd18a84dde3c27c5e66835f06b2a8b3af352f1682411c096b1ed6d0b",
+      "coordinate": "androidx.emoji2:emoji2:1.4.0",
+      "private_cache_path_recorded": false
+    },
+    {
+      "AAR_code_security_or_dependency_trust_inferred": false,
+      "actual_merger_origin_observed": true,
+      "consumed_transformed_manifest_bytes": 1066,
+      "consumed_transformed_manifest_sha256": "5f62cde542474d5c94b8e7d07e5935106e20ed4b45932d704f70b7ac610528ea",
+      "coordinate": "androidx.window:window:1.5.0",
+      "private_cache_path_recorded": false
+    }
+  ],
+  "official_build_tools_revision": "36.0.0",
+  "source_sha256": {
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "scripts/ci/android_io_documents.py": "3c85cee3b0b57b1ca6dbb431e9583590059043ae35423d1384fda3f9abfe4ec1",
+    "scripts/ci/android_permission_demo.py": "f4ec61e2e2b3ec4e08a3c72cbadcedfd7e3cf3cd11598e1a8af545f6b2114be4",
+    "scripts/ci/test_android_permission_demo_review.py": "082d1b17d32f7bdadde19f8ab084ea4cf58fdf5f46d232f7d0b64e1851cefaf8",
+    "tests/consumer/android-permission-demo/build.gradle.kts": "9101371c9ed467461568bf75325618b557075433176e2c4af52a17b5bee83f68",
+    "tests/consumer/android-permission-demo/gradle.properties": "512f06a0ec0aa07af0a4cb0d5b7d50c5e5918c117362fa6a5cff5106b69aeb4f",
+    "tests/consumer/android-permission-demo/settings.gradle.kts": "06d489191e029cc76fed000f32fd072112d8a12c33fbd22c9ec6ec3db2cb34e0",
+    "tests/consumer/android-permission-demo/src/main/AndroidManifest.xml": "532a193e07181da4c1af56151f51fa7c8fd3de7f0af6b4449f2df01480a42ff5"
+  },
+  "tool_versions": {
+    "aapt2": "2.20-13193326",
+    "apksigner": "0.9"
+  }
+}

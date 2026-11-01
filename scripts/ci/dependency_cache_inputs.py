@@ -90,10 +90,16 @@ def selected_inputs(root: Path, scope: str) -> dict[str, str]:
         # Actual helper SDK/manifest/signing-policy recipe binds dependencies,
         # never a helper APK, Java/test source, signing input or XML result.
         optional('scripts/ci/android_io_documents.py')
+        optional('scripts/ci/android_storage_probe.py')
+        optional('scripts/ci/android_storage_compatibility_plan.py')
+        for mode in ('main', 'legacy28', 'legacyTarget28', 'legacy29', 'scoped29', 'modern', 'allFiles'):
+            optional('tests/consumer/android-storage-probe/src/' + mode + '/AndroidManifest.xml')
         optional('tests/consumer/android-io-documents/src/main/AndroidManifest.xml')
+        optional('scripts/ci/android_permission_demo.py')
+        optional('tests/consumer/android-permission-demo/src/main/AndroidManifest.xml')
         for fixture in ('tests/consumer/android-geo-probe', 'tests/consumer/android-share-recipient',
                         'tests/consumer/android-share-documents', 'tests/consumer/android-camera-receiver',
-                        'tests/consumer/android-io-documents'):
+                        'tests/consumer/android-io-documents', 'tests/consumer/android-permission-demo', 'tests/consumer/android-storage-probe'):
             for name in PROJECT_FILES:
                 optional(fixture + '/' + name)
     if scope == 'core-io':

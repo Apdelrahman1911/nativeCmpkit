@@ -646,7 +646,6 @@ class AppinfoHelpDiagnosticTests(unittest.TestCase):
 
     def test_allowlisted_alternate_templates_are_observations_without_support(self):
         templates = ('simctl appinfo <device> <app>',
-                     'simctl appinfo <device> <bundle identifier>',
                      'appinfo <device> <app bundle identifier>')
         for template in templates:
             with self.subTest(template=template):
@@ -655,6 +654,86 @@ class AppinfoHelpDiagnosticTests(unittest.TestCase):
                 self.assertEqual('unrecognized-exact-usage-syntax', value['refusal_reason'])
                 self.assertEqual(template, value['usage_template_observation'])
                 self.assertEqual(1, value['strict_usage_line_count'])
+
+    def test_documented_bundle_identifier_is_exact_help_only_on_either_stream(self):
+        syntax = 'simctl appinfo <device> <bundle identifier>'
+        payload = ('Usage: ' + syntax + '\n').encode() + b'PRIVATE_BUNDLE_HELP_SENTINEL /private/account/path\n'
+        for stderr in (False, True):
+            with self.subTest(stderr=stderr):
+                value = self.observe(payload, stderr=stderr)
+                self.assertEqual('observed-supported-syntax', value['status'])
+                self.assertTrue(value['capability_available'])
+                self.assertEqual(syntax, value['known_syntax'])
+                self.assertEqual(syntax, value['usage_template_observation'])
+                self.assertIsNone(value['refusal_reason'])
+                self.assertEqual(1, value['usage_line_count'])
+                self.assertEqual(1, value['strict_usage_line_count'])
+                self.assertEqual('exact', value['usage_prefix_observation'])
+                self.assertFalse(value['usage_template_normalized'])
+                self.assertFalse(value['usage_lines_truncated'])
+                self.assertFalse(value['appinfo_output_schema_observed'])
+                self.assertFalse(value['native_functionality_verified'])
+                self.assertFalse(value['raw_help_or_paths_uploaded'])
+                self.assertEqual(0 if stderr else len(payload), value['stdout_bytes'])
+                self.assertEqual(len(payload) if stderr else 0, value['stderr_bytes'])
+                line = ('Usage: ' + syntax).encode()
+                self.assertEqual(hashlib.sha256(len(line).to_bytes(4,'big') + line).hexdigest(),
+                                 value['usage_lines_sha256'])
+                for token in ('PRIVATE_BUNDLE_HELP_SENTINEL', '/private/account/path'):
+                    self.assertNotIn(token, json.dumps(value))
+
+    def test_documented_bundle_identifier_refuses_unknown_malformed_and_duplicate_usage(self):
+        exact = b'Usage: simctl appinfo <device> <bundle identifier>\n'
+        cases = (
+            (b'Usage: simctl appinfo <device> <unknown>\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl appinfo <device> <bundle>\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl appinfo <device> <bundle identifier\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl appinfo <device> <bundle identifier> --extra\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl appinfo <device> <bundle identifier> \t\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl  appinfo <device> <bundle identifier>\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: simctl appinfo <device> <bundle  identifier>\n', 'unrecognized-exact-usage-syntax'),
+            (b'Usage: SIMCTL appinfo <device> <bundle identifier>\n', 'unrecognized-exact-usage-syntax'),
+            (b'usage: simctl appinfo <device> <bundle identifier>\n', 'missing-exact-usage-line'),
+            (b' \tUsage: simctl appinfo <device> <bundle identifier>\n', 'missing-exact-usage-line'),
+            (b'simctl appinfo <device> <bundle identifier>\n', 'missing-exact-usage-line'),
+            (b'Usage: /private/account/PRIVATE_BUNDLE_USAGE <device> <bundle identifier>\n', 'unrecognized-exact-usage-syntax'),
+            (exact + exact, 'ambiguous-exact-usage-lines'),
+            (exact + USAGE, 'ambiguous-exact-usage-lines'),
+        )
+        for payload, reason in cases:
+            with self.subTest(reason=reason, payload=payload):
+                value = self.observe(payload, stderr=True)
+                self.assert_unavailable(value)
+                self.assertEqual(reason, value['refusal_reason'])
+                self.assertFalse(value['raw_help_or_paths_uploaded'])
+                for token in ('/private/account', 'PRIVATE_BUNDLE_USAGE'):
+                    self.assertNotIn(token, json.dumps(value))
+        mixed = self.module.help_observation(self.module.Result(0, USAGE, exact, None))
+        self.assert_unavailable(mixed)
+        self.assertEqual('ambiguous-exact-usage-lines', mixed['refusal_reason'])
+
+    def test_documented_bundle_identifier_keeps_invalid_partial_and_nonzero_control_refusals(self):
+        module = self.module
+        exact = b'Usage: simctl appinfo <device> <bundle identifier>\n'
+        cases = (
+            (module.Result(1, b'', exact, None), 'nonzero-help-exit'),
+            (module.Result(True, b'', exact, None), 'invalid-control-result'),
+            (module.Result(None, b'', exact, None), 'invalid-control-result'),
+            (module.Result(None, b'', exact, 'timeout'), 'invalid-control-result'),
+            (module.Result(0, b'', exact, 'timeout'), 'invalid-control-result'),
+            (module.Result(0, b'', exact, 'owned-control-refusal'), 'invalid-control-result'),
+            (module.Result(0, 'not bytes', exact, None), 'invalid-control-result'),
+            (module.Result(0, b'x' * module.MAX_COMMAND_BYTES, exact, None), 'invalid-control-result'),
+            (module.Result(0, b'', exact + b'\xff', None), 'utf8-decoding-refused'),
+        )
+        for result, reason in cases:
+            with self.subTest(reason=reason, stop=result.stop_reason):
+                value = module.help_observation(result)
+                self.assert_unavailable(value)
+                self.assertEqual(reason, value['refusal_reason'])
+                self.assertFalse(value['raw_help_or_paths_uploaded'])
+                self.assertIsNone(value['usage_template_observation'])
+                self.assertIsNone(value['strict_usage_line_count'])
 
     def test_arbitrary_usage_text_paths_and_tokens_never_escape_diagnostics(self):
         payload = b'Usage: /private/account/SECRET_PATH PRIVATE_USAGE_TOKEN <PRIVATE_ARG>\n'

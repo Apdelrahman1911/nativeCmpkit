@@ -82,7 +82,10 @@ class AndroidIoDefaultDecodeGuards(unittest.TestCase):
     def test_finite_profile_retains_eleven_full_slots_and_eight_android_modules(self):
         row, = matrix.matrix(FOCUS)['include']
         self.assertEqual(('android-device-api35', 'calf-io', FOCUS), (row['slot'], row['test-modules'], row['test-focus']))
-        self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(8, len(r.MINIMUM_MODULES['android-device']))
+        self.assertEqual(11, len(matrix.matrix('all')['include'])); self.assertEqual(9, len(r.MINIMUM_MODULES['android-device']))
+        default = r.plan(r.ROOT, "android-device")
+        self.assertEqual(8, len(default["expected"]))
+        self.assertEqual(["calf-permissions/core"], default["finite_only_device_modules_not_requested"])
         self.assertEqual(5, len(r.android_io_provider_identities()))
         choices = re.search(r'options: \[([^\n]+)\]', (r.ROOT / '.github/workflows/gradle.yml').read_text()).group(1)
         self.assertEqual(set(matrix.PROFILES), {part.strip() for part in choices.split(',')})

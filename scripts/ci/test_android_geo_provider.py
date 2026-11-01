@@ -123,8 +123,13 @@ class AndroidGeoProviderTests(unittest.TestCase):
         self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + CLASS, command)
         self.assertEqual(":calf-geo:connectedAndroidDeviceTest", command[-1])
         self.assertEqual(11, len(wm.matrix("all")["include"]))
+        default = lt.plan(lt.ROOT, "android-device")
         self.assertEqual(["calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker"],
-                         [m["module"] for m in lt.plan(lt.ROOT, "android-device")["expected"]])
+                         [m["module"] for m in default["expected"]])
+        self.assertEqual(list(lt.MINIMUM_MODULES["android-device"]),
+                         [m["module"] for m in default["expected"]] + ["calf-permissions/core"])
+        self.assertFalse(default["complete_suite_requested"])
+        self.assertEqual(["calf-permissions/core"], default["finite_only_device_modules_not_requested"])
         workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
         self.assertIn(PROFILE, workflow)
         self.assertIn("permissions:\n  contents: read", workflow)

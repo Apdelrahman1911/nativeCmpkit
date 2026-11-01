@@ -48,8 +48,8 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
         for path in (r.ROOT / FIXTURE).rglob('*'):
             if path.is_file() and 'build' not in path.relative_to(r.ROOT / FIXTURE).parts:
                 self.copy(path.relative_to(r.ROOT).as_posix())
-        for path in (r.ROOT / 'calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io').glob('*.kt'):
-            self.copy(path.relative_to(r.ROOT).as_posix())
+        for path in (r.ROOT / 'calf-io/src/androidDeviceTest').rglob('*'):
+            if path.is_file(): self.copy(path.relative_to(r.ROOT).as_posix())
 
     def copy(self, relative):
         target = self.root / relative
@@ -74,12 +74,12 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
         self.assertNotIn(r.android_io_oversize_identities()[0], item['required_testcases'])
         self.assertEqual('calf-io/build/outputs/androidTest-results/connected/androidMain', item['report_directory'])
 
-    def test_real_profile_preserves_all_eleven_slots_eight_modules_and_additive_iframe_focus(self):
+    def test_real_profile_preserves_all_eleven_slots_nine_modules_and_additive_iframe_focus(self):
         row, = matrix.matrix(FOCUS)['include']
         self.assertEqual(('android-device-api35', 'calf-io', FOCUS),
                          (row['slot'], row['test-modules'], row['test-focus']))
         self.assertEqual(11, len(matrix.matrix('all')['include']))
-        self.assertEqual(8, len(r.MINIMUM_MODULES['android-device']))
+        self.assertEqual(9, len(r.MINIMUM_MODULES['android-device']))
         self.assertEqual(2, len(matrix.matrix('webview-content-transitions')['include']))
         self.assertTrue(all(row['test-focus'] == r.WEBVIEW_CONTENT_FOCUS
                             for row in matrix.matrix('webview-content-transitions')['include']))
@@ -91,7 +91,9 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
         for relative in ('build.gradle.kts', 'settings.gradle.kts', 'gradle.properties', 'src/main/AndroidManifest.xml'):
             self.assertIn(FIXTURE + '/' + relative, values)
         java = list((self.root / FIXTURE / 'src/main/java').rglob('*.java'))
-        self.assertEqual(5, len(java))
+        self.assertEqual(6, len(java))
+        self.assertEqual({helper.JAVA + name + '.java' for name in helper.JAVA_NAMES},
+                         {path.relative_to(self.root).as_posix() for path in java})
         self.assertTrue(all(path.relative_to(self.root).as_posix() in values for path in java))
         held = dict(values)
         self.write(FIXTURE + '/build/outputs/apk/debug/old.apk', 'not an input or proof')
@@ -294,9 +296,9 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
             r.gradle_command('android-device', accepted, root=self.root, android_serial=device.SERIAL,
                              android_io_documents_receipt=self.prepared())
 
-    def test_source_contract_binds_actual_nineteen_inputs_without_native_or_compiler_success(self):
+    def test_source_contract_binds_actual_twenty_four_inputs_without_native_or_compiler_success(self):
         value = helper.source_contract(self.root); helper.validate_source_receipt(value)
-        self.assertEqual(19, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
+        self.assertEqual(24, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
         self.assertTrue(value['source_policy_verified']); self.assertFalse(value['native_or_compile_success_inferred'])
         self.assertEqual(value, self.plan()['android_io_documents']['source_contract'])
         for relative in helper.SOURCE_FILES:

@@ -219,6 +219,9 @@ class CameraProviderPlanTests(unittest.TestCase):
         p = self.plan(); self.assertTrue(l.validate_test_focus(p)); self.assertTrue(l.android_camera_receiver_required(p))
         self.assertFalse(p["complete_suite_requested"]); self.assertEqual(4, len(p["expected"][0]["required_testcases"]))
         self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
+        self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
+        self.assertEqual(["calf-permissions/core"],
+                         l.plan(l.ROOT, "android-device")["finite_only_device_modules_not_requested"])
         actual = w.preflight_plans("android-camera-provider")
         self.assertEqual(2, len(actual["slots"]))
         for api, selection in zip(("35", "23"), actual["slots"]):
@@ -255,7 +258,7 @@ class CameraProviderPlanTests(unittest.TestCase):
         self.assertEqual(l.ANDROID_CAMERA_PROVIDER_CLASS + "#" + l.ANDROID_CAMERA_PROVIDER_METHODS[-1], expected["test_filter"])
         self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_camera_receiver_required(plan))
         self.assertEqual(0, w.preflight_plans("android-camera-no-handler-minimum")["slots"][0]["exit_code"])
-        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.MINIMUM_MODULES["android-device"]))
+        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
         command = l.gradle_command("android-device", plan, android_serial="emulator-5588")
         self.assertIn("-Pandroid.testInstrumentationRunnerArguments.class=" + expected["test_filter"], command)
         self.assertFalse(any("," in arg for arg in command if arg.startswith("-Pandroid.testInstrumentationRunnerArguments.")))
@@ -391,7 +394,7 @@ class CameraRestorationPlanTests(unittest.TestCase):
         self.assertEqual(l.ANDROID_CAMERA_RESTORATION_CLASS, expected["test_filter"])
         self.assertTrue(l.validate_test_focus(plan)); self.assertTrue(l.android_camera_receiver_required(plan))
         self.assertEqual(0, w.preflight_plans("android-camera-restoration")["slots"][0]["exit_code"])
-        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(8, len(l.MINIMUM_MODULES["android-device"]))
+        self.assertEqual(11, len(w.matrix("all")["include"])); self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
         with self.assertRaises(ValueError): device.validate_api_selection(23, ("calf-camera-picker",), l.ANDROID_CAMERA_RESTORATION_FOCUS)
         for filter_ in (l.ANDROID_CAMERA_PROVIDER_CLASS, l.ANDROID_CAMERA_RESTORATION_CLASS + "#onlyOne", "Foreign"):
             bad = deepcopy(plan); bad["expected"][0]["test_filter"] = filter_

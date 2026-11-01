@@ -33,6 +33,9 @@ class AndroidGeoPrerequisitesTests(unittest.TestCase):
         self.assertFalse(l.android_geo_probe_required(owner))
         self.assertEqual(11, len(w.matrix("all")["include"]))
         self.assertEqual(8, len(l.plan(l.ROOT, "android-device")["expected"]))
+        self.assertEqual(9, len(l.MINIMUM_MODULES["android-device"]))
+        self.assertEqual(["calf-permissions/core"],
+                         l.plan(l.ROOT, "android-device")["finite_only_device_modules_not_requested"])
 
     def test_prerequisite_selection_uses_one_actual_runtime_annotation_without_ATE_csv_loss(self):
         plan = self.plan()

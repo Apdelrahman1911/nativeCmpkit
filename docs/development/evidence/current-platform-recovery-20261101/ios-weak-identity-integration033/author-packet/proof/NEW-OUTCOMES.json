@@ -1,0 +1,82 @@
+{
+  "scope": "NEW PRIVATE SOURCE/SYNTHETIC ONLY; no Kotlin/Apple/WebKit/real NSError/native/XML",
+  "new_unique_weak_extension_methods": 10,
+  "new_green_executions": 14,
+  "preserved_three_issued_regression_reds": 2,
+  "existing_three_source_owners_each_executed_once": true,
+  "affected_prepared_phase_owner_executed_once": true,
+  "runs": [
+    {
+      "label": "sealed-three-issued-red",
+      "methods": 2,
+      "ids": [
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySourceTests.test_three_issued_source_requires_current_match_before_known_live_start_refusal",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_three_issued_handles_cannot_re_adopt_first_before_current_start"
+      ],
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "expected_regression_reds": 2,
+      "mode": "private Python/source/synthetic only",
+      "private_original_output_sha256": "3bd7160fbd2083eeebc727755a7dc846eb47958f21f19d09f84245034abfec88"
+    },
+    {
+      "label": "revised-new-weak-controls-green",
+      "methods": 10,
+      "ids": [
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySourceTests.test_native_weak_pointer_membership_preserves_owner_null_and_reentrant_binding_gates",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySourceTests.test_owned_final_release_clears_weak_keys_without_new_strong_history_or_addresses",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySourceTests.test_three_issued_source_requires_current_match_before_known_live_start_refusal",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_null_foreign_and_released_owners_never_add_membership",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_only_owned_release_clears_keys_and_current_precommit_stop_still_refuses_commit",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_reentrantly_replaced_issued_return_is_known_without_binding_or_reopening",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_three_issued_handles_cannot_re_adopt_first_before_current_start",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_unidentified_loading_stop_does_not_poison_a_genuinely_new_native_start",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_unseen_genuine_native_start_can_replace_every_active_or_terminal_phase",
+        "test_ios_webview_known_navigation_weak_identity.IosKnownNavigationWeakIdentitySyntheticTests.test_weak_keys_follow_allocation_lifetime_not_wrapper_or_value_equality"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_regression_reds": 0,
+      "mode": "private Python/source/synthetic only",
+      "private_original_output_sha256": "af75cc64ea6120b3d0c1f98caf78345d46cdf5a3031516fcf1a67886921e8c6a"
+    },
+    {
+      "label": "affected-new-phase-guard-green",
+      "methods": 1,
+      "ids": [
+        "test_ios_webview_current_request_metadata.IosCurrentRequestMetadataSourceTests.test_source_live_identity_transition_and_noncommit_paths_are_bound"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_regression_reds": 0,
+      "mode": "private Python/source/synthetic only",
+      "private_original_output_sha256": "abf3aa256522bbb63d0679268489598c01d2fd7ce291f13d8fb33ca5d4058623"
+    },
+    {
+      "label": "three-existing-source-owners-green",
+      "methods": 3,
+      "ids": [
+        "test_ios_webview_native_identity.IosWebViewNativeIdentityTests.test_native_callbacks_match_the_retained_objc_owner_not_a_kotlin_wrapper",
+        "test_ios_webview_native_identity.IosWebViewNativeIdentityTests.test_identity_compares_live_native_pointers_and_nulls_never_form_a_lease",
+        "test_webview_identity_recovery.WebViewIdentityRecoveryTests.test_final_ios_release_detaches_owned_view_before_owner_reset_and_keeps_failed_parent_predicate"
+      ],
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_regression_reds": 0,
+      "mode": "private Python/source/synthetic only",
+      "private_original_output_sha256": "207d7e9383d8c75436a33905a9c493f5576be522692d3f4fe3c21b1e1dfcaf06"
+    }
+  ],
+  "regression_red_summary": {
+    "source": "Previous sealed proposal had only the immediate predecessor refusal; native weak-known current-match gate absent",
+    "model": "Three returned issued handles A/B/C, no current start yet: delayed A start replaced current C in the previous sealed abstract model",
+    "actual_native_callback_order_or_cause_claim": false
+  },
+  "safety": "subprocess/Git/build/acquisition/native/network calls refused during imports and selected methods",
+  "compiler_native_dispatch_acquisition_git_live_edits": false,
+  "no_whole_ci_suite_claim": true
+}

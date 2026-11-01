@@ -1,0 +1,1158 @@
+--- a/calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt
++++ b/calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt
+@@ -20,7 +20,10 @@
+ import kotlinx.cinterop.ObjCSignatureOverride
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.withContext
++import platform.Foundation.NSHashTable
+ import platform.Foundation.NSKeyValueObservingOptionNew
++import platform.Foundation.NSPointerFunctionsObjectPointerPersonality
++import platform.Foundation.NSPointerFunctionsWeakMemory
+ import platform.Foundation.NSURL
+ import platform.Foundation.NSMutableURLRequest
+ import platform.Foundation.NSError
+@@ -134,6 +137,7 @@
+         { view.removeFromSuperview() },
+         {
+             if (hasSameNativeWebView(state.webView, view)) {
++                state.clearIosRequestMetadata()
+                 state.nativeObserver = null
+                 state.webView = null
+                 state.navigator = null
+@@ -148,34 +152,61 @@
+ }
+ 
+ private fun loadIosContent(view: WKWebView, state: WebViewState, content: WebContent) {
+-    if (!state.acceptContent(content, WebContentPlatform.Ios)) return
++    // NavigatorOnly is not a request and must not revoke an existing document witness.
++    if (content == WebContent.NavigatorOnly) return
++    val iosRequest = state.prepareIosRequest()
++    if (!state.acceptContent(content, WebContentPlatform.Ios)) {
++        state.rejectIosRequest(iosRequest)
++        return
++    }
+     when (content) {
+         is WebContent.Url -> {
+             val url = NSURL.URLWithString(content.url)
+             if (url == null) {
+                 state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid URL"))
+                 state.loadingState = LoadingState.Finished
++                state.rejectIosRequest(iosRequest)
+                 return
+             }
+             val request = NSMutableURLRequest().apply {
+                 setURL(url)
+                 content.additionalHttpHeaders.forEach { (key, value) -> setValue(value, forHTTPHeaderField = key) }
+             }
+-            view.loadRequest(request)
++            state.bindIosNavigation(view, iosRequest, view.loadRequest(request))
+         }
+         is WebContent.Data -> {
+             val baseUrl = content.baseUrl?.let { NSURL.URLWithString(it) }
+             if (content.baseUrl != null && baseUrl == null) {
+                 state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid base URL"))
+                 state.loadingState = LoadingState.Finished
++                state.rejectIosRequest(iosRequest)
+             } else {
+                 // The same Unicode HTML loader serves state and navigator. Unsupported byte
+                 // encodings/MIME/history options were rejected above, never relabeled as UTF-8.
+-                view.loadHTMLString(content.data, baseUrl)
++                state.bindIosNavigation(view, iosRequest, view.loadHTMLString(content.data, baseUrl))
+             }
+         }
+         WebContent.NavigatorOnly -> Unit
+     }
++}
++
++/** Internal only: loading KVO and nil callbacks cannot establish a document commit. */
++internal enum class IosWebViewRequestPhase {
++    AwaitingStart,
++    Provisional,
++    Committed,
++    FinishedCommitted,
++    FinishedUncommitted,
++    SuspendedCommitted,
++}
++
++/** Bounded live references, not exported addresses or an accumulating callback log. */
++internal class IosWebViewRequest(
++    internal var navigation: WKNavigation? = null,
++    internal val supersededNavigation: WKNavigation? = null,
++) {
++    internal var phase = IosWebViewRequestPhase.AwaitingStart
++    internal var stoppedBeforeCommit = false
+ }
+ 
+ /**
+@@ -253,6 +284,115 @@
+     internal var initialAllowsInlineMediaPlayback = true
+     internal var nativeObserver: WKWebViewObserver? = null
+ 
++    private var iosRequest: IosWebViewRequest? = null
++
++    // Native weak keys remember issued/observed handles only while their native objects
++    // remain alive. Object-pointer personality is independent of Kotlin wrapper/value
++    // equality. The table retains no navigation objects and exports no addresses.
++    private val knownIosNavigations = NSHashTable(
++        options = NSPointerFunctionsWeakMemory or NSPointerFunctionsObjectPointerPersonality,
++        capacity = 0uL,
++    )
++
++    internal fun prepareIosRequest(): IosWebViewRequest {
++        val previous = iosRequest
++        return IosWebViewRequest(
++            supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,
++        ).also { iosRequest = it }
++    }
++
++    internal fun rejectIosRequest(request: IosWebViewRequest) {
++        if (iosRequest === request) request.phase = IosWebViewRequestPhase.FinishedUncommitted
++    }
++
++    internal fun bindIosNavigation(view: WKWebView, request: IosWebViewRequest, navigation: WKNavigation?) {
++        if (!hasSameNativeWebView(webView, view) || navigation == null) return
++        // Even a return after reentrant request replacement is a known issued handle.
++        // Remember it weakly, but only the still-current record may bind its identity.
++        knownIosNavigations.addObject(navigation)
++        if (iosRequest !== request) return
++        // A native callback may already have advanced or replaced this request. Never reopen
++        // its phase or overwrite a newer native start when the issuing call returns.
++        if (request.navigation == null) request.navigation = navigation
++    }
++
++    internal fun stopIosRequestBeforeCommit() {
++        val request = iosRequest ?: return
++        if (request.phase == IosWebViewRequestPhase.AwaitingStart ||
++            request.phase == IosWebViewRequestPhase.Provisional) {
++            // Keep the live identity for the actual cancellation NSError; Stop is not a commit.
++            request.stoppedBeforeCommit = true
++        }
++    }
++
++    internal fun noteIosNativeLoading() {
++        val request = iosRequest ?: return
++        if (request.phase == IosWebViewRequestPhase.FinishedCommitted) {
++            // Native loading can precede the delegate start. Revoke KVO publication only:
++            // real link starts must still observe the prior errors before beginRequest.
++            request.phase = IosWebViewRequestPhase.SuspendedCommitted
++        }
++    }
++
++    internal fun canPublishIosPageMetadata(view: WKWebView): Boolean {
++        val request = iosRequest ?: return false
++        return hasSameNativeWebView(webView, view) && !view.loading &&
++            (request.phase == IosWebViewRequestPhase.Committed ||
++                request.phase == IosWebViewRequestPhase.FinishedCommitted)
++    }
++
++    internal fun clearIosRequestMetadata() {
++        knownIosNavigations.removeAllObjects()
++        iosRequest = null
++    }
++
++    private fun requestFor(navigation: WKNavigation?): IosWebViewRequest? =
++        iosRequest?.takeIf { hasSameNativeNavigation(it.navigation, navigation) }
++
++    private fun beginIosNavigation(view: WKWebView, navigation: WKNavigation?) {
++        if (navigation == null) return
++        val previous = iosRequest
++        // A current handle remains authoritative. Any other still-live handle already
++        // issued or observed is stale, even after more than one owned replacement.
++        // An unseen genuine native link/history start can still replace an active request.
++        if (!hasSameNativeNavigation(previous?.navigation, navigation) &&
++            (knownIosNavigations.containsObject(navigation) ||
++                hasSameNativeNavigation(previous?.supersededNavigation, navigation))) return
++        val request = when {
++            previous != null && hasSameNativeNavigation(previous.navigation, navigation) -> {
++                if (previous.phase != IosWebViewRequestPhase.AwaitingStart || previous.stoppedBeforeCommit) return
++                previous
++            }
++            previous != null && previous.navigation == null &&
++                previous.phase == IosWebViewRequestPhase.AwaitingStart -> {
++                if (previous.stoppedBeforeCommit) return
++                previous.also { it.navigation = navigation }
++            }
++            else -> IosWebViewRequest(
++                navigation = navigation,
++                supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,
++            ).also { iosRequest = it }
++        }
++        knownIosNavigations.addObject(navigation)
++        request.phase = IosWebViewRequestPhase.Provisional
++        beginRequest(view.URL?.absoluteString ?: requestedUrl)
++    }
++
++    private fun failIosNavigation(navigation: WKNavigation?, withError: NSError) {
++        val request = requestFor(navigation) ?: return
++        request.phase = when (request.phase) {
++            IosWebViewRequestPhase.Committed -> IosWebViewRequestPhase.FinishedCommitted
++            IosWebViewRequestPhase.AwaitingStart,
++            IosWebViewRequestPhase.Provisional -> IosWebViewRequestPhase.FinishedUncommitted
++            else -> return
++        }
++        loadingState = LoadingState.Finished
++        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
++            code = withError.code.toInt(),
++            description = withError.localizedDescription
++        )
++    }
++
+     // We need access to this in the state saver. An internal DisposableEffect or AndroidView
+     // onDestroy is called after the state saver and so can't be used.
+     var webView by mutableStateOf<WKWebView?>(null)
+@@ -265,9 +405,23 @@
+     @ObjCSignatureOverride
+     override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
+         if (!hasSameNativeWebView(this.webView, webView)) return
+-        lastLoadedUrl = webView.URL?.absoluteString
++        if (didFinishNavigation == null) {
++            // Preserve the untracked current-view bridge check, not successful page evidence.
++            if (iosRequest == null) loadingState = LoadingState.Finished
++            return
++        }
++        val request = requestFor(didFinishNavigation) ?: return
++        when (request.phase) {
++            IosWebViewRequestPhase.Committed -> {
++                request.phase = IosWebViewRequestPhase.FinishedCommitted
++                lastLoadedUrl = webView.URL?.absoluteString
++                pageTitle = webView.title
++            }
++            IosWebViewRequestPhase.AwaitingStart,
++            IosWebViewRequestPhase.Provisional -> request.phase = IosWebViewRequestPhase.FinishedUncommitted
++            else -> return
++        }
+         loadingState = LoadingState.Finished
+-        pageTitle = webView.title
+         navigator?.canGoBack = webView.canGoBack
+         navigator?.canGoForward = webView.canGoForward
+     }
+@@ -276,13 +430,16 @@
+     @ObjCSignatureOverride
+     override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
+         if (!hasSameNativeWebView(this.webView, webView)) return
+-        beginRequest(webView.URL?.absoluteString ?: requestedUrl)
++        beginIosNavigation(webView, didStartProvisionalNavigation)
+     }
+ 
+     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+     @ObjCSignatureOverride
+     override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {
+         if (!hasSameNativeWebView(this.webView, webView)) return
++        val request = requestFor(didCommitNavigation) ?: return
++        if (request.phase != IosWebViewRequestPhase.Provisional || request.stoppedBeforeCommit) return
++        request.phase = IosWebViewRequestPhase.Committed
+         loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
+         lastLoadedUrl = webView.URL?.absoluteString
+         pageTitle = webView.title
+@@ -294,11 +451,7 @@
+     @ObjCSignatureOverride
+     override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {
+         if (!hasSameNativeWebView(this.webView, webView)) return
+-        loadingState = LoadingState.Finished
+-        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
+-            code = withError.code.toInt(),
+-            description = withError.localizedDescription
+-        )
++        failIosNavigation(didFailNavigation, withError)
+     }
+ 
+     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
+@@ -309,11 +462,7 @@
+         withError: NSError
+     ) {
+         if (!hasSameNativeWebView(this.webView, webView)) return
+-        loadingState = LoadingState.Finished
+-        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
+-            code = withError.code.toInt(),
+-            description = withError.localizedDescription
+-        )
++        failIosNavigation(didFailProvisionalNavigation, withError)
+     }
+ }
+ 
+@@ -338,8 +487,15 @@
+                 if (content != null) loadIosContent(webView, state, content) else when (event) {
+                     WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()
+                     WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward) webView.goForward()
+-                    WebViewNavigator.NavigationEvent.Reload -> webView.reload()
+-                    WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
++                    WebViewNavigator.NavigationEvent.Reload -> {
++                        val request = state.prepareIosRequest()
++                        state.beginRequest(webView.URL?.absoluteString ?: state.requestedUrl)
++                        state.bindIosNavigation(webView, request, webView.reload())
++                    }
++                    WebViewNavigator.NavigationEvent.StopLoading -> {
++                        state.stopIosRequestBeforeCommit()
++                        webView.stopLoading()
++                    }
+                     else -> Unit
+                 }
+             }
+@@ -420,6 +576,7 @@
+ 
+             "loading" -> {
+                 if (webView.loading) {
++                    state.noteIosNativeLoading()
+                     state.loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
+                 } else {
+                     state.loadingState = LoadingState.Finished
+@@ -427,11 +584,11 @@
+             }
+ 
+             "title" -> {
+-                state.pageTitle = webView.title
++                if (state.canPublishIosPageMetadata(webView)) state.pageTitle = webView.title
+             }
+ 
+             "URL" -> {
+-                state.lastLoadedUrl = webView.URL?.absoluteString
++                if (state.canPublishIosPageMetadata(webView)) state.lastLoadedUrl = webView.URL?.absoluteString
+             }
+ 
+             "canGoBack" -> {
+--- a/calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt
++++ b/calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt
+@@ -4,6 +4,7 @@
+ package com.mohamedrejeb.calf.ui.web
+ 
+ import kotlinx.cinterop.objcPtr
++import platform.WebKit.WKNavigation
+ import platform.WebKit.WKWebView
+ 
+ /**
+@@ -14,3 +15,7 @@
+  */
+ internal fun hasSameNativeWebView(first: WKWebView?, second: WKWebView?): Boolean =
+     first != null && second != null && first.objcPtr() == second.objcPtr()
++
++/** Only live, retained navigation objects establish a current-request identity. */
++internal fun hasSameNativeNavigation(first: WKNavigation?, second: WKNavigation?): Boolean =
++    first != null && second != null && first.objcPtr() == second.objcPtr()
+--- /dev/null
++++ b/scripts/ci/test_ios_webview_current_request_metadata.py
+@@ -0,0 +1,507 @@
++"""New source-linked synthetic iOS request controls, not Kotlin/Apple/native execution.
++
++The model uses opaque synthetic retained objects, never real native pointers, callbacks,
++NSError values, TLS, DNS or a WebKit process. Native acceptance is a separate gate.
++"""
++from dataclasses import dataclass
++import hashlib
++from pathlib import Path
++import unittest
++
++ROOT = Path(__file__).resolve().parents[2]
++IOS = "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
++IDENTITY = "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt"
++PINS = {
++    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
++    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
++    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt": "594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf",
++    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt": "25efe05ca6ce4cc2f027dc74eaf22a3a74cd4213d315940be9b64bdf7f0fe594",
++    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt": "49c98aa532e14a75e1b3c09b5404727b426e3c4b859ab16f4af5a4fe9979a381",
++    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt": "f8a5b13a21a0b3adcea5e5c27def54a03ad486574a552e6439a71852f0ba4b42",
++}
++
++
++def block(source, marker):
++    start = source.index("{", source.index(marker))
++    depth = 0
++    for index in range(start, len(source)):
++        if source[index] == "{":
++            depth += 1
++        elif source[index] == "}":
++            depth -= 1
++            if depth == 0:
++                return source[start + 1:index]
++    raise AssertionError("Unbalanced selected source block")
++
++
++@dataclass(eq=False)
++class SyntheticRetainedObject:
++    allocation: object
++
++
++def same_retained(first, second):
++    return first is not None and second is not None and first.allocation is second.allocation
++
++
++@dataclass(eq=False)
++class SyntheticView(SyntheticRetainedObject):
++    url: str | None = "synthetic:old"
++    title: str | None = "synthetic old title"
++    native_loading: bool = False
++
++
++@dataclass(eq=False)
++class SyntheticRequest:
++    navigation: SyntheticRetainedObject | None = None
++    superseded: SyntheticRetainedObject | None = None
++    phase: str = "AwaitingStart"
++    stopped: bool = False
++
++
++class SourceLinkedModel:
++    """Deliberately only an abstract model of the selected production transitions."""
++    def __init__(self, view):
++        self.owner = view
++        self.request = None
++        self.requested = None
++        self.final = None
++        self.title = None
++        self.errors = []
++        self.loading = "Initializing"
++
++    def owns(self, view):
++        return same_retained(self.owner, view)
++
++    def prepare(self):
++        previous = self.request
++        self.request = SyntheticRequest(superseded=(previous.navigation or previous.superseded) if previous else None)
++        return self.request
++
++    def reset(self, url):
++        self.requested, self.final, self.title, self.errors, self.loading = url, None, None, [], "Loading"
++
++    def load(self, view, url, navigation, error=None, navigator_only=False):
++        if not self.owns(view) or navigator_only:
++            return None
++        ticket = self.prepare()
++        self.reset(url)
++        if error is not None:
++            self.errors, self.loading = [error], "Finished"
++            ticket.phase = "FinishedUncommitted"
++        else:
++            self.bind(view, ticket, navigation)
++        return ticket
++
++    def bind(self, view, ticket, navigation):
++        if not self.owns(view) or self.request is not ticket or navigation is None:
++            return
++        if ticket.navigation is None:
++            ticket.navigation = navigation
++
++    def start(self, view, navigation):
++        if not self.owns(view) or navigation is None:
++            return
++        previous = self.request
++        if same_retained(previous.superseded if previous else None, navigation):
++            return
++        if previous is not None and same_retained(previous.navigation, navigation):
++            if previous.phase != "AwaitingStart" or previous.stopped:
++                return
++            ticket = previous
++        elif previous is not None and previous.navigation is None and previous.phase == "AwaitingStart":
++            if previous.stopped:
++                return
++            previous.navigation = navigation
++            ticket = previous
++        else:
++            ticket = SyntheticRequest(navigation=navigation, superseded=(previous.navigation or previous.superseded) if previous else None)
++            self.request = ticket
++        ticket.phase = "Provisional"
++        self.reset(view.url if view.url is not None else self.requested)
++
++    def current(self, navigation):
++        return self.request if self.request is not None and same_retained(self.request.navigation, navigation) else None
++
++    def commit(self, view, navigation):
++        if not self.owns(view):
++            return
++        ticket = self.current(navigation)
++        if ticket is None or ticket.phase != "Provisional" or ticket.stopped:
++            return
++        ticket.phase = "Committed"
++        self.loading, self.final, self.title = "Loading", view.url, view.title
++
++    def finish(self, view, navigation):
++        if not self.owns(view):
++            return
++        if navigation is None:
++            if self.request is None:
++                self.loading = "Finished"
++            return
++        ticket = self.current(navigation)
++        if ticket is None:
++            return
++        if ticket.phase == "Committed":
++            ticket.phase = "FinishedCommitted"
++            self.final, self.title = view.url, view.title
++        elif ticket.phase in ("AwaitingStart", "Provisional"):
++            ticket.phase = "FinishedUncommitted"
++        else:
++            return
++        self.loading = "Finished"
++
++    def fail(self, view, navigation, error):
++        if not self.owns(view):
++            return
++        ticket = self.current(navigation)
++        if ticket is None:
++            return
++        if ticket.phase == "Committed":
++            ticket.phase = "FinishedCommitted"
++        elif ticket.phase in ("AwaitingStart", "Provisional"):
++            ticket.phase = "FinishedUncommitted"
++        else:
++            return
++        self.loading, self.errors = "Finished", self.errors + [error]
++
++    def stop(self, view):
++        if not self.owns(view):
++            return
++        if self.request is not None and self.request.phase in ("AwaitingStart", "Provisional"):
++            self.request.stopped = True
++
++    def kvo(self, view, key):
++        if not self.owns(view):
++            return
++        if key == "loading":
++            if view.native_loading:
++                if self.request is not None and self.request.phase == "FinishedCommitted":
++                    self.request.phase = "SuspendedCommitted"
++                self.loading = "Loading"
++            else:
++                self.loading = "Finished"
++        elif key in ("URL", "title"):
++            if self.request is not None and self.request.phase in ("Committed", "FinishedCommitted") and not view.native_loading:
++                if key == "URL":
++                    self.final = view.url
++                else:
++                    self.title = view.title
++
++    def reload(self, view, navigation):
++        if not self.owns(view):
++            return
++        ticket = self.prepare()
++        self.reset(view.url if view.url is not None else self.requested)
++        self.bind(view, ticket, navigation)
++
++    def release(self, view):
++        if self.owns(view):
++            self.request, self.owner, self.loading = None, None, "Finished"
++
++    def snapshot(self):
++        return self.requested, self.final, self.title, tuple(self.errors), self.loading
++
++
++class IosCurrentRequestMetadataSourceTests(unittest.TestCase):
++    def source(self):
++        return (ROOT / IOS).read_text()
++
++    def test_new_source_regression_requires_url_and_title_kvo_commit_gate(self):
++        source = self.source()
++        for key, assignment in (("title", "state.pageTitle = webView.title"), ("URL", "state.lastLoadedUrl = webView.URL?.absoluteString")):
++            selected = block(source, f'"{key}" ->')
++            self.assertIn(f"if (state.canPublishIosPageMetadata(webView)) {assignment}", selected,
++                          "Old/provisional native metadata cannot be published as a current committed document")
++
++    def test_source_live_identity_transition_and_noncommit_paths_are_bound(self):
++        source = self.source()
++        identity = (ROOT / IDENTITY).read_text()
++        self.assertIn("internal fun hasSameNativeNavigation(first: WKNavigation?, second: WKNavigation?)", identity)
++        self.assertEqual(2, identity.count("first != null && second != null && first.objcPtr() == second.objcPtr()"))
++        for forbidden in ("first === second", "first == second", ".rawValue", "toLong()"):
++            self.assertNotIn(forbidden, identity)
++        phases = block(source, "internal enum class IosWebViewRequestPhase")
++        self.assertEqual({"AwaitingStart", "Provisional", "Committed", "FinishedCommitted", "FinishedUncommitted", "SuspendedCommitted"},
++                         {p.strip() for p in phases.split(",") if p.strip()})
++        gate = block(source, "internal fun canPublishIosPageMetadata")
++        for required in ("hasSameNativeWebView(webView, view)", "!view.loading", "IosWebViewRequestPhase.Committed", "IosWebViewRequestPhase.FinishedCommitted"):
++            self.assertIn(required, gate)
++        binding = block(source, "internal fun bindIosNavigation")
++        self.assertIn("if (!hasSameNativeWebView(webView, view) || navigation == null) return", binding)
++        self.assertIn("if (iosRequest !== request) return", binding)
++        self.assertLess(binding.index("navigation == null"), binding.index("knownIosNavigations.addObject(navigation)"))
++        self.assertLess(binding.index("knownIosNavigations.addObject(navigation)"), binding.index("if (iosRequest !== request) return"))
++        self.assertLess(binding.index("if (iosRequest !== request) return"), binding.index("if (request.navigation == null) request.navigation = navigation"))
++        self.assertIn("if (request.navigation == null) request.navigation = navigation", binding)
++        self.assertNotIn("request.phase =", binding)
++        start = block(source, "private fun beginIosNavigation")
++        for required in ("if (navigation == null) return", "hasSameNativeNavigation(previous?.supersededNavigation, navigation)",
++                         "hasSameNativeNavigation(previous.navigation, navigation)", "previous.stoppedBeforeCommit", "beginRequest(view.URL?.absoluteString ?: requestedUrl)"):
++            self.assertIn(required, start)
++        commit = block(source, "override fun webView(webView: WKWebView, didCommitNavigation:")
++        self.assertLess(commit.index("requestFor(didCommitNavigation)"), commit.index("lastLoadedUrl ="))
++        self.assertIn("request.phase != IosWebViewRequestPhase.Provisional || request.stoppedBeforeCommit", commit)
++        failure = block(source, "private fun failIosNavigation")
++        self.assertIn("requestFor(navigation) ?: return", failure)
++        self.assertIn("code = withError.code.toInt()", failure)
++        self.assertIn("description = withError.localizedDescription", failure)
++        self.assertNotIn("lastLoadedUrl =", failure)
++        self.assertNotIn("pageTitle =", failure)
++        finish = block(source, "override fun webView(webView: WKWebView, didFinishNavigation:")
++        self.assertIn("if (iosRequest == null) loadingState = LoadingState.Finished", finish)
++        self.assertIn("requestFor(didFinishNavigation) ?: return", finish)
++        self.assertIn("IosWebViewRequestPhase.Committed ->", finish)
++        self.assertIn("IosWebViewRequestPhase.FinishedUncommitted", finish)
++
++    def test_source_content_reload_stop_history_and_cleanup_preserve_boundaries(self):
++        source = self.source()
++        content = block(source, "private fun loadIosContent")
++        self.assertLess(content.index("if (content == WebContent.NavigatorOnly) return"), content.index("prepareIosRequest()"))
++        self.assertLess(content.index("prepareIosRequest()"), content.index("acceptContent(content, WebContentPlatform.Ios)"))
++        self.assertEqual(3, content.count("state.rejectIosRequest(iosRequest)"))
++        self.assertIn("state.bindIosNavigation(view, iosRequest, view.loadRequest(request))", content)
++        self.assertIn("state.bindIosNavigation(view, iosRequest, view.loadHTMLString(content.data, baseUrl))", content)
++        self.assertIn("WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()", source)
++        self.assertIn("WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward) webView.goForward()", source)
++        reload = block(source, "WebViewNavigator.NavigationEvent.Reload ->")
++        self.assertIn("state.beginRequest(webView.URL?.absoluteString ?: state.requestedUrl)", reload)
++        self.assertIn("state.bindIosNavigation(webView, request, webView.reload())", reload)
++        self.assertNotIn("state.content", reload)
++        stop = block(source, "WebViewNavigator.NavigationEvent.StopLoading ->")
++        self.assertLess(stop.index("state.stopIosRequestBeforeCommit()"), stop.index("webView.stopLoading()"))
++        self.assertNotIn("WebViewError", stop)
++        release = block(source, "private fun releaseIosWebView")
++        for original in ("onDispose,", "observer?.stopObserving(view)", "view.navigationDelegate = null", "view.stopLoading()", "view.removeFromSuperview()"):
++            self.assertIn(original, release)
++        self.assertIn("if (hasSameNativeWebView(state.webView, view)) {\n                state.clearIosRequestMetadata()", release)
++        for callback in ("didFinishNavigation", "didStartProvisionalNavigation", "didCommitNavigation", "didFailNavigation", "didFailProvisionalNavigation"):
++            selected = block(source, "override fun webView(webView: WKWebView, " + callback + ":") if callback != "didFailProvisionalNavigation" else block(source, "didFailProvisionalNavigation: WKNavigation?,")
++            self.assertIn("if (!hasSameNativeWebView(this.webView, webView)) return", selected)
++        observer = block(source, "override fun observeValueForKeyPath")
++        self.assertIn("if (!hasSameNativeWebView(state.webView, webView)) return", observer)
++        self.assertIn("state.noteIosNativeLoading()", observer)
++
++    def test_original_common_api_and_all_native_method_bodies_remain_byte_identical(self):
++        for relative, expected in PINS.items():
++            with self.subTest(path=relative):
++                self.assertEqual(expected, hashlib.sha256((ROOT / relative).read_bytes()).hexdigest())
++
++
++class IosCurrentRequestMetadataSyntheticTests(unittest.TestCase):
++    def fixture(self):
++        view = SyntheticView(object())
++        state = SourceLinkedModel(view)
++        return view, state
++
++    def navigation(self):
++        return SyntheticRetainedObject(object())
++
++    def committed(self):
++        view, state = self.fixture()
++        navigation = self.navigation()
++        state.load(view, "synthetic:old", navigation)
++        state.start(view, navigation)
++        state.commit(view, navigation)
++        state.finish(view, navigation)
++        return view, state, navigation
++
++    def kvo_metadata(self, state, view):
++        state.kvo(view, "URL")
++        state.kvo(view, "title")
++
++    def test_live_wrappers_foreign_and_null_never_create_an_owner_or_commit(self):
++        view, state = self.fixture()
++        bridged = SyntheticView(view.allocation)
++        foreign = SyntheticView(object())
++        self.assertTrue(same_retained(view, bridged)); self.assertFalse(same_retained(None, None))
++        state.loading = "Loading"
++        state.finish(foreign, None); self.assertEqual("Loading", state.loading)
++        state.finish(bridged, None); self.assertEqual("Finished", state.loading)
++        self.kvo_metadata(state, bridged)
++        self.assertEqual((None, None), (state.final, state.title))
++        state.load(view, "synthetic:request", self.navigation())
++        snapshot = state.snapshot()
++        state.start(foreign, self.navigation()); state.commit(foreign, self.navigation())
++        state.finish(foreign, None); state.fail(foreign, self.navigation(), (-91, "synthetic"))
++        self.kvo_metadata(state, foreign)
++        self.assertEqual(snapshot, state.snapshot())
++
++    def test_owned_dispatch_blocks_retained_metadata_even_before_native_start(self):
++        view, state, old = self.committed()
++        ticket = state.load(view, "synthetic:pending", self.navigation())
++        for loading in (False, True, False):
++            view.native_loading = loading
++            self.kvo_metadata(state, view)
++            self.assertEqual((None, None), (state.final, state.title))
++        state.commit(view, old); state.finish(view, old); state.fail(view, old, (-81, "old"))
++        self.assertEqual([], state.errors); self.assertIs(ticket, state.request)
++
++    def test_current_commit_finish_and_idle_same_document_metadata_are_not_disabled(self):
++        view, state = self.fixture(); navigation = self.navigation()
++        state.load(view, "synthetic:entry", navigation)
++        view.url, view.title, view.native_loading = "synthetic:redirect-final", "synthetic final", True
++        state.start(view, navigation); self.kvo_metadata(state, view)
++        self.assertEqual((None, None), (state.final, state.title))
++        state.commit(view, SyntheticRetainedObject(navigation.allocation))
++        self.assertEqual((view.url, view.title), (state.final, state.title))
++        view.native_loading = False; state.finish(view, navigation)
++        requested = state.requested
++        view.url, view.title = "synthetic:arbitrary-history-path#fragment", "synthetic JS title"
++        self.kvo_metadata(state, view)
++        self.assertEqual((view.url, view.title), (state.final, state.title))
++        self.assertEqual(requested, state.requested)
++
++    def test_provisional_and_failed_intervals_never_publish_retained_url_or_title(self):
++        view, state, _ = self.committed(); navigation = self.navigation()
++        state.load(view, "synthetic:tls", navigation)
++        view.url = "synthetic:tls"; state.start(view, navigation)
++        for loading in (True, False):
++            view.native_loading = loading; self.kvo_metadata(state, view)
++            self.assertEqual((None, None), (state.final, state.title))
++        state.fail(view, navigation, (-1200, "synthetic injected error; not TLS evidence"))
++        view.url, view.title = "synthetic:old", "synthetic retained title"
++        state.kvo(view, "loading"); self.kvo_metadata(state, view)
++        self.assertEqual((None, None), (state.final, state.title))
++        self.assertEqual([-1200], [code for code, _ in state.errors])
++        self.assertEqual("Finished", state.loading)
++
++    def test_real_start_authority_retains_prior_error_until_start_then_resets_once(self):
++        view, state, _ = self.committed()
++        first, second = self.navigation(), self.navigation()
++        view.url, view.native_loading = "synthetic:first-link", True
++        state.kvo(view, "loading"); state.start(view, first)
++        state.fail(view, first, (-17, "synthetic prior")); prior = list(state.errors)
++        view.url = "synthetic:second-link"; state.kvo(view, "loading")
++        self.assertEqual(prior, state.errors)
++        self.kvo_metadata(state, view); self.assertEqual(prior, state.errors)
++        state.start(view, second)
++        self.assertEqual(("synthetic:second-link", None, None, ()), state.snapshot()[:4])
++        state.errors.append((-18, "synthetic current")); state.start(view, second)
++        self.assertEqual([(-18, "synthetic current")], state.errors)
++
++    def test_superseded_terminal_callbacks_and_retained_predecessor_start_are_ignored(self):
++        view, state, old = self.committed(); newer = self.navigation()
++        state.load(view, "synthetic:newer", newer)
++        view.url = "synthetic:newer"; state.start(view, newer)
++        snapshot = state.snapshot(); ticket = state.request
++        for callback in (lambda: state.start(view, old), lambda: state.commit(view, old),
++                         lambda: state.finish(view, old), lambda: state.fail(view, old, (-44, "synthetic stale"))):
++            callback(); self.assertEqual(snapshot, state.snapshot()); self.assertIs(ticket, state.request)
++        state.commit(view, newer); self.assertEqual("synthetic:newer", state.final)
++
++    def test_returned_binding_cannot_reopen_an_advanced_or_replaced_request(self):
++        view, state = self.fixture(); navigation = self.navigation()
++        ticket = state.prepare(); state.reset("synthetic:issued")
++        state.start(view, navigation); state.commit(view, navigation); state.finish(view, navigation)
++        state.bind(view, ticket, navigation)
++        self.assertEqual("FinishedCommitted", state.request.phase)
++        newer = self.navigation(); view.url = "synthetic:new-native-link"; state.start(view, newer)
++        current = state.request
++        state.bind(view, ticket, navigation); self.assertIs(current, state.request)
++        self.assertTrue(same_retained(newer, state.request.navigation))
++        state.bind(view, current, None); self.assertTrue(same_retained(newer, state.request.navigation))
++
++    def test_unsupported_and_invalid_inputs_keep_old_dom_metadata_blocked_without_native_replacement(self):
++        for error in ((-2, "synthetic unsupported encoding"), (-1, "Invalid URL"), (-1, "Invalid base URL")):
++            with self.subTest(error=error):
++                view, state, old = self.committed()
++                state.load(view, None, None, error=error)
++                self.kvo_metadata(state, view); state.start(view, old); state.finish(view, old)
++                state.fail(view, old, (-77, "synthetic old"))
++                self.assertEqual([error], state.errors)
++                self.assertEqual((None, None), (state.final, state.title))
++                self.assertEqual("synthetic:old", view.url)
++                self.assertEqual("FinishedUncommitted", state.request.phase)
++
++    def test_navigator_only_and_idle_history_noops_preserve_committed_same_document_witness(self):
++        view, state, _ = self.committed(); ticket = state.request; snapshot = state.snapshot()
++        state.load(view, None, None, navigator_only=True)
++        self.assertIs(ticket, state.request); self.assertEqual(snapshot, state.snapshot())
++        # Same-document Back/Forward has no invented provisional start or common reset.
++        view.url, view.title = "synthetic:history-entry#hash", "synthetic history title"
++        self.kvo_metadata(state, view)
++        self.assertIs(ticket, state.request); self.assertEqual((view.url, view.title), (state.final, state.title))
++
++    def test_reload_uses_native_current_url_not_stale_declarative_content_and_resets_refusal(self):
++        view, state, _ = self.committed(); navigation = self.navigation()
++        state.load(view, None, None, error=(-2, "synthetic unsupported"))
++        self.assertEqual([(-2, "synthetic unsupported")], state.errors)
++        state.reload(view, navigation)
++        self.assertEqual("synthetic:old", state.requested)
++        self.assertEqual((None, None, ()), (state.final, state.title, tuple(state.errors)))
++        state.start(view, navigation); state.commit(view, navigation); state.finish(view, navigation)
++        self.assertEqual("synthetic:old", state.final)
++
++    def test_stop_precommit_keeps_real_identity_for_one_actual_error_but_cannot_commit(self):
++        view, state, _ = self.committed(); navigation = self.navigation()
++        state.load(view, "synthetic:held", navigation); view.url = "synthetic:held"
++        state.start(view, navigation); state.stop(view)
++        self.assertEqual([], state.errors)
++        state.commit(view, navigation); self.kvo_metadata(state, view)
++        self.assertEqual((None, None), (state.final, state.title))
++        error = (-999, "synthetic injected cancellation; not native EOF evidence")
++        state.fail(view, navigation, error); state.fail(view, navigation, error)
++        self.assertEqual([error], state.errors)
++        state.finish(view, navigation); self.assertEqual((None, None), (state.final, state.title))
++
++    def test_stop_before_start_and_postcommit_do_not_manufacture_a_new_request_or_error(self):
++        view, state = self.fixture(); navigation = self.navigation()
++        ticket = state.load(view, "synthetic:pending", navigation); state.stop(view)
++        state.start(view, navigation); state.commit(view, navigation)
++        self.assertEqual("AwaitingStart", ticket.phase); self.assertEqual([], state.errors)
++        state.fail(view, navigation, (-999, "synthetic cancellation"))
++        newer = self.navigation(); state.load(view, "synthetic:recovery", newer)
++        view.url = "synthetic:recovery"; state.start(view, newer); state.commit(view, newer)
++        state.stop(view); self.assertEqual("synthetic:recovery", state.final)
++        state.fail(view, newer, (-999, "synthetic postcommit cancellation"))
++        self.assertEqual("FinishedCommitted", state.request.phase)
++        self.assertEqual("synthetic:recovery", state.final)
++
++    def test_native_loading_before_start_revokes_only_kvo_not_prior_errors_and_false_loading_is_not_commit(self):
++        view, state, _ = self.committed(); state.errors = [(-41, "synthetic preceding error")]
++        snapshot = state.snapshot(); view.native_loading = True; state.kvo(view, "loading")
++        view.url, view.title = "synthetic:provisional", "synthetic old title changed"
++        self.kvo_metadata(state, view)
++        self.assertEqual(snapshot[:4], state.snapshot()[:4])
++        view.native_loading = False; state.kvo(view, "loading"); self.kvo_metadata(state, view)
++        self.assertEqual(snapshot[:4], state.snapshot()[:4])
++        navigation = self.navigation(); state.start(view, navigation)
++        self.assertEqual((None, None, ()), (state.final, state.title, tuple(state.errors)))
++
++    def test_finish_without_commit_and_nil_inputs_never_certify_current_metadata(self):
++        for phase in ("AwaitingStart", "Provisional"):
++            with self.subTest(phase=phase):
++                view, state = self.fixture(); navigation = self.navigation()
++                state.load(view, "synthetic:pending", navigation)
++                if phase == "Provisional":
++                    state.start(view, navigation)
++                snapshot = state.snapshot(); state.start(view, None); state.commit(view, None)
++                state.finish(view, None); state.fail(view, None, (-42, "synthetic nil"))
++                self.assertEqual(snapshot, state.snapshot())
++                state.finish(view, navigation); self.kvo_metadata(state, view)
++                self.assertEqual((None, None, ()), (state.final, state.title, tuple(state.errors)))
++                self.assertEqual("FinishedUncommitted", state.request.phase)
++
++    def test_release_remount_and_late_binding_drop_native_identities_only_for_the_current_owner(self):
++        view, state, old = self.committed(); ticket = state.request
++        foreign = SyntheticView(object()); state.release(foreign); self.assertIs(ticket, state.request)
++        state.release(view); self.assertIsNone(state.request); self.assertIsNone(state.owner)
++        remount = SyntheticView(object()); state.owner = remount
++        newer = self.navigation(); current = state.load(remount, "synthetic:remount", newer)
++        snapshot = state.snapshot()
++        state.bind(view, ticket, old); state.commit(view, old); state.finish(view, old)
++        state.fail(view, old, (-43, "synthetic released")); self.kvo_metadata(state, view)
++        self.assertIs(current, state.request); self.assertEqual(snapshot, state.snapshot())
++
++    def test_repeated_refusals_keep_one_predecessor_reference_without_accumulating_a_log(self):
++        view, state, old = self.committed()
++        for _ in range(8):
++            state.load(view, None, None, error=(-2, "synthetic unsupported"))
++            self.assertIsNone(state.request.navigation)
++            self.assertTrue(same_retained(state.request.superseded, old))
++            self.assertEqual({"navigation", "superseded", "phase", "stopped"}, set(vars(state.request)))
++        state.start(view, old); self.assertEqual([(-2, "synthetic unsupported")], state.errors)
++
++
++if __name__ == "__main__":
++    unittest.main()
+--- /dev/null
++++ b/scripts/ci/test_ios_webview_known_navigation_weak_identity.py
+@@ -0,0 +1,315 @@
++"""Owning source/synthetic extension for live known-navigation weak identity.
++
++No native Foundation, WebKit, NSError, compilation or actual callback-order proof.
++The prior phase model remains exact; this extension models the new bookkeeping.
++"""
++import gc
++from pathlib import Path
++import unittest
++import weakref
++
++import test_ios_webview_current_request_metadata as phase
++
++ROOT = Path(__file__).resolve().parents[2]
++
++
++class SyntheticAllocation:
++    """An opaque weak-referenceable stand-in, never a native object or address."""
++
++
++class SyntheticNativeWeakMembership:
++    """Synthetic identity/weak-lifetime behavior, not NSHashTable execution."""
++    def __init__(self):
++        self.references = []
++
++    def prune(self):
++        self.references = [reference for reference in self.references if reference() is not None]
++
++    def contains(self, navigation):
++        self.prune()
++        return navigation is not None and any(
++            reference() is navigation.allocation for reference in self.references)
++
++    def add(self, navigation):
++        if navigation is not None and not self.contains(navigation):
++            self.references.append(weakref.ref(navigation.allocation))
++
++    def clear(self):
++        self.references.clear()
++
++    def count(self):
++        self.prune()
++        return len(self.references)
++
++
++class WeakKnownNavigationModel(phase.SourceLinkedModel):
++    """Refine only binding/start/release bookkeeping; retain phase/KVO semantics."""
++    def __init__(self, view):
++        super().__init__(view)
++        self.known = SyntheticNativeWeakMembership()
++
++    def bind(self, view, ticket, navigation):
++        if not self.owns(view) or navigation is None:
++            return
++        self.known.add(navigation)
++        super().bind(view, ticket, navigation)
++
++    def start(self, view, navigation):
++        if not self.owns(view) or navigation is None:
++            return
++        previous = self.request
++        if not phase.same_retained(previous.navigation if previous else None, navigation) and (
++                self.known.contains(navigation) or
++                phase.same_retained(previous.superseded if previous else None, navigation)):
++            return
++        if previous is not None and phase.same_retained(previous.navigation, navigation):
++            if previous.phase != "AwaitingStart" or previous.stopped:
++                return
++            ticket = previous
++        elif previous is not None and previous.navigation is None and previous.phase == "AwaitingStart":
++            if previous.stopped:
++                return
++            previous.navigation = navigation
++            ticket = previous
++        else:
++            ticket = phase.SyntheticRequest(
++                navigation=navigation,
++                superseded=(previous.navigation or previous.superseded) if previous else None)
++            self.request = ticket
++        self.known.add(navigation)
++        ticket.phase = "Provisional"
++        self.reset(view.url if view.url is not None else self.requested)
++
++    def release(self, view):
++        if self.owns(view):
++            self.known.clear()
++        super().release(view)
++
++
++class IosKnownNavigationWeakIdentitySourceTests(unittest.TestCase):
++    def source(self):
++        return (ROOT / phase.IOS).read_text()
++
++    def test_native_weak_pointer_membership_preserves_owner_null_and_reentrant_binding_gates(self):
++        source = self.source()
++        for symbol in ("NSHashTable", "NSPointerFunctionsWeakMemory", "NSPointerFunctionsObjectPointerPersonality"):
++            self.assertIn("import platform.Foundation." + symbol, source)
++        self.assertIn("private val knownIosNavigations = NSHashTable(\n"
++                      "        options = NSPointerFunctionsWeakMemory or NSPointerFunctionsObjectPointerPersonality,\n"
++                      "        capacity = 0uL,\n    )", source)
++        binding = phase.block(source, "internal fun bindIosNavigation")
++        self.assertIn("if (!hasSameNativeWebView(webView, view) || navigation == null) return", binding)
++        self.assertLess(binding.index("navigation == null"), binding.index("knownIosNavigations.addObject(navigation)"))
++        self.assertLess(binding.index("knownIosNavigations.addObject(navigation)"), binding.index("if (iosRequest !== request) return"))
++        self.assertLess(binding.index("if (iosRequest !== request) return"), binding.index("if (request.navigation == null) request.navigation = navigation"))
++        self.assertNotIn("request.phase =", binding)
++
++    def test_three_issued_source_requires_current_match_before_known_live_start_refusal(self):
++        start = phase.block(self.source(), "private fun beginIosNavigation")
++        self.assertIn("if (navigation == null) return", start)
++        refusal = "if (!hasSameNativeNavigation(previous?.navigation, navigation) &&\n" \
++                  "            (knownIosNavigations.containsObject(navigation) ||\n" \
++                  "                hasSameNativeNavigation(previous?.supersededNavigation, navigation))) return"
++        self.assertIn(refusal, start,
++                      "A→B→C must retain current C against any still-live previously issued/observed A")
++        self.assertLess(start.index(refusal), start.index("val request = when"))
++        self.assertLess(start.index("knownIosNavigations.addObject(navigation)"), start.index("request.phase = IosWebViewRequestPhase.Provisional"))
++        self.assertLess(start.index("knownIosNavigations.addObject(navigation)"), start.index("beginRequest(view.URL?.absoluteString ?: requestedUrl)"))
++        self.assertIn("else -> IosWebViewRequest(", start,
++                      "Unseen genuine native starts remain adoptable during active loads")
++        self.assertNotIn("previous.phase", start[:start.index("val request = when")])
++
++    def test_owned_final_release_clears_weak_keys_without_new_strong_history_or_addresses(self):
++        source = self.source()
++        clearing = phase.block(source, "internal fun clearIosRequestMetadata")
++        self.assertEqual("knownIosNavigations.removeAllObjects()\n        iosRequest = null", clearing.strip())
++        self.assertEqual(1, source.count("knownIosNavigations.removeAllObjects()"))
++        self.assertEqual(1, source.count("state.clearIosRequestMetadata()"))
++        release = phase.block(source, "private fun releaseIosWebView")
++        self.assertIn("if (hasSameNativeWebView(state.webView, view)) {\n                state.clearIosRequestMetadata()", release)
++        for forbidden in ("mutableListOf<WKNavigation", "mutableSetOf<WKNavigation", "MutableMap<WKNavigation", ".rawValue", ".toLong()"):
++            self.assertNotIn(forbidden, source)
++        for retained in ("onDispose,", "observer?.stopObserving(view)", "view.navigationDelegate = null", "view.stopLoading()", "view.removeFromSuperview()"):
++            self.assertIn(retained, release)
++        self.assertIn("WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()", source)
++        self.assertIn("WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward) webView.goForward()", source)
++
++
++class IosKnownNavigationWeakIdentitySyntheticTests(unittest.TestCase):
++    def navigation(self):
++        return phase.SyntheticRetainedObject(SyntheticAllocation())
++
++    def fixture(self):
++        view = phase.SyntheticView(SyntheticAllocation())
++        return view, WeakKnownNavigationModel(view)
++
++    def committed(self):
++        view, state = self.fixture()
++        navigation = self.navigation()
++        state.load(view, "synthetic:old", navigation)
++        state.start(view, navigation)
++        state.commit(view, navigation)
++        state.finish(view, navigation)
++        return view, state, navigation
++
++    def test_three_issued_handles_cannot_re_adopt_first_before_current_start(self):
++        view, state = self.fixture()
++        first, second, current = (self.navigation() for _ in range(3))
++        state.load(view, "synthetic:issued-A", first)
++        state.load(view, "synthetic:issued-B", second)
++        ticket = state.load(view, "synthetic:issued-C", current)
++        snapshot = state.snapshot()
++        view.url, view.title = "synthetic:stale-A", "synthetic stale A"
++        for callback in (lambda: state.start(view, first), lambda: state.commit(view, first),
++                         lambda: state.finish(view, first),
++                         lambda: state.fail(view, first, (-81, "synthetic stale error"))):
++            callback()
++            self.assertIs(ticket, state.request, "Known live A cannot replace the returned current C handle")
++            self.assertEqual(snapshot, state.snapshot())
++        state.start(view, second)
++        self.assertIs(ticket, state.request)
++        view.url, view.title = "synthetic:current-C", "synthetic current C"
++        state.start(view, phase.SyntheticRetainedObject(current.allocation))
++        self.assertIs(ticket, state.request)
++        self.assertEqual("Provisional", ticket.phase)
++        state.commit(view, current)
++        self.assertEqual((view.url, view.title), (state.final, state.title))
++
++    def test_unseen_genuine_native_start_can_replace_every_active_or_terminal_phase(self):
++        for selected in ("AwaitingStart", "Provisional", "Committed", "FinishedCommitted", "FinishedUncommitted", "SuspendedCommitted"):
++            with self.subTest(phase=selected):
++                view, state = self.fixture()
++                current, newer = self.navigation(), self.navigation()
++                ticket = state.load(view, "synthetic:issued", current)
++                if selected != "AwaitingStart":
++                    state.start(view, current)
++                if selected in ("Committed", "FinishedCommitted", "SuspendedCommitted"):
++                    state.commit(view, current)
++                if selected in ("FinishedCommitted", "SuspendedCommitted"):
++                    state.finish(view, current)
++                if selected == "FinishedUncommitted":
++                    state.fail(view, current, (-88, "synthetic old failure"))
++                if selected == "SuspendedCommitted":
++                    view.native_loading = True
++                    state.kvo(view, "loading")
++                self.assertEqual(selected, ticket.phase)
++                view.url = "synthetic:real-new-link-or-history"
++                state.start(view, newer)
++                self.assertIsNot(ticket, state.request)
++                self.assertTrue(phase.same_retained(newer, state.request.navigation))
++                self.assertEqual((view.url, None, None, ()), state.snapshot()[:4])
++                state.errors.append((-89, "synthetic current marker"))
++                state.start(view, phase.SyntheticRetainedObject(newer.allocation))
++                self.assertEqual([(-89, "synthetic current marker")], state.errors)
++
++    def test_reentrantly_replaced_issued_return_is_known_without_binding_or_reopening(self):
++        view, state = self.fixture()
++        first, current = self.navigation(), self.navigation()
++        issuing = state.prepare()
++        state.reset("synthetic:issuing")
++        replacement = state.prepare()
++        state.reset("synthetic:replacement")
++        state.start(view, current)
++        state.commit(view, current)
++        snapshot = state.snapshot()
++        state.bind(view, issuing, first)
++        self.assertIs(replacement, state.request)
++        self.assertTrue(state.known.contains(first))
++        self.assertTrue(phase.same_retained(current, replacement.navigation))
++        state.start(view, first)
++        self.assertIs(replacement, state.request)
++        self.assertEqual(snapshot, state.snapshot())
++        state.bind(view, replacement, current)
++        self.assertEqual("Committed", replacement.phase)
++
++    def test_weak_keys_follow_allocation_lifetime_not_wrapper_or_value_equality(self):
++        membership = SyntheticNativeWeakMembership()
++        navigation = self.navigation()
++        bridged = phase.SyntheticRetainedObject(navigation.allocation)
++        observed = weakref.ref(navigation.allocation)
++        membership.add(navigation)
++        membership.add(bridged)
++        self.assertEqual(1, membership.count())
++        del navigation
++        gc.collect()
++        self.assertIsNotNone(observed())
++        self.assertTrue(membership.contains(bridged))
++        del bridged
++        gc.collect()
++        self.assertIsNone(observed(), "Synthetic weak bookkeeping must not retain an allocation")
++        self.assertEqual(0, membership.count())
++        class ValueEqualAllocation(SyntheticAllocation):
++            def __eq__(self, other):
++                return True
++            def __hash__(self):
++                return 1
++        first = phase.SyntheticRetainedObject(ValueEqualAllocation())
++        separate = phase.SyntheticRetainedObject(ValueEqualAllocation())
++        self.assertEqual(first.allocation, separate.allocation)
++        membership.add(first)
++        self.assertFalse(membership.contains(separate))
++        for _ in range(128):
++            temporary = self.navigation()
++            membership.add(temporary)
++        del temporary
++        gc.collect()
++        self.assertEqual(1, membership.count())
++
++    def test_null_foreign_and_released_owners_never_add_membership(self):
++        view, state = self.fixture()
++        foreign = phase.SyntheticView(SyntheticAllocation())
++        navigation = self.navigation()
++        ticket = state.prepare()
++        state.bind(view, ticket, None)
++        state.start(view, None)
++        state.bind(foreign, ticket, navigation)
++        state.start(foreign, navigation)
++        self.assertEqual(0, state.known.count())
++        self.assertIsNone(ticket.navigation)
++        state.release(view)
++        state.bind(view, ticket, navigation)
++        state.start(view, navigation)
++        self.assertEqual(0, state.known.count())
++        self.assertIsNone(state.request)
++
++    def test_only_owned_release_clears_keys_and_current_precommit_stop_still_refuses_commit(self):
++        view, state = self.fixture()
++        navigation = self.navigation()
++        ticket = state.load(view, "synthetic:held", navigation)
++        state.start(view, navigation)
++        state.stop(view)
++        state.commit(view, navigation)
++        self.assertEqual((None, None), (state.final, state.title))
++        state.fail(view, navigation, (-999, "synthetic cancellation, not native evidence"))
++        self.assertEqual([-999], [code for code, _ in state.errors])
++        state.release(phase.SyntheticView(SyntheticAllocation()))
++        self.assertIs(ticket, state.request)
++        self.assertTrue(state.known.contains(navigation))
++        state.release(phase.SyntheticView(view.allocation))
++        self.assertIsNone(state.request)
++        self.assertEqual(0, state.known.count())
++
++    def test_unidentified_loading_stop_does_not_poison_a_genuinely_new_native_start(self):
++        # KVO has no navigation token. This intentionally does not certify Stop for the
++        # unidentified pre-start native interval or guess which future token it stopped.
++        view, state, current = self.committed()
++        state.errors.append((-92, "synthetic preceding error"))
++        view.native_loading = True
++        state.kvo(view, "loading")
++        ticket = state.request
++        self.assertEqual("SuspendedCommitted", ticket.phase)
++        state.stop(view)
++        self.assertFalse(ticket.stopped)
++        self.assertEqual([(-92, "synthetic preceding error")], state.errors)
++        newer = self.navigation()
++        view.url = "synthetic:genuine-later-link"
++        state.start(view, newer)
++        self.assertIsNot(ticket, state.request)
++        self.assertFalse(state.request.stopped)
++        self.assertEqual((view.url, None, None, ()), state.snapshot()[:4])
++        state.commit(view, newer)
++        self.assertEqual(view.url, state.final)
++
++
++if __name__ == "__main__":
++    unittest.main()

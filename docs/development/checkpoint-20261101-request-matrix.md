@@ -4,6 +4,54 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Latest acceptance and next missing-only pair
+
+- [TLS002 independent review](evidence/current-platform-recovery-20261101/tls-actual034/README.md)
+  accepts **one Linux x64 native TLS/rendering cell**,1/1/one fresh XML,
+  Gradle0/43.01s,1113 original held inputs and38 passive checks. The rejected TLS
+  error, zero rejected HTTP, real painted snapshots, same-owner recovery and owned
+  cleanup assertions execute. TLS001 remains failed/undiagnosed. Branch occurrence,
+  GPU, binary-version and OS-worker-reap facts are not attested. Other13 security
+  cells and the separate Desktop request10 remain.
+- [Changed Android reporter compile](evidence/current-platform-recovery-20261101/android-held-start-compiler041/README.md)
+  passes0/40.01s/1115 library+1192 combined held inputs, JDK17.0.20/Gradle9.7.1;
+  ZERO native. Original request2 bodies, predicates and deadlines remain; only
+  failure diagnostics changed. [iOS request phases/native weak identity](evidence/current-platform-recovery-20261101/ios-weak-identity-integration033/README.md)
+  are source-qualified, not Apple compiler/runtime acceptance. Four original
+  request methods remain to execute: **Android2 and iOS2 only**; accepted DNS1 excluded.
+- [Composed preflight042](evidence/current-platform-recovery-20261101/composed-webview-ci-preflight042/REPORT.json)
+  passes46 affected existing methods once/3.423513s,1192 frozen inputs. Accepted
+  Android19/iOS14+prior16/TLS8 are reused, not replayed. The original two source-only
+  request plans pass; their [public derivative](evidence/current-platform-recovery-20261101/composed-webview-ci-preflight042/request2-plans.public.json)
+  redacts only local repository-root prefixes. No native success is inferred.
+- [Camera actual035](evidence/current-platform-recovery-20261101/camera-actual035/README.md)
+  remains FAILED/ZERO native/XML after reporter0/268.08s and fresh API35 boot.
+  Snapshot823 rejects an exact Settings process-dump token; actual record/category/
+  startup cause is unknown. Separate close947 refusal/original-state absence and
+  mutation counters0 remain; graceful owned disposal passes. The [additive literal
+  correction](evidence/current-platform-recovery-20261101/camera-literal-correction044/README.md)
+  preserves the raw overstrict packets: immediate caller reconstruction before
+  external completion is not an original deadline. Camera009 C2/C3 stay accepted;
+  only genuine Dont-keep remains. No extra native criterion/profile is added.
+- [Permission actual043](evidence/current-platform-recovery-20261101/permission-actual043/README.md)
+  remains FAILED2/2/one XML/Gradle1/70.02s at original OS-control timeout. Mask12,
+  exact matches0 and immediate returned1/grant0/rationale0/callback0/resumed1/focused1
+  do not establish request dispatch, dialog visibility, namespace or cause. Approved
+  installed identities/input bindings/owned cleanup pass; pickerC3 reused, Call/
+  denial/media33+34/storage still missing. Originals acquired once, not replayed.
+- [Legal chronology integration](evidence/current-platform-recovery-20261101/legal-chronology-integration045/README.md)
+  changes exactly three wording literals with full inverse equality; predicates,
+  null option/applicability and legal/staging/publishing gates remain unchanged.
+  Node checksum authentication is prerequisite evidence, not U1–U3 or frozen
+  resolver/network/resource/security acceptance.
+
+Next: freeze/commit/push the related WebView patch, then run immutable iOS request2
+and Android request2 in the two free hosted-heavy slots. Private camera/permission/
+remaining13 Desktop/#50/dependency work proceeds disjointly. Close verified subsets
+immediately after original-criteria review; this preparation yields **no new closure**.
+Totals remain92closed/80open/172total and27implemented/42partial/90verified/five
+unresolved. All earlier observations below retain their historical scope/status.
+
 ## Shared tooling failure recovered
 
 Camera41278812558 and permission41278818654 at e0907624 both remain terminal

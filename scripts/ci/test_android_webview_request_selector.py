@@ -22,6 +22,9 @@ import workflow_matrix as matrix
 ANNOTATION = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestVerification"
 ANNOTATION_NAME = ANNOTATION.rsplit(".", 1)[1]
 ORIGINAL_TWO_METHOD_SOURCE_SHA256 = "84018856aee7c6e223d32465d2eef76a9b705ebbaf6f232513fd34c8b152b326"
+HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256 = "0afe3cdee0d353bb8a531606c892ac2b317f1ebf848bb84bef8bc212e6790a3f"
+ORIGINAL_SELECTED_SOURCE_SHA256 = "8b22586f28d0c228c3837c9660e47ecfb15e5a3534b3f587e533add1d82235a4"
+HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256 = "4f92af5333784a8c79cfcd6c2f0192bb8517feba886f116d6c0813b0fbda9e1a"
 ORIGINAL_METHOD_BODY_SHA256 = {
     "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl":
         "6e07ff036d902271ad1b5347b556611dc3b978aae5945fb201e4048e02aa65d1",
@@ -134,9 +137,9 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         for method in r.ANDROID_WEBVIEW_REQUEST_METHODS:
             self.assertEqual(1, self.source.count("    @" + ANNOTATION_NAME + "\n    @Test fun " + method + "()"))
 
-    def test_stripping_only_selection_metadata_restores_both_original_bodies_and_all_helpers(self):
+    def test_stripping_only_selection_metadata_preserves_both_original_bodies_and_exact_diagnostic_helpers(self):
         unselected = source_guard.request_source_without_selection_annotation(self.source)
-        self.assertEqual(ORIGINAL_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
+        self.assertEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
         for method, expected in ORIGINAL_METHOD_BODY_SHA256.items():
             with self.subTest(method=method):
                 self.assertEqual(expected, hashlib.sha256(
@@ -144,7 +147,7 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         self.assertEqual(list(r.ANDROID_WEBVIEW_REQUEST_METHODS),
                          re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", unselected))
 
-    def test_compiled_projection_keeps_old_hash_and_refuses_partial_metadata_or_body_changes(self):
+    def test_compiled_projection_keeps_exact_diagnostic_hash_and_refuses_partial_metadata_or_body_changes(self):
         projected = source_guard.compiled_request_source(self.source)
         self.assertEqual(source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
                          hashlib.sha256(projected.encode()).hexdigest())
@@ -157,7 +160,7 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         with self.assertRaises(ValueError):
             source_guard.compiled_request_source(changed)
         second = self.source.replace("fixture.navigator.stopLoading()", "native.stopLoading()", 1)
-        self.assertNotEqual(ORIGINAL_TWO_METHOD_SOURCE_SHA256,
+        self.assertNotEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256,
                             hashlib.sha256(source_guard.request_source_without_selection_annotation(second).encode()).hexdigest())
 
     def test_missing_duplicate_moved_or_fully_qualified_method_annotations_refuse(self):
@@ -319,6 +322,338 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         self.assertEqual(1, options.count(r.ANDROID_WEBVIEW_REQUEST_FOCUS))
         self.assertIn("contents: read", workflow)
         self.assertIn("persist-credentials: false", workflow)
+
+
+# Exact reversible diagnostic-only fragments; never a regex or arbitrary-helper exemption.
+DIAGNOSTIC_SOURCE_FRAGMENTS = (
+    ('stop-held-helper',
+     r'''    private fun awaitStopRedirectHeld(server: AndroidStopRedirectHttpServer, probe: AndroidStopRedirectProbe,
+                                      native: AndroidWebView, stage: AndroidStopRedirectStage,
+                                      expected: AndroidStopRedirectStage = stage) {
+        waitFor("A forwarded native start and the exact still-held owned request", server, probe) {
+            onMain { probe.hasStart(expected) && probe.ownerIs(native) } && stage.requests.get() > 0 && stage.pending.get() > 0
+        }
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.replies.get())
+        assertEquals(0, stage.peerEof.get())
+        if (stage.reply != AndroidStopRedirectReply.WaitForStop) {
+            assertFalse(stage.testReleased.get())
+            assertEquals(1L, stage.permit.count)
+        }
+        onMain {
+            probe.assertStarts(expected)
+            val snapshot = probe.snapshot()
+            assertNull(snapshot.loaded)
+            assertNull(snapshot.title)
+            assertTrue(snapshot.errors.isEmpty())
+            assertIs<LoadingState.Loading>(snapshot.loading)
+        }
+    }
+
+''',
+     r'''    private fun awaitStopRedirectHeld(server: AndroidStopRedirectHttpServer, probe: AndroidStopRedirectProbe,
+                                      native: AndroidWebView, stage: AndroidStopRedirectStage,
+                                      expected: AndroidStopRedirectStage = stage) {
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("A forwarded native start and the exact still-held owned request", server, probe) {
+                val start = onMain {
+                    Triple(probe.hasStart(expected), probe.ownerIs(native),
+                        runCatching { probe.heldStartFacts(expected) }.getOrDefault("probeFacts=unavailable"))
+                }
+                val requests = stage.requests.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} expected=${expected.name} hasStart=${start.first} " +
+                    "sameOwner=${start.second} requests=$requests pending=$pending ${start.third} " +
+                    "released=${stage.testReleased.get()} permit=${stage.permit.count} " +
+                    "bytes=${stage.responseBytes.get()} replies=${stage.replies.get()} " +
+                    "stopInvoked=${stage.stopInvoked.get()} peerEof=${stage.peerEof.get()}"
+                start.first && start.second && requests > 0 && pending > 0
+            }
+        }
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.replies.get())
+        assertEquals(0, stage.peerEof.get())
+        if (stage.reply != AndroidStopRedirectReply.WaitForStop) {
+            assertFalse(stage.testReleased.get())
+            assertEquals(1L, stage.permit.count)
+        }
+        onMain {
+            probe.assertStarts(expected)
+            val snapshot = probe.snapshot()
+            assertNull(snapshot.loaded)
+            assertNull(snapshot.title)
+            assertTrue(snapshot.errors.isEmpty())
+            assertIs<LoadingState.Loading>(snapshot.loading)
+        }
+    }
+
+'''),
+    ('request-held-helper',
+     r'''    private fun awaitHeldStart(server: AndroidRequestHttpServer, probe: AndroidRequestProbe, stage: AndroidRequestStage) {
+        waitFor("A real onPageStarted and still-held exact owned HTTP request", server, probe) {
+            onMain { probe.hasStart(stage) } && stage.attempts.get() > 0 && stage.pending.get() > 0
+        }
+        assertFalse(stage.testReleased.get(), "A pre-disconnected endpoint cannot prove the loading interval")
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.refused.get())
+        assertEquals(0, stage.completed.get())
+        onMain {
+            probe.assertStarts(stage)
+            val snapshot = probe.snapshot()
+            assertEquals(stage.url, snapshot.requested)
+            assertNull(snapshot.loaded)
+            assertNull(snapshot.title)
+            assertTrue(snapshot.errors.isEmpty())
+            assertIs<LoadingState.Loading>(snapshot.loading)
+        }
+    }
+
+''',
+     r'''    private fun awaitHeldStart(server: AndroidRequestHttpServer, probe: AndroidRequestProbe, stage: AndroidRequestStage) {
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("A real onPageStarted and still-held exact owned HTTP request", server, probe) {
+                val start = onMain {
+                    probe.hasStart(stage) to runCatching { probe.heldStartFacts(stage) }.getOrDefault("probeFacts=unavailable")
+                }
+                val attempts = stage.attempts.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} hasStart=${start.first} attempts=$attempts pending=$pending ${start.second} " +
+                    "released=${stage.testReleased.get()} gate=${stage.gate.count} " +
+                    "bytes=${stage.responseBytes.get()} refused=${stage.refused.get()} completed=${stage.completed.get()}"
+                start.first && attempts > 0 && pending > 0
+            }
+        }
+        assertFalse(stage.testReleased.get(), "A pre-disconnected endpoint cannot prove the loading interval")
+        assertEquals(0, stage.responseBytes.get())
+        assertEquals(0, stage.refused.get())
+        assertEquals(0, stage.completed.get())
+        onMain {
+            probe.assertStarts(stage)
+            val snapshot = probe.snapshot()
+            assertEquals(stage.url, snapshot.requested)
+            assertNull(snapshot.loaded)
+            assertNull(snapshot.title)
+            assertTrue(snapshot.errors.isEmpty())
+            assertIs<LoadingState.Loading>(snapshot.loading)
+        }
+    }
+
+'''),
+    ('failure-attachment-helper',
+     "",
+     r'''/** Only already-sampled bounded facts; no new UI work, native action, or cause claim during unwind. */
+private fun observeHeldStartFailure(lastSample: () -> String, wait: () -> Unit) {
+    try { wait() } catch (primary: Throwable) {
+        runCatching {
+            primary.addSuppressed(AssertionError("Last held-start sample before unwind (not a cause): ${lastSample().take(768)}"))
+        }
+        throw primary // Preserve the original timeout/fixture/callback failure and its boundary.
+    }
+}
+
+'''),
+    ('AndroidRequestStage-probe-facts',
+     "",
+     r'''    fun heldStartFacts(stage: AndroidRequestStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
+'''),
+    ('AndroidStopRedirectStage-probe-facts',
+     "",
+     r'''    fun heldStartFacts(stage: AndroidStopRedirectStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
+'''),
+)
+
+
+class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
+    """New diagnostic-specific source refusals only; never native or selector-suite acceptance."""
+    def setUp(self):
+        self.source = (r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text()
+        self.fragments = {name: (before, after) for name, before, after in DIAGNOSTIC_SOURCE_FRAGMENTS}
+
+    def changed_fragment(self, name, before, after):
+        fragment = self.fragments[name][1]
+        self.assertEqual(1, fragment.count(before))
+        return self.source.replace(fragment, fragment.replace(before, after, 1), 1)
+
+    def reject(self, candidates, validator=source_guard.compiled_request_source):
+        for label, candidate in candidates:
+            with self.subTest(rejection=label), self.assertRaises((ValueError, AssertionError)):
+                validator(candidate)
+
+    def original_source_before_diagnostics(self, source):
+        # This evidence-only reversal accepts ONE full after image before replacing exact literals.
+        # compiled_request_source never calls this function and never strips diagnostic helper bytes.
+        if hashlib.sha256(source.encode()).hexdigest() != HELD_START_DIAGNOSTIC_SELECTED_SOURCE_SHA256:
+            raise ValueError("Only the exact declared diagnostic after image may be reversed")
+        restored = source
+        for name, before, after in DIAGNOSTIC_SOURCE_FRAGMENTS:
+            if restored.count(after) != 1:
+                raise ValueError("Missing or duplicate exact diagnostic fragment: " + name)
+            restored = restored.replace(after, before, 1)
+        if hashlib.sha256(restored.encode()).hexdigest() != ORIGINAL_SELECTED_SOURCE_SHA256:
+            raise ValueError("Exact diagnostic reversal did not restore the frozen original file")
+        return restored
+
+    def whole_selector_guard(self, source):
+        # Exercise only the owning adapted whole-helper guard, not the other accepted selector models.
+        case = AndroidWebViewRequestSelectorModels()
+        case.source = source
+        case.test_stripping_only_selection_metadata_preserves_both_original_bodies_and_exact_diagnostic_helpers()
+
+    def complete_native_guards(self, source):
+        source_guard.require_native_witnesses(source)
+        source_guard.require_stop_redirect_witnesses(source)
+
+    def test_exact_fragments_restore_original_file_bodies_and_both_precise_hash_advances(self):
+        before = self.original_source_before_diagnostics(self.source)
+        self.assertEqual(ORIGINAL_SELECTED_SOURCE_SHA256, hashlib.sha256(before.encode()).hexdigest())
+        unselected_before = source_guard.request_source_without_selection_annotation(before)
+        self.assertEqual(ORIGINAL_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected_before.encode()).hexdigest())
+        start = unselected_before.index(source_guard.STOP_REDIRECT_MEMBER_MARKER)
+        end = unselected_before.index("    private fun awaitHeldStart(", start)
+        helper = unselected_before.index(source_guard.STOP_REDIRECT_HELPER_MARKER, end)
+        original_projection = unselected_before[:start] + unselected_before[end:helper]
+        self.assertEqual(source_guard.ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
+                         hashlib.sha256(original_projection.encode()).hexdigest())
+        self.assertEqual(HELD_START_DIAGNOSTIC_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(
+            source_guard.request_source_without_selection_annotation(self.source).encode()).hexdigest())
+        self.assertEqual(source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256, hashlib.sha256(
+            source_guard.compiled_request_source(self.source).encode()).hexdigest())
+        self.assertNotEqual(source_guard.ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
+                            source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256)
+        for method, digest in ORIGINAL_METHOD_BODY_SHA256.items():
+            for image in (before, self.source):
+                with self.subTest(method=method, before=image is before):
+                    self.assertEqual(digest, hashlib.sha256(
+                        source_guard.body_after(image, "@Test fun " + method).encode()).hexdigest())
+        self.complete_native_guards(self.source)
+
+    def test_literal_reversal_refuses_old_partial_mutated_or_unknown_after_images(self):
+        before = self.original_source_before_diagnostics(self.source)
+        observer = self.fragments["failure-attachment-helper"][1]
+        request = self.fragments["AndroidRequestStage-probe-facts"][1]
+        self.reject([
+            ("unchanged-original-is-not-the-diagnostic-after-image", before),
+            ("partial-request-facts", self.source.replace(request, "", 1)),
+            ("duplicate-attachment", self.source.replace(observer, observer + observer, 1)),
+            ("changed-sample-bound", self.changed_fragment("failure-attachment-helper", "lastSample().take(768)", "lastSample().take(767)")),
+            ("unknown-native-helper", self.source + "\nprivate fun unknownNative() { native.destroy() }\n"),
+            ("partial-selector-metadata", self.source.replace("    @" + ANNOTATION_NAME + "\n", "", 1)),
+        ], self.original_source_before_diagnostics)
+
+    def test_partial_duplicate_moved_or_extra_excluded_diagnostic_helpers_refuse(self):
+        stop = self.fragments["AndroidStopRedirectStage-probe-facts"][1]
+        request = self.fragments["AndroidRequestStage-probe-facts"][1]
+        observer = self.fragments["failure-attachment-helper"][1]
+        self.reject([
+            ("missing-stop-facts", self.source.replace(stop, "", 1)),
+            ("duplicate-stop-facts", self.source.replace(stop, stop + stop, 1)),
+            ("moved-stop-facts", self.source.replace(stop, "", 1) + stop),
+            ("stop-held-signature-change", self.source.replace("native: AndroidWebView, stage: AndroidStopRedirectStage,", "native: Any, stage: AndroidStopRedirectStage,", 1)),
+            ("missing-stop-held-call", self.changed_fragment("stop-held-helper", "observeHeldStartFailure({ lastSample })", "run")),
+            ("extra-hidden-fact-helper", self.source + "\n" + request),
+            ("extra-hidden-observer-call", self.source + "\nfun hidden() { observeHeldStartFailure({ \"hidden\" }) {} }\n"),
+            ("missing-attachment-helper", self.source.replace(observer, "", 1)),
+            ("missing-request-facts", self.source.replace(request, "", 1)),
+        ])
+
+    def test_all_original_held_predicate_operands_remain_required(self):
+        self.reject([
+            ("request-start-removed", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "attempts > 0 && pending > 0")),
+            ("request-attempt-zero", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "start.first && attempts >= 0 && pending > 0")),
+            ("request-pending-zero", self.changed_fragment("request-held-helper", "start.first && attempts > 0 && pending > 0", "start.first && attempts > 0 && pending >= 0")),
+            ("stop-start-or-owner", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first || start.second && requests > 0 && pending > 0")),
+            ("stop-request-zero", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first && start.second && requests >= 0 && pending > 0")),
+            ("stop-pending-zero", self.changed_fragment("stop-held-helper", "start.first && start.second && requests > 0 && pending > 0", "start.first && start.second && requests > 0 && pending >= 0")),
+            ("stop-owner-guessed", self.changed_fragment("stop-held-helper", "probe.ownerIs(native)", "true")),
+            ("stop-start-guessed", self.changed_fragment("stop-held-helper", "probe.hasStart(expected)", "true")),
+        ])
+
+    def test_optional_probe_facts_cannot_emit_private_values_or_mutate_native_owner(self):
+        self.reject([
+            ("request-native-url", self.changed_fragment("AndroidRequestStage-probe-facts", "ownerPresent=${owner.webView != null}", "ownerUrl=${owner.webView?.url}")),
+            ("stop-native-title", self.changed_fragment("AndroidStopRedirectStage-probe-facts", "ownerPresent=${owner.webView != null}", "ownerTitle=${owner.webView?.title}")),
+            ("request-error-body", self.changed_fragment("AndroidRequestStage-probe-facts", "nativeErrors=${active?.errors?.size ?: 0}", "nativeErrors=${active?.errors}")),
+            ("stop-native-action", self.changed_fragment("stop-held-helper", "runCatching { probe.heldStartFacts(expected) }", "runCatching { native.stopLoading(); probe.heldStartFacts(expected) }")),
+            ("request-diagnostic-read-can-throw", self.changed_fragment("request-held-helper", 'runCatching { probe.heldStartFacts(stage) }.getOrDefault("probeFacts=unavailable")', "probe.heldStartFacts(stage)")),
+            ("stop-diagnostic-read-can-throw", self.changed_fragment("stop-held-helper", 'getOrDefault("probeFacts=unavailable")', "getOrThrow()")),
+            ("stop-stage-url-output", self.changed_fragment("stop-held-helper", '"stage=${stage.name} expected=${expected.name}', '"url=${stage.url} expected=${expected.name}')),
+        ])
+
+    def test_primary_throwable_bounded_last_sample_and_no_unwind_ui_work_stay_exact(self):
+        self.reject([
+            ("primary-swallowed", self.changed_fragment("failure-attachment-helper", "throw primary //", "return //")),
+            ("primary-replaced", self.changed_fragment("failure-attachment-helper", "primary.addSuppressed(AssertionError(", "throw AssertionError(")),
+            ("sample-cap-expanded", self.changed_fragment("failure-attachment-helper", "lastSample().take(768)", "lastSample().take(4096)")),
+            ("attachment-can-mask-primary", self.changed_fragment("failure-attachment-helper", "runCatching {", "run {")),
+            ("new-main-work-during-unwind", self.changed_fragment("failure-attachment-helper", "primary.addSuppressed(", "onMain { native.reload() }; primary.addSuppressed(")),
+            ("false-cause-claim", self.changed_fragment("failure-attachment-helper", "before unwind (not a cause)", "before unwind (proved cause)")),
+        ])
+
+    def test_diagnostics_cannot_release_respond_reset_start_or_supply_public_stop(self):
+        self.reject([
+            ("stop-release-in-wait", self.changed_fragment("stop-held-helper", "val requests = stage.requests.get()", "stage.releaseForTest(); val requests = stage.requests.get()")),
+            ("response-write-in-wait", self.changed_fragment("request-held-helper", "val attempts = stage.attempts.get()", "socket.getOutputStream().write(1); val attempts = stage.attempts.get()")),
+            ("request-helper-reset", self.changed_fragment("request-held-helper", "probe.hasStart(stage) to", "probe.arm(stage); probe.hasStart(stage) to")),
+            ("synthetic-start", self.changed_fragment("stop-held-helper", "Triple(probe.hasStart(expected)", "probe.onPageStarted(native, stage.url, null); Triple(probe.hasStart(expected)")),
+            ("early-stop-mark", self.changed_fragment("stop-held-helper", "val pending = stage.pending.get()", "stage.stopInvoked.set(true); val pending = stage.pending.get()")),
+            ("zero-byte-assertion-weakened", self.changed_fragment("stop-held-helper", "assertEquals(0, stage.responseBytes.get())", "assertTrue(stage.responseBytes.get() >= 0)")),
+        ])
+
+    def test_full_source_manual_reset_still_refuses_before_any_diagnostic_projection(self):
+        candidates = [
+            ("attachment-body-reset", self.changed_fragment("failure-attachment-helper", "runCatching {", "runCatching { state.errorsForCurrentRequest = emptyList();")),
+            ("separate-stop-wait-reset", self.changed_fragment("stop-held-helper", "val requests = stage.requests.get()", "state.errorsForCurrentRequest = emptyList(); val requests = stage.requests.get()")),
+            ("separate-stop-fact-reset", self.changed_fragment("AndroidStopRedirectStage-probe-facts", "    fun heldStartFacts(", "    fun masked() { state.errorsForCurrentRequest = emptyList() }\n    fun heldStartFacts(")),
+        ]
+        for label, candidate in candidates:
+            with self.subTest(rejection=label), self.assertRaisesRegex(ValueError, "Manual request resets are forbidden anywhere in the full native fixture"):
+                source_guard.require_native_witnesses(candidate)
+
+    def test_retained_diagnostic_bytes_cannot_hide_unknown_helpers_with_a_broad_projection(self):
+        observer = self.fragments["failure-attachment-helper"][1]
+        marker = source_guard.STOP_REDIRECT_HELPER_MARKER
+        self.reject([
+            ("unknown-helper-after-attachment", self.source.replace(observer, observer + "private fun unrelatedNativeAction() { native.destroy() }\n\n", 1)),
+            ("unknown-helper-before-separate-layer", self.source.replace(marker, "\nprivate fun alternateStartWitness() = true\n" + marker, 1)),
+            ("diagnostic-like-unrecognized-helper", self.source.replace(observer, observer + "private fun heldStartFactsFallback() = true\n\n", 1)),
+        ])
+
+    def test_whole_selector_hash_advance_still_refuses_unrelated_native_body_and_helper_changes(self):
+        second = source_guard.body_after(self.source, "@Test fun " + source_guard.STOP_REDIRECT_METHOD)
+        changed_second = second.replace("assertEquals(0, server.stopped.peerEof.get()", "assertEquals(1, server.stopped.peerEof.get()", 1)
+        self.assertNotEqual(second, changed_second)
+        members_start = self.source.index(source_guard.STOP_REDIRECT_MEMBER_MARKER)
+        members_end = self.source.index("    private fun awaitHeldStart(", members_start)
+        members = self.source[members_start:members_end]
+        changed_members = members.replace("SystemClock.elapsedRealtime() + 10_000", "SystemClock.elapsedRealtime() + 1_000", 1)
+        self.assertNotEqual(members, changed_members)
+        self.reject([
+            ("second-method-pre-stop-eof-weakened", self.source.replace(second, changed_second, 1)),
+            ("separate-wait-deadline-changed", self.source[:members_start] + changed_members + self.source[members_end:]),
+            ("unknown-separate-native-helper", self.source + "\nprivate fun unrelatedNativeAction() { native.destroy() }\n"),
+            ("separate-probe-generation-guessed", self.source.replace("observed.generation = serial", "observed.generation = 1")),
+            ("native-owner-disposal-assertion-removed", self.source.replace("assertEquals(0, fixture.disposed.get())", "assertTrue(fixture.disposed.get() >= 0)")),
+            ("arbitrary-new-helper", self.source + "\nprivate fun arbitrary() = true\n"),
+        ], self.whole_selector_guard)
+
+    def test_new_diagnostics_cannot_waive_original_forwarding_eof_or_finite_native_bounds(self):
+        marker = source_guard.STOP_REDIRECT_HELPER_MARKER
+        start = self.source.index(marker)
+        prefix, separate = self.source[:start], self.source[start:]
+        self.reject([
+            ("stop-forwarded-finish-removed", prefix + separate.replace("super.onPageFinished(view, url)", "Unit", 1)),
+            ("stop-peer-reader-deadline-expanded", prefix + separate.replace("socket.soTimeout = 15_000", "socket.soTimeout = 30_000", 1)),
+            ("stop-route-limit-expanded", prefix + separate.replace("owned.requests.incrementAndGet() <= 16", "owned.requests.incrementAndGet() <= 17", 1)),
+            ("stop-header-limit-expanded", prefix + separate.replace("buffer.size() < 8_192", "buffer.size() < 8_193", 1)),
+            ("request-held-gate-deadline-expanded", self.source.replace("owned.gate.await(15, TimeUnit.SECONDS)", "owned.gate.await(30, TimeUnit.SECONDS)", 1)),
+            ("stop-mark-check-inverted", prefix + separate.replace("check(route.stopInvoked.get())", "check(!route.stopInvoked.get())", 1)),
+        ], self.complete_native_guards)
 
 
 if __name__ == "__main__":

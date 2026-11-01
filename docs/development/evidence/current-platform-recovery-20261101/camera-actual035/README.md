@@ -1,0 +1,7 @@
+# Independent original camera run41279823497 review
+
+**FAILED; ZERO native methods/XML. #13 remains open.** Exact b8b696bf/attempt1, original sole Dont-keep request,1112 actual library maps/1189 frozen combined inputs match Git. Terminal metadata/log ZIP/sole evidence artifact acquired once only; raw originals remain private.
+
+Reporter assembly0/268.08s and owned AVD0/2.0s; actual fresh API35/x86_64/Enforcing boot. Prerequisite preparation refuses snapshot823: a complete source-backed native dump has an exact Settings token, rejected by fresh-epoch absence admission. Exact row/category/startup cause remains unavailable, not a parser-syntax diagnosis. No receiver preparation/reporter dispatch/Settings lease/caller/capture. Cleanup separately refuses close947 because original exact state was not acquired; all mutation counters0. Reporter/helper absence, graceful owned emulator+ADB removal and confined guest-root disposal pass, without laundering the retained cleanup red.
+
+Literal issue13 criteria are unchanged. Existing source observes nonfinishing destruction before capture completion but asserts caller recreation only after return. Neither new Dont-keep acceptance nor immediate external-foreground recreation is supplied. A private missing-criterion test-only proposal is included, not a patch/compile/dispatch; accepted camera009 three remain excluded. No tests/builds/replays/live/Git/GitHub/issue mutation, raw logs/dumps/paths/signing output or readiness promotion.

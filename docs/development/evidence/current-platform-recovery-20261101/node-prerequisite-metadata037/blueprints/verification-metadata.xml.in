@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INERT PROPOSAL. Do not use the advertised checksum as an authenticated pin.
+     Materialize only after independently bound signature/key provenance passes.
+     No trusted-artifact/trusted-key exemptions or checksum-generation mode. -->
+<verification-metadata>
+    <configuration>
+        <verify-metadata>true</verify-metadata>
+        <!-- Signature authentication is external, separate and mandatory;
+             this file performs strict archive SHA256 verification only. -->
+        <verify-signatures>false</verify-signatures>
+        <key-servers enabled="false"/>
+    </configuration>
+    <components>
+        <component group="org.nodejs" name="node" version="24.16.0">
+            <artifact name="node-v24.16.0-linux-x64.tar.gz">
+                <sha256 value="@AUTHENTICATED_RELEASE_SHA256@"/>
+            </artifact>
+        </component>
+    </components>
+</verification-metadata>
+

@@ -1,0 +1,138 @@
+{
+  "mode": "passive pre-existing local Kotlin metadata wire decoding; no toolchain invocation/acquisition/runtime",
+  "files": [
+    {
+      "path": "03_Foundation.knm",
+      "sha256": "f380e97236b3fc5568e18f2bdce0214f88c177430d03b7d71df07dcbd4a6981c"
+    },
+    {
+      "path": "30_Foundation.knm",
+      "sha256": "7e5a6685356ae751e9bff54d60d930f415c90d8174e53db2bd21fad836da10c2"
+    }
+  ],
+  "NSHashTable_methods": [
+    {
+      "class": "platform.Foundation.NSHashTableMeta",
+      "name": "hashTableWithOptions",
+      "return": "platform.Foundation.NSHashTable",
+      "parameters": [
+        {
+          "name": "options",
+          "type": "kotlin.ULong"
+        }
+      ]
+    },
+    {
+      "class": "platform.Foundation.NSHashTable",
+      "kind": "constructor",
+      "parameters": [
+        {
+          "name": "options",
+          "type": "kotlin.ULong"
+        },
+        {
+          "name": "capacity",
+          "type": "kotlin.ULong"
+        }
+      ]
+    },
+    {
+      "class": "platform.Foundation.NSHashTable",
+      "name": "addObject",
+      "return": "kotlin.Unit",
+      "parameters": [
+        {
+          "name": "object",
+          "type": "kotlin.Any?"
+        }
+      ]
+    },
+    {
+      "class": "platform.Foundation.NSHashTable",
+      "name": "removeAllObjects",
+      "return": "kotlin.Unit",
+      "parameters": []
+    },
+    {
+      "class": "platform.Foundation.NSHashTable",
+      "name": "containsObject",
+      "return": "kotlin.Boolean",
+      "parameters": [
+        {
+          "name": "anObject",
+          "type": "kotlin.Any?"
+        }
+      ]
+    }
+  ],
+  "option_declarations": [
+    {
+      "name": "NSPointerFunctionsWeakMemory",
+      "type": "kotlin.ULong",
+      "fields": [
+        [
+          2,
+          0,
+          23
+        ],
+        [
+          3,
+          2,
+          6
+        ],
+        [
+          7,
+          0,
+          6
+        ],
+        [
+          11,
+          0,
+          10758
+        ],
+        [
+          173,
+          2,
+          6
+        ]
+      ]
+    },
+    {
+      "name": "NSPointerFunctionsObjectPointerPersonality",
+      "type": "kotlin.ULong",
+      "fields": [
+        [
+          2,
+          0,
+          26
+        ],
+        [
+          3,
+          2,
+          6
+        ],
+        [
+          7,
+          0,
+          6
+        ],
+        [
+          11,
+          0,
+          10758
+        ],
+        [
+          173,
+          2,
+          7
+        ]
+      ]
+    }
+  ],
+  "initial_inspection_error": "Constructor schema differs from Function schema; initial generic decoder TypeError preserved as inspection-only, corrected by explicit Constructor parameter field2; not a Kotlin/compiler result",
+  "limitations": [
+    "Symbol/type readback only: no Foundation weak-zeroing/runtime/Apple SDK/host acceptance",
+    "WeakMemory/ObjectPointerPersonality semantics require actual Foundation validation and real Mac compilation; no pointer order/URL inference",
+    "No local metadata binary or private SDK asset is included in public delivery"
+  ]
+}

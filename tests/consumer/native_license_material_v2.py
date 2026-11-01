@@ -1,7 +1,7 @@
 """Inert, offline dual-origin evidence for the finite objc2 notice review.
 
 This adapter does not implement collector fallback or publication approval. Raw
-Git object hashes bind original crate manifests and later text separately; they
+Git object hashes bind original crate manifests and separate text-origin records; they
 are not publisher signatures. A source-reviewed index hash is required. Even
 fully matching bytes retain the unresolved attribution/SDK/applicability gaps.
 V1 JNI/archive collection and independent publication gates remain unchanged.
@@ -283,7 +283,7 @@ def load_material(reader: Reader, record: dict) -> PendingMaterial:
     exact(data["text_origin"], ORIGIN_FIELDS)
     require(data["source_origin"]["repository"] == data["text_origin"]["repository"] == REPOSITORY
             and data["source_origin"]["revision"] != MATERIAL_REVISION
-            and data["text_origin"]["revision"] == MATERIAL_REVISION, "Original and later text origins must remain separate")
+            and data["text_origin"]["revision"] == MATERIAL_REVISION, "Original source and separate text-origin records must remain separate")
     source_observation = origin(reader, data["source_origin"], data["source_files"])
     source = {item["path"]: reader.contents[item["catalog_path"]] for item in data["source_files"]}
     require(set(source) == {"Cargo.toml", path + "/Cargo.toml", "LICENSE.md"}, "Exact root/package/policy proofs required")

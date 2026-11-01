@@ -1,0 +1,123 @@
+{
+  "current_state_observation": {
+    "changed_states": [
+      {
+        "after": "closed",
+        "before": "open",
+        "number": 103
+      }
+    ],
+    "counts": {
+      "closed": 92,
+      "open": 80,
+      "total": 172
+    },
+    "evidence": "docs/development/evidence/derived-apache-notices-20261101/closure001/states.json",
+    "observed_at_utc": "2026-11-01T00:47:23.478807+00:00",
+    "repository": "Apdelrahman1911/nativeCmpkit",
+    "scope": "Current read-only issue-state observation; original migration state/title/body hashes remain historical. Only #103 newly closed this turn."
+  },
+  "issues": [
+    {
+      "actual_state_latest_retained_map": "closed",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Generate POM and Gradle module metadata on two different hosts and compare dependency selectors\n- Resolve and launch a desktop WebView consumer on Linux x64, macOS arm64/x64 and Windows x64\n- Verify native classifier availability for every advertised architecture",
+      "finding_ids": [
+        "BUILD-001"
+      ],
+      "historical_migration_state": "open",
+      "number": 1,
+      "original_body_sha256": "06747911243809ac18be9dedf50e232d70dc59cc62558d18fe94e1c20b9141d3",
+      "state_reason": "completed",
+      "title": "[High][BUILD-001] Desktop WebView POM hard-codes the publisher OS in JavaFX dependencies"
+    },
+    {
+      "actual_state_latest_retained_map": "open",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Test empty, irrelevant-file-only, wrong-platform, corrupt, stale-revision and missing-library directories\n- Verify full artifact manifests before assembling candidate desktop JARs\n- Load each candidate binary and check JNI symbol compatibility on its intended host",
+      "finding_ids": [
+        "BUILD-003"
+      ],
+      "historical_migration_state": "open",
+      "number": 2,
+      "original_body_sha256": "a5b4e6abc5c94c54fba2b52aa025cc45212711bd7396680d8197a9d3674a5115",
+      "state_reason": null,
+      "title": "[High][BUILD-003] Any nonempty prebuilt native subdirectory suppresses every local native build"
+    },
+    {
+      "actual_state_latest_retained_map": "open",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Verify per-module test counts are nonzero where expected\n- Exercise all regressions listed in module finding required_tests\n- Build isolated minimum-supported-SDK and Kotlin/Compose-version consumers\n- Assert Kotlin/JNI/Swift API compatibility against the retained compatibility surface",
+      "finding_ids": [
+        "BUILD-006"
+      ],
+      "historical_migration_state": "open",
+      "number": 3,
+      "original_body_sha256": "ce0c076795bcd95387f34954fab9633c078d319faddb76462d83ec55324a5023",
+      "state_reason": null,
+      "title": "[High][BUILD-006] Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness"
+    },
+    {
+      "actual_state_latest_retained_map": "open",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Assert required resource paths against the documented supported-platform matrix\n- Run JNI load and dialog cancellation tests on real Linux arm64 and Windows arm64 if claiming support\n- Verify glibc/SDK minimum compatibility of produced binaries",
+      "finding_ids": [
+        "BUILD-004"
+      ],
+      "historical_migration_state": "open",
+      "number": 38,
+      "original_body_sha256": "5ca49e82cc467efb65b0b6b893d7873f1cc4a1014a18531ec34b2dbb2b07786f",
+      "state_reason": null,
+      "title": "[Medium][BUILD-004] Packaged native platform matrix omits Linux arm64 and Windows arm64 paths expected by loaders"
+    },
+    {
+      "actual_state_latest_retained_map": "open",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Reject an intentionally modified downloaded build artifact in a local verification fixture\n- Check frozen JS/Python dependency installation from empty caches\n- Validate action SHA updates and least-privilege workflow permissions\n- Re-run full resolved-graph security scans after dependency updates",
+      "finding_ids": [
+        "BUILD-007"
+      ],
+      "historical_migration_state": "open",
+      "number": 40,
+      "original_body_sha256": "c3345d7ac454991643a17001b2b41543373abe6d641584f8d218624bab62be9d",
+      "state_reason": null,
+      "title": "[Medium][BUILD-007] Dependency and workflow trust is not reproducibly verified beyond the wrapper"
+    },
+    {
+      "actual_state_latest_retained_map": "closed",
+      "exact_original_acceptance_section": "Not reacquired: closed attribution subset is excluded from new executions.",
+      "finding_ids": [
+        "NAV-018"
+      ],
+      "historical_migration_state": "open",
+      "number": 103,
+      "original_body_sha256": null,
+      "state_reason": "completed",
+      "title": "[Medium][NAV-018] Derived Apache-2.0 source attribution needs reconstruction and artifact verification"
+    },
+    {
+      "actual_state_latest_retained_map": "open",
+      "exact_original_acceptance_section": "## Required tests / acceptance criteria\n- Repeat OSV/advisory checks against the full resolved JVM graph\n- Regression-test media, TLS, cookies, navigation, JavaScript policy and rendering on all desktop hosts\n- Document whether sandboxed untrusted-code execution is supported",
+      "finding_ids": [
+        "BUILD-002"
+      ],
+      "historical_migration_state": "open",
+      "number": 144,
+      "original_body_sha256": "bf793c9eecadce9c25bf2e814427bab72cd63807460ca896bf44ab615f508b18",
+      "state_reason": null,
+      "title": "[Low][BUILD-002] Pinned JavaFX media 19 matches a published low-severity security advisory"
+    }
+  ],
+  "main_policy_revision_unchanged": "94d2492e99d5cbc060409d94d9f88febd06222d5",
+  "new_closures": 0,
+  "prepared_utc": "2026-11-01T06:04:39.055975+00:00",
+  "schema_version": 1,
+  "scope": "Retained literal criteria and local state readback; no GitHub access or mutations.",
+  "source_identities": [
+    {
+      "bytes": 147050,
+      "path": "docs/migration/issue-map.json",
+      "sha256": "e818c705058e3b64de06a924081e0b79608f55d553dc258153c0ee79e07fbbd7"
+    },
+    {
+      "bytes": 8845,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/direct-closure/issue-readback.json",
+      "sha256": "71190de93d24b30b69a2ea3332ae990f0332b534a7712a9346e284dbe4967e5f"
+    }
+  ]
+}

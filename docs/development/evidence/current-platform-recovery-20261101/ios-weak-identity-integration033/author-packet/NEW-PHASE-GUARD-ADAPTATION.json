@@ -1,0 +1,8 @@
+{
+  "path": "scripts/ci/test_ios_webview_current_request_metadata.py",
+  "guard_id": "IosCurrentRequestMetadataSourceTests.test_source_live_identity_transition_and_noncommit_paths_are_bound",
+  "before": "        self.assertIn(\"iosRequest !== request || navigation == null\", binding)\n",
+  "after": "        self.assertIn(\"if (!hasSameNativeWebView(webView, view) || navigation == null) return\", binding)\n        self.assertIn(\"if (iosRequest !== request) return\", binding)\n        self.assertLess(binding.index(\"navigation == null\"), binding.index(\"knownIosNavigations.addObject(navigation)\"))\n        self.assertLess(binding.index(\"knownIosNavigations.addObject(navigation)\"), binding.index(\"if (iosRequest !== request) return\"))\n        self.assertLess(binding.index(\"if (iosRequest !== request) return\"), binding.index(\"if (request.navigation == null) request.navigation = navigation\"))\n",
+  "reason": "Preserve owner/null refusal before native weak bookkeeping and current-record refusal after bookkeeping; no phase reopening or lost reentrant issued identity.",
+  "original_native_common_pins_retained": true
+}

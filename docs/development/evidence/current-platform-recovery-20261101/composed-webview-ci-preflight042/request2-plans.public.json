@@ -1,0 +1,253 @@
+{
+  "kind": "public derivative with exact root-prefix-only redactions",
+  "redactions": [
+    {
+      "field": "0.preflight.slots.0.command.2",
+      "kind": "repository-root prefix only replaced; exact script retained",
+      "original_file_sha256": "082760517c0ebca75989c75b5000e33a2a0eea044d96d0c2c9ed6a0455fb6437"
+    },
+    {
+      "field": "1.preflight.slots.0.command.2",
+      "kind": "repository-root prefix only replaced; exact script retained",
+      "original_file_sha256": "082760517c0ebca75989c75b5000e33a2a0eea044d96d0c2c9ed6a0455fb6437"
+    }
+  ],
+  "plans": [
+    {
+      "elapsed_seconds": 0.170187,
+      "plan": {
+        "complete_suite_requested": false,
+        "expected": [
+          {
+            "agp_declared_xml_directory": "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+            "module": "calf-webview",
+            "native_fixture_paths": [
+              "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+              "calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml",
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt"
+            ],
+            "project": ":calf-webview",
+            "report_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+            "required_testcases": [
+              {
+                "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+                "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+              },
+              {
+                "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+                "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+              }
+            ],
+            "task": ":calf-webview:connectedAndroidDeviceTest",
+            "test_filter": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestVerification",
+            "test_filter_argument": "annotation",
+            "test_source_files": [
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt",
+              "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+              "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+              "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt"
+            ],
+            "test_source_sets": [
+              "commonTest",
+              "androidDeviceTest"
+            ],
+            "utp_results_directory": "calf-webview/build/outputs/androidTest-results/connected/androidMain",
+            "verification_api_level": 35
+          }
+        ],
+        "explicit_module_subset": [
+          "calf-webview"
+        ],
+        "explicit_test_focus": "android-webview-request-state",
+        "finite_only_device_modules_not_requested": [
+          "calf-permissions/core"
+        ],
+        "inherited_test_source_sets": [
+          "commonTest",
+          "materialTest",
+          "androidDeviceTest"
+        ],
+        "schema_version": 1,
+        "scope": "Two new actual API35 Chromium methods: held zero-response fail/fail/recovery/native-Reload, and public navigator Stop with pre-cleanup peer EOF plus actual owned302 redirect/current-final-URL Reload on the unchanged real Activity/Compose owner. Normal callbacks forward before same-owner observations; actual starts reset metadata/errors, and Reload must use the native current URL rather than retained declarative content. No accepted test replay, DNS/TLS/offline/all-target/minimum/physical/ABI/consumer/security/release certification.",
+        "suite": "android-device",
+        "test_bearing_modules_not_requested": [
+          "calf-camera-picker",
+          "calf-file-picker",
+          "calf-geo",
+          "calf-io",
+          "calf-navigation",
+          "calf-permissions/core",
+          "calf-share",
+          "calf-ui"
+        ],
+        "uncovered": []
+      },
+      "plan_sha256": "83c7616919c64d43f6938dc93db9917ff5d55b945dcbff0f1280c969c3beafe0",
+      "preflight": {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "android-webview-request-state",
+        "slots": [
+          {
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "<repository-root>/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-webview",
+              "--focus",
+              "android-webview-request-state"
+            ],
+            "exit_code": 0,
+            "expected_modules": 1,
+            "slot": "android-device-api35",
+            "suite": "android-device"
+          }
+        ],
+        "source_only": true
+      },
+      "profile": "android-webview-request-state",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+          "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+          "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 0.183512,
+      "plan": {
+        "complete_suite_requested": false,
+        "expected": [
+          {
+            "ios_webview_request_fixture": "scripts/ci/ios_webview_request_fixture.py",
+            "ios_webview_request_fixture_sha256": "a5b4780ab39822a4ee261c07d434bacb9ce9fe72943c1924eeaddcbbeb1e17a7",
+            "module": "calf-webview",
+            "native_test_host": "genuine-uikit-application",
+            "project": ":calf-webview",
+            "report_directory": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest",
+            "required_testcases": [
+              {
+                "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+                "name": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors[iosSimulatorArm64]"
+              },
+              {
+                "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+                "name": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess[iosSimulatorArm64]"
+              }
+            ],
+            "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+            "test_filter": "com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest.nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors,com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest.nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess",
+            "test_source_files": [
+              "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+              "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
+              "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+              "scripts/ci/ios_webview_request_fixture.py"
+            ],
+            "test_source_sets": [
+              "commonTest",
+              "iosTest"
+            ]
+          }
+        ],
+        "explicit_module_subset": [
+          "calf-webview"
+        ],
+        "explicit_test_focus": "webview-ios-native-request-state",
+        "finite_only_device_modules_not_requested": [],
+        "inherited_test_source_sets": [
+          "commonTest",
+          "nonAndroidTest",
+          "nativeTest",
+          "appleTest",
+          "iosTest",
+          "iosSimulatorArm64Test"
+        ],
+        "schema_version": 1,
+        "scope": "Exactly two new genuine UIApplication/library-WK methods: certificate-free actual provisional TLS fail/fail, public state/native link/recovery/Reload, native-link HTTP302 and precommit Stop/client EOF/recovery. Accepted eleven WK/application-host methods reused, not selected. Owned localhost only; no DNS/system-offline, certificate trust, physical/minimum/ABI/consumer/security/release certification.",
+        "suite": "ios",
+        "test_bearing_modules_not_requested": [
+          "calf-camera-picker",
+          "calf-file-picker",
+          "calf-file-picker-coil",
+          "calf-geo",
+          "calf-io",
+          "calf-navigation",
+          "calf-permissions/background-location",
+          "calf-permissions/bluetooth",
+          "calf-permissions/calendar",
+          "calf-permissions/camera",
+          "calf-permissions/contacts",
+          "calf-permissions/core",
+          "calf-permissions/gallery",
+          "calf-permissions/location",
+          "calf-permissions/microphone",
+          "calf-permissions/notifications",
+          "calf-permissions/wifi",
+          "calf-share",
+          "calf-ui"
+        ],
+        "uncovered": []
+      },
+      "plan_sha256": "74ade3d6359d50b105eb097c6b00033ccfc4682c3119dbbb3fbf816bf97d9fbc",
+      "preflight": {
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "operation": "plan",
+        "profile": "ios-webview-request-state",
+        "slots": [
+          {
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "<repository-root>/scripts/ci/library_tests.py",
+              "plan",
+              "--suite",
+              "ios",
+              "--module",
+              "calf-webview",
+              "--focus",
+              "webview-ios-native-request-state"
+            ],
+            "exit_code": 0,
+            "expected_modules": 1,
+            "slot": "ios-iphone",
+            "suite": "ios"
+          }
+        ],
+        "source_only": true
+      },
+      "profile": "ios-webview-request-state",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess[iosSimulatorArm64]"
+        }
+      ],
+      "status": "passed"
+    }
+  ]
+}

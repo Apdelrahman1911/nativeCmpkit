@@ -1,0 +1,79 @@
+{
+  "complete_suite_requested": false,
+  "desktop_security_fixture": {
+    "build_sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731",
+    "build_source": "calf-webview/build.gradle.kts",
+    "focus": "tls-rendering",
+    "fork_every": 1,
+    "init_script_sha256": "bbe38d5d5ffc53cb56258b2996d41a3015f41237fb782c9b701376bcc62579b1",
+    "init_script_source": "scripts/ci/desktop-security.init.gradle.kts",
+    "isolation_block_sha256": "99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf",
+    "max_parallel_forks": 1,
+    "public_worker_boundary_observation_required": true,
+    "worker_fixture_property": "one-selected-class"
+  },
+  "expected": [
+    {
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/test-results/desktopTest",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        }
+      ],
+      "task": ":calf-webview:desktopTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+      "test_source_files": [
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+      ],
+      "test_source_sets": [
+        "desktopTest"
+      ],
+      "test_source_sha256": {
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt": "00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt": "a7c8b3fe15c94ef5f30ccb648cdbe5a52770aad1b0bf5eeed6415a802a05c703"
+      }
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "tls-rendering",
+  "finite_only_device_modules_not_requested": [],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "desktopTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance.",
+  "suite": "desktop",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

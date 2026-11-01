@@ -4,6 +4,7 @@
 package com.mohamedrejeb.calf.ui.web
 
 import kotlinx.cinterop.objcPtr
+import platform.WebKit.WKNavigation
 import platform.WebKit.WKWebView
 
 /**
@@ -13,4 +14,8 @@ import platform.WebKit.WKWebView
  * never retain or export their addresses as identities.
  */
 internal fun hasSameNativeWebView(first: WKWebView?, second: WKWebView?): Boolean =
+    first != null && second != null && first.objcPtr() == second.objcPtr()
+
+/** Only live, retained navigation objects establish a current-request identity. */
+internal fun hasSameNativeNavigation(first: WKNavigation?, second: WKNavigation?): Boolean =
     first != null && second != null && first.objcPtr() == second.objcPtr()

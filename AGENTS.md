@@ -1,5 +1,41 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## WebView owning recovery ready; failed prerequisites retained — 2026-11-01
+
+[Linux TLS002](docs/development/evidence/current-platform-recovery-20261101/tls-actual034/README.md)
+is independently accepted **1/1 actual native/one fresh XML/Gradle0/43.01s**,1113
+held inputs/38 passive checks. TLS001 stays FAILED; no peer/cause, branch-occurrence,
+GPU/binary-version/OS-worker-reap inference. Other13 security cells/Desktop10 remain.
+[Android reporter](docs/development/evidence/current-platform-recovery-20261101/android-held-start-compiler041/README.md)
+compiles0/40.01s,1115/1192 held inputs/JDK17.0.20/Gradle9.7.1, ZERO native.
+[iOS owning request phases/weak identity](docs/development/evidence/current-platform-recovery-20261101/ios-weak-identity-integration033/README.md)
+are source-qualified only; exact author14/two reds/seven refusals reused, no Apple
+compile/native. [Composed preflight](docs/development/evidence/current-platform-recovery-20261101/composed-webview-ci-preflight042/REPORT.json)
+passes46 affected existing synthetic methods once/3.423513s on1192 held inputs;
+accepted Android19/iOS14+16/TLS8 not replayed. Next immutable **Android request2
+and iOS request2 only**; accepted DNS1 is excluded, not pending or replayable.
+
+[Camera41279823497](docs/development/evidence/current-platform-recovery-20261101/camera-actual035/README.md)
+stays FAILED/ZERO native/XML: APK0/268.08s/fresh EnforcingAPI35; snapshot823 exact
+Settings token rejects, actual record/category/startup cause unknown. Close947
+separately refuses/no original state/mutations0; owned disposal passes. Preserve
+both raw stricter reviews, but [their immediate-constructor deadline is rejected](docs/development/evidence/current-platform-recovery-20261101/camera-literal-correction044/README.md):
+original camera009 C2/C3 already accepted, **only Dont-keep1 remains**. Do not add
+or replay a pre-completion foreground reconstruction criterion. A complete native
+Activities absence query needs exact OS-source review before an owning repair.
+[Permission41279833656](docs/development/evidence/current-platform-recovery-20261101/permission-actual043/README.md)
+stays FAILED2/2 actual native/one XML/Gradle1/70.02s at exact OS-control timeout;
+mask12/matches0/immediate returned1/grant0/rationale0/callback0/resumed1/focused1
+do not diagnose dispatch or resource namespace. PickerC3 reused; media/storage remain.
+
+Node signed-checksum authority and legal scalar conclusions are documented but
+not frozen-install/security/legal clearance. Three legal chronology literals are
+applied with exact inverse; all option/applicability/staging/publishing gates stay.
+**92closed/80open/172total**,27implemented/42partial/90verified/five unresolved;
+no new closure. Lead-owned integration/Git/dispatch/closure, useful disjoint agents,
+serial local/8GiB DISK reserve/max2combined hosted-heavy and all publishing/Pages/
+main/history/native/consumer/API-ABI/dependency/legal/security/readiness gates stay.
+
 ## Shared finite-pair blocker repaired; native results still missing — 2026-11-01
 
 Actual [camera41278812558](docs/development/evidence/current-platform-recovery-20261101/camera-actual026/README.md)

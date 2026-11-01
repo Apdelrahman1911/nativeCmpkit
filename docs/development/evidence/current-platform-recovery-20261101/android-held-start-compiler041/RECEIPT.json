@@ -1,0 +1,47 @@
+{
+  "actual_daemon_jvm": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Ubuntu",
+    "java_version": "17.0.20",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+    "schema_version": 1
+  },
+  "all_before_after_and_lead_readback_equal": true,
+  "combined_inputs": 1192,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:assembleAndroidDeviceTest"
+  ],
+  "execution": {
+    "elapsed_seconds": 40.01,
+    "exit_code": 0
+  },
+  "free_bytes_after": 43003289600,
+  "free_bytes_before": 42993102848,
+  "issue_closures": 0,
+  "kind": "actual source-held Android WebView reporter compiler-only",
+  "library_inputs": 1115,
+  "native_test_executions": 0,
+  "raw_private_log_sha256": "bb494bc0da02829fe584cfcb0c05f43a58dd131e0398f3d38559fb75b7e27d78",
+  "raw_private_result_sha256": "4ec79787bf19328c991ee34f21857d33a7883586c10f247e44cc272452919254",
+  "release_or_security_acceptance": false,
+  "runtime_receipt_sha256": "0673b8caf24617d73ac042b5efd6c811ee838136c5046e109f6332881c2cfb3f",
+  "source_revision": "b8b696bffcab7cd2eeebeb7ec45450b97d38f423",
+  "source_tree_dirty": true,
+  "started_utc": "2026-11-01T06:24:49.819356+00:00",
+  "test_bodies_preserved": true,
+  "test_result": "no native tests requested or executed"
+}

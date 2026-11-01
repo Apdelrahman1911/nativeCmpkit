@@ -1,0 +1,128 @@
+{
+  "earlier_live_readback_scope": "All1112 match is exclusively the earlier private check-time observation, not current identity after lead e72 integration.",
+  "execution": {
+    "elapsed_seconds": 54.01,
+    "exit_code": 1
+  },
+  "facts_file_saved_at_utc": "2026-11-01T06:07:54.250861+00:00",
+  "input_maps": {
+    "before_after_exact_bytes_equal": true,
+    "changed_inputs": [],
+    "count": 1112,
+    "live_readback_changes": [],
+    "receipt_input_digests_match": true,
+    "source_defined_input_digest": "e3573a981c713f98920089dd42efe39675c460e4f7a2e35e51f386bd8f03593d"
+  },
+  "lead_later_change_report": "Lead reports b8b696bf changed only scripts/ci/test_android_permission_demo_timeout_review.py; no independent Git/global-map assertion is made here.",
+  "original_files": {
+    "gradle.log": {
+      "bytes": 29630,
+      "sha256": "0b493c66d50431aedc3925809aca5759b9bd8e34aeac77f535c5815b85bd52f4"
+    },
+    "inputs-after.json": {
+      "bytes": 171821,
+      "sha256": "e22d111e3f97f2ccee3f44c673a1e4779bc675ffac63eeb7cbe8d8194d5043b4"
+    },
+    "inputs-before.json": {
+      "bytes": 171821,
+      "sha256": "e22d111e3f97f2ccee3f44c673a1e4779bc675ffac63eeb7cbe8d8194d5043b4"
+    },
+    "plan.json": {
+      "bytes": 3630,
+      "sha256": "0fceebb231096f8bfa7a5cfa316180a15fd123679769d2635c020ce8a2af02a2"
+    },
+    "receipt.json": {
+      "bytes": 5827,
+      "sha256": "d9efbb11a47bb86dc5e68a1c365cd88a08256dc812c1af73d6a65d966b73b208"
+    },
+    "runtime.json": {
+      "bytes": 816,
+      "sha256": "a1dadfd1eea7345cf1102dd4b08b2c46a8fdab43752b5afcf315360c8c5f19c7"
+    }
+  },
+  "original_fixture_contract_source_hashes_bound": true,
+  "original_run_relative": "build/ci-verification/webview-desktop-security-tls-rendering-20261101-001",
+  "original_xml": {
+    "bytes": 11872,
+    "case_class": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+    "case_name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]",
+    "case_seconds": "5.589",
+    "failure_type": "java.lang.AssertionError",
+    "markers": {
+      "await_untrusted_failure_call_line139": true,
+      "broken_pipe": true,
+      "fixture_assertion": true,
+      "fixture_assertion_suppressed_during_close": true,
+      "native_write_impl425": true,
+      "ssl_output_flush": true,
+      "start_handshake_frame": true,
+      "start_handshake_owner_line279": true,
+      "tls13_finished_producer": true
+    },
+    "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.xml",
+    "sha256": "e68224363fe78363270805d4f4a8a32226d7db75c962ac9cb7e23c1cb887a33b"
+  },
+  "passed": false,
+  "prohibitions_preserved": [
+    "No network/acquisition",
+    "No native/test/compiler execution",
+    "No Git/GitHub",
+    "No live edit",
+    "No old guard/suite replay"
+  ],
+  "public_listener_event_facts": {
+    "case_failed_marker_observed": true,
+    "count": 5,
+    "parsed_as_success": false,
+    "setup": "NATIVECMPKIT_DESKTOP_SECURITY_SETUP task=:calf-webview:desktopTest focus=tls-rendering forks=1 forkEvery=1 classes=1"
+  },
+  "runtime": {
+    "architecture": "x64",
+    "java_major": 17,
+    "java_version": "17.0.20",
+    "system": "Linux"
+  },
+  "schema_version": 1,
+  "scope": "Passive original-byte/source/results review only; no test/native execution or Git comparison",
+  "source_preimages": {
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt": {
+      "bytes": 13932,
+      "in_original_input_map": true,
+      "live_preimage_matches_original": true,
+      "sha256": "d6351562894951442fec8258dc95452251530e6df10d04c3e106f535a1391696"
+    },
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt": {
+      "bytes": 20741,
+      "in_original_input_map": true,
+      "live_preimage_matches_original": true,
+      "sha256": "1636c150d21b2a5d15d6659c04f840e4bc2a2852287e835c912aaf43271de9ea"
+    },
+    "scripts/ci/desktop_security_plan.py": {
+      "bytes": 17195,
+      "in_original_input_map": true,
+      "live_preimage_matches_original": true,
+      "sha256": "22dc3b4438873c25363dee6adf81080487211c9ef405ffd6399c87d072f7bf1d"
+    }
+  },
+  "source_revision_after_equal": true,
+  "source_revision_from_receipt": "e09076242de99872e4244bb465d3bcfdd0da7319",
+  "source_tree_dirty_from_receipt": true,
+  "supported_observation": "Server SocketException/Broken pipe during owning explicit JDK17 startHandshake, with TLS1.3 Finished-write stack, surfaced while the test awaited Untrusted native failure.",
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "unknown": [
+    "Failing endpoint identity (shared Endpoint stack)",
+    "Why peer closed",
+    "Native Worker state/error at server-failure instant",
+    "Final rejected HTTP counters",
+    "Recovery and full cleanup acceptance"
+  ]
+}

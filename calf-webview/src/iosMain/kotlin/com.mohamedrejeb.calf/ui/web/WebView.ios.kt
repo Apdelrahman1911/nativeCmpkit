@@ -20,7 +20,10 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCSignatureOverride
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import platform.Foundation.NSHashTable
 import platform.Foundation.NSKeyValueObservingOptionNew
+import platform.Foundation.NSPointerFunctionsObjectPointerPersonality
+import platform.Foundation.NSPointerFunctionsWeakMemory
 import platform.Foundation.NSURL
 import platform.Foundation.NSMutableURLRequest
 import platform.Foundation.NSError
@@ -134,6 +137,7 @@ private fun releaseIosWebView(state: WebViewState, view: WKWebView, onDispose: (
         { view.removeFromSuperview() },
         {
             if (hasSameNativeWebView(state.webView, view)) {
+                state.clearIosRequestMetadata()
                 state.nativeObserver = null
                 state.webView = null
                 state.navigator = null
@@ -148,34 +152,61 @@ internal fun runOnIosMain(action: () -> Unit) {
 }
 
 private fun loadIosContent(view: WKWebView, state: WebViewState, content: WebContent) {
-    if (!state.acceptContent(content, WebContentPlatform.Ios)) return
+    // NavigatorOnly is not a request and must not revoke an existing document witness.
+    if (content == WebContent.NavigatorOnly) return
+    val iosRequest = state.prepareIosRequest()
+    if (!state.acceptContent(content, WebContentPlatform.Ios)) {
+        state.rejectIosRequest(iosRequest)
+        return
+    }
     when (content) {
         is WebContent.Url -> {
             val url = NSURL.URLWithString(content.url)
             if (url == null) {
                 state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid URL"))
                 state.loadingState = LoadingState.Finished
+                state.rejectIosRequest(iosRequest)
                 return
             }
             val request = NSMutableURLRequest().apply {
                 setURL(url)
                 content.additionalHttpHeaders.forEach { (key, value) -> setValue(value, forHTTPHeaderField = key) }
             }
-            view.loadRequest(request)
+            state.bindIosNavigation(view, iosRequest, view.loadRequest(request))
         }
         is WebContent.Data -> {
             val baseUrl = content.baseUrl?.let { NSURL.URLWithString(it) }
             if (content.baseUrl != null && baseUrl == null) {
                 state.errorsForCurrentRequest = listOf(WebViewError(-1, "Invalid base URL"))
                 state.loadingState = LoadingState.Finished
+                state.rejectIosRequest(iosRequest)
             } else {
                 // The same Unicode HTML loader serves state and navigator. Unsupported byte
                 // encodings/MIME/history options were rejected above, never relabeled as UTF-8.
-                view.loadHTMLString(content.data, baseUrl)
+                state.bindIosNavigation(view, iosRequest, view.loadHTMLString(content.data, baseUrl))
             }
         }
         WebContent.NavigatorOnly -> Unit
     }
+}
+
+/** Internal only: loading KVO and nil callbacks cannot establish a document commit. */
+internal enum class IosWebViewRequestPhase {
+    AwaitingStart,
+    Provisional,
+    Committed,
+    FinishedCommitted,
+    FinishedUncommitted,
+    SuspendedCommitted,
+}
+
+/** Bounded live references, not exported addresses or an accumulating callback log. */
+internal class IosWebViewRequest(
+    internal var navigation: WKNavigation? = null,
+    internal val supersededNavigation: WKNavigation? = null,
+) {
+    internal var phase = IosWebViewRequestPhase.AwaitingStart
+    internal var stoppedBeforeCommit = false
 }
 
 /**
@@ -253,6 +284,115 @@ actual class WebViewState actual constructor(
     internal var initialAllowsInlineMediaPlayback = true
     internal var nativeObserver: WKWebViewObserver? = null
 
+    private var iosRequest: IosWebViewRequest? = null
+
+    // Native weak keys remember issued/observed handles only while their native objects
+    // remain alive. Object-pointer personality is independent of Kotlin wrapper/value
+    // equality. The table retains no navigation objects and exports no addresses.
+    private val knownIosNavigations = NSHashTable(
+        options = NSPointerFunctionsWeakMemory or NSPointerFunctionsObjectPointerPersonality,
+        capacity = 0uL,
+    )
+
+    internal fun prepareIosRequest(): IosWebViewRequest {
+        val previous = iosRequest
+        return IosWebViewRequest(
+            supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,
+        ).also { iosRequest = it }
+    }
+
+    internal fun rejectIosRequest(request: IosWebViewRequest) {
+        if (iosRequest === request) request.phase = IosWebViewRequestPhase.FinishedUncommitted
+    }
+
+    internal fun bindIosNavigation(view: WKWebView, request: IosWebViewRequest, navigation: WKNavigation?) {
+        if (!hasSameNativeWebView(webView, view) || navigation == null) return
+        // Even a return after reentrant request replacement is a known issued handle.
+        // Remember it weakly, but only the still-current record may bind its identity.
+        knownIosNavigations.addObject(navigation)
+        if (iosRequest !== request) return
+        // A native callback may already have advanced or replaced this request. Never reopen
+        // its phase or overwrite a newer native start when the issuing call returns.
+        if (request.navigation == null) request.navigation = navigation
+    }
+
+    internal fun stopIosRequestBeforeCommit() {
+        val request = iosRequest ?: return
+        if (request.phase == IosWebViewRequestPhase.AwaitingStart ||
+            request.phase == IosWebViewRequestPhase.Provisional) {
+            // Keep the live identity for the actual cancellation NSError; Stop is not a commit.
+            request.stoppedBeforeCommit = true
+        }
+    }
+
+    internal fun noteIosNativeLoading() {
+        val request = iosRequest ?: return
+        if (request.phase == IosWebViewRequestPhase.FinishedCommitted) {
+            // Native loading can precede the delegate start. Revoke KVO publication only:
+            // real link starts must still observe the prior errors before beginRequest.
+            request.phase = IosWebViewRequestPhase.SuspendedCommitted
+        }
+    }
+
+    internal fun canPublishIosPageMetadata(view: WKWebView): Boolean {
+        val request = iosRequest ?: return false
+        return hasSameNativeWebView(webView, view) && !view.loading &&
+            (request.phase == IosWebViewRequestPhase.Committed ||
+                request.phase == IosWebViewRequestPhase.FinishedCommitted)
+    }
+
+    internal fun clearIosRequestMetadata() {
+        knownIosNavigations.removeAllObjects()
+        iosRequest = null
+    }
+
+    private fun requestFor(navigation: WKNavigation?): IosWebViewRequest? =
+        iosRequest?.takeIf { hasSameNativeNavigation(it.navigation, navigation) }
+
+    private fun beginIosNavigation(view: WKWebView, navigation: WKNavigation?) {
+        if (navigation == null) return
+        val previous = iosRequest
+        // A current handle remains authoritative. Any other still-live handle already
+        // issued or observed is stale, even after more than one owned replacement.
+        // An unseen genuine native link/history start can still replace an active request.
+        if (!hasSameNativeNavigation(previous?.navigation, navigation) &&
+            (knownIosNavigations.containsObject(navigation) ||
+                hasSameNativeNavigation(previous?.supersededNavigation, navigation))) return
+        val request = when {
+            previous != null && hasSameNativeNavigation(previous.navigation, navigation) -> {
+                if (previous.phase != IosWebViewRequestPhase.AwaitingStart || previous.stoppedBeforeCommit) return
+                previous
+            }
+            previous != null && previous.navigation == null &&
+                previous.phase == IosWebViewRequestPhase.AwaitingStart -> {
+                if (previous.stoppedBeforeCommit) return
+                previous.also { it.navigation = navigation }
+            }
+            else -> IosWebViewRequest(
+                navigation = navigation,
+                supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,
+            ).also { iosRequest = it }
+        }
+        knownIosNavigations.addObject(navigation)
+        request.phase = IosWebViewRequestPhase.Provisional
+        beginRequest(view.URL?.absoluteString ?: requestedUrl)
+    }
+
+    private fun failIosNavigation(navigation: WKNavigation?, withError: NSError) {
+        val request = requestFor(navigation) ?: return
+        request.phase = when (request.phase) {
+            IosWebViewRequestPhase.Committed -> IosWebViewRequestPhase.FinishedCommitted
+            IosWebViewRequestPhase.AwaitingStart,
+            IosWebViewRequestPhase.Provisional -> IosWebViewRequestPhase.FinishedUncommitted
+            else -> return
+        }
+        loadingState = LoadingState.Finished
+        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
+            code = withError.code.toInt(),
+            description = withError.localizedDescription
+        )
+    }
+
     // We need access to this in the state saver. An internal DisposableEffect or AndroidView
     // onDestroy is called after the state saver and so can't be used.
     var webView by mutableStateOf<WKWebView?>(null)
@@ -265,9 +405,23 @@ actual class WebViewState actual constructor(
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {
         if (!hasSameNativeWebView(this.webView, webView)) return
-        lastLoadedUrl = webView.URL?.absoluteString
+        if (didFinishNavigation == null) {
+            // Preserve the untracked current-view bridge check, not successful page evidence.
+            if (iosRequest == null) loadingState = LoadingState.Finished
+            return
+        }
+        val request = requestFor(didFinishNavigation) ?: return
+        when (request.phase) {
+            IosWebViewRequestPhase.Committed -> {
+                request.phase = IosWebViewRequestPhase.FinishedCommitted
+                lastLoadedUrl = webView.URL?.absoluteString
+                pageTitle = webView.title
+            }
+            IosWebViewRequestPhase.AwaitingStart,
+            IosWebViewRequestPhase.Provisional -> request.phase = IosWebViewRequestPhase.FinishedUncommitted
+            else -> return
+        }
         loadingState = LoadingState.Finished
-        pageTitle = webView.title
         navigator?.canGoBack = webView.canGoBack
         navigator?.canGoForward = webView.canGoForward
     }
@@ -276,13 +430,16 @@ actual class WebViewState actual constructor(
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {
         if (!hasSameNativeWebView(this.webView, webView)) return
-        beginRequest(webView.URL?.absoluteString ?: requestedUrl)
+        beginIosNavigation(webView, didStartProvisionalNavigation)
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {
         if (!hasSameNativeWebView(this.webView, webView)) return
+        val request = requestFor(didCommitNavigation) ?: return
+        if (request.phase != IosWebViewRequestPhase.Provisional || request.stoppedBeforeCommit) return
+        request.phase = IosWebViewRequestPhase.Committed
         loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
         lastLoadedUrl = webView.URL?.absoluteString
         pageTitle = webView.title
@@ -294,11 +451,7 @@ actual class WebViewState actual constructor(
     @ObjCSignatureOverride
     override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {
         if (!hasSameNativeWebView(this.webView, webView)) return
-        loadingState = LoadingState.Finished
-        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
-            code = withError.code.toInt(),
-            description = withError.localizedDescription
-        )
+        failIosNavigation(didFailNavigation, withError)
     }
 
     @Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
@@ -309,11 +462,7 @@ actual class WebViewState actual constructor(
         withError: NSError
     ) {
         if (!hasSameNativeWebView(this.webView, webView)) return
-        loadingState = LoadingState.Finished
-        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(
-            code = withError.code.toInt(),
-            description = withError.localizedDescription
-        )
+        failIosNavigation(didFailProvisionalNavigation, withError)
     }
 }
 
@@ -338,8 +487,15 @@ internal suspend fun WebViewNavigator.handleNavigationEvents(webView: WKWebView,
                 if (content != null) loadIosContent(webView, state, content) else when (event) {
                     WebViewNavigator.NavigationEvent.Back -> if (webView.canGoBack) webView.goBack()
                     WebViewNavigator.NavigationEvent.Forward -> if (webView.canGoForward) webView.goForward()
-                    WebViewNavigator.NavigationEvent.Reload -> webView.reload()
-                    WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()
+                    WebViewNavigator.NavigationEvent.Reload -> {
+                        val request = state.prepareIosRequest()
+                        state.beginRequest(webView.URL?.absoluteString ?: state.requestedUrl)
+                        state.bindIosNavigation(webView, request, webView.reload())
+                    }
+                    WebViewNavigator.NavigationEvent.StopLoading -> {
+                        state.stopIosRequestBeforeCommit()
+                        webView.stopLoading()
+                    }
                     else -> Unit
                 }
             }
@@ -420,6 +576,7 @@ internal class WKWebViewObserver(
 
             "loading" -> {
                 if (webView.loading) {
+                    state.noteIosNativeLoading()
                     state.loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())
                 } else {
                     state.loadingState = LoadingState.Finished
@@ -427,11 +584,11 @@ internal class WKWebViewObserver(
             }
 
             "title" -> {
-                state.pageTitle = webView.title
+                if (state.canPublishIosPageMetadata(webView)) state.pageTitle = webView.title
             }
 
             "URL" -> {
-                state.lastLoadedUrl = webView.URL?.absoluteString
+                if (state.canPublishIosPageMetadata(webView)) state.lastLoadedUrl = webView.URL?.absoluteString
             }
 
             "canGoBack" -> {

@@ -241,8 +241,22 @@ class AndroidWebViewRequestStateDeviceTest {
     private fun awaitStopRedirectHeld(server: AndroidStopRedirectHttpServer, probe: AndroidStopRedirectProbe,
                                       native: AndroidWebView, stage: AndroidStopRedirectStage,
                                       expected: AndroidStopRedirectStage = stage) {
-        waitFor("A forwarded native start and the exact still-held owned request", server, probe) {
-            onMain { probe.hasStart(expected) && probe.ownerIs(native) } && stage.requests.get() > 0 && stage.pending.get() > 0
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("A forwarded native start and the exact still-held owned request", server, probe) {
+                val start = onMain {
+                    Triple(probe.hasStart(expected), probe.ownerIs(native),
+                        runCatching { probe.heldStartFacts(expected) }.getOrDefault("probeFacts=unavailable"))
+                }
+                val requests = stage.requests.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} expected=${expected.name} hasStart=${start.first} " +
+                    "sameOwner=${start.second} requests=$requests pending=$pending ${start.third} " +
+                    "released=${stage.testReleased.get()} permit=${stage.permit.count} " +
+                    "bytes=${stage.responseBytes.get()} replies=${stage.replies.get()} " +
+                    "stopInvoked=${stage.stopInvoked.get()} peerEof=${stage.peerEof.get()}"
+                start.first && start.second && requests > 0 && pending > 0
+            }
         }
         assertEquals(0, stage.responseBytes.get())
         assertEquals(0, stage.replies.get())
@@ -306,8 +320,19 @@ class AndroidWebViewRequestStateDeviceTest {
     }
 
     private fun awaitHeldStart(server: AndroidRequestHttpServer, probe: AndroidRequestProbe, stage: AndroidRequestStage) {
-        waitFor("A real onPageStarted and still-held exact owned HTTP request", server, probe) {
-            onMain { probe.hasStart(stage) } && stage.attempts.get() > 0 && stage.pending.get() > 0
+        var lastSample = "not sampled"
+        observeHeldStartFailure({ lastSample }) {
+            waitFor("A real onPageStarted and still-held exact owned HTTP request", server, probe) {
+                val start = onMain {
+                    probe.hasStart(stage) to runCatching { probe.heldStartFacts(stage) }.getOrDefault("probeFacts=unavailable")
+                }
+                val attempts = stage.attempts.get()
+                val pending = stage.pending.get()
+                lastSample = "stage=${stage.name} hasStart=${start.first} attempts=$attempts pending=$pending ${start.second} " +
+                    "released=${stage.testReleased.get()} gate=${stage.gate.count} " +
+                    "bytes=${stage.responseBytes.get()} refused=${stage.refused.get()} completed=${stage.completed.get()}"
+                start.first && attempts > 0 && pending > 0
+            }
         }
         assertFalse(stage.testReleased.get(), "A pre-disconnected endpoint cannot prove the loading interval")
         assertEquals(0, stage.responseBytes.get())
@@ -368,6 +393,16 @@ class AndroidWebViewRequestStateDeviceTest {
     }
 }
 
+/** Only already-sampled bounded facts; no new UI work, native action, or cause claim during unwind. */
+private fun observeHeldStartFailure(lastSample: () -> String, wait: () -> Unit) {
+    try { wait() } catch (primary: Throwable) {
+        runCatching {
+            primary.addSuppressed(AssertionError("Last held-start sample before unwind (not a cause): ${lastSample().take(768)}"))
+        }
+        throw primary // Preserve the original timeout/fixture/callback failure and its boundary.
+    }
+}
+
 private data class AndroidRequestSnapshot(val requested: String?, val loaded: String?, val title: String?,
                                           val errors: List<Pair<Int, String>>, val loading: LoadingState)
 private data class AndroidRequestError(val generation: Int, val url: String?, val mainFrame: Boolean?,
@@ -393,6 +428,9 @@ private class AndroidRequestProbe(private val owner: WebViewState, seed: Android
     }
     fun isCurrent(stage: AndroidRequestStage) = active?.stage === stage
     fun hasStart(stage: AndroidRequestStage) = isCurrent(stage) && active!!.generation > 0
+    fun heldStartFacts(stage: AndroidRequestStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
     fun finished(stage: AndroidRequestStage) = hasStart(stage) && active!!.finishes.any { it.first == active!!.generation }
     fun failedAndFinished(stage: AndroidRequestStage) = finished(stage) && active!!.errors.any {
         it.generation == active!!.generation && it.url == stage.url && it.mainFrame == true && it.code != null
@@ -665,6 +703,9 @@ private class AndroidStopRedirectProbe(private val owner: WebViewState, seed: An
     fun isCurrent(stage: AndroidStopRedirectStage) = active?.stage === stage
     fun ownerIs(native: AndroidWebView) = owner.webView === native
     fun hasStart(stage: AndroidStopRedirectStage) = isCurrent(stage) && active!!.generation > 0
+    fun heldStartFacts(stage: AndroidStopRedirectStage) = "current=${isCurrent(stage)} ownerPresent=${owner.webView != null} " +
+        "generation=${active?.generation ?: 0} starts=${active?.starts?.size ?: 0} " +
+        "finishes=${active?.finishes?.size ?: 0} nativeErrors=${active?.errors?.size ?: 0}"
     fun finished(stage: AndroidStopRedirectStage) = hasStart(stage) && active!!.finishes.any { it.first == active!!.generation }
     fun assertStarts(stage: AndroidStopRedirectStage) {
         assertTrue(hasStart(stage))

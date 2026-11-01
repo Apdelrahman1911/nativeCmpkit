@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8cc92664b569abd659588054a4c2d145bb04672c2430bb668f4b6e63165db3bb`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a948613ea240df4057c332fb055f9ec826f29b0f3b387f0bcc46a5942f0ad981`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 2 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 3 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -98,7 +98,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
-| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 2 |
+| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 3 |
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | verified | BUILD-005 | 3 / 0 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
@@ -515,6 +515,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.
 - 2026-11-01: Only genuine Dont-keep capture/return/readable exactly-once result remains; actual013 prelaunch confinement cause unknown, next bounded observation must preserve refusal and FD cleanup.
+- 2026-11-01 actual035: Replace overbroad ANY Settings process/package/dependency-token admission only after exact OS-source completeness review; retain all actual native/scalar/master/stability/kernel/owned cleanup gates. Exact actual matched record/cause remains unknown. Original C2/C3 stay accepted; no immediate external-foreground constructor test is added.
 
 **Owner verification scope:** Original criteria2/3 accepted from three complete camera009 native methods. Immediate reconstruction before external camera completion is not an original requirement; exact constructor timing unobserved. Only actual Dont-keep capture/restoration remains unverified. Earlier stricter/pending designations are historical and retained, not changed verdicts.
 
@@ -1272,6 +1273,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - Full actual Linux library runtime/compile/test Maven coordinate checks are reviewed. Other-host resolved graph/classifier matrices and actual media/TLS/cookies/navigation/JavaScript/rendering on every desktop host remain required; zero OSV matches do not certify bundled engines or independent trust.
 - Document sandboxed untrusted-code execution support boundaries and finish the three original BUILD-002 acceptance criteria; no dependency/security/release waiver.
+- 2026-11-01: Reuse accepted Linux x64 TLS002 cell without native replay. Execute only remaining13 security cells on four other hosts; Desktop request10 is separate. Other-host dependency/classifier graphs and sandbox support boundaries retain original requirements.
 
 **Compatibility / scope:** Requires JDK17-compatible runtime selected explicitly by consumer.
 
@@ -1790,9 +1792,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Complete the original Android/Desktop/iOS fail→success/fail→fail/reload/stop/redirect matrices with actual platform execution and native request-state observation; prior narrower successful subsets may be reused only on exact applicable bytes.
 - Verify an actual offline destination; response/socket destruction is not system offline, DNS/TLS or network certification.
 - Verify actual iOS provisional DNS/TLS failure before commit resets prior errors with genuine WKWebView and owned transport. Browser methods cannot substitute for it.
-- 2026-11-01: Only missing Android2/Desktop10/iOSrequest2+DNS1/browser-offlineJS+Wasm2 native executions remain; retain every literal #64 obligation and never replay accepted unchanged subsets.
+- 2026-11-01: Only missing Android request2/Desktop10/iOS request2/browser-offlineJS+Wasm2 executions remain. Actual iOS DNS1 was independently accepted from the still-FAILED41276065062; reuse it without replay. Retain every literal #64 obligation.
 
-**Owner verification scope:** Accept only three complete new request-state methods on each of Chromium JS/Wasm; six target executions are not six distinct methods or the every-target matrix. Preserve accepted earlier content/identity/origin evidence without replay. Original other-platform/offline/WKWebView DNS/TLS obligations remain.
+**Owner verification scope:** Accept only three complete new request-state methods on each of Chromium JS/Wasm; six target executions are not six distinct methods or the every-target matrix. Preserve accepted earlier content/identity/origin evidence without replay. Original other-platform/offline/WKWebView DNS/TLS obligations remain. Latest source-qualified request repair and Android reporter compile are preparation, not four native passes or issue closure. Accepted iOS DNS1 is reused; next immutable requests select only original Android2 and iOS2.
 
 **Compatibility / scope:** requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.
 
@@ -3567,10 +3569,10 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `c9e419683eea211d1d38d665dc497644285a43d338130e326e2330a19ef4ad1a` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `7d628d8f0128b8203b2d60dcd14800f5b380cecb2c06efb0a1ac6d1a1b3c2c48` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `5fa97384cfdae9e7a008a362ac79a6de1cb9fb75cc736a4c04385c42f3943f02` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `61056fb5ac551dc37d3c5177cfbbfa499cacddf473d7a4e34487de944f48c728` |
-| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `8c3e736028f11d2ec9822eb82e3d6aa8933f3668cfb26c7cf9f8a7a4383b1672` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `c4b28131c894d30904727ec209c177b84bb2c2f51d33367a3013768f70a2f614` |
+| [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `41f1955f56ec1017edb45e38f324eeed5e5b0a69da97a2a0570f22af3faf3c4e` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |

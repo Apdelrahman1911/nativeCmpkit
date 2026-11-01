@@ -1,0 +1,130 @@
+{
+  "actual_runs_reacquired": false,
+  "existing_accepted_suites_replayed": false,
+  "final_root_boundary": {
+    "environment_root_override": false,
+    "exact_byte_reused_model_definitions": [
+      {
+        "byte_identical": true,
+        "bytes": 54,
+        "definition": "SyntheticRetainedObject",
+        "sha256": "d2d0c4e4233726c063c3640b1fb92c033f9116494feff9695f1dc03496b53642"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 128,
+        "definition": "same_retained",
+        "sha256": "08d45f7760c4350c46a0e0137724ff4a87f013f55d561c18b16fff87456b8939"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 163,
+        "definition": "SyntheticView",
+        "sha256": "fba9599a1bd6684603a318f05d2edc9863a45f2afe5c2067d13ac491aa045ee6"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 191,
+        "definition": "SyntheticRequest",
+        "sha256": "dc5863819edcda8083e10fcbbfd2495f6a7ce1086879e8e2b2869fc8de5f08be"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 5433,
+        "definition": "SourceLinkedModel",
+        "sha256": "caa7bfab58270dcdd7238c5441766c38ec930935470a6d16f2e7f2be19128b7d"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 13604,
+        "definition": "IosCurrentRequestMetadataSyntheticTests",
+        "sha256": "cd1aae97f4b418a164e0825caf200bdd4d710090ccbbc63c0a39cee435a16448"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 386,
+        "definition": "block",
+        "sha256": "b1e3f616e9571b52511b0e9bea7d7930c66195354a511effc5e40841545cfb7e"
+      }
+    ],
+    "root_is_own_project_path": true
+  },
+  "kotlin_compilation": false,
+  "native_execution": false,
+  "new_green_executions": 24,
+  "new_red_failure_events": 1,
+  "preserved_new_red_executions": 1,
+  "red": {
+    "actual_runtime_cause_claim": false,
+    "failed_expression": "if (state.canPublishIosPageMetadata(webView)) state.pageTitle = webView.title",
+    "frozen_production_preimage_sha256": "6fbae2022454547efcc18bde352a2a936f14b644881ea1d642d7b8ed582d0336",
+    "observed_source_assertion": "Required current-commit KVO gate missing from unconditional title assignment",
+    "original_stderr_preserved_privately": true,
+    "original_stderr_sha256": "2fd075cfb56712544f848269f9e02735ec96aa57b6970886579ebef57308c30d",
+    "selected_method": "IosCurrentRequestMetadataSourceTests.test_new_source_regression_requires_url_and_title_kvo_commit_gate"
+  },
+  "reuse": {
+    "accepted_dns_one": "Not executed here; acceptance remains bound to owning original actual run/input",
+    "four_source_methods": "Rerun 4/4 after finalizing guard ROOT to its own project path (no environment override)",
+    "sixteen_synthetic_model_methods": "Initial new 16/16 green results reused on seven exact-byte model/helper definitions; not rerun"
+  },
+  "runs": [
+    {
+      "command_shape": [
+        "python3",
+        "-B",
+        "scripts/ci/test_ios_webview_current_request_metadata.py",
+        "-v",
+        "IosCurrentRequestMetadataSourceTests.test_new_source_regression_requires_url_and_title_kvo_commit_gate"
+      ],
+      "elapsed_seconds": 0.078963,
+      "executed_test_file_sha256": "ab7b6dbebb8d32ed773307c46ea889583748f04e45ccfe013f9464bef6b7bca5",
+      "exit_code": 1,
+      "kind": "new-source-red",
+      "new_source_and_model_test_methods_only": true,
+      "scope": "new Python source-linked synthetic controls only; ZERO Kotlin/Apple/native/build/Git/dispatch",
+      "selected_source_fixture": "frozen-preimages",
+      "stderr_sha256": "2fd075cfb56712544f848269f9e02735ec96aa57b6970886579ebef57308c30d",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command_shape": [
+        "python3",
+        "-B",
+        "scripts/ci/test_ios_webview_current_request_metadata.py",
+        "-v"
+      ],
+      "elapsed_seconds": 0.078146,
+      "executed_test_file_sha256": "ab7b6dbebb8d32ed773307c46ea889583748f04e45ccfe013f9464bef6b7bca5",
+      "exit_code": 0,
+      "kind": "new-private-green",
+      "new_source_and_model_test_methods_only": true,
+      "scope": "new Python source-linked synthetic controls only; ZERO Kotlin/Apple/native/build/Git/dispatch",
+      "selected_source_fixture": "private-candidate",
+      "stderr_sha256": "25c2817c6739f9fbcde0cb5925cfe99ae9175430d44a3bde366dfce89f0e7b18",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command_shape": [
+        "python3",
+        "-B",
+        "scripts/ci/test_ios_webview_current_request_metadata.py",
+        "-v",
+        "IosCurrentRequestMetadataSourceTests"
+      ],
+      "elapsed_seconds": 0.092075,
+      "executed_test_file_sha256": "e2c308707c43067fd0615c03b4df91370e29990b549a3a0545a369774aab1c8c",
+      "exit_code": 0,
+      "kind": "final-own-root-source-controls",
+      "reason": "Final guard owns ROOT from its own project path, not an environment override; only four newly affected source methods rerun. The 16 model methods and their dependencies are exact-byte reused, not rerun.",
+      "scope": "ZERO Kotlin/Apple/native/build/Git/dispatch",
+      "selected_methods": 4,
+      "selected_source_fixture": "private-candidate",
+      "stderr_sha256": "6b7352c4869b8c0b47480d3806bc495bc247c05f189f5cf6de33e04be954d09c",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "NEW SOURCE-LINKED SYNTHETIC ONLY; not Kotlin, Apple, WebKit, actual NSError, TLS, DNS, native transport or XML evidence",
+  "total_new_executions": 25,
+  "unique_new_methods": 20
+}

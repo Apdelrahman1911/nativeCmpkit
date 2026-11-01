@@ -1,0 +1,62 @@
+{
+  "Settings_match_present_by_source_and_callsite": true,
+  "actual_Settings_record_category_or_body_exported": false,
+  "actual_prerequisite_schema": "nativecmpkit.camera-developer-prerequisite.v1",
+  "api_level": 35,
+  "cleanup_status": "failed",
+  "controller_error": "ValueError",
+  "controller_error_origin": {
+    "line": 47,
+    "source": "android_camera_developer_prerequisite.py",
+    "symbol": "require"
+  },
+  "errors": [
+    {
+      "class": "ValueError",
+      "phase": "prepare",
+      "require_call_origin": {
+        "line": 823,
+        "source": "android_camera_developer_prerequisite.py",
+        "symbol": "snapshot"
+      }
+    },
+    {
+      "class": "ValueError",
+      "phase": "cleanup",
+      "require_call_origin": {
+        "line": 947,
+        "source": "android_camera_developer_prerequisite.py",
+        "symbol": "close"
+      }
+    }
+  ],
+  "focus": "android-camera-real-restoration-dont-keep",
+  "master_enable_attempts": 0,
+  "master_restore_attempts": 0,
+  "native_UI_master_toggle_state_or_accessibility_lease_executed": false,
+  "native_success_inferred": false,
+  "no_parser_syntax_failure_inferred": true,
+  "normal_reboot_attempts": 0,
+  "original_master_scalar_native_boot_snapshot_acquired": false,
+  "original_settings_values": null,
+  "prepare_status": "failed",
+  "receiver_prepare_attempted": false,
+  "reporter_dispatch_attempted": false,
+  "schema_version": 1,
+  "source_confirmed_cleanup_guard": {
+    "condition": "self.original is not None",
+    "line": 947,
+    "meaning": "Exact original snapshot was not acquired; original-state restoration cannot be accepted.",
+    "source": "scripts/ci/android_camera_developer_prerequisite.py",
+    "symbol": "close"
+  },
+  "source_confirmed_prepare_guard": {
+    "condition": "not fresh or not settings",
+    "line": 823,
+    "meaning": "Rejects any exact-token Settings process/package/dependency match in a fresh-epoch complete native observation.",
+    "source": "scripts/ci/android_camera_developer_prerequisite.py",
+    "symbol": "snapshot"
+  },
+  "underlying_record_startup_cause_unknown": true,
+  "unknown_actual_Settings_record_category": true
+}

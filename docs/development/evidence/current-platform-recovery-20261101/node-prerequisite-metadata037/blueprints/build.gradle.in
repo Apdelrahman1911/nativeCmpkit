@@ -1,0 +1,100 @@
+// INERT PROPOSAL: never place in a live build without lead admission.
+// The placeholder must come from independently authenticated release metadata,
+// not from the advertised checksum or these structural signature observations.
+import java.nio.file.Files
+import java.nio.file.LinkOption
+import java.security.MessageDigest
+import groovy.json.JsonOutput
+
+def authenticatedExpectedSha256 = '@AUTHENTICATED_RELEASE_SHA256@'
+if (!(authenticatedExpectedSha256 ==~ /[0-9a-f]{64}/)) {
+    throw new GradleException('Node prerequisite: authenticated SHA256 binding missing')
+}
+if (gradle.startParameter.dependencyVerificationMode.name() != 'STRICT') {
+    throw new GradleException('Node prerequisite: strict dependency verification required')
+}
+
+repositories {
+    ivy {
+        name = 'Distributions at https://nodejs.org/dist'
+        url = uri('https://nodejs.org/dist')
+        allowInsecureProtocol = false
+        patternLayout {
+            artifact('v[revision]/[artifact](-v[revision]-[classifier]).[ext]')
+        }
+        metadataSources {
+            artifact()
+        }
+        content {
+            includeModule('org.nodejs', 'node')
+        }
+    }
+}
+
+// Same explicit artifact notation and repository semantics; no KGP/plugins,
+// includes, setup task, installation, archive extraction or Node execution.
+def nodeDistribution = configurations.detachedConfiguration(
+    dependencies.create('org.nodejs:node:24.16.0:linux-x64@tar.gz')
+)
+nodeDistribution.transitive = false
+
+tasks.register('resolvePinnedNodeArchive') {
+    outputs.upToDateWhen { false }
+    doLast {
+        def artifacts = nodeDistribution.resolvedConfiguration.resolvedArtifacts
+        if (artifacts.size() != 1) {
+            throw new GradleException('Node prerequisite: exact single artifact required')
+        }
+        def artifact = artifacts.iterator().next()
+        def component = artifact.moduleVersion.id
+        if (component.group != 'org.nodejs' || component.name != 'node' ||
+            component.version != '24.16.0' || artifact.name != 'node' ||
+            artifact.classifier != 'linux-x64' || artifact.extension != 'tar.gz') {
+            throw new GradleException('Node prerequisite: resolved coordinate mismatch')
+        }
+        def path = artifact.file.toPath().toAbsolutePath().normalize()
+        def home = gradle.gradleUserHomeDir.toPath().toAbsolutePath().normalize()
+        def coordinateRoot = home.resolve(
+            'caches/modules-2/files-2.1/org.nodejs/node/24.16.0'
+        )
+        if (!path.startsWith(coordinateRoot) ||
+            path.fileName.toString() != 'node-v24.16.0-linux-x64.tar.gz' ||
+            !Files.isRegularFile(path, LinkOption.NOFOLLOW_LINKS)) {
+            throw new GradleException('Node prerequisite: owned file-store location refused')
+        }
+        for (def current = path; current != null && current.startsWith(home);
+             current = current.parent) {
+            if (Files.isSymbolicLink(current)) {
+                throw new GradleException('Node prerequisite: symlink path refused')
+            }
+        }
+        def digest = MessageDigest.getInstance('SHA-256')
+        long bytes = 0
+        byte[] buffer = new byte[8192]
+        Files.newInputStream(path).withCloseable { stream ->
+            int count
+            while ((count = stream.read(buffer)) != -1) {
+                bytes += count
+                // Proposed admission ceiling, not an observed archive size.
+                if (bytes > 134217728L) {
+                    throw new GradleException('Node prerequisite: archive byte ceiling refused')
+                }
+                digest.update(buffer, 0, count)
+            }
+        }
+        def actualSha256 = digest.digest().encodeHex().toString()
+        if (bytes <= 0 || actualSha256 != authenticatedExpectedSha256) {
+            throw new GradleException('Node prerequisite: authenticated archive hash mismatch')
+        }
+        println('NODE_ARCHIVE_PREREQUISITE ' + JsonOutput.toJson([
+            schema: 1,
+            scope: 'standalone-normal-resolver-only-not-U1',
+            offline: gradle.startParameter.offline,
+            coordinate: 'org.nodejs:node:24.16.0:linux-x64@tar.gz',
+            filename: 'node-v24.16.0-linux-x64.tar.gz',
+            bytes: bytes,
+            sha256: actualSha256
+        ]))
+    }
+}
+

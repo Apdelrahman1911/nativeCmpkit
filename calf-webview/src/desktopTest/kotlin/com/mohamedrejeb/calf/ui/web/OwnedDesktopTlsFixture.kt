@@ -3,6 +3,7 @@ package com.mohamedrejeb.calf.ui.web
 
 import java.io.EOFException
 import java.net.InetAddress
+import java.net.SocketException
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.LinkOption
@@ -58,6 +59,13 @@ internal class OwnedDesktopTlsFixture private constructor(
     fun successfulHandshakes(stage: DesktopTlsStage) = endpoint(stage).handshakeSuccesses.get()
     fun assertHealthy() { trusted.assertHealthy(); untrusted.assertHealthy() }
     fun assertTrustLease() = lease.assertInstalled()
+    // Called only after every original native SSL/error and zero-HTTP assertion.
+    // This confirms the endpoint-level witness, never invents a native outcome.
+    fun confirmNativeCertificateRejection() {
+        assertTrustLease()
+        trusted.assertHealthy()
+        untrusted.confirmNativeCertificateRejection()
+    }
     override fun close() {
         if (!closing.compareAndSet(false, true)) { cleanupFailure.get()?.let { throw it }; return }
         try {
@@ -242,15 +250,88 @@ internal class OwnedDesktopTlsFixture private constructor(
         private val sockets = ConcurrentHashMap.newKeySet<SSLSocket>()
         private val closing = AtomicBoolean()
         private val connections = AtomicInteger()
-        private val failure = AtomicReference<Throwable>()
+        private enum class FailurePhase { Accept, Handshake, RequestHeaders, ResponseWrite, SocketClose }
+        private data class RecordedFailure(val phase: FailurePhase, val error: Throwable)
+        private val failure = AtomicReference<RecordedFailure>()
+        private val rejectionLock = Any()
+        private val pendingFinishedWrites = mutableListOf<Throwable>()
+        private var nativeRejectionConfirmed = false // Guarded by rejectionLock; no automatic server-side confirmation.
         private val acceptor = Thread({ accept() }, "nativecmpkit-owned-tls-acceptor").apply { isDaemon = true }
         private fun path(stage: DesktopTlsStage) = "/nativecmpkit-tls-$nonce/${stage.name}"
         fun url(stage: DesktopTlsStage) = "https://127.0.0.1:${listener.localPort}${path(stage)}"
-        fun assertHealthy() { failure.get()?.let { throw AssertionError("Owned TLS fixture failed", it) } }
-        private fun record(error: Throwable) { if (!closing.get()) failure.compareAndSet(null, error) }
+        private fun endpointFailure(error: Throwable, phase: String) = AssertionError(
+            "Owned TLS fixture failed: endpoint=${if (trusted) "trusted" else "untrusted"} phase=$phase", error)
+        fun assertHealthy() {
+            failure.get()?.let { throw endpointFailure(it.error, it.phase.name) }
+            synchronized(rejectionLock) {
+                if (nativeRejectionConfirmed) assertRejectedEndpointStillZero()
+                if (closing.get() && pendingFinishedWrites.isNotEmpty() && !nativeRejectionConfirmed) {
+                    throw endpointFailure(pendingFinishedWrites.first(), "UnconfirmedFinishedWrite")
+                }
+            }
+        }
+        private fun assertRejectedEndpointStillZero() {
+            check(!trusted && handshakeSuccesses.get() == 0 &&
+                requests.values.all { it.get() == 0 } && responses.values.all { it.get() == 0 }) {
+                "Owned TLS fixture failed: endpoint=untrusted phase=RejectedEndpointTlsOrHttp"
+            }
+        }
+        fun confirmNativeCertificateRejection() {
+            assertHealthy()
+            synchronized(rejectionLock) {
+                check(!trusted && !closing.get() && !nativeRejectionConfirmed) {
+                    "Owned TLS fixture failed: endpoint=untrusted phase=InvalidRejectionConfirmation"
+                }
+                check(handshakeAttempts.get() >= 1) { "Native rejection needs an owned TLS attempt" }
+                assertRejectedEndpointStillZero()
+                nativeRejectionConfirmed = true
+            }
+            assertHealthy()
+        }
+        private fun record(error: Throwable, phase: FailurePhase) {
+            if (!closing.get()) failure.compareAndSet(null, RecordedFailure(phase, error))
+        }
+        private fun observedFinishedWriteAbort(error: Throwable, phase: FailurePhase, handshaken: Boolean): Boolean {
+            // Narrowly the original Linux/JDK17 TLS1.3 Finished-write Broken-pipe shape.
+            // No other SocketException, trusted endpoint, post-handshake phase or shutdown is quarantined.
+            if (trusted || handshaken || phase != FailurePhase.Handshake || closing.get() ||
+                Runtime.version().feature() != 17 || error.javaClass != SocketException::class.java ||
+                error.message != "Broken pipe") return false
+            val frames = error.stackTrace.map { it.className to it.methodName }
+            val prefix = listOf(
+                "sun.nio.ch.NioSocketImpl" to "implWrite",
+                "sun.nio.ch.NioSocketImpl" to "write",
+                "sun.nio.ch.NioSocketImpl\$2" to "write",
+                "java.net.Socket\$SocketOutputStream" to "write",
+                "sun.security.ssl.SSLSocketOutputRecord" to "flush",
+                "sun.security.ssl.HandshakeOutStream" to "flush",
+                "sun.security.ssl.Finished\$T13FinishedProducer" to "onProduceFinished",
+                "sun.security.ssl.Finished\$T13FinishedProducer" to "produce",
+            )
+            if (frames.take(prefix.size) != prefix) return false
+            val caller = listOf(
+                "sun.security.ssl.SSLSocketImpl" to "startHandshake",
+                "sun.security.ssl.SSLSocketImpl" to "startHandshake",
+                "com.mohamedrejeb.calf.ui.web.OwnedDesktopTlsFixture\$Endpoint" to "respond",
+            )
+            return frames.windowed(caller.size).any { it == caller }
+        }
+        private fun quarantineFinishedWrite(error: Throwable) {
+            synchronized(rejectionLock) {
+                if (pendingFinishedWrites.size >= 16) {
+                    failure.compareAndSet(null, RecordedFailure(FailurePhase.Handshake, error))
+                } else {
+                    // Keep every bounded observation; neither adding it nor a prior observation is the native witness.
+                    pendingFinishedWrites.add(error)
+                }
+            }
+        }
         private fun closeOwned(socket: SSLSocket) {
             try { socket.close(); check(socket.isClosed); sockets.remove(socket) }
-            catch (error: Throwable) { failure.compareAndSet(null, error); throw error }
+            catch (error: Throwable) {
+                // A close/readback error is fatal even during teardown or after a confirmed native rejection.
+                failure.compareAndSet(null, RecordedFailure(FailurePhase.SocketClose, error)); throw error
+            }
         }
         // A failed close/readback must not skip any independently owned socket.
         private fun closeOwnedSockets() = runWebViewCleanup(stages = sockets.toList().map { socket ->
@@ -266,7 +347,7 @@ internal class OwnedDesktopTlsFixture private constructor(
                     workers.execute { respond(owned) }
                     socket = null // Ownership transferred to the queued/responding worker.
                 } catch (error: Throwable) {
-                    record(error)
+                    record(error, FailurePhase.Accept)
                     socket?.let { runCatching { closeOwned(it) } }
                     if (closing.get()) return
                 }
@@ -274,11 +355,13 @@ internal class OwnedDesktopTlsFixture private constructor(
         }
         private fun respond(socket: SSLSocket) {
             var handshaken = false
+            var phase = FailurePhase.Handshake
             try {
                 handshakeAttempts.incrementAndGet()
                 socket.startHandshake() // Default protocols/ciphers and real JDK TLS.
                 handshaken = true
                 handshakeSuccesses.incrementAndGet()
+                phase = FailurePhase.RequestHeaders
                 val bytes = ByteArray(16_384)
                 var size = 0
                 val input = socket.inputStream
@@ -305,13 +388,19 @@ internal class OwnedDesktopTlsFixture private constructor(
                 val data = body.toByteArray(StandardCharsets.UTF_8)
                 val status = if (stage == null) "404 Not Found" else "200 OK"
                 val headers = "HTTP/1.1 $status\r\nContent-Type: text/html; charset=utf-8\r\nContent-Length: ${data.size}\r\nCache-Control: no-store\r\nConnection: close\r\n\r\n"
+                phase = FailurePhase.ResponseWrite
                 socket.outputStream.apply { write(headers.toByteArray(StandardCharsets.US_ASCII)); write(data); flush() }
                 if (stage != null) responses.getValue(stage).incrementAndGet()
             } catch (error: Throwable) {
-                // The native Worker must independently report SSL handshake failed.
-                // A negative handshake can end in a fatal alert or EOF; neither server
-                // observation alone is labelled certificate acceptance/rejection.
-                if (trusted || handshaken || (error !is SSLException && error !is EOFException)) record(error)
+                // Keep the original negative pre-handshake SSLException/EOF boundary.
+                // The one observed Finished-write abort remains pending until ALL original
+                // native SSL/error and zero-HTTP assertions confirm this same owned endpoint.
+                // Unknown shapes retain the original fatal branch; no socket-wide suppression.
+                if (observedFinishedWriteAbort(error, phase, handshaken)) {
+                    quarantineFinishedWrite(error)
+                } else if (trusted || handshaken || (error !is SSLException && error !is EOFException)) {
+                    record(error, phase)
+                }
             } finally { runCatching { closeOwned(socket) } }
         }
         override fun close() {

@@ -158,6 +158,7 @@ class DesktopWebViewTlsRenderingAcceptanceTest {
                 assertTrue(tls.handshakeAttempts(DesktopTlsStage.Untrusted) >= 1)
                 assertEquals(0, tls.responses(DesktopTlsStage.Untrusted), "No rejected endpoint's HTTP body may reach the engine")
                 assertEquals(0, tls.httpRequests(DesktopTlsStage.Untrusted), "Certificate rejection precedes the HTTP request")
+                tls.confirmNativeCertificateRejection() // Only after the unchanged native witness and zero-HTTP assertions.
 
                 load(DesktopTlsStage.Recovery)
                 awaitTrusted(DesktopTlsStage.Recovery)

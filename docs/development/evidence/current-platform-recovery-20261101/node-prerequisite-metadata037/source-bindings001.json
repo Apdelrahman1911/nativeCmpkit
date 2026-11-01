@@ -1,0 +1,834 @@
+{
+  "byte_decoder_sha256": "96dddc6eaba31ba23983fcd02aef5e306990549b696731fc6577989848d9287f",
+  "current_extra_Gradle_jars_not_part_of_original_six_runtime_set": true,
+  "findings": [
+    {
+      "claim": "Distribution classpath resolution precedes setup actions; an installed executable is not the offline archive/resolver prerequisite.",
+      "sources": [
+        "AbstractSetupTask.kt:93-98",
+        "AbstractSetupTask$dist$2.invoke",
+        "AbstractSetupTask$dist$2$1.invoke",
+        "AbstractSetupTask.getDist Classpath annotation"
+      ]
+    },
+    {
+      "claim": "onlyIf checks shouldDownload, not destination directory readiness.",
+      "sources": [
+        "AbstractSetupTask.kt:111",
+        "AbstractSetupTask$1.isSatisfiedBy"
+      ]
+    },
+    {
+      "claim": "Setup may delete/extract destination and write sibling .hash; an up-to-date check still hashes the distribution archive. Do not manufacture a marker or run setup.",
+      "sources": [
+        "AbstractSetupTask.kt:80-81,158-180,191-220",
+        "AbstractSetupTask$destinationHashFileProvider$1.transform",
+        "AbstractSetupTask.extractWithUpToDate",
+        "AbstractSetupTask.isUpToDate"
+      ]
+    },
+    {
+      "claim": "Node extractor copies tar/zip archive root into destination parent, then repairs symlinks/sets executable; none is required for the minimal cache probe.",
+      "sources": [
+        "NodeJsSetupTask.kt:39-54",
+        "NodeJsSetupTask$extract$1.execute",
+        "NodeJsSetupTask.extract"
+      ]
+    },
+    {
+      "claim": "Artifact store groups by component group/module/version; its content key is internal SHA1, not authenticated release SHA256.",
+      "sources": [
+        "DefaultArtifactIdentifierFileStore$1.determineGroup",
+        "GroupedAndNamedUniqueFileStore.java:69-90,105-108",
+        "GroupedAndNamedUniqueFileStore.toPath/getChecksum/add/move"
+      ]
+    },
+    {
+      "claim": "Module and artifact cache lookup keys include repository identity; module descriptors and indexes are serialized/updated through normal locked cache APIs. A file or manual index copy is not resolver readiness.",
+      "sources": [
+        "ModuleComponentAtRepositoryKey.<init>/equals/hashCode",
+        "ArtifactAtRepositoryKey.<init>/equals/hashCode",
+        "ModuleMetadataStore.java:68-86",
+        "PersistentModuleMetadataCache.java:71,97-107",
+        "CachingModuleComponentRepository$LocateInCacheRepositoryAccess.resolveComponentMetaDataFromCache/resolveArtifactFromCache",
+        "CachingModuleComponentRepository$ResolveAndCacheRepositoryAccess.resolveComponentMetaDataAndCache/resolveArtifact"
+      ]
+    },
+    {
+      "claim": "Repository ID inputs include resolver class, resource pattern lists, metadata source labels and Ivy M2 flag; preserve the exact official KGP repository definition, not a file URL/mirror or added Ivy/POM pattern. Actual runtime ID remains unexecuted.",
+      "sources": [
+        "UrlRepositoryDescriptor.java:118-133",
+        "IvyRepositoryDescriptor.java:162-177",
+        "DefaultIvyArtifactRepository.createDescriptor",
+        "sealed original AbstractSetupTask$withUrlRepo$repo$1$1.execute"
+      ]
+    },
+    {
+      "claim": "metadataSources resets defaults; artifact-only enables artifact label only. Default pattern layout derives Ivy resource patterns from artifact patterns when explicit Ivy patterns are empty.",
+      "sources": [
+        "DefaultIvyArtifactRepository.java:219-222,451-496",
+        "DefaultIvyPatternRepositoryLayout.java:70-86"
+      ]
+    },
+    {
+      "claim": "Strict SHA256 verification blueprint is separate from mandatory external release-signature/key authentication. Missing placeholders deliberately prevent admission; XML parsing is a static readback only.",
+      "sources": [
+        "DependencyVerificationsXmlReader$VerifiersHandler.startElement/characters/createArtifactId/createComponentId",
+        "blueprints/build.gradle.in",
+        "blueprints/verification-metadata.xml.in"
+      ]
+    },
+    {
+      "claim": "Fresh private cache success would cover only the standalone exact Node resolution, not original U1 home, graph/gate denial or later dependency planning.",
+      "sources": [
+        "original retained U1 outcome",
+        "LEAD-PLAN.md"
+      ]
+    }
+  ],
+  "new_JVM_Gradle_Node_or_native_execution": false,
+  "original_52_file_source_count": 52,
+  "original_52_file_source_digest": "614c361b7a1d86b7345e648abaea064186d3c5f1a79118f870b9d60cbac72b9e",
+  "original_run_id": "U1-f0db3fb734b3364e",
+  "original_sealed_KGP_repository_methods_reused": [
+    {
+      "class_sha256": "04f931d1fc70dd4a500f281b26ac0327dd4f633b91b65b643f7807291b1bb2c5",
+      "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$withUrlRepo$repo$1$1.class",
+      "selected_methods": [
+        {
+          "descriptor": "(Lorg/gradle/api/artifacts/repositories/IvyArtifactRepository;)V",
+          "name": "execute"
+        },
+        {
+          "descriptor": "(Ljava/lang/Object;)V",
+          "name": "execute"
+        }
+      ],
+      "source_file": "AbstractSetupTask.kt"
+    },
+    {
+      "class_sha256": "49cb5cfaf50cef96bc078bde4b58b23e6e679492bb4108aa6fc2f77513e9470a",
+      "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$withUrlRepo$repo$1$1$1.class",
+      "selected_methods": [
+        {
+          "descriptor": "(Lorg/gradle/api/artifacts/repositories/IvyPatternRepositoryLayout;)V",
+          "name": "execute"
+        },
+        {
+          "descriptor": "(Ljava/lang/Object;)V",
+          "name": "execute"
+        }
+      ],
+      "source_file": "AbstractSetupTask.kt"
+    },
+    {
+      "class_sha256": "dd87acecb311762e6ab53fc1e01604e824fda3047dcc8efdcac774121e220677",
+      "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$withUrlRepo$repo$1$1$2.class",
+      "selected_methods": [
+        {
+          "descriptor": "(Lorg/gradle/api/artifacts/repositories/IvyArtifactRepository$MetadataSources;)V",
+          "name": "execute"
+        },
+        {
+          "descriptor": "(Ljava/lang/Object;)V",
+          "name": "execute"
+        }
+      ],
+      "source_file": "AbstractSetupTask.kt"
+    },
+    {
+      "class_sha256": "f0c2cdf08fcc0d962d19f6bf53eae957dac6fce31ed633a103f7f70d7599ed6c",
+      "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$withUrlRepo$repo$1$1$3.class",
+      "selected_methods": [
+        {
+          "descriptor": "(Lorg/gradle/api/artifacts/repositories/RepositoryContentDescriptor;)V",
+          "name": "execute"
+        },
+        {
+          "descriptor": "(Ljava/lang/Object;)V",
+          "name": "execute"
+        }
+      ],
+      "source_file": "AbstractSetupTask.kt"
+    }
+  ],
+  "original_source_bytes": 410708,
+  "original_source_record_sha256": "c1b7b3b64c888897eb6bc82bdc00d636cfbb361e549ea0bca83f0f56167cb2b8",
+  "private_full_static_source_record_sha256": "3b85c7ca91b348bbbd638fad763c6affa44c012c9da0e565db75511a82383816",
+  "record_type": "public-safe-static-installation-cache-source-bindings-and-findings-not-runtime-proof",
+  "schema": 1,
+  "selected_source_classes_jars": [
+    {
+      "classes": [
+        {
+          "class_bytes": 19181,
+          "class_sha256": "10c00cae0d4f1c3cf0e0f8ec6741f6b3bfe3f3f759265c398978e03643cadb1d",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Ljava/io/File;",
+              "name": "getDist",
+              "source_line_range": [
+                93,
+                93
+              ]
+            },
+            {
+              "descriptor": "()V",
+              "name": "exec",
+              "source_line_range": [
+                117,
+                128
+              ]
+            },
+            {
+              "descriptor": "(Ljava/io/File;Ljava/io/File;Ljava/io/File;Lorg/gradle/internal/hash/FileHasher;Lkotlin/jvm/functions/Function1;)V",
+              "name": "extractWithUpToDate",
+              "source_line_range": [
+                158,
+                180
+              ]
+            },
+            {
+              "descriptor": "(Ljava/io/File;Ljava/io/File;)Z",
+              "name": "isUpToDate",
+              "source_line_range": [
+                191,
+                233
+              ]
+            }
+          ],
+          "source_file": "AbstractSetupTask.kt"
+        },
+        {
+          "class_bytes": 2174,
+          "class_sha256": "962e3f7befa653f9f05e2fef12ce924bc9e640cf35677fc87bfd7f2600b41f2b",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$dist$2.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Ljava/io/File;",
+              "name": "invoke",
+              "source_line_range": [
+                94,
+                106
+              ]
+            },
+            {
+              "descriptor": "()Ljava/lang/Object;",
+              "name": "invoke",
+              "source_line_range": [
+                93,
+                93
+              ]
+            }
+          ],
+          "source_file": "AbstractSetupTask.kt"
+        },
+        {
+          "class_bytes": 3081,
+          "class_sha256": "505fdeb2fb00c8e0310c317af8c2bd4d5808147d2d1b9225dc77cb56be456570",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$dist$2$1.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Ljava/io/File;",
+              "name": "invoke",
+              "source_line_range": [
+                97,
+                105
+              ]
+            },
+            {
+              "descriptor": "()Ljava/lang/Object;",
+              "name": "invoke",
+              "source_line_range": [
+                96,
+                96
+              ]
+            }
+          ],
+          "source_file": "AbstractSetupTask.kt"
+        },
+        {
+          "class_bytes": 2351,
+          "class_sha256": "b989fe602dd2fa01f4ab283595d2ae2faae706daaf2301b1d5588d4ddc104e20",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$destinationHashFileProvider$1.class",
+          "selected_methods": [
+            {
+              "descriptor": "()V",
+              "name": "<init>",
+              "source_line_range": null
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/file/RegularFile;)Ljava/io/File;",
+              "name": "transform",
+              "source_line_range": [
+                80,
+                81
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)Ljava/lang/Object;",
+              "name": "transform",
+              "source_line_range": [
+                79,
+                79
+              ]
+            },
+            {
+              "descriptor": "()V",
+              "name": "<clinit>",
+              "source_line_range": null
+            }
+          ],
+          "source_file": "AbstractSetupTask.kt"
+        },
+        {
+          "class_bytes": 2161,
+          "class_sha256": "0d76d20dfe4f2173b633a3d69d4eb5c1a801ecc6c14a0a162bf02c027f16abb1",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/AbstractSetupTask$1.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/api/Task;)Z",
+              "name": "isSatisfiedBy",
+              "source_line_range": [
+                111,
+                111
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)Z",
+              "name": "isSatisfiedBy",
+              "source_line_range": [
+                110,
+                110
+              ]
+            }
+          ],
+          "source_file": "AbstractSetupTask.kt"
+        },
+        {
+          "class_bytes": 7175,
+          "class_sha256": "4b1b054a1a40040fe405fbd0298e4327d78dd5b5cd6aa2bc592d86c6175b5b6a",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/nodejs/NodeJsSetupTask.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/io/File;)V",
+              "name": "extract",
+              "source_line_range": [
+                38,
+                56
+              ]
+            }
+          ],
+          "source_file": "NodeJsSetupTask.kt"
+        },
+        {
+          "class_bytes": 2552,
+          "class_sha256": "c05b6bb148cec9657cad0c28c4351fccb46a82f25f259d592578836e3a776cf1",
+          "entry": "org/jetbrains/kotlin/gradle/targets/js/nodejs/NodeJsSetupTask$extract$1.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/api/file/CopySpec;)V",
+              "name": "execute",
+              "source_line_range": [
+                40,
+                47
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)V",
+              "name": "execute",
+              "source_line_range": [
+                39,
+                39
+              ]
+            }
+          ],
+          "source_file": "NodeJsSetupTask.kt"
+        }
+      ],
+      "included_in_original_six_runtime_identity_set": true,
+      "jar_bytes": 30673236,
+      "jar_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+      "same_hash_before_after_static_read": true,
+      "symbol": "<SELECTED_KGP_2_4_20_JAR>"
+    },
+    {
+      "classes": [
+        {
+          "class_bytes": 5179,
+          "class_sha256": "9639abbf2c340ac0585346487206f94c17ac19a5878854c6f8f5513b799c4064",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/CacheLayout.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Ljava/lang/String;",
+              "name": "getKey",
+              "source_line_range": [
+                110,
+                110
+              ]
+            },
+            {
+              "descriptor": "(Ljava/io/File;)Ljava/io/File;",
+              "name": "getPath",
+              "source_line_range": [
+                118,
+                118
+              ]
+            },
+            {
+              "descriptor": "()V",
+              "name": "<clinit>",
+              "source_line_range": [
+                37,
+                89
+              ]
+            }
+          ],
+          "source_file": "CacheLayout.java"
+        },
+        {
+          "class_bytes": 2292,
+          "class_sha256": "c637d1b94525755318ff37e7ac4a9c9b1704145c04653693f68d1ea20ebc22e0",
+          "entry": "org/gradle/api/internal/filestore/DefaultArtifactIdentifierFileStore$1.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/internal/component/external/model/ModuleComponentArtifactIdentifier;)Ljava/lang/String;",
+              "name": "determineGroup",
+              "source_line_range": [
+                40,
+                40
+              ]
+            },
+            {
+              "descriptor": "()I",
+              "name": "getNumberOfGroupingDirs",
+              "source_line_range": [
+                45,
+                45
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)Ljava/lang/String;",
+              "name": "determineGroup",
+              "source_line_range": [
+                37,
+                37
+              ]
+            }
+          ],
+          "source_file": "DefaultArtifactIdentifierFileStore.java"
+        },
+        {
+          "class_bytes": 2100,
+          "class_sha256": "ccaa9d499f489126dd85a1bfc648dadcd3efe048acc7240fe2c62e4f00f397a4",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleComponentAtRepositoryKey.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/lang/String;Lorg/gradle/api/artifacts/component/ModuleComponentIdentifier;)V",
+              "name": "<init>",
+              "source_line_range": [
+                26,
+                30
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)Z",
+              "name": "equals",
+              "source_line_range": [
+                47,
+                51
+              ]
+            },
+            {
+              "descriptor": "()I",
+              "name": "hashCode",
+              "source_line_range": [
+                56,
+                56
+              ]
+            }
+          ],
+          "source_file": "ModuleComponentAtRepositoryKey.java"
+        },
+        {
+          "class_bytes": 2063,
+          "class_sha256": "69746ceab54a8b76b19f44e5c2ab235ef73ee300efc1fb241e368a99875c87d7",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/modulecache/artifacts/ArtifactAtRepositoryKey.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/lang/String;Lorg/gradle/api/artifacts/component/ComponentArtifactIdentifier;)V",
+              "name": "<init>",
+              "source_line_range": [
+                25,
+                28
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;)Z",
+              "name": "equals",
+              "source_line_range": [
+                45,
+                49
+              ]
+            },
+            {
+              "descriptor": "()I",
+              "name": "hashCode",
+              "source_line_range": [
+                54,
+                54
+              ]
+            }
+          ],
+          "source_file": "ArtifactAtRepositoryKey.java"
+        },
+        {
+          "class_bytes": 7532,
+          "class_sha256": "82c04f0ac32b70bd9a8ceccae6fb28c1b8cf11cee55f8bc1a9367d142c3f2189",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataStore.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleComponentAtRepositoryKey;Lorg/gradle/internal/component/external/model/ModuleComponentResolveMetadata;)Lorg/gradle/internal/resource/local/LocallyAvailableResource;",
+              "name": "putModuleDescriptor",
+              "source_line_range": [
+                68,
+                69
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleComponentAtRepositoryKey;)[Ljava/lang/String;",
+              "name": "getFilePath",
+              "source_line_range": [
+                81,
+                86
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/internal/component/external/model/ModuleComponentResolveMetadata;Ljava/io/File;)V",
+              "name": "lambda$putModuleDescriptor$0",
+              "source_line_range": [
+                71,
+                77
+              ]
+            }
+          ],
+          "source_file": "ModuleMetadataStore.java"
+        },
+        {
+          "class_bytes": 11499,
+          "class_sha256": "c3f78f99251ca8ec8cb94f6dec0a261826ac78dbbe7107df3afe3a5f7246a449",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/modulecache/PersistentModuleMetadataCache.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Lorg/gradle/cache/IndexedCache;",
+              "name": "initCache",
+              "source_line_range": [
+                71,
+                71
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleComponentAtRepositoryKey;Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataCacheEntry;Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataCache$CachedMetadata;)Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataCache$CachedMetadata;",
+              "name": "store",
+              "source_line_range": [
+                97,
+                107
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataCache$CachedMetadata;Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleComponentAtRepositoryKey;Lorg/gradle/api/internal/artifacts/ivyservice/modulecache/ModuleMetadataCacheEntry;)V",
+              "name": "lambda$store$0",
+              "source_line_range": [
+                102,
+                105
+              ]
+            }
+          ],
+          "source_file": "PersistentModuleMetadataCache.java"
+        },
+        {
+          "class_bytes": 5208,
+          "class_sha256": "faacca0fc71abd49e1c0a3d799d860c000b19113a783e50bb0c7dabdbe0b698f",
+          "entry": "org/gradle/api/internal/artifacts/repositories/descriptor/UrlRepositoryDescriptor$Builder.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/lang/Class;Ljava/util/List;Ljava/util/List;Ljava/util/List;Ljava/util/function/Consumer;)Ljava/lang/String;",
+              "name": "calculateId",
+              "source_line_range": [
+                118,
+                133
+              ]
+            }
+          ],
+          "source_file": "UrlRepositoryDescriptor.java"
+        },
+        {
+          "class_bytes": 7609,
+          "class_sha256": "fc2264bd46777f891e05153d0ee66db7eff1c9fb8aacfdb8f8b2a1b54b63c173",
+          "entry": "org/gradle/api/internal/artifacts/repositories/descriptor/IvyRepositoryDescriptor$Builder.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Lorg/gradle/api/internal/artifacts/repositories/descriptor/IvyRepositoryDescriptor;",
+              "name": "create",
+              "source_line_range": [
+                162,
+                191
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/internal/hash/Hasher;)V",
+              "name": "lambda$create$0",
+              "source_line_range": [
+                177,
+                177
+              ]
+            }
+          ],
+          "source_file": "IvyRepositoryDescriptor.java"
+        },
+        {
+          "class_bytes": 25274,
+          "class_sha256": "dd99f683f8948a354a2ebd04a7e26b478dee89b98e4566e6b1ed59d52c6badab",
+          "entry": "org/gradle/api/internal/artifacts/repositories/DefaultIvyArtifactRepository.class",
+          "selected_methods": [
+            {
+              "descriptor": "()Lorg/gradle/api/internal/artifacts/repositories/descriptor/IvyRepositoryDescriptor;",
+              "name": "createDescriptor",
+              "source_line_range": [
+                167,
+                177
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/Action;)V",
+              "name": "metadataSources",
+              "source_line_range": [
+                219,
+                222
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/api/Action;)V",
+              "name": "patternLayout",
+              "source_line_range": [
+                347,
+                351
+              ]
+            },
+            {
+              "descriptor": "()Lorg/gradle/api/internal/artifacts/repositories/descriptor/RepositoryDescriptor;",
+              "name": "createDescriptor",
+              "source_line_range": [
+                81,
+                81
+              ]
+            }
+          ],
+          "source_file": "DefaultIvyArtifactRepository.java"
+        },
+        {
+          "class_bytes": 2560,
+          "class_sha256": "1ed41a9e74a0cd5b8812cd855f73f131b39dc349ffd3340fe9363dd92688ebc8",
+          "entry": "org/gradle/api/internal/artifacts/repositories/DefaultIvyArtifactRepository$IvyMetadataSources.class",
+          "selected_methods": [
+            {
+              "descriptor": "()V",
+              "name": "reset",
+              "source_line_range": [
+                451,
+                455
+              ]
+            },
+            {
+              "descriptor": "()Ljava/util/List;",
+              "name": "asList",
+              "source_line_range": [
+                464,
+                477
+              ]
+            },
+            {
+              "descriptor": "()V",
+              "name": "artifact",
+              "source_line_range": [
+                494,
+                496
+              ]
+            }
+          ],
+          "source_file": "DefaultIvyArtifactRepository.java"
+        },
+        {
+          "class_bytes": 2986,
+          "class_sha256": "61ff265a4e866aa09058852bbdde265ee6411f5ebb387b6b2523873536af06fc",
+          "entry": "org/gradle/api/internal/artifacts/repositories/layout/DefaultIvyPatternRepositoryLayout.class",
+          "selected_methods": [
+            {
+              "descriptor": "()V",
+              "name": "<init>",
+              "source_line_range": [
+                31,
+                33
+              ]
+            },
+            {
+              "descriptor": "(Ljava/net/URI;Lorg/gradle/api/internal/artifacts/repositories/descriptor/IvyRepositoryDescriptor$Builder;)V",
+              "name": "apply",
+              "source_line_range": [
+                70,
+                86
+              ]
+            }
+          ],
+          "source_file": "DefaultIvyPatternRepositoryLayout.java"
+        },
+        {
+          "class_bytes": 22676,
+          "class_sha256": "9735f7b4a3411afa0ca51b42db0b771f2530f6bd15b804aee96f379d1d4e0076",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/ivyresolve/CachingModuleComponentRepository$LocateInCacheRepositoryAccess.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/api/artifacts/component/ModuleComponentIdentifier;Lorg/gradle/internal/component/model/ComponentOverrideMetadata;Lorg/gradle/internal/resolve/result/BuildableModuleComponentMetaDataResolveResult;)V",
+              "name": "resolveComponentMetaDataFromCache",
+              "source_line_range": [
+                213,
+                248
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/internal/component/model/ComponentArtifactMetadata;Lorg/gradle/internal/component/model/ModuleSources;Lorg/gradle/internal/resolve/result/BuildableArtifactFileResolveResult;)V",
+              "name": "resolveArtifactFromCache",
+              "source_line_range": [
+                331,
+                356
+              ]
+            }
+          ],
+          "source_file": "CachingModuleComponentRepository.java"
+        },
+        {
+          "class_bytes": 19024,
+          "class_sha256": "91b38c36b4381a38805621e855f87b040af8c10f9b4f95f28e5d009fe6186e88",
+          "entry": "org/gradle/api/internal/artifacts/ivyservice/ivyresolve/CachingModuleComponentRepository$ResolveAndCacheRepositoryAccess.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Lorg/gradle/api/artifacts/component/ModuleComponentIdentifier;Lorg/gradle/internal/component/model/ComponentOverrideMetadata;Lorg/gradle/internal/resolve/result/BuildableModuleComponentMetaDataResolveResult;)V",
+              "name": "resolveComponentMetaDataAndCache",
+              "source_line_range": [
+                401,
+                439
+              ]
+            },
+            {
+              "descriptor": "(Lorg/gradle/internal/component/model/ComponentArtifactMetadata;Lorg/gradle/internal/component/model/ModuleSources;Lorg/gradle/internal/resolve/result/BuildableArtifactFileResolveResult;)V",
+              "name": "resolveArtifact",
+              "source_line_range": [
+                470,
+                480
+              ]
+            }
+          ],
+          "source_file": "CachingModuleComponentRepository.java"
+        },
+        {
+          "class_bytes": 12691,
+          "class_sha256": "dd6d3b4821e686c987fe9809ffe55a8d812e4ff73474905af8d8d31ab4937f7a",
+          "entry": "org/gradle/api/internal/artifacts/verification/serializer/DependencyVerificationsXmlReader$VerifiersHandler.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/xml/sax/Attributes;)V",
+              "name": "startElement",
+              "source_line_range": [
+                151,
+                246
+              ]
+            },
+            {
+              "descriptor": "([CII)V",
+              "name": "characters",
+              "source_line_range": [
+                317,
+                324
+              ]
+            },
+            {
+              "descriptor": "(Lorg/xml/sax/Attributes;)Lorg/gradle/internal/component/external/model/ModuleComponentFileArtifactIdentifier;",
+              "name": "createArtifactId",
+              "source_line_range": [
+                406,
+                408
+              ]
+            },
+            {
+              "descriptor": "(Lorg/xml/sax/Attributes;)Lorg/gradle/api/artifacts/component/ModuleComponentIdentifier;",
+              "name": "createComponentId",
+              "source_line_range": [
+                413,
+                415
+              ]
+            }
+          ],
+          "source_file": "DependencyVerificationsXmlReader.java"
+        }
+      ],
+      "included_in_original_six_runtime_identity_set": false,
+      "jar_bytes": 3148426,
+      "jar_sha256": "843e9b5e8114375e500884ad867daaed9c1f3717e1f7cc9ed8bfae1726a75554",
+      "same_hash_before_after_static_read": true,
+      "symbol": "<CURRENT_GRADLE_DEPENDENCY_MANAGEMENT_STATIC_JAR>"
+    },
+    {
+      "classes": [
+        {
+          "class_bytes": 6855,
+          "class_sha256": "a96dba19be84f899e7c4beb5b9cd88c8da9f435b1b5cb5a189c6fbd7081e8a2c",
+          "entry": "org/gradle/internal/resource/local/GroupedAndNamedUniqueFileStore.class",
+          "selected_methods": [
+            {
+              "descriptor": "(Ljava/lang/Object;Ljava/io/File;)Lorg/gradle/internal/resource/local/LocallyAvailableResource;",
+              "name": "move",
+              "source_line_range": [
+                56,
+                56
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;",
+              "name": "toPath",
+              "source_line_range": [
+                69,
+                72
+              ]
+            },
+            {
+              "descriptor": "(Ljava/io/File;)Ljava/lang/String;",
+              "name": "getChecksum",
+              "source_line_range": [
+                90,
+                90
+              ]
+            },
+            {
+              "descriptor": "(Ljava/lang/Object;Lorg/gradle/api/Action;)Lorg/gradle/internal/resource/local/LocallyAvailableResource;",
+              "name": "add",
+              "source_line_range": [
+                105,
+                108
+              ]
+            }
+          ],
+          "source_file": "GroupedAndNamedUniqueFileStore.java"
+        }
+      ],
+      "included_in_original_six_runtime_identity_set": false,
+      "jar_bytes": 2334455,
+      "jar_sha256": "470ae06ceef38cf2c69f1a20838bc80ece735bc92c2615f5bad77a50ab379d25",
+      "same_hash_before_after_static_read": true,
+      "symbol": "<CURRENT_GRADLE_CORE_STATIC_JAR>"
+    }
+  ],
+  "source_class_count": 22,
+  "source_reading_or_XML_template_check_is_not_compilation_or_runtime_resolver_signature_authentication": true,
+  "source_selected_method_count": 59
+}

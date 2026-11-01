@@ -96,7 +96,11 @@ def require_native_witnesses(source):
             raise ValueError("No mock/intercepted/synthetic reset/skip/HTTP-error or manual client replacement")
 
 
-COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "a78930b54606b88fb9e4af3e9e3748d41f1abf5496f05dad84eb8a664afc1f40"
+# Original whole-projection evidence remains frozen; only exact reviewed diagnostic bytes advance it.
+ORIGINAL_COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "a78930b54606b88fb9e4af3e9e3748d41f1abf5496f05dad84eb8a664afc1f40"
+COMPILED_ANDROID_REQUEST_SOURCE_SHA256 = "7daa4a6867b5a9e343306e3c6129c00456b3e08f07bd6fc7b6666c4047353dc5"
+HELD_START_DIAGNOSTIC_STOP_HELPER_SHA256 = "278d65e2b0507064a9a3108899bd6367ef2dfb989ffbb78dd842ca888a8b3519"
+HELD_START_DIAGNOSTIC_STOP_FACTS_SHA256 = "de05e2c77e747b6b8a6956c96e789780fbfd5efd402186cf71f86cc888fbd192"
 STOP_REDIRECT_MEMBER_MARKER = "    // New #64 Stop/redirect fixture; the compiled fail/fail method above remains unchanged.\n"
 STOP_REDIRECT_HELPER_MARKER = "\n// Separate #64 Stop/redirect helpers; no old request helper is broadened.\n"
 STOP_REDIRECT_METHOD = "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
@@ -126,8 +130,29 @@ def request_source_without_selection_annotation(source):
     return source
 
 
+def require_projected_stop_held_start_diagnostics(source, members, helpers):
+    """Bind exact new diagnostics in the already separate Stop layer; never strip new code."""
+    start = "    private fun awaitStopRedirectHeld("
+    end = "    private fun awaitStopRedirectDocument("
+    if members.count(start) != 1 or members.count(end) != 1:
+        raise ValueError("Exact separate Stop held-helper anchors must occur once")
+    held = members[members.index(start):members.index(end)]
+    if hashlib.sha256(held.encode()).hexdigest() != HELD_START_DIAGNOSTIC_STOP_HELPER_SHA256:
+        raise ValueError("Only the exact reviewed Stop held-helper diagnostic bytes are permitted")
+    probe = body_after(helpers, "private class AndroidStopRedirectProbe")
+    start = "    fun heldStartFacts(stage: AndroidStopRedirectStage)"
+    end = "    fun finished("
+    if probe.count(start) != 1 or probe.count(end) != 1:
+        raise ValueError("Exact separate Stop probe-fact anchors must occur once")
+    facts = probe[probe.index(start):probe.index(end)]
+    if hashlib.sha256(facts.encode()).hexdigest() != HELD_START_DIAGNOSTIC_STOP_FACTS_SHA256:
+        raise ValueError("Only the exact bounded read-only Stop probe facts are permitted")
+    if source.count("fun heldStartFacts(") != 2 or source.count("observeHeldStartFailure(") != 3:
+        raise ValueError("Missing, duplicate or extra held-start diagnostic helpers cannot be projected away")
+
+
 def compiled_request_source(source):
-    """Remove only reviewed selector metadata/separate Stop additions; old body bytes stay frozen."""
+    """Remove only selector metadata/separate Stop additions; retain exact diagnostic projection bytes."""
     source = request_source_without_selection_annotation(source)
     if STOP_REDIRECT_MEMBER_MARKER not in source and STOP_REDIRECT_HELPER_MARKER not in source:
         return source
@@ -136,9 +161,10 @@ def compiled_request_source(source):
     start = source.index(STOP_REDIRECT_MEMBER_MARKER)
     end = source.index("    private fun awaitHeldStart(", start)
     helper = source.index(STOP_REDIRECT_HELPER_MARKER, end)
+    require_projected_stop_held_start_diagnostics(source, source[start:end], source[helper:])
     legacy = source[:start] + source[end:helper]
     if hashlib.sha256(legacy.encode()).hexdigest() != COMPILED_ANDROID_REQUEST_SOURCE_SHA256:
-        raise ValueError("The compiled native method and every old helper must stay byte-identical")
+        raise ValueError("The original native body and exact reviewed diagnostic-helper projection changed")
     return legacy
 
 
@@ -408,7 +434,7 @@ class AndroidWebViewRequestStateGuards(unittest.TestCase):
         with self.assertRaises(ValueError): require_native_witnesses(source.replace("socket.close() // No status/header/body", "writeResponse(socket, byteArrayOf(), \"text/plain\", owned)\n                socket.close() // No status/header/body", 1))
         with self.assertRaises(ValueError): require_native_witnesses(source.replace("acceptor.join(5_000)", "Unit", 1))
 
-    def test_separate_stop_redirect_source_preserves_the_compiled_method_and_all_old_helpers_byte_exactly(self):
+    def test_separate_stop_redirect_source_preserves_compiled_method_and_exact_reviewed_diagnostic_projection(self):
         source = (r.ROOT / r.ANDROID_WEBVIEW_REQUEST_SOURCE).read_text()
         self.assertEqual(COMPILED_ANDROID_REQUEST_SOURCE_SHA256,
                          hashlib.sha256(compiled_request_source(source).encode()).hexdigest())

@@ -1,0 +1,9 @@
+{
+  "scope": "Private passive integrity-script precondition; not a native or test failure",
+  "exit_code": 1,
+  "mistaken_assumption": "The original receipt input digest equals raw input-map JSON file SHA-256",
+  "owning_source_observation": "library_tests.py input_digest serializes sorted value, two spaces, name, newline; receipt hashes bind that digest",
+  "recovery": "Use the exact passively inspected input_digest serialization; retain raw file hashes separately",
+  "no_integrity_failure_claim": true,
+  "no_native_or_test_execution": true
+}

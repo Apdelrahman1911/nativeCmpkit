@@ -1,0 +1,13 @@
+--- a/tests/consumer/native_license_material_v2.py
++++ b/tests/consumer/native_license_material_v2.py
+@@ -4 +4 @@
+-Git object hashes bind original crate manifests and later text separately; they
++Git object hashes bind original crate manifests and separate text-origin records; they
+@@ -286 +286 @@
+-            and data["text_origin"]["revision"] == MATERIAL_REVISION, "Original and later text origins must remain separate")
++            and data["text_origin"]["revision"] == MATERIAL_REVISION, "Original source and separate text-origin records must remain separate")
+--- a/tests/consumer/native_license_material_v2.schema.json
++++ b/tests/consumer/native_license_material_v2.schema.json
+@@ -5 +5 @@
+-  "description": "Inert review schema only. Raw original crate/source and later full-text commits are distinct. Object integrity cannot clear old-release applicability, contributor, SDK or publisher obligations. The v1 collector cannot load this schema.",
++  "description": "Inert review schema only. Raw original crate/source and separate text-origin commits are distinct. Object integrity cannot clear old-release applicability, contributor, SDK or publisher obligations. The v1 collector cannot load this schema.",

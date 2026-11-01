@@ -1,0 +1,774 @@
+{
+  "compiler_reference_gap": {
+    "Android_publication_ABI_pinned_KGP_unsupported": true,
+    "KLIB_JVM_not_Swift_or_inline_default_metadata_certification": true,
+    "before_references_available_for_comparison": false,
+    "module_api_directories_observed": [],
+    "no_candidate_updateKotlinAbi_reference_substitution": true
+  },
+  "current_io_copied_methods": {
+    "byte_identical": true,
+    "full_fixture": {
+      "bytes": 3735,
+      "path": "tests/consumer/src/desktopTest/kotlin/nativecmpkit/consumer/PublishedIoConsumerTest.kt",
+      "sha256": "95c4089c0f065eee7d0b9dbbf003d42b003e6c01bd7d2f60ca5ef6337bcf3f10"
+    },
+    "limit": "Current copies/method identities only. No original artifact reacquisition, accepted806 hash-map current equivalence, or changed-candidate runtime guarantee.",
+    "method_names_match_retained_acceptance": true,
+    "standalone_fixture": {
+      "bytes": 3735,
+      "path": "tests/consumer/io-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedIoConsumerTest.kt",
+      "sha256": "95c4089c0f065eee7d0b9dbbf003d42b003e6c01bd7d2f60ca5ef6337bcf3f10"
+    }
+  },
+  "full21_fixture_loaded_origin_limit": {
+    "next_requirement": "If whole loaded-byte origin proof is required, prepare a separate reviewed missing-origin control/fixture. Do not claim that existing commands contain an exact loaded-hash assertion.",
+    "no_new_test_or_source_repair_performed": true,
+    "path": "tests/consumer/src/desktopTest/kotlin/nativecmpkit/consumer/PublishedNativeConsumerTest.kt",
+    "separate_resolution_guard": "verifyCandidateResolution still binds resolved candidate bytes/metadata to staging and rejects producer project/original Calf substitutions. This is not an all21 loaded-class origin test.",
+    "source_lines": {
+      "bridge_jar_code_source": [
+        35
+      ],
+      "resource_jar_protocol": [
+        33
+      ]
+    },
+    "source_observation": "Native bridge tests require one jar-protocol native resource and a JAR code source. They do not compare the loaded bridge JAR SHA256 to the staged expected JAR, unlike the partial Core/IO and WebView origin methods."
+  },
+  "kind": "Passive retained JSON/current public source inspection only; no tests/builds/javap or root edits.",
+  "linux_arm64_retained_failure": {
+    "actual_consumer_executions": 0,
+    "fresh_XML": 0,
+    "issue_owner": 3,
+    "not_reopening_issue1": true,
+    "observed_failure": "WebView staging requires exactly root and desktop publications; selected=[]",
+    "own_inputs_held": 839,
+    "root_cause": "KGP2.4.20 disables all default KMP Maven publications when HostManager.hostIsSupported is false and the project declares any KotlinNativeTarget. Kotlin/Native supports Linux x64 as a producer, not Linux arm64. applyTargets declares iosArm64 and iosSimulatorArm64; desktop-only staging selects tasks but does not remove targets. Thus absence of root and desktop tasks precedes consumer resolution.",
+    "root_cause_status": "dependency-bytecode-confirmed explanation of actual task absence; internal branch/diagnostic text was not captured directly on this runner",
+    "run_id": 40772821771,
+    "source_revision": "8a2a46e687400ead4db3b1004a2d94bc32fa8ae4",
+    "stage_elapsed_seconds": 161.04,
+    "stage_exit_code": 1,
+    "still_missing_consumer_methods_by_mode": {
+      "module": [
+        "loadedPublicClassesComeFromTheExactStagedJar",
+        "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView"
+      ],
+      "pom": [
+        "loadedPublicClassesComeFromTheExactStagedJar",
+        "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView"
+      ]
+    },
+    "unchanged_controller_retry_not_recommended": true
+  },
+  "new_Git_GitHub_network_build_test_or_ABI_tool_invocations": 0,
+  "prepared_utc": "2026-11-01T06:04:39.055975+00:00",
+  "public_source_anchors": [
+    {
+      "anchors": [
+        {
+          "lines": [
+            322
+          ],
+          "needle": "def commands(",
+          "source_observation": "Producer or consumer argv construction; supplied consumer repository is fixed to the producer build path in this controller."
+        },
+        {
+          "lines": [
+            363
+          ],
+          "needle": "phase = 'actual-local-producer-staging'",
+          "source_observation": "Every run stages locally before consuming; no handoff or producer-only run CLI."
+        },
+        {
+          "lines": [
+            480,
+            481,
+            482
+          ],
+          "needle": "parser.add_argument(",
+          "source_observation": "Only --host, --output and --timeout are exposed."
+        },
+        {
+          "lines": [
+            43
+          ],
+          "needle": "\"linux-arm64\":",
+          "source_observation": "Linux ARM64 consumes classifier linux-aarch64; runtime target support differs from KGP producer support."
+        }
+      ],
+      "path": "scripts/ci/webview_consumer.py"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            5
+          ],
+          "needle": "nativecmpkit.webviewStagingRoot",
+          "source_observation": "Explicit canonical supported producer root binding."
+        },
+        {
+          "lines": [
+            20
+          ],
+          "needle": "selected.size == 2",
+          "source_observation": "Exactly kotlinMultiplatform and desktop publications, no invented publication or native target pruning."
+        },
+        {
+          "lines": [
+            30
+          ],
+          "needle": "stageWebViewVerificationPublications",
+          "source_observation": "Existing producer-only task can be selected directly after separately approved fresh supported-host preparation."
+        }
+      ],
+      "path": "scripts/ci/stage-webview.init.gradle.kts"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            11,
+            12,
+            15
+          ],
+          "needle": "nativecmpkitRepository",
+          "source_observation": "Standalone fixture accepts an existing absolute local repository, independently of the controller."
+        },
+        {
+          "lines": [
+            32
+          ],
+          "needle": "ignoreGradleMetadataRedirection()",
+          "source_observation": "POM-only consumption is explicit, not silently GMM redirected."
+        },
+        {
+          "lines": [
+            37
+          ],
+          "needle": "includeGroup(",
+          "source_observation": "Candidate group remains exclusive to the supplied local repository."
+        }
+      ],
+      "path": "tests/consumer/webview-desktop/settings.gradle.kts"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            49
+          ],
+          "needle": "linux-aarch64",
+          "source_observation": "Consuming-host JavaFX selection remains exact."
+        },
+        {
+          "lines": [
+            79,
+            164,
+            215
+          ],
+          "needle": "bindCandidateArtifact",
+          "source_observation": "Exact metadata/staged/resolved origin/hash binding remains mandatory."
+        },
+        {
+          "lines": [
+            191
+          ],
+          "needle": "includeTestsMatching",
+          "source_observation": "Both and only the existing public WebView/loaded-class tests remain selected."
+        }
+      ],
+      "path": "tests/consumer/webview-desktop/build.gradle.kts"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            21
+          ],
+          "needle": "iosArm64()",
+          "source_observation": "iOS declarations stay present on a desktop staging producer."
+        },
+        {
+          "lines": [
+            22
+          ],
+          "needle": "iosSimulatorArm64()",
+          "source_observation": "Desktop-only publication selection does not prune native targets."
+        }
+      ],
+      "path": "convention-plugins/src/main/kotlin/Targets.kt"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            45
+          ],
+          "needle": "EXPECTED_CASES =",
+          "source_observation": "Exactly six IO methods plus one origin test."
+        },
+        {
+          "lines": [
+            245
+          ],
+          "needle": "def commands(",
+          "source_observation": "Always constructs four-publication stage plus seven-method consumer; no missing-only selector."
+        },
+        {
+          "lines": [
+            625,
+            626,
+            627
+          ],
+          "needle": "parser.add_argument(",
+          "source_observation": "Only output, timeout and disk-reserve CLI options; do not invent a reuse flag."
+        }
+      ],
+      "path": "scripts/ci/core_io_consumer.py"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            18
+          ],
+          "needle": "BinariesSource.MAIN_COMPILATION",
+          "source_observation": "Compiler ABI input mode, not execution or a retained reference."
+        },
+        {
+          "lines": [
+            19
+          ],
+          "needle": "referenceDumpDir.set",
+          "source_observation": "Each module/api must contain reviewed retained before references."
+        },
+        {
+          "lines": [
+            20
+          ],
+          "needle": "keepLocallyUnsupportedTargets.set(true)",
+          "source_observation": "Unsupported references must be preserved, not silently omitted."
+        }
+      ],
+      "path": "convention-plugins/src/main/kotlin/LibraryAbi.kt"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            246
+          ],
+          "needle": "for label, classpath in",
+          "source_observation": "Existing runner always executes baseline sanity followed by candidate; no candidate-only reuse interface."
+        },
+        {
+          "lines": [
+            270
+          ],
+          "needle": "--diagnostic-local-root",
+          "source_observation": "Local-JAR diagnostics do not certify staged distribution."
+        }
+      ],
+      "path": "tests/consumer/binary_linkage.py"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            81
+          ],
+          "needle": "complete_material_collection",
+          "source_observation": "Complete real native material is required, not a policy boolean/template bypass."
+        },
+        {
+          "lines": [
+            97
+          ],
+          "needle": "tasks.withType<PublishToMavenRepository>()",
+          "source_observation": "Notice guard applies to every publication, not only desktop."
+        }
+      ],
+      "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            31
+          ],
+          "needle": "val candidateModules = listOf(",
+          "source_observation": "Fixed21 independent Maven roots must remain."
+        },
+        {
+          "lines": [
+            67
+          ],
+          "needle": "minSdk = 23",
+          "source_observation": "Android library/host fixture floor; not an API23 consumer APK/device execution."
+        },
+        {
+          "lines": [
+            69
+          ],
+          "needle": "withHostTest {}",
+          "source_observation": "Source supports Android host tests, not README allTests zero/NO-SOURCE acceptance."
+        },
+        {
+          "lines": [
+            85
+          ],
+          "needle": "iosSimulatorArm64().binaries.framework",
+          "source_observation": "Framework linking is not Swift consumer/minimum-OS or device acceptance."
+        }
+      ],
+      "path": "tests/consumer/build.gradle.kts"
+    },
+    {
+      "anchors": [
+        {
+          "lines": [
+            98
+          ],
+          "needle": "compileOnly(it)",
+          "source_observation": "Producer JavaFX remains compile-only; new current metadata equality is not inferred from source alone."
+        }
+      ],
+      "path": "calf-webview/build.gradle.kts"
+    }
+  ],
+  "schema_version": 1,
+  "webview_retained_owning_source_applicability": {
+    "changed_current_bytes": 11,
+    "fixture_all_five_inputs_match_retained_accepted_bytes": true,
+    "limit": "Bounded retained60 paths only, not an exhaustive current inventory, candidate JAR/metadata equivalence or a freeze. Changes include common/desktop production, so historical runtime acceptance is not current-candidate acceptance.",
+    "missing_paths": [],
+    "records": [
+      {
+        "current_bytes": 7207,
+        "current_sha256": "036a7f0c63c1492278205be67669c20914ea1ed26bc6524552d6b716f5846d99",
+        "matches_retained_accepted_bytes": false,
+        "path": "build.gradle.kts",
+        "retained_accepted_sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+      },
+      {
+        "current_bytes": 7237,
+        "current_sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/build.gradle.kts",
+        "retained_accepted_sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+      },
+      {
+        "current_bytes": 717,
+        "current_sha256": "4bb4a2e939562f0ca2f2973ba2438c52ccdd54be1eb500e8afa78d5a5e1b1966",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+        "retained_accepted_sha256": "57453cf08347a709321c4ccd21b8f4195078f466a721ba32f22b3906f704a46a"
+      },
+      {
+        "current_bytes": 8098,
+        "current_sha256": "78a2e89d2cdb996b24be6a81e10feba9681dcf318630febf59f8a93c3767096a",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt",
+        "retained_accepted_sha256": "78a2e89d2cdb996b24be6a81e10feba9681dcf318630febf59f8a93c3767096a"
+      },
+      {
+        "current_bytes": 497,
+        "current_sha256": "18a92be817afad9f5dfaab8fbbc9dfcbe0199b1be9318e32870581414b39c67b",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidHostTest/kotlin/android/webkit/NativeCmpKitControlledResourceError.kt",
+        "retained_accepted_sha256": "18a92be817afad9f5dfaab8fbbc9dfcbe0199b1be9318e32870581414b39c67b"
+      },
+      {
+        "current_bytes": 6020,
+        "current_sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt",
+        "retained_accepted_sha256": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357"
+      },
+      {
+        "current_bytes": 5696,
+        "current_sha256": "176a154a16929ab80e49ffac22a61b0448bd208317de366eb6edcd6691493599",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidResourceErrorBenchmarkTest.kt",
+        "retained_accepted_sha256": "176a154a16929ab80e49ffac22a61b0448bd208317de366eb6edcd6691493599"
+      },
+      {
+        "current_bytes": 2813,
+        "current_sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt",
+        "retained_accepted_sha256": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6"
+      },
+      {
+        "current_bytes": 9731,
+        "current_sha256": "f11d285be3695144d7623e88c68fdf1c1210f9300084a860f4bb0cb46c2d352a",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt",
+        "retained_accepted_sha256": "c8d395cfb0a9ea6bab8728e0a18986b7de70a211e9bf2c50fa9cf5d8adbdf2e0"
+      },
+      {
+        "current_bytes": 3558,
+        "current_sha256": "4b031e26a52804f4e176dc45985c2e0983e0c3ed30eba201dbb69e10ea0feeab",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/CookieManager.android.kt",
+        "retained_accepted_sha256": "4b031e26a52804f4e176dc45985c2e0983e0c3ed30eba201dbb69e10ea0feeab"
+      },
+      {
+        "current_bytes": 25933,
+        "current_sha256": "3d32645991c56f523087a3cf60a5aba5bbd567b9c9686768157cf7e01875b9f7",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "retained_accepted_sha256": "40df426119d5f25111cfaa28c7a6a797110d7d91fb234cc39165aa2d5bea8e8e"
+      },
+      {
+        "current_bytes": 1069,
+        "current_sha256": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt",
+        "retained_accepted_sha256": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda"
+      },
+      {
+        "current_bytes": 1692,
+        "current_sha256": "7d36187b99f9381c883fbb8e0f5484d0c407d1695e9980970d2c19900eddd93c",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt",
+        "retained_accepted_sha256": "7d36187b99f9381c883fbb8e0f5484d0c407d1695e9980970d2c19900eddd93c"
+      },
+      {
+        "current_bytes": 3810,
+        "current_sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+        "retained_accepted_sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+      },
+      {
+        "current_bytes": 8212,
+        "current_sha256": "05d60ea7470f486cac176046b4b3dd5752f501e8a6cc55e291cf01cd649190db",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "retained_accepted_sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+      },
+      {
+        "current_bytes": 11879,
+        "current_sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "retained_accepted_sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+      },
+      {
+        "current_bytes": 6394,
+        "current_sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+        "retained_accepted_sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+      },
+      {
+        "current_bytes": 1681,
+        "current_sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt",
+        "retained_accepted_sha256": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73"
+      },
+      {
+        "current_bytes": 11002,
+        "current_sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt",
+        "retained_accepted_sha256": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4"
+      },
+      {
+        "current_bytes": 5117,
+        "current_sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+        "retained_accepted_sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+      },
+      {
+        "current_bytes": 16355,
+        "current_sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "retained_accepted_sha256": "9357cc130142a11c214a17828f55f076aa4b56dbe6d381ec2657bb5bf6766100"
+      },
+      {
+        "current_bytes": 6485,
+        "current_sha256": "9e4d01f207fec6bf8e3c4547074c8957223a93f64fbc5ca477774b7443de43c3",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt",
+        "retained_accepted_sha256": "9e4d01f207fec6bf8e3c4547074c8957223a93f64fbc5ca477774b7443de43c3"
+      },
+      {
+        "current_bytes": 11836,
+        "current_sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+        "retained_accepted_sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+      },
+      {
+        "current_bytes": 8298,
+        "current_sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+        "retained_accepted_sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+      },
+      {
+        "current_bytes": 6440,
+        "current_sha256": "122c7e733861f19083a59452db4945f0ef6e274ced89eb03d2247602b05c6ebd",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt",
+        "retained_accepted_sha256": "122c7e733861f19083a59452db4945f0ef6e274ced89eb03d2247602b05c6ebd"
+      },
+      {
+        "current_bytes": 19443,
+        "current_sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+        "retained_accepted_sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+      },
+      {
+        "current_bytes": 319,
+        "current_sha256": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/iosMain/cinterop/nskeyvalueobserving.def",
+        "retained_accepted_sha256": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe"
+      },
+      {
+        "current_bytes": 3728,
+        "current_sha256": "bb2d453725767f8f333398221f50d8919fd7eb756edba383f9d4c59d0c1df360",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+        "retained_accepted_sha256": "bb2d453725767f8f333398221f50d8919fd7eb756edba383f9d4c59d0c1df360"
+      },
+      {
+        "current_bytes": 18745,
+        "current_sha256": "6fbae2022454547efcc18bde352a2a936f14b644881ea1d642d7b8ed582d0336",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "retained_accepted_sha256": "62e525b056dd6676a90780be53fc6617ce981a904dd61245f3a9333fa5f716eb"
+      },
+      {
+        "current_bytes": 559,
+        "current_sha256": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt",
+        "retained_accepted_sha256": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4"
+      },
+      {
+        "current_bytes": 549,
+        "current_sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt",
+        "retained_accepted_sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+      },
+      {
+        "current_bytes": 5571,
+        "current_sha256": "002a00e9c569c74c4deb5db62dd86e6d5fb5d2a0fe3db689d0710eb6ab2e8e9b",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt",
+        "retained_accepted_sha256": "002a00e9c569c74c4deb5db62dd86e6d5fb5d2a0fe3db689d0710eb6ab2e8e9b"
+      },
+      {
+        "current_bytes": 1006,
+        "current_sha256": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt",
+        "retained_accepted_sha256": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a"
+      },
+      {
+        "current_bytes": 549,
+        "current_sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt",
+        "retained_accepted_sha256": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7"
+      },
+      {
+        "current_bytes": 5714,
+        "current_sha256": "b22d68ef65ba4bd90f869fd9009366ac6b2b3203f3f1e8d47cd7e652187cd38a",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt",
+        "retained_accepted_sha256": "b22d68ef65ba4bd90f869fd9009366ac6b2b3203f3f1e8d47cd7e652187cd38a"
+      },
+      {
+        "current_bytes": 2942,
+        "current_sha256": "813703946e6633a1f491abf4eb0aa9743127100c391987cdac73f13eb42154c4",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt",
+        "retained_accepted_sha256": "813703946e6633a1f491abf4eb0aa9743127100c391987cdac73f13eb42154c4"
+      },
+      {
+        "current_bytes": 742,
+        "current_sha256": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt",
+        "retained_accepted_sha256": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58"
+      },
+      {
+        "current_bytes": 292,
+        "current_sha256": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt",
+        "retained_accepted_sha256": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1"
+      },
+      {
+        "current_bytes": 10258,
+        "current_sha256": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+        "matches_retained_accepted_bytes": false,
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "retained_accepted_sha256": "fd3b63c297578972a41e8c6e8d1d56cc6d0daee0de01729096ce6e065efb1810"
+      },
+      {
+        "current_bytes": 22862,
+        "current_sha256": "30cec328094e265740c9ab471d2df8a6f0604664e49a250fb18ddcc076871fb8",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt",
+        "retained_accepted_sha256": "30cec328094e265740c9ab471d2df8a6f0604664e49a250fb18ddcc076871fb8"
+      },
+      {
+        "current_bytes": 8824,
+        "current_sha256": "8f9a5584bb16618ec2057e6ef2b4405ba2330114dd3ad5b095a5c7ebf9b67d0a",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt",
+        "retained_accepted_sha256": "8f9a5584bb16618ec2057e6ef2b4405ba2330114dd3ad5b095a5c7ebf9b67d0a"
+      },
+      {
+        "current_bytes": 8387,
+        "current_sha256": "ab282a6e472a7d42639b80cdf34e29f517cdcfe9a2e537a3552c631a3d7f1cb6",
+        "matches_retained_accepted_bytes": true,
+        "path": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt",
+        "retained_accepted_sha256": "ab282a6e472a7d42639b80cdf34e29f517cdcfe9a2e537a3552c631a3d7f1cb6"
+      },
+      {
+        "current_bytes": 1204,
+        "current_sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+        "retained_accepted_sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+      },
+      {
+        "current_bytes": 2256,
+        "current_sha256": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/Hirearchy.kt",
+        "retained_accepted_sha256": "7e021c98adada58ebadef61bc8eb1392cda712019ea947e42cb1df1956cefee7"
+      },
+      {
+        "current_bytes": 552,
+        "current_sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/LibraryTests.kt",
+        "retained_accepted_sha256": "a40e5681410071d6d5c33270e40ec11b520f82765f5a3c54ef434f132da3845c"
+      },
+      {
+        "current_bytes": 3976,
+        "current_sha256": "cfca108297b6bc13c21e29817f6da984a5e1bdeddf1c53f43413b73db2a2e740",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/PublicationCoordinates.kt",
+        "retained_accepted_sha256": "cfca108297b6bc13c21e29817f6da984a5e1bdeddf1c53f43413b73db2a2e740"
+      },
+      {
+        "current_bytes": 5465,
+        "current_sha256": "38e88fe52c901adf66b81ec5d143b47c072105bc82b747c8af32b9c528bd5a61",
+        "matches_retained_accepted_bytes": false,
+        "path": "convention-plugins/src/main/kotlin/PublicationNotices.kt",
+        "retained_accepted_sha256": "89fe27ab32d152f2921275bcad3865f210b579788ecd3afd46f1e38f2ad76c3a"
+      },
+      {
+        "current_bytes": 1545,
+        "current_sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "retained_accepted_sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+      },
+      {
+        "current_bytes": 274,
+        "current_sha256": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/compose.multiplatform.gradle.kts",
+        "retained_accepted_sha256": "f51f60afffb2d0b3350c255e89c18ab9dbfe13829a3617219bd6d21a07919e39"
+      },
+      {
+        "current_bytes": 447,
+        "current_sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+        "retained_accepted_sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+      },
+      {
+        "current_bytes": 2156,
+        "current_sha256": "9cc86a4126dc8bc1a0eb6e439d3031551d6b0c89c35f6047f83334d035722aa4",
+        "matches_retained_accepted_bytes": true,
+        "path": "convention-plugins/src/main/kotlin/module.publication.gradle.kts",
+        "retained_accepted_sha256": "9cc86a4126dc8bc1a0eb6e439d3031551d6b0c89c35f6047f83334d035722aa4"
+      },
+      {
+        "current_bytes": 45723,
+        "current_sha256": "78cb2b8e8a8db9c7f426e462e0cc52534c5b65a31bf6b39b432b5eb85b864985",
+        "matches_retained_accepted_bytes": true,
+        "path": "docs/modules/native-features.md",
+        "retained_accepted_sha256": "78cb2b8e8a8db9c7f426e462e0cc52534c5b65a31bf6b39b432b5eb85b864985"
+      },
+      {
+        "current_bytes": 683,
+        "current_sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470",
+        "matches_retained_accepted_bytes": true,
+        "path": "gradle.properties",
+        "retained_accepted_sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+      },
+      {
+        "current_bytes": 7819,
+        "current_sha256": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+        "matches_retained_accepted_bytes": false,
+        "path": "gradle/libs.versions.toml",
+        "retained_accepted_sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+      },
+      {
+        "current_bytes": 2423,
+        "current_sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c",
+        "matches_retained_accepted_bytes": true,
+        "path": "settings.gradle.kts",
+        "retained_accepted_sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+      },
+      {
+        "current_bytes": 1315,
+        "current_sha256": "5d7150be79db1bd6b9d01218b39f4c426fed86e0308163a16a963f28e04c0682",
+        "matches_retained_accepted_bytes": true,
+        "path": "tests/consumer/webview-desktop/README.md",
+        "retained_accepted_sha256": "5d7150be79db1bd6b9d01218b39f4c426fed86e0308163a16a963f28e04c0682"
+      },
+      {
+        "current_bytes": 13426,
+        "current_sha256": "39dadf49145b769273679ba2559cc5ecf6a791f9af75b47133e09d7162b1323d",
+        "matches_retained_accepted_bytes": true,
+        "path": "tests/consumer/webview-desktop/build.gradle.kts",
+        "retained_accepted_sha256": "39dadf49145b769273679ba2559cc5ecf6a791f9af75b47133e09d7162b1323d"
+      },
+      {
+        "current_bytes": 197,
+        "current_sha256": "e2a5c8e188f6aa1c2c9d0104f48715a71b5a0894d5e1fb6dcef2c2c0b57f951e",
+        "matches_retained_accepted_bytes": true,
+        "path": "tests/consumer/webview-desktop/gradle.properties",
+        "retained_accepted_sha256": "e2a5c8e188f6aa1c2c9d0104f48715a71b5a0894d5e1fb6dcef2c2c0b57f951e"
+      },
+      {
+        "current_bytes": 1536,
+        "current_sha256": "df945fdf8fd948b18ccc0a5978c5fa64afe2968f4f9c3c681e0691e6852cefaa",
+        "matches_retained_accepted_bytes": true,
+        "path": "tests/consumer/webview-desktop/settings.gradle.kts",
+        "retained_accepted_sha256": "df945fdf8fd948b18ccc0a5978c5fa64afe2968f4f9c3c681e0691e6852cefaa"
+      },
+      {
+        "current_bytes": 7621,
+        "current_sha256": "774af0bd45d8f7b05fda1931efa0dad1f6607ab348b2ae53d23dcff2d25af552",
+        "matches_retained_accepted_bytes": true,
+        "path": "tests/consumer/webview-desktop/src/test/kotlin/nativecmpkit/consumer/PublishedWebViewConsumerTest.kt",
+        "retained_accepted_sha256": "774af0bd45d8f7b05fda1931efa0dad1f6607ab348b2ae53d23dcff2d25af552"
+      }
+    ],
+    "retained_map": "docs/development/evidence/webview-consumer-important-20261028/direct-closure/criteria-review.json",
+    "same_current_bytes": 49,
+    "selected_paths": 60
+  }
+}

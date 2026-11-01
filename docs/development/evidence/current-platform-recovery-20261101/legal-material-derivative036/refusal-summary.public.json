@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "scope": "Original retained refusal hashes/scalar counts only; original record contents, identifiers and raw machine data are excluded.",
+  "count_semantics": "Two SDK refusal records and five recorded Java derivation events. Not seven independent project/native test failures. The derivative's own two pre-write refusals are separate.",
+  "original_sdk_refusal_records": [
+    {
+      "label": "sdk-passive-input-refusal",
+      "record_bytes": 367,
+      "record_sha256": "3f5cd7ab4d3c978c4476b49e160007d41920336a3e40bca400b02caa3ae338ac",
+      "refusal_event_count": 1,
+      "fixed_category": "PASSIVE_INPUT_CLOSED_BEFORE_CLAUSE_READ",
+      "owned_terminated_process_count": 15,
+      "owned_running_process_count_after_cleanup": 0,
+      "clause_claim_from_refused_attempt": false
+    },
+    {
+      "label": "sdk-quote-origin-refusal",
+      "record_bytes": 361,
+      "record_sha256": "9259bc37ffaf634f4d2efce71ae533aef0ea8ded3de61e42434583d2465a2a00",
+      "refusal_event_count": 1,
+      "fixed_category": "EXACT_QUOTE_ORIGIN_GUARD_REFUSAL",
+      "clause_claim_from_refused_attempt": false
+    }
+  ],
+  "original_java_local_event_record": {
+    "record_bytes": 2143,
+    "record_sha256": "719ab8eaaf5d58afd9faa0edaa4b1c9daaa28430e8c4be394a8f36e400c4f4e8",
+    "recorded_event_count": 5,
+    "fixed_event_categories": [
+      "NUL_BYTE_IN_COMMAND_DATA",
+      "ACTIVE_PARAGRAPH_AT_NEW_PARAGRAPH_ASSERTION",
+      "EXPECTED_SIMPLE_P_WRAPPER_NOT_PRESENT",
+      "JAVASCRIPT_TEMPLATE_DELIMITER_COLLISION",
+      "EXPECTED_UNINDENTED_COMMENT_CLOSER_NOT_PRESENT"
+    ],
+    "local_derivation_events_not_http_or_native_failures": true,
+    "received_originals_and_partial_terms_preserved": true
+  },
+  "total_original_refusal_record_count": 3,
+  "total_recorded_original_refusal_event_count": 7,
+  "java_original_http_refusal_count": 0,
+  "java_original_public_resource_count": 3,
+  "java_original_http_transactions_including_redirect": 4,
+  "original_java_retries": 0,
+  "original_sdk_and_java_refusals_not_reclassified_as_successes": true,
+  "subsequent_sdk_read_and_java_derivation_are_separate_bounded_results": true,
+  "derivative_prewrite_count_guard_refusal": {
+    "record_bytes": 427,
+    "record_sha256": "801bedb10ab0a43abca8bb603289c783059e29b618453b6e60931677c9575630",
+    "event_count": 1,
+    "fixed_category": "EXPECTED_CLAUSE_COUNT_12_ACTUAL_RETAINED_COUNT_11",
+    "artifact_files_written_before_refusal": 0,
+    "new_acquisition_or_project_execution": 0
+  },
+  "derivative_prewrite_privacy_marker_guard_refusal": {
+    "record_bytes": 592,
+    "record_sha256": "3790da2726d9784af088243129fa03d5ee24d91f1697890a97c66017eb8c073b",
+    "event_count": 1,
+    "fixed_category": "ROOT_MARKER_IN_UNNEEDED_PUBLIC_CODE_DIFF_CONTEXT",
+    "artifact_files_written_before_refusal": 0,
+    "owning_repair": "Zero-context patch for the same three literal changes; privacy marker guard unchanged.",
+    "new_acquisition_or_project_execution": 0
+  },
+  "derivative_postseal_keyword_filter_refusal": {
+    "record_bytes": 613,
+    "record_sha256": "9d3dfdf46b06b83313e79efeb18f04076542cb11db2fc75e8a174d13aaf9e646",
+    "event_count": 1,
+    "fixed_category": "BROAD_PRIVATE_PATH_KEYWORD_MATCHED_NEGATIVE_GUARD_METADATA",
+    "preceding_checksum_entries_all_match": 9,
+    "owning_repair": "Exact structured private-origin field names are excluded; negative privacy-check metadata names are allowed. Actual absolute-path and raw-data guards remain unchanged."
+  },
+  "distinct_derivative_refusal_record_and_event_count": 3
+}

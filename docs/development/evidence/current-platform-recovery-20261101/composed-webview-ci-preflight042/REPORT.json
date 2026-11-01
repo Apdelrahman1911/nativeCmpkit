@@ -1,0 +1,107 @@
+{
+  "accepted_evidence_anchor_equal": true,
+  "accepted_exact_controls_reused_without_replay": {
+    "android": 19,
+    "ios_author": 14,
+    "ios_prior_abstract_phase": 16,
+    "tls_author": 8
+  },
+  "allowed_source_plan_children": [
+    {
+      "focus": "tls-rendering",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    },
+    {
+      "focus": "tls-rendering-cookies-policy",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    },
+    {
+      "focus": "tls-rendering-cookies-policy",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    },
+    {
+      "focus": "tls-rendering-cookies-policy-media",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    },
+    {
+      "focus": "tls-rendering-cookies-policy",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    },
+    {
+      "focus": "android-webview-request-state",
+      "operation": "source-plan",
+      "script": "android_device_tests.py"
+    },
+    {
+      "focus": "webview-ios-native-request-state",
+      "operation": "source-plan",
+      "script": "library_tests.py"
+    }
+  ],
+  "before_after_equal": true,
+  "by_module": {
+    "test_android_webview_request_selector": 15,
+    "test_android_webview_request_state": 11,
+    "test_desktop_security_routing": 5,
+    "test_ios_webview_request_dns_focus": 8,
+    "test_ios_webview_request_focus": 7
+  },
+  "canonical_map_sha256": "094e097bb6f92b16bd108210ec634f614f4ac3970ed1bf1a8dbf5c52fba6f962",
+  "errors": 0,
+  "failures": 0,
+  "fresh_existing_methods": 46,
+  "full_ci_executed": false,
+  "git_binding_claim": false,
+  "live_repairs": 0,
+  "native_build_compiler_git_network_acquisitions": 0,
+  "owning_sources": {
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt": "4f92af5333784a8c79cfcd6c2f0192bb8517feba886f116d6c0813b0fbda9e1a",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt": "bda4db0a5a9a6524dcc9212124e1190f236ae0aa0cfc52941dffbf7b214f2264",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "508c28c1fe336e01537e8ff62bd6249712c3d0eaa4fb591c89b1289f972b773f",
+    "scripts/ci/desktop_security_plan.py": "ec32060fa123a27d9e643a41fd486d238744edae7a82e18666576f226d5df777"
+  },
+  "passed": 46,
+  "passive_frozen_input_count": 1192,
+  "request2_plans": [
+    {
+      "elapsed_seconds": 0.170187,
+      "plan_sha256": "83c7616919c64d43f6938dc93db9917ff5d55b945dcbff0f1280c969c3beafe0",
+      "profile": "android-webview-request-state",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+          "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+          "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "elapsed_seconds": 0.183512,
+      "plan_sha256": "74ade3d6359d50b105eb097c6b00033ccfc4682c3119dbbb3fbf816bf97d9fbc",
+      "profile": "ios-webview-request-state",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors[iosSimulatorArm64]"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess[iosSimulatorArm64]"
+        }
+      ],
+      "status": "passed"
+    }
+  ],
+  "skips": 0,
+  "stale_guards_observed": false,
+  "test_elapsed_seconds": 3.423513
+}

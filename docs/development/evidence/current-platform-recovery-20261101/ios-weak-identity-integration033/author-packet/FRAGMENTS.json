@@ -1,0 +1,176 @@
+{
+  "fragments": [
+    {
+      "after": "import platform.WebKit.WKNavigation\nimport platform.WebKit.WKWebView\n",
+      "after_sha256": "55f891b02078f20de8a8e3b6b274f355ee8a81edd19b0d36c2d82a41d74b74db",
+      "before": "import platform.WebKit.WKWebView\n",
+      "before_sha256": "2add37e19d62f3e6089e1a167514f6007fafc7c6c6605cebd10db58689e59e0d",
+      "label": "navigation-type-import",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt"
+    },
+    {
+      "after": "    first != null && second != null && first.objcPtr() == second.objcPtr()\n\n/** Only live, retained navigation objects establish a current-request identity. */\ninternal fun hasSameNativeNavigation(first: WKNavigation?, second: WKNavigation?): Boolean =\n    first != null && second != null && first.objcPtr() == second.objcPtr()\n",
+      "after_sha256": "583e6ca48c3ee468ec93ea10b03626669c887d69a346d15ccff132dab2247c73",
+      "before": "    first != null && second != null && first.objcPtr() == second.objcPtr()\n",
+      "before_sha256": "cb81e6d1bcee2b2436a4ec0cf0073b226e0e29c77e274bcb9c65317990354c4c",
+      "label": "retained-navigation-identity",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt"
+    },
+    {
+      "after": "            if (hasSameNativeWebView(state.webView, view)) {\n                state.clearIosRequestMetadata()\n                state.nativeObserver = null\n",
+      "after_sha256": "4357246843c4cea1d793089de6ffa77f04ba4dd2db0165d7699c364a84a7b934",
+      "before": "            if (hasSameNativeWebView(state.webView, view)) {\n                state.nativeObserver = null\n",
+      "before_sha256": "1d56be24304890f3b55e30864f4929a8e28c07304831d8f566d4d26fefbf2172",
+      "label": "owned-release-clears-retained-request",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "private fun loadIosContent(view: WKWebView, state: WebViewState, content: WebContent) {\n    // NavigatorOnly is not a request and must not revoke an existing document witness.\n    if (content == WebContent.NavigatorOnly) return\n    val iosRequest = state.prepareIosRequest()\n    if (!state.acceptContent(content, WebContentPlatform.Ios)) {\n        state.rejectIosRequest(iosRequest)\n        return\n    }\n",
+      "after_sha256": "0c12cc3ac79534d776ed8c4b2e94a8c6d5d9f14c20380a33047240eaab798323",
+      "before": "private fun loadIosContent(view: WKWebView, state: WebViewState, content: WebContent) {\n    if (!state.acceptContent(content, WebContentPlatform.Ios)) return\n",
+      "before_sha256": "213be3695afb9ab623573d174d7253daa022d0bb980a7aa129bd16a0df0e1a65",
+      "label": "invalidate-before-common-content-reset",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "                state.errorsForCurrentRequest = listOf(WebViewError(-1, \"Invalid URL\"))\n                state.loadingState = LoadingState.Finished\n                state.rejectIosRequest(iosRequest)\n                return\n",
+      "after_sha256": "57f0c4997500d7a96b9f1cde24889d229634de4366ce1b224364522559d2c479",
+      "before": "                state.errorsForCurrentRequest = listOf(WebViewError(-1, \"Invalid URL\"))\n                state.loadingState = LoadingState.Finished\n                return\n",
+      "before_sha256": "ee04db88a9840956702970d540452f50ca483b605114e27695a57125243550c5",
+      "label": "invalid-url-remains-uncommitted",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "            state.bindIosNavigation(view, iosRequest, view.loadRequest(request))\n",
+      "after_sha256": "dcdd34849003d877832b26d8d4fd66d4582b138d18378be203eadc27455dcc89",
+      "before": "            view.loadRequest(request)\n",
+      "before_sha256": "f8080c9c59febc2dc563333ebfa072286fa4f47d4a747ed896d51b52c44e7464",
+      "label": "bind-returned-url-navigation",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "                state.errorsForCurrentRequest = listOf(WebViewError(-1, \"Invalid base URL\"))\n                state.loadingState = LoadingState.Finished\n                state.rejectIosRequest(iosRequest)\n",
+      "after_sha256": "1e0be9a55af180e7cf7937f4fad36233b107c8d2291b54485cce6ffe47d95350",
+      "before": "                state.errorsForCurrentRequest = listOf(WebViewError(-1, \"Invalid base URL\"))\n                state.loadingState = LoadingState.Finished\n",
+      "before_sha256": "67ab1d317a52d89f51c991dfbedd5d097c61172d7dfb008cbfc201ad6ccbf001",
+      "label": "invalid-base-url-remains-uncommitted",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "                state.bindIosNavigation(view, iosRequest, view.loadHTMLString(content.data, baseUrl))\n",
+      "after_sha256": "636eb5276ae8a66d398fc48e32c7a870dc8a33740c1f5de904470b2b82d8af2e",
+      "before": "                view.loadHTMLString(content.data, baseUrl)\n",
+      "before_sha256": "7310924f0f7e99aa8ff85c82374878f310355b6f9d5743241e849b02df77254d",
+      "label": "bind-returned-html-navigation",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "/** Internal only: loading KVO and nil callbacks cannot establish a document commit. */\ninternal enum class IosWebViewRequestPhase {\n    AwaitingStart,\n    Provisional,\n    Committed,\n    FinishedCommitted,\n    FinishedUncommitted,\n    SuspendedCommitted,\n}\n\n/** Bounded live references, not exported addresses or an accumulating callback log. */\ninternal class IosWebViewRequest(\n    internal var navigation: WKNavigation? = null,\n    internal val supersededNavigation: WKNavigation? = null,\n) {\n    internal var phase = IosWebViewRequestPhase.AwaitingStart\n    internal var stoppedBeforeCommit = false\n}\n\n/**\n * A state holder to hold the state for the WebView. In most cases this will be remembered\n",
+      "after_sha256": "c2a81051e6d6e1bc0072d7fd1f89e2525603c928d93a57103c500d1400181b44",
+      "before": "/**\n * A state holder to hold the state for the WebView. In most cases this will be remembered\n",
+      "before_sha256": "48aa02ffe912a6af03494439e4f9103df7590387b9e900fc82c262e9d6b3c3e0",
+      "label": "internal-request-phase-and-live-reference",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "    internal var nativeObserver: WKWebViewObserver? = null\n\n    private var iosRequest: IosWebViewRequest? = null\n\n    // Native weak keys remember issued/observed handles only while their native objects\n    // remain alive. Object-pointer personality is independent of Kotlin wrapper/value\n    // equality. The table retains no navigation objects and exports no addresses.\n    private val knownIosNavigations = NSHashTable(\n        options = NSPointerFunctionsWeakMemory or NSPointerFunctionsObjectPointerPersonality,\n        capacity = 0uL,\n    )\n\n    internal fun prepareIosRequest(): IosWebViewRequest {\n        val previous = iosRequest\n        return IosWebViewRequest(\n            supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,\n        ).also { iosRequest = it }\n    }\n\n    internal fun rejectIosRequest(request: IosWebViewRequest) {\n        if (iosRequest === request) request.phase = IosWebViewRequestPhase.FinishedUncommitted\n    }\n\n    internal fun bindIosNavigation(view: WKWebView, request: IosWebViewRequest, navigation: WKNavigation?) {\n        if (!hasSameNativeWebView(webView, view) || navigation == null) return\n        // Even a return after reentrant request replacement is a known issued handle.\n        // Remember it weakly, but only the still-current record may bind its identity.\n        knownIosNavigations.addObject(navigation)\n        if (iosRequest !== request) return\n        // A native callback may already have advanced or replaced this request. Never reopen\n        // its phase or overwrite a newer native start when the issuing call returns.\n        if (request.navigation == null) request.navigation = navigation\n    }\n\n    internal fun stopIosRequestBeforeCommit() {\n        val request = iosRequest ?: return\n        if (request.phase == IosWebViewRequestPhase.AwaitingStart ||\n            request.phase == IosWebViewRequestPhase.Provisional) {\n            // Keep the live identity for the actual cancellation NSError; Stop is not a commit.\n            request.stoppedBeforeCommit = true\n        }\n    }\n\n    internal fun noteIosNativeLoading() {\n        val request = iosRequest ?: return\n        if (request.phase == IosWebViewRequestPhase.FinishedCommitted) {\n            // Native loading can precede the delegate start. Revoke KVO publication only:\n            // real link starts must still observe the prior errors before beginRequest.\n            request.phase = IosWebViewRequestPhase.SuspendedCommitted\n        }\n    }\n\n    internal fun canPublishIosPageMetadata(view: WKWebView): Boolean {\n        val request = iosRequest ?: return false\n        return hasSameNativeWebView(webView, view) && !view.loading &&\n            (request.phase == IosWebViewRequestPhase.Committed ||\n                request.phase == IosWebViewRequestPhase.FinishedCommitted)\n    }\n\n    internal fun clearIosRequestMetadata() {\n        knownIosNavigations.removeAllObjects()\n        iosRequest = null\n    }\n\n    private fun requestFor(navigation: WKNavigation?): IosWebViewRequest? =\n        iosRequest?.takeIf { hasSameNativeNavigation(it.navigation, navigation) }\n\n    private fun beginIosNavigation(view: WKWebView, navigation: WKNavigation?) {\n        if (navigation == null) return\n        val previous = iosRequest\n        // A current handle remains authoritative. Any other still-live handle already\n        // issued or observed is stale, even after more than one owned replacement.\n        // An unseen genuine native link/history start can still replace an active request.\n        if (!hasSameNativeNavigation(previous?.navigation, navigation) &&\n            (knownIosNavigations.containsObject(navigation) ||\n                hasSameNativeNavigation(previous?.supersededNavigation, navigation))) return\n        val request = when {\n            previous != null && hasSameNativeNavigation(previous.navigation, navigation) -> {\n                if (previous.phase != IosWebViewRequestPhase.AwaitingStart || previous.stoppedBeforeCommit) return\n                previous\n            }\n            previous != null && previous.navigation == null &&\n                previous.phase == IosWebViewRequestPhase.AwaitingStart -> {\n                if (previous.stoppedBeforeCommit) return\n                previous.also { it.navigation = navigation }\n            }\n            else -> IosWebViewRequest(\n                navigation = navigation,\n                supersededNavigation = previous?.navigation ?: previous?.supersededNavigation,\n            ).also { iosRequest = it }\n        }\n        knownIosNavigations.addObject(navigation)\n        request.phase = IosWebViewRequestPhase.Provisional\n        beginRequest(view.URL?.absoluteString ?: requestedUrl)\n    }\n\n    private fun failIosNavigation(navigation: WKNavigation?, withError: NSError) {\n        val request = requestFor(navigation) ?: return\n        request.phase = when (request.phase) {\n            IosWebViewRequestPhase.Committed -> IosWebViewRequestPhase.FinishedCommitted\n            IosWebViewRequestPhase.AwaitingStart,\n            IosWebViewRequestPhase.Provisional -> IosWebViewRequestPhase.FinishedUncommitted\n            else -> return\n        }\n        loadingState = LoadingState.Finished\n        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(\n            code = withError.code.toInt(),\n            description = withError.localizedDescription\n        )\n    }\n\n    // We need access to this in the state saver.",
+      "after_sha256": "11624226d8a7f5150e3aa687f83f575613aff47d7829e74df085680e0f0d8330",
+      "before": "    internal var nativeObserver: WKWebViewObserver? = null\n\n    // We need access to this in the state saver.",
+      "before_sha256": "13f4842f9c217e2ca4ef3bf25cea80ddedab1cd8eab18ace81b329a03a1892a6",
+      "label": "bounded-request-identity-and-transition-helpers",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "    override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        if (didFinishNavigation == null) {\n            // Preserve the untracked current-view bridge check, not successful page evidence.\n            if (iosRequest == null) loadingState = LoadingState.Finished\n            return\n        }\n        val request = requestFor(didFinishNavigation) ?: return\n        when (request.phase) {\n            IosWebViewRequestPhase.Committed -> {\n                request.phase = IosWebViewRequestPhase.FinishedCommitted\n                lastLoadedUrl = webView.URL?.absoluteString\n                pageTitle = webView.title\n            }\n            IosWebViewRequestPhase.AwaitingStart,\n            IosWebViewRequestPhase.Provisional -> request.phase = IosWebViewRequestPhase.FinishedUncommitted\n            else -> return\n        }\n        loadingState = LoadingState.Finished\n        navigator?.canGoBack = webView.canGoBack\n        navigator?.canGoForward = webView.canGoForward\n    }\n",
+      "after_sha256": "55c2c4cc8766630aff35363a925e8db8ce6fda1c6b6bf20950b7605859c27112",
+      "before": "    override fun webView(webView: WKWebView, didFinishNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        lastLoadedUrl = webView.URL?.absoluteString\n        loadingState = LoadingState.Finished\n        pageTitle = webView.title\n        navigator?.canGoBack = webView.canGoBack\n        navigator?.canGoForward = webView.canGoForward\n    }\n",
+      "before_sha256": "95d03519873a4eedbc189c6fe44ae2e6db8d7434b9708fad91ad3c6ff301d631",
+      "label": "finish-requires-current-real-commit-for-metadata",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "    override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        beginIosNavigation(webView, didStartProvisionalNavigation)\n    }\n",
+      "after_sha256": "601a63c96c0a24b9dca9fd3a7e71f3e0f1a9032033c313ddd07a5937e1196ac7",
+      "before": "    override fun webView(webView: WKWebView, didStartProvisionalNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        beginRequest(webView.URL?.absoluteString ?: requestedUrl)\n    }\n",
+      "before_sha256": "e9e3c613e145830bd5f899f521ebd771ca32512381cbf376d66a641c84f7f7f9",
+      "label": "actual-start-claims-live-current-navigation",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "    override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        val request = requestFor(didCommitNavigation) ?: return\n        if (request.phase != IosWebViewRequestPhase.Provisional || request.stoppedBeforeCommit) return\n        request.phase = IosWebViewRequestPhase.Committed\n        loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())\n",
+      "after_sha256": "251a83f858f1dd5b5dc062f7cb1caf22d7c675fac9de5f207ddd9e992ad94994",
+      "before": "    override fun webView(webView: WKWebView, didCommitNavigation: WKNavigation?) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())\n",
+      "before_sha256": "4cc16824a0b5ff8043e273e89606031d87599d90e2761ca39aadba2a3caa17e6",
+      "label": "commit-requires-current-provisional-live-identity",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "    override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        failIosNavigation(didFailNavigation, withError)\n    }\n",
+      "after_sha256": "f7ffd115c4bcfabe2f85e92a7d9f5e816aba282a1dc2e419242d1d7e3a3633ea",
+      "before": "    override fun webView(webView: WKWebView, didFailNavigation: WKNavigation?, withError: NSError) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        loadingState = LoadingState.Finished\n        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(\n            code = withError.code.toInt(),\n            description = withError.localizedDescription\n        )\n    }\n",
+      "before_sha256": "31e99e31825749d89c163479a64f9d876826d1e5c2dff6913be88907183f1721",
+      "label": "committed-failure-retains-only-current-actual-error",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "        didFailProvisionalNavigation: WKNavigation?,\n        withError: NSError\n    ) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        failIosNavigation(didFailProvisionalNavigation, withError)\n    }\n",
+      "after_sha256": "24af4f648e7f13cae947c7f52e5905624ecc4d4d12b3b6cec7a325b9a4217a21",
+      "before": "        didFailProvisionalNavigation: WKNavigation?,\n        withError: NSError\n    ) {\n        if (!hasSameNativeWebView(this.webView, webView)) return\n        loadingState = LoadingState.Finished\n        errorsForCurrentRequest = errorsForCurrentRequest + WebViewError(\n            code = withError.code.toInt(),\n            description = withError.localizedDescription\n        )\n    }\n",
+      "before_sha256": "3d154a01faa6b9229eb24b4aea3095baef98c41d246892c4b94774232a368e9a",
+      "label": "provisional-failure-retains-only-current-actual-error",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "                    WebViewNavigator.NavigationEvent.Reload -> {\n                        val request = state.prepareIosRequest()\n                        state.beginRequest(webView.URL?.absoluteString ?: state.requestedUrl)\n                        state.bindIosNavigation(webView, request, webView.reload())\n                    }\n                    WebViewNavigator.NavigationEvent.StopLoading -> {\n                        state.stopIosRequestBeforeCommit()\n                        webView.stopLoading()\n                    }\n",
+      "after_sha256": "1600ca06f4dff24f584b3eb2bb2e855413c416a45b918c5704874843b239d61d",
+      "before": "                    WebViewNavigator.NavigationEvent.Reload -> webView.reload()\n                    WebViewNavigator.NavigationEvent.StopLoading -> webView.stopLoading()\n",
+      "before_sha256": "f4ea558bbaa0004cdfa15b786245312dd2c93dda9298172015ff5bb8da9bc564",
+      "label": "owned-reload-binding-and-precommit-stop-barrier",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "            \"loading\" -> {\n                if (webView.loading) {\n                    state.noteIosNativeLoading()\n                    state.loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())\n",
+      "after_sha256": "ca4df84b4083f9bee0813aa03d83e2d12aa072e3bb1dd0bbf220459fa28a5163",
+      "before": "            \"loading\" -> {\n                if (webView.loading) {\n                    state.loadingState = LoadingState.Loading(webView.estimatedProgress.toFloat())\n",
+      "before_sha256": "71c1724ee1362452a025e4250985bd220195a93ed94de8125c31648593c70527",
+      "label": "loading-kvo-cannot-create-a-commit-witness",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "after": "            \"title\" -> {\n                if (state.canPublishIosPageMetadata(webView)) state.pageTitle = webView.title\n            }\n\n            \"URL\" -> {\n                if (state.canPublishIosPageMetadata(webView)) state.lastLoadedUrl = webView.URL?.absoluteString\n            }\n",
+      "after_sha256": "54ac3a0899bd768b66ff840d28880cabe8ce0bacb3e302bf28d538be1a652b14",
+      "before": "            \"title\" -> {\n                state.pageTitle = webView.title\n            }\n\n            \"URL\" -> {\n                state.lastLoadedUrl = webView.URL?.absoluteString\n            }\n",
+      "before_sha256": "daeefe0ac1433651664fd0d94c4e23349620fa0773edfe4ad1febe1bec54cd96",
+      "label": "kvo-requires-current-committed-idle-document",
+      "occurrences": 1,
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt"
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "foundation-native-weak-pointer-identity-imports",
+      "before": "import platform.Foundation.NSKeyValueObservingOptionNew\n",
+      "after": "import platform.Foundation.NSHashTable\nimport platform.Foundation.NSKeyValueObservingOptionNew\nimport platform.Foundation.NSPointerFunctionsObjectPointerPersonality\nimport platform.Foundation.NSPointerFunctionsWeakMemory\n",
+      "before_sha256": "c070456d866b738e45257da9a62e9ac3dbca05aa163d81cf84f7c19b91372c26",
+      "after_sha256": "ede5a67dc752ed2ed5afd8ce72ca0b94dfbde2c38f7787637dafed436690023a",
+      "occurrences": 1
+    }
+  ],
+  "mode": "19 exact commuting fragments over original root preimages; private source-only"
+}

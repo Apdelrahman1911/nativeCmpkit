@@ -1,0 +1,113 @@
+{
+  "files": {
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt": {
+      "after_bytes": 14057,
+      "after_sha256": "00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c",
+      "before_bytes": 13932,
+      "before_sha256": "d6351562894951442fec8258dc95452251530e6df10d04c3e106f535a1391696"
+    },
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt": {
+      "after_bytes": 25897,
+      "after_sha256": "a7c8b3fe15c94ef5f30ccb648cdbe5a52770aad1b0bf5eeed6415a802a05c703",
+      "before_bytes": 20741,
+      "before_sha256": "1636c150d21b2a5d15d6659c04f840e4bc2a2852287e835c912aaf43271de9ea"
+    },
+    "scripts/ci/desktop_security_plan.py": {
+      "after_bytes": 17195,
+      "after_sha256": "ec32060fa123a27d9e643a41fd486d238744edae7a82e18666576f226d5df777",
+      "before_bytes": 17195,
+      "before_sha256": "22dc3b4438873c25363dee6adf81080487211c9ef405ffd6399c87d072f7bf1d"
+    }
+  },
+  "fragments": [
+    {
+      "label": "exact SocketException classifier import",
+      "new": "import java.net.InetAddress\nimport java.net.SocketException\n",
+      "old": "import java.net.InetAddress\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "native witness forwarding gate",
+      "new": "    fun assertTrustLease() = lease.assertInstalled()\n    // Called only after every original native SSL/error and zero-HTTP assertion.\n    // This confirms the endpoint-level witness, never invents a native outcome.\n    fun confirmNativeCertificateRejection() {\n        assertTrustLease()\n        trusted.assertHealthy()\n        untrusted.confirmNativeCertificateRejection()\n    }\n",
+      "old": "    fun assertTrustLease() = lease.assertInstalled()\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "bounded pending observations and fixed failure phases",
+      "new": "        private val connections = AtomicInteger()\n        private enum class FailurePhase { Accept, Handshake, RequestHeaders, ResponseWrite, SocketClose }\n        private data class RecordedFailure(val phase: FailurePhase, val error: Throwable)\n        private val failure = AtomicReference<RecordedFailure>()\n        private val rejectionLock = Any()\n        private val pendingFinishedWrites = mutableListOf<Throwable>()\n        private var nativeRejectionConfirmed = false // Guarded by rejectionLock; no automatic server-side confirmation.\n        private val acceptor =",
+      "old": "        private val connections = AtomicInteger()\n        private val failure = AtomicReference<Throwable>()\n        private val acceptor =",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "pending-only exact Finished classifier and close-time witness check",
+      "new": "        private fun endpointFailure(error: Throwable, phase: String) = AssertionError(\n            \"Owned TLS fixture failed: endpoint=${if (trusted) \"trusted\" else \"untrusted\"} phase=$phase\", error)\n        fun assertHealthy() {\n            failure.get()?.let { throw endpointFailure(it.error, it.phase.name) }\n            synchronized(rejectionLock) {\n                if (nativeRejectionConfirmed) assertRejectedEndpointStillZero()\n                if (closing.get() && pendingFinishedWrites.isNotEmpty() && !nativeRejectionConfirmed) {\n                    throw endpointFailure(pendingFinishedWrites.first(), \"UnconfirmedFinishedWrite\")\n                }\n            }\n        }\n        private fun assertRejectedEndpointStillZero() {\n            check(!trusted && handshakeSuccesses.get() == 0 &&\n                requests.values.all { it.get() == 0 } && responses.values.all { it.get() == 0 }) {\n                \"Owned TLS fixture failed: endpoint=untrusted phase=RejectedEndpointTlsOrHttp\"\n            }\n        }\n        fun confirmNativeCertificateRejection() {\n            assertHealthy()\n            synchronized(rejectionLock) {\n                check(!trusted && !closing.get() && !nativeRejectionConfirmed) {\n                    \"Owned TLS fixture failed: endpoint=untrusted phase=InvalidRejectionConfirmation\"\n                }\n                check(handshakeAttempts.get() >= 1) { \"Native rejection needs an owned TLS attempt\" }\n                assertRejectedEndpointStillZero()\n                nativeRejectionConfirmed = true\n            }\n            assertHealthy()\n        }\n        private fun record(error: Throwable, phase: FailurePhase) {\n            if (!closing.get()) failure.compareAndSet(null, RecordedFailure(phase, error))\n        }\n        private fun observedFinishedWriteAbort(error: Throwable, phase: FailurePhase, handshaken: Boolean): Boolean {\n            // Narrowly the original Linux/JDK17 TLS1.3 Finished-write Broken-pipe shape.\n            // No other SocketException, trusted endpoint, post-handshake phase or shutdown is quarantined.\n            if (trusted || handshaken || phase != FailurePhase.Handshake || closing.get() ||\n                Runtime.version().feature() != 17 || error.javaClass != SocketException::class.java ||\n                error.message != \"Broken pipe\") return false\n            val frames = error.stackTrace.map { it.className to it.methodName }\n            val prefix = listOf(\n                \"sun.nio.ch.NioSocketImpl\" to \"implWrite\",\n                \"sun.nio.ch.NioSocketImpl\" to \"write\",\n                \"sun.nio.ch.NioSocketImpl\\$2\" to \"write\",\n                \"java.net.Socket\\$SocketOutputStream\" to \"write\",\n                \"sun.security.ssl.SSLSocketOutputRecord\" to \"flush\",\n                \"sun.security.ssl.HandshakeOutStream\" to \"flush\",\n                \"sun.security.ssl.Finished\\$T13FinishedProducer\" to \"onProduceFinished\",\n                \"sun.security.ssl.Finished\\$T13FinishedProducer\" to \"produce\",\n            )\n            if (frames.take(prefix.size) != prefix) return false\n            val caller = listOf(\n                \"sun.security.ssl.SSLSocketImpl\" to \"startHandshake\",\n                \"sun.security.ssl.SSLSocketImpl\" to \"startHandshake\",\n                \"com.mohamedrejeb.calf.ui.web.OwnedDesktopTlsFixture\\$Endpoint\" to \"respond\",\n            )\n            return frames.windowed(caller.size).any { it == caller }\n        }\n        private fun quarantineFinishedWrite(error: Throwable) {\n            synchronized(rejectionLock) {\n                if (pendingFinishedWrites.size >= 16) {\n                    failure.compareAndSet(null, RecordedFailure(FailurePhase.Handshake, error))\n                } else {\n                    // Keep every bounded observation; neither adding it nor a prior observation is the native witness.\n                    pendingFinishedWrites.add(error)\n                }\n            }\n        }\n        private fun closeOwned(socket: SSLSocket) {\n            try { socket.close(); check(socket.isClosed); sockets.remove(socket) }\n            catch (error: Throwable) {\n                // A close/readback error is fatal even during teardown or after a confirmed native rejection.\n                failure.compareAndSet(null, RecordedFailure(FailurePhase.SocketClose, error)); throw error\n            }\n        }\n",
+      "old": "        fun assertHealthy() { failure.get()?.let { throw AssertionError(\"Owned TLS fixture failed\", it) } }\n        private fun record(error: Throwable) { if (!closing.get()) failure.compareAndSet(null, error) }\n        private fun closeOwned(socket: SSLSocket) {\n            try { socket.close(); check(socket.isClosed); sockets.remove(socket) }\n            catch (error: Throwable) { failure.compareAndSet(null, error); throw error }\n        }\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "accept failure phase diagnosis",
+      "new": "                } catch (error: Throwable) {\n                    record(error, FailurePhase.Accept)\n                    socket?.let { runCatching { closeOwned(it) } }\n",
+      "old": "                } catch (error: Throwable) {\n                    record(error)\n                    socket?.let { runCatching { closeOwned(it) } }\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "explicit owning handshake phase",
+      "new": "        private fun respond(socket: SSLSocket) {\n            var handshaken = false\n            var phase = FailurePhase.Handshake\n            try {\n",
+      "old": "        private fun respond(socket: SSLSocket) {\n            var handshaken = false\n            try {\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "request header phase after complete TLS",
+      "new": "                handshaken = true\n                handshakeSuccesses.incrementAndGet()\n                phase = FailurePhase.RequestHeaders\n                val bytes =",
+      "old": "                handshaken = true\n                handshakeSuccesses.incrementAndGet()\n                val bytes =",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "response writing phase",
+      "new": "                phase = FailurePhase.ResponseWrite\n                socket.outputStream.apply { write(headers.toByteArray(StandardCharsets.US_ASCII)); write(data); flush() }\n",
+      "old": "                socket.outputStream.apply { write(headers.toByteArray(StandardCharsets.US_ASCII)); write(data); flush() }\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "retain original fatal branches and pending-only observed abort",
+      "new": "                // Keep the original negative pre-handshake SSLException/EOF boundary.\n                // The one observed Finished-write abort remains pending until ALL original\n                // native SSL/error and zero-HTTP assertions confirm this same owned endpoint.\n                // Unknown shapes retain the original fatal branch; no socket-wide suppression.\n                if (observedFinishedWriteAbort(error, phase, handshaken)) {\n                    quarantineFinishedWrite(error)\n                } else if (trusted || handshaken || (error !is SSLException && error !is EOFException)) {\n                    record(error, phase)\n                }\n",
+      "old": "                // The native Worker must independently report SSL handshake failed.\n                // A negative handshake can end in a fatal alert or EOF; neither server\n                // observation alone is labelled certificate acceptance/rejection.\n                if (trusted || handshaken || (error !is SSLException && error !is EOFException)) record(error)\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+    },
+    {
+      "label": "native witness after every original rejection and zero-HTTP assertion",
+      "new": "                assertEquals(0, tls.httpRequests(DesktopTlsStage.Untrusted), \"Certificate rejection precedes the HTTP request\")\n                tls.confirmNativeCertificateRejection() // Only after the unchanged native witness and zero-HTTP assertions.\n\n                load(DesktopTlsStage.Recovery)\n",
+      "old": "                assertEquals(0, tls.httpRequests(DesktopTlsStage.Untrusted), \"Certificate rejection precedes the HTTP request\")\n\n                load(DesktopTlsStage.Recovery)\n",
+      "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt"
+    },
+    {
+      "label": "exact changed-source digest DesktopWebViewTlsRenderingAcceptanceTest.kt",
+      "new": "'00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c'",
+      "old": "'d6351562894951442fec8258dc95452251530e6df10d04c3e106f535a1391696'",
+      "path": "scripts/ci/desktop_security_plan.py"
+    },
+    {
+      "label": "exact changed-source digest OwnedDesktopTlsFixture.kt",
+      "new": "'a7c8b3fe15c94ef5f30ccb648cdbe5a52770aad1b0bf5eeed6415a802a05c703'",
+      "old": "'1636c150d21b2a5d15d6659c04f840e4bc2a2852287e835c912aaf43271de9ea'",
+      "path": "scripts/ci/desktop_security_plan.py"
+    }
+  ],
+  "new_files": [
+    {
+      "after_bytes": 28626,
+      "after_sha256": "2107c681315721e723ac3f1ddc35ef5edeae52d81402217821496dc0c7e98baf",
+      "mode": "absent-only",
+      "path": "scripts/ci/test_desktop_tls_finished_write_recovery.py",
+      "scope": "Eight new source/interpreted pending-failure models; not native/old suite execution"
+    }
+  ],
+  "preservation": {
+    "all_original_helper_bytes_restore_exactly": true,
+    "all_original_test_bytes_restored_by_one_confirmation_inverse": true,
+    "controller_changes_only_two_source_hashes": true,
+    "live_preimages_not_changed": true
+  },
+  "schema_version": 1,
+  "scope": "Private uncompiled/unexecuted, original-failure owning candidate; no native acceptance"
+}

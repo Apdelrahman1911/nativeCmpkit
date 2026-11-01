@@ -1,0 +1,282 @@
+{
+  "build001": {
+    "accepted_authored_methods": 2,
+    "accepted_fresh_xml": 8,
+    "accepted_hosts": [
+      {
+        "fresh_xml_reports": [
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "module",
+            "sha256": "00d8766b6dc362317eb7fe7cd4d93e3a2829de192916a148e7a43128c3c93bf8"
+          },
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "pom",
+            "sha256": "2af771320600f3268f38099ecd3c597aea11ff32df67d1040448745d6833b973"
+          }
+        ],
+        "run_id": 40766415004,
+        "source_revision": "a0eba4ef23d35be1d8063ba43eb696306f60a56c",
+        "target_mode_method_executions": 4
+      },
+      {
+        "fresh_xml_reports": [
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "module",
+            "sha256": "52dfea6f63178bba68dd73864647952dc71329a538eb8c8875d8998cf17ad613"
+          },
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "pom",
+            "sha256": "864ceccda5f0adeee4bef14b957376349621386419d634fa40a3bd8d6c1c0fff"
+          }
+        ],
+        "run_id": 40768437205,
+        "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+        "target_mode_method_executions": 4
+      },
+      {
+        "fresh_xml_reports": [
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "module",
+            "sha256": "f85aca51da4913a68a000148345e5f10f4a877d8b73033e80ed03d0fd2a40b3f"
+          },
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "pom",
+            "sha256": "2f901947ef9a1c546b3407a5087dbacc8421665a43eebd57caa3b90b899ee40a"
+          }
+        ],
+        "run_id": 40768437205,
+        "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+        "target_mode_method_executions": 4
+      },
+      {
+        "fresh_xml_reports": [
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "module",
+            "sha256": "0f9d3109c723e1c00fae308db16a28c799fe4b616397deb5a8ec457d567334ae"
+          },
+          {
+            "counts": {
+              "errors": 0,
+              "executed": 2,
+              "failures": 0,
+              "not_applicable": 0,
+              "passed": 2,
+              "skipped": 0,
+              "tests": 2,
+              "unexpected_skipped": 0
+            },
+            "mode": "pom",
+            "sha256": "bb6d980e4434b3a619b751a16885ddba50d6630fc7d73a69f1991ff10a27cfe2"
+          }
+        ],
+        "run_id": 40768437205,
+        "source_revision": "71ed2c3bd9b8723cf2b753312a8f404cd270a660",
+        "target_mode_method_executions": 4
+      }
+    ],
+    "accepted_target_mode_method_executions": 16,
+    "classifier_observation": "Retain six JavaFX modules × five advertised classifiers, 30/30 HTTP200. No fresh registry query.",
+    "decision": "All three original acceptance criteria pass; close directly. Linux-arm64 extra staging failure is retained as an additional CI/release limitation, not mislabeled as a passing native run.",
+    "issue": 1,
+    "original_acceptance_missing_cells": [],
+    "original_body_sha256": "06747911243809ac18be9dedf50e232d70dc59cc62558d18fe94e1c20b9141d3",
+    "required_tests": [
+      {
+        "criterion": "Generate POM and Gradle module metadata on two different hosts and compare dependency selectors",
+        "result": "PASS: actual root+desktop POM/module selectors equal across Linux x64, macOS arm64/x64 and Windows x64; no org.openjfx producer dependency"
+      },
+      {
+        "criterion": "Resolve and launch a desktop WebView consumer on Linux x64, macOS arm64/x64 and Windows x64",
+        "result": "PASS: 16/16 actual target-mode-method executions, eight fresh XML/zero fail-error-skip; two authored public native/loaded-class methods per module/POM mode per required host"
+      },
+      {
+        "criterion": "Verify native classifier availability for every advertised architecture",
+        "result": "PASS: preserved exact-version six-module × five-classifier registry observation30/30 HTTP200; all four required runtime hosts additionally resolve their own six aligned classifiers. Linux arm64 availability is not a native runtime pass"
+      }
+    ],
+    "state": "closed",
+    "state_reason": "completed"
+  },
+  "core_io": {
+    "accepted": true,
+    "actual_consumer_tests": {
+      "errors": 0,
+      "executed": 7,
+      "failures": 0,
+      "not_applicable": 0,
+      "passed": 7,
+      "skipped": 0,
+      "tests": 7,
+      "unexpected_skipped": 0
+    },
+    "classpath_count": 4,
+    "historical_reuse_only": true,
+    "method_names": [
+      {
+        "classname": "nativecmpkit.consumer.PublishedArtifactOriginTest",
+        "name": "runtimeLibraryClassesComeFromExactStagedDesktopJars",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "boundaryAndLargeStreamsPreserveAllBytes",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "extensionlessFileAndUnicodeNameArePreserved",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "repeatedStreamUseLeavesSourceReadableAndDeletable",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "concurrentSourcesHaveIndependentPositions",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "emptyFileReadsThroughBothPublicOverloads",
+        "status": "passed"
+      },
+      {
+        "classname": "nativecmpkit.consumer.PublishedIoConsumerTest",
+        "name": "existingDirectoryAndMissingFileAreNotRegularFiles",
+        "status": "passed"
+      }
+    ],
+    "no_current_full_candidate_or_806_hash_applicability_claim": true,
+    "own_git_blob_matches": 806,
+    "run_id": 40666901460,
+    "scope": "Partial four Core/IO metadata+desktop publications, standalone fresh JVM consumer; not full21 roots/native/ABI/legal/security/release",
+    "source_input_count": 806,
+    "source_review": [
+      "Both public IO read overloads, boundary/source ownership, independent concurrent files and delete-after-close are exercised using staged artifacts.",
+      "PlatformContext and KmpFile actual loaded JAR origins and SHA256 bind to staged Maven payloads, not producer class directories.",
+      "Six copied fixture inputs bind to own-Git hashes; exclusive candidate group repository and all four resolution configurations reject project/composite/old-Calf substitutes.",
+      "No packages downloaded from artifact; fresh child Gradle/HOME/tmp, no build-cache results; source/staging/copy/runtime before/after held.",
+      "Producer229.06s and consumer51.02s actual Gradle exits0. Seven methods/two XML inspected; JDK17/Gradle9.7.1/strict flag does not certify whole dependency graph trust."
+    ],
+    "source_revision": "1ceb9d686aebfcc5893a5f90325296be41075ed0",
+    "staged_bytes": 410603,
+    "staged_file_count": 150,
+    "static_check_count": 376
+  },
+  "new_tests_builds_compiler_or_javap_invocations": 0,
+  "other_explicit_exclusions": [
+    "Six accepted navigation/geo composite source-consumer compiles are not Maven or API/ABI evidence and are not replayed.",
+    "Legacy Java baseline sanity and both local-JAR diagnostics: same six cases/31 assertions, retained; no new compilation/runtime request.",
+    "142 retained desktop advisory queries and unchanged source/native/host suites are not replayed.",
+    "Closed UI attribution #103 is retained; no new source/legal closure."
+  ],
+  "packages_published": false,
+  "prepared_utc": "2026-11-01T06:04:39.055975+00:00",
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "ui_jvm_diagnostic": {
+    "candidate_jar_sha256": "2ab93684a9facdfbb3d0e7908694f16e89e0f02f01104fac812dfb7aed9e5554",
+    "capture_elapsed_seconds": 0.939007,
+    "capture_exit_code": 0,
+    "compare_elapsed_seconds": 0.124852,
+    "compare_exit_code": 0,
+    "declaration_changes": 0,
+    "raw_counts": {
+      "added_classes": 16,
+      "added_members_in_existing_classes": 10,
+      "addition_records": 26,
+      "complete_members_in_added_classes": 93,
+      "declaration_changes": 0,
+      "removals": 0
+    },
+    "removals": 0,
+    "rerun_requested": false,
+    "scope": "One dirty source-bound UI javap exported-surface diagnostic only",
+    "selected_hashes_held": 272,
+    "source_base_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+    "source_classification": {
+      "inferred_generated_annotation_support_records": 1,
+      "internal_or_internal_facade_owner_records": 21,
+      "public_property_accessor_records": 4,
+      "public_source_properties": [
+        "AdaptiveDatePickerState.displayedMonthMillis",
+        "DateBounds.isEmpty",
+        "AdaptiveDatePickerState.isSelectionSelectable"
+      ],
+      "raw_records_filtered": 0
+    },
+    "source_tree_dirty": true
+  }
+}

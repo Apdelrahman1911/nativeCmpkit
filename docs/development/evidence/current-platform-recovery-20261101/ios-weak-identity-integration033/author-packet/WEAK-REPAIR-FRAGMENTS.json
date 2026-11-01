@@ -1,0 +1,59 @@
+{
+  "fragments": [
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "foundation-native-weak-pointer-identity-imports",
+      "before": "import platform.Foundation.NSKeyValueObservingOptionNew\n",
+      "after": "import platform.Foundation.NSHashTable\nimport platform.Foundation.NSKeyValueObservingOptionNew\nimport platform.Foundation.NSPointerFunctionsObjectPointerPersonality\nimport platform.Foundation.NSPointerFunctionsWeakMemory\n",
+      "before_sha256": "c070456d866b738e45257da9a62e9ac3dbca05aa163d81cf84f7c19b91372c26",
+      "after_sha256": "ede5a67dc752ed2ed5afd8ce72ca0b94dfbde2c38f7787637dafed436690023a",
+      "occurrences": 1
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "lifetime-bounded-native-weak-known-navigation-membership",
+      "before": "    private var iosRequest: IosWebViewRequest? = null\n",
+      "after": "    private var iosRequest: IosWebViewRequest? = null\n\n    // Native weak keys remember issued/observed handles only while their native objects\n    // remain alive. Object-pointer personality is independent of Kotlin wrapper/value\n    // equality. The table retains no navigation objects and exports no addresses.\n    private val knownIosNavigations = NSHashTable(\n        options = NSPointerFunctionsWeakMemory or NSPointerFunctionsObjectPointerPersonality,\n        capacity = 0uL,\n    )\n",
+      "before_sha256": "55105505a2a7f351ba73cf357ed3bac4687f0c41de4c3acb0d81eb259a1aa52a",
+      "after_sha256": "7273b45a2a1f75d1e759351cb9e7e5362666fbad749640223224722693df1b92",
+      "occurrences": 1
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "remember-issued-return-before-current-record-binding",
+      "before": "        if (!hasSameNativeWebView(webView, view) || iosRequest !== request || navigation == null) return\n        // A native callback may already have advanced or replaced this request. Never reopen\n",
+      "after": "        if (!hasSameNativeWebView(webView, view) || navigation == null) return\n        // Even a return after reentrant request replacement is a known issued handle.\n        // Remember it weakly, but only the still-current record may bind its identity.\n        knownIosNavigations.addObject(navigation)\n        if (iosRequest !== request) return\n        // A native callback may already have advanced or replaced this request. Never reopen\n",
+      "before_sha256": "982ccafadcd198c5398d08728cb5f092cbe2539558f0f70277e4b441682a3d85",
+      "after_sha256": "4690bf693a7f3a3a94c097f524e3e70aadd613af8fa80dcb8aae41ebe4d034be",
+      "occurrences": 1
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "owned-release-clears-native-weak-membership",
+      "before": "    internal fun clearIosRequestMetadata() {\n        iosRequest = null\n    }\n",
+      "after": "    internal fun clearIosRequestMetadata() {\n        knownIosNavigations.removeAllObjects()\n        iosRequest = null\n    }\n",
+      "before_sha256": "477ad409e83601047fbf5108e2379ec2b853d3643595655908857aec1a9335eb",
+      "after_sha256": "0e6e5eb5493e6cfd312405d21de3d89e5636364df7734cbe127328c3e72f9090",
+      "occurrences": 1
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "current-match-before-known-stale-start-refusal",
+      "before": "        if (hasSameNativeNavigation(previous?.supersededNavigation, navigation)) return\n",
+      "after": "        // A current handle remains authoritative. Any other still-live handle already\n        // issued or observed is stale, even after more than one owned replacement.\n        // An unseen genuine native link/history start can still replace an active request.\n        if (!hasSameNativeNavigation(previous?.navigation, navigation) &&\n            (knownIosNavigations.containsObject(navigation) ||\n                hasSameNativeNavigation(previous?.supersededNavigation, navigation))) return\n",
+      "before_sha256": "c092e6e07ce17d3a157101a81fb82900f79b2273f38e609653a46aa9a594ecd4",
+      "after_sha256": "3a77fac5a1aa003d5aff61b87d30b6ce09992e5cbcb3a9fd3628c2f32601e4f4",
+      "occurrences": 1
+    },
+    {
+      "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+      "label": "remember-accepted-unseen-start-before-common-reset",
+      "before": "        request.phase = IosWebViewRequestPhase.Provisional\n        beginRequest(view.URL?.absoluteString ?: requestedUrl)\n",
+      "after": "        knownIosNavigations.addObject(navigation)\n        request.phase = IosWebViewRequestPhase.Provisional\n        beginRequest(view.URL?.absoluteString ?: requestedUrl)\n",
+      "before_sha256": "d5aecdb44d14099e0923acda22d9cca1ad2693e18a5c7479f337f3040619dc92",
+      "after_sha256": "e8c58b1240e8b83156117064c9c61df4320ad69ca91d181fc731589a372d0313",
+      "occurrences": 1
+    }
+  ],
+  "mode": "six exact deltas over previous sealed proposal, not an independently accepted native fix"
+}

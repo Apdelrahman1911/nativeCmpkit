@@ -62,15 +62,57 @@ internal class PermissionDemoSystemUi : AutoCloseable {
         null -> -1
     }
 
-    fun permissionDialogVisible(): Boolean {
-        val root = assertNotNull(automation.rootInActiveWindow, "An unavailable native window is not no dialog")
+    enum class PermissionDialogKind { UNKNOWN, PRESENT, OWNED_VISIBLE_HOST }
+    data class PermissionDialogObservation(
+        val kind: PermissionDialogKind,
+        // 1 null; 2 missing package; 4 owned host; 8 allowed OS; 16 foreign; 32 unrefreshed.
+        val windowKind: Int,
+        // -1 unobserved; 0 observed false; 1 observed true. Never a no-dialog Boolean.
+        val refreshed: Int,
+        val visible: Int,
+    )
+
+    fun permissionDialogObservation(deadline: Long): PermissionDialogObservation {
+        requireObservationDeadline(deadline)
+        // Reacquire the active root each time; do not enumerate windows or clear the OS cache.
+        val root = automation.rootInActiveWindow
         try {
-            val packageName = assertNotNull(root.packageName).toString()
-            assertTrue(packageName == OwnedPermissionDemo.PACKAGE || packageName in PERMISSION,
-                "A foreign active window cannot prove the owned request showed no dialog")
-            assertTrue(root.refresh() && root.isVisibleToUser)
-            return packageName in PERMISSION
-        } finally { root.recycle() }
+            requireObservationDeadline(deadline)
+            if (root == null) return PermissionDialogObservation(PermissionDialogKind.UNKNOWN, 1, -1, -1)
+            val refreshed = root.refresh()
+            // A failed refresh leaves visibility unobserved, not a false absence result.
+            val visible = if (refreshed) root.isVisibleToUser else null
+            requireObservationDeadline(deadline, if (refreshed) 1 else 0, diagnosticBoolean(visible))
+            if (!refreshed) return PermissionDialogObservation(PermissionDialogKind.UNKNOWN, 32, 0, -1)
+            // Read identity only after the cache-bypassing refresh succeeded.
+            val packageName = root.packageName?.toString()
+            val windowKind = when {
+                packageName == null -> 2
+                packageName == OwnedPermissionDemo.PACKAGE -> 4
+                packageName in PERMISSION -> 8
+                else -> 16
+            }
+            val unknown = PermissionDialogObservation(PermissionDialogKind.UNKNOWN, windowKind, 1,
+                diagnosticBoolean(visible))
+            if (visible != true) return unknown
+            if (packageName in PERMISSION) {
+                val app = instrumentation.targetContext.packageManager.getApplicationInfo(checkNotNull(packageName), 0)
+                assertTrue(app.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0,
+                    "A non-system permission package cannot prove the current native window")
+                requireObservationDeadline(deadline, 1, 1)
+                return unknown.copy(kind = PermissionDialogKind.PRESENT)
+            }
+            requireObservationDeadline(deadline, 1, 1)
+            return if (packageName == OwnedPermissionDemo.PACKAGE)
+                unknown.copy(kind = PermissionDialogKind.OWNED_VISIBLE_HOST) else unknown
+        } finally { root?.recycle() }
+    }
+
+    private fun requireObservationDeadline(deadline: Long, refreshed: Int = -1, visible: Int = -1) {
+        check(SystemClock.elapsedRealtime() < deadline) {
+            "A late native window read cannot certify the original no-dialog deadline; " +
+                "refresh=$refreshed,visible=$visible"
+        }
     }
 
     private fun clickId(packages: Set<String>, vararg ids: String,

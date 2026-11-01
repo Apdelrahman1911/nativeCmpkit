@@ -106,10 +106,20 @@ internal class OwnedPermissionDemo : AutoCloseable {
         await { it.getBoolean("mounted") && it.getBoolean("resumed") && it.getBoolean("focused") }
     }
 
-    fun request(operation: String): Bundle {
+    fun request(operation: String): Bundle = request(operation, observationDeadline = null)
+
+    // Only the third-request observation opts into the caller's existing absolute deadline.
+    // Ordinary Call/picker/teardown operations retain their original 20-second wait.
+    fun observeBefore(deadline: Long): Bundle = request("observe", observationDeadline = deadline)
+
+    private fun request(operation: String, observationDeadline: Long?): Bundle {
         assertNotEquals(Looper.getMainLooper(), Looper.myLooper())
         assertNull(protocolError)
         val remote = assertNotNull(endpoint)
+        if (observationDeadline != null) {
+            check(operation == "observe") { "The bounded absence read must not perform a native operation" }
+            check(SystemClock.elapsedRealtime() < observationDeadline) { "The original no-dialog deadline expired before native observation" }
+        }
         val nonce = UUID.randomUUID().toString().replace("-", "")
         val reply = Reply()
         check(pending.put(nonce, reply) == null)
@@ -118,8 +128,20 @@ internal class OwnedPermissionDemo : AutoCloseable {
             data = Bundle().apply { putString("nonce", nonce); putString("operation", operation) }
         }
         try {
+            if (observationDeadline != null) check(SystemClock.elapsedRealtime() < observationDeadline) {
+                "The original no-dialog deadline expired before native send"
+            }
             remote.send(message)
-            assertTrue(reply.ready.await(20, TimeUnit.SECONDS), "Actual consumer response timed out")
+            val responseReady = if (observationDeadline == null) reply.ready.await(20, TimeUnit.SECONDS)
+            else {
+                val remaining = observationDeadline - SystemClock.elapsedRealtime()
+                check(remaining > 0) { "A late native send cannot certify the no-dialog observation" }
+                reply.ready.await(remaining, TimeUnit.MILLISECONDS)
+            }
+            assertTrue(responseReady, "Actual consumer response timed out")
+            if (observationDeadline != null) check(SystemClock.elapsedRealtime() < observationDeadline) {
+                "A late native response cannot certify the no-dialog observation"
+            }
             assertNull(protocolError)
             return assertNotNull(reply.data).also {
                 assertEquals(nonce, it.getString("nonce"))
@@ -154,6 +176,9 @@ internal class OwnedPermissionDemo : AutoCloseable {
                             else assertFalse(state.containsKey("callbackResult"))
                         }
                     }
+                }
+                if (observationDeadline != null) check(SystemClock.elapsedRealtime() < observationDeadline) {
+                    "Late native validation cannot certify the no-dialog observation"
                 }
             }
         } finally { pending.remove(nonce); message.recycle() }

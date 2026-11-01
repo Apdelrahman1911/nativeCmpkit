@@ -220,10 +220,10 @@ class AndroidIoReferenceRegressionGuards(unittest.TestCase):
         path.unlink()
         with self.assertRaises((OSError, ValueError)): self.plan()
 
-    def test_exact_twenty_four_source_inputs_include_six_java_nine_kotlin_existing_provider_and_paths(self):
+    def test_exact_twenty_five_source_inputs_include_six_java_ten_kotlin_existing_provider_and_paths(self):
         value = helper.source_contract(self.root); helper.validate_source_receipt(value)
-        self.assertEqual(6, len(helper.JAVA_NAMES)); self.assertEqual(9, len(helper.KOTLIN_NAMES))
-        self.assertEqual(24, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
+        self.assertEqual(6, len(helper.JAVA_NAMES)); self.assertEqual(10, len(helper.KOTLIN_NAMES))
+        self.assertEqual(25, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
         for relative in (SOURCE, CALLER, OWNER, PROVIDER, PATHS): self.assertIn(relative, value['source_inputs'])
         self.assertFalse(value['native_or_compile_success_inferred']); self.assertEqual(r.input_digest(value['source_inputs']), value['source_inputs_sha256'])
         for relative, digest in value['source_inputs'].items():

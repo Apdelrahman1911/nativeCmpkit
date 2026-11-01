@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import unittest
+from test_android_permission_demo_denial_absence import permission_absence_preimage
 
 TREE = Path(os.environ.get("PERMISSION_TIMEOUT_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 KOTLIN = "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/"
@@ -223,7 +224,10 @@ def window_query_model(records):
 
 class AndroidPermissionDemoTimeoutReviewTests(unittest.TestCase):
     def source(self, name):
-        return (TREE / KOTLIN / name).read_text()
+        current = (TREE / KOTLIN / name).read_text()
+        # Exact approved third-absence inverse BEFORE the unchanged historical
+        # observation/selector/marker hashes. No arbitrary source waiver or fallback.
+        return permission_absence_preimage(current, name)
 
     def test_timeout_delta_preserves_every_original_selector_action_refusal_and_resource_cleanup(self):
         source = self.source("PermissionDemoSystemUi.kt")

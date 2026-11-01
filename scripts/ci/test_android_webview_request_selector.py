@@ -33,10 +33,36 @@ ORIGINAL_METHOD_BODY_SHA256 = {
 }
 
 
-# Exact current owning sequence only. All historical identities above remain evidence-only.
+# Exact held-sequence historical identities. Current assertion-only identities below retain their inverse.
 HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256 = "9e20cfa28b59157229f343838acdb9b8067a3ed3643f5b5aaf93aaf73e418ad8"
 HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256 = "d94c268cc1a1c3712a11d7e2b5b6350f6003057e64fc53af77155522b4ae3d98"
 HELD_REQUEST_SEQUENCE_METHOD_BODY_SHA256 = {'twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl': '78c76a5cb63279131fb1736fbdf32e2bcb7591a698f676520f03209437fa277e', 'publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner': '0e2e3b3843f4b8c30950fe17dfffa3ef9c68c442f0b8e7e0e62f36276d7061f5'}
+
+
+# Four assertion-only expectations on the original failed method. No helper/native criterion changes.
+STOP_DECLARATIVE_CONTENT_SELECTED_SOURCE_SHA256 = 'a9512c990faade65b6a57b3045e4c0651ecd18380485164c44b8f59cf4fe5aa4'
+STOP_DECLARATIVE_CONTENT_TWO_METHOD_SOURCE_SHA256 = '3fb923b293dec529b3b874285a4a998d7946d0c07d8db6a7fa7fdcc575216316'
+STOP_DECLARATIVE_CONTENT_METHOD_BODY_SHA256 = {'twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl': '78c76a5cb63279131fb1736fbdf32e2bcb7591a698f676520f03209437fa277e', 'publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner': '684a194b4edf9fd1fc7bb036bf750dc473bc4e105f1f8c9688fe8378de85ee91'}
+STOP_DECLARATIVE_CONTENT_FRAGMENT_IMAGES = (
+    ('stop-before-public-invocation', '                    assertTrue(native.isAttachedToWindow)\n                    assertEquals(WebContent.Url(server.stopped.url), state.content)\n                    assertTrue(server.stopped.stopInvoked.compareAndSet(false, true))\n', '                    assertTrue(native.isAttachedToWindow)\n                    assertEquals(WebContent.Url(server.seed.url), state.content)\n                    assertTrue(server.stopped.stopInvoked.compareAndSet(false, true))\n'),
+    ('redirect-terminal-document', '                    assertEquals(WebContent.Url(server.redirect.url), state.content)\n                    assertEquals(server.landing.url, native.url)\n                    assertEquals(server.landing.url, state.lastLoadedUrl)\n', '                    assertEquals(WebContent.Url(server.seed.url), state.content)\n                    assertEquals(server.landing.url, native.url)\n                    assertEquals(server.landing.url, state.lastLoadedUrl)\n'),
+    ('reload-before-public-invocation', '                    assertSame(native, state.webView)\n                    assertEquals(WebContent.Url(server.redirect.url), state.content)\n                    assertEquals(server.landing.url, native.url)\n', '                    assertSame(native, state.webView)\n                    assertEquals(WebContent.Url(server.seed.url), state.content)\n                    assertEquals(server.landing.url, native.url)\n'),
+    ('reload-terminal-requested-url', '                    assertEquals(WebContent.Url(server.redirect.url), state.content)\n                    assertEquals(reload.url, state.requestedUrl)\n', '                    assertEquals(WebContent.Url(server.seed.url), state.content)\n                    assertEquals(reload.url, state.requestedUrl)\n'),
+)
+
+
+def request_source_before_stop_content(source):
+    """Evidence-only exact inverse; never a source exemption or compiler/native claim."""
+    if hashlib.sha256(source.encode()).hexdigest() != STOP_DECLARATIVE_CONTENT_SELECTED_SOURCE_SHA256:
+        raise ValueError("Only the exact four-assertion corrected Stop source image may be reversed")
+    restored = source
+    for name, before, after in STOP_DECLARATIVE_CONTENT_FRAGMENT_IMAGES:
+        if restored.count(after) != 1:
+            raise ValueError("Missing or duplicate exact Stop content assertion context: " + name)
+        restored = restored.replace(after, before, 1)
+    if hashlib.sha256(restored.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256:
+        raise ValueError("Exact Stop content inverse did not restore the original failed-run source image")
+    return restored
 
 
 def agp_ate_map_round_trip(arguments):
@@ -145,8 +171,8 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
 
     def test_stripping_only_selection_metadata_preserves_both_original_bodies_and_exact_diagnostic_helpers(self):
         unselected = source_guard.request_source_without_selection_annotation(self.source)
-        self.assertEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
-        for method, expected in HELD_REQUEST_SEQUENCE_METHOD_BODY_SHA256.items():
+        self.assertEqual(STOP_DECLARATIVE_CONTENT_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(unselected.encode()).hexdigest())
+        for method, expected in STOP_DECLARATIVE_CONTENT_METHOD_BODY_SHA256.items():
             with self.subTest(method=method):
                 self.assertEqual(expected, hashlib.sha256(
                     source_guard.body_after(self.source, "@Test fun " + method).encode()).hexdigest())
@@ -166,7 +192,7 @@ class AndroidWebViewRequestSelectorModels(unittest.TestCase):
         with self.assertRaises(ValueError):
             source_guard.compiled_request_source(changed)
         second = self.source.replace("fixture.navigator.stopLoading()", "native.stopLoading()", 1)
-        self.assertNotEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256,
+        self.assertNotEqual(STOP_DECLARATIVE_CONTENT_TWO_METHOD_SOURCE_SHA256,
                             hashlib.sha256(source_guard.request_source_without_selection_annotation(second).encode()).hexdigest())
 
     def test_missing_duplicate_moved_or_fully_qualified_method_annotations_refuse(self):
@@ -755,10 +781,10 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
                 validator(candidate)
 
     def original_source_before_sequencing(self, source):
-        # Evidence-only: bind the full exact current image BEFORE any literal normalization.
-        if hashlib.sha256(source.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256:
+        # Bind and reverse only the four exact current assertions before the unchanged historical barriers.
+        restored = request_source_before_stop_content(source)
+        if hashlib.sha256(restored.encode()).hexdigest() != HELD_REQUEST_SEQUENCE_SELECTED_SOURCE_SHA256:
             raise ValueError("Only the exact sealed owning sequence after image may be reversed")
-        restored = source
         for name, before, after in HELD_REQUEST_SEQUENCE_SOURCE_FRAGMENTS:
             if restored.count(after) != 1:
                 raise ValueError("Missing or duplicate exact owning sequence fragment: " + name)
@@ -813,7 +839,7 @@ class AndroidHeldStartDiagnosticGuardControls(unittest.TestCase):
         historical_projection = historical_unselected[:historical_start] + historical_unselected[historical_end:historical_helper]
         self.assertEqual(source_guard.HELD_START_DIAGNOSTIC_COMPILED_SOURCE_SHA256,
                          hashlib.sha256(historical_projection.encode()).hexdigest())
-        self.assertEqual(HELD_REQUEST_SEQUENCE_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(
+        self.assertEqual(STOP_DECLARATIVE_CONTENT_TWO_METHOD_SOURCE_SHA256, hashlib.sha256(
             source_guard.request_source_without_selection_annotation(self.source).encode()).hexdigest())
         self.assertEqual(source_guard.COMPILED_ANDROID_REQUEST_SOURCE_SHA256, hashlib.sha256(
             source_guard.compiled_request_source(self.source).encode()).hexdigest())

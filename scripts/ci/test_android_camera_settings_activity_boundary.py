@@ -4,6 +4,10 @@ from __future__ import annotations
 import ast
 from contextlib import ExitStack
 import hashlib
+if __package__:
+    from .test_android_camera_settings_activity_refusal_diagnostics import historical_helper_source
+else:
+    from test_android_camera_settings_activity_refusal_diagnostics import historical_helper_source
 import importlib.util
 import os
 from pathlib import Path
@@ -296,7 +300,7 @@ class ActivityBoundaryModels(NoNativeActions, fixtures.ModelFixture):
 
 class ActivityBoundarySourceGuard(NoNativeActions, unittest.TestCase):
     def test_only_new_header_reader_and_fresh_boundary_differ_in_full_helper_ast(self):
-        source = ast.parse(HELPER.read_text())
+        source = ast.parse(historical_helper_source(HELPER.read_text()))
         headers = [node for node in source.body if isinstance(node, ast.Assign) and
                    any(isinstance(target, ast.Name) and target.id == "ACTIVITIES_HEADER" for target in node.targets)]
         self.assertEqual(len(headers), 1)

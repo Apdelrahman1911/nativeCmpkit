@@ -160,7 +160,7 @@ class AndroidWebViewRequestStateDeviceTest {
                 onMain {
                     assertSame(native, state.webView)
                     assertTrue(native.isAttachedToWindow)
-                    assertEquals(WebContent.Url(server.stopped.url), state.content)
+                    assertEquals(WebContent.Url(server.seed.url), state.content)
                     assertTrue(server.stopped.stopInvoked.compareAndSet(false, true))
                     fixture.navigator.stopLoading()
                 }
@@ -194,7 +194,7 @@ class AndroidWebViewRequestStateDeviceTest {
                 server.landing.releaseForTest()
                 awaitStopRedirectDocument(server, probe, state, native, server.landing)
                 onMain {
-                    assertEquals(WebContent.Url(server.redirect.url), state.content)
+                    assertEquals(WebContent.Url(server.seed.url), state.content)
                     assertEquals(server.landing.url, native.url)
                     assertEquals(server.landing.url, state.lastLoadedUrl)
                     assertNotEquals(server.redirect.url, native.url)
@@ -207,7 +207,7 @@ class AndroidWebViewRequestStateDeviceTest {
                 val reload = server.installReload()
                 onMain {
                     assertSame(native, state.webView)
-                    assertEquals(WebContent.Url(server.redirect.url), state.content)
+                    assertEquals(WebContent.Url(server.seed.url), state.content)
                     assertEquals(server.landing.url, native.url)
                     probe.arm(reload)
                     fixture.navigator.reload()
@@ -217,7 +217,7 @@ class AndroidWebViewRequestStateDeviceTest {
                 awaitStopRedirectDocument(server, probe, state, native, reload)
                 assertEquals(redirectRequests, server.redirect.requests.get(), "Reload must not replay the declarative redirect")
                 onMain {
-                    assertEquals(WebContent.Url(server.redirect.url), state.content)
+                    assertEquals(WebContent.Url(server.seed.url), state.content)
                     assertEquals(reload.url, state.requestedUrl)
                 }
                 assertEquals(1, fixture.created.get(), "Stop, redirect and Reload retain one real native owner")

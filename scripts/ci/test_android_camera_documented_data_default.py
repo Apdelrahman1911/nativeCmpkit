@@ -4,6 +4,10 @@ from __future__ import annotations
 import ast
 from contextlib import ExitStack
 import hashlib
+if __package__:
+    from .test_android_camera_settings_activity_refusal_diagnostics import historical_helper_source
+else:
+    from test_android_camera_settings_activity_refusal_diagnostics import historical_helper_source
 import importlib.util
 import json
 import os
@@ -258,7 +262,7 @@ class DocumentedDataDefaultTests(unittest.TestCase):
                 self.assertEqual(fixture.dispose(engine=True, transport=True, clean=True), receipt)
 
     def test_only_new_branch_is_exact_pair_and_fixed_launch_has_no_userdata_overrides(self):
-        source = ast.parse(HELPER.read_text())
+        source = ast.parse(historical_helper_source(HELPER.read_text()))
         owner = next(node for node in source.body if isinstance(node, ast.ClassDef) and node.name == "OwnedFreshGuest")
         capture = next(node for node in owner.body if isinstance(node, ast.FunctionDef) and node.name == "capture_avd")
         loop = next(node for node in ast.walk(capture) if isinstance(node, ast.For) and

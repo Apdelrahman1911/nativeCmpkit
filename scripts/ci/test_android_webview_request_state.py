@@ -243,6 +243,9 @@ def require_stop_redirect_witnesses(source):
     legacy = compiled_request_source(source)
     require_native_witnesses(legacy)
     method = body_after(source, "@Test fun " + STOP_REDIRECT_METHOD)
+    content_expectations = re.findall(r"assertEquals\(WebContent\.Url\(([^)\n]+)\), state\.content\)", method)
+    if content_expectations != ["server.seed.url"] * 4:
+        raise ValueError("All four original Stop/redirect/Reload declarative content assertions retain the seed; requested/current URLs remain separate")
     helpers = source[source.index(STOP_REDIRECT_HELPER_MARKER):]
     probe = body_after(helpers, "private class AndroidStopRedirectProbe")
     server = body_after(helpers, "private class AndroidStopRedirectHttpServer")
@@ -281,7 +284,7 @@ def require_stop_redirect_witnesses(source):
         "assertSame(probe, it.webViewClient)", "assertIs<AccompanistWebChromeClient>(it.webChromeClient)",
         "probe.arm(server.landing, setOf(server.redirect.url, server.landing.url))",
         "assertEquals(server.landing.url, server.redirect.redirectTarget)",
-        "assertEquals(WebContent.Url(server.redirect.url), state.content)", "assertEquals(server.landing.url, native.url)",
+        "assertEquals(WebContent.Url(server.seed.url), state.content)", "assertEquals(server.landing.url, native.url)",
         "assertEquals(redirectRequests, server.redirect.requests.get()", "assertEquals(reload.url, state.requestedUrl)",
         "assertEquals(1, fixture.created.get()", "assertEquals(0, fixture.disposed.get()", "host.assertResumed()",
         "assertNull(state.webView)", "probe.clearObservations()", "server.assertAllSettled()",

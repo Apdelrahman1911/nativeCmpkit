@@ -47,10 +47,12 @@ PROFILES = {
     "android-geo-prerequisites": ("android-device-api35",),
     "android-share-grants": ("android-device-api35",),
     "android-io-provider-lifecycle": ("android-device-api35",),
+    "android-io-provider-unavailable": ("android-device-api35",),
     "android-io-default-decode": ("android-device-api35",),
     "android-io-reference-regressions": ("android-device-api35",),
     "android-permission-demo": ("android-device-api35",),
     "android-permission-demo-call-denial-recovery": ("android-device-api35",),
+    "android-permission-demo-denial-recovery": ("android-device-api35",),
     "android-media-selection-api33": ("android-device-api35",),
     "android-media-selection-api34": ("android-device-api35",),
     "android-camera-provider": ("android-device-api35",),
@@ -167,6 +169,7 @@ PROFILES = {
     "android-webview": ("android-device-api35",),
     "android-webview-popups": ("android-device-api35",),
     "android-webview-request-state": ("android-device-api35",),
+    "android-webview-stop-redirect-recovery": ("android-device-api35",),
     "android-navigation-back": ("android-device-api35",),
     "android-io-oversize": ("android-device-api35",),
     "android-saver-identity": ("android-device-api35",),
@@ -207,10 +210,12 @@ MODULE_SUBSETS = {
     "android-geo-prerequisites": "calf-geo",
     "android-share-grants": "calf-share",
     "android-io-provider-lifecycle": "calf-io",
+    "android-io-provider-unavailable": "calf-io",
     "android-io-default-decode": "calf-io",
     "android-io-reference-regressions": "calf-io",
     "android-permission-demo": "calf-permissions/core",
     "android-permission-demo-call-denial-recovery": "calf-permissions/core",
+    "android-permission-demo-denial-recovery": "calf-permissions/core",
     "android-media-selection-api33": "calf-permissions/core",
     "android-media-selection-api34": "calf-permissions/core",
     "android-camera-provider": "calf-camera-picker",
@@ -342,6 +347,7 @@ MODULE_SUBSETS = {
     "android-webview": "calf-webview",
     "android-webview-popups": "calf-webview",
     "android-webview-request-state": "calf-webview",
+    "android-webview-stop-redirect-recovery": "calf-webview",
     "android-io-oversize": "calf-io",
     "android-saver-identity": "calf-file-picker",
     "android-saver-identity-missing": "calf-file-picker",
@@ -376,6 +382,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-webview-request-state":
         for row in rows:
             row["test-focus"] = "android-webview-request-state"
+    if profile == "android-webview-stop-redirect-recovery":
+        for row in rows:
+            row["test-focus"] = "android-webview-stop-redirect-recovery"
     if profile == "android-webview-popups":
         for row in rows:
             row["test-focus"] = "android-webview-popup-policy"
@@ -398,6 +407,10 @@ def matrix(profile: str) -> dict:
         for row in rows:
             row.update(slot="android-device-api35-permission-call-denial-recovery",
                 **{"test-focus": "android-permission-demo-call-denial-recovery"})
+    if profile == "android-permission-demo-denial-recovery":
+        for row in rows:
+            row.update(slot="android-device-api35-permission-denial-recovery",
+                **{"test-focus": "android-permission-demo-denial-recovery"})
     if profile in {"android-media-selection-api33", "android-media-selection-api34"}:
         api = profile.rsplit("api", 1)[1]
         for row in rows:
@@ -603,6 +616,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-provider-lifecycle":
         for row in rows:
             row["test-focus"] = "android-io-provider-lifecycle"
+    if profile == "android-io-provider-unavailable":
+        for row in rows:
+            row["test-focus"] = "android-io-provider-unavailable"
     if profile == "android-io-default-decode":
         for row in rows:
             row["test-focus"] = "android-io-default-decode"

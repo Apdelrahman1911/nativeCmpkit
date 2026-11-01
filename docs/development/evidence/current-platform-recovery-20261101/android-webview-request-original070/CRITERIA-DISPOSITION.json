@@ -1,0 +1,24 @@
+{
+  "criteria": [
+    {
+      "disposition": "Android fail/fail/recovery/Reload cell accepted; Android Stop/302 cell failed; Desktop cells remain separately missing",
+      "literal": "Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target."
+    },
+    {
+      "disposition": "unselected; accepted browser transitions and pending offline retain their separate scope",
+      "literal": "Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination."
+    },
+    {
+      "disposition": "unselected; separately accepted iOS request2/DNS are reused without replay",
+      "literal": "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+    }
+  ],
+  "finding": "NATIVE-005",
+  "issue": 64,
+  "issue_mutations_by_reviewer": 0,
+  "next_native_scope": "only the original still-failed Stop/302/Reload method after a lead-reviewed owning repair and selector; accepted fail/fail/recovery/Reload method must not be replayed",
+  "original_criteria_source": "docs/audit/findings/NATIVE.json#NATIVE-005",
+  "original_criteria_source_sha256": "6ce960575b4f284b8e6ef659bc7d99c3b8277ed091812b9f26a03f4d8342b010",
+  "schema_version": 1,
+  "whole_issue_closure_justified": false
+}

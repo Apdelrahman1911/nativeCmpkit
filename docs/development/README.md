@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Latest related owning batch — 2026-11-01
+
+[Batch073](evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)
+records camera diagnostics/denial/provider outage/Stop fixture changes, important
+source guards, composed CI tooling and three actual APK builds. ZERO new native
+methods; only missing Android cases will dispatch, maximum two combined heavy
+jobs. [Android070](evidence/current-platform-recovery-20261101/android-webview-request-original070/README.md)
+accepts one native method from its failed run; [iOS072](evidence/current-platform-recovery-20261101/ios-provider-cancellation-original072/README.md)
+starts C3 but does not complete. Cause unknown and original failures preserved.
+92closed/80open; no status, release or security promotion. See the current
+[execution checkpoint](checkpoint-20261101-request-matrix.md); earlier sections
+retain their original time/scope.
+
 ## Current remaining-platform execution batch — 2026-11-01
 
 See [the current checkpoint and next-run matrix](checkpoint-20261101-request-matrix.md).

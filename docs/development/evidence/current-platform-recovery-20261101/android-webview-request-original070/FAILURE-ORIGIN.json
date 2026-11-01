@@ -1,0 +1,51 @@
+{
+  "actual_early_peer_disconnect_cause": "unknown; do not infer a provider, timing, native Stop or cleanup cause",
+  "later_missing_native_criteria": [
+    "Public Stop invocation",
+    "pre-cleanup public Stop peer EOF and real matching native finish",
+    "actual 302 and destination DOM",
+    "final-current-URL Reload without declarative redirect replay"
+  ],
+  "native_method": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+  "original_failure_status": "failed",
+  "original_later_source_boundaries": [
+    {
+      "executed": false,
+      "line": 164,
+      "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+      "statement": "assertTrue(server.stopped.stopInvoked.compareAndSet(false, true))"
+    },
+    {
+      "executed": false,
+      "line": 165,
+      "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+      "statement": "fixture.navigator.stopLoading()"
+    }
+  ],
+  "primary_exception": "java.lang.AssertionError",
+  "primary_origin": {
+    "actual": "WebContent.Url(exact authored stop-seed route, empty additional headers)",
+    "expected": "WebContent.Url(exact authored stopped route, empty additional headers)",
+    "line": 163,
+    "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+    "same_owned_origin_and_nonce": true,
+    "source_sha256": "d94c268cc1a1c3712a11d7e2b5b6350f6003057e64fc53af77155522b4ae3d98",
+    "statement": "assertEquals(WebContent.Url(server.stopped.url), state.content)",
+    "statement_bytes_sha256": "fa47d8be7e6db5754068f35a85245b70fd6733609b65288d331683ace90e1657"
+  },
+  "schema_version": 1,
+  "source_contract_observation": "Frozen navigator LoadUrl enqueues native content; Android handler uses loadAndroidContent and shared acceptContent/beginRequest. Those paths reset request observations without assigning WebViewState.content. The frozen saver comment explicitly permits previous declarative content after navigator loads. This is source-qualified context for the actual assertion mismatch, not a production rewrite or issue-criterion change.",
+  "source_contract_paths": [
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt"
+  ],
+  "suppressed_refusal": {
+    "exception": "java.lang.IllegalStateException",
+    "is_public_Stop_EOF_witness": false,
+    "line": 902,
+    "message": "Peer disconnected before public Stop was invoked",
+    "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+    "wrapper": "Owned Stop/redirect HTTP fixture failed"
+  }
+}

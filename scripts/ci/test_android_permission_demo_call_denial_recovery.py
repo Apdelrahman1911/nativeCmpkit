@@ -71,6 +71,7 @@ def execute_nodes(nodes, env, label):
 def owning_environment():
     tree = syntax()
     constants = ("ANDROID_PERMISSION_DEMO_FOCUS", "ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS",
+                 "ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS",
                  "ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION",
                  "ANDROID_MEDIA_SELECTION_FOCUS", "ANDROID_PERMISSION_DEVICE_SPECS", "MAX_REPORT_BYTES", "MAX_CASES", "COUNTS")
     functions = ("android_permission_device_filter", "android_permission_device_identities", "input_digest",
@@ -324,6 +325,8 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
         self.assertIn("*ANDROID_PERMISSION_DEVICE_SPECS", source_at("scripts/ci/library_tests.py"))
         workflow = matrix_environment()
         native = types.SimpleNamespace(ANDROID_WEBVIEW_REQUEST_FOCUS="android-webview-request-state",
+            ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS="android-webview-stop-redirect-recovery",
+            ANDROID_IO_UNAVAILABLE_FOCUS="android-io-provider-unavailable",
             ANDROID_STORAGE_FOCUSES=frozenset(row.profile for row in workflow["storage_plan"].ROWS),
             storage_plan=workflow["storage_plan"], ANDROID_STORAGE_MODULE=CORE,
             ANDROID_CAMERA_PROVIDER_FOCUSES=("android-camera-provider-contracts", "android-camera-no-handler-recovery"),

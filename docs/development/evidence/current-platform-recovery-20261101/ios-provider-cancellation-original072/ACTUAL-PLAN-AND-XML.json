@@ -1,0 +1,103 @@
+{
+  "XML_suite_fields": {
+    "errors": "0",
+    "failures": "1",
+    "skipped": "0",
+    "tests": "1",
+    "time": "13.01",
+    "timestamp": "2026-11-01T09:05:46.767Z"
+  },
+  "actual_plan_original_sha256": "db7fd57fa41e2d791aab4cbc75871cf487e55831531066417eb7b52833774f83",
+  "case": {
+    "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest",
+    "name": "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging[iosSimulatorArm64]",
+    "status": "failed",
+    "time": "12.918"
+  },
+  "failure_not_completed_native_assertion": true,
+  "focus": "picker-ios-provider-cancellation",
+  "library_errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-file-picker"
+    },
+    {
+      "contract": "Application transport failed or incomplete",
+      "error": "Genuine UIKit application evidence rejected",
+      "module": "calf-file-picker",
+      "path": "build/ci-verification/ios-iphone/native-picker-application/<owned-session>/receipt.json"
+    }
+  ],
+  "library_modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "module": "calf-file-picker",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest",
+          "disposition": "required-not-passed",
+          "name": "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-file-picker/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest.xml",
+          "sha256": "15f6fb4ea34c789f499d5c396bee29d879f53b303f66d51a5386e56763c9b47e",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest",
+          "name": "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "library_totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "native_completed_case_count": 0,
+  "original_XML_path": "calf-file-picker/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest.xml",
+  "original_XML_sha256": "15f6fb4ea34c789f499d5c396bee29d879f53b303f66d51a5386e56763c9b47e",
+  "plans_equal": true,
+  "preplan_original_sha256": "db7fd57fa41e2d791aab4cbc75871cf487e55831531066417eb7b52833774f83",
+  "protocol_XML_success_agreement_accepted": false,
+  "requested_filter": "com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest.publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+  "requested_task": ":calf-file-picker:iosSimulatorArm64ApplicationTest",
+  "required_original_case": {
+    "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest",
+    "name": "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging[iosSimulatorArm64]"
+  },
+  "schema": 1,
+  "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, one deliberate cancellation-error acknowledgement, actual descriptor/partial-copy/earlier-staging cleanup; typed PHPickerResult selection is controlled, not actual Photos/cloud/cross-process/format-filter acceptance. Native direct error identity/propagation/wrapping/suppression remains observed or refused, never inferred. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
+  "task_execution_markers": {
+    ":calf-file-picker:iosSimulatorArm64ApplicationTest": 1
+  }
+}

@@ -1,5 +1,34 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related Android owning batch compiled; iOS C3 still incomplete — 2026-11-01
+
+[Batch073](docs/development/evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)
+retains strict camera refusal with diagnostics only; fresh permission ACTIVE-root
+unknown/present/owned-visible distinctions and original5s deadline; fixed own-UID
+provider outage with durable exact lease/SDK identity/restore-before-access; and
+four Stop assertions retaining authored seed content, not changing public dispatch.
+Important camera18/denial32/IO6+3 plus owning live recovery/Stop29 pass; all reds
+remain. Composed1972 CI methods includes82 already accepted important without
+replay; other workflow tooling/upstream6 pass, zero native. Actual serial IO APK0/
+95.02s/helper0/15.0s/WebViewAPK0/37.01s each hold1124/1201 maps and all three actual
+APK signatures/min23/target37 manifests pass. Earlier denialAPK0/38.712s has its
+own1122/1199 maps, not current whole-map equality. Standalone daemon marker absent;
+no standalone daemon/native inference. Four missing-only source CLI plans pass.
+
+[Android original070](docs/development/evidence/current-platform-recovery-20261101/android-webview-request-original070/README.md)
+is FAILED overall,1 accepted held fail/fail/Reload and1 Stop assertion failure
+before public Stop; suppressed early EOF cause unknown. Only Stop1 may rerun.
+[iOS original attempt2/072](docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-original072/README.md)
+is FAILED: actual C3 start1/completed0, missing Worker completion, Gradle1/766.24s;
+native cause unknown. Attempt1 remains failed before native. #50 C1/C2/C4/C5/C6
+stay accepted; only C3 missing and no blind retry. Camera009/Call/picker/IO/iOS
+request2+DNS/Linux TLS accepted cases stay excluded. Next immutable Dont-keep1/
+denial1/provider-outage1/Stop1, max2 combined hosted-heavy; #13/#50/#55/#64/#102
+stay open.92closed/80open/172total;27implemented/42partial/90verified/five unresolved.
+Lead owns Git/dispatch/closures; useful disjoint agents, serial local/8GiB and all
+publishing/Pages/main/history/native/consumer/API-ABI/dependency/legal/security/
+readiness gates unchanged. Earlier sections below preserve original scope/time.
+
 ## WebView / provider-cancellation batch compiled — 2026-11-01
 
 [Eight owning source paths](docs/development/evidence/current-platform-recovery-20261101/webview-provider-integration063/README.md)

@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Build
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
@@ -15,6 +16,7 @@ import android.os.Looper
 import android.os.Message
 import android.os.Messenger
 import android.os.Process
+import android.os.UserHandle
 import androidx.test.platform.app.InstrumentationRegistry
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
@@ -97,7 +99,43 @@ internal class OwnedIoEndpoint private constructor(
         assertTrue(bound); assertTrue(connected.await(15, TimeUnit.SECONDS)); assertNotNull(endpoint)
         return request("snapshot")
     }
-    fun request(operation: String, id: String? = null): Bundle {
+    fun request(operation: String, id: String? = null): Bundle = transaction(operation, id)
+
+    /** Only the own main control endpoint may mutate and exactly restore the fixed provider lease. */
+    @Suppress("DEPRECATION")
+    fun unavailable(operation: String, leaseToken: String): Bundle {
+        check(remoteOwner && component == ComponentName(AndroidIoProviderContract.PACKAGE,
+            "${AndroidIoProviderContract.PACKAGE}.IoControlService") && processName == AndroidIoProviderContract.PACKAGE)
+        check(operation in setOf("acquire-unavailable", "restore-unavailable"))
+        check(leaseToken.matches(Regex("[a-f0-9]{32}")))
+        assertEquals(35, Build.VERSION.SDK_INT); assertEquals(UserHandle.getUserHandleForUid(0), Process.myUserHandle())
+        val held = operation == "acquire-unavailable"
+        return transaction(operation, leaseToken = leaseToken).also { data ->
+            for (key in listOf("unavailableComponent", "unavailableAuthority", "unavailableLeaseToken")) {
+                assertTrue(data.containsKey(key), "Missing exact unavailable-lease string field")
+                assertIs<String>(data.get(key))
+            }
+            for (key in listOf("unavailableOwnerUid", "unavailableUserId", "unavailableOriginalSetting", "unavailableActualSetting")) {
+                assertTrue(data.containsKey(key), "Missing exact unavailable-lease integer field")
+                assertIs<Int>(data.get(key))
+            }
+            for (key in listOf("unavailableAuthorityPresent", "unavailableLeaseHeld")) {
+                assertTrue(data.containsKey(key), "Missing exact unavailable-lease boolean field")
+                assertIs<Boolean>(data.get(key))
+            }
+            assertEquals(ComponentName(AndroidIoProviderContract.PACKAGE,
+                "${AndroidIoProviderContract.PACKAGE}.OwnedIoDocumentsProvider").flattenToString(), data.getString("unavailableComponent"))
+            assertEquals(AndroidIoProviderContract.AUTHORITY, data.getString("unavailableAuthority"))
+            assertEquals(owner.uid, data.getInt("unavailableOwnerUid")); assertEquals(0, data.getInt("unavailableUserId"))
+            assertEquals(leaseToken, data.getString("unavailableLeaseToken"))
+            assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, data.getInt("unavailableOriginalSetting"))
+            assertEquals(if (held) PackageManager.COMPONENT_ENABLED_STATE_DISABLED else PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,
+                data.getInt("unavailableActualSetting"))
+            assertEquals(!held, data.getBoolean("unavailableAuthorityPresent")); assertEquals(held, data.getBoolean("unavailableLeaseHeld"))
+        }
+    }
+
+    private fun transaction(operation: String, id: String? = null, leaseToken: String? = null): Bundle {
         assertNotEquals(Looper.getMainLooper(), Looper.myLooper(), "Never block the actual Activity grant callback")
         assertNull(protocolError); check(!closed)
         val remote = assertNotNull(endpoint)
@@ -105,7 +143,11 @@ internal class OwnedIoEndpoint private constructor(
         val reply = Reply(); check(pending.put(nonce, reply) == null)
         val message = Message.obtain().apply {
             replyTo = replies
-            data = Bundle().apply { putString("nonce", nonce); putString("operation", operation); if (id != null) putString("id", id) }
+            data = Bundle().apply {
+                putString("nonce", nonce); putString("operation", operation)
+                if (id != null) putString("id", id)
+                if (leaseToken != null) putString("leaseToken", leaseToken)
+            }
         }
         try {
             remote.send(message)

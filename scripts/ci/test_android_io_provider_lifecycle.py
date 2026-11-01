@@ -296,9 +296,9 @@ class AndroidIoProviderLifecycleHooks(unittest.TestCase):
             r.gradle_command('android-device', accepted, root=self.root, android_serial=device.SERIAL,
                              android_io_documents_receipt=self.prepared())
 
-    def test_source_contract_binds_actual_twenty_four_inputs_without_native_or_compiler_success(self):
+    def test_source_contract_binds_actual_twenty_five_inputs_without_native_or_compiler_success(self):
         value = helper.source_contract(self.root); helper.validate_source_receipt(value)
-        self.assertEqual(24, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
+        self.assertEqual(25, len(value['source_inputs'])); self.assertEqual(set(helper.SOURCE_FILES), set(value['source_inputs']))
         self.assertTrue(value['source_policy_verified']); self.assertFalse(value['native_or_compile_success_inferred'])
         self.assertEqual(value, self.plan()['android_io_documents']['source_contract'])
         for relative in helper.SOURCE_FILES:

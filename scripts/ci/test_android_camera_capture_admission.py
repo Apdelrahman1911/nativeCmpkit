@@ -37,6 +37,7 @@ DEPENDENCIES = {name: types.ModuleType(name) for name in (
 lt = DEPENDENCIES["library_tests"]
 lt.ANDROID_CAMERA_FOCUSES = {FOCUS, "android-camera-real-restoration", "android-camera-provider"}
 lt.ANDROID_IO_PROVIDER_FOCUS = "android-io-provider"
+lt.ANDROID_IO_UNAVAILABLE_FOCUS = "android-io-provider-unavailable"
 lt.ANDROID_IO_DEFAULT_DECODE_FOCUS = "android-io-default-decode"
 lt.ANDROID_IO_REFERENCE_FOCUS = "android-io-reference"
 lt.WEBVIEW_ANDROID_MEDIA_FOCUS = "webview-android-media"

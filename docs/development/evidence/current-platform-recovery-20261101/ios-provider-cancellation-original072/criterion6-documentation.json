@@ -1,0 +1,24 @@
+{
+  "OS_purge_execution_required_or_claimed": false,
+  "criterion_verbatim": "OS purge behavior documented",
+  "revision": "8d3bee54bad35b31b2e68c9ea1b1eec46bb328cd",
+  "schema": 1,
+  "source": {
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": {
+      "excerpt": "/**\n * Releases a library-owned picked-file temporary copy, if this handle owns one (currently iOS).\n * Never removes an original file, an arbitrary URI, a bookmark or another handle's data.\n * Call only after all readers/native consumers are finished. A released handle must not be read.\n * Temporary storage may also be purged by the OS; copy to app permanent storage to retain it.\n * Returns true only when this call removed its owned temporary directory; otherwise false.",
+      "lines": {
+        "end": 10,
+        "start": 5
+      },
+      "sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88"
+    },
+    "docs/development/IO.md": {
+      "excerpt": "- Nonfolder iOS picker results are app-owned **temporary** copies, preserving the\n  real basename under a unique directory. The OS can purge them. Copy to durable\n  app storage when permanence is required; a path/bookmark string alone does not\n  make temporary content permanent.\n- Call `file.releaseTemporaryCopy()` only after the final stream/decoder/share\n  consumer has finished. It removes only attached library-owned staging, once;\n  caller-owned originals and all other targets return `false`. A failed cleanup\n  also returns `false`; the current API does not promise retryable deletion.",
+      "lines": {
+        "end": 173,
+        "start": 166
+      },
+      "sha256": "b7764c72c778c0dbb199b6840b4e838cad2ad132bb36b21c751f411070b2314e"
+    }
+  }
+}

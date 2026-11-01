@@ -4,6 +4,32 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Current related Android owning batch / failed iOS C3
+
+[Batch073](evidence/current-platform-recovery-20261101/related-android-owning-batch073/README.md)
+contains strict camera diagnostics only, denial fresh ACTIVE-root/readiness under
+the original5s deadline, own-UID/user0 durable provider outage and four WebView
+Stop content expectations corrected to the declarative seed. Production/APIs and
+all original native/cleanup criteria are unchanged. Important camera18/denial32/
+IO6+3 plus one live owning recovery/Stop29 pass; composed1972 CI methods includes82
+accepted important without replay. All workflow tooling/upstream6 pass. Three
+actual serial APK builds pass0/95.02s,0/15.0s,0/37.01s on1124/1201 held maps;
+actual APK signatures/manifests/min23/target37 inspected. ZERO new native methods.
+Four actual read-only source plans select Dont-keep1/denial1/outage1/Stop1 only.
+
+[Original Android070](evidence/current-platform-recovery-20261101/android-webview-request-original070/README.md)
+retains FAILED run41288921893: held fail/fail/Reload independently accepted;
+Stop method fails before public Stop. Only Stop1 reruns. [iOS attempt2/072](evidence/current-platform-recovery-20261101/ios-provider-cancellation-original072/README.md)
+retains FAILED run41288933259: genuine C3 start1/completed0, missing Worker
+completion, native cause unknown. C1/C2/C4/C5/C6 reusable; qualify an owning fixture
+correction before another C3 request. Camera009/Call/picker/IO/iOS request2+DNS/
+LinuxTLS remain excluded. #13 C1, #55 named providers, #64 Desktop10/offline2 and
+#102 media33/34 remain original separate obligations; no new closure/status claim.
+92closed/80open/172total,27implemented/42partial/90verified/five unresolved. Keep
+immutable branch/lead integration, serial local/8GiB/max2 hosted and all security/
+readiness/publishing/Pages/main/history/consumer/API-ABI/legal/dependency gates.
+Historical sections below retain their dated scope, not new pending-state claims.
+
 ## Current missing-only WebView / provider-cancellation batch
 
 [Integration063](evidence/current-platform-recovery-20261101/webview-provider-integration063/README.md)

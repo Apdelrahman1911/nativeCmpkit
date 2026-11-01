@@ -1100,6 +1100,7 @@ class ControllerOwnershipModels(unittest.TestCase):
             android_storage_probe_required=lambda plan: False, android_geo_probe_required=lambda plan: False,
             android_share_recipient_required=lambda plan: False, android_camera_receiver_required=lambda plan: plan.get("focus") == camera.FOCUS,
             ANDROID_CAMERA_FOCUSES={camera.FOCUS}, ANDROID_IO_PROVIDER_FOCUS="io-provider", ANDROID_IO_DEFAULT_DECODE_FOCUS="io-default",
+            ANDROID_IO_UNAVAILABLE_FOCUS="android-io-provider-unavailable",
             ANDROID_IO_REFERENCE_FOCUS="io-reference", WEBVIEW_ANDROID_MEDIA_FOCUS="webview-media",
             snapshot_inputs=lambda root: {"modeled-unchanged-source": "b" * 64}, git_revision=lambda root: "c" * 40,
             write_json=lambda path, value: path.write_text(json.dumps(value)), utc_now=lambda: "2026-11-01T00:00:00Z",

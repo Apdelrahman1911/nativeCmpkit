@@ -1,0 +1,5 @@
+# Missing-only WebView / provider cancellation native requests
+
+Immutable `8d3bee54bad35b31b2e68c9ea1b1eec46bb328cd` exactly binds1119 library/1196 combined Git blobs to freeze067 and actual source compilers066. One Android request selects only the original two request methods ([41288921893](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41288921893)); one iPhone request selects only missing #50 C3 provider cancellation ([41288933259](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41288933259)). Accepted iOS request2/DNS/Call/picker/admission/Foundation/IO and Linux TLS are excluded. Two combined hosted-heavy slots are occupied; do not dispatch competing heavy work before capacity is actually free.
+
+Each profile has exactly one POST. Immediate second-run readback had no row yet and refused; the later sole-other-run exact-revision GET binds it without another POST. Original before/after branch/source/capacity/readbacks retained. Statuses record their own observation time, not native acceptance, issue closure, current CI state or dependency/security/readiness clearance. One original reviewer owns acquisitions for each run.

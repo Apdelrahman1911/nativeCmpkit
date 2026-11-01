@@ -149,6 +149,7 @@ DROPDOWN_PACKAGE_PATH = "/kotlin/com/mohamedrejeb/calf/ui/dropdown/"
 DROPDOWN_SCENARIOS_SOURCE = "calf-ui/src/materialTest" + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceScenarios.kt"
 ANDROID_PERMISSION_DEMO_FOCUS = "android-permission-demo-contracts"
 ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = "android-permission-demo-call-denial-recovery"
+ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS = "android-permission-demo-denial-recovery"
 ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION = "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification"
 ANDROID_MEDIA_SELECTION_FOCUS = "android-media-selection"
 ANDROID_PERMISSION_DEVICE_SPECS = {
@@ -176,6 +177,17 @@ ANDROID_PERMISSION_DEVICE_SPECS = {
         ),
         "scope": "Only the two failed actual API35 Call/denial methods from the unchanged complete three-method source: genuine approved fresh Call request/grant and microphone denial/permanent-denial/rationale/one callback per request. Reuse the independently accepted document/photo picker; never replay it or broaden to storage/media/accepted suites. Timeout observations are finite scalars, not native dispatch/grant/callback proof. No phone call, recording, sample UI, packaged/minimum/ABI/security/release inference.",
     },
+    ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "declared_methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+            "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+        ),
+        "methods": ("denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",),
+        "scope": "Only the remaining failed actual API35 microphone denial/permanent-denial method: original public requests, actual system Deny controls, native denied/rationale true then false, exactly one callback per request, original absolute five-second third-request active-root/native-host absence admission and final Unknown. Reuse independently accepted Call C2 and document/photo picker C3; never replay them or expand to Android13/14 media, storage, all-files/SMS or other accepted suites. Null/stale/invisible/foreign/unready/late evidence is not no dialog; finite diagnostic scalars are not a cause or native proof. No recording, sample UI, packaged/minimum/ABI/security/release inference.",
+    },
     ANDROID_MEDIA_SELECTION_FOCUS: {
         "classname": "com.mohamedrejeb.calf.permissions.AndroidMediaSelectionDeviceTest",
         "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt",
@@ -192,6 +204,17 @@ ANDROID_IO_PROVIDER_METHODS = (
     "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers",
     "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
     "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
+)
+ANDROID_IO_UNAVAILABLE_FOCUS = "android-io-provider-unavailable"
+ANDROID_IO_UNAVAILABLE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoUnavailableProviderTest"
+ANDROID_IO_UNAVAILABLE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoUnavailableProviderTest.kt"
+ANDROID_IO_UNAVAILABLE_METHOD = "publicTreeAndChildLookupRefuseDuringOwnedProviderUnavailability"
+ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES = (
+    ANDROID_IO_UNAVAILABLE_SOURCE,
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
 )
 ANDROID_IO_DEFAULT_DECODE_FOCUS = "android-io-default-decode"
 ANDROID_IO_DEFAULT_DECODE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest"
@@ -1023,6 +1046,8 @@ ANDROID_WEBVIEW_REQUEST_METHODS = (
     "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
 )
 ANDROID_WEBVIEW_REQUEST_HELPER = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt"
+ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS = "android-webview-stop-redirect-recovery"
+ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD = ANDROID_WEBVIEW_REQUEST_METHODS[1]
 
 
 def android_webview_request_identities() -> list[dict]:
@@ -1060,6 +1085,15 @@ def validate_android_webview_request_annotation(root: Path, test_sources: list[s
         annotated.extend(methods)
     if annotated != list(ANDROID_WEBVIEW_REQUEST_METHODS):
         raise ValueError("Android WebView request annotation inventory differs from the exact two identities")
+
+
+def android_webview_stop_redirect_recovery_identities() -> list[dict]:
+    return [{"classname": ANDROID_WEBVIEW_REQUEST_CLASS, "name": ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD}]
+
+
+def android_webview_stop_redirect_recovery_filter() -> str:
+    # Exactly one Class#method has no comma for AGP/ATE transport; do not select the accepted request method.
+    return ANDROID_WEBVIEW_REQUEST_CLASS + "#" + ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD
 
 
 def android_webview_request_fixtures() -> list[str]:
@@ -1507,6 +1541,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
             (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus == ANDROID_WEBVIEW_REQUEST_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
+            (focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
             (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
             (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
             (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
@@ -1528,6 +1563,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
              (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
             (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_UNAVAILABLE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_DEFAULT_DECODE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_REFERENCE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
@@ -1636,6 +1672,10 @@ def android_io_provider_identities() -> list[dict]:
     return [{"classname": ANDROID_IO_PROVIDER_CLASS, "name": method} for method in ANDROID_IO_PROVIDER_METHODS]
 
 
+def android_io_unavailable_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_UNAVAILABLE_CLASS, "name": ANDROID_IO_UNAVAILABLE_METHOD}]
+
+
 def android_io_default_decode_identities() -> list[dict]:
     return [{"classname": ANDROID_IO_DEFAULT_DECODE_CLASS, "name": method} for method in ANDROID_IO_DEFAULT_DECODE_METHODS]
 
@@ -1648,7 +1688,7 @@ def android_io_documents_required(test_plan: dict) -> bool:
     # The accepted pre-open oversize recovery must not acquire this new helper or
     # replay any lifecycle/Coil cases. Full/unfocused authored IO keeps them all.
     return (test_plan.get("suite") == "android-device" and
-            (test_plan.get("explicit_test_focus") in {ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS} or
+            (test_plan.get("explicit_test_focus") in {ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS} or
              (test_plan.get("explicit_test_focus") is None and any(
                  item.get("module") == "calf-io" and ANDROID_IO_PROVIDER_SOURCE in item.get("test_source_files", [])
                  for item in test_plan.get("expected", [])))))
@@ -1996,6 +2036,24 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ANDROID_NAV_BACK_CLASS
         selected[0]["required_testcases"] = android_nav_back_identities()
         result["scope"] = "One genuine Android system BACK/public adaptive host/factory/duplicate-visit/current-owner/disposal method only. Predictive progress/animations, native UIKit stacks, desktop shortcuts and browser history remain unsupported. No accepted unchanged test replay, physical/minimum-platform/ABI/packaged-consumer/security/release certification."
+    elif focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+        source = safe_path(root, ANDROID_WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_WEBVIEW_REQUEST_METHODS) or
+                "class AndroidWebViewRequestStateDeviceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.web" not in source or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(selected[0]["test_source_files"]) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android WebView Stop recovery retains both original declarations; review the exact one-method API35 selection")
+        validate_webview_device_network_fixture(root)
+        validate_android_webview_request_annotation(root, selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_webview_stop_redirect_recovery_filter()
+        selected[0]["test_filter_argument"] = "class"
+        selected[0]["required_testcases"] = android_webview_stop_redirect_recovery_identities()
+        selected[0]["native_fixture_paths"] = android_webview_request_fixtures()
+        selected[0]["verification_api_level"] = 35
+        result["scope"] = "One remaining original actual API35 Chromium method only: public navigator Stop with pre-cleanup peer EOF, real matching native finish, actual owned302 redirect and current-final-URL Reload on one unchanged Activity/Compose owner. Declarative content stays the seed; requested/current native URL and genuine callback metadata/error resets remain independent. The accepted held fail/fail/recovery/native-Reload method remains authored and unselected. No accepted method replay, DNS/TLS/offline/all-target/minimum/physical/API-ABI/consumer/security/release certification."
     elif focus == ANDROID_WEBVIEW_REQUEST_FOCUS:
         source = safe_path(root, ANDROID_WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -2152,6 +2210,20 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ANDROID_IO_PROVIDER_CLASS
         selected[0]["required_testcases"] = android_io_provider_identities()
         result["scope"] = "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification."
+    elif focus == ANDROID_IO_UNAVAILABLE_FOCUS:
+        source = safe_path(root, ANDROID_IO_UNAVAILABLE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [ANDROID_IO_UNAVAILABLE_METHOD] or
+                not re.search(r"\bclass\s+AndroidIoUnavailableProviderTest\b", source) or
+                not re.search(r"(?m)^package\s+com\.mohamedrejeb\.calf\.io\s*$", source) or
+                any(relative not in selected[0]["test_source_files"] for relative in ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                source.count("= runBlocking(Dispatchers.IO)") != 1):
+            raise ValueError("Android unavailable-provider declarations or native dependencies changed; review the exact one-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_UNAVAILABLE_CLASS + "#" + ANDROID_IO_UNAVAILABLE_METHOD
+        selected[0]["required_testcases"] = android_io_unavailable_identities()
+        result["scope"] = "One missing actual API35/user0 public IO unavailable-provider method only: genuine read/persistable/prefix tree grant, pre-outage nested provider identity, exact own-component disabled/default lease, acknowledged real provider-process Binder death, absent ordinary authority and unchanged tree/child grants during false/null metadata and strict Android15-source-qualified public read/source refusal. Exact restoration precedes all stats/reset. A bounded restoration read is setup, not accepted lifecycle5/default3/reference3/oversize/host/common/parity replay; post-restart counters cannot prove zero opens during outage. No ExternalStorage/Downloads/DocumentsUI/cloud matrix, historical failure cause, provider hardware, reboot, minimum/vendor, Coil key/invalidation, peak memory, Apple, packaged consumer/API-ABI or security/release certification."
     elif focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
         source = safe_path(root, ANDROID_IO_DEFAULT_DECODE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -2395,6 +2467,9 @@ def android_permission_device_filter(focus: str) -> str:
     if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
         # One FUNCTION/RUNTIME marker survives ATE CSV transport; exact XML identities stay required.
         return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION
+    if focus == ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS:
+        # Supported class#method transport: one original method, never a whole-class fallback.
+        return spec["classname"] + "#" + spec["methods"][0]
     return spec["classname"]
 
 
@@ -2507,6 +2582,20 @@ def validate_test_focus(test_plan: dict) -> bool:
                 any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
             raise ValueError("Invalid finite Android IO provider/Coil plan")
         return True
+    if focus == ANDROID_IO_UNAVAILABLE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != ANDROID_IO_UNAVAILABLE_CLASS + "#" + ANDROID_IO_UNAVAILABLE_METHOD or
+                expected[0].get("test_filter_argument") is not None or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_io_unavailable_identities() or
+                any(relative not in expected[0]["test_source_files"] for relative in ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES)):
+            raise ValueError("Invalid finite one-method Android unavailable-provider plan")
+        return True
     if focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -2586,6 +2675,22 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("required_testcases") != android_nav_back_identities() or
                 ANDROID_NAV_BACK_SOURCE not in expected[0]["test_source_files"]):
             raise ValueError("Invalid finite Android adaptive navigation back plan")
+        return True
+    if focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-webview/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != android_webview_stop_redirect_recovery_filter() or
+                expected[0].get("test_filter_argument") != "class" or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_webview_stop_redirect_recovery_identities() or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(expected[0]["test_source_files"]) or
+                expected[0].get("native_fixture_paths") != android_webview_request_fixtures() or
+                type(expected[0].get("verification_api_level")) is not int or expected[0]["verification_api_level"] != 35):
+            raise ValueError("Invalid finite one-method API35 Android WebView Stop/redirect recovery plan")
         return True
     if focus == ANDROID_WEBVIEW_REQUEST_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -3083,6 +3188,17 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": ANDROID_NAV_BACK_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
+                             ["Android WebView Stop recovery XML must contain exactly the one remaining method in one fresh report, no missing/duplicate/unrelated or accepted replay cases"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Android WebView Stop recovery acceptance requires the explicit Linux API35 enforcing-emulator slot")
+            scenarios = [{**c, "source": ANDROID_WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_WEBVIEW_REQUEST_FOCUS:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -3173,6 +3289,17 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
                              ["Android IO XML must contain exactly all five selected new methods in one fresh report, no missing, duplicate or unrelated cases"])
             scenarios = [{**c, "source": ANDROID_IO_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_UNAVAILABLE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
+                             ["Android unavailable-provider XML must contain exactly the one missing method in one fresh report, no missing, duplicate or unrelated cases"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Android unavailable-provider acceptance requires the exact Linux API35 enforcing-emulator slot")
+            scenarios = [{**c, "source": ANDROID_IO_UNAVAILABLE_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_DEFAULT_DECODE_FOCUS:
@@ -4045,7 +4172,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
                                            WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
@@ -4058,7 +4185,7 @@ def main() -> int:
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")

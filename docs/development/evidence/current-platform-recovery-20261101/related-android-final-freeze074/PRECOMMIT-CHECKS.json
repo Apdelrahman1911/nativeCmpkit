@@ -1,0 +1,63 @@
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/migration/verify_migration.py"
+    ],
+    "exit_code": 0,
+    "log_sha256": "3b5b04ec210f3c7bf76d65415eeaa6d588479d5752b30753ffaa1acfc1b14d69"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/audit/validate_audit.py"
+    ],
+    "exit_code": 0,
+    "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/audit/source_inventory.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log_sha256": "150ec113ef681503061d193a0adf96af7cd81e533c196fe1f476f4cf6fe4a238"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/development/validate_resolutions.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log_sha256": "f089c80314869c121750a7433a5ed715615e4582285e2cf8b60aac05e436cc4c"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/development/generate_icon_catalogues.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "log_sha256": "a54131b9e9bf72dfe0c45a8a2ec2ec20892f64d88995b69fbad31f2bb4475ef7"
+  },
+  {
+    "command": [
+      "actionlint-1.7.12",
+      ".github/workflows/gradle.yml"
+    ],
+    "exit_code": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tool_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4"
+  }
+]

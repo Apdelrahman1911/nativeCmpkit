@@ -12,6 +12,7 @@ import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
+from test_android_permission_demo_denial_absence import permission_absence_preimage
 
 TREE = Path(os.environ.get("PERMISSION_SELECTOR_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 PROFILE = "android-permission-demo-call-denial-recovery"
@@ -55,6 +56,7 @@ def compile_nodes(nodes, env):
 def owning_environment():
     tree = ast.parse(source("scripts/ci/library_tests.py"))
     names = {"ANDROID_PERMISSION_DEMO_FOCUS", "ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS",
+             "ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS",
              "ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION", "ANDROID_MEDIA_SELECTION_FOCUS",
              "ANDROID_PERMISSION_DEVICE_SPECS", "ANDROID_SAVE_IDENTITY_FOCUS",
              "ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS", "ANDROID_SAVE_IDENTITY_FOCUSES",
@@ -195,13 +197,19 @@ class AndroidPermissionDemoSelectorGuards(unittest.TestCase):
                     self.validate_source(self.native, foreign=(relative, text))
 
     def test_removing_only_selection_metadata_restores_every_original_source_byte(self):
-        original = annotation_projection(self.native)
+        # Exact approved absence inverse precedes the unchanged old annotation-only hash.
+        prior = permission_absence_preimage(self.native, "AndroidPermissionDemoDeviceTest.kt")
+        original = annotation_projection(prior)
         self.assertEqual(ORIGINAL_NATIVE_SOURCE_SHA256, hashlib.sha256(original.encode()).hexdigest())
         self.assertEqual(list(METHODS)+( [PICKER]), re.findall(r'@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)', original))
         changed = self.native.replace('assertFalse(initial.getBoolean(Manifest.permission.CALL_PHONE))',
                                      'assertTrue(initial.getBoolean(Manifest.permission.CALL_PHONE))', 1)
         self.assertNotEqual(self.native, changed)
-        self.assertNotEqual(ORIGINAL_NATIVE_SOURCE_SHA256, hashlib.sha256(annotation_projection(changed).encode()).hexdigest())
+        with self.assertRaises(AssertionError):
+            permission_absence_preimage(changed, "AndroidPermissionDemoDeviceTest.kt")
+        prior_changed = prior.replace('assertFalse(initial.getBoolean(Manifest.permission.CALL_PHONE))',
+                                      'assertTrue(initial.getBoolean(Manifest.permission.CALL_PHONE))', 1)
+        self.assertNotEqual(ORIGINAL_NATIVE_SOURCE_SHA256, hashlib.sha256(annotation_projection(prior_changed).encode()).hexdigest())
 
     def test_new_annotation_does_not_change_final_full_class_three_method_or_media_selection(self):
         _, env = owning_environment()

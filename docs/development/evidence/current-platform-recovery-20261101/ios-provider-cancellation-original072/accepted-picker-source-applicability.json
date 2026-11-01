@@ -1,0 +1,216 @@
+{
+  "accepted_closed_suite_methods_not_replayed": true,
+  "accepted_original_reference": "docs/development/evidence/ios-picker-batch-important-20261029/native-ci001/completed-subset-review.json",
+  "accepted_revision": "0aa8fc10abc72fb9c1dec37a2b6ce420b1243ba6",
+  "accepted_run_id": 40826758875,
+  "checked_paths": 33,
+  "comparison_scope": "IO/picker common and iOS production plus the three exact previously completed copy/staging test files; not whole-map equality",
+  "direct_copy_staging_owned_paths_match": 31,
+  "matched_paths": 31,
+  "prior_before_after_equal": true,
+  "retained_native_test_methods": [
+    {
+      "criterion": 1,
+      "test": "NativePickedCopyBoundaryTest.repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline"
+    },
+    {
+      "criterion": 2,
+      "test": "PickedCopyOwnershipTest.oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory"
+    },
+    {
+      "criterion": 4,
+      "test": "StagePickedUrlsTest.anUnreadableFileIsReportedAndTheOthersAreKept"
+    },
+    {
+      "criterion": 5,
+      "test": "NativePickedCopyBoundaryTest.readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess"
+    },
+    {
+      "criterion": 5,
+      "test": "NativePickedCopyBoundaryTest.sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease"
+    },
+    {
+      "criterion": 5,
+      "test": "PickedCopyOwnershipTest.releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent"
+    }
+  ],
+  "schema": 1,
+  "selected_sources": {
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/ComposeResource.kt": {
+      "accepted_sha256": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+      "current_sha256": "c758e42cd003de6a6b854373359d8f94b179cde0fe55efae12a57a1612289b46",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileName.kt": {
+      "accepted_sha256": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+      "current_sha256": "cc0758c155b62daabec2882943a0ad79f2db2d787e234cdd4acc7bd004128177",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerException.kt": {
+      "accepted_sha256": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+      "current_sha256": "5c601099013989c4ba96bad39ec2fc5fd9967d27fbc6341371185591811be16a",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerLauncher.kt": {
+      "accepted_sha256": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+      "current_sha256": "6811defe89c2d7d6129cf4cbc3f07e6b050bab849ffd49346a31ff141f8bc271",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FilePickerSettings.kt": {
+      "accepted_sha256": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+      "current_sha256": "fdfae4563f6c66bbc6d830260f1e4235bfb047dafdca3df92cca12ba32fbb8cf",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverEvent.kt": {
+      "accepted_sha256": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+      "current_sha256": "5243b475f9b2d05ca8635103f7a2481b1018084d5e83e1153fb1c3667f60416a",
+      "matches": true
+    },
+    "calf-file-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/FileSaverLauncher.kt": {
+      "accepted_sha256": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+      "current_sha256": "2e3e55fce2f9e4c83679827c07a1e94a1a6b6cc2d7683f8845b9beeae0688601",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/ComposeResource.ios.kt": {
+      "accepted_sha256": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+      "current_sha256": "42c8059de665915665967552ea6efe8ab3d814b5849b9b5accf9cb98415643ab",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/DocumentPickerDelegate.kt": {
+      "accepted_sha256": "863b824857ae97f3d134bad54ad181da17d0f9111a10b3add6b1b513c9464d13",
+      "current_sha256": "863b824857ae97f3d134bad54ad181da17d0f9111a10b3add6b1b513c9464d13",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FilePickerLauncher.ios.kt": {
+      "accepted_sha256": "ee2e29fba8c00e9870a17dc278b8e525127b62b931fc23963b666a3e230bac97",
+      "current_sha256": "ee2e29fba8c00e9870a17dc278b8e525127b62b931fc23963b666a3e230bac97",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverEvent.ios.kt": {
+      "accepted_sha256": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+      "current_sha256": "f320223c948bc6aa3c859e0ac6ad3defeeb28b1ae232d1e3bc0431b2ba853cca",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/FileSaverLauncher.ios.kt": {
+      "accepted_sha256": "d7763fda6fc3c9eda4ea42fbf29595057958ec8659e1a42094977f5b008b3a7a",
+      "current_sha256": "d7763fda6fc3c9eda4ea42fbf29595057958ec8659e1a42094977f5b008b3a7a",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/InitialDirectory.ios.kt": {
+      "accepted_sha256": "9a276cea219f8085b1ae5050cb5b64d329fb5a76e7d61ff0854de3b3a019fe26",
+      "current_sha256": "9a276cea219f8085b1ae5050cb5b64d329fb5a76e7d61ff0854de3b3a019fe26",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt": {
+      "accepted_sha256": "b263b15c03a717d51f24789312bf47e594349ce6d85495e60cc5c2deea26d1d7",
+      "current_sha256": "9d86306bce2c896bdb2da24544a926699ff727c3b43e724b3430fcd8ff78dffe",
+      "matches": false
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt": {
+      "accepted_sha256": "51e76ae1980e090562349c7fea8b5b0c514b3467f3b5f5d7459d0611b10101d7",
+      "current_sha256": "d6147963691e17e2788ebd277d79a376a2156db5f3ac3683f8beadd3e7136c02",
+      "matches": false
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/PhotoPickerDelegate.kt": {
+      "accepted_sha256": "d176752ed937751fc696e911446d3b2c2f8f3200790bc4369b5e976f2d1355b0",
+      "current_sha256": "d176752ed937751fc696e911446d3b2c2f8f3200790bc4369b5e976f2d1355b0",
+      "matches": true
+    },
+    "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/Staging.kt": {
+      "accepted_sha256": "856b84697545e958eeda9ef72b84aa342c229b58a82142fb34c197006d400da4",
+      "current_sha256": "856b84697545e958eeda9ef72b84aa342c229b58a82142fb34c197006d400da4",
+      "matches": true
+    },
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePickedCopyBoundaryTest.kt": {
+      "accepted_sha256": "f3a31a3f56861a794e70d9594d6318a6eb788415f262385be0acdcec49c01da8",
+      "current_sha256": "f3a31a3f56861a794e70d9594d6318a6eb788415f262385be0acdcec49c01da8",
+      "matches": true
+    },
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedCopyOwnershipTest.kt": {
+      "accepted_sha256": "f7069014d52b6a00e26c27096d98d52c5d5dad7dab6b7838bd0f7ca5b03ee282",
+      "current_sha256": "f7069014d52b6a00e26c27096d98d52c5d5dad7dab6b7838bd0f7ca5b03ee282",
+      "matches": true
+    },
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/StagePickedUrlsTest.kt": {
+      "accepted_sha256": "e542c5c883edca6a6eb45fdab7ac3d776e2f1142f18bc842d85f434bba86e62c",
+      "current_sha256": "e542c5c883edca6a6eb45fdab7ac3d776e2f1142f18bc842d85f434bba86e62c",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt": {
+      "accepted_sha256": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+      "current_sha256": "7bfbdba8b14add9e92ae3c46483082a4e0590f319e12ebf0a3abdf4cfc0745e0",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.kt": {
+      "accepted_sha256": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+      "current_sha256": "06730513500ce248072f5592c165b03621d71c3da759405690a7cae26c520252",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt": {
+      "accepted_sha256": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+      "current_sha256": "0b3947226fb05b8b212196a2cf8abb27ce071a1b875bcd10d86cfa2516a25849",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.kt": {
+      "accepted_sha256": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+      "current_sha256": "b7af4c13a728acaec700b7c1a3266a8feaa7b29dbd0841b3f80a94f940cd48ae",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.kt": {
+      "accepted_sha256": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+      "current_sha256": "b33a599267357459989804c0a8d5d57a43030b16bf4ce3110d6595c7bc6632cd",
+      "matches": true
+    },
+    "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt": {
+      "accepted_sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+      "current_sha256": "ceddd18c7601b7a848b00393fd6d6ad6e21f604a0561ca850c6fd2c5635d3e88",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/InternalContext.ios.kt": {
+      "accepted_sha256": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+      "current_sha256": "b3900dfef9f199f8248e5e94d6ab1bc8166d9492c8065f03570f677503367f2d",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.ios.kt": {
+      "accepted_sha256": "eed302f1b28e881e837d7292df9e2e9d3d9091475d2f31969e87b73b69456644",
+      "current_sha256": "eed302f1b28e881e837d7292df9e2e9d3d9091475d2f31969e87b73b69456644",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileBookmark.ios.kt": {
+      "accepted_sha256": "4330855df5667175f87e68d97bf4270d67d505cc9852807771ab877b67b9587c",
+      "current_sha256": "4330855df5667175f87e68d97bf4270d67d505cc9852807771ab877b67b9587c",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt": {
+      "accepted_sha256": "eb2611dbf5f4f530da46b6253731cc8d9c5c72e6af2989856dac3dcc6700d3ee",
+      "current_sha256": "eb2611dbf5f4f530da46b6253731cc8d9c5c72e6af2989856dac3dcc6700d3ee",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/NativeDataCopy.kt": {
+      "accepted_sha256": "acf7c04973a1c045177dfe2c90ec137bd4d1d55d020cf9015e09dc5a1d5089c8",
+      "current_sha256": "acf7c04973a1c045177dfe2c90ec137bd4d1d55d020cf9015e09dc5a1d5089c8",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/SecurityScopedAccess.kt": {
+      "accepted_sha256": "59ff7081c871fb2b130addf02ced64c341b752552abeee6038671cc8fd374073",
+      "current_sha256": "59ff7081c871fb2b130addf02ced64c341b752552abeee6038671cc8fd374073",
+      "matches": true
+    },
+    "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.ios.kt": {
+      "accepted_sha256": "6551b8c26307040c30bc5f2b102dd0c4d24fbd202226f91fe2025c8bdefcb1b6",
+      "current_sha256": "6551b8c26307040c30bc5f2b102dd0c4d24fbd202226f91fe2025c8bdefcb1b6",
+      "matches": true
+    }
+  },
+  "target_revision": "8d3bee54bad35b31b2e68c9ea1b1eec46bb328cd",
+  "two_other_production_changes": {
+    "both_match": true,
+    "exactly_match_later_accepted_UIKit_admission_run": 40840589911,
+    "not_called_by_retained_copy_staging_tests": true,
+    "paths": [
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogPresentation.kt",
+      "calf-file-picker/src/iosMain/kotlin/com.mohamedrejeb.calf.picker/IosDialogSession.kt"
+    ],
+    "scope": "These two session/presentation paths are excluded from the 31-path direct copy/staging reuse equality and separately retain accepted actual admission evidence. No whole prior map equality is claimed."
+  }
+}

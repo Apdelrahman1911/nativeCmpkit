@@ -1,0 +1,292 @@
+{
+  "camera_final_guard_postimages": [
+    {
+      "path": "scripts/ci/test_android_camera_documented_data_default.py",
+      "bytes": 16840,
+      "sha256": "7b5a75da995f4ae7a93035e459728f8046a3082c9df868c6e429ad8423e1cf13"
+    },
+    {
+      "path": "scripts/ci/test_android_camera_settings_activity_boundary.py",
+      "bytes": 18811,
+      "sha256": "9b726a295d3eed6d7a7344f592b11b3ead551651ebd3e5be807c8047a804913d"
+    },
+    {
+      "path": "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py",
+      "bytes": 12920,
+      "sha256": "562f69f5d70a86dfde20a912ffc267db7a2109b4f7d163f5edc64400a1762639"
+    }
+  ],
+  "denial": {
+    "status": "lead-exact-live-application-no-test-or-native-inference",
+    "archive_checks": [
+      {
+        "archive": "independent-denial-source-rebase001.tar.gz",
+        "sha256": "3d4cde302fb225342b969e6c19a80adcc888218e47d919f99e1a0d0b36e91028",
+        "regular_members_match_private_copies": 19
+      },
+      {
+        "archive": "independent-denial-owning-guard-correction002.tar.gz",
+        "sha256": "08c4f1171d7f5871c2d194c67e1ec67451f9ba68a3263c81a214dc3a2d678d23",
+        "regular_members_match_private_copies": 16
+      }
+    ],
+    "paths": [
+      {
+        "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/PermissionDemoSystemUi.kt",
+        "before_sha256": "24db0092c0962c91cd84a14c707f3d992f855ee915293d40955c383c0e1f0af9",
+        "after_sha256": "1875435675cf2449e1cf9f4c8671fceb26e126940c3516203ced823852279982",
+        "exact_reversible_fragments": 1,
+        "new_file": false
+      },
+      {
+        "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/OwnedPermissionDemo.kt",
+        "before_sha256": "cb3a99d39de7b56ae5afe5d36b8652a1bf5423fc5b736edadc6cdbc47a773e2c",
+        "after_sha256": "6bb014ebf7de5d8aa3bca2667eeca165ef22351f9622dee301ff34f044d6f444",
+        "exact_reversible_fragments": 1,
+        "new_file": false
+      },
+      {
+        "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "before_sha256": "1018be28c520de3405ade706bc47dcd9142e34e5599a857801bf75a2388cf1c6",
+        "after_sha256": "9f57ad10e53b7445a1a1dc6c515bdfc9014b9fd8df7ad3e283e8ef3fd90ae975",
+        "exact_reversible_fragments": 1,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "before_sha256": "e8af61f036275f3a5c26d96eb4395b9d3e472a38e6e504c81a6daa3e3aa67036",
+        "after_sha256": "db579950ac63dcb184ffa39aaed149265796ffa27c608b24a7cd7063ea82a109",
+        "exact_reversible_fragments": 3,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/workflow_matrix.py",
+        "before_sha256": "c09bee8f4e5ace2aa52be4feff7c651b22d0f022755c2fe8b3def4644a766ef6",
+        "after_sha256": "5983c865d66764f365f2e9df9cca93ee30dadbc6d5b0a7a3a9fc6b224f9a565d",
+        "exact_reversible_fragments": 3,
+        "new_file": false
+      },
+      {
+        "path": ".github/workflows/gradle.yml",
+        "before_sha256": "cd4ee35debc62fdabee60c24d8b84ca79aa9490e298c237a8e14dd9c4544656f",
+        "after_sha256": "3d009dbf282187f9ef3729be0d6755c4db9982f793d4cd4d55e4f01ea71675cb",
+        "exact_reversible_fragments": 2,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_review.py",
+        "before_sha256": "7a9ceb61d32f158c3a9783cf9d50a29de5f58706bb6b30d4c6f52b9c6c4632b9",
+        "after_sha256": "d1296a83facdc84ca63266af0776c064eca5fdbabebd7c40319bdcf5f6f68300",
+        "exact_reversible_fragments": 2,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_timeout_review.py",
+        "before_sha256": "9f142149231ad9c2e59636255cc091131bb03ccf12bc4826f27a8190aa433d45",
+        "after_sha256": "adf971c00b0d0bcceb2f5117767af464e5af7fe8414aa49ea4a4d68226c34c2e",
+        "exact_reversible_fragments": 2,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_selector.py",
+        "before_sha256": "a0c772e098cdac6021232d3bdfd7f078b48f93b0f558730b85510a696c9dc709",
+        "after_sha256": "bf9a4e2fab93b0b11036e62431bf152be6d3fed95e8075dbd98927a0cd3875c5",
+        "exact_reversible_fragments": 3,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py",
+        "before_sha256": "81b6fd9c5b7cac8fe7ca5ce15e6f66f970d5a38b955ff66027835e169e0fb0b0",
+        "after_sha256": "c30ea97bc20afa7d5bc407ae64f4d8724412e9be763d25ed63ba2ba5000168ac",
+        "exact_reversible_fragments": 1,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_denial_absence.py",
+        "before_sha256": null,
+        "after_sha256": "4b67ffd5a8a5786782b850ef2510179aaa06b5eab129780bdbe347e4ee72bc2f",
+        "exact_reversible_fragments": 0,
+        "new_file": true
+      }
+    ],
+    "paths_count": 11,
+    "native_executions": 0
+  },
+  "io55": {
+    "kind": "lead-exact-current-io55-source-integration",
+    "selected_current_reads_verified": 59,
+    "source_paths": [
+      {
+        "path": ".github/workflows/gradle.yml",
+        "preimage_sha256": "3d009dbf282187f9ef3729be0d6755c4db9982f793d4cd4d55e4f01ea71675cb",
+        "postimage_sha256": "64f69a71bc88967e1a302e7553af356e1894500151189590671187701f0fce13",
+        "fresh_routing_fragments": 2,
+        "new_file": false
+      },
+      {
+        "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoUnavailableProviderTest.kt",
+        "preimage_sha256": null,
+        "postimage_sha256": "fcf042b1fd6621b6cafece2654b764a5bb4dd8157ce4122d04fb12cde04cdc54",
+        "fresh_routing_fragments": 0,
+        "new_file": true
+      },
+      {
+        "path": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+        "preimage_sha256": "cb7a50ddb6ad3bd0b8300d92e616027eb16e83233da1715dc8c8076c0511615b",
+        "postimage_sha256": "c2180ba34f3c825e9060ddc68272b41c9d847f13cd91de7f7e2be54b496216a6",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/android_device_tests.py",
+        "preimage_sha256": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d",
+        "postimage_sha256": "a63e5fb7060861768d8a77b38a709830993cdac19325e36bf1646cdca7020fb1",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/android_io_documents.py",
+        "preimage_sha256": "3c85cee3b0b57b1ca6dbb431e9583590059043ae35423d1384fda3f9abfe4ec1",
+        "postimage_sha256": "da8cb7da250adfe9b0c0c4d1e2f49663369aa350b56f80ff5bdb62f2978d364b",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "preimage_sha256": "db579950ac63dcb184ffa39aaed149265796ffa27c608b24a7cd7063ea82a109",
+        "postimage_sha256": "58e8b3d36d13a701dc2d1615796e4df00b57a25984be50e7c7f7c1c46c25471e",
+        "fresh_routing_fragments": 8,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_camera_capture_admission.py",
+        "preimage_sha256": "a09d123fb8612dc46a5e269047f7c0a98f9f9724b1fcc0844ecf347fb260f1c0",
+        "postimage_sha256": "34927b156d526aa97e73961cc590ffd182952d6a0d301da817e425d93590cb38",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_camera_developer_prerequisite.py",
+        "preimage_sha256": "3a220ec4dedde9d486d42c0df2e29c803184c0d47dc9be2bfa920b7a31ffe31d",
+        "postimage_sha256": "38340526440f0b9b2153c0fd3d46feb6c3cdc332c547d42b266d47b208c15d57",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_io_provider_lifecycle.py",
+        "preimage_sha256": "4a71a30217beb7812bdfb032c0817026f4734384a75178b97c344c5117b50481",
+        "postimage_sha256": "02e8599d8738e9927093ffd7715c8c56d56394055af1e2018fa8ccbf273786fa",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/test_android_io_reference_regressions.py",
+        "preimage_sha256": "35565bdba57269ec0a4c57f01c22217f3b1399fea0eaa3cac85706ebac79ff40",
+        "postimage_sha256": "b70062571f08201ec1349f529cf3f6ba4e68d7345d4d5ceaa28b9cd061eec196",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      },
+      {
+        "path": "scripts/ci/workflow_matrix.py",
+        "preimage_sha256": "5983c865d66764f365f2e9df9cca93ee30dadbc6d5b0a7a3a9fc6b224f9a565d",
+        "postimage_sha256": "9984bfad3c8d234a71c208d29789ec75b0685a5569022375c8dae582d2de9538",
+        "fresh_routing_fragments": 3,
+        "new_file": false
+      },
+      {
+        "path": "tests/consumer/android-io-documents/src/main/java/io/github/apdelrahman1911/nativecmpkit/verification/iodocuments/IoControlService.java",
+        "preimage_sha256": "42c11da04ce1c9053116dfb5a6f94ee9aaab81df6ac9a6373493c2243f7bc15c",
+        "postimage_sha256": "9da6d92c4c03c03069be7cea434c6dee98f8af4137bbcb54f73f95cf6656128d",
+        "fresh_routing_fragments": 0,
+        "new_file": false
+      }
+    ],
+    "routing_fragments": 13,
+    "existing_denial_and_ios50_routes_losslessly_preserved": true,
+    "other_nine_postimages_exact_prior_corrected_source": true,
+    "tests_or_native_executions_inferred": 0,
+    "whole_issue55_closure_eligible": false,
+    "named_provider_C1_remaining": true,
+    "accepted_prior16_or_denial32_replayed": false
+  },
+  "stop1": {
+    "schema_version": 1,
+    "qualified_source_only": true,
+    "applied": true,
+    "files": [
+      {
+        "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+        "before_sha256": "d94c268cc1a1c3712a11d7e2b5b6350f6003057e64fc53af77155522b4ae3d98",
+        "after_sha256": "a9512c990faade65b6a57b3045e4c0651ecd18380485164c44b8f59cf4fe5aa4",
+        "new": false,
+        "fragments": 4
+      },
+      {
+        "path": "scripts/ci/library_tests.py",
+        "before_sha256": "58e8b3d36d13a701dc2d1615796e4df00b57a25984be50e7c7f7c1c46c25471e",
+        "after_sha256": "5a2536a22bb0e337b8c7915c53b6fba4309133900fd96ccaaf6ff6649e67b5ed",
+        "new": false,
+        "fragments": 7
+      },
+      {
+        "path": "scripts/ci/android_device_tests.py",
+        "before_sha256": "a63e5fb7060861768d8a77b38a709830993cdac19325e36bf1646cdca7020fb1",
+        "after_sha256": "d0de0aa5bce00da8d0c173917d11050191adef1c1e5c8aa3abbd64ad8ba21737",
+        "new": false,
+        "fragments": 2
+      },
+      {
+        "path": "scripts/ci/workflow_matrix.py",
+        "before_sha256": "9984bfad3c8d234a71c208d29789ec75b0685a5569022375c8dae582d2de9538",
+        "after_sha256": "ffd940510784d3af5308dd6e8338cbf64c3f13f6b97f2e6bd68a9fa115de99a6",
+        "new": false,
+        "fragments": 3
+      },
+      {
+        "path": ".github/workflows/gradle.yml",
+        "before_sha256": "64f69a71bc88967e1a302e7553af356e1894500151189590671187701f0fce13",
+        "after_sha256": "66b7e9f765901805e39ceddf95130dbb96333b4d9441e7ee13bd946e8dcbe80b",
+        "new": false,
+        "fragments": 1
+      },
+      {
+        "path": "scripts/ci/test_android_webview_request_state.py",
+        "before_sha256": "7bf586475b4baf317832ca67b199b9df8f6b7c586b2a78773f1eda98710251b3",
+        "after_sha256": "da8f05548ab82df13ab255d2f0e679983beb1c0f5c1965992b230e491e3182a4",
+        "new": false,
+        "fragments": 2
+      },
+      {
+        "path": "scripts/ci/test_android_webview_request_selector.py",
+        "before_sha256": "9ce2653c0226769602c45920624a90b9b5cc3d9aee3575ea49dbd10a4c14d4cb",
+        "after_sha256": "8553c84580bbfcd80adddf1e08a706f36f309cae25e820a62b13f678490a869a",
+        "new": false,
+        "fragments": 7
+      },
+      {
+        "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py",
+        "before_sha256": "d8634413f7e0607c05dc9410412022f907b035e8a45abe06e17765812869955c",
+        "after_sha256": "34776c507fb9b9f6f877574fc27cf9b12afe96b7e3e22e3b5b88b66575a0a409",
+        "new": false,
+        "fragments": 1
+      },
+      {
+        "path": "scripts/ci/test_android_webview_stop_redirect_recovery.py",
+        "before_sha256": null,
+        "after_sha256": "1ba72ec0955e181c5fb02724cdaa40c9c4c88513e26770cb55953cca59e0d940",
+        "new": true,
+        "fragments": 0
+      }
+    ],
+    "exact_fragments": 27,
+    "controls_run": 0,
+    "compiler_invocations": 0,
+    "native_invocations": 0,
+    "public_api_and_production_changes": 0,
+    "accepted_original_method_body_preserved": true,
+    "original_failed_run": "41288921893/attempt1",
+    "missing_only_profile": "android-webview-stop-redirect-recovery",
+    "proposal_sha256sums_sha256": "528a30d32925808bafacde884ae517800667dc46e36c138e78fcc6ffad462b17"
+  },
+  "camera_note": "The older camera-postimages record precedes only the package-import guard recovery; final owning guards are explicitly bound here. Diagnostics preserve the strict primary Display refusal and make zero grammar/state/native changes."
+}

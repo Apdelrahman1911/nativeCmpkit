@@ -26,6 +26,7 @@ JAVA = FIXTURE + "/src/main/java/" + PACKAGE.replace(".", "/") + "/"
 JAVA_NAMES = ("IoControlService", "IoDocumentGrantActivity", "IoFixture",
               "IoProviderWitnessService", "IoSingleDocumentGrantActivity", "OwnedIoDocumentsProvider")
 KOTLIN_NAMES = ("AndroidIoGrantActivity", "AndroidIoProviderContract", "AndroidIoProviderLifecycleTest",
+               "AndroidIoUnavailableProviderTest",
                "AndroidIoReferenceRegressionTest", "AndroidIoSingleDocumentGrantActivity",
                "DeviceDescriptorProbe", "IoBookmarkClientService", "KmpFileDeviceTest", "OwnedIoEndpoint")
 REFERENCE_PROVIDER = KOTLIN + "instrumentation/DeviceIoFileProvider.kt"
@@ -174,6 +175,130 @@ def validate_reference_sources(texts: dict[str, str]) -> None:
             "Only one fixed ordinary document may receive read/persistable result flags or actual owner revoke")
 
 
+def validate_unavailable_sources(texts: dict[str, str]) -> None:
+    """Finite missing-only source refusals; this is not native provider-absence or cleanup proof."""
+    source = texts[KOTLIN + "AndroidIoUnavailableProviderTest.kt"]
+    control = texts[JAVA + "IoControlService.java"]
+    endpoint = texts[KOTLIN + "OwnedIoEndpoint.kt"]
+    require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source) == [lt.ANDROID_IO_UNAVAILABLE_METHOD] and
+            re.search(r"\bclass\s+AndroidIoUnavailableProviderTest\b", source) is not None and
+            re.search(r"(?m)^package\s+com\.mohamedrejeb\.calf\.io\s*$", source) is not None and
+            not re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) and
+            source.count("= runBlocking(Dispatchers.IO)") == 1,
+            "The exact missing unavailable-provider method must remain enabled and off the main Looper")
+    require(all(token in source for token in (
+        'assertEquals(35, Build.VERSION.SDK_INT); assertEquals(UserHandle.getUserHandleForUid(0), Process.myUserHandle())',
+        'assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, context.packageManager.getComponentEnabledSetting(providerComponent))',
+        'val providerStatsBefore = stats(control, CHILD_ID)',
+        'assertEquals(providerStatsBefore.getInt("uid"), providerWitness.getInt("uid"))',
+        'assertEquals(providerStatsBefore.getInt("pid"), providerWitness.getInt("pid"))',
+        'assertEquals(providerStatsBefore.getString("generation"), providerWitness.getString("generation"))',
+        'leaseToken = token; restored = false', 'control.unavailable("acquire-unavailable", token)',
+        'boundWitness.dieAndObserveBinderDeath()', 'control.unavailable("restore-unavailable", token)',
+        'restored = true; leaseToken = null', 'if (restored) cleanupAttempt { assertQuiescent(control); control.request("reset") }',
+        'cleanupAttempt { control.close() }', 'first.addSuppressed(failure)',
+        'val persisted = context.contentResolver.persistedUriPermissions.single { it.uri == AndroidIoProviderContract.tree }',
+        'assertTrue(persisted.isReadPermission); assertFalse(persisted.isWritePermission)',
+        'assertUriPermission(reference.uri, read, PackageManager.PERMISSION_GRANTED)',
+        'assertUriPermission(reference.uri, write, PackageManager.PERMISSION_DENIED)',
+        'ActivityScenario.launch(AndroidIoGrantActivity::class.java).use { scenario ->',
+        'scenario.onActivity { it.selectOwnedTree() }',
+        'result.flags and grantMask', 'FLAG_GRANT_PREFIX_URI_PERMISSION',
+        'bookmark = assertNotNull(KmpFile(AndroidIoProviderContract.tree).createBookmark(context))')),
+        "Unavailable identity must come from pre-outage nested provider stats, with real grants and exact failure-safe restoration")
+    begin = "// BEGIN OWNED UNAVAILABLE WINDOW:"
+    end = "// END OWNED UNAVAILABLE WINDOW."
+    require(source.count(begin) == source.count(end) == 1, "Missing exact unavailable-window source boundary")
+    before, remainder = source.split(begin, 1)
+    window, after = remainder.split(end, 1)
+    require(before.index('val providerStatsBefore = stats(control, CHILD_ID)') <
+            before.index('val providerWitness = boundWitness.connect()') <
+            before.index('control.unavailable("acquire-unavailable", token)') <
+            before.index('boundWitness.dieAndObserveBinderDeath()') and
+            after.index('control.unavailable("restore-unavailable", token)') < after.index('val providerStatsAfter = stats(control, CHILD_ID)'),
+            "Provider identity, owned disabled lease, acknowledged real death or restore-before-stats ordering changed")
+    require(not any(token in window for token in (
+        'request("stats"', 'request("reset"', 'request("revoke"', 'stats(', 'assertQuiescent(',
+        'acquireContentProviderClient(', 'acquireUnstableContentProviderClient(', 'ParcelFileDescriptor', 'contentResolver.query(')) and
+            window.count('assertOwnedAuthorityAbsent()') == 2 and
+            all(token in window for token in (
+                'assertFalse(reference.exists(context)); assertFalse(reference.isDirectory(context))',
+                'assertNull(reference.getName(context)); assertNull(reference.getSize(context))',
+                'assertQualifiedAbsence(child) { child.readByteArray(context);', 'val unexpected = child.source(context)',
+                'unexpected.close()', 'assertStillGranted(bookmark, root, child)',
+                'windowFailure = failure; throw failure', 'val first = windowFailure', 'first.addSuppressed(failure)')),
+            "Unavailable window must retain actual false/null metadata, unchanged grants, strict public reads and no provider reacquisition")
+    absence = source.split('private suspend fun assertQualifiedAbsence', 1)
+    require(len(absence) == 2, "Missing source-qualified public absence assertion")
+    absence_body = absence[1].split('private fun assertUriPermission', 1)[0]
+    require('catch (failure: FileNotFoundException) { failure }' in absence_body and
+            'assertEquals(FileNotFoundException::class.java, absent.javaClass)' in absence_body and
+            'assertEquals("No content provider: ${reference.uri}", absent.message)' in absence_body and
+            'assertNull(absent.cause,' in absence_body and
+            'catch (failure: Throwable)' not in absence_body and 'SecurityException' not in absence_body,
+            "Only the qualified Android15 null-provider FileNotFoundException may satisfy public read/source absence")
+    require(all(token in control for token in (
+        'new ComponentName(IoFixture.PACKAGE,', 'IoFixture.PACKAGE + ".OwnedIoDocumentsProvider"',
+        'IoFixture.requireReporter(this, message.sendingUid)', 'Process.myUserHandle().equals(UserHandle.getUserHandleForUid(0))',
+        'declared.applicationInfo.uid != Process.myUid()', 'PackageManager.MATCH_DISABLED_COMPONENTS',
+        'getPackageManager().resolveContentProvider(IoFixture.AUTHORITY, 0)',
+        'resolved.applicationInfo.uid != Process.myUid()', 'token.matches("[a-f0-9]{32}")', 'request.size() != 3',
+        'saved.size() != 2', 'token.equals(saved.get(LEASE_TOKEN))',
+        'Integer.valueOf(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT).equals(saved.get(ORIGINAL_SETTING))',
+        'setComponentEnabledSetting(OWNED_PROVIDER, PackageManager.COMPONENT_ENABLED_STATE_DISABLED,',
+        'setComponentEnabledSetting(OWNED_PROVIDER, PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,',
+        'PackageManager.DONT_KILL_APP', 'result.putInt("unavailableOriginalSetting", PackageManager.COMPONENT_ENABLED_STATE_DEFAULT)',
+        'result.putInt("unavailableActualSetting", actual)',
+        'result.putBoolean("unavailableAuthorityPresent", !held)', 'result.putBoolean("unavailableLeaseHeld", held)')) and
+            control.count('setComponentEnabledSetting(') == 2 and
+            'COMPONENT_ENABLED_STATE_ENABLED' not in control and 'COMPONENT_ENABLED_STATE_DISABLED_USER' not in control,
+            "Only the signature/nonce/UID/user0-authenticated fixed component and exact native DEFAULT lease may be mutated")
+    acquire_parts = control.split('private void acquireUnavailable', 1)
+    restore_parts = control.split('private void restoreUnavailable', 1)
+    require(len(acquire_parts) == len(restore_parts) == 2, "Missing finite owned acquire/restore service methods")
+    acquire = acquire_parts[1].split('private void restoreUnavailable', 1)[0]
+    restore = restore_parts[1].split('private final Messenger endpoint', 1)[0]
+    require(acquire.index('requireOwnedProvider(); requireNoUnavailableLease(); requireExactAuthority();') <
+            acquire.index('.commit()') < acquire.index('requireMatchingLease(token);') < acquire.index('setComponentEnabledSetting(') and
+            'getComponentEnabledSetting(OWNED_PROVIDER) != PackageManager.COMPONENT_ENABLED_STATE_DEFAULT' in acquire and
+            'leaseReceipt(result, token, true)' in acquire and
+            'requireOwnedProvider(); requireMatchingLease(token);' in restore and
+            'actual != PackageManager.COMPONENT_ENABLED_STATE_DISABLED && actual != PackageManager.COMPONENT_ENABLED_STATE_DEFAULT' in restore and
+            restore.index('setComponentEnabledSetting(') < restore.index('requireExactAuthority();') < restore.index('.clear().commit()') <
+            restore.index('leaseReceipt(result, token, false)') and
+            'getComponentEnabledSetting(OWNED_PROVIDER) != PackageManager.COMPONENT_ENABLED_STATE_DEFAULT' in restore,
+            "Fresh durable ownership must precede mutation; exact original setting/authority readback must precede clearing it")
+    stats_block = control.split('else if ("stats".equals(operation)) {', 1)
+    revoke_block = control.split('} else if ("revoke".equals(operation) || "reset".equals(operation)) {', 1)
+    require(len(stats_block) == len(revoke_block) == 2 and
+            stats_block[1].lstrip().startswith('requireNoUnavailableLease();') and
+            revoke_block[1].lstrip().startswith('requireNoUnavailableLease();'),
+            "Control stats/reset/revoke must refuse held or malformed unavailable leases before any provider/grant operation")
+    require(all(token in endpoint for token in (
+        'fun request(operation: String, id: String? = null): Bundle = transaction(operation, id)',
+        'fun unavailable(operation: String, leaseToken: String): Bundle',
+        'check(remoteOwner && component == ComponentName(AndroidIoProviderContract.PACKAGE,',
+        '"${AndroidIoProviderContract.PACKAGE}.IoControlService") && processName == AndroidIoProviderContract.PACKAGE)',
+        'check(operation in setOf("acquire-unavailable", "restore-unavailable"))',
+        'transaction(operation, leaseToken = leaseToken)', 'putString("leaseToken", leaseToken)',
+        'for (key in listOf("unavailableComponent", "unavailableAuthority", "unavailableLeaseToken"))',
+        'for (key in listOf("unavailableOwnerUid", "unavailableUserId", "unavailableOriginalSetting", "unavailableActualSetting"))',
+        'for (key in listOf("unavailableAuthorityPresent", "unavailableLeaseHeld"))',
+        'assertIs<String>(data.get(key))', 'assertIs<Int>(data.get(key))', 'assertIs<Boolean>(data.get(key))',
+        'data.containsKey(key)', 'assertEquals(owner.uid, data.getInt("unavailableOwnerUid"))',
+        'assertEquals(AndroidIoProviderContract.AUTHORITY, data.getString("unavailableAuthority"))',
+        'assertEquals(0, data.getInt("unavailableUserId"))',
+        'assertEquals(leaseToken, data.getString("unavailableLeaseToken"))',
+        'assertEquals(PackageManager.COMPONENT_ENABLED_STATE_DEFAULT, data.getInt("unavailableOriginalSetting"))',
+        'assertEquals(if (held) PackageManager.COMPONENT_ENABLED_STATE_DISABLED else PackageManager.COMPONENT_ENABLED_STATE_DEFAULT,',
+        'data.getInt("unavailableActualSetting"))',
+        'assertEquals(!held, data.getBoolean("unavailableAuthorityPresent")); assertEquals(held, data.getBoolean("unavailableLeaseHeld"))')),
+        "The exact control-only lease reply must retain nonce/native identity and mandatory typed setting/authority/ownership fields")
+    require(not any(token in source + control for token in ('grantUriPermission(', 'Runtime.getRuntime', 'ProcessBuilder(',
+            'acquireContentProviderClient(', 'acquireUnstableContentProviderClient(')),
+            "No manual grant, shell state control or held provider-client substitution in unavailable-provider source")
+
+
 def source_contract(root: Path) -> dict:
     texts, inputs = {}, {}
     for relative in SOURCE_FILES:
@@ -254,6 +379,7 @@ def source_contract(root: Path) -> dict:
     require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", lifecycle) == list(lt.ANDROID_IO_PROVIDER_METHODS) and
             not re.search(r"@(Ignore|Disabled|IgnoredTest)\b", lifecycle), "Every new lifecycle method must remain authored and enabled")
     validate_reference_sources(texts)
+    validate_unavailable_sources(texts)
     all_code = "\n".join(texts[JAVA + name + ".java"] for name in JAVA_NAMES) + "\n" + "\n".join(texts[KOTLIN + name + ".kt"] for name in KOTLIN_NAMES if name != "KmpFileDeviceTest") + "\n" + texts[REFERENCE_PROVIDER]
     require("grantUriPermission(" not in all_code and "Runtime.getRuntime" not in all_code and "acquireContentProviderClient(" not in texts[KOTLIN + "AndroidIoProviderLifecycleTest.kt"],
             "Manual grant, shell process or stable provider-death bypass is forbidden")

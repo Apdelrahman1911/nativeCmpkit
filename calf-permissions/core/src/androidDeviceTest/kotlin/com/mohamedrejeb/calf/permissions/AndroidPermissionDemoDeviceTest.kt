@@ -73,16 +73,62 @@ class AndroidPermissionDemoDeviceTest {
         ui.permissionButton("permission_deny_button", "permission_deny_and_dont_ask_again_button")
         val permanent = consumer.await { it.getBundle("RecordAudio")?.getInt("callbacks") == 2 }
         assertDenied(permanent, rationale = false, count = 2)
-        consumer.ready()
+        val expectedActivityGeneration = assertNotNull(permanent.getString("activityGeneration"))
+        assertEquals(expectedActivityGeneration, consumer.ready().getString("activityGeneration"))
         consumer.request("request-microphone")
         val deadline = SystemClock.elapsedRealtime() + 5000
         var third: Bundle
+        var samples = 0
+        var windowKinds = 0
+        var refreshKinds = 0 // 1 unobserved; 2 false; 4 true.
+        var visibilityKinds = 0 // Same encoding; unobserved is never false.
+        var lastNativeHostReadiness = -1 // Diagnostic only; not used as an acceptance predicate.
+        fun observationFacts() = "samplesCapped512=$samples,windowKindsMask=$windowKinds," +
+            "refreshKindsMask=$refreshKinds,visibilityKindsMask=$visibilityKinds," +
+            "lastNativeHostReadinessMask=$lastNativeHostReadiness"
         while (true) {
-            assertFalse(ui.permissionDialogVisible(), "A third request after real permanent denial must not show another permission dialog")
-            third = consumer.request("observe")
-            if (third.getBundle("RecordAudio")?.getInt("callbacks") == 3) break
-            check(SystemClock.elapsedRealtime() < deadline)
-            Thread.sleep(20)
+            check(SystemClock.elapsedRealtime() < deadline) {
+                "No fresh owned native host/result proved the original no-dialog observation; " + observationFacts()
+            }
+            val observation = ui.permissionDialogObservation(deadline)
+            samples = minOf(samples + 1, 512)
+            windowKinds = windowKinds or observation.windowKind
+            refreshKinds = refreshKinds or (1 shl (observation.refreshed + 1))
+            visibilityKinds = visibilityKinds or (1 shl (observation.visible + 1))
+            assertNotEquals(PermissionDemoSystemUi.PermissionDialogKind.PRESENT, observation.kind,
+                "A third request after real permanent denial must not show another permission dialog; " + observationFacts())
+            if (observation.kind == PermissionDemoSystemUi.PermissionDialogKind.OWNED_VISIBLE_HOST) {
+                val native = consumer.observeBefore(deadline)
+                val active = assertIs<Boolean>(native.get("activityActive"))
+                lastNativeHostReadiness = 0
+                if (active) {
+                    assertEquals(expectedActivityGeneration, native.getString("activityGeneration"),
+                        "A replacement native Activity is not the original third-request host")
+                    val mounted = assertIs<Boolean>(native.get("mounted"))
+                    val resumed = assertIs<Boolean>(native.get("resumed"))
+                    val focused = assertIs<Boolean>(native.get("focused"))
+                    lastNativeHostReadiness = 1 or (if (mounted) 2 else 0) or
+                        (if (resumed) 4 else 0) or (if (focused) 8 else 0)
+                    if (mounted && resumed && focused) {
+                        val state = assertNotNull(native.getBundle("RecordAudio"))
+                        val callbacks = assertIs<Int>(state.get("callbacks"))
+                        assertTrue(callbacks in 2..3, "A rollback or duplicate native result is not the third request")
+                        if (callbacks == 3) {
+                            check(SystemClock.elapsedRealtime() < deadline) {
+                                "A late host/result cannot certify the original no-dialog deadline"
+                            }
+                            third = native
+                            break
+                        }
+                    }
+                }
+            }
+            // Unknown/null/stale/invisible/foreign/unready is never accepted as no dialog.
+            val remaining = deadline - SystemClock.elapsedRealtime()
+            check(remaining > 0) {
+                "No fresh owned native host/result proved the original no-dialog observation; " + observationFacts()
+            }
+            Thread.sleep(minOf(20L, remaining))
         }
         assertDenied(third, rationale = false, count = 3)
         // Rationale=false alone is ambiguous; the public API must retain Unknown.

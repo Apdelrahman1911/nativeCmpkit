@@ -1,0 +1,95 @@
+{
+  "bootstatus_observed_states": [
+    {
+      "line_sha256": "519e94d0b2be6b5b5ac86e5a2457b05b256e681717ed16e083427a8251985640",
+      "status": 2
+    },
+    {
+      "line_sha256": "42250c7d65a3c322ae0d613140e686bd3683d523b80aae690d925e906f342c59",
+      "status": 2
+    },
+    {
+      "line_sha256": "c317300805eb7bc24d3e55837a22c80f13961a2c374cdae05076c896f7af47d3",
+      "status": 2
+    },
+    {
+      "line_sha256": "4e6cf0fe899803d64d21e386ed4b674d7ddaf794204f78bc5904ab75c22a6f55",
+      "status": 2
+    },
+    {
+      "line_sha256": "c9b8ed56e4dcf26e5e3703f7e5aabdefe431079c69aa37e6b58dbc9c99110bef",
+      "status": 2
+    },
+    {
+      "line_sha256": "4db0b06680afaf4e72188375e827c855f6da4939e2dda25609b9b7df2f1c706a",
+      "status": 2
+    },
+    {
+      "line_sha256": "79b18e2d235e6280c227cfd02d2b1dd85c853834ddf9fbd38b101fe16d8bc970",
+      "status": 2
+    },
+    {
+      "line_sha256": "7f9716a367ac07956b4b809b058db4459e0b4c7e902e57367ba58087cdef2071",
+      "status": 2
+    },
+    {
+      "line_sha256": "a1063151ebd1bbf41b998451572a18eee694ccaed0f5220ad91f7c446dcdc1d3",
+      "status": 3
+    }
+  ],
+  "exceptions": [
+    {
+      "exact_message_equals_source_defined_command_timeout": true,
+      "exception_type": "subprocess.TimeoutExpired",
+      "message_sha256": "1c58695724212f9ef54101c3fec164e09f7c9e82252fe2097452c87c26297196",
+      "public_command_argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=normal"
+      ],
+      "safe_message": "Command '('git', 'status', '--porcelain', '--untracked-files=normal')' timed out after 60 seconds",
+      "timeout_seconds": 60
+    }
+  ],
+  "job_id": 124796345214,
+  "original_origin": {
+    "CoreSimulator_inventory_timeout_claimed": false,
+    "actual_underlying_cause": "unknown",
+    "caller": "second post-boot runtime capture for build/ci-runtime/actual.json",
+    "command_budget_seconds": 60,
+    "command_wrapper_line": 33,
+    "command_wrapper_source": "scripts/ci/runtime_context.py",
+    "function": "capture",
+    "line": 177,
+    "repository_source": "scripts/ci/runtime_context.py"
+  },
+  "raw_log_uploaded": false,
+  "repository_frames": [
+    {
+      "function": "<module>",
+      "line": 246,
+      "source": "scripts/ci/runtime_context.py"
+    },
+    {
+      "function": "main",
+      "line": 236,
+      "source": "scripts/ci/runtime_context.py"
+    },
+    {
+      "function": "capture",
+      "line": 177,
+      "source": "scripts/ci/runtime_context.py"
+    },
+    {
+      "function": "command",
+      "line": 33,
+      "source": "scripts/ci/runtime_context.py"
+    }
+  ],
+  "schema": 1,
+  "source_revision": "8d3bee54bad35b31b2e68c9ea1b1eec46bb328cd",
+  "workflow_exit_codes": [
+    1
+  ]
+}

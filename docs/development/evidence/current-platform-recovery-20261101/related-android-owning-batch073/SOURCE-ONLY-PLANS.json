@@ -1,0 +1,140 @@
+{
+  "kind": "actual-read-only-native-controller-CLI-plans-no-native",
+  "profiles": [
+    {
+      "profile": "android-camera-restoration-dont-keep",
+      "actual_source_only_cli_plan": {
+        "profile": "android-camera-restoration-dont-keep",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "android-device-api35",
+            "suite": "android-device",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "$REPOSITORY/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-camera-picker",
+              "--focus",
+              "android-camera-real-restoration-dont-keep"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      },
+      "outer_elapsed_seconds": 0.16341892292257398
+    },
+    {
+      "profile": "android-permission-demo-denial-recovery",
+      "actual_source_only_cli_plan": {
+        "profile": "android-permission-demo-denial-recovery",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "android-device-api35-permission-denial-recovery",
+            "suite": "android-device",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "$REPOSITORY/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-permissions/core",
+              "--focus",
+              "android-permission-demo-denial-recovery"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      },
+      "outer_elapsed_seconds": 0.16575203801039606
+    },
+    {
+      "profile": "android-io-provider-unavailable",
+      "actual_source_only_cli_plan": {
+        "profile": "android-io-provider-unavailable",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "android-device-api35",
+            "suite": "android-device",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "$REPOSITORY/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-io",
+              "--focus",
+              "android-io-provider-unavailable"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      },
+      "outer_elapsed_seconds": 0.17472985794302076
+    },
+    {
+      "profile": "android-webview-stop-redirect-recovery",
+      "actual_source_only_cli_plan": {
+        "profile": "android-webview-stop-redirect-recovery",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "android-device-api35",
+            "suite": "android-device",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "$REPOSITORY/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-webview",
+              "--focus",
+              "android-webview-stop-redirect-recovery"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      },
+      "outer_elapsed_seconds": 0.16635731898713857
+    }
+  ],
+  "library_inputs": 1124,
+  "before_after_equal": true,
+  "native_methods_executed": 0
+}

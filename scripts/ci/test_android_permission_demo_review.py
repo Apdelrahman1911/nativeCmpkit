@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 import android_permission_demo as demo
 import dependency_cache_inputs as cache
+from test_android_permission_demo_denial_absence import require_permission_absence_protocol
 
 ROOT = Path(__file__).resolve().parents[2]
 STARTUP = "androidx.startup.InitializationProvider"
@@ -112,13 +113,19 @@ class AndroidPermissionDemoSourceReviewTest(unittest.TestCase):
 
     def test_no_dialog_is_not_inferred_from_an_unknown_or_foreign_active_accessibility_window(self):
         source = (ROOT / demo.KOTLIN / "PermissionDemoSystemUi.kt").read_text()
-        observation = source.split("fun permissionDialogVisible()", 1)[1].split("private fun clickId", 1)[0]
-        self.assertIn("assertNotNull(automation.rootInActiveWindow", observation)
-        self.assertIn("assertNotNull(root.packageName)", observation)
-        self.assertIn("packageName == OwnedPermissionDemo.PACKAGE || packageName in PERMISSION", observation)
-        self.assertIn("root.refresh() && root.isVisibleToUser", observation)
+        # Current approved ACTIVE/refresh/presence/owned-host protocol, not an old Boolean query.
+        require_permission_absence_protocol(source)
+        observation = source.split("fun permissionDialogObservation(deadline: Long)", 1)[1].split("private fun requireObservationDeadline", 1)[0]
+        self.assertIn("val root = automation.rootInActiveWindow", observation)
+        self.assertIn("val refreshed = root.refresh()", observation)
+        self.assertIn("val visible = if (refreshed) root.isVisibleToUser else null", observation)
+        self.assertLess(observation.index("if (!refreshed) return"), observation.index("val packageName = root.packageName"))
+        self.assertIn("PermissionDialogKind.UNKNOWN", observation)
+        self.assertIn("if (visible != true) return unknown", observation)
+        self.assertIn("return unknown.copy(kind = PermissionDialogKind.PRESENT)", observation)
+        self.assertIn("return if (packageName == OwnedPermissionDemo.PACKAGE)", observation)
         self.assertNotIn("?: false", observation)
-        self.assertIn("root.recycle()", observation)
+        self.assertIn("root?.recycle()", observation)
 
     def test_new_fixture_build_settings_manifest_and_recipe_are_dependency_keyed_not_its_sources_or_outputs(self):
         with tempfile.TemporaryDirectory() as folder:

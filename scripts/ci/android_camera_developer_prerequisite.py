@@ -292,9 +292,16 @@ def parse_settings_activity_absence(result: subprocess.CompletedProcess) -> None
             rows[-1] == "  (nothing)" and rows.count("  (nothing)") == 1,
             "Settings Activity absence header/footer is unproved")
     displays = set()
-    for row in rows[1:-1]:
+    for row_index, row in enumerate(rows[1:-1], 1):
         display = re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", row)
-        require(display is not None, "Settings Activity absence traversal is unproved")
+        try:
+            require(display is not None, "Settings Activity absence traversal is unproved")
+        except ValueError as error:
+            try:
+                record_settings_activity_absence_refusal(error, payload, rows, row_index)
+            except BaseException:
+                pass  # Bounded observation must not replace the original refusing require.
+            raise
         identifier = int(display[1])
         require(identifier <= 2147483647 and identifier not in displays,
                 "Unknown or duplicate Settings Activity display traversal")
@@ -762,6 +769,13 @@ class OwnedDeveloperPrerequisite:
             self.receipt["errors"][-1]["require_call_origin"] = require_call_origin(error)
         except BaseException:
             pass  # Observation must never replace the already-recorded primary refusal.
+        try:
+            observation = settings_activity_absence_refusal(
+                error, self.receipt["errors"][-1].get("require_call_origin"))
+            if observation is not None:
+                self.receipt["errors"][-1]["settings_activity_absence_refusal"] = observation
+        except BaseException:
+            pass  # Diagnostic unavailability never replaces the primary refusal or publication.
         self.publish()
 
     def run(self, argv: list[str], timeout: float, limit: int) -> subprocess.CompletedProcess:
@@ -1072,3 +1086,86 @@ def require_call_origin(error: BaseException) -> dict:
             return {"source": "android_camera_developer_prerequisite.py", "symbol": symbol, "line": number}
         previous, node = node, node.tb_next
     return unavailable
+
+
+
+def record_settings_activity_absence_refusal(error: BaseException, payload: bytes,
+                                           rows: list[str], row_index: int) -> None:
+    """Attach bounded facts only after the unchanged display-row require refuses."""
+    if (type(error) is not ValueError or type(payload) is not bytes or
+            not 0 < len(payload) <= CONTROL_BYTES or type(rows) is not list or
+            not 3 <= len(rows) <= len(payload) + 1 or type(row_index) is not int or
+            not 1 <= row_index <= len(rows) - 2 or
+            any(type(row) is not str for row in rows) or
+            sum(len(row) for row in rows) > CONTROL_BYTES):
+        return
+    row = rows[row_index]
+    encoded = row.encode("utf-8")
+    if len(encoded) > len(payload):
+        return
+    interior = rows[1:-1]
+    display_rows = sum(re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", item)
+                       is not None for item in interior)
+    blank_rows = sum(item.strip(" \t") == "" for item in interior)
+    marker_rows = sum("ActivityRecord{" in item for item in interior)
+    # No row text, package/task/PID, argv, environment, error body or machine path.
+    error._nativecmpkit_settings_activity_absence_refusal = {
+        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v1",
+        "payload_bytes": len(payload), "payload_sha256": hashlib.sha256(payload).hexdigest(),
+        "row_count": len(rows), "interior_row_count": len(rows) - 2,
+        "interior_display_shape_rows": display_rows, "interior_ascii_blank_shape_rows": blank_rows,
+        "interior_other_shape_rows": len(interior) - display_rows - blank_rows,
+        "interior_activity_record_marker_rows": marker_rows,
+        "rejected_row_index": row_index, "row_bytes": len(encoded),
+        "row_sha256": hashlib.sha256(encoded).hexdigest(),
+        "row_leading_ascii_spaces": len(row) - len(row.lstrip(" ")),
+        "row_trailing_ascii_spaces": len(row) - len(row.rstrip(" ")),
+        "row_empty": row == "", "row_ascii_whitespace_only": row.strip(" \t") == "",
+        "row_ascii_only": row.isascii(), "row_contains_tab": "\t" in row,
+        "row_display_prefix": row.startswith("Display #"),
+        "row_indented_display_prefix": row.startswith(" ") and row.lstrip(" ").startswith("Display #"),
+        "row_activity_record_marker": "ActivityRecord{" in row,
+    }
+
+
+def settings_activity_absence_refusal(error: BaseException, origin: dict | None) -> dict | None:
+    """Allowlist optional metadata; never an Activity-absence or cleanup decision."""
+    if (type(error) is not ValueError or type(origin) is not dict or
+            any(type(key) is not str for key in origin) or
+            set(origin) != {"source", "symbol", "line"} or
+            origin["source"] != "android_camera_developer_prerequisite.py" or
+            origin["symbol"] != "parse_settings_activity_absence" or
+            type(origin["line"]) is not int or not 0 < origin["line"] < 20000):
+        return None
+    observation = vars(error).get("_nativecmpkit_settings_activity_absence_refusal")
+    integers = ("payload_bytes", "row_count", "interior_row_count", "rejected_row_index",
+                "row_bytes", "row_leading_ascii_spaces", "row_trailing_ascii_spaces",
+                "interior_display_shape_rows", "interior_ascii_blank_shape_rows",
+                "interior_other_shape_rows", "interior_activity_record_marker_rows")
+    booleans = ("row_empty", "row_ascii_whitespace_only", "row_ascii_only", "row_contains_tab",
+                "row_display_prefix", "row_indented_display_prefix", "row_activity_record_marker")
+    digests = ("payload_sha256", "row_sha256")
+    keys = {"schema", *integers, *booleans, *digests}
+    if (type(observation) is not dict or any(type(key) is not str for key in observation) or
+            set(observation) != keys or
+            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v1" or
+            any(type(observation[key]) is not int for key in integers) or
+            any(type(observation[key]) is not bool for key in booleans) or
+            any(type(observation[key]) is not str or
+                re.fullmatch(r"[a-f0-9]{64}", observation[key]) is None for key in digests)):
+        return None
+    size, count = observation["payload_bytes"], observation["row_count"]
+    if (not 0 < size <= CONTROL_BYTES or not 3 <= count <= size + 1 or
+            observation["interior_row_count"] != count - 2 or
+            any(not 0 <= observation[key] <= count - 2 for key in
+                ("interior_display_shape_rows", "interior_ascii_blank_shape_rows", "interior_other_shape_rows")) or
+            observation["interior_display_shape_rows"] + observation["interior_ascii_blank_shape_rows"] +
+            observation["interior_other_shape_rows"] != count - 2 or
+            not 0 <= observation["interior_activity_record_marker_rows"] <= observation["interior_other_shape_rows"] or
+            not 1 <= observation["rejected_row_index"] <= count - 2 or
+            not 0 <= observation["row_bytes"] <= size or
+            not 0 <= observation["row_leading_ascii_spaces"] <= observation["row_bytes"] or
+            not 0 <= observation["row_trailing_ascii_spaces"] <= observation["row_bytes"] or
+            observation["row_empty"] != (observation["row_bytes"] == 0)):
+        return None
+    return dict(observation)

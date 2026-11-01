@@ -75,11 +75,13 @@ PROFILES = {
     "webview-desktop-request-state-linux-pair": ("desktop-linux-x64", "desktop-linux-arm64"),
     "webview-desktop-request-state-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
     "webview-desktop-request-state-windows-single": ("desktop-windows-x64",),
+    "webview-desktop-stop-windows-recovery": ("desktop-windows-x64",),
     "webview-desktop-security-linux-arm64-windows-pair": ("desktop-windows-x64", "desktop-linux-arm64"),
     "webview-desktop-security-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "share-clipboard-native": ("browser-js", "browser-wasm"),
+    "share-clipboard-native-wasm": ("browser-wasm",),
     "ui-date-browser": ("browser-js", "browser-wasm"),
     "ui-date-js": ("browser-js",),
     "ui-date-platforms": ("browser-js", "browser-wasm", "android-device-api35"),
@@ -257,6 +259,7 @@ MODULE_SUBSETS = {
     "webview-desktop-request-state-linux-pair": "calf-webview",
     "webview-desktop-request-state-macos-pair": "calf-webview",
     "webview-desktop-request-state-windows-single": "calf-webview",
+    "webview-desktop-stop-windows-recovery": "calf-webview",
     "webview-desktop-security-linux-arm64-windows-pair": "calf-webview",
     "webview-desktop-security-macos-pair": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
@@ -264,6 +267,7 @@ MODULE_SUBSETS = {
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
     "share-browser": "calf-share",
     "share-clipboard-native": "calf-share",
+    "share-clipboard-native-wasm": "calf-share",
     # Four important public dialog transactions, not an unrelated UI suite replay.
     "ui-date-browser": "calf-ui",
     "ui-date-js": "calf-ui",
@@ -373,6 +377,18 @@ MODULE_SUBSETS = {
 def matrix(profile: str) -> dict:
     if profile not in PROFILES:
         raise ValueError("Unknown verification profile; arbitrary runner/task input is prohibited")
+    if profile == "webview-desktop-stop-windows-recovery":
+        if PROFILES[profile] != ("desktop-windows-x64",) or MODULE_SUBSETS.get(profile) != "calf-webview":
+            raise ValueError("Windows Stop recovery requires its exact single Windows slot and WebView module")
+        inherited = matrix("webview-desktop-request-state-windows-single")["include"]
+        canonical = {"slot": "desktop-windows-x64", "suite": "desktop", "runner": "windows-2025",
+                     "arch": "x64", "python": "python", "test-modules": "calf-webview",
+                     "test-focus": "webview-desktop-request-state-stop"}
+        if inherited != [canonical]:
+            raise ValueError("Windows Stop recovery refuses canonical runner/architecture/suite/module/field drift")
+        row = dict(inherited[0])
+        row["test-focus"] = "webview-desktop-stop-windows-recovery"
+        return {"include": [row]}
     aliases = {
         "webview-desktop-request-state-linux-pair": ("webview-desktop-request-state", ("desktop-linux-x64", "desktop-linux-arm64")),
         "webview-desktop-request-state-macos-pair": ("webview-desktop-request-state", ("desktop-macos-arm64", "desktop-macos-x64")),
@@ -473,7 +489,7 @@ def matrix(profile: str) -> dict:
     if profile == "android-share-grants":
         for row in rows:
             row["test-focus"] = "android-share-uri-grants"
-    if profile == "share-clipboard-native":
+    if profile in ("share-clipboard-native", "share-clipboard-native-wasm"):
         for row in rows:
             row["test-focus"] = "web-share-clipboard-native-contexts"
     if profile == "webview-content-transitions":

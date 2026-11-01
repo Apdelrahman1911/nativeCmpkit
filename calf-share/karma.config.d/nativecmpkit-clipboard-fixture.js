@@ -355,8 +355,41 @@
     window.__nativecmpkitClipboardLoadFailure = sendFailure;
   }
 
+  const isWasmPackage = basePath => typeof basePath === 'string' && path.isAbsolute(basePath) &&
+    path.normalize(basePath) === basePath && /^(NativeCmpKit|nativeCmpkit)-calf-share-test$/.test(path.basename(basePath)) &&
+    path.basename(path.dirname(basePath)) === 'packages' && path.basename(path.dirname(path.dirname(basePath))) === 'wasm' &&
+    path.basename(path.dirname(path.dirname(path.dirname(basePath)))) === 'build';
   const scriptUrls = async (filesPromise, basePath) => {
     const files = await filesPromise;
+    if (isWasmPackage(basePath)) {
+      // KGP2.4.20 includes static/load.mjs, not its imported test .mjs. karma-webpack5 keeps
+      // originalPath but serves the deterministic load.<entry-key>.js classic-script wrapper.
+      const refused = () => { throw new Error('Exact emitted Wasm Karma loader inputs are missing'); };
+      if (!files || !Array.isArray(files.included) || !Array.isArray(files.served)) refused();
+      const loadPath = path.join(basePath, 'static', 'load.mjs');
+      const chosen = files.included.filter(file => {
+        if (!file || typeof file.originalPath !== 'string' || file.originalPath.includes('\0')) refused();
+        const original = path.basename(file.originalPath);
+        return ['runtime.js', 'commons.js', 'load.mjs'].includes(original) || /-calf-share-test\.m?js$/.test(original);
+      });
+      if (chosen.length !== 3 || path.basename(chosen[0].originalPath) !== 'runtime.js' ||
+          path.basename(chosen[1].originalPath) !== 'commons.js' || chosen[2].originalPath !== loadPath ||
+          path.dirname(chosen[0].originalPath) !== path.dirname(chosen[1].originalPath) ||
+          !path.isAbsolute(chosen[0].originalPath) || path.normalize(chosen[0].originalPath) !== chosen[0].originalPath ||
+          !path.isAbsolute(chosen[1].originalPath) || path.normalize(chosen[1].originalPath) !== chosen[1].originalPath) refused();
+      const entryPath = 'load.' + require('karma-webpack/lib/utils/hash').hash(loadPath) + '.js';
+      if (chosen.some(file => file.isUrl || typeof file.path !== 'string' || file.path.includes('\0') ||
+          typeof file.sha !== 'string' || !/^[a-f0-9]{40}$/.test(file.sha) ||
+          ![undefined, 'js'].includes(file.type) ||
+          !files.served.some(served => served.originalPath === file.originalPath && served.path === file.path && served.sha === file.sha)) ||
+          chosen[0].path !== chosen[0].originalPath || chosen[1].path !== chosen[1].originalPath ||
+          chosen[2].path !== entryPath) refused();
+      return chosen.map((file, index) => ({
+        url: (file.path.startsWith(basePath) ? '/base' + file.path.slice(basePath.length) : '/absolute' + file.path) + '?' + file.sha,
+        type: 'text/javascript', ...(index === 2 ? { wasmLoader: true } : {})
+      }));
+    }
+    // Accepted JS selection/order/URLs/types remain byte-for-byte below; no Wasm fallback.
     const chosen = files.included.filter(file => {
       const original = path.basename(file.originalPath || file.path);
       return ['runtime.js', 'commons.js'].includes(original) || /^(NativeCmpKit|nativeCmpkit)-calf-share-test\.m?js$/.test(original);
@@ -384,6 +417,54 @@
         await window.__nativecmpkitClipboardBoot();
       } catch (error) { window.__nativecmpkitClipboardLoadFailure(error); }
     })();
+  }
+  function wasmChildBootstrap() {
+    try {
+      // Only the exact KGP Wasm loader entry receives these disposable child-realm hooks.
+      // The accepted JS bootstrap, load function and emitted HTML recipe are untouched.
+      const h = window.__nativecmpkitClipboardNative;
+      const restore = h && h.restore, boot = window.__nativecmpkitClipboardBoot;
+      if (!h || h.cleaned || typeof restore !== 'function' || typeof boot !== 'function' || '__karma__' in window) {
+        throw new Error('Owning Wasm loader hooks are missing/preexisting');
+      }
+      let loaded = 0, failed = false, release;
+      // Resolve the fixture's own wait on error, then refuse; never suppress a native clipboard rejection.
+      const ready = new Promise(resolve => { release = resolve; });
+      const karma = Object.freeze({
+        loaded() { if (++loaded !== 1) failed = true; release(); },
+        error() { failed = true; release(); } // Fixed refusal only, no loader error body/stack/paths.
+      });
+      const assertReady = () => {
+        if (failed || loaded !== 1 || window.__karma__ !== karma || window.__nativecmpkitClipboardNative !== h) {
+          throw new Error('Exact emitted Wasm test registration failed/reused');
+        }
+      };
+      const ownedBoot = async () => {
+        await ready; // script.onload precedes webpack's asynchronous Wasm registration.
+        assertReady();
+        await boot(); // Unchanged exact-selection/one-invocation/native-cleanup/result boundary.
+      };
+      const ownedRestore = () => {
+        if (h.cleaned) return false;
+        assertReady();
+        if (h.restore !== ownedRestore || window.__nativecmpkitClipboardBoot !== ownedBoot) {
+          throw new Error('Owning Wasm loader cleanup identity changed');
+        }
+        if (restore() !== true || h.cleaned !== true) throw new Error('Owning Wasm native restoration failed');
+        delete window.__karma__;
+        if ('__karma__' in window) throw new Error('Owning Wasm loader hook removal failed');
+        window.__nativecmpkitClipboardBoot = boot;
+        h.restore = restore;
+        return true;
+      };
+      window.__karma__ = karma;
+      window.__nativecmpkitClipboardBoot = ownedBoot;
+      h.restore = ownedRestore;
+    } catch (_) {
+      // A refused/partial setup can never fall through to the unguarded native method.
+      window.__nativecmpkitClipboardBoot = async () => { throw new Error('Owning Wasm loader setup refused'); };
+      window.__nativecmpkitClipboardLoadFailure(new Error('Owning Wasm loader setup refused'));
+    }
   }
   const reply = (response, origin, message, status = 200) => {
     response.writeHead(status, { 'Cache-Control': 'no-store', 'Content-Type': 'text/html; charset=utf-8' });
@@ -423,6 +504,7 @@
           !['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(request.socket.remoteAddress)) {
         reply(response, controlOrigin, 'invalid-clipboard-control', 400); return;
       }
+      let phase = 'control'; // Fixed Wasm-only phase observation, not an exception body or diagnosed cause.
       (async () => {
         if (action === 'open') {
           const mode = url.searchParams.get('mode'), method = url.searchParams.get('method');
@@ -430,7 +512,9 @@
               url.searchParams.size !== 3 || !Object.hasOwn(methods, mode) || methods[mode] !== method || sessions.size !== 0) {
             reply(response, controlOrigin, 'clipboard-open-refused', 409); return;
           }
+          phase = 'open-owner';
           const owner = aliveOwner();
+          phase = 'open-origin';
           if (new URL(owner.url).origin !== controlOrigin) throw new Error('Owning browser/control origin mismatch');
           const session = { token, mode, method, owner, controlOrigin, port, clicked: false, completedClicks: 0,
             clickStarted: false, clickOperation: null, closeOperation: null, closing: false, childServed: 0,
@@ -438,8 +522,11 @@
           sessions.set(token, session); // Reserve the exact owner before awaiting emitted script inputs.
           session.lifetime = later(60000, () => { close(session).catch(() => { session.failed = true; }); });
           try {
+            phase = 'open-scripts';
             session.scripts = await bounded(scriptUrls(filesPromise, basePath), 5000);
+            phase = 'open-readback';
             if (sessions.get(token) !== session || session.closing) throw new Error('Opening clipboard owner expired/changed');
+            phase = 'open-devtools';
             devToolsUrl(owner); // Only this actually spawned profile's port file, never a guessed port.
           } catch (error) {
             try { await close(session); } catch (_) { session.failed = true; }
@@ -461,9 +548,11 @@
           response.writeHead(200, headers);
           const boot = '(' + childBootstrap.toString() + ')(' +
             [token, session.mode, session.method, controlOrigin, klass].map(jsValue).join(',') + ');';
+          const wasmBoot = session.scripts.some(entry => entry.wasmLoader === true) ?
+            '<script>(' + wasmChildBootstrap.toString() + ')();</script>' : '';
           const load = '(' + childLoad.toString() + ')(' + jsValue(session.scripts) + ');';
           response.end('<!doctype html><meta charset="utf-8"><style>html,body{margin:0}#nativecmpkit-clipboard-action{position:fixed;left:24px;top:24px;width:250px;height:64px}</style>' +
-            '<button id="nativecmpkit-clipboard-action">NativeCmpKit owned clipboard action</button><script>' + boot + '</script><script>' + load + '</script>');
+            '<button id="nativecmpkit-clipboard-action">NativeCmpKit owned clipboard action</button><script>' + boot + '</script>' + wasmBoot + '<script>' + load + '</script>');
           return;
         }
         if (request.headers['sec-fetch-site'] !== 'same-origin') throw new Error('Control must come from the exact same-origin owner');
@@ -474,7 +563,8 @@
         await close(session);
         reply(response, controlOrigin, 'closed|' + token + '|' +
           (sessions.get(token) === session ? '1' : '0') + '|' + (session.connection ? '1' : '0'));
-      })().catch(() => reply(response, controlOrigin, 'owned-clipboard-fixture-failed', 503));
+      })().catch(() => reply(response, controlOrigin, 'owned-clipboard-fixture-failed' +
+        (isWasmPackage(basePath) ? '|' + phase : ''), 503));
     };
   };
   middleware.$inject = ['emitter', 'filesPromise', 'config.basePath'];

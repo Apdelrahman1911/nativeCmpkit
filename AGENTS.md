@@ -1,5 +1,40 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related platform recovery compiled; camera actual refusal — 2026-11-01
+
+[Owning120–123](docs/development/evidence/current-platform-recovery-20261101/wasm-windows-io-recovery120/README.md)
+integrates the pinned Wasm load.mjs/emitted-route/actual loaded-error handshake,
+WindowsStop single alias/scalar last-poll diagnostics and lazy Android IO resource
+refusal observations. Original native criteria/public APIs/production/dependencies
+stay unchanged; no namespace guess/cancellation-fix inference. Exact first17
+Wasm method/14 Node outcomes are narrowly qualified but **wrapperexit1 remains**
+for ambient custody, with no precaptured startup bytes/code/effects. First16Windows/
+13IO controls are independently accepted and reused, not replayed. Fresh serial
+IOAPK0/35.01s/Desktop-test-Kotlin0/30.01s hold1152library/1228canonical combined
+inputs; source plans/validators/Actionlint/whitespace pass, ZERO new native tests.
+New control files0644; post-apply AttributeError recovery is bookkeeping only.
+
+[Actualcamera124](docs/development/evidence/current-platform-recovery-20261101/camera-dont-keep-original124/README.md)
+at ebaac40b/41332248592 FAILED before native: parser298 rejects row2 fixed
+ASCII-star-prefix; cleanup984 separately refuses missing original state. APK0/
+295.09s,1149exact actual maps/owned emulator disposal pass; ZERO native/XML.
+Shape is not OS-producer/owner/absence/cause proof, no prefix-only parser waiver.
+#13Dont-keepC1 remains. C3-only41332244867 still executing at the18:01 metadata
+observation; assigned sole reviewer owns terminal originals. No reacquisition.
+
+94closed/78open/172total;25implemented/42partial/92verified/five unresolved.
+Next freeze and finite Wasm4 first, WindowsStop1/AndroidLocal2 within max2
+combined hosted-heavy INCLUDING queued/reserved; pairs reserve2. Accepted JS4/
+Windowsrequest/camera009/pickerC1/C2/C4/C5/C6 remain excluded. Lead owns Git/
+dispatch/closure; serial local/>=8GiB, all Actions/no mandatory SHA pinning/read-
+only verification and publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness gates remain. Earlier entries retain dates.
+
+Staged whitespace125 retains exit2/one new Windows-control trailing space;
+trimmed only outside the string, whole-module AST identical.1152/1228 current
+Git maps differ only at that CI control; relevant compiler/source bytes and
+qualified first16 reused without replay. Original preflight123 stays dated.
+
 ## Failed-case-only platform recovery and upstream refresh — 2026-11-01
 
 [Fresh upstream refresh](docs/development/upstream-refresh-20261101T131519Z/README.md)

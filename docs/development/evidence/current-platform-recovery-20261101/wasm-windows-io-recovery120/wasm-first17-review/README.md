@@ -1,0 +1,11 @@
+# Independent passive first-controls115 review
+
+**Narrow qualification:** the original source-bound records show **17 NEW synthetic methods passing once**, zero failures/errors/skips, and **14 pure Node models exiting 0**. AST/declaration/original-stream/result IDs agree; model/fixture/source/audit bindings agree. All 34 candidate sources match prebound hashes and original after-readbacks; 12 candidate module-file associations were recorded post-suite. Exact source-qualified proposal113/review114 patch and 18 fragments are unchanged. This reviewer executed no controls, project imports, models, builds, native probes, network/Git operations or live edits.
+
+**The overall wrapper remains FAILED, exit1 / `first-red-or-custody-refusal`.** Its owning post-suite classifier at `RUN-FIRST-17.py:126` found ambient `sitecustomize` outside allowed module origins; the acceptance predicate at line161 refuses it. This is not a failed method, and neither the wrapper nor its allowlist has been repaired or retried.
+
+Ambient bytes/code/sys.modules were **not prebound** before controls. The first command used `-I -B`, not `-S`, and installed its audit hook only after interpreter startup. Startup load is an inference, not an observed event. The current 155-byte optional distribution exception-hook file was classified passively afterward; its hash matches the post-suite observation. Actual optional branch/effects are unrecorded, and optional-hook absence post-suite does not establish never-executed. No historical clean-import, startup, OS or security attestation follows.
+
+Retain these narrowly qualified synthetic method outcomes while retaining the wrapper failure and custody limit. Original run41308456555 remains JS4 independently accepted / Wasm4 failed outer scenarios with zero child criteria accepted; original first throwing operand/cause and actual bundle inventory stay unknown. #82 remains open. New hosted tooling and four actual Wasm methods must be reviewed separately before any native or whole-issue acceptance. No accepted JS/native/control replay occurred.
+
+`CHECKS.json` contains exact passive binding checks; `REPORT.json` states the dispositions and limits. This compact report contains no raw host paths, ambient source bytes/code or terminal transcripts.

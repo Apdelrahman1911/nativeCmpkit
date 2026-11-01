@@ -29,7 +29,7 @@ NEW_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTe
 STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 NEW_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-NEW_SHA256 = "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
+NEW_SHA256 = "5a7db4734c215546d751b702b2b9c92766ec81e54f2eb33a788b0687cdebb4d7"
 ROWS = (
     ("desktop-linux-x64", FOCUS, "Linux", "x86_64", 1, 1),
     ("desktop-macos-arm64", STOP_FOCUS, "Darwin", "arm64", 2, 2),

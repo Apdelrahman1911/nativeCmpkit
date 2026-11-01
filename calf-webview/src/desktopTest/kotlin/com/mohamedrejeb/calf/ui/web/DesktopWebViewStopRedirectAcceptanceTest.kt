@@ -100,11 +100,29 @@ class DesktopWebViewStopRedirectAcceptanceTest {
                 assertFalse(server.isClosing(), "Fixture teardown must not manufacture the Stop witness")
 
                 navigator.stopLoading() // Actual public command consumed by the mounted library owner.
-                await("public Stop native cancellation and actual pre-header client EOF") {
-                    native.engine.loadWorker.state == Worker.State.CANCELLED &&
-                        !native.engine.loadWorker.isRunning && state.loadingState == LoadingState.Finished &&
-                        cancellations.get() == 1 && server.peerEofs(Endpoint.StopHeld) == 1 &&
-                        server.pending(Endpoint.StopHeld) == 0
+                // Scalar-only last FX-poll sample; not an acceptance predicate or a transport action.
+                // Counter reads are sequential observations, not a simultaneous snapshot of the peer.
+                val stopSnapshot = AtomicReference("sampled=false")
+                try {
+                    await("public Stop native cancellation and actual pre-header client EOF") {
+                        stopSnapshot.set("sampled=true" +
+                            ";worker=${native.engine.loadWorker.state.name}" +
+                            ";running=${native.engine.loadWorker.isRunning}" +
+                            ";finished=${state.loadingState == LoadingState.Finished}" +
+                            ";cancellations=${cancellations.get()}" +
+                            ";peerEofs=${server.peerEofs(Endpoint.StopHeld)}" +
+                            ";pending=${server.pending(Endpoint.StopHeld)}" +
+                            ";arrivals=${server.arrivals(Endpoint.StopHeld)}" +
+                            ";responses=${server.responses(Endpoint.StopHeld)}" +
+                            ";closing=${server.isClosing()}")
+                        native.engine.loadWorker.state == Worker.State.CANCELLED &&
+                            !native.engine.loadWorker.isRunning && state.loadingState == LoadingState.Finished &&
+                            cancellations.get() == 1 && server.peerEofs(Endpoint.StopHeld) == 1 &&
+                            server.pending(Endpoint.StopHeld) == 0
+                    }
+                } catch (error: AssertionError) {
+                    // Preserve the original timeout/owning refusal as the cause; failure stays failure.
+                    throw AssertionError("public Stop witness refused; ${stopSnapshot.get()}", error)
                 }
                 assertFalse(server.isClosing())
                 assertEquals(1, server.arrivals(Endpoint.StopHeld), "Stop must not feed another navigation request")

@@ -1,0 +1,45 @@
+{
+  "java_home": "/usr/lib/jvm/java-17-openjdk-amd64",
+  "commands": [
+    [
+      "IO-REPORTER",
+      [
+        "./gradlew",
+        "--offline",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-io:assembleAndroidDeviceTest"
+      ]
+    ],
+    [
+      "DESKTOP-TEST",
+      [
+        "./gradlew",
+        "--offline",
+        "--no-daemon",
+        "--no-parallel",
+        "--console=plain",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "-Pkotlin.native.jvmArgs=-Xmx2048m",
+        "--init-script",
+        "scripts/ci/daemon-jvm.init.gradle.kts",
+        ":calf-webview:compileTestKotlinDesktop"
+      ]
+    ]
+  ],
+  "no_native_or_test_tasks": true,
+  "disk_reserve_mib": 8192,
+  "timeout_seconds_each": 1200,
+  "local_heavy_serial": true
+}

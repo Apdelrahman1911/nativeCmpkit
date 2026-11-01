@@ -1218,7 +1218,7 @@ SHARE_CLIPBOARD_NATIVE_METHODS = (
 SHARE_CLIPBOARD_NATIVE_SOURCE = "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt"
 SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256 = "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
 SHARE_CLIPBOARD_NATIVE_FIXTURE = "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
-SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "fc88af9a7d6a00d7a0a23a145a12cf258af9e7c4da56eb727e63c18ad42fe89c"
+SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "0f4ed3ca16c41bbc9d314a504f691810c4d8787c91ec31b03f0ddf3c005c7d41"
 SHARE_CLIPBOARD_NATIVE_HELPERS = {
     "js": ("calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt", "9d33398d366466f41a3d4a46198a7c8e02e3c23fbfd73af1216aa6b0915ebc05"),
     "wasm": ("calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt", "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59"),
@@ -1257,8 +1257,10 @@ def share_clipboard_native_case_inventory(suite: str, cases: list[dict]) -> bool
 WEBVIEW_DESKTOP_REQUEST_FOCUS = "webview-desktop-request-state"
 WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS = "webview-desktop-request-state-stop"
 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS = "webview-desktop-request-state-stop-redirect"
+WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS = "webview-desktop-stop-windows-recovery"
 WEBVIEW_DESKTOP_REQUEST_FOCUSES = (WEBVIEW_DESKTOP_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS,
-                                 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS)
+                                 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS,
+                                 WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS)
 WEBVIEW_DESKTOP_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
 WEBVIEW_DESKTOP_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
 WEBVIEW_DESKTOP_REQUEST_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
@@ -1267,7 +1269,7 @@ WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebVi
 WEBVIEW_DESKTOP_STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 WEBVIEW_DESKTOP_REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "5a7db4734c215546d751b702b2b9c92766ec81e54f2eb33a788b0687cdebb4d7"
 # Same five classifier identities as DesktopJavaFx.kt; declaration, not runtime acceptance.
 WEBVIEW_DESKTOP_REQUEST_HOSTS = frozenset({
     ("Linux", "x64"), ("Linux", "arm64"), ("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64"),
@@ -1278,12 +1280,17 @@ WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS = {
     WEBVIEW_DESKTOP_REQUEST_FOCUS: WEBVIEW_DESKTOP_REQUEST_HOSTS,
     WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64")}),
     WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS: frozenset({("Linux", "arm64")}),
+    WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS: frozenset({("Windows", "x64")}),
 }
 
 
 def webview_desktop_request_specs(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
     if focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
         raise ValueError("Unknown finite Desktop request-state focus; no full-suite fallback")
+    if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS:
+        # Only the one failed Windows Stop method. Accepted request/redirect must not replay.
+        return [{"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_STOP_METHOD,
+                 "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256}]
     specs = [{"classname": WEBVIEW_DESKTOP_REQUEST_CLASS, "method": WEBVIEW_DESKTOP_REQUEST_METHOD,
               "source": WEBVIEW_DESKTOP_REQUEST_SOURCE, "sha256": WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256}]
     if focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
@@ -2255,7 +2262,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_source_sets"] = ["desktopTest"]
         selected[0]["test_source_sha256"] = sources
         result["scope"] = "One new real public Compose/JavaFX held pre-header native fail-to-fail-to-success method on the selected supported Desktop host only. Existing accepted stop/reload/redirect and browser fragments are reused, not replayed. Owned loopback transport refusal, not system-offline/DNS/TLS, media, another engine, full-suite, consumer, ABI, security or release certification."
-        if focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
+        if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS:
+            selected[0]["required_original_xml"] = 1
+            result["scope"] = "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Scalar-only last-poll refusal diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification."
+        elif focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
             result["scope"] = "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
         spec = WEBVIEW_IDENTITY_SPECS[suite]
@@ -2936,6 +2946,9 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("test_source_sha256") != sources or
                 test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
             raise ValueError("Invalid exact finite Desktop request-state plan")
+        if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS and (
+                type(expected[0].get("required_original_xml")) is not int or expected[0]["required_original_xml"] != 1):
+            raise ValueError("Windows Stop recovery requires exactly one fresh original XML; no accepted-method replay")
         return True
     if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]

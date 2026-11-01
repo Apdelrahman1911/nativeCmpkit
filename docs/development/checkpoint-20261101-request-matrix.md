@@ -1,5 +1,26 @@
 # Remaining-platform execution checkpoint — 2026-11-01
 
+## Current related Wasm / WindowsStop / AndroidIO recovery120–124
+
+[Focused source/compile/preflight](evidence/current-platform-recovery-20261101/wasm-windows-io-recovery120/README.md):
+1152library/1228canonical combined inputs; actual IOAPK0/35.01s and Desktop-test
+compiler0/30.01s, ZERO native. Three one-row source CLIs pass. Wasm first17method
+outcomes are narrow qualification only; original wrapper FAILEDexit1 remains.
+Windows16/IO13 pass once and are reused, original native criteria stay intact.
+
+[Camera41332248592](evidence/current-platform-recovery-20261101/camera-dont-keep-original124/README.md)
+FAILED before native at parser298; star-prefix shape is no owner/absence/cause
+proof. Dont-keepC1/#13 remains unaccepted; no unchanged retry/parser waiver.
+C3-only41332244867 is in progress at18:01metadata; acquire terminal originals once
+by assigned reviewer. Sole active run observed at17:59; this is not future capacity.
+
+Next branch freeze: `share-clipboard-native-wasm` (one row/four missing methods),
+then `webview-desktop-stop-windows-recovery` (one WindowsStop method) and
+`android-io-named-system-providers` (two local methods; cloudC1 separate). Observe
+queued/running/reserved totals immediately before dispatch, globally<=2; every
+pair reserves2 even max-parallel1. Accepted JS4/Windowsrequest/picker/camera/native
+subsets are excluded.94closed/78open/172total and all readiness/security gates stay.
+
 **Current:** [reviewed originals and focused recovery](#additive-checkpoint-reviewed-originals-and-focused-recovery-2026-11-01)
 records94closed/78open, JS clipboard4/4 and Windows fail/fail/recovery acceptance;
 Wasm4, iOSC3, Dont-keepC1, two named providers and WindowsStop remain unaccepted.

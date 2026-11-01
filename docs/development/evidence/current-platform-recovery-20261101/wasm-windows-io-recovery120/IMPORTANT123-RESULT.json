@@ -1,0 +1,155 @@
+{
+  "accepted_controls_replayed": 0,
+  "all_inputs_held": true,
+  "combined_inputs": 1228,
+  "compilers_replayed": 0,
+  "library_inputs": 1152,
+  "minimum_read_only_workflow_permissions_retained": true,
+  "native_methods_executed": 0,
+  "results": [
+    {
+      "actual_cli": "scripts/ci/library_tests.py",
+      "actual_cli_args": [
+        "plan",
+        "--suite",
+        "wasm",
+        "--module",
+        "calf-share",
+        "--focus",
+        "web-share-clipboard-native-contexts"
+      ],
+      "elapsed_seconds": 0.189385,
+      "exit": 0,
+      "expected_modules": 1,
+      "isolated_no_site_startup": true,
+      "profile": "share-clipboard-native-wasm",
+      "row": {
+        "arch": "x64",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "browser-wasm",
+        "suite": "wasm",
+        "test-focus": "web-share-clipboard-native-contexts",
+        "test-modules": "calf-share"
+      },
+      "source_only": true
+    },
+    {
+      "actual_cli": "scripts/ci/library_tests.py",
+      "actual_cli_args": [
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-desktop-stop-windows-recovery"
+      ],
+      "elapsed_seconds": 0.186212,
+      "exit": 0,
+      "expected_modules": 1,
+      "isolated_no_site_startup": true,
+      "profile": "webview-desktop-stop-windows-recovery",
+      "row": {
+        "arch": "x64",
+        "python": "python",
+        "runner": "windows-2025",
+        "slot": "desktop-windows-x64",
+        "suite": "desktop",
+        "test-focus": "webview-desktop-stop-windows-recovery",
+        "test-modules": "calf-webview"
+      },
+      "source_only": true
+    },
+    {
+      "actual_cli": "scripts/ci/android_device_tests.py",
+      "actual_cli_args": [
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-io",
+        "--focus",
+        "android-io-named-system-providers"
+      ],
+      "elapsed_seconds": 0.254431,
+      "exit": 0,
+      "expected_modules": 1,
+      "isolated_no_site_startup": true,
+      "profile": "android-io-named-system-providers",
+      "row": {
+        "arch": "x64",
+        "emulator-api": "35",
+        "python": "python3",
+        "runner": "ubuntu-24.04",
+        "slot": "android-device-api35",
+        "suite": "android-device",
+        "test-focus": "android-io-named-system-providers",
+        "test-modules": "calf-io"
+      },
+      "source_only": true
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "check": "resolutions",
+      "elapsed_seconds": 0.298748,
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "check": "source-inventory",
+      "elapsed_seconds": 1.72676,
+      "exit": 0
+    },
+    {
+      "argv": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml",
+        ".github/workflows/build-native-libs.yml"
+      ],
+      "check": "actionlint",
+      "elapsed_seconds": 0.012312,
+      "exit": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "check": "unstaged-whitespace",
+      "elapsed_seconds": 0.065806,
+      "exit": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check"
+      ],
+      "check": "staged-whitespace",
+      "elapsed_seconds": 0.011612,
+      "exit": 0
+    }
+  ],
+  "schema": 1,
+  "utc": "2026-11-01T18:02:55.945925+00:00",
+  "wasm4_windowsStop1_androidLocal2_only": true
+}

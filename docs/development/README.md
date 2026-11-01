@@ -1,5 +1,32 @@
 # NativeCmpKit development after the audit
 
+## Related missing-only platform recovery120–124 — 2026-11-01
+
+[Implementation/important checks](evidence/current-platform-recovery-20261101/wasm-windows-io-recovery120/README.md)
+qualify Wasm's emitted loader/actual bootstrap handshake, one failed WindowsStop
+alias/diagnostics and AndroidIO refusal metadata without namespace/UI fallbacks.
+17Wasm methods/14Node models are narrowly qualified; the original ambient-custody
+wrapper stays FAILEDexit1.16Windows/13IO controls pass once and are reused. Fresh
+serial IOAPK0/35.01s/Desktop-test compiler0/30.01s hold1152/1228 maps, ZERO native.
+Three isolated source CLIs and structural/Actionlint/whitespace checks pass.
+
+[Camera actual124](evidence/current-platform-recovery-20261101/camera-dont-keep-original124/README.md)
+remains FAILED/ZERO native at parser298/star-prefix row2; APK0/295.09s and owned
+emulator disposal do not compensate missing prerequisite/state/cleanup. Shape
+alone cannot prove owner/absence/cause or qualify a parser waiver; #13 open.
+C3-only41332244867 remains running at18:01 observation; sole reviewer owns originals.
+
+**94closed/78open/172total;25implemented/42partial/92verified/five unresolved.**
+Next immutable Wasm-only4, then WindowsStop1 and local-provider2 within global2
+including queued/reserved; no JS/Windowsrequest/camera/picker accepted replay.
+Publishing/Pages/main/history/native/consumer/ABI/dependency/legal/security/
+release-readiness remain gated; all actions/no mandatory SHA pinning/read-only.
+
+Staged whitespace125 retains exit2/one new Windows-control trailing space;
+trimmed only outside the string, whole-module AST identical.1152/1228 current
+Git maps differ only at that CI control; relevant compiler/source bytes and
+qualified first16 reused without replay. Original preflight123 stays dated.
+
 ## Current original results and missing-only recovery — 2026-11-01
 
 **94closed/78open/172total;25implemented/42partial/92verified/five unresolved.**

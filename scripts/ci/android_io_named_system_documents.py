@@ -26,6 +26,86 @@ METHODS = (
 )
 ANDROID = "{http://schemas.android.com/apk/res/android}"
 
+# Exact owning resource helpers only; native selectors/lifecycle stay separate.
+_RESOURCE_REFUSAL_SOURCE = r'''    private fun resource(id: String): String {
+        // The R namespace need not be the package name of a Google-repackaged system application.
+        val namespace = "com.android.documentsui"
+        val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
+        val value = resources.getIdentifier(id, "id", namespace)
+        check(value != 0 && resources.getResourceName(value) == "$namespace:id/$id") {
+            resourceRefusal("The exact stock DocumentsUI control resource is unavailable",
+                resources, value, "id/$id")
+        }
+        return resources.getResourceName(value)
+    }
+
+    private fun stringResource(name: String, vararg arguments: Any): String {
+        val namespace = "com.android.documentsui"
+        val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
+        val value = resources.getIdentifier(name, "string", namespace)
+        check(value != 0 && resources.getResourceName(value) == "$namespace:string/$name") {
+            resourceRefusal("The exact stock DocumentsUI string resource is unavailable",
+                resources, value, "string/$name")
+        }
+        return resources.getString(value, *arguments).also { check(it.isNotBlank() && it.length <= 1024) }
+    }
+
+    // Failure-only metadata observations never select or authorize a replacement resource.
+    private fun resourceRefusal(message: String, resources: android.content.res.Resources,
+        value: Int, requested: String): String {
+        val application = when (packageName) {
+            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
+            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
+            else -> "OTHER_REFUSED"
+        }
+        val request = when (requested) {
+            "id/dir_list" -> "DIR_LIST"
+            "id/toolbar" -> "TOOLBAR"
+            "string/open_tree_button" -> "OPEN_TREE_BUTTON"
+            "string/open_tree_dialog_title" -> "OPEN_TREE_DIALOG_TITLE"
+            "string/open_tree_dialog_message" -> "OPEN_TREE_DIALOG_MESSAGE"
+            "string/allow" -> "ALLOW"
+            else -> "OTHER_REFUSED"
+        }
+        // Only the original check's lazy false branch calls this function.
+        // Nonzero means its exact-name comparison completed false, not a new lookup.
+        val nonzero = value != 0
+        val nameMatchFromRefusal: Boolean? = if (nonzero) false else null
+        val label = admittedLabelResource
+        return "$message;documentsUiResourceRefusalSchema=1,request=$request,application=$application," +
+            "canonicalIdentifierNonzero=$nonzero,canonicalNameMatchFromRefusal=$nameMatchFromRefusal," +
+            "canonicalPostRefusalNamespace=${resourceNamespaceCategory(resources, value)}," +
+            "applicationLabelIdentifierNonzero=${label?.let { it != 0 }}," +
+            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}"
+    }
+
+    private fun resourceNamespaceCategory(resources: android.content.res.Resources, value: Int): String {
+        if (value == 0) return "ZERO_IDENTIFIER"
+        // Additional post-refusal readback only. A label resource is not whole-table ownership.
+        // Neither a resource name nor a diagnostic exception may escape into the failure report.
+        return try {
+            val name = resources.getResourceName(value)
+            when {
+                name.startsWith("com.android.documentsui:") -> "AOSP_DOCUMENTS_UI"
+                name.startsWith("com.google.android.documentsui:") -> "GOOGLE_DOCUMENTS_UI"
+                name.startsWith("android:") -> "ANDROID_FRAMEWORK"
+                ':' in name -> "OTHER_NAMESPACE"
+                else -> "UNAVAILABLE"
+            }
+        } catch (_: Throwable) {
+            "UNAVAILABLE" // Preserve the original IllegalStateException and its fixed message prefix.
+        }
+    }
+
+'''
+_RESOURCE_LABEL_ADMISSION_SOURCE = r'''    init {
+        check(packageName in AndroidIoSystemTreeGrantActivity.SYSTEM_DOCUMENTS_UI)
+        val app = instrumentation.targetContext.packageManager.getApplicationInfo(packageName, 0)
+        check(app.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0)
+        admittedLabelResource = app.labelRes
+        automation.serviceInfo = automation.serviceInfo.apply {
+'''
+
 
 def require(condition: bool, message: str) -> None:
     if not condition:
@@ -121,6 +201,15 @@ def source_contract(root: Path) -> dict:
         'candidate.performAction(AccessibilityNodeInfo.ACTION_CLICK)', 'flags = originalFlags',
     )) and not any(value in ui for value in ('resource("dir_title")', 'resource("action_menu_select")')),
         "System UI ownership, exact controls, ambiguity refusal or flag restoration changed")
+    require(ui.count(_RESOURCE_REFUSAL_SOURCE) == 1 and
+            ui.count(_RESOURCE_LABEL_ADMISSION_SOURCE) == 1 and
+            ui.count("    private var admittedLabelResource: Int? = null\n") == 1 and
+            ui.count("admittedLabelResource") == 3 and
+            ui.count("app.labelRes") == 1 and
+            ui.count("resources.getIdentifier(") == 2 and
+            ui.count("resources.getResourceName(") == 4 and
+            ui.count("resourceRefusal(") == 3,
+            "Refusal-only DocumentsUI resource observations changed")
     ui_action_order = (
         'candidate = checkNotNull(candidate.parent).also { parents += it }',
         'check(candidate.refresh() && candidate.isVisibleToUser && candidate.packageName?.toString() == packageName)',

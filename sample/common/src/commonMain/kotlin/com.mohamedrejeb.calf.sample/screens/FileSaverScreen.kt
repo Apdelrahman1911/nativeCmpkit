@@ -51,9 +51,10 @@ import com.mohamedrejeb.calf.io.readByteArray
 import com.mohamedrejeb.calf.picker.FilePickerFileType
 import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
 import com.mohamedrejeb.calf.picker.FilePickerSettings
+import com.mohamedrejeb.calf.picker.FileSaverEvent
 import com.mohamedrejeb.calf.picker.ImageRepresentationMode
 import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
-import com.mohamedrejeb.calf.picker.rememberFileSaverLauncher
+import com.mohamedrejeb.calf.picker.rememberFileSaverEventLauncher
 import com.mohamedrejeb.calf.sample.components.SampleScreenScaffold
 import com.mohamedrejeb.calf.sample.utils.toByteArray
 import com.mohamedrejeb.calf.sample.utils.MAX_SAMPLE_IMAGE_BYTES
@@ -98,11 +99,12 @@ fun FileSaverScreen(navigateBack: () -> Unit) {
         },
     )
 
-    val saverLauncher = rememberFileSaverLauncher(
-        onResult = { file ->
-            isSaving = false
-            saveFailed = file == null
-            saveMessage = if (file != null) "Saved successfully" else "Save cancelled"
+    val saverLauncher = rememberFileSaverEventLauncher(
+        onEvent = { event ->
+            val feedback = event.toSampleSaverFeedback()
+            isSaving = feedback.isSaving
+            saveFailed = feedback.failed
+            saveMessage = feedback.message
         },
     )
 
@@ -254,6 +256,19 @@ fun FileSaverScreen(navigateBack: () -> Unit) {
             )
         }
     }
+}
+
+/** Sample UI state only; browser download requests are not terminal download success. */
+internal data class SampleSaverFeedback(val isSaving: Boolean, val failed: Boolean, val message: String)
+
+internal fun FileSaverEvent.toSampleSaverFeedback(): SampleSaverFeedback = when (this) {
+    is FileSaverEvent.Saved -> SampleSaverFeedback(false, false, "Saved successfully")
+    FileSaverEvent.Cancelled -> SampleSaverFeedback(false, false, "Save cancelled")
+    is FileSaverEvent.DownloadStarted -> SampleSaverFeedback(
+        false, false, "Download requested: $fileName. Check your browser's downloads.",
+    )
+    // FilePickerException.message is a diagnostic, not user-facing text.
+    is FileSaverEvent.Failed -> SampleSaverFeedback(false, true, "Export failed. Try again.")
 }
 
 /** Bounded sample transformation, not an unrestricted image editor or decoder API. */

@@ -1,5 +1,59 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Share owning batch compiled; alert native failures preserved — 2026-11-01
+
+[Owning168–179](docs/development/evidence/current-platform-recovery-20261101/share-owning168-179/README.md)
+composes13 shared/25 ordered owning fragments and retains all19 alert bodies.
+NEW8 passes once; source9 initially8pass/one invalid synthetic settings fixture,
+then only that failed case passes. NEW2/sample-source2 pass once; accepted source
+populations are not replayed. Literal parser/public native assertions stay strict.
+Actual172 fails7 test compiler diagnostics/Gradle1/39.01s; only public IO/UIKit
+imports and two assertion type parameters repaired.175 fresh test KLIB0/31.01s,
+1177/1255 held; production UP-TO-DATE, **ZERO Apple link/native**. Separate sample
+176 fails missing PATH rustup/36.01s with only stale unrelated XML;178 fails four
+uncached exact-version dependencies/48.01s.179 ordinary online same-five succeeds
+**5/5/two fresh XML/Gradle0/125.03s**, independently source/results-reviewed with
+1177/1255 held; stale streaming XML excluded. Sample mapping only, no native/library
+or packaged acceptance; no version/checksum/security waiver or forced rebuild.
+
+[Actual alert177](docs/development/evidence/current-platform-recovery-20261101/alert-attempt2-original177/README.md)
+seals41346107102 attempt2: **4nativefail/0pass/one XML**, Gradle1/1387.4s.
+Activation/Worker/owned-app cleanup hold; four after-timeout XML observations show
+zero matching label/button/visible/eligible UIView rows, not the historical poll
+operand or cause. UIView-only traversal excludes nonview accessibility elements
+source-conditionally; no owning activation replacement is qualified. #28 stays
+open/no blind retry; its reservation is freed. Lead completes saved review after
+service-rate-limit failure; exact KGP XML decoration correction and first passive
+review refusal remain, no original download repeats. Completed Share003 source
+review seal survives a separate reviewer relay rate-limit failure.
+
+Camera006 private draft is source-refused: terminal120s phase can misleadingly say
+passed, private CI environment is missing, and current shared bindings/final author
+seal are incomplete. Do not integrate it or infer #13 restoration. ARM discovery/
+Windows Stop/CI reuse core remain separately unqualified. Next freeze/push and
+finite AndroidLocal2/Wasm4 only within max2 combined hosted reservations INCLUDING
+queued; Share13 waits for capacity. Reuse unchanged IO APK/accepted JS and native
+populations. Counts96closed/76open/172total;25implemented/40partial/94verified/five
+unresolved. Lead Git/dispatch/closure, serial local/8GiB; Actions/all/no mandatory
+SHA pinning/read-only and every publishing/Pages/main/history/native/consumer/
+API-ABI/dependency/legal/security/readiness gate stay unchanged.
+
+## Resource admission and genuine Wasm registration — 2026-11-01
+
+[Actual163–166](docs/development/evidence/current-platform-recovery-20261101/resource-registration163-166/README.md)
+accepts Android NEW18 once and reporter APK0/54.16s (1165/1241 held), plus Wasm
+NEW12 once and two real emitted red/green probes0/0.516s each (1168/1244 held).
+Genuine framework/detector/selector/four compiled callbacks qualify registration
+only: **ZERO new native/browser outcomes**, #55 Local2/cloud C1 and #82 Wasm4
+still required. Preserve every preflight refusal and unknown hosted cause.
+Do not rerun accepted controls or unchanged IO APK for unrelated Wasm deltas.
+At this checkpoint Share/UIKit composition was pending; the owning168–179 batch
+above now completes it without generic repinning. Alert41346107102 attempt2 is
+terminal failed; actual177 preserves its designated reviewer's originals and frees
+the reservation. Counts remain96closed/76open/172total. Lead integration/Git/closure,
+serial local/8GiB/max2 combined reserved/queued heavy and all readiness/security,
+publishing/Pages/main/history/native/consumer/API-ABI gates remain unchanged.
+
 ## Important native recovery; UIKit alert-only preparation — 2026-11-01
 
 [Actual159–160](docs/development/evidence/current-platform-recovery-20261101/important-recovery159-160/README.md)

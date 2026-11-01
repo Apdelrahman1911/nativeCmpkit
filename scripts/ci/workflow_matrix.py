@@ -145,6 +145,7 @@ PROFILES = {
     "ios-picker-recovery": ("ios-iphone",),
     "ios-picker-admission": ("ios-iphone",),
     "ios-picker-provider-cancellation": ("ios-iphone",),
+    "ios-share-presentation-disposal": ("ios-iphone",),
     "ios-switch-cancellation": ("ios-iphone",),
     "ios-switch-ownership": ("ios-iphone",),
     "ios-slider-numeric": ("ios-iphone",),
@@ -353,6 +354,7 @@ MODULE_SUBSETS = {
     "ios-picker-recovery": "calf-file-picker",
     "ios-picker-admission": "calf-file-picker",
     "ios-picker-provider-cancellation": "calf-file-picker",
+    "ios-share-presentation-disposal": "calf-share",
     "ios-switch-cancellation": "calf-ui",
     "ios-switch-ownership": "calf-ui",
     "ios-slider-numeric": "calf-ui",
@@ -618,6 +620,13 @@ def matrix(profile: str) -> dict:
     if profile == "ios-picker-provider-cancellation":
         for row in rows:
             row["test-focus"] = "picker-ios-provider-cancellation"
+    if profile == "ios-share-presentation-disposal":
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-share"}
+        if (PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-share" or
+                rows != [canonical]):
+            raise ValueError("New Share disposal profile requires its exact single genuine iPhone library host")
+        rows[0]["test-focus"] = "share-ios-presentation-disposal"
     if profile == "ios-switch-cancellation":
         for row in rows:
             row["test-focus"] = "ios-native-switch-cancellation"

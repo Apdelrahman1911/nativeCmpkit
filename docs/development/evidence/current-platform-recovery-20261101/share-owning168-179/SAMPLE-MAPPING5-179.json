@@ -1,0 +1,96 @@
+{
+  "scope": "five sample event mappings only, not library integration",
+  "execution": {
+    "command": [
+      "./gradlew",
+      ":sample:common:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest",
+      "--tests",
+      "com.mohamedrejeb.calf.sample.screens.SampleFileSaverSavedFeedbackTest",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--no-parallel",
+      "--max-workers=1",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/daemon-jvm.init.gradle.kts"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 900,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-01T21:57:08.288580+00:00",
+    "free_bytes_before": 36856401920,
+    "exit_code": 0,
+    "elapsed_seconds": 125.03,
+    "free_bytes_after": 36795736064
+  },
+  "original_reports": [
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest.xml",
+      "sha256": "ecb0e0abb825687497efb22a779da95e0d6dccbbdcf94f0529bc7ddbd3b61370",
+      "suite": {
+        "name": "SampleFileSaverFeedbackTest[desktop]",
+        "tests": "4",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-01T21:59:12.266Z",
+        "hostname": "(none)",
+        "time": "0.031"
+      },
+      "methods": [
+        {
+          "name": "cancellationLeavesWaitingButDoesNotBecomeAFailure[desktop]",
+          "classname": "com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest",
+          "time": "0.016"
+        },
+        {
+          "name": "failureLeavesWaitingAndDoesNotExposeTheDiagnosticMessage[desktop]",
+          "classname": "com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest",
+          "time": "0.008"
+        },
+        {
+          "name": "laterDownloadRequestClearsEarlierFailureAndKeepsItsLiteralSuggestedName[desktop]",
+          "classname": "com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest",
+          "time": "0.004"
+        },
+        {
+          "name": "downloadStartedLeavesWaitingWithoutClaimingSavedOrCancelled[desktop]",
+          "classname": "com.mohamedrejeb.calf.sample.screens.SampleFileSaverFeedbackTest",
+          "time": "0.0"
+        }
+      ],
+      "previous_sha256": null
+    },
+    {
+      "file": "TEST-com.mohamedrejeb.calf.sample.screens.SampleFileSaverSavedFeedbackTest.xml",
+      "sha256": "3884980ecb3450176767c73e77dc801e523bb8a4ba6fd7fc55d29760e53ce9ef",
+      "suite": {
+        "name": "SampleFileSaverSavedFeedbackTest[desktop]",
+        "tests": "1",
+        "skipped": "0",
+        "failures": "0",
+        "errors": "0",
+        "timestamp": "2026-11-01T21:59:12.300Z",
+        "hostname": "(none)",
+        "time": "0.001"
+      },
+      "methods": [
+        {
+          "name": "onlyASavedEventClaimsSavedAndClearsTheWaitingState[desktop]",
+          "classname": "com.mohamedrejeb.calf.sample.screens.SampleFileSaverSavedFeedbackTest",
+          "time": "0.001"
+        }
+      ],
+      "previous_sha256": null
+    }
+  ],
+  "inputs_held": true,
+  "library_inputs": 1177,
+  "canonical_combined_inputs": 1255,
+  "stale_unrelated_reports_accepted": 0,
+  "previous176_and178_failures_preserved": true
+}

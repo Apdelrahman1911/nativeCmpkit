@@ -12,13 +12,13 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val automation = instrumentation.uiAutomation
     private val originalFlags = automation.serviceInfo.flags
-    private var admittedLabelResource: Int? = null
+    private data class ResourceContract(val resources: android.content.res.Resources, val namespace: String)
+    private var admittedResourceContract: ResourceContract? = null
 
     init {
         check(packageName in AndroidIoSystemTreeGrantActivity.SYSTEM_DOCUMENTS_UI)
         val app = instrumentation.targetContext.packageManager.getApplicationInfo(packageName, 0)
         check(app.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0)
-        admittedLabelResource = app.labelRes
         automation.serviceInfo = automation.serviceInfo.apply {
             flags = flags or AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS or
                 AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS
@@ -27,6 +27,9 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
 
     fun selectOwnedFolder(folder: String) {
         check(folder.matches(Regex("NativeCmpKitIo55-[a-f0-9]{32}")))
+        // The caller has already assigned this constructed UI to its finally owner.
+        // Qualify the complete literal app contract before any accessibility query or click.
+        qualifyResourceContract()
         // Android15 ListDocumentHolder/GridDirectoryHolder bind the row display name to android:id/title.
         // Only the exact owned row inside DirectoryFragment's dir_list is admissible, not arbitrary text.
         click({ root -> textIn(root, resource("dir_list"), folder) }, {
@@ -62,83 +65,20 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
         })
     }
 
-    private fun resource(id: String): String {
-        // The R namespace need not be the package name of a Google-repackaged system application.
-        val namespace = "com.android.documentsui"
-        val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
-        val value = resources.getIdentifier(id, "id", namespace)
-        check(value != 0 && resources.getResourceName(value) == "$namespace:id/$id") {
-            resourceRefusal("The exact stock DocumentsUI control resource is unavailable",
-                resources, value, "id/$id")
+    private fun qualifyResourceContract() {
+        check(admittedResourceContract == null) { "DocumentsUI resource contract was already qualified" }
+        // Application identity chooses one complete contract; no label-derived namespace or fallback.
+        val namespace = when (packageName) {
+            "com.android.documentsui" -> "com.android.documentsui"
+            "com.google.android.documentsui" -> "com.google.android.documentsui"
+            else -> error("DocumentsUI resource application refused;application=OTHER_REFUSED")
         }
-        return resources.getResourceName(value)
-    }
-
-    private fun stringResource(name: String, vararg arguments: Any): String {
-        val namespace = "com.android.documentsui"
-        val resources = instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
-        val value = resources.getIdentifier(name, "string", namespace)
-        check(value != 0 && resources.getResourceName(value) == "$namespace:string/$name") {
-            resourceRefusal("The exact stock DocumentsUI string resource is unavailable",
-                resources, value, "string/$name")
-        }
-        return resources.getString(value, *arguments).also { check(it.isNotBlank() && it.length <= 1024) }
-    }
-
-    // Failure-only metadata observations never select or authorize a replacement resource.
-    private fun resourceRefusal(message: String, resources: android.content.res.Resources,
-        value: Int, requested: String): String {
-        val application = when (packageName) {
-            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
-            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
-            else -> "OTHER_REFUSED"
-        }
-        val request = when (requested) {
-            "id/dir_list" -> "DIR_LIST"
-            "id/toolbar" -> "TOOLBAR"
-            "string/open_tree_button" -> "OPEN_TREE_BUTTON"
-            "string/open_tree_dialog_title" -> "OPEN_TREE_DIALOG_TITLE"
-            "string/open_tree_dialog_message" -> "OPEN_TREE_DIALOG_MESSAGE"
-            "string/allow" -> "ALLOW"
-            else -> "OTHER_REFUSED"
-        }
-        // Only the original check's lazy false branch calls this function.
-        // Nonzero means its exact-name comparison completed false, not a new lookup.
-        val nonzero = value != 0
-        val nameMatchFromRefusal: Boolean? = if (nonzero) false else null
-        val label = admittedLabelResource
-        return "$message;documentsUiResourceRefusalSchema=1,request=$request,application=$application," +
-            "canonicalIdentifierNonzero=$nonzero,canonicalNameMatchFromRefusal=$nameMatchFromRefusal," +
-            "canonicalPostRefusalNamespace=${resourceNamespaceCategory(resources, value)}," +
-            "applicationLabelIdentifierNonzero=${label?.let { it != 0 }}," +
-            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}" +
-            "," + fixedCandidateResourceQualification(resources, requested)
-    }
-
-    private fun resourceNamespaceCategory(resources: android.content.res.Resources, value: Int): String {
-        if (value == 0) return "ZERO_IDENTIFIER"
-        // Additional post-refusal readback only. A label resource is not whole-table ownership.
-        // Neither a resource name nor a diagnostic exception may escape into the failure report.
-        return try {
-            val name = resources.getResourceName(value)
-            when {
-                name.startsWith("com.android.documentsui:") -> "AOSP_DOCUMENTS_UI"
-                name.startsWith("com.google.android.documentsui:") -> "GOOGLE_DOCUMENTS_UI"
-                name.startsWith("android:") -> "ANDROID_FRAMEWORK"
-                ':' in name -> "OTHER_NAMESPACE"
-                else -> "UNAVAILABLE"
-            }
+        val resources = try {
+            instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)
         } catch (_: Throwable) {
-            "UNAVAILABLE" // Preserve the original IllegalStateException and its fixed message prefix.
+            error(resourceAdmissionRefusal("RESOURCE_TABLE", namespace, null, null))
         }
-    }
-
-    // A bounded failure-only candidate observation, never a control/namespace admission.
-    private fun fixedCandidateResourceQualification(resources: android.content.res.Resources,
-        requested: String): String = try {
-        // Same Resources instance from the original canonical check; label observations are not authority.
-        val eligible = requested == "id/dir_list" && packageName == "com.google.android.documentsui"
-        val candidateNamespace = "com.google.android.documentsui"
+        // All six original154 candidate roles were nonzero/exact; every execution must requalify.
         val contracts = arrayOf(
             Triple("DIR_LIST", "id", "dir_list"),
             Triple("TOOLBAR", "id", "toolbar"),
@@ -147,41 +87,80 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
             Triple("OPEN_TREE_DIALOG_MESSAGE", "string", "open_tree_dialog_message"),
             Triple("ALLOW", "string", "allow"),
         )
-        var identifierLookupCount = 0
-        var nameReadbackCount = 0
-        var identifierNonzeroCount = 0
-        var exactFullNameCount = 0
-        val facts = ArrayList<String>(6)
-        for ((category, type, entry) in contracts) {
-            val identifier: Int? = if (eligible) try {
-                identifierLookupCount += 1
-                resources.getIdentifier(entry, type, candidateNamespace)
-            } catch (_: Throwable) {
-                null
-            } else null
-            val nonzero: Boolean? = identifier?.let { it != 0 }
-            if (nonzero == true) identifierNonzeroCount += 1
-            val exactFullNameMatch: Boolean? = if (identifier != null && identifier != 0) try {
-                nameReadbackCount += 1
-                resources.getResourceName(identifier) == "$candidateNamespace:$type/$entry"
-            } catch (_: Throwable) {
-                null
-            } else null
-            if (exactFullNameMatch == true) exactFullNameCount += 1
-            facts += "candidate${category}IdentifierNonzero=$nonzero," +
-                "candidate${category}ExactFullNameMatch=$exactFullNameMatch"
+        for ((request, type, entry) in contracts) {
+            readQualifiedResource(resources, namespace, request, type, entry)
         }
-        val scope = if (eligible) "GOOGLE_DIR_LIST_REFUSAL" else "NOT_REQUESTED"
-        val namespaceCategory = if (eligible) "GOOGLE_PACKAGE_CANDIDATE" else "NOT_REQUESTED"
-        "candidateQualificationSchema=1,candidateScope=$scope,candidateNamespace=$namespaceCategory," +
-            "candidateContractCount=6,candidateIdentifierLookupCount=$identifierLookupCount," +
-            "candidateNameReadbackCount=$nameReadbackCount,candidateIdentifierNonzeroCount=$identifierNonzeroCount," +
-            "candidateExactFullNameCount=$exactFullNameCount," + facts.joinToString(",")
-    } catch (_: Throwable) {
-        // A diagnostic failure must not replace the original lazy-check IllegalStateException.
-        "candidateQualificationSchema=1,candidateScope=UNAVAILABLE,candidateNamespace=NOT_REQUESTED," +
-            "candidateContractCount=6,candidateIdentifierLookupCount=-1,candidateNameReadbackCount=-1," +
-            "candidateIdentifierNonzeroCount=-1,candidateExactFullNameCount=-1"
+        // No partial contract, zero/wrong readback or per-role namespace hybrid can be published.
+        admittedResourceContract = ResourceContract(resources, namespace)
+    }
+
+    private fun resource(id: String): String = qualifiedResource("id", id).second
+
+    private fun stringResource(name: String, vararg arguments: Any): String {
+        val (value, _) = qualifiedResource("string", name)
+        val resources = checkNotNull(admittedResourceContract).resources
+        val text = try {
+            resources.getString(value, *arguments)
+        } catch (_: Throwable) {
+            error("Exact admitted DocumentsUI string unavailable;request=STRING_VALUE")
+        }
+        return text.also {
+            check(it.isNotBlank() && it.length <= 1024) { "Exact admitted DocumentsUI string value refused" }
+        }
+    }
+
+    private fun qualifiedResource(type: String, entry: String): Pair<Int, String> {
+        val contract = checkNotNull(admittedResourceContract) { "DocumentsUI resource contract is unqualified" }
+        val request = when ("$type/$entry") {
+            "id/dir_list" -> "DIR_LIST"
+            "id/toolbar" -> "TOOLBAR"
+            "string/open_tree_button" -> "OPEN_TREE_BUTTON"
+            "string/open_tree_dialog_title" -> "OPEN_TREE_DIALOG_TITLE"
+            "string/open_tree_dialog_message" -> "OPEN_TREE_DIALOG_MESSAGE"
+            "string/allow" -> "ALLOW"
+            else -> error("DocumentsUI resource role refused;request=OTHER_REFUSED")
+        }
+        // Recheck consumed IDs/strings against the same fully qualified Resources object.
+        return readQualifiedResource(contract.resources, contract.namespace, request, type, entry)
+    }
+
+    private fun readQualifiedResource(resources: android.content.res.Resources, namespace: String,
+        request: String, type: String, entry: String): Pair<Int, String> {
+        val value: Int? = try {
+            resources.getIdentifier(entry, type, namespace)
+        } catch (_: Throwable) {
+            null
+        }
+        val nonzero: Boolean? = value?.let { it != 0 }
+        val fullName: String? = if (nonzero == true) try {
+            resources.getResourceName(checkNotNull(value))
+        } catch (_: Throwable) {
+            null
+        } else null
+        val exactFullNameMatch: Boolean? = fullName?.let { it == "$namespace:$type/$entry" }
+        check(nonzero == true && exactFullNameMatch == true) {
+            resourceAdmissionRefusal(request, namespace, nonzero, exactFullNameMatch)
+        }
+        return checkNotNull(value) to checkNotNull(fullName)
+    }
+
+    private fun resourceAdmissionRefusal(request: String, namespace: String,
+        nonzero: Boolean?, exactFullNameMatch: Boolean?): String {
+        val application = when (packageName) {
+            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
+            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
+            else -> "OTHER_REFUSED"
+        }
+        val declaredNamespace = when (namespace) {
+            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
+            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
+            else -> "OTHER_REFUSED"
+        }
+        // Only fixed categories and nullable booleans leave a refusal, never raw IDs/names/bodies.
+        return "The exact application-specific DocumentsUI resource is unavailable;" +
+            "documentsUiResourceAdmissionSchema=1,request=$request,application=$application," +
+            "declaredNamespace=$declaredNamespace,identifierNonzero=$nonzero," +
+            "exactFullNameMatch=$exactFullNameMatch"
     }
 
     private fun textIn(root: AccessibilityNodeInfo, containerId: String, expected: String): List<AccessibilityNodeInfo> {

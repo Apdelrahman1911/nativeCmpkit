@@ -161,6 +161,58 @@ _RESOURCE_LABEL_ADMISSION_SOURCE = r'''    init {
 '''
 
 
+# Original canonical diagnostics stay literal for exact historical reconstruction only.
+_RESOURCE_ADMISSION_FIELDS_SOURCE = '    private data class ResourceContract(val resources: android.content.res.Resources, val namespace: String)\n    private var admittedResourceContract: ResourceContract? = null\n'
+_RESOURCE_ADMISSION_INITIALIZER_SOURCE = '    init {\n        check(packageName in AndroidIoSystemTreeGrantActivity.SYSTEM_DOCUMENTS_UI)\n        val app = instrumentation.targetContext.packageManager.getApplicationInfo(packageName, 0)\n        check(app.flags and (ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0)\n        automation.serviceInfo = automation.serviceInfo.apply {\n'
+_RESOURCE_ADMISSION_SELECT_BEFORE = '    fun selectOwnedFolder(folder: String) {\n        check(folder.matches(Regex("NativeCmpKitIo55-[a-f0-9]{32}")))\n'
+_RESOURCE_ADMISSION_SELECT_SOURCE = '    fun selectOwnedFolder(folder: String) {\n        check(folder.matches(Regex("NativeCmpKitIo55-[a-f0-9]{32}")))\n        // The caller has already assigned this constructed UI to its finally owner.\n        // Qualify the complete literal app contract before any accessibility query or click.\n        qualifyResourceContract()\n'
+_RESOURCE_ADMISSION_SOURCE = '    private fun qualifyResourceContract() {\n        check(admittedResourceContract == null) { "DocumentsUI resource contract was already qualified" }\n        // Application identity chooses one complete contract; no label-derived namespace or fallback.\n        val namespace = when (packageName) {\n            "com.android.documentsui" -> "com.android.documentsui"\n            "com.google.android.documentsui" -> "com.google.android.documentsui"\n            else -> error("DocumentsUI resource application refused;application=OTHER_REFUSED")\n        }\n        val resources = try {\n            instrumentation.targetContext.packageManager.getResourcesForApplication(packageName)\n        } catch (_: Throwable) {\n            error(resourceAdmissionRefusal("RESOURCE_TABLE", namespace, null, null))\n        }\n        // All six original154 candidate roles were nonzero/exact; every execution must requalify.\n        val contracts = arrayOf(\n            Triple("DIR_LIST", "id", "dir_list"),\n            Triple("TOOLBAR", "id", "toolbar"),\n            Triple("OPEN_TREE_BUTTON", "string", "open_tree_button"),\n            Triple("OPEN_TREE_DIALOG_TITLE", "string", "open_tree_dialog_title"),\n            Triple("OPEN_TREE_DIALOG_MESSAGE", "string", "open_tree_dialog_message"),\n            Triple("ALLOW", "string", "allow"),\n        )\n        for ((request, type, entry) in contracts) {\n            readQualifiedResource(resources, namespace, request, type, entry)\n        }\n        // No partial contract, zero/wrong readback or per-role namespace hybrid can be published.\n        admittedResourceContract = ResourceContract(resources, namespace)\n    }\n\n    private fun resource(id: String): String = qualifiedResource("id", id).second\n\n    private fun stringResource(name: String, vararg arguments: Any): String {\n        val (value, _) = qualifiedResource("string", name)\n        val resources = checkNotNull(admittedResourceContract).resources\n        val text = try {\n            resources.getString(value, *arguments)\n        } catch (_: Throwable) {\n            error("Exact admitted DocumentsUI string unavailable;request=STRING_VALUE")\n        }\n        return text.also {\n            check(it.isNotBlank() && it.length <= 1024) { "Exact admitted DocumentsUI string value refused" }\n        }\n    }\n\n    private fun qualifiedResource(type: String, entry: String): Pair<Int, String> {\n        val contract = checkNotNull(admittedResourceContract) { "DocumentsUI resource contract is unqualified" }\n        val request = when ("$type/$entry") {\n            "id/dir_list" -> "DIR_LIST"\n            "id/toolbar" -> "TOOLBAR"\n            "string/open_tree_button" -> "OPEN_TREE_BUTTON"\n            "string/open_tree_dialog_title" -> "OPEN_TREE_DIALOG_TITLE"\n            "string/open_tree_dialog_message" -> "OPEN_TREE_DIALOG_MESSAGE"\n            "string/allow" -> "ALLOW"\n            else -> error("DocumentsUI resource role refused;request=OTHER_REFUSED")\n        }\n        // Recheck consumed IDs/strings against the same fully qualified Resources object.\n        return readQualifiedResource(contract.resources, contract.namespace, request, type, entry)\n    }\n\n    private fun readQualifiedResource(resources: android.content.res.Resources, namespace: String,\n        request: String, type: String, entry: String): Pair<Int, String> {\n        val value: Int? = try {\n            resources.getIdentifier(entry, type, namespace)\n        } catch (_: Throwable) {\n            null\n        }\n        val nonzero: Boolean? = value?.let { it != 0 }\n        val fullName: String? = if (nonzero == true) try {\n            resources.getResourceName(checkNotNull(value))\n        } catch (_: Throwable) {\n            null\n        } else null\n        val exactFullNameMatch: Boolean? = fullName?.let { it == "$namespace:$type/$entry" }\n        check(nonzero == true && exactFullNameMatch == true) {\n            resourceAdmissionRefusal(request, namespace, nonzero, exactFullNameMatch)\n        }\n        return checkNotNull(value) to checkNotNull(fullName)\n    }\n\n    private fun resourceAdmissionRefusal(request: String, namespace: String,\n        nonzero: Boolean?, exactFullNameMatch: Boolean?): String {\n        val application = when (packageName) {\n            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"\n            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"\n            else -> "OTHER_REFUSED"\n        }\n        val declaredNamespace = when (namespace) {\n            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"\n            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"\n            else -> "OTHER_REFUSED"\n        }\n        // Only fixed categories and nullable booleans leave a refusal, never raw IDs/names/bodies.\n        return "The exact application-specific DocumentsUI resource is unavailable;" +\n            "documentsUiResourceAdmissionSchema=1,request=$request,application=$application," +\n            "declaredNamespace=$declaredNamespace,identifierNonzero=$nonzero," +\n            "exactFullNameMatch=$exactFullNameMatch"\n    }\n\n'
+
+RESOURCE_ADMISSION_DELTAS = (
+    ("    private var admittedLabelResource: Int? = null\n", _RESOURCE_ADMISSION_FIELDS_SOURCE),
+    (_RESOURCE_LABEL_ADMISSION_SOURCE, _RESOURCE_ADMISSION_INITIALIZER_SOURCE),
+    (_RESOURCE_ADMISSION_SELECT_BEFORE, _RESOURCE_ADMISSION_SELECT_SOURCE),
+    (_RESOURCE_REFUSAL_SOURCE + _RESOURCE_QUALIFICATION_SOURCE, _RESOURCE_ADMISSION_SOURCE),
+)
+
+
+def resource_admission_preimage(ui: str) -> str:
+    """Require the complete new owning shape, then reconstruct old source obligations.
+
+    This is passive source validation, never a resource lookup or runtime receipt.
+    An old-only/partial/hybrid shape cannot reach source_contract acceptance.
+    """
+    require(isinstance(ui, str) and
+            all(ui.count(after) == 1 for before, after in RESOURCE_ADMISSION_DELTAS) and
+            ui.count("qualifyResourceContract(") == 2 and
+            ui.count("qualifiedResource(") == 3 and
+            ui.count("readQualifiedResource(") == 3 and
+            ui.count("admittedResourceContract") == 5 and
+            ui.count("resources.getIdentifier(") == 1 and
+            ui.count("resources.getResourceName(") == 1 and
+            ui.count("resources.getString(") == 1 and
+            ui.count("getResourcesForApplication(") == 1 and
+            "admittedLabelResource" not in ui and "app.labelRes" not in ui,
+            "Application-specific DocumentsUI resource admission changed")
+    for before, after in reversed(RESOURCE_ADMISSION_DELTAS):
+        ui = ui.replace(after, before, 1)
+    return ui
+
+
+def resource_admission_postimage(ui: str) -> str:
+    """Historical-control text bridge only; this does not accept a root or return a receipt.
+
+    Exact original canonical/helper fragments must be present. Modified legacy
+    obligations refuse rather than get silently overwritten by the new helper.
+    """
+    require(isinstance(ui, str), "Refusal-only DocumentsUI resource observations changed")
+    for before, after in RESOURCE_ADMISSION_DELTAS:
+        require(ui.count(before) == 1, "Refusal-only DocumentsUI resource observations changed")
+        ui = ui.replace(before, after, 1)
+    return ui
+
+
+
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise ValueError(message)
@@ -174,7 +226,9 @@ def source_contract(root: Path) -> dict:
                 "Missing bounded regular named-system-provider source")
         values[relative] = path.read_bytes()
     text = {name: value.decode("utf-8") for name, value in values.items()}
-    test, caller, ui = (text[name] for name in (TEST, CALLER, UI))
+    test, caller, live_ui = (text[name] for name in (TEST, CALLER, UI))
+    # Admission is mandatory before old canonical/selector/cleanup obligations are reconstructed.
+    ui = resource_admission_preimage(live_ui)
     require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", test) == list(METHODS) and
             "class AndroidIoNamedSystemProviderTest" in test and
             test.count("= runBlocking(Dispatchers.IO)") == 2 and

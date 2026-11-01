@@ -1,7 +1,8 @@
-"""UNEXECUTED NEW fixed-candidate qualification controls only.
+"""Historical accepted140 fixed-candidate22 controls; no new coverage claim.
 
-No Kotlin/resource/runtime/provider/grant/native pass is inferred. Do not select
-previously accepted NamedSystemResourceRefusalControls or sibling test classes.
+Invert/reapply the exact new admission fragments to retain the original canonical
+hash and mutation obligations. Do not select this class in the new admission-only
+important runner; no Kotlin/resource/provider/native pass is inferred.
 """
 from pathlib import Path
 import hashlib
@@ -13,6 +14,7 @@ import android_io_named_system_documents as source
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 UI_BEFORE_SHA256 = '9c33fd0b94ea178e7d40985deecfd3a90fc042c03354df4869c2ae812f153b70'
+UI_RESOURCE_REFUSAL_POST154_SHA256 = '03a0ebc37215c4b86043f253f4e83b7db39c7fd52652d9ea735e6e7c106ea1dc'
 UI_DIAGNOSTIC_DELTAS = (('            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}"\n', '            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}" +\n            "," + fixedCandidateResourceQualification(resources, requested)\n'), ('    private fun textIn(root: AccessibilityNodeInfo, containerId: String, expected: String): List<AccessibilityNodeInfo> {\n', '    // A bounded failure-only candidate observation, never a control/namespace admission.\n    private fun fixedCandidateResourceQualification(resources: android.content.res.Resources,\n        requested: String): String = try {\n        // Same Resources instance from the original canonical check; label observations are not authority.\n        val eligible = requested == "id/dir_list" && packageName == "com.google.android.documentsui"\n        val candidateNamespace = "com.google.android.documentsui"\n        val contracts = arrayOf(\n            Triple("DIR_LIST", "id", "dir_list"),\n            Triple("TOOLBAR", "id", "toolbar"),\n            Triple("OPEN_TREE_BUTTON", "string", "open_tree_button"),\n            Triple("OPEN_TREE_DIALOG_TITLE", "string", "open_tree_dialog_title"),\n            Triple("OPEN_TREE_DIALOG_MESSAGE", "string", "open_tree_dialog_message"),\n            Triple("ALLOW", "string", "allow"),\n        )\n        var identifierLookupCount = 0\n        var nameReadbackCount = 0\n        var identifierNonzeroCount = 0\n        var exactFullNameCount = 0\n        val facts = ArrayList<String>(6)\n        for ((category, type, entry) in contracts) {\n            val identifier: Int? = if (eligible) try {\n                identifierLookupCount += 1\n                resources.getIdentifier(entry, type, candidateNamespace)\n            } catch (_: Throwable) {\n                null\n            } else null\n            val nonzero: Boolean? = identifier?.let { it != 0 }\n            if (nonzero == true) identifierNonzeroCount += 1\n            val exactFullNameMatch: Boolean? = if (identifier != null && identifier != 0) try {\n                nameReadbackCount += 1\n                resources.getResourceName(identifier) == "$candidateNamespace:$type/$entry"\n            } catch (_: Throwable) {\n                null\n            } else null\n            if (exactFullNameMatch == true) exactFullNameCount += 1\n            facts += "candidate${category}IdentifierNonzero=$nonzero," +\n                "candidate${category}ExactFullNameMatch=$exactFullNameMatch"\n        }\n        val scope = if (eligible) "GOOGLE_DIR_LIST_REFUSAL" else "NOT_REQUESTED"\n        val namespaceCategory = if (eligible) "GOOGLE_PACKAGE_CANDIDATE" else "NOT_REQUESTED"\n        "candidateQualificationSchema=1,candidateScope=$scope,candidateNamespace=$namespaceCategory," +\n            "candidateContractCount=6,candidateIdentifierLookupCount=$identifierLookupCount," +\n            "candidateNameReadbackCount=$nameReadbackCount,candidateIdentifierNonzeroCount=$identifierNonzeroCount," +\n            "candidateExactFullNameCount=$exactFullNameCount," + facts.joinToString(",")\n    } catch (_: Throwable) {\n        // A diagnostic failure must not replace the original lazy-check IllegalStateException.\n        "candidateQualificationSchema=1,candidateScope=UNAVAILABLE,candidateNamespace=NOT_REQUESTED," +\n            "candidateContractCount=6,candidateIdentifierLookupCount=-1,candidateNameReadbackCount=-1," +\n            "candidateIdentifierNonzeroCount=-1,candidateExactFullNameCount=-1"\n    }\n\n    private fun textIn(root: AccessibilityNodeInfo, containerId: String, expected: String): List<AccessibilityNodeInfo> {\n'))
 
 
@@ -25,6 +27,21 @@ class NamedSystemFixedCandidateQualificationControls(unittest.TestCase):
             target = self.root / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(REPOSITORY_ROOT / relative, target)
+        path = self.root / source.UI
+        original154 = source.resource_admission_preimage(path.read_text())
+        self.assertEqual(UI_RESOURCE_REFUSAL_POST154_SHA256, hashlib.sha256(original154.encode()).hexdigest())
+        path.write_text(original154)
+
+    def admitted_source_contract(self):
+        # Preserve every historical mutation; an inexact old helper cannot be overwritten.
+        path = self.root / source.UI
+        historical = path.read_text()
+        current = source.resource_admission_postimage(historical)
+        path.write_text(current)
+        try:
+            return source.source_contract(self.root)
+        finally:
+            path.write_text(historical)
 
     def replace_ui(self, before, after):
         path = self.root / source.UI
@@ -39,7 +56,7 @@ class NamedSystemFixedCandidateQualificationControls(unittest.TestCase):
             with self.subTest(new_diagnostic_boundary=before):
                 self.replace_ui(before, after)
                 with self.assertRaisesRegex(ValueError, "^Refusal-only DocumentsUI resource observations changed$"):
-                    source.source_contract(self.root)
+                    self.admitted_source_contract()
                 path.write_text(original)
 
     def reverse_diagnostic_text(self):
@@ -52,7 +69,7 @@ class NamedSystemFixedCandidateQualificationControls(unittest.TestCase):
 
     def test_approved_diagnostic_is_exact_reversible_addition_not_native_or_cloud_acceptance(self):
         self.reverse_diagnostic_text()
-        receipt = source.source_contract(self.root)
+        receipt = self.admitted_source_contract()
         source.validate_source_receipt(receipt)
         self.assertFalse(receipt["native_success_inferred"])
         self.assertFalse(receipt["cloud_provider_coverage"])
@@ -69,7 +86,7 @@ class NamedSystemFixedCandidateQualificationControls(unittest.TestCase):
             'val nameMatchFromRefusal: Boolean? = if (nonzero) false else null',
         ):
             self.assertEqual(baseline.count(literal), text.count(literal))
-        source.source_contract(self.root)
+        self.admitted_source_contract()
 
     def test_missing_failure_only_call_is_not_a_qualified_draft(self):
         'New helper cannot silently disappear from the old lazy refusal.'

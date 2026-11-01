@@ -1,0 +1,151 @@
+{
+  "controlled_input_limits": "Controlled native field EditingChanged and controlled stale-manager supplement are explicitly identified; fresh confirmation requires actual supported public accessibilityActivate true. No XCUI/physical tap claim or private-handler fallback.",
+  "exact_requested_original_method_count": 4,
+  "finding": "UI-012",
+  "issue": 28,
+  "literal_original_criteria": [
+    "Keep alert open, swap title/data/callback fromA toB, then confirm; onlyB callback executes.",
+    "Swap text-field callback without replacing controller, reorder actions safely, change enabled flag.",
+    "Confirm/cancel callback cardinality and full modal lifecycle tests."
+  ],
+  "methods": [
+    {
+      "actual_native_criterion_accepted": false,
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest",
+      "deadline_application_state": {
+        "active_state": "UIApplicationStateActive",
+        "appeared": true,
+        "attached": true,
+        "committed": 5,
+        "ever_appeared": true,
+        "generation": 5,
+        "key": true,
+        "pending": 0
+      },
+      "deadline_state_is_individual_action_gate_operand": false,
+      "exact_asserted_source_scope": "Real attached alert retains controller, live title/message and captured B public callback; supported native action must deliver only B once; caller removal observed.",
+      "failure_boundary": "activateImportantNativeAction -> waitForNative -> awaitMain(native predicate); before supported native accessibility activation succeeds",
+      "failure_type": "kotlin.IllegalStateException",
+      "method_line": 28,
+      "name": "publicRecordSwapUpdatesVisibleIntentAndConfirmsOnlyB[iosSimulatorArm64]",
+      "original_criterion_ids": [
+        "C1"
+      ],
+      "source_path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt",
+      "source_sha256": "50ed7c6b1f20aad81d504e528e1bf0a9daf4312e179836559a1ac58ec9d064a5",
+      "source_stack_functions": [
+        "NativeApplicationUiTest.awaitMain",
+        "NativeApplicationUiTest.waitForNative",
+        "activateImportantNativeAction"
+      ],
+      "stack_source_line_numbers_reported": false,
+      "status": "failed",
+      "timeout_phase": "native predicate"
+    },
+    {
+      "actual_native_criterion_accepted": false,
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest",
+      "deadline_application_state": {
+        "active_state": "UIApplicationStateActive",
+        "appeared": true,
+        "attached": true,
+        "committed": 5,
+        "ever_appeared": true,
+        "generation": 5,
+        "key": true,
+        "pending": 0
+      },
+      "deadline_state_is_individual_action_gate_operand": false,
+      "exact_asserted_source_scope": "Live native enabled/readback and exact retained field/controller identities; controlled text plus actual EditingChanged target reaches only replacement callback; fresh supported native action reaches B.",
+      "failure_boundary": "activateImportantNativeAction -> waitForNative -> awaitMain(native predicate); before supported native accessibility activation succeeds",
+      "failure_type": "kotlin.IllegalStateException",
+      "method_line": 62,
+      "name": "publicFieldCallbackAndEnabledChangesKeepControllerAndField[iosSimulatorArm64]",
+      "original_criterion_ids": [
+        "C2"
+      ],
+      "source_path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt",
+      "source_sha256": "50ed7c6b1f20aad81d504e528e1bf0a9daf4312e179836559a1ac58ec9d064a5",
+      "source_stack_functions": [
+        "NativeApplicationUiTest.awaitMain",
+        "NativeApplicationUiTest.waitForNative",
+        "activateImportantNativeAction"
+      ],
+      "stack_source_line_numbers_reported": false,
+      "status": "failed",
+      "timeout_phase": "native predicate"
+    },
+    {
+      "actual_native_criterion_accepted": false,
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest",
+      "deadline_application_state": {
+        "active_state": "UIApplicationStateActive",
+        "appeared": true,
+        "attached": true,
+        "committed": 6,
+        "ever_appeared": true,
+        "generation": 6,
+        "key": true,
+        "pending": 0
+      },
+      "deadline_state_is_individual_action_gate_operand": false,
+      "exact_asserted_source_scope": "Native reordered labels and replacement controller; controlled stale-structure boundary refuses dispatch before and after rebuild; fresh native action, not the manager supplement, delivers Save B.",
+      "failure_boundary": "activateImportantNativeAction -> waitForNative -> awaitMain(native predicate); before supported native accessibility activation succeeds",
+      "failure_type": "kotlin.IllegalStateException",
+      "method_line": 122,
+      "name": "actionReorderRebuildsAndRefusesStaleIndexDispatch[iosSimulatorArm64]",
+      "original_criterion_ids": [
+        "C2"
+      ],
+      "source_path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt",
+      "source_sha256": "50ed7c6b1f20aad81d504e528e1bf0a9daf4312e179836559a1ac58ec9d064a5",
+      "source_stack_functions": [
+        "NativeApplicationUiTest.awaitMain",
+        "NativeApplicationUiTest.waitForNative",
+        "activateImportantNativeAction"
+      ],
+      "stack_source_line_numbers_reported": false,
+      "status": "failed",
+      "timeout_phase": "native predicate"
+    },
+    {
+      "actual_native_criterion_accepted": false,
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest",
+      "deadline_application_state": {
+        "active_state": "UIApplicationStateActive",
+        "appeared": true,
+        "attached": true,
+        "committed": 2,
+        "ever_appeared": true,
+        "generation": 2,
+        "key": true,
+        "pending": 0
+      },
+      "deadline_state_is_individual_action_gate_operand": false,
+      "exact_asserted_source_scope": "Both confirm and cancel public callbacks are once-only; owned controller becomes absent/detached; immediate observed-completion reopen is distinct; caller removal is not cancellation.",
+      "failure_boundary": "activateImportantNativeAction -> waitForNative -> awaitMain(native predicate); before supported native accessibility activation succeeds",
+      "failure_type": "kotlin.IllegalStateException",
+      "method_line": 183,
+      "name": "publicConfirmAndCancelRemovalRemainOnceAndImmediatelyReopen[iosSimulatorArm64]",
+      "original_criterion_ids": [
+        "C3"
+      ],
+      "source_path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt",
+      "source_sha256": "50ed7c6b1f20aad81d504e528e1bf0a9daf4312e179836559a1ac58ec9d064a5",
+      "source_stack_functions": [
+        "NativeApplicationUiTest.awaitMain",
+        "NativeApplicationUiTest.waitForNative",
+        "activateImportantNativeAction"
+      ],
+      "stack_source_line_numbers_reported": false,
+      "status": "failed",
+      "timeout_phase": "native predicate"
+    }
+  ],
+  "new_issue_criteria_introduced": 0,
+  "original_criterion_groups_accepted": 0,
+  "original_four_method_prefix_bytes_retained": true,
+  "original_group_count": 3,
+  "original_prefix_sha256": "5ad33e1836d1e78243e73e2134765922dceaac5786bd13370c49f8865cffc282",
+  "schema": 1
+}

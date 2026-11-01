@@ -1,5 +1,37 @@
 # NativeCmpKit development after the audit
 
+## Related Share ownership and actual alert failure — 2026-11-01
+
+[Owning168–179](evidence/current-platform-recovery-20261101/share-owning168-179/README.md)
+records the integrated presentation/disposal barrier, important new source checks,
+their preserved fixture/compiler failures and fresh Share test KLIB0/31.01s.
+The [subsystem note](ios-share-presentation-disposal.md) distinguishes the13 library
+native fixtures from separate sample saver-feedback mapping tests. Actual179
+passes the five sample mappings/two fresh XML/Gradle0/125.03s after exact-version
+online recovery; independent source/results review holds1177/1255 inputs. Actual
+native execution and whole #88/#81/#48/#100 criteria remain unproved.
+
+[Actual alert177](evidence/current-platform-recovery-20261101/alert-attempt2-original177/README.md)
+preserves4 native failures/one original XML/Gradle1/1387.4s in attempt2. Its owned
+cleanup is verified, not public activation or a root-cause diagnosis. No blind
+retry or closure; after-timeout observations are not failed-poll evidence.
+Next immutable AndroidLocal2/Wasm4 requests reserve at most2 hosted-heavy slots,
+including queued work; Share13 follows when capacity is free. No accepted-runtime
+replay, publishing or independent readiness/security waiver. **96closed/76open**.
+
+## Owning Android admission and genuine Wasm registration — 2026-11-01
+
+[Actual163–166](evidence/current-platform-recovery-20261101/resource-registration163-166/README.md)
+records18 new Android source controls and reporter APK0/54.16s, plus12 new Wasm
+source controls and two genuine emitted registration probes. All selected inputs
+hold; **zero new supported-platform native methods**. Registration proves the
+real framework/selector route, not clipboard functionality or hosted causality.
+#55 Local2/cloud C1 and #82 Wasm4 remain missing; no new issue closure.
+The later168–179 checkpoint completes exact Share/UIKit composition, reusing
+accepted results without replay. The terminal alert retry no longer reserves a slot.
+**96closed/76open/172total**; publishing and independent release/security gates
+remain closed.
+
 ## Important native recovery and alert-only preparation — 2026-11-01
 
 [Actual159–160](evidence/current-platform-recovery-20261101/important-recovery159-160/README.md)

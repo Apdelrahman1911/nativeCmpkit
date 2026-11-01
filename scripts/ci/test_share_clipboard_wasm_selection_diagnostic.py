@@ -17,6 +17,7 @@ import subprocess
 import unittest
 
 import share_clipboard_wasm_selection_diagnostic as contract
+import share_clipboard_wasm_framework_recovery as framework
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -373,21 +374,27 @@ function markerState(options = {}) {
 
 class ShareClipboardWasmSelectionDiagnosticTests(unittest.TestCase):
     def source(self):
-        return (ROOT / FIXTURE).read_text()
+        # Exact eight-fragment inverse, then the unchanged five-fragment reporter contract.
+        return framework.diagnostic_fixture_from_framework((ROOT / FIXTURE).read_text())
 
     def model(self, mode):
         # The qualified complete source is a gate, not a new whole-CI hash pin.
-        self.assertEqual(contract.QUALIFIED_FIXTURE_SHA256,
-                         hashlib.sha256((ROOT / FIXTURE).read_bytes()).hexdigest())
+        source = self.source()
+        self.assertEqual(contract.QUALIFIED_FIXTURE_SHA256, hashlib.sha256(source.encode()).hexdigest())
         node = shutil.which("node")
         self.assertIsNotNone(node, "New pure diagnostic controls need Node, not a browser")
         environment = os.environ.copy()
         environment.pop("NODE_OPTIONS", None)
         environment.pop("NODE_PATH", None)
-        result = subprocess.run(
-            [node, "--no-addons", "-e", DIAGNOSTIC_MODEL, str(ROOT / FIXTURE), mode],
-            cwd=ROOT, env=environment, capture_output=True, text=True, timeout=10,
-        )
+        # Never execute the new framework body as the old marker stub; live behavior has its own emitted probe.
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            projected = Path(directory) / "historical-diagnostic-fixture.js"
+            projected.write_text(source)
+            result = subprocess.run(
+                [node, "--no-addons", "-e", DIAGNOSTIC_MODEL, str(projected), mode],
+                cwd=ROOT, env=environment, capture_output=True, text=True, timeout=10,
+            )
         self.assertEqual(0, result.returncode, mode + ": " + result.stdout + result.stderr)
         self.assertEqual({"mode": mode, "newOnly": True, "nativeCallbackExecutions": 0},
                          json.loads(result.stdout))
@@ -470,7 +477,9 @@ class ShareClipboardWasmSelectionDiagnosticTests(unittest.TestCase):
             and any(isinstance(target, ast.Name) and target.id == "SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256"
                     for target in item.targets)
         )
-        self.assertEqual(contract.QUALIFIED_FIXTURE_SHA256, ast.literal_eval(pin))
+        self.assertEqual(framework.QUALIFIED_FRAMEWORK_FIXTURE_SHA256, ast.literal_eval(pin))
+        self.assertEqual(contract.QUALIFIED_FIXTURE_SHA256, hashlib.sha256(
+            framework.diagnostic_fixture_from_framework((ROOT / FIXTURE).read_text()).encode()).hexdigest())
         for relative, digest in NATIVE_PINS.items():
             content = (ROOT / relative).read_bytes()
             self.assertEqual(digest, hashlib.sha256(content).hexdigest())

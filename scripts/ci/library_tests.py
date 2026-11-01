@@ -85,8 +85,14 @@ IOS_PICKER_APPLICATION_SOURCES = (
     "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
     "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativeObjectIdentity.kt",
 )
+IOS_SHARE_APPLICATION_SOURCES = (
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHost.kt",
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHostTest.kt",
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeObjectIdentity.kt",
+)
 IOS_APPLICATION_HOST_SOURCES = {"calf-ui": IOS_APPLICATION_SOURCES,
-                                "calf-file-picker": IOS_PICKER_APPLICATION_SOURCES}
+                                "calf-file-picker": IOS_PICKER_APPLICATION_SOURCES,
+                                "calf-share": IOS_SHARE_APPLICATION_SOURCES}
 IOS_APPLICATION_CASES = (
     ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
     ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
@@ -895,6 +901,45 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_PROVIDER_CANCELLATION_FOCUS] = {
     "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, real public/native child cancellation, actual descriptor/partial-copy/earlier-staging cleanup, and separately witnessed held registered producer completion invocation/normal return plus genuine native client callback entry/exit. The locked client snapshot before the explicit producer call is descriptive; no zero-callback order or NSError identity is required, and producer return never substitutes for the actual native client. Post-extraction provider arrival is controlled through the installed delegate's shared owning guard, not nonempty Objective-C result extraction or actual Photos/cloud/cross-process/format-filter acceptance. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
 }
 
+# New owning Share presentation/disposal regressions only. The sample is not a library host;
+# no accepted picker/provider/IO/browser or other-platform methods are selected by this focus.
+IOS_SHARE_PRESENTATION_FOCUS = "share-ios-presentation-disposal"
+IOS_SHARE_PRESENTATION_CLASS = "com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest"
+IOS_SHARE_PRESENTATION_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosSharePresentationOwnershipTest.kt"
+IOS_SHARE_PRESENTATION_METHODS = (
+    "realAnimatedShareDisposalWaitsForNativePresentationAndDismissalBeforeLeaseRelease",
+    "deferredNativeSharePresentationRetainsDisposedRequestWhileBothLinksAreNil",
+    "disposalAfterRealPresentationClosesOneRequestAndSuppressesLateActivityCompletion",
+    "disposedPublicShareLaunchersCalledFromDefaultAndIoCannotRestartNativeWork",
+    "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks",
+)
+IOS_SHARE_REQUEST_CONTROL_CLASS = "com.mohamedrejeb.calf.share.IosShareRequestTest"
+IOS_SHARE_REQUEST_CONTROL_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosShareRequestTest.kt"
+IOS_SHARE_REQUEST_CONTROL_METHODS = (
+    "preparedCancellationReleasesOnlyTheNeverPresentedRequestOnce",
+    "nilNativeLinksDuringControlledPresentationCannotReleaseOrDismissTheRequest",
+    "repeatedCancellationDuringDismissalCannotIssueOrCompleteCleanupTwice",
+    "releasedRequestIgnoresLateCompletionsAndThrowingOwnerNotificationCannotRepeatCleanup",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS] = {
+    "module": "calf-share",
+    "groups": (
+        {"classname": "com.mohamedrejeb.calf.share.internal.NativeShareApplicationHostTest",
+         "source": IOS_SHARE_APPLICATION_SOURCES[1],
+         "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                     "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                     "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                     "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+        {"classname": IOS_SHARE_REQUEST_CONTROL_CLASS, "source": IOS_SHARE_REQUEST_CONTROL_SOURCE,
+         "methods": IOS_SHARE_REQUEST_CONTROL_METHODS},
+        {"classname": IOS_SHARE_PRESENTATION_CLASS, "source": IOS_SHARE_PRESENTATION_SOURCE,
+         "methods": IOS_SHARE_PRESENTATION_METHODS},
+    ),
+    "scope": "Thirteen new calf-share library application methods only: four owning UIApplication/Worker/root/cleanup fixtures, four explicitly controlled Request transitions and five real UIKit/public ShareLauncher ownership regressions. Actual animated/deferred presentation and real dismissal callbacks own disposal cleanup; nil backlinks/timers do not. Main/Default/IO dispatch, current callbacks, reentry and stale/disposed suppression use genuine Compose/native controllers but controlled activity-terminal inputs, not user/recipient completion. Real sandbox-file scope objects execute, with no assumed successful security-scope start, bookmark grant, delayed/cross-process recipient access or original native occurrence. Sample saver tests are separate and never library evidence. No accepted picker/provider/IO/browser/other-host replay, #88/#81/#48/#100 closure, Main Thread Checker/concurrency-suite, physical/minimum/iPad/consumer/API-ABI/dependency/security/readiness/publishing certification.",
+}
+
+IOS_SHARE_APPLICATION_REQUIRED_GROUPS = UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS]["groups"]
+
 IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
 IOS_WEBVIEW_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest"
 IOS_WEBVIEW_LIFECYCLE_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt"
@@ -1284,7 +1329,7 @@ SHARE_CLIPBOARD_NATIVE_METHODS = (
 SHARE_CLIPBOARD_NATIVE_SOURCE = "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt"
 SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256 = "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
 SHARE_CLIPBOARD_NATIVE_FIXTURE = "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
-SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "347953a8c9596091c3923a37f564b51a7cd7f6488169718222ffe7c6c99e53c8"
+SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "e2f95d99ff2dd89fa95bd4de8fbedf9f3b60748284fed87ae6fe2ab3d2278a89"
 SHARE_CLIPBOARD_NATIVE_HELPERS = {
     "js": ("calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt", "9d33398d366466f41a3d4a46198a7c8e02e3c23fbfd73af1216aa6b0915ebc05"),
     "wasm": ("calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt", "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59"),
@@ -2106,6 +2151,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
+            if focus == IOS_SHARE_PRESENTATION_FOCUS and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New Share application declarations must remain enabled")
             if (focus in UI_DATE_YEAR_NATIVE_FOCUSES or focus == UI_ALERT_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New important alert/year source must retain all enabled native declarations")
         if focus in UI_DATE_YEAR_NATIVE_FOCUSES:
@@ -3147,6 +3194,11 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("project") != ":calf-ui" or
                 expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
             raise ValueError("Invalid finite four-method important alert recovery source/report plan")
+        if focus == IOS_SHARE_PRESENTATION_FOCUS and (len(expected) != 1 or
+                expected[0].get("project") != ":calf-share" or
+                expected[0].get("report_directory") != "calf-share/build/test-results/" + IOS_APPLICATION_TASK or
+                any(path not in expected[0].get("test_source_files", []) for path in IOS_SHARE_APPLICATION_SOURCES)):
+            raise ValueError("New Share disposal plan requires its exact owning app sources/project/report tree")
         application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -4195,7 +4247,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
              "Application counts differ from complete actual testcase elements")
         full_groups = ({"calf-file-picker": IOS_PICKER_BOUNDARY_GROUPS,
-                        "calf-webview": IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS}.get(expected["module"], ()))
+                        "calf-webview": IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS,
+                        "calf-share": IOS_SHARE_APPLICATION_REQUIRED_GROUPS}.get(expected["module"], ()))
         required = ({(group["classname"], name)
                      for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
                      for name in group["methods"]} if focused_ui else

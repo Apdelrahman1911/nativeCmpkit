@@ -1,0 +1,66 @@
+# iOS Share presentation/disposal ownership
+
+This is a bounded fix for the Share part of #88/NATIVE-033. It does not close
+the whole threading, sharing-stage, saver, or sample-resource findings.
+
+## Owning implementation
+
+`calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt`
+retains a Request through these phases:
+
+| Phase | Disposal behavior |
+| --- | --- |
+| Prepared | Release a request that has not entered presentation. |
+| Presenting | Clear the result block, retain the controller/scopes, and await the actual UIKit presentation completion. |
+| Presented | Start dismissal of the captured controller, not another modal on the presenter. |
+| Dismissing | Await its actual dismissal completion. Repeated disposal does not dismiss twice. |
+| Released | Ignore late completions; owner invalidation and cleanup occur once. |
+
+Disposal while native presentation is queued or animated must not interpret nil
+backlinks as completion. An already-running noncancelled native dismissal can
+acknowledge completion; a cancelled transition queues an owned retry. There is no
+timer or nil-link release fallback. If UIKit never acknowledges, the request
+remains retained and verification fails rather than claiming cleanup.
+
+The existing public constructor, remembered current callbacks, content snapshot,
+main dispatch and ordinary activity-result mapping/timing remain. Internal,
+main-confined read-only owner/request/presenter observations support verification;
+they are not public APIs or native completion hooks. Actual packaged API/ABI
+compatibility is a separate gate.
+
+## Library-level native verification
+
+`calf-share/src/iosTest/` contains a genuine UIApplication/Compose host and
+13 finite application methods: four owning-host cases, four explicitly controlled
+Request cases, and five UIKit/public-launcher cases. The controlled cases are not
+OS-transition evidence. The real cases retain actual owners before launch and
+capture Requests before native/deferred scheduling can throw.
+
+The host refuses root restoration or source-file deletion before request release
+and genuine presentation/dismissal acknowledgements. Stable DidAppear, a fresh
+DidDisappear, exact restored root/window, and verified Worker completion are
+separate cleanup obligations. Failed stages retain their leases; process exit is
+not substituted for graceful cleanup.
+
+The `ios-share-presentation-disposal` workflow profile selects only these
+13 methods on the existing macOS Arm64 iPhone library host. KLIB compilation
+executes zero native methods. Actual Apple link, callbacks, original fresh XML,
+protocol agreement, held inputs, and owned cleanup are still required.
+
+## Independent sample feedback repair
+
+`sample/common/.../screens/FileSaverScreen.kt` now consumes the existing
+`FileSaverEvent` API. Saved, Cancelled, DownloadStarted, and Failed all clear busy
+state. Only Saved claims persistence; a browser download request is not a saved
+file. Failures show generic recoverable feedback, not platform diagnostic text.
+Four common and one Desktop mapping tests are separate sample checks, never
+substitutes for library integration or real browser download verification.
+
+## Evidence and remaining scope
+
+See [the owning batch](evidence/current-platform-recovery-20261101/share-owning168-179/README.md).
+Main Thread Checker, a full Kotlin/Native concurrency suite, interactive rollback
+occurrence, successful security-scope balancing, bookmarks, delayed/cross-process
+recipient reads, other mobile APIs, macOS/Android sharing stages, browser runtime
+parity, actual sample export/navigation cancellation, and physical/minimum/iPad
+coverage remain unproved. No #88/#81/#48/#100 closure or release readiness follows.

@@ -14,6 +14,7 @@ import unittest
 
 import library_tests as lt
 from share_clipboard_wasm_selection_diagnostic import original_js_child_bootstrap_from_diagnostic
+from share_clipboard_wasm_framework_recovery import diagnostic_fixture_from_framework
 import workflow_matrix as matrix
 
 PROFILE = "share-clipboard-native-wasm"
@@ -224,8 +225,13 @@ class ShareClipboardWasmRecoveryTests(unittest.TestCase):
     def model(self, mode):
         node = shutil.which("node")
         self.assertIsNotNone(node, "Pure source model needs Node; never a real browser/listener")
-        result = subprocess.run([node, "-e", MODELED_FIXTURE, str(lt.ROOT / FIXTURE), mode],
-                                cwd=lt.ROOT, capture_output=True, text=True, timeout=10)
+        # Historical17 model bodies stay byte-exact; they do not claim coverage of the new framework.
+        source = diagnostic_fixture_from_framework((lt.ROOT / FIXTURE).read_text())
+        with tempfile.TemporaryDirectory() as directory:
+            projected = Path(directory) / "historical-diagnostic-fixture.js"
+            projected.write_text(source)
+            result = subprocess.run([node, "-e", MODELED_FIXTURE, str(projected), mode],
+                                    cwd=lt.ROOT, capture_output=True, text=True, timeout=10)
         self.assertEqual(0, result.returncode, mode + ": " + result.stdout + result.stderr)
 
     def test_wasm_only_alias_preserves_all11_and_accepted_share_profiles(self):
@@ -336,7 +342,8 @@ class ShareClipboardWasmRecoveryTests(unittest.TestCase):
         self.assertIn("withTimeout(10_000)", (lt.ROOT / SOURCE).read_text())
 
     def test_new_wasm_failure_reply_exposes_only_fixed_phase_and_keeps_js_reply_literal(self):
-        source = (lt.ROOT / FIXTURE).read_text()
+        # This old literal assertion remains historical; new source tests verify current equal JS output.
+        source = diagnostic_fixture_from_framework((lt.ROOT / FIXTURE).read_text())
         self.assertIn("(isWasmPackage(basePath) ? '|' + phase : ''), 503)", source)
         self.assertEqual({"control", "open-owner", "open-origin", "open-scripts", "open-readback", "open-devtools"},
                          set(re.findall(r"phase = '([^']+)'", source)))

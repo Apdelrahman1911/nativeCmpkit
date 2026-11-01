@@ -377,13 +377,19 @@
       const refused = () => { throw new Error('Exact emitted Wasm Karma loader inputs are missing'); };
       if (!files || !Array.isArray(files.included) || !Array.isArray(files.served)) refused();
       const loadPath = path.join(basePath, 'static', 'load.mjs');
+      // Exactly the real framework:mocha asset already inserted by karma-mocha; no discovery shim.
+      const frameworkRequire = require('node:module').createRequire(require.resolve('karma-mocha'));
+      const mochaPath = path.join(path.dirname(frameworkRequire.resolve('mocha')), 'mocha.js');
+      if (!path.isAbsolute(mochaPath) || path.normalize(mochaPath) !== mochaPath ||
+          path.basename(path.dirname(mochaPath)) !== 'mocha') refused();
       const chosen = files.included.filter(file => {
         if (!file || typeof file.originalPath !== 'string' || file.originalPath.includes('\0')) refused();
         const original = path.basename(file.originalPath);
-        return ['runtime.js', 'commons.js', 'load.mjs'].includes(original) || /-calf-share-test\.m?js$/.test(original);
+        return file.originalPath === mochaPath || ['runtime.js', 'commons.js', 'load.mjs'].includes(original) || /-calf-share-test\.m?js$/.test(original);
       });
-      if (chosen.length !== 3 || path.basename(chosen[0].originalPath) !== 'runtime.js' ||
-          path.basename(chosen[1].originalPath) !== 'commons.js' || chosen[2].originalPath !== loadPath ||
+      if (chosen.length !== 4 || path.basename(chosen[0].originalPath) !== 'runtime.js' ||
+          path.basename(chosen[1].originalPath) !== 'commons.js' || chosen[2].originalPath !== mochaPath ||
+          chosen[3].originalPath !== loadPath ||
           path.dirname(chosen[0].originalPath) !== path.dirname(chosen[1].originalPath) ||
           !path.isAbsolute(chosen[0].originalPath) || path.normalize(chosen[0].originalPath) !== chosen[0].originalPath ||
           !path.isAbsolute(chosen[1].originalPath) || path.normalize(chosen[1].originalPath) !== chosen[1].originalPath) refused();
@@ -393,10 +399,10 @@
           ![undefined, 'js'].includes(file.type) ||
           !files.served.some(served => served.originalPath === file.originalPath && served.path === file.path && served.sha === file.sha)) ||
           chosen[0].path !== chosen[0].originalPath || chosen[1].path !== chosen[1].originalPath ||
-          chosen[2].path !== entryPath) refused();
+          chosen[2].path !== mochaPath || chosen[3].path !== entryPath) refused();
       return chosen.map((file, index) => ({
         url: (file.path.startsWith(basePath) ? '/base' + file.path.slice(basePath.length) : '/absolute' + file.path) + '?' + file.sha,
-        type: 'text/javascript', ...(index === 2 ? { wasmLoader: true } : {})
+        type: 'text/javascript', ...(index === 2 ? { wasmFramework: true } : {}), ...(index === 3 ? { wasmLoader: true } : {})
       }));
     }
     // Accepted JS selection/order/URLs/types remain byte-for-byte below; no Wasm fallback.
@@ -428,17 +434,61 @@
       } catch (error) { window.__nativecmpkitClipboardLoadFailure(error); }
     })();
   }
-  function wasmChildBootstrap() {
+  function wasmChildBootstrap(scripts) {
     try {
-      // Only the exact KGP Wasm loader entry receives these disposable child-realm hooks.
-      // The accepted JS bootstrap, load function and emitted HTML recipe are untouched.
+      // The actual Wasm kotlin.test adapter honors adapterTransformer only after real BDD discovery.
+      // This child initializes the configured Mocha runtime, but never queues/runs a framework test.
       const h = window.__nativecmpkitClipboardNative;
       const restore = h && h.restore, boot = window.__nativecmpkitClipboardBoot;
+      const namespace = window.kotlinTest;
+      const transformer = namespace && Object.getOwnPropertyDescriptor(namespace, 'adapterTransformer');
+      const frameworkNames = ['Mocha', 'mocha', 'before', 'after', 'beforeEach', 'afterEach', 'run',
+        'describe', 'context', 'xdescribe', 'xcontext', 'it', 'specify', 'xit', 'xspecify'];
       if (!h || h.cleaned || typeof restore !== 'function' || typeof boot !== 'function' || '__karma__' in window ||
-          'wasmSelectionDiagnostic' in h) {
+          'wasmSelectionDiagnostic' in h || !namespace || !transformer || typeof transformer.value !== 'function' ||
+          frameworkNames.some(name => name in window) || !Array.isArray(scripts) || scripts.length !== 4 ||
+          scripts.some((entry, index) => !entry || typeof entry.url !== 'string' || entry.type !== 'text/javascript' ||
+            (entry.wasmFramework === true) !== (index === 2) || (entry.wasmLoader === true) !== (index === 3))) {
         throw new Error('Owning Wasm loader hooks are missing/preexisting');
       }
-      let loaded = 0, failed = false, release;
+      let loaded = 0, failed = false, release, framework, frameworkSuite, frameworkTests, frameworkSuites;
+      let frameworkDescriptors, frameworkReady = false, loadFinished = false;
+      const sameDescriptor = (actual, expected) => actual && expected &&
+        Object.hasOwn(actual, 'value') && actual.value === expected.value &&
+        actual.writable === expected.writable && actual.enumerable === expected.enumerable &&
+        actual.configurable === expected.configurable;
+      const assertFramework = () => {
+        if (!frameworkReady || window.kotlinTest !== namespace ||
+            !sameDescriptor(Object.getOwnPropertyDescriptor(namespace, 'adapterTransformer'), transformer) ||
+            !frameworkDescriptors.every(([name, descriptor]) =>
+              sameDescriptor(Object.getOwnPropertyDescriptor(window, name), descriptor)) ||
+            framework.suite !== frameworkSuite || frameworkSuite.tests !== frameworkTests ||
+            frameworkSuite.suites !== frameworkSuites || frameworkTests.length !== 0 || frameworkSuites.length !== 0) {
+          throw new Error('Owning Wasm real framework/selector identity changed or queued tests');
+        }
+      };
+      const initializeFramework = () => {
+        if (frameworkReady || !Object.hasOwn(window, 'Mocha') || !Object.hasOwn(window, 'mocha') ||
+            typeof window.Mocha !== 'function' || !(window.mocha instanceof window.Mocha) ||
+            typeof window.mocha.setup !== 'function' ||
+            frameworkNames.slice(2).some(name => name in window)) {
+          throw new Error('Exact served Wasm Mocha runtime is missing/preinitialized');
+        }
+        framework = window.mocha;
+        if (framework.setup('bdd') !== framework || typeof window.describe !== 'function' ||
+            typeof window.it !== 'function' || !framework.suite ||
+            !Array.isArray(framework.suite.tests) || !Array.isArray(framework.suite.suites)) {
+          throw new Error('Actual Wasm Mocha BDD initialization failed');
+        }
+        frameworkSuite = framework.suite;
+        frameworkTests = frameworkSuite.tests;
+        frameworkSuites = frameworkSuite.suites;
+        frameworkDescriptors = frameworkNames.map(name => [name, Object.getOwnPropertyDescriptor(window, name)]);
+        if (frameworkDescriptors.some(([, descriptor]) => !descriptor || !Object.hasOwn(descriptor, 'value') ||
+            descriptor.configurable !== true)) throw new Error('Wasm framework globals cannot be owned/restored');
+        frameworkReady = true;
+        assertFramework();
+      };
       // Resolve the fixture's own wait on error, then refuse; never suppress a native clipboard rejection.
       const ready = new Promise(resolve => { release = resolve; });
       const karma = Object.freeze({
@@ -447,11 +497,12 @@
       });
       const assertReady = () => {
         const marker = Object.getOwnPropertyDescriptor(h, 'wasmSelectionDiagnostic');
-        if (failed || loaded !== 1 || window.__karma__ !== karma || window.__nativecmpkitClipboardNative !== h ||
+        if (failed || loaded !== 1 || !loadFinished || window.__karma__ !== karma || window.__nativecmpkitClipboardNative !== h ||
             !marker || marker.value !== true || marker.writable !== false || marker.enumerable !== false ||
             marker.configurable !== true) {
           throw new Error('Exact emitted Wasm test registration failed/reused');
         }
+        assertFramework();
       };
       const ownedBoot = async () => {
         await ready; // script.onload precedes webpack's asynchronous Wasm registration.
@@ -465,6 +516,16 @@
           throw new Error('Owning Wasm loader cleanup identity changed');
         }
         if (restore() !== true || h.cleaned !== true) throw new Error('Owning Wasm native restoration failed');
+        assertFramework();
+        // Every slot was originally absent; delete only the exact captured real-framework identity.
+        for (const [name, descriptor] of [...frameworkDescriptors].reverse()) {
+          if (!sameDescriptor(Object.getOwnPropertyDescriptor(window, name), descriptor)) {
+            throw new Error('Owning Wasm framework cleanup identity changed');
+          }
+          delete window[name];
+          if (name in window) throw new Error('Owning Wasm framework global removal failed');
+        }
+        if (window.__karma__ !== karma) throw new Error('Owning Wasm loader cleanup identity changed');
         delete window.__karma__;
         if ('__karma__' in window) throw new Error('Owning Wasm loader hook removal failed');
         delete h.wasmSelectionDiagnostic;
@@ -473,10 +534,26 @@
         h.restore = restore;
         return true;
       };
+      const load = async () => {
+        try {
+          for (const entry of scripts) {
+            await new Promise((resolve, reject) => {
+              const script = document.createElement('script');
+              script.type = entry.type; script.src = entry.url;
+              script.onload = resolve; script.onerror = () => reject(new Error('Owning emitted bundle failed to load'));
+              document.head.appendChild(script);
+            });
+            if (entry.wasmFramework === true) initializeFramework();
+          }
+          loadFinished = true;
+          await ownedBoot();
+        } catch (error) { window.__nativecmpkitClipboardLoadFailure(error); }
+      };
       Object.defineProperty(h, 'wasmSelectionDiagnostic', { value: true, configurable: true });
       window.__karma__ = karma;
       window.__nativecmpkitClipboardBoot = ownedBoot;
       h.restore = ownedRestore;
+      load(); // Exactly one owned sequence; a refused setup never loads any emitted bundle.
     } catch (_) {
       // A refused/partial setup can never fall through to the unguarded native method.
       window.__nativecmpkitClipboardBoot = async () => { throw new Error('Owning Wasm loader setup refused'); };
@@ -565,11 +642,12 @@
           response.writeHead(200, headers);
           const boot = '(' + childBootstrap.toString() + ')(' +
             [token, session.mode, session.method, controlOrigin, klass].map(jsValue).join(',') + ');';
-          const wasmBoot = session.scripts.some(entry => entry.wasmLoader === true) ?
-            '<script>(' + wasmChildBootstrap.toString() + ')();</script>' : '';
-          const load = '(' + childLoad.toString() + ')(' + jsValue(session.scripts) + ');';
+          const wasm = session.scripts.some(entry => entry.wasmLoader === true);
+          const wasmBoot = wasm ?
+            '<script>(' + wasmChildBootstrap.toString() + ')(' + jsValue(session.scripts) + ');</script>' : '';
+          const load = wasm ? '' : '<script>(' + childLoad.toString() + ')(' + jsValue(session.scripts) + ');</script>';
           response.end('<!doctype html><meta charset="utf-8"><style>html,body{margin:0}#nativecmpkit-clipboard-action{position:fixed;left:24px;top:24px;width:250px;height:64px}</style>' +
-            '<button id="nativecmpkit-clipboard-action">NativeCmpKit owned clipboard action</button><script>' + boot + '</script>' + wasmBoot + '<script>' + load + '</script>');
+            '<button id="nativecmpkit-clipboard-action">NativeCmpKit owned clipboard action</button><script>' + boot + '</script>' + wasmBoot + load);
           return;
         }
         if (request.headers['sec-fetch-site'] !== 'same-origin') throw new Error('Control must come from the exact same-origin owner');

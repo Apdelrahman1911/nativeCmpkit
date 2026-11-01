@@ -1,0 +1,248 @@
+{
+  "schema": 1,
+  "created_utc": "2026-11-01T23:39:35.974263+00:00",
+  "run_id": 41360713477,
+  "run_attempt": 1,
+  "source_revision": "6c8684a3b9ad078efea2eb991d7c6243704bbd2d",
+  "artifact_id": 13105383247,
+  "artifact_original_sha256": "76cef83af96a4385c44dc590ee36da389ef9aaab3569375f929ec195ba1bfbcc",
+  "xml_original_path": "original-artifact/calf-share/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest.xml",
+  "xml_original_sha256": "494f8617f653a162e966aa779d65490e5ba544b7e0e6d7d76d676d44eaeceefc",
+  "failed_classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest",
+  "failed_name": "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks[iosSimulatorArm64]",
+  "failure_type": "kotlin.AssertionError",
+  "failure_message": "kotlin.AssertionError: kotlin.AssertionError: Expected <[(1, Completed)]>, actual <[(1, Dismissed)]>.",
+  "first_main_iteration_observed": true,
+  "all_original_stack_frames_unknown_source": true,
+  "original_selected_stack_frames": [
+    "at com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest.IosSharePresentationOwnershipTest$publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks$1.IosSharePresentationOwnershipTest$publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks$1$invoke$8.invoke#internal(Unknown Source)",
+    "at com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest.IosSharePresentationOwnershipTest$publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks$1.IosSharePresentationOwnershipTest$publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks$1$invoke$8.$<bridge-DN>invoke(Unknown Source)",
+    "at com.mohamedrejeb.calf.share.internal.NativeApplicationUiTest.NativeApplicationUiTest$runOnIdle$1.invoke#internal(Unknown Source)",
+    "at com.mohamedrejeb.calf.share.internal.onApplicationMain$1.invoke#internal(Unknown Source)",
+    "at com.mohamedrejeb.calf.share.internal.onApplicationMain$1.$<bridge-DN>invoke(Unknown Source)",
+    "at <global>.UIApplicationMain(Unknown Source)",
+    "at com.mohamedrejeb.calf.share.internal#nativeApplicationMain(Unknown Source)"
+  ],
+  "native_original_does_not_supply_kotlin_line_numbers": true,
+  "source_conditioned_assertion_line": 146,
+  "source_path": "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosSharePresentationOwnershipTest.kt",
+  "source_sha256": "250b536388c872d6fd975ad009ca47a750575df28b1eb0d1981ba6d124d63b9d",
+  "source_context": [
+    {
+      "line": 112,
+      "text": "                }"
+    },
+    {
+      "line": 113,
+      "text": "            }"
+    },
+    {
+      "line": 114,
+      "text": "            waitForNative {"
+    },
+    {
+      "line": 115,
+      "text": "                val native = parent.presentedViewController"
+    },
+    {
+      "line": 116,
+      "text": "                native is UIActivityViewController && !native.isBeingPresented() && native.view.window != null"
+    },
+    {
+      "line": 117,
+      "text": "            }"
+    },
+    {
+      "line": 118,
+      "text": "            val native = onApplicationMain { assertIs<UIActivityViewController>(parent.presentedViewController) }"
+    },
+    {
+      "line": 119,
+      "text": "            runOnIdle {"
+    },
+    {
+      "line": 120,
+      "text": "                assertSame(retained, launcher)"
+    },
+    {
+      "line": 121,
+      "text": "                callbackVersion.value = index + 1"
+    },
+    {
+      "line": 122,
+      "text": "                reenter = index == 2"
+    },
+    {
+      "line": 123,
+      "text": "            }"
+    },
+    {
+      "line": 124,
+      "text": "            waitForIdle()"
+    },
+    {
+      "line": 125,
+      "text": "            onApplicationMain {"
+    },
+    {
+      "line": 126,
+      "text": "                val completed = assertNotNull(native.completionWithItemsHandler)"
+    },
+    {
+      "line": 127,
+      "text": "                lateOriginal = { completed(null, true, null, null) }"
+    },
+    {
+      "line": 128,
+      "text": "                original = native"
+    },
+    {
+      "line": 129,
+      "text": "                // Genuine UIKit dismissal completes BEFORE the deliberately controlled activity"
+    },
+    {
+      "line": 130,
+      "text": "                // terminal input. This neither simulates a recipient nor changes library phases."
+    },
+    {
+      "line": 131,
+      "text": "                native.dismissViewControllerAnimated(false) {"
+    },
+    {
+      "line": 132,
+      "text": "                    ownedNativeDismissalCompleted(native)"
+    },
+    {
+      "line": 133,
+      "text": "                    completed(null, true, null, null)"
+    },
+    {
+      "line": 134,
+      "text": "                    completed(null, true, null, null)"
+    },
+    {
+      "line": 135,
+      "text": "                }"
+    },
+    {
+      "line": 136,
+      "text": "            }"
+    },
+    {
+      "line": 137,
+      "text": "            waitForNative {"
+    },
+    {
+      "line": 138,
+      "text": "                deliveries.size == index + 1 && if (index == 2) {"
+    },
+    {
+      "line": 139,
+      "text": "                    val next = parent.presentedViewController"
+    },
+    {
+      "line": 140,
+      "text": "                    next is UIActivityViewController && !sameNativeObject(next, native) && !next.isBeingPresented()"
+    },
+    {
+      "line": 141,
+      "text": "                } else parent.presentedViewController == null"
+    },
+    {
+      "line": 142,
+      "text": "            }"
+    },
+    {
+      "line": 143,
+      "text": "            runOnIdle {"
+    },
+    {
+      "line": 144,
+      "text": "                assertSame(retained, launcher)"
+    },
+    {
+      "line": 145,
+      "text": "                assertTrue(allCallbacksOnMain)"
+    },
+    {
+      "line": 146,
+      "text": "                assertEquals<List<Pair<Int, ShareOutcome>>>((1..index + 1).map { it to ShareOutcome.Completed }, deliveries)"
+    },
+    {
+      "line": 147,
+      "text": "                assertNotNull(lateOriginal).invoke()"
+    },
+    {
+      "line": 148,
+      "text": "                assertEquals(index + 1, deliveries.size, \"An old native block cannot deliver or clear a new generation\")"
+    },
+    {
+      "line": 149,
+      "text": "                if (index == 2) {"
+    },
+    {
+      "line": 150,
+      "text": "                    assertFalse(sameNativeObject(parent.presentedViewController, original))"
+    },
+    {
+      "line": 151,
+      "text": "                }"
+    },
+    {
+      "line": 152,
+      "text": "            }"
+    },
+    {
+      "line": 153,
+      "text": "        }"
+    },
+    {
+      "line": 154,
+      "text": "        val replacement = onApplicationMain { assertIs<UIActivityViewController>(parent.presentedViewController) }"
+    },
+    {
+      "line": 155,
+      "text": "        val lateReplacement = onApplicationMain {"
+    },
+    {
+      "line": 156,
+      "text": "            val callback = assertNotNull(replacement.completionWithItemsHandler)"
+    },
+    {
+      "line": 157,
+      "text": "            val deliver: () -> Unit = { callback(null, false, null, null) }"
+    },
+    {
+      "line": 158,
+      "text": "            deliver"
+    },
+    {
+      "line": 159,
+      "text": "        }"
+    }
+  ],
+  "actual_input_maps": [
+    {
+      "path": "original-artifact/build/ci-verification/ios-iphone/inputs-before.json",
+      "count": 1179,
+      "sha256": "d63544fd80676bfd98bdee3aa77d38fd87dc7e0974d009426ed6e2e0d259f653",
+      "exact_frozen_1179_match": true
+    },
+    {
+      "path": "original-artifact/build/ci-verification/ios-iphone/inputs-after.json",
+      "count": 1179,
+      "sha256": "d63544fd80676bfd98bdee3aa77d38fd87dc7e0974d009426ed6e2e0d259f653",
+      "exact_frozen_1179_match": true
+    }
+  ],
+  "native_terminal_origin_order_or_cause_proven": false,
+  "unreached_live_paths": [
+    "Default iteration1",
+    "IO iteration2",
+    "Completed-triggered callback reentry",
+    "late original/duplicate assertions after first mismatch",
+    "remembered composition-disposal tail"
+  ],
+  "original_activity_terminal_invocation_sequence_not_logged": true,
+  "saved_originals_only_no_replay_edits_or_download": true
+}

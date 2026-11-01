@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows bounded observation compiled; Share188 subsets accepted — 2026-11-01
+
+[Windows195–198](docs/development/evidence/current-platform-recovery-20261101/windows-frame195-198/README.md)
+accepts NEW4 once/4pass/unittest0.001s, exact eight fragments/three test-only paths,
+fresh Desktop test compiler0/31.01s/JDK17.0.20/Gradle9.7.1 and1185/1263 held maps.
+Prior JSON-null absent-file pre-execution refusal preserved; no accepted replay.
+ZERO native. Initial allThreadIds enumeration not prebounded; query256/depth32/
+frames8192/nested640/aggregate2048 and250ms are cooperative, not hard deadlines.
+Original41345021248 stays FAILED1/pass0/#64open; only failed Windows Stop next.
+No held-instance/cancel-history/EOF/root-cause/API-ABI/security/readiness inference.
+
+[Share188 originals](docs/development/evidence/current-platform-recovery-20261101/share-original188/README.md)
+remain41360713477 FAILED12pass/onefail/threeXML/Gradle1/1230.61s;75passive checks,
+actual1179held/1257Git-only. Reuse host4/controlledRequest4/genuineDisposal3/
+disposedPublic1, not replay. FIRST/Main remembered-public expectedCompleted/
+actualDismissed; live Default/IO/reentry/disposal tail unreached, native terminal
+origin/order unknown. Native transport20.02s/Worker/owned cleanup independently
+pass, not JUnit green. #81/#88/#48/#100 stay open. Test-only transparent callback
+observation and AndroidLocal2 placement guard await source qualification.
+97closed/75open/172total;24implemented/40partial/95verified/five unresolved unchanged.
+Lead integrates/Git/dispatch/closure, disjoint agents; serial-local/8GiB/max2combined
+hosted INCLUDING queued. Read-only Actions/all/no mandatory SHA pinning and every
+publishing/Pages/main/history/native/consumer/API-ABI/dependency/legal/security/
+release-readiness gate remain. No package/release/deployment publication.
+
 ## Clipboard original criteria verified and closed — 2026-11-01
 
 **[#82/NATIVE-026 CLOSED/completed](docs/development/evidence/current-platform-recovery-20261101/clipboard82-closure196/README.md)**

@@ -1,5 +1,17 @@
 # Desktop WebView stop-loading verification
 
+## Windows failed-case-only recovery — 2026-11-01
+
+[Source/compile acceptance195–198](evidence/current-platform-recovery-20261101/windows-frame195-198/README.md)
+adds only a fixed count-only, after-refusal frame observation. Four NEW controls
+pass once; fresh Desktop test compilation passes0/31.01s on JDK17,1185/1263 held
+inputs. **Zero native tests; #64 remains open.** Original Windows41345021248 stays
+failed1/pass0. Next verification selects only its failed Stop method; accepted
+request/redirect and other-host results are reused, not rerun. Neither a missing
+frame nor compilation proves held-request cancellation, EOF, cause or readiness.
+
+## Earlier NATIVE-001 acceptance (unchanged)
+
 **NATIVE-001/#9 is verified and closed after both original criteria pass.**
 [Accepted immutable run40596231788](evidence/github-actions/40596231788/lead-independent-review.json)
 at4fb7d886 passes37/37 actual Linux/Xvfb methods in seven fresh XML,including both

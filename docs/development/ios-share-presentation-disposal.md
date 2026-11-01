@@ -58,6 +58,18 @@ substitutes for library integration or real browser download verification.
 
 ## Evidence and remaining scope
 
+Actual [Share188](evidence/current-platform-recovery-20261101/share-original188/README.md)
+at6c8684a3 remains **FAILED:12 pass/one fail**, three fresh XML, Gradle1/1230.61s.
+Independent original source/results review accepts the twelve bounded methods
+for reuse: four native host, four expressly controlled Request, three genuine
+UIKit disposal, and one disposed-public Main/Default/IO inertness method.
+The remembered-live method fails in FIRST/Main: expectedCompleted/actualDismissed;
+live Default/IO, successful-result reentry and remembered disposal tail are not
+reached. Individual UIKit terminal-input order/cause is unknown, not inferred
+from a source-conditioned line. Native transport/Worker/owned cleanup passes
+separately and does not override JUnit failure. Actual1179 inputs hold;1257 is
+Git provenance only. Do not replay the accepted twelve or close #81/#88/#48/#100.
+
 See [the owning batch](evidence/current-platform-recovery-20261101/share-owning168-179/README.md).
 Main Thread Checker, a full Kotlin/Native concurrency suite, interactive rollback
 occurrence, successful security-scope balancing, bookmarks, delayed/cross-process

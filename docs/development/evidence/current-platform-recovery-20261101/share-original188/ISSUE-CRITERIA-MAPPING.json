@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "scope": "Original criteria in source order; actual Share18812/1 outcome only, saved original evidence reused without replay",
+  "closure_decision": "None of #81/#88/#48/#100 qualifies for closure",
+  "findings": [
+    {
+      "issue": 81,
+      "finding": "NATIVE-025",
+      "original_criteria": "docs/audit/issue-drafts/audit-NATIVE-025.md",
+      "criteria": [
+        {
+          "criterion": 1,
+          "required": "Dismiss Android chooser and cancel/fail a selected macOS service without completed-share reporting",
+          "Share188": "No coverage",
+          "remaining": "Actual Android chooser cancellation and selected macOS service cancel/fail stages"
+        },
+        {
+          "criterion": 2,
+          "required": "Callbacks at documented stages, exactly once",
+          "Share188": "Controlled Request once-only release and disposed late-block suppression pass. Remembered-public stage/result method fails at first/Main expectedCompleted/actualDismissed; successful/live background/current/reentry tail is unexecuted.",
+          "remaining": "Qualified ordinary iOS public stage/result sequence and Android/macOS stages; no injected completion promoted to recipient/OS success"
+        },
+        {
+          "criterion": 3,
+          "required": "Delay recipient reads past chooser selection to validate file lifetime",
+          "Share188": "Three genuine disposal cases retain real sandbox sources/scope objects through native acknowledgement. No recipient read or positive scope start/balance.",
+          "retained": "docs/development/android-share-uri-grants.md accepted Android3 lifetime subset; #83 already closed, not reclosed",
+          "remaining": "Delayed/cross-process recipient and macOS service lifetimes; chooser UX and positive scope balancing unproved"
+        }
+      ]
+    },
+    {
+      "issue": 88,
+      "finding": "NATIVE-033",
+      "original_criteria": "docs/audit/issue-drafts/audit-NATIVE-033.md",
+      "criteria": [
+        {
+          "criterion": 1,
+          "required": "Supported public APIs from Main/Default/IO dispatch safely and deterministically",
+          "Share188": "Disposed-public launcher Main/Default/IO inertness passes. Remembered-live method fails on FIRST/Main; live Default/IO are not reached.",
+          "remaining": "Live public Share Main/Default/IO qualified results plus camera/Android Share/WebView evaluation/settings/cookies"
+        },
+        {
+          "criterion": 2,
+          "required": "UIKit Main Thread Checker and Kotlin/Native concurrency tests",
+          "Share188": "Genuine owning main/Worker host and callback thread assertions, not either required checker/suite",
+          "remaining": "Main Thread Checker and complete supported Kotlin/Native concurrency verification"
+        },
+        {
+          "criterion": 3,
+          "required": "Cancellation before dispatch, after presentation and before callback cannot orphan work",
+          "Share188": "Three actual UIKit disposal cases, disposed queued launch case and four controlled Request transitions pass. Worker/root/installed-app cleanup passes separately.",
+          "remaining": "Remembered-public reentry/composition disposal tail is not reached; other APIs/interleavings and actual interactive rollback remain"
+        }
+      ]
+    },
+    {
+      "issue": 48,
+      "finding": "IO-011",
+      "original_criteria": "docs/audit/issue-drafts/audit-IO-011.md",
+      "criteria": [
+        {
+          "criterion": 1,
+          "required": "Chromium File System Access success/cancel/error",
+          "Share188": "No coverage",
+          "remaining": "Genuine destination writes and public path; retained Browser004 picker/writable fixture is not destination proof"
+        },
+        {
+          "criterion": 2,
+          "required": "Safari/Firefox download fallback transition",
+          "Share188": "No coverage",
+          "remaining": "Real Safari/Firefox fallback state transition"
+        },
+        {
+          "criterion": 3,
+          "required": "Caller never awaits unsupported terminal event",
+          "Share188": "No coverage",
+          "retained": "Sample179 five event-feedback mappings clear busy for Saved/Cancelled/DownloadStarted/Failed; DownloadStarted is not persistence",
+          "remaining": "Actual library/public composable browser lifecycle and consumer integration"
+        },
+        {
+          "criterion": 4,
+          "required": "User activation and insecure-context fallback",
+          "Share188": "No coverage",
+          "remaining": "Genuine secure activation and insecure-context fallback"
+        },
+        {
+          "criterion": 5,
+          "required": "JS/Wasm parity",
+          "Share188": "No coverage",
+          "retained": "docs/development/evidence/io/io-browser004-verification.json establishes disclosed fixture-level parity only",
+          "remaining": "Genuine browser/library parity, not controlled writable/picker promises"
+        }
+      ]
+    },
+    {
+      "issue": 100,
+      "finding": "NAV-013",
+      "original_criteria": "docs/audit/issue-drafts/audit-NAV-013.md",
+      "criteria": [
+        {
+          "criterion": 1,
+          "required": "Corrupt/empty/revoked/large-dimension inputs gracefully fail without crashes/handle leaks",
+          "Share188": "No sample coverage",
+          "retained": "Desktop002 six image bound/actual-Skia methods pass; overall run still failed18pass/one initializationError",
+          "remaining": "Complete malformed/revoked-input/platform/native handle-lifetime acceptance"
+        },
+        {
+          "criterion": 2,
+          "required": "Rapid export/navigation away cancels or serializes correctly",
+          "Share188": "No coverage; Share owner disposal is not sample export orchestration",
+          "remaining": "Actual sample repeated-export/navigation lifecycle"
+        },
+        {
+          "criterion": 3,
+          "required": "Measure representative Android/iOS/JVM/browser peak memory and responsiveness",
+          "Share188": "No profiling or sample executions",
+          "remaining": "Representative actual peak-memory and UI-latency measurements"
+        },
+        {
+          "criterion": 4,
+          "required": "Encoder failure and hundreds-of-images selection remain bounded/lazy",
+          "Share188": "No coverage; sample179 mapping5 is feedback only",
+          "remaining": "Encoder/provider failure and large multiselect/lazy-render runtime acceptance"
+        }
+      ]
+    }
+  ]
+}

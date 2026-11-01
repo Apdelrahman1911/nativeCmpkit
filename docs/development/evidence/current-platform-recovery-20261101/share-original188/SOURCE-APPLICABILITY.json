@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "created_utc": "2026-11-01T23:14:19.246486+00:00",
+  "profile": "ios-share-presentation-disposal",
+  "groups": [
+    {
+      "class": "com.mohamedrejeb.calf.share.internal.NativeShareApplicationHostTest",
+      "source": "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHostTest.kt",
+      "source_sha256": "1348e830710224ffb30fdd963f92b083f97979419e7fb6c7bc17ae36b4194ca0",
+      "methods": [
+        "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+        "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+        "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+        "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"
+      ],
+      "scope": "genuine UIKit/Compose host obligations; not OS share UX"
+    },
+    {
+      "class": "com.mohamedrejeb.calf.share.IosShareRequestTest",
+      "source": "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosShareRequestTest.kt",
+      "source_sha256": "fc294b46809095d5951e5130eab5bda3c96fdf54362e672d64bb6a2b9dba98de",
+      "methods": [
+        "preparedCancellationReleasesOnlyTheNeverPresentedRequestOnce",
+        "nilNativeLinksDuringControlledPresentationCannotReleaseOrDismissTheRequest",
+        "repeatedCancellationDuringDismissalCannotIssueOrCompleteCleanupTwice",
+        "releasedRequestIgnoresLateCompletionsAndThrowingOwnerNotificationCannotRepeatCleanup"
+      ],
+      "scope": "controlled production Request transitions; empty lease lists"
+    },
+    {
+      "class": "com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest",
+      "source": "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosSharePresentationOwnershipTest.kt",
+      "source_sha256": "250b536388c872d6fd975ad009ca47a750575df28b1eb0d1981ba6d124d63b9d",
+      "methods": [
+        "realAnimatedShareDisposalWaitsForNativePresentationAndDismissalBeforeLeaseRelease",
+        "deferredNativeSharePresentationRetainsDisposedRequestWhileBothLinksAreNil",
+        "disposalAfterRealPresentationClosesOneRequestAndSuppressesLateActivityCompletion",
+        "disposedPublicShareLaunchersCalledFromDefaultAndIoCannotRestartNativeWork",
+        "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks"
+      ],
+      "scope": "five genuine UIKit/public launcher cases with disclosed controlled scheduling/results"
+    }
+  ],
+  "source_only_no_test_replay": true,
+  "original_issues_remain_open": [
+    "#81/NATIVE-025",
+    "#88/NATIVE-033",
+    "#48/IO-011",
+    "#100/NAV-013"
+  ],
+  "limits": [
+    "Activity terminal inputs deliberately invoke captured actual UIKit completion blocks, not user/recipient success or OS cancellation.",
+    "Second native disposal case deliberately defers the per-call native scheduling boundary; genuine presentation and dismissal callbacks must still execute.",
+    "Sandbox files provide actual library scope objects; no successful security-scope grant, bookmark balancing, content read or cross-process recipient is assumed.",
+    "Main/Default/IO live public remembered Share coverage is one compound method, not coverage of other public mobile APIs.",
+    "Main Thread Checker, broad concurrency/interactive rollback, other platforms, sample/browser/consumer/API-ABI/security/release criteria are separate."
+  ],
+  "actual_outcome": "12 qualified passes/one retained first/Main failure",
+  "source_revision": "6c8684a3b9ad078efea2eb991d7c6243704bbd2d"
+}

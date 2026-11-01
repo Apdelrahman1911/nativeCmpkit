@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Sole camera prerequisite integrated — 2026-11-01
+
+[Three-file owning delta](docs/development/evidence/camera-developer-prerequisite-20261101/implementation001/README.md)
+admits only existing API35/camera/Dont-keep on a fresh exclusive disposable guest:
+exact master absence/0/1, one optional initialization, native/UI leases unchanged,
+owned app removal/changed-kernel barrier/exact row restoration/graceful full guest
+disposal. Not atomic CAS/arbitrary concurrent-writer proof.22 sealed payloads/three
+postimages and1070/1147 current maps read back; original77 model passes plus three
+unchanged wiring passes reused, ZERO new builds/native. Initial public0600-mode
+refusal retained/corrected0644. Current matrix/Android batches preserved; running
+41262970016/41262978370 remain bound to2cb7dc27, not these later inputs. Actual011
+stays failed/master value+cause unknown; #13 open. Only one Dont-keep next, no
+accepted camera009 rotation/death/cancellation replay.92closed/80open; useful
+disjoint agents/serial local builds/8GiB disk/max2 hosted/all publishing gates stay.
+
 ## Android batch actual tooling failure / exact owning recovery — 2026-11-01
 
 Both [41262577203/41262586150](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci001/ACTUAL-REVIEW.md)

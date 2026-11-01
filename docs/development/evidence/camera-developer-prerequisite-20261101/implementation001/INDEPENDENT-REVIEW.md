@@ -1,0 +1,13 @@
+# Independent camera prerequisite review — source/control evidence only
+
+**Conditionally suitable for lead integration; not runtime acceptance.** All 22 delivered payload hashes, three exact Python postimages and private modes were independently read back; no symlinks, extra payload or checksum mismatches were found.
+
+Only the existing API35/camera/single Dont-keep profile admits the prerequisite on a newly created exclusive disposable AVD. Paired row/getter reads distinguish absence from literal 0/1; stable complete native/scalar observations, actual Shell identity and installed grants are required. Original master1 is read-only: no master write or prerequisite reboot. Proved absence/0 permits one checkpointed PUT1 before either APK installation. The native method and genuine Settings UI/native/scalar/accessibility/task leases remain byte-unchanged.
+
+Owned app removals and pre-barrier native/scalar restoration observations precede one normal reboot when initialization may have occurred. A stable changed kernel lifetime on the same owned guest—not task absence or an ADB acknowledgement—plus fresh Settings absence is required before one exact original-row restoration; absence requires exactly one deleted row. Graceful engine shutdown and transport absence precede FD-confined removal of both guest roots. Uncertain/primary/partial failures remain sticky; disposal never waives restoration.
+
+The retained original **model** XML contains exactly 77 passing distinct methods, no failures/errors/skips, at 0.568623 seconds, holding all three postimages. Three unchanged source-wiring passes are reused: 80 distinct owning methods, not summed executions. This review reran no models, builds or native tests.
+
+The current matrix has a disjoint Android batching delta; the camera profile/module/focus branch is AST-identical and absent from both batches. Preserve the current matrix and add current applicability/full-refreeze receipts; historical input applicability is not a current-tree attestation.
+
+Original criteria 2/3 are covered by the three accepted camera009 methods; exact early constructor timing remains unobserved and is not an additional original criterion. Only the unchanged Dont-keep method is eligible next. Actual011 remains **FAILED: one failed execution, zero passes, master value and cause unknown; #13 stays open.** Actual config/parser/permission/manifest, fresh-process and normal-reboot admission remain unexecuted. The kernel reference is not runtime kernel-byte correspondence. This is not atomic compare-and-set proof against arbitrary concurrent same-boot writers; fresh-exclusive/no-post-barrier-UI scope is essential. No release/security/other gate is cleared.

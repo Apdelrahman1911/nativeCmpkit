@@ -1,0 +1,67 @@
+{
+  "additions": 2,
+  "applies_to_combined_controller_postimage_not_raw_base": true,
+  "coowned_existing_models_modified": false,
+  "files": [
+    {
+      "actual_private_file_mode": "0600",
+      "desired_repository_mode": "100644",
+      "operation": "modify",
+      "path": "scripts/ci/android_device_tests.py",
+      "postimage": {
+        "bytes": 41660,
+        "sha256": "bd31ce4195c31abd7431da65fa3ded2bb963d4ff2e77c267215b6a64694f7d6a"
+      },
+      "preimage": {
+        "bytes": 37104,
+        "sha256": "e100626d344aa37f8d1fcd51ff57b5ac6f785fca7db3df1d2e0fc50c15ba321b"
+      },
+      "preimage_source": "combined-delivery-postimage",
+      "required_preintegration_absence": false
+    },
+    {
+      "actual_private_file_mode": "0600",
+      "desired_repository_mode": "100644",
+      "operation": "add",
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "postimage": {
+        "bytes": 56419,
+        "sha256": "fc26592ead33a3fab781eb288794f2b969d2a4e269e8e27b6eb0bb039c58287c"
+      },
+      "preimage": null,
+      "preimage_source": "verified-absent-in-private-base-and-overlay-manifest",
+      "required_preintegration_absence": true
+    },
+    {
+      "actual_private_file_mode": "0600",
+      "desired_repository_mode": "100644",
+      "operation": "add",
+      "path": "scripts/ci/test_android_camera_developer_prerequisite.py",
+      "postimage": {
+        "bytes": 63135,
+        "sha256": "16f6172907e52ee2ae6bbc792f760505151d96e550f443f46e1bf2ef9250b350"
+      },
+      "preimage": null,
+      "preimage_source": "verified-absent-in-private-base-and-overlay-manifest",
+      "required_preintegration_absence": true
+    }
+  ],
+  "filesystem_modes_not_repository_index_attestation": true,
+  "modifications": 1,
+  "native_method_or_native_lease_modified": false,
+  "parent_must_refreeze_after_integration": true,
+  "paths": 3,
+  "removals": 0,
+  "required_base_revision_label": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "required_combined_overlay_identities": {
+    "patches/combined-android-forward.patch": {
+      "bytes": 505954,
+      "sha256": "b5d4f39c83c35eec6bc5ef0b6383d891e53058fbc5c41a108933b84f8d01b9f1"
+    },
+    "postimage-manifest.json": {
+      "bytes": 38609,
+      "sha256": "d2b7740187438032e645a90df508414da1f37762558748554d9a6a4179f5a589"
+    }
+  },
+  "schema": "nativecmpkit.private.camera-prerequisite-forward-postimages.v1"
+}

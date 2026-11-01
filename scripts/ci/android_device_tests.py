@@ -32,6 +32,7 @@ import android_camera_receiver
 import android_io_documents
 import android_permission_demo
 import android_storage_probe
+import android_camera_developer_prerequisite as camera_developer
 
 API = 35
 PORT = 5588
@@ -43,7 +44,7 @@ IMAGE = f"system-images;android-{API};google_apis;x86_64"
 def preflight_error_origin(error: Exception) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
     allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
-               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py"}
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py"}
     directory = Path(__file__).resolve().parent
     origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
     frame = error.__traceback__
@@ -194,6 +195,7 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     # Reject an invalid authored source selection before even diagnostic output.
     # Other profiles retain their original no-output-on-preflight-refusal contract.
     focus_options = {"focus": focus} if focus is not None else {}
+    camera_developer_required = camera_developer.is_required(api_level, only_modules, focus)
     plan = lt.plan(root, "android-device", only_modules=only_modules, **focus_options)
     io_documents_required = lt.android_io_documents_required(plan)
     permission_demo_required = lt.android_permission_demo_required(plan)
@@ -233,8 +235,9 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     env = os.environ.copy()
     env.update(ANDROID_AVD_HOME=str(output / "avd"), ANDROID_EMULATOR_HOME=str(output / "avd"),
                ANDROID_USER_HOME=str(output / "android-user"), ANDROID_SERIAL=SERIAL)
-    (output / "avd").mkdir()
-    (output / "android-user").mkdir()
+    if not camera_developer_required:
+        (output / "avd").mkdir()
+        (output / "android-user").mkdir()
     if io_documents_required or permission_demo_required or storage_required:
         # This is an actual assembly-only command: no connected task or helper
         # instrumentation bit can exist before the helper identity passes.
@@ -261,6 +264,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if focus is not None:
         result["explicit_test_focus"] = focus
     process = None
+    guest = None
+    developer = None
     heap = None
     geo_probe = None
     share_recipient = None
@@ -281,6 +286,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
     if storage_required:
         result["reporter_compile_deferred_until_storage_identity"] = True
     try:
+        if camera_developer_required:
+            # Assign the exclusive owner before creating either root so partial
+            # setup failures enter the same signal-protected disposal path.
+            guest = camera_developer.OwnedFreshGuest(root, output, name, env)
+            guest.create()
         stages = (("apk-assembly", assemble, 900), ("owned-avd-create", create, 120))
         if lt.android_camera_receiver_required(plan):
             # Validate the finite camera's real SDK device profile before a costly APK
@@ -299,13 +309,24 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             result["setup_stages"][stage] = execution
             if execution["exit_code"] != 0 or execution.get("stop_reason"):
                 raise RuntimeError("Setup failed before any device test execution")
+        if guest is not None:
+            guest.capture_avd(home)
         log = (output / "emulator.log").open("w", encoding="utf-8")
+        if guest is not None:
+            guest.before_launch()
         process = subprocess.Popen(launch, cwd=root, env=env, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+        if guest is not None:
+            guest.attach(process)
         lt.write_json(output / "launch.json", {"pid": process.pid, "serial": SERIAL, "avd_name": name,
                       "observed_utc": lt.utc_now(), "ownership": "Popen child in its own process group; no guessed existing process"})
         identity = wait_for_owned_boot(home, process, name, root, **({"api_level": api_level} if api_level != API else {}))
         verified = True
         lt.write_json(output / "boot.json", identity)
+        if guest is not None:
+            # The unchanged Settings UI lease requires master1; admission and
+            # optional one-key initialization precede both test APK installs.
+            developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)
+            result["camera_developer_prerequisite"] = developer.prepare()
         if lt.android_geo_probe_required(plan):
             geo_probe = android_geo_probe.OwnedGeoProbe(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env)
@@ -320,6 +341,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         if lt.android_camera_receiver_required(plan):
             camera_receiver = android_camera_receiver.OwnedCameraReceiver(root, output, home, SERIAL,
                 lambda: process.poll() is None and avd_name(home) == name, environment=env, api_level=api_level)
+            if developer is not None:
+                developer.mark_receiver_prepare()
             result["camera_receiver"] = camera_receiver.prepare()
             if deferred_api23_assembly:
                 execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)
@@ -363,6 +386,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         if focus == lt.WEBVIEW_ANDROID_MEDIA_FOCUS:
             heap = android_webview_heap.OwnedHeap(root, output, home, SERIAL, process, name, avd_name)
             heap.prepare().start()
+        if developer is not None:
+            developer.mark_reporter_dispatch()
         receipt = lt.run(root, "android-device", (output / "library").relative_to(root).as_posix(),
                          None, 1800, RESERVE_MIB, android_serial=SERIAL,
                          android_user_home=(output / "android-user").relative_to(root).as_posix(),
@@ -411,6 +436,14 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["camera_receiver"] = dict(camera_receiver.receipt) | {
                             "owned_recipient_removed": False, "cleanup_error": type(error).__name__}
                         result["camera_receiver_cleanup_error_origin"] = preflight_error_origin(error)
+                if developer is not None:
+                    try:
+                        developer.record_receiver_cleanup(result.get("camera_receiver"))
+                        result["camera_developer_prerequisite"] = developer.close()
+                    except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as error:
+                        result["camera_developer_prerequisite"] = dict(developer.receipt) | {
+                            "cleanup_status": "failed", "cleanup_error": type(error).__name__}
+                        result["camera_developer_cleanup_error_origin"] = preflight_error_origin(error)
                 if storage_probe is not None:
                     try:
                         result["storage_probe"] = storage_probe.close()
@@ -441,15 +474,48 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
                         result["share_documents"] = {"owned_recipient_removed": False, "cleanup_error": type(error).__name__}
             finally:
                 if process is not None:
-                    result["emulator_shutdown"] = stop_owned_emulator(home, process, name, verified)
-                    if ((camera_receiver is not None or io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and
+                    shutdown_verified = verified
+                    guest_owner_error = False
+                    if guest is not None and process.poll() is None:
+                        try:
+                            guest.verify_live()
+                        except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                            # No guest IPC on lost ownership; existing host-child
+                            # cleanup remains owned and can never pass as graceful.
+                            shutdown_verified = False
+                            guest_owner_error = True
+                    result["emulator_shutdown"] = stop_owned_emulator(home, process, name, shutdown_verified)
+                    if guest_owner_error:
+                        result["emulator_shutdown"].update(clean_shutdown=False, guest_owner_error=True)
+                    if guest is not None and process.poll() is not None:
+                        # Read-only absence after a known child exit is also
+                        # needed for safe disposal after a retained red shutdown.
+                        removed = wait_for_owned_transport_removal(home)
+                        result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
+                        result["emulator_shutdown"]["clean_shutdown"] = (
+                            result["emulator_shutdown"].get("clean_shutdown") is True and removed)
+                    elif ((camera_receiver is not None or io_documents is not None or permission_demo is not None or storage_probe is not None) and verified and
                             result["emulator_shutdown"].get("clean_shutdown") is True):
                         removed = wait_for_owned_transport_removal(home)
                         result["emulator_shutdown"]["owned_adb_transport_removed"] = removed
                         result["emulator_shutdown"]["clean_shutdown"] = removed
         except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
-            result["emulator_shutdown"] = {"clean_shutdown": False, "controller_cleanup_error": True}
+            if camera_developer_required:
+                # Do not replace prior/partial reboot/app/engine observations.
+                result["emulator_shutdown"] = dict(result.get("emulator_shutdown", {})) | {
+                    "clean_shutdown": False, "controller_cleanup_error": True}
+            else:
+                result["emulator_shutdown"] = {"clean_shutdown": False, "controller_cleanup_error": True}
         finally:
+            if guest is not None:
+                try:
+                    result["camera_guest_disposal"] = guest.dispose(
+                        engine_exited=process is not None and process.poll() is not None,
+                        transport_absent=result.get("emulator_shutdown", {}).get("owned_adb_transport_removed") is True,
+                        clean_shutdown=result.get("emulator_shutdown", {}).get("clean_shutdown") is True)
+                except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                    result["camera_guest_disposal"] = dict(guest.receipt) | {
+                        "disposal_status": "failed", "disposal_error": type(error).__name__}
             if log is not None:
                 log.close()
             for number, handler in previous_handlers.items():
@@ -465,6 +531,8 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         result["passed"] = (result["test_suite_passed"] and result["source_unchanged"]
                             and result.get("emulator_shutdown", {}).get("clean_shutdown") is True
                             and not result.get("controller_error") and
+                            (not camera_developer_required or camera_developer.accepted(
+                                result.get("camera_developer_prerequisite", {}), result.get("camera_guest_disposal", {}))) and
                             (heap is None or (result.get("heap_diagnostics", {}).get("clean_monitor_shutdown") is True and
                              not result["heap_diagnostics"].get("capture_error"))) and
                             (geo_probe is None or (result.get("geo_probe", {}).get("owned_probe_removed") is True and

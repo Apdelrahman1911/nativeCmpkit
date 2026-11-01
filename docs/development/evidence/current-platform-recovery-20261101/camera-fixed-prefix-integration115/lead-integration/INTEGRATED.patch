@@ -1,0 +1,509 @@
+--- a/scripts/ci/android_camera_developer_prerequisite.py
++++ b/scripts/ci/android_camera_developer_prerequisite.py
+@@ -1108,9 +1108,20 @@
+                        is not None for item in interior)
+     blank_rows = sum(item.strip(" \t") == "" for item in interior)
+     marker_rows = sum("ActivityRecord{" in item for item in interior)
++    # Reference syntax only: never identify an actual-image producer, row owner or
++    # Activity absence from a fixed prefix. Unknown rows remain original refusals.
++    fixed_shape = {
++        "  Resumed activities in task display areas (from top to bottom):": "literal-resumed-areas-header",
++        "  Activities waiting to finish:": "literal-waiting-to-finish-header",
++        "  Activities waiting to stop:": "literal-waiting-to-stop-header",
++    }.get(row)
++    if fixed_shape is None:
++        fixed_shape = ("ascii-even-indent-star-space-prefix" if
++                       re.match(r"(?: {2})+\* ", row) is not None else
++                       "ascii-top-resumed-prefix" if row.startswith("  ResumedActivity: ") else "unknown")
+     # No row text, package/task/PID, argv, environment, error body or machine path.
+     error._nativecmpkit_settings_activity_absence_refusal = {
+-        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v1",
++        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v2",
+         "payload_bytes": len(payload), "payload_sha256": hashlib.sha256(payload).hexdigest(),
+         "row_count": len(rows), "interior_row_count": len(rows) - 2,
+         "interior_display_shape_rows": display_rows, "interior_ascii_blank_shape_rows": blank_rows,
+@@ -1125,6 +1136,7 @@
+         "row_display_prefix": row.startswith("Display #"),
+         "row_indented_display_prefix": row.startswith(" ") and row.lstrip(" ").startswith("Display #"),
+         "row_activity_record_marker": "ActivityRecord{" in row,
++        "row_reference_fixed_shape": fixed_shape,
+     }
+ 
+ 
+@@ -1145,10 +1157,15 @@
+     booleans = ("row_empty", "row_ascii_whitespace_only", "row_ascii_only", "row_contains_tab",
+                 "row_display_prefix", "row_indented_display_prefix", "row_activity_record_marker")
+     digests = ("payload_sha256", "row_sha256")
+-    keys = {"schema", *integers, *booleans, *digests}
++    keys = {"schema", "row_reference_fixed_shape", *integers, *booleans, *digests}
+     if (type(observation) is not dict or any(type(key) is not str for key in observation) or
+             set(observation) != keys or
+-            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v1" or
++            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v2" or
++            type(observation["row_reference_fixed_shape"]) is not str or
++            observation["row_reference_fixed_shape"] not in {
++                "literal-resumed-areas-header", "literal-waiting-to-finish-header",
++                "literal-waiting-to-stop-header", "ascii-even-indent-star-space-prefix",
++                "ascii-top-resumed-prefix", "unknown"} or
+             any(type(observation[key]) is not int for key in integers) or
+             any(type(observation[key]) is not bool for key in booleans) or
+             any(type(observation[key]) is not str or
+--- a/scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json
++++ b/scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json
+@@ -1,7 +1,7 @@
+ {
+   "schema": 1,
+   "before_sha256": "f15163bd0406476d4c8e271aa6fa18c652590c1e1665ee7bb9306ca9140ddfd0",
+-  "after_sha256": "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f",
++  "after_sha256": "2d2fb89491d5435963b983052a96f7a9e80e02d9b7ed394c0b3d23cf4b194532",
+   "inverse_fragments": [
+     {
+       "new": "    for row_index, row in enumerate(rows[1:-1], 1):\n",
+@@ -16,7 +16,7 @@
+       "old": ""
+     },
+     {
+-      "new": "\n\n\ndef record_settings_activity_absence_refusal(error: BaseException, payload: bytes,\n                                           rows: list[str], row_index: int) -> None:\n    \"\"\"Attach bounded facts only after the unchanged display-row require refuses.\"\"\"\n    if (type(error) is not ValueError or type(payload) is not bytes or\n            not 0 < len(payload) <= CONTROL_BYTES or type(rows) is not list or\n            not 3 <= len(rows) <= len(payload) + 1 or type(row_index) is not int or\n            not 1 <= row_index <= len(rows) - 2 or\n            any(type(row) is not str for row in rows) or\n            sum(len(row) for row in rows) > CONTROL_BYTES):\n        return\n    row = rows[row_index]\n    encoded = row.encode(\"utf-8\")\n    if len(encoded) > len(payload):\n        return\n    interior = rows[1:-1]\n    display_rows = sum(re.fullmatch(r\"Display #(0|[1-9][0-9]{0,9}) \\(activities from top to bottom\\):\", item)\n                       is not None for item in interior)\n    blank_rows = sum(item.strip(\" \\t\") == \"\" for item in interior)\n    marker_rows = sum(\"ActivityRecord{\" in item for item in interior)\n    # No row text, package/task/PID, argv, environment, error body or machine path.\n    error._nativecmpkit_settings_activity_absence_refusal = {\n        \"schema\": \"nativecmpkit.camera-settings-activity-absence-refusal.v1\",\n        \"payload_bytes\": len(payload), \"payload_sha256\": hashlib.sha256(payload).hexdigest(),\n        \"row_count\": len(rows), \"interior_row_count\": len(rows) - 2,\n        \"interior_display_shape_rows\": display_rows, \"interior_ascii_blank_shape_rows\": blank_rows,\n        \"interior_other_shape_rows\": len(interior) - display_rows - blank_rows,\n        \"interior_activity_record_marker_rows\": marker_rows,\n        \"rejected_row_index\": row_index, \"row_bytes\": len(encoded),\n        \"row_sha256\": hashlib.sha256(encoded).hexdigest(),\n        \"row_leading_ascii_spaces\": len(row) - len(row.lstrip(\" \")),\n        \"row_trailing_ascii_spaces\": len(row) - len(row.rstrip(\" \")),\n        \"row_empty\": row == \"\", \"row_ascii_whitespace_only\": row.strip(\" \\t\") == \"\",\n        \"row_ascii_only\": row.isascii(), \"row_contains_tab\": \"\\t\" in row,\n        \"row_display_prefix\": row.startswith(\"Display #\"),\n        \"row_indented_display_prefix\": row.startswith(\" \") and row.lstrip(\" \").startswith(\"Display #\"),\n        \"row_activity_record_marker\": \"ActivityRecord{\" in row,\n    }\n\n\ndef settings_activity_absence_refusal(error: BaseException, origin: dict | None) -> dict | None:\n    \"\"\"Allowlist optional metadata; never an Activity-absence or cleanup decision.\"\"\"\n    if (type(error) is not ValueError or type(origin) is not dict or\n            any(type(key) is not str for key in origin) or\n            set(origin) != {\"source\", \"symbol\", \"line\"} or\n            origin[\"source\"] != \"android_camera_developer_prerequisite.py\" or\n            origin[\"symbol\"] != \"parse_settings_activity_absence\" or\n            type(origin[\"line\"]) is not int or not 0 < origin[\"line\"] < 20000):\n        return None\n    observation = vars(error).get(\"_nativecmpkit_settings_activity_absence_refusal\")\n    integers = (\"payload_bytes\", \"row_count\", \"interior_row_count\", \"rejected_row_index\",\n                \"row_bytes\", \"row_leading_ascii_spaces\", \"row_trailing_ascii_spaces\",\n                \"interior_display_shape_rows\", \"interior_ascii_blank_shape_rows\",\n                \"interior_other_shape_rows\", \"interior_activity_record_marker_rows\")\n    booleans = (\"row_empty\", \"row_ascii_whitespace_only\", \"row_ascii_only\", \"row_contains_tab\",\n                \"row_display_prefix\", \"row_indented_display_prefix\", \"row_activity_record_marker\")\n    digests = (\"payload_sha256\", \"row_sha256\")\n    keys = {\"schema\", *integers, *booleans, *digests}\n    if (type(observation) is not dict or any(type(key) is not str for key in observation) or\n            set(observation) != keys or\n            observation[\"schema\"] != \"nativecmpkit.camera-settings-activity-absence-refusal.v1\" or\n            any(type(observation[key]) is not int for key in integers) or\n            any(type(observation[key]) is not bool for key in booleans) or\n            any(type(observation[key]) is not str or\n                re.fullmatch(r\"[a-f0-9]{64}\", observation[key]) is None for key in digests)):\n        return None\n    size, count = observation[\"payload_bytes\"], observation[\"row_count\"]\n    if (not 0 < size <= CONTROL_BYTES or not 3 <= count <= size + 1 or\n            observation[\"interior_row_count\"] != count - 2 or\n            any(not 0 <= observation[key] <= count - 2 for key in\n                (\"interior_display_shape_rows\", \"interior_ascii_blank_shape_rows\", \"interior_other_shape_rows\")) or\n            observation[\"interior_display_shape_rows\"] + observation[\"interior_ascii_blank_shape_rows\"] +\n            observation[\"interior_other_shape_rows\"] != count - 2 or\n            not 0 <= observation[\"interior_activity_record_marker_rows\"] <= observation[\"interior_other_shape_rows\"] or\n            not 1 <= observation[\"rejected_row_index\"] <= count - 2 or\n            not 0 <= observation[\"row_bytes\"] <= size or\n            not 0 <= observation[\"row_leading_ascii_spaces\"] <= observation[\"row_bytes\"] or\n            not 0 <= observation[\"row_trailing_ascii_spaces\"] <= observation[\"row_bytes\"] or\n            observation[\"row_empty\"] != (observation[\"row_bytes\"] == 0)):\n        return None\n    return dict(observation)\n",
++      "new": "\n\n\ndef record_settings_activity_absence_refusal(error: BaseException, payload: bytes,\n                                           rows: list[str], row_index: int) -> None:\n    \"\"\"Attach bounded facts only after the unchanged display-row require refuses.\"\"\"\n    if (type(error) is not ValueError or type(payload) is not bytes or\n            not 0 < len(payload) <= CONTROL_BYTES or type(rows) is not list or\n            not 3 <= len(rows) <= len(payload) + 1 or type(row_index) is not int or\n            not 1 <= row_index <= len(rows) - 2 or\n            any(type(row) is not str for row in rows) or\n            sum(len(row) for row in rows) > CONTROL_BYTES):\n        return\n    row = rows[row_index]\n    encoded = row.encode(\"utf-8\")\n    if len(encoded) > len(payload):\n        return\n    interior = rows[1:-1]\n    display_rows = sum(re.fullmatch(r\"Display #(0|[1-9][0-9]{0,9}) \\(activities from top to bottom\\):\", item)\n                       is not None for item in interior)\n    blank_rows = sum(item.strip(\" \\t\") == \"\" for item in interior)\n    marker_rows = sum(\"ActivityRecord{\" in item for item in interior)\n    # Reference syntax only: never identify an actual-image producer, row owner or\n    # Activity absence from a fixed prefix. Unknown rows remain original refusals.\n    fixed_shape = {\n        \"  Resumed activities in task display areas (from top to bottom):\": \"literal-resumed-areas-header\",\n        \"  Activities waiting to finish:\": \"literal-waiting-to-finish-header\",\n        \"  Activities waiting to stop:\": \"literal-waiting-to-stop-header\",\n    }.get(row)\n    if fixed_shape is None:\n        fixed_shape = (\"ascii-even-indent-star-space-prefix\" if\n                       re.match(r\"(?: {2})+\\* \", row) is not None else\n                       \"ascii-top-resumed-prefix\" if row.startswith(\"  ResumedActivity: \") else \"unknown\")\n    # No row text, package/task/PID, argv, environment, error body or machine path.\n    error._nativecmpkit_settings_activity_absence_refusal = {\n        \"schema\": \"nativecmpkit.camera-settings-activity-absence-refusal.v2\",\n        \"payload_bytes\": len(payload), \"payload_sha256\": hashlib.sha256(payload).hexdigest(),\n        \"row_count\": len(rows), \"interior_row_count\": len(rows) - 2,\n        \"interior_display_shape_rows\": display_rows, \"interior_ascii_blank_shape_rows\": blank_rows,\n        \"interior_other_shape_rows\": len(interior) - display_rows - blank_rows,\n        \"interior_activity_record_marker_rows\": marker_rows,\n        \"rejected_row_index\": row_index, \"row_bytes\": len(encoded),\n        \"row_sha256\": hashlib.sha256(encoded).hexdigest(),\n        \"row_leading_ascii_spaces\": len(row) - len(row.lstrip(\" \")),\n        \"row_trailing_ascii_spaces\": len(row) - len(row.rstrip(\" \")),\n        \"row_empty\": row == \"\", \"row_ascii_whitespace_only\": row.strip(\" \\t\") == \"\",\n        \"row_ascii_only\": row.isascii(), \"row_contains_tab\": \"\\t\" in row,\n        \"row_display_prefix\": row.startswith(\"Display #\"),\n        \"row_indented_display_prefix\": row.startswith(\" \") and row.lstrip(\" \").startswith(\"Display #\"),\n        \"row_activity_record_marker\": \"ActivityRecord{\" in row,\n        \"row_reference_fixed_shape\": fixed_shape,\n    }\n\n\ndef settings_activity_absence_refusal(error: BaseException, origin: dict | None) -> dict | None:\n    \"\"\"Allowlist optional metadata; never an Activity-absence or cleanup decision.\"\"\"\n    if (type(error) is not ValueError or type(origin) is not dict or\n            any(type(key) is not str for key in origin) or\n            set(origin) != {\"source\", \"symbol\", \"line\"} or\n            origin[\"source\"] != \"android_camera_developer_prerequisite.py\" or\n            origin[\"symbol\"] != \"parse_settings_activity_absence\" or\n            type(origin[\"line\"]) is not int or not 0 < origin[\"line\"] < 20000):\n        return None\n    observation = vars(error).get(\"_nativecmpkit_settings_activity_absence_refusal\")\n    integers = (\"payload_bytes\", \"row_count\", \"interior_row_count\", \"rejected_row_index\",\n                \"row_bytes\", \"row_leading_ascii_spaces\", \"row_trailing_ascii_spaces\",\n                \"interior_display_shape_rows\", \"interior_ascii_blank_shape_rows\",\n                \"interior_other_shape_rows\", \"interior_activity_record_marker_rows\")\n    booleans = (\"row_empty\", \"row_ascii_whitespace_only\", \"row_ascii_only\", \"row_contains_tab\",\n                \"row_display_prefix\", \"row_indented_display_prefix\", \"row_activity_record_marker\")\n    digests = (\"payload_sha256\", \"row_sha256\")\n    keys = {\"schema\", \"row_reference_fixed_shape\", *integers, *booleans, *digests}\n    if (type(observation) is not dict or any(type(key) is not str for key in observation) or\n            set(observation) != keys or\n            observation[\"schema\"] != \"nativecmpkit.camera-settings-activity-absence-refusal.v2\" or\n            type(observation[\"row_reference_fixed_shape\"]) is not str or\n            observation[\"row_reference_fixed_shape\"] not in {\n                \"literal-resumed-areas-header\", \"literal-waiting-to-finish-header\",\n                \"literal-waiting-to-stop-header\", \"ascii-even-indent-star-space-prefix\",\n                \"ascii-top-resumed-prefix\", \"unknown\"} or\n            any(type(observation[key]) is not int for key in integers) or\n            any(type(observation[key]) is not bool for key in booleans) or\n            any(type(observation[key]) is not str or\n                re.fullmatch(r\"[a-f0-9]{64}\", observation[key]) is None for key in digests)):\n        return None\n    size, count = observation[\"payload_bytes\"], observation[\"row_count\"]\n    if (not 0 < size <= CONTROL_BYTES or not 3 <= count <= size + 1 or\n            observation[\"interior_row_count\"] != count - 2 or\n            any(not 0 <= observation[key] <= count - 2 for key in\n                (\"interior_display_shape_rows\", \"interior_ascii_blank_shape_rows\", \"interior_other_shape_rows\")) or\n            observation[\"interior_display_shape_rows\"] + observation[\"interior_ascii_blank_shape_rows\"] +\n            observation[\"interior_other_shape_rows\"] != count - 2 or\n            not 0 <= observation[\"interior_activity_record_marker_rows\"] <= observation[\"interior_other_shape_rows\"] or\n            not 1 <= observation[\"rejected_row_index\"] <= count - 2 or\n            not 0 <= observation[\"row_bytes\"] <= size or\n            not 0 <= observation[\"row_leading_ascii_spaces\"] <= observation[\"row_bytes\"] or\n            not 0 <= observation[\"row_trailing_ascii_spaces\"] <= observation[\"row_bytes\"] or\n            observation[\"row_empty\"] != (observation[\"row_bytes\"] == 0)):\n        return None\n    return dict(observation)\n",
+       "old": ""
+     }
+   ]
+--- a/scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py
++++ b/scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py
+@@ -19,7 +19,7 @@
+ 
+ # Only this four-fragment observational addition may be reversed. Entire current
+ # and historical helper bytes are checked; no arbitrary AST definitions are stripped.
+-OBSERVATION_INVERSE_SHA256 = '787fcf37cd150af9ebb464509fd8371aa5f031b3fe9dfaae406e60e362f4760f'
++OBSERVATION_INVERSE_SHA256 = 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'
+ 
+ def historical_helper_source(source: str) -> str:
+     contract_path = Path(__file__).parent / "fixtures/android-camera-settings-absence-observation-inverse.json"
+--- /dev/null
++++ b/scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py
+@@ -0,0 +1,425 @@
++"""Nine new refusal-only synthetic controls; never a native camera test.
++
++Only the held helper is imported. The existing historical inverse function is
++compiled alone; no accepted diagnostic test class is imported or executed.
++Reference headers/prefixes below are syntax fixtures, not coherent native dumps
++or reconstruction of the unseen failing row. No SDK/process/network action is
++admitted. Compilation order and original native/cleanup assertions stay intact.
++"""
++from __future__ import annotations
++import ast
++import copy
++from contextlib import ExitStack
++import hashlib
++import importlib.util
++import json
++import os
++from pathlib import Path
++import socket
++import subprocess
++import sys
++import time
++import unittest
++from unittest.mock import patch
++
++TREE = Path(os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_TEST_TREE", Path(__file__).resolve().parents[2])).resolve()
++HELPER_PATH = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
++GUARD_PATH = TREE / "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py"
++FIXTURE_PATH = TREE / "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json"
++CONTROLLER_PATH = TREE / "scripts/ci/android_device_tests.py"
++EXPECTED_HELPER_SHA256 = "2d2fb89491d5435963b983052a96f7a9e80e02d9b7ed394c0b3d23cf4b194532"
++EXPECTED_GUARD_SHA256 = "a73a7ec16e1618308264b5ea2cbb01129a12e67fdcddca368f2714f180b4c8e9"
++EXPECTED_FIXTURE_SHA256 = "e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953"
++BEFORE_HELPER_SHA256 = "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
++HISTORICAL_HELPER_SHA256 = "f15163bd0406476d4c8e271aa6fa18c652590c1e1665ee7bb9306ca9140ddfd0"
++FIXED_PREFIX_FRAGMENTS = [{'old': '    marker_rows = sum("ActivityRecord{" in item for item in interior)\n    # No row text, package/task/PID, argv, environment, error body or machine path.\n', 'new': '    marker_rows = sum("ActivityRecord{" in item for item in interior)\n    # Reference syntax only: never identify an actual-image producer, row owner or\n    # Activity absence from a fixed prefix. Unknown rows remain original refusals.\n    fixed_shape = {\n        "  Resumed activities in task display areas (from top to bottom):": "literal-resumed-areas-header",\n        "  Activities waiting to finish:": "literal-waiting-to-finish-header",\n        "  Activities waiting to stop:": "literal-waiting-to-stop-header",\n    }.get(row)\n    if fixed_shape is None:\n        fixed_shape = ("ascii-even-indent-star-space-prefix" if\n                       re.match(r"(?: {2})+\\* ", row) is not None else\n                       "ascii-top-resumed-prefix" if row.startswith("  ResumedActivity: ") else "unknown")\n    # No row text, package/task/PID, argv, environment, error body or machine path.\n'}, {'old': '        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v1",\n', 'new': '        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v2",\n'}, {'old': '        "row_activity_record_marker": "ActivityRecord{" in row,\n    }\n', 'new': '        "row_activity_record_marker": "ActivityRecord{" in row,\n        "row_reference_fixed_shape": fixed_shape,\n    }\n'}, {'old': '    keys = {"schema", *integers, *booleans, *digests}\n', 'new': '    keys = {"schema", "row_reference_fixed_shape", *integers, *booleans, *digests}\n'}, {'old': '            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v1" or\n            any(type(observation[key]) is not int for key in integers) or\n', 'new': '            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v2" or\n            type(observation["row_reference_fixed_shape"]) is not str or\n            observation["row_reference_fixed_shape"] not in {\n                "literal-resumed-areas-header", "literal-waiting-to-finish-header",\n                "literal-waiting-to-stop-header", "ascii-even-indent-star-space-prefix",\n                "ascii-top-resumed-prefix", "unknown"} or\n            any(type(observation[key]) is not int for key in integers) or\n'}]
++DECLARED_METHODS = (
++    "test_fixed_star_prefix_is_syntax_only_and_original_refusal_survives",
++    "test_three_exact_reference_headers_and_near_misses",
++    "test_top_resumed_prefix_and_near_misses",
++    "test_unseen_108byte_two_space_shape_remains_unknown",
++    "test_enum_allowlist_refuses_variable_strings_types_missing_extra_and_v1",
++    "test_prefix_suffixes_never_export_content_or_semantic_owner",
++    "test_new_prefix_classification_secondary_failure_preserves_origin_and_no_actions",
++    "test_exact_v2_inverse_and_pin_retains_entire_historical_source",
++    "test_enum_is_observational_and_core_controller_native_inputs_are_unchanged",
++)
++ATTRIBUTE = "_nativecmpkit_settings_activity_absence_refusal"
++SHAPE_KEY = "row_reference_fixed_shape"
++FIXED_SHAPES = {
++    "literal-resumed-areas-header", "literal-waiting-to-finish-header",
++    "literal-waiting-to-stop-header", "ascii-even-indent-star-space-prefix",
++    "ascii-top-resumed-prefix", "unknown",
++}
++FACT_KEYS = {
++    "schema", "payload_bytes", "payload_sha256", "row_count", "interior_row_count",
++    "interior_display_shape_rows", "interior_ascii_blank_shape_rows", "interior_other_shape_rows",
++    "interior_activity_record_marker_rows", "rejected_row_index", "row_bytes", "row_sha256",
++    "row_leading_ascii_spaces", "row_trailing_ascii_spaces", "row_empty",
++    "row_ascii_whitespace_only", "row_ascii_only", "row_contains_tab", "row_display_prefix",
++    "row_indented_display_prefix", "row_activity_record_marker", SHAPE_KEY,
++}
++FORBIDDEN_ACTIONS = []
++COUNTERS = {"refused_row_samples": 0, "metadata_allowlist_refusals": 0,
++            "publication_privacy_checks": 0, "new_branch_secondary_failures": 0,
++            "owning_source_mutation_refusals": 0}
++
++def digest(path):
++    return hashlib.sha256(path.read_bytes()).hexdigest()
++
++def forbidden(*args, **kwargs):
++    FORBIDDEN_ACTIONS.append("forbidden-sdk-process-network-or-native-action")
++    raise AssertionError("No SDK, process, network or native action is admitted")
++
++def action_guards(stack):
++    for module, names in ((subprocess, ("Popen", "run", "check_call", "check_output")),
++                          (os, ("kill", "killpg", "system")),
++                          (socket, ("socket", "create_connection", "getaddrinfo"))):
++        for name in names:
++            stack.enter_context(patch.object(module, name, forbidden))
++
++for source_path, expected in ((HELPER_PATH, EXPECTED_HELPER_SHA256),
++                              (GUARD_PATH, EXPECTED_GUARD_SHA256),
++                              (FIXTURE_PATH, EXPECTED_FIXTURE_SHA256)):
++    if source_path.is_symlink() or digest(source_path) != expected:
++        raise AssertionError("Exact source-bound candidate input is changed")
++expected_test = os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_EXPECTED_TEST_SHA256")
++if expected_test and digest(Path(__file__)) != expected_test:
++    raise AssertionError("Exact child test-source binding is changed")
++SOURCE_HASHES_BEFORE = {str(p.relative_to(TREE)): digest(p) for p in
++                        (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, CONTROLLER_PATH)}
++SPEC = importlib.util.spec_from_file_location("nativecmpkit_camera_reference_prefix_new_only", HELPER_PATH)
++helper = importlib.util.module_from_spec(SPEC)
++sys.modules[SPEC.name] = helper
++with ExitStack() as import_stack:
++    action_guards(import_stack)
++    SPEC.loader.exec_module(helper)
++if Path(helper.__file__).resolve() != HELPER_PATH.resolve() or SPEC.origin != str(HELPER_PATH):
++    raise AssertionError("Private candidate helper origin is changed")
++
++# Isolate the exact old guard function and updated constant without importing its
++# module, helper instance, classes, accepted methods or discovery entry point.
++GUARD_SYNTAX = ast.parse(GUARD_PATH.read_text())
++GUARD_FUNCTION = next(n for n in GUARD_SYNTAX.body
++                      if isinstance(n, ast.FunctionDef) and n.name == "historical_helper_source")
++GUARD_PIN = next(n for n in GUARD_SYNTAX.body if isinstance(n, ast.Assign) and
++                 any(isinstance(t, ast.Name) and t.id == "OBSERVATION_INVERSE_SHA256" for t in n.targets))
++GUARD_NAMESPACE = {"Path": Path, "hashlib": hashlib, "json": json, "__file__": str(GUARD_PATH),
++                   "OBSERVATION_INVERSE_SHA256": ast.literal_eval(GUARD_PIN.value)}
++exec(compile(ast.Module(body=[GUARD_FUNCTION], type_ignores=[]), str(GUARD_PATH), "exec"), GUARD_NAMESPACE)
++historical_helper_source = GUARD_NAMESPACE["historical_helper_source"]
++
++class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
++    def setUp(self):
++        self.guards = ExitStack()
++        self.addCleanup(self.guards.close)
++        action_guards(self.guards)
++        self.guards.enter_context(patch.object(helper, "bounded_run", forbidden))
++        for cls, names in ((helper.OwnedFreshGuest, ("__init__", "create", "verify_live", "dispose")),
++                           (helper.OwnedDeveloperPrerequisite,
++                            ("__init__", "control", "run", "devices", "stable", "action_guard",
++                             "prepare", "close", "mark_reporter_dispatch")),
++                           (helper.Reporter, ("freeze", "observe", "cleanup"))):
++            for name in names:
++                self.guards.enter_context(patch.object(cls, name, forbidden))
++
++    def tearDown(self):
++        self.assertEqual(FORBIDDEN_ACTIONS, [])
++
++    def refusal(self, row):
++        # An explicitly synthetic header/display/body/footer fixture. Actual
++        # reference resumed output may omit this footer; first blank rows in
++        # finishing/stopping output can refuse before a later header is reached.
++        payload = (helper.ACTIVITIES_HEADER + "\nDisplay #0 (activities from top to bottom):\n" +
++                   row + "\n  (nothing)\n").encode()
++        try:
++            helper.parse_settings_activity_absence(subprocess.CompletedProcess(["synthetic-only"], 0, payload, b""))
++        except ValueError as error:
++            self.assertIs(type(error), ValueError)
++            self.assertEqual(error.args, ("Settings Activity absence traversal is unproved",))
++            self.assertEqual(helper.require_call_origin(error),
++                             {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 298})
++            frames = []; node = error.__traceback__
++            while node is not None:
++                frames.append(node); node = node.tb_next
++            self.assertIs(frames[-1].tb_frame.f_code, helper.require.__code__)
++            self.assertEqual(frames[-1].tb_lineno, 48)
++            COUNTERS["refused_row_samples"] += 1
++            return error, payload
++        self.fail("The unchanged strict display-row require must refuse every synthetic body")
++
++    def facts(self, error):
++        return helper.settings_activity_absence_refusal(error, helper.require_call_origin(error))
++
++    def assert_shape(self, row, shape):
++        error, payload = self.refusal(row)
++        facts = self.facts(error)
++        self.assertIsNotNone(facts)
++        self.assertEqual(set(facts), FACT_KEYS)
++        self.assertEqual(facts["schema"], "nativecmpkit.camera-settings-activity-absence-refusal.v2")
++        self.assertIs(type(facts[SHAPE_KEY]), str)
++        self.assertIn(facts[SHAPE_KEY], FIXED_SHAPES)
++        self.assertEqual(facts[SHAPE_KEY], shape)
++        self.assertEqual(facts["payload_sha256"], hashlib.sha256(payload).hexdigest())
++        self.assertEqual(facts["row_sha256"], hashlib.sha256(row.encode()).hexdigest())
++        self.assertEqual(facts["row_bytes"], len(row.encode()))
++        return error, facts
++
++    def publisher(self):
++        owner = object.__new__(helper.OwnedDeveloperPrerequisite)
++        owner.original = object(); owner.new_boot = None
++        owner.enable_attempted = owner.enable_completed = owner.reboot_attempted = owner.restore_attempted = False
++        owner.receipt = {"prepare_status": "not-started", "cleanup_status": "not-started", "errors": [],
++                         "master_enable_attempts": 0, "normal_reboot_attempts": 0, "master_restore_attempts": 0,
++                         "reporter_dispatch_attempted": False, "native_acceptance_inferred": False}
++        publications = []
++        owner.publish = lambda: publications.append(copy.deepcopy(owner.receipt))
++        return owner, publications
++
++    def test_fixed_star_prefix_is_syntax_only_and_original_refusal_survives(self):
++        cases = [(" " * n + "* SYN_PRIVATE_CONTAINER", "ascii-even-indent-star-space-prefix") for n in (2, 4, 6)]
++        cases += [(row, "unknown") for row in (
++            " * SYN_PRIVATE_CONTAINER", "   * SYN_PRIVATE_CONTAINER", "     * SYN_PRIVATE_CONTAINER",
++            "\t* SYN_PRIVATE_CONTAINER", "  \t* SYN_PRIVATE_CONTAINER", "* SYN_PRIVATE_CONTAINER",
++            "  *SYN_PRIVATE_CONTAINER", "  ** SYN_PRIVATE_CONTAINER", "  + SYN_PRIVATE_CONTAINER")]
++        for case_id, (row, shape) in enumerate(cases):
++            with self.subTest(case_id=case_id):
++                self.assert_shape(row, shape)
++
++    def test_three_exact_reference_headers_and_near_misses(self):
++        cases = (
++            ("  Resumed activities in task display areas (from top to bottom):", "literal-resumed-areas-header"),
++            ("  Activities waiting to finish:", "literal-waiting-to-finish-header"),
++            ("  Activities waiting to stop:", "literal-waiting-to-stop-header"),
++        )
++        for header_id, (row, shape) in enumerate(cases):
++            with self.subTest(header_id=header_id, variant=0):
++                self.assert_shape(row, shape)
++            for variant, changed in enumerate((" " + row, row + " ", row.lower(), row + " SYN_PRIVATE_EXTRA"), 1):
++                with self.subTest(header_id=header_id, variant=variant):
++                    self.assert_shape(changed, "unknown")
++
++    def test_top_resumed_prefix_and_near_misses(self):
++        suffix = "SYN_PRIVATE_RESUMED_ACTIVITY"
++        self.assert_shape("  ResumedActivity: " + suffix, "ascii-top-resumed-prefix")
++        for case_id, row in enumerate((" ResumedActivity: " + suffix, "   ResumedActivity: " + suffix,
++                                       "  resumedActivity: " + suffix, "  ResumedActivity " + suffix,
++                                       "  ResumedActivity:" + suffix, "\tResumedActivity: " + suffix,
++                                       "  ResumedActivity : " + suffix)):
++            with self.subTest(case_id=case_id):
++                self.assert_shape(row, "unknown")
++
++    def test_unseen_108byte_two_space_shape_remains_unknown(self):
++        # Artificial shape obligation only; not original-row reconstruction.
++        row = "  " + "Q" * 106
++        error, facts = self.assert_shape(row, "unknown")
++        self.assertEqual(len(row.encode()), 108)
++        self.assertTrue(facts["row_ascii_only"])
++        self.assertEqual(facts["row_leading_ascii_spaces"], 2)
++        self.assertEqual(facts["row_trailing_ascii_spaces"], 0)
++        self.assertFalse(any(facts[key] for key in ("row_empty", "row_ascii_whitespace_only", "row_contains_tab",
++                                                  "row_display_prefix", "row_indented_display_prefix",
++                                                  "row_activity_record_marker")))
++        self.assertNotIn(row, json.dumps(facts))
++
++    def test_enum_allowlist_refuses_variable_strings_types_missing_extra_and_v1(self):
++        error, baseline = self.assert_shape("  * SYN_PRIVATE_ENUM", "ascii-even-indent-star-space-prefix")
++        class ForeignString(str):
++            pass
++        values = ("SYN_PRIVATE_ARBITRARY_ENUM", "unknown SYN_PRIVATE_SUFFIX", None, True, 1, [], {}, (),
++                  ForeignString("unknown"))
++        variants = [dict(baseline, **{SHAPE_KEY: value}) for value in values]
++        missing = dict(baseline); del missing[SHAPE_KEY]
++        variants += [missing, dict(baseline, raw_row="SYN_PRIVATE_EXTRA_KEY"),
++                     dict(baseline, schema="nativecmpkit.camera-settings-activity-absence-refusal.v1")]
++        for case_id, observation in enumerate(variants):
++            with self.subTest(case_id=case_id):
++                setattr(error, ATTRIBUTE, observation)
++                self.assertIsNone(self.facts(error))
++                owner, publications = self.publisher()
++                owner.failure("prepare", error)
++                self.assertEqual(len(publications), 1)
++                entry = publications[0]["errors"][0]
++                self.assertEqual((entry["phase"], entry["class"]), ("prepare", "ValueError"))
++                self.assertNotIn("settings_activity_absence_refusal", entry)
++                self.assertNotIn("SYN_PRIVATE", json.dumps(publications))
++                self.assertEqual(error.args, ("Settings Activity absence traversal is unproved",))
++                COUNTERS["metadata_allowlist_refusals"] += 1
++        setattr(error, ATTRIBUTE, baseline)
++        self.assertIsNotNone(self.facts(error))
++
++    def test_prefix_suffixes_never_export_content_or_semantic_owner(self):
++        suffixes = ("SYN_PRIVATE_TASK_7240", "SYN_PRIVATE_PID_4420",
++                    "com.synthetic.private.COMPONENT/.Synthetic", "/SYN_PRIVATE_MACHINE_PATH/not-real")
++        for case_id, suffix in enumerate(suffixes):
++            for prefix_id, (prefix, shape) in enumerate((("  * ", "ascii-even-indent-star-space-prefix"),
++                                                       ("  ResumedActivity: ", "ascii-top-resumed-prefix"))):
++                with self.subTest(case_id=case_id, prefix_id=prefix_id):
++                    error, facts = self.assert_shape(prefix + suffix, shape)
++                    owner, publications = self.publisher(); owner.failure("prepare", error)
++                    self.assertEqual(len(publications), 1)
++                    exported = publications[0]["errors"][0]["settings_activity_absence_refusal"]
++                    self.assertEqual(set(exported), FACT_KEYS)
++                    encoded = json.dumps(publications)
++                    self.assertNotIn(suffix, encoded)
++                    self.assertNotIn(prefix + suffix, encoded)
++                    self.assertNotIn(str(TREE), encoded)
++                    self.assertEqual(exported[SHAPE_KEY], shape)
++                    self.assertFalse(publications[0]["native_acceptance_inferred"])
++                    COUNTERS["publication_privacy_checks"] += 1
++
++    def test_new_prefix_classification_secondary_failure_preserves_origin_and_no_actions(self):
++        for case_id, secondary in enumerate((RuntimeError, KeyboardInterrupt, SystemExit)):
++            with self.subTest(case_id=case_id):
++                originals = []; original_record = helper.record_settings_activity_absence_refusal
++                def record(error, *args):
++                    originals.append(error)
++                    return original_record(error, *args)
++                with patch.object(helper, "record_settings_activity_absence_refusal", side_effect=record), \
++                        patch.object(helper.re, "match", side_effect=secondary):
++                    error, _ = self.refusal("SYN_PRIVATE_CLASSIFIER_FAULT")
++                self.assertEqual(len(originals), 1)
++                self.assertIs(error, originals[0])
++                self.assertNotIn(ATTRIBUTE, vars(error))
++                self.assertIsNone(self.facts(error))
++                owner, publications = self.publisher()
++                state = (owner.original, owner.new_boot, owner.enable_attempted, owner.enable_completed,
++                         owner.reboot_attempted, owner.restore_attempted)
++                owner.failure("prepare", error)
++                self.assertEqual(len(publications), 1)
++                self.assertEqual(state, (owner.original, owner.new_boot, owner.enable_attempted, owner.enable_completed,
++                                         owner.reboot_attempted, owner.restore_attempted))
++                self.assertEqual(publications[0]["errors"], [{"phase": "prepare", "class": "ValueError",
++                    "require_call_origin": {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 298}}])
++                self.assertEqual([publications[0][key] for key in
++                                  ("master_enable_attempts", "normal_reboot_attempts", "master_restore_attempts")], [0, 0, 0])
++                self.assertFalse(publications[0]["reporter_dispatch_attempted"])
++                self.assertFalse(publications[0]["native_acceptance_inferred"])
++                self.assertEqual(FORBIDDEN_ACTIONS, [])
++                COUNTERS["new_branch_secondary_failures"] += 1
++
++    def test_exact_v2_inverse_and_pin_retains_entire_historical_source(self):
++        source = HELPER_PATH.read_text()
++        self.assertEqual(GUARD_NAMESPACE["OBSERVATION_INVERSE_SHA256"], EXPECTED_FIXTURE_SHA256)
++        historical = historical_helper_source(source)
++        self.assertEqual(hashlib.sha256(historical.encode()).hexdigest(), HISTORICAL_HELPER_SHA256)
++        contract = json.loads(FIXTURE_PATH.read_text())
++        self.assertEqual(len(contract["inverse_fragments"]), 4)
++        self.assertEqual(contract["before_sha256"], HISTORICAL_HELPER_SHA256)
++        self.assertEqual(contract["after_sha256"], EXPECTED_HELPER_SHA256)
++        mutations = (
++            source.replace('"row_reference_fixed_shape": fixed_shape,', '"row_reference_fixed_shape": "unknown",', 1),
++            source.replace('"literal-resumed-areas-header", "literal-waiting-to-finish-header",\n',
++                           '"literal-resumed-areas-header", "SYN_PRIVATE_ENUM_MUTATION",\n', 1),
++            source.replace('raise ValueError(message)', 'return', 1),
++        )
++        for case_id, mutation in enumerate(mutations):
++            with self.subTest(case_id=case_id):
++                self.assertNotEqual(mutation, source)
++                with self.assertRaisesRegex(AssertionError, "Full current helper bytes differ from the qualified afterimage"):
++                    historical_helper_source(mutation)
++                COUNTERS["owning_source_mutation_refusals"] += 1
++        saved = GUARD_NAMESPACE["OBSERVATION_INVERSE_SHA256"]
++        try:
++            GUARD_NAMESPACE["OBSERVATION_INVERSE_SHA256"] = "0" * 64
++            with self.assertRaisesRegex(AssertionError, "Exact owning observation-inverse fixture is changed"):
++                historical_helper_source(source)
++            COUNTERS["owning_source_mutation_refusals"] += 1
++        finally:
++            GUARD_NAMESPACE["OBSERVATION_INVERSE_SHA256"] = saved
++
++    def test_enum_is_observational_and_core_controller_native_inputs_are_unchanged(self):
++        source = HELPER_PATH.read_text(); previous = source
++        for fragment in reversed(FIXED_PREFIX_FRAGMENTS):
++            self.assertEqual(previous.count(fragment["new"]), 1)
++            previous = previous.replace(fragment["new"], fragment["old"], 1)
++        self.assertEqual(hashlib.sha256(previous.encode()).hexdigest(), BEFORE_HELPER_SHA256)
++        marker = "\n\n\ndef record_settings_activity_absence_refusal("
++        self.assertEqual(source.index(marker), 62558)
++        self.assertEqual(source[:62558], previous[:62558])
++        changed_functions = {"record_settings_activity_absence_refusal", "settings_activity_absence_refusal"}
++        before_ast = ast.parse(previous); after_ast = ast.parse(source)
++        before_ast.body = [n for n in before_ast.body if not isinstance(n, ast.FunctionDef) or n.name not in changed_functions]
++        after_ast.body = [n for n in after_ast.body if not isinstance(n, ast.FunctionDef) or n.name not in changed_functions]
++        self.assertEqual(ast.dump(before_ast, include_attributes=False), ast.dump(after_ast, include_attributes=False))
++        self.assertNotIn(SHAPE_KEY, source[:62558])
++        self.assertIn('parse_settings_activity_absence(self.control("shell", "dumpsys", "activity", "-p",\n'
++                      '                                                        "com.android.settings", "activities"))', source[:62558])
++        controller = CONTROLLER_PATH.read_text()
++        expected_controller = os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_CONTROLLER_SHA256")
++        if expected_controller:
++            self.assertEqual(digest(CONTROLLER_PATH), expected_controller)
++        ordered = ['stages = (("apk-assembly", assemble, 900)', 'process = subprocess.Popen(launch',
++                   'result["camera_developer_prerequisite"] = developer.prepare()',
++                   'camera_receiver = android_camera_receiver.OwnedCameraReceiver',
++                   'developer.mark_reporter_dispatch()', 'receipt = lt.run(root, "android-device"']
++        positions = [controller.index(part) for part in ordered]
++        self.assertEqual(positions, sorted(positions))
++        cleanup = [controller.index(part) for part in ('result["camera_receiver"] = camera_receiver.close()',
++                   'result["camera_developer_prerequisite"] = developer.close()',
++                   'result["emulator_shutdown"] = stop_owned_emulator')]
++        self.assertEqual(cleanup, sorted(cleanup))
++        self.assertEqual(SOURCE_HASHES_BEFORE,
++                         {str(p.relative_to(TREE)): digest(p) for p in (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, CONTROLLER_PATH)})
++
++class FirstOnlyResult(unittest.TextTestResult):
++    def __init__(self, *args, **kwargs):
++        super().__init__(*args, **kwargs); self.rows = {}; self.order = []; self.subtests = []
++    def startTest(self, test):
++        super().startTest(test); key = test._testMethodName; self.order.append(key)
++        self.rows[key] = {"method": key, "started_monotonic": time.monotonic(), "failures": 0, "errors": 0, "skips": 0}
++    def addFailure(self, test, err):
++        self.rows[test._testMethodName]["failures"] += 1; super().addFailure(test, err)
++    def addError(self, test, err):
++        self.rows[test._testMethodName]["errors"] += 1; super().addError(test, err)
++    def addSkip(self, test, reason):
++        self.rows[test._testMethodName]["skips"] += 1; super().addSkip(test, reason)
++    def addSubTest(self, test, subtest, err):
++        if err is not None:
++            key = "failures" if issubclass(err[0], test.failureException) else "errors"
++            self.rows[test._testMethodName][key] += 1
++        self.subtests.append({"method": test._testMethodName, "status": "passed" if err is None else "failed",
++                              "case": dict(subtest.params), "exception_class": None if err is None else err[0].__name__})
++        super().addSubTest(test, subtest, err)
++    def stopTest(self, test):
++        row = self.rows[test._testMethodName]
++        row["duration_seconds"] = time.monotonic() - row.pop("started_monotonic")
++        row["status"] = "failed" if row["failures"] or row["errors"] else "skipped" if row["skips"] else "passed"
++        super().stopTest(test)
++
++if __name__ == "__main__":
++    actual = {name for name in CameraActivityReferencePrefixDiagnosticsNewOnlyTests.__dict__ if name.startswith("test_")}
++    if actual != set(DECLARED_METHODS):
++        raise AssertionError("Only the exact nine newly declared methods may be selected")
++    result_dir = os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_RESULTS")
++    binding = {"schema_version": 1, "scope": "actual private synthetic child source binding; not native evidence",
++               "python_version": sys.version, "python_executable": sys.executable,
++               "helper_spec_origin": SPEC.origin, "helper_file": helper.__file__,
++               "helper_code_files": {name: getattr(helper, name).__code__.co_filename for name in
++                                     ("require", "parse_settings_activity_absence", "settings_activity_absence_refusal")},
++               "test_file": str(Path(__file__).resolve()), "test_file_sha256": digest(Path(__file__)),
++               "source_hashes_before": SOURCE_HASHES_BEFORE,
++               "isolated_guard_function_code_file": historical_helper_source.__code__.co_filename,
++               "isolated_guard_function_ast_sha256": hashlib.sha256(ast.dump(GUARD_FUNCTION, include_attributes=False).encode()).hexdigest(),
++               "old_guard_module_imported": False, "accepted_test_classes_imported": False,
++               "scheduled_methods": list(DECLARED_METHODS), "sdk_network_native_action_count": len(FORBIDDEN_ACTIONS)}
++    if result_dir:
++        Path(result_dir, "CHILD-IMPORT-BINDING.json").write_text(json.dumps(binding, indent=2, sort_keys=True) + "\n")
++    suite = unittest.TestSuite(CameraActivityReferencePrefixDiagnosticsNewOnlyTests(name) for name in DECLARED_METHODS)
++    begin = time.monotonic()
++    result = unittest.TextTestRunner(verbosity=2, resultclass=FirstOnlyResult).run(suite)
++    outcome = {"schema_version": 1, "scope": "first execution of nine new synthetic controls only; ZERO native methods/XML",
++               "scheduled_methods": list(DECLARED_METHODS), "actual_methods": result.order,
++               "methods": [result.rows[name] for name in result.order], "tests_run": result.testsRun,
++               "success": result.wasSuccessful() and tuple(result.order) == DECLARED_METHODS and not FORBIDDEN_ACTIONS,
++               "failures": len(result.failures), "errors": len(result.errors), "skips": len(result.skipped),
++               "duration_seconds": time.monotonic() - begin, "subtests": result.subtests,
++               "counters": COUNTERS, "sdk_network_native_action_count": len(FORBIDDEN_ACTIONS),
++               "accepted18_methods_executed": 0, "original_native_methods_executed": 0,
++               "source_hashes_after": {str(p.relative_to(TREE)): digest(p) for p in
++                                      (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, CONTROLLER_PATH)}}
++    if result_dir:
++        Path(result_dir, "RESULTS.json").write_text(json.dumps(outcome, indent=2, sort_keys=True) + "\n")
++    print("FIRST_ONLY_SYNTHETIC_RESULT", json.dumps({key: outcome[key] for key in
++          ("tests_run", "success", "failures", "errors", "skips", "duration_seconds", "sdk_network_native_action_count")}, sort_keys=True))
++    sys.exit(0 if outcome["success"] else 1)

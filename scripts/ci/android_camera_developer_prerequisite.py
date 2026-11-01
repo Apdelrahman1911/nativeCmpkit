@@ -1108,9 +1108,20 @@ def record_settings_activity_absence_refusal(error: BaseException, payload: byte
                        is not None for item in interior)
     blank_rows = sum(item.strip(" \t") == "" for item in interior)
     marker_rows = sum("ActivityRecord{" in item for item in interior)
+    # Reference syntax only: never identify an actual-image producer, row owner or
+    # Activity absence from a fixed prefix. Unknown rows remain original refusals.
+    fixed_shape = {
+        "  Resumed activities in task display areas (from top to bottom):": "literal-resumed-areas-header",
+        "  Activities waiting to finish:": "literal-waiting-to-finish-header",
+        "  Activities waiting to stop:": "literal-waiting-to-stop-header",
+    }.get(row)
+    if fixed_shape is None:
+        fixed_shape = ("ascii-even-indent-star-space-prefix" if
+                       re.match(r"(?: {2})+\* ", row) is not None else
+                       "ascii-top-resumed-prefix" if row.startswith("  ResumedActivity: ") else "unknown")
     # No row text, package/task/PID, argv, environment, error body or machine path.
     error._nativecmpkit_settings_activity_absence_refusal = {
-        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v1",
+        "schema": "nativecmpkit.camera-settings-activity-absence-refusal.v2",
         "payload_bytes": len(payload), "payload_sha256": hashlib.sha256(payload).hexdigest(),
         "row_count": len(rows), "interior_row_count": len(rows) - 2,
         "interior_display_shape_rows": display_rows, "interior_ascii_blank_shape_rows": blank_rows,
@@ -1125,6 +1136,7 @@ def record_settings_activity_absence_refusal(error: BaseException, payload: byte
         "row_display_prefix": row.startswith("Display #"),
         "row_indented_display_prefix": row.startswith(" ") and row.lstrip(" ").startswith("Display #"),
         "row_activity_record_marker": "ActivityRecord{" in row,
+        "row_reference_fixed_shape": fixed_shape,
     }
 
 
@@ -1145,10 +1157,15 @@ def settings_activity_absence_refusal(error: BaseException, origin: dict | None)
     booleans = ("row_empty", "row_ascii_whitespace_only", "row_ascii_only", "row_contains_tab",
                 "row_display_prefix", "row_indented_display_prefix", "row_activity_record_marker")
     digests = ("payload_sha256", "row_sha256")
-    keys = {"schema", *integers, *booleans, *digests}
+    keys = {"schema", "row_reference_fixed_shape", *integers, *booleans, *digests}
     if (type(observation) is not dict or any(type(key) is not str for key in observation) or
             set(observation) != keys or
-            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v1" or
+            observation["schema"] != "nativecmpkit.camera-settings-activity-absence-refusal.v2" or
+            type(observation["row_reference_fixed_shape"]) is not str or
+            observation["row_reference_fixed_shape"] not in {
+                "literal-resumed-areas-header", "literal-waiting-to-finish-header",
+                "literal-waiting-to-stop-header", "ascii-even-indent-star-space-prefix",
+                "ascii-top-resumed-prefix", "unknown"} or
             any(type(observation[key]) is not int for key in integers) or
             any(type(observation[key]) is not bool for key in booleans) or
             any(type(observation[key]) is not str or

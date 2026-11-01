@@ -1,5 +1,10 @@
 # Remaining-platform execution checkpoint — 2026-11-01
 
+**Current:** [reviewed originals and focused recovery](#additive-checkpoint-reviewed-originals-and-focused-recovery-2026-11-01)
+records94closed/78open, JS clipboard4/4 and Windows fail/fail/recovery acceptance;
+Wasm4, iOSC3, Dont-keepC1, two named providers and WindowsStop remain unaccepted.
+The earlier checkpoints below retain their dated scope and are not fresh plans.
+
 ## Current #102 closure / missing-only clipboard native request
 
 [All four NAV-015 criteria passed](evidence/current-platform-recovery-20261101/permission102-closure079/README.md);
@@ -360,3 +365,29 @@ security/readiness gates remain unchanged. No done or all-platform claim.
 ## Owning serial-guard recovery and graph preparation
 
 Clipboard run41299186294 remains tooling-failed/zero native. All five original stale policy expectations are repaired together with exact serial1/default2 retained; #82 native8 and #64 browser-offline2 may run concurrently after immutable binding. Desktop graph capture is prepared for only four missing security hosts,27 synthetic controls accepted, actual graph/native/advisory still missing. iOS run41297173837 failed one actual C3 method at callback-zero arming; payload/cause remain unknown and #50 stays open.93closed/79open/172total; publishing gates unchanged.
+# Additive checkpoint: reviewed originals and focused recovery, 2026-11-01
+
+Current destination94closed/78open/172total; original issues/failures retained.
+Latest upstream131519Z finds16 open/all mapped/no missing imports. #99/#102 are
+already closed. Freshness does not extend to unreacquired discussion bodies.
+
+| Remaining scope | Accepted and excluded | Failed/missing next work |
+| --- | --- | --- |
+| #82 clipboard | JS four new methods in41308456555 and prior C1/C2 | Four Wasm methods fail before owned child opened acknowledgment; qualified Wasm startup repair, then single-row alias only |
+| #50 provider cancellation | Picker C1/C2/C4/C5/C6 | C3-only observations compiled0/33.01s; zero new Apple/native; one immutable C3 request |
+| #13 restoration | Camera009 rotation/death/restored cancel | Dont-keepC1 strict Activity absence refusal; six-token diagnostic-only integration, one case |
+| #55 providers | Prior native fixed-tree/outage/Coil subsets | Two local named providers fail resource68 before rows; actual namespace/compound operands unknown; cloudC1 separately missing |
+| #64 request state | New Windows fail/fail/recovery in41309686432 plus prior Android/iOS/browser | Windows Stop conjunction failed; preserve original assertions and diagnose individual scalars; other missing Desktop/offline hosts retain finite routes |
+
+Evidence: [clipboard113](evidence/current-platform-recovery-20261101/clipboard-native-original113/README.md),
+[Android116](evidence/current-platform-recovery-20261101/android-named-provider-original116/README.md),
+[Windows117](evidence/current-platform-recovery-20261101/windows-request-state-original117/README.md),
+[C3compile111](evidence/current-platform-recovery-20261101/ios-picker-provider-c3-observations096/lead-integration111/README.md),
+[camera115](evidence/current-platform-recovery-20261101/camera-fixed-prefix-integration115/lead-integration/README.md).
+Reuse originals/unchanged accepted tests; do not reacquire/replay or promote
+subset/compile/diagnostic evidence to whole-issue/security/readiness success.
+Maximum2 combined hosted-heavy includes queued/reserved; pairs/clipboard reserve2.
+Lead owns Git/dispatch/closures, disjoint agents/serial local/8GiB remain.
+No releases, packages, Pages, deployment or main integration before gates pass.
+
+---

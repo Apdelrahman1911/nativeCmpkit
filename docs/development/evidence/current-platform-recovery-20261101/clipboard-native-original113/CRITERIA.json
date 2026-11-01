@@ -1,0 +1,81 @@
+{
+  "accepted_native_or_host_work_replayed": false,
+  "closure_ready": false,
+  "criteria": [
+    {
+      "criterion": "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "disposition": "prior accepted C1 retained for JS and Wasm on exact owning source/body bytes; not replayed",
+      "evidence": "rejectedClipboardPromiseProducesOneFailureAndNoSuccess plus the unchanged prior production Promise handlers",
+      "limits": "C3 observer attaches a rejection handler; it is not replacement C1 evidence. Prior callback-error counter is not an independent global unhandledrejection collector."
+    },
+    {
+      "criterion": "Resolved promise produces one Success only after completion.",
+      "disposition": "prior accepted C2 retained for JS and Wasm on exact owning source/body bytes; not replayed",
+      "evidence": "clipboardSuccessWaitsForPromiseSettlement; new JS trusted native write also asserts empty outcomes until original Promise settles",
+      "limits": "Promise completion is not OS paste/readback or recipient delivery."
+    },
+    {
+      "accepted_js_scope": "Owned secure API mask; genuine insecure HTTP .invalid loopback-mapped origin; native document Permissions-Policy/PermissionStatus denial and DOMException NotAllowedError; real trusted CDP native input and transient activation at one saved-native-write callsite.",
+      "accepted_new_executions": [
+        {
+          "method": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+          "target": "js"
+        },
+        {
+          "method": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+          "target": "js"
+        },
+        {
+          "method": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+          "target": "js"
+        },
+        {
+          "method": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite",
+          "target": "js"
+        }
+      ],
+      "criterion": "Missing clipboard API, insecure context, denied permission and direct user gesture.",
+      "disposition": "JS all four individual native paths accepted; all four Wasm paths remain unverified after original open-ack failures",
+      "limits": "No persistent site/OS/manual permission UI, physical input, other browser/OS/engine or clipboard readback certification.",
+      "still_required": [
+        {
+          "method": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+          "target": "wasm"
+        },
+        {
+          "method": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+          "target": "wasm"
+        },
+        {
+          "method": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+          "target": "wasm"
+        },
+        {
+          "method": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite",
+          "target": "wasm"
+        }
+      ]
+    }
+  ],
+  "issue": {
+    "criteria_verbatim": [
+      "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "Resolved promise produces one Success only after completion.",
+      "Missing clipboard API, insecure context, denied permission and direct user gesture."
+    ],
+    "finding": "NATIVE-026",
+    "number": 82,
+    "state": "open",
+    "title": "[Medium][NATIVE-026] Web clipboard fallback reports success before its promise resolves"
+  },
+  "new_failed_executions_retained": 4,
+  "new_native_executions": 8,
+  "new_passes_accepted": 4,
+  "prior_C1_C2_accepted_methods_per_target_reused": [
+    "clipboardSuccessWaitsForPromiseSettlement",
+    "rejectedClipboardPromiseProducesOneFailureAndNoSuccess",
+    "synchronousClipboardFailureDoesNotBecomeSuccessfulOrRetry"
+  ],
+  "recommended_issue_disposition": "KEEP OPEN; lead alone may close after every original criterion is accepted",
+  "schema": 1
+}

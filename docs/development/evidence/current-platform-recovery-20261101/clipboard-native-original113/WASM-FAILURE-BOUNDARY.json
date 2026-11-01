@@ -1,0 +1,116 @@
+{
+  "actual_failures": [
+    {
+      "actual_throwing_guard": "unknown/unlogged",
+      "failure_type": "kotlin.AssertionError",
+      "initial_open_acknowledgment_failed": true,
+      "literal_closed_acknowledgment_observed": false,
+      "literal_suppressed_cleanup_entry_observed": false,
+      "method": "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+      "mode": "missing",
+      "original_failure_body_bytes": 1829,
+      "original_failure_body_sha256": "c4895cc921c28946e606883063df55734ca889d5f55d2a434eee05cb755d6e05",
+      "original_failure_message_sha256": "8d582e01dc186ad317daec4ba0f4629ef9a157e5dfbe9891eba28e4e32c3ddb9",
+      "sanitized_actual_assertion": "Expected <opened|[owned nonce]|missing|secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls>, actual <owned-clipboard-fixture-failed>.",
+      "target": "wasm"
+    },
+    {
+      "actual_throwing_guard": "unknown/unlogged",
+      "failure_type": "kotlin.AssertionError",
+      "initial_open_acknowledgment_failed": true,
+      "literal_closed_acknowledgment_observed": false,
+      "literal_suppressed_cleanup_entry_observed": false,
+      "method": "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+      "mode": "insecure",
+      "original_failure_body_bytes": 1817,
+      "original_failure_body_sha256": "8d807795f7bc263687516c98840755f41dff4fce404d6de77e3d7c66334736a1",
+      "original_failure_message_sha256": "9e7cf7fb58979158be17279daaa99e9d13c7a6d2cdab1fad6a0cb587b21ffc98",
+      "sanitized_actual_assertion": "Expected <opened|[owned nonce]|insecure|genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable>, actual <owned-clipboard-fixture-failed>.",
+      "target": "wasm"
+    },
+    {
+      "actual_throwing_guard": "unknown/unlogged",
+      "failure_type": "kotlin.AssertionError",
+      "initial_open_acknowledgment_failed": true,
+      "literal_closed_acknowledgment_observed": false,
+      "literal_suppressed_cleanup_entry_observed": false,
+      "method": "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+      "mode": "denied",
+      "original_failure_body_bytes": 1829,
+      "original_failure_body_sha256": "3a07a499ec28e6ab38e146925ffc3fcef2d6404c5bf837d43db96bca36645479",
+      "original_failure_message_sha256": "ad1f60ab2b44b6bf2d7276a2b20a6380ac3e5c3b41b3e7168fe503c4ff48b65c",
+      "sanitized_actual_assertion": "Expected <opened|[owned nonce]|denied|actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess>, actual <owned-clipboard-fixture-failed>.",
+      "target": "wasm"
+    },
+    {
+      "actual_throwing_guard": "unknown/unlogged",
+      "failure_type": "kotlin.AssertionError",
+      "initial_open_acknowledgment_failed": true,
+      "literal_closed_acknowledgment_observed": false,
+      "literal_suppressed_cleanup_entry_observed": false,
+      "method": "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite",
+      "mode": "gesture",
+      "original_failure_body_bytes": 1831,
+      "original_failure_body_sha256": "215b18f97cd34b3e44d025f9b817b96eb3b17095eb9b7b5bb8fd6b6a2759b122",
+      "original_failure_message_sha256": "311af12e84a27319ada8a427f01324e83f9d48566f6723a4291c5d2c59799f13",
+      "sanitized_actual_assertion": "Expected <opened|[owned nonce]|gesture|directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite>, actual <owned-clipboard-fixture-failed>.",
+      "target": "wasm"
+    }
+  ],
+  "attempt": 1,
+  "confirmed_boundary": "Initial OwnedChild.execute open acknowledgment, before native child iframe src/append and before any clipboard scenario body.",
+  "failed_cleanup_pass_not_inferred_from_missing_suppressed_entry": true,
+  "fixed_commit": "df5fd436090966b8ad8cc3cff59c57ba576dd9d2",
+  "native_Karma_and_four_outer_Kotlin_methods_executed": true,
+  "native_child_clipboard_scenario_bodies_reached": false,
+  "native_tests_builds_dispatches_or_live_edits_by_reviewer": 0,
+  "no_Wasm_bundling_CDP_ownership_or_browser_cause_inferred": true,
+  "no_actual_emitted_bundle_or_included_files_inventory_uploaded": true,
+  "original_cause": "unknown/unlogged: generic async catch erases the actual throwing guard/operand",
+  "possible_source_boundaries_not_diagnosed_as_actual_cause": [
+    "live owner/process/profile check",
+    "control origin",
+    "emitted-script input selection or its bounded wait",
+    "owner expiry/readback",
+    "observed DevTools port-file validation"
+  ],
+  "previous_module_phase_refusal_not_reclassified": true,
+  "public_source_origins": [
+    {
+      "file": "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt",
+      "lines": [
+        205,
+        208,
+        211,
+        212
+      ],
+      "symbol": "OwnedChild.execute"
+    },
+    {
+      "file": "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js",
+      "lines": [
+        427,
+        433,
+        434,
+        438,
+        441,
+        442,
+        443,
+        445,
+        477
+      ],
+      "symbol": "open action processing / generic async-handler rejection reply"
+    },
+    {
+      "file": "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js",
+      "lines": [
+        358,
+        364,
+        367
+      ],
+      "symbol": "scriptUrls"
+    }
+  ],
+  "run_id": 41308456555,
+  "schema": 1
+}

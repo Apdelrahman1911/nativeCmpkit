@@ -19,7 +19,7 @@ ATTRIBUTE = "_nativecmpkit_settings_activity_absence_refusal"
 
 # Only this four-fragment observational addition may be reversed. Entire current
 # and historical helper bytes are checked; no arbitrary AST definitions are stripped.
-OBSERVATION_INVERSE_SHA256 = '787fcf37cd150af9ebb464509fd8371aa5f031b3fe9dfaae406e60e362f4760f'
+OBSERVATION_INVERSE_SHA256 = 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'
 
 def historical_helper_source(source: str) -> str:
     contract_path = Path(__file__).parent / "fixtures/android-camera-settings-absence-observation-inverse.json"

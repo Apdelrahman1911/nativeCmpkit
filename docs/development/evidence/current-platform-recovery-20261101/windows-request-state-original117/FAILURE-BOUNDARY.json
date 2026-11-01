@@ -1,0 +1,81 @@
+{
+  "actual_native_or_transport_root_cause": null,
+  "case": {
+    "cause_types": [
+      "kotlinx.coroutines.TimeoutCancellationException",
+      "kotlinx.coroutines.TimeoutCancellationException"
+    ],
+    "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+    "failure_message": "java.lang.AssertionError: Timed out awaiting public Stop native cancellation and actual pre-header client EOF",
+    "failure_type": "java.lang.AssertionError",
+    "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+    "owning_Kotlin_boundary_frames": [
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 209
+      },
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 50
+      },
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 51
+      },
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 208
+      },
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 208
+      },
+      {
+        "file": "DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "line": 103
+      }
+    ],
+    "status": "failed",
+    "suppressed_exception_count": 0,
+    "time_seconds": 10.26
+  },
+  "cleanup_limit": "Original failure XML has no suppressed exceptions. Source finally removes observer, closes owning window and cancels scope before server use-close; this is not an independent native-cleanup/OS-worker-reap receipt for failed Stop.",
+  "conjunction": [
+    "native Worker.State.CANCELLED",
+    "native loadWorker.isRunning false",
+    "state.loadingState Finished",
+    "cancellations count1",
+    "owned StopHeld peerEOF count1",
+    "owned StopHeld pending count0"
+  ],
+  "head_sha": "df5fd436090966b8ad8cc3cff59c57ba576dd9d2",
+  "individual_actual_operands_logged": false,
+  "job_id": 124857900045,
+  "next_action": "Owning source/local JavaFX dependency diagnosis and, if needed, bounded failure-only readbacks of all original conjunction operands. Retain native/public-command/transport/cleanup and10s criteria; no blind retry or inferred fix.",
+  "not_qualified_after_timeout": [
+    "native cancellation state/count",
+    "client EOF",
+    "pending-zero",
+    "Stop completed",
+    "post-Stop metadata",
+    "same-owner recovery branch",
+    "unlogged provider/browser/OS cause"
+  ],
+  "original_timeout_ms": 10000,
+  "original_timeout_wrapper_lines": [
+    207,
+    209
+  ],
+  "other_pass_not_replayed": "Windows held fail/fail/recovery original case is independently accepted and must be excluded from any recovery execution.",
+  "public_Stop_invocation_line": 102,
+  "qualified_pre_timeout_flow": "Original method had completed seed, actual one-arrival/one-pending native RUNNING hold, metadata resets, zero responses/peerEOF/cancellations and fixture-not-closing assertions before invoking public navigator.stopLoading and entering the failed conjunction.",
+  "run_id": 41309686432,
+  "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt",
+  "source_sha256": "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b",
+  "status": "ACTUAL_FAILED_STOP_METHOD_RETAINED",
+  "timed_out_original_wait_lines": [
+    103,
+    107
+  ],
+  "unpublished_security_release_gates_unchanged": true
+}

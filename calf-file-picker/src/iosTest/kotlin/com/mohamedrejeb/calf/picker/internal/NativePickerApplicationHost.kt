@@ -336,4 +336,13 @@ fun nativeApplicationMain(arguments: Array<String>) {
     applicationArguments = arguments
     val delegate = checkNotNull(NSClassFromString("NativecmpkitPickerLibraryTestDelegate"))
     UIApplicationMain(0, null, null, NSStringFromClass(delegate))
+    // Failure observation only for the sole missing IO-013 C3 selection. The
+    // ordinary shared owned path still exits after Worker completion, unchanged.
+    if (arguments.size == 3 && arguments.toSet() == setOf(
+        "--ktest_logger=TEAMCITY", "--ktest_no_exit_code",
+        "--ktest_gradle_filter=com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest." +
+            "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+    )) {
+        println("NATIVECMPKIT_UIKIT_MAIN_RETURNED")
+    }
 }

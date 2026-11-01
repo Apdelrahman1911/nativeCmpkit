@@ -1,5 +1,32 @@
 # NativeCmpKit development after the audit
 
+## Current original results and missing-only recovery — 2026-11-01
+
+**94closed/78open/172total;25implemented/42partial/92verified/five unresolved.**
+[Fresh upstream refresh](upstream-refresh-20261101T131519Z/README.md) maps all16
+currently open Calf issues; no new import or mutation is required. Discussion
+history remains its prior dated archive, not a fresh discussion-body acquisition.
+
+Related original-results batch atdf5fd436:
+- [Clipboard113](evidence/current-platform-recovery-20261101/clipboard-native-original113/README.md): JS4/4 accepted; Wasm4/4 fail before child/scenario startup. #82 remains open; rerun Wasm only.
+- [Android116](evidence/current-platform-recovery-20261101/android-named-provider-original116/README.md): both named-provider methods fail at exact DocumentsUI resource admission, before public IO blocks. Actual namespace/compound operands unknown; #55 local2/cloudC1 remain missing.
+- [Windows117](evidence/current-platform-recovery-20261101/windows-request-state-original117/README.md): same-owner fail/fail/recovery accepted, Stop conjunction failed. Individual operands/cause unknown; recover Stop only, #64 stays open.
+
+[C3 source/compile111](evidence/current-platform-recovery-20261101/ios-picker-provider-c3-observations096/lead-integration111/README.md)
+passes changed test KLIB0/33.01s/eight affected controls and reuses12 controls,
+zero Apple/native/real ps. [Camera integration115](evidence/current-platform-recovery-20261101/camera-fixed-prefix-integration115/lead-integration/README.md)
+reuses nine/60 new diagnostic controls; parser/native/cleanup remain unchanged.
+Current1149/1225 source maps precede Git freeze. #50 C3 and #13 Dont-keep alone
+remain unaccepted; passed picker/camera/JS/Windows methods must not replay.
+
+Next: freeze important checks and request finite C3/Dont-keep diagnostics, then
+qualified Wasm-only repair/local-provider/Windows Stop recovery. Original results
+were acquired once; use cached evidence. Maximum two hosted-heavy rows including
+queued/reserved (pairs reserve2), serial local builds/8GiB reserve. Actions allows
+all actions/no required SHA pinning; verification permissions stay read-only.
+No publication, release, deployment, Pages or main integration is readiness-qualified.
+Earlier sections below retain their observation times and scopes.
+
 ## #99 verified closure; missing-only platform batch — 2026-11-01
 
 [#99 closure/readback](evidence/current-platform-recovery-20261101/secure-alert-input-closure106/README.md)

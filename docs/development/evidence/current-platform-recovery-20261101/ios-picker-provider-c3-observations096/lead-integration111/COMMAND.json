@@ -1,0 +1,20 @@
+{
+  "JAVA_HOME": "configured JDK17",
+  "argv": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64"
+  ],
+  "kind": "Changed test-only picker iOS simulator KLIB; zero native/link/test execution",
+  "source_only_plan_exit": 0
+}

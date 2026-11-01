@@ -1,0 +1,211 @@
+{
+  "acquisition_gate": "Await explicit lead target-terminal confirmation/jobID before acquiring each original log/artifact once.",
+  "expected_cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest",
+      "criterion_subset": "Windows fail\u2192fail\u2192success with real JavaFX transport refusal before any HTTP response; source uses native engine.load to ensure beginRequest resets through native SCHEDULED, not prior acceptContent reset",
+      "lines": [
+        48,
+        158
+      ],
+      "name": "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner[desktop]",
+      "required_witnesses": [
+        "actual authored seed metadata",
+        "two held connected native RUNNING requests, zero response bytes/refusals before release",
+        "old URL/title/error reset at each start",
+        "two Worker.FAILED states, native exception and exactly one code-1 error each",
+        "same native handle throughout",
+        "recovery authored DOM title/URL/library state with empty errors",
+        "one owning creation/no disposal before recovery",
+        "finally owning Window/scope/server cleanup"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+      "criterion_subset": "Windows public Stop and same-owner recovery on genuinely held native HTTP request; no direct engine.cancel substituted in test",
+      "lines": [
+        51,
+        133
+      ],
+      "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+      "required_witnesses": [
+        "seed authored native DOM/metadata",
+        "exactly one connected held native RUNNING request, zero responses/EOF/cancellations before Stop",
+        "public navigator.stopLoading consumed by mounted library owner",
+        "Worker.CANCELLED/not running plus one cancellation and actual peerEOF before fixture teardown",
+        "no second request or artificial terminal error",
+        "same native AND owner, recovery authored DOM/metadata",
+        "listener removal and owning Window/scope/server cleanup in finally"
+      ],
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
+    }
+  ],
+  "fixed_git_binding_independently_requeried": false,
+  "fixed_git_binding_sha256": "c4c34f4aa934b87d2cb1b0aac1eeed4fe273f2287857669485b0c2cbc32857a3",
+  "fixed_maps": {
+    "combined_canonical_sha256": "f359d8fee5355aaa4a6fd0ab3702c278397c340074ea1d097f4d2f9b325715ed",
+    "combined_count": 1223,
+    "combined_file_sha256": "58fab2e38d8a4e42db15a3f7ef0d282913826ff17bfac3aed0032801705ea55e",
+    "library_canonical_sha256": "aaee1a3be420119dfbf2fe68e8c5538f5c0fb0e8d9fb33273c6433147d3d8f4c",
+    "library_count": 1147,
+    "library_file_sha256": "6d590d221beff78a933ad5cf3defcb9092c7060337840bd29a05b04beea75584",
+    "library_subset_same_hashes": true,
+    "source_bindings": [
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "scripts/ci/library_tests.py",
+        "sha256": "0de5dba86a152b9b631ea66743e9509b75af02c6fcf32d83dffdb634c77a57ea"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "scripts/ci/workflow_matrix.py",
+        "sha256": "60a15ad05a5c808bc80498abaf9863b117b6ea0f82dc8cc68e27915a015e44c8"
+      },
+      {
+        "fixed_library_map_contains_same_hash": false,
+        "matches_fixed_combined_map": true,
+        "path": ".github/workflows/gradle.yml",
+        "sha256": "2784425f04cc411d670e54259473bc59190b945aade0e1a787762b12875c770f"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "calf-webview/build.gradle.kts",
+        "sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+        "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt",
+        "sha256": "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "sha256": "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
+      },
+      {
+        "fixed_library_map_contains_same_hash": true,
+        "matches_fixed_combined_map": true,
+        "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+        "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+      }
+    ],
+    "whole_current_or_git_blob_equality_independently_claimed": false
+  },
+  "new_work_counts": {
+    "builds_controls_runs_imports": 0,
+    "git_operations": 0,
+    "live_edits_dispatch_issue_closures": 0,
+    "native_tests": 0,
+    "network_original_acquisitions": 0
+  },
+  "original_issue": {
+    "body_binding": "archived issue draft with leading title/header removed; exact matches issue map and issue plan recorded original body hash",
+    "body_sha256": "ef381a103187e11b10be1c72975fb630bdb7b9d6418c7de095553823ca0d5194",
+    "criteria": [
+      "Fail\u2192success, fail\u2192fail, reload, stop and redirects on every target.",
+      "Browser same-origin\u2192cross-origin\u2192inline transitions; blocked framing and offline destination.",
+      "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+    ],
+    "draft_sha256": "8bd0aa0fddebe397c55fef945ce256d286f408eec79f8f968339376959b36dc2",
+    "finding": "NATIVE-005",
+    "finding_record": "docs/audit/findings/NATIVE.json",
+    "number": 64,
+    "priority": "Medium",
+    "source": "docs/audit/issue-drafts/audit-NATIVE-005.md",
+    "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/426",
+      "https://github.com/MohamedRejeb/Calf/pull/466",
+      "https://github.com/MohamedRejeb/Calf/issues/39"
+    ]
+  },
+  "phase": "source/criteria preparation only; WAITING FOR LEAD TERMINAL CONFIRMATION AND JOB ID",
+  "preparation_bookkeeping_refusals": [
+    {
+      "kind": "issue-plan JSON enumeration TypeError on numeric findings field",
+      "native_or_build_failure": false,
+      "recovery": "limited enumeration to original item and finding record; preserved rather than inferred success"
+    },
+    {
+      "kind": "read-only search of nonexistent guessed build-logic/src directory",
+      "native_or_build_failure": false,
+      "recovery": "used fixed-map convention-plugins source paths; no test/runtime substitute"
+    }
+  ],
+  "production_flow": [
+    {
+      "fact": "native SCHEDULED invokes beginRequest, RUNNING updates progress, SUCCEEDED records title/final URL/history, FAILED replaces current errors with one native code-1 entry, CANCELLED marks Finished",
+      "location": "WebView.desktop.kt:135-155"
+    },
+    {
+      "fact": "beginRequest resets requested/final URL,title,errors and Loading",
+      "location": "WebViewContracts.kt:54-60"
+    },
+    {
+      "fact": "public StopLoading maps only to native Worker.cancel; no follow-up command",
+      "location": "WebView.desktop.kt:258-267"
+    },
+    {
+      "fact": "owning cleanup removes native listeners,cancels/loads null,detaches scene,clears handles and navigation flags while preserving primary failure",
+      "location": "WebView.desktop.kt:187-214"
+    }
+  ],
+  "request": {
+    "dispatch_once": true,
+    "head_sha": "df5fd436090966b8ad8cc3cff59c57ba576dd9d2",
+    "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41309686432",
+    "native_execution_accepted": false,
+    "profile": "webview-desktop-request-state-windows-single",
+    "reservation_rows": 1,
+    "run_attempt": 1,
+    "run_id": 41309686432
+  },
+  "request_sha256": "3209830f5d113d37f649aff4559b7b834322e77335ae132a6aa1e39df5d6d279",
+  "review_observed_utc": "2026-11-01T13:11:25.981623+00:00",
+  "scope_limits": [
+    "Windows two-method subset only, never whole#64/wholeDesktop acceptance.",
+    "Linux/macOS eight missing Desktop methods stay separate.",
+    "Browser offline destination and JS/Wasm coverage stay separate.",
+    "Accepted Windows redirect/Reload, LinuxTLS, prior iOS/Android/browser/identity/lifetime cases must not be replayed.",
+    "Not system-offline/DNS/TLS/media, sandbox, private binary/OS-version certification, consumer/API-ABI, dependency/security or release readiness.",
+    "Method pass may qualify asserted owning cleanup; it does not establish OS-worker reap, memory profiling or unlogged transport branch occurrence."
+  ],
+  "static_route": {
+    "JavaFX": "DesktopJavaFx.kt maps Windows x64 to win classifier and six aligned base/graphics/controls/media/web/swing modules; module test supplies them, production compileOnly; not consumer proof",
+    "XML_policy": "library_tests.py:3417-3432 exact selected identities, one nonempty fresh report per selected class; no empty/foreign/duplicate/mixed reports",
+    "aliases": "workflow_matrix.py:77,379-396 inherits only Windows canonical row; Windows focus declared488-497",
+    "architecture": "x64",
+    "focus": "webview-desktop-request-state-stop",
+    "host": "Windows",
+    "method_count": 2,
+    "module": "calf-webview",
+    "native_UI_optin": "Workflow defaults false for Windows row; these exact authored methods have no optin/assumption skip. A skip is not native acceptance.",
+    "original_nonempty_XML_expected": 2,
+    "row": "desktop-windows-x64",
+    "row_count": 1,
+    "runner": "windows-2025",
+    "security_profile": "ordinary desktopTest excludes special TLS-rendering class; no trust lease or TLS-security claim from this focus",
+    "selectors": "library_tests.py:1257-1304,2243-2259,2925-2938",
+    "suite": "desktop",
+    "task": ":calf-webview:desktopTest",
+    "workflow": "gradle.yml:345-402 exact matrix/runtime,579-592 fresh selected library invocation,702-737 receipts/XML only upload; no package/release publishing"
+  }
+}

@@ -104,6 +104,9 @@ APPLICATION_FOCUS_ARGUMENTS = {
     focus: "--ktest_gradle_filter=" + lt.ui_application_focus_filter(focus)
     for focus in lt.UI_APPLICATION_FOCUS_SPECS
 }
+PICKER_PROVIDER_C3_CASE = (lt.IOS_PICKER_PROVIDER_CANCELLATION_CLASS,
+                           lt.IOS_PICKER_PROVIDER_CANCELLATION_METHODS[0])
+PICKER_PROVIDER_C3_MAIN_RETURNED = "NATIVECMPKIT_UIKIT_MAIN_RETURNED"
 IMAGE_LIFETIME_CASE = ("com.mohamedrejeb.calf.ui.utils.UIImageConversionTest",
                        "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected")
 COMPACT_APPEARANCE_CASE = (lt.UI_DATE_REPLACEMENT_CLASS, lt.UI_DATE_REPLACEMENT_METHODS[1])
@@ -245,9 +248,12 @@ def teamcity_fields(line: str) -> tuple[str, dict] | None:
 
 class NativeProtocol:
     """Independent transport checks; KGP still owns actual failure/JUnit parsing."""
-    def __init__(self, bundle_id: str | None = None):
+    def __init__(self, bundle_id: str | None = None, *, provider_c3_only: bool = False):
         if bundle_id is not None and not crashes.BUNDLE.fullmatch(bundle_id):
             raise ValueError("Expected an exact owned verification launch bundle")
+        if type(provider_c3_only) is not bool or provider_c3_only and bundle_id is None:
+            raise ValueError("C3 observation requires an exact owned verification launch bundle")
+        self.provider_c3_only = provider_c3_only
         self.expected_bundle = bundle_id
         self.observed_launch_pid = None
         self.transport_observation = None
@@ -530,6 +536,15 @@ class NativeProtocol:
                     ("active", "key", "hidden", "root_attached", "root_native_equal"), startup.groups())}
             self.startup_failure_observation["worker_started"] = False
             raise ValueError("UIKit startup readiness failed")
+        if line == PICKER_PROVIDER_C3_MAIN_RETURNED and self.provider_c3_only:
+            if (self.expected_bundle is None or self.completed is not None or
+                    any(key != PICKER_PROVIDER_C3_CASE for key in self.cases)):
+                raise ValueError("Native application reported an error, timeout or unknown lifecycle marker")
+            # Exact selected route, including a pre-worker UIKit return. This is
+            # a nonaccepting lifetime boundary, not a test/callback completion.
+            self.lifecycle_failure_observation = {
+                "stage": "application_main_return", "worker_termination_verified": False}
+            raise ValueError("Owned UIKit application reported a native lifecycle failure")
         failure = re.fullmatch(r"NATIVECMPKIT_UIKIT_(RUNNER_ERROR|TERMINATION_ERROR) type=([A-Za-z][A-Za-z0-9_]{0,79})", line)
         timeout = line == "NATIVECMPKIT_UIKIT_TIMEOUT workerTerminationVerified=false"
         if failure or timeout:
@@ -778,8 +793,59 @@ def installed_identity(result: subprocess.CompletedProcess, bundle_id: str, sign
     return plistlib.loads((path / "Info.plist").read_bytes()).get("CFBundleIdentifier") == bundle_id
 
 
+def observe_preverified_owned_launch_pid(pid: int | None, installed_executable: Path) -> dict:
+    """One failure-only exact-PID read, against the installed prelaunch byte witness.
+
+    Retain fixed scalars only. No signal, stream, discovery, fresh byte/birth-time
+    or security attestation; an empty/mismatched row never proves native absence
+    or authorizes cleanup. The original independent owned-app cleanup is intact.
+    """
+    observation = {"state": "unavailable", "raw_process_text_or_paths_uploaded": False,
+                   "native_exit_cause_proven": False}
+    if type(pid) is not int or not 0 < pid < 2**31 or not isinstance(installed_executable, Path):
+        return observation
+    try:
+        expected = str(installed_executable)
+        if (not installed_executable.is_absolute() or installed_executable.name != APP_EXECUTABLE or
+                installed_executable.parent.name != "NativeCmpkitLibraryTests.app" or
+                any(ord(character) < 32 or ord(character) == 127 for character in expected)):
+            return observation
+        expected_bytes = expected.encode("utf-8", errors="strict")
+        if len(expected_bytes) + 1 > 4096:
+            return observation
+        result = execute_control(["/bin/ps", "-p", str(pid), "-o", "comm="], 1)
+        if (type(result.returncode) is not int or type(result.stdout) is not bytes or
+                type(result.stderr) is not bytes or len(result.stdout) > 4096 or len(result.stderr) > 4096):
+            return observation
+        if result.returncode == 1 and not result.stdout and not result.stderr:
+            observation["state"] = "not-observed"  # Never a proved absent native app.
+        elif (result.returncode == 0 and not result.stderr and
+                result.stdout in (expected_bytes, expected_bytes + b"\n")):
+            observation["state"] = "live-matched-preverified-owned-executable-path"
+    except (OSError, ValueError, subprocess.SubprocessError):
+        pass  # Diagnostic errors cannot replace the original transport refusal.
+    return observation
+
+
+def observe_provider_c3_protocol_failure(protocol: NativeProtocol, error: BaseException, stage: str,
+                                        console_exit: int | None, installed_executable: Path) -> dict | None:
+    """Only the exact sole running C3 case's console0/missing-completion refusal."""
+    if (not protocol.provider_c3_only or protocol.expected_bundle is None or
+            type(error) is not ValueError or str(error) != "Missing native Worker/application completion" or
+            stage != "protocol-finish" or type(console_exit) is not int or console_exit != 0 or
+            protocol.active is None or protocol.completed is not None or
+            protocol.open_case != PICKER_PROVIDER_C3_CASE or set(protocol.cases) != {PICKER_PROVIDER_C3_CASE}):
+        return None
+    try:
+        return observe_preverified_owned_launch_pid(protocol.observed_launch_pid, installed_executable)
+    except Exception:
+        return {"state": "unavailable", "raw_process_text_or_paths_uploaded": False,
+                "native_exit_cause_proven": False}
+
+
 def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int = APP_TIMEOUT_SECONDS,
-                        environment: dict[str, str] | None = None) -> dict:
+                        environment: dict[str, str] | None = None,
+                        provider_c3_installed_executable: Path | None = None) -> dict:
     """Preserve real frames verbatim through KGP, while bounding owned transport."""
     started = time.monotonic()
     transport = {"started_at_utc": lt.utc_now(), "timeout_seconds": timeout, "console_process_exit": None,
@@ -838,6 +904,11 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
         transport["failure_stage"] = stage
         transport["failure_reason"] = (TRANSPORT_FAILURE_REASONS.get(str(error), "unclassified")
                                        if isinstance(error, ValueError) else "unclassified")
+        if protocol.provider_c3_only and provider_c3_installed_executable is not None:
+            observation = observe_provider_c3_protocol_failure(
+                protocol, error, stage, process.poll(), provider_c3_installed_executable)
+            if observation is not None:
+                transport["owned_launch_pid_at_console_failure"] = observation
         raise
     finally:
         transport["console_process_exit"] = process.poll()
@@ -910,6 +981,15 @@ def application_host(binary_relative: str, focus: str | None) -> dict:
     if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui") != module:
         raise ValueError("Application test selection belongs to a different owning module")
     return {"module": module, **host}
+
+
+def provider_c3_observation_route(host: dict, focus: str | None, arguments: list[str]) -> bool:
+    """Observation opt-in is exact module/task/sole method, never a focus label alone."""
+    expected_host = {"module": "calf-file-picker", **APPLICATION_HOSTS["calf-file-picker"]}
+    return (type(host) is dict and host == expected_host and
+            focus == lt.IOS_PICKER_PROVIDER_CANCELLATION_FOCUS and type(arguments) is list and
+            len(arguments) == 3 and all(type(argument) is str for argument in arguments) and
+            set(arguments) == TEST_ARGUMENTS | {"--ktest_gradle_filter=" + ".".join(PICKER_PROVIDER_C3_CASE)})
 
 
 def profile_debug_entitlements(focus: str | None) -> dict | None:
@@ -1039,7 +1119,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt.update(binary_path=binary_relative, binary_sha256=binary_hash, macho=identity)
         bundle_id = f"io.github.apdelrahman1911.nativecmpkit.verification.ui.r{before['source_revision'][:12]}.t{token}"
         receipt["bundle_id"] = bundle_id
-        protocol = NativeProtocol(bundle_id=bundle_id)
+        provider_c3_only = provider_c3_observation_route(host, focus, arguments)
+        protocol = NativeProtocol(bundle_id=bundle_id, **({"provider_c3_only": True} if provider_c3_only else {}))
         phase = "foreign-app-preflight"
         preexisting = execute_control(["/usr/bin/xcrun", "simctl", "get_app_container", device, bundle_id, "app"])
         receipt["steps"][phase] = {**control_status(preexisting), "preexisting_app_absence_verified": missing_app(preexisting)}
@@ -1117,10 +1198,16 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             appearance_driver = simulator_appearance.AppearanceDriver(device, execute_control)
             appearance_driver.start()
             protocol.system_appearance_request = appearance_driver.request
+        provider_c3_options = {}
+        if provider_c3_only:
+            # Only this exact route adds a keyword. Every other call shape stays
+            # unchanged. Installation and nonce-bound signed bytes passed above.
+            installed_executable = Path(container.stdout.decode("utf-8", errors="strict").strip()) / APP_EXECUTABLE
+            provider_c3_options["provider_c3_installed_executable"] = installed_executable
         phase = "launch-and-real-test-transport"
         receipt["application_protocol"] = forward_application(
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
-            protocol, timeout=application_timeout_seconds(focus),
+            protocol, timeout=application_timeout_seconds(focus), **provider_c3_options,
             **({"environment": native_environment} if native_environment is not None else {}))
         if appearance_driver is not None:
             phase = "restore-owned-simulator-system-appearance"

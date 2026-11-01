@@ -1,0 +1,19 @@
+# #82 / NATIVE-026 — original independent review
+
+Run 41308456555, attempt 1 at `df5fd436090966b8ad8cc3cff59c57ba576dd9d2`; `share-clipboard-native` / `web-share-clipboard-native-contexts`.
+
+**KEEP OPEN.** Actual JS: four exact methods, four individual passes accepted, one fresh original XML, Gradle exit 0 / 292.09s. Actual Wasm: four exact outer-method executions, four failures, one fresh original XML, Gradle exit 1 / 301.09s. The workflow remains FAILED. No accepted native work was replayed.
+
+All four Wasm assertions fail at `OwnedChild.execute` line 208: expected the exact owned `opened` acknowledgment, actual `owned-clipboard-fixture-failed`. The child iframe is appended only at lines 211–212 after that acknowledgment; none of the clipboard scenario bodies is accepted or reached. Fixture line 477 converts every async open exception to that generic reply. The actual first throwing guard/cause is **unknown/unlogged**; neither actual Wasm emission shape nor CDP/ownership/bundling cause is inferred. This differs from the prior configuration-module refusal without reclassifying that failure.
+
+Both targets bind exact full before/after 1147-input maps to frozen fixed-Git inputs, clean source before/after, exact three owning pins/source order, class filter, one task marker and one original XML. The 1223-input map is fixed-Git provenance only, not an actual 1223-input native/sample compile claim. Original archives match API SHA256/size; safe paths/types/sizes/CRCs and extracted bytes rehash. Each of two logs and two archives was acquired by one application-level GET with zero agent retries; each archive was extracted once. Tooling originals and #99 originals were not acquired.
+
+Runtime receipts observe Google Chrome 156.0.8078.47 on Linux x64. Each original job declares one unique identical explicit CHROME_BIN identity. Original XML reduces browser identity to ChromeHeadless156.0.0.0; only the observed major is compared, not a fabricated full-version equality. Printed runtime matches original preflight actual.json; runner runtime differs only by observation time. Printed final runner subset matches each original receipt exactly. No emitted-bundle byte/hash inventory or full captured Gradle console is present; source binding is not builder attestation.
+
+C1/C2 retain prior accepted JS/Wasm evidence using six exact production/harness hashes and three exact declaration/body fragments, without asserting full old-test-file equality or replaying them. C3 accepts the four new JS paths only. **Remaining work is exactly the four failed Wasm C3 methods, not JS or accepted controlled-Promise replay.** `CRITERIA.json` records all three literal criteria and scope limits.
+
+Accepted JS methods assert native descriptor/listener restoration, child/frame removal and session/CDP close boundaries. Inherited final browser-process/profile removal has no fixture-specific receipt. Wasm cleanup is attempted by source finally but is not independently accepted from failed XML or absent suppressed entries. Native policy denial is not persistent site/OS/manual UI; trusted CDP input is not physical input; original native Promise completion is not OS paste/readback/recipient delivery. No unrelated clipboard reads, heap/consumer/ABI/dependency trust/security/release inference, publication or Git/GitHub mutation. Reviewer executed no tests/builds/native work/source-plan CLIs/dispatches or live edits.
+
+Prior 39 qualified controls and 46 receipt-bearing executions, the four affected synthetic passes, source 17-control inspection and earlier compiler results are reused/qualified separately, never counted as new native passes. All prior failures remain failed.
+
+Only sanitized facts/hashes/public source identities are included. Original logs, nonces, ports, PIDs, hostnames, machine paths, clipboard contents and credentials are excluded. `SHA256SUMS` binds this packet; the final seal receipt is private and external to this packet.

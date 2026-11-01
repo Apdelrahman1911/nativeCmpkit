@@ -1,5 +1,49 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Failed-case-only platform recovery and upstream refresh — 2026-11-01
+
+[Fresh upstream refresh](docs/development/upstream-refresh-20261101T131519Z/README.md)
+finds16 open Calf issues, all mapped/no missing imports or mutations; source record
+fields match the prior snapshot. Discussion/timeline bodies were not reacquired.
+**94closed/78open/172total;25implemented/42partial/92verified/five unresolved.**
+#99/#102 are already closed; never repeat their closures.
+
+[Clipboard original113](docs/development/evidence/current-platform-recovery-20261101/clipboard-native-original113/README.md)
+accepts only JS4/4 required new methods/one XML/Gradle0/292.09s atdf5fd436;
+Wasm4/4 fail at initial opened acknowledgment, before child/scenario execution.
+Original throwing guard/cause unknown; #82 open, rerun only those four Wasm cases.
+Issue82 progress comment6558500307 is posted/read back; do not duplicate it.
+[Android original116](docs/development/evidence/current-platform-recovery-20261101/android-named-provider-original116/README.md)
+fails both new named-provider methods before row lookup at exact dir_list resource
+guard68, Gradle1/58.03s; namespace and individual compound operands unknown.
+#55 local2/cloudC1 remain missing. [Windows original117](docs/development/evidence/current-platform-recovery-20261101/windows-request-state-original117/README.md)
+accepts one same-owner fail/fail/recovery method, not Stop: original10s conjunction
+fails, individual operands/cause unknown; Gradle1/302.67s/two XML. #64 stays open,
+never replay that accepted Windows method. Each original log/archive was acquired
+once by its assigned reviewer; reuse cached originals, not new downloads.
+
+[C3 source/compile111](docs/development/evidence/current-platform-recovery-20261101/ios-picker-provider-c3-observations096/lead-integration111/README.md)
+passes changed picker KLIB0/33.01s and eight affected protocol controls once;
+12 qualified new controls reused, zero Apple links/native/real ps. C3-only failure
+marker/exact-PID scalar never means completion/app-exit/cause; #50 stays open.
+[Camera integration115](docs/development/evidence/current-platform-recovery-20261101/camera-fixed-prefix-integration115/lead-integration/README.md)
+applies exact four-path diagnostic-only patch, reuses nine/60 new controls;
+strict parser/native assertions/cleanup/compile order stay unchanged. Current
+1149library/1225combined held source inputs; original #13 Dont-keepC1 still missing.
+Next finite C3-only and Dont-keep-only requests after freeze/preflight; accepted
+pickerC1/C2/C4/C5/C6/camera009/clipboardJS/native subsets are excluded.
+
+Operational CLI: installed gh2.45.0 has no --slurp; decode paginated JSON with
+scripts/migration/github_json.py::json_pages. gh issue view has no stateReason;
+REST supplies state_reason. Use -R Apdelrahman1911/nativeCmpkit where supported.
+Dispatch verified development branch, not a full SHA (previously refused), then
+check actual run head_sha. Observe active/queued/reserved capacity before dispatch:
+maximum2 combined hosted-heavy rows; clipboard/pairs reserve2 even max-parallel1.
+Lead owns integration/Git/GitHub; disjoint agents authorized, serial local heavy/
+8GiB reserve. Actions/all actions/no mandatory SHA pinning/read-only verification
+and every publishing/Pages/main/history/native/consumer/ABI/dependency/legal/
+security/readiness gate remain unchanged. Earlier entries retain dated scopes.
+
 ## Secure sample-input issue verified and closed — 2026-11-01
 
 **#99/NAV-012 CLOSED/completed**, immediately after all three original criteria
@@ -3251,10 +3295,10 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The latest read-only refresh is `docs/migration/upstream-updates/20261101T001025Z/`;
+  The latest read-only refresh is `docs/migration/upstream-updates/20261101T131519Z/`;
   all16 open issues still have exactly one current destination context, with
   no imports/comments/closures needed. Review evidence is in
-  `docs/development/upstream-refresh-20261027T014340Z/`; original posting/readback
+  `docs/development/upstream-refresh-20261101T131519Z/`; original posting/readback
   remains in `docs/development/upstream-sync-20261024T183300Z/`.
   Keep every dated snapshot and the original metadata archive immutable.
 - Pages issue #171 is now **verified and closed** after the owner's Unpublish

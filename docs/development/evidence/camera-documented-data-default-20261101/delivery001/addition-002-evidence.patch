@@ -1,0 +1,302 @@
+*** Begin Patch
+*** Add File: docs/development/evidence/camera-documented-data-default-20261101/README.md
++# Exact documented Android data default — source-only owning repair
++
++Actual015 `41272457871` stays failed. Its original key/value/first conjunct/cause
++remain unknown; the categories do not establish that it supplied `<temp>`.
++
++The exact pair `disk.dataPartition.path=<temp>` is independently supported by
++[pinned official hardware definitions](https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/emu/avd/src/android/avd/hardware-properties.ini#847)
++(lines847–859). The SDK CLI copies nonempty installed emulator hardware defaults;
++see [AvdManagerCli](https://android.googlesource.com/platform/tools/base/+/45628254f0f8a9bb3755d73f3d30ca78fbb2153d/sdklib/src/main/java/com/android/sdklib/tool/AvdManagerCli.java#1074)
++and the exact source/hash catalog in `source-review.json`.
++
++For the unchanged fixed `-avd` launch (no `-data`/`-datadir`),
++[main-common.c965–1015](https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/android-emu/android/main-common.c#965)
++overrides this config default with the AVD's `userdata-qemu.img` before creation.
++The QEMU2 drive uses its `.qcow2` sibling. This is not a new supplied relative
++filesystem path or externally retained temporary userdata destination in that
++source contract; it is not an actual hosted runtime observation or binary-source
++identity certification. Other emulator temporary-file behavior is not certified.
++
++One exact new branch only. No config/launch rewrite, broad relative-path whitelist,
++mutable/readonly/skin/parse/no-follow/FD/digest/liveness/cleanup/acceptance weakening.
++`documented_data_partition_temp_default_observed=True` records only the current
++parsed exact pair; absence makes no assertion and this Boolean never gates success.
++
++The new positive synthetic regression first errors at original `require47`.
++The candidate then passes exactly7/7 genuinely new methods/0skips/0.108924s,
++seven distinct methods/eight executions total. The original red and new XML/JSON
++are retained. Real exclusive synthetic FDs/Journal/digests/owned disposal and
++near-match/traversal/foreign/readonly/nofollow/hardlink/tamper/live/unknown-transport/
++unknown-child/no-retry controls are exercised. Removing only the new branch restores
++the entire original helper AST; fixed launch AST and forward/inverse bytes hold.
++
++SDK/AVD/emulator/build/compiler/native/dispatch0; accepted77/12 and all accepted
++native suites not replayed. This is a narrow three-file private source freeze,
++not a complete library/combined map. #13 remains open pending the sole remaining
++Dont-keep actual retry and owning original-criteria/source/results/cleanup review.
++All existing capacity/native/minimum/security/publishing/readiness gates remain.
++
++Original XML has no terminal LF and is delivered through exact absent-only payload
++mappings. The initial patch roundtrip refusal is retained in `packaging-refusal.json`;
++no source or test was changed and no model was replayed to repair packaging.
+*** Add File: docs/development/evidence/camera-documented-data-default-20261101/baseline-result.json
++{
++  "accepted_suite_methods_replayed": 0,
++  "actual015_key_value_or_cause_inferred": false,
++  "builds": 0,
++  "cases": [
++    {
++      "elapsed_seconds": 0.002551,
++      "error_origin": {
++        "line": 47,
++        "source": "android_camera_developer_prerequisite.py",
++        "symbol": "require"
++      },
++      "exception_class": "ValueError",
++      "method": "test_documented_default_keeps_fd_digests_and_owned_prelaunch_disposal",
++      "status": "error"
++    }
++  ],
++  "elapsed_seconds": 0.005378,
++  "errors": 1,
++  "failures": 0,
++  "held_exact": true,
++  "methods": 1,
++  "native_executions": 0,
++  "passed": 0,
++  "phase": "baseline",
++  "schema": "nativecmpkit.synthetic-owning-model-result.v1",
++  "scope": "Genuinely new documented-data-default synthetic files and source guard only",
++  "sdk_commands": 0,
++  "skipped": 0,
++  "source_hashes_after": {
++    "caller": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d",
++    "helper": "2195f32e1603b31e063afa444401b77f3bc5d34c0dcc7e0c60cc4c6508e20591",
++    "new_guard": "df9ac634ffa42f9834636c956438871ccd314c9161eb277249ee08919cf56ed0"
++  },
++  "source_hashes_before": {
++    "caller": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d",
++    "helper": "2195f32e1603b31e063afa444401b77f3bc5d34c0dcc7e0c60cc4c6508e20591",
++    "new_guard": "df9ac634ffa42f9834636c956438871ccd314c9161eb277249ee08919cf56ed0"
++  }
++}
+*** Add File: docs/development/evidence/camera-documented-data-default-20261101/candidate-result.json
++{
++  "accepted_suite_methods_replayed": 0,
++  "actual015_key_value_or_cause_inferred": false,
++  "builds": 0,
++  "cases": [
++    {
++      "elapsed_seconds": 0.008998,
++      "method": "test_documented_default_keeps_child_transport_and_no_retry_disposal_gates",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.006655,
++      "method": "test_documented_default_keeps_digest_and_root_refusals_before_launch",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.002162,
++      "method": "test_documented_default_keeps_fd_digests_and_owned_prelaunch_disposal",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.00516,
++      "method": "test_documented_default_keeps_regular_nofollow_and_single_link_mutable_guards",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.027006,
++      "method": "test_every_near_match_relative_key_or_value_still_refuses",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.006307,
++      "method": "test_exact_fact_never_greens_later_foreign_traversal_or_readonly_refusal",
++      "status": "passed"
++    },
++    {
++      "elapsed_seconds": 0.051716,
++      "method": "test_only_new_branch_is_exact_pair_and_fixed_launch_has_no_userdata_overrides",
++      "status": "passed"
++    }
++  ],
++  "elapsed_seconds": 0.108924,
++  "errors": 0,
++  "failures": 0,
++  "held_exact": true,
++  "methods": 7,
++  "native_executions": 0,
++  "passed": 7,
++  "phase": "candidate",
++  "schema": "nativecmpkit.synthetic-owning-model-result.v1",
++  "scope": "Genuinely new documented-data-default synthetic files and source guard only",
++  "sdk_commands": 0,
++  "skipped": 0,
++  "source_hashes_after": {
++    "caller": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d",
++    "helper": "5a98e9765fca3542c09a707da3a27098a71ac597f38a54447d84d3a1459c4aac",
++    "new_guard": "df9ac634ffa42f9834636c956438871ccd314c9161eb277249ee08919cf56ed0"
++  },
++  "source_hashes_before": {
++    "caller": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d",
++    "helper": "5a98e9765fca3542c09a707da3a27098a71ac597f38a54447d84d3a1459c4aac",
++    "new_guard": "df9ac634ffa42f9834636c956438871ccd314c9161eb277249ee08919cf56ed0"
++  }
++}
+*** Add File: docs/development/evidence/camera-documented-data-default-20261101/packaging-refusal.json
++{
++  "cause": "Add-file patches imply terminal LF, but the original synthetic XML files have no terminal LF",
++  "exception_class": "AssertionError",
++  "models_replayed": 0,
++  "original_xml_bytes_preserved": true,
++  "phase": "initial-addition-patch-readback",
++  "recovery": "Use exact absent-only payload mappings for the two original XML files",
++  "root_writes": 0,
++  "schema": "nativecmpkit.delivery-readback-refusal.v1",
++  "silent_xml_normalization_performed": false,
++  "source_guard_changed": false
++}
+*** Add File: docs/development/evidence/camera-documented-data-default-20261101/source-review.json
++{
++  "actual015": {
++    "native_success_inferred": false,
++    "original_key_value_first_conjunct_and_cause": "unknown",
++    "run": "41272457871",
++    "source_supported_pair_not_inferred_as_actual_failure": true
++  },
++  "candidate_helper_sha256": "5a98e9765fca3542c09a707da3a27098a71ac597f38a54447d84d3a1459c4aac",
++  "checks": {
++    "fixed_launch_ast_unchanged": true,
++    "forward_fragment_exact_once": true,
++    "initial_add_file_xml_roundtrip_refusal_retained": true,
++    "inverse_fragment_byte_exact": true,
++    "original_helper_ast_restored_after_new_branch_removal": true,
++    "original_xml_payload_bytes_preserved": true,
++    "selected_live_sources_still_held": true
++  },
++  "contract_facts": [
++    "hardware-properties.ini defines disk.dataPartition.path default <temp> as the exact temporary-file sentinel.",
++    "EmulatorPackage reads hardware defaults from the installed emulator package lib/hardware-properties.ini; CLI copies nonempty defaults and overlays the selected device.",
++    "Current fixed launch is ordinary -avd and supplies no -data/-datadir/-qemu/-fuchsia option; its AST is held byte-for-byte in the selected caller snapshot.",
++    "QEMU2 main.cpp1691-1694 calls common parser. main-common.c1820 reads hardware config, then1917 calls the common options resolver.",
++    "For no -data, main-common.c965-1015 obtains the existing/default AVD data image and unconditionally overwrites disk_dataPartition_path before creation.",
++    "info.c1434-1441 and info.h71 derive the owned-AVD userdata-qemu.img destination. QEMU2 main.cpp743-750 uses its .qcow2 sibling, not an external temporary userdata destination.",
++    "The exact new pair skips only lexical mutable-path admission; every other path/readonly/skin/default/parse/FD/digest/launch/liveness/disposal/acceptance statement is unchanged.",
++    "The optional Boolean records only this exact parsed pair observed in the current generated config; it is not an admission/acceptance gate."
++  ],
++  "limits": [
++    "These are pinned official source contracts, not an observed hosted runtime resolver or a binary-source-identity certification.",
++    "No new SDK, AVD, emulator, native, camera, compiler, build or dispatcher execution.",
++    "No accepted77/12 models or any accepted native suite replayed.",
++    "Only two selected owning source files and the genuinely new guard were held for this private regression; not a complete library/combined source map.",
++    "No claim that the emulator allocates no other temporary files. Existing cache/hardware-config defaults have separate upstream behavior, unchanged by this data-default branch.",
++    "Actual015 stays failed and exact original key/value/first conjunct/cause unknown. #13 remains open; actual sole Dont-keep retry and owning source/results/cleanup review are still required."
++  ],
++  "new_guard_sha256": "df9ac634ffa42f9834636c956438871ccd314c9161eb277249ee08919cf56ed0",
++  "new_regression_counts": {
++    "baseline_red_errors": 1,
++    "candidate_elapsed_seconds": 0.108924,
++    "candidate_passed": 7,
++    "candidate_skipped": 0,
++    "distinct_methods": 7,
++    "executions": 8
++  },
++  "official_sources": [
++    {
++      "decoded_sha256": "21f813acf1e4735e10e54837598a21d3564ee3459871c9df528fc81f3f9f2d4f",
++      "path": "android/emu/avd/src/android/avd/hardware-properties.ini",
++      "primary_lines": [
++        847,
++        859
++      ],
++      "url": "https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/emu/avd/src/android/avd/hardware-properties.ini"
++    },
++    {
++      "decoded_sha256": "5e2cc773310177448915b2d7599cacc5fb2323459cccadb00f3f41ebb24b09e8",
++      "path": "android/emu/avd/src/android/avd/info.c",
++      "primary_lines": [
++        1434,
++        1452
++      ],
++      "url": "https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/emu/avd/src/android/avd/info.c"
++    },
++    {
++      "decoded_sha256": "14197e427cce0339a958e37d36bdf88e6abfe7d70248261b6bfcb9e31cabe541",
++      "path": "android/emu/avd/include/android/avd/info.h",
++      "primary_lines": [
++        63,
++        75
++      ],
++      "url": "https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/emu/avd/include/android/avd/info.h"
++    },
++    {
++      "decoded_sha256": "932ba0a29ae7fed3e49a38ca734fbe296e73088c434a30f705ebbeccc85e71d4",
++      "path": "android/android-emu/android/main-common.c",
++      "primary_lines": [
++        965,
++        1015
++      ],
++      "url": "https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android/android-emu/android/main-common.c"
++    },
++    {
++      "decoded_sha256": "9469dc908eb4d1b1866b94bdc87f7816a65dc18070986af4728cc3beb5131cb9",
++      "path": "android-qemu2-glue/main.cpp",
++      "primary_lines": [
++        743,
++        750
++      ],
++      "url": "https://android.googlesource.com/platform/external/qemu/+/ae9d18d2b6261179fbd57fffec720a04f7bfb053/android-qemu2-glue/main.cpp"
++    },
++    {
++      "decoded_sha256": "e2733cf41e6b2dde6ad9aed6857cc5db79ae9277b8b5b9ba19d7005f8c38ecf2",
++      "path": "sdklib/src/main/java/com/android/sdklib/internal/avd/EmulatorPackage.kt",
++      "primary_lines": [
++        47,
++        50
++      ],
++      "url": "https://android.googlesource.com/platform/tools/base/+/45628254f0f8a9bb3755d73f3d30ca78fbb2153d/sdklib/src/main/java/com/android/sdklib/internal/avd/EmulatorPackage.kt"
++    },
++    {
++      "decoded_sha256": "dfcaba67327eb144413b0c9de17f8b32c18d8ac5cf8bd8f78e50ecdb16c6c84c",
++      "path": "sdklib/src/main/java/com/android/sdklib/tool/AvdManagerCli.java",
++      "primary_lines": [
++        1074,
++        1103
++      ],
++      "url": "https://android.googlesource.com/platform/tools/base/+/45628254f0f8a9bb3755d73f3d30ca78fbb2153d/sdklib/src/main/java/com/android/sdklib/tool/AvdManagerCli.java"
++    },
++    {
++      "decoded_sha256": "8072e2f0c05795ee791314f0f949892aa628f7748420ec0db39dae8d94147f2f",
++      "path": "sdklib/src/main/java/com/android/sdklib/internal/avd/AvdManager.kt",
++      "primary_lines": [
++        426,
++        459
++      ],
++      "url": "https://android.googlesource.com/platform/tools/base/+/45628254f0f8a9bb3755d73f3d30ca78fbb2153d/sdklib/src/main/java/com/android/sdklib/internal/avd/AvdManager.kt"
++    }
++  ],
++  "receipt_boolean": "documented_data_partition_temp_default_observed",
++  "schema": "nativecmpkit.camera-documented-data-default.source-review.v1",
++  "scope": "Source-backed exact non-path-default admission only; no config rewrite or arbitrary relative disk admission",
++  "source_preimages": {
++    "scripts/ci/android_camera_developer_prerequisite.py": "2195f32e1603b31e063afa444401b77f3bc5d34c0dcc7e0c60cc4c6508e20591",
++    "scripts/ci/android_device_tests.py": "2c549fab9f53c9c593359a8e45531d02f5e27af5c13f7a1f1e9926a4066f675d"
++  },
++  "upstream_revisions": {
++    "qemu": "ae9d18d2b6261179fbd57fffec720a04f7bfb053",
++    "tools_base": "45628254f0f8a9bb3755d73f3d30ca78fbb2153d"
++  },
++  "zero_executions": {
++    "accepted_suite_replay": 0,
++    "build": 0,
++    "compiler": 0,
++    "dispatch": 0,
++    "native": 0,
++    "sdk": 0
++  }
++}
+*** End Patch

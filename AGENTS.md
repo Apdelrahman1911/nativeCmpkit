@@ -1,5 +1,49 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera/permission source freeze; request failures reviewed — 2026-11-01
+
+[Fresh003](docs/development/evidence/current-platform-recovery-20261101/source-freeze003/README.md)
+holds1102/1179 inputs and exact Dont-keep1/Call-denial2 source plans. Preserve
+incomplete001/missing-module and002/lead-rendering-KeyError; the camera CLI passed
+and is reused, not repeated. No native/compiler outcome is inferred.
+[iOS actual008](docs/development/evidence/webview-request-state-native-20261101/actual008/README.md)
+41272449374 remains FAILED at getter-only timeout assignment/Gradle1/685.46s,
+ZERO native/XML; explicit simulator restoration evidence is absent, not compiler
+cause or an invented issue criterion. [Android actual001](docs/development/evidence/webview-request-state-native-20261101/android-actual001/README.md)
+41273057295 remains FAILED at unchanged comma-selector guard/Gradle1/41.01s,
+ZERO native/XML; APK0/342.09s/API35 Enforcing/graceful owned exit reviewed.
+Both sealed deliveries are imported add-only without duplicate acquisitions.
+Owning annotation/setter repairs are separate, not native acceptance. Next two
+free hosted slots: camera Dont-keep1 and permission Call/denial2; accepted camera009
+three/picker/IO excluded.92closed/80open; all publication/security/readiness gates stay.
+
+## Verified lock identity; exact camera default repair — 2026-11-01
+
+[The owning lock repair](docs/development/evidence/yarn-working-lock-identity-20261101/README.md)
+retains private reader identity and refuses stored/same-file/hard-link substitution
+before byte acceptance. Actual original-core two-method red1/23.01s then repaired
+two-method green0/28.01s/fresh XML/zero skips, held1101 inputs and observed standalone
+JDK17/Gradle9.7.1; previous32 method bodies unselected. Preserve init-path/zero-test
+and exact-public-phrase importer refusals. Utility stays inert; #40/security/frozen
+install/U1–U3/network/RSS/ordinary trust gates remain open.
+
+[Camera actual015](docs/development/evidence/camera-developer-prerequisite-20261101/actual015/README.md)
+at57057813 remains FAILED before boot:1768/1768 tooling, AVD create0/2.0s, ZERO
+APK/native/XML; never-launched FD-owned disposal is not graceful emulator cleanup.
+Original pair/first failing conjunct/cause unknown. [One exact documented default
+branch](docs/development/evidence/camera-documented-data-default-20261101/README.md)
+admits only disk.dataPartition.path/<temp> for the fixed no-data-override launch;
+all other paths/FDs/digests/launch/native/cleanup expectations stay. Preserved one
+new synthetic red and seven sealed passes reused without replay; ZERO new native.
+Next Dont-keep1 and Call/denial2 only; camera009 three/picker/IO remain excluded.
+Android WebView comma-selector refusal and iOS mutable-request setter compiler
+failure are being repaired separately; neither is a native pass.
+
+92closed/80open/172total;27implemented/42partial/90verified/five unresolved, no new
+whole-issue closure. Useful disjoint agents/lead-owned integration, serial local
+builds/8GiB reserve/max2combined hosted-heavy and all publishing/Pages/main/history/
+native/consumer/ABI/dependency/legal/security/readiness gates remain. No done claim.
+
 ## Shared tooling boundary repaired; permission reporter compiled — 2026-11-01
 
 Actual [iOS41270913975](docs/development/evidence/webview-request-state-native-20261101/actual007/README.md)

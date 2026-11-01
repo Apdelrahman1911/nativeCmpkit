@@ -1,0 +1,1137 @@
+{
+  "accepted_results_reused_not_counted_as_new": true,
+  "actual_native_tests_executed_now": 0,
+  "existing_independent_review_references": [
+    {
+      "path": "docs/development/evidence/webview-consumer-important-20261028/direct-closure/criteria-review.json",
+      "sha256": "1be30ed9a00d8885b69fc19af0df093525ab764e1359eb2d810a0c7fd6e99fd2"
+    },
+    {
+      "path": "docs/development/evidence/webview-identity-batch-important-20261030/platform-ci001/review.json",
+      "sha256": "61b1482f4ee9a695977854a40f00605d2f2ac7cd233ebced8071f2d7badfc8db"
+    },
+    {
+      "path": "docs/development/evidence/settings-important-20261028/after002/receipt.json",
+      "sha256": "abdf3d4cba7906e280dc09f1a62bec24d40680996c47682980ad362c7d39e869"
+    },
+    {
+      "path": "docs/development/evidence/settings-important-20261028/archive-manifest.json",
+      "sha256": "24fc380ced8c9140f84ee54e06ddab19562111ec7e6fa3543940a3f0fbb13dd2"
+    }
+  ],
+  "interpretation": "Native playback/clock plus owned stop/disposal is an adequate bounded media regression without all-codec/physical-output certification. Document/title/visible-window checks establish startup and loads, not painted content. Enabled typed JS is not disabled/enabled policy; HTTPS cookie URI bookkeeping is not a TLS request.",
+  "kind": "read-only-original-native-XML-applicability-not-replay",
+  "original_XML_readbacks": [
+    {
+      "archive": {
+        "path": "docs/development/evidence/github-actions/40621748881/12787133773.zip",
+        "sha256": "1a84f2a554d4bbed1fb43054c3117d7ed16ffab5db4ea394d7558bf4e70444b1"
+      },
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "customHandlerInstalledBeforeANewNativeViewIsNeverReplacedByCreationReadsOrDisposal[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "twoLibraryManagersConcurrentlyShareTheNativeJarAndActualEngineRequestsKeepEveryValue[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.xml",
+      "scope": "Accepted Linux cookie and enabled typed-engine regressions; not other-host/TLS/rendered-content acceptance",
+      "sha256": "d2a9f69c33f4ec93751ffb5eca2bc68a2c00c7b1fbf358297689ca8939532289",
+      "timestamp": "2026-10-28T02:39:41.149Z"
+    },
+    {
+      "archive": {
+        "path": "docs/development/evidence/github-actions/40621748881/12787133773.zip",
+        "sha256": "1a84f2a554d4bbed1fb43054c3117d7ed16ffab5db4ea394d7558bf4e70444b1"
+      },
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "customUserAgentCanBeRestoredAndNativeStateIsReleased[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "javascriptUsesActualEngineAndTypedJsonResults[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "throwingCreationCallbackReleasesActualEngineAndScene[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "8"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "scope": "Accepted Linux cookie and enabled typed-engine regressions; not other-host/TLS/rendered-content acceptance",
+      "sha256": "46f356b91385b6a7fd5685e2c783de816083ae751631b4d9c6829cc3517ceba2",
+      "timestamp": "2026-10-28T02:39:45.790Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527724/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "scope": "desktop-windows-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "31e6cd3d5783031606fcccb36dc042247248b255f0109d1f8dbe45f16065437e",
+      "timestamp": "2026-10-29T01:47:05.264Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527724/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "scope": "desktop-windows-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "37dd594c3fd44fa5a830acc554c668920e88a43037f5d12d78340a7b840fb43d",
+      "timestamp": "2026-10-29T01:47:17.822Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527270/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "scope": "desktop-macos-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "652674b50e0886fa78004a38cded8f955b6c048f6963649e65a8b75cbd466848",
+      "timestamp": "2026-10-29T01:43:58.612Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527270/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "scope": "desktop-macos-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "fe7fd35fc467e6610340b4923acb954c71c2d40de3a91b9af3ba9093c6d72c3c",
+      "timestamp": "2026-10-29T01:44:33.642Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866065913/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "scope": "desktop-linux-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "53535a3b63400aeddcdd20e16418f336ec4d62595fddc1310dbbd880278b1c8b",
+      "timestamp": "2026-10-29T01:30:35.222Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866065913/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "scope": "desktop-linux-x64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "92d8601d47719854f67943ee454b36effa66a89c406de674b1d257eab1834037",
+      "timestamp": "2026-10-29T01:30:44.887Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12865833189/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "scope": "desktop-macos-arm64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "b24aa1431b094e6c799d660ec87d91c3563af521ddccb59fef03063120258b73",
+      "timestamp": "2026-10-29T01:36:55.051Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+          "name": "disposalBeforeQueuedCreationCannotResurrectState[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12865833189/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest.xml",
+      "scope": "desktop-macos-arm64 accepted navigation; media accepted unless its original testcase retains failed status",
+      "sha256": "bdf52c950ab62f08b26f93021ab827fa73999d75c704d9b20e733e6b3c41350f",
+      "timestamp": "2026-10-29T01:37:07.465Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "1"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-lifetime-important-20261029/macos014/artifacts/12867862239/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.xml",
+      "scope": "Intel macOS one-method media-only accepted recovery; original red remains red",
+      "sha256": "0a3aa8bc6690fa6b2a138d6984a1cf1e0b34e09dab840191b13d205af4a86802",
+      "timestamp": "2026-10-29T02:14:07.074Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "1",
+        "skipped": "0",
+        "tests": "3"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-identity-batch-important-20261030/platform-ci001/reports/desktop-linux-x64/calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.xml",
+      "scope": "Accepted Linux public JS policy and queued owner methods; separate original creation red retained",
+      "sha256": "390da6686043ea56e9d18472119c313bd8ec8b609ac2ce3f169a1e89dacd41e5",
+      "timestamp": "2026-10-30T03:57:59.019Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/artifact/ci-webview-consumer/linux-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "linux-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "00d8766b6dc362317eb7fe7cd4d93e3a2829de192916a148e7a43128c3c93bf8",
+      "timestamp": "2026-10-28T20:55:59.808Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/coordinate-native002/artifact/ci-webview-consumer/linux-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "linux-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "2af771320600f3268f38099ecd3c597aea11ff32df67d1040448745d6833b973",
+      "timestamp": "2026-10-28T20:57:12.469Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/macos-arm64/extracted/ci-webview-consumer/macos-arm64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "macos-arm64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "52dfea6f63178bba68dd73864647952dc71329a538eb8c8875d8998cf17ad613",
+      "timestamp": "2026-10-28T21:11:54.341Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/macos-arm64/extracted/ci-webview-consumer/macos-arm64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "macos-arm64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "864ceccda5f0adeee4bef14b957376349621386419d634fa40a3bd8d6c1c0fff",
+      "timestamp": "2026-10-28T21:14:57.160Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/macos-x64/extracted/ci-webview-consumer/macos-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "macos-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "f85aca51da4913a68a000148345e5f10f4a877d8b73033e80ed03d0fd2a40b3f",
+      "timestamp": "2026-10-28T21:17:13.755Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/macos-x64/extracted/ci-webview-consumer/macos-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "macos-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "2f901947ef9a1c546b3407a5087dbacc8421665a43eebd57caa3b90b899ee40a",
+      "timestamp": "2026-10-28T21:19:00.636Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/windows-x64/extracted/ci-webview-consumer/windows-x64/module/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "windows-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "0f9d3109c723e1c00fae308db16a28c799fe4b616397deb5a8ec457d567334ae",
+      "timestamp": "2026-10-28T21:23:12.698Z"
+    },
+    {
+      "cases": [
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "publicComposableLoadsEvaluatesAndReleasesTheRealNativeView",
+          "status": "passed"
+        },
+        {
+          "classname": "nativecmpkit.consumer.PublishedWebViewConsumerTest",
+          "name": "loadedPublicClassesComeFromTheExactStagedJar",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "2"
+      },
+      "new_execution": false,
+      "original_bytes_reopened_not_reconstructed": true,
+      "path": "docs/development/evidence/webview-consumer-important-20261028/remaining-native001/windows-x64/extracted/ci-webview-consumer/windows-x64/pom/junit/TEST-nativecmpkit.consumer.PublishedWebViewConsumerTest.xml",
+      "scope": "windows-x64 staged attachment/Unicode document/enabled typed JS; not cookie/TLS/policy/paint output",
+      "sha256": "bb6d980e4434b3a619b751a16885ddba50d6630fc7d73a69f1991ff10a27cfe2",
+      "timestamp": "2026-10-28T21:24:32.199Z"
+    }
+  ],
+  "original_XML_reports_reopened": 20,
+  "selected_old_input_Git_readbacks": [
+    {
+      "actual_map_path_count": 745,
+      "after_sha256": "0980a36d8ebcb88db5500de584f6acadab99169e3c5a9e04ad901d74d17867d1",
+      "before_after_equal": true,
+      "before_sha256": "0980a36d8ebcb88db5500de584f6acadab99169e3c5a9e04ad901d74d17867d1",
+      "reference": {
+        "archive": "docs/development/evidence/github-actions/40621748881/12787133773.zip",
+        "prefix": "build/ci-verification/desktop-linux-x64/"
+      },
+      "scope": "Linux cookie/typed engine",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "8d296cc8956fa4ecf5143a56aefdb3e416ccd42cffd78e654e5b050dc3522f62"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        }
+      ],
+      "source_revision": "6dbe6ca257c85350034dbfeb120653f07ae42532",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    },
+    {
+      "actual_map_path_count": 828,
+      "after_sha256": "8c37d1956499d7c8e602d41844f513d49ef115a33dcd4335c64dcaf93a34198c",
+      "before_after_equal": true,
+      "before_sha256": "8c37d1956499d7c8e602d41844f513d49ef115a33dcd4335c64dcaf93a34198c",
+      "reference": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527724/build/ci-verification/desktop-windows-x64/",
+      "scope": "desktop-windows-x64",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+          "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "sha256": "cb8b2b937dca6aed7df1b0e84e29a9d42a327fc31c9c761a4cdb2b2aa08b6adf"
+        }
+      ],
+      "source_revision": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    },
+    {
+      "actual_map_path_count": 828,
+      "after_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "before_after_equal": true,
+      "before_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "reference": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866527270/build/ci-verification/desktop-macos-x64/",
+      "scope": "desktop-macos-x64",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+          "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "sha256": "cb8b2b937dca6aed7df1b0e84e29a9d42a327fc31c9c761a4cdb2b2aa08b6adf"
+        }
+      ],
+      "source_revision": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    },
+    {
+      "actual_map_path_count": 828,
+      "after_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "before_after_equal": true,
+      "before_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "reference": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12866065913/build/ci-verification/desktop-linux-x64/",
+      "scope": "desktop-linux-x64",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+          "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "sha256": "cb8b2b937dca6aed7df1b0e84e29a9d42a327fc31c9c761a4cdb2b2aa08b6adf"
+        }
+      ],
+      "source_revision": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    },
+    {
+      "actual_map_path_count": 828,
+      "after_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "before_after_equal": true,
+      "before_sha256": "d69252cfaccdd286560ae7bf737871dba0574c9c5964141fdbe772ded492f760",
+      "reference": "docs/development/evidence/webview-lifetime-important-20261029/native001/artifacts/12865833189/build/ci-verification/desktop-macos-arm64/",
+      "scope": "desktop-macos-arm64",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+          "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "sha256": "cb8b2b937dca6aed7df1b0e84e29a9d42a327fc31c9c761a4cdb2b2aa08b6adf"
+        }
+      ],
+      "source_revision": "5923d6517dde66eea4bf5ed95b6b190170e1bfd7",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    },
+    {
+      "actual_map_path_count": 828,
+      "after_sha256": "38d8599a6ddb8c8f615640b6006d71484f2a580c7fcb38d23a8cf00f0609893d",
+      "before_after_equal": true,
+      "before_sha256": "38d8599a6ddb8c8f615640b6006d71484f2a580c7fcb38d23a8cf00f0609893d",
+      "reference": "docs/development/evidence/webview-lifetime-important-20261029/macos014/artifacts/12867862239/build/ci-verification/desktop-macos-x64/",
+      "scope": "Intel media-only recovery",
+      "selected_old_Git_bindings": [
+        {
+          "path": "gradle/libs.versions.toml",
+          "sha256": "983e67601d3440c1ff1df375f5e01dfa4b1473a8de50c2fe6912de0f0e4b15a3"
+        },
+        {
+          "path": "gradle.properties",
+          "sha256": "4ce2b9da06ff33e4c0a9889e3d44280c63c81f6f169bcd8a5ba2acbd56a4e470"
+        },
+        {
+          "path": "build.gradle.kts",
+          "sha256": "bcaccb919d2aec3dc5eec04c2c4039696b3fc96decbb72756f0ee2365013fccc"
+        },
+        {
+          "path": "settings.gradle.kts",
+          "sha256": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/DesktopJavaFx.kt",
+          "sha256": "acf777bd8781de5e8aebb4a8be33b0e2649971696fa2168dc9d1e698fb87c2d5"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/desktop.javafx.gradle.kts",
+          "sha256": "7aa44bad43a4d427b7a4dcdebdd9c600b81c26f735a321130236e2e2fe817577"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/kotlin.multiplatform.gradle.kts",
+          "sha256": "00c4938fa93c982d16e1b880b2c9de317df0b4280597ba99f4942050cc629330"
+        },
+        {
+          "path": "convention-plugins/src/main/kotlin/Targets.kt",
+          "sha256": "e3a962fdcd0c2fd2b22201be6ccb0cad9917ef5edb1149e4933684b67b1bffaa"
+        },
+        {
+          "path": "calf-webview/build.gradle.kts",
+          "sha256": "7b001d7dbacfd45b48e5839703b35ce7c5b2941016b723d1bb4f8d9d33564eec"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+          "sha256": "7b0a614073687de77355a78a5deed06618f9f45d8928eed1172d34825e0baca5"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+          "sha256": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt",
+          "sha256": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f"
+        },
+        {
+          "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt",
+          "sha256": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+          "sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f"
+        },
+        {
+          "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+          "sha256": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "sha256": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+          "sha256": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt",
+          "sha256": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb"
+        },
+        {
+          "path": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+          "sha256": "aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456"
+        }
+      ],
+      "source_revision": "36917fc2f41526e919b72c7960e5495e6759e974",
+      "whole_old_map_acceptance_reused_from_prior_independent_review": true
+    }
+  ],
+  "settings_derived_XML_not_mislabeled_as_reopened_original": true,
+  "source_revision": "5705781330ba97fc86ba6faa748c70e35879b9bf"
+}

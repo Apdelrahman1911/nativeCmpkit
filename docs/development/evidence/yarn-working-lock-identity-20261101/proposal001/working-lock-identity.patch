@@ -1,0 +1,118 @@
+--- a/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosure.kt
++++ b/convention-plugins/src/main/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosure.kt
+@@ -86,11 +86,19 @@
+             }
+         }
+ 
+-        /** Mandatory after restore and before/after install, including warm/direct entry guards. */
++        /**
++         * Mandatory after restore and before/after install, including warm/direct entry guards.
++         * The stored and working lock must be distinct files under the stable-owned-input contract.
++         * Reader identity checks do not provide atomicity against concurrent writers or path swaps.
++         */
+         fun requireWorkingLock(workingLock: String): InputReceipt {
+             recheck()
+             return withReader(root) { reader ->
+-                val actual = reader.read(workingLock, inputs.first().cap).receipt
++                val stored = reader.read(inputs.first().path, inputs.first().cap)
++                requireSame(inputs.first(), stored.receipt)
++                val working = reader.read(workingLock, inputs.first().cap)
++                if (working.fileKey == stored.fileKey) refuse("working-lock-alias", workingLock)
++                val actual = working.receipt
+                 if (actual.bytes != inputs.first().bytes || actual.sha256 != inputs.first().sha256) {
+                     refuse("working-lock-mismatch", workingLock)
+                 }
+@@ -201,7 +209,7 @@
+         return parts
+     }
+ 
+-    private data class Input(val data: ByteArray, val receipt: InputReceipt)
++    private data class Input(val data: ByteArray, val receipt: InputReceipt, val fileKey: Any)
+ 
+     /**
+      * Portable JDK APIs: existing ancestor/leaf links and unknown identities are refused.
+@@ -231,7 +239,7 @@
+                 val before = attributes(leaf)
+                 if (before.isSymbolicLink) refuse("input-path-refused", relative)
+                 if (!before.isRegularFile) refuse("input-not-regular", relative)
+-                if (before.fileKey() == null) refuse("reader-identity-unavailable", relative)
++                val fileKey = before.fileKey() ?: refuse("reader-identity-unavailable", relative)
+                 if (before.size() == 0L) refuse("input-empty", relative)
+                 if (cap <= 0 || before.size() > cap) refuse("input-size-cap", relative)
+                 val buffer = ByteBuffer.allocate(before.size().toInt() + 1)
+@@ -245,7 +253,7 @@
+                     if (channel.size() != before.size()) refuse("input-changed-during-read", relative)
+                 }
+                 val after = attributes(leaf)
+-                if (!after.isRegularFile || after.isSymbolicLink || before.fileKey() != after.fileKey() ||
++                if (!after.isRegularFile || after.isSymbolicLink || fileKey != after.fileKey() ||
+                     before.size() != after.size() || before.lastModifiedTime() != after.lastModifiedTime() ||
+                     before.creationTime() != after.creationTime() || buffer.position().toLong() != before.size()) {
+                     refuse("input-changed-during-read", relative)
+@@ -260,7 +268,7 @@
+                     .joinToString("") { "%02x".format(it.toInt() and 255) }
+                 val receipt = InputReceipt(relative, data.size, sha, cap)
+                 receipts += receipt
+-                return Input(data, receipt)
++                return Input(data, receipt, fileKey)
+             } catch (_: NoSuchFileException) {
+                 refuse("input-missing", relative)
+             } catch (_: java.io.IOException) {
+--- a/convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosureModelTest.kt
++++ b/convention-plugins/src/test/kotlin/io/github/apdelrahman1911/nativecmpkit/buildlogic/DeclaredYarnClosureModelTest.kt
+@@ -461,4 +461,55 @@
+         write(lockPath, header + stanza("parent"))
+         assertEquals(1, check().reachableStanzas) // A lock checker cannot independently recover omitted metadata.
+     }
++
++    @Test fun storedPathCannotSubstituteForAnAbsentWorkingLock() {
++        val result = check()
++        val working = "generated/yarn.lock"
++        val original = Files.readAllBytes(root.resolve(lockPath))
++        val expectedInputs = result.inputs.toList()
++        assertFalse(Files.exists(root.resolve(working)))
++
++        val failure = rejected("working-lock-alias") { result.requireWorkingLock(lockPath) }
++        assertEquals(lockPath, failure.source)
++        assertEquals(listOf(lockPath, lockPath), failure.inputs.map { it.path })
++        assertFalse(Files.exists(root.resolve(working)))
++        assertTrue(original.contentEquals(Files.readAllBytes(root.resolve(lockPath))))
++        assertEquals(expectedInputs, result.inputs)
++
++        // The new identity refusal must still admit an independent, identical working copy.
++        write(working, original)
++        val accepted = result.requireWorkingLock(working)
++        assertEquals(working, accepted.path)
++        assertEquals(expectedInputs.first().sha256, accepted.sha256)
++        result.recheck()
++    }
++
++    @Test fun hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted() {
++        val result = check()
++        val working = "generated/yarn.lock"
++        val stored = root.resolve(lockPath)
++        val target = root.resolve(working)
++        val original = Files.readAllBytes(stored)
++        try {
++            Files.createLink(target, stored)
++        } catch (error: UnsupportedOperationException) {
++            assumeNoException("This one fixture requires hard-link creation support", error)
++        } catch (error: FileSystemException) {
++            assumeNoException("Hard-link setup is unavailable for this one fixture", error)
++        }
++        // Only creation capability may skip. Identity readback and rejection assertions must run.
++        assertTrue(Files.isSameFile(stored, target))
++        val failure = rejected("working-lock-alias") { result.requireWorkingLock(working) }
++        assertEquals(working, failure.source)
++        assertEquals(listOf(lockPath, working), failure.inputs.map { it.path })
++        assertTrue(original.contentEquals(Files.readAllBytes(stored)))
++        assertTrue(original.contentEquals(Files.readAllBytes(target)))
++
++        Files.delete(target)
++        write(working, original)
++        assertFalse(Files.isSameFile(stored, target))
++        assertEquals(result.inputs.first().sha256, result.requireWorkingLock(working).sha256)
++        result.recheck()
++    }
++
+ }

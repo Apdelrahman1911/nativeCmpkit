@@ -51,7 +51,10 @@ fresh rechecks are retained; no filesystem atomicity or resolver trust is added.
 
 ## Repository-owned tests
 
-`DeclaredYarnClosureModelTest` contains **32 synthetic JVM model methods**. Every
+`DeclaredYarnClosureModelTest` contains **34 synthetic JVM model methods**. The
+two added working-lock alias regressions have fresh actual red/green results in
+[the identity repair](evidence/yarn-working-lock-identity-20261101/README.md);
+the32 previous method bodies are unchanged and were not replayed. Every
 lock and manifest is generated from authored Kotlin strings inside a fresh
 exclusive temp tree. No generated project/third-party package JSON, existing
 package lock, raw Yarn fixture, host cache, network input or private fixture path

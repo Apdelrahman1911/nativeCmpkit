@@ -1,0 +1,5 @@
+<!-- nativecmpkit-progress:20261101-57057813-remaining-native -->
+
+Remaining criterion: genuine Android **Don’t keep activities** restoration. The accepted rotation/process-death/cancellation three are not replayed. Prior run41270929101 failed before native in one shared source guard; original results are preserved. That owning guard is fixed with2/2 fresh regression passes at `57057813`, with native source/assertions unchanged. The exact one-case retry is [41272457871](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41272457871), pending/running, **not a pass or closure**.
+
+Source/evidence: [checkpoint](https://github.com/Apdelrahman1911/nativeCmpkit/blob/development/preview-hardening/docs/development/checkpoint-20261101-request-matrix.md). No publication or security/readiness clearance.

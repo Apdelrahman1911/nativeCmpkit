@@ -86,11 +86,19 @@ object DeclaredYarnClosure {
             }
         }
 
-        /** Mandatory after restore and before/after install, including warm/direct entry guards. */
+        /**
+         * Mandatory after restore and before/after install, including warm/direct entry guards.
+         * The stored and working lock must be distinct files under the stable-owned-input contract.
+         * Reader identity checks do not provide atomicity against concurrent writers or path swaps.
+         */
         fun requireWorkingLock(workingLock: String): InputReceipt {
             recheck()
             return withReader(root) { reader ->
-                val actual = reader.read(workingLock, inputs.first().cap).receipt
+                val stored = reader.read(inputs.first().path, inputs.first().cap)
+                requireSame(inputs.first(), stored.receipt)
+                val working = reader.read(workingLock, inputs.first().cap)
+                if (working.fileKey == stored.fileKey) refuse("working-lock-alias", workingLock)
+                val actual = working.receipt
                 if (actual.bytes != inputs.first().bytes || actual.sha256 != inputs.first().sha256) {
                     refuse("working-lock-mismatch", workingLock)
                 }
@@ -201,7 +209,7 @@ object DeclaredYarnClosure {
         return parts
     }
 
-    private data class Input(val data: ByteArray, val receipt: InputReceipt)
+    private data class Input(val data: ByteArray, val receipt: InputReceipt, val fileKey: Any)
 
     /**
      * Portable JDK APIs: existing ancestor/leaf links and unknown identities are refused.
@@ -231,7 +239,7 @@ object DeclaredYarnClosure {
                 val before = attributes(leaf)
                 if (before.isSymbolicLink) refuse("input-path-refused", relative)
                 if (!before.isRegularFile) refuse("input-not-regular", relative)
-                if (before.fileKey() == null) refuse("reader-identity-unavailable", relative)
+                val fileKey = before.fileKey() ?: refuse("reader-identity-unavailable", relative)
                 if (before.size() == 0L) refuse("input-empty", relative)
                 if (cap <= 0 || before.size() > cap) refuse("input-size-cap", relative)
                 val buffer = ByteBuffer.allocate(before.size().toInt() + 1)
@@ -245,7 +253,7 @@ object DeclaredYarnClosure {
                     if (channel.size() != before.size()) refuse("input-changed-during-read", relative)
                 }
                 val after = attributes(leaf)
-                if (!after.isRegularFile || after.isSymbolicLink || before.fileKey() != after.fileKey() ||
+                if (!after.isRegularFile || after.isSymbolicLink || fileKey != after.fileKey() ||
                     before.size() != after.size() || before.lastModifiedTime() != after.lastModifiedTime() ||
                     before.creationTime() != after.creationTime() || buffer.position().toLong() != before.size()) {
                     refuse("input-changed-during-read", relative)
@@ -260,7 +268,7 @@ object DeclaredYarnClosure {
                     .joinToString("") { "%02x".format(it.toInt() and 255) }
                 val receipt = InputReceipt(relative, data.size, sha, cap)
                 receipts += receipt
-                return Input(data, receipt)
+                return Input(data, receipt, fileKey)
             } catch (_: NoSuchFileException) {
                 refuse("input-missing", relative)
             } catch (_: java.io.IOException) {

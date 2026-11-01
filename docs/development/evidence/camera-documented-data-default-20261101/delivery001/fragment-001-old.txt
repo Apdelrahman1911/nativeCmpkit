@@ -1,0 +1,3 @@
+            if key == "skin.path" and value == "_no_skin":
+                continue  # Non-path generated skin sentinel; not userdata.
+            path_field = ("path" in key.lower() or key.lower().endswith((".dir", ".file", ".filename")))

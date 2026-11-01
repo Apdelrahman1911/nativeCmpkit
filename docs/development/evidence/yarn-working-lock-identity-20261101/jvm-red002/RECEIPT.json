@@ -1,0 +1,54 @@
+{
+  "base_head": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+  "cases": [
+    {
+      "classname": "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest",
+      "name": "storedPathCannotSubstituteForAnAbsentWorkingLock",
+      "status": "failure"
+    },
+    {
+      "classname": "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest",
+      "name": "hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted",
+      "status": "failure"
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "-p",
+    "convention-plugins",
+    "compileKotlin",
+    "compileTestKotlin",
+    "test",
+    "--tests",
+    "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.storedPathCannotSubstituteForAnAbsentWorkingLock",
+    "--tests",
+    "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "../scripts/ci/daemon-jvm.init.gradle.kts"
+  ],
+  "core_sha256": "ec20d552688512072ce3c70a1804d9e076487e30ccdc5686178ff480a6006d1b",
+  "daemon_jvm": [],
+  "execution": {
+    "elapsed_seconds": 23.01,
+    "exit_code": 1
+  },
+  "existing_accepted_methods_replayed": 0,
+  "free_bytes_after": 43821674496,
+  "free_bytes_before": 43824500736,
+  "fresh_original_XML": true,
+  "input_count": 1101,
+  "inputs_held": true,
+  "kind": "actual-new-only-JVM-regression-red-not-native-or-security",
+  "raw_private_log_sha256": "70b442fdcc5d9a8e58e11684ac4fd126bbf4b4223e47ab7a326793664b09eb12",
+  "root_dependency_policy_or_native_security_readiness": false,
+  "test_sha256": "72195f87dd6ae24390abb9f1e5de3652fed1d0646be345f52451137da3e6bada"
+}

@@ -1,0 +1,290 @@
+"""New exact-default owning models; no SDK, Android, build or accepted-suite run."""
+from __future__ import annotations
+
+import ast
+from contextlib import ExitStack
+import hashlib
+import importlib.util
+import json
+import os
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+from unittest.mock import patch
+
+TREE = Path(os.environ.get("CAMERA_DATA_DEFAULT_MODEL_TREE", Path(__file__).resolve().parents[2])).resolve()
+PRIVATE = Path(os.environ.get("CAMERA_DATA_DEFAULT_MODEL_TMP", tempfile.gettempdir())).resolve()
+HELPER = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
+SPEC = importlib.util.spec_from_file_location("camera_documented_data_default_helper", HELPER)
+camera = importlib.util.module_from_spec(SPEC)
+with patch.dict(sys.modules, {SPEC.name: camera}):
+    SPEC.loader.exec_module(camera)
+
+FACT = "documented_data_partition_temp_default_observed"
+REFUSAL = "Actual supplied mutable path confinement is unproved"
+BASE_MODULE_AST_SHA256 = "16e759fc9e1aee42135199be886f8d18553e5264288cb4e0435448d7ae860c2e"
+BASE_LAUNCH_AST_SHA256 = "78dd0007e65c3f2f39e67efc8bf4a8ecdd12a9d729a49012a52230d61725ca9b"
+
+
+def forbidden(*args, **kwargs):
+    raise AssertionError("No SDK, subprocess, build, signal or native action is allowed")
+
+
+def exclusive(path, payload):
+    descriptor = os.open(path, os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_WRONLY | os.O_CLOEXEC, 0o600)
+    try:
+        view = memoryview(payload)
+        while view:
+            count = os.write(descriptor, view)
+            if count <= 0:
+                raise OSError("Synthetic exclusive file write failed")
+            view = view[count:]
+    finally:
+        os.close(descriptor)
+
+
+class ModeledChild:
+    def __init__(self):
+        self.pid, self.running = 987654, True
+
+    def poll(self):
+        return None if self.running else 0
+
+
+class GuestFixture:
+    """Actual-format synthetic files, real owner FDs, Journal, digests and disposal."""
+    def __enter__(self):
+        PRIVATE.mkdir(mode=0o700, parents=True, exist_ok=True)
+        self.temporary = tempfile.TemporaryDirectory(prefix="camera-documented-default-", dir=PRIVATE)
+        self.root = Path(self.temporary.name)
+        self.output = self.root / "build/ci-verification/fresh-synthetic-guest"
+        self.output.mkdir(mode=0o700, parents=True)
+        self.home = self.root / "nonexistent-synthetic-sdk"
+        environment = {"ANDROID_SERIAL": camera.SERIAL, "ANDROID_AVD_HOME": str(self.output / "avd"),
+                       "ANDROID_EMULATOR_HOME": str(self.output / "avd"),
+                       "ANDROID_USER_HOME": str(self.output / "android-user")}
+        self.guest = camera.OwnedFreshGuest(self.root, self.output, "nativecmpkit-api35-012345abcdef", environment,
+                                          child_probe=lambda child: type(child) is ModeledChild and child.running)
+        self.guest.create()
+        self.directory = self.output / "avd" / (self.guest.name + ".avd")
+        self.directory.mkdir(mode=0o700)
+        self.definition = self.output / "avd" / (self.guest.name + ".ini")
+        definition = ("avd.ini.encoding=UTF-8\npath=" + str(self.directory) + "\npath.rel=avd/" +
+                      self.guest.name + ".avd\ntarget=android-35\n").encode()
+        exclusive(self.definition, definition)
+        self.config = self.directory / "config.ini"
+        self.prefix = ("AvdId=" + self.guest.name + "\nabi.type=x86_64\ntag.id=google_apis\n"
+                       "image.sysdir.1=system-images/android-35/google_apis/x86_64/\nskin.path=_no_skin\n")
+        return self
+
+    def write_config(self, pairs=(("disk.dataPartition.path", "<temp>"),)):
+        exclusive(self.config, (self.prefix + "".join(key + "=" + value + "\n" for key, value in pairs)).encode())
+
+    def journal(self):
+        return json.loads((self.output / "camera-fresh-guest.json").read_bytes())
+
+    def dispose(self, *, engine=False, transport=False, clean=False):
+        return self.guest.dispose(engine_exited=engine, transport_absent=transport, clean_shutdown=clean)
+
+    def __exit__(self, *error):
+        try:
+            if not self.guest.closed:
+                self.dispose()
+        finally:
+            self.temporary.cleanup()
+
+
+class DocumentedDataDefaultTests(unittest.TestCase):
+    def setUp(self):
+        self.guards = ExitStack()
+        self.addCleanup(self.guards.close)
+        for name in ("Popen", "run", "check_output", "check_call"):
+            self.guards.enter_context(patch.object(camera.subprocess, name, forbidden))
+        for name in ("kill", "killpg", "system"):
+            self.guards.enter_context(patch.object(camera.os, name, forbidden))
+
+    def assert_prelaunch_disposed(self, fixture):
+        receipt = fixture.dispose()
+        self.assertEqual(receipt["schema"], "nativecmpkit.camera-fresh-guest.v1")
+        self.assertEqual(receipt["disposal_status"], "passed")
+        self.assertEqual(receipt["errors"], [])
+        self.assertIs(receipt["roots_absent"], True)
+        self.assertIs(receipt["identity_confined_disposal"], True)
+        self.assertIs(receipt["launch_attempted"], False)
+        self.assertIs(receipt["clean_shutdown"], False)
+        self.assertTrue(fixture.guest.closed)
+        for name in ("avd", "android-user"):
+            with self.assertRaises(FileNotFoundError):
+                os.lstat(fixture.output / name)
+        return receipt
+
+    def assert_refused(self, fixture, message=REFUSAL):
+        with self.assertRaises(ValueError) as caught:
+            fixture.guest.capture_avd(fixture.home)
+        self.assertEqual(str(caught.exception), message)
+        self.assertFalse(fixture.guest.launch_attempted)
+        self.assertEqual(fixture.guest.avd_files, {})
+        self.assertNotIn("mutable_paths_confined", fixture.guest.receipt)
+
+    def test_documented_default_keeps_fd_digests_and_owned_prelaunch_disposal(self):
+        with GuestFixture() as fixture:
+            fixture.write_config()
+            external = fixture.root / "foreign-synthetic-data"
+            exclusive(external, b"foreign data must remain")
+            fixture.guest.capture_avd(fixture.home)
+            self.assertIs(fixture.guest.receipt[FACT], True)
+            self.assertIs(fixture.journal()[FACT], True)
+            self.assertIs(fixture.guest.receipt["mutable_paths_confined"], True)
+            self.assertEqual(set(fixture.guest.avd_files), {fixture.definition, fixture.config})
+            for path in (fixture.definition, fixture.config):
+                self.assertEqual(fixture.guest.avd_files[path], camera.file_digest(path, camera.CONTROL_BYTES))
+                self.assertEqual(fixture.guest.avd_files[path][0], hashlib.sha256(path.read_bytes()).hexdigest())
+            for name in ("avd", "android-user"):
+                current = os.lstat(fixture.output / name)
+                self.assertEqual(camera.identity(current), fixture.guest.roots[name])
+                self.assertEqual(camera.identity(os.fstat(fixture.guest.root_fds[name])), fixture.guest.roots[name])
+            fixture.guest.verify_config()
+            # These are synthetic owned files at the documented fixed-launch destination,
+            # not emulator output or a runtime resolver execution.
+            exclusive(fixture.directory / "userdata-qemu.img", b"synthetic owned base")
+            exclusive(fixture.directory / "userdata-qemu.img.qcow2", b"synthetic owned overlay")
+            receipt = self.assert_prelaunch_disposed(fixture)
+            self.assertIs(receipt[FACT], True)
+            self.assertEqual(external.read_bytes(), b"foreign data must remain")
+            public = json.dumps(fixture.journal(), sort_keys=True)
+            self.assertNotIn(str(fixture.root), public)
+            self.assertNotIn("<temp>", public)
+
+    def test_every_near_match_relative_key_or_value_still_refuses(self):
+        pairs = [("disk.dataPartition.path", value) for value in
+                 ("userdata-qemu.img", "<TEMP>", "temp", "./<temp>", "<temp>/child", "../<temp>")]
+        pairs += [(key, "<temp>") for key in
+                  ("Disk.dataPartition.path", "disk.cachePartition.path", "disk.systemPartition.path",
+                   "disk.vendorPartition.path", "disk.encryptionKeyPartition.path", "disk.synthetic.path",
+                   "snapshot.synthetic.path", "hw.synthetic.path", "unknown.synthetic.dir",
+                   "unknown.synthetic.file", "unknown.synthetic.filename")]
+        for number, pair in enumerate(pairs):
+            with self.subTest(variant=number), GuestFixture() as fixture:
+                fixture.write_config((pair,))
+                self.assert_refused(fixture)
+                self.assertNotIn(FACT, fixture.guest.receipt)
+                self.assertNotIn(FACT, fixture.journal())
+                diagnostic = fixture.guest.receipt["mutable_path_refusal"]
+                self.assertIs(diagnostic["native_success_inferred"], False)
+                self.assert_prelaunch_disposed(fixture)
+
+    def test_exact_fact_never_greens_later_foreign_traversal_or_readonly_refusal(self):
+        for variant in ("foreign", "parent", "readonly", "image"):
+            with self.subTest(variant=variant), GuestFixture() as fixture:
+                external = fixture.root / "foreign-synthetic-data"
+                exclusive(external, b"untouched synthetic external data")
+                if variant == "foreign":
+                    pair, message = ("disk.cachePartition.path", str(external)), REFUSAL
+                elif variant == "parent":
+                    pair, message = ("disk.synthetic.path", str(fixture.directory / ".." / "escape.img")), REFUSAL
+                elif variant == "readonly":
+                    pair, message = ("disk.dataPartition.initPath", "<temp>"), "Readonly image input escaped the selected SDK image"
+                else:
+                    pair, message = ("image.sysdir.2", "foreign-image"), "Image reference differs from fixed selected SDK input"
+                fixture.write_config((("disk.dataPartition.path", "<temp>"), pair))
+                self.assert_refused(fixture, message)
+                self.assertIs(fixture.guest.receipt[FACT], True)
+                if "mutable_path_refusal" in fixture.guest.receipt:
+                    self.assertIs(fixture.journal()[FACT], True)
+                    self.assertIs(fixture.guest.receipt["mutable_path_refusal"]["native_success_inferred"], False)
+                receipt = self.assert_prelaunch_disposed(fixture)
+                self.assertIs(receipt[FACT], True)
+                self.assertEqual(external.read_bytes(), b"untouched synthetic external data")
+
+    def test_documented_default_keeps_digest_and_root_refusals_before_launch(self):
+        for variant in ("config", "definition", "directory", "root"):
+            with self.subTest(variant=variant), GuestFixture() as fixture:
+                fixture.write_config()
+                fixture.guest.capture_avd(fixture.home)
+                if variant in ("config", "definition"):
+                    path = fixture.config if variant == "config" else fixture.definition
+                    path.write_bytes(path.read_bytes() + b"changed.synthetic=1\n")
+                else:
+                    path = fixture.directory if variant == "directory" else fixture.output / "avd"
+                    path.rename(path.with_name(path.name + "-old"))
+                    path.mkdir(mode=0o700)
+                with self.assertRaises(ValueError):
+                    fixture.guest.before_launch()
+                self.assertFalse(fixture.guest.launch_attempted)
+                receipt = fixture.dispose()
+                self.assertEqual(receipt["disposal_status"], "failed" if variant == "root" else "passed")
+                self.assertTrue(fixture.guest.closed)
+
+    def test_documented_default_keeps_regular_nofollow_and_single_link_mutable_guards(self):
+        for variant in ("regular", "symlink", "hardlink"):
+            with self.subTest(variant=variant), GuestFixture() as fixture:
+                data = fixture.directory / "owned-synthetic.img"
+                outside = fixture.root / "foreign-synthetic-data"
+                exclusive(outside, b"synthetic foreign target")
+                if variant == "symlink":
+                    data.symlink_to(outside)
+                elif variant == "hardlink":
+                    os.link(outside, data)
+                else:
+                    exclusive(data, b"synthetic unshared owned data")
+                fixture.write_config((("disk.dataPartition.path", "<temp>"), ("disk.synthetic.path", str(data))))
+                if variant == "regular":
+                    fixture.guest.capture_avd(fixture.home)
+                    self.assertIs(fixture.guest.receipt["mutable_paths_confined"], True)
+                else:
+                    self.assert_refused(fixture, "Mutable guest path is shared/symlinked")
+                self.assert_prelaunch_disposed(fixture)
+                self.assertEqual(outside.read_bytes(), b"synthetic foreign target")
+
+    def test_documented_default_keeps_child_transport_and_no_retry_disposal_gates(self):
+        for variant in ("known-exit", "live-child", "unknown-transport", "unknown-child"):
+            with self.subTest(variant=variant), GuestFixture() as fixture:
+                fixture.write_config()
+                fixture.guest.capture_avd(fixture.home)
+                fixture.guest.before_launch()
+                child = ModeledChild()
+                if variant != "unknown-child":
+                    fixture.guest.attach(child)
+                exclusive(fixture.directory / "userdata-qemu.img.qcow2", b"synthetic owned overlay")
+                child.running = variant == "live-child"
+                receipt = fixture.dispose(engine=True, transport=variant != "unknown-transport", clean=True)
+                succeeded = variant == "known-exit"
+                self.assertEqual(receipt["disposal_status"], "passed" if succeeded else "failed")
+                self.assertIs(receipt["roots_absent"], succeeded)
+                self.assertEqual((fixture.output / "avd").exists(), not succeeded)
+                self.assertTrue(fixture.guest.closed)
+                child.running = False
+                self.assertEqual(fixture.dispose(engine=True, transport=True, clean=True), receipt)
+
+    def test_only_new_branch_is_exact_pair_and_fixed_launch_has_no_userdata_overrides(self):
+        source = ast.parse(HELPER.read_text())
+        owner = next(node for node in source.body if isinstance(node, ast.ClassDef) and node.name == "OwnedFreshGuest")
+        capture = next(node for node in owner.body if isinstance(node, ast.FunctionDef) and node.name == "capture_avd")
+        loop = next(node for node in ast.walk(capture) if isinstance(node, ast.For) and
+                    isinstance(node.target, ast.Tuple) and [part.id for part in node.target.elts] == ["key", "value"])
+        expected = ast.parse('if key == "disk.dataPartition.path" and value == "<temp>":\n    pass\n').body[0].test
+        branches = [node for node in loop.body if isinstance(node, ast.If) and
+                    ast.dump(node.test, include_attributes=False) == ast.dump(expected, include_attributes=False)]
+        self.assertEqual(len(branches), 1)
+        branch = branches[0]
+        expected_body = ast.parse('self.receipt["' + FACT + '"] = True\ncontinue\n').body
+        self.assertEqual([ast.dump(node, include_attributes=False) for node in branch.body],
+                         [ast.dump(node, include_attributes=False) for node in expected_body])
+        self.assertEqual(branch.orelse, [])
+        loop.body.remove(branch)
+        self.assertEqual(hashlib.sha256(ast.dump(source, include_attributes=False).encode()).hexdigest(), BASE_MODULE_AST_SHA256)
+        caller = ast.parse((TREE / "scripts/ci/android_device_tests.py").read_text())
+        launches = [node for node in ast.walk(caller) if isinstance(node, ast.Assign) and
+                    any(isinstance(target, ast.Name) and target.id == "launch" for target in node.targets)]
+        self.assertEqual(len(launches), 1)
+        launch = launches[0]
+        self.assertEqual(hashlib.sha256(ast.dump(launch, include_attributes=False).encode()).hexdigest(), BASE_LAUNCH_AST_SHA256)
+        words = [node.value for node in ast.walk(launch.value) if isinstance(node, ast.Constant) and type(node.value) is str]
+        self.assertIn("-avd", words)
+        for forbidden_option in ("-data", "-datadir", "-qemu", "-fuchsia"):
+            self.assertNotIn(forbidden_option, words)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,0 +1,191 @@
+{
+  "C1": {
+    "accepted_Linux_graph_or142_query_replay_needed": false,
+    "accepted_current_applicable_scope": "Full Linux24-project/72-configuration graph,142 coordinates,79 observed artifact identities,108+34 old OSV observations/zero matches",
+    "accepted_revision": "a2ecd026dbaefdac0e5b77a81c035e10076672f1",
+    "expected_other_host_examples_not_observed_resolutions": [
+      "org.jetbrains.compose.desktop:desktop-jvm-linux-arm64:1.12.0",
+      "org.jetbrains.skiko:skiko-awt-runtime-linux-arm64:0.150.1",
+      "org.jetbrains.compose.desktop:desktop-jvm-macos-arm64:1.12.0",
+      "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64:0.150.1",
+      "org.jetbrains.compose.desktop:desktop-jvm-macos-x64:1.12.0",
+      "org.jetbrains.skiko:skiko-awt-runtime-macos-x64:0.150.1",
+      "org.jetbrains.compose.desktop:desktop-jvm-windows-x64:1.12.0",
+      "org.jetbrains.skiko:skiko-awt-runtime-windows-x64:0.150.1"
+    ],
+    "literal": "Repeat OSV/advisory checks against the full resolved JVM graph",
+    "no_expected_coordinate_treated_as_actual_query": true,
+    "reason": "Current matrix archives native/runtime/input/XML receipts, not full resolved-component graphs or new advisory/OSV observations.",
+    "remaining": "Actual differing host Desktop test/application-runtime coordinate sets and their new-coordinate advisories. Reuse the common accepted142 set; no full unchanged all-project recollection needed.",
+    "three_changed_declarations_do_not_change_Desktop_dependency_selection": true,
+    "upcoming_matrix_completes": false
+  },
+  "C2": {
+    "areas": [
+      {
+        "accepted_hosts": [
+          "desktop-linux-x64",
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-macos-x64"
+        ],
+        "area": "media",
+        "existing_minimal_method": "DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+        "missing_hosts": [
+          "desktop-linux-arm64"
+        ],
+        "upcoming_matrix_fills_remaining": false
+      },
+      {
+        "accepted_hosts": [],
+        "area": "TLS",
+        "missing_hosts": [
+          "desktop-linux-x64",
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-linux-arm64",
+          "desktop-macos-x64"
+        ],
+        "reason": "No current Desktop/consumer test performs a real HTTPS handshake or certificate-outcome assertion.",
+        "upcoming_matrix_fills_remaining": false
+      },
+      {
+        "accepted_hosts": [
+          "desktop-linux-x64"
+        ],
+        "area": "cookies",
+        "existing_minimal_method": "JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "missing_hosts": [
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-linux-arm64",
+          "desktop-macos-x64"
+        ],
+        "upcoming_matrix_fills_remaining": false
+      },
+      {
+        "accepted_hosts": [
+          "desktop-linux-x64",
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-macos-x64"
+        ],
+        "area": "navigation",
+        "missing_hosts": [
+          "desktop-linux-arm64"
+        ],
+        "scope": "Bounded actual navigation on every host; original criterion does not mandate replaying all older history/repeated-stop methods everywhere.",
+        "upcoming_matrix_fills_remaining": "Conditional on accepted Linuxarm64 actual302/public-Reload original XML/source/owned cleanup"
+      },
+      {
+        "accepted_hosts": [
+          "desktop-linux-x64"
+        ],
+        "area": "JavaScript policy",
+        "enabled_typed_JS_additional_hosts": [
+          "desktop-macos-arm64",
+          "desktop-macos-x64",
+          "desktop-windows-x64"
+        ],
+        "existing_minimal_method": "DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce",
+        "missing_hosts": [
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-linux-arm64",
+          "desktop-macos-x64"
+        ],
+        "reason": "Pending methods set javaScriptEnabled=true before mount; no disabled/default-off behavior.",
+        "upcoming_matrix_fills_remaining": false
+      },
+      {
+        "accepted_painted_content_oracle_hosts": [],
+        "area": "rendering",
+        "missing_painted_content_oracle_hosts": [
+          "desktop-linux-x64",
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-linux-arm64",
+          "desktop-macos-x64"
+        ],
+        "reason": "isVisible/isShowing, native/DOM document.title and Scene attachment do not assert actual rendered content.",
+        "upcoming_adds_visible_document_startup_on": [
+          "desktop-linux-arm64"
+        ],
+        "upcoming_matrix_fills_painted_content_oracle": false,
+        "visible_native_attachment_or_scene_startup_hosts": [
+          "desktop-linux-x64",
+          "desktop-macos-arm64",
+          "desktop-windows-x64",
+          "desktop-macos-x64"
+        ]
+      }
+    ],
+    "literal": "Regression-test media, TLS, cookies, navigation, JavaScript policy and rendering on all desktop hosts",
+    "no_all_codecs_TLS_protocols_driver_matrices_or_every_navigation_method_mandated": true,
+    "supported_hosts": [
+      "desktop-linux-x64",
+      "desktop-macos-arm64",
+      "desktop-windows-x64",
+      "desktop-linux-arm64",
+      "desktop-macos-x64"
+    ]
+  },
+  "C3": {
+    "literal": "Document whether sandboxed untrusted-code execution is supported",
+    "minimal_action": "Owner/lead documents the actual supported sandboxed-untrusted-Java policy after source review; documentation, not an additional native/exploit test.",
+    "proposal": "docs/development/evidence/javafx21-current-security-20261101/review001/PROPOSED_TRUST_BOUNDARY.md",
+    "source_absence_not_adopted_policy": true,
+    "status": "Unfulfilled: only proposed/not-adopted support wording exists",
+    "upcoming_matrix_completes": false
+  },
+  "all_original_criteria_complete": false,
+  "current_source_pin": {
+    "Java": "17",
+    "JavaFX": "21.0.13",
+    "current_stable_pin_artifact_evidence_reused_from_review001": true,
+    "not_all_three_acceptance_criteria": true,
+    "original_media19_version_match_removed": true,
+    "six_modules_aligned": true
+  },
+  "issue": 144,
+  "kind": "literal-original-criteria-applicability",
+  "no_closure_from_compilation": true,
+  "no_unrelated_release_gate_used_to_delay_literal_whole_issue_closure": true,
+  "source_revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+  "upcoming_profile": {
+    "accepted_cases_selected_for_replay": 0,
+    "distinct_methods": 3,
+    "max_parallel": 2,
+    "missing_target_executions": 10,
+    "name": "webview-desktop-request-state",
+    "new_runtime_acceptance_from_this_review": 0,
+    "required_original_XML": 9,
+    "rows": [
+      {
+        "focus": "webview-desktop-request-state",
+        "slot": "desktop-linux-x64",
+        "unaccepted_method_executions": 1
+      },
+      {
+        "focus": "webview-desktop-request-state-stop",
+        "slot": "desktop-macos-arm64",
+        "unaccepted_method_executions": 2
+      },
+      {
+        "focus": "webview-desktop-request-state-stop",
+        "slot": "desktop-windows-x64",
+        "unaccepted_method_executions": 2
+      },
+      {
+        "focus": "webview-desktop-request-state-stop-redirect",
+        "slot": "desktop-linux-arm64",
+        "unaccepted_method_executions": 3
+      },
+      {
+        "focus": "webview-desktop-request-state-stop",
+        "slot": "desktop-macos-x64",
+        "unaccepted_method_executions": 2
+      }
+    ]
+  }
+}

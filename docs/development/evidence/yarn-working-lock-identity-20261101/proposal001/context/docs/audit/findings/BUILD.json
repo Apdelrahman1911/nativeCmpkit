@@ -1,0 +1,546 @@
+[
+  {
+    "id": "BUILD-001",
+    "title": "Desktop WebView POM hard-codes the publisher OS in JavaFX dependencies",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "lines": "9-18",
+        "symbol": "platform"
+      },
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "lines": "41-47",
+        "symbol": "desktopMain.dependencies"
+      }
+    ],
+    "root_cause": "The desktop dependency classifiers are chosen from OperatingSystem.current() and os.arch during producer configuration, not the consumer runtime or a published OS-specific variant.",
+    "impact": "The same calf-webview-desktop coordinate encodes one operating system. A consumer on another OS receives the wrong JavaFX native artifacts unless it overrides dependency selection. The audit-generated Linux POM proves host capture; a cross-OS application launch was not executed.",
+    "recommendation": "Model OS/architecture-aware desktop variants or require an explicit consumer JavaFX runtime dependency. Keep JavaFX modules aligned and add isolated published-metadata consumer fixtures for Linux/macOS/Windows; do not simply replace every classifier with the current migration host.",
+    "risks": "Changing Maven/Gradle metadata can affect existing consumers and duplicate transitive JavaFX modules. Validate both POM-only and Gradle-module-metadata clients.",
+    "required_tests": [
+      "Generate POM and Gradle module metadata on two different hosts and compare dependency selectors",
+      "Resolve and launch a desktop WebView consumer on Linux x64, macOS arm64/x64 and Windows x64",
+      "Verify native classifier availability for every advertised architecture"
+    ],
+    "evidence": [
+      "Baseline local task :calf-webview:generatePomFileForDesktopPublication passed; no publication occurred",
+      "docs/testing/evidence/baseline-webview-desktop-linux.pom contains classifier linux on all six JavaFX 19 modules",
+      "docs/testing/evidence/baseline-task-inventory-and-webview-pom.log records the successful command"
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-002",
+    "title": "Pinned JavaFX media 19 matches a published low-severity security advisory",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/build.gradle.kts",
+        "lines": "42-47",
+        "symbol": "JavaFX 19 dependencies"
+      }
+    ],
+    "root_cause": "All JavaFX modules are fixed at 19; OSV/GitHub-reviewed GHSA-47g3-mf24-6559 explicitly lists org.openjfx:javafx-media:19 as affected by CVE-2024-20925.",
+    "impact": "A dependency-advisory match is confirmed, NOT exploitation in this library. The advisory is LOW, CVSS 3.1, requires human interaction, and describes sandboxed clients executing untrusted code; applicability to ordinary trusted desktop applications must be separately assessed.",
+    "recommendation": "Choose a maintained, JDK-compatible JavaFX line, upgrade all JavaFX modules together and verify its current advisories. Advisory fixed branches include 17.0.10 and 21.0.2, but these historical minima are not a recommendation to stop updating there.",
+    "risks": "JavaFX/JDK minimum versions and WebKit behavior can change. Do not describe an old dependency as arbitrary-code execution without a reachable, verified exploit path.",
+    "required_tests": [
+      "Repeat OSV/advisory checks against the full resolved JVM graph",
+      "Regression-test media, TLS, cookies, navigation, JavaScript policy and rendering on all desktop hosts",
+      "Document whether sandboxed untrusted-code execution is supported"
+    ],
+    "evidence": [
+      "45 exact direct Maven name/version queries returned one match",
+      "docs/testing/evidence/osv-direct-maven-query.json",
+      "docs/testing/evidence/advisory-GHSA-47g3-mf24-6559.json"
+    ],
+    "upstream_refs": [
+      "https://osv.dev/vulnerability/GHSA-47g3-mf24-6559",
+      "https://www.oracle.com/security-alerts/cpujan2024.html"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "BUILD-001"
+    ]
+  },
+  {
+    "id": "BUILD-003",
+    "title": "Any nonempty prebuilt native subdirectory suppresses every local native build",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker",
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/build.gradle.kts",
+        "lines": "33-39",
+        "symbol": "hasPrebuiltNativeLibs"
+      },
+      {
+        "path": "calf-share/build.gradle.kts",
+        "lines": "29-33",
+        "symbol": "hasPrebuiltNativeLibs"
+      }
+    ],
+    "root_cause": "The prebuilt predicate accepts any nonempty immediate directory. It does not check the host target, expected library filename, source revision, JNI ABI, package version, checksum, or complete publication platform matrix.",
+    "impact": "A partial/stale/foreign-platform artifact folder silently bypasses Rust compilation and is packaged as trusted resources. Desktop consumers can fail with missing native libraries or receive binaries unrelated to the checked-out Kotlin/Rust source. This is an integrity/release-readiness defect, not evidence of malicious binaries.",
+    "recommendation": "Introduce a native artifact manifest keyed by module, target, source revision and ABI/version; validate required filenames and checksums before skipping a build. Use explicit developer-host vs release-matrix tasks and fail closed for incomplete release inputs.",
+    "risks": "Must preserve offline/prebuilt developer workflows and distinguish source builds from full release assemblies. A checksum manifest must itself be tied to trusted CI provenance.",
+    "required_tests": [
+      "Test empty, irrelevant-file-only, wrong-platform, corrupt, stale-revision and missing-library directories",
+      "Verify full artifact manifests before assembling candidate desktop JARs",
+      "Load each candidate binary and check JNI symbol compatibility on its intended host"
+    ],
+    "evidence": [
+      "The exact predicates contain only exists/isDirectory/listFiles().isNotEmpty checks",
+      "The Rust build/copy tasks are entirely absent when the predicate is true"
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-004",
+    "title": "Packaged native platform matrix omits Linux arm64 and Windows arm64 paths expected by loaders",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker",
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "20-180",
+        "symbol": "native platform build jobs"
+      },
+      {
+        "path": "calf-file-picker/native/build-all-targets.sh",
+        "lines": "48-62",
+        "symbol": "build_target matrix"
+      },
+      {
+        "path": "calf-file-picker/build.gradle.kts",
+        "lines": "47-63",
+        "symbol": "nativeLibProps"
+      },
+      {
+        "path": "calf-share/build.gradle.kts",
+        "lines": "38-54",
+        "symbol": "nativeLibProps"
+      }
+    ],
+    "root_cause": "CI produces macOS arm64/x64, Windows x64 and Linux x64 only. Host Gradle nativeLibProps supports Linux arm64, while native loaders also describe Windows arm64 resource paths; neither is produced by the baseline release pipeline.",
+    "impact": "An advertised generic desktop artifact does not contain matching native file-picker resources for these ARM hosts; manual system-library provisioning or a local build may be required. Share behavior differs by OS and must not be claimed equivalent to macOS sharing.",
+    "recommendation": "Publish a precise support matrix. Add native-arm64 builders/cross-compilation with load smoke tests where support is intended, or report unsupported architectures clearly before attempting native extraction.",
+    "risks": "Cross-compilation can produce binaries with incompatible glibc/SDK baselines even when compilation succeeds. Windows arm64 host matching and toolchain setup also need implementation work.",
+    "required_tests": [
+      "Assert required resource paths against the documented supported-platform matrix",
+      "Run JNI load and dialog cancellation tests on real Linux arm64 and Windows arm64 if claiming support",
+      "Verify glibc/SDK minimum compatibility of produced binaries"
+    ],
+    "evidence": [
+      "CI has three OS jobs and four target triples total",
+      "build-all-targets.sh linux branch only invokes x86_64-unknown-linux-gnu"
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": [
+      "BUILD-003"
+    ]
+  },
+  {
+    "id": "BUILD-005",
+    "title": "Native release binaries have unlocked Rust dependencies and a floating compiler",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-file-picker",
+      "calf-share",
+      "CI"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/native/.gitignore",
+        "lines": "1-2",
+        "symbol": "Cargo.lock exclusion"
+      },
+      {
+        "path": "calf-share/native/.gitignore",
+        "lines": "1-2",
+        "symbol": "Cargo.lock exclusion"
+      },
+      {
+        "path": "calf-file-picker/native/Cargo.toml",
+        "lines": "9-16",
+        "symbol": "dependency constraints"
+      },
+      {
+        "path": "calf-share/native/Cargo.toml",
+        "lines": "9-16",
+        "symbol": "dependency constraints"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "26-39",
+        "symbol": "Rust toolchain and cache"
+      }
+    ],
+    "root_cause": "Both cdylib projects ignore Cargo.lock, dependencies use compatible ranges, CI installs dtolnay/rust-toolchain@stable and cargo build omits --locked. These are shipped binary inputs, not only source-library development constraints.",
+    "impact": "The same Git commit can produce different dependency graphs and binaries over time or from different registry caches. Vulnerability and license inventories cannot be tied reliably to a released native artifact.",
+    "recommendation": "Commit and maintain both Cargo.lock files, pin rust-toolchain.toml, build with --locked, include locks/toolchain/target in cache keys and retain per-target dependency/license/provenance manifests. Review lock updates rather than suppressing advisories globally.",
+    "risks": "A lockfile generated during this audit reflects 2026-10-24 resolution, not the original release graph. Do not present it as the historical shipped graph.",
+    "required_tests": [
+      "Build one revision from empty caches twice and compare package graphs and reproducibility metadata",
+      "Reject changed dependency resolution under --locked",
+      "Verify CI uses the exact pinned Rust toolchain for every target"
+    ],
+    "evidence": [
+      "Audit online cargo metadata resolved 197 file-picker packages and 48 share packages including roots",
+      "202 unique non-root name/version pairs were queried in OSV",
+      "The first offline share resolution and subsequent online picker resolution selected different compatible versions of shared dependencies"
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-006",
+    "title": "Verification pipeline does not gate platform behavior, consumer compatibility, or native correctness",
+    "priority": "High",
+    "status": "improvement",
+    "modules": [
+      "all modules",
+      "CI"
+    ],
+    "locations": [
+      {
+        "path": ".github/workflows/gradle.yml",
+        "lines": "20-61",
+        "symbol": "build job and allTests invocation"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "49-64",
+        "symbol": "native build-only tasks"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Android.kt",
+        "lines": "33-37",
+        "symbol": "withHostTest"
+      },
+      {
+        "path": "convention-plugins/src/main/kotlin/Targets.kt",
+        "lines": "11-22",
+        "symbol": "declared targets"
+      }
+    ],
+    "root_cause": "Only 86 upstream Kotlin @Test functions exist (69 UI, 9 picker, 6 IO, 2 navigation), with no Rust test functions, Android device tests or iOS-specific test sources. The baseline main CI runs allTests on one macOS host and compiles native libraries without behavioral tests. No API/ABI snapshot or external consumer gate is configured.",
+    "impact": "A green task aggregate cannot establish platform parity, JNI lifecycle safety, Android permissions/device behavior, iOS delegate correctness, browser functionality, or binary/source compatibility. The audit found real defects in areas outside this test surface.",
+    "recommendation": "Create layered CI: common unit tests; Linux/macOS/Windows desktop tests and native smoke tests; JS/Wasm browser tests; Android host plus device/API-matrix tests; Apple simulator/device lifecycle tests; sample builds; candidate-artifact consumer and API/ABI compatibility checks. Retain machine-readable results and distinguish NO-SOURCE/SKIPPED from tests passed.",
+    "risks": "GUI tests require deterministic dialogs, timezone, locale and UI-thread scheduling. A much larger matrix should be phased by risk and avoid publishing as part of verification.",
+    "required_tests": [
+      "Verify per-module test counts are nonzero where expected",
+      "Exercise all regressions listed in module finding required_tests",
+      "Build isolated minimum-supported-SDK and Kotlin/Compose-version consumers",
+      "Assert Kotlin/JNI/Swift API compatibility against the retained compatibility surface"
+    ],
+    "evidence": [
+      "docs/testing/evidence/baseline-test-inventory.json enumerates all 86 annotations in 13 executable test files plus 2 helper files",
+      "Both native src/lib.rs files contain zero #[test] annotations",
+      "Baseline build workflow invokes only ./gradlew allTests; no external consumer fixture or device runner is configured"
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/546",
+      "https://github.com/MohamedRejeb/Calf/issues/23",
+      "https://github.com/MohamedRejeb/Calf/issues/528"
+    ],
+    "effort": "XL",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-007",
+    "title": "Dependency and workflow trust is not reproducibly verified beyond the wrapper",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "build tooling",
+      "CI"
+    ],
+    "locations": [
+      {
+        "path": "settings.gradle.kts",
+        "lines": "3-22",
+        "symbol": "plugin and dependency repositories"
+      },
+      {
+        "path": "convention-plugins/build.gradle.kts",
+        "lines": "22-30",
+        "symbol": "build-time plugin dependencies"
+      },
+      {
+        "path": ".gitignore",
+        "lines": "73-75",
+        "symbol": "kotlin-js-store exclusion"
+      },
+      {
+        "path": ".github/workflows/mkdocs.yml",
+        "lines": "12-24",
+        "symbol": "unpinned actions and pip installs"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "24-39",
+        "symbol": "mutable action references"
+      }
+    ],
+    "root_cause": "No Gradle dependency verification metadata or dependency locks are tracked; generated Kotlin JS lock storage is ignored; workflow actions use mutable tags; MkDocs installs unconstrained packages. HTTPS and version pins alone do not authenticate all build inputs or freeze transitive graphs.",
+    "impact": "Future builds can execute changed third-party plugin/action/install code or resolve different transitive dependencies. This is a supply-chain risk; the audit found no evidence of a compromised build input.",
+    "recommendation": "Maintain Gradle verification metadata and dependency locks, track generated JS package-manager locks with frozen installs, pin actions to reviewed full SHAs, lock Python tooling, and add dependency/license/SBOM review. Keep pull-request workflows read-only and publication credentials in owner-gated protected environments.",
+    "risks": "Verification bootstrap must use independently trusted artifacts; auto-accepting every new checksum defeats the control. Locking all KMP target graphs requires cross-platform CI coordination.",
+    "required_tests": [
+      "Reject an intentionally modified downloaded build artifact in a local verification fixture",
+      "Check frozen JS/Python dependency installation from empty caches",
+      "Validate action SHA updates and least-privilege workflow permissions",
+      "Re-run full resolved-graph security scans after dependency updates"
+    ],
+    "evidence": [
+      "Wrapper JAR and distribution hashes DO match official Gradle 9.7.1: this is a positive control, not a wrapper vulnerability",
+      "548 baseline text-like files passed a narrow secret-marker scan; it was not a full historical or entropy-based secret audit",
+      "docs/testing/evidence/registry-version-checks.json and baseline-secret-marker-scan.json"
+    ],
+    "upstream_refs": [],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-008",
+    "title": "Release version input is embedded directly in executable shell scripts",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "CI"
+    ],
+    "locations": [
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "42-46",
+        "symbol": "Cargo version stamping"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "102-107",
+        "symbol": "Windows version stamping"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "156-160",
+        "symbol": "Linux version stamping"
+      },
+      {
+        "path": ".github/workflows/deploy.yml",
+        "lines": "121-158",
+        "symbol": "version updates and release branch creation"
+      }
+    ],
+    "root_cause": "workflow_dispatch/workflow_call version strings are interpolated as ${{ inputs.version }} inside shell code before the shell parses it. Quoting the surrounding sed/git command does not make arbitrary GitHub expression text safe.",
+    "impact": "A crafted or malformed version may alter shell execution or corrupt manifests. Dispatchers are authenticated repository actors, so this is not an unauthenticated pull-request exploit. Release jobs also expose privileged credentials, increasing the value of a separate release-input boundary.",
+    "recommendation": "Pass version via an environment variable, validate a narrowly specified version grammar before all use, and use TOML-aware updates or safe arguments rather than string-built shell code. Require explicit owner approval for publication. Migration disables/removes the unsafe release paths; do not restore them unchanged.",
+    "risks": "Version grammars must deliberately handle snapshots/prereleases without permitting arbitrary shell/sed metacharacters. Removing old workflows is mitigation, not proof a future release workflow is safe.",
+    "required_tests": [
+      "Validate accepted semantic version/prerelease examples",
+      "Reject command substitution, quotes, newlines, sed delimiters, branch path traversal and empty versions",
+      "Exercise stamp/update helpers against temporary manifests without any credentials or remote publication"
+    ],
+    "evidence": [
+      "Expressions are present literally inside sed double-quoted programs and branch/commit command text at the cited baseline lines",
+      "No malicious workflow input was sent to GitHub during this audit"
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-009",
+    "title": "Pinned JetBrains-only daemon prevents use of installed JDK 17 and contradicts CI setup",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "build tooling"
+    ],
+    "locations": [
+      {
+        "path": "gradle/gradle-daemon-jvm.properties",
+        "lines": "2-13",
+        "symbol": "daemon vendor criteria"
+      },
+      {
+        "path": ".github/workflows/gradle.yml",
+        "lines": "36-40",
+        "symbol": "Temurin 17 setup"
+      }
+    ],
+    "root_cause": "Gradle daemon JVM criteria require JETBRAINS 17 and override ordinary launcher selection. A machine with supported OpenJDK/Temurin 17 therefore needs another vendor download; the CI setup installs Temurin, not the specified vendor.",
+    "impact": "The unmodified baseline fails before project configuration in offline/no-provisioning environments despite JDK 17 being installed. Online provisioning may hide the issue but adds network/vendor dependence and startup downloads.",
+    "recommendation": "Accept an installed compatible JDK 17 regardless of vendor unless a documented tested build requirement demands JetBrains. The migration already removes the vendor restriction; keep a JDK-install prerequisite rather than undocumented vendor-specific URLs.",
+    "risks": "Runtime recommendations for Compose applications may differ from the build daemon JDK and should be documented independently.",
+    "required_tests": [
+      "Configure the unmodified migrated tree with installed Temurin/OpenJDK 17 and provisioning disabled",
+      "Exercise CI runner JDK selection and record the actual daemon version"
+    ],
+    "evidence": [
+      "docs/testing/evidence/baseline-desktop-offline.log records Cannot find a Java installation matching vendor=JetBrains",
+      "Renaming only the criteria file in the detached baseline allowed convention compilation and task/POM generation",
+      "Migrated minimal toolchainVersion=17 criteria succeeded with the installed JDK17"
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "BUILD-010",
+    "title": "Desktop resource processing always invokes an untracked release-mode Cargo build",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-file-picker",
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/build.gradle.kts",
+        "lines": "67-99",
+        "symbol": "buildNativeLib/copyNativeLib/resource dependency"
+      },
+      {
+        "path": "calf-share/build.gradle.kts",
+        "lines": "58-88",
+        "symbol": "buildNativeLib/copyNativeLib/resource dependency"
+      }
+    ],
+    "root_cause": "Each native Exec task sets outputs.upToDateWhen { false }, declares no source/lock/toolchain inputs or output library, and is attached to desktopProcessResources. A local test or resource build therefore invokes cargo build --release even when native inputs are unchanged.",
+    "impact": "Gradle cannot skip/cache the native task, Rust becomes a prerequisite for JVM-only test work, and local builds do repeated process/toolchain/dependency-resolution work. Cargo may itself reuse compiled objects, so this is not a claim that every invocation recompiles all Rust code.",
+    "recommendation": "Declare target-specific inputs/outputs and lock/toolchain inputs; separate developer-host native builds, test fixtures and full release assemblies. Preserve correct rebuilds when JNI symbols or Rust source change.",
+    "risks": "Incorrect incremental inputs can silently ship stale binaries, which is worse than redundant work; implement alongside native manifest validation.",
+    "required_tests": [
+      "Run identical desktop resource tasks twice and assert the native Gradle task is UP-TO-DATE or FROM-CACHE",
+      "Modify Rust source, lockfile and toolchain independently and assert rebuilds",
+      "Verify JVM unit tests can run without building irrelevant platform binaries"
+    ],
+    "evidence": [
+      "The explicit outputs.upToDateWhen { false } occurs in both module build scripts",
+      "No Gradle native task inputs/outputs are declared in either task block"
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "BUILD-003",
+      "BUILD-005"
+    ]
+  },
+  {
+    "id": "BUILD-011",
+    "title": "Release staging duplicates both native libraries into both desktop artifacts",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "CI",
+      "calf-file-picker",
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "66-79",
+        "symbol": "combined macOS artifact staging"
+      },
+      {
+        "path": ".github/workflows/build-native-libs.yml",
+        "lines": "117-128",
+        "symbol": "combined Windows artifact staging"
+      },
+      {
+        "path": ".github/workflows/deploy.yml",
+        "lines": "54-88",
+        "symbol": "duplicated artifact downloads"
+      },
+      {
+        "path": ".github/workflows/gradle.yml",
+        "lines": "85-119",
+        "symbol": "snapshot artifact downloads"
+      }
+    ],
+    "root_cause": "Each native-libs-<os> artifact contains both picker and share binaries, and the complete artifact is downloaded into both modules resources/native directories without filtering.",
+    "impact": "Both desktop JAR resource trees contain unrelated native binaries, increasing artifact size and duplicating classpath resource paths. This also accidentally satisfies the permissive prebuilt detector when only the unrelated library is available.",
+    "recommendation": "Upload per-module native artifacts or filter each download against an explicit module manifest. Add expected-resource-path and archive-size checks before any future publication.",
+    "risks": "Changes must keep all required target binaries while avoiding accidental removal of dependent resources. Baseline workflows are disabled during migration; do not recreate the staging bug in replacement release automation.",
+    "required_tests": [
+      "Inspect candidate picker/share JARs and assert only that module native library paths are included",
+      "Assert no duplicate library resources across the two artifact manifests",
+      "Test missing-module artifacts fail the prebuilt check"
+    ],
+    "evidence": [
+      "build-native-libs.yml copies both libcalf_filepicker_native and libcalf_share_native into one native-libs tree",
+      "Both publication workflows download each same named artifact twice into different module roots"
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": [
+      "BUILD-003"
+    ]
+  },
+  {
+    "id": "BUILD-012",
+    "title": "Resolved Linux picker graph contains three newly unmaintained D-Bus crates",
+    "priority": "Low",
+    "status": "risk",
+    "modules": [
+      "calf-file-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-file-picker/native/Cargo.toml",
+        "lines": "10-12",
+        "symbol": "rfd transitive dependency graph"
+      }
+    ],
+    "root_cause": "Audit-time resolution of rfd 0.15.4 uses the XDG portal/ashpd/zbus graph containing zvariant 5.15.1, zvariant_derive 5.15.1 and zbus_names 4.3.5. RustSec marks these standalone crates unmaintained after consolidation into zbus 6.",
+    "impact": "This is a maintenance warning, NOT a confirmed exploitable vulnerability and not proof of the dependency versions in any historical Calf binary. Future fixes may require moving rfd/ashpd/zbus together rather than a direct crate override.",
+    "recommendation": "Track rfd portal-stack upgrades and their platform requirements, test a maintained dependency chain, and document/triage informational advisories separately from security vulnerabilities. Retain exact lock/provenance data for candidate releases.",
+    "risks": "Forcing incompatible zbus major versions through transitive overrides can break compilation or portal behavior. Preserve GTK/XDG portal behavior and cancellation semantics.",
+    "required_tests": [
+      "Re-run OSV/RustSec on pinned complete Rust graphs",
+      "Exercise portal file open/save/folder/multiple selection and cancellation on Linux",
+      "Verify supported desktop/session bus environments and any new compiler requirements"
+    ],
+    "evidence": [
+      "202 exact non-root Rust name/version pairs were queried; three matches were informational unmaintained advisories only",
+      "docs/testing/evidence/osv-resolved-rust-query.json",
+      "docs/testing/evidence/advisory-RUSTSEC-2026-0370.json, advisory-RUSTSEC-2026-0371.json, advisory-RUSTSEC-2026-0372.json"
+    ],
+    "upstream_refs": [
+      "https://rustsec.org/advisories/RUSTSEC-2026-0370.html",
+      "https://rustsec.org/advisories/RUSTSEC-2026-0371.html",
+      "https://rustsec.org/advisories/RUSTSEC-2026-0372.html",
+      "https://github.com/z-galaxy/zbus/issues/2043"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "BUILD-005"
+    ]
+  }
+]

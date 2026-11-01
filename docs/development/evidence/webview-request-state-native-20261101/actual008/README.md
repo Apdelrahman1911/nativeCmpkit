@@ -1,0 +1,11 @@
+# Actual008 iOS request/DNS — compiler refusal preserved
+
+Run **41272449374**, attempt 1, at `5705781330ba97fc86ba6faa748c70e35879b9bf` is **FAILED**. Tooling succeeds; the one native job fails only step 17.
+
+- Gradle **exit 1 / 685.46 s**. Original compiler diagnostic: `IosWebViewRequestAcceptanceTest.kt:237:17`, **`'val' cannot be reassigned.`**, at `timeoutInterval = 2.0`; `:calf-webview:compileTestKotlinIosSimulatorArm64` fails before the application task.
+- **ZERO actual native methods, ZERO task markers, ZERO original XML and ZERO application/Worker/WK/fixture receipts.** No failed DNS/TLS/network/launch cause or native success is inferred. The two request methods and one DNS method remain unexecuted; accepted other 11 iOS methods were not selected.
+- Independently verified **1101 library / 1178 frozen combined inputs**, 1111 immutable Git blobs. Both original 1101-library maps are byte-identical to the frozen map; recorded source-defined input digests and run-runtime SHA match. **No actual combined map was uploaded.**
+- One original artifact and one relevant original job log acquired once, no retries. Artifact SHA256 `082746dc603191eac66ce4a2865b225b0b0fee825def71eed9001b358498d1a0` matches the server digest; all 12 original regular JSON file hashes/sizes match. Raw logs, packages, lease/environment values and native error bodies remain private. Extraction mtimes do not establish runner freshness.
+- Actual clean Darwin arm64 / Xcode 26.6 / simulator SDK 26.5 runtime is observed before Gradle; the same pre-existing iPhone-Air changes Shutdown→Booted. This native job has no explicit simulator shutdown/delete/restored-state evidence; generic post-job cleanup is not that evidence. No disposable simulator was created, and no deletion of a pre-existing simulator is authorized. Application and fixture cleanup phases were not reached after the compiler refusal.
+
+**Scope:** zero independently accepted iOS criterion-1 rows or criterion 3. No issue closure, new native criterion, publication, release/security/dependency clearance or capacity-policy change. Same three unexecuted owning methods only after a separately reviewed compiler repair; no accepted-other-method replay or substitution. `SOURCE-REVIEW.json` contains 18 source-only obligations, not test/native passes.

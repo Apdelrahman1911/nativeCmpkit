@@ -461,4 +461,55 @@ class DeclaredYarnClosureModelTest {
         write(lockPath, header + stanza("parent"))
         assertEquals(1, check().reachableStanzas) // A lock checker cannot independently recover omitted metadata.
     }
+
+    @Test fun storedPathCannotSubstituteForAnAbsentWorkingLock() {
+        val result = check()
+        val working = "generated/yarn.lock"
+        val original = Files.readAllBytes(root.resolve(lockPath))
+        val expectedInputs = result.inputs.toList()
+        assertFalse(Files.exists(root.resolve(working)))
+
+        val failure = rejected("working-lock-alias") { result.requireWorkingLock(lockPath) }
+        assertEquals(lockPath, failure.source)
+        assertEquals(listOf(lockPath, lockPath), failure.inputs.map { it.path })
+        assertFalse(Files.exists(root.resolve(working)))
+        assertTrue(original.contentEquals(Files.readAllBytes(root.resolve(lockPath))))
+        assertEquals(expectedInputs, result.inputs)
+
+        // The new identity refusal must still admit an independent, identical working copy.
+        write(working, original)
+        val accepted = result.requireWorkingLock(working)
+        assertEquals(working, accepted.path)
+        assertEquals(expectedInputs.first().sha256, accepted.sha256)
+        result.recheck()
+    }
+
+    @Test fun hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted() {
+        val result = check()
+        val working = "generated/yarn.lock"
+        val stored = root.resolve(lockPath)
+        val target = root.resolve(working)
+        val original = Files.readAllBytes(stored)
+        try {
+            Files.createLink(target, stored)
+        } catch (error: UnsupportedOperationException) {
+            assumeNoException("This one fixture requires hard-link creation support", error)
+        } catch (error: FileSystemException) {
+            assumeNoException("Hard-link setup is unavailable for this one fixture", error)
+        }
+        // Only creation capability may skip. Identity readback and rejection assertions must run.
+        assertTrue(Files.isSameFile(stored, target))
+        val failure = rejected("working-lock-alias") { result.requireWorkingLock(working) }
+        assertEquals(working, failure.source)
+        assertEquals(listOf(lockPath, working), failure.inputs.map { it.path })
+        assertTrue(original.contentEquals(Files.readAllBytes(stored)))
+        assertTrue(original.contentEquals(Files.readAllBytes(target)))
+
+        Files.delete(target)
+        write(working, original)
+        assertFalse(Files.isSameFile(stored, target))
+        assertEquals(result.inputs.first().sha256, result.requireWorkingLock(working).sha256)
+        result.recheck()
+    }
+
 }

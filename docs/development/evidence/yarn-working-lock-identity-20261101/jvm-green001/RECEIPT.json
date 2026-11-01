@@ -1,0 +1,62 @@
+{
+  "additional_observer_input": {
+    "docs/development/evidence/yarn-working-lock-identity-20261101/convention-jvm-observe.init.gradle.kts": "f149799887b7b6a32546e02464741fc2e169a8594c360f854e8de7fa05e9ce3b"
+  },
+  "base_head": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+  "cases": [
+    {
+      "classname": "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest",
+      "name": "storedPathCannotSubstituteForAnAbsentWorkingLock",
+      "status": "passed"
+    },
+    {
+      "classname": "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest",
+      "name": "hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted",
+      "status": "passed"
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "-p",
+    "convention-plugins",
+    "compileKotlin",
+    "compileTestKotlin",
+    "test",
+    "--tests",
+    "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.storedPathCannotSubstituteForAnAbsentWorkingLock",
+    "--tests",
+    "io.github.apdelrahman1911.nativecmpkit.buildlogic.DeclaredYarnClosureModelTest.hardLinkedWorkingLockIsRefusedAndAnIndependentReplacementIsAccepted",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--no-build-cache",
+    "--max-workers=1",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx1024m -XX:MaxMetaspaceSize=384m -XX:ActiveProcessorCount=1 -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "../docs/development/evidence/yarn-working-lock-identity-20261101/convention-jvm-observe.init.gradle.kts"
+  ],
+  "core_sha256": "aebb60943287905e5d303870790319c009a253d66ab7fc0d2b8c631bb86b1049",
+  "daemon_jvm": [
+    {
+      "gradle_version": "9.7.1",
+      "major": 17
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 28.01,
+    "exit_code": 0
+  },
+  "existing_accepted_methods_replayed": 0,
+  "free_bytes_after": 43816095744,
+  "free_bytes_before": 43818442752,
+  "fresh_original_XML": true,
+  "input_count": 1101,
+  "inputs_held": true,
+  "kind": "actual-new-only-JVM-regression-green-not-native-or-security",
+  "raw_private_log_sha256": "92038a02e5e74adbca41828e62624855a08725a83f3455bf81674e6d68816c58",
+  "root_dependency_policy_or_native_security_readiness": false,
+  "test_sha256": "72195f87dd6ae24390abb9f1e5de3652fed1d0646be345f52451137da3e6bada"
+}

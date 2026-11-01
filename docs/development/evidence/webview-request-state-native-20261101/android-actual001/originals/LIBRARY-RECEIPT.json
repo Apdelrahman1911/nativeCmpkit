@@ -1,0 +1,140 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest#twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl,com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest#publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+    ":calf-webview:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Expected exactly one fresh task execution marker",
+      "markers": 0,
+      "module": "calf-webview"
+    },
+    {
+      "error": "Android WebView request XML must contain exactly both new native methods, no missing/duplicate or unrelated cases",
+      "module": "calf-webview"
+    },
+    {
+      "error": "No actual non-skipped library testcases",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 41.01,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "android-webview-request-state",
+  "finished_at_utc": "2026-11-01T04:35:30.974064+00:00",
+  "finite_only_device_modules_not_requested": [
+    "calf-permissions/core"
+  ],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "55cd36afda6bcb4cb0caa2d610ac19d9b02eea2ecd1012d1f46e8a0c01005064",
+  "inputs_before_sha256": "55cd36afda6bcb4cb0caa2d610ac19d9b02eea2ecd1012d1f46e8a0c01005064",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 0,
+      "failures": 0,
+      "module": "calf-webview",
+      "native_scenarios": [],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [],
+      "skipped": 0,
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "testcases": [],
+      "tests": 0,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+    }
+  ],
+  "runtime_receipt_sha256": "9debb0804993bac71ff60083665d431167991a05c52f8c63e635918adba6de24",
+  "schema_version": 1,
+  "scope": "Two new actual API35 Chromium methods: held zero-response fail/fail/recovery/native-Reload, and public navigator Stop with pre-cleanup peer EOF plus actual owned302 redirect/current-final-URL Reload on the unchanged real Activity/Compose owner. Normal callbacks forward before same-owner observations; actual starts reset metadata/errors, and Reload must use the native current URL rather than retained declarative content. No accepted test replay, DNS/TLS/offline/all-target/minimum/physical/ABI/consumer/security/release certification.",
+  "source_revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+  "source_revision_after": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-01T04:34:49.963550+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-webview:connectedAndroidDeviceTest": 0
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/core",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 0,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 0,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

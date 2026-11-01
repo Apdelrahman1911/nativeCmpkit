@@ -1,0 +1,51 @@
+{
+  "additions": [
+    {
+      "must_be_absent": true,
+      "patch": "addition-001-guard.patch",
+      "paths": [
+        "scripts/ci/test_android_camera_documented_data_default.py"
+      ]
+    },
+    {
+      "must_be_absent": true,
+      "patch": "addition-002-evidence.patch",
+      "paths": [
+        "docs/development/evidence/camera-documented-data-default-20261101/README.md",
+        "docs/development/evidence/camera-documented-data-default-20261101/baseline-result.json",
+        "docs/development/evidence/camera-documented-data-default-20261101/candidate-result.json",
+        "docs/development/evidence/camera-documented-data-default-20261101/packaging-refusal.json",
+        "docs/development/evidence/camera-documented-data-default-20261101/source-review.json"
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "expected_count": 1,
+      "new": "fragment-001-new.txt",
+      "old": "fragment-001-old.txt",
+      "order": 1,
+      "path": "scripts/ci/android_camera_developer_prerequisite.py",
+      "postimage_sha256": "5a98e9765fca3542c09a707da3a27098a71ac597f38a54447d84d3a1459c4aac",
+      "preimage_sha256": "2195f32e1603b31e063afa444401b77f3bc5d34c0dcc7e0c60cc4c6508e20591"
+    }
+  ],
+  "payload_additions": [
+    {
+      "must_be_absent": true,
+      "path": "docs/development/evidence/camera-documented-data-default-20261101/baseline-synthetic-tests.xml",
+      "sha256": "a81a637a41c46b4c84132445ca3934055bd3d5599a6402f5e739a259247dae5e",
+      "source": "evidence/baseline-synthetic-tests.xml",
+      "terminal_lf": false
+    },
+    {
+      "must_be_absent": true,
+      "path": "docs/development/evidence/camera-documented-data-default-20261101/candidate-synthetic-tests.xml",
+      "sha256": "e360ce5e78f02555c6731a47a5ee3d3d7e69ad48076ef9e35034d5c0fe747629",
+      "source": "evidence/candidate-synthetic-tests.xml",
+      "terminal_lf": false
+    }
+  ],
+  "public_evidence_scope": "Source-backed narrow admission; new synthetic tests only; actual015 value/cause unknown",
+  "schema": "nativecmpkit.exact-source-fragments.v1"
+}

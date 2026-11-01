@@ -1,0 +1,178 @@
+{
+  "actual_outcome_diagnosed": true,
+  "exact_two_test_declaration_lines": [
+    35,
+    125
+  ],
+  "excluded_inferences": [
+    "accepted identity/lifetime/popup/camera/IO replay",
+    "DNS/TLS/offline",
+    "all targets",
+    "minimum/physical Android",
+    "packaged consumer",
+    "ABI",
+    "dependency trust",
+    "security",
+    "release readiness",
+    "whole issue #64 closure"
+  ],
+  "findings": [
+    {
+      "lines": [
+        36,
+        42,
+        126,
+        132
+      ],
+      "source_observation": "Both methods assert API35, allow only 127.0.0.1 cleartext, refuse localhost and nativecmpkit.invalid; production policy is untouched.",
+      "subject": "API35 and fixture-only loopback policy"
+    },
+    {
+      "lines": [
+        44,
+        58,
+        134,
+        147,
+        106,
+        120,
+        217,
+        231
+      ],
+      "source_observation": "Ordinary public WebView state/navigator/client attach through existing ActivityLease; same current native instance and one create/one disposal are asserted.",
+      "subject": "real current Activity/Compose/native owner"
+    },
+    {
+      "lines": [
+        60,
+        80,
+        302,
+        318,
+        394,
+        415,
+        416,
+        450
+      ],
+      "source_observation": "Native loadUrl bypasses acceptContent; held exact owned requests have no response bytes. Actual forwarded native starts clear metadata/errors and Loading(0f); actual main-frame code/URL and all callback errors match common error list.",
+      "subject": "actual fail/fail starts and metadata reset"
+    },
+    {
+      "lines": [
+        81,
+        105,
+        321,
+        349,
+        487,
+        493
+      ],
+      "source_observation": "No-store route exchange at same actual recovery URL supplies distinct DOM; retained declarative seed cannot provide Reload; same-owner JavaScript callback checks exact title/location/nonce/stage.",
+      "subject": "recovery and native current-URL Reload"
+    },
+    {
+      "lines": [
+        148,
+        172,
+        828,
+        835,
+        889,
+        895
+      ],
+      "source_observation": "Still-held zero-response request starts before public navigator.stopLoading; genuine peer EOF and native finish must precede release/unmount/server close, without fabricated cancellation error.",
+      "subject": "public Stop before all cleanup"
+    },
+    {
+      "lines": [
+        174,
+        216,
+        258,
+        287,
+        770,
+        775,
+        865,
+        883
+      ],
+      "source_observation": "Real 302 Found/Location bytes cause distinct held landing request; final native URL/DOM asserted. Reload exchanges landing response while declarative redirect remains and redirect request count cannot increase.",
+      "subject": "actual owned302 destination and final-URL Reload"
+    },
+    {
+      "lines": [
+        110,
+        120,
+        221,
+        231,
+        525,
+        545,
+        601,
+        615,
+        809,
+        824,
+        905,
+        917
+      ],
+      "source_observation": "Exact acquired socket route leases survive route replacement; asserted native unmount/release occurs with Activity still resumed before owned server cleanup; cleanup gates never count as test refusal/EOF.",
+      "subject": "test and socket ownership cleanup"
+    },
+    {
+      "lines": [
+        416,
+        450,
+        694,
+        731
+      ],
+      "source_observation": "super callbacks precede observations; wrong-owner callbacks do not witness acceptance; current generation and matching exact URLs gate errors/finish.",
+      "subject": "normal forwarded callbacks, generation and ownership gates"
+    },
+    {
+      "lines": [
+        998,
+        1018,
+        1950,
+        1965,
+        2490,
+        2502,
+        2966,
+        2976
+      ],
+      "path": "scripts/ci/library_tests.py",
+      "source_observation": "Exactly these two declarations, API35 calf-webview only, one connectedAndroidDeviceTest task and one actual report; duplicates/unrelated/skips cannot satisfy acceptance.",
+      "subject": "finite CLI selection"
+    },
+    {
+      "lines": [
+        [
+          1013,
+          1014,
+          3296,
+          3300
+        ],
+        [
+          61,
+          68
+        ]
+      ],
+      "paths": [
+        "scripts/ci/library_tests.py",
+        "scripts/ci/fresh-tests.init.gradle.kts"
+      ],
+      "source_observation": "The original command emits the exact comma-containing two-method class selector. The unchanged connected-task init guard refuses that comma before its runtime marker/UTP transport. The actual fixed guard text is observed; actual ATE transport truncation/data loss was not executed or diagnosed. No guard is relaxed and no patch is supplied by this review.",
+      "subject": "actual selector-guard refusal, owning source contract retained"
+    }
+  ],
+  "kind": "independent-immutable-source-review; method bodies remain unexecuted",
+  "method_body_native_acceptance": false,
+  "methods": [
+    "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+    "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+  ],
+  "native_or_compiler_or_model_execution": false,
+  "reviewed_utc": "2026-11-01T04:46:24.258738+00:00",
+  "source": {
+    "byte_provenance": "local-byte-read-independently-bound-to-immutable-Git-tree",
+    "bytes": 52944,
+    "git_blob_sha1": "c5d9f2265f9fe0332785c9e00ecccf680345da24",
+    "git_mode": "100644",
+    "library_input": true,
+    "path": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+    "sha256": "84018856aee7c6e223d32465d2eef76a9b705ebbaf6f232513fd34c8b152b326"
+  },
+  "source_commit": "5705781330ba97fc86ba6faa748c70e35879b9bf"
+}

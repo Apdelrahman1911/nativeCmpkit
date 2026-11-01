@@ -26,9 +26,12 @@ TREE = Path(os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_TEST_TREE", Path(__file__
 HELPER_PATH = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
 GUARD_PATH = TREE / "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py"
 FIXTURE_PATH = TREE / "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json"
+STARTUP_FIXTURE_PATH = TREE / "scripts/ci/fixtures/android-camera-startup-readiness-inverse.json"
 CONTROLLER_PATH = TREE / "scripts/ci/android_device_tests.py"
-EXPECTED_HELPER_SHA256 = "2d2fb89491d5435963b983052a96f7a9e80e02d9b7ed394c0b3d23cf4b194532"
-EXPECTED_GUARD_SHA256 = "a73a7ec16e1618308264b5ea2cbb01129a12e67fdcddca368f2714f180b4c8e9"
+EXPECTED_HELPER_SHA256 = "5318d5893457dca141d08f3d269dc1a21078d42931c7846d4d105b7134154af1"
+EXPECTED_GUARD_SHA256 = "5154a82a67a5a987fdfe8d3f70a3d79640e2d387675a80e4cab7e2e0ca6b0da8"
+PRE_STARTUP_HELPER_SHA256 = "2d2fb89491d5435963b983052a96f7a9e80e02d9b7ed394c0b3d23cf4b194532"
+EXPECTED_STARTUP_FIXTURE_SHA256 = "4731607e26e6a1a36e8e48bf09f824b2e0df652da8af77db8ad1b95efa627dc2"
 EXPECTED_FIXTURE_SHA256 = "e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953"
 BEFORE_HELPER_SHA256 = "c8b34648bfcc61484637e57acad48e5c540dbb6c9ee0ba63fe129c5d94a0017f"
 HISTORICAL_HELPER_SHA256 = "f15163bd0406476d4c8e271aa6fa18c652590c1e1665ee7bb9306ca9140ddfd0"
@@ -80,14 +83,15 @@ def action_guards(stack):
 
 for source_path, expected in ((HELPER_PATH, EXPECTED_HELPER_SHA256),
                               (GUARD_PATH, EXPECTED_GUARD_SHA256),
-                              (FIXTURE_PATH, EXPECTED_FIXTURE_SHA256)):
+                              (FIXTURE_PATH, EXPECTED_FIXTURE_SHA256),
+                              (STARTUP_FIXTURE_PATH, EXPECTED_STARTUP_FIXTURE_SHA256)):
     if source_path.is_symlink() or digest(source_path) != expected:
         raise AssertionError("Exact source-bound candidate input is changed")
 expected_test = os.environ.get("NATIVECMPKIT_CAMERA_PREFIX_EXPECTED_TEST_SHA256")
 if expected_test and digest(Path(__file__)) != expected_test:
     raise AssertionError("Exact child test-source binding is changed")
 SOURCE_HASHES_BEFORE = {str(p.relative_to(TREE)): digest(p) for p in
-                        (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, CONTROLLER_PATH)}
+                        (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, STARTUP_FIXTURE_PATH, CONTROLLER_PATH)}
 SPEC = importlib.util.spec_from_file_location("nativecmpkit_camera_reference_prefix_new_only", HELPER_PATH)
 helper = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = helper
@@ -97,16 +101,18 @@ with ExitStack() as import_stack:
 if Path(helper.__file__).resolve() != HELPER_PATH.resolve() or SPEC.origin != str(HELPER_PATH):
     raise AssertionError("Private candidate helper origin is changed")
 
-# Isolate the exact old guard function and updated constant without importing its
-# module, helper instance, classes, accepted methods or discovery entry point.
+# Isolate only the two exact inverse functions and their pinned constants; no
+# guard module, accepted test class, method body or discovery entry point is run.
 GUARD_SYNTAX = ast.parse(GUARD_PATH.read_text())
-GUARD_FUNCTION = next(n for n in GUARD_SYNTAX.body
-                      if isinstance(n, ast.FunctionDef) and n.name == "historical_helper_source")
-GUARD_PIN = next(n for n in GUARD_SYNTAX.body if isinstance(n, ast.Assign) and
-                 any(isinstance(t, ast.Name) and t.id == "OBSERVATION_INVERSE_SHA256" for t in n.targets))
+GUARD_FUNCTIONS = [next(n for n in GUARD_SYNTAX.body if isinstance(n, ast.FunctionDef) and n.name == name)
+                   for name in ("pre_startup_helper_source", "historical_helper_source")]
+GUARD_PINS = {name: next(n for n in GUARD_SYNTAX.body if isinstance(n, ast.Assign) and
+                         any(isinstance(t, ast.Name) and t.id == name for t in n.targets))
+              for name in ("STARTUP_INVERSE_SHA256", "OBSERVATION_INVERSE_SHA256")}
 GUARD_NAMESPACE = {"Path": Path, "hashlib": hashlib, "json": json, "__file__": str(GUARD_PATH),
-                   "OBSERVATION_INVERSE_SHA256": ast.literal_eval(GUARD_PIN.value)}
-exec(compile(ast.Module(body=[GUARD_FUNCTION], type_ignores=[]), str(GUARD_PATH), "exec"), GUARD_NAMESPACE)
+                   **{name: ast.literal_eval(node.value) for name, node in GUARD_PINS.items()}}
+exec(compile(ast.Module(body=GUARD_FUNCTIONS, type_ignores=[]), str(GUARD_PATH), "exec"), GUARD_NAMESPACE)
+pre_startup_helper_source = GUARD_NAMESPACE["pre_startup_helper_source"]
 historical_helper_source = GUARD_NAMESPACE["historical_helper_source"]
 
 class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
@@ -306,7 +312,7 @@ class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
         contract = json.loads(FIXTURE_PATH.read_text())
         self.assertEqual(len(contract["inverse_fragments"]), 4)
         self.assertEqual(contract["before_sha256"], HISTORICAL_HELPER_SHA256)
-        self.assertEqual(contract["after_sha256"], EXPECTED_HELPER_SHA256)
+        self.assertEqual(contract["after_sha256"], PRE_STARTUP_HELPER_SHA256)
         mutations = (
             source.replace('"row_reference_fixed_shape": fixed_shape,', '"row_reference_fixed_shape": "unknown",', 1),
             source.replace('"literal-resumed-areas-header", "literal-waiting-to-finish-header",\n',
@@ -329,7 +335,7 @@ class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
             GUARD_NAMESPACE["OBSERVATION_INVERSE_SHA256"] = saved
 
     def test_enum_is_observational_and_core_controller_native_inputs_are_unchanged(self):
-        source = HELPER_PATH.read_text(); previous = source
+        source = pre_startup_helper_source(HELPER_PATH.read_text()); previous = source
         for fragment in reversed(FIXED_PREFIX_FRAGMENTS):
             self.assertEqual(previous.count(fragment["new"]), 1)
             previous = previous.replace(fragment["new"], fragment["old"], 1)
@@ -360,7 +366,8 @@ class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
                    'result["emulator_shutdown"] = stop_owned_emulator')]
         self.assertEqual(cleanup, sorted(cleanup))
         self.assertEqual(SOURCE_HASHES_BEFORE,
-                         {str(p.relative_to(TREE)): digest(p) for p in (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, CONTROLLER_PATH)})
+                         {str(p.relative_to(TREE)): digest(p) for p in
+                          (HELPER_PATH, GUARD_PATH, FIXTURE_PATH, STARTUP_FIXTURE_PATH, CONTROLLER_PATH)})
 
 class FirstOnlyResult(unittest.TextTestResult):
     def __init__(self, *args, **kwargs):

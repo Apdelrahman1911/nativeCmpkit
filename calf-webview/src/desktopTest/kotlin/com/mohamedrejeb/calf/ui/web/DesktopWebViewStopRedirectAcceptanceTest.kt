@@ -122,6 +122,7 @@ class DesktopWebViewStopRedirectAcceptanceTest {
                     }
                 } catch (error: AssertionError) {
                     // Preserve the original timeout/owning refusal as the cause; failure stays failure.
+                    runCatching { captureWindowsStopFailureResources(native.javaClass) }
                     throw AssertionError("public Stop witness refused; ${stopSnapshot.get()}", error)
                 }
                 assertFalse(server.isClosing())

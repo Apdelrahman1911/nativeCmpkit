@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `85080aa9a192c3b76c4054fe3e4d1f45ad9c5920e8b96700e2af7ca30e6d8bb3`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `180b1071d81e43ee53af901d8c6534eca5c97f9087279caaeb34d2c8aa14326c`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 25 |
-| partially-verified | 41 |
-| verified | 93 |
+| partially-verified | 40 |
+| verified | 94 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -67,7 +67,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | verified | — | 3 / 0 |
 | 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 2 |
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
-| 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | partially-verified | — | 4 / 2 |
+| 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 3 |
 | 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 3 |
@@ -642,7 +642,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 22. UI-001 — iOS date state and native calendars do not enforce the documented UTC-day/year-range contract
 
-**High · partially-verified · original effort M** — [nativeCmpkit #26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · verified · original effort M** — [nativeCmpkit #26](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -655,8 +655,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All four literal original UI-001/#26 criteria reviewed and accepted after immutable98e9fc007/41338100010: six actual native date methods and two independently serial Material methods, three original XML including four separate FAILED alert cases,1157 exact actual maps and application/Worker/owned cleanup verified. Prior DateStateContract9+NativeDateControls5 reused on unchanged applicable source without replay. #26 closed/completed19:31:59Z with original metadata preserved. Controlled UIKit calendar/control/delegate input on iOS26.5 simulator, not physical/XCUI/touch/minimum/other-OS, binary-equivalent prior dependencies, consumer/API-ABI/security/release certification. Whole workflow remains FAILED;#28 stays open.
 
 **Compatibility / scope:** Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive.
 
@@ -3577,7 +3578,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `8b249dc60d7921709d9874f8055e7d0953a31c3f4da9221677ffd0bc5a408827` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c` |
 

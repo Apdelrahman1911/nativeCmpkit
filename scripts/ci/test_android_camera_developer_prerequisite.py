@@ -239,6 +239,13 @@ class DeviceModel:
             result = self.hook(args, self)
             if result is not None:
                 return result
+        if args == ("shell", "am", "get-current-user"):
+            return cp(b"0\n")
+        if args == ("shell", "am", "get-started-user-state", "0"):
+            return cp(b"RUNNING_UNLOCKED\n")
+        if args == ("shell", "cmd", "package", "resolve-activity", "--components", "--query-flags", "0", "--user", "0",
+                    "-a", "android.intent.action.MAIN", "-c", "android.intent.category.HOME"):
+            return cp(b"com.google.android.apps.nexuslauncher/.NexusLauncherActivity\n")
         if args == ("shell", "id", "-u"):
             return cp(self.shell_uid + b"\n")
         if args[:4] == ("shell", "dumpsys", "package", "check-permission"):

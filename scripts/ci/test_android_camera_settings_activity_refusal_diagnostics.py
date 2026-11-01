@@ -20,8 +20,28 @@ ATTRIBUTE = "_nativecmpkit_settings_activity_absence_refusal"
 # Only this four-fragment observational addition may be reversed. Entire current
 # and historical helper bytes are checked; no arbitrary AST definitions are stripped.
 OBSERVATION_INVERSE_SHA256 = 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953'
+STARTUP_INVERSE_SHA256 = '4731607e26e6a1a36e8e48bf09f824b2e0df652da8af77db8ad1b95efa627dc2'
+
+def pre_startup_helper_source(source: str) -> str:
+    """Normalize only the pinned exact initial-readiness fragments, never an AST."""
+    contract_path = Path(__file__).parent / "fixtures/android-camera-startup-readiness-inverse.json"
+    payload = contract_path.read_bytes()
+    if hashlib.sha256(payload).hexdigest() != STARTUP_INVERSE_SHA256:
+        raise AssertionError("Exact owning startup-inverse fixture is changed")
+    contract = json.loads(payload)
+    if type(source) is not str or hashlib.sha256(source.encode()).hexdigest() != contract["after_sha256"]:
+        raise AssertionError("Full current helper bytes differ from the qualified afterimage")
+    restored = source
+    for fragment in contract["inverse_fragments"]:
+        if restored.count(fragment["new"]) != 1:
+            raise AssertionError("The exact owning startup inverse is missing or ambiguous")
+        restored = restored.replace(fragment["new"], fragment["old"], 1)
+    if hashlib.sha256(restored.encode()).hexdigest() != contract["before_sha256"]:
+        raise AssertionError("Full pre-startup helper bytes were not exactly restored")
+    return restored
 
 def historical_helper_source(source: str) -> str:
+    source = pre_startup_helper_source(source)
     contract_path = Path(__file__).parent / "fixtures/android-camera-settings-absence-observation-inverse.json"
     payload = contract_path.read_bytes()
     if hashlib.sha256(payload).hexdigest() != OBSERVATION_INVERSE_SHA256:

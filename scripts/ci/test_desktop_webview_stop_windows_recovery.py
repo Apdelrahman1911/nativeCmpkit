@@ -26,8 +26,12 @@ CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest"
 METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 REDIRECT = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-SOURCE_SHA256 = "5a7db4734c215546d751b702b2b9c92766ec81e54f2eb33a788b0687cdebb4d7"
+SOURCE_SHA256 = "c828401cd5e0dbae8138e5fc61e4540568e0d076d66953b746124fb104dc8a90"
 PREIMAGE_SHA256 = "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
+CAPTURE_FIXTURE_PREIMAGE_SHA256 = "5a7db4734c215546d751b702b2b9c92766ec81e54f2eb33a788b0687cdebb4d7"
+CAPTURE_HELPER_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopFailureResources.kt"
+CAPTURE_HELPER_SHA256 = "b698f11a05a2b8a566ccef71b57a6d3faf83443bb3e1788cabe8fca30e9396a7"
+CAPTURE_CALL = '                    runCatching { captureWindowsStopFailureResources(native.javaClass) }\n'
 ACCEPTED_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
 ACCEPTED_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
 ACCEPTED_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
@@ -341,6 +345,67 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
         # Existing literal profiles are preserved; this new route cannot replay their accepted cells.
         self.assertEqual(2, len(lt.webview_desktop_request_specs("webview-desktop-request-state-stop")))
         self.assertEqual(3, len(lt.webview_desktop_request_specs("webview-desktop-request-state-stop-redirect")))
+
+    def test_failure_resource_capture_is_one_post_refusal_guarded_call_with_original_fixture_bytes_preserved(self):
+        text = (lt.ROOT / SOURCE).read_text()
+        self.assertEqual(1, text.count(CAPTURE_CALL))
+        self.assertEqual(CAPTURE_FIXTURE_PREIMAGE_SHA256, digest(text.replace(CAPTURE_CALL, "", 1)))
+        self.assertEqual(SOURCE_SHA256, digest(text))
+        catch = text.split("                } catch (error: AssertionError) {", 1)[1].split("                assertFalse(server.isClosing())", 1)[0]
+        self.assertIn(CAPTURE_CALL, catch)
+        self.assertLess(catch.index(CAPTURE_CALL), catch.index('throw AssertionError("public Stop witness refused; ${stopSnapshot.get()}", error)'))
+        self.assertNotIn("captureWindowsStopFailureResources", text.split("                } catch (error: AssertionError) {", 1)[0])
+        self.assertIn("runCatching { captureWindowsStopFailureResources(native.javaClass) }", catch)
+        self.assertIn("/src/desktopTest/", CAPTURE_HELPER_SOURCE)
+        helper = (lt.ROOT / CAPTURE_HELPER_SOURCE).read_text()
+        self.assertEqual(CAPTURE_HELPER_SHA256, digest(helper))
+        self.assertNotRegex(code_only(helper), r"@(Test|Ignore|Disabled|IgnoredTest)\b")
+
+    def test_failure_resource_capture_is_fixed_bounded_readonly_base_entries_not_active_loader_or_native_identity(self):
+        helper = (lt.ROOT / CAPTURE_HELPER_SOURCE).read_text()
+        self.assertEqual(CAPTURE_HELPER_SHA256, digest(helper))
+        expected = [
+            ("WebView", "javafx/scene/web/WebView.class"),
+            ("WebEngine", "javafx/scene/web/WebEngine.class"),
+            ("LoadWorker", "javafx/scene/web/WebEngine\\$LoadWorker.class"),
+            ("WebPage", "com/sun/webkit/WebPage.class"),
+            ("NetworkContext", "com/sun/webkit/network/NetworkContext.class"),
+            ("URLLoader", "com/sun/webkit/network/URLLoader.class"),
+            ("HTTP2Loader", "com/sun/webkit/network/HTTP2Loader.class"),
+            ("HTTP2BodySubscriber", "com/sun/webkit/network/HTTP2Loader\\$3.class"),
+        ]
+        self.assertEqual(expected, re.findall(r'^\s*"([^"\n]+)" to "([^"\n]+)",$', helper, re.M))
+        required = (
+            "STOP_FAILURE_RESOURCE_MAX_ARCHIVE_BYTES = 67_108_864L",
+            "STOP_FAILURE_RESOURCE_MAX_ENTRY_BYTES = 98_304",
+            "STOP_FAILURE_RESOURCE_MAX_RECORD_CHARS = 2_048",
+            "STOP_FAILURE_RESOURCE_READ_BUDGET_NANOS = 250_000_000L",
+            'STOP_FAILURE_RESOURCE_SCOPE = "anchor-code-source-base-entries-only"',
+            'os.length > 64 || !os.startsWith("Windows", ignoreCase = true)',
+            "val engineType = WebEngine::class.java",
+            "nativeType.classLoader === engineType.classLoader",
+            "Files.isSameFile(archive, engineArchive)",
+            "before.isRegularFile && before.size() in 1L..STOP_FAILURE_RESOURCE_MAX_ARCHIVE_BYTES",
+            "JarFile(archive.toFile(), false, JarFile.OPEN_READ, JarFile.baseVersion()).use",
+            "STOP_FAILURE_RESOURCE_ENTRIES.map", "jar.getInputStream(entry).use",
+            "read <= STOP_FAILURE_RESOURCE_MAX_ENTRY_BYTES - count", "count.toLong() == entry.size",
+            "before.fileKey() == after.fileKey()", "before.lastModifiedTime() == after.lastModifiedTime()",
+            'location.protocol == "file"', "uri.authority.isNullOrEmpty() && uri.query == null && uri.fragment == null",
+            "Paths.get(uri).normalize().also { check(it.isAbsolute) }",
+            'System.getProperty("javafx.runtime.version")', 'System.getProperty("com.sun.webkit.useHTTP2Loader")',
+            'value.length <= 32 && Regex(', 'else -> "noncanonical"', 'catch (_: Throwable) { "unavailable" }',
+            "resource fingerprints, NOT transformed loaded code, native DLL hashes",
+            "The cooperative 250ms read budget cannot preempt blocking file I/O or stderr output",
+            "System.err.println(STOP_FAILURE_RESOURCE_PREFIX + record)",
+        )
+        for token in required:
+            self.assertIn(token, helper)
+        self.assertLess(helper.index('!os.startsWith("Windows"'), helper.index("Files.isSameFile"))
+        self.assertEqual(1, helper.count("System.err.println("))
+        code = code_only(helper)
+        self.assertNotRegex(code, r"Class\.forName|\.getDeclared|setAccessible|\.invoke\s*\(|openConnection|openStream|setDefault|setURLStreamHandlerFactory|System\.setProperty")
+        self.assertNotRegex(code, r"(?:Socket|ServerSocket|Thread|ProcessBuilder|HttpClient|URLConnection|FxWebView)\s*\(|Platform\.|loadWorker\.cancel|\.engine\.|\.load\s*\(")
+        self.assertNotRegex(code, r"Base64|Files\.write|FileOutputStream|\.printStackTrace|\.message\b|\.absolutePath\b|\.toUri\(\)\s*\+")
 
 
 if __name__ == "__main__":

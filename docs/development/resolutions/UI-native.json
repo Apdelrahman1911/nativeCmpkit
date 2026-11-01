@@ -5,18 +5,20 @@
       "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
       "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
-      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt"
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+      "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateYearPolicyImportantScenarios.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateYearPolicyImportantTest.kt",
+      "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/MaterialDateYearPolicyImportantTest.kt"
     ],
     "changes": [
-      "Shared UTC canonicalization/year validation; effective native bounds intersect yearRange; native date and year predicates both participate."
+      "Shared UTC canonicalization/year validation; effective native bounds intersect yearRange; native date and year predicates both participate.",
+      "Native user-selection resolves the full year/date predicate within state.yearRange; the programmatic Material-compatible setter policy remains explicit. Important native/Material endpoint and rule-year cases now verify all four original criteria."
     ],
     "compatibility": "Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive.",
     "id": "UI-001",
-    "remaining": [
-      "Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.",
-      "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
-    ],
-    "status": "partially-verified",
+    "remaining": [],
+    "status": "verified",
     "tests": [
       {
         "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
@@ -72,8 +74,18 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset14/14 passes (datepicker.DateStateContractTest, datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Finite ios-alert-date-important run41338100010 at98e9fc007e9c138ecdb7d644d4631bf21494d83c; actual iosSimulatorArm64ApplicationTest then independent serial desktopTest MaterialDateYearPolicyImportantTest, no accepted test replay",
+        "result": "All four literal original UI-001/#26 criteria reviewed and accepted after immutable98e9fc007/41338100010: six actual native date methods and two independently serial Material methods, three original XML including four separate FAILED alert cases,1157 exact actual maps and application/Worker/owned cleanup verified. Prior DateStateContract9+NativeDateControls5 reused on unchanged applicable source without replay. #26 closed/completed19:31:59Z with original metadata preserved. Controlled UIKit calendar/control/delegate input on iOS26.5 simulator, not physical/XCUI/touch/minimum/other-OS, binary-equivalent prior dependencies, consumer/API-ABI/security/release certification. Whole workflow remains FAILED;#28 stays open.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/uikit-date26-closure148/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/uikit-date26-closure148/CLOSURE.json",
+          "docs/development/evidence/current-platform-recovery-20261101/uikit-important-preparation134/README.md"
+        ]
       }
-    ]
+    ],
+    "verification_scope": "All four literal original UI-001/#26 criteria reviewed and accepted after immutable98e9fc007/41338100010: six actual native date methods and two independently serial Material methods, three original XML including four separate FAILED alert cases,1157 exact actual maps and application/Worker/owned cleanup verified. Prior DateStateContract9+NativeDateControls5 reused on unchanged applicable source without replay. #26 closed/completed19:31:59Z with original metadata preserved. Controlled UIKit calendar/control/delegate input on iOS26.5 simulator, not physical/XCUI/touch/minimum/other-OS, binary-equivalent prior dependencies, consumer/API-ABI/security/release certification. Whole workflow remains FAILED;#28 stays open."
   },
   {
     "affected_paths": [

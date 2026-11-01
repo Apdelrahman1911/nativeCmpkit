@@ -50,11 +50,11 @@
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
-    "docs/development/resolutions/UI-native.json": "30779cc862da1c032333136b972641da964806327c4c883eed270e00a3743a2f",
+    "docs/development/resolutions/UI-native.json": "8b249dc60d7921709d9874f8055e7d0953a31c3f4da9221677ffd0bc5a408827",
     "docs/migration/issue-map.json": "5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678",
     "docs/roadmap/backlog.json": "46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c"
   },
-  "input_fingerprint": "85080aa9a192c3b76c4054fe3e4d1f45ad9c5920e8b96700e2af7ca30e6d8bb3",
+  "input_fingerprint": "180b1071d81e43ee53af901d8c6534eca5c97f9087279caaeb34d2c8aa14326c",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -62,8 +62,8 @@
     "imported_topics_without_finding_ids": 6,
     "reported_statuses": {
       "implemented": 25,
-      "partially-verified": 41,
-      "verified": 93,
+      "partially-verified": 40,
+      "verified": 94,
       "unresolved": 5,
       "not-applicable": 0
     },
@@ -4090,27 +4090,29 @@
         "mapping_key": "audit:UI-001",
         "historical_mapping_state": "open"
       },
-      "reported_status": "partially-verified",
+      "reported_status": "verified",
       "owner_ledger": "docs/development/resolutions/UI-native.json",
-      "owner_record_sha256": "e54f818864bbcd45146e0463657b37afebfc2fe378d86927865da8f31d010cb3",
+      "owner_record_sha256": "7aeaecdc4cf75451e62550bc732c7030b6959bf62a55e37f8c04978485a7dd46",
       "owner_record": {
         "affected_paths": [
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/SelectableDays.kt",
           "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.kt",
           "calf-ui/src/materialMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.material.kt",
           "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePickerState.ios.kt",
-          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt"
+          "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDateRangePickerState.kt",
+          "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/datepicker/AdaptiveDatePicker.ios.kt",
+          "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateYearPolicyImportantScenarios.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateYearPolicyImportantTest.kt",
+          "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/MaterialDateYearPolicyImportantTest.kt"
         ],
         "changes": [
-          "Shared UTC canonicalization/year validation; effective native bounds intersect yearRange; native date and year predicates both participate."
+          "Shared UTC canonicalization/year validation; effective native bounds intersect yearRange; native date and year predicates both participate.",
+          "Native user-selection resolves the full year/date predicate within state.yearRange; the programmatic Material-compatible setter policy remains explicit. Important native/Material endpoint and rule-year cases now verify all four original criteria."
         ],
         "compatibility": "Programmatic assignment still does not enforce business rules. Invalid years now follow the documented exception contract; common yearRange exposure is additive.",
         "id": "UI-001",
-        "remaining": [
-          "Actual native endpoint interaction across inline/wheels/compact/range; extreme native supported years.",
-          "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified."
-        ],
-        "status": "partially-verified",
+        "remaining": [],
+        "status": "verified",
         "tests": [
           {
             "command": "xvfb-run -a ./gradlew :calf-ui:desktopTest --rerun :calf-file-picker:desktopTest --rerun :calf-file-picker-coil:desktopTest --rerun :calf-io:testAndroidHostTest --rerun :calf-file-picker:testAndroidHostTest --rerun :calf-permissions:calf-permissions-core:desktopTest --rerun :calf-permissions:calf-permissions-core:testAndroidHostTest --rerun --continue --max-workers=2 --no-configuration-cache '-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8' -Pkotlin.compiler.execution.strategy=in-process",
@@ -4166,8 +4168,18 @@
               "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
             ],
             "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset14/14 passes (datepicker.DateStateContractTest, datepicker.NativeDateControlsTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+          },
+          {
+            "command": "Finite ios-alert-date-important run41338100010 at98e9fc007e9c138ecdb7d644d4631bf21494d83c; actual iosSimulatorArm64ApplicationTest then independent serial desktopTest MaterialDateYearPolicyImportantTest, no accepted test replay",
+            "result": "All four literal original UI-001/#26 criteria reviewed and accepted after immutable98e9fc007/41338100010: six actual native date methods and two independently serial Material methods, three original XML including four separate FAILED alert cases,1157 exact actual maps and application/Worker/owned cleanup verified. Prior DateStateContract9+NativeDateControls5 reused on unchanged applicable source without replay. #26 closed/completed19:31:59Z with original metadata preserved. Controlled UIKit calendar/control/delegate input on iOS26.5 simulator, not physical/XCUI/touch/minimum/other-OS, binary-equivalent prior dependencies, consumer/API-ABI/security/release certification. Whole workflow remains FAILED;#28 stays open.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/uikit-date26-closure148/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/uikit-date26-closure148/CLOSURE.json",
+              "docs/development/evidence/current-platform-recovery-20261101/uikit-important-preparation134/README.md"
+            ]
           }
-        ]
+        ],
+        "verification_scope": "All four literal original UI-001/#26 criteria reviewed and accepted after immutable98e9fc007/41338100010: six actual native date methods and two independently serial Material methods, three original XML including four separate FAILED alert cases,1157 exact actual maps and application/Worker/owned cleanup verified. Prior DateStateContract9+NativeDateControls5 reused on unchanged applicable source without replay. #26 closed/completed19:31:59Z with original metadata preserved. Controlled UIKit calendar/control/delegate input on iOS26.5 simulator, not physical/XCUI/touch/minimum/other-OS, binary-equivalent prior dependencies, consumer/API-ABI/security/release certification. Whole workflow remains FAILED;#28 stays open."
       },
       "closure_or_release_authorized_by_index": false
     },

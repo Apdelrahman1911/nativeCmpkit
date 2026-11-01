@@ -338,7 +338,17 @@
     }) };
     const sendFailure = error => {
       const name = String(error && error.name || 'fixture').replace(/[^A-Za-z0-9._-]/g, '?').slice(0, 40);
-      const message = String(error && error.message || 'fixture-failure').replace(/[^A-Za-z0-9 .():=-]/g, '?').slice(0, 160);
+      // This exact Wasm-owned marker enables bounded state, never suite names or emitted values.
+      const marker = Object.getOwnPropertyDescriptor(h, 'wasmSelectionDiagnostic');
+      let diagnostic = '';
+      if (marker && marker.value === true && marker.writable === false && marker.enumerable === false &&
+          marker.configurable === true && error instanceof Error &&
+          error.message === 'Exact emitted native test method is missing/reused') {
+        const count = value => Number.isSafeInteger(value) && value >= 0 && value <= 16 ? String(value) : 'outside';
+        diagnostic = ' (wasm selectedType=' + typeof selected + ' selections=' + count(selections) +
+          ' invocations=' + count(invocations) + ')';
+      }
+      const message = (String(error && error.message || 'fixture-failure') + diagnostic).replace(/[^A-Za-z0-9 .():=-]/g, '?').slice(0, 160);
       // Bounded public assertion category/message only, never stack/console/native clipboard content.
       parent.postMessage('failed|' + identity + '|' + name + ':' + message, parentOrigin);
     };
@@ -424,7 +434,8 @@
       // The accepted JS bootstrap, load function and emitted HTML recipe are untouched.
       const h = window.__nativecmpkitClipboardNative;
       const restore = h && h.restore, boot = window.__nativecmpkitClipboardBoot;
-      if (!h || h.cleaned || typeof restore !== 'function' || typeof boot !== 'function' || '__karma__' in window) {
+      if (!h || h.cleaned || typeof restore !== 'function' || typeof boot !== 'function' || '__karma__' in window ||
+          'wasmSelectionDiagnostic' in h) {
         throw new Error('Owning Wasm loader hooks are missing/preexisting');
       }
       let loaded = 0, failed = false, release;
@@ -435,7 +446,10 @@
         error() { failed = true; release(); } // Fixed refusal only, no loader error body/stack/paths.
       });
       const assertReady = () => {
-        if (failed || loaded !== 1 || window.__karma__ !== karma || window.__nativecmpkitClipboardNative !== h) {
+        const marker = Object.getOwnPropertyDescriptor(h, 'wasmSelectionDiagnostic');
+        if (failed || loaded !== 1 || window.__karma__ !== karma || window.__nativecmpkitClipboardNative !== h ||
+            !marker || marker.value !== true || marker.writable !== false || marker.enumerable !== false ||
+            marker.configurable !== true) {
           throw new Error('Exact emitted Wasm test registration failed/reused');
         }
       };
@@ -453,10 +467,13 @@
         if (restore() !== true || h.cleaned !== true) throw new Error('Owning Wasm native restoration failed');
         delete window.__karma__;
         if ('__karma__' in window) throw new Error('Owning Wasm loader hook removal failed');
+        delete h.wasmSelectionDiagnostic;
+        if ('wasmSelectionDiagnostic' in h) throw new Error('Owning Wasm selection diagnostic removal failed');
         window.__nativecmpkitClipboardBoot = boot;
         h.restore = restore;
         return true;
       };
+      Object.defineProperty(h, 'wasmSelectionDiagnostic', { value: true, configurable: true });
       window.__karma__ = karma;
       window.__nativecmpkitClipboardBoot = ownedBoot;
       h.restore = ownedRestore;

@@ -76,7 +76,8 @@ _RESOURCE_REFUSAL_SOURCE = r'''    private fun resource(id: String): String {
             "canonicalIdentifierNonzero=$nonzero,canonicalNameMatchFromRefusal=$nameMatchFromRefusal," +
             "canonicalPostRefusalNamespace=${resourceNamespaceCategory(resources, value)}," +
             "applicationLabelIdentifierNonzero=${label?.let { it != 0 }}," +
-            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}"
+            "applicationLabelPostRefusalNamespace=${if (label == null) "UNOBSERVED" else resourceNamespaceCategory(resources, label)}" +
+            "," + fixedCandidateResourceQualification(resources, requested)
     }
 
     private fun resourceNamespaceCategory(resources: android.content.res.Resources, value: Int): String {
@@ -98,6 +99,59 @@ _RESOURCE_REFUSAL_SOURCE = r'''    private fun resource(id: String): String {
     }
 
 '''
+_RESOURCE_QUALIFICATION_SOURCE = r'''    // A bounded failure-only candidate observation, never a control/namespace admission.
+    private fun fixedCandidateResourceQualification(resources: android.content.res.Resources,
+        requested: String): String = try {
+        // Same Resources instance from the original canonical check; label observations are not authority.
+        val eligible = requested == "id/dir_list" && packageName == "com.google.android.documentsui"
+        val candidateNamespace = "com.google.android.documentsui"
+        val contracts = arrayOf(
+            Triple("DIR_LIST", "id", "dir_list"),
+            Triple("TOOLBAR", "id", "toolbar"),
+            Triple("OPEN_TREE_BUTTON", "string", "open_tree_button"),
+            Triple("OPEN_TREE_DIALOG_TITLE", "string", "open_tree_dialog_title"),
+            Triple("OPEN_TREE_DIALOG_MESSAGE", "string", "open_tree_dialog_message"),
+            Triple("ALLOW", "string", "allow"),
+        )
+        var identifierLookupCount = 0
+        var nameReadbackCount = 0
+        var identifierNonzeroCount = 0
+        var exactFullNameCount = 0
+        val facts = ArrayList<String>(6)
+        for ((category, type, entry) in contracts) {
+            val identifier: Int? = if (eligible) try {
+                identifierLookupCount += 1
+                resources.getIdentifier(entry, type, candidateNamespace)
+            } catch (_: Throwable) {
+                null
+            } else null
+            val nonzero: Boolean? = identifier?.let { it != 0 }
+            if (nonzero == true) identifierNonzeroCount += 1
+            val exactFullNameMatch: Boolean? = if (identifier != null && identifier != 0) try {
+                nameReadbackCount += 1
+                resources.getResourceName(identifier) == "$candidateNamespace:$type/$entry"
+            } catch (_: Throwable) {
+                null
+            } else null
+            if (exactFullNameMatch == true) exactFullNameCount += 1
+            facts += "candidate${category}IdentifierNonzero=$nonzero," +
+                "candidate${category}ExactFullNameMatch=$exactFullNameMatch"
+        }
+        val scope = if (eligible) "GOOGLE_DIR_LIST_REFUSAL" else "NOT_REQUESTED"
+        val namespaceCategory = if (eligible) "GOOGLE_PACKAGE_CANDIDATE" else "NOT_REQUESTED"
+        "candidateQualificationSchema=1,candidateScope=$scope,candidateNamespace=$namespaceCategory," +
+            "candidateContractCount=6,candidateIdentifierLookupCount=$identifierLookupCount," +
+            "candidateNameReadbackCount=$nameReadbackCount,candidateIdentifierNonzeroCount=$identifierNonzeroCount," +
+            "candidateExactFullNameCount=$exactFullNameCount," + facts.joinToString(",")
+    } catch (_: Throwable) {
+        // A diagnostic failure must not replace the original lazy-check IllegalStateException.
+        "candidateQualificationSchema=1,candidateScope=UNAVAILABLE,candidateNamespace=NOT_REQUESTED," +
+            "candidateContractCount=6,candidateIdentifierLookupCount=-1,candidateNameReadbackCount=-1," +
+            "candidateIdentifierNonzeroCount=-1,candidateExactFullNameCount=-1"
+    }
+
+'''
+
 _RESOURCE_LABEL_ADMISSION_SOURCE = r'''    init {
         check(packageName in AndroidIoSystemTreeGrantActivity.SYSTEM_DOCUMENTS_UI)
         val app = instrumentation.targetContext.packageManager.getApplicationInfo(packageName, 0)
@@ -202,13 +256,15 @@ def source_contract(root: Path) -> dict:
     )) and not any(value in ui for value in ('resource("dir_title")', 'resource("action_menu_select")')),
         "System UI ownership, exact controls, ambiguity refusal or flag restoration changed")
     require(ui.count(_RESOURCE_REFUSAL_SOURCE) == 1 and
+            ui.count(_RESOURCE_QUALIFICATION_SOURCE) == 1 and
             ui.count(_RESOURCE_LABEL_ADMISSION_SOURCE) == 1 and
             ui.count("    private var admittedLabelResource: Int? = null\n") == 1 and
             ui.count("admittedLabelResource") == 3 and
             ui.count("app.labelRes") == 1 and
-            ui.count("resources.getIdentifier(") == 2 and
-            ui.count("resources.getResourceName(") == 4 and
-            ui.count("resourceRefusal(") == 3,
+            ui.count("resources.getIdentifier(") == 3 and
+            ui.count("resources.getResourceName(") == 5 and
+            ui.count("resourceRefusal(") == 3 and
+            ui.count("fixedCandidateResourceQualification(") == 2,
             "Refusal-only DocumentsUI resource observations changed")
     ui_action_order = (
         'candidate = checkNotNull(candidate.parent).also { parents += it }',

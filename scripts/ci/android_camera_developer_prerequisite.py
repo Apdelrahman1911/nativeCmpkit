@@ -747,12 +747,17 @@ class OwnedDeveloperPrerequisite:
                 "Only this controller's new guest may acquire the prerequisite")
         self.root, self.home, self.serial, self.guest = root, home, serial, guest
         self.runner, self.clock, self.sleep, self.deadline = runner, clock, sleep, None
+        self.startup_deadline, self.startup_last_clock = None, None
         self.original, self.new_boot = None, None
         self.enable_attempted, self.enable_completed = False, False
         self.reboot_attempted, self.restore_attempted, self.closed = False, False, False
         self.receiver_prepare_attempted, self.receiver_cleanup = False, None
         self.receipt = {"schema": "nativecmpkit.camera-developer-prerequisite.v1", "focus": FOCUS, "api_level": 35,
                         "prepare_status": "not-started", "cleanup_status": "not-started", "errors": [],
+                        "startup_readiness_status": "not-started", "startup_observations": 0,
+                        "startup_ready_hold_verified": False, "startup_queries_read_only": True,
+                        "startup_total_budget_seconds": 60.0, "startup_ready_hold_seconds": 0.5,
+                        "startup_sleep_completion_bound_seconds": 1.0,
                         "master_enable_attempts": 0, "normal_reboot_attempts": 0, "master_restore_attempts": 0,
                         "reporter_dispatch_attempted": False, "reporter_removed": False, "receiver_removed": False,
                         "raw_boot_ids_dumps_paths_or_environment_exported": False, "native_acceptance_inferred": False}
@@ -779,6 +784,12 @@ class OwnedDeveloperPrerequisite:
         self.publish()
 
     def run(self, argv: list[str], timeout: float, limit: int) -> subprocess.CompletedProcess:
+        startup_started = None
+        if self.startup_deadline is not None:
+            require(type(timeout) in (int, float) and 0 < timeout < float("inf"),
+                    "Initial startup command timeout is not finite and positive")
+            timeout = min(timeout, 10.0, self.startup_remaining())
+            startup_started = self.startup_last_clock
         if self.deadline is not None:
             timeout = min(timeout, self.deadline - self.clock())
             if timeout <= 0:
@@ -786,6 +797,10 @@ class OwnedDeveloperPrerequisite:
         result = self.runner(argv, cwd=self.root, timeout=timeout, limit=limit, environment=self.guest.environment)
         require(isinstance(result.stdout, bytes) and isinstance(result.stderr, bytes) and
                 len(result.stdout) + len(result.stderr) <= limit, "Runner output is unbounded or not binary")
+        if startup_started is not None:
+            self.startup_remaining()
+            if self.startup_last_clock - startup_started > timeout:
+                raise TimeoutError("Initial startup command exceeded its clamped bound")
         return result
 
     def control(self, *arguments: str, timeout=10, limit=CONTROL_BYTES, transient=False) -> subprocess.CompletedProcess:
@@ -873,6 +888,124 @@ class OwnedDeveloperPrerequisite:
         require(first == second, "State/boot changed across complete snapshots")
         return second
 
+    def startup_remaining(self) -> float:
+        """Separate finite initial-phase budget; never the reboot deadline."""
+        now = self.clock()
+        require(type(now) in (int, float) and float("-inf") < now < float("inf") and
+                type(self.startup_deadline) in (int, float) and
+                float("-inf") < self.startup_deadline < float("inf") and
+                type(self.startup_last_clock) in (int, float) and now >= self.startup_last_clock,
+                "Initial startup clock is non-finite or moved backwards")
+        self.startup_last_clock = now
+        remaining = self.startup_deadline - now
+        if remaining <= 0:
+            raise TimeoutError("Initial startup observation exceeded its total bound")
+        return remaining
+
+    def startup_scalar(self, *arguments: str) -> str:
+        """One complete ASCII scalar from a bounded read-only startup query."""
+        payload = result_bytes(self.control(*arguments, timeout=10, limit=512), 512)
+        require(type(payload) is bytes and re.fullmatch(rb"[ -~]+(?:\n)?", payload) is not None,
+                "Unknown initial startup scalar bytes")
+        return payload.removesuffix(b"\n").decode("ascii")
+
+    def startup_observation(self, expected_boot: str) -> tuple[bool, str | None]:
+        """Typed readiness opportunity only; not Settings Activity absence."""
+        self.startup_remaining()
+        self.guest.verify_live()
+        self.devices()
+        require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
+        require(line(self.control("emu", "avd", "name"), 512,
+                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+                "Actual AVD ownership changed during initial startup")
+        require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
+                "Initial startup requires the actual non-root shell UID2000")
+        for key, expected in (("ro.build.version.sdk", b"35"), ("ro.product.cpu.abi", b"x86_64"),
+                              ("sys.boot_completed", b"1")):
+            require(line(self.control("shell", "getprop", key), 512, re.escape(expected)) == expected,
+                    "Initial startup runtime is not API35/x86_64/completed boot")
+        require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing",
+                "Initial startup requires an Enforcing guest")
+        require(self.startup_scalar("shell", "am", "get-current-user") == "0",
+                "Current user changed during initial startup")
+        state = self.startup_scalar("shell", "am", "get-started-user-state", "0")
+        require(state in ("BOOTING", "RUNNING_LOCKED", "RUNNING_UNLOCKING", "RUNNING_UNLOCKED"),
+                "Unknown or terminal initial startup user0 state")
+        home = self.startup_scalar("shell", "cmd", "package", "resolve-activity", "--components",
+                                   "--query-flags", "0", "--user", "0", "-a", "android.intent.action.MAIN",
+                                   "-c", "android.intent.category.HOME")
+        if home in ("No activity found", "com.android.settings/.FallbackHome"):
+            component = None
+        else:
+            match = re.fullmatch(
+                r"([A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)*)/"
+                r"(\.[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)*|"
+                r"[A-Za-z_$][A-Za-z0-9_$]*(?:\.[A-Za-z_$][A-Za-z0-9_$]*)+)", home)
+            require(match is not None, "Unknown initial startup HOME component shape")
+            package, activity = match.groups()
+            require(package not in ("android", "com.android.settings") and "." in package and
+                    not activity.startswith(package + "."),
+                    "Initial startup HOME is excluded or not canonically flattened")
+            component = home
+        # Recheck the complete fixed identity after typed reads, not just at entry.
+        require(line(self.control("emu", "avd", "name"), 512,
+                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+                "Actual AVD ownership changed during initial startup")
+        require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
+                "Initial startup requires the actual non-root shell UID2000")
+        for key, expected in (("ro.build.version.sdk", b"35"), ("ro.product.cpu.abi", b"x86_64"),
+                              ("sys.boot_completed", b"1")):
+            require(line(self.control("shell", "getprop", key), 512, re.escape(expected)) == expected,
+                    "Initial startup runtime is not API35/x86_64/completed boot")
+        require(line(self.control("shell", "getenforce"), 512, rb"Enforcing") == b"Enforcing",
+                "Initial startup requires an Enforcing guest")
+        require(self.startup_scalar("shell", "am", "get-current-user") == "0",
+                "Current user changed during initial startup")
+        require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
+        self.devices()
+        self.guest.verify_live()
+        self.startup_remaining()
+        return state == "RUNNING_UNLOCKED" and component is not None, component
+
+    def wait_startup_readiness(self) -> tuple[str, str]:
+        """Finite60s policy,0.5s cadence/hold; neither is an Android guarantee."""
+        require(self.startup_deadline is None and self.deadline is None and self.original is None and
+                self.receipt["startup_readiness_status"] == "not-started",
+                "No initial startup readiness retry or reboot-budget reuse")
+        self.receipt["startup_readiness_status"] = "running"
+        started = self.clock()
+        require(type(started) in (int, float) and float("-inf") < started < float("inf"),
+                "Initial startup clock is not finite")
+        self.startup_deadline, self.startup_last_clock = started + 60.0, started
+        self.startup_remaining()
+        self.publish()
+        self.devices()
+        expected_boot = self.boot_id()  # self.deadline stays None: transient=False.
+        held_home, held_since = None, None
+        while True:
+            ready, home = self.startup_observation(expected_boot)
+            observed_at = self.startup_last_clock
+            self.receipt["startup_observations"] += 1
+            self.publish()
+            if ready:
+                if home == held_home and held_since is not None:
+                    if observed_at - held_since >= 0.5:
+                        self.receipt["startup_ready_hold_verified"] = True
+                        return expected_boot, home
+                else:
+                    held_home, held_since = home, observed_at
+            else:
+                held_home, held_since = None, None
+            remaining = self.startup_remaining()
+            duration, completion_bound = min(0.5, remaining), min(1.0, remaining)
+            before_sleep = self.startup_last_clock
+            self.sleep(duration)
+            self.startup_remaining()
+            elapsed = self.startup_last_clock - before_sleep
+            require(elapsed >= duration, "Initial startup sleep returned before its requested hold")
+            if elapsed > completion_bound:
+                raise TimeoutError("Initial startup sleep exceeded its clamped completion bound")
+
     def prepare(self) -> dict:
         require(self.receipt["prepare_status"] == "not-started", "No prerequisite acquisition retry")
         self.receipt["prepare_status"] = "running"
@@ -884,9 +1017,21 @@ class OwnedDeveloperPrerequisite:
                 require(permission(self.control("shell", "dumpsys", "package", "check-permission",
                                                 "android.permission." + name, "com.android.shell", "0")), "Read permission not granted")
             self.reporter.freeze()
-            original = self.stable(fresh=True)
-            require(pair_admitted(original), "Original native/scalar pair is inconsistent")
-            self.original = original
+            try:
+                startup_boot, startup_home = self.wait_startup_readiness()
+                original = self.stable(fresh=True)
+                require(pair_admitted(original), "Original native/scalar pair is inconsistent")
+                require(original.boot == startup_boot, "Kernel epoch changed before original startup capture")
+                ready, home = self.startup_observation(startup_boot)
+                require(ready and home == startup_home, "Typed startup readiness changed before original capture")
+                self.startup_remaining()  # Includes both complete snapshots, parsing and pair admission.
+                self.receipt["startup_readiness_status"] = "passed"
+                self.startup_remaining()  # Last admission check, after status; no call before original assignment.
+                self.original = original
+            finally:
+                if self.original is None:
+                    self.receipt["startup_readiness_status"] = "failed"
+                self.startup_deadline, self.startup_last_clock = None, None
             self.receipt.update(original_master=original.master.safe(), original_scalar=original.scalar.safe(),
                                 original_native=original.native, original_boot_id_sha256=hashlib.sha256(original.boot.encode()).hexdigest())
             self.publish()

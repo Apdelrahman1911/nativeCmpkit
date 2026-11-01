@@ -1,5 +1,38 @@
 # Remaining-platform execution checkpoint — 2026-11-01
 
+## Date year-policy verified and closed; related diagnostics prepared — 2026-11-01
+
+**#26/UI-001 CLOSED/completed**, immediately after all four original criteria
+and [actual original review/readback](evidence/current-platform-recovery-20261101/uikit-date26-closure148/README.md), before docs. Actual41338100010
+at98e9fc007 remains FAILED: App date6/6 pass, alert4/4 fail; independent serial
+Material2/2 pass, nativeGradle1/1847.49s and Material0/135.68s. Four actual1157
+maps/native protocol/Worker/runtime/owned-app cleanup hold; prior DateStateContract9
+and NativeDateControls5 are reused on unchanged applicable sources, not replayed.
+Controlled native calendar/control/delegate input is not XCUI/physical taps.
+#28 stays open: all four stop at the pre-activation native-view readiness gate;
+individual operands/cause unknown. Public activation and all original assertions
+remain unverified, no manager/private/forced-input fallback. **96closed/76open/
+172total;25implemented/40partial/94verified/five unresolved.**
+
+[Related preparation144](evidence/current-platform-recovery-20261101/related-diagnostic-preparation144/README.md) integrates exact Wasm failure-state reporting,
+Android six-resource qualification observations and read-only camera startup
+readiness. Fresh Wasm4 synthetic/three Node outcomes, Android22/40 mutation
+obligations and camera16 fresh+two prior applicable pass without replay; original
+camera003 remains FAILED, not a reconstructed18/18 green. IOAPK compiler0/39.01s
+holds1162/1238 maps at143. Added Windows failure-only resource fingerprints compile
+Desktop-test0/33.01s at146, final1163/1239 held; source controls still unexecuted:
+first147 refuses in optional stdlib `_wmi` import before any method, source held.
+No production/API/dependency/workflow changes or new native passes in this batch.
+
+Next freeze→genuine local Wasm4, AndroidLocal2, WindowsStop1 after owning source
+control recovery, camera Dont-keepC1 only, then ARM FIRST R01–R04 after narrow final
+binding refresh. Accepted JS/date/Material/camera/picker/Windowsrequest outcomes
+are not replayed. Lead Git/dispatch/closure, serial local/8GiB/max2 combined
+hosted-heavy INCLUDING queued/reserved remain; Actions/all/no mandatory SHA
+pinning/read-only verification. Every publishing/Pages/main/history/native/
+consumer/API-ABI/dependency/legal/security/release-readiness gate remains closed.
+Earlier dated checkpoints retain their scope.
+
 ## Next finite UIKit alert/date-year request
 
 [Preparation134](evidence/current-platform-recovery-20261101/uikit-important-preparation134/README.md):

@@ -13,6 +13,7 @@ import tempfile
 import unittest
 
 import library_tests as lt
+from share_clipboard_wasm_selection_diagnostic import original_js_child_bootstrap_from_diagnostic
 import workflow_matrix as matrix
 
 PROFILE = "share-clipboard-native-wasm"
@@ -278,7 +279,10 @@ class ShareClipboardWasmRecoveryTests(unittest.TestCase):
             ("  function childLoad(", "  function wasmChildBootstrap("): "bab783bb4505bca73a49e02f2ebd5ab547de846c300a2760f0f990b97bbfd013",
         }
         for (start, end), digest in blocks.items():
-            self.assertEqual(digest, hashlib.sha256(source[source.index(start):source.index(end)].rstrip().encode()).hexdigest())
+            block = source[source.index(start):source.index(end)].rstrip()
+            if start == "  function childBootstrap(":
+                block = original_js_child_bootstrap_from_diagnostic(block)
+            self.assertEqual(digest, hashlib.sha256(block.encode()).hexdigest())
         self.model("js-recipe")
 
     def test_pinned_kgp_loader_shape_is_classic_relative_served_entry_not_raw_test_module(self):

@@ -1,0 +1,312 @@
+{
+  "acceptance": {
+    "DNS_TLS_offline_all_target_minimum_physical_consumer_ABI_dependency_security_release_readiness_certified": false,
+    "actual_methods_executed": 2,
+    "complete_native_methods_independently_accepted": 0,
+    "failed_methods": 2,
+    "issue_64_remains_open": true,
+    "native_recovery_claim": false,
+    "new_whole_issue_closures": 0
+  },
+  "actual_commands": {
+    "apk_assembly": {
+      "elapsed_seconds": 218.06,
+      "exit_code": 0
+    },
+    "connected_gradle": {
+      "elapsed_seconds": 68.03,
+      "exit_code": 1
+    },
+    "owned_avd_create": {
+      "elapsed_seconds": 1.0,
+      "exit_code": 0
+    }
+  },
+  "actual_runtime": {
+    "android_abi": "x86_64",
+    "android_api": "35",
+    "android_release": "15",
+    "boot_before_after_identity_equal": true,
+    "boot_completed": "1",
+    "build_platform_package": "platforms;android-37.0",
+    "emulator_revision": "37.2.13",
+    "gradle": "9.7.1",
+    "host_architecture": "x64",
+    "host_system": "Linux",
+    "image_revision": "9",
+    "java": "17.0.21",
+    "python": "3.12.3",
+    "selinux": "Enforcing",
+    "system_image": "system-images;android-35;google_apis;x86_64"
+  },
+  "cases": [
+    {
+      "accepted": false,
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "failed_wait_operand_values": "unobserved",
+      "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+      "original_failure_body_sha256": "9c74fa83a627b7957dd31f46048dca3fcb9909c51028ad65ff23fd8f0f4f263e",
+      "primary_boundary": {
+        "description": "A forwarded native start and the exact still-held owned request",
+        "helper": "awaitStopRedirectHeld",
+        "helper_line": 244,
+        "method_line": 158,
+        "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+        "stage": "first held Stop request, before public Stop/redirect/Reload",
+        "wait_line": 305
+      },
+      "primary_underlying_cause": "unknown",
+      "status": "failed",
+      "suppressed": [
+        {
+          "category": "owned Stop/redirect HTTP fixture failure",
+          "chronology_relative_to_primary_timeout": "unknown",
+          "cleanup_can_supply_this_observation": true,
+          "nested_authored_message": "Peer disconnected before public Stop was invoked",
+          "nested_type": "java.lang.IllegalStateException",
+          "primary_failure_cause_proven": false,
+          "source_line": 839
+        }
+      ],
+      "time_seconds": "14.515"
+    },
+    {
+      "accepted": false,
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "failed_wait_operand_values": "unobserved",
+      "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+      "original_failure_body_sha256": "4385e2993ca70b11e9621e204e3e3086a420e321d9535c18ef26f9a62cd26cf3",
+      "primary_boundary": {
+        "description": "A real onPageStarted and still-held exact owned HTTP request",
+        "helper": "awaitHeldStart",
+        "helper_line": 309,
+        "method_line": 75,
+        "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+        "stage": "first held transport-failure start, before test release/real failure/recovery/Reload",
+        "wait_line": 367
+      },
+      "primary_underlying_cause": "unknown",
+      "status": "failed",
+      "suppressed": [],
+      "time_seconds": "12.295"
+    }
+  ],
+  "cleanup_observations": {
+    "complete_native_method_disposal_oracles_accepted": false,
+    "forced_owned_group": false,
+    "fresh_exclusive_owned_guest_binding_reviewed": true,
+    "independent_APK_signer_installed_UID_uninstall_readback": "not archived",
+    "original_controller_clean_shutdown": true,
+    "owned_child_exit_code": 0,
+    "owned_guest_graceful_shutdown_requested": true,
+    "post_exit_owned_adb_transport_removed": "not recorded"
+  },
+  "frozen_sources": {
+    "actual_combined_map_uploaded": false,
+    "actual_input_maps": [
+      {
+        "equals_frozen_library": true,
+        "every_path_matches_independent_immutable_tree_binding": true,
+        "inputs": 1104,
+        "map_kind": "library only",
+        "original_role": "inputs-before.json",
+        "raw_sha256": "86fba489b69745f8397224153491355a5083a08cb10dcd05a45c051f85974954"
+      },
+      {
+        "equals_frozen_library": true,
+        "every_path_matches_independent_immutable_tree_binding": true,
+        "inputs": 1104,
+        "map_kind": "library only",
+        "original_role": "inputs-after.json",
+        "raw_sha256": "86fba489b69745f8397224153491355a5083a08cb10dcd05a45c051f85974954"
+      },
+      {
+        "equals_frozen_library": true,
+        "every_path_matches_independent_immutable_tree_binding": true,
+        "inputs": 1104,
+        "map_kind": "library only",
+        "original_role": "library/inputs-before.json",
+        "raw_sha256": "86fba489b69745f8397224153491355a5083a08cb10dcd05a45c051f85974954"
+      },
+      {
+        "equals_frozen_library": true,
+        "every_path_matches_independent_immutable_tree_binding": true,
+        "inputs": 1104,
+        "map_kind": "library only",
+        "original_role": "library/inputs-after.json",
+        "raw_sha256": "86fba489b69745f8397224153491355a5083a08cb10dcd05a45c051f85974954"
+      }
+    ],
+    "all_frozen_paths_match_immutable_blobs": true,
+    "combined_inputs": 1181,
+    "independent_immutable_tree_binding_paths": 1181,
+    "library_inputs": 1104,
+    "source_copies_reviewed_and_read_back": 31,
+    "source_tree_dirty": false,
+    "source_unchanged": true,
+    "tree_entries": 41557,
+    "tree_sha": "98fb4888d8359c1bc6a26154af1f776b0abfa94f",
+    "tree_untruncated": true
+  },
+  "kind": "independent exact-two original Android WebView actual review",
+  "original_XML": {
+    "XML_timestamp": "2026-11-01T05:21:49",
+    "ZIP_timestamp": "2026-11-01T05:21:50+00:00",
+    "bytes": 4530,
+    "counts": {
+      "errors": 0,
+      "executed": 2,
+      "failures": 2,
+      "not_applicable": 0,
+      "passed": 0,
+      "skipped": 0,
+      "tests": 2,
+      "unexpected_skipped": 0
+    },
+    "declared_counters_match_actual_cases": true,
+    "documents": 1,
+    "exact_two_identities": true,
+    "no_missing_foreign_duplicate_or_skipped_cases": true,
+    "original_collector_reported_no_freshness_refusal": true,
+    "receipt_errors": [
+      "Failed, errored or unexpected skipped tests are not accepted by this verification gate"
+    ],
+    "report_hash_equals_original_receipt_and_inventory": true,
+    "sha256": "b7b6bd7994023991ea5da3188d3d6b0645d6e0b447c274403d7180dcce75ebb1",
+    "timestamps_within_original_invocation": true
+  },
+  "original_acquisition": {
+    "artifact_bytes": 232801,
+    "artifact_metadata_digest_and_size_match": true,
+    "artifact_sha256": "12a6fbe7854fea70590311fc54103fbe03485c18a9d11537df3a37af621f783b",
+    "native_job_log_acquisitions": 1,
+    "original_artifact_files": 20,
+    "owning_artifact_id": 13071239595,
+    "owning_artifact_name": "library-evidence-android-device-api35",
+    "owning_zip_acquisitions": 1,
+    "prior_runs_reacquired": false,
+    "retries": 0,
+    "tooling_job_log_acquisitions": 1
+  },
+  "repository": "Apdelrahman1911/nativeCmpkit",
+  "review_operations": {
+    "dispatch_or_Git_mutations": false,
+    "issue_mutations": false,
+    "local_builds_models_tests_native_replay": false,
+    "original_XML_reconstructed_or_replaced": false,
+    "source_edits": false
+  },
+  "reviewed_utc": "2026-11-01T05:28:30.142918+00:00",
+  "run_attempt": 1,
+  "run_id": 41276056846,
+  "schema_version": 1,
+  "selection": {
+    "annotation_inherited_source_inventory_files": 7,
+    "comma_containing_selectors": false,
+    "complete_suite_requested": false,
+    "effective_selector_guard_reached": true,
+    "exact_runtime_annotated_methods": [
+      "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+      "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
+    ],
+    "filter": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestVerification",
+    "filter_argument": "annotation",
+    "full_child_log_uploaded": false,
+    "independently_observed_marker_in_bounded_child_log_excerpts": {
+      "child_log_line": 134,
+      "child_log_sha256": "a4dfc6a34ee031d5f7ba0153bcb37c4546562d2079322befec5dbfd9b404562f",
+      "count": 1
+    },
+    "only_module": "calf-webview",
+    "profile": "android-webview-request-state",
+    "report_layout_guard_reached": true,
+    "strict_marker_count_reported_by_original_receipt": 1,
+    "suite": "android-device",
+    "task": ":calf-webview:connectedAndroidDeviceTest"
+  },
+  "source_commit": "ff41a9329c6f85dcae3c50d6372997ff92501395",
+  "terminal": {
+    "conclusion": "failure",
+    "native_job_conclusion": "failure",
+    "status": "completed",
+    "tooling_conclusion": "success"
+  },
+  "tooling": {
+    "consumer_batch": 241,
+    "main_CI_batch": 1796,
+    "observed_unittest_batches": [
+      {
+        "elapsed_seconds": 0.064,
+        "original_log_summary_line": 3415,
+        "outcome": "OK",
+        "reported_test_executions": 35
+      },
+      {
+        "elapsed_seconds": 0.197,
+        "original_log_summary_line": 3500,
+        "outcome": "OK",
+        "reported_test_executions": 80
+      },
+      {
+        "elapsed_seconds": 1.731,
+        "original_log_summary_line": 3595,
+        "outcome": "OK",
+        "reported_test_executions": 90
+      },
+      {
+        "elapsed_seconds": 99.066,
+        "original_log_summary_line": 5398,
+        "outcome": "OK",
+        "reported_test_executions": 1796
+      },
+      {
+        "elapsed_seconds": 0.442,
+        "original_log_summary_line": 5429,
+        "outcome": "OK",
+        "reported_test_executions": 26
+      },
+      {
+        "elapsed_seconds": 5.124,
+        "original_log_summary_line": 5814,
+        "outcome": "OK",
+        "reported_test_executions": 380
+      },
+      {
+        "elapsed_seconds": 0.312,
+        "original_log_summary_line": 5886,
+        "outcome": "OK",
+        "reported_test_executions": 67
+      },
+      {
+        "elapsed_seconds": 0.014,
+        "original_log_summary_line": 5900,
+        "outcome": "OK",
+        "reported_test_executions": 9
+      },
+      {
+        "elapsed_seconds": 2.425,
+        "original_log_summary_line": 6146,
+        "outcome": "OK",
+        "reported_test_executions": 241
+      },
+      {
+        "elapsed_seconds": 0.073,
+        "original_log_summary_line": 6157,
+        "outcome": "OK",
+        "reported_test_executions": 6
+      }
+    ],
+    "tooling_is_not_library_native_acceptance": true
+  },
+  "unknowns_and_non_inference": [
+    "The failing operand/value in each original held-start conjunction is not archived; an eventual request or callback is not the required simultaneous still-held interval.",
+    "The primary underlying cause of either timeout is unknown. No selector/dispatch/Chromium-policy/transport diagnosis is established.",
+    "The Stop fixture suppressed pre-Stop peer-EOF is retained but not a proven cause: ActivityLease/native-owner teardown precedes server.close and can produce EOF before stopInvoked becomes true.",
+    "No exact WebView provider/package/version or Chromium callback-source revision is recorded. API35/image identity does not establish callback timing.",
+    "Full child Gradle/emulator logs and logcat/protobuf bodies were not uploaded. Their original bounded inventory hashes are inert, not reconstructed evidence.",
+    "Post-exit ADB transport absence is not recorded for this WebView controller branch; do not infer it from graceful guest exit.",
+    "There is no independent APK signer/installed-UID/uninstall readback receipt in this artifact. Do not borrow helper-camera-IO cleanup evidence.",
+    "Source before/after maps in the actual artifact are four 1104-library maps, not uploaded 1181-combined maps."
+  ],
+  "workflow_id": 395188384
+}

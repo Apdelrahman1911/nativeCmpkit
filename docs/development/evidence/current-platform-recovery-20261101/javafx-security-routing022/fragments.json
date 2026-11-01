@@ -1,0 +1,347 @@
+{
+  "apply_contract": [
+    "Lead only; current live-source readback and unique literal counts before integration.",
+    "No whole-file overwrite across permission rec2 or other disjoint changes; rebase full-preimage hashes on composed bytes.",
+    "Preserve original modes, all existing 152 profiles and 11 slots, AndroidWebView annotation, permissions/max2/routes/source payloads.",
+    "Absent-only additions; source Kotlin pair separately owned and required exact corrected hashes.",
+    "Unknown compile/native event shapes refuse; no automatic replay, fallback, weakened criteria or acceptance."
+  ],
+  "captured_head_observation_only": "49e40b405aa924feb67a78c1647891dfb3f65920",
+  "fragments": [
+    {
+      "after_mode": "0o600",
+      "before_mode": "0o600",
+      "id": "javafx-security-001",
+      "new_sha256": "7c186a1a0533e8e142279d44e5d0d7dea120a952a62acabc85bea2f0813f7a20",
+      "new_text": "import java.time.Duration\nimport org.gradle.api.tasks.testing.Test\n",
+      "old_sha256": "7bd1ac0c89802cf57a0559dd57e32888ce551f978eb27730905201691dfce0cb",
+      "old_text": "import java.time.Duration\n",
+      "operation": "replace-exact-once",
+      "path": "calf-webview/build.gradle.kts"
+    },
+    {
+      "after_mode": "0o600",
+      "before_mode": "0o600",
+      "id": "javafx-security-002",
+      "new_sha256": "15da6407d63c10e2deee58fe9e5f275093e3a174333206d2ed5861cc1298fa5b",
+      "new_text": ".currentOs)\n    }\n\n    sourceSets.webMain.dependencies {\n        implementation(libs.kotlinx.browser)\n    }\n}\n\nval desktopSecurityClass = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest\"\nval desktopSecurityMethod = \"trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner\"\nval desktopCookieSelector = \"com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie\"\nval desktopPolicySelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce\"\nval desktopMediaSelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument\"\nval desktopSecurityFocus = providers.gradleProperty(\"nativecmpkitDesktopSecurityFocus\").orNull\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\n    null -> emptyList()\n    \"tls-rendering\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\")\n    \"tls-rendering-cookies-policy\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector)\n    \"tls-rendering-cookies-policy-media\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n    else -> error(\"Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback\")\n}\n\ntasks.withType<Test>().matching { it.name == \"desktopTest\" }.configureEach {\n    if (desktopSecurityFocus == null) {\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\n        filter { excludeTestsMatching(desktopSecurityClass) }\n    } else {\n        // Each selected class has exactly one selected method; no second class can\n        // reuse HTTP2Loader's static fixture-trusted HttpClient or a cookie handler.\n        maxParallelForks = 1\n        forkEvery = 1L\n        systemProperty(\"nativecmpkit.desktop.security.worker\", \"one-selected-class\")\n        filter {\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\n            isFailOnNoMatchingTests = true\n        }\n    }\n}\n",
+      "old_sha256": "07cfe32ec85eb78a18233a5369c56b560116532584036bcae2cea4e36cef8df6",
+      "old_text": ".currentOs)\n    }\n\n    sourceSets.webMain.dependencies {\n        implementation(libs.kotlinx.browser)\n    }\n}\n",
+      "operation": "replace-exact-once",
+      "path": "calf-webview/build.gradle.kts"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-003",
+      "new_sha256": "65e830727e584ebb7c4fcbb6b26dc89bb35888a5f9e965a07397c217b3a01922",
+      "new_text": "import desktop_media_context\nimport desktop_security_plan\nimport picker_dialog_context\n",
+      "old_sha256": "062f6f3310e8d746f54f5913ca58a523a6f2ec852c7d721b9a34f8904abe52d1",
+      "old_text": "import desktop_media_context\nimport picker_dialog_context\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-004",
+      "new_sha256": "f995c23cf6febd5d81c656eacc87a0c6b20d26bea8590d0ea4d1204edaf036f4",
+      "new_text": "            (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == \"desktop\" and modules == (\"calf-webview\",)) or\n            (focus in desktop_security_plan.FOCUSES and suite == \"desktop\" and modules == (\"calf-webview\",)) or\n",
+      "old_sha256": "66f4571b7f709dcc9399c3f3a493c5c8c2990eba7a33221e143a42011ad1e5e3",
+      "old_text": "            (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == \"desktop\" and modules == (\"calf-webview\",)) or\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-005",
+      "new_sha256": "cf58bb5432c42658256b84e0915ca2b56058c305c3b1d9f732cf42049eb40a8d",
+      "new_text": "    elif focus in desktop_security_plan.FOCUSES:\n        route = desktop_security_plan.focus_selection(focus)\n        sources = desktop_security_plan.selected_sources(focus)\n        if any(relative not in selected[0][\"test_source_files\"] for relative in sources):\n            raise ValueError(\"Exact selected Desktop security source/fixture is missing\")\n        result[\"explicit_test_focus\"] = focus\n        result[\"desktop_security_fixture\"] = desktop_security_plan.fixture_contract(root, focus)\n        selected[0].update(test_filter=\",\".join(route[\"selectors\"]),\n                           required_testcases=list(route[\"required_testcases\"]),\n                           required_original_xml=route[\"required_original_xml\"],\n                           test_source_files=list(sources), test_source_sets=[\"desktopTest\"],\n                           test_source_sha256=sources)\n        result[\"scope\"] = \"Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance.\"\n    elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        sources = {spec[\"source\"]: spec[\"sha256\"] for spec in webview_desktop_request_specs(focus)}\n",
+      "old_sha256": "0112b8f7a7995813b3e2f7772df37b374a1dd14597b580a7f49ae7210281e615",
+      "old_text": "    elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        sources = {spec[\"source\"]: spec[\"sha256\"] for spec in webview_desktop_request_specs(focus)}\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-006",
+      "new_sha256": "672136befd84a0b2e2fac0c399847f6b454f7975bc0f4a160353b4adbb30006e",
+      "new_text": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus not in desktop_security_plan.FOCUSES and test_plan.get(\"desktop_security_fixture\") is not None:\n        raise ValueError(\"No security-only trust/isolation fixture on an unrelated or default focus\")\n    if focus is None:\n        if any(\"test_filter\" in item or \"required_testcases\" in item for item in test_plan[\"expected\"]):\n",
+      "old_sha256": "2aa92aa125a6b194c32507f5493eb26573124251723b7e66a4dc71a724b45a96",
+      "old_text": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus is None:\n        if any(\"test_filter\" in item or \"required_testcases\" in item for item in test_plan[\"expected\"]):\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-007",
+      "new_sha256": "9d7be3be3f46aaee3392383b5f18eb166cfbb5191f970582feda7078df5b5f5b",
+      "new_text": "    if focus in desktop_security_plan.FOCUSES:\n        route = desktop_security_plan.focus_selection(focus)\n        sources = desktop_security_plan.selected_sources(focus)\n        if (not allowed_test_focus(test_plan[\"suite\"], tuple(test_plan[\"explicit_module_subset\"]), focus) or\n                test_plan[\"complete_suite_requested\"] is not False or len(expected) != 1 or\n                expected[0][\"module\"] != \"calf-webview\" or expected[0].get(\"project\") != \":calf-webview\" or\n                expected[0][\"task\"] != \":calf-webview:desktopTest\" or\n                expected[0].get(\"report_directory\") != \"calf-webview/build/test-results/desktopTest\" or\n                expected[0].get(\"test_filter\") != \",\".join(route[\"selectors\"]) or\n                expected[0].get(\"required_testcases\") != list(route[\"required_testcases\"]) or\n                type(expected[0].get(\"required_original_xml\")) is not int or\n                expected[0][\"required_original_xml\"] != route[\"required_original_xml\"] or\n                expected[0].get(\"test_source_files\") != list(sources) or\n                expected[0].get(\"test_source_sets\") != [\"desktopTest\"] or\n                expected[0].get(\"test_source_sha256\") != sources or\n                test_plan.get(\"inherited_test_source_sets\") != list(SUITES[\"desktop\"][1])):\n            raise ValueError(\"Invalid exact missing-only Desktop security plan\")\n        desktop_security_plan.validate_fixture_contract(test_plan.get(\"desktop_security_fixture\"), focus)\n        return True\n    if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        sources = {spec[\"source\"]: spec[\"sha256\"] for spec in webview_desktop_request_specs(focus)}\n",
+      "old_sha256": "0db41c18ae4cef116dea5b7747991a02bfab75f970fa30fae92c697b5e860f41",
+      "old_text": "    if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        sources = {spec[\"source\"]: spec[\"sha256\"] for spec in webview_desktop_request_specs(focus)}\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-008",
+      "new_sha256": "ecf9db804faa5638b42fe97eb6178a39f5526ea68a41c031d6ee4b8311ffe37d",
+      "new_text": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in desktop_security_plan.FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n            actual = {(c[\"classname\"], c[\"name\"]) for c in module_cases}\n            classes = {classname for classname, _ in required}\n            class_reports = Counter(frozenset(c[\"classname\"] for c in cases) for cases in cases_by_report)\n            exact = Counter(frozenset({classname}) for classname in classes)\n            policy_errors = ([] if actual == required and len(module_cases) == len(required) and\n                             len(reports) == len(paths) == expected[\"required_original_xml\"] and class_reports == exact else\n                             [\"Desktop security XML needs exactly one selected native method per class and one nonempty fresh original per class; no missing/duplicate/empty/mixed/foreign cases\"])\n            route = desktop_security_plan.focus_selection(test_plan[\"explicit_test_focus\"])\n            sources = {desktop_security_plan.SPECS[name][0]: desktop_security_plan.SOURCE_PATHS[name]\n                       for name in route[\"selected\"]}\n            scenarios = [{**c, \"source\": sources.get(c[\"classname\"], \"unselected\"), \"required_on_host\": True,\n                          \"disposition\": \"required-executed\" if c[\"status\"] == \"passed\" else \"required-not-passed\"}\n                         for c in module_cases]\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n",
+      "old_sha256": "d3117146ddba5304ae86fce229da1909e395888b1c08fd796e225800c8c5d6ce",
+      "old_text": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-009",
+      "new_sha256": "3ff5e0234d871d017dec8222076080e9f65aafddc063bfa54daa22a29042f550",
+      "new_text": "    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n        desktop_security_plan.validate_host(platform.system(), platform.machine(), focus)\n        if desktop_security_plan.fixture_contract(root, focus) != test_plan[\"desktop_security_fixture\"]:\n            raise ValueError(\"Desktop security source/fixture changed before the owning command\")\n    if test_plan.get(\"explicit_test_focus\") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan[\"explicit_test_focus\"])\n",
+      "old_sha256": "4a5aff362153f676c0a40ce6e8a0a12855104c833ab3dbcbb84964712abae737",
+      "old_text": "    if test_plan.get(\"explicit_test_focus\") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n        validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan[\"explicit_test_focus\"])\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-010",
+      "new_sha256": "7f7f37a34592efae96866f4d51bff568ceaf6f730b7fbd80b45af330a19c54a6",
+      "new_text": "               \"--init-script\", \"scripts/ci/daemon-jvm.init.gradle.kts\"]\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n                        \"-PnativecmpkitDesktopSecurityFocus=\" + test_plan[\"explicit_test_focus\"]])\n    if simulator:\n",
+      "old_sha256": "abb3368e546c100164d06a7f78c90bb1e9636deab2c38c633eebe4f4da6d4a70",
+      "old_text": "               \"--init-script\", \"scripts/ci/daemon-jvm.init.gradle.kts\"]\n    if simulator:\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-011",
+      "new_sha256": "96b90fdaa460e8207620a7e6cff4545f92525d6224dee007b36c25d9a744fe25",
+      "new_text": "                       test_plan.get(\"explicit_test_focus\") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or\n                       test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES or\n                       (test_plan.get(\"explicit_test_focus\") == WEBVIEW_LIFETIME_FOCUS and suite == \"desktop\")\n",
+      "old_sha256": "8638d09552f166f08c96e0e0bd253aff33e0b38a68ec384476450baf2a884d8b",
+      "old_text": "                       test_plan.get(\"explicit_test_focus\") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or\n                       (test_plan.get(\"explicit_test_focus\") == WEBVIEW_LIFETIME_FOCUS and suite == \"desktop\")\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-012",
+      "new_sha256": "8e354f1ba384bcd13ae9ab784ca2f4f6a46389b3a4913503e566ab2f59df9822",
+      "new_text": "        if focus in desktop_security_plan.FOCUSES:\n            desktop_security_plan.validate_host(context[\"host\"].get(\"system\"), context[\"host\"].get(\"architecture\"), focus)\n        if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n            validate_webview_desktop_request_host(context[\"host\"].get(\"system\"), context[\"host\"].get(\"architecture\"), focus)\n",
+      "old_sha256": "7f3e39c5ce927edc3339434af3798fcabbe7987350e3dee692a5c322bbd5eb3e",
+      "old_text": "        if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:\n            validate_webview_desktop_request_host(context[\"host\"].get(\"system\"), context[\"host\"].get(\"architecture\"), focus)\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-013",
+      "new_sha256": "0888b101c87d34f354d72cd6493f0bc3695726b6e52fece2f0d4110c512c8856",
+      "new_text": "        if focus in desktop_security_plan.FOCUSES:\n            try:\n                receipt[\"desktop_security_workers\"] = desktop_security_plan.worker_observation(output / \"gradle.log\", focus)\n            except (OSError, ValueError, UnicodeError) as error:\n                receipt[\"errors\"].append({\"error\": \"Exact public security-only worker boundaries incomplete or rejected\",\n                                          \"reason\": type(error).__name__})\n        if audio.requested and not audio.passed():\n            receipt[\"errors\"].append({\"error\": \"Owned clocked audio context/configuration/cleanup failed\"})\n",
+      "old_sha256": "673ed43bfc4d32cfd90f62501ec4300461e626efecb32e9e8aef3c955f1cbc22",
+      "old_text": "        if audio.requested and not audio.passed():\n            receipt[\"errors\"].append({\"error\": \"Owned clocked audio context/configuration/cleanup failed\"})\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-014",
+      "new_sha256": "272dff1424c7a1653b98c7b13ddef57ee89f6c9a5e21d38508f6936238996788",
+      "new_text": "                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,\n",
+      "old_sha256": "938ba7fb6fe96e2a92fdc19912aa9a287841c50c789a431163f2b1ada7a19927",
+      "old_text": "                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-015",
+      "new_sha256": "8eae0808a6b2deff81b7f803d3a66776a46a2a26594a8d39b4f922b6054df4d8",
+      "new_text": "import android_device_batch_plan as android_batch_plan\nimport desktop_security_plan\n",
+      "old_sha256": "17db21cf36fbeeaacbef764bf59baa7b1a6cb2d109ae282e011b65f802852688",
+      "old_text": "import android_device_batch_plan as android_batch_plan\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-016",
+      "new_sha256": "c9e81a0bf9dedb086a746004614b3d448f44e7146b9fe05b78ca83e53e262d79",
+      "new_text": "    \"webview-desktop-request-state\": (\"desktop-linux-x64\", \"desktop-macos-arm64\", \"desktop-windows-x64\", \"desktop-linux-arm64\", \"desktop-macos-x64\"),\n    \"webview-desktop-security-regressions\": (\"desktop-linux-x64\", \"desktop-macos-arm64\", \"desktop-windows-x64\", \"desktop-linux-arm64\", \"desktop-macos-x64\"),\n",
+      "old_sha256": "a1ef445eed444dd04d74b5193a4bc5a1d1676aff8fe1bfedfc8ea41332347c78",
+      "old_text": "    \"webview-desktop-request-state\": (\"desktop-linux-x64\", \"desktop-macos-arm64\", \"desktop-windows-x64\", \"desktop-linux-arm64\", \"desktop-macos-x64\"),\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-017",
+      "new_sha256": "c30446f585f571f37c5a605d22aca2f3327b05a5798f48823e8d3dd04314f3d9",
+      "new_text": "    \"webview-desktop-request-state\": \"calf-webview\",\n    \"webview-desktop-security-regressions\": \"calf-webview\",\n",
+      "old_sha256": "cd53c3ffee4bc6decf2f5ff6947803b333e9f19152a2fa55d17e8c8e0b4405f6",
+      "old_text": "    \"webview-desktop-request-state\": \"calf-webview\",\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-018",
+      "new_sha256": "9590b70bbb7114e85c7f81ec2e818668cd04dccdf9b101d9d1f4eb11df7bf7c4",
+      "new_text": "    if profile == desktop_security_plan.PROFILE:\n        desktop_security_plan.validate_rows(desktop_security_plan.ROWS)\n        exact = {row[\"slot\"]: row for row in desktop_security_plan.ROWS}\n        if [row[\"slot\"] for row in rows] != list(exact):\n            raise ValueError(\"Desktop security must retain exactly its five existing slots\")\n        for row in rows:\n            required = exact[row[\"slot\"]]\n            if row[\"suite\"] != \"desktop\" or any(row[key] != required[key] for key in (\"runner\", \"arch\")):\n                raise ValueError(\"Desktop security runner/architecture drift; no other-host fallback\")\n            row[\"test-focus\"] = required[\"focus\"]\n    if profile.startswith(\"webview-identity\"):\n",
+      "old_sha256": "ddf1b4867bceee90f1b1a5c86a256e9879723f4c84580ad074e6064ca9facc91",
+      "old_text": "    if profile.startswith(\"webview-identity\"):\n",
+      "operation": "replace-exact-once",
+      "path": "scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after_mode": "0o644",
+      "before_mode": "0o644",
+      "id": "javafx-security-019",
+      "new_sha256": "e860dd2d474883f08a5447e5edca144b320dcb6c4b88db4df850500b12d057a9",
+      "new_text": "webview-desktop-request-state, webview-desktop-security-regressions, webview-wasm,",
+      "old_sha256": "fb8eb3001538fa2621cbd000f19d1170e8297d9ffe1573460dba7af19f9d0164",
+      "old_text": "webview-desktop-request-state, webview-wasm,",
+      "operation": "replace-exact-once",
+      "path": ".github/workflows/gradle.yml"
+    }
+  ],
+  "operations": [
+    {
+      "after": {
+        "bytes": 58861,
+        "mode": "0o644",
+        "sha256": "74cd2afb259fb02de1ddc23596d2ebdd07d0b4dace7673f14385883488f1f64d"
+      },
+      "before": {
+        "bytes": 58823,
+        "mode": "0o644",
+        "sha256": "d0aa0242c8d3d287d0ed084a0e2123aca8d3ad00b4e8db63b6a329a363430c3e"
+      },
+      "fragment_ids": [
+        "javafx-security-019"
+      ],
+      "full_payload_is_not_overwrite_authority": true,
+      "operation": "modify-via-unique-exact-literals-only",
+      "path": ".github/workflows/gradle.yml",
+      "payload": "files/.github/workflows/gradle.yml",
+      "preimage": "preimages/.github/workflows/gradle.yml"
+    },
+    {
+      "after": {
+        "bytes": 302054,
+        "mode": "0o644",
+        "sha256": "a151b0fdd25d0488d2c2e00b8ae4b31b160344e9e05c5f930578b45f5077c104"
+      },
+      "before": {
+        "bytes": 295819,
+        "mode": "0o644",
+        "sha256": "db10f3ce6be1768567ac07e0f87197bbcd744bd8ba268d76207ccfbc1681553d"
+      },
+      "fragment_ids": [
+        "javafx-security-003",
+        "javafx-security-004",
+        "javafx-security-005",
+        "javafx-security-006",
+        "javafx-security-007",
+        "javafx-security-008",
+        "javafx-security-009",
+        "javafx-security-010",
+        "javafx-security-011",
+        "javafx-security-012",
+        "javafx-security-013",
+        "javafx-security-014"
+      ],
+      "full_payload_is_not_overwrite_authority": true,
+      "operation": "modify-via-unique-exact-literals-only",
+      "path": "scripts/ci/library_tests.py",
+      "payload": "files/scripts/ci/library_tests.py",
+      "preimage": "preimages/scripts/ci/library_tests.py"
+    },
+    {
+      "after": {
+        "bytes": 36995,
+        "mode": "0o644",
+        "sha256": "a2a047ed400db6a8e9fb090373ca48f11bed37a0f397aecd96e53ad8c7e42370"
+      },
+      "before": {
+        "bytes": 36079,
+        "mode": "0o644",
+        "sha256": "7d5c0d9b0e305f837505bfd0fbfbec5124d18fc4456e673715271f784f217c84"
+      },
+      "fragment_ids": [
+        "javafx-security-015",
+        "javafx-security-016",
+        "javafx-security-017",
+        "javafx-security-018"
+      ],
+      "full_payload_is_not_overwrite_authority": true,
+      "operation": "modify-via-unique-exact-literals-only",
+      "path": "scripts/ci/workflow_matrix.py",
+      "payload": "files/scripts/ci/workflow_matrix.py",
+      "preimage": "preimages/scripts/ci/workflow_matrix.py"
+    },
+    {
+      "after": {
+        "bytes": 7237,
+        "mode": "0o600",
+        "sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731"
+      },
+      "before": {
+        "bytes": 5077,
+        "mode": "0o600",
+        "sha256": "4d58f2a07a23dcdfa2b43a34190ea279b7188727a62fd75fcd6cad3a66ba0064"
+      },
+      "fragment_ids": [
+        "javafx-security-001",
+        "javafx-security-002"
+      ],
+      "full_payload_is_not_overwrite_authority": true,
+      "operation": "modify-via-unique-exact-literals-only",
+      "path": "calf-webview/build.gradle.kts",
+      "payload": "files/calf-webview/build.gradle.kts",
+      "preimage": "preimages/calf-webview/build.gradle.kts"
+    },
+    {
+      "bytes": 17195,
+      "inverse": "remove only if exact newly-created payload bytes and mode still match; otherwise stop",
+      "mode": "0o600",
+      "operation": "add-absent-only",
+      "path": "scripts/ci/desktop_security_plan.py",
+      "payload": "files/scripts/ci/desktop_security_plan.py",
+      "sha256": "127cb7fb68daa6c1fa6d4e9ff1f1fd34e93fb0c4db24a9e6987af6ce3b20f8b1"
+    },
+    {
+      "bytes": 4492,
+      "inverse": "remove only if exact newly-created payload bytes and mode still match; otherwise stop",
+      "mode": "0o600",
+      "operation": "add-absent-only",
+      "path": "scripts/ci/desktop-security.init.gradle.kts",
+      "payload": "files/scripts/ci/desktop-security.init.gradle.kts",
+      "sha256": "2776dc5587f6b621bd0289742e026f15a6d2ecfc7fb1131a2ed540aeaf6d3014"
+    },
+    {
+      "bytes": 23673,
+      "inverse": "remove only if exact newly-created payload bytes and mode still match; otherwise stop",
+      "mode": "0o600",
+      "operation": "add-absent-only",
+      "path": "scripts/ci/test_desktop_security_routing.py",
+      "payload": "files/scripts/ci/test_desktop_security_routing.py",
+      "sha256": "eed87f3ca099132e47aa5ff6ae1755f1406be63293d0927c79aa5c474a403a92"
+    }
+  ],
+  "profile": "webview-desktop-security-regressions",
+  "schema": "private-exact-reversible-fragments-v1"
+}

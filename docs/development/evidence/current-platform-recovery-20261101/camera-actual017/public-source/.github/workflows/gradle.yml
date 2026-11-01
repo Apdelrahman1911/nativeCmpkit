@@ -1,0 +1,948 @@
+# Modified for nativeCmpkit (2026-10-26): owner-authorized, library-only verification.
+# No publication/deployment; action SHAs are voluntary, not a required setting.
+name: NativeCmpKit verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Verification scope (targeted profiles preserve explicit incomplete coverage)
+        type: choice
+        required: true
+        default: core
+        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nativecmpkit-library-${{ github.ref }}-${{ inputs.profile }}
+  cancel-in-progress: false
+
+jobs:
+  tooling:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      libraries: ${{ steps.plan.outputs.libraries }}
+      webviews: ${{ steps.plan.outputs.webviews }}
+      webview_matrix: ${{ steps.plan.outputs.webview_matrix }}
+      samples: ${{ steps.plan.outputs.samples }}
+      sample_matrix: ${{ steps.plan.outputs.sample_matrix }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Verify complete history, audit and current development indexes
+        run: |
+          python3 scripts/migration/verify_migration.py
+          python3 scripts/audit/validate_audit.py
+          python3 scripts/audit/source_inventory.py --check
+          python3 scripts/development/validate_resolutions.py --check
+          python3 scripts/development/generate_icon_catalogues.py --check
+      - name: Offline verification-tool adversarial fixtures (not library passes)
+        run: |
+          for directory in scripts/audit scripts/migration scripts/development scripts/ci scripts/native scripts/dependencies scripts/dependencies/yarn scripts/docs tests/consumer; do
+            python3 -B -m unittest discover -s "$directory" -p 'test_*.py' -v
+          done
+          python3 -B -m unittest discover -s scripts/development -p upstream_sync_tests.py -v
+      - name: Select only the requested verification profile
+        id: plan
+        env:
+          PROFILE: ${{ inputs.profile }}
+        run: |
+          mkdir -p build/ci-plan
+          python3 scripts/ci/workflow_matrix.py "$PROFILE" > build/ci-plan/matrix.json
+          python3 - <<'PYTHON'
+          import json, os, sys
+          sys.path.insert(0, "scripts/ci")
+          import webview_consumer
+          import workflow_matrix
+          import sample_platform_verification
+          webview_matrix = webview_consumer.workflow_matrix(os.environ["PROFILE"])
+          matrix = json.load(open("build/ci-plan/matrix.json"))
+          sample_matrix = sample_platform_verification.workflow_matrix(os.environ["PROFILE"])
+          for row in sample_matrix["include"]:
+              sample_plan = sample_platform_verification.plan(sample_platform_verification.ROOT, row["mode"], build_only=row["build_only"])
+              with open("build/ci-plan/sample-" + row["mode"] + ".json", "w") as receipt:
+                  json.dump(sample_plan, receipt, indent=2, sort_keys=True)
+                  receipt.write("\n")
+          # Catch CLI/selection drift here, before macOS/Windows/emulator setup.
+          # This is read-only source planning, not compilation or executed tests.
+          preflight = workflow_matrix.preflight_plans(os.environ["PROFILE"])
+          with open("build/ci-plan/source-preflight.json", "w") as receipt:
+              json.dump(preflight, receipt, indent=2, sort_keys=True)
+              receipt.write("\n")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("matrix=" + json.dumps(matrix, separators=(",", ":")) + "\n")
+              output.write("libraries=" + str(bool(matrix["include"])).lower() + "\n")
+              output.write("webview_matrix=" + json.dumps(webview_matrix, separators=(",", ":")) + "\n")
+              output.write("webviews=" + str(bool(webview_matrix["include"])).lower() + "\n")
+              output.write("sample_matrix=" + json.dumps(sample_matrix, separators=(",", ":")) + "\n")
+              output.write("samples=" + str(bool(sample_matrix["include"])).lower() + "\n")
+          PYTHON
+
+  apple-appinfo-shape:
+    needs: tooling
+    if: inputs.profile == 'ios-appinfo-shape' && github.ref == 'refs/heads/development/preview-hardening'
+    runs-on: macos-26
+    timeout-minutes: 35
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      CARGO_BUILD_JOBS: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Reuse the pinned compiler and ordinary SDK setup only
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Select the existing official SDK23 command-line tools
+        run: |
+          python3 - <<'PYTHON'
+          import os
+          from pathlib import Path
+          manager = Path(os.environ["ANDROID_HOME"]) / "cmdline-tools/23.0/bin/sdkmanager"
+          if not manager.is_file():
+              raise SystemExit("SDK23 provisioning did not create the expected manager")
+          with open(os.environ["GITHUB_PATH"], "a") as output:
+              output.write(str(manager.parent) + "\n")
+          PYTHON
+      - name: Record one actual simulator; never switch after selection
+        id: runtime
+        run: |
+          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
+            --select-simulator iphone --output build/ci-runtime/appinfo-selection.json
+          device="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["udid"])')"
+          state="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/appinfo-selection.json"))["simulator"]["state"])')"
+          if [[ "$state" != Shutdown && "$state" != Booted ]]; then
+            echo 'Unknown selected simulator state; never choose another device' >&2
+            exit 1
+          fi
+          # Record the exact original row before any boot attempt, including failure.
+          printf 'device=%s\ninitial_state=%s\n' "$device" "$state" >> "$GITHUB_OUTPUT"
+          if [[ "$state" == Shutdown ]]; then
+            /usr/bin/xcrun simctl boot "$device"
+          fi
+          /usr/bin/xcrun simctl bootstatus "$device" -b
+      - name: Fixed link and current owned install; one appinfo shape only
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: python3 -B scripts/ci/apple_appinfo_shape_route.py run --simulator "$SELECTED_SIMULATOR"
+      - name: Restore only this job's previously shut-down simulator boot state
+        if: always() && steps.runtime.outputs.initial_state == 'Shutdown'
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          /usr/bin/xcrun simctl shutdown "$SELECTED_SIMULATOR"
+          python3 -B scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple \
+            --simulator "$SELECTED_SIMULATOR" --output build/ci-runtime/appinfo-restored.json
+          python3 - <<'PYTHON'
+          import json, os
+          row = json.load(open("build/ci-runtime/appinfo-restored.json"))["simulator"]
+          if row["udid"] != os.environ["SELECTED_SIMULATOR"] or row["state"] != "Shutdown":
+              raise SystemExit("Exact original simulator boot-state restoration is unavailable")
+          PYTHON
+      - name: Keep SDK lexical and source receipts only; no app, logs or native XML
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: apple-appinfo-shape-sdk-prerequisite
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-verification/apple-appinfo-shape/receipt.json
+            build/ci-verification/apple-appinfo-shape/library-inputs-before.json
+            build/ci-verification/apple-appinfo-shape/library-inputs-after.json
+
+  apple-appinfo-capability:
+    needs: tooling
+    if: inputs.profile == 'ios-appinfo-capability' && github.ref == 'refs/heads/development/preview-hardening'
+    runs-on: macos-26
+    timeout-minutes: 5
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - name: Read exact selected SDK tool identities and one appinfo help only
+        run: python3 -B scripts/ci/apple_appinfo_capability.py
+      - name: Keep bounded help and tool-identity receipt only
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: apple-appinfo-capability
+          retention-days: 7
+          if-no-files-found: error
+          path: build/ci-verification/apple-appinfo-capability/receipt.json
+
+  sample-platforms:
+    needs: tooling
+    if: needs.tooling.outputs.samples == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.tooling.outputs.sample_matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      SAMPLE_MODE: ${{ matrix.mode }}
+      SAMPLE_BUILD_ONLY: ${{ matrix.build_only }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+      CARGO_BUILD_JOBS: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Exact hosted compiler without a bootstrap script
+        run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
+      - name: Linux sample native and graphical build prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev libwayland-dev xvfb xauth
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record actual runtime and only the explicitly selected booted simulator
+        id: runtime
+        run: |
+          args=(--expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0)
+          if [[ "$SAMPLE_MODE" == linux ]]; then
+            CHROME_BIN="$(command -v google-chrome)"
+            test -x "$CHROME_BIN"
+            export CHROME_BIN
+            printf 'CHROME_BIN=%s\n' "$CHROME_BIN" >> "$GITHUB_ENV"
+            args+=(--browser)
+          else
+            python3 scripts/ci/runtime_context.py --expected-arch arm64 --require-clean --apple --select-simulator iphone --output build/ci-runtime/sample-selected.json
+            device="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-selected.json"))["simulator"]["udid"])')"
+            state="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-selected.json"))["simulator"]["state"])')"
+            if [[ "$state" == Shutdown ]]; then xcrun simctl boot "$device"; elif [[ "$state" != Booted ]]; then exit 1; fi
+            xcrun simctl bootstatus "$device" -b
+            args+=(--apple --simulator "$device" --require-booted)
+            printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
+          fi
+          python3 scripts/ci/runtime_context.py "${args[@]}" --output build/ci-runtime/sample-actual.json
+          fingerprint="$(python3 -c 'import json; print(json.load(open("build/ci-runtime/sample-actual.json"))["compiler_runtime_fingerprint"])')"
+          printf 'fingerprint=%s\n' "$fingerprint" >> "$GITHUB_OUTPUT"
+      - name: Exact configured sample and transitive producer dependency inputs
+        id: cache-inputs
+        run: |
+          digest="$(python3 scripts/ci/dependency_cache_inputs.py --scope libraries --output build/ci-runtime/sample-dependencies.json)"
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Dependencies only, never compiled sample outputs or test results
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: nativecmpkit-sample-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.mode }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Discover Apple allocation tools on this existing host, not library passes
+        if: runner.os == 'macOS' && matrix.build_only
+        env:
+          SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: python3 scripts/ci/apple_memory_discovery.py --simulator "$SIMULATOR"
+      - name: Keep allocation-tool discovery metadata early, never private traces or binaries
+        if: always() && runner.os == 'macOS' && matrix.build_only
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: apple-allocation-tool-discovery
+          if-no-files-found: warn
+          retention-days: 7
+          path: build/ci-verification/apple-memory-discovery/discovery.json
+      - name: Shared sample app builds and fresh unaccepted platform cases, not library evidence
+        env:
+          SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          args=(run --mode "$SAMPLE_MODE" --timeout 4800)
+          if [[ "$SAMPLE_BUILD_ONLY" == true ]]; then args+=(--build-only); fi
+          if [[ "$SAMPLE_MODE" == apple ]]; then args+=(--simulator "$SIMULATOR"); fi
+          if [[ "$SAMPLE_MODE" == linux ]]; then
+            xvfb-run -a python3 scripts/ci/sample_platform_verification.py "${args[@]}"
+          else
+            python3 scripts/ci/sample_platform_verification.py "${args[@]}"
+          fi
+      - name: Bounded owning sample failure diagnostics
+        if: failure()
+        run: |
+          output="build/ci-verification/sample-platforms-$SAMPLE_MODE"
+          if [[ -d "$output" ]]; then
+            python3 scripts/ci/failure_diagnostics.py --output "$output"
+          else
+            printf 'Sample invocation did not create a result directory; inspect failed setup step.\n'
+          fi
+      - name: Keep sample receipts and original XML only, never apps/frameworks/packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: sample-platform-evidence-${{ matrix.mode }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            build/ci-runtime/sample-*.json
+            build/ci-verification/sample-platforms-${{ matrix.mode }}/*.json
+            sample/common/build/test-results/testAndroidHostTest/TEST-*.xml
+            sample/common/build/test-results/jsBrowserTest/TEST-*.xml
+            sample/common/build/test-results/wasmJsBrowserTest/TEST-*.xml
+            sample/common/build/test-results/iosSimulatorArm64Test/TEST-*.xml
+
+  library-tests:
+    needs: tooling
+    if: needs.tooling.outputs.libraries == 'true'
+    strategy:
+      fail-fast: false
+      # Serial focused continuations can coexist with one immutable UIKit
+      # diagnostic without exceeding two combined library jobs. Complete
+      # profiles retain two-way execution; no target or test is removed.
+      max-parallel: ${{ (inputs.profile == 'navigation-geo-matrix' || inputs.profile == 'browser-coil-io' || inputs.profile == 'picker-saver-state' || inputs.profile == 'webview-offline-destination' || inputs.profile == 'webview-request-state' || inputs.profile == 'webview-content-transitions') && 1 || 2 }}
+      matrix: ${{ fromJSON(needs.tooling.outputs.matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      # Explicit Git checkout bytes on all hosts. The prior Windows checkout
+      # converted 692 text inputs to CRLF; no broad normalization is a trust gate.
+      # Preserve long historical/evidence paths without renaming archives or
+      # changing machine-wide Git/Windows policy. Set BEFORE checkout executes.
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      PYTHON: ${{ matrix.python }}
+      SUITE: ${{ matrix.suite }}
+      SLOT: ${{ matrix.slot }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+      SIMULATOR_KIND: ${{ matrix.simulator-kind }}
+      EMULATOR_API: ${{ matrix.emulator-api }}
+      SERIAL_EMULATOR_API: ${{ matrix.serial-emulator-api }}
+      # Two finite serial batches retain fresh controller/AVD/signing/XML per route.
+      ANDROID_BATCH: ${{ matrix.android-batch }}
+      # Source-defined diagnostic subsets, never arbitrary task/profile input.
+      # Receipts explicitly mark these as incomplete suite coverage.
+      TEST_MODULES: ${{ matrix.test-modules }}
+      # Finite source-defined class filters; no free-form Gradle input.
+      TEST_FOCUS: ${{ matrix.test-focus }}
+      # Only explicit finite recovery profiles launch a second application on the
+      # same host. Gradle may reuse unchanged compilation, never old test XML.
+      SERIAL_TEST_FOCUS: ${{ matrix.serial-test-focus }}
+      # One host can verify distinct real 2x/3x screens with the same compiled
+      # application; every invocation still gets its own fresh XML and cleanup.
+      SERIAL_SIMULATOR_KIND: ${{ matrix.serial-simulator-kind }}
+      # These macOS desktop slots REQUIRE real AppKit GUI/cancellation execution.
+      # A headless/assumption skip is failure, never an eligible N/A or UI pass.
+      NATIVECMPKIT_NATIVE_UI_TESTS: ${{ matrix.native-ui || 'false' }}
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Install the exact compiler using hosted-runner rustup (no bootstrap script)
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - name: Linux real UI/native prerequisites
+        if: runner.os == 'Linux' && matrix.suite == 'desktop'
+        timeout-minutes: 10
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev libwayland-dev xvfb xauth
+          if [[ -z "$TEST_MODULES" || ",$TEST_MODULES," == *",calf-file-picker,"* ]]; then
+            # Genuine owned private GTK/FileChooser portal, never an existing user bus.
+            sudo apt-get install --no-install-recommends -y xdg-desktop-portal xdg-desktop-portal-gtk xdotool
+          fi
+          if [[ -z "$TEST_MODULES" || ",$TEST_MODULES," == *",calf-webview,"* ]]; then
+            # Real JavaFX/GStreamer media needs clocked output on a sound-card-free
+            # runner. The helper owns an authenticated local PulseAudio null sink;
+            # it never starts a global service or substitutes the native decoder.
+            sudo apt-get install --no-install-recommends -y pulseaudio libasound2-plugins
+          fi
+      - name: Provision SDK on every actual host, including Apple and Windows
+        uses: android-actions/setup-android@v3
+        with:
+          # v3's SDK16 bootstrap installs SDK23 through the official registry.
+          # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
+          packages: ${{ inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-api35-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-media-selection-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api28') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64' || (inputs.profile == 'android-storage-api29-target28' || inputs.profile == 'android-storage-api29-legacy' || inputs.profile == 'android-storage-api29-scoped') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-29;google_apis;x86_64' || (inputs.profile == 'android-storage-api30-normal' || inputs.profile == 'android-storage-api30-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api35-normal' || inputs.profile == 'android-storage-api35-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || (inputs.profile == 'android-camera-provider-minimum' || inputs.profile == 'android-camera-no-handler-minimum') && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-permission-demo' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-demo-call-denial-recovery' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-media-selection-api33' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64' || inputs.profile == 'android-media-selection-api34' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-34;google_apis;x86_64' || matrix.suite == 'android-device' && (inputs.profile == 'android-io-provider-lifecycle' || inputs.profile == 'android-io-default-decode' || inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device' || inputs.profile == 'all') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Select the installed official SDK23 command-line tools
+        run: |
+          "$PYTHON" - <<'PYTHON'
+          import os
+          from pathlib import Path
+          home = Path(os.environ["ANDROID_HOME"])
+          manager = home / "cmdline-tools/23.0/bin" / ("sdkmanager.bat" if os.name == "nt" else "sdkmanager")
+          if not manager.is_file():
+              raise SystemExit("SDK23 provisioning did not create the expected manager")
+          with open(os.environ["GITHUB_PATH"], "a") as output:
+              output.write(str(manager.parent) + "\n")
+          PYTHON
+      - name: Select the explicit real Chromium binary
+        if: matrix.suite == 'js' || matrix.suite == 'wasm'
+        run: |
+          CHROME_BIN="$(command -v google-chrome)"
+          test -x "$CHROME_BIN"
+          printf 'CHROME_BIN=%s\n' "$CHROME_BIN" >> "$GITHUB_ENV"
+      - name: Give only this ephemeral runner user the required KVM access
+        if: matrix.suite == 'android-device'
+        run: |
+          test -c /dev/kvm
+          sudo apt-get install -y acl
+          if [[ -n "$ANDROID_BATCH" ]]; then
+            mkdir -p build/ci-runtime
+            "$PYTHON" scripts/ci/android_kvm_timeline.py --phase acl-before > build/ci-runtime/kvm-acl-before.json
+          fi
+          sudo setfacl -m "u:$(id -un):rw" /dev/kvm
+          if [[ -n "$ANDROID_BATCH" ]]; then
+            "$PYTHON" scripts/ci/android_kvm_timeline.py --phase acl-after > build/ci-runtime/kvm-acl-after.json
+          fi
+          test -r /dev/kvm && test -w /dev/kvm
+      - name: Record actual architecture, compiler, SDK and selected simulator
+        id: runtime
+        run: |
+          args=(--expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0)
+          if [[ "$SUITE" == ios ]]; then
+            "$PYTHON" scripts/ci/runtime_context.py "${args[@]}" --apple --select-simulator "$SIMULATOR_KIND" --output build/ci-runtime/selection.json
+            device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["udid"])')"
+            state="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/selection.json"))["simulator"]["state"])')"
+            if [[ "$state" == Shutdown ]]; then
+              xcrun simctl boot "$device"
+            elif [[ "$state" != Booted ]]; then
+              echo 'Unexpected selected simulator state; do not switch devices silently' >&2
+              exit 1
+            fi
+            xcrun simctl bootstatus "$device" -b
+            args+=(--apple --simulator "$device" --require-booted)
+            printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
+          elif [[ "$SUITE" == js || "$SUITE" == wasm ]]; then
+            args+=(--browser)
+          fi
+          "$PYTHON" scripts/ci/runtime_context.py "${args[@]}" --output build/ci-runtime/actual.json
+          "$PYTHON" - <<'PY'
+          import json, os
+          context = json.load(open("build/ci-runtime/actual.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
+          PY
+      - name: Record exact configured dependency inputs, not source commits or archives
+        id: cache-inputs
+        run: |
+          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope libraries --selection "$TEST_MODULES" --output build/ci-runtime/library-dependencies.json)"
+          [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
+          selection="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/library-dependencies.json"))["selection_cache_key"])')"
+          [[ "$selection" =~ ^(all|subset-[0-9a-f]{64})$ ]]
+          printf 'digest=%s\nselection=%s\n' "$digest" "$selection" >> "$GITHUB_OUTPUT"
+      - name: Explicit dependency/compiler/runtime/slot-keyed cache
+        id: dependency-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          # No prefix restore keys, project outputs, native target dirs, build-cache
+          # entries, test XML or configuration caches. Hash verification/locks still
+          # need independent trust review; a cache is never build provenance.
+          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ matrix.slot }}-${{ matrix.suite }}-${{ steps.cache-inputs.outputs.selection }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          enableCrossOsArchive: false
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Validate restored library cache without trusting or deleting its contents
+        id: dependency-cache-check
+        run: |
+          "$PYTHON" scripts/ci/library_dependency_cache.py --phase restore --selection "$TEST_MODULES"
+      - name: Source-set-aware expected library tests (never samples)
+        id: plan
+        run: |
+          mkdir -p build/ci-plan
+          if [[ -n "$ANDROID_BATCH" ]]; then
+            "$PYTHON" scripts/ci/android_device_batch.py plan --batch "$ANDROID_BATCH" > build/ci-plan/plan.json
+            exit
+          fi
+          args=(plan --suite "$SUITE")
+          if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
+          "$PYTHON" scripts/ci/library_tests.py "${args[@]}" > build/ci-plan/plan.json
+          "$PYTHON" - <<'PY'
+          import json, os
+          plan = json.load(open("build/ci-plan/plan.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("reports<<NATIVECMPKIT_REPORTS\n")
+              output.write("\n".join(item["report_directory"] + "/**/TEST-*.xml" for item in plan["expected"]))
+              output.write("\nNATIVECMPKIT_REPORTS\n")
+          PY
+      - name: Related real JVM/JNI path tests (no native packages uploaded)
+        if: matrix.test-focus == 'picker-native-lifetime'
+        run: |
+          "$PYTHON" scripts/ci/picker_jni_paths.py --output "build/ci-verification/$SLOT-jni-paths"
+      - name: Fresh actual library suite with strict nonzero receipts
+        # Independent related checks still execute after a standalone path-test
+        # failure. Failed prerequisites cannot bypass discovery; the job remains red.
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' }}
+        env:
+          SELECTED_SIMULATOR: ${{ steps.runtime.outputs.device }}
+          # This exact non-chooser snapshot fixture verifies actual software
+          # Skiko on Xvfb, avoiding observed Mesa/GLX JVM-exit deadlock. Other
+          # profiles and native hosts keep their existing renderer selection.
+          SKIKO_RENDER_API: ${{ inputs.profile == 'picker-saver-state' && runner.os == 'Linux' && 'SOFTWARE_FAST' || '' }}
+        run: |
+          if [[ -n "$ANDROID_BATCH" ]]; then
+            "$PYTHON" scripts/ci/android_device_batch.py run --batch "$ANDROID_BATCH" --output "build/ci-verification/$SLOT"
+            exit
+          fi
+          if [[ "$SUITE" == android-device ]]; then
+            args=(--api-level "$EMULATOR_API" --output "build/ci-verification/$SLOT")
+            if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
+            if [[ -n "$TEST_MODULES" ]]; then
+              IFS=',' read -ra modules <<< "$TEST_MODULES"
+              for module in "${modules[@]}"; do args+=(--module "$module"); done
+            fi
+            "$PYTHON" scripts/ci/android_device_tests.py "${args[@]}"
+            exit
+          fi
+          args=(run --suite "$SUITE" --output "build/ci-verification/$SLOT" --timeout 4200 --reserve-mib 8192)
+          if [[ -n "$TEST_FOCUS" ]]; then args+=(--focus "$TEST_FOCUS"); fi
+          if [[ -n "$TEST_MODULES" ]]; then
+            IFS=',' read -ra modules <<< "$TEST_MODULES"
+            for module in "${modules[@]}"; do args+=(--module "$module"); done
+          fi
+          if [[ "$SUITE" == ios ]]; then
+            args+=(--simulator "$SELECTED_SIMULATOR")
+          fi
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            xvfb-run -a "$PYTHON" scripts/ci/library_tests.py "${args[@]}"
+          else
+            "$PYTHON" scripts/ci/library_tests.py "${args[@]}"
+          fi
+      - name: Independent minimum-API camera provider verification (same host, fresh AVD and XML)
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' && inputs.profile == 'android-camera-provider' && matrix.serial-emulator-api == '23' }}
+        run: |
+          # The first controller already archives its exact fresh XML. Its failure
+          # remains failed; this independent API23 check cannot hide or replace it.
+          "$PYTHON" scripts/ci/android_device_tests.py --api-level "$SERIAL_EMULATOR_API" \
+            --module calf-camera-picker --focus android-camera-provider-contracts \
+            --output "build/ci-verification/$SLOT-minimum-api23"
+      - name: Preserve first fresh XML before the related same-host recovery
+        id: serial_archive
+        if: ${{ !cancelled() && steps.plan.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery' || inputs.profile == 'ios-vector-native-screen-pair') && matrix.serial-test-focus != '' }}
+        run: |
+          "$PYTHON" scripts/ci/archive_focused_junit.py --output "build/ci-verification/$SLOT"
+      - name: Record and boot the second distinct actual native screen
+        id: serial_runtime
+        if: ${{ !cancelled() && inputs.profile == 'ios-vector-native-screen-pair' && steps.serial_archive.outcome == 'success' }}
+        env:
+          FIRST_SIMULATOR: ${{ steps.runtime.outputs.device }}
+        run: |
+          "$PYTHON" scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean \
+            --android-platform android-37.0 --apple --select-simulator "$SERIAL_SIMULATOR_KIND" \
+            --output build/ci-runtime/related-selection.json
+          device="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/related-selection.json"))["simulator"]["udid"])')"
+          state="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/related-selection.json"))["simulator"]["state"])')"
+          [[ "$device" != "$FIRST_SIMULATOR" ]]
+          if [[ "$state" == Shutdown ]]; then
+            xcrun simctl boot "$device"
+          elif [[ "$state" != Booted ]]; then
+            echo 'Unexpected second simulator state; never substitute another screen' >&2
+            exit 1
+          fi
+          xcrun simctl bootstatus "$device" -b
+          "$PYTHON" scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean \
+            --android-platform android-37.0 --apple --simulator "$device" --require-booted \
+            --output build/ci-runtime/related-actual.json
+          printf 'device=%s\n' "$device" >> "$GITHUB_OUTPUT"
+      - name: Independent related native subset; reuse unchanged compilation only
+        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery' || inputs.profile == 'ios-vector-native-screen-pair') && matrix.serial-test-focus != '' && (inputs.profile != 'ios-vector-native-screen-pair' || steps.serial_runtime.outcome == 'success') }}
+        env:
+          SELECTED_SIMULATOR: ${{ steps.serial_runtime.outputs.device || steps.runtime.outputs.device }}
+        run: |
+          "$PYTHON" scripts/ci/library_tests.py run --suite ios --module calf-ui \
+            --focus "$SERIAL_TEST_FOCUS" --simulator "$SELECTED_SIMULATOR" \
+            --output "build/ci-verification/$SLOT-related-recovery" --timeout 4200 --reserve-mib 8192
+      - name: Preserve second fresh XML and exact independent result
+        if: ${{ !cancelled() && steps.serial_archive.outcome == 'success' && (inputs.profile == 'ios-vector-theme-recovery' || inputs.profile == 'ios-slider-recovery' || inputs.profile == 'ios-vector-native-screen-pair') && matrix.serial-test-focus != '' && (inputs.profile != 'ios-vector-native-screen-pair' || steps.serial_runtime.outcome == 'success') }}
+        run: |
+          "$PYTHON" scripts/ci/archive_focused_junit.py --output "build/ci-verification/$SLOT-related-recovery"
+      - name: Require both unresampled actual native screen resolutions
+        if: ${{ !cancelled() && inputs.profile == 'ios-vector-native-screen-pair' && steps.serial_runtime.outcome == 'success' }}
+        run: |
+          "$PYTHON" scripts/ci/native_vector_screens.py --output build/ci-verification/native-vector-screen-pair.json
+      - name: Show bounded failure diagnostics from public library fixtures
+        if: failure()
+        run: |
+          # Preserve early connected-task/UTP failures even when the final Gradle
+          # stack trace consumes the old 180-line tail. JSON contains bounded
+          # excerpts/inert result-file hashes, never packages or complete logs.
+          if [[ -d "build/ci-verification/$SLOT" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT"
+          fi
+          if [[ -d "build/ci-verification/$SLOT-minimum-api23" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-minimum-api23"
+          fi
+          if [[ -d "build/ci-verification/$SLOT-related-recovery" ]]; then
+            "$PYTHON" scripts/ci/failure_diagnostics.py --output "build/ci-verification/$SLOT-related-recovery"
+          fi
+          # No credentials/private applications are configured in this workflow.
+          # Print only the owned Gradle log tail, not runner environment or caches.
+          "$PYTHON" - <<'PYTHON'
+          from pathlib import Path
+          import os, re
+          root = Path("build/ci-verification") / os.environ["SLOT"]
+          paths = [root / "gradle.log", root / "library/gradle.log", root / "apk-assembly.log", root / "owned-avd-create.log", root / "emulator.log"]
+          for path in paths:
+            if not path.is_file():
+              continue
+            print("Owned diagnostic:", path.name)
+            with path.open("rb") as stream:
+                stream.seek(max(0, path.stat().st_size - 65536))
+                tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-180:]
+            for line in tail:
+                if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
+                    print("[redacted credential-related diagnostic line]")
+                else:
+                    print(line[:2000])
+          if not any(path.is_file() for path in paths):
+              print("No Gradle log: failure preceded library execution; inspect setup steps.")
+          PYTHON
+      - name: Recheck exact dependency recipe and known candidate absence after library work
+        id: dependency-cache-save-check
+        if: ${{ !cancelled() && steps.runtime.outcome == 'success' && steps.cache-inputs.outcome == 'success' && steps.dependency-cache.outcome == 'success' && steps.dependency-cache-check.outcome == 'success' }}
+        run: |
+          # Native/assertion failures remain red. They do not invalidate downloaded
+          # registry bytes under an unchanged dependency/runtime key. Changed or
+          # contaminated caches are preserved and refused, never cleaned for export.
+          "$PYTHON" scripts/ci/library_dependency_cache.py --phase save --selection "$TEST_MODULES"
+      - name: Save checked registry dependencies even when library tests fail
+        if: ${{ !cancelled() && steps.dependency-cache-save-check.outcome == 'success' && steps.dependency-cache.outputs.cache-hit != 'true' }}
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: ${{ steps.dependency-cache.outputs.cache-primary-key }}
+          enableCrossOsArchive: false
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Keep receipts and actual selected-task XML only; never packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: library-evidence-${{ matrix.slot }}
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/*.json
+            build/ci-plan/*.json
+            build/ci-verification/${{ matrix.slot }}/*.json
+            build/ci-verification/${{ matrix.slot }}/library/*.json
+            build/ci-verification/${{ matrix.slot }}/geo-probe/receipt.json
+            build/ci-verification/${{ matrix.slot }}/share-recipient/receipt.json
+            build/ci-verification/${{ matrix.slot }}/share-documents/receipt.json
+            build/ci-verification/${{ matrix.slot }}/camera-receiver/receipt.json
+            build/ci-verification/${{ matrix.slot }}/storage-probe/receipt.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/*.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/library/*.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/io-documents/receipt.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/permission-demo/receipt.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/storage-probe/receipt.json
+            build/ci-verification/${{ matrix.slot }}/routes/*/fresh-reports/*.xml
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/*.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/library/*.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/camera-receiver/receipt.json
+            build/ci-verification/${{ matrix.slot }}-minimum-api23/fresh-reports/*.xml
+            build/ci-verification/${{ matrix.slot }}/native-ui-application/*/receipt.json
+            build/ci-verification/${{ matrix.slot }}/native-picker-application/*/receipt.json
+            build/ci-verification/${{ matrix.slot }}/native-webview-application/*/receipt.json
+            build/ci-verification/${{ matrix.slot }}/desktop-audio/receipt.json
+            build/ci-verification/${{ matrix.slot }}/desktop-picker-portal/receipt.json
+            build/ci-verification/${{ matrix.slot }}-jni-paths/*.json
+            build/ci-verification/${{ matrix.slot }}/fresh-reports/*.xml
+            build/ci-verification/${{ matrix.slot }}-related-recovery/*.json
+            build/ci-verification/${{ matrix.slot }}-related-recovery/native-ui-application/*/receipt.json
+            build/ci-verification/${{ matrix.slot }}-related-recovery/fresh-reports/*.xml
+            build/ci-verification/native-vector-screen-pair.json
+            ${{ steps.plan.outputs.reports }}
+
+  webview-consumer:
+    needs: tooling
+    if: needs.tooling.outputs.webviews == 'true' && github.ref == 'refs/heads/development/preview-hardening'
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.tooling.outputs.webview_matrix) }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 85
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      PYTHON: ${{ matrix.python }}
+      HOST: ${{ matrix.host }}
+      EXPECTED_ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Exact public compiler context, without bootstrap scripts
+        run: rustup toolchain install 1.98.0 --profile minimal --no-self-update
+      - name: Linux graphical JavaFX prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libgtk-3-dev xvfb xauth
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record actual host and configured compiler context
+        id: runtime
+        run: |
+          "$PYTHON" scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean --android-platform android-37.0 --output build/ci-runtime/webview.json
+          fingerprint="$("$PYTHON" -c 'import json; print(json.load(open("build/ci-runtime/webview.json"))["compiler_runtime_fingerprint"])')"
+          printf 'fingerprint=%s\n' "$fingerprint" >> "$GITHUB_OUTPUT"
+      - name: Exact configured WebView dependency inputs only
+        id: cache-inputs
+        run: |
+          digest="$("$PYTHON" scripts/ci/dependency_cache_inputs.py --scope webview --output build/ci-runtime/webview-dependencies.json)"
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Exact producer dependencies only, never consumers or artifacts
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          key: nativecmpkit-webview-producer-v2-${{ matrix.host }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          path: |
+            build/ci-consumer-cache/webview-producer-gradle/wrapper/dists
+            build/ci-consumer-cache/webview-producer-gradle/caches/modules-2
+      - name: Fresh independent module and POM consumers using the real public WebView
+        run: |
+          if [[ "$RUNNER_OS" == Linux ]]; then
+            xvfb-run -a "$PYTHON" scripts/ci/webview_consumer.py --host "$HOST" --output "build/ci-webview-consumer/$HOST" --timeout 4200
+          else
+            "$PYTHON" scripts/ci/webview_consumer.py --host "$HOST" --output "build/ci-webview-consumer/$HOST" --timeout 4200
+          fi
+      - name: Exact bounded public consumer build errors, never full logs or environment
+        if: failure()
+        run: |
+          "$PYTHON" - <<'PYTHON'
+          import json, os
+          from pathlib import Path
+          path = Path("build/ci-webview-consumer") / os.environ["HOST"] / "failure-diagnostics.json"
+          if path.is_file():
+              print(json.dumps(json.loads(path.read_text()), indent=2))
+          PYTHON
+      - name: Keep bounded JSON and original XML only, not candidate packages or logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: webview-consumer-evidence-${{ matrix.host }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            build/ci-runtime/webview.json
+            build/ci-runtime/webview-dependencies.json
+            build/ci-webview-consumer/${{ matrix.host }}/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/module/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/pom/*.json
+            build/ci-webview-consumer/${{ matrix.host }}/module/junit/TEST-*.xml
+            build/ci-webview-consumer/${{ matrix.host }}/pom/junit/TEST-*.xml
+
+
+  consumer-core-io:
+    needs: tooling
+    # Do not pretend this two-root diagnostic covers all21 roots or repeat the
+    # already-selected library/platform suites. Full consumer gates stay open.
+    if: inputs.profile == 'consumer-core-io'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_BUILD_JOBS: '2'
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: gradle/actions/wrapper-validation@3f5f9adaf7d9fecd50b5935e54106014257a94e6
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Select the same exact installed compiler for the runtime receipt
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+          # Preserve the current actual rustup installation when the controller
+          # gives its children a private HOME. Export paths, never credentials.
+          printf 'RUSTUP_HOME=%s\n' "${RUSTUP_HOME:-$HOME/.rustup}" >> "$GITHUB_ENV"
+          printf 'CARGO_HOME=%s\n' "${CARGO_HOME:-$HOME/.cargo}" >> "$GITHUB_ENV"
+      - name: Provision the required official Android SDK for producer configuration
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Record the actual immutable producer/consumer host and SDK
+        id: runtime
+        run: |
+          mkdir -p build/ci-runtime
+          python3 scripts/ci/runtime_context.py --expected-arch x64 --require-clean --android-platform android-37.0 --output build/ci-runtime/consumer-core-io.json
+          python3 - <<'PYTHON'
+          import json, os
+          context = json.load(open("build/ci-runtime/consumer-core-io.json"))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write("fingerprint=" + context["compiler_runtime_fingerprint"] + "\n")
+          PYTHON
+      - name: Record the configured dependency and independent consumer recipes
+        id: cache-inputs
+        run: |
+          digest="$(python3 scripts/ci/dependency_cache_inputs.py --scope core-io --output build/ci-runtime/consumer-dependencies.json)"
+          [[ "$digest" =~ ^[0-9a-f]{64}$ ]]
+          printf 'digest=%s\n' "$digest" >> "$GITHUB_OUTPUT"
+      - name: Exact dependency-input/runtime-keyed producer cache, never candidate binaries or XML
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          # No prefix restore keys or build outputs. Caches remain untrusted
+          # dependency observations; this partial job does not certify trust.
+          # The child Gradle home is fresh under the confined output, NEVER here.
+          # The controller fails on a candidate group in producer modules-2
+          # before/after either phase; a failed job cannot save this cache.
+          key: nativecmpkit-core-io-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ steps.runtime.outputs.fingerprint }}-${{ steps.cache-inputs.outputs.digest }}
+          enableCrossOsArchive: false
+          path: |
+            build/ci-consumer-cache/gradle-home/wrapper/dists
+            build/ci-consumer-cache/gradle-home/caches/modules-2
+      - name: Stage four actual local publications and execute the independent seven-method consumer
+        run: |
+          python3 scripts/ci/core_io_consumer.py --output build/ci-consumer/core-io-desktop --timeout 4200 --reserve-mib 8192
+      - name: Bounded public-fixture failure context, not environment or cache dumps
+        if: failure()
+        run: |
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          import json, re
+          root = Path("build/ci-consumer/core-io-desktop")
+          receipt = root / "receipt.json"
+          if receipt.is_file():
+              record = json.loads(receipt.read_text())
+              print(json.dumps({k: record[k] for k in ("passed", "error", "actual_consumer_methods_verified", "release_readiness_certified") if k in record}))
+          for name in ("producer.log", "consumer.log"):
+              path = root / name
+              if not path.is_file():
+                  continue
+              print("Owned partial consumer diagnostic:", name)
+              with path.open("rb") as stream:
+                  stream.seek(max(0, path.stat().st_size - 65536))
+                  tail = stream.read(65536).decode("utf-8", errors="replace").splitlines()[-140:]
+              for line in tail:
+                  if re.search(r"(?i)(authorization|password|passwd|secret|token|credential|BEGIN .*PRIVATE KEY|[?&]sig=)", line):
+                      print("[redacted credential-related diagnostic line]")
+                  else:
+                      print(line[:2000])
+          PYTHON
+      - name: Keep partial receipts and fresh consumer XML only, never staged packages
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: partial-consumer-core-io-desktop
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            build/ci-runtime/consumer-core-io.json
+            build/ci-runtime/consumer-dependencies.json
+            build/ci-consumer/core-io-desktop/*.json
+            build/ci-consumer/core-io-desktop/junit/TEST-*.xml

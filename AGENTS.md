@@ -1,5 +1,39 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related compiler accepted; finite owning recovery — 2026-11-01
+
+[Actual related compiler](docs/development/evidence/current-platform-recovery-20261101/related-compiler-success020/README.md)
+passes0/130.03s: permission reporter APK plus Desktop WebView tests/scoped security
+init, actual JDK17.0.20/Gradle9.7.1/launcher binding and1112/1189 exact before/after
+inputs. ZERO native tests. Preserve compiler001's exit1/11.0s init prerequisite
+refusal; included-build propagation is plausible, not proved actual causation.
+[Camera actual017](docs/development/evidence/current-platform-recovery-20261101/camera-actual017/README.md)
+remains FAILED1811CI/1810pass/one stale whole-module AST hash guard; every native
+job skipped/ZERO APK/AVD/XML/callsite/cleanup. [Only its constant advanced](docs/development/evidence/current-platform-recovery-20261101/camera-guard-repair018/README.md)
+to the exact observer-containing AST; all method/launch/controller/cleanup bytes
+stay. One owning synthetic pass/eight new mutation refusals/eleven source checks
+reused without replay. The camera-only guard delta does not affect compiled inputs.
+
+Permission runtime marker selects original Call/denial2 only; accepted picker and
+full/batch routes remain exact. JavaFX security14/five hosts is separate from#64
+Desktop request10; strict PKIX/painted-pixel criteria and fresh one-class forks stay,
+default workers exclude its trust lease. Android41276056846 remains native2failed/
+zero passes at held-start waits; operand/cause unknown/#64 open. iOS41276065062 is
+terminal FAILED/request2failed/[DNS1 independently retained](docs/development/evidence/current-platform-recovery-20261101/ios-webview-actual009/README.md); never
+turn the run green or replay accepted DNS1. Future iOS request-state selects request2 only.
+
+[U1 prerequisite review](docs/development/evidence/current-platform-recovery-20261101/yarn-u1-prerequisite-review021/README.md)
+preserves offline missing-Node failure1/53.01s, ZERO graph/denial/action receipts,
+null security controls/U2–U3 stopped. Distribution coordinate/URL are source-derived,
+not original log observations or trust clearance. UI JVM passive diagnostic retains
+zero removals/changes and26 classified additions, not compiler ABI/runtime proof.
+Next missing-only hosted pair: Dont-keep1 and Call/denial2 after immutable binding;
+then Desktop/browser/request/security/media/storage rows.92closed/80open/172total,
+27implemented/42partial/90verified/five unresolved; no new closure or release claim.
+Useful disjoint agents/lead-owned integration, serial local builds/8GiB disk reserve/
+max2combined hosted-heavy and all publishing/Pages/main/history/native/consumer/
+API-ABI/dependency/legal/security/readiness gates remain unchanged.
+
 ## Focused WebView requests and camera diagnostics — 2026-11-01
 
 [Android41276056846 and iOS41276065062](docs/development/evidence/current-platform-recovery-20261101/request-dispatch007/README.md)

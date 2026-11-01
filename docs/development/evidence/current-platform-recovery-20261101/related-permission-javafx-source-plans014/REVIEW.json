@@ -1,0 +1,149 @@
+{
+  "kind": "actual-composed-source-only-CLI-plans-not-compiler-or-native",
+  "recorded_utc": "2026-11-01T05:35:41.430773+00:00",
+  "input_count": 1188,
+  "source_inputs_held": true,
+  "new_profile_count": 153,
+  "full_matrix_slots": 11,
+  "desktop_missing_executions": 14,
+  "desktop_methods": 4,
+  "native_or_compiler_executions": 0,
+  "plans": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "android-device",
+        "--module",
+        "calf-permissions/core",
+        "--focus",
+        "android-permission-demo-call-denial-recovery"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "96a9d7538d8199c381c4ee5c5ffad004ad2b2eb3cb1386b81b5ffbe219e1a4bb",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_test_focus": "android-permission-demo-call-denial-recovery",
+      "selected_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+          "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+        }
+      ],
+      "test_filter_argument": "annotation",
+      "test_filter": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification",
+      "original_xml_required": null,
+      "child_command_not_executed": true
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "tls-rendering"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "2a20ef74ebc8d680c8a6eb435249022d17a875803949f67c15a3bc13bcb62511",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_test_focus": "tls-rendering",
+      "selected_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        }
+      ],
+      "test_filter_argument": null,
+      "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+      "original_xml_required": 1,
+      "child_command_not_executed": true
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "tls-rendering-cookies-policy"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "bbe9284d962efc01336c31ce408bea86ca3a74e017c1c3093734fa65a1a8b278",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_test_focus": "tls-rendering-cookies-policy",
+      "selected_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        }
+      ],
+      "test_filter_argument": null,
+      "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner,com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie,com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce",
+      "original_xml_required": 3,
+      "child_command_not_executed": true
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "desktop",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "tls-rendering-cookies-policy-media"
+      ],
+      "exit_code": 0,
+      "stdout_sha256": "f0f82bc4500f02ec0b9434e914bd62b924c8188868c8320687bcbbfe233ab0c9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "explicit_test_focus": "tls-rendering-cookies-policy-media",
+      "selected_cases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]"
+        }
+      ],
+      "test_filter_argument": null,
+      "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner,com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie,com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce,com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+      "original_xml_required": 4,
+      "child_command_not_executed": true
+    }
+  ]
+}

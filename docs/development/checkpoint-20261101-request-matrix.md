@@ -4,6 +4,38 @@ Repository: `Apdelrahman1911/nativeCmpkit`; additive branch:
 `development/preview-hardening`. Library display name: **NativeCmpKit**.
 This checkpoint records reviewed preparation, not a release or all-platform pass.
 
+## Latest related owning patch
+
+- [Compiler002](evidence/current-platform-recovery-20261101/related-compiler-success020/README.md)
+  actually assembles the new permission reporter and compiles Desktop WebView tests,
+  exit0/130.03s, JDK17.0.20/Gradle9.7.1,1112/1189 unchanged before/after inputs.
+  ZERO native tests; compiler001 remains failed at init, exit1/11.0s.
+- [Camera actual017](evidence/current-platform-recovery-20261101/camera-actual017/README.md)
+  remains tooling-failed1810/1811; all native jobs skipped. The one exact stale
+  whole-module AST constant is repaired without changing original guard methods,
+  controller, launch or native assertions. Its one owning pass/eight new refusals/
+  eleven source checks are reused, not replayed.
+- [Permission selector](evidence/current-platform-recovery-20261101/permission-selector-recovery019/README.md)
+  adds a FUNCTION/RUNTIME marker to only Call/denial2. Original native bodies,
+  accepted picker and full/batch routes stay unchanged; eight new synthetic tests
+  are reused. Real native verification remains required.
+- [JavaFX security routing](evidence/current-platform-recovery-20261101/javafx-security-routing022/README.md)
+  selects14 missing executions/four methods/five supported hosts, separately from
+  the existing#64 Desktop request10 profile. No trust bypass or native acceptance;
+  default workers exclude the test trust lease, finite workers fork per class.
+- [Android WebView actual002](evidence/current-platform-recovery-20261101/android-webview-actual002/README.md)
+  remains FAILED: both original native methods fail initial held-start waits,
+  one XML/zero passes; failing operands and cause remain unknown. iOS41276065062
+  is also [FAILED/request2fail/DNS1 independently retained](evidence/current-platform-recovery-20261101/ios-webview-actual009/README.md).
+  Future iOS verification selects request2 only; do not replay accepted DNS1.
+- [U1 safe failure review](evidence/current-platform-recovery-20261101/yarn-u1-prerequisite-review021/README.md)
+  preserves missing offline Node distribution, exit1/53.01s, ZERO graph/action/gate
+  receipts, null security controls and stopped U2/U3. No retry or security clearance.
+
+Next finite pair: camera Dont-keep1 and permission Call/denial2 after exact Git
+binding.92closed/80open; no new whole-issue closure in this preparation patch.
+All earlier failures remain; unchanged accepted native cases must not be replayed.
+
 ## Accepted results and failures
 
 | Work | Actual evidence | Accepted scope | Remaining obligation |

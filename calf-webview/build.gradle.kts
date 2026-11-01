@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest
 import java.time.Duration
+import org.gradle.api.tasks.testing.Test
 
 plugins {
     id("compose.multiplatform")
@@ -105,5 +106,36 @@ kotlin {
 
     sourceSets.webMain.dependencies {
         implementation(libs.kotlinx.browser)
+    }
+}
+
+val desktopSecurityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"
+val desktopSecurityMethod = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"
+val desktopCookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+val desktopPolicySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+val desktopMediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+val desktopSecurityFocus = providers.gradleProperty("nativecmpkitDesktopSecurityFocus").orNull
+val desktopSecuritySelectors = when (desktopSecurityFocus) {
+    null -> emptyList()
+    "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")
+    "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)
+    "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)
+    else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")
+}
+
+tasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {
+    if (desktopSecurityFocus == null) {
+        // Never auto-enable a process-global test trust lease in an ordinary worker.
+        filter { excludeTestsMatching(desktopSecurityClass) }
+    } else {
+        // Each selected class has exactly one selected method; no second class can
+        // reuse HTTP2Loader's static fixture-trusted HttpClient or a cookie handler.
+        maxParallelForks = 1
+        forkEvery = 1L
+        systemProperty("nativecmpkit.desktop.security.worker", "one-selected-class")
+        filter {
+            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())
+            isFailOnNoMatchingTests = true
+        }
     }
 }

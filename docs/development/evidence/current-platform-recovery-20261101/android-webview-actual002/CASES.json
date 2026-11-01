@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "accepted": false,
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "failed_wait_operand_values": "unobserved",
+      "name": "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+      "original_failure_body_sha256": "9c74fa83a627b7957dd31f46048dca3fcb9909c51028ad65ff23fd8f0f4f263e",
+      "primary_boundary": {
+        "description": "A forwarded native start and the exact still-held owned request",
+        "helper": "awaitStopRedirectHeld",
+        "helper_line": 244,
+        "method_line": 158,
+        "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+        "stage": "first held Stop request, before public Stop/redirect/Reload",
+        "wait_line": 305
+      },
+      "primary_underlying_cause": "unknown",
+      "status": "failed",
+      "suppressed": [
+        {
+          "category": "owned Stop/redirect HTTP fixture failure",
+          "chronology_relative_to_primary_timeout": "unknown",
+          "cleanup_can_supply_this_observation": true,
+          "nested_authored_message": "Peer disconnected before public Stop was invoked",
+          "nested_type": "java.lang.IllegalStateException",
+          "primary_failure_cause_proven": false,
+          "source_line": 839
+        }
+      ],
+      "time_seconds": "14.515"
+    },
+    {
+      "accepted": false,
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest",
+      "failed_wait_operand_values": "unobserved",
+      "name": "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl",
+      "original_failure_body_sha256": "4385e2993ca70b11e9621e204e3e3086a420e321d9535c18ef26f9a62cd26cf3",
+      "primary_boundary": {
+        "description": "A real onPageStarted and still-held exact owned HTTP request",
+        "helper": "awaitHeldStart",
+        "helper_line": 309,
+        "method_line": 75,
+        "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+        "stage": "first held transport-failure start, before test release/real failure/recovery/Reload",
+        "wait_line": 367
+      },
+      "primary_underlying_cause": "unknown",
+      "status": "failed",
+      "suppressed": [],
+      "time_seconds": "12.295"
+    }
+  ],
+  "counts": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "independently_accepted_methods": 0,
+  "kind": "sanitized projection of original failed XML, not replacement JUnit evidence",
+  "original_XML_bytes": 4530,
+  "original_XML_sha256": "b7b6bd7994023991ea5da3188d3d6b0645d6e0b447c274403d7180dcce75ebb1",
+  "run_id": 41276056846,
+  "source_commit": "ff41a9329c6f85dcae3c50d6372997ff92501395"
+}

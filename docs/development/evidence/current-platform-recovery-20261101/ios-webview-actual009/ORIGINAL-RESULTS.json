@@ -1,0 +1,114 @@
+{
+  "counts": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "kind": "Original current native XML/status and bounded source-assertion review; no rewritten XML",
+  "module": "calf-webview",
+  "original_xml": [
+    {
+      "bytes": 684,
+      "cases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewProvisionalDnsAcceptanceTest",
+          "name": "nativeProvisionalDnsFailFailResetsPreviousErrorBeforeCommitOnSameDocument[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "counts": {
+        "errors": 0,
+        "executed": 1,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 1,
+        "unexpected_skipped": 0
+      },
+      "path": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationT-N4576BJST6P9A.com.mohamedrejeb.calf.ui.web.IosWebViewProvisionalDnsAcceptanceTest.xml",
+      "sha256": "29351dbab21b4cb9a59bd4f3607ce72bd0970d472c2c6ef31b9f9c5b04f40564",
+      "timestamp": "2026-11-01T05:35:40.082Z"
+    },
+    {
+      "bytes": 8008,
+      "cases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest",
+          "name": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "counts": {
+        "errors": 0,
+        "executed": 2,
+        "failures": 2,
+        "not_applicable": 0,
+        "passed": 0,
+        "skipped": 0,
+        "tests": 2,
+        "unexpected_skipped": 0
+      },
+      "path": "calf-webview/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest.xml",
+      "sha256": "1784496a27ee30992763110a5dad5c53fba7de9539b5405f9782c8a8a1c6cd5f",
+      "timestamp": "2026-11-01T05:35:40.622Z"
+    }
+  ],
+  "primary_request_failures": [
+    {
+      "actual_nonnull_value_not_recorded": true,
+      "actual_writer_callback_order_or_cause_not_proven": true,
+      "exception_type": "kotlin.AssertionError",
+      "method": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors[iosSimulatorArm64]",
+      "observed_interval": "After first actual native -1200/complete fatal-alert round; before retained-DOM, second TLS, recovery or Reload assertions.",
+      "source_assertion": {
+        "line": 63,
+        "path": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+        "predicate": "state.lastLoadedUrl == null"
+      },
+      "source_location_not_runtime_stack_claim": true,
+      "static_original_assertion": "No TLS-failed navigation committed a final URL",
+      "status": "failed"
+    },
+    {
+      "actual_nonnull_value_not_recorded": true,
+      "actual_writer_callback_order_or_cause_not_proven": true,
+      "exception_type": "kotlin.AssertionError",
+      "method": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess[iosSimulatorArm64]",
+      "observed_interval": "Actual matrix-prior/302 complete, matrix-final arrived held zero response, before fixture release/commit and selected Stop.",
+      "source_assertion": {
+        "line": 155,
+        "path": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+        "predicate": "state.lastLoadedUrl == null"
+      },
+      "source_callsite": 103,
+      "source_location_not_runtime_stack_claim": true,
+      "static_original_assertion": "No held provisional request committed a final URL",
+      "status": "failed"
+    }
+  ],
+  "raw_XML_failure_bodies_hostnames_native_error_descriptions_lease_values_or_original_logs_in_public_bundle": false,
+  "request_criteria_not_accepted": [
+    "second TLS repeated failure",
+    "TLS fail-to-success",
+    "Reload",
+    "final redirect commit",
+    "selected Stop/client EOF",
+    "matrix recovery"
+  ],
+  "retained_DNS_scope": "Exact single genuine WK/system-resolver -1003 repeated provisional-before-commit error-reset method; same retained native document, exact delegate restoration and genuine native release all pass.",
+  "run_id": 41276065062,
+  "source_commit": "ff41a9329c6f85dcae3c50d6372997ff92501395",
+  "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+  "whole_run_failure_and_transport_failure_preserved": true
+}

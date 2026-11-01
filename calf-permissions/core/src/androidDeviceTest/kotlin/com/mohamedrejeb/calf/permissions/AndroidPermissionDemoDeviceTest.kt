@@ -14,6 +14,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import kotlin.test.*
 
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AndroidPermissionDemoCallDenialVerification
+
 /** Three new actual OS/library scenarios only. Call declaration is confined to the approved fixture. */
 @RunWith(AndroidJUnit4::class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -32,6 +36,7 @@ class AndroidPermissionDemoDeviceTest {
         finally { if (::ui.isInitialized) ui.close() }
     }
 
+    @AndroidPermissionDemoCallDenialVerification
     @Test fun callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant() {
         val initial = consumer.request("observe")
         assertFalse(initial.getBoolean(Manifest.permission.CALL_PHONE))
@@ -53,6 +58,7 @@ class AndroidPermissionDemoDeviceTest {
         assertEquals(1, consumer.request("observe").getBundle("Call")?.getInt("callbacks"))
     }
 
+    @AndroidPermissionDemoCallDenialVerification
     @Test fun denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest() {
         val initial = consumer.request("observe")
         assertFalse(initial.getBoolean(Manifest.permission.RECORD_AUDIO))

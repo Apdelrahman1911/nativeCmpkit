@@ -1,0 +1,252 @@
+{
+  "Kotlin_and_init_compile_status": "UNCOMPILED",
+  "actual_execution_status": "UNEXECUTED",
+  "distinct_methods": 4,
+  "external_watchdog_seconds": 4200,
+  "fixture_contracts": {
+    "tls-rendering": {
+      "build_sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731",
+      "build_source": "calf-webview/build.gradle.kts",
+      "focus": "tls-rendering",
+      "fork_every": 1,
+      "init_script_sha256": "2776dc5587f6b621bd0289742e026f15a6d2ecfc7fb1131a2ed540aeaf6d3014",
+      "init_script_source": "scripts/ci/desktop-security.init.gradle.kts",
+      "isolation_block_sha256": "99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf",
+      "max_parallel_forks": 1,
+      "public_worker_boundary_observation_required": true,
+      "worker_fixture_property": "one-selected-class"
+    },
+    "tls-rendering-cookies-policy": {
+      "build_sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731",
+      "build_source": "calf-webview/build.gradle.kts",
+      "focus": "tls-rendering-cookies-policy",
+      "fork_every": 1,
+      "init_script_sha256": "2776dc5587f6b621bd0289742e026f15a6d2ecfc7fb1131a2ed540aeaf6d3014",
+      "init_script_source": "scripts/ci/desktop-security.init.gradle.kts",
+      "isolation_block_sha256": "99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf",
+      "max_parallel_forks": 1,
+      "public_worker_boundary_observation_required": true,
+      "worker_fixture_property": "one-selected-class"
+    },
+    "tls-rendering-cookies-policy-media": {
+      "build_sha256": "fc9f23dd87c17f1d90364f1e35034e59c6533ea7ec0352be202da052f7947731",
+      "build_source": "calf-webview/build.gradle.kts",
+      "focus": "tls-rendering-cookies-policy-media",
+      "fork_every": 1,
+      "init_script_sha256": "2776dc5587f6b621bd0289742e026f15a6d2ecfc7fb1131a2ed540aeaf6d3014",
+      "init_script_source": "scripts/ci/desktop-security.init.gradle.kts",
+      "isolation_block_sha256": "99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf",
+      "max_parallel_forks": 1,
+      "public_worker_boundary_observation_required": true,
+      "worker_fixture_property": "one-selected-class"
+    }
+  },
+  "max_parallel": 2,
+  "missing_target_executions": 14,
+  "module": "calf-webview",
+  "not_attested": [
+    "worker OS PID",
+    "worker OS exit",
+    "sandbox",
+    "all blocking UI calls internally timeout-bounded",
+    "TLS",
+    "painted snapshots",
+    "native acceptance"
+  ],
+  "profile": "webview-desktop-security-regressions",
+  "required_nonempty_original_class_XML": 14,
+  "reserve_mib": 8192,
+  "rows": [
+    {
+      "arch": "x64",
+      "focus": "tls-rendering",
+      "isolation_property": "-PnativecmpkitDesktopSecurityFocus=tls-rendering",
+      "required_original_xml": 1,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        }
+      ],
+      "runner": "ubuntu-24.04",
+      "selected": [
+        "tls-rendering"
+      ],
+      "selectors": [
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"
+      ],
+      "slot": "desktop-linux-x64",
+      "system": "Linux",
+      "task": ":calf-webview:desktopTest",
+      "test_modules": [
+        "calf-webview"
+      ]
+    },
+    {
+      "arch": "arm64",
+      "focus": "tls-rendering-cookies-policy",
+      "isolation_property": "-PnativecmpkitDesktopSecurityFocus=tls-rendering-cookies-policy",
+      "required_original_xml": 3,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        }
+      ],
+      "runner": "macos-26",
+      "selected": [
+        "tls-rendering",
+        "cookie",
+        "policy"
+      ],
+      "selectors": [
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+        "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+      ],
+      "slot": "desktop-macos-arm64",
+      "system": "Darwin",
+      "task": ":calf-webview:desktopTest",
+      "test_modules": [
+        "calf-webview"
+      ]
+    },
+    {
+      "arch": "x64",
+      "focus": "tls-rendering-cookies-policy",
+      "isolation_property": "-PnativecmpkitDesktopSecurityFocus=tls-rendering-cookies-policy",
+      "required_original_xml": 3,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        }
+      ],
+      "runner": "windows-2025",
+      "selected": [
+        "tls-rendering",
+        "cookie",
+        "policy"
+      ],
+      "selectors": [
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+        "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+      ],
+      "slot": "desktop-windows-x64",
+      "system": "Windows",
+      "task": ":calf-webview:desktopTest",
+      "test_modules": [
+        "calf-webview"
+      ]
+    },
+    {
+      "arch": "arm64",
+      "focus": "tls-rendering-cookies-policy-media",
+      "isolation_property": "-PnativecmpkitDesktopSecurityFocus=tls-rendering-cookies-policy-media",
+      "required_original_xml": 4,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+          "name": "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument[desktop]"
+        }
+      ],
+      "runner": "ubuntu-24.04-arm",
+      "selected": [
+        "tls-rendering",
+        "cookie",
+        "policy",
+        "media"
+      ],
+      "selectors": [
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+        "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+      ],
+      "slot": "desktop-linux-arm64",
+      "system": "Linux",
+      "task": ":calf-webview:desktopTest",
+      "test_modules": [
+        "calf-webview"
+      ]
+    },
+    {
+      "arch": "x64",
+      "focus": "tls-rendering-cookies-policy",
+      "isolation_property": "-PnativecmpkitDesktopSecurityFocus=tls-rendering-cookies-policy",
+      "required_original_xml": 3,
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+        }
+      ],
+      "runner": "macos-26-intel",
+      "selected": [
+        "tls-rendering",
+        "cookie",
+        "policy"
+      ],
+      "selectors": [
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+        "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+        "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+      ],
+      "slot": "desktop-macos-x64",
+      "system": "Darwin",
+      "task": ":calf-webview:desktopTest",
+      "test_modules": [
+        "calf-webview"
+      ]
+    }
+  ],
+  "selected_source_sha256": {
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt": "2811d91948312b9626f9b3f99112de8bffaa26100405c402bba7989e02248e96",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt": "aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt": "d6351562894951442fec8258dc95452251530e6df10d04c3e106f535a1391696",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt": "1636c150d21b2a5d15d6659c04f840e4bc2a2852287e835c912aaf43271de9ea"
+  },
+  "source_only": true,
+  "suite": "desktop",
+  "task": ":calf-webview:desktopTest",
+  "unintegrated_private_draft": true,
+  "workers_required": "one selected case per distinct sequential public Gradle TestListener worker boundary, each selected class forked fresh"
+}

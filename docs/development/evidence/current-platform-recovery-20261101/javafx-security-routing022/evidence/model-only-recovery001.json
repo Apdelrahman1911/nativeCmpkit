@@ -1,0 +1,14 @@
+{
+  "retained_red": "models/first-pass001/summary.json",
+  "retained_red_source": "models/first-pass001/test_desktop_security_routing.py",
+  "changed_file": "scripts/ci/test_desktop_security_routing.py",
+  "old_sha256": "a411fc963fc42f3a159f2991b72fa77288b9e702f3cb98b80b6e5cd1576e74f3",
+  "new_sha256": "eed87f3ca099132e47aa5ff6ae1755f1406be63293d0927c79aa5c474a403a92",
+  "old_text": "        expression = re.search(r\"(?m)^      max-parallel: (.+)$\", workflow).group(1)",
+  "new_text": "        library = workflow.split(\"\\n  library-tests:\\n\", 1)[1].split(\"\\n  webview-consumer:\\n\", 1)[0]\n        expression = re.search(r\"(?m)^      max-parallel: (.+)$\", library).group(1)",
+  "owning_error": "Unscoped regex selected sample-platforms max-parallel: 1, not intended library-tests expression.",
+  "scope_preserved": "Exact suffix assertion and new-profile absence remain; now read only the owning library-tests block. No candidate route, worker, build or Kotlin source changed.",
+  "method_to_recover": "test_only_profile_membership_expands_workflow_without_permissions_parallel_or_upload_scope",
+  "unaffected_methods_reused": 14,
+  "native_or_builds": 0
+}

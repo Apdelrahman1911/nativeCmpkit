@@ -1,0 +1,98 @@
+{
+  "authorization_scope": "Lead-authorized two unchanged UI-only supplemental javap snapshot/compare commands; no Gradle/build/download or library class execution.",
+  "candidate": {
+    "artifact": "nativecmpkit-ui-desktop",
+    "bytes": 532333,
+    "catalog_digest_matches": true,
+    "catalog_path": "docs/development/evidence/derived-apache-notices-20261101/producer002/staged-ui-files-after.json",
+    "catalog_value_type": "SHA256 string",
+    "class_descriptors_inspected_in_this_task": 0,
+    "existing_producer_elapsed_seconds": 231.05,
+    "existing_producer_exit": 0,
+    "passive_matching_zip_class_names": 111,
+    "path": "build/verification-repo/io/github/apdelrahman1911/nativecmpkit/nativecmpkit-ui-desktop/0.1.0-preview.1/nativecmpkit-ui-desktop-0.1.0-preview.1.jar",
+    "producer_receipt": "docs/development/evidence/derived-apache-notices-20261101/producer002/producer.log.result.json",
+    "producer_recorded_held_inputs": {
+      "combined": 1100,
+      "legal": 25,
+      "library": 1023
+    },
+    "sha256": "2ab93684a9facdfbb3d0e7908694f16e89e0f02f01104fac812dfb7aed9e5554",
+    "source_base_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+    "source_tree_dirty": true
+  },
+  "environment_profile": "Explicit minimal PATH/LANG/LC_ALL/JAVA_HOME/HOME/TMPDIR/PYTHONDONTWRITEBYTECODE; no JAVA_TOOL_OPTIONS/_JAVA_OPTIONS/JDK_JAVA_OPTIONS/CLASSPATH/PYTHONPATH/PYTHONHOME inherited.",
+  "planned_commands": [
+    {
+      "argv": [
+        "/usr/bin/python3.12",
+        "-B",
+        "<repository>/tests/consumer/jvm_abi.py",
+        "snapshot",
+        "--jar",
+        "nativecmpkit-ui-desktop=<repository>/build/verification-repo/io/github/apdelrahman1911/nativecmpkit/nativecmpkit-ui-desktop/0.1.0-preview.1/nativecmpkit-ui-desktop-0.1.0-preview.1.jar",
+        "--revision",
+        "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+        "--provenance",
+        "Existing attribution producer002; dirty source-bound base 100d43ca0e7c5049631002e2bf6a2db49d4c2573; UI-only supplemental JVM diagnostic. Recorded 0/231.05s producer and exact JAR/input hashes; not a clean current revision or release/API certification.",
+        "--javap",
+        "/usr/lib/jvm/java-17-openjdk-amd64/bin/javap",
+        "--output",
+        "<private-ui-diagnostic>/candidate-ui-jvm-api.json"
+      ],
+      "capture_exit0_is_not_compatibility_acceptance": true,
+      "cwd": "<repository>",
+      "executed": false,
+      "expected_inspected_class_count_if_capture_completes": 111,
+      "expected_selected_artifact_keys": [
+        "nativecmpkit-ui-desktop"
+      ],
+      "id": "ui-jvm-capture",
+      "internal_subprocess_limits_seconds": {
+        "chunk_size_classes": 100,
+        "chunks_for_selected_jar": 2,
+        "per_class_chunk": 180,
+        "version": 30
+      },
+      "reserve_mib": 8192,
+      "timeout_seconds": 300
+    },
+    {
+      "allowed_observed_exit_codes": {
+        "0": "No removed/changed javap exported surface; all additions still require review. Not full compatibility.",
+        "1": "Preserve every removal/declaration delta and classify individually; do not suppress it.",
+        "2": "Preserve owning tool/input error; no compatibility acceptance."
+      },
+      "argv": [
+        "/usr/bin/python3.12",
+        "-B",
+        "<repository>/tests/consumer/jvm_abi.py",
+        "compare",
+        "--before",
+        "<sealed-ui-plan>/baseline-ui-only.json",
+        "--after",
+        "<private-ui-diagnostic>/candidate-ui-jvm-api.json",
+        "--output",
+        "<private-ui-diagnostic>/ui-jvm-delta.json"
+      ],
+      "cwd": "<repository>",
+      "executed": false,
+      "expected_binary_compatibility_certified": false,
+      "id": "ui-jvm-compare",
+      "requires": "Complete exact one-artifact capture and unchanged before/after selected inputs; never compare against the full 23-artifact baseline.",
+      "timeout_seconds": 30
+    }
+  ],
+  "reserve_contract": "8192 MiB disk; MemAvailable observed only, not enforced; no RSS enforcement claim.",
+  "sealed_plan": {
+    "bytes": 4002,
+    "sha256": "f7f2a1decef8e4703a6c31b6c5df7990157e053a0e6aee10e90c28b4eadeda06"
+  },
+  "source_base_revision": "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+  "source_tree_dirty": true,
+  "started_utc": "2026-11-01T05:20:36.485905+00:00",
+  "wrapper": {
+    "bytes": 11945,
+    "sha256": "724a5682696eef34a96f334d1026f58daf7b0805d3a401b314c5fea81eb901e2"
+  }
+}

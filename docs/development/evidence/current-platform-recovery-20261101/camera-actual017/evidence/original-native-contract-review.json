@@ -1,0 +1,153 @@
+{
+  "actual017_failure_is_tooling_guard_only": true,
+  "actual_boot_receipts": 0,
+  "api_level": 35,
+  "apk_builds": 0,
+  "artifact_metadata_total_count": 0,
+  "avd_launches": 0,
+  "developer_failure_receipts": "not-produced",
+  "earlier_actual016_condition_known": false,
+  "immediate_foreground_recreation_criterion_not_satisfied_by_this_run": true,
+  "module": "calf-camera-picker",
+  "native_executions": 0,
+  "native_xml": 0,
+  "original_callsite_diagnostic_observation": "not-reached by native workflow",
+  "original_dont_keep_criterion": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+  "owned_device_cleanup": "not-started; no cleanup acceptance inferred",
+  "prior_camera009_accepted_three": [
+    "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+    "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+    "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+  ],
+  "prior_three_unselected_and_not_replayed": true,
+  "profile": "android-camera-restoration-dont-keep",
+  "reporter_dispatches": 0,
+  "requested_original_method": {
+    "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+    "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+    "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+  },
+  "runtime_native_hardware_minimum_ABI_heap_security_release_acceptance_inferred": false,
+  "schema": "nativecmpkit.camera017.original-native-contract-review.v1",
+  "selection_evidence_kind": "committed finite filter and retained request; profile selection was skipped",
+  "source_commit": "55b1a8c361e0b6445e95df989f238310ca0a3eb0",
+  "source_contracts": [
+    {
+      "actual017": "not-executed",
+      "contract": "Settings/native/scalar Dont-keep owner before public external camera launch",
+      "lines": [
+        107,
+        112
+      ],
+      "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+    },
+    {
+      "actual017": "not-executed",
+      "contract": "Genuine foreground external recipient, caller saves, cross-UID URI grants and no early result",
+      "lines": [
+        129,
+        155
+      ],
+      "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+    },
+    {
+      "actual017": "not-executed",
+      "contract": "Real non-finishing Activity destruction before external completion",
+      "lines": [
+        156,
+        159
+      ],
+      "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+    },
+    {
+      "actual017": "not-executed",
+      "contract": "Exactly one result, Activity recreation and every captured byte readable; no duplicate file",
+      "lines": [
+        177,
+        193
+      ],
+      "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+    },
+    {
+      "actual017": "not-executed",
+      "contract": "Primary errors retained and nonce-owned task/process/output/observation/UI cleanup",
+      "lines": [
+        196,
+        267
+      ],
+      "source": "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+    },
+    {
+      "actual017": "not-reached-by-native",
+      "contract": "Original exact API35/fresh guest admission, per-failure bounded source observation and original native acceptance predicate",
+      "lines": [
+        720,
+        1051
+      ],
+      "source": "scripts/ci/android_camera_developer_prerequisite.py"
+    },
+    {
+      "actual017": "not-started",
+      "contract": "Developer prerequisite before receiver/reporter dispatch; receiver cleanup before prerequisite and owned emulator/ADB disposal",
+      "lines": [
+        366,
+        375,
+        484,
+        503,
+        539,
+        554
+      ],
+      "source": "scripts/ci/android_device_tests.py"
+    }
+  ],
+  "source_function_origins": [
+    {
+      "end_line": 47,
+      "line": 45,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "require"
+    },
+    {
+      "end_line": 746,
+      "line": 740,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "OwnedDeveloperPrerequisite.failure"
+    },
+    {
+      "end_line": 875,
+      "line": 839,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "OwnedDeveloperPrerequisite.prepare"
+    },
+    {
+      "end_line": 1002,
+      "line": 931,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "OwnedDeveloperPrerequisite.close"
+    },
+    {
+      "end_line": 1022,
+      "line": 1005,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "accepted"
+    },
+    {
+      "end_line": 1051,
+      "line": 1025,
+      "source": "scripts/ci/android_camera_developer_prerequisite.py",
+      "symbol": "require_call_origin"
+    },
+    {
+      "end_line": 61,
+      "line": 45,
+      "source": "scripts/ci/android_device_tests.py",
+      "symbol": "preflight_error_origin"
+    },
+    {
+      "end_line": 599,
+      "line": 213,
+      "source": "scripts/ci/android_device_tests.py",
+      "symbol": "_run"
+    }
+  ]
+}

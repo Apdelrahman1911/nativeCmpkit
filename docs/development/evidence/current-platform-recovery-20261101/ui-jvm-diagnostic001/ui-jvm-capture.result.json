@@ -1,0 +1,42 @@
+{
+  "argv": [
+    "/usr/bin/python3.12",
+    "-B",
+    "<repository>/tests/consumer/jvm_abi.py",
+    "snapshot",
+    "--jar",
+    "nativecmpkit-ui-desktop=<repository>/build/verification-repo/io/github/apdelrahman1911/nativecmpkit/nativecmpkit-ui-desktop/0.1.0-preview.1/nativecmpkit-ui-desktop-0.1.0-preview.1.jar",
+    "--revision",
+    "100d43ca0e7c5049631002e2bf6a2db49d4c2573",
+    "--provenance",
+    "Existing attribution producer002; dirty source-bound base 100d43ca0e7c5049631002e2bf6a2db49d4c2573; UI-only supplemental JVM diagnostic. Recorded 0/231.05s producer and exact JAR/input hashes; not a clean current revision or release/API certification.",
+    "--javap",
+    "/usr/lib/jvm/java-17-openjdk-amd64/bin/javap",
+    "--output",
+    "<private-ui-diagnostic>/candidate-ui-jvm-api.json"
+  ],
+  "cleanup": {
+    "group_absence_readback_unknown_count": 0,
+    "no_owned_group_remains": true,
+    "owned_group_members": [],
+    "readback_method": "Linux /proc stat; no signals after owned leader reap."
+  },
+  "cwd": "<repository>",
+  "elapsed_seconds": 0.939007,
+  "exit_code": 0,
+  "finished_utc": "2026-11-01T05:20:37.675175+00:00",
+  "id": "ui-jvm-capture",
+  "library_class_execution_requested": false,
+  "owned_child_reaped": true,
+  "raw_process_exit_code": 0,
+  "scope": "Python gate invokes javap for metadata parsing only; no JVM library main/static initializer execution, no Gradle/compiler/build/runtime tests.",
+  "signals": [],
+  "started_utc": "2026-11-01T05:20:36.736191+00:00",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 193,
+  "stdout_sha256": "0e5b3ade6b421e7f5ba325ca7ac00280eee5375ddcf9397ac7a7f2819379e3a5",
+  "stop_refusal": null,
+  "timed_out": false,
+  "timeout_seconds": 300
+}

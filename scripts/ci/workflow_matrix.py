@@ -12,6 +12,7 @@ import subprocess
 import sys
 import android_storage_compatibility_plan as storage_plan
 import android_device_batch_plan as android_batch_plan
+import desktop_security_plan
 
 SLOTS = (
     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
@@ -67,6 +68,7 @@ PROFILES = {
     "webview-request-state": ("browser-js", "browser-wasm"),
     "webview-offline-destination": ("browser-js", "browser-wasm"),
     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
+    "webview-desktop-security-regressions": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "ui-date-browser": ("browser-js", "browser-wasm"),
@@ -235,6 +237,7 @@ MODULE_SUBSETS = {
     "webview-request-state": "calf-webview",
     "webview-offline-destination": "calf-webview",
     "webview-desktop-request-state": "calf-webview",
+    "webview-desktop-security-regressions": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -436,6 +439,16 @@ def matrix(profile: str) -> dict:
         }
         for row in rows:
             row["test-focus"] = focuses[row["slot"]]
+    if profile == desktop_security_plan.PROFILE:
+        desktop_security_plan.validate_rows(desktop_security_plan.ROWS)
+        exact = {row["slot"]: row for row in desktop_security_plan.ROWS}
+        if [row["slot"] for row in rows] != list(exact):
+            raise ValueError("Desktop security must retain exactly its five existing slots")
+        for row in rows:
+            required = exact[row["slot"]]
+            if row["suite"] != "desktop" or any(row[key] != required[key] for key in ("runner", "arch")):
+                raise ValueError("Desktop security runner/architecture drift; no other-host fallback")
+            row["test-focus"] = required["focus"]
     if profile.startswith("webview-identity"):
         for row in rows:
             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:

@@ -71,8 +71,10 @@ def execute_nodes(nodes, env, label):
 def owning_environment():
     tree = syntax()
     constants = ("ANDROID_PERMISSION_DEMO_FOCUS", "ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS",
+                 "ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION",
                  "ANDROID_MEDIA_SELECTION_FOCUS", "ANDROID_PERMISSION_DEVICE_SPECS", "MAX_REPORT_BYTES", "MAX_CASES", "COUNTS")
     functions = ("android_permission_device_filter", "android_permission_device_identities", "input_digest",
+                 "validate_android_permission_demo_recovery_annotation",
                  "android_permission_demo_required", "validate_android_permission_demo_plan", "NoDtdBuilder", "junit_cases", "case_counts")
     env = {"Path": Path, "re": re, "ET": ET, "Counter": Counter, "hashlib": hashlib}
     execute_nodes([assignment(tree, name) for name in constants] + [named_function(tree, name) for name in functions],
@@ -121,14 +123,15 @@ def matrix_environment():
     env = {}
     # Execute bounded declarative metadata only, never import the process-backed controller or library module.
     modules = {}
-    for name in ("android_device_batch_plan", "android_storage_compatibility_plan"):
+    for name in ("android_device_batch_plan", "android_storage_compatibility_plan", "desktop_security_plan"):
         module = types.ModuleType(name)
         module.__file__ = "selected-declarative-metadata/" + name + ".py"
         modules[name] = module
     with patch.dict(sys.modules, modules):
         for name, module in modules.items():
             exec(compile(source_at("scripts/ci/" + name + ".py", reference=True), module.__file__, "exec"), module.__dict__)
-    env.update(android_batch_plan=modules["android_device_batch_plan"], storage_plan=modules["android_storage_compatibility_plan"])
+    env.update(android_batch_plan=modules["android_device_batch_plan"], storage_plan=modules["android_storage_compatibility_plan"],
+               desktop_security_plan=modules["desktop_security_plan"])
     tree = ast.parse(source_at("scripts/ci/workflow_matrix.py"))
     execute_nodes([assignment(tree, name) for name in ("SLOTS", "PROFILES", "MODULE_SUBSETS")] + [named_function(tree, "matrix")],
                   env, "selected-declarative-matrix-and-existing-finite-function")
@@ -146,7 +149,7 @@ def plan_model(env):
         "expected": [{"module": CORE, "project": ":calf-permissions:calf-permissions-core",
             "task": ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest",
             "report_directory": CORE + "/build/outputs/androidTest-results/connected/androidMain",
-            "test_filter": env["android_permission_device_filter"](PROFILE),
+            "test_filter": env["android_permission_device_filter"](PROFILE), "test_filter_argument": "annotation",
             "required_testcases": env["android_permission_device_identities"](PROFILE), "test_source_files": [SOURCE]}]}
 
 
@@ -180,7 +183,7 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
         self.assertEqual(SOURCE, spec["source"])
         self.assertEqual(METHODS, spec["methods"])
         self.assertEqual(METHODS + (PICKER,), spec["declared_methods"])
-        expected = ",".join(CLASS + "#" + method for method in METHODS)
+        expected = env["ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION"]
         self.assertEqual(expected, env["android_permission_device_filter"](PROFILE))
         self.assertEqual([{"classname": CLASS, "name": method} for method in METHODS],
             env["android_permission_device_identities"](PROFILE))
@@ -228,7 +231,8 @@ class AndroidPermissionDemoCallDenialRecoveryTests(unittest.TestCase):
         result, selected = select(native)
         self.assertEqual(PROFILE, result["explicit_test_focus"])
         self.assertEqual(2, len(selected[0]["required_testcases"]))
-        self.assertEqual(",".join(CLASS + "#" + method for method in METHODS), selected[0]["test_filter"])
+        self.assertEqual(env["ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION"], selected[0]["test_filter"])
+        self.assertEqual("annotation", selected[0]["test_filter_argument"])
         for old, new in (
             ("@Test fun " + PICKER, "fun " + PICKER),
             ("@Test fun " + METHODS[0], "@Test fun unreviewedCallReplacement"),

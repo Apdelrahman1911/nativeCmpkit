@@ -1,0 +1,147 @@
+{
+  "apply_by": "Lead only; validate preimage hashes and exact fragment occurrence before shared edits",
+  "base_revision": "ff41a9329c6f85dcae3c50d6372997ff92501395",
+  "changed_files": [
+    {
+      "operation": "modify",
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+      "postimage_bytes": 7011,
+      "postimage_sha256": "1018be28c520de3405ade706bc47dcd9142e34e5599a857801bf75a2388cf1c6",
+      "preimage_bytes": 6776,
+      "preimage_sha256": "06ab71c08cb881d17af0228f8a50c7df543ed22cf56682ccf2ac0a58e7507f07"
+    },
+    {
+      "operation": "modify",
+      "path": "scripts/ci/library_tests.py",
+      "postimage_bytes": 298406,
+      "postimage_sha256": "14f9a50b026cf69c9c52ef740eb3f76006207c3c29e77928e6fc4a0559a552c3",
+      "preimage_bytes": 295819,
+      "preimage_sha256": "db10f3ce6be1768567ac07e0f87197bbcd744bd8ba268d76207ccfbc1681553d"
+    },
+    {
+      "operation": "modify",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py",
+      "postimage_bytes": 21768,
+      "postimage_sha256": "a9c7014012a45a2bfc597269ba5ede77e5984a43f8820fbe327a56fd75d67c66",
+      "preimage_bytes": 21521,
+      "preimage_sha256": "7ced8968b2344e90e8a3d973fbfb0861ba901748b4051c385bf760819b89b0be"
+    },
+    {
+      "operation": "add",
+      "path": "scripts/ci/test_android_permission_demo_selector.py",
+      "postimage_bytes": 14886,
+      "postimage_sha256": "a0c772e098cdac6021232d3bdfd7f078b48f93b0f558730b85510a696c9dc709",
+      "preimage_bytes": 0,
+      "preimage_sha256": null
+    }
+  ],
+  "fragments": [
+    {
+      "expected_old_occurrences": 1,
+      "label": "inline runtime method marker",
+      "new": "@Target(AnnotationTarget.FUNCTION)\n@Retention(AnnotationRetention.RUNTIME)\nannotation class AndroidPermissionDemoCallDenialVerification\n\n/** Three new actual OS/library scenarios only.",
+      "old": "/** Three new actual OS/library scenarios only.",
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "tag original callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+      "new": "    @AndroidPermissionDemoCallDenialVerification\n    @Test fun callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant()",
+      "old": "    @Test fun callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant()",
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "tag original denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+      "new": "    @AndroidPermissionDemoCallDenialVerification\n    @Test fun denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest()",
+      "old": "    @Test fun denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest()",
+      "path": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "exact recovery annotation identity",
+      "new": "ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = \"android-permission-demo-call-denial-recovery\"\nANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION = \"com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification\"\n",
+      "old": "ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = \"android-permission-demo-call-denial-recovery\"\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "lossless recovery filter only",
+      "new": "    if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:\n        # One FUNCTION/RUNTIME marker survives ATE CSV transport; exact XML identities stay required.\n        return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION\n",
+      "old": "    if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:\n        return \",\".join(spec[\"classname\"] + \"#\" + method for method in spec[\"methods\"])\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "exact two-method annotation source inventory guard",
+      "new": "def validate_android_permission_demo_recovery_annotation(root: Path, test_sources: list[str]) -> None:\n    \"\"\"Bind the runtime selector to only the two original Call/denial methods.\"\"\"\n    spec = ANDROID_PERMISSION_DEVICE_SPECS[ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS]\n    if spec[\"source\"] not in test_sources:\n        raise ValueError(\"Missing permission recovery runtime annotation source\")\n    package, name = ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION.rsplit(\".\", 1)\n    annotated = []\n    for relative in test_sources:\n        source = safe_path(root, relative).read_text(encoding=\"utf-8\")\n        if name not in source:\n            continue\n        if relative != spec[\"source\"]:\n            raise ValueError(\"Permission recovery selector appears in an unreviewed source\")\n        declarations = list(re.finditer(r\"(?m)^@Target\\(AnnotationTarget.FUNCTION\\)\\s+\"\n                                        r\"@Retention\\(AnnotationRetention.RUNTIME\\)\\s+\"\n                                        r\"annotation class \" + re.escape(name) + r\"$\", source))\n        methods = re.findall(r\"@\" + re.escape(name) + r\"\\s+@Test\\s+fun\\s+\"\n                             r\"([A-Za-z_][A-Za-z0-9_]*)\\s*\\(\\s*\\)\", source)\n        if (len(declarations) != 1 or any(brace in source[:declarations[0].start()] for brace in \"{}\") or\n                source.count(name) != 1 + len(spec[\"methods\"]) or\n                not re.search(r\"(?m)^package\\s+\" + re.escape(package) + r\"\\s*$\", source) or\n                methods != list(spec[\"methods\"])):\n            raise ValueError(\"Permission recovery selector requires exact FUNCTION/RUNTIME declaration and two method uses\")\n        annotated.extend(methods)\n    if annotated != list(spec[\"methods\"]):\n        raise ValueError(\"Permission recovery annotation inventory differs from the exact two identities\")\n\n\ndef android_permission_device_identities(focus: str) -> list[dict]:\n",
+      "old": "def android_permission_device_identities(focus: str) -> list[dict]:\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "recovery plan annotation guard and field only",
+      "new": "            raise ValueError(\"Native permission declarations changed; review the exact new finite selection\")\n        if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:\n            validate_android_permission_demo_recovery_annotation(root, selected[0][\"test_source_files\"])\n            selected[0][\"test_filter_argument\"] = \"annotation\"\n        result[\"explicit_test_focus\"] = focus\n",
+      "old": "            raise ValueError(\"Native permission declarations changed; review the exact new finite selection\")\n        result[\"explicit_test_focus\"] = focus\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "strict selector argument and no exclusion",
+      "new": "                expected[0].get(\"test_filter\") != android_permission_device_filter(focus) or\n                expected[0].get(\"test_filter_argument\") != (\"annotation\" if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS else None) or\n                expected[0].get(\"test_exclusion_annotation\") is not None or\n",
+      "old": "                expected[0].get(\"test_filter\") != android_permission_device_filter(focus) or\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "emit annotation only for approved recovery focus",
+      "new": "                                        test_plan[\"explicit_test_focus\"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS,\n                                                                             ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS}) else \"class\"\n",
+      "old": "                                        test_plan[\"explicit_test_focus\"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS}) else \"class\"\n",
+      "path": "scripts/ci/library_tests.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "owning AST dependency declaration",
+      "new": "    constants = (\"ANDROID_PERMISSION_DEMO_FOCUS\", \"ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS\",\n                 \"ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION\",\n",
+      "old": "    constants = (\"ANDROID_PERMISSION_DEMO_FOCUS\", \"ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS\",\n",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "owning AST dependency function",
+      "new": "    functions = (\"android_permission_device_filter\", \"android_permission_device_identities\", \"input_digest\",\n                 \"validate_android_permission_demo_recovery_annotation\",\n",
+      "old": "    functions = (\"android_permission_device_filter\", \"android_permission_device_identities\", \"input_digest\",\n",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "existing recovery model exact new argument",
+      "new": "            \"test_filter\": env[\"android_permission_device_filter\"](PROFILE), \"test_filter_argument\": \"annotation\",\n",
+      "old": "            \"test_filter\": env[\"android_permission_device_filter\"](PROFILE),\n",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "owning stale filter expectation",
+      "new": "        expected = env[\"ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION\"]\n",
+      "old": "        expected = \",\".join(CLASS + \"#\" + method for method in METHODS)\n",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py"
+    },
+    {
+      "expected_old_occurrences": 1,
+      "label": "owning stale source-plan expectation",
+      "new": "        self.assertEqual(env[\"ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION\"], selected[0][\"test_filter\"])\n        self.assertEqual(\"annotation\", selected[0][\"test_filter_argument\"])\n",
+      "old": "        self.assertEqual(\",\".join(CLASS + \"#\" + method for method in METHODS), selected[0][\"test_filter\"])\n",
+      "path": "scripts/ci/test_android_permission_demo_call_denial_recovery.py"
+    },
+    {
+      "expected_old_occurrences": 0,
+      "label": "new disjoint source-selector guards",
+      "new_payload_file": "new-test-selector.py",
+      "new_payload_sha256": "a0c772e098cdac6021232d3bdfd7f078b48f93b0f558730b85510a696c9dc709",
+      "old": null,
+      "path": "scripts/ci/test_android_permission_demo_selector.py"
+    }
+  ],
+  "source_only": true
+}

@@ -1,0 +1,38 @@
+{
+  "argv": [
+    "/usr/bin/python3.12",
+    "-B",
+    "<repository>/tests/consumer/jvm_abi.py",
+    "compare",
+    "--before",
+    "<sealed-ui-plan>/baseline-ui-only.json",
+    "--after",
+    "<private-ui-diagnostic>/candidate-ui-jvm-api.json",
+    "--output",
+    "<private-ui-diagnostic>/ui-jvm-delta.json"
+  ],
+  "cleanup": {
+    "group_absence_readback_unknown_count": 0,
+    "no_owned_group_remains": true,
+    "owned_group_members": [],
+    "readback_method": "Linux /proc stat; no signals after owned leader reap."
+  },
+  "cwd": "<repository>",
+  "elapsed_seconds": 0.124852,
+  "exit_code": 0,
+  "finished_utc": "2026-11-01T05:20:38.054286+00:00",
+  "id": "ui-jvm-compare",
+  "library_class_execution_requested": false,
+  "owned_child_reaped": true,
+  "raw_process_exit_code": 0,
+  "scope": "Python gate invokes javap for metadata parsing only; no JVM library main/static initializer execution, no Gradle/compiler/build/runtime tests.",
+  "signals": [],
+  "started_utc": "2026-11-01T05:20:37.929475+00:00",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_bytes": 185,
+  "stdout_sha256": "20dec49fe3bcce16d7e73828dc4c192f193fd6c79cb1884d31b0a7e555a7ee41",
+  "stop_refusal": null,
+  "timed_out": false,
+  "timeout_seconds": 30
+}

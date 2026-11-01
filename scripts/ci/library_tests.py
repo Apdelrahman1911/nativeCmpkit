@@ -30,6 +30,7 @@ import runtime_context
 import native_test_policy
 import daemon_jvm
 import desktop_media_context
+import desktop_security_plan
 import picker_dialog_context
 import android_storage_compatibility_plan as storage_plan
 
@@ -148,6 +149,7 @@ DROPDOWN_PACKAGE_PATH = "/kotlin/com/mohamedrejeb/calf/ui/dropdown/"
 DROPDOWN_SCENARIOS_SOURCE = "calf-ui/src/materialTest" + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceScenarios.kt"
 ANDROID_PERMISSION_DEMO_FOCUS = "android-permission-demo-contracts"
 ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = "android-permission-demo-call-denial-recovery"
+ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION = "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification"
 ANDROID_MEDIA_SELECTION_FOCUS = "android-media-selection"
 ANDROID_PERMISSION_DEVICE_SPECS = {
     ANDROID_PERMISSION_DEMO_FOCUS: {
@@ -1493,6 +1495,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
             (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
             (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
+            (focus in desktop_security_plan.FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
@@ -2054,6 +2057,19 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                                               WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256}
         selected[0]["browser_http_fixture"] = WEBVIEW_OFFLINE_FIXTURE
         result["scope"] = "One new public Compose browser method only: actual previously reachable leased loopback destination becomes unreachable after its exact listener closes; exact-port native ECONNREFUSED plus trusted Karma controls/native callbacks/metadata and inline recovery. Accepted request/content methods are not selected or replayed. No system-offline/DNS/TLS, fabricated iframe errors, reliable iframe-error reporting, other engine/target, full-suite, consumer/ABI/security/release claim."
+    elif focus in desktop_security_plan.FOCUSES:
+        route = desktop_security_plan.focus_selection(focus)
+        sources = desktop_security_plan.selected_sources(focus)
+        if any(relative not in selected[0]["test_source_files"] for relative in sources):
+            raise ValueError("Exact selected Desktop security source/fixture is missing")
+        result["explicit_test_focus"] = focus
+        result["desktop_security_fixture"] = desktop_security_plan.fixture_contract(root, focus)
+        selected[0].update(test_filter=",".join(route["selectors"]),
+                           required_testcases=list(route["required_testcases"]),
+                           required_original_xml=route["required_original_xml"],
+                           test_source_files=list(sources), test_source_sets=["desktopTest"],
+                           test_source_sha256=sources)
+        result["scope"] = "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance."
     elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
         sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
         for relative, digest in sources.items():
@@ -2169,6 +2185,9 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 "class " + spec["classname"].rsplit(".", 1)[1] not in source or
                 "package com.mohamedrejeb.calf.permissions" not in source or re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
             raise ValueError("Native permission declarations changed; review the exact new finite selection")
+        if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
+            validate_android_permission_demo_recovery_annotation(root, selected[0]["test_source_files"])
+            selected[0]["test_filter_argument"] = "annotation"
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = android_permission_device_filter(focus)
         selected[0]["required_testcases"] = android_permission_device_identities(focus)
@@ -2358,8 +2377,37 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
 def android_permission_device_filter(focus: str) -> str:
     spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]  # Unknown focus must never become a whole-class fallback.
     if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
-        return ",".join(spec["classname"] + "#" + method for method in spec["methods"])
+        # One FUNCTION/RUNTIME marker survives ATE CSV transport; exact XML identities stay required.
+        return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION
     return spec["classname"]
+
+
+def validate_android_permission_demo_recovery_annotation(root: Path, test_sources: list[str]) -> None:
+    """Bind the runtime selector to only the two original Call/denial methods."""
+    spec = ANDROID_PERMISSION_DEVICE_SPECS[ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS]
+    if spec["source"] not in test_sources:
+        raise ValueError("Missing permission recovery runtime annotation source")
+    package, name = ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION.rsplit(".", 1)
+    annotated = []
+    for relative in test_sources:
+        source = safe_path(root, relative).read_text(encoding="utf-8")
+        if name not in source:
+            continue
+        if relative != spec["source"]:
+            raise ValueError("Permission recovery selector appears in an unreviewed source")
+        declarations = list(re.finditer(r"(?m)^@Target\(AnnotationTarget.FUNCTION\)\s+"
+                                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+"
+                                        r"annotation class " + re.escape(name) + r"$", source))
+        methods = re.findall(r"@" + re.escape(name) + r"\s+@Test\s+fun\s+"
+                             r"([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(declarations) != 1 or any(brace in source[:declarations[0].start()] for brace in "{}") or
+                source.count(name) != 1 + len(spec["methods"]) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                methods != list(spec["methods"])):
+            raise ValueError("Permission recovery selector requires exact FUNCTION/RUNTIME declaration and two method uses")
+        annotated.extend(methods)
+    if annotated != list(spec["methods"]):
+        raise ValueError("Permission recovery annotation inventory differs from the exact two identities")
 
 
 def android_permission_device_identities(focus: str) -> list[dict]:
@@ -2398,6 +2446,8 @@ def validate_test_focus(test_plan: dict) -> bool:
     validate_android_permission_demo_plan(test_plan)
     validate_android_storage_probe_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
+    if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
+        raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
     if focus is None:
         if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
             raise ValueError("Test filters require the finite reviewed focus")
@@ -2412,6 +2462,8 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("task") != ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest" or
                 expected[0].get("report_directory") != "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain" or
                 expected[0].get("test_filter") != android_permission_device_filter(focus) or
+                expected[0].get("test_filter_argument") != ("annotation" if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS else None) or
+                expected[0].get("test_exclusion_annotation") is not None or
                 expected[0].get("required_testcases") != android_permission_device_identities(focus) or
                 spec["source"] not in expected[0]["test_source_files"]):
             raise ValueError("Invalid exact native permission/media plan")
@@ -2584,6 +2636,25 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite browser offline-destination source/fixture/selection plan")
         return True
 
+    if focus in desktop_security_plan.FOCUSES:
+        route = desktop_security_plan.focus_selection(focus)
+        sources = desktop_security_plan.selected_sources(focus)
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:desktopTest" or
+                expected[0].get("report_directory") != "calf-webview/build/test-results/desktopTest" or
+                expected[0].get("test_filter") != ",".join(route["selectors"]) or
+                expected[0].get("required_testcases") != list(route["required_testcases"]) or
+                type(expected[0].get("required_original_xml")) is not int or
+                expected[0]["required_original_xml"] != route["required_original_xml"] or
+                expected[0].get("test_source_files") != list(sources) or
+                expected[0].get("test_source_sets") != ["desktopTest"] or
+                expected[0].get("test_source_sha256") != sources or
+                test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
+            raise ValueError("Invalid exact missing-only Desktop security plan")
+        desktop_security_plan.validate_fixture_contract(test_plan.get("desktop_security_fixture"), focus)
+        return True
     if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
         sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -3034,6 +3105,21 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": WEBVIEW_OFFLINE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in desktop_security_plan.FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            classes = {classname for classname, _ in required}
+            class_reports = Counter(frozenset(c["classname"] for c in cases) for cases in cases_by_report)
+            exact = Counter(frozenset({classname}) for classname in classes)
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == expected["required_original_xml"] and class_reports == exact else
+                             ["Desktop security XML needs exactly one selected native method per class and one nonempty fresh original per class; no missing/duplicate/empty/mixed/foreign cases"])
+            route = desktop_security_plan.focus_selection(test_plan["explicit_test_focus"])
+            sources = {desktop_security_plan.SPECS[name][0]: desktop_security_plan.SOURCE_PATHS[name]
+                       for name in route["selected"]}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
@@ -3277,6 +3363,11 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Prepared storage row differs from the selected native method")
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
+    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        desktop_security_plan.validate_host(platform.system(), platform.machine(), focus)
+        if desktop_security_plan.fixture_contract(root, focus) != test_plan["desktop_security_fixture"]:
+            raise ValueError("Desktop security source/fixture changed before the owning command")
     if test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
         validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan["explicit_test_focus"])
     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
@@ -3293,6 +3384,9 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+        command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
+                        "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
     if simulator:
         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
     if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
@@ -3329,7 +3423,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         if boundary_focus:
             item = test_plan["expected"][0]
             argument = "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
-                                        test_plan["explicit_test_focus"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS}) else "class"
+                                        test_plan["explicit_test_focus"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS,
+                                                                             ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS}) else "class"
             command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
             if test_plan["explicit_test_focus"] == WEBVIEW_ANDROID_MEDIA_FOCUS:
                 command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true")
@@ -3358,6 +3453,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             filters = (item["test_filter"].split(",")
                        if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS or
                        test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
+                       test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES or
                        (test_plan.get("explicit_test_focus") == WEBVIEW_LIFETIME_FOCUS and suite == "desktop")
                        else (item["test_filter"],))
             for selector in filters:
@@ -3810,6 +3906,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 test_plan["android_permission_demo"]["source_contract"], int(actual_api))
         if context["source_revision"] != revision_before:
             raise ValueError("Source revision changed while preparing the test invocation")
+        if focus in desktop_security_plan.FOCUSES:
+            desktop_security_plan.validate_host(context["host"].get("system"), context["host"].get("architecture"), focus)
         if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
             validate_webview_desktop_request_host(context["host"].get("system"), context["host"].get("architecture"), focus)
         audio = desktop_media_context.OwnedAudio(root, output, test_plan).start()
@@ -3894,6 +3992,12 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                 receipt["errors"].append({"error": "Actual daemon major differs from the recorded setup Java runtime"})
         except (OSError, ValueError, UnicodeError) as error:
             receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
+        if focus in desktop_security_plan.FOCUSES:
+            try:
+                receipt["desktop_security_workers"] = desktop_security_plan.worker_observation(output / "gradle.log", focus)
+            except (OSError, ValueError, UnicodeError) as error:
+                receipt["errors"].append({"error": "Exact public security-only worker boundaries incomplete or rejected",
+                                          "reason": type(error).__name__})
         if audio.requested and not audio.passed():
             receipt["errors"].append({"error": "Owned clocked audio context/configuration/cleanup failed"})
         if picker_portal.requested and not picker_portal.receipt.get("clean_owned_shutdown"):
@@ -3926,7 +4030,7 @@ def main() -> int:
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
     parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
-                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
+                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,
                                            IOS_SWITCH_OWNERSHIP_FOCUS,

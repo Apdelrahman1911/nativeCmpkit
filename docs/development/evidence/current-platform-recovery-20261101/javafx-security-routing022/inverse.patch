@@ -1,0 +1,942 @@
+--- a/.github/workflows/gradle.yml
++++ b/.github/workflows/gradle.yml
+@@ -10,7 +10,7 @@
+         type: choice
+         required: true
+         default: core
+-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-desktop-security-regressions, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
++        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+ 
+ permissions:
+   contents: read
+--- a/scripts/ci/library_tests.py
++++ b/scripts/ci/library_tests.py
+@@ -30,7 +30,6 @@
+ import native_test_policy
+ import daemon_jvm
+ import desktop_media_context
+-import desktop_security_plan
+ import picker_dialog_context
+ import android_storage_compatibility_plan as storage_plan
+ 
+@@ -1494,7 +1493,6 @@
+             (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
+             (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
+             (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
+-            (focus in desktop_security_plan.FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
+             (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
+              (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
+              (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
+@@ -2056,19 +2054,6 @@
+                                               WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256}
+         selected[0]["browser_http_fixture"] = WEBVIEW_OFFLINE_FIXTURE
+         result["scope"] = "One new public Compose browser method only: actual previously reachable leased loopback destination becomes unreachable after its exact listener closes; exact-port native ECONNREFUSED plus trusted Karma controls/native callbacks/metadata and inline recovery. Accepted request/content methods are not selected or replayed. No system-offline/DNS/TLS, fabricated iframe errors, reliable iframe-error reporting, other engine/target, full-suite, consumer/ABI/security/release claim."
+-    elif focus in desktop_security_plan.FOCUSES:
+-        route = desktop_security_plan.focus_selection(focus)
+-        sources = desktop_security_plan.selected_sources(focus)
+-        if any(relative not in selected[0]["test_source_files"] for relative in sources):
+-            raise ValueError("Exact selected Desktop security source/fixture is missing")
+-        result["explicit_test_focus"] = focus
+-        result["desktop_security_fixture"] = desktop_security_plan.fixture_contract(root, focus)
+-        selected[0].update(test_filter=",".join(route["selectors"]),
+-                           required_testcases=list(route["required_testcases"]),
+-                           required_original_xml=route["required_original_xml"],
+-                           test_source_files=list(sources), test_source_sets=["desktopTest"],
+-                           test_source_sha256=sources)
+-        result["scope"] = "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance."
+     elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+         sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+         for relative, digest in sources.items():
+@@ -2413,8 +2398,6 @@
+     validate_android_permission_demo_plan(test_plan)
+     validate_android_storage_probe_plan(test_plan)
+     focus = test_plan.get("explicit_test_focus")
+-    if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
+-        raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
+     if focus is None:
+         if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
+             raise ValueError("Test filters require the finite reviewed focus")
+@@ -2601,25 +2584,6 @@
+             raise ValueError("Invalid finite browser offline-destination source/fixture/selection plan")
+         return True
+ 
+-    if focus in desktop_security_plan.FOCUSES:
+-        route = desktop_security_plan.focus_selection(focus)
+-        sources = desktop_security_plan.selected_sources(focus)
+-        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+-                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+-                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+-                expected[0]["task"] != ":calf-webview:desktopTest" or
+-                expected[0].get("report_directory") != "calf-webview/build/test-results/desktopTest" or
+-                expected[0].get("test_filter") != ",".join(route["selectors"]) or
+-                expected[0].get("required_testcases") != list(route["required_testcases"]) or
+-                type(expected[0].get("required_original_xml")) is not int or
+-                expected[0]["required_original_xml"] != route["required_original_xml"] or
+-                expected[0].get("test_source_files") != list(sources) or
+-                expected[0].get("test_source_sets") != ["desktopTest"] or
+-                expected[0].get("test_source_sha256") != sources or
+-                test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
+-            raise ValueError("Invalid exact missing-only Desktop security plan")
+-        desktop_security_plan.validate_fixture_contract(test_plan.get("desktop_security_fixture"), focus)
+-        return True
+     if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+         sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+@@ -3070,21 +3034,6 @@
+             scenarios = [{**c, "source": WEBVIEW_OFFLINE_SOURCE, "required_on_host": True,
+                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                          for c in module_cases]
+-        elif boundary_focus and test_plan["explicit_test_focus"] in desktop_security_plan.FOCUSES:
+-            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+-            actual = {(c["classname"], c["name"]) for c in module_cases}
+-            classes = {classname for classname, _ in required}
+-            class_reports = Counter(frozenset(c["classname"] for c in cases) for cases in cases_by_report)
+-            exact = Counter(frozenset({classname}) for classname in classes)
+-            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+-                             len(reports) == len(paths) == expected["required_original_xml"] and class_reports == exact else
+-                             ["Desktop security XML needs exactly one selected native method per class and one nonempty fresh original per class; no missing/duplicate/empty/mixed/foreign cases"])
+-            route = desktop_security_plan.focus_selection(test_plan["explicit_test_focus"])
+-            sources = {desktop_security_plan.SPECS[name][0]: desktop_security_plan.SOURCE_PATHS[name]
+-                       for name in route["selected"]}
+-            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+-                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+-                         for c in module_cases]
+         elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+             actual = {(c["classname"], c["name"]) for c in module_cases}
+@@ -3328,11 +3277,6 @@
+             raise ValueError("Prepared storage row differs from the selected native method")
+     if boundary_focus and suite != test_plan["suite"]:
+         raise ValueError("A focused test plan cannot run as another suite")
+-    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+-        focus = test_plan["explicit_test_focus"]
+-        desktop_security_plan.validate_host(platform.system(), platform.machine(), focus)
+-        if desktop_security_plan.fixture_contract(root, focus) != test_plan["desktop_security_fixture"]:
+-            raise ValueError("Desktop security source/fixture changed before the owning command")
+     if test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+         validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan["explicit_test_focus"])
+     if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
+@@ -3349,9 +3293,6 @@
+                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
+                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
+                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+-    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+-        command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
+-                        "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
+     if simulator:
+         command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
+     if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
+@@ -3417,7 +3358,6 @@
+             filters = (item["test_filter"].split(",")
+                        if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS or
+                        test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
+-                       test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES or
+                        (test_plan.get("explicit_test_focus") == WEBVIEW_LIFETIME_FOCUS and suite == "desktop")
+                        else (item["test_filter"],))
+             for selector in filters:
+@@ -3870,8 +3810,6 @@
+                 test_plan["android_permission_demo"]["source_contract"], int(actual_api))
+         if context["source_revision"] != revision_before:
+             raise ValueError("Source revision changed while preparing the test invocation")
+-        if focus in desktop_security_plan.FOCUSES:
+-            desktop_security_plan.validate_host(context["host"].get("system"), context["host"].get("architecture"), focus)
+         if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+             validate_webview_desktop_request_host(context["host"].get("system"), context["host"].get("architecture"), focus)
+         audio = desktop_media_context.OwnedAudio(root, output, test_plan).start()
+@@ -3956,12 +3894,6 @@
+                 receipt["errors"].append({"error": "Actual daemon major differs from the recorded setup Java runtime"})
+         except (OSError, ValueError, UnicodeError) as error:
+             receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
+-        if focus in desktop_security_plan.FOCUSES:
+-            try:
+-                receipt["desktop_security_workers"] = desktop_security_plan.worker_observation(output / "gradle.log", focus)
+-            except (OSError, ValueError, UnicodeError) as error:
+-                receipt["errors"].append({"error": "Exact public security-only worker boundaries incomplete or rejected",
+-                                          "reason": type(error).__name__})
+         if audio.requested and not audio.passed():
+             receipt["errors"].append({"error": "Owned clocked audio context/configuration/cleanup failed"})
+         if picker_portal.requested and not picker_portal.receipt.get("clean_owned_shutdown"):
+@@ -3994,7 +3926,7 @@
+     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
+     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
+     parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
+-                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
++                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
+                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, IOS_SAVE_WRITE_FOCUS,
+                                            IOS_SWITCH_CANCELLATION_FOCUS,
+                                            IOS_SWITCH_OWNERSHIP_FOCUS,
+--- a/scripts/ci/workflow_matrix.py
++++ b/scripts/ci/workflow_matrix.py
+@@ -12,7 +12,6 @@
+ import sys
+ import android_storage_compatibility_plan as storage_plan
+ import android_device_batch_plan as android_batch_plan
+-import desktop_security_plan
+ 
+ SLOTS = (
+     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
+@@ -68,7 +67,6 @@
+     "webview-request-state": ("browser-js", "browser-wasm"),
+     "webview-offline-destination": ("browser-js", "browser-wasm"),
+     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
+-    "webview-desktop-security-regressions": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
+     "webview-wasm": ("browser-wasm",),
+     "share-browser": ("browser-js", "browser-wasm"),
+     "ui-date-browser": ("browser-js", "browser-wasm"),
+@@ -237,7 +235,6 @@
+     "webview-request-state": "calf-webview",
+     "webview-offline-destination": "calf-webview",
+     "webview-desktop-request-state": "calf-webview",
+-    "webview-desktop-security-regressions": "calf-webview",
+     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
+     "webview-wasm": "calf-webview",
+     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
+@@ -439,16 +436,6 @@
+         }
+         for row in rows:
+             row["test-focus"] = focuses[row["slot"]]
+-    if profile == desktop_security_plan.PROFILE:
+-        desktop_security_plan.validate_rows(desktop_security_plan.ROWS)
+-        exact = {row["slot"]: row for row in desktop_security_plan.ROWS}
+-        if [row["slot"] for row in rows] != list(exact):
+-            raise ValueError("Desktop security must retain exactly its five existing slots")
+-        for row in rows:
+-            required = exact[row["slot"]]
+-            if row["suite"] != "desktop" or any(row[key] != required[key] for key in ("runner", "arch")):
+-                raise ValueError("Desktop security runner/architecture drift; no other-host fallback")
+-            row["test-focus"] = required["focus"]
+     if profile.startswith("webview-identity"):
+         for row in rows:
+             if profile in {"webview-identity-recovery", "webview-identity-remount-recovery", "webview-identity-ios-remount-recovery"}:
+--- a/calf-webview/build.gradle.kts
++++ b/calf-webview/build.gradle.kts
+@@ -3,7 +3,6 @@
+ import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG
+ import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest
+ import java.time.Duration
+-import org.gradle.api.tasks.testing.Test
+ 
+ plugins {
+     id("compose.multiplatform")
+@@ -108,34 +107,3 @@
+         implementation(libs.kotlinx.browser)
+     }
+ }
+-
+-val desktopSecurityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"
+-val desktopSecurityMethod = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"
+-val desktopCookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+-val desktopPolicySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+-val desktopMediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+-val desktopSecurityFocus = providers.gradleProperty("nativecmpkitDesktopSecurityFocus").orNull
+-val desktopSecuritySelectors = when (desktopSecurityFocus) {
+-    null -> emptyList()
+-    "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")
+-    "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)
+-    "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)
+-    else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")
+-}
+-
+-tasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {
+-    if (desktopSecurityFocus == null) {
+-        // Never auto-enable a process-global test trust lease in an ordinary worker.
+-        filter { excludeTestsMatching(desktopSecurityClass) }
+-    } else {
+-        // Each selected class has exactly one selected method; no second class can
+-        // reuse HTTP2Loader's static fixture-trusted HttpClient or a cookie handler.
+-        maxParallelForks = 1
+-        forkEvery = 1L
+-        systemProperty("nativecmpkit.desktop.security.worker", "one-selected-class")
+-        filter {
+-            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())
+-            isFailOnNoMatchingTests = true
+-        }
+-    }
+-}
+--- a/scripts/ci/desktop_security_plan.py
++++ /dev/null
+@@ -1,239 +0,0 @@
+-#!/usr/bin/env python3
+-# SPDX-License-Identifier: Apache-2.0
+-"""Finite missing-only BUILD-002 source selection; not native/security acceptance.
+-
+-Existing cookie, policy and media methods run only on hosts missing those cells.
+-The new TLS/rendering method remains unaccepted until fresh source/results review.
+-#64 request/Stop/redirect selections are independent and never selected here.
+-"""
+-from __future__ import annotations
+-
+-import hashlib
+-from pathlib import Path
+-import re
+-import stat
+-
+-SECURITY_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"
+-SECURITY_METHOD = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"
+-COOKIE_CLASS = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest"
+-COOKIE_METHOD = "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+-POLICY_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest"
+-POLICY_METHOD = "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+-MEDIA_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest"
+-MEDIA_METHOD = "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+-SPECS = {
+-    "tls-rendering": (SECURITY_CLASS, SECURITY_METHOD),
+-    "cookie": (COOKIE_CLASS, COOKIE_METHOD),
+-    "policy": (POLICY_CLASS, POLICY_METHOD),
+-    "media": (MEDIA_CLASS, MEDIA_METHOD),
+-}
+-ROWS = (
+-    {"slot": "desktop-linux-x64", "system": "Linux", "arch": "x64", "runner": "ubuntu-24.04", "focus": "tls-rendering", "selected": ("tls-rendering",)},
+-    {"slot": "desktop-macos-arm64", "system": "Darwin", "arch": "arm64", "runner": "macos-26", "focus": "tls-rendering-cookies-policy", "selected": ("tls-rendering", "cookie", "policy")},
+-    {"slot": "desktop-windows-x64", "system": "Windows", "arch": "x64", "runner": "windows-2025", "focus": "tls-rendering-cookies-policy", "selected": ("tls-rendering", "cookie", "policy")},
+-    {"slot": "desktop-linux-arm64", "system": "Linux", "arch": "arm64", "runner": "ubuntu-24.04-arm", "focus": "tls-rendering-cookies-policy-media", "selected": ("tls-rendering", "cookie", "policy", "media")},
+-    {"slot": "desktop-macos-x64", "system": "Darwin", "arch": "x64", "runner": "macos-26-intel", "focus": "tls-rendering-cookies-policy", "selected": ("tls-rendering", "cookie", "policy")},
+-)
+-EXPECTED_SELECTED = {
+-    ("Linux", "x64"): ("tls-rendering",),
+-    ("Darwin", "arm64"): ("tls-rendering", "cookie", "policy"),
+-    ("Windows", "x64"): ("tls-rendering", "cookie", "policy"),
+-    ("Linux", "arm64"): ("tls-rendering", "cookie", "policy", "media"),
+-    ("Darwin", "x64"): ("tls-rendering", "cookie", "policy"),
+-}
+-PROFILE = "webview-desktop-security-regressions"
+-MAX_PARALLEL = 2
+-
+-
+-def validate_rows(rows: tuple[dict, ...]) -> None:
+-    if len(rows) != 5 or len({row["slot"] for row in rows}) != 5:
+-        raise ValueError("Exactly five distinct existing Desktop slots are required")
+-    seen = set()
+-    for row, original in zip(rows, ROWS):
+-        identity = (row["system"], row["arch"])
+-        if (identity in seen or identity not in EXPECTED_SELECTED or
+-                tuple(row["selected"]) != EXPECTED_SELECTED[identity] or
+-                any(row[key] != original[key] for key in ("slot", "system", "arch", "runner", "focus"))):
+-            raise ValueError("Missing-only host/focus/runner inventory changed; no accepted replay or fallback")
+-        seen.add(identity)
+-    if seen != set(EXPECTED_SELECTED):
+-        raise ValueError("Do not omit a literal host or add another host")
+-
+-
+-def selection(system: str, architecture: str) -> dict:
+-    if not isinstance(system, str) or not isinstance(architecture, str):
+-        raise ValueError("Actual system and architecture strings are required")
+-    arch = architecture.lower()
+-    arch = {"amd64": "x64", "x86_64": "x64", "aarch64": "arm64"}.get(arch, arch)
+-    row = next((row for row in ROWS if (row["system"], row["arch"]) == (system, arch)), None)
+-    if row is None:
+-        raise ValueError("Unsupported actual Desktop host; no other-host or full-suite fallback")
+-    return {
+-        **row,
+-        "test_modules": ("calf-webview",),
+-        "task": ":calf-webview:desktopTest",
+-        "isolation_property": "-PnativecmpkitDesktopSecurityFocus=" + row["focus"],
+-        "selectors": tuple(SPECS[key][0] + "." + SPECS[key][1] for key in row["selected"]),
+-        "required_testcases": tuple({"classname": SPECS[key][0], "name": SPECS[key][1] + "[desktop]"} for key in row["selected"]),
+-        "required_original_xml": len(row["selected"]),
+-    }
+-
+-
+-def matrix() -> dict:
+-    validate_rows(ROWS)
+-    return {"profile": PROFILE, "max_parallel": MAX_PARALLEL,
+-            "include": [selection(row["system"], row["arch"]) for row in ROWS]}
+-
+-
+-FOCUSES = tuple(dict.fromkeys(row["focus"] for row in ROWS))
+-SOURCE_PATHS = {'tls-rendering': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt', 'cookie': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt', 'policy': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt', 'media': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt'}
+-SOURCE_SHA256 = {'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt': 'd6351562894951442fec8258dc95452251530e6df10d04c3e106f535a1391696', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt': '1636c150d21b2a5d15d6659c04f840e4bc2a2852287e835c912aaf43271de9ea', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt': 'd5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt': '2811d91948312b9626f9b3f99112de8bffaa26100405c402bba7989e02248e96', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt': 'aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456'}
+-TLS_HELPER = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
+-BUILD_SOURCE = "calf-webview/build.gradle.kts"
+-INIT_SCRIPT = "scripts/ci/desktop-security.init.gradle.kts"
+-INIT_SCRIPT_SHA256 = '2776dc5587f6b621bd0289742e026f15a6d2ecfc7fb1131a2ed540aeaf6d3014'
+-ISOLATION_BLOCK = 'val desktopSecurityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"\nval desktopSecurityMethod = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"\nval desktopCookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"\nval desktopPolicySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"\nval desktopMediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"\nval desktopSecurityFocus = providers.gradleProperty("nativecmpkitDesktopSecurityFocus").orNull\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\n    null -> emptyList()\n    "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")\n    "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)\n    "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n    else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")\n}\n\ntasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {\n    if (desktopSecurityFocus == null) {\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\n        filter { excludeTestsMatching(desktopSecurityClass) }\n    } else {\n        // Each selected class has exactly one selected method; no second class can\n        // reuse HTTP2Loader\'s static fixture-trusted HttpClient or a cookie handler.\n        maxParallelForks = 1\n        forkEvery = 1L\n        systemProperty("nativecmpkit.desktop.security.worker", "one-selected-class")\n        filter {\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\n            isFailOnNoMatchingTests = true\n        }\n    }\n}\n'
+-ISOLATION_BLOCK_SHA256 = '99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf'
+-
+-
+-def focus_selection(focus: str) -> dict:
+-    validate_rows(ROWS)
+-    if focus not in FOCUSES:
+-        raise ValueError("Unknown finite Desktop security focus; no class/full-suite fallback")
+-    row = next(row for row in ROWS if row["focus"] == focus)
+-    return selection(row["system"], row["arch"])
+-
+-
+-def selected_sources(focus: str) -> dict[str, str]:
+-    selected = focus_selection(focus)["selected"]
+-    paths = [SOURCE_PATHS["tls-rendering"], TLS_HELPER]
+-    paths.extend(SOURCE_PATHS[name] for name in selected if name != "tls-rendering")
+-    return {path: SOURCE_SHA256[path] for path in paths}
+-
+-
+-def validate_host(system: str, architecture: str, focus: str) -> None:
+-    if focus not in FOCUSES or selection(system, architecture)["focus"] != focus:
+-        raise ValueError("Desktop security focus must match its actual missing-only host")
+-
+-
+-def _source(root: Path, relative: str) -> bytes:
+-    root = root.resolve()
+-    current = root
+-    for part in Path(relative).parts:
+-        if part in {".", ".."} or Path(relative).is_absolute():
+-            raise ValueError("Expected a confined owning Desktop security source")
+-        current = current / part
+-        if current.is_symlink():
+-            raise ValueError("No symlinked Desktop security source/fixture")
+-    before = current.stat()
+-    if (not current.resolve().is_relative_to(root) or not stat.S_ISREG(before.st_mode) or
+-            before.st_nlink != 1 or before.st_size > 1024 * 1024):
+-        raise ValueError("Desktop security source must be bounded, confined and regular")
+-    value = current.read_bytes()
+-    after = current.stat()
+-    if (before.st_ino, before.st_mtime_ns, before.st_size) != (after.st_ino, after.st_mtime_ns, after.st_size):
+-        raise ValueError("Desktop security source changed during readback")
+-    return value
+-
+-
+-def fixture_contract(root: Path, focus: str) -> dict:
+-    for relative, expected in selected_sources(focus).items():
+-        if hashlib.sha256(_source(root, relative)).hexdigest() != expected:
+-            raise ValueError("Review the exact selected Desktop security native source/fixture")
+-    build = _source(root, BUILD_SOURCE)
+-    text = build.decode("utf-8")
+-    if (text.count(ISOLATION_BLOCK) != 1 or text.count("nativecmpkitDesktopSecurityFocus") != 1 or
+-            text.count("import org.gradle.api.tasks.testing.Test\n") != 1):
+-        raise ValueError("Mandatory exact finite fork isolation/default exclusion is missing or changed")
+-    if hashlib.sha256(_source(root, INIT_SCRIPT)).hexdigest() != INIT_SCRIPT_SHA256:
+-        raise ValueError("Exact bounded security-only public worker observation source changed")
+-    return {"focus": focus, "build_source": BUILD_SOURCE,
+-            "build_sha256": hashlib.sha256(build).hexdigest(),
+-            "isolation_block_sha256": ISOLATION_BLOCK_SHA256,
+-            "init_script_source": INIT_SCRIPT, "init_script_sha256": INIT_SCRIPT_SHA256,
+-            "max_parallel_forks": 1, "fork_every": 1,
+-            "worker_fixture_property": "one-selected-class",
+-            "public_worker_boundary_observation_required": True}
+-
+-
+-def validate_fixture_contract(contract: dict, focus: str) -> None:
+-    focus_selection(focus)
+-    expected = {"focus": focus, "build_source": BUILD_SOURCE,
+-                "isolation_block_sha256": ISOLATION_BLOCK_SHA256,
+-                "init_script_source": INIT_SCRIPT, "init_script_sha256": INIT_SCRIPT_SHA256,
+-                "max_parallel_forks": 1, "fork_every": 1,
+-                "worker_fixture_property": "one-selected-class",
+-                "public_worker_boundary_observation_required": True}
+-    if (not isinstance(contract, dict) or set(contract) != set(expected) | {"build_sha256"} or
+-            any(type(contract[key]) is not type(value) or contract[key] != value for key, value in expected.items()) or
+-            not isinstance(contract["build_sha256"], str) or
+-            re.fullmatch(r"[0-9a-f]{64}", contract["build_sha256"]) is None):
+-        raise ValueError("Invalid exact finite Desktop security fixture/isolation contract")
+-
+-
+-def worker_observation(log: Path, focus: str) -> dict:
+-    """Public Gradle TestListener events only; not OS-PID/exit or sandbox proof.
+-
+-    Exactly one selected case per fresh sequential worker. Exact method names and
+-    original class XML are checked separately by the existing owning collector.
+-    No private log/error/test-output body is returned. Unknown shapes stay red.
+-    """
+-    route = focus_selection(focus)
+-    classes = {classname for classname, method in (SPECS[name] for name in route["selected"])}
+-    before = log.stat()
+-    if log.is_symlink() or not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > 32 * 1024 * 1024:
+-        raise ValueError("Worker observation needs one bounded owned regular Gradle log")
+-    prefix = "NATIVECMPKIT_DESKTOP_SECURITY_"
+-    lines = []
+-    with log.open(encoding="utf-8", errors="strict") as handle:
+-        for line in handle:
+-            if line.startswith(prefix):
+-                if len(line) > 1024 or len(lines) >= 1 + 4 * len(classes):
+-                    raise ValueError("Desktop security public worker observation exceeds its exact finite bound")
+-                lines.append(line.rstrip("\n"))
+-    after = log.stat()
+-    if (before.st_ino, before.st_size, before.st_mtime_ns) != (after.st_ino, after.st_size, after.st_mtime_ns):
+-        raise ValueError("Worker observation changed during bounded readback")
+-    setup = prefix + "SETUP task=:calf-webview:desktopTest focus=" + focus + " forks=1 forkEvery=1 classes=" + str(len(classes))
+-    if len(lines) != 1 + 4 * len(classes) or lines[0] != setup:
+-        raise ValueError("Missing exact effective setup and one complete fresh boundary per selected class")
+-    event = re.compile(re.escape(prefix) + r"(WORKER|CASE) phase=(start|finish) worker=([1-9][0-9]{0,8})"
+-                       r"(?: classname=([A-Za-z_][A-Za-z0-9_.]*))?"
+-                       r"(?: tests=1 passed=1 failed=0 skipped=0 result=SUCCESS)?\Z")
+-    active = None
+-    finished = []
+-    seen_workers, seen_classes = set(), set()
+-    for line in lines[1:]:
+-        match = event.fullmatch(line)
+-        if match is None:
+-            raise ValueError("Unknown, failed, skipped or partial security worker event")
+-        kind, phase, worker, classname = match.groups()
+-        suffix = " tests=1 passed=1 failed=0 skipped=0 result=SUCCESS"
+-        if (phase == "finish") != line.endswith(suffix) or (kind == "CASE") != (classname is not None):
+-            raise ValueError("Public worker/case event lacks its exact bounded completion identity")
+-        if kind == "WORKER" and phase == "start":
+-            if active is not None or worker in seen_workers:
+-                raise ValueError("Security workers must be fresh, distinct and sequential")
+-            seen_workers.add(worker)
+-            active = {"worker": worker, "classname": None, "case_finished": False}
+-        elif kind == "CASE" and phase == "start":
+-            if (active is None or active["worker"] != worker or active["classname"] is not None or
+-                    classname not in classes or classname in seen_classes):
+-                raise ValueError("Only one exact missing selected class may enter each worker")
+-            active["classname"] = classname
+-            seen_classes.add(classname)
+-        elif kind == "CASE" and phase == "finish":
+-            if (active is None or active["worker"] != worker or active["classname"] != classname or active["case_finished"]):
+-                raise ValueError("Selected case completion is unowned, duplicated or reordered")
+-            active["case_finished"] = True
+-        else:
+-            if active is None or active["worker"] != worker or active["case_finished"] is not True:
+-                raise ValueError("Worker completed without its one owned completed selected case")
+-            finished.append({"descriptor_worker_index": int(worker), "classname": active["classname"]})
+-            active = None
+-    if active is not None or seen_classes != classes or len(finished) != len(classes):
+-        raise ValueError("Security worker boundary inventory is partial or changed")
+-    return {"focus": focus, "public_gradle_test_listener_boundaries_verified": True,
+-            "selected_class_workers": finished, "sequential_workers": True,
+-            "one_selected_case_per_worker": True, "os_worker_pid_observed": False,
+-            "os_worker_exit_or_sandbox_attested": False}
+--- a/scripts/ci/desktop-security.init.gradle.kts
++++ /dev/null
+@@ -1,67 +0,0 @@
+-// SPDX-License-Identifier: Apache-2.0
+-// Finite owning setup readback and public test-worker boundaries only.
+-// Not a sandbox, OS-PID/process-exit attestation or TLS/rendering oracle.
+-import org.gradle.api.tasks.testing.Test
+-import org.gradle.api.tasks.testing.TestDescriptor
+-import org.gradle.api.tasks.testing.TestListener
+-import org.gradle.api.tasks.testing.TestResult
+-
+-val securityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"
+-val securitySelector = "$securityClass.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"
+-val cookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"
+-val policySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+-val mediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"
+-val securityFocus = gradle.startParameter.projectProperties["nativecmpkitDesktopSecurityFocus"]
+-    ?: error("Security observation requires the exact explicit finite focus")
+-val securitySelectors = when (securityFocus) {
+-    "tls-rendering" -> listOf(securitySelector)
+-    "tls-rendering-cookies-policy" -> listOf(securitySelector, cookieSelector, policySelector)
+-    "tls-rendering-cookies-policy-media" -> listOf(securitySelector, cookieSelector, policySelector, mediaSelector)
+-    else -> error("Unknown finite Desktop security observation focus")
+-}
+-val securityClasses = securitySelectors.map { it.substringBeforeLast('.') }.toSet()
+-val workerName = Regex("Gradle Test Executor ([1-9][0-9]{0,8})")
+-
+-allprojects {
+-    tasks.withType<Test>().matching { it.path == ":calf-webview:desktopTest" }.configureEach {
+-        val selectedTask = this
+-        doFirst {
+-            check(maxParallelForks == 1 && forkEvery == 1L)
+-            check(systemProperties["nativecmpkit.desktop.security.worker"] == "one-selected-class")
+-            check(filter.includePatterns == securitySelectors.toSet() && filter.excludePatterns.isEmpty())
+-            check(filter.isFailOnNoMatchingTests)
+-            logger.lifecycle("NATIVECMPKIT_DESKTOP_SECURITY_SETUP task=$path focus=$securityFocus forks=1 forkEvery=1 classes=${securityClasses.size}")
+-        }
+-        addTestListener(object : TestListener {
+-            private fun worker(descriptor: TestDescriptor): String {
+-                var current: TestDescriptor? = descriptor
+-                repeat(16) {
+-                    val node = current ?: error("Selected case has no bounded public worker ancestor")
+-                    workerName.matchEntire(node.name)?.let { return it.groupValues[1] }
+-                    current = node.parent
+-                }
+-                error("Selected case exceeds the bounded public worker ancestry")
+-            }
+-            private fun counts(result: TestResult) =
+-                "tests=${result.testCount} passed=${result.successfulTestCount} failed=${result.failedTestCount} skipped=${result.skippedTestCount} result=${result.resultType}"
+-            override fun beforeSuite(suite: TestDescriptor) {
+-                val match = workerName.matchEntire(suite.name) ?: return
+-                check(suite.className == null)
+-                selectedTask.logger.lifecycle("NATIVECMPKIT_DESKTOP_SECURITY_WORKER phase=start worker=${match.groupValues[1]}")
+-            }
+-            override fun afterSuite(suite: TestDescriptor, result: TestResult) {
+-                val match = workerName.matchEntire(suite.name) ?: return
+-                check(suite.className == null)
+-                selectedTask.logger.lifecycle("NATIVECMPKIT_DESKTOP_SECURITY_WORKER phase=finish worker=${match.groupValues[1]} ${counts(result)}")
+-            }
+-            override fun beforeTest(test: TestDescriptor) {
+-                check(test.className in securityClasses)
+-                selectedTask.logger.lifecycle("NATIVECMPKIT_DESKTOP_SECURITY_CASE phase=start worker=${worker(test)} classname=${test.className}")
+-            }
+-            override fun afterTest(test: TestDescriptor, result: TestResult) {
+-                check(test.className in securityClasses)
+-                selectedTask.logger.lifecycle("NATIVECMPKIT_DESKTOP_SECURITY_CASE phase=finish worker=${worker(test)} classname=${test.className} ${counts(result)}")
+-            }
+-        })
+-    }
+-}
+--- a/scripts/ci/test_desktop_security_routing.py
++++ /dev/null
+@@ -1,372 +0,0 @@
+-"""New finite security-route models only; no compiler, TLS, painting or native pass."""
+-from collections import Counter
+-import copy
+-import os
+-from pathlib import Path
+-import re
+-import shutil
+-import tempfile
+-import time
+-import unittest
+-from unittest.mock import patch
+-from xml.etree import ElementTree as ET
+-
+-import desktop_media_context
+-import desktop_security_plan as security
+-import library_tests as lt
+-import workflow_matrix as matrix
+-from test_ios_io_profile import profile_options
+-
+-
+-ROWS = (
+-    ("desktop-linux-x64", "Linux", "x86_64", "tls-rendering", 1),
+-    ("desktop-macos-arm64", "Darwin", "arm64", "tls-rendering-cookies-policy", 3),
+-    ("desktop-windows-x64", "Windows", "AMD64", "tls-rendering-cookies-policy", 3),
+-    ("desktop-linux-arm64", "Linux", "aarch64", "tls-rendering-cookies-policy-media", 4),
+-    ("desktop-macos-x64", "Darwin", "x86_64", "tls-rendering-cookies-policy", 3),
+-)
+-
+-
+-def temporary():
+-    return tempfile.TemporaryDirectory(prefix="nativecmpkit-security-source-model-",
+-                                     dir=os.environ.get("NATIVECMPKIT_SOURCE_MODEL_TMP"))
+-
+-
+-class DesktopSecurityRoutingModels(unittest.TestCase):
+-    @classmethod
+-    def setUpClass(cls):
+-        cls.plans = {focus: lt.plan(lt.ROOT, "desktop", only_modules=("calf-webview",), focus=focus)
+-                     for focus in security.FOCUSES}
+-
+-    def plan(self, focus="tls-rendering"):
+-        return copy.deepcopy(self.plans[focus])
+-
+-    def source_root(self, folder):
+-        root = Path(folder)
+-        (root / "settings.gradle.kts").write_text('include(\n    ":calf-webview",\n)\n')
+-        for relative in (*security.SOURCE_SHA256, security.BUILD_SOURCE, security.INIT_SCRIPT):
+-            destination = root / relative
+-            destination.parent.mkdir(parents=True, exist_ok=True)
+-            shutil.copyfile(lt.ROOT / relative, destination)
+-        return root
+-
+-    def reports(self, root, focus, groups=None, outcome="", stale=False, hardlink=False, symlink=False):
+-        item, = self.plan(focus)["expected"]
+-        folder = root / item["report_directory"]
+-        folder.mkdir(parents=True)
+-        if groups is None:
+-            groups = [[case] for case in item["required_testcases"]]
+-        files = []
+-        for index, cases in enumerate(groups):
+-            document = ET.Element("testsuite")
+-            for case in cases:
+-                node = ET.SubElement(document, "testcase", **case)
+-                if outcome:
+-                    ET.SubElement(node, outcome)
+-            file = folder / ("TEST-explicitly-synthetic-security-%s.xml" % index)
+-            file.write_bytes(ET.tostring(document)); files.append(file)
+-        if files and stale:
+-            now = time.time_ns()
+-            os.utime(files[0], ns=(now - 20_000_000_000, now - 20_000_000_000))
+-        if files and hardlink:
+-            os.link(files[0], root / "synthetic-hardlink.xml")
+-        if files and symlink:
+-            payload = files[0].read_bytes(); files[0].unlink()
+-            target = root / "synthetic-target.xml"; target.write_bytes(payload)
+-            files[0].symlink_to(target)
+-        return item
+-
+-    def collect(self, focus, groups=None, outcome="", stale=False, markers=1, hardlink=False):
+-        with temporary() as folder:
+-            root = Path(folder)
+-            item = self.reports(root, focus, groups, outcome, stale, hardlink)
+-            now = time.time_ns()
+-            return lt.collect_reports(root, self.plan(focus), now - 1_000_000_000, now + 1_000_000_000,
+-                                      Counter({item["task"]: markers}), host_system="Linux")
+-
+-    def events(self, focus):
+-        route = security.focus_selection(focus)
+-        prefix = "NATIVECMPKIT_DESKTOP_SECURITY_"
+-        lines = [prefix + "SETUP task=:calf-webview:desktopTest focus=" + focus +
+-                 " forks=1 forkEvery=1 classes=" + str(len(route["selected"]))]
+-        for index, name in enumerate(route["selected"], 7):
+-            classname = security.SPECS[name][0]
+-            worker = " worker=" + str(index)
+-            lines.extend((prefix + "WORKER phase=start" + worker,
+-                          prefix + "CASE phase=start" + worker + " classname=" + classname,
+-                          prefix + "CASE phase=finish" + worker + " classname=" + classname +
+-                          " tests=1 passed=1 failed=0 skipped=0 result=SUCCESS",
+-                          prefix + "WORKER phase=finish" + worker +
+-                          " tests=1 passed=1 failed=0 skipped=0 result=SUCCESS"))
+-        return lines
+-
+-    def observe(self, focus, lines):
+-        with temporary() as folder:
+-            log = Path(folder) / "synthetic-public-worker-events.log"
+-            log.write_text("\n".join(lines) + "\n")
+-            return security.worker_observation(log, focus)
+-
+-    def test_registered_profile_reaches_real_source_only_cli_on_exact_existing_rows(self):
+-        rows = matrix.matrix(security.PROFILE)["include"]
+-        self.assertEqual([row[0] for row in ROWS], [row["slot"] for row in rows])
+-        self.assertEqual([row[3] for row in ROWS], [row["test-focus"] for row in rows])
+-        self.assertTrue(all(row["suite"] == "desktop" and row["test-modules"] == "calf-webview" for row in rows))
+-        preflight = matrix.preflight_plans(security.PROFILE, root=lt.ROOT)
+-        self.assertTrue(preflight["source_only"])
+-        self.assertEqual(0, preflight["Gradle_builds_executed"])
+-        self.assertEqual(0, preflight["library_tests_executed"])
+-        self.assertEqual(5, len(preflight["slots"]))
+-        self.assertTrue(all(row["expected_modules"] == 1 and row["exit_code"] == 0 for row in preflight["slots"]))
+-        for row, expected in zip(preflight["slots"], ROWS):
+-            self.assertEqual(expected[3], row["command"][row["command"].index("--focus") + 1])
+-        self.assertEqual([1, 3, 3, 4, 3], [len(self.plan(row[3])["expected"][0]["required_testcases"]) for row in ROWS])
+-
+-    def test_owning_command_emits_fourteen_finite_selectors_with_exact_fixture_property(self):
+-        selectors = []
+-        for slot, system, arch, focus, count in ROWS:
+-            with self.subTest(slot=slot), patch("library_tests.platform.system", return_value=system), \
+-                    patch("library_tests.platform.machine", return_value=arch):
+-                plan = self.plan(focus)
+-                command = lt.gradle_command("desktop", plan, root=lt.ROOT)
+-                selected = [command[index + 1] for index, value in enumerate(command) if value == "--tests"]
+-                self.assertEqual(list(security.focus_selection(focus)["selectors"]), selected)
+-                self.assertEqual(count, len(selected))
+-                self.assertEqual(1, command.count("-PnativecmpkitDesktopSecurityFocus=" + focus))
+-                self.assertEqual(1, command.count(security.INIT_SCRIPT))
+-                self.assertEqual(1, command.count(":calf-webview:desktopTest"))
+-                self.assertIn("--no-daemon", command)
+-                self.assertIn("scripts/ci/fresh-tests.init.gradle.kts", command)
+-                self.assertIn("scripts/ci/daemon-jvm.init.gradle.kts", command)
+-                selectors.extend(selected)
+-        self.assertEqual(14, len(selectors))
+-        self.assertEqual(4, len(set(selectors)))
+-        self.assertFalse(any("RequestState" in selector or "StopRedirect" in selector for selector in selectors))
+-
+-    def test_dispatch_command_refuses_actual_focus_host_crossover_before_any_child_work(self):
+-        variants = (("Linux", "x86_64", "tls-rendering-cookies-policy"),
+-                    ("Linux", "aarch64", "tls-rendering"), ("Darwin", "arm64", "tls-rendering"),
+-                    ("Windows", "ARM64", "tls-rendering-cookies-policy"),
+-                    ("FreeBSD", "x86_64", "tls-rendering"), (None, "x64", "tls-rendering"))
+-        for system, arch, focus in variants:
+-            with self.subTest(system=system, arch=arch, focus=focus), \
+-                    patch("library_tests.platform.system", return_value=system), \
+-                    patch("library_tests.platform.machine", return_value=arch):
+-                with self.assertRaises(ValueError):
+-                    lt.gradle_command("desktop", self.plan(focus), root=lt.ROOT)
+-        for suite, modules in (("desktop", None), ("desktop", ("calf-io",)),
+-                               ("desktop", ("calf-webview", "calf-io")), ("android-device", ("calf-webview",))):
+-            with self.subTest(suite=suite, modules=modules), self.assertRaises(ValueError):
+-                lt.plan(lt.ROOT, suite, only_modules=modules, focus="tls-rendering")
+-
+-    def test_owning_source_command_readback_refuses_changed_isolation_init_and_fixture(self):
+-        variants = ((security.BUILD_SOURCE, "forkEvery = 1L", "forkEvery = 0L"),
+-                    (security.BUILD_SOURCE, "maxParallelForks = 1", "maxParallelForks = 2"),
+-                    (security.BUILD_SOURCE, "excludeTestsMatching(desktopSecurityClass)", "excludeTestsMatching(\"Foreign\")"),
+-                    (security.INIT_SCRIPT, "repeat(16)", "repeat(17)"),
+-                    (security.TLS_HELPER, "// SPDX-License-Identifier: Apache-2.0", "// Changed owning fixture"))
+-        for relative, old, new in variants:
+-            with self.subTest(relative=relative, old=old), temporary() as folder, \
+-                    patch("library_tests.platform.system", return_value="Linux"), \
+-                    patch("library_tests.platform.machine", return_value="x86_64"):
+-                root = self.source_root(folder)
+-                plan = lt.plan(root, "desktop", only_modules=("calf-webview",), focus="tls-rendering")
+-                file = root / relative; text = file.read_text(); self.assertIn(old, text)
+-                file.write_text(text.replace(old, new, 1))
+-                with self.assertRaises(ValueError):
+-                    lt.gradle_command("desktop", plan, root=root)
+-        with temporary() as folder:
+-            root = self.source_root(folder)
+-            file = root / security.INIT_SCRIPT; file.unlink()
+-            with self.assertRaises((OSError, ValueError)):
+-                lt.plan(root, "desktop", only_modules=("calf-webview",), focus="tls-rendering")
+-
+-    def test_owning_plan_mutations_cannot_broaden_case_source_task_or_worker_contract(self):
+-        focus = "tls-rendering-cookies-policy-media"
+-        variants = (("module", "calf-io"), ("project", ":calf-io"), ("task", ":calf-webview:publish"),
+-                    ("report_directory", "calf-io/build/test-results/desktopTest"), ("test_filter", "*"),
+-                    ("required_testcases", []), ("required_original_xml", 1), ("required_original_xml", True),
+-                    ("test_source_files", []), ("test_source_sha256", {}), ("test_source_sets", ["commonTest"]))
+-        for key, value in variants:
+-            plan = self.plan(focus); plan["expected"][0][key] = value
+-            with self.subTest(key=key), self.assertRaises(ValueError):
+-                lt.validate_test_focus(plan)
+-        for key, value in (("fork_every", 0), ("max_parallel_forks", 2), ("fork_every", True),
+-                           ("focus", "tls-rendering"), ("init_script_sha256", "0" * 64),
+-                           ("worker_fixture_property", "shared-worker"), ("public_worker_boundary_observation_required", False)):
+-            plan = self.plan(focus); plan["desktop_security_fixture"][key] = value
+-            with self.subTest(contract=key), self.assertRaises(ValueError):
+-                lt.validate_test_focus(plan)
+-        for key, value in (("complete_suite_requested", True), ("suite", "android-device"),
+-                           ("inherited_test_source_sets", ["commonTest"]), ("explicit_module_subset", [])):
+-            plan = self.plan(focus); plan[key] = value
+-            with self.subTest(scope=key), self.assertRaises(ValueError):
+-                lt.validate_test_focus(plan)
+-
+-    def test_security_fixture_is_absent_from_ordinary_and_existing_request_commands(self):
+-        default = lt.plan(lt.ROOT, "desktop", only_modules=("calf-webview",))
+-        request = lt.plan(lt.ROOT, "desktop", only_modules=("calf-webview",), focus=lt.WEBVIEW_DESKTOP_REQUEST_FOCUS)
+-        for plan in (default, request):
+-            self.assertNotIn("desktop_security_fixture", plan)
+-            with patch("library_tests.platform.system", return_value="Linux"), \
+-                    patch("library_tests.platform.machine", return_value="x86_64"):
+-                command = lt.gradle_command("desktop", plan, root=lt.ROOT)
+-            self.assertNotIn(security.INIT_SCRIPT, command)
+-            self.assertFalse(any(value.startswith("-PnativecmpkitDesktopSecurityFocus=") for value in command))
+-            plan["desktop_security_fixture"] = self.plan()["desktop_security_fixture"]
+-            with self.assertRaises(ValueError):
+-                lt.validate_test_focus(plan)
+-
+-    def test_synthetic_originals_flow_through_new_collector_as_fourteen_exact_cases(self):
+-        passed = 0
+-        for slot, system, arch, focus, count in ROWS:
+-            with self.subTest(slot=slot):
+-                result = self.collect(focus)
+-                self.assertEqual([], result["errors"])
+-                self.assertEqual(count, result["totals"]["passed"])
+-                self.assertEqual(0, result["totals"]["not_applicable"])
+-                module, = result["modules"]
+-                self.assertEqual(count, len(module["reports"]))
+-                self.assertTrue(all(report["tests"] == 1 for report in module["reports"]))
+-                self.assertEqual({case["classname"] for case in self.plan(focus)["expected"][0]["required_testcases"]},
+-                                 {case["classname"] for case in module["native_scenarios"]})
+-                self.assertTrue(all(case["required_on_host"] and case["source"] != "unselected" for case in module["native_scenarios"]))
+-                passed += result["totals"]["passed"]
+-        self.assertEqual(14, passed, "These are authored synthetic XML inputs, not native executions")
+-
+-    def test_new_collector_refuses_mixed_empty_duplicate_accepted_and_wrong_target_xml(self):
+-        focus = "tls-rendering-cookies-policy-media"
+-        cases = self.plan(focus)["expected"][0]["required_testcases"]
+-        variants = ([], [[case] for case in cases[:-1]], [cases, [], [], []],
+-                    [[case] for case in cases] + [[]], [[case] for case in cases] + [[cases[0]]],
+-                    [[dict(case, name=case["name"].replace("[desktop]", ""))] for case in cases],
+-                    [[dict(case, name=case["name"].replace("[desktop]", "[iosSimulatorArm64]"))] for case in cases],
+-                    [[dict(case, classname="Foreign.Test")] for case in cases],
+-                    [[case] for case in cases] + [[{"classname": security.SPECS["cookie"][0], "name": "acceptedOtherCookie[desktop]"}]])
+-        for index, groups in enumerate(variants):
+-            with self.subTest(variant=index):
+-                self.assertTrue(self.collect(focus, groups=groups)["errors"])
+-
+-    def test_new_collector_keeps_failure_skip_staleness_marker_and_hardlink_refusals(self):
+-        focus = "tls-rendering"
+-        for changed in ({"outcome": "failure"}, {"outcome": "error"}, {"outcome": "skipped"},
+-                        {"stale": True}, {"markers": 0}, {"markers": 2}, {"hardlink": True}):
+-            with self.subTest(changed=changed):
+-                self.assertTrue(self.collect(focus, **changed)["errors"])
+-        with temporary() as folder:
+-            root = Path(folder); item = self.reports(root, focus, symlink=True); now = time.time_ns()
+-            with self.assertRaises(ValueError):
+-                lt.collect_reports(root, self.plan(), now - 1_000_000_000, now + 1_000_000_000,
+-                                   Counter({item["task"]: 1}), host_system="Linux")
+-
+-    def test_bounded_public_listener_models_capture_one_fresh_worker_per_selected_class(self):
+-        for focus in security.FOCUSES:
+-            with self.subTest(focus=focus):
+-                observed = self.observe(focus, self.events(focus))
+-                expected = len(security.focus_selection(focus)["selected"])
+-                self.assertEqual(expected, len(observed["selected_class_workers"]))
+-                self.assertTrue(observed["public_gradle_test_listener_boundaries_verified"])
+-                self.assertTrue(observed["sequential_workers"])
+-                self.assertTrue(observed["one_selected_case_per_worker"])
+-                self.assertFalse(observed["os_worker_pid_observed"])
+-                self.assertFalse(observed["os_worker_exit_or_sandbox_attested"])
+-
+-    def test_worker_models_refuse_partial_reused_parallel_reordered_or_foreign_boundaries(self):
+-        focus = "tls-rendering-cookies-policy-media"; lines = self.events(focus)
+-        variants = (lines[:-1], lines[1:], lines + [lines[-1]],
+-                    [*lines[:4], *lines[5:9], lines[4], *lines[9:]],
+-                    [lines[0], lines[2], lines[1], *lines[3:]],
+-                    [line.replace("worker=8", "worker=7") for line in lines],
+-                    [line.replace(security.SPECS["cookie"][0], security.SPECS["tls-rendering"][0]) for line in lines],
+-                    [line.replace(security.SPECS["cookie"][0], "Foreign.Test") for line in lines])
+-        for index, changed in enumerate(variants):
+-            with self.subTest(variant=index), self.assertRaises(ValueError):
+-                self.observe(focus, changed)
+-
+-    def test_worker_models_refuse_incomplete_watchdog_counts_unknown_shape_and_log_aliases(self):
+-        focus = "tls-rendering"; lines = self.events(focus)
+-        for old, new in (("forks=1", "forks=2"), ("forkEvery=1", "forkEvery=0"),
+-                         ("tests=1", "tests=0"), ("passed=1", "passed=0"),
+-                         ("failed=0", "failed=1"), ("skipped=0", "skipped=1"),
+-                         ("result=SUCCESS", "result=FAILURE"), ("worker=7", "worker=unknown")):
+-            with self.subTest(new=new), self.assertRaises(ValueError):
+-                self.observe(focus, [line.replace(old, new) for line in lines])
+-        with self.assertRaises(ValueError):
+-            self.observe(focus, [*lines, "NATIVECMPKIT_DESKTOP_SECURITY_UNKNOWN ignored=false"])
+-        for alias in ("symlink", "hardlink"):
+-            with self.subTest(alias=alias), temporary() as folder:
+-                root = Path(folder); target = root / "synthetic-original.log"; target.write_text("\n".join(lines) + "\n")
+-                log = root / "synthetic-alias.log"
+-                if alias == "symlink":
+-                    log.symlink_to(target)
+-                else:
+-                    os.link(target, log)
+-                with self.assertRaises(ValueError):
+-                    security.worker_observation(log, focus)
+-
+-    def test_owning_run_pass_gate_rejects_missing_boundaries_and_external_watchdog_stops(self):
+-        # Entirely synthetic execute/runtime/daemon receipts. No child, Gradle,
+-        # SDK, TLS, JavaFX, keytool or native UI operation is invoked here.
+-        for present, stop, expected in ((True, False, True), (False, False, False), (True, True, False)):
+-            with self.subTest(public_events=present, watchdog=stop), temporary() as folder:
+-                root = self.source_root(folder)
+-                def execute(model_root, command, log, timeout, reserve_mib, **kwargs):
+-                    self.assertEqual(4200, timeout); self.assertEqual(8192, reserve_mib)
+-                    lines = ["NATIVECMPKIT_TEST_RUNTIME task=:calf-webview:desktopTest gradle=9.7.1"]
+-                    if present:
+-                        lines.extend(self.events("tls-rendering"))
+-                    log.write_text("\n".join(lines) + "\n")
+-                    self.reports(model_root, "tls-rendering")
+-                    return {"exit_code": 143 if stop else 0, "elapsed_seconds": 0,
+-                            **({"stop_reason": "Synthetic owning watchdog stop"} if stop else {})}
+-                context = {"source_revision": "1" * 40, "source_tree_dirty": False,
+-                           "host": {"system": "Linux", "architecture": "x86_64"}, "java": {"major": 17}}
+-                with patch("library_tests.git_revision", return_value="1" * 40), \
+-                        patch("library_tests.runtime_context.capture", return_value=context), \
+-                        patch("library_tests.execute", side_effect=execute), \
+-                        patch("library_tests.daemon_jvm.observation", return_value={"major": 17}), \
+-                        patch("library_tests.platform.system", return_value="Linux"), \
+-                        patch("library_tests.platform.machine", return_value="x86_64"):
+-                    result = lt.run(root, "desktop", "build/ci-verification/explicitly-synthetic-security", None,
+-                                    4200, 8192, only_modules=("calf-webview",), focus="tls-rendering")
+-                self.assertIs(expected, result["passed"])
+-                self.assertEqual(present, "desktop_security_workers" in result)
+-                if not present:
+-                    self.assertTrue(any("worker boundaries" in error["error"] for error in result["errors"]))
+-                if stop:
+-                    self.assertIn("stop_reason", result["execution"])
+-                self.assertFalse((root / "build/ci-verification/.library-tests.lock").exists())
+-
+-    def test_existing_owned_audio_binding_selects_only_linux_arm64_missing_media(self):
+-        for slot, system, arch, focus, count in ROWS:
+-            with self.subTest(slot=slot), temporary() as folder, \
+-                    patch("desktop_media_context.platform.system", return_value=system):
+-                audio = desktop_media_context.OwnedAudio(Path(folder), Path(folder) / "build/ci-verification/synthetic", self.plan(focus))
+-                self.assertEqual(slot == "desktop-linux-arm64", audio.requested)
+-                self.assertIsNone(audio.process)
+-                self.assertIsNone(audio.environment)
+-                self.assertIsNone(audio.receipt)
+-
+-    def test_only_profile_membership_expands_workflow_without_permissions_parallel_or_upload_scope(self):
+-        workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
+-        self.assertIn(security.PROFILE, profile_options(workflow))
+-        self.assertIn("permissions:\n  contents: read", workflow)
+-        self.assertIn("persist-credentials: false", workflow)
+-        self.assertNotIn("packages: write", workflow)
+-        self.assertNotIn("id-token: write", workflow)
+-        library = workflow.split("\n  library-tests:\n", 1)[1].split("\n  webview-consumer:\n", 1)[0]
+-        expression = re.search(r"(?m)^      max-parallel: (.+)$", library).group(1)
+-        self.assertNotIn(security.PROFILE, expression)
+-        self.assertTrue(expression.endswith("&& 1 || 2 }}"))
+-        self.assertEqual(2, security.MAX_PARALLEL)
+-        self.assertEqual(11, len(matrix.matrix("all")["include"]))
+-        self.assertEqual(["webview-desktop-request-state", "webview-desktop-request-state-stop",
+-                          "webview-desktop-request-state-stop", "webview-desktop-request-state-stop-redirect",
+-                          "webview-desktop-request-state-stop"],
+-                         [row["test-focus"] for row in matrix.matrix("webview-desktop-request-state")["include"]])
+-        upload = workflow.split("- name: Keep receipts and actual selected-task XML only; never packages", 1)[1].split("\n  webview-consumer:", 1)[0]
+-        for forbidden in ("*.jar", "*.aar", "*.apk", "*.kexe", "*.app", "*.hprof", "private-cookie"):
+-            self.assertNotIn(forbidden, upload)
+-
+-
+-if __name__ == "__main__":
+-    unittest.main()

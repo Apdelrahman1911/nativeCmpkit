@@ -1,0 +1,47 @@
+{
+  "accepted_result_replays": 0,
+  "actual_daemon_jvm_observation": "unreached",
+  "base_head_before_additive_commit": "55b1a8c361e0b6445e95df989f238310ca0a3eb0",
+  "combined_inputs": 1188,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/desktop-security.init.gradle.kts",
+    "-PnativecmpkitDesktopSecurityFocus=tls-rendering",
+    ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest",
+    ":calf-webview:compileTestKotlinDesktop"
+  ],
+  "context_underlying_cause": "not yet separately observed; included-build init propagation suspected",
+  "desktop_compile_accepted": false,
+  "dirty_source_held": true,
+  "execution": {
+    "elapsed_seconds": 11.0,
+    "exit_code": 1
+  },
+  "explicit_launcher_JDK17": true,
+  "first_proven_failure": {
+    "line": 15,
+    "message": "Security observation requires the exact explicit finite focus",
+    "source": "scripts/ci/desktop-security.init.gradle.kts"
+  },
+  "free_bytes_after": 43239051264,
+  "free_bytes_before": 43239518208,
+  "issue_closures": 0,
+  "kind": "actual-serial-compiler-prerequisite-failure-not-native",
+  "library_inputs": 1111,
+  "native_executions": 0,
+  "original_private_log_sha256": "fd28a6ef87e61c3c138091e6d8f1a27af6775d2a9760de050b4e46ced569bf2e",
+  "reporter_compile_accepted": false,
+  "root_native_or_test_tasks_executed": 0,
+  "started_utc": "2026-11-01T05:34:50.132866+00:00"
+}

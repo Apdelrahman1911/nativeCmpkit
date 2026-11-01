@@ -1,0 +1,45 @@
+{
+  "source_artifacts": [
+    {
+      "artifact": "gradle-testing-base-9.7.1.jar",
+      "sha256": "e736ae6eaf49803f1c3ce120e045565203dbf33a8cb1077c9aaa3050fe4417ef",
+      "source_class_blobs": {
+        "org/gradle/api/tasks/testing/TestListener.class": "b55634b0b60a819f98ef7ec3e451fa5e8e3e87f07b554a5915cb9d617aa06400",
+        "org/gradle/api/tasks/testing/TestFilter.class": "cba2ac638ce493142f68c166a71b2a6af492042610ee5f492632328f50385f99",
+        "org/gradle/api/internal/tasks/testing/worker/ForkingTestDefinitionProcessor.class": "14d76acf10c49f61055e86631c691157fcd9bebe239de39a0b7e9078dcf9bacf"
+      }
+    },
+    {
+      "artifact": "gradle-testing-base-infrastructure-9.7.1.jar",
+      "sha256": "0d99606c0ea87d6386b171ab2b81a39033bb9eb62b8447485c51c763b237c9e1",
+      "source_class_blobs": {
+        "org/gradle/api/tasks/testing/TestDescriptor.class": "a294bc8e4f7f1500efb0cb08e99e10cbb8b1dfef4b3d300dbe48e2f8e0f1d86a",
+        "org/gradle/api/tasks/testing/TestResult.class": "6a3fca22bcdcdc0df1e65103e93991a6bc63050f3f6c08a044d994d1ebb65518",
+        "org/gradle/api/internal/tasks/testing/worker/TestWorker.class": "82427a7f524a19b819144e9f3a9d7d5fbd16cf40e23c5779ea7f58ed44002c8c",
+        "org/gradle/api/internal/tasks/testing/worker/WorkerTestDefinitionProcessor$WorkerTestSuiteDescriptor.class": "45209cd1b90f75b9a499aa550a54ba122487d8cb702de08baa64bd596a89f863"
+      }
+    },
+    {
+      "artifact": "kotlin-gradle-plugin-2.4.20-gradle96.jar",
+      "sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+      "source_class_blobs": {
+        "org/jetbrains/kotlin/gradle/targets/jvm/tasks/KotlinJvmTest.class": "974a4fc773baa6c1bd60821d43227853a2fce7e3a5d3b43bff201da19eabfc69",
+        "org/jetbrains/kotlin/gradle/targets/jvm/tasks/KotlinJvmTest$Executor$execute$1$started$myTest$1.class": "7abde07fbe4443eefc8576c339837762b3894086ea63876a9433b7cd78f2bda1"
+      }
+    }
+  ],
+  "new_read_only_observations": [
+    "TestListener has public beforeSuite/afterSuite/beforeTest/afterTest callbacks.",
+    "TestDescriptor exposes name/className/parent; TestResult exposes counts/resultType.",
+    "TestFilter exposes include/exclude patterns and failOnNoMatchingTests.",
+    "Gradle ForkingTestDefinitionProcessor uses base name Gradle Test Executor; worker suite retains actual worker display name.",
+    "KGP2.4.20 KotlinJvmTest wraps descriptors: name/parent delegated, displayName gains target suffix, className replaces dollar only; these four selected top-level classes keep literal className."
+  ],
+  "not_observed": [
+    "Kotlin/init-script compilation",
+    "actual Gradle test event ordering/shape",
+    "worker OS PID or OS process-exit identity",
+    "TLS/native painting"
+  ],
+  "fallback": "Unknown/partial actual shape refuses without acceptance or automatic replay."
+}

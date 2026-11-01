@@ -1,0 +1,59 @@
+{
+  "actual_daemon_jvm": [
+    {
+      "gradle_version": "9.7.1",
+      "java_vendor": "Ubuntu",
+      "java_version": "17.0.20",
+      "launcher_home_configured": true,
+      "launcher_home_matches_daemon": true,
+      "major": 17,
+      "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+      "schema_version": 1
+    }
+  ],
+  "before_after_exact_equality": true,
+  "combined_inputs": 1189,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/desktop-security.init.gradle.kts",
+    "-PnativecmpkitDesktopSecurityFocus=tls-rendering",
+    ":calf-permissions:calf-permissions-core:assembleAndroidDeviceTest",
+    ":calf-webview:compileTestKotlinDesktop"
+  ],
+  "execution": {
+    "elapsed_seconds": 130.03,
+    "exit_code": 0
+  },
+  "free_bytes_after": 43153014784,
+  "free_bytes_before": 43226816512,
+  "head_before_additive_commit": "55b1a8c361e0b6445e95df989f238310ca0a3eb0",
+  "issue_closures": 0,
+  "kind": "actual-held-permission-and-Desktop-security-compiler-only",
+  "library_inputs": 1112,
+  "native_test_executions": 0,
+  "prior_compiler001_elapsed_seconds": 11.0,
+  "prior_compiler001_refusal_preserved": true,
+  "raw_private_log_sha256": "2286b50676a48a5efe5f9612d361416b0d4d2208d22e2dd109117e667acbd664",
+  "raw_private_result_sha256": "87106fb67ccfec9b2b6d4466bdb6540b76d90f1eb5f90f0f55e8e138d1b772a6",
+  "release_or_security_acceptance": false,
+  "security_init_root_repair_sha256": "bbe38d5d5ffc53cb56258b2996d41a3015f41237fb782c9b701376bcc62579b1",
+  "source_worktree_dirty": true,
+  "started_utc": "2026-11-01T05:38:25.106055+00:00",
+  "task_markers": [
+    "> Task :calf-permissions:calf-permissions-core:compileAndroidDeviceTest",
+    "> Task :calf-permissions:calf-permissions-core:assembleAndroidDeviceTest",
+    "> Task :calf-webview:compileTestKotlinDesktop"
+  ],
+  "task_summary": "67 actionable tasks: 48 executed, 5 from cache, 14 up-to-date"
+}

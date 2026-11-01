@@ -1,0 +1,17 @@
+test_security_init_is_owned_root_only_and_retains_exact_inner_observation (test_desktop_security_owned_root.DesktopSecurityOwnedRootGuards.test_security_init_is_owned_root_only_and_retains_exact_inner_observation) ... ERROR
+
+======================================================================
+ERROR: test_security_init_is_owned_root_only_and_retains_exact_inner_observation (test_desktop_security_owned_root.DesktopSecurityOwnedRootGuards.test_security_init_is_owned_root_only_and_retains_exact_inner_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_desktop_security_owned_root.py", line 30, in test_security_init_is_owned_root_only_and_retains_exact_inner_observation
+    original = exact_owned_inner(SCRIPT.read_text())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/test_desktop_security_owned_root.py", line 17, in exact_owned_inner
+    raise ValueError("The security observer must be scoped to the exact owning root")
+ValueError: The security observer must be scoped to the exact owning root
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

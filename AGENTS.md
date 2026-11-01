@@ -1,5 +1,36 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Clipboard original criteria verified and closed — 2026-11-01
+
+**[#82/NATIVE-026 CLOSED/completed](docs/development/evidence/current-platform-recovery-20261101/clipboard82-closure196/README.md)**
+23:34:38UTC immediately after all three original criteria/source/results review,
+then exact metadata/readback and fresh172 state:97closed/75open;24implemented/
+40partial/95verified/five unresolved. Actual41357698021 at6c8684a3 passes4/4
+Wasm native/one XML/Gradle0/297.08s;1179actual held/1257Git-only. Accepted JS4/
+controlled C1C2 exact six hashes/three fragments reused, not replayed. Full Promise
+round-trip/finally/framework/native descriptors/input/session/CDP source qualifies;
+opaque-Promise suspicion disproved/no adapter fix/retry; tiny XML times buffered
+report clocks.138passive checks are not native executions. C3 observer not independent
+global-unhandled collector; no clipboard-read/OS-paste/other-engine/physical/manualUI/
+final-profile-disposal-receipt/API-ABI/consumer/security/release inference. #13/#55/
+#64/Share other-criteria stay open; all publishing/Pages/main/history/8GiB/serial-local/
+max2combinedhosted INCLUDING queued/read-only Actions/no mandatory SHA pinning remain.
+
+
+## Camera CI source-origin recovery verified — 2026-11-01
+
+[Actual193/owning194](docs/development/evidence/current-platform-recovery-20261101/camera-tooling193-origin194/README.md)
+preserves41361624566 FAILED/tooling2317/42records/eight methods/89.096s,
+ZERO profile/Gradle/AVD/APK/native/XML/artifacts. Same traversal require moved298→307;
+three scalar expectations/two owning live driver hashes repaired, no helper/native/
+workflow/API/dependency change. Only failed8 pass8/8/unittest0.018s, separate
+selection-import-run0.152695487s;1184/1262 held/forbidden0. Independent exact source/
+results review accepts current46pins+self47; old dated47 remains historical, not
+unchanged. Accepted first30/camera009three not replayed. #13 stays open/C1 only next;
+96closed/76open and every publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness/8GiB/serial-local/max2hosted reservation gate stay.
+
+
 ## Camera fail-fast integrated; current platform originals reviewed — 2026-11-01
 
 [Actual186/integration189/plan190](docs/development/evidence/current-platform-recovery-20261101/camera-failfast186-190/README.md)

@@ -135,3 +135,13 @@ restoration substitution. Actual immutable-CI outcomes still need inspection.
 Synthetic camera bytes/recipient selection are not hardware/vendor/minimum-API,
 packaged-consumer/API-ABI/heap/security or release certification. All publishing,
 Pages, main/history and single-agent/capacity restrictions remain.
+
+
+## Tooling source-origin recovery193–194 (2026-11-01)
+
+The camera193 request stops at eight stale synthetic source-origin assertions,
+with zero native/APK/AVD/Gradle execution. The [owning194 review](evidence/current-platform-recovery-20261101/camera-tooling193-origin194/README.md)
+repairs only three exact298→307 expectations and two owning driver source hashes;
+only those failed eight pass. No camera criterion or cleanup guard is weakened.
+Reuse accepted first30 and the three camera009 native cases; request only genuine
+Dont-keepC1 at a new immutable development commit. #13 remains open until reviewed.

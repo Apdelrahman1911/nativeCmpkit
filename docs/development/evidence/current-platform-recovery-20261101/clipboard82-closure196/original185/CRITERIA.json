@@ -1,0 +1,59 @@
+{
+  "accepted_tests_replayed": false,
+  "all_three_literal_criteria_qualified": true,
+  "closure_ready": true,
+  "criteria": [
+    {
+      "criterion": "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "disposition": "QUALIFIED: retained accepted C1 JS/Wasm applies on six exact production/harness hashes and exact rejection/synchronous-failure declaration/body fragments, without replay.",
+      "evidence": "rejectedClipboardPromiseProducesOneFailureAndNoSuccess; unchanged production Promise fulfillment/rejection handlers; original185 native denied path additionally enforces one real DOMException NotAllowedError failure, zero resolution/success.",
+      "limits": "Native rejection observer consumes rejection; not replacement C1 independent global-event evidence. Prior callback-error counter is not an independent global unhandledrejection collector."
+    },
+    {
+      "criterion": "Resolved promise produces one Success only after completion.",
+      "disposition": "QUALIFIED: retained accepted C2 JS/Wasm exact source/body evidence, plus accepted JS4 and original185 native Wasm gesture method.",
+      "evidence": "clipboardSuccessWaitsForPromiseSettlement retained; current native trusted write asserts empty outcomes immediately after launch, then awaits one completion and exactly one CopiedToClipboard with one native Promise resolution.",
+      "limits": "Original Promise completion is not OS paste/readback or recipient delivery."
+    },
+    {
+      "accepted_prior_JS_run": 41308456555,
+      "criterion": "Missing clipboard API, insecure context, denied permission and direct user gesture.",
+      "disposition": "QUALIFIED: four accepted prior JS native paths retained by exact method/helper hashes and seven applicable fixture spans; four current Wasm native methods newly accepted.",
+      "evidence": "Secure owned API absence/no platform calls; genuine insecure HTTP/API absence; native document-policy denied PermissionStatus and real DOMException NotAllowedError; direct trusted active focused native input and one actual owned-text saved-native-Promise write.",
+      "limits": "Owned capability mask only for absence; actual document policy not persistent/manual UI; trusted CDP not physical input; no other-host or clipboard readback inference.",
+      "newly_accepted_wasm_methods": [
+        "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+        "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+        "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+        "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite"
+      ]
+    }
+  ],
+  "earlier_failures_reclassified": false,
+  "issue": {
+    "criteria_verbatim": [
+      "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "Resolved promise produces one Success only after completion.",
+      "Missing clipboard API, insecure context, denied permission and direct user gesture."
+    ],
+    "finding": "NATIVE-026",
+    "number": 82,
+    "state": "open",
+    "title": "[Medium][NATIVE-026] Web clipboard fallback reports success before its promise resolves"
+  },
+  "limits": [
+    "Chrome156.0.8078.47/Linux x64 current-host scope; no other browsers/engines/OS or physical input certification.",
+    "Secure API absence uses an owned capability mask only; insecure context uses actual non-trustworthy HTTP; denial uses native document Permissions-Policy/PermissionStatus, not persistent site/OS/manual permission UI.",
+    "Direct gesture is browser-delivered trusted CDP input; saved native Promise settlement is not OS clipboard paste/readback/recipient delivery. No clipboard reads.",
+    "Native descriptors/listeners, Wasm real framework/loader hooks, child/frame, input operation, exact session and CDP close are required by passing source. Final browser-process/profile disposal has no fixture-specific receipt.",
+    "No authenticated hosted emitted-bundle inventory or retained complete Gradle console. One task marker is recorded in original receipt, not independently rederived from full console. Applicable local compiled metadata is not hosted emitted-byte or builder attestation.",
+    "1257 combined inputs are independently frozen Git provenance only; actual runner before/after observations cover1179 library inputs.",
+    "C3 observer attaches a rejection handler and is not a replacement independent global C1 unhandled-rejection collector. Prior callback-error counter is not a global event collector. Prior accepted C1/C2 evidence retains its original scope, including older dirty-tree provenance; exact six source hashes/three method fragments apply without replay.",
+    "No accepted JS/C1/C2/registration probes replayed, no adapter repair or retry required/authorized, no unrelated native/consumer/API-ABI/dependency/legal/security/release/publishing/Pages/main/history gate lifted. Earlier failures stay failed with their original unlogged causes."
+  ],
+  "new_native_failures": 0,
+  "new_native_passes": 4,
+  "new_original_xml": 1,
+  "recommended_issue_disposition": "CLOSE82; lead alone owns closure and readback",
+  "schema": 1
+}

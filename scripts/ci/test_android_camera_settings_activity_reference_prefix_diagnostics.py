@@ -144,7 +144,7 @@ class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
             self.assertIs(type(error), ValueError)
             self.assertEqual(error.args, ("Settings Activity absence traversal is unproved",))
             self.assertEqual(helper.require_call_origin(error),
-                             {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 298})
+                             {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 307})
             frames = []; node = error.__traceback__
             while node is not None:
                 frames.append(node); node = node.tb_next
@@ -296,7 +296,7 @@ class CameraActivityReferencePrefixDiagnosticsNewOnlyTests(unittest.TestCase):
                 self.assertEqual(state, (owner.original, owner.new_boot, owner.enable_attempted, owner.enable_completed,
                                          owner.reboot_attempted, owner.restore_attempted))
                 self.assertEqual(publications[0]["errors"], [{"phase": "prepare", "class": "ValueError",
-                    "require_call_origin": {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 298}}])
+                    "require_call_origin": {"source": HELPER_PATH.name, "symbol": "parse_settings_activity_absence", "line": 307}}])
                 self.assertEqual([publications[0][key] for key in
                                   ("master_enable_attempts", "normal_reboot_attempts", "master_restore_attempts")], [0, 0, 0])
                 self.assertFalse(publications[0]["reporter_dispatch_attempted"])

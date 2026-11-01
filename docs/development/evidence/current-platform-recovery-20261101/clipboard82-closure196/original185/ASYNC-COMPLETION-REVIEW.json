@@ -1,0 +1,92 @@
+{
+  "disposition": "initial Promise-boxing suspicion DISPROVED; awaited completion preserved",
+  "exact_current_native_method_and_helper_pins": {
+    "calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt": "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59",
+    "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt": "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+  },
+  "investigation_correction": {
+    "correction_delivered_to_lead": true,
+    "disproof": "Tracing through externRefToAny fast path and anyToExternRef JsExternalBox recognition proves original Promise round-trip.",
+    "initial_incomplete_hypothesis": "ExternalAdapterWrapper might expose an opaque boxed Promise.",
+    "initial_trigger": "Original XML suite0.006s / cases0.001,0.0,0.001,0.0 prompted a provisional async concern.",
+    "lead_direction": "Complete literal criteria review; seal CLOSE82 if qualified. No adapter fix or rerun authorized/needed.",
+    "not_hosted_cause_or_defect": true
+  },
+  "kotlin_version": "2.4.20",
+  "local_emitted_native_acceptance_count": 0,
+  "local_emitted_scope": "Previously emitted applicable local bytes only, not authenticated hosted emitted-byte attestation. Native acceptance comes from this original run/source/results review, not old registration probes.",
+  "local_function_metadata_sha256": "9d148cd63675c5ede2cfb384d87d3c9bbdcdf7b8ae1858300ebff7d781161468",
+  "local_wasm_sha256": "8a6c81c1621eb85b3c1f3e39ab273807a79cae42e0d545e3384646fc06fd4e17",
+  "prior166_registration_probes": "Retained registration-only qualification; callbacks intentionally not invoked. Zero new native/completion-probe passes are inferred from them.",
+  "reporting_clock": {
+    "TCServiceMessagesClient_class_sha256": "57c32b32d633b6f41dbd9babb60bed0d32af3f85768b68868d0a3ce205d7f19f",
+    "conclusion": "Tiny XML times measure buffered Gradle report processing, not native operation duration. They are not proof of skipped async work.",
+    "console_filter_runner_sha256": "15261c8d909c161dfc3004934d1f2542f96abcb78071b6f3663aa927773aba18",
+    "kgp_getTs": "Creation timestamp when supplied; otherwise System.currentTimeMillis(). Reporter testStarted/testFinished contain no timestamp, buffer together after result, and flush at suite/run completion. TestFinished duration=result.time is not used for Gradle event timestamps.",
+    "kgp_jar_sha256": "6f49688f2c6715d60f5dc52d4c1ada992ce4bed6053d1bd6e579c9392d7ba0ed",
+    "kotlin_web_helpers_version": "3.3.0",
+    "real_mocha_callFn_span_sha256": "f1dab105eb33f2b3b89c16a0120a04c218701821a033675e5baed7233e3c265b",
+    "real_mocha_sha256": "8f46c07ab4422da71bdb27e8f54d0a9ba59b736face2c9f5534c414623c55ef6",
+    "reporter_sha256": "7c3232f60952aff254847ae62a866385735e3094197454d755100e962c2f2347"
+  },
+  "repository_or_engine_execution": 0,
+  "round_trip": [
+    {
+      "local_functions": [
+        50645,
+        50646,
+        50647,
+        50648,
+        50649,
+        12391,
+        12390,
+        12396,
+        12245
+      ],
+      "stage": "Four methods/scenario/runTest return external TestResult Promise"
+    },
+    {
+      "local_functions": [
+        50685,
+        50686,
+        50687,
+        50688,
+        8321,
+        8348
+      ],
+      "stage": "Generated callbacks adapt the external Promise to Kotlin Any / JsExternalBox"
+    },
+    {
+      "JsExternalBox_type": 879,
+      "Kotlin_Any_type": 8,
+      "local_functions": [
+        42510,
+        8321,
+        8348
+      ],
+      "stage": "ExternalAdapterWrapper externalizes Kotlin Any; externRefToAny fast path returns the SAME Kotlin Any, including its JsExternalBox subtype. No lasting opaque second wrapper."
+    },
+    {
+      "local_functions": [
+        42513,
+        8317,
+        8347,
+        8359
+      ],
+      "stage": "Selected callback trampoline kotlinToJsAnyAdapter / anyToExternRef recognizes JsExternalBox and returns its ORIGINAL ref Promise."
+    },
+    {
+      "stage": "Child await selected() waits for runTest/native method/finally completion; exact one-invocation cleanup receipt follows."
+    },
+    {
+      "local_functions": [
+        42582,
+        11597,
+        11585
+      ],
+      "stage": "Parent genuine JasmineLikeAdapter recognizes native Promise and returns its catch chain; console/filter wrapper returns callback result; actual Mocha callFn waits on .then and rejection fails done."
+    }
+  ],
+  "schema": 1,
+  "whole_prior_build_graph_or_module_build_file_equality_claimed": false
+}

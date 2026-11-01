@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `e6c633aa5cc8faf122d4de03949ab731d0d45f63db6980a30b7019124bc7f3e7`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `a27fac273f7c56af3a26203ab23b3faab15e7f256fc6ecf2cef7a2e224841734`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -25,9 +25,9 @@ Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb5078419750
 
 | Owner-ledger status | Findings |
 |---|---:|
-| implemented | 25 |
+| implemented | 24 |
 | partially-verified | 40 |
-| verified | 94 |
+| verified | 95 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -139,7 +139,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 91 | [NATIVE-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79) | Medium | 2 | M | implemented | NATIVE-020 | 3 / 4 |
 | 92 | [NATIVE-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) | Medium | 2 | M | implemented | — | 3 / 6 |
 | 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 5 |
-| 94 | [NATIVE-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) | Medium | 2 | S | implemented | — | 3 / 6 |
+| 94 | [NATIVE-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) | Medium | 2 | S | verified | — | 3 / 0 |
 | 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | verified | — | 3 / 0 |
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
@@ -2184,7 +2184,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 94. NATIVE-026 — Web clipboard fallback reports success before its promise resolves
 
-**Medium · implemented · original effort S** — [nativeCmpkit #82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
+**Medium · verified · original effort S** — [nativeCmpkit #82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82); owner [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json); baseline [docs/audit/findings/NATIVE.json](../audit/findings/NATIVE.json).
 
 **Original dependencies:** none.
 
@@ -2196,14 +2196,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Controlled navigator Promise tests are not actual clipboard permission/secure-context/user-gesture acceptance.
-- Original required test pending full target verification: Rejected NotAllowedError promise produces no Success and no unhandled rejection.
-- Original required test pending full target verification: Resolved promise produces one Success only after completion.
-- Original required test pending full target verification: Missing clipboard API, insecure context, denied permission and direct user gesture.
-- Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
-- 2026-11-01 prepared078: Execute only the four new native context methods on each JS/Wasm target; serial immutable share-clipboard-native retains both targets/max2 global. Reuse accepted C1/C2, inspect actual originals before #82 closure. No clipboard reads or OS-paste claim.
+- None recorded. This does not itself prove the original requirements passed.
 
-**Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
+**Owner verification scope:** Verified all three original NATIVE-026 criteria; #82 closed/completed23:34:38 UTC after source/results/original review. Actual Wasm4/4 at6c8684a3/41357698021 completes native environment coverage; accepted JS4 and exact six-source/three-fragment controlled C1/C2 evidence retained without replay. Promise adapters await original Promise and finally; tiny XML times are buffered-report timestamps, not skipped-work evidence. Scope excludes independent global unhandled collectors for throwing callbacks, clipboard readback/OS paste, physical/manual permission UI, other engines, final browser-profile disposal receipt, packaged/API-ABI/dependency/legal/security/release gates. Prior failed and dirty-tree scopes remain historical.
 
 **Compatibility / scope:** Legacy callback retained through outcome mapping; unavailable/denied clipboard no longer looks successful.
 
@@ -3573,13 +3568,13 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `7543444c770d34140b85222dad0041a8c4d8c9c392b0ee6b3e6cf7ff7af98f26` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `e1db92b5da9f44181e2e37f39a0850883d9549557ea282765bf7a2830eb2d818` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `8b249dc60d7921709d9874f8055e7d0953a31c3f4da9221677ffd0bc5a408827` |
-| [docs/migration/issue-map.json](../migration/issue-map.json) | `5d4b9f725741ad2be85383b108a1a0fe019b5ba2fc7930dca07ddd11d0ae490c` |
-| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `6858ce119d09c36f152c8ff0689c6df798bb5a35c64bb71d985583f739c7a664` |
+| [docs/migration/issue-map.json](../migration/issue-map.json) | `df7f0731def2884f10f20c612c3a78e95c5ee9543b7f4e05005e36f00c4a2e59` |
+| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 
 No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.

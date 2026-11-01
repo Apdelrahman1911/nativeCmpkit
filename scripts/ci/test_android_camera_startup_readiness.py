@@ -363,7 +363,7 @@ class CameraStartupReadinessNewOnlyTests(unittest.TestCase):
             self.assertEqual(snapshot_starts, [True])
             self.assertEqual(sum(tuple(argv[3:]) == ACTIVITIES for argv in f.device.calls), 1)
             self.assertEqual(helper.require_call_origin(error), {"source": HELPER_PATH.name,
-                "symbol": "parse_settings_activity_absence", "line": 298})
+                "symbol": "parse_settings_activity_absence", "line": 307})
             node = error.__traceback__
             while node.tb_next is not None:
                 node = node.tb_next

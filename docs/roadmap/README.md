@@ -1,5 +1,18 @@
 # Prioritized development roadmap
 
+## Verified clipboard subset; remaining native ownership — 2026-11-01
+
+[#82/NATIVE-026 is closed/completed](../development/evidence/current-platform-recovery-20261101/clipboard82-closure196/README.md)
+after all original criteria and fresh Wasm4; reuse accepted JS4/C1/C2, not repeat.
+Current172 read:97closed/75open. Camera193's three owning source-origin expectations
+are repaired and only failed8 pass; request genuine Dont-keepC1 only. Android Local2
+gates and Windows Stop remain native failures with unknown causes; prepare bounded
+failure observations without altering assertions or namespaces. Share13 pending
+review does not waive Android/macOS/API/MTC/concurrency/export criteria. Keep all
+consumer/API-ABI/dependency/legal/security/release and publishing gates; use important
+shared tests→review→direct verified-subset closure.
+
+
 ## Current missing-only platform batch — 2026-11-01
 
 See the [current execution checkpoint](../development/checkpoint-20261101-request-matrix.md).

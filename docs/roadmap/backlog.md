@@ -109,7 +109,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 91 | **NATIVE-023** — iOS camera has no in-flight presentation guard or lifecycle-bound cleanup | Medium | M | NATIVE-020 | open | [#79](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79) |
 | 92 | **NATIVE-024** — Camera capture does synchronous full-resolution PNG work and has no temporary-file ownership policy | Medium | M | — | open | [#80](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) |
 | 93 | **NATIVE-025** — ShareResult.Success means chooser launch/service selection rather than completed sharing on some targets | Medium | M | — | open | [#81](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) |
-| 94 | **NATIVE-026** — Web clipboard fallback reports success before its promise resolves | Medium | S | — | open | [#82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) |
+| 94 | **NATIVE-026** — Web clipboard fallback reports success before its promise resolves | Medium | S | — | closed | [#82](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) |
 | 95 | **NATIVE-028** — Android file sharing forwards file:// URIs without FileProvider conversion | Medium | M | — | closed | [#83](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) |
 | 96 | **NATIVE-029** — macOS share leaks both the Objective-C delegate and its Arc completion state on every presented picker | Medium | M | — | open | [#84](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) |
 | 97 | **NATIVE-030** — macOS sharing blocks a coroutine worker for up to five minutes without cancellation integration | Medium | L | NATIVE-029 | open | [#85](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) |

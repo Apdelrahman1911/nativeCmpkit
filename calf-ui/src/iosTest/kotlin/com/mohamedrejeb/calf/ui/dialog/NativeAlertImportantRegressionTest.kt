@@ -240,14 +240,27 @@ private fun UIView.importantAlertDescendants(): List<UIView> =
 private fun NativeApplicationUiTest.activateImportantNativeAction(alert: UIAlertController, title: String) {
     // Bounded readiness comes from the actual attached, enabled native action,
     // not an animation sleep or a guessed private control class.
-    waitForNative {
-        val window = requireOwnedApplicationWindow()
-        val action = alert.actions.filterIsInstance<UIAlertAction>().singleOrNull { it.title == title }
-        val eligible = alert.view.importantAlertDescendants().filter {
-            it.accessibilityLabel == title && (it.accessibilityTraits and UIAccessibilityTraitButton) != 0UL &&
-                !it.hidden && it.alpha > 0.0 && sameNativeObject(it.window, window)
+    try {
+        waitForNative {
+            val window = requireOwnedApplicationWindow()
+            val action = alert.actions.filterIsInstance<UIAlertAction>().singleOrNull { it.title == title }
+            val eligible = alert.view.importantAlertDescendants().filter {
+                it.accessibilityLabel == title && (it.accessibilityTraits and UIAccessibilityTraitButton) != 0UL &&
+                    !it.hidden && it.alpha > 0.0 && sameNativeObject(it.window, window)
+            }
+            sameNativeObject(alert.view.window, window) && action?.enabled == true && eligible.size == 1
         }
-        sameNativeObject(alert.view.window, window) && action?.enabled == true && eligible.size == 1
+    } catch (readinessFailure: IllegalStateException) {
+        // Observe only this exact owning timeout. Other refusals are untouched.
+        try {
+            if (readinessFailure.message?.startsWith(
+                    "Timed out awaiting native predicate; actual application state: ") == true) {
+                recordImportantAlertActionTimeoutDiagnostic(alert, title, readinessFailure)
+            }
+        } finally {
+            // A reporting/suppression failure must never replace this timeout.
+            throw readinessFailure
+        }
     }
     runOnIdle {
         val window = requireOwnedApplicationWindow()
@@ -262,4 +275,68 @@ private fun NativeApplicationUiTest.activateImportantNativeAction(alert: UIAlert
         assertTrue(eligible.single().accessibilityActivate(),
             "Native accessibility action unavailable; refuse rather than call a manager or private handler")
     }
+}
+
+/**
+ * Failure-only bounded observation, never input delivery or a gate repair.
+ * The non-lifecycle prefix is ordinary console text; it adds no native cases,
+ * protocol success, worker completion or acceptance claim.
+ */
+private fun recordImportantAlertActionTimeoutDiagnostic(
+    alert: UIAlertController,
+    title: String,
+    primaryFailure: Throwable,
+) {
+    try {
+        com.mohamedrejeb.calf.ui.internal.onApplicationMain {
+            val window = requireOwnedApplicationWindow()
+            val matchingActions = alert.actions.filterIsInstance<UIAlertAction>().filter { it.title == title }
+            val action = matchingActions.singleOrNull()
+            val (sample, exhaustive) = alert.view.importantAlertDiagnosticSample()
+            val labelled = sample.filter { it.accessibilityLabel == title }
+            val buttons = labelled.filter { (it.accessibilityTraits and UIAccessibilityTraitButton) != 0UL }
+            val visible = buttons.filter { !it.hidden && it.alpha > 0.0 }
+            val eligible = visible.filter { sameNativeObject(it.window, window) }
+            // No titles, labels, contents, classes, addresses, owner IDs or errors.
+            // An after-timeout/possibly partial snapshot is not the failed operand.
+            println("NATIVECMPKIT_ALERT_ACTION_GATE_TIMEOUT captured=true " +
+                "main_thread=${platform.Foundation.NSThread.isMainThread} " +
+                "alert_attached=${sameNativeObject(alert.view.window, window)} " +
+                "matching_actions=${matchingActions.size} action_unique=${action != null} " +
+                "action_enabled=${action?.enabled == true} " +
+                "sampled_views=${sample.size} hierarchy_complete=$exhaustive " +
+                "label_matches=${labelled.size} button_trait_matches=${buttons.size} " +
+                "visible_matches=${visible.size} eligible_matches=${eligible.size}")
+        }
+    } catch (observationFailure: Throwable) {
+        // Both reporting operations are best-effort; neither may mask the
+        // original readiness timeout if console I/O or suppression itself fails.
+        try {
+            println("NATIVECMPKIT_ALERT_ACTION_GATE_TIMEOUT captured=false")
+        } catch (_: Throwable) { /* The outer boundary still throws the original timeout. */ }
+        try {
+            if (observationFailure !== primaryFailure) primaryFailure.addSuppressed(observationFailure)
+        } catch (_: Throwable) { /* Suppression failure is never replacement primary. */ }
+    }
+}
+
+/** Read at most2048 views on application main; never dump a native hierarchy. */
+private fun UIView.importantAlertDiagnosticSample(): Pair<List<UIView>, Boolean> {
+    val limit = 2048
+    val sampled = mutableListOf<UIView>()
+    val pending = ArrayDeque<UIView>()
+    pending.addLast(this)
+    var exhaustive = true
+    while (pending.isNotEmpty()) {
+        val view = pending.removeFirst()
+        sampled += view
+        val children = view.subviews
+        val available = limit - sampled.size - pending.size
+        if (children.size > available) exhaustive = false
+        for (index in 0 until minOf(children.size, available)) {
+            val child = children[index]
+            if (child is UIView) pending.addLast(child)
+        }
+    }
+    return sampled to exhaustive
 }

@@ -442,6 +442,7 @@ ANDROID_PERMISSION_COMPLETION_METHODS = (
 # New finite related UI regressions only. Accepted alert/date/dropdown bodies
 # remain unselected; native accessibility/delegate delivery is not a touch claim.
 UI_ALERT_DATE_IMPORTANT_FOCUS = "ui-native-alert-date-important"
+UI_ALERT_RECOVERY_FOCUS = "ui-native-alert-important-recovery"
 UI_DATE_YEAR_PREDICATE_RED_FOCUS = "ui-native-date-year-predicate-red"
 UI_DATE_YEAR_NATIVE_FOCUSES = (UI_ALERT_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_PREDICATE_RED_FOCUS)
 UI_ALERT_IMPORTANT_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest"
@@ -532,6 +533,13 @@ UI_APPLICATION_FOCUS_SPECS[UI_ALERT_DATE_IMPORTANT_FOCUS] = {
          "methods": UI_DATE_YEAR_NATIVE_METHODS},
     ),
     "scope": "Ten new important application methods only: four latest-record/field/action/reorder/modal alert regressions and six public year-endpoint/rule/native-year-predicate date regressions. Exact attached owned UIKit controls, controlled ValueChanged/EditingChanged and actual retained calendar-delegate delivery; supported native accessibility action must qualify and may not fall back to a manager/private handler. Neither accessibility nor delegate delivery is an outside touch, OS gesture or physical/XCUI input. Shared constructor/setter/date-bounds/month/dropdown and old alert acceptance are reused without replay. Same-host Material two-method companion remains an independent Desktop result. No #30/#131 closure, older/physical/iPad/all-OS/consumer/API-ABI/dependency/security/release certification.",
+}
+UI_APPLICATION_FOCUS_SPECS[UI_ALERT_RECOVERY_FOCUS] = {
+    "groups": (
+        {"classname": UI_ALERT_IMPORTANT_CLASS, "source": UI_ALERT_IMPORTANT_SOURCE,
+         "methods": UI_ALERT_IMPORTANT_METHODS},
+    ),
+    "scope": "Only the four original failed important alert methods from41338100010, retaining the attached/enabled/unique native action and supported accessibility activation criteria. A bounded failure-only numeric/Boolean snapshot cannot identify the historical failing conjunct or repair action delivery. Exclude newly accepted date6, independent Material2 and every older accepted UIKit test; the original App10/full slots remain unchanged. No automatic retry, private handler/input fallback, physical/iPad/older/all-OS/consumer/API-ABI/dependency/security/release certification.",
 }
 UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
     "groups": (
@@ -2098,7 +2106,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus in UI_DATE_YEAR_NATIVE_FOCUSES and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if (focus in UI_DATE_YEAR_NATIVE_FOCUSES or focus == UI_ALERT_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New important alert/year source must retain all enabled native declarations")
         if focus in UI_DATE_YEAR_NATIVE_FOCUSES:
             if UI_DATE_YEAR_SHARED_SOURCE not in selected[0]["test_source_files"]:
@@ -3135,6 +3143,10 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("project") != ":calf-ui" or
                 expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
             raise ValueError("Invalid finite important alert/year application source/report plan")
+        if focus == UI_ALERT_RECOVERY_FOCUS and (len(expected) != 1 or
+                expected[0].get("project") != ":calf-ui" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
+            raise ValueError("Invalid finite four-method important alert recovery source/report plan")
         application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -3406,7 +3418,7 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": UI_DATE_YEAR_MATERIAL_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] in UI_DATE_YEAR_NATIVE_FOCUSES:
+        elif boundary_focus and test_plan["explicit_test_focus"] in (*UI_DATE_YEAR_NATIVE_FOCUSES, UI_ALERT_RECOVERY_FOCUS):
             groups = ui_application_focus_groups(test_plan["explicit_test_focus"])
             sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"] for group in groups}
             group_inventories = [{(IOS_APPLICATION_TASK + "." + group["classname"], method + "[iosSimulatorArm64]")

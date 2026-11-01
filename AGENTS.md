@@ -1,5 +1,35 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Important native recovery; UIKit alert-only preparation — 2026-11-01
+
+[Actual159–160](docs/development/evidence/current-platform-recovery-20261101/important-recovery159-160/README.md)
+accepts19/19 NEW synthetic/source controls once (450 hashes/449 stamps), plus
+one fresh iOS test-KLIB compiler0/26.01s with1164/1240 inputs held. Original
+alert4 bodies,10s gate and genuine public activation remain unchanged; new
+`ios-alert-important-recovery` selects only those four. ZERO native locally;
+#28 remains open. Windows NEW2 and ARM firstR01–R04 are independently accepted
+source controls, not hardware/native/consumer or all19-group acceptance.
+
+Actual Wasm41343449887 remains4failed/0passed at `undefined/0/0`, before selected
+scenario execution; actual1163 held,1239 only predispatch. Local emitted branch
+investigation is not hosted emitted-byte proof. Android41343333547 remains2failed/
+0passed before selection/grants/I/O; both observe all six exact Google candidate
+resource names, but no namespace is yet admitted. Camera41344349446 remains
+FAILED/ZERO native/XML: APK0/350.13s, generic scalar guard241/unlogged query;
+original-state cleanup1129 separately fails. Owned guest disposal passes, not
+the failed lease. #13/#55/#82 stay open. WindowsStop41345021248 original review
+is pending. Preserve every original/local sandbox/ownership failure; no blind
+retry, guessed namespace, fake framework or relaxed native gate.
+
+Next finite alert4, owning Wasm/framework and Android admission controls,
+camera query/fail-fast observation, Share presentation resource barrier and
+sample download-event feedback. Accepted populations are not replayed. No new
+closure:96closed/76open/172total;25implemented/40partial/94verified/five unresolved.
+Parallel agents/lead integration, serial local/8GiB/max2 combined hosted-heavy
+INCLUDING queued/reserved, Actions/all/no mandatory SHA pinning/read-only and
+every publishing/Pages/main/history/native/consumer/API-ABI/dependency/legal/
+security/readiness gate remain. Earlier checkpoints retain their dated scope.
+
 ## Date year-policy verified and closed; related diagnostics prepared — 2026-11-01
 
 **#26/UI-001 CLOSED/completed**, immediately after all four original criteria

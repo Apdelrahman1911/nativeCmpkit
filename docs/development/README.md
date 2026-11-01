@@ -1,5 +1,24 @@
 # NativeCmpKit development after the audit
 
+## Important native recovery and alert-only preparation — 2026-11-01
+
+[Actual159–160](evidence/current-platform-recovery-20261101/important-recovery159-160/README.md)
+records19/19 new UIKit source controls and one fresh test-KLIB compiler0/26.01s,
+1164/1240 held; **ZERO local native methods**. The alert-only profile retains
+the original four bodies/readiness/public activation, excluding accepted date6
+and Material2. #28 remains open pending actual native review.
+
+Wasm41343449887 remains4fail/0pass before selected scenario execution; Android
+41343333547 remains2fail/0pass despite six exact Google resource-name observations;
+camera41344349446 remains FAILED/ZERO native at unknown scalar query, with
+separately unacquired original-state cleanup. Their owning repairs are in progress,
+not platform passes. WindowsStop41345021248 awaits sole original review. Windows
+NEW2/ARM first4 are source controls, not runtime/hardware/all19-group acceptance.
+
+**96closed/76open/172total**, no new closures. Important related tests, direct
+verified-subset closures, parallel disjoint agents, max2 combined hosted-heavy
+including queued, serial local/8GiB and all release/security gates remain.
+
 ## Date year-policy verified and closed; related diagnostics prepared — 2026-11-01
 
 **#26/UI-001 CLOSED/completed**, immediately after all four original criteria

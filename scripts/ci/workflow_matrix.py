@@ -137,6 +137,7 @@ PROFILES = {
     "ios-date-compact": ("ios-iphone",),
     "ios-dates-important": ("ios-iphone",),
     "ios-alert-date-important": ("ios-iphone",),
+    "ios-alert-important-recovery": ("ios-iphone",),
     "ios-date-year-predicate-red": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
@@ -342,6 +343,7 @@ MODULE_SUBSETS = {
     "ios-date-compact": "calf-ui",
     "ios-dates-important": "calf-ui",
     "ios-alert-date-important": "calf-ui",
+    "ios-alert-important-recovery": "calf-ui",
     "ios-date-year-predicate-red": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
@@ -594,6 +596,13 @@ def matrix(profile: str) -> dict:
             raise ValueError("Important alert/year profiles require the one fixed Arm64 iPhone host and calf-ui module")
         rows[0]["test-focus"] = ("ui-native-alert-date-important" if profile == "ios-alert-date-important" else
                                 "ui-native-date-year-predicate-red")
+    if profile == "ios-alert-important-recovery":
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}
+        if (PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or
+                rows != [canonical]):
+            raise ValueError("Important alert recovery requires the exact single Arm64 iPhone row and calf-ui module")
+        rows[0]["test-focus"] = "ui-native-alert-important-recovery"
     if profile == "ios-saver-write-failure":
         for row in rows:
             row["test-focus"] = "ios-native-saver-write-failure"

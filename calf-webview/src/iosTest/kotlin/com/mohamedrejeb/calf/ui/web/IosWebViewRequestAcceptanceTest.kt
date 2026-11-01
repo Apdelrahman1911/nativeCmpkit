@@ -234,7 +234,7 @@ class IosWebViewRequestAcceptanceTest {
             val failure = alloc<ObjCObjectVar<NSError?>>().apply { value = null }
             val request = NSMutableURLRequest().apply {
                 setURL(assertNotNull(NSURL.URLWithString(controlBase + action)))
-                timeoutInterval = 2.0
+                setTimeoutInterval(2.0)
             }
             val data = NSURLConnection.sendSynchronousRequest(request, response.ptr, failure.ptr)
             // Native NSError bodies, response/header transcripts and environment paths

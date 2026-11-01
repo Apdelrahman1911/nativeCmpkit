@@ -1,0 +1,93 @@
+{
+  "added_constraints_not_authorized": [
+    "Immediate second constructor while the delayed external recipient remains top/held.",
+    "Caller becoming foreground while the external recipient remains held.",
+    "A following-new-request launch after the restored cancellation; the accepted method instead checks empty URI, inaccessible old URI, stable callback1 after native task exit, baseline outputs and untouched sibling."
+  ],
+  "criteria": [
+    {
+      "current_status": "NOT MET: sole Dont-keep actual acceptance still missing",
+      "literal": "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "number": 1,
+      "required_future_method": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile"
+    },
+    {
+      "current_status": "Reused accepted009 rotation and kernel-death passes satisfy the literal requirement",
+      "literal": "Rotate/recreate and simulate process death while external camera is foreground.",
+      "number": 2,
+      "reused_methods": [
+        "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess"
+      ]
+    },
+    {
+      "current_status": "Reused accepted009 restored-cancellation pass satisfies the literal requirement",
+      "literal": "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI.",
+      "number": 3,
+      "reused_methods": [
+        "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri"
+      ]
+    }
+  ],
+  "current_issue_closure_authorized": false,
+  "fresh_native_executions": 0,
+  "frozen_literal_interpretation": "Apply real rotation or same-UID kernel death during a genuine external-foreground request; permit Android legitimate relaunch timing; require genuine reconstructed owner before restored terminal delivery. Do not infer the exact constructor time while held.",
+  "independent_accepted009_review": {
+    "path": "docs/development/evidence/android-camera-provider-20261030/restoration-ci009/independent-actual-review.json",
+    "revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+    "sha256": "5951754d1489458672e939b19efa539d5adaf05383dac8dab860135e7150fa32"
+  },
+  "interpretation_source": {
+    "path": "docs/development/evidence/android-camera-provider-20261030/restoration-criteria001/requirement-matrix.json",
+    "revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+    "sha256": "3d84f4022b0d41d4d80c3d77eb97919adb9807be8981cf980ef6359069354598"
+  },
+  "issue": 13,
+  "original_archived_XML": {
+    "Gradle_elapsed_seconds": 77.02,
+    "Gradle_exit_code": 1,
+    "attempt": 1,
+    "bytes": 1943,
+    "execution_revision": "7380a04674c2dc83583a45953418ec2c823b4258",
+    "original_cases": [
+      {
+        "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "name": "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "name": "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+        "status": "failed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "name": "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest",
+        "name": "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+        "status": "passed"
+      }
+    ],
+    "overall_run": "FAILED",
+    "path": "docs/development/evidence/android-camera-provider-20261030/restoration-ci009/reports/calf-camera-picker/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-d96f655b5be9(AVD) - 15.xml",
+    "revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+    "run_id": 41242704209,
+    "sha256": "d6958967f2abe5f7daab625d08cc4c0cf6ec2426b9d390f5fea5ec2f3936b395"
+  },
+  "original_issue": {
+    "body_bytes": 3251,
+    "body_sha256": "12781a5ecdd1b5ce176bd666caf4199d081828da9f1a47511cdaa87d32e3c1ff",
+    "current_state_queried": false,
+    "frozen_state": "open",
+    "path": "docs/development/evidence/android-camera-provider-20261030/restoration-ci009/issue-13-before.json",
+    "revision": "5705781330ba97fc86ba6faa748c70e35879b9bf",
+    "sha256": "2012712fb42c835bb32bdcee02415bd675c2ea59bc8604759f55c86536d780b1"
+  },
+  "reused_methods_remain_unselected_and_unreplayed": true,
+  "reviewed_at_utc": "2026-11-01T04:50:00.484533+00:00",
+  "schema": "nativecmpkit.camera-literal-original-criteria.v1",
+  "scope": "Reuse archived immutable #13 issue body/XML/source review; no issue-state query, execution, build, new retrieval, mutation, or closure."
+}

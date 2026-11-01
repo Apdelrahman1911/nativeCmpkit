@@ -29,9 +29,14 @@ import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.test.*
 
+@Target(AnnotationTarget.FUNCTION)
+@Retention(AnnotationRetention.RUNTIME)
+annotation class AndroidWebViewRequestVerification
+
 /** Real API35 Chromium callbacks/HTTP only. No intercepted document or synthetic previous error. */
 @RunWith(AndroidJUnit4::class)
 class AndroidWebViewRequestStateDeviceTest {
+    @AndroidWebViewRequestVerification
     @Test fun twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl() {
         assertEquals(35, Build.VERSION.SDK_INT, "This finite request is API35 only")
         onMain {
@@ -122,6 +127,7 @@ class AndroidWebViewRequestStateDeviceTest {
     }
 
     // New #64 Stop/redirect fixture; the compiled fail/fail method above remains unchanged.
+    @AndroidWebViewRequestVerification
     @Test fun publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner() {
         assertEquals(35, Build.VERSION.SDK_INT, "This finite request is API35 only")
         onMain {

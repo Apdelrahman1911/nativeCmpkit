@@ -1,0 +1,65 @@
+{
+  "added": [
+    "scripts/ci/test_android_webview_request_selector.py",
+    "scripts/ci/test_ios_webview_request_timeout_setter.py"
+  ],
+  "base_commit": "49e40b405aa924feb67a78c1647891dfb3f65920",
+  "changed": [
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+    "scripts/ci/library_tests.py",
+    "scripts/ci/test_android_webview_request_state.py",
+    "scripts/ci/test_ios_webview_request_callback_boundary.py",
+    "scripts/ci/test_ios_webview_request_dns_focus.py"
+  ],
+  "combined_inputs": 1181,
+  "genuinely_new_sealed_synthetic_outcomes_reused": {
+    "android": 17,
+    "ios": 4
+  },
+  "library_inputs": 1104,
+  "native_method_bodies_and_assertions_preserved": true,
+  "native_or_compiler_executions_by_plans": 0,
+  "owning_fixes": "Android FUNCTION/RUNTIME method annotation and iOS mutable request setter only",
+  "packages_releases_deployments_requested": false,
+  "recorded_utc": "2026-11-01T04:57:50.726914+00:00",
+  "source_maps_held": true,
+  "source_only_plans": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "android-device",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "android-webview-request-state"
+      ],
+      "exit_code": 0,
+      "native_or_compiler_executions": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "0868527ffb4a50741f054c05e5ccb7e9e68f4fbff4253b36fb3b030c1a407e73"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-webview",
+        "--focus",
+        "webview-ios-native-request-dns"
+      ],
+      "exit_code": 0,
+      "native_or_compiler_executions": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "238509763ef13c981c4954cd25abef5469c34a36424adb4df6f903f01565f631"
+    }
+  ]
+}

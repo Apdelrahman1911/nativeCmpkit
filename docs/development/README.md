@@ -2104,9 +2104,10 @@ No preview has been published by this phase at the time this document was starte
 The **2026-10-26 owner decision** in [containment.md](containment.md) authorizes
 automatic verification CI with Actions enabled, all actions/reusable workflows
 allowed, and no mandatory SHA pinning. Routine development and dependency/consumer
-verification need no additional approval. The current supplied maintainer
-instructions require **single-agent execution**, without spawning/resuming/delegation.
-The earlier optional two-agent amendment remains historical. Fixes and
+verification need no additional approval. The owner's **2026-10-31 amendment**
+authorizes useful disjoint parallel agents, with lead-owned integration/Git/GitHub
+mutations/acceptance, serial local heavy builds, an 8 GiB reserve and at most two
+combined hosted-heavy jobs. The earlier solo/two-agent limits are historical. Fixes and
 immutable CI commits belong on `development/preview-hardening`; earlier local
 receipts still describe dirty diagnostics, not a release candidate. Package/release
 publication, deployments and Pages remain blocked behind the readiness/security
@@ -2114,8 +2115,9 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
 The owner initially reaffirmed single-agent containment on **2026-10-27**, then
 authorized up to two agents, closure of genuinely completed issues and the current
-library name **NativeCmpKit**. Current supplied instructions require solo work;
-the lead owns integration/closures. Continue bounded verification without lifting publication gates.
+library name **NativeCmpKit**. Those older agent limits are superseded by the
+2026-10-31 parallel amendment; the lead owns integration/closures. Continue
+bounded verification without lifting publication gates.
 
 ## Working indexes
 

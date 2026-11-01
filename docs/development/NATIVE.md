@@ -30,7 +30,8 @@ actual security methods each. Whole original Wasm failure retained; new Wasm-onl
 workflow succeeds.38 closures confirmed, no native/other-engine/physical/ABI/consumer/
 dependency/legal/release waiver. Local Node timeout executed zero tests.
 
-Historical audit area: `audit_native_features`; current work is single-agent.
+Historical audit area: `audit_native_features`; current work uses useful disjoint
+agents under the owner's 2026-10-31 amendment, with lead-owned acceptance.
 This additive development record covers
 **NATIVE-001–039**: WebView, camera, share, and the empty/excluded maps, media and
 notification experiments. The baseline [findings](../audit/findings/NATIVE.json),
@@ -949,7 +950,8 @@ Release gates include real devices/hosts, native memory profiling, full publishe
 dependency/ABI/native-slot verification and recipient lifetime tests. Publication
 must remain blocked until the lead verifies applicable gates, not merely because
 the files in this document now exist. The owner's containment instruction also
-now permits verification Actions (2026-10-26 owner update), without subagents;
+now permits verification Actions (2026-10-26 owner update) and useful disjoint
+agents (2026-10-31 owner amendment);
 publishing, deployments and Pages remain gated regardless of a local result.
 
 

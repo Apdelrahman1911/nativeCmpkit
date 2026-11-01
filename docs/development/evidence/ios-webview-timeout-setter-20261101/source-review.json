@@ -1,0 +1,138 @@
+{
+  "actual_failure": {
+    "compiler_diagnostic": "'val' cannot be reassigned",
+    "gradle_elapsed_seconds": 685.46,
+    "gradle_exit_code": 1,
+    "native_executions": 0,
+    "origin": "IosWebViewRequestAcceptanceTest.kt:237",
+    "original_native_xml_files": 0,
+    "reviewer_report_supplied_by_lead": true,
+    "run_id": "41272449374",
+    "source_revision_short": "57057813",
+    "status": "failed",
+    "this_agent_did_not_execute_or_replay": true
+  },
+  "base_property": {
+    "flags": 518,
+    "has_getter": true,
+    "has_setter": false,
+    "is_var": false,
+    "name": "timeoutInterval",
+    "owner": "platform.Foundation.NSURLRequest"
+  },
+  "exact_exported_member": "platform.Foundation.NSMutableURLRequest.setTimeoutInterval(timeoutInterval: NSTimeInterval /* kotlin.Double */): kotlin.Unit",
+  "existing_capacity_native_security_publishing_readiness_gates_unchanged": true,
+  "kotlin_schema": {
+    "class_fq_name_field": 3,
+    "class_function_field": 9,
+    "class_property_field": 10,
+    "function_name_field": 2,
+    "http_status": 200,
+    "package_fragment_class_field": 4,
+    "parameter_abbreviated_type": "platform.Foundation.NSTimeInterval",
+    "parameter_expanded_type": "kotlin.Double",
+    "property_has_setter_bit": 10,
+    "property_is_var_bit": 8,
+    "sha256": "40cd2c05b1cecbadbdb69271cbc27ee06bb5177283e2ce149fbaa6654676e5f4",
+    "url": "https://raw.githubusercontent.com/JetBrains/kotlin/v2.4.20/core/metadata/src/metadata.proto",
+    "value_parameter_field": 6
+  },
+  "mutable_request_direct_supertype": "platform.Foundation.NSURLRequest",
+  "new_regression": {
+    "baseline_red_executions": 1,
+    "candidate_pass_executions": 4,
+    "candidate_successful_refusal_variants": 27,
+    "distinct_methods": 4,
+    "old_accepted_suite_executions": 0,
+    "total_executions": 5
+  },
+  "official_foundation_sources": [
+    {
+      "external_id": "c:objc(cs)NSMutableURLRequest(py)timeoutInterval",
+      "http_status": 200,
+      "objective_c_declaration": "@property NSTimeInterval timeoutInterval;",
+      "sha256": "255ea44c13fd9ba7a349b735bd655bfabd92173e904629b4a99deaab53c7a100",
+      "swift_declaration": "var timeoutInterval: TimeInterval { get set }",
+      "url": "https://developer.apple.com/tutorials/data/documentation/foundation/nsmutableurlrequest/timeoutinterval.json"
+    },
+    {
+      "external_id": "c:objc(cs)NSURLRequest(py)timeoutInterval",
+      "http_status": 200,
+      "objective_c_declaration": "@property (readonly) NSTimeInterval timeoutInterval;",
+      "sha256": "c02a6c4df0b2701327a5dc86e8d355c3a00bba567d182cafb97c39777b989dbb",
+      "swift_declaration": "var timeoutInterval: TimeInterval { get }",
+      "url": "https://developer.apple.com/tutorials/data/documentation/foundation/nsurlrequest/timeoutinterval.json"
+    }
+  ],
+  "platform_metadata_scope": "Passive locally installed Kotlin/Native 2.4.20 ios_simulator_arm64 Foundation; not actual macOS toolchain/artifact identity, typecheck, SDK or native acceptance",
+  "schema": "nativecmpkit.ios-timeout-setter-source-review.v1",
+  "source_freeze": {
+    "async_helper_sha256": "5b6123f2a968ccd06e4ca3ec2725a5c1e3666cd212a49a8aa28e3012fb73e6bd",
+    "baseline_files": {
+      "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt": "569716cf0524d25b1b3c2712dbe040c0ec82cfe3db24f6dac3775e5ec15bd857",
+      "scripts/ci/test_ios_webview_request_callback_boundary.py": "0229f3de1d266239ddc208fbbd6b273f10b42fa434d13bcc730e7ac2d9e1533f",
+      "scripts/ci/test_ios_webview_request_dns_focus.py": "1e62ccfc0c22296d2490b1af5be0dd0267845ad766ad993e197f2bf1299b487e"
+    },
+    "build_sdk_compiler_native_dispatch": 0,
+    "candidate_files": {
+      "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt": "594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf",
+      "scripts/ci/test_ios_webview_request_callback_boundary.py": "088e04a5b011cfa03ad56421d7ac357d1b6ae9c2194ceae29d133aee48e32cb1",
+      "scripts/ci/test_ios_webview_request_dns_focus.py": "1c7eff4e9d7ab49527f458796e3681a7af4eb862c1dbbc03e7be3a34a2a22c4b",
+      "scripts/ci/test_ios_webview_request_timeout_setter.py": "9b0b4c2ed6b9b52e1c521daec4bf4993630ed8246ce61249c5eab410b753540d"
+    },
+    "fragments": [
+      {
+        "expected_count": 1,
+        "new": "                setTimeoutInterval(2.0)\n",
+        "old": "                timeoutInterval = 2.0\n",
+        "order": 1,
+        "path": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+        "postimage_sha256": "594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf",
+        "preimage_sha256": "569716cf0524d25b1b3c2712dbe040c0ec82cfe3db24f6dac3775e5ec15bd857"
+      },
+      {
+        "expected_count": 1,
+        "new": "\"594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf\"",
+        "old": "\"569716cf0524d25b1b3c2712dbe040c0ec82cfe3db24f6dac3775e5ec15bd857\"",
+        "order": 2,
+        "path": "scripts/ci/test_ios_webview_request_dns_focus.py",
+        "postimage_sha256": "1c7eff4e9d7ab49527f458796e3681a7af4eb862c1dbbc03e7be3a34a2a22c4b",
+        "preimage_sha256": "1e62ccfc0c22296d2490b1af5be0dd0267845ad766ad993e197f2bf1299b487e"
+      },
+      {
+        "expected_count": 1,
+        "new": "OUTSIDE_HELPER_SHA256 = \"a96d4b49bba790fdb3230d8925f29db4084d789c744ad5ee2d961e6e7a0e54f0\"",
+        "old": "OUTSIDE_HELPER_SHA256 = \"caed126d24aa87b2308dee1aac4f1af1b2a91cc3f1605bcb87dcbbde4768bb14\"",
+        "order": 3,
+        "path": "scripts/ci/test_ios_webview_request_callback_boundary.py",
+        "postimage_sha256": "088e04a5b011cfa03ad56421d7ac357d1b6ae9c2194ceae29d133aee48e32cb1",
+        "preimage_sha256": "0229f3de1d266239ddc208fbbd6b273f10b42fa434d13bcc730e7ac2d9e1533f"
+      }
+    ],
+    "full_library_or_combined_freeze": false,
+    "native_method_regions": [
+      {
+        "name": "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors",
+        "sha256": "b3ebb32d2964c96bc30bfd87200aafa40b20fabf68dc1d942886dee964cec200",
+        "unchanged": true
+      },
+      {
+        "name": "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess",
+        "sha256": "dc5a2a38084b8356732204987632d748251ab31685e5511f84dd03974994ca56",
+        "unchanged": true
+      }
+    ],
+    "new_guard_not_an_import_or_execution_of_existing_suites": true,
+    "outside_helper": {
+      "postimage_sha256": "a96d4b49bba790fdb3230d8925f29db4084d789c744ad5ee2d961e6e7a0e54f0",
+      "preimage_sha256": "caed126d24aa87b2308dee1aac4f1af1b2a91cc3f1605bcb87dcbbde4768bb14"
+    },
+    "protected_unchanged_inputs": {
+      "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt": "25efe05ca6ce4cc2f027dc74eaf22a3a74cd4213d315940be9b64bdf7f0fe594",
+      "scripts/ci/ios_webview_request_fixture.py": "a5b4780ab39822a4ee261c07d434bacb9ce9fe72943c1924eeaddcbbeb1e17a7"
+    },
+    "schema": "nativecmpkit.ios-timeout-setter-private-source-freeze.v1",
+    "whole_guards_forward_inverse_byte_exact": true,
+    "whole_source_forward_inverse_byte_exact": true
+  }
+}

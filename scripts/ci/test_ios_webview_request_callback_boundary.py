@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[2]
 NATIVE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt"
 PIN_GUARD = "scripts/ci/test_ios_webview_request_dns_focus.py"
 HOST = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt"
-OUTSIDE_HELPER_SHA256 = "caed126d24aa87b2308dee1aac4f1af1b2a91cc3f1605bcb87dcbbde4768bb14"
+OUTSIDE_HELPER_SHA256 = "a96d4b49bba790fdb3230d8925f29db4084d789c744ad5ee2d961e6e7a0e54f0"
 HELPER_SHA256 = "5b6123f2a968ccd06e4ca3ec2725a5c1e3666cd212a49a8aa28e3012fb73e6bd"
 
 

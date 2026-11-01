@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Lossless request prerequisites compiled; finite native requests — 2026-11-01
+
+[Android selector](docs/development/evidence/android-webview-request-selector-20261101/README.md)
+uses only one test-only FUNCTION/RUNTIME annotation, exact two original native
+bodies and fresh XML identities. Eleven exact fragments/one guard; sealed17 new
+synthetic methods reused without replay. [Actual owning APK](docs/development/evidence/android-webview-request-selector-20261101/compile001/README.md)
+passes0/191.32s/JDK17/Gradle9.7.1 on held1104/1181 inputs, ZERO native. Preserve
+postcompiler lead two-field/eight-field comparison refusal; independent exact
+daemon/schema/launcher/source/task readback accepts compilation without replay.
+Passive actual classfile confirms Java runtime retention/METHOD, no class run.
+[iOS exact setter](docs/development/evidence/ios-webview-timeout-setter-20261101/README.md)
+changes only setTimeoutInterval(2.0) plus two mechanical pins; original helper/
+method bodies stay exact. Sealed red1/green4 reused; ZERO Apple compilation/native.
+[Freeze005](docs/development/evidence/current-platform-recovery-20261101/request-prerequisite-freeze005/README.md)
+passes Android2/iOSrequest2+DNS1 source-only plans. Current normative readiness/
+README/native policies now match the authorized parallel amendment; no SHA-pin
+requirement, write permission or publishing/security gate added or relaxed.
+
+[Run41274764887](docs/development/evidence/current-platform-recovery-20261101/finite-dispatch004/README.md)
+camera Dont-keep at49e40b40 is terminal failed, pending independent original review;
+permission41274773455 uses the other finite request. Their1102/1179 immutable maps
+are separate from live005; accepted009/picker/IO not replayed. Literal#13 conditional
+checklist imported, no extra constructor/following-request criterion or closure.
+92closed/80open, all release/security/native/consumer/ABI/legal gates remain.
+
 ## Camera/permission source freeze; request failures reviewed — 2026-11-01
 
 [Fresh003](docs/development/evidence/current-platform-recovery-20261101/source-freeze003/README.md)

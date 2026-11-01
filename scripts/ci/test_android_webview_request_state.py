@@ -102,8 +102,33 @@ STOP_REDIRECT_HELPER_MARKER = "\n// Separate #64 Stop/redirect helpers; no old r
 STOP_REDIRECT_METHOD = "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner"
 
 
+ANDROID_REQUEST_SELECTOR_NAME = "AndroidWebViewRequestVerification"
+ANDROID_REQUEST_SELECTOR_DECLARATION = (
+    "@Target(AnnotationTarget.FUNCTION)\n"
+    "@Retention(AnnotationRetention.RUNTIME)\n"
+    "annotation class AndroidWebViewRequestVerification\n\n"
+)
+
+
+def request_source_without_selection_annotation(source):
+    """Remove only the reviewed declaration/two annotation lines, never native body bytes."""
+    if ANDROID_REQUEST_SELECTOR_NAME not in source:
+        return source
+    if (source.count(ANDROID_REQUEST_SELECTOR_DECLARATION) != 1 or
+            source.count(ANDROID_REQUEST_SELECTOR_NAME) != 1 + len(r.ANDROID_WEBVIEW_REQUEST_METHODS)):
+        raise ValueError("Partial or extra Android WebView selection metadata cannot be projected away")
+    source = source.replace(ANDROID_REQUEST_SELECTOR_DECLARATION, "", 1)
+    for method in r.ANDROID_WEBVIEW_REQUEST_METHODS:
+        selected = "    @" + ANDROID_REQUEST_SELECTOR_NAME + "\n    @Test fun " + method + "()"
+        if source.count(selected) != 1:
+            raise ValueError("Only the exact two native method annotation lines may be projected away")
+        source = source.replace(selected, "    @Test fun " + method + "()", 1)
+    return source
+
+
 def compiled_request_source(source):
-    """Remove only the separate new insertion/append; every old source byte is frozen."""
+    """Remove only reviewed selector metadata/separate Stop additions; old body bytes stay frozen."""
+    source = request_source_without_selection_annotation(source)
     if STOP_REDIRECT_MEMBER_MARKER not in source and STOP_REDIRECT_HELPER_MARKER not in source:
         return source
     if source.count(STOP_REDIRECT_MEMBER_MARKER) != 1 or source.count(STOP_REDIRECT_HELPER_MARKER) != 1:
@@ -264,8 +289,10 @@ class AndroidWebViewRequestStateGuards(unittest.TestCase):
             self.assertEqual(r.android_webview_request_fixtures(), item["native_fixture_paths"])
             self.assertEqual(35, item["verification_api_level"])
             command = r.gradle_command("android-device", plan, android_serial="emulator-5588")
-            selected = [arg for arg in command if arg.startswith("-Pandroid.testInstrumentationRunnerArguments.class=")]
-            self.assertEqual(["-Pandroid.testInstrumentationRunnerArguments.class=" + r.android_webview_request_filter()], selected)
+            selected = [arg for arg in command if arg.startswith("-Pandroid.testInstrumentationRunnerArguments.annotation=")]
+            self.assertEqual(["-Pandroid.testInstrumentationRunnerArguments.annotation=" + r.android_webview_request_filter()], selected)
+            self.assertEqual("annotation", item["test_filter_argument"])
+            self.assertFalse(any(arg.startswith("-Pandroid.testInstrumentationRunnerArguments.class=") for arg in command))
             self.assertNotIn("--tests", command)
             self.assertEqual(":calf-webview:connectedAndroidDeviceTest", command[-1])
             self.assertFalse(r.android_io_documents_required(plan))
@@ -437,8 +464,8 @@ class AndroidWebViewRequestStateGuards(unittest.TestCase):
 
     def test_two_method_focus_and_controller_retain_exact_identities_integer35_single_module_and_partial_source_refusals(self):
         self.assertEqual((r.ANDROID_WEBVIEW_REQUEST_METHOD, STOP_REDIRECT_METHOD), r.ANDROID_WEBVIEW_REQUEST_METHODS)
-        self.assertEqual([r.ANDROID_WEBVIEW_REQUEST_CLASS + "#" + name for name in r.ANDROID_WEBVIEW_REQUEST_METHODS],
-                         r.android_webview_request_filter().split(","))
+        self.assertEqual(r.ANDROID_WEBVIEW_REQUEST_ANNOTATION, r.android_webview_request_filter())
+        self.assertNotIn(",", r.android_webview_request_filter())
         controller.validate_api_selection(35, ("calf-webview",), r.ANDROID_WEBVIEW_REQUEST_FOCUS)
         for api in (True, 35.0, "35", 23, 28, 29, 30, 33, 34):
             with self.subTest(api=api), self.assertRaises(ValueError):

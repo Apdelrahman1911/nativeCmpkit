@@ -1,0 +1,81 @@
+350:      285: putfield      #51                 // Field testSize:Ljava/lang/String;
+351:      288: aload_0
+352:      289: getfield      #54                 // Field annotations:Ljava/util/List;
+353:      292: aload_2
+354:      293: ldc           #221                // String annotation
+355:      295: invokevirtual #143                // Method android/os/Bundle.getString:(Ljava/lang/String;)Ljava/lang/String;
+356:      298: invokestatic  #223                // Method parseStrings:(Ljava/lang/String;)Ljava/util/List;
+357:      301: invokeinterface #170,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+358:      306: pop
+359:      307: aload_0
+360:      308: getfield      #57                 // Field notAnnotations:Ljava/util/List;
+361:      311: aload_2
+362:      312: ldc           #226                // String notAnnotation
+363:      314: invokevirtual #143                // Method android/os/Bundle.getString:(Ljava/lang/String;)Ljava/lang/String;
+364:      317: invokestatic  #223                // Method parseStrings:(Ljava/lang/String;)Ljava/util/List;
+365:      320: invokeinterface #170,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+366:      325: pop
+367:      326: aload_0
+368:      327: aload_2
+369:      328: invokestatic  #228                // Method androidx/test/internal/runner/RunnerArgs.parseTestTimeout:(Landroid/os/Bundle;)J
+660:        from    to  target type
+661:            8    32    41   Class android/content/pm/PackageManager$NameNotFoundException
+662:           33    40    41   Class android/content/pm/PackageManager$NameNotFoundException
+663: 
+664:   private static java.util.List<java.lang.String> parseStrings(java.lang.String);
+665:     Code:
+666:        0: aload_0
+667:        1: ifnonnull     8
+668:        4: invokestatic  #392                // Method java/util/Collections.emptyList:()Ljava/util/List;
+669:        7: areturn
+670:        8: aload_0
+671:        9: ldc_w         #398                // String ,
+672:       12: invokevirtual #400                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+673:       15: invokestatic  #404                // Method java/util/Arrays.asList:([Ljava/lang/Object;)Ljava/util/List;
+674:       18: areturn
+675: 
+676:   private static boolean parseBoolean(java.lang.String);
+677:     Code:
+737:        7: astore_1
+738:        8: aload_0
+739:        9: ifnull        53
+740:       12: aload_0
+741:       13: ldc_w         #398                // String ,
+742:       16: invokevirtual #400                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+743:       19: astore_2
+744:       20: aload_2
+745:       21: arraylength
+746:       22: istore_3
+747:       23: iconst_0
+783:       22: dup
+784:       23: aload_0
+785:       24: ldc_w         #448                // String :
+786:       27: iconst_m1
+787:       28: invokevirtual #450                // Method java/lang/String.split:(Ljava/lang/String;I)[Ljava/lang/String;
+788:       31: invokestatic  #404                // Method java/util/Arrays.asList:([Ljava/lang/Object;)Ljava/util/List;
+789:       34: invokespecial #453                // Method java/util/HashSet."<init>":(Ljava/util/Collection;)V
+790:       37: areturn
+791: 
+792:   private static androidx.test.internal.runner.RunnerArgs$TestArg parseTestClass(java.lang.String);
+929:        7: astore        4
+930:        9: aload_1
+931:       10: ifnull        60
+932:       13: aload_1
+933:       14: ldc_w         #398                // String ,
+934:       17: invokevirtual #400                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+935:       20: astore        5
+936:       22: aload         5
+937:       24: arraylength
+938:       25: istore        6
+939:       27: iconst_0
+1120:        7: astore_3
+1121:        8: aload_1
+1122:        9: ifnull        57
+1123:       12: aload_1
+1124:       13: ldc_w         #398                // String ,
+1125:       16: invokevirtual #400                // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+1126:       19: astore        4
+1127:       21: aload         4
+1128:       23: arraylength
+1129:       24: istore        5
+1130:       26: iconst_0

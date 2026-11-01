@@ -1,0 +1,15 @@
+--- scripts/ci/android_camera_developer_prerequisite.py@57057813
++++ scripts/ci/android_camera_developer_prerequisite.py@branch-postimage
+@@ -440,6 +440,12 @@
+                 continue
+             if key == "skin.path" and value == "_no_skin":
+                 continue  # Non-path generated skin sentinel; not userdata.
++            if key == "disk.dataPartition.path" and value == "<temp>":
++                # Exact documented non-path default. The fixed -avd launch has
++                # no -data/-datadir override; runtime selects userdata-qemu.img
++                # in the captured AVD before creating the owned data/overlay.
++                self.receipt["documented_data_partition_temp_default_observed"] = True
++                continue
+             path_field = ("path" in key.lower() or key.lower().endswith((".dir", ".file", ".filename")))
+             if not path_field:
+                 continue

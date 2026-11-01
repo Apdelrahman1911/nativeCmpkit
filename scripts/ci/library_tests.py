@@ -997,6 +997,7 @@ def android_popup_identities() -> list[dict]:
 
 ANDROID_WEBVIEW_REQUEST_FOCUS = "android-webview-request-state"
 ANDROID_WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest"
+ANDROID_WEBVIEW_REQUEST_ANNOTATION = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestVerification"
 ANDROID_WEBVIEW_REQUEST_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt"
 ANDROID_WEBVIEW_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
 ANDROID_WEBVIEW_REQUEST_METHODS = (
@@ -1011,7 +1012,36 @@ def android_webview_request_identities() -> list[dict]:
 
 
 def android_webview_request_filter() -> str:
-    return ",".join(ANDROID_WEBVIEW_REQUEST_CLASS + "#" + method for method in ANDROID_WEBVIEW_REQUEST_METHODS)
+    # AGP9.4.0 maps arguments to CSV and ATE1.0.1 splits it without escaping.
+    # One runtime method annotation is lossless; the exact two XML cases remain required.
+    return ANDROID_WEBVIEW_REQUEST_ANNOTATION
+
+
+def validate_android_webview_request_annotation(root: Path, test_sources: list[str]) -> None:
+    """Bind the lossless runtime selector to only the two reviewed native methods."""
+    if ANDROID_WEBVIEW_REQUEST_SOURCE not in test_sources:
+        raise ValueError("Missing Android WebView request runtime annotation source")
+    package, name = ANDROID_WEBVIEW_REQUEST_ANNOTATION.rsplit(".", 1)
+    annotated = []
+    for relative in test_sources:
+        source = safe_path(root, relative).read_text(encoding="utf-8")
+        if name not in source:
+            continue
+        if relative != ANDROID_WEBVIEW_REQUEST_SOURCE:
+            raise ValueError("Android WebView request selector appears in an unreviewed source")
+        declarations = list(re.finditer(r"(?m)^@Target\(AnnotationTarget.FUNCTION\)\s+"
+                                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+"
+                                        r"annotation class " + re.escape(name) + r"$", source))
+        methods = re.findall(r"@" + re.escape(name) + r"\s+@Test\s+fun\s+"
+                             r"([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(declarations) != 1 or any(brace in source[:declarations[0].start()] for brace in "{}") or
+                source.count(name) != 1 + len(ANDROID_WEBVIEW_REQUEST_METHODS) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                methods != list(ANDROID_WEBVIEW_REQUEST_METHODS)):
+            raise ValueError("Android WebView request selector requires exact FUNCTION/RUNTIME declaration and two method uses")
+        annotated.extend(methods)
+    if annotated != list(ANDROID_WEBVIEW_REQUEST_METHODS):
+        raise ValueError("Android WebView request annotation inventory differs from the exact two identities")
 
 
 def android_webview_request_fixtures() -> list[str]:
@@ -1957,8 +1987,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                 re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
             raise ValueError("Android WebView request declarations changed; review the exact two-method API35 selection")
         validate_webview_device_network_fixture(root)
+        validate_android_webview_request_annotation(root, selected[0]["test_source_files"])
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = android_webview_request_filter()
+        selected[0]["test_filter_argument"] = "annotation"
         selected[0]["required_testcases"] = android_webview_request_identities()
         selected[0]["native_fixture_paths"] = android_webview_request_fixtures()
         selected[0]["verification_api_level"] = 35
@@ -2494,6 +2526,7 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
                 expected[0]["report_directory"] != "calf-webview/build/outputs/androidTest-results/connected/androidMain" or
                 expected[0].get("test_filter") != android_webview_request_filter() or
+                expected[0].get("test_filter_argument") != "annotation" or
                 expected[0].get("required_testcases") != android_webview_request_identities() or
                 not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(expected[0]["test_source_files"]) or
                 expected[0].get("native_fixture_paths") != android_webview_request_fixtures() or
@@ -3296,7 +3329,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         if boundary_focus:
             item = test_plan["expected"][0]
             argument = "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
-                                        test_plan["explicit_test_focus"] == ANDROID_GEO_PREREQUISITES_FOCUS) else "class"
+                                        test_plan["explicit_test_focus"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS}) else "class"
             command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
             if test_plan["explicit_test_focus"] == WEBVIEW_ANDROID_MEDIA_FOCUS:
                 command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true")

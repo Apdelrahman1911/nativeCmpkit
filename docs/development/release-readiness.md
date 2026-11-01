@@ -21,14 +21,16 @@ evidence remain intact. Current resolutions belong to this development phase.
 **Current control mode: [contained publishing, authorized verification](containment.md).**
 The owner's 2026-10-26 decision permits enabled Actions with all actions/reusable
 workflows allowed and no mandatory SHA pinning. Routine development, CI testing,
-dependency acquisition and consumer verification proceed autonomously. Current
-supplied maintainer instructions require **solo execution**, without spawning,
-resuming or delegation. Packages/releases/deployments/Pages remain prohibited until the
+dependency acquisition and consumer verification proceed autonomously. The owner's
+**2026-10-31 parallel-execution amendment** authorizes useful disjoint agents;
+the lead owns integration, Git/GitHub mutations and acceptance. Heavy local builds
+remain serial with an 8 GiB reserve; combined hosted-heavy jobs are capped at two.
+Packages/releases/deployments/Pages remain prohibited until the
 applicable readiness and security gates pass. CI authority does not clear a gate.
 
 The owner initially reaffirmed single-agent containment on2026-10-27, then
 authorized optional bounded two-agent assistance and the name **NativeCmpKit**;
-that agent amendment is historical for the current supplied solo instructions. Verification
+those older agent limits are superseded by the 2026-10-31 amendment. Verification
 authorization and all publication/security gates remain unchanged; individual
 evidence-backed issue closures do not certify this release.
 

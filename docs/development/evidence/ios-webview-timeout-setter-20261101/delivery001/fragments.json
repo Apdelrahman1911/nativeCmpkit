@@ -1,0 +1,74 @@
+{
+  "additions": [
+    {
+      "must_be_absent": true,
+      "patch": "addition-001-guard.patch",
+      "paths": [
+        "scripts/ci/test_ios_webview_request_timeout_setter.py"
+      ]
+    },
+    {
+      "must_be_absent": true,
+      "patch": "addition-002-evidence.patch",
+      "paths": [
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/README.md",
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/baseline-result.json",
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/candidate-result.json",
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/foundation-timeout-declaration.json",
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/passive-parser-initial-failure.json",
+        "docs/development/evidence/ios-webview-timeout-setter-20261101/source-review.json"
+      ]
+    }
+  ],
+  "fragments": [
+    {
+      "expected_count": 1,
+      "new": "fragment-001-new.txt",
+      "old": "fragment-001-old.txt",
+      "order": 1,
+      "path": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt",
+      "postimage_sha256": "594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf",
+      "preimage_sha256": "569716cf0524d25b1b3c2712dbe040c0ec82cfe3db24f6dac3775e5ec15bd857"
+    },
+    {
+      "expected_count": 1,
+      "new": "fragment-002-new.txt",
+      "old": "fragment-002-old.txt",
+      "order": 2,
+      "path": "scripts/ci/test_ios_webview_request_dns_focus.py",
+      "postimage_sha256": "1c7eff4e9d7ab49527f458796e3681a7af4eb862c1dbbc03e7be3a34a2a22c4b",
+      "preimage_sha256": "1e62ccfc0c22296d2490b1af5be0dd0267845ad766ad993e197f2bf1299b487e"
+    },
+    {
+      "expected_count": 1,
+      "new": "fragment-003-new.txt",
+      "old": "fragment-003-old.txt",
+      "order": 3,
+      "path": "scripts/ci/test_ios_webview_request_callback_boundary.py",
+      "postimage_sha256": "088e04a5b011cfa03ad56421d7ac357d1b6ae9c2194ceae29d133aee48e32cb1",
+      "preimage_sha256": "0229f3de1d266239ddc208fbbd6b273f10b42fa434d13bcc730e7ac2d9e1533f"
+    }
+  ],
+  "optional_not_integrated_or_executed": [
+    "optional/FoundationTimeoutSetterSignatureProbe.kt",
+    "optional/README.md"
+  ],
+  "payload_additions": [
+    {
+      "must_be_absent": true,
+      "path": "docs/development/evidence/ios-webview-timeout-setter-20261101/baseline-synthetic-tests.xml",
+      "sha256": "0153ffed7ff9be58fec5a9fb7224323905fb1b022b44b44cabdd35a388292085",
+      "source": "evidence/baseline-synthetic-tests.xml",
+      "terminal_lf": false
+    },
+    {
+      "must_be_absent": true,
+      "path": "docs/development/evidence/ios-webview-timeout-setter-20261101/candidate-synthetic-tests.xml",
+      "sha256": "77fe7b81ece0c32a8c21372e11947f1fb9cbcf79740ccce70bc1deeb08b8a247",
+      "source": "evidence/candidate-synthetic-tests.xml",
+      "terminal_lf": false
+    }
+  ],
+  "public_evidence_scope": "Exact compiler-owning source spelling and mechanical pins; four new source-only passes; no Kotlin/SDK/native acceptance",
+  "schema": "nativecmpkit.exact-source-fragments.v1"
+}

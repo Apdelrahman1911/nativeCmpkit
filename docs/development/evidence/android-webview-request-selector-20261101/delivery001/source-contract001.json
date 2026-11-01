@@ -1,0 +1,264 @@
+{
+  "operation": "Independent read-only source/artifact contract review. No inspected dependency class or downloaded source is executed.",
+  "observations": [
+    "AGP9.4.0 serializes every instrumentation argument as comma-joined key=value, without value escaping.",
+    "ATE1.0.1 resolves the same android-test.instrumentation-args key, splits commas, then keeps only tokens containing equals. A second class#method token is lost.",
+    "ATE copies the parsed argument map through its device descriptor and command builder into individual am instrument -e key value entries.",
+    "Runner1.7.0 reads annotation, splits its string list, loads the named annotation and includes methods or test classes carrying it.",
+    "One fully qualified runtime FUNCTION annotation has no comma, supports the exact two reviewed method annotations, and does not require a broad class run.",
+    "Runner missing annotation class can leave inclusion unapplied; declaration/source-confinement guards and eventual owning compilation/native exact-inventory review therefore remain necessary."
+  ],
+  "sources": [
+    {
+      "artifact": "gradle-9.4.0-sources.jar",
+      "member": "com/android/build/gradle/internal/testing/AndroidTestEngineConfigurer.kt",
+      "complete_source_member_sha256": "81ec0a58e0816cde3d8c68739588547a6e7696ac40d67dc7ca075782ed6839f7",
+      "complete_source_bytes": 7402,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 91,
+          "last_line": 97,
+          "text": "  task.engineInputProperties.put(\"android-test.instrumentation-runner-class\", testData.instrumentationRunner)\n  task.engineInputProperties.put(\"android-test.test-package-id\", testData.applicationId)\n  task.engineInputProperties.put(\"android-test.instrumentation-target-package-id\", testData.instrumentationTargetPackageId)\n  task.engineInputProperties.put(\n    \"android-test.instrumentation-args\",\n    testData.instrumentationRunnerArguments.map { it.entries.joinToString(\",\") { (k, v) -> \"$k=$v\" } },\n  )\n",
+          "sha256": "4ddff7ec0a98cdd4b44d5532c26ad9759677bb8a3b63341a495c10104aa06302"
+        }
+      ]
+    },
+    {
+      "artifact": "android-test-engine-1.0.1-sources.jar",
+      "member": "com/android/tools/androidtest/testengine/config/AndroidTestConfigurationKeys.kt",
+      "complete_source_member_sha256": "1a5e57b75956c0617b1d0b31dd7ffe7101a222beafeb134097fed045485685a3",
+      "complete_source_bytes": 4679,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 58,
+          "last_line": 63,
+          "text": "  const val TESTED_APPLICATION_ID = \"com.android.junit.engine.tested.application.id\"\n\n  /** Comma-separated list of extra instrumentation arguments in key=value format. */\n  const val INSTRUMENTATION_ARGS = \"android-test.instrumentation-args\"\n\n  /** Path to the results directory. */\n",
+          "sha256": "7e2b6c383c028a32d7db76c3d0a5c7bad18d6b95898150cba9b8938f2a5f142d"
+        }
+      ]
+    },
+    {
+      "artifact": "android-test-engine-1.0.1-sources.jar",
+      "member": "com/android/tools/androidtest/testengine/config/AndroidTestConfiguration.kt",
+      "complete_source_member_sha256": "caf336986d04a6011d6094e28f303cb15f952255fa2f2d51f65ab878213689d4",
+      "complete_source_bytes": 9290,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 98,
+          "last_line": 112,
+          "text": "  val instrumentationRunnerClass: String =\n    get(INSTRUMENTATION_RUNNER_CLASS) ?: throw RuntimeException(\"$INSTRUMENTATION_RUNNER_CLASS configuration is required\")\n  val testPackageId: String = get(TEST_PACKAGE_ID) ?: throw RuntimeException(\"$TEST_PACKAGE_ID configuration is required\")\n  val instrumentationTargetPackageId: String =\n    get(INSTRUMENTATION_TARGET_PACKAGE_ID) ?: throw RuntimeException(\"$INSTRUMENTATION_TARGET_PACKAGE_ID configuration is required\")\n  val testedApplicationId: String = get(TESTED_APPLICATION_ID, AgpTestSuiteInput.TESTED_APPLICATION_ID) ?: instrumentationTargetPackageId\n\n  val instrumentationArgs: Map<String, String> =\n    get(INSTRUMENTATION_ARGS)\n      ?.split(\",\")\n      ?.mapNotNull { arg ->\n        val parts = arg.split(\"=\", limit = 2)\n        if (parts.size == 2) parts[0].trim() to parts[1].trim() else null\n      }\n      ?.toMap() ?: emptyMap()\n",
+          "sha256": "c989722558892ab8d8658ecb59a21dd008badb6003f5a4067bda8068fca9412b"
+        }
+      ]
+    },
+    {
+      "artifact": "android-test-engine-1.0.1-sources.jar",
+      "member": "com/android/tools/androidtest/testengine/descriptor/AndroidDeviceDescriptor.kt",
+      "complete_source_member_sha256": "5841c867f159c0af8b810137fcadbdac570baeb7d94711c494dd5ed031073348",
+      "complete_source_bytes": 22586,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 238,
+          "last_line": 259,
+          "text": "    val listener = Listener(context, reporter, logcatCollector, deviceInfoFile, additionalTestOutputCollector)\n\n    val instrumentationArgs = config.instrumentationArgs.toMutableMap()\n    if (config.isEmulatorControlEnabled(deviceSerial)) {\n      val grpcInfo = findGrpcInfoProvider(deviceSerial)\n      instrumentationArgs[\"grpc.port\"] = grpcInfo.port.toString()\n      grpcInfo.token?.let { instrumentationArgs[\"grpc.token\"] = it }\n    }\n    if (isCoverageActive) {\n      instrumentationArgs[\"coverage\"] = \"true\"\n      if (isOrchestratorEnabled) {\n        effectiveCoverageDirOnDevice?.let { instrumentationArgs[\"coverageFilePath\"] = it }\n      } else {\n        effectiveCoverageFileOnDevice?.let { instrumentationArgs[\"coverageFile\"] = it }\n      }\n    }\n    if (additionalOutputDirectoryOnHost != null) {\n      val additionalTestOutputOnDeviceDir = additionalTestOutputCollector.getEffectiveAdditionalOutputDirectoryOnDevice()\n      if (!additionalTestOutputOnDeviceDir.isNullOrBlank()) {\n        instrumentationArgs[\"additionalTestOutputDir\"] = additionalTestOutputOnDeviceDir\n      }\n    }\n",
+          "sha256": "44e29270aaa01dadf7fe4e7db8822caf1007c5b61bca4c6f262d362ab12a65e8"
+        },
+        {
+          "first_line": 278,
+          "last_line": 289,
+          "text": "      instrumentationRunnerFactory(\n        config.adb,\n        deviceSerial,\n        config.instrumentationRunnerClass,\n        config.testPackageId,\n        config.instrumentationTargetPackageId,\n        config.executionMode,\n        instrumentationArgs,\n        setOf(listener),\n        agentFilesystemInfo,\n        usePcc,\n      )\n",
+          "sha256": "408865309befabe288ddea220939f5a3e45e6d2c02533aba1d1b9ee5eb044dec"
+        }
+      ]
+    },
+    {
+      "artifact": "android-test-engine-1.0.1-sources.jar",
+      "member": "com/android/tools/androidtest/testengine/instrument/AmInstrumentationRunner.kt",
+      "complete_source_member_sha256": "1123fe6a68e4fddc806ea92a2d4b84434838198dfec49ab3e8940285687e4ef0",
+      "complete_source_bytes": 5482,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 89,
+          "last_line": 98,
+          "text": "  private fun getAmInstrumentCmd(): List<String> {\n    val builder =\n      AmInstrumentCommandBuilder()\n        .setAdbPath(adb.absolutePath)\n        .setDeviceSerial(deviceSerial)\n        .setInstrumentationRunner(testPackageId, instrumentationRunnerClass)\n        .setExecutionMode(executionMode)\n        .addInstrumentationArgs(instrumentationArgs)\n        .setInstrumentInPcc(instrumentInPcc)\n\n",
+          "sha256": "5849a9a0912422e8e2337aef536671bfcc191c3a56c791e84a98644a86dc58b7"
+        }
+      ]
+    },
+    {
+      "artifact": "android-test-engine-1.0.1-sources.jar",
+      "member": "com/android/tools/androidtest/testengine/instrument/AmInstrumentCommandBuilder.kt",
+      "complete_source_member_sha256": "199de7e3b48f0adf830d43b4ef0516b5a51331bcadbcd257b9edeacbf2652fc7",
+      "complete_source_bytes": 4862,
+      "original_license_header": "/*\n * Copyright (C) 2026 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 46,
+          "last_line": 50,
+          "text": "  /** Adds a single instrumentation argument. */\n  fun addInstrumentationArg(key: String, value: String) = apply { instrumentationArgs[key] = value }\n\n  /** Adds multiple instrumentation arguments. */\n  fun addInstrumentationArgs(args: Map<String, String>) = apply { instrumentationArgs.putAll(args) }\n",
+          "sha256": "5a38ffb7052e7de334716ff35194540cbe995d85ecd5a8b2db5c2a3a161c40df"
+        },
+        {
+          "first_line": 94,
+          "last_line": 106,
+          "text": "\n      add(\"am\")\n      add(\"instrument\")\n      if (isRaw) add(\"-r\")\n      if (isWait) add(\"-w\")\n      if (isInstrumentInPcc) add(\"--instrument-in-pcc\")\n\n      instrumentationArgs.forEach { (key, value) ->\n        add(\"-e\")\n        add(key)\n        add(value)\n      }\n\n",
+          "sha256": "21bbdf4b5f81ba49dcae7a2e61a55bf531c77570c69449b964da702a9a4e53eb"
+        }
+      ]
+    },
+    {
+      "artifact": "runner-1.7.0-sources.jar",
+      "member": "androidx/test/internal/runner/RunnerArgs.java",
+      "complete_source_member_sha256": "b0bc52d66d9d121201c2177b5c4480cac44dac9cea9ff43aad19beeddec3c732",
+      "complete_source_bytes": 29256,
+      "original_license_header": "/*\n * Copyright (C) 2016 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *   http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n *\n */\n",
+      "excerpts": [
+        {
+          "first_line": 55,
+          "last_line": 61,
+          "text": "  static final String ARGUMENT_TEST_CLASS = \"class\";\n  static final String ARGUMENT_CLASSPATH_TO_SCAN = \"classpathToScan\";\n  static final String ARGUMENT_NOT_TEST_CLASS = \"notClass\";\n  static final String ARGUMENT_TEST_SIZE = \"size\";\n  static final String ARGUMENT_LOG_ONLY = \"log\";\n  static final String ARGUMENT_ANNOTATION = \"annotation\";\n  static final String ARGUMENT_NOT_ANNOTATION = \"notAnnotation\";\n",
+          "sha256": "ae5f1e8869272b5e849feca4af2befad8dc13c66b6df34fa10a011c3a150b547"
+        },
+        {
+          "first_line": 288,
+          "last_line": 294,
+          "text": "      this.filters.addAll(\n          parseLoadAndInstantiateClasses(bundle.getString(ARGUMENT_FILTER), Filter.class, bundle));\n      this.runnerBuilderClasses.addAll(\n          parseAndLoadClasses(bundle.getString(ARGUMENT_RUNNER_BUILDER), RunnerBuilder.class));\n      this.testSize = bundle.getString(ARGUMENT_TEST_SIZE);\n      this.annotations.addAll(parseStrings(bundle.getString(ARGUMENT_ANNOTATION)));\n      this.notAnnotations.addAll(parseStrings(bundle.getString(ARGUMENT_NOT_ANNOTATION)));\n",
+          "sha256": "f2155d752eec0ff28c20e32541b41dce5bc5120f09c6bd1e6ade7685f286a038"
+        },
+        {
+          "first_line": 384,
+          "last_line": 390,
+          "text": "     */\n    private static List<String> parseStrings(String value) {\n      if (value == null) {\n        return Collections.emptyList();\n      }\n      return Arrays.asList(value.split(\",\"));\n    }\n",
+          "sha256": "5d7551b60c0f7f6e7f2f39191ff0f9773ff8a57a340f4f4de949ee1e6ad77ea1"
+        }
+      ]
+    },
+    {
+      "artifact": "runner-1.7.0-sources.jar",
+      "member": "androidx/test/internal/runner/TestRequestBuilder.java",
+      "complete_source_member_sha256": "4ba75cd70bda2526b7f08e3929f461f9953f129a38b137debb79fcbdc3bb9efe",
+      "complete_source_bytes": 32272,
+      "original_license_header": "/*\n * Copyright (C) 2012 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 132,
+          "last_line": 159,
+          "text": "  /** Filter that only runs tests whose method or class has been annotated with given filter. */\n  private static class AnnotationInclusionFilter extends AbstractFilter {\n\n    private final Class<? extends Annotation> annotationClass;\n\n    AnnotationInclusionFilter(Class<? extends Annotation> annotation) {\n      annotationClass = annotation;\n    }\n\n    /**\n     * Determine if given test description matches filter.\n     *\n     * @param description the {@link Description} describing the test\n     * @return <code>true</code> if matched\n     */\n    @Override\n    protected boolean evaluateTest(Description description) {\n      final Class<?> testClass = description.getTestClass();\n      return description.getAnnotation(annotationClass) != null\n          || (testClass != null && testClass.isAnnotationPresent(annotationClass));\n    }\n\n    /** {@inheritDoc} */\n    @Override\n    public String describe() {\n      return String.format(\"annotation %s\", annotationClass.getName());\n    }\n  }\n",
+          "sha256": "06acd737305eeea5ede0d559d0dac72ea6aba5f208751d2517f1e123cdfb69bb"
+        },
+        {
+          "first_line": 692,
+          "last_line": 703,
+          "text": "  /**\n   * Only run tests annotated with given annotation class.\n   *\n   * @param annotation the full class name of annotation\n   */\n  public TestRequestBuilder addAnnotationInclusionFilter(String annotation) {\n    Class<? extends Annotation> annotationClass = loadAnnotationClass(annotation);\n    if (annotationClass != null) {\n      addFilter(new AnnotationInclusionFilter(annotationClass));\n    }\n    return this;\n  }\n",
+          "sha256": "15dbdd200974622d54b31ad0e9369c14085edd009e8ddf30c8bce51640ff0078"
+        },
+        {
+          "first_line": 770,
+          "last_line": 777,
+          "text": "    if (runnerArgs.testSize != null) {\n      addTestSizeFilter(TestSize.fromString(runnerArgs.testSize));\n    }\n    for (String annotation : runnerArgs.annotations) {\n      addAnnotationInclusionFilter(annotation);\n    }\n    for (String notAnnotation : runnerArgs.notAnnotations) {\n      addAnnotationExclusionFilter(notAnnotation);\n",
+          "sha256": "d3d01456902f1ab1d72898392153a05583e2d7775f66659923dc6cf59dbe64b1"
+        },
+        {
+          "first_line": 921,
+          "last_line": 930,
+          "text": "  private Class<? extends Annotation> loadAnnotationClass(String className) {\n    try {\n      Class<?> clazz = Class.forName(className);\n      return (Class<? extends Annotation>) clazz;\n    } catch (ClassNotFoundException e) {\n      Log.e(TAG, String.format(\"Could not find annotation class: %s\", className));\n    } catch (ClassCastException e) {\n      Log.e(TAG, String.format(\"Class %s is not an annotation\", className));\n    }\n    return null;\n",
+          "sha256": "7e68a547383f61dfe7bdc9c68bd3b8237269f9ccb512c6214affa70cd1f98f22"
+        }
+      ]
+    },
+    {
+      "artifact": "runner-1.7.0-sources.jar",
+      "member": "androidx/test/runner/AndroidJUnitRunner.java",
+      "complete_source_member_sha256": "bbb08fc59aec23fbb1709918203370c096301dd02c77abef8da2ddcb43b257ad",
+      "complete_source_bytes": 30734,
+      "original_license_header": "/*\n * Copyright (C) 2012 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+      "excerpts": [
+        {
+          "first_line": 147,
+          "last_line": 164,
+          "text": " * <p><b>Filter test run to tests with given annotation:</b> adb shell am instrument -w -e\n * annotation com.android.foo.MyAnnotation com.android.foo/androidx.test.runner.AndroidJUnitRunner\n *\n * <p>If used with other options, the resulting test run will contain the intersection of the two\n * options. e.g. \"-e size large -e annotation com.android.foo.MyAnnotation\" will run only tests with\n * both the {@link LargeTest} and \"com.android.foo.MyAnnotation\" annotations.\n *\n * <p><b>Filter test run to tests <i>with all</i> annotations in a list:</b> adb shell am instrument\n * -w -e annotation com.android.foo.MyAnnotation,com.android.foo.AnotherAnnotation\n * com.android.foo/androidx.test.runner.AndroidJUnitRunner\n *\n * <p><b>Filter test run to tests <i>without</i> given annotation:</b> adb shell am instrument -w -e\n * notAnnotation com.android.foo.MyAnnotation\n * com.android.foo/androidx.test.runner.AndroidJUnitRunner\n *\n * <p>As above, if used with other options, the resulting test run will contain the intersection of\n * the two options. e.g. \"-e size large -e notAnnotation com.android.foo.MyAnnotation\" will run\n * tests with the {@link LargeTest} annotation that do NOT have the \"com.android.foo.MyAnnotation\"\n",
+          "sha256": "15e73d93a794a5758e3abe07cf53cc88632442898a291acfd98c57e750e5521d"
+        }
+      ]
+    }
+  ],
+  "download_receipts": [
+    {
+      "utc": "2026-11-01T04:36:09.124129+00:00",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/androidtest/android-test-engine/1.0.1/android-test-engine-1.0.1-sources.jar",
+      "effective_url": "https://dl.google.com/dl/android/maven2/com/android/tools/androidtest/android-test-engine/1.0.1/android-test-engine-1.0.1-sources.jar",
+      "http_status": 200,
+      "bytes": 75808,
+      "sha256": "0904c5f9050be0f58bcfabc4001f26ee296ce365ca7bb84dc7d93aeaf23a218f",
+      "content_type": "application/java-archive",
+      "downloaded_sources_executed": false,
+      "review_candidates": [
+        "com/android/tools/androidtest/testengine/config/AndroidTestConfiguration.kt",
+        "com/android/tools/androidtest/testengine/descriptor/AndroidDeviceDescriptor.kt"
+      ]
+    },
+    {
+      "utc": "2026-11-01T04:37:58.564108+00:00",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/9.4.0/gradle-9.4.0-sources.jar",
+      "effective_url": "https://dl.google.com/dl/android/maven2/com/android/tools/build/gradle/9.4.0/gradle-9.4.0-sources.jar",
+      "http_status": 200,
+      "bytes": 4032871,
+      "sha256": "d462c399729eb35241208899f937037e40f2f9157a54fa9c455595ed6ceca091",
+      "downloaded_sources_executed": false,
+      "review_candidates": [
+        "com/android/build/gradle/internal/testing/AndroidTestEngineConfigurer.kt"
+      ]
+    },
+    {
+      "utc": "2026-11-01T04:37:14.727370+00:00",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/utp/gradle-work-action/32.4.0/gradle-work-action-32.4.0-sources.jar",
+      "effective_url": "https://dl.google.com/dl/android/maven2/com/android/tools/utp/gradle-work-action/32.4.0/gradle-work-action-32.4.0-sources.jar",
+      "http_status": 200,
+      "bytes": 9902,
+      "sha256": "f80cc5ce945550ed8da14f2ab0ea4daec3e14a356f8dda163eefaf57d9b6a647",
+      "downloaded_sources_executed": false,
+      "review_candidates": [
+        "com/android/tools/utp/gradle/AndroidTestEngineRunner.kt"
+      ]
+    },
+    {
+      "utc": "2026-11-01T04:37:13.857622+00:00",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/utp/gradle-work-action/32.4.0/gradle-work-action-32.4.0.pom",
+      "effective_url": "https://dl.google.com/dl/android/maven2/com/android/tools/utp/gradle-work-action/32.4.0/gradle-work-action-32.4.0.pom",
+      "http_status": 200,
+      "bytes": 2928,
+      "sha256": "a1c1751d659a6d2435132af442f9752933ed9e250d1fe9b0ab3c4e2a027d2d42",
+      "downloaded_sources_executed": false
+    },
+    {
+      "utc": "2026-11-01T04:36:10.410750+00:00",
+      "url": "https://dl.google.com/dl/android/maven2/androidx/test/runner/1.7.0/runner-1.7.0-sources.jar",
+      "effective_url": "https://dl.google.com/dl/android/maven2/androidx/test/runner/1.7.0/runner-1.7.0-sources.jar",
+      "http_status": 200,
+      "bytes": 241449,
+      "sha256": "22d99db01579e249e415802fb7926dfbb04bf8b89d5ea62cba1459ccb0ff0628",
+      "content_type": "application/java-archive",
+      "downloaded_sources_executed": false,
+      "review_candidates": [
+        "androidx/test/internal/runner/RunnerArgs.java",
+        "androidx/test/internal/runner/TestRequestBuilder.java",
+        "androidx/test/runner/AndroidJUnitRunner.java"
+      ]
+    }
+  ],
+  "current_runner_convention": {
+    "source": "convention-plugins/src/main/kotlin/Android.kt",
+    "sha256": "204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256",
+    "configured_runner": "androidx.test.runner.AndroidJUnitRunner"
+  },
+  "source_scope_only": true,
+  "Gradle_builds": 0,
+  "native_methods": 0,
+  "installs": 0,
+  "dispatches": 0
+}

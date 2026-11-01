@@ -44,9 +44,9 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "7d5506556108b7a66425c761029ef91926a0a6256c666a8086ec5cd6ae60e72c",
-    "docs/development/resolutions/IO.json": "75401752ef00c3373363f2f85eb05e04dce9ee23d2244a64c0e02db4ab7ee6a8",
+    "docs/development/resolutions/IO.json": "772540b03a69150c7052fd7fc63418043fc3b1c50890ec0670b9f5fe7b34f545",
     "docs/development/resolutions/NATIVE.json": "57a872ab62ba7b15bf741e11e944cc2d9462d3bc5441bff757850ce32dda9956",
-    "docs/development/resolutions/NAV.json": "cc3ff343e9d9c9152466d44c70263186933c6e32b474f67928ce6cd6a7316e30",
+    "docs/development/resolutions/NAV.json": "3b97594b5e2206c46e9f4f82a9b56079b8d93d3b0e557b41c2051222b62cef14",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
     "docs/development/resolutions/UI-controls.json": "2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "5754a8a418bad0c77b2c436e524154f9461c66b6e83f1f7c002877aa8ec51678",
     "docs/roadmap/backlog.json": "46a16b50b1b5e0b311c8690eafd2c6f8a5fedf4f4b9c3ef471d655b1bcd6162c"
   },
-  "input_fingerprint": "0cff1ca26abf7916d4545bceed7ad5cb6c36fd5bcbeca8fe1e4091accc488274",
+  "input_fingerprint": "7802ca284d2bd7f676ed34f86e0e70f48d43d54202e6462cdc8bc8df9447adc3",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -10815,7 +10815,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "b8ec47d295a9cc19e85c27ff8c8d5cb3340790081a72f7491934a58d610d01b8",
+      "owner_record_sha256": "3928e8ede10e3b9b1082299f31ffabdf846bdce032f2685285a6904392b43de0",
       "owner_record": {
         "id": "IO-013",
         "status": "partially-verified",
@@ -10825,7 +10825,8 @@
           "Production document staging removes unreturned copies on cancellation/exception; final callback policy rejects partial staging.",
           "Reject non-file staging/cleanup URLs and retain session/provider ownership independently of native dismissal; unreturned copies remain owned until processing completes or cancellation cleanup.",
           "2026-11-01: Add only missing original C3 public photo/provider-copy cancellation regression and one-method native application route; retain accepted C1/C2/C4/C5/C6 without replay.",
-          "2026-11-01: Replace unavailable PHPickerResult construction with lazy shared native/controlled provider-arrival guard while preserving existing IO/ensureActive/limit/sequential stage and public APIs."
+          "2026-11-01: Replace unavailable PHPickerResult construction with lazy shared native/controlled provider-arrival guard while preserving existing IO/ensureActive/limit/sequential stage and public APIs.",
+          "2026-11-01: Correct only C3 test unsupported zero-callback ordering/NSError identity assumptions; keep actual client and separately acknowledged registered-producer return, public cancellation, all resource/source and disposed-owner checks."
         ],
         "affected_paths": [
           "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/TemporaryCopy.kt",
@@ -10952,6 +10953,14 @@
             ],
             "result": "Production/test KLIBs Gradle0/36.01s;1124/1201 before/after maps held. Final15/15 source controls exit0/1.404267s after preserved8/7+1error,14/11+3error and one genuine exact-five-token red. Current source differs from compiler only at two CI scripts. ZERO Apple link/sign/install/native executions.",
             "scope": "Installed typed delegate shares pre-traversal controller/session claim with native result entry; controlled post-extraction provider arrival only, not actual Photos extraction. Loader/cancellation/cleanup tail retained; original native termination cause unknown."
+          },
+          {
+            "command": "./gradlew --offline :calf-file-picker:compileTestKotlinIosSimulatorArm64",
+            "result": "Changed test KLIB executes0/32.01s/1139library1215combined held, production UP-TO-DATE; five accepted owning source controls/23 refusal mutations reused,18 newly affected shared tooling methods pass. ZERO Apple link/native; original failed C3 remains failed.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/RESULT.json"
+            ]
           }
         ],
         "remaining": [
@@ -20816,15 +20825,21 @@
       },
       "reported_status": "implemented",
       "owner_ledger": "docs/development/resolutions/NAV.json",
-      "owner_record_sha256": "ae9d7528646c43dc88b0c53c1c35b07e8601753f6295612e907f3bbe181f28e1",
+      "owner_record_sha256": "d5af4a77471daa9f12d728520155e0759407065ecb8602af05b496082af8576c",
       "owner_record": {
         "id": "NAV-012",
         "status": "implemented",
         "changes": [
-          "Removed secure/password and personal-name input logging from sample callbacks without removing secure field."
+          "Removed secure/password and personal-name input logging from sample callbacks without removing secure field.",
+          "2026-11-01: Bind unchanged original sample descriptors/no-input-log callbacks into a single isolated library iosTest source; no sample app/module execution and no public library API change."
         ],
         "affected_paths": [
-          "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt"
+          "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt",
+          "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput/SampleAlertDialogInputFields.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeSecureAlertInputTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/OwnedNativeConsoleCapture.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/OwnedNativeConsoleCaptureTest.kt",
+          "scripts/ci/secure_alert_input_plan.py"
         ],
         "tests": [
           {
@@ -20833,10 +20848,18 @@
             "evidence": [
               "docs/development/evidence/navigation/sample-source-checks.log"
             ]
+          },
+          {
+            "command": "./gradlew :calf-ui:compileKotlinIosSimulatorArm64 :calf-ui:compileTestKotlinIosSimulatorArm64; failed-test-only ordinary-resolution recovery",
+            "result": "Production KLIB succeeds before offline test dependency failure1/55.01s; owning failed-test-task recovery succeeds0/46.01s with1139/1215 maps held. Independent21 important synthetic methods/43 subtests reused, plus18 newly affected shared methods pass. ZERO Apple link/native execution.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-preparation087/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/SHARED-RESULT.json"
+            ]
           }
         ],
         "remaining": [
-          "Native secure-input/captured-log verification on iOS remains unavailable locally; source-only guard is not device runtime evidence."
+          "Ten finite iOS native methods still unexecuted; real synthetic input, secure keyboard/masked display and current-process stdout/stderr plus descriptor lifecycle/failure controls remain required. Physical/full OS log/concurrency/kernel-failure limitations remain separate."
         ],
         "compatibility": "Sample only; no library API change or secret persistence introduced."
       },

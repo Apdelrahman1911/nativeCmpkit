@@ -52,6 +52,10 @@ kotlin {
         implementation(libs.compose.ui.test)
     }
 
+    // Compile only the exact source-bound original input callbacks/descriptors in
+    // library iosTest. Never depend on the sample module or execute a sample app.
+    sourceSets.getByName("iosTest").kotlin.srcDir(rootProject.file("sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput"))
+
     sourceSets.desktopTest.dependencies {
         implementation(libs.compose.ui.test)
         implementation(compose.desktop.currentOs)

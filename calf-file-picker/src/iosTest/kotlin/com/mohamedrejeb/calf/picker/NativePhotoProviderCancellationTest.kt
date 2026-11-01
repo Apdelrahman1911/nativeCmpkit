@@ -118,11 +118,16 @@ class NativePhotoProviderCancellationTest {
             assertFalse(NSFileManager.defaultManager.fileExistsAtPath(pending.partialPath))
             assertTrue(NSFileManager.defaultManager.fileExistsAtPath(pending.sourcePath))
 
-            // Finish the actual registered native operation after cancellation. A real
-            // Foundation client callback acknowledgement, not elapsed silence, gates the check.
+            // The actual held registered producer completion is still ours. Foundation
+            // may already have acknowledged cancellation to its client; no callback order
+            // or NSError identity is required. Record the paired client state descriptively,
+            // then acknowledge the real producer invocation/normal return AND native client.
+            assertEquals(0, pending.heldCompletionIssued.value)
+            assertEquals(0, pending.heldCompletionReturned.value)
+            val clientBeforeHeldCompletion = pending.provider.clientCounts()
             pending.completeCancelledTransport()
             waitForNative { pending.provider.clientReturned.value == 1 &&
-                pending.provider.deliberateCancellationReturned.value == 1 }
+                pending.heldCompletionReturned.value == 1 }
             runOnIdle {
                 delegate.pickerProviders(picker, providers) // Captured old native delegate after disposal.
                 retained.launch() // A disposed public launcher must not revive the old owner.
@@ -136,8 +141,8 @@ class NativePhotoProviderCancellationTest {
             assertEquals(1, pending.cancelled.value)
             assertEquals(1, pending.provider.clientEntered.value)
             assertEquals(1, pending.provider.clientReturned.value)
-            assertEquals(1, pending.provider.deliberateCancellationEntered.value)
-            assertEquals(1, pending.provider.deliberateCancellationReturned.value)
+            assertEquals(1, pending.heldCompletionIssued.value)
+            assertEquals(1, pending.heldCompletionReturned.value)
             assertEquals(before, pickerDirectories())
             assertEquals(listOf(0, 0, 0),
                 ownedDescriptorCounts(pending.sourceIdentity, partialIdentity, stagedIdentity))
@@ -145,7 +150,7 @@ class NativePhotoProviderCancellationTest {
                 assertContentEquals(bytes, KmpFile(NSURL.fileURLWithPath(pending.sourcePath)).readByteArray())
             }
             assertEquals(listOf(0), ownedDescriptorCounts(pending.sourceIdentity))
-            println("NATIVECMPKIT_PROVIDER_CANCEL starts=2 childCancel=1 pendingClosed=2 stagingBaseline=true publicCallbacks=0 nativeReturns=2")
+            println("NATIVECMPKIT_PROVIDER_CANCEL starts=2 childCancel=1 pendingClosed=2 stagingBaseline=true publicCallbacks=0 nativeClientReturns=2 heldProducerReturns=1 clientBeforeHeldCompletion=" + clientBeforeHeldCompletion)
         } catch (error: Throwable) {
             primaryFailure = error
             throw error
@@ -174,12 +179,9 @@ private class WitnessedNativeItemProvider : NSItemProvider() {
     val loadRequests = AtomicInt(0)
     val clientEntered = AtomicInt(0)
     val clientReturned = AtomicInt(0)
-    val deliberateCancellationEntered = AtomicInt(0)
-    val deliberateCancellationReturned = AtomicInt(0)
     private val lock = NSLock()
     private var cleanupStarted = false
     private var actualProgress: NSProgress? = null
-    private var deliberateCancellationError: NSError? = null
     override fun loadFileRepresentationForTypeIdentifier(
         typeIdentifier: String, completionHandler: (NSURL?, NSError?) -> Unit,
     ): NSProgress {
@@ -188,33 +190,17 @@ private class WitnessedNativeItemProvider : NSItemProvider() {
             loadRequests.incrementOwned()
         }
         val progress = super.loadFileRepresentationForTypeIdentifier(typeIdentifier) { url, error ->
-            val matchedDeliberateCancellation = protect {
-                clientEntered.incrementOwned()
-                // The nonce-bearing error is retained and never sent to Foundation
-                // before the deliberate held completion. An earlier native cancel
-                // error (even after the zero gate) cannot satisfy this identity.
-                sameNativeObject(error, deliberateCancellationError).also { matched ->
-                    if (matched) deliberateCancellationEntered.incrementOwned()
-                }
-            }
+            protect { clientEntered.incrementOwned() }
             try { completionHandler(url, error) } finally {
-                protect {
-                    clientReturned.incrementOwned()
-                    if (matchedDeliberateCancellation) deliberateCancellationReturned.incrementOwned()
-                }
+                protect { clientReturned.incrementOwned() }
             }
         }
         protect { actualProgress = progress }
         return progress
     }
-    fun expectDeliberateCancellation(error: NSError) {
-        protect {
-            check(clientEntered.value == 0 && clientReturned.value == 0) {
-                "The native client callback preceded the deliberate held completion"
-            }
-            check(deliberateCancellationError == null) { "A held completion witness must not be armed twice" }
-            deliberateCancellationError = error
-        }
+    // A snapshot before the explicit producer call, not a causal/payload classification.
+    fun clientCounts(): List<Int> = protect {
+        listOf(clientEntered.value, clientReturned.value)
     }
     fun cancelForCleanup() {
         val progress = protect { cleanupStarted = true; actualProgress }
@@ -240,6 +226,8 @@ private class OwnedNativeProviderCopy(bytes: ByteArray, private val holdAfterFir
     val firstChunkCopied = AtomicInt(0)
     val cancelled = AtomicInt(0)
     val closedHandles = AtomicInt(0)
+    val heldCompletionIssued = AtomicInt(0)
+    val heldCompletionReturned = AtomicInt(0)
     private val lock = NSLock()
     private var failure: Throwable? = null
     private var cleanupStarted = false
@@ -323,14 +311,19 @@ private class OwnedNativeProviderCopy(bytes: ByteArray, private val holdAfterFir
 
     fun completeCancelledTransport() {
         check(cancelled.value == 1) { "Observe native child cancellation before completing its transport" }
+        check(closedHandles.value == 2) { "Observe both native producer handle closes before completing its transport" }
         check(!manager.fileExistsAtPath(partialPath))
-        // A fresh nonce-bearing NSError is not shared with native cancellation.
-        // Foundation must actually return this retained error identity; wrapping,
-        // suppression or a prior callback is a fixture refusal, not elapsed success.
-        val error = NSError(NSItemProviderErrorDomain, NSItemProviderItemUnavailableError,
-            mapOf("NativeCmpKitHeldCompletionNonce" to NSUUID().UUIDString))
-        provider.expectDeliberateCancellation(error)
-        resolve(null, error)
+        val handler = protect {
+            check(holdAfterFirstChunk && !cleanupStarted) { "Only the held live producer may acknowledge this completion" }
+            val pending = assertNotNull(completion)
+            check(heldCompletionIssued.compareAndSet(0, 1)) { "A held producer completion must not be issued twice" }
+            completion = null
+            pending
+        }
+        // This is the actual registered Foundation producer completion. Its normal
+        // return is not a client callback, a late URL, or an NSError-identity witness.
+        handler.invoke(null, false, cancellationError())
+        check(heldCompletionReturned.compareAndSet(0, 1)) { "A held producer completion must not return twice" }
     }
 
     private fun resolve(url: NSURL?, error: NSError?) {

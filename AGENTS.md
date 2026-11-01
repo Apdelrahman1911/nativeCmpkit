@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## iOS secure-input/C3 related preparation — 2026-11-01
+
+[Secure087](docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-preparation087/README.md)
+reuses21 important controls/43subtests; isolated genuine sample callbacks compiled
+in library iosTest, never a sample module/app substitute. Offline production KLIB
+passes before missing-dependency test failure1/55.01s; failed-test-only recovery
+0/46.01s,1139/1215held/JDK17.0.20+Gradle9.7.1, ZERO Apple/native. #99 open.
+[C3 owning090](docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/README.md)
+reuses5 controls/23refusals, retains native client AND registered producer return/
+public cancellation/descriptor/source/old-owner assertions without unsupported
+zero ordering/NSError identity. Three paths17fragments; one lead map AttributeError
+preserved/recovered only as bookkeeping. Shared18/18fresh15.979s/Actionlint and
+changed picker test KLIB0/32.01s pass,1139/1215held; ZERO Apple/native. #50 C3 next,
+C1/C2/C4/C5/C6 never replayed.93closed/79open; no security/release/publishing/
+Pages/main/history gate lifted. Lead integration/dispatch/closure,8GiB reserve,
+serial local heavy and maximum2combined hosted-heavy remain.
+
 ## Browser transitive guard repaired; missing-only native requests — 2026-11-01
 
 Actual41300259008/41300262642 at70173ef0 remain FAILED2013/2012/one stale

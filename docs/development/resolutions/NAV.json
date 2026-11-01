@@ -1565,10 +1565,16 @@
     "id": "NAV-012",
     "status": "implemented",
     "changes": [
-      "Removed secure/password and personal-name input logging from sample callbacks without removing secure field."
+      "Removed secure/password and personal-name input logging from sample callbacks without removing secure field.",
+      "2026-11-01: Bind unchanged original sample descriptors/no-input-log callbacks into a single isolated library iosTest source; no sample app/module execution and no public library API change."
     ],
     "affected_paths": [
-      "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt"
+      "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/screens/AlertDialogScreen.kt",
+      "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput/SampleAlertDialogInputFields.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeSecureAlertInputTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/OwnedNativeConsoleCapture.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/OwnedNativeConsoleCaptureTest.kt",
+      "scripts/ci/secure_alert_input_plan.py"
     ],
     "tests": [
       {
@@ -1577,10 +1583,18 @@
         "evidence": [
           "docs/development/evidence/navigation/sample-source-checks.log"
         ]
+      },
+      {
+        "command": "./gradlew :calf-ui:compileKotlinIosSimulatorArm64 :calf-ui:compileTestKotlinIosSimulatorArm64; failed-test-only ordinary-resolution recovery",
+        "result": "Production KLIB succeeds before offline test dependency failure1/55.01s; owning failed-test-task recovery succeeds0/46.01s with1139/1215 maps held. Independent21 important synthetic methods/43 subtests reused, plus18 newly affected shared methods pass. ZERO Apple link/native execution.",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/secure-alert-input-preparation087/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-provider-cancellation-owning090/SHARED-RESULT.json"
+        ]
       }
     ],
     "remaining": [
-      "Native secure-input/captured-log verification on iOS remains unavailable locally; source-only guard is not device runtime evidence."
+      "Ten finite iOS native methods still unexecuted; real synthetic input, secure keyboard/masked display and current-process stdout/stderr plus descriptor lifecycle/failure controls remain required. Physical/full OS log/concurrency/kernel-failure limitations remain separate."
     ],
     "compatibility": "Sample only; no library API change or secret persistence introduced."
   },

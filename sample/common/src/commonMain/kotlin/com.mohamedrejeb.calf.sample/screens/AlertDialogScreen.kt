@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.mohamedrejeb.calf.sample.alertinput.sampleAlertDialogInputFields
 import com.mohamedrejeb.calf.sample.components.SampleScreenScaffold
 import com.mohamedrejeb.calf.sample.currentPlatform
 import com.mohamedrejeb.calf.ui.button.AdaptiveButton
@@ -246,26 +247,7 @@ fun AlertDialogScreen(
                     }
                 ),
             ),
-            textFields = listOf(
-                AlertDialogIosTextField(
-                    placeholder = "Enter your name",
-                    initialValue = "John Doe",
-                    keyboardType = IosKeyboardType.EmailAddress,
-                    isSecure = false,
-                    onValueChange = {
-                        // Demonstration only: do not log or persist personal input.
-                    }
-                ),
-                AlertDialogIosTextField(
-                    placeholder = "Enter your password",
-                    keyboardType = IosKeyboardType.NumberPad,
-                    initialValue = "",
-                    isSecure = true,
-                    onValueChange = {
-                        // Secure input must never be written to logs or retained by this demo.
-                    }
-                ),
-            )
+            textFields = sampleAlertDialogInputFields()
         )
 
         if (showComplexDialog) {

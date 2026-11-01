@@ -33,6 +33,7 @@ import desktop_media_context
 import desktop_security_plan
 import picker_dialog_context
 import android_storage_compatibility_plan as storage_plan
+import secure_alert_input_plan as secure_alert
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -475,6 +476,15 @@ UI_APPLICATION_FOCUS_SPECS = {
 }
 
 
+UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {
+    "groups": (
+        {"classname": secure_alert.NATIVE_CLASS, "source": secure_alert.NATIVE, "methods": secure_alert.NATIVE_METHODS},
+        {"classname": secure_alert.CAPTURE_CLASS, "source": secure_alert.CONTROLS, "methods": secure_alert.CAPTURE_METHODS},
+    ),
+    "scope": "Ten exact library UIKit input/capture methods: four original unexecuted and six new console controls; original source-bound sample callbacks, genuine UIKeyInput/software-keyboard event and blurred hierarchy masking, bounded current-process stdout/stderr only; FD_CLOEXEC=1, stderr-overflow, reported-short-read and safe post-success cleanup refusals, not genuinely failed-syscall recovery or concurrent-thread proof. No sample app, OS/unified-log, physical-keytap/device, clipboard/storage, accepted-suite replay or release certification.",
+}
+
+
 def ui_application_focus_groups(focus: str) -> tuple[dict, ...]:
     spec = UI_APPLICATION_FOCUS_SPECS[focus]
     return spec["groups"] if "groups" in spec else (spec,)
@@ -803,7 +813,7 @@ UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_PROVIDER_CANCELLATION_FOCUS] = {
                 "source": IOS_PICKER_PROVIDER_CANCELLATION_SOURCE,
                 "methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS,
                 "declared_methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS},),
-    "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, one deliberate cancellation-error acknowledgement, actual descriptor/partial-copy/earlier-staging cleanup; post-extraction provider arrival is controlled through the installed delegate's shared owning guard, not nonempty Objective-C result extraction or actual Photos/cloud/cross-process/format-filter acceptance. Native direct error identity/propagation/wrapping/suppression remains observed or refused, never inferred. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
+    "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, real public/native child cancellation, actual descriptor/partial-copy/earlier-staging cleanup, and separately witnessed held registered producer completion invocation/normal return plus genuine native client callback entry/exit. The locked client snapshot before the explicit producer call is descriptive; no zero-callback order or NSError identity is required, and producer return never substitutes for the actual native client. Post-extraction provider arrival is controlled through the installed delegate's shared owning guard, not nonempty Objective-C result extraction or actual Photos/cloud/cross-process/format-filter acceptance. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
 }
 
 IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
@@ -1903,6 +1913,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             if files:
                 inputs.extend(path.relative_to(root).as_posix() for path in files)
                 source_sets.append(source_set)
+        if suite == "ios" and module == secure_alert.MODULE:
+            inputs.extend(secure_alert.external_test_sources(root))
         if inputs:
             # Actual AGP9.4.0/UTP run40434024680 writes TEST-*.xml in the public
             # getResultsDir tree. Its separately inspected getXmlResultsDirectory
@@ -1996,6 +2008,9 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             selected[0]["ios_webview_request_fixture"] = IOS_WEBVIEW_REQUEST_FIXTURE
             selected[0]["ios_webview_request_fixture_sha256"] = sha256(fixture)
             selected[0]["test_source_files"] = sorted(set((*selected[0]["test_source_files"], IOS_WEBVIEW_REQUEST_FIXTURE)))
+        if focus == secure_alert.FOCUS:
+            selected[0]["secure_alert_input_contract"] = secure_alert.source_contract(root)
+            secure_alert.validate_contract(selected[0]["secure_alert_input_contract"], selected[0]["test_source_files"])
         result["scope"] = spec["scope"]
     elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
         source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding="utf-8")
@@ -2600,6 +2615,8 @@ def validate_test_focus(test_plan: dict) -> bool:
     validate_android_permission_demo_plan(test_plan)
     validate_android_storage_probe_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
+    if focus != secure_alert.FOCUS and any("secure_alert_input_contract" in item for item in test_plan["expected"]):
+        raise ValueError("No secure-input source fixture on an unrelated or accepted focus")
     if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
         raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
     if focus is None:
@@ -2948,6 +2965,10 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite Android known-size/no-native-open plan")
         return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
+        if focus == secure_alert.FOCUS:
+            if len(expected) != 1:
+                raise ValueError("The new secure-input source fixture requires exactly one library module")
+            secure_alert.validate_contract(expected[0].get("secure_alert_input_contract"), expected[0].get("test_source_files", []))
         if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS) and (len(expected) != 1 or
                 expected[0].get("ios_webview_request_fixture") != IOS_WEBVIEW_REQUEST_FIXTURE or
                 not isinstance(expected[0].get("ios_webview_request_fixture_sha256"), str) or
@@ -3088,6 +3109,11 @@ def snapshot_inputs(root: Path) -> dict[str, str]:
     # sample source/tests are deliberately not substitutes for library execution.
     for path in safe_path(root, "sample").glob("*/build.gradle.kts"):
         inputs.add(safe_path(root, path.relative_to(root).as_posix()))
+    # Exception is only the one isolated iosTest helper plus its originating
+    # screen's provenance bytes. The screen is never an external compile input
+    # and sample applications/tests remain no substitute for library execution.
+    for relative in secure_alert.held_provenance_sources(root):
+        inputs.add(safe_path(root, relative))
     result = {}
     for path in sorted(inputs):
         before = path.stat()
@@ -3595,6 +3621,9 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Prepared storage row differs from the selected native method")
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
+    if test_plan.get("explicit_test_focus") == secure_alert.FOCUS:
+        if secure_alert.source_contract(root) != test_plan["expected"][0]["secure_alert_input_contract"]:
+            raise ValueError("Exact secure-input helper/native/origin/build source changed before the owning command")
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         focus = test_plan["explicit_test_focus"]
         desktop_security_plan.validate_host(platform.system(), platform.machine(), focus)

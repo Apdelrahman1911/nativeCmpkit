@@ -183,11 +183,11 @@ def require_provider_arrival_boundary(source, delegate_source, launcher_source):
     if len(arrivals) != 3 or method.count("pickerProviders") != 3 or method.count("delegate") != 5:
         raise ValueError("Only initial, duplicate and post-disposal arrivals through the installed delegate are allowed")
     boundaries = ("runOnIdle { included.value = false }", "pending.completeCancelledTransport()",
-                  "pending.provider.deliberateCancellationReturned.value == 1")
+                  "pending.heldCompletionReturned.value == 1")
     positions = [_kotlin_positions(method, fragment) for fragment in boundaries]
     if any(len(matches) != 1 for matches in positions) or not (
             arrivals[0] < arrivals[1] < positions[0][0] < positions[1][0] < positions[2][0] < arrivals[2]):
-        raise ValueError("Duplicate precedes public disposal; post-disposal arrival follows deliberate native return identity")
+        raise ValueError("Duplicate precedes public disposal; post-disposal arrival follows distinct producer and native client acknowledgements")
     forbidden = ("PHPickerResult", "OwnedProviderResult", "PhotoPickerDelegate", "IosDialogSession", "IosDialogOwner",
                  "finishProviderSources", "claimResult", "onPicked", "stageAndDeliver", "stagePickedUrls",
                  "loadFileRepresentationForTypeIdentifierSuspend", "createPHPickerViewController",
@@ -210,29 +210,68 @@ def require_provider_witnesses(source, *, delegate_source=None, launcher_source=
         (r.ROOT / PHOTO_DELEGATE_SOURCE).read_text() if delegate_source is None else delegate_source,
         (r.ROOT / PHOTO_LAUNCHER_SOURCE).read_text() if launcher_source is None else launcher_source,
     )
-    armed = body_after(source, "fun expectDeliberateCancellation(")
-    for token in ("protect {", "clientEntered.value == 0 && clientReturned.value == 0",
-                  "deliberateCancellationError == null", "deliberateCancellationError = error"):
-        if token not in armed:
-            raise ValueError("The native callback arm requires the locked zero/one-arm boundary")
-    forwarded = body_after(source, "override fun loadFileRepresentationForTypeIdentifier(")
-    steps = ("super.loadFileRepresentationForTypeIdentifier(typeIdentifier)",
-             "clientEntered.incrementOwned()", "sameNativeObject(error, deliberateCancellationError)",
-             "deliberateCancellationEntered.incrementOwned()", "completionHandler(url, error)",
-             "clientReturned.incrementOwned()", "deliberateCancellationReturned.incrementOwned()",
-             "actualProgress = progress", "return progress")
-    if any(token not in forwarded for token in steps) or (
-            [forwarded.index(token) for token in steps] != sorted(forwarded.index(token) for token in steps)):
-        raise ValueError("Forward the genuine progress/callback unchanged and correlate entry/return identity")
-    if forwarded.count("protect {") != 4 or "try { completionHandler(url, error) } finally {" not in forwarded:
-        raise ValueError("Callback witnesses must share the arm lock and forward outside that lock")
-    completed = body_after(source, "fun completeCancelledTransport(")
-    steps = ("cancelled.value == 1", "!manager.fileExistsAtPath(partialPath)",
-             'mapOf("NativeCmpKitHeldCompletionNonce" to NSUUID().UUIDString)',
-             "provider.expectDeliberateCancellation(error)", "resolve(null, error)")
-    if any(token not in completed for token in steps) or (
-            [completed.index(token) for token in steps] != sorted(completed.index(token) for token in steps)):
-        raise ValueError("Only a new retained native error disclosed by the deliberate completion acknowledges it")
+    tokens = _kotlin_tokens(source)
+    witness_signature = "private class WitnessedNativeItemProvider : NSItemProvider()"
+    expected_witness = """private class WitnessedNativeItemProvider : NSItemProvider() {
+    val loadRequests = AtomicInt(0)
+    val clientEntered = AtomicInt(0)
+    val clientReturned = AtomicInt(0)
+    private val lock = NSLock()
+    private var cleanupStarted = false
+    private var actualProgress: NSProgress? = null
+    override fun loadFileRepresentationForTypeIdentifier(
+        typeIdentifier: String, completionHandler: (NSURL?, NSError?) -> Unit,
+    ): NSProgress {
+        protect {
+            check(!cleanupStarted) { "A closed fixture must not begin another native request" }
+            loadRequests.incrementOwned()
+        }
+        val progress = super.loadFileRepresentationForTypeIdentifier(typeIdentifier) { url, error ->
+            protect { clientEntered.incrementOwned() }
+            try { completionHandler(url, error) } finally {
+                protect { clientReturned.incrementOwned() }
+            }
+        }
+        protect { actualProgress = progress }
+        return progress
+    }
+    // A snapshot before the explicit producer call, not a causal/payload classification.
+    fun clientCounts(): List<Int> = protect {
+        listOf(clientEntered.value, clientReturned.value)
+    }
+    fun cancelForCleanup() {
+        val progress = protect { cleanupStarted = true; actualProgress }
+        progress?.cancel()
+    }
+    private fun <T> protect(action: () -> T): T { lock.lock(); try { return action() } finally { lock.unlock() } }
+}"""
+    if (_kotlin_block(tokens, witness_signature) !=
+            _kotlin_block(_kotlin_tokens(expected_witness), witness_signature)):
+        raise ValueError("Require genuine super/progress/unchanged callback entry-exit and a locked descriptive client snapshot")
+    complete_signature = "fun completeCancelledTransport()"
+    expected_completion = """    fun completeCancelledTransport() {
+        check(cancelled.value == 1) { "Observe native child cancellation before completing its transport" }
+        check(closedHandles.value == 2) { "Observe both native producer handle closes before completing its transport" }
+        check(!manager.fileExistsAtPath(partialPath))
+        val handler = protect {
+            check(holdAfterFirstChunk && !cleanupStarted) { "Only the held live producer may acknowledge this completion" }
+            val pending = assertNotNull(completion)
+            check(heldCompletionIssued.compareAndSet(0, 1)) { "A held producer completion must not be issued twice" }
+            completion = null
+            pending
+        }
+        // This is the actual registered Foundation producer completion. Its normal
+        // return is not a client callback, a late URL, or an NSError-identity witness.
+        handler.invoke(null, false, cancellationError())
+        check(heldCompletionReturned.compareAndSet(0, 1)) { "A held producer completion must not return twice" }
+    }"""
+    if (_kotlin_block(tokens, complete_signature) !=
+            _kotlin_block(_kotlin_tokens(expected_completion), complete_signature)):
+        raise ValueError("Only the held real registered producer handler may be consumed once, invoked outside its lock, and acknowledge normal return")
+    for name, references in (("heldCompletionIssued", 4), ("heldCompletionReturned", 5)):
+        if (len(_kotlin_positions(tokens, "val " + name + " = AtomicInt(0)")) != 1 or
+                len(_kotlin_positions(tokens, name)) != references):
+            raise ValueError("Registered producer acknowledgements are initialized once and cannot be forged or supplied by native client counters")
     cancelled = body_after(source, "progress.cancellationHandler =")
     if ("cancelled.compareAndSet(0, 1)" not in cancelled or
             "protect { closeHandlesLocked(); removePartialLocked() }" not in cancelled):
@@ -241,11 +280,29 @@ def require_provider_witnesses(source, *, delegate_source=None, launcher_source=
     steps = ("delegate.pickerProviders(picker, providers)", "pending.firstChunkCopied.value == 1",
              "ownedDescriptorCounts(pending.sourceIdentity, partialIdentity)",
              "runOnIdle { included.value = false }", "pending.cancelled.value == 1 && pending.closedHandles.value == 2",
-             "pending.completeCancelledTransport()", "pending.provider.deliberateCancellationReturned.value == 1",
+             "assertEquals(0, pending.heldCompletionIssued.value)", "assertEquals(0, pending.heldCompletionReturned.value)",
+             "val clientBeforeHeldCompletion = pending.provider.clientCounts()", "pending.completeCancelledTransport()",
+             "pending.provider.clientReturned.value == 1 &&\n                pending.heldCompletionReturned.value == 1",
              "retained.launch()")
     if any(token not in method for token in steps) or (
             [method.index(token) for token in steps] != sorted(method.index(token) for token in steps)):
-        raise ValueError("Real in-flight native copy and public disposal/cleanup precede acknowledged late completion")
+        raise ValueError("Real in-flight native copy and public disposal/cleanup precede separate producer and actual native client acknowledgement")
+    method_tokens = _kotlin_block(tokens, "@Test fun " + r.IOS_PICKER_PROVIDER_CANCELLATION_METHODS[0] +
+                                  "() = runApplicationUiTest")
+    for fragment in (
+        "waitForNative { pending.provider.clientReturned.value == 1 && pending.heldCompletionReturned.value == 1 }",
+        "assertEquals(1, pending.provider.clientEntered.value)",
+        "assertEquals(1, pending.provider.clientReturned.value)",
+        "assertEquals(1, pending.heldCompletionIssued.value)",
+        "assertEquals(1, pending.heldCompletionReturned.value)",
+    ):
+        if len(_kotlin_positions(method_tokens, fragment)) != 1:
+            raise ValueError("Both actual native callback entry-exit and real registered producer normal return remain required")
+    for forbidden in ("pending.close()", "pending.provider.cancelForCleanup()",
+                      "first.close()", "first.provider.cancelForCleanup()",
+                      "pending.provider.clientEntered.value =", "pending.provider.clientReturned.value ="):
+        if _kotlin_positions(method_tokens, forbidden):
+            raise ValueError("Cleanup-only cancellation and manually supplied client counts are never C3 native evidence")
     required = ("val providers = listOf(first.provider, pending.provider)", "registerFileRepresentationForTypeIdentifier(",
                 "NSItemProviderRepresentationVisibilityOwnProcess", "progress.cancellationHandler =",
                 "progress.cancellable = true", "NSFileHandle.fileHandleForReadingAtPath(sourcePath)",
@@ -353,15 +410,17 @@ class IosPickerProviderCancellationFocusTests(unittest.TestCase):
     def test_source_retains_genuine_native_public_and_causal_acknowledgement_boundaries(self):
         require_provider_witnesses((r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text())
 
-    def test_earlier_generic_cancel_or_value_equal_error_cannot_acknowledge_deliberate_completion(self):
+    def test_native_client_and_registered_producer_acknowledgements_cannot_replace_each_other(self):
         source = (r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text()
-        mutations = (("clientEntered.value == 0 && clientReturned.value == 0", "clientReturned.value >= 0"),
-                     ("deliberateCancellationError == null", "true"),
-                     ("sameNativeObject(error, deliberateCancellationError)", "error == deliberateCancellationError"),
-                     ("provider.expectDeliberateCancellation(error)", "provider.expectDeliberateCancellation(cancellationError())"),
-                     ("resolve(null, error)", "resolve(null, cancellationError())"),
-                     ("pending.provider.deliberateCancellationReturned.value == 1", "pending.provider.clientReturned.value >= 0"))
+        require_provider_witnesses(source)  # One corrected-source positive; never native acceptance.
+        mutations = (("heldCompletionIssued.compareAndSet(0, 1)", "true"),
+                     ("heldCompletionReturned.compareAndSet(0, 1)", "provider.clientReturned.value == 1"),
+                     ("handler.invoke(null, false, cancellationError())", "Unit"),
+                     ("pending.heldCompletionReturned.value == 1", "pending.provider.clientReturned.value == 1"),
+                     ("val heldCompletionReturned = AtomicInt(0)", "val heldCompletionReturned = AtomicInt(1)"),
+                     ("assertEquals(1, pending.heldCompletionIssued.value)", "assertEquals(1, pending.provider.clientEntered.value)"))
         for before, after in mutations:
+            self.assertEqual(1, source.count(before))
             with self.subTest(removed=before), self.assertRaises(ValueError):
                 require_provider_witnesses(source.replace(before, after, 1))
 
@@ -521,6 +580,59 @@ class IosPickerProviderCancellationFocusTests(unittest.TestCase):
                                  "assertIs<PhotoPickerDelegate>(null)", 1)
         with self.assertRaises(ValueError):
             require_provider_arrival_boundary(missing, delegate, launcher)
+
+
+    def test_owned_registered_handler_remains_one_shot_and_is_invoked_outside_its_lock(self):
+        source = (r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text()
+        mutations = (
+            ("check(holdAfterFirstChunk && !cleanupStarted)", "check(holdAfterFirstChunk)"),
+            ("val pending = assertNotNull(completion)", "val pending: (NSURL?, Boolean, NSError?) -> Unit = { _, _, _ -> }"),
+            ("completion = null\n            pending", "pending"),
+            ("handler.invoke(null, false, cancellationError())", "protect { handler.invoke(null, false, cancellationError()) }"),
+            ("check(closedHandles.value == 2)", "check(true)"),
+        )
+        for before, after in mutations:
+            self.assertEqual(1, source.count(before))
+            with self.subTest(ownership_boundary=before), self.assertRaises(ValueError):
+                require_provider_witnesses(source.replace(before, after, 1))
+
+    def test_native_client_snapshot_is_locked_descriptive_and_not_a_zero_callback_arm(self):
+        source = (r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text()
+        mutations = (
+            ("fun clientCounts(): List<Int> = protect {", "fun clientCounts(): List<Int> = run {"),
+            ("listOf(clientEntered.value, clientReturned.value)", "listOf(0, 0)"),
+            ("listOf(clientEntered.value, clientReturned.value)",
+             "check(clientEntered.value == 0 && clientReturned.value == 0); listOf(clientEntered.value, clientReturned.value)"),
+            ("private var actualProgress: NSProgress? = null", "private var actualProgress: NSProgress? = null; private var deliberateCancellationError: NSError? = null"),
+        )
+        for before, after in mutations:
+            self.assertEqual(1, source.count(before))
+            with self.subTest(descriptive_not_gate=before), self.assertRaises(ValueError):
+                require_provider_witnesses(source.replace(before, after, 1))
+
+    def test_both_distinct_acknowledgements_gate_captured_delegate_and_disposed_launcher_checks(self):
+        source = (r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text()
+        wait = "waitForNative { pending.provider.clientReturned.value == 1 &&\n                pending.heldCompletionReturned.value == 1 }"
+        mutations = (
+            (wait, "waitForNative { pending.heldCompletionReturned.value == 1 }"),
+            (wait, "waitForNative { pending.provider.clientReturned.value == 1 }"),
+            ("assertEquals(1, pending.provider.clientReturned.value)", "assertEquals(1, pending.heldCompletionReturned.value)"),
+            ("pending.completeCancelledTransport()\n            " + wait,
+             wait + "\n            pending.completeCancelledTransport()"),
+        )
+        for before, after in mutations:
+            self.assertEqual(1, source.count(before))
+            with self.subTest(distinct_acknowledgement=before), self.assertRaises(ValueError):
+                require_provider_witnesses(source.replace(before, after, 1))
+
+    def test_cleanup_or_manual_client_counts_cannot_supply_public_native_cancellation_evidence(self):
+        source = (r.ROOT / r.IOS_PICKER_PROVIDER_CANCELLATION_SOURCE).read_text()
+        insertion = "            runOnIdle { included.value = false }"
+        self.assertEqual(1, source.count(insertion))
+        for forged in ("pending.close()", "pending.provider.cancelForCleanup()",
+                       "pending.provider.clientEntered.value = 1", "pending.provider.clientReturned.value = 1"):
+            with self.subTest(forged_native=forged), self.assertRaises(ValueError):
+                require_provider_witnesses(source.replace(insertion, "            " + forged + "\n" + insertion, 1))
 
 
 if __name__ == "__main__":

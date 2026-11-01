@@ -1,0 +1,22 @@
+{
+  "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk-amd64",
+  "accepted_tests_replayed": false,
+  "argv": [
+    "./gradlew",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64"
+  ],
+  "kind": "only failed UI test KLIB compiler with ordinary dependency resolution; no native/Apple link",
+  "observed_utc": "2026-11-01T11:22:30.033516+00:00",
+  "prior_failure": "missing offline ui-test-iossimulatorarm64:1.12.0",
+  "production_compile_pass_reused": true
+}

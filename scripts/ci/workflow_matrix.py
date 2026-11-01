@@ -123,6 +123,7 @@ PROFILES = {
     "apple": ("desktop-macos-arm64", "ios-iphone"),
     "ios": ("ios-iphone",),
     "ios-ui": ("ios-iphone",),
+    "ios-secure-alert-input": ("ios-iphone",),
     "ios-date-bounds": ("ios-iphone",),
     "ios-date-replacement": ("ios-iphone",),
     "ios-date-compact": ("ios-iphone",),
@@ -230,6 +231,7 @@ MODULE_SUBSETS = {
     "ios-webview-request-state": "calf-webview",
     "ios-webview-provisional-dns": "calf-webview",
     "ios-webview-request-dns": "calf-webview",
+    "ios-secure-alert-input": "calf-ui",
     "ios-image-memory-darwin": "calf-ui",
     "ios-image-profile-recovery": "calf-ui",
     # Public Compose/DOM picker lifetime only; no replay of unchanged IO/other suites.
@@ -516,6 +518,9 @@ def matrix(profile: str) -> dict:
     if profile == "permissions-completion-android":
         for row in rows:
             row["test-focus"] = "permission-android-completion"
+    if profile == "ios-secure-alert-input":
+        for row in rows:
+            row["test-focus"] = "ios-native-secure-alert-input"
     if profile == "ios-date-bounds":
         for row in rows:
             row["test-focus"] = "ui-native-date-bounds"

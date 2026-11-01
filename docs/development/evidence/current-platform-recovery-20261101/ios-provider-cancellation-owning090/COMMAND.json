@@ -1,0 +1,21 @@
+{
+  "JAVA_HOME": "/usr/lib/jvm/java-17-openjdk-amd64",
+  "accepted_cases_replayed": false,
+  "argv": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--no-parallel",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-file-picker:compileTestKotlinIosSimulatorArm64"
+  ],
+  "kind": "changed picker test KLIB only, no native or Apple link",
+  "observed_utc": "2026-11-01T11:32:41.526361+00:00"
+}

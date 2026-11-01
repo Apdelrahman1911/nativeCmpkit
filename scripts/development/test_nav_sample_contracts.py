@@ -12,9 +12,12 @@ ANDROID = "{http://schemas.android.com/apk/res/android}"
 class NavSampleContractTest(unittest.TestCase):
     def test_secure_dialog_demo_has_no_input_logging(self):
         text = (SCREENS / "AlertDialogScreen.kt").read_text()
-        self.assertIn("isSecure = true", text)
-        self.assertNotRegex(text, r"\b(?:println|print)\s*\(|\bLog\.[diewv]\s*\(|\blogger\.")
-        self.assertIn("Secure input must never", text)
+        helper = (ROOT / "sample/common/src/commonMain/kotlin/com.mohamedrejeb.calf.sample/alertinput/SampleAlertDialogInputFields.kt").read_text()
+        self.assertIn("textFields = sampleAlertDialogInputFields()", text)
+        self.assertIn("import com.mohamedrejeb.calf.sample.alertinput.sampleAlertDialogInputFields", text)
+        self.assertIn("isSecure = true", helper)
+        self.assertNotRegex(text + "\n" + helper, r"\b(?:println|print)\s*\(|\bLog\.[diewv]\s*\(|\blogger\.")
+        self.assertIn("Secure input must never", helper)
 
     def test_showcase_does_not_claim_clipboard_or_share_side_effect(self):
         text = (SCREENS / "ShowcaseScreen.kt").read_text()

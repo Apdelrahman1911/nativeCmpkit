@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual Apple tooling refusal / UTC guard recovered — 2026-11-01
+
+[41258633262](docs/development/evidence/apple-appinfo-tooling-rendering-20261101/actual004/REVIEW.md)
+at e9162681 FAILED in tooling:1366/1366CI,230/231consumer, ZERO SDK/help/native/artifacts.
+Canonical fixed raw commit/parent/time/offset agrees with unchanged legal trace;
+Git2.56's terminalZ differs only in rendering from retained+00:00. [One owning
+guard repair](docs/development/evidence/apple-appinfo-tooling-rendering-20261101/README.md)
+normalizes only those two terminal UTC spellings; all original trust assertions
+retained, notices/trace/25producer inputs unchanged. One modeled red/green and
+ten new source-owning green guards reused by exact bytes; root actual Git2.43
+original guard1/1/1.208s. No accepted230/1366 replay, Apple syntax/profile inference
+or #141 closure. Recover unchanged help-only request; all parallel/serial-local/
+8GiB/max2heavy/publishing/Pages/main/history/security/readiness gates stay.
+
 ## Verified attribution closure / actual platform subsets — 2026-11-01
 
 **#103/NAV-018 CLOSED/completed**, after all four literal original criteria,

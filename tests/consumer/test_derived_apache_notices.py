@@ -8,6 +8,7 @@ identity only during fixture construction. UI uses the unchanged real identity.
 """
 from __future__ import annotations
 
+import ast
 import hashlib
 import io
 import json
@@ -155,6 +156,11 @@ class DerivedApacheSourceTest(unittest.TestCase):
             COMMON_SLIDER_ADDITION).decode().rstrip("\n").split("\0")
         self.assertEqual(COMMON_SLIDER_ADDITION, metadata[0])
         self.assertEqual(COMMON_SLIDER_PARENT, metadata[5])
+        # Git 2.56 renders UTC as Z; the retained trace uses equivalent +00:00.
+        # Normalize only this terminal spelling, never dates, offsets or names.
+        for index in (2, 4):
+            if metadata[index].endswith("Z"):
+                metadata[index] = metadata[index][:-1] + "+00:00"
         self.assertEqual({"name": metadata[1], "timestamp": metadata[2]}, transition["author"])
         self.assertEqual({"name": metadata[3], "timestamp": metadata[4]}, transition["committer"])
         self.assertEqual(metadata[6], transition["subject"])
@@ -183,6 +189,118 @@ class DerivedApacheSourceTest(unittest.TestCase):
                 self.assertNotEqual(0, refused.returncode)
                 self.assertEqual(git_bytes("rev-parse", commit + ":" + introduced_path).decode().strip(),
                     record["introduced_source"]["git_blob_oid"])
+
+
+class DerivedApacheTimestampRenderingTest(unittest.TestCase):
+    """Source-owning rendering models; no Git, fixtures, or legal edits."""
+
+    AUTHOR_TIME = "2026-01-02T03:04:05+00:00"
+    COMMITTER_TIME = "2026-01-02T04:05:06+00:00"
+
+    def _metadata(self):
+        return [COMMON_SLIDER_ADDITION, "Synthetic author", self.AUTHOR_TIME,
+                "Synthetic committer", self.COMMITTER_TIME,
+                COMMON_SLIDER_PARENT, "Synthetic transition"]
+
+    def _guard(self, metadata):
+        # Execute the actual owning transition assertions, not a second parser.
+        tree = ast.parse(Path(__file__).read_text(encoding="utf-8"))
+        owning_class = next(node for node in tree.body
+                            if isinstance(node, ast.ClassDef) and
+                            node.name == "DerivedApacheSourceTest")
+        owning_method = next(node for node in owning_class.body
+                             if isinstance(node, ast.FunctionDef) and
+                             node.name == "test_introduction_trace_matches_retained_added_paths_blobs_and_authors")
+        starts = [index for index, node in enumerate(owning_method.body)
+                  if isinstance(node, ast.Assign) and len(node.targets) == 1 and
+                  isinstance(node.targets[0], ast.Name) and node.targets[0].id == "metadata"]
+        self.assertEqual(1, len(starts))
+        start = starts[0] + 1
+        stop = next(index for index, node in enumerate(owning_method.body)
+                    if index >= start and isinstance(node, ast.For) and
+                    isinstance(node.target, ast.Tuple) and
+                    [item.id for item in node.target.elts] == ["revision", "path", "facts"])
+        transition = {"author": {"name": "Synthetic author", "timestamp": self.AUTHOR_TIME},
+                      "committer": {"name": "Synthetic committer", "timestamp": self.COMMITTER_TIME},
+                      "subject": "Synthetic transition"}
+        fragment = ast.Module(body=owning_method.body[start:stop], type_ignores=[])
+        namespace = {"self": self, "metadata": list(metadata), "transition": transition,
+                     "COMMON_SLIDER_ADDITION": COMMON_SLIDER_ADDITION,
+                     "COMMON_SLIDER_PARENT": COMMON_SLIDER_PARENT}
+        with mock.patch.object(subprocess, "run", side_effect=AssertionError("No Git in rendering models")):
+            exec(compile(fragment, __file__, "exec"), namespace)
+
+    def test_git256_terminal_z_matches_existing_trace_positive_zero(self):
+        metadata = self._metadata()
+        metadata[2] = self.AUTHOR_TIME[:-6] + "Z"
+        metadata[4] = self.COMMITTER_TIME[:-6] + "Z"
+        self._guard(metadata)
+
+    def test_legacy_positive_zero_rendering_is_unchanged(self):
+        self._guard(self._metadata())
+
+    def test_changed_author_instant_is_refused(self):
+        metadata = self._metadata()
+        metadata[2] = "2026-01-02T03:04:06Z"
+        with self.assertRaises(AssertionError):
+            self._guard(metadata)
+
+    def test_changed_committer_instant_is_refused(self):
+        metadata = self._metadata()
+        metadata[4] = "2026-01-02T04:05:07Z"
+        with self.assertRaises(AssertionError):
+            self._guard(metadata)
+
+    def test_changed_offsets_are_refused_even_at_same_instant(self):
+        for index, timestamp in ((2, "2026-01-02T04:04:05+01:00"),
+                                 (4, "2026-01-02T05:05:06+01:00")):
+            with self.subTest(index=index):
+                metadata = self._metadata()
+                metadata[index] = timestamp
+                with self.assertRaises(AssertionError):
+                    self._guard(metadata)
+
+    def test_nonterminal_or_malformed_z_is_refused(self):
+        for index in (2, 4):
+            for timestamp in ("2026-01-02T03:04:05Zsuffix",
+                              "2026-01-02T03:04:05Z+00:00",
+                              "2026-01-02T03:04:05+00:00Z",
+                              "2026-01-02T03:04:05z",
+                              "not-a-timestampZ"):
+                with self.subTest(index=index, spelling=timestamp):
+                    metadata = self._metadata()
+                    metadata[index] = timestamp
+                    with self.assertRaises(AssertionError):
+                        self._guard(metadata)
+
+    def test_changed_author_name_is_refused(self):
+        metadata = self._metadata()
+        metadata[1] = "Changed synthetic author"
+        with self.assertRaises(AssertionError):
+            self._guard(metadata)
+
+    def test_changed_committer_name_is_refused(self):
+        metadata = self._metadata()
+        metadata[3] = "Changed synthetic committer"
+        with self.assertRaises(AssertionError):
+            self._guard(metadata)
+
+    def test_negative_zero_offset_is_not_added_as_an_unobserved_alias(self):
+        for index in (2, 4):
+            with self.subTest(index=index):
+                metadata = self._metadata()
+                metadata[index] = metadata[index][:-6] + "-00:00"
+                with self.assertRaises(AssertionError):
+                    self._guard(metadata)
+
+    def test_fixed_revision_parent_subject_assertions_still_refuse_changes(self):
+        for index, value in ((0, "0" * 40), (5, "0" * 40),
+                             (6, "Changed synthetic transition")):
+            with self.subTest(index=index):
+                metadata = self._metadata()
+                metadata[index] = value
+                with self.assertRaises(AssertionError):
+                    self._guard(metadata)
 
 
 class DerivedApacheArtifactTest(unittest.TestCase):

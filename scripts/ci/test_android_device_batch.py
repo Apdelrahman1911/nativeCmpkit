@@ -25,7 +25,8 @@ INPUTS = {"synthetic-source-input": "2" * 64}
 class AndroidDeviceBatchTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.plans = {name: batch.plan(ROOT, name) for name in fixed.BATCHES}
+        cls.plans = {name: batch.plan(ROOT, name) for name in (
+            "android-io-permission-storage-api35", "android-permission-storage-compatibility")}
 
     def test_exact_twelve_routes_and_sixteen_target_executions_thirteen_original_methods(self):
         expected = {
@@ -68,7 +69,7 @@ class AndroidDeviceBatchTests(unittest.TestCase):
     def test_readonly_real_batch_cli_plans_never_create_outputs_or_run_native_work(self):
         output = ROOT / "build"
         before = sorted(output.rglob("*")) if output.exists() else []
-        for name in fixed.BATCHES:
+        for name in self.plans:
             result = subprocess.run([sys.executable, "-B", str(ROOT / "scripts/ci/android_device_batch.py"),
                 "plan", "--batch", name], cwd=ROOT, capture_output=True, text=True, timeout=30)
             self.assertEqual(0, result.returncode, result.stderr)
@@ -312,6 +313,208 @@ class AndroidDeviceBatchTests(unittest.TestCase):
                 batch.run(root, name, "build/ci-verification/new")
             self.assertEqual("synthetic foreign owner\n", lock.read_text())
             execute.assert_not_called()
+
+    def generated_agp_archive_model(self, root, route, *, report_name=None, failed=False):
+        """Synthetic bytes only; model the native AGP filename, never recover actual XML."""
+        relative = "build/ci-verification/generated/routes/" + route["profile"]
+        self.synthetic_route(root, relative, route, failed=failed)
+        output = root / relative
+        plan = json.loads((output / "plan.json").read_text())
+        release = {28: "9", 29: "10", 30: "11", 33: "13", 34: "14", 35: "15"}[route["api_level"]]
+        boot = {"api_level": str(route["api_level"]), "serial": plan["serial"],
+            "boot_completed": "1", "selinux": "Enforcing", "release": release}
+        (output / "boot.json").write_text(json.dumps(boot))
+        receipt_path = output / "library/receipt.json"
+        receipt = json.loads(receipt_path.read_text())
+        row, = receipt["modules"][0]["reports"]
+        original = root / row["path"]
+        body = original.read_bytes()
+        name = report_name or f"TEST-{plan['avd_name']}(AVD) - {release}.xml"
+        report = original.with_name(name)
+        original.rename(report)
+        row["path"] = report.relative_to(root).as_posix()
+        receipt_path.write_text(json.dumps(receipt))
+        return relative, report, body, receipt, json.loads((output / "controller.json").read_text())
+
+    def test_generated_owned_agp_names_archive_exact_synthetic_bytes_for_all_fixed_routes(self):
+        for route in (route for selection in self.plans.values() for route in selection["routes"]):
+            with self.subTest(profile=route["profile"]), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                relative, report, body, receipt, controller = self.generated_agp_archive_model(root, route)
+                with patch.object(lt, "snapshot_inputs", return_value=INPUTS):
+                    result = batch.archive_route(root, relative, route, INPUTS, REVISION, controller)
+                archived, = result["original_reports"]
+                self.assertEqual(report.relative_to(root).as_posix(), archived["original_path"])
+                self.assertEqual(body, report.read_bytes())
+                self.assertEqual(body, (root / archived["archived_path"]).read_bytes())
+                self.assertEqual(hashlib.sha256(body).hexdigest(), archived["sha256"])
+                self.assertEqual(receipt["totals"], result["actual_totals"])
+                self.assertTrue(result["original_XML_execution_count_complete"])
+                self.assertFalse(result["native_success_inferred_from_archival"])
+
+    def test_generated_agp_name_spoofing_is_not_a_broad_parenthesis_or_space_exception(self):
+        route = next(iter(self.plans.values()))["routes"][0]
+        names = ("TEST-foreign(AVD) - 15.xml", "TEST-nativecmpkit-api35-000000000000(AVD) - 15.xml",
+            "TEST-nativecmpkit-api35-.*(AVD) - 15.xml", "TEST-owned(AVD) - 15.xml",
+            "TEST-owned(AVD) - 15.xml.extra", "TEST-owned(AVD) - 15\n.xml",
+            "TEST-owned (AVD) - 15.xml", "TEST-owned(AVD)  - 15.xml")
+        for name in names:
+            with self.subTest(name=name), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                relative, _, _, _, controller = self.generated_agp_archive_model(root, route, report_name=name)
+                with patch.object(lt, "snapshot_inputs", return_value=INPUTS), self.assertRaises(ValueError):
+                    batch.archive_route(root, relative, route, INPUTS, REVISION, controller)
+                self.assertFalse((root / relative / "fresh-reports").exists())
+
+    def test_generated_agp_names_require_exact_owned_plan_and_actual_boot_identity(self):
+        route = next(iter(self.plans.values()))["routes"][0]
+        changes = (("plan.json", "source_revision", "0" * 40), ("plan.json", "api_level", "35"),
+            ("plan.json", "api_level", True), ("plan.json", "serial", "emulator-5590"),
+            ("plan.json", "avd_name", "nativecmpkit-api35-000000000000"),
+            ("plan.json", "avd_name", "nativecmpkit-api35-.*"), ("plan.json", "avd_name", None),
+            ("boot.json", "api_level", "34"), ("boot.json", "serial", "emulator-5590"),
+            ("boot.json", "boot_completed", "0"), ("boot.json", "selinux", "Permissive"),
+            ("boot.json", "release", "14"), ("boot.json", "release", "15.*"),
+            ("boot.json", "release", "15/../15"), ("boot.json", "release", None))
+        for filename, key, value in changes:
+            with self.subTest(filename=filename, key=key, value=value), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                relative, _, _, _, controller = self.generated_agp_archive_model(root, route)
+                path = root / relative / filename
+                document = json.loads(path.read_text())
+                document[key] = value
+                path.write_text(json.dumps(document))
+                with patch.object(lt, "snapshot_inputs", return_value=INPUTS), self.assertRaises(ValueError):
+                    batch.archive_route(root, relative, route, INPUTS, REVISION, controller)
+                self.assertFalse((root / relative / "fresh-reports").exists())
+
+    def test_generated_agp_spelling_preserves_hash_freshness_confinement_and_failed_outcomes(self):
+        route = next(iter(self.plans.values()))["routes"][0]
+        for cause in ("hash", "stale", "marker", "foreign", "symlink", "hardlink", "changed-input", "failed"):
+            with self.subTest(cause=cause), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                relative, report, body, receipt, controller = self.generated_agp_archive_model(root, route, failed=cause == "failed")
+                row, = receipt["modules"][0]["reports"]
+                if cause == "hash":
+                    row["sha256"] = "0" * 64
+                elif cause == "stale":
+                    receipt["started_at_utc"] = "2027-01-01T00:00:00+00:00"
+                    receipt["finished_at_utc"] = "2027-01-01T00:00:01+00:00"
+                elif cause == "marker":
+                    receipt["task_execution_markers"][route["source_suite"]["expected"][0]["task"]] = 0
+                elif cause == "foreign":
+                    row["path"] = "build/old/" + report.name
+                elif cause == "symlink":
+                    original = report.with_name("retained-original.xml")
+                    report.rename(original)
+                    report.symlink_to(original)
+                elif cause == "hardlink":
+                    __import__("os").link(report, report.with_name("shared-original.xml"))
+                elif cause == "changed-input":
+                    receipt["changed_inputs"] = ["synthetic-source-input"]
+                (root / relative / "library/receipt.json").write_text(json.dumps(receipt))
+                with patch.object(lt, "snapshot_inputs", return_value=INPUTS):
+                    if cause != "failed":
+                        with self.assertRaises(ValueError):
+                            batch.archive_route(root, relative, route, INPUTS, REVISION, controller)
+                        self.assertFalse((root / relative / "fresh-reports").exists())
+                    else:
+                        result = batch.archive_route(root, relative, route, INPUTS, REVISION, controller)
+                        self.assertEqual(1, result["actual_totals"]["failures"])
+                        self.assertTrue(result["original_result_preserved"])
+                        self.assertFalse(result["native_success_inferred_from_archival"])
+                        self.assertEqual(body, (root / result["original_reports"][0]["archived_path"]).read_bytes())
+
+
+    def test_failed_child_origin_is_retained_before_missing_controller_without_laundering_failure(self):
+        selection = next(iter(self.plans.values()))
+        name = selection["batch"]
+        marker = "NATIVECMPKIT_ANDROID_PREFLIGHT_ORIGIN "
+        origin = {"source": "android_device_tests.py", "symbol": "validate_api_selection",
+            "line": batch.device.validate_api_selection.__code__.co_firstlineno}
+        for exit_code in (2, 0, True, None):
+            with self.subTest(exit_code=exit_code), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                public_source = root / "scripts/ci/android_device_tests.py"
+                public_source.parent.mkdir(parents=True)
+                public_source.write_bytes((ROOT / "scripts/ci/android_device_tests.py").read_bytes())
+                events = []
+                def execute(_, command, log, timeout, reserve_mib):
+                    events.append(command)
+                    log.write_text("PRIVATE_CHILD_BODY /private/path NEVER EXPORT\n" + marker + json.dumps(origin) + "\n")
+                    return {"exit_code": exit_code, "elapsed_seconds": 0.01}
+                with patch.object(batch, "plan", return_value=copy.deepcopy(selection)), \
+                        patch.object(batch, "control_inputs", return_value={"synthetic-workflow": "3" * 64}), \
+                        patch.object(lt, "snapshot_inputs", return_value=INPUTS), \
+                        patch.object(lt, "git_revision", return_value=REVISION), patch.object(lt, "execute", side_effect=execute):
+                    result = batch.run(root, name, "build/ci-verification/failed-child")
+                self.assertEqual(1, len(events))
+                self.assertFalse(result["passed"])
+                first, = result["routes"]
+                self.assertEqual("FileNotFoundError", first["adapter_error"])
+                self.assertEqual(3, len(result["refused_profiles"]))
+                self.assertEqual(0, result["actual_target_executions"])
+                if type(exit_code) is int and exit_code != 0:
+                    diagnostic = first["failed_child_origin"]
+                    self.assertEqual("retained", diagnostic["status"])
+                    self.assertEqual(origin, diagnostic["origin"])
+                    self.assertFalse(diagnostic["raw_log_uploaded"])
+                    self.assertFalse(diagnostic["native_success_inferred"])
+                else:
+                    self.assertNotIn("failed_child_origin", first)
+                self.assertNotIn("PRIVATE_CHILD_BODY", json.dumps(result))
+                self.assertNotIn("/private/path", json.dumps(result))
+
+    def test_failed_child_origin_rejects_duplicates_foreign_paths_malformed_types_and_unbounded_logs(self):
+        marker = "NATIVECMPKIT_ANDROID_PREFLIGHT_ORIGIN "
+        origin = {"source": "android_device_tests.py", "symbol": "validate_api_selection",
+            "line": batch.device.validate_api_selection.__code__.co_firstlineno}
+        valid = marker + json.dumps(origin) + "\n"
+        invalid = [valid + valid, "prefix " + valid, marker.rstrip() + ":" + json.dumps(origin),
+            marker + "not JSON\n", marker + "[]\n", marker + '{"source":"android_device_tests.py","source":"android_device_tests.py","symbol":"validate_api_selection","line":1}\n',
+            "x" * (64 * 1024) + "\n" + valid, marker + " " * 513 + json.dumps(origin)]
+        for key, value in (("source", "foreign.py"), ("source", "/private/android_device_tests.py"),
+            ("source", "../android_device_tests.py"), ("source", ["android_device_tests.py"]),
+            ("symbol", "PRIVATE_TOKEN_NEVER_EXPORT"), ("symbol", "/private/path"),
+            ("symbol", "validate_api_selection\nPRIVATE_BODY"), ("line", True), ("line", 0),
+            ("line", -1), ("line", 20000), ("line", "1"), ("line", float("nan")),
+            ("body", "PRIVATE_CHILD_BODY")):
+            changed = {**origin, key: value}
+            invalid.append(marker + json.dumps(changed) + "\n")
+        for index, payload in enumerate(invalid):
+            with self.subTest(index=index), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                source = root / "scripts/ci/android_device_tests.py"
+                source.parent.mkdir(parents=True)
+                source.write_bytes((ROOT / "scripts/ci/android_device_tests.py").read_bytes())
+                log = root / "child.log"
+                log.write_text(payload)
+                result = batch.failed_child_origin(root, "child.log")
+                self.assertEqual("refused", result["status"])
+                self.assertNotIn("origin", result)
+                self.assertNotIn("PRIVATE_", json.dumps(result))
+                self.assertNotIn("/private", json.dumps(result))
+        for cause in ("symlink", "hardlink", "traversal", "missing", "unavailable"):
+            with self.subTest(cause=cause), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                log = root / "child.log"
+                log.write_text(valid)
+                relative = "child.log"
+                if cause == "symlink":
+                    log.rename(root / "retained.log")
+                    log.symlink_to(root / "retained.log")
+                elif cause == "hardlink":
+                    __import__("os").link(log, root / "shared.log")
+                elif cause == "traversal":
+                    relative = "../child.log"
+                elif cause == "missing":
+                    log.unlink()
+                elif cause == "unavailable":
+                    log.write_text(marker + json.dumps({"source": "unavailable", "symbol": "unavailable", "line": 0}) + "\n")
+                result = batch.failed_child_origin(root, relative)
+                self.assertEqual("unavailable" if cause in ("missing", "unavailable") else "refused", result["status"])
+                self.assertNotIn("origin", result)
+
 
     def test_workflow_routes_batches_through_fixed_adapter_with_bounded_json_xml_uploads(self):
         source = (ROOT / ".github/workflows/gradle.yml").read_text()

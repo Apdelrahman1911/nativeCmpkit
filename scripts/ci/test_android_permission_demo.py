@@ -1,8 +1,11 @@
 """Important synthetic/source permission-fixture guards. ZERO real APK builds or native results."""
 from collections import Counter
+from contextlib import contextmanager
 from copy import deepcopy
+import hashlib
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 import time
 import unittest
@@ -207,6 +210,177 @@ class AndroidPermissionDemoGuardTest(unittest.TestCase):
             # A missing/split/foreign report can contain individually passing
             # modeled cases while the exact-inventory gate still refuses it.
             self.assertTrue(result["errors"])
+
+
+class AndroidPermissionDemoInstallerReplyTest(unittest.TestCase):
+    """New owning parser/prepare models only; every SDK/build/device call is mocked."""
+    UNKNOWN_STDOUTS = (
+        b"", b"Failure [modeled]\nSuccess\n", b"Unknown installer mode\nSuccess\n",
+        b"Success\nSuccess\n", b"Success\nextra\n", b" Success\n", b"Success \n",
+        b"\nSuccess\n", b"Success\n\n", b"SUCCESS\n", b"\xff\nSuccess\n",
+        b"Performing streamed Install\nSuccess\n", b"Performing Streamed Install \nSuccess\n",
+        b"Performing Streamed Install\n Success\n", b"Performing Streamed Install\nSuccess\x00\n",
+        b"Performing Streamed Install\nSuccess\nextra\n",
+    )
+
+    @classmethod
+    def setUpClass(cls):
+        cls.contract = demo.source_contract(ROOT)
+
+    @contextmanager
+    def modeled_owner(self, stdout=b"Success\n", stderr=b"", exit_code=0):
+        with tempfile.TemporaryDirectory(prefix="permission-installer-model-") as directory:
+            root = Path(directory)
+            output = root / "build/ci-verification/modeled-permission"
+            output.mkdir(parents=True)
+            owner = demo.OwnedPermissionDemo(root, output, root / "modeled-sdk", "emulator-5588", lambda: True,
+                environment={"ANDROID_SERIAL": "emulator-5588", "ANDROID_USER_HOME": str(output / "android-user")},
+                api_level=33)
+            apk = root / "synthetic-not-an-APK.txt"
+            apk.write_bytes(b"Modeled APK identity bytes only; not a compiled application.\n")
+            installed = {"apk_sha256": lt.sha256(apk), "exact_one_APK_path_observed": True}
+            owner.inspectors = Mock()
+            owner.inspect_apk = Mock(return_value=deepcopy(prepared(self.contract, 33)["apk_policy"]))
+            owner.readback = Mock(side_effect=[None, installed])
+            owner.control = Mock(return_value=subprocess.CompletedProcess(["modeled-installer"], exit_code, stdout, stderr))
+            with patch.object(demo, "source_contract", return_value=deepcopy(self.contract)) as source, \
+                    patch.object(demo, "metadata_apk", return_value=apk), \
+                    patch.object(demo.lt, "execute", return_value={"exit_code": 0, "elapsed_seconds": 0.01}) as assembly:
+                yield owner, apk, installed, source, assembly
+
+    def test_exact_official_reply_facts_preserve_original_line_endings_without_raw_output(self):
+        for stdout, shape in ((b"Success", "success"), (b"Success\n", "success"),
+            (b"Success\r\n", "success"), (b"Performing Streamed Install\nSuccess", "streamed-success"),
+            (b"Performing Streamed Install\nSuccess\n", "streamed-success"),
+            (b"Performing Streamed Install\r\nSuccess\r\n", "streamed-success")):
+            result = subprocess.CompletedProcess(["modeled-installer"], 0, stdout, b"")
+            with self.subTest(stdout=stdout):
+                facts = demo.installer_reply_facts(result)
+                self.assertEqual(shape, facts["stdout_shape"])
+                self.assertEqual(len(stdout), facts["stdout_bytes"])
+                self.assertEqual(hashlib.sha256(stdout).hexdigest(), facts["stdout_sha256"])
+                self.assertEqual(0, facts["stderr_bytes"])
+                self.assertTrue(facts["stderr_empty_after_trim"])
+                self.assertFalse(facts["raw_stdout_stderr_or_paths_uploaded"])
+                self.assertFalse(facts["native_success_inferred"])
+                self.assertEqual(stdout, result.stdout)
+
+    def test_unknown_extra_duplicate_or_success_anywhere_reply_is_never_an_official_shape(self):
+        for stdout in self.UNKNOWN_STDOUTS:
+            with self.subTest(stdout=stdout):
+                facts = demo.installer_reply_facts(subprocess.CompletedProcess(["modeled-installer"], 0, stdout, b""))
+                self.assertEqual("unrecognized", facts["stdout_shape"])
+                self.assertFalse(facts["native_success_inferred"])
+
+    def test_reply_diagnostics_are_typed_bounded_hashes_not_raw_bodies_or_acceptance(self):
+        stdout, stderr = b"MODELED_BODY_NEVER_UPLOAD\xff", b"MODELED_WARNING_NEVER_UPLOAD"
+        facts = demo.installer_reply_facts(subprocess.CompletedProcess(["modeled-installer"], 1, stdout, stderr))
+        self.assertEqual(len(stderr), facts["stderr_bytes"])
+        self.assertEqual(hashlib.sha256(stderr).hexdigest(), facts["stderr_sha256"])
+        self.assertFalse(facts["stderr_empty_after_trim"])
+        self.assertNotIn("MODELED_BODY", json.dumps(facts))
+        self.assertNotIn("MODELED_WARNING", json.dumps(facts))
+        boundary = b"x" * demo.MAX_INSTALLER_REPLY_BYTES
+        self.assertEqual(len(boundary), demo.installer_reply_facts(
+            subprocess.CompletedProcess(["modeled-installer"], 0, boundary, b""))["stdout_bytes"])
+        for code, out, err in ((0, boundary, b"x"), (False, b"Success", b""),
+            ("0", b"Success", b""), (None, b"Success", b""), (0, "Success", b""), (0, b"Success", None)):
+            with self.subTest(exit_code=code, stdout_type=type(out).__name__, stderr_type=type(err).__name__), \
+                    self.assertRaises(ValueError):
+                demo.installer_reply_facts(subprocess.CompletedProcess(["modeled-installer"], code, out, err))
+
+    def test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer(self):
+        with self.modeled_owner(b"Performing Streamed Install\nSuccess\n") as (owner, apk, installed, source, assembly):
+            receipt = owner.prepare()
+            self.assertEqual("passed", receipt["prepare_status"])
+            self.assertEqual("complete", receipt["prepare_phase"])
+            self.assertEqual("streamed-success", receipt["installer_reply"]["stdout_shape"])
+            self.assertEqual(installed, receipt["installed_readback"])
+            self.assertEqual(lt.sha256(apk), receipt["source_apk_sha256"])
+            self.assertEqual(self.contract, receipt["source_contract"])
+            self.assertEqual(2, source.call_count)
+            owner.inspect_apk.assert_called_once_with(apk)
+            owner.control.assert_called_once_with("install", "-t", str(apk), timeout=120)
+            self.assertEqual(2, owner.readback.call_count)
+            self.assertFalse(receipt["automatic_runtime_permission_grant"])
+            self.assertFalse(receipt["manual_URI_grant"])
+            demo.validate_prepared_receipt(receipt, self.contract, 33)
+            self.assertNotIn("connectedAndroidDeviceTest", " ".join(assembly.call_args.args[1]))
+
+    def test_prepare_refuses_unknown_reply_nonzero_exit_or_stderr_despite_matching_installed_bytes(self):
+        models = [(stdout, b"", 0) for stdout in self.UNKNOWN_STDOUTS]
+        models += [(b"Success\n", b"modeled warning\n", 0), (b"Success\n", b"", 1),
+            (b"Performing Streamed Install\nSuccess\n", b"", -1)]
+        for stdout, stderr, code in models:
+            with self.subTest(stdout=stdout, stderr=stderr, exit_code=code), \
+                    self.modeled_owner(stdout, stderr, code) as (owner, apk, installed, source, assembly):
+                with self.assertRaises(ValueError):
+                    owner.prepare()
+                receipt = owner.receipt
+                self.assertEqual("failed", receipt["prepare_status"])
+                self.assertEqual("installer-reply-validation", receipt["prepare_error_phase"])
+                self.assertEqual(installed, receipt["installed_readback"])
+                self.assertTrue(receipt["recipient_installed"])
+                self.assertTrue(owner.install_attempted)
+                self.assertFalse(receipt["installer_reply"]["native_success_inferred"])
+                owner.control.assert_called_once()
+                with self.assertRaises(ValueError):
+                    demo.validate_prepared_receipt(receipt, self.contract, 33)
+
+    def test_installer_facts_survive_readback_failure_without_failure_body_or_passed_prepare(self):
+        with self.modeled_owner() as (owner, apk, installed, source, assembly):
+            owner.readback.side_effect = [None, ValueError("MODELED_READBACK_BODY_NEVER_UPLOAD")]
+            with self.assertRaises(ValueError):
+                owner.prepare()
+            receipt = owner.receipt
+            self.assertEqual("failed", receipt["prepare_status"])
+            self.assertEqual("installed-byte-readback", receipt["prepare_error_phase"])
+            self.assertEqual("success", receipt["installer_reply"]["stdout_shape"])
+            self.assertEqual(0, receipt["install_exit_code"])
+            self.assertNotIn("MODELED_READBACK_BODY", json.dumps(receipt))
+            self.assertEqual(receipt, json.loads((owner.output / "receipt.json").read_text()))
+
+    def test_prepare_phase_diagnostics_keep_source_existing_app_bytes_and_signer_refusals(self):
+        for mutation, phase in (("source", "source-contract"), ("existing-app", "initial-install-absence"),
+            ("assembly", "source-app-assembly"), ("policy", "source-apk-policy"),
+            ("changed-source", "source-apk-source-recheck"), ("installed-bytes", "installer-reply-validation"),
+            ("certificate", "prepared-receipt-validation"), ("signer-range", "prepared-receipt-validation")):
+            with self.subTest(mutation=mutation), self.modeled_owner() as (owner, apk, installed, source, assembly):
+                if mutation == "source": source.side_effect = ValueError("modeled-source-refusal")
+                elif mutation == "existing-app": owner.readback.side_effect = [installed]
+                elif mutation == "assembly": assembly.return_value = {"exit_code": 1, "elapsed_seconds": 0.01}
+                elif mutation == "policy": owner.inspect_apk.side_effect = ValueError("modeled-policy-refusal")
+                elif mutation == "changed-source": source.side_effect = [deepcopy(self.contract), {"foreign": True}]
+                elif mutation == "installed-bytes": owner.readback.side_effect = [None, {**installed, "apk_sha256": "c" * 64}]
+                elif mutation == "certificate": owner.inspect_apk.return_value["private_key_certificate_sha256"] = "c" * 64
+                elif mutation == "signer-range": owner.inspect_apk.return_value["signature_verification_min_sdk_version"] = 23
+                with self.assertRaises((ValueError, RuntimeError)):
+                    owner.prepare()
+                self.assertEqual("failed", owner.receipt["prepare_status"])
+                self.assertEqual(phase, owner.receipt["prepare_error_phase"])
+                self.assertEqual(owner.receipt, json.loads((owner.output / "receipt.json").read_text()))
+                if phase in {"source-contract", "initial-install-absence", "source-app-assembly",
+                    "source-apk-policy", "source-apk-source-recheck"}: owner.control.assert_not_called()
+
+    def test_failed_reply_keeps_owned_cleanup_admission_without_laundering_the_failed_prepare(self):
+        with self.modeled_owner(b"unknown\nSuccess\n") as (owner, apk, installed, source, assembly):
+            owner.readback.side_effect = [None, installed, installed, None]
+            owner.control.side_effect = [subprocess.CompletedProcess(["modeled-installer"], 0, b"unknown\nSuccess\n", b""),
+                subprocess.CompletedProcess(["modeled-stop"], 0, b"", b""),
+                subprocess.CompletedProcess(["modeled-uninstall"], 0, b"Success\n", b"")]
+            with self.assertRaises(ValueError):
+                owner.prepare()
+            reply = deepcopy(owner.receipt["installer_reply"])
+            receipt = owner.close()
+            self.assertEqual("failed", receipt["prepare_status"])
+            self.assertEqual("installer-reply-validation", receipt["prepare_error_phase"])
+            self.assertEqual(reply, receipt["installer_reply"])
+            self.assertEqual("passed", receipt["cleanup_status"])
+            self.assertTrue(receipt["owned_identity_reverified"])
+            self.assertTrue(receipt["owned_recipient_removed"])
+            self.assertEqual(3, owner.control.call_count)
+            self.assertEqual(("shell", "am", "force-stop", demo.PACKAGE), owner.control.call_args_list[1].args)
+            self.assertEqual(("uninstall", demo.PACKAGE), owner.control.call_args_list[2].args)
 
 
 if __name__ == "__main__":

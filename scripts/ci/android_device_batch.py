@@ -9,6 +9,7 @@ red; uncertain cleanup, inputs or archival refuse every remaining route.
 from __future__ import annotations
 
 import argparse
+import ast
 import datetime as dt
 import hashlib
 import json
@@ -107,6 +108,44 @@ def cleanup_certified(root: Path, relative: str, route: dict, controller: dict, 
         return False
 
 
+def failed_child_origin(root: Path, relative: str) -> dict:
+    """Retain one bounded public frame, never private child output or success."""
+    result = {"status": "unavailable", "raw_log_uploaded": False, "native_success_inferred": False}
+    marker = b"NATIVECMPKIT_ANDROID_PREFLIGHT_ORIGIN"
+    prefix = marker + b" "
+    allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py",
+               "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py"}
+    try:
+        body = evidence.read(lt.safe_path(root, relative), 64 * 1024)
+        rows = [row for row in body.split(b"\n") if marker in row]
+        if not rows:
+            return result
+        require(len(rows) == 1 and rows[0].startswith(prefix) and len(rows[0]) <= 512,
+                "Expected one exact bounded public child-origin marker")
+        origin = json.loads(rows[0][len(prefix):], object_pairs_hook=evidence.unique_object,
+                            parse_constant=lambda _: require(False, "Nonfinite child-origin JSON"))
+        require(isinstance(origin, dict) and set(origin) == {"source", "symbol", "line"},
+                "Only public source, symbol and line may be retained")
+        if type(origin["line"]) is int and origin == {"source": "unavailable", "symbol": "unavailable", "line": 0}:
+            return result
+        require(origin["source"] in allowed and isinstance(origin["symbol"], str) and
+                re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]{0,127}", origin["symbol"]) is not None and
+                type(origin["line"]) is int and 0 < origin["line"] < 20000,
+                "Foreign or malformed child-origin identity")
+        source = evidence.read(lt.safe_path(root, "scripts/ci/" + origin["source"]), 512 * 1024)
+        syntax = ast.parse(source)
+        require(any(isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)) and
+                    node.name == origin["symbol"] and node.lineno <= origin["line"] <= node.end_lineno
+                    for node in ast.walk(syntax)), "Child-origin must name its exact public source function")
+        result.update(status="retained", origin=origin)
+    except FileNotFoundError:
+        pass
+    except (OSError, ValueError, TypeError, UnicodeError, SyntaxError, RecursionError) as error:
+        result.update(status="refused", diagnostic_error=type(error).__name__)
+    return result
+
+
 def archive_route(root: Path, relative: str, route: dict, inputs: dict, revision: str, controller: dict) -> dict:
     output = lt.safe_path(root, relative)
     summary = output / "fresh-reports.json"
@@ -149,8 +188,24 @@ def archive_route(root: Path, relative: str, route: dict, inputs: dict, revision
     allowed = lt.safe_path(root, expected["report_directory"])
     for row in module.get("reports", []):
         source = lt.safe_path(root, row["path"])
-        require(source.is_relative_to(allowed) and source != allowed and
-                re.fullmatch(r"TEST-[A-Za-z0-9_.-]+\.xml", source.name), "Wrong original report location")
+        require(source.is_relative_to(allowed) and source != allowed, "Wrong original report location")
+        original_name = re.fullmatch(r"TEST-[A-Za-z0-9_.-]+\.xml", source.name) is not None
+        if not original_name:
+            # AGP adds its owned AVD and observed Android release verbatim. Do
+            # not widen the old filename alphabet or treat the AVD as a regex.
+            device_plan = evidence.document(root, relative + "/plan.json")
+            boot = evidence.document(root, relative + "/boot.json")
+            avd_name, release = device_plan.get("avd_name"), boot.get("release")
+            require(device_plan.get("source_revision") == revision and
+                    type(device_plan.get("api_level")) is int and device_plan["api_level"] == route["api_level"] and
+                    device_plan.get("serial") == boot.get("serial") == device.SERIAL and
+                    boot.get("api_level") == str(route["api_level"]) and boot.get("boot_completed") == "1" and
+                    boot.get("selinux") == "Enforcing" and isinstance(avd_name, str) and
+                    re.fullmatch(f"nativecmpkit-api{route['api_level']}-[0-9a-f]{{12}}", avd_name) is not None and
+                    isinstance(release, str) and re.fullmatch(r"[0-9]{1,2}(?:\.[0-9]{1,2}){0,2}", release) is not None,
+                    "Wrong owned emulator report identity")
+            original_name = source.name == f"TEST-{avd_name}(AVD) - {release}.xml"
+        require(original_name, "Wrong original report location")
         before = source.lstat()
         require(started.timestamp() - 2 <= before.st_mtime <= ended.timestamp() + 2, "Stale or future original XML")
         body = evidence.read(source, lt.MAX_REPORT_BYTES)
@@ -264,6 +319,9 @@ def run(root: Path, batch: str, relative: str) -> dict:
                 execution = lt.execute(root, command(root, route_relative, route),
                                        output / (route["profile"] + ".log"), ROUTE_TIMEOUT_SECONDS, RESERVE_MIB)
                 item["execution"] = execution
+                if type(execution.get("exit_code")) is int and execution["exit_code"] != 0:
+                    item["failed_child_origin"] = failed_child_origin(
+                        root, relative + "/" + route["profile"] + ".log")
                 controller = evidence.document(root, route_relative + "/controller.json")
                 item.update(controller_path=route_relative + "/controller.json",
                             controller_sha256=lt.sha256(root / route_relative / "controller.json"))

@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-11-01T02:21:03.919920+00:00",
+  "run_id": 41262970016,
+  "attempt": 1,
+  "source_revision": "2cb7dc275e8eaa15ef3545f3345afc439b44563e",
+  "github_terminal_conclusion": "failure",
+  "library_job_id": 124720280428,
+  "artifact": {
+    "id": 13066626168,
+    "name": "library-evidence-android-device-batch-api35",
+    "bytes": 342627,
+    "sha256": "a1bc1ae45cf38c22402fe3914be207acb62fabe6bd9c478f2ba48cb09d09632c",
+    "github_digest_matched": true,
+    "safe_entry_count": 27
+  },
+  "scope": {
+    "requested_routes": 4,
+    "requested_target_executions": 8,
+    "requested_distinct_methods": 8,
+    "entered_routes": 1,
+    "reported_native_target_executions": 3,
+    "reported_native_passes": 3,
+    "reported_native_failures": 0,
+    "independently_verified_from_original_XML": 0,
+    "independently_accepted_native_executions": 0,
+    "unexecuted_selected_methods": 5,
+    "native_zero_globally_inferred": false,
+    "reported_native_methods": [
+      {
+        "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+        "name": "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+        "name": "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees",
+        "status": "passed"
+      },
+      {
+        "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+        "name": "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures",
+        "status": "passed"
+      }
+    ],
+    "later_refused_routes": [
+      {
+        "profile": "android-permission-demo",
+        "api_level": 35,
+        "unexecuted_cases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+            "name": "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+            "name": "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest"
+          },
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+            "name": "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions"
+          }
+        ]
+      },
+      {
+        "profile": "android-storage-api35-normal",
+        "api_level": 35,
+        "unexecuted_cases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "modernAppScopedAndSafDoNotNeedAllFiles"
+          }
+        ]
+      },
+      {
+        "profile": "android-storage-api35-all-files",
+        "api_level": 35,
+        "unexecuted_cases": [
+          {
+            "classname": "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest",
+            "name": "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"
+          }
+        ]
+      }
+    ]
+  },
+  "first_failing_route": {
+    "profile": "android-io-reference-regressions",
+    "controller_library_reported_passed": true,
+    "native_gradle": {
+      "elapsed_seconds": 41.02,
+      "exit_code": 0
+    },
+    "archive_error_class": "ValueError",
+    "adapter_error_class": "ValueError",
+    "observed_actual_traceback_available": false,
+    "deterministic_committed_source_incompatibility": {
+      "source": "scripts/ci/android_device_batch.py",
+      "symbol": "archive_route",
+      "lines": [
+        152,
+        154
+      ],
+      "legacy_guard": "TEST-[A-Za-z0-9_.-]+\\.xml",
+      "original_report_filename": "TEST-nativecmpkit-api35-d551c6869f2a(AVD) - 15.xml",
+      "guard_accepts_actual_filename": false,
+      "preceding_uploaded_plan_source_map_marker_comparisons_correlate": true
+    },
+    "original_XML_bytes_available": false,
+    "original_XML_hash_from_inventory": "358ee8d9e99d5dae960b663482ea8ecec2a0b69eb55c26174dd9dbdbba0d6290",
+    "original_XML_bytes_from_inventory": 1031,
+    "XML_substituted_or_fabricated": false,
+    "batch_archived_execution_count": 0,
+    "batch_archived_execution_count_complete": false
+  },
+  "inputs": {
+    "actual_library_map_count": 6,
+    "actual_library_entry_count": 1068,
+    "all_actual_library_maps_match_committed_blobs": true,
+    "library_digest": "fc089964861e8e8a0bc26a2b8c272a465fa41c40c1cebbdf9f918c8b01fbe329",
+    "actual_workflow_control_map_count": 2,
+    "local_committed_combined_entry_count": 1145,
+    "local_committed_combined_digest": "c7921b9999c42bb9bbcf3a90586aed9e54da6463b6651be8e56e43516cc29bd5",
+    "uploaded_actual_combined_map_present": false,
+    "combined_map_relabelled_as_actual": false,
+    "changed_from_local002_freeze_library": [
+      "scripts/ci/test_failure_diagnostics.py"
+    ],
+    "changed_from_local002_freeze_combined": [
+      "scripts/ci/test_failure_diagnostics.py"
+    ]
+  },
+  "cleanup": {
+    "helper_prepare": "passed",
+    "helper_cleanup": "passed",
+    "helper_identity_reverified": true,
+    "helper_owned_recipient_removed": true,
+    "helper_stop_exit_code": 0,
+    "helper_uninstall_exit_code": 0,
+    "emulator_clean_shutdown": true,
+    "owned_adb_transport_removed": true,
+    "graceful_kill_requested": true,
+    "forced_owned_group": false,
+    "emulator_exit_code": 0,
+    "batch_cleanup_certified": true,
+    "private_AVD_and_signing_local_reclamation_reached": false,
+    "private_local_reclamation_certified": false
+  },
+  "literal_criteria": {
+    "102": {
+      "API35_Call_denial_picker_executions_in_this_run": 0,
+      "separate_API33_API34_required": true,
+      "existing_24_row_16_input_manifest_correspondences_reused_not_replayed": true,
+      "closure_eligible_from_this_run": false
+    },
+    "118": {
+      "API35_storage_executions_in_this_run": 0,
+      "all_eight_original_storage_selectors_still_required": true,
+      "least_permission_documentation_reused_not_replayed": true,
+      "closure_eligible_from_this_run": false
+    },
+    "IO_three_methods_are_not_substitutes": true,
+    "other_compatibility_run_reviewed_here": false
+  },
+  "integrity_and_source_review": {
+    "checks_passed": 77,
+    "checks_failed": 0,
+    "checks": [
+      {
+        "check": "exact_run_id",
+        "passed": true
+      },
+      {
+        "check": "exact_attempt_1",
+        "passed": true
+      },
+      {
+        "check": "exact_head_sha",
+        "passed": true
+      },
+      {
+        "check": "completed_failure_retained",
+        "passed": true
+      },
+      {
+        "check": "exact_library_job_failed",
+        "passed": true
+      },
+      {
+        "check": "library_step17_failure_retained",
+        "passed": true
+      },
+      {
+        "check": "tooling_job_success_observed",
+        "passed": true
+      },
+      {
+        "check": "only_expected_artifact_listed",
+        "passed": true
+      },
+      {
+        "check": "artifact_exact_run_head",
+        "passed": true
+      },
+      {
+        "check": "artifact_unexpired",
+        "passed": true
+      },
+      {
+        "check": "artifact_exact_size",
+        "passed": true
+      },
+      {
+        "check": "artifact_github_digest_matches_original_bytes",
+        "passed": true
+      },
+      {
+        "check": "safe_zip_containment_types_bounds_and_readback",
+        "passed": true
+      },
+      {
+        "check": "committed_library_map_1068",
+        "passed": true
+      },
+      {
+        "check": "committed_combined_map_1145",
+        "passed": true
+      },
+      {
+        "check": "library_committed_digest_matches",
+        "passed": true
+      },
+      {
+        "check": "combined_committed_digest_matches",
+        "passed": true
+      },
+      {
+        "check": "actual_workflow_control_control-inputs-after.json",
+        "passed": true
+      },
+      {
+        "check": "actual_workflow_control_control-inputs-before.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/inputs-after.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/inputs-before.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/routes/android-io-reference-regressions/inputs-after.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/routes/android-io-reference-regressions/inputs-before.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/routes/android-io-reference-regressions/library/inputs-after.json",
+        "passed": true
+      },
+      {
+        "check": "actual_library_map_matches_committed_ci-verification/android-device-batch-api35/routes/android-io-reference-regressions/library/inputs-before.json",
+        "passed": true
+      },
+      {
+        "check": "six_actual_library_maps_and_two_workflow_controls",
+        "passed": true
+      },
+      {
+        "check": "no_actual_uploaded_combined_map",
+        "passed": true
+      },
+      {
+        "check": "CI_and_batch_plans_identical",
+        "passed": true
+      },
+      {
+        "check": "four_original_route_order_unchanged",
+        "passed": true
+      },
+      {
+        "check": "requested_eight_executions_eight_distinct",
+        "passed": true
+      },
+      {
+        "check": "only_first_route_entered",
+        "passed": true
+      },
+      {
+        "check": "native_route_plans_equal_original_source_suite",
+        "passed": true
+      },
+      {
+        "check": "exact_IO_API35_module_focus",
+        "passed": true
+      },
+      {
+        "check": "exact_focused_native_selection",
+        "passed": true
+      },
+      {
+        "check": "required_case_source_identity_preserved",
+        "passed": true
+      },
+      {
+        "check": "exact_fresh_connected_task_marker_1",
+        "passed": true
+      },
+      {
+        "check": "single_connected_module_task",
+        "passed": true
+      },
+      {
+        "check": "exact_class_filter_and_owned_helper_argument",
+        "passed": true
+      },
+      {
+        "check": "reported_gradle_exit0_41p02_seconds",
+        "passed": true
+      },
+      {
+        "check": "controller_library_reported_passing_outcomes",
+        "passed": true
+      },
+      {
+        "check": "reported_exact_non_skipped_3pass_totals",
+        "passed": true
+      },
+      {
+        "check": "reported_case_set_exact_original_methods",
+        "passed": true
+      },
+      {
+        "check": "one_report_inventory_claimed",
+        "passed": true
+      },
+      {
+        "check": "report_original_bytes_inventory_matches_receipt",
+        "passed": true
+      },
+      {
+        "check": "no_original_XML_in_uploaded_artifact",
+        "passed": true
+      },
+      {
+        "check": "no_original_XML_body_in_original_job_log",
+        "passed": true
+      },
+      {
+        "check": "diagnostics_not_substitute_testcase_evidence",
+        "passed": true
+      },
+      {
+        "check": "source_exact_legacy_filename_guard_present",
+        "passed": true
+      },
+      {
+        "check": "actual_filename_necessarily_rejected_by_committed_guard",
+        "passed": true
+      },
+      {
+        "check": "actual_filename_exact_owned_AVD_actual_release",
+        "passed": true
+      },
+      {
+        "check": "batch_archive_and_adapter_ValueError_preserved",
+        "passed": true
+      },
+      {
+        "check": "batch_count_incomplete_archive_not_global_native_zero",
+        "passed": true
+      },
+      {
+        "check": "all_later_three_profiles_refused",
+        "passed": true
+      },
+      {
+        "check": "later_five_cases_remain_unexecuted",
+        "passed": true
+      },
+      {
+        "check": "no_archive_summary_or_local_cleanup_certificate_uploaded",
+        "passed": true
+      },
+      {
+        "check": "batch_source_revision_unchanged",
+        "passed": true
+      },
+      {
+        "check": "controller_source_revision_before_after_exact",
+        "passed": true
+      },
+      {
+        "check": "controller_tree_clean_changed_inputs_empty",
+        "passed": true
+      },
+      {
+        "check": "library_source_revision_before_after_exact",
+        "passed": true
+      },
+      {
+        "check": "library_tree_clean_changed_inputs_empty",
+        "passed": true
+      },
+      {
+        "check": "receipt_source_map_digests_exact",
+        "passed": true
+      },
+      {
+        "check": "controller_hash_matches_batch_original_reference",
+        "passed": true
+      },
+      {
+        "check": "matching_before_after_Enforcing_API35_native_boot",
+        "passed": true
+      },
+      {
+        "check": "exact_owned_launch_AVD_serial",
+        "passed": true
+      },
+      {
+        "check": "controller_helper_original_documents_equal",
+        "passed": true
+      },
+      {
+        "check": "helper_source_contract_exact_plan_and_committed_inputs",
+        "passed": true
+      },
+      {
+        "check": "helper_prepared_and_installed_actual_API35",
+        "passed": true
+      },
+      {
+        "check": "helper_installed_single_APK_bytes_match_source",
+        "passed": true
+      },
+      {
+        "check": "helper_has_no_manual_URI_or_automatic_runtime_grants",
+        "passed": true
+      },
+      {
+        "check": "helper_compiled_grant_signature_control_policy_reviewed",
+        "passed": true
+      },
+      {
+        "check": "helper_actual_exact_API35_signer_scope",
+        "passed": true
+      },
+      {
+        "check": "helper_owned_identity_reverified_removed",
+        "passed": true
+      },
+      {
+        "check": "helper_cleanup_passed_stop_uninstall_0_no_error",
+        "passed": true
+      },
+      {
+        "check": "owned_emulator_and_ADB_graceful_cleanup_certified",
+        "passed": true
+      },
+      {
+        "check": "batch_correlates_owned_cleanup_true",
+        "passed": true
+      },
+      {
+        "check": "fresh_precompiled_helper_and_reporter_success_reported",
+        "passed": true
+      },
+      {
+        "check": "no_release_or_closure_inferred_by_batch",
+        "passed": true
+      }
+    ],
+    "checks_are_not_native_tests": true,
+    "original_XML_absence_prevents_independent_acceptance": true
+  },
+  "private_owning_repair": {
+    "status": "synthetic_verified_private_proposal_only",
+    "changed_repo_paths": [
+      "scripts/ci/android_device_batch.py",
+      "scripts/ci/test_android_device_batch.py"
+    ],
+    "new_synthetic_methods_passed": 6,
+    "accepted_methods_replayed": 0,
+    "retained_red_subtest_errors": 41,
+    "actual_XML_or_old_API34_origin_recovered": false,
+    "native_acceptance_inferred": false
+  },
+  "operations": {
+    "read_only_Git_blob_hashing": true,
+    "bounded_read_only_GitHub_original_downloads": true,
+    "live_source_edits": false,
+    "git_mutations": false,
+    "dispatches": 0,
+    "builds": 0,
+    "SDK_native_executions": 0,
+    "native_accepted_replays": 0,
+    "issues_closed": 0,
+    "packages_published": false,
+    "release_security_readiness_certified": false
+  },
+  "privacy": {
+    "raw_job_route_logs_machine_paths_APKs_keys_certificates_not_in_public_candidate": true,
+    "raw_private_API_responses_not_in_public_candidate": true,
+    "source_maps_and_original_safe_parsed_receipt_are_not_original_XML": true
+  }
+}

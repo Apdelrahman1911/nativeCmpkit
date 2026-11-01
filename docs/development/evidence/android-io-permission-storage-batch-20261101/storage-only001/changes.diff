@@ -1,0 +1,327 @@
+--- a/scripts/ci/android_device_batch_plan.py
++++ b/scripts/ci/android_device_batch_plan.py
+@@ -1,4 +1,4 @@
+-"""Two fixed same-checkout serial batches; original finite profiles remain available."""
++"""Fixed same-checkout serial batches; original finite profiles remain available."""
+ 
+ BATCHES = {
+     "android-io-permission-storage-api35": (
+@@ -7,6 +7,11 @@
+     ),
+     "android-permission-storage-compatibility": (
+         "android-media-selection-api33", "android-media-selection-api34",
++        "android-storage-api28", "android-storage-api29-target28",
++        "android-storage-api29-legacy", "android-storage-api29-scoped",
++        "android-storage-api30-normal", "android-storage-api30-all-files",
++    ),
++    "android-storage-compatibility": (
+         "android-storage-api28", "android-storage-api29-target28",
+         "android-storage-api29-legacy", "android-storage-api29-scoped",
+         "android-storage-api30-normal", "android-storage-api30-all-files",
+@@ -29,12 +34,15 @@
+ MODULES = {
+     "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
+     "android-permission-storage-compatibility": "calf-permissions/core",
++    "android-storage-compatibility": "calf-permissions/core",
+ }
+ SLOTS = {
+     "android-io-permission-storage-api35": "android-device-batch-api35",
+     "android-permission-storage-compatibility": "android-device-batch-compatibility",
++    "android-storage-compatibility": "android-device-batch-storage-compatibility",
+ }
+ SDK_PACKAGES = {
+     "android-io-permission-storage-api35": "cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64",
+     "android-permission-storage-compatibility": "cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64",
++    "android-storage-compatibility": "cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64",
+ }
+--- a/scripts/ci/workflow_matrix.py
++++ b/scripts/ci/workflow_matrix.py
+@@ -29,6 +29,7 @@
+ PROFILES = {
+     "android-io-permission-storage-api35": ("android-device-api35",),
+     "android-permission-storage-compatibility": ("android-device-api35",),
++    "android-storage-compatibility": ("android-device-api35",),
+     "android-storage-api28": ("android-device-api35",),
+     "android-storage-api29-target28": ("android-device-api35",),
+     "android-storage-api29-legacy": ("android-device-api35",),
+@@ -176,6 +177,7 @@
+ MODULE_SUBSETS = {
+     "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
+     "android-permission-storage-compatibility": "calf-permissions/core",
++    "android-storage-compatibility": "calf-permissions/core",
+     "android-storage-api28": "calf-permissions/core",
+     "android-storage-api29-target28": "calf-permissions/core",
+     "android-storage-api29-legacy": "calf-permissions/core",
+--- a/.github/workflows/gradle.yml
++++ b/.github/workflows/gradle.yml
+@@ -10,7 +10,7 @@
+         type: choice
+         required: true
+         default: core
+-        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
++        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-wasm, share-browser, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-webview-lifecycle, ios-webview-recovery, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-io-permission-storage-api35, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]
+ 
+ permissions:
+   contents: read
+@@ -334,7 +334,7 @@
+         with:
+           # v3's SDK16 bootstrap installs SDK23 through the official registry.
+           # SDK23 has distinct macOS arm64/x64 archives; do not invent mac URLs.
+-          packages: ${{ inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || (inputs.profile == 'android-storage-api28') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64' || (inputs.profile == 'android-storage-api29-target28' || inputs.profile == 'android-storage-api29-legacy' || inputs.profile == 'android-storage-api29-scoped') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-29;google_apis;x86_64' || (inputs.profile == 'android-storage-api30-normal' || inputs.profile == 'android-storage-api30-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api35-normal' || inputs.profile == 'android-storage-api35-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || (inputs.profile == 'android-camera-provider-minimum' || inputs.profile == 'android-camera-no-handler-minimum') && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-permission-demo' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-media-selection-api33' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64' || inputs.profile == 'android-media-selection-api34' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-34;google_apis;x86_64' || matrix.suite == 'android-device' && (inputs.profile == 'android-io-provider-lifecycle' || inputs.profile == 'android-io-default-decode' || inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device' || inputs.profile == 'all') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
++          packages: ${{ inputs.profile == 'android-io-permission-storage-api35' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-permission-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64 system-images;android-33;google_apis;x86_64 system-images;android-34;google_apis;x86_64' || inputs.profile == 'android-storage-compatibility' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64 system-images;android-29;google_apis;x86_64 system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api28') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-28;google_apis;x86_64' || (inputs.profile == 'android-storage-api29-target28' || inputs.profile == 'android-storage-api29-legacy' || inputs.profile == 'android-storage-api29-scoped') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-29;google_apis;x86_64' || (inputs.profile == 'android-storage-api30-normal' || inputs.profile == 'android-storage-api30-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-30;google_apis;x86_64' || (inputs.profile == 'android-storage-api35-normal' || inputs.profile == 'android-storage-api35-all-files') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || (inputs.profile == 'android-camera-provider-minimum' || inputs.profile == 'android-camera-no-handler-minimum') && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-camera-provider' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64 system-images;android-23;google_apis;x86_64' || inputs.profile == 'android-permission-demo' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || inputs.profile == 'android-media-selection-api33' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-33;google_apis;x86_64' || inputs.profile == 'android-media-selection-api34' && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-34;google_apis;x86_64' || matrix.suite == 'android-device' && (inputs.profile == 'android-io-provider-lifecycle' || inputs.profile == 'android-io-default-decode' || inputs.profile == 'android-io-reference-regressions' || inputs.profile == 'android-device' || inputs.profile == 'all') && 'cmdline-tools;23.0 platforms;android-37.0 build-tools;36.0.0 emulator system-images;android-35;google_apis;x86_64' || matrix.suite == 'android-device' && 'cmdline-tools;23.0 platforms;android-37.0 emulator system-images;android-35;google_apis;x86_64' || 'cmdline-tools;23.0 platforms;android-37.0' }}
+           accept-android-sdk-licenses: true
+           log-accepted-android-sdk-licenses: false
+       - name: Select the installed official SDK23 command-line tools
+--- /dev/null
++++ b/scripts/ci/test_android_storage_compatibility_finite_profile.py
+@@ -0,0 +1,250 @@
++"""Owning finite-storage source models only; no SDK, Gradle, emulator or native runs."""
++import ast
++import copy
++import json
++from pathlib import Path
++import re
++import subprocess
++import sys
++import unittest
++from unittest.mock import patch
++
++import android_device_batch as batch
++import android_device_batch_plan as fixed
++import android_device_tests as device
++import android_storage_compatibility_plan as storage
++import library_tests as lt
++import workflow_matrix as workflow
++
++ROOT = lt.ROOT
++PROFILE = "android-storage-compatibility"
++MODULE = "calf-permissions/core"
++CLASS = "com.mohamedrejeb.calf.permissions.AndroidStorageCompatibilityTest"
++EXPECTED = (
++    ("android-storage-api28", 28, "legacy28", 28, "api28LegacyPermissionControlsSharedStorage"),
++    ("android-storage-api29-target28", 29, "legacyTarget28", 28,
++     "api29Target28LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"),
++    ("android-storage-api29-legacy", 29, "legacy29", 29,
++     "api29Target29LegacyAccessStillNeedsNativeWriteDespiteNotRequiredHelper"),
++    ("android-storage-api29-scoped", 29, "scoped29", 29,
++     "api29ScopedAccessStaysBoundedWithNativeWriteGrant"),
++    ("android-storage-api30-normal", 30, "modern", 35, "modernAppScopedAndSafDoNotNeedAllFiles"),
++    ("android-storage-api30-all-files", 30, "allFiles", 35,
++     "modernManifestAloneDoesNotGrantAllFilesAndOwnedSettingRestores"),
++)
++ORIGINAL_BATCHES = {
++    "android-io-permission-storage-api35": (
++        "android-io-reference-regressions", "android-permission-demo",
++        "android-storage-api35-normal", "android-storage-api35-all-files",
++    ),
++    "android-permission-storage-compatibility": (
++        "android-media-selection-api33", "android-media-selection-api34",
++        "android-storage-api28", "android-storage-api29-target28",
++        "android-storage-api29-legacy", "android-storage-api29-scoped",
++        "android-storage-api30-normal", "android-storage-api30-all-files",
++    ),
++}
++
++
++class AndroidStorageCompatibilityFiniteProfileTests(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        # These are source plans, not instrumented executions or accepted-suite
++        # replays. The API35 pair is retained in its original fixed batch.
++        cls.selection = batch.plan(ROOT, PROFILE)
++        cls.api35_sources = [lt.plan(ROOT, "android-device", only_modules=(MODULE,), focus=name)
++            for name in ("android-storage-api35-normal", "android-storage-api35-all-files")]
++
++    def test_new_batch_keeps_exact_six_original_api_flavor_target_method_contracts(self):
++        self.assertEqual(tuple(row[0] for row in EXPECTED), fixed.BATCHES[PROFILE])
++        self.assertEqual(6, self.selection["requested_target_executions"])
++        self.assertEqual(6, self.selection["requested_distinct_methods"])
++        self.assertEqual(6, len(self.selection["routes"]))
++        for route, (profile, api, flavor, target, method) in zip(self.selection["routes"], EXPECTED):
++            with self.subTest(profile=profile):
++                self.assertEqual((profile, api, MODULE, profile),
++                    (route["profile"], route["api_level"], route["module"], route["focus"]))
++                self.assertEqual((api, MODULE, profile), fixed.SELECTIONS[profile])
++                original, = workflow.matrix(profile)["include"]
++                self.assertEqual((str(api), flavor, str(target)),
++                    (original["emulator-api"], original["storage-flavor"], original["storage-target-sdk"]))
++                source = route["source_suite"]
++                self.assertTrue(lt.validate_test_focus(source))
++                self.assertIs(source["complete_suite_requested"], False)
++                self.assertEqual([MODULE], source["explicit_module_subset"])
++                item, = source["expected"]
++                self.assertEqual(MODULE, item["module"])
++                self.assertEqual(":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest", item["task"])
++                self.assertEqual(MODULE + "/build/outputs/androidTest-results/connected/androidMain", item["report_directory"])
++                self.assertEqual(CLASS + "#" + method, item["test_filter"])
++                self.assertEqual([{"classname": CLASS, "name": method}], item["required_testcases"])
++                helper = source["android_storage_probe"]
++                self.assertEqual((profile, api, flavor, target),
++                    (helper["profile"], helper["verification_api_level"], helper["flavor"], helper["target_sdk"]))
++                self.assertEqual("tests/consumer/android-storage-probe", helper["source_fixture"])
++                self.assertEqual(storage.PACKAGE, helper["package"])
++                self.assertIs(helper["source_contract"]["native_or_compile_success_inferred"], False)
++
++    def test_storage_completion_count_is_source_derived_eight_executions_six_methods(self):
++        sources = [route["source_suite"] for route in self.selection["routes"]] + self.api35_sources
++        identities = [tuple(case[key] for key in ("classname", "name")) for source in sources
++                      for case in source["expected"][0]["required_testcases"]]
++        self.assertEqual(8, len(identities))
++        self.assertEqual(6, len(set(identities)))
++        self.assertEqual([35, 35], [source["android_storage_probe"]["verification_api_level"]
++            for source in self.api35_sources])
++        self.assertEqual(list(ORIGINAL_BATCHES["android-io-permission-storage-api35"][-2:]),
++            [source["explicit_test_focus"] for source in self.api35_sources])
++        self.assertEqual([28, 29, 29, 29, 30, 30], [route["api_level"] for route in self.selection["routes"]])
++        self.assertFalse(any("media" in route["profile"] for route in self.selection["routes"]))
++        self.assertIs(self.selection["source_only"], True)
++        self.assertIs(self.selection["same_workspace_serial_only"], True)
++        self.assertEqual(0, self.selection["native_tests_executed"])
++        self.assertEqual(0, self.selection["Gradle_builds_executed"])
++        self.assertIs(self.selection["compilation_or_native_acceptance_inferred"], False)
++
++    def test_one_existing_host_and_both_original_batches_all_eleven_full_slots_survive(self):
++        for name, routes in ORIGINAL_BATCHES.items():
++            self.assertEqual(routes, fixed.BATCHES[name])
++            self.assertIn(name, workflow.PROFILES)
++        self.assertEqual("calf-io,calf-permissions/core", fixed.MODULES["android-io-permission-storage-api35"])
++        self.assertEqual(MODULE, fixed.MODULES["android-permission-storage-compatibility"])
++        self.assertEqual(MODULE, fixed.MODULES[PROFILE])
++        row, = workflow.matrix(PROFILE)["include"]
++        self.assertEqual({"slot": "android-device-batch-storage-compatibility", "suite": "android-device",
++            "runner": "ubuntu-24.04", "arch": "x64", "python": "python3",
++            "test-modules": MODULE, "android-batch": PROFILE}, row)
++        self.assertEqual(("android-device-api35",), workflow.PROFILES[PROFILE])
++        self.assertEqual([
++            "desktop-linux-x64", "android-host", "browser-js", "browser-wasm", "desktop-macos-arm64",
++            "ios-iphone", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64",
++            "ios-ipad", "android-device-api35"], [row["slot"] for row in workflow.matrix("all")["include"]])
++        self.assertEqual(11, len(workflow.SLOTS))
++
++    def test_dispatch_membership_and_explicit_sdk_branch_match_only_api28_api29_api30(self):
++        text = (ROOT / ".github/workflows/gradle.yml").read_text(encoding="utf-8")
++        options, = re.findall(r"(?m)^        options: \[([^\]\n]+)\]$", text)
++        choices = [option.strip() for option in options.split(",")]
++        self.assertTrue(all(re.fullmatch(r"[a-z][a-z0-9-]*", choice) for choice in choices))
++        self.assertEqual(len(choices), len(set(choices)))
++        self.assertEqual(1, choices.count(PROFILE))
++        self.assertTrue(set(ORIGINAL_BATCHES) <= set(choices))
++        self.assertTrue(set(route[0] for route in EXPECTED) <= set(choices))
++        packages = fixed.SDK_PACKAGES[PROFILE]
++        self.assertEqual(["cmdline-tools;23.0", "platforms;android-37.0", "build-tools;36.0.0", "emulator",
++            "system-images;android-28;google_apis;x86_64", "system-images;android-29;google_apis;x86_64",
++            "system-images;android-30;google_apis;x86_64"], packages.split())
++        branch, = re.findall(r"inputs\.profile == 'android-storage-compatibility' && '([^'\n]+)'", text)
++        self.assertEqual(packages, branch)
++        self.assertIn('ANDROID_BATCH: ${{ matrix.android-batch }}', text)
++        self.assertIn('scripts/ci/android_device_batch.py plan --batch "$ANDROID_BATCH"', text)
++        self.assertIn('scripts/ci/android_device_batch.py run --batch "$ANDROID_BATCH"', text)
++        capacity, = re.findall(r"(?m)^      max-parallel: (\$\{\{ .+ \}\})$", text)
++        self.assertNotIn(PROFILE, capacity)
++        self.assertTrue(capacity.endswith("&& 1 || 2 }}"))
++
++    def test_new_preflight_uses_only_existing_readonly_batch_cli_and_rejects_wrong_union(self):
++        completed = subprocess.CompletedProcess([], 0, stdout=json.dumps(self.selection), stderr="")
++        with patch.object(workflow.subprocess, "run", return_value=completed) as modeled_cli:
++            receipt = workflow.preflight_plans(PROFILE, root=ROOT)
++        modeled_cli.assert_called_once_with([sys.executable, "-B", str(ROOT / "scripts/ci/android_device_batch.py"),
++            "plan", "--batch", PROFILE], cwd=ROOT, capture_output=True, text=True, timeout=30, check=False)
++        self.assertEqual(1, len(receipt["slots"]))
++        self.assertEqual(6, receipt["slots"][0]["expected_modules"])
++        self.assertIs(receipt["source_only"], True)
++        self.assertEqual(0, receipt["Gradle_builds_executed"])
++        self.assertEqual(0, receipt["library_tests_executed"])
++        altered = copy.deepcopy(self.selection)
++        altered["routes"] = altered["routes"][1:]
++        with patch.object(workflow.subprocess, "run", return_value=subprocess.CompletedProcess(
++                [], 0, stdout=json.dumps(altered), stderr="")), self.assertRaises(ValueError):
++            workflow.preflight_plans(PROFILE, root=ROOT)
++
++    def test_new_batch_route_api_module_focus_or_host_overrides_refuse_before_source_planning(self):
++        first = EXPECTED[0][0]
++        for index, value in ((0, 35), (1, "calf-io"), (2, "android-media-selection")):
++            altered = list(fixed.SELECTIONS[first])
++            altered[index] = value
++            with self.subTest(selection_index=index), patch.dict(fixed.SELECTIONS, {first: tuple(altered)}), \
++                    patch.object(lt, "plan", side_effect=AssertionError("No planning after route refusal")), \
++                    self.assertRaises(ValueError):
++                batch.plan(ROOT, PROFILE)
++        matrix_function = workflow.matrix
++        for key, value in (("suite", "android-host"), ("runner", "self-hosted"), ("arch", "arm64"),
++                           ("python", "python"), ("emulator-api", "35"), ("test-modules", "calf-io"),
++                           ("test-focus", "android-media-selection"), ("arbitrary-task", "all")):
++            def altered_matrix(name, key=key, value=value):
++                result = matrix_function(name)
++                if name == first:
++                    result["include"][0][key] = value
++                return result
++            with self.subTest(row_key=key), patch.object(workflow, "matrix", side_effect=altered_matrix), \
++                    patch.object(lt, "plan", side_effect=AssertionError("No planning after route refusal")), \
++                    self.assertRaises(ValueError):
++                batch.plan(ROOT, PROFILE)
++        for name in (PROFILE + ";all", PROFILE + "-api35", PROFILE + " --module calf-io"):
++            with self.subTest(invalid_batch=name), patch.object(lt, "plan") as source, self.assertRaises(ValueError):
++                batch.plan(ROOT, name)
++            source.assert_not_called()
++
++    def test_each_new_route_keeps_strict_source_api_flavor_target_filter_xml_and_task_refusals(self):
++        for route in self.selection["routes"]:
++            for kind in ("api", "target", "flavor", "task", "xml", "filter", "extra-case", "missing-case", "module", "suite"):
++                source = copy.deepcopy(route["source_suite"])
++                item = source["expected"][0]
++                if kind in {"api", "target", "flavor"}:
++                    key = {"api": "verification_api_level", "target": "target_sdk", "flavor": "flavor"}[kind]
++                    source["android_storage_probe"][key] = "wrong" if kind == "flavor" else source["android_storage_probe"][key] + 1
++                elif kind == "task":
++                    item["task"] = ":calf-permissions:calf-permissions-core:test"
++                elif kind == "xml":
++                    item["report_directory"] = MODULE + "/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest"
++                elif kind == "filter":
++                    item["test_filter"] = CLASS
++                elif kind == "extra-case":
++                    item["required_testcases"].append({"classname": CLASS, "name": "unrelated"})
++                elif kind == "missing-case":
++                    item["required_testcases"] = []
++                elif kind == "module":
++                    item["module"] = "calf-io"
++                else:
++                    source["suite"] = "android-host"
++                with self.subTest(profile=route["profile"], mutation=kind), self.assertRaises(ValueError):
++                    lt.validate_test_focus(source)
++
++    def test_new_profile_inherits_serial_owned_archive_cleanup_and_resource_budget_paths(self):
++        self.assertEqual(8192, batch.RESERVE_MIB)
++        self.assertEqual(8192, device.RESERVE_MIB)
++        self.assertEqual(5588, device.PORT)
++        self.assertEqual("emulator-5588", device.SERIAL)
++        for route in self.selection["routes"]:
++            relative = "build/ci-verification/finite-storage-model/routes/" + route["profile"]
++            self.assertEqual([sys.executable, "-B", str(ROOT / "scripts/ci/android_device_tests.py"), "run",
++                "--api-level", str(route["api_level"]), "--module", MODULE, "--focus", route["profile"],
++                "--output", relative], batch.command(ROOT, relative, route))
++        # Inspect the shared adapter rather than launch/imitate cleanup. The new
++        # profile adds no parallel executor, alternate signer/AVD or archive path.
++        tree = ast.parse(Path(batch.__file__).read_text(encoding="utf-8"))
++        run, = [node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name == "run"]
++        calls = list(node for node in ast.walk(run) if isinstance(node, ast.Call))
++        def line(name):
++            nodes = [node for node in calls if (isinstance(node.func, ast.Name) and node.func.id == name)
++                or (isinstance(node.func, ast.Attribute) and node.func.attr == name)]
++            self.assertEqual(1, len(nodes), name)
++            return nodes[0].lineno
++        self.assertLess(line("execute"), line("cleanup_certified"))
++        self.assertLess(line("cleanup_certified"), line("archive_route"))
++        self.assertLess(line("archive_route"), line("reclaim_owned_state"))
++        loops = [node for node in ast.walk(run) if isinstance(node, ast.For)
++            and isinstance(node.iter, ast.Call) and isinstance(node.iter.func, ast.Name)
++            and node.iter.func.id == "enumerate"]
++        self.assertEqual(1, len(loops))
++        self.assertEqual("selection['routes']", ast.unparse(loops[0].iter.args[0]))
++        device_text = Path(device.__file__).read_text(encoding="utf-8")
++        self.assertIn('"pixel_6"', device_text)
++        self.assertIn('"-no-snapshot"', device_text)
++        self.assertIn('reporter_compile_deferred_until_storage_identity', device_text)
++
++
++if __name__ == "__main__":
++    unittest.main()

@@ -1,5 +1,35 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related Android recovery integrated; actual Apple help accepted — 2026-11-01
+
+[Actual002 API35](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci002/api35/PUBLIC_REVIEW.md)
+FAILED after3 reported native IO passes/Gradle0/41.02s: original XML was not archived,
+so **3 observed/0 independently accepted**, later5 selections unexecuted. Exact owned
+AGP filename admission and bounded failed-child public origin are [repaired](docs/development/evidence/android-io-permission-storage-batch-20261101/archive-origin-repair001/README.md),
+six new model passes reused; no XML reconstruction. [Compatibility002](docs/development/evidence/android-io-permission-storage-batch-20261101/native-ci002/compatibility/PUBLIC_REVIEW.md)
+FAILED/ZERO native: API33 helper/install identity and owned cleanup pass, exact
+installer/caller cause unknown; API34 child cause unknown. [Installer repair](docs/development/evidence/android-io-permission-storage-batch-20261101/installer-reply-repair001/README.md)
+admits only two official successful spellings with all byte/signer/source/refusal
+checks retained; eight new owning passes reused, original source red preserved.
+[Fixed storage-only recovery](docs/development/evidence/android-io-permission-storage-batch-20261101/storage-only001/README.md)
+requests only six unexecuted API28/29/30 rows; original batches/profiles/all11 slots
+remain. Eight new source passes reused, no accepted replay. [Root integration](docs/development/evidence/android-io-permission-storage-batch-20261101/recovery-integration001/README.md)
+holds1071 library/1148 combined inputs, ZERO new builds/native. API35 original8/8
+and storage-only6/6 next; recover media33/34 separately, not accepted storage replay.
+#102/#118 stay open;92closed/80open/172total, no disposition promotion.
+
+[Apple actual006](docs/development/evidence/apple-appinfo-exact-template-20261101/actual006/README.md)
+SUCCESS/help0/stdout0/stderr100/DarwinArm64/Xcode26.6; exact supported syntax observed,
+four source hashes/owned output removal reviewed. **Help only**, payload/schema/
+native/profile/readiness false; #141 open, review separate current-owned-app plan.
+[Camera012](docs/development/evidence/camera-developer-prerequisite-20261101/actual012/PUBLIC_REVIEW.md)
+FAILED/ZERO native/XML: create0/2.0s/APK0/284.09s, pre-launch capture admission refusal;
+specific guard/value/cause unknown. launch_attempted=false, FD-owned roots disposed,
+clean_shutdown=false; no-launch flags are not graceful emulator/ADB acceptance.
+#13 open; accepted camera009 three methods retained. Useful disjoint agents, serial
+local builds/8GiB reserve/max2 hosted/read-only verification and all publishing/
+Pages/main/history/native/consumer/ABI/dependency/legal/security/readiness gates stay.
+
 ## Yarn U4 actual evidence archived, not adopted — 2026-11-01
 
 [56 exact files/55 checksums](docs/development/evidence/yarn-upgrade-task-fixture-20261101/INTEGRATION.md)

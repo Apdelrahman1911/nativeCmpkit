@@ -1,0 +1,185 @@
+{
+  "android_device_selection": {
+    "agp_target_serial_options": "empty",
+    "mechanism": "ANDROID_SERIAL",
+    "serial": "emulator-5588"
+  },
+  "android_emulator_after": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing",
+    "serial": "emulator-5588"
+  },
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--no-parallel",
+    "--stacktrace",
+    "-PnativecmpkitAndroidDeviceSerial=emulator-5588",
+    "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000",
+    "-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true",
+    "-Pandroid.testInstrumentationRunnerArguments.class=com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+    ":calf-io:connectedAndroidDeviceTest"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 41.02,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "explicit_test_focus": "android-io-reference-regressions",
+  "finished_at_utc": "2026-11-01T02:05:17.497801+00:00",
+  "finite_only_device_modules_not_requested": [
+    "calf-permissions/core"
+  ],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "fc089964861e8e8a0bc26a2b8c272a465fa41c40c1cebbdf9f918c8b01fbe329",
+  "inputs_before_sha256": "fc089964861e8e8a0bc26a2b8c272a465fa41c40c1cebbdf9f918c8b01fbe329",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 0,
+      "module": "calf-io",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "disposition": "required-executed",
+          "name": "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoReferenceRegressionTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "disposition": "required-executed",
+          "name": "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoReferenceRegressionTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "disposition": "required-executed",
+          "name": "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures",
+          "required_on_host": true,
+          "source": "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoReferenceRegressionTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 3,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 3,
+          "path": "calf-io/build/outputs/androidTest-results/connected/androidMain/TEST-nativecmpkit-api35-d551c6869f2a(AVD) - 15.xml",
+          "sha256": "358ee8d9e99d5dae960b663482ea8ecec2a0b69eb55c26174dd9dbdbba0d6290",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-io:connectedAndroidDeviceTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+          "name": "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+      "name": "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+      "name": "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest",
+      "name": "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess"
+    }
+  ],
+  "runtime_receipt_sha256": "2611e50539864a369ee44a68332d6e5243f5982fa5c2a647a1e19e3b9074b41d",
+  "schema_version": 1,
+  "scope": "Three new actual API35 reference methods only: ordinary same-UID separate-process FileProvider metadata/nonpersistable access, sandbox file URI metadata/bookmarks/real missing reads and one cross-UID ordinary document read/persistable Activity result followed by owner revoke. No replay of accepted lifecycle5/oversize/host or pending default-Coil methods. Post-revoke ordinary-document release is idempotent revoked release, not live-release proof; FileProvider opens count successfully returned PFDs, not provider entries. No system/cloud/ExternalStorage/Downloads/DocumentsUI, reboot/whole-app restart, default decoder, memory/key, Apple scopes, packaged consumer/API-ABI or security/release certification.",
+  "source_revision": "2cb7dc275e8eaa15ef3545f3345afc439b44563e",
+  "source_revision_after": "2cb7dc275e8eaa15ef3545f3345afc439b44563e",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-01T02:04:36.480332+00:00",
+  "suite": "android-device",
+  "task_execution_markers": {
+    ":calf-io:connectedAndroidDeviceTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-permissions/core",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 3,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

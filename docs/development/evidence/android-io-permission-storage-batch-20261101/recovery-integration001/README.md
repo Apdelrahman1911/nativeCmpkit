@@ -1,0 +1,5 @@
+# Related Android recovery integration — actual inputs, not runtime acceptance
+
+Root verifies exact eight source postimages/preimages/Git modes and twelve safe installer additions. Reuses six archive/origin, eight installer and eight storage owning model passes on exact accepted bytes; no root replay or new compiler/native execution. Final actual source inventory1071 library/1148 library-plus-sample inputs is held; the sample-combined map is source-only, not an invented uploaded actual artifact. Actionlint emits no diagnostics.
+
+The finite API35 original batch requests8/8; storage-only compatibility requests6/6. API35 IO’s prior3 observations lacked original XML and were never accepted, so a fresh archive-bearing request is not an accepted-test replay. Every other requested row remains unexecuted. The API33/API34 request will be recovered separately without repeating six storage rows after acceptance. Original failures remain failed; #102/#118/#13/#141 remain open. No publication/release/Pages/main/history change or wider native/consumer/ABI/dependency/legal/security/readiness waiver.

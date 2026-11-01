@@ -30,6 +30,7 @@ SOURCE_FILES = tuple(sorted(("gradle/libs.versions.toml", "calf-permissions/core
 ANDROID = "{http://schemas.android.com/apk/res/android}"
 SIGNER_REVISION = "36.0.0"
 APPROVED_APIS = (33, 34, 35)
+MAX_INSTALLER_REPLY_BYTES = 1024**2
 STARTUP_INITIALIZERS = {"androidx.emoji2.text.EmojiCompatInitializer", "androidx.lifecycle.ProcessLifecycleInitializer",
     "androidx.profileinstaller.ProfileInstallerInitializer"}
 OPTIONAL_LIBRARIES = {"androidx.window.extensions", "androidx.window.sidecar"}
@@ -40,6 +41,22 @@ PROFILE_ACTIONS = {"androidx.profileinstaller.action." + name for name in
 def require(value: bool, message: str) -> None:
     if not value:
         raise ValueError(message)
+
+
+def installer_reply_facts(result: subprocess.CompletedProcess) -> dict:
+    """Bounded inert diagnostics, not an installer/byte/signature success receipt."""
+    require(type(result.returncode) is int and isinstance(result.stdout, bytes) and isinstance(result.stderr, bytes),
+        "Expected typed actual installer exit and byte streams")
+    require(len(result.stdout) + len(result.stderr) <= MAX_INSTALLER_REPLY_BYTES,
+        "Unbounded actual installer reply")
+    lines = result.stdout.splitlines()
+    shape = ("success" if lines == [b"Success"] else
+        "streamed-success" if lines == [b"Performing Streamed Install", b"Success"] else "unrecognized")
+    return {"stdout_bytes": len(result.stdout), "stdout_sha256": hashlib.sha256(result.stdout).hexdigest(),
+        "stdout_shape": shape, "stderr_bytes": len(result.stderr),
+        "stderr_sha256": hashlib.sha256(result.stderr).hexdigest(),
+        "stderr_empty_after_trim": not result.stderr.strip(),
+        "raw_stdout_stderr_or_paths_uploaded": False, "native_success_inferred": False}
 
 
 def validate_manifest(payload: bytes, *, compiled: bool) -> dict:
@@ -198,6 +215,7 @@ class OwnedPermissionDemo(OwnedShareRecipient):
         super().__init__(*args, **kwargs)
         self.api_level = api_level
         self.receipt.update(verification_api_level=api_level, prepare_status="not-started",
+            prepare_phase="not-started",
             automatic_runtime_permission_grant=False,
             scope="Fresh separate-UID source app mounts public permission/picker APIs. Native grants, denials, selected-media and real OS picker results remain library test assertions. No sample/Maven consumer, phone call, audio recording, physical/minimum/ABI/security or release certification.")
 
@@ -241,33 +259,51 @@ class OwnedPermissionDemo(OwnedShareRecipient):
     def prepare(self) -> dict:
         self.receipt["prepare_status"] = "running"
         try:
+            self.receipt["prepare_phase"] = "source-contract"
             contract = source_contract(self.root)
             self.receipt["source_contract"] = contract
+            self.receipt["prepare_phase"] = "sdk-inspectors"
             self.inspectors()
+            self.receipt["prepare_phase"] = "initial-install-absence"
             require(self.readback() is None, "Existing/foreign app must not be replaced or uninstalled")
             command = ["./gradlew", "--no-daemon", "--no-configuration-cache", "--max-workers=2", "--console=plain",
                 "--no-parallel", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
                 "-Pkotlin.compiler.execution.strategy=in-process", "-p", FIXTURE, "assembleDebug"]
+            self.receipt["prepare_phase"] = "source-app-assembly"
             execution = lt.execute(self.root, command, self.output / "source-apk-build.log", 900, 8192, env=self.environment)
             self.receipt.update(assembly_command=command, assembly=execution)
             require(execution["exit_code"] == 0 and not execution.get("stop_reason"), "Separate source app did not assemble")
+            self.receipt["prepare_phase"] = "source-apk-metadata"
             apk = metadata_apk(self.root, fixture=FIXTURE, package=PACKAGE)
             self.digest = lt.sha256(apk)
+            self.receipt["prepare_phase"] = "source-apk-policy"
             self.receipt.update(source_apk_sha256=self.digest, source_apk_bytes=apk.stat().st_size,
                 apk_policy=self.inspect_apk(apk))
+            self.receipt["prepare_phase"] = "source-apk-source-recheck"
             require(lt.sha256(apk) == self.digest and source_contract(self.root) == contract, "Source/APK changed during inspection")
             self.install_attempted = True
+            self.receipt["prepare_phase"] = "owned-installer"
             install = self.control("install", "-t", str(apk), timeout=120)
+            self.receipt["install_exit_code"] = install.returncode
+            self.receipt["prepare_phase"] = "installer-reply-facts"
+            self.receipt["installer_reply"] = installer_reply_facts(install)
+            self.receipt["prepare_phase"] = "installed-byte-readback"
             actual = self.readback() # Reconcile an uncertain installer before any possible owned cleanup.
             installed = actual is not None and actual.get("apk_sha256") == self.digest
             self.receipt.update(install_exit_code=install.returncode, installed_readback=actual, recipient_installed=installed)
-            require(install.returncode == 0 and install.stdout.splitlines() == [b"Success"] and not install.stderr.strip() and installed,
+            self.receipt["prepare_phase"] = "installer-reply-validation"
+            reply = self.receipt["installer_reply"]
+            require(install.returncode == 0 and reply["stdout_shape"] in {"success", "streamed-success"} and
+                reply["stderr_empty_after_trim"] and installed,
                 "Fresh app install/byte readback did not pass")
             self.receipt["prepare_status"] = "passed"
+            self.receipt["prepare_phase"] = "prepared-receipt-validation"
             validate_prepared_receipt(self.receipt, contract, self.api_level)
+            self.receipt["prepare_phase"] = "complete"
             return self.receipt
         except (OSError, ValueError, RuntimeError, TimeoutError, subprocess.SubprocessError, KeyboardInterrupt) as failure:
-            self.receipt.update(prepare_status="failed", prepare_error=type(failure).__name__)
+            self.receipt.update(prepare_status="failed", prepare_error=type(failure).__name__,
+                prepare_error_phase=self.receipt["prepare_phase"])
             raise
         finally:
             lt.write_json(self.output / "receipt.json", self.receipt)

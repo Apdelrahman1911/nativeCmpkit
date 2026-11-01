@@ -1,0 +1,19 @@
+test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer (test_android_permission_demo.AndroidPermissionDemoInstallerReplyTest.test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer) ... ERROR
+
+======================================================================
+ERROR: test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer (test_android_permission_demo.AndroidPermissionDemoInstallerReplyTest.test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "scripts/ci/test_android_permission_demo.py", line 294, in test_prepare_accepts_exact_streamed_success_with_unchanged_source_and_signer
+    receipt = owner.prepare()
+              ^^^^^^^^^^^^^^^
+  File "scripts/ci/android_permission_demo.py", line 264, in prepare
+    require(install.returncode == 0 and install.stdout.splitlines() == [b"Success"] and not install.stderr.strip() and installed,
+  File "scripts/ci/android_permission_demo.py", line 42, in require
+    raise ValueError(message)
+ValueError: Fresh app install/byte readback did not pass
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (errors=1)

@@ -29,6 +29,7 @@ SLOTS = (
 PROFILES = {
     "android-io-permission-storage-api35": ("android-device-api35",),
     "android-permission-storage-compatibility": ("android-device-api35",),
+    "android-storage-compatibility": ("android-device-api35",),
     "android-storage-api28": ("android-device-api35",),
     "android-storage-api29-target28": ("android-device-api35",),
     "android-storage-api29-legacy": ("android-device-api35",),
@@ -176,6 +177,7 @@ PROFILES = {
 MODULE_SUBSETS = {
     "android-io-permission-storage-api35": "calf-io,calf-permissions/core",
     "android-permission-storage-compatibility": "calf-permissions/core",
+    "android-storage-compatibility": "calf-permissions/core",
     "android-storage-api28": "calf-permissions/core",
     "android-storage-api29-target28": "calf-permissions/core",
     "android-storage-api29-legacy": "calf-permissions/core",

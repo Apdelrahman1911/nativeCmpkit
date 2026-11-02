@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Remaining Desktop cancellation hosts verified; security batch next
+
+[macOS x64 original](evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md)
+and [corrected Linux ARM64 original](evidence/current-platform-recovery-20261101/javafx-linux-native373-380/README.md)
+each pass1/1, fresh XML, Gradle0/565.58s and263.06s. Together with macOS ARM64,
+all three missing Stop hosts are now accepted, with original transport/recovery/
+cleanup assertions. No unchanged accepted cases or original archives are replayed.
+The Linux EGL loader is verified; Skiko automatic GL fallback remains a retained
+warning, not painted/GPU acceptance.28/26 review checks are passive, not new tests.
+#64 stays open because the candidate is not in ordinary consumer dependencies.
+Next the13 missing Desktop security executions and differing host graphs, then
+ordinary adoption/legal/security/consumer/API–ABI.97closed/75open/172total;
+solo/serial/8GiB/max2 combined hosted including queued/read-only development
+verification only, with every publication/Pages/main/history gate unchanged.
+
 ## macOS ARM64 cancellation passes; Linux runtime repair ready — 2026-11-02
 
 [Originals363–372](evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)

@@ -8,7 +8,13 @@ The historical original Windows #64/NATIVE-005 Stop acceptance failed: the publi
 Worker cancelled and NativeCmpKit reported Finished, but the held HTTP peer
 remained connected. The private Windows full-JAR candidate now passes the original
 library Stop method; ordinary dependencies are unchanged. Linux ARM64 and both
-macOS original Stops still fail with the same precleanup scalar observations.
+macOS original Stops failed at that checkpoint with the same precleanup scalar
+observations. Later candidate originals now accept all three missing hosts:
+[macOS ARM64](../development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md),
+[macOS x64](../development/evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md)
+and [corrected Linux ARM64](../development/evidence/current-platform-recovery-20261101/javafx-linux-native373-380/README.md).
+The Linux EGL prerequisite is fixed; automatic GL fallback still is not GPU/
+painted-content certification. Ordinary dependency adoption remains incomplete.
 Exact OpenJFX21.0.13 `HTTP2Loader.fwkCancel()` only sets a callback
 suppression flag. Cancelling its stored response future fixes four genuine
 dependency-native cases on Linux and Windows. Those results are not library
@@ -70,8 +76,8 @@ and daemon; a cross-packaged JAR is not platform functionality evidence.
   Preserved notices are not a redistribution or legal certification.
 - Same-registry hash pins are consistency evidence, not independent provenance,
   signing, vulnerability or supply-chain clearance.
-- Windows Stop1 success alone cannot close #64: three remaining Desktop Stops
-  and ordinary dependency adoption still apply. The browser offline-destination
+- Windows Stop1 success alone did not close #64. The three later missing Desktop
+  Stops now pass, but ordinary dependency adoption still applies. The browser offline-destination
   subset is now accepted, not system-offline/DNS/TLS certification. Accepted
   unchanged populations are reused, not replayed.
 - Workflow artifacts contain receipts/logs/XML only; no JARs, class files or

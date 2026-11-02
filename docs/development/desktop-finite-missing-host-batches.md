@@ -2,6 +2,15 @@
 
 ## Current missing-only amendment — 2026-11-02
 
+The newest [macOS x64](evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md)
+and [corrected Linux ARM64](evidence/current-platform-recovery-20261101/javafx-linux-native373-380/README.md)
+Stops pass1/1 each. **All three missing Desktop Stops are accepted; never replay
+them on unchanged inputs.** The next missing-only execution batches are the
+two security pairs below (13 native methods total), not request/Stop aliases.
+The private cancellation dependency still needs ordinary adoption; automatic
+Skiko GL fallback on Linux is not the missing painted-content security oracle.
+The older pending observations below retain their dated checkpoint scope.
+
 The later [candidate originals363–372](evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)
 accept macOS ARM64 Stop1/1; **never replay that accepted method**. Linux ARM64
 fails before Stop because Skiko lacks `libEGL.so.1`; the exact Linux-only runtime
@@ -45,7 +54,7 @@ Linux x64 TLS case. These are expected counts, **not native results**.
 
 ## Admission and execution
 
-Current failed-only candidate verification uses the dedicated
+The completed failed-only candidate verification used the dedicated
 `javafx-library-candidate.yml`, one `platform=linux-arm64`, `macos-arm64` or
 `macos-x64` host per dispatch. The original Stop1/XML1/native predicates remain.
 [Owning351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)

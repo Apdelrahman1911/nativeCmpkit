@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## All missing Desktop Stop hosts accepted — 2026-11-02
+
+- [macOS x64 374–377](docs/development/evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md):
+  41525181917/924a06c2, original1/1/XML1/Gradle0/565.58s/JDK17.0.20.1;
+  26 passive checks. Frozen18 candidate inputs are not full-current after EGL.
+- [Linux ARM64 373–380](docs/development/evidence/current-platform-recovery-20261101/javafx-linux-native373-380/README.md):
+  41527292544/8ba50008, original1/1/XML1/Gradle0/263.06s/JDK17.0.21;
+  28 passive checks/all1215 library and18 candidate maps held. Actual EGL loader
+  exists; automatic Skiko GL fallback warning remains, not GPU/pixel acceptance.
+- Together with accepted macOS ARM64/Windows/other-platform results, all three
+  previously missing Stops are accepted. Never replay them or old request pairs.
+  Native transport/zero-response/same-owner recovery/cleanup criteria stay exact.
+- #64 progress6589143072 read back before docs; still open because ordinary
+  consumers do not use the private candidate. Next13 missing Desktop security
+  executions in two exact pairs; reuse accepted Linux TLS/graph/advisory results.
+  Then ordinary adoption/corresponding-source/legal/security/consumer/API–ABI.
+- 97closed/75open/172total;22implemented/42partial/95verified/five unresolved.
+  SOLO/no agents, serial local heavy/8GiB/max2 combined hosted including queued,
+  development only. Actions read-only/all/no mandatory SHA pinning; no packages,
+  releases, deployment, Pages/main/history change or cached-original redownload.
+
 ## macOS ARM64 Stop accepted; Linux EGL prerequisite repaired — 2026-11-02
 
 [Actual363–372](docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)

@@ -35,6 +35,14 @@ EXPECTED = {
     "scripts/ci/test_android_camera_startup_readiness.py":
         "239bbde00bd8deb728119aa2d76395f4e01615ab25092a3fe2a6dd57f8a274bf",
 }
+# Exact terminal/AWT240 metadata derivatives; the original EXPECTED literal and
+# all five method bodies remain historical and byte-identical. No live hash is
+# computed into this allowlist and the actual current bytes still require it.
+CURRENT_TERMINAL_AWT240_SOURCE_SHA256 = {
+    CONSOLE: "623fc7d14b47e048f0060836a726a662fa57678e9104b2191990bda0f3637952",
+    OWNING: "cbb64e0e7c79b120919b7be0e9511ba317d9bdd59ef96e883b2c2fc6c594d9cb",
+}
+EXPECTED.update(CURRENT_TERMINAL_AWT240_SOURCE_SHA256)
 HISTORICAL_TAIL = "f2f8f408349c30174c21e2d6ffc07adaf4c8ede6945539360d401172f147a1eb"
 OWNING_METHODS = "aa32d21b11bdfd92b0e866ddc2aef31d7d2162a352756b6c02179aadeb444f74"
 

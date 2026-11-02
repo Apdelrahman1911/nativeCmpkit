@@ -13,6 +13,11 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 
+if __package__:
+    from .terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240
+else:
+    from terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240
+
 ROOT = Path(__file__).resolve().parents[2]
 ALERT = "scripts/ci/test_ui_alert_container_timeout_observation.py"
 HISTORY = "scripts/ci/test_ui_alert_important_recovery.py"
@@ -29,6 +34,19 @@ EXPECTED = {
     "scripts/ci/workflow_matrix.py": "c4ad217aaf7d1c5586fe57edba3214b7c8d7bd383661df2b55a70ce4d9be3f45",
     ".github/workflows/gradle.yml": "ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561",
 }
+# Current-only, exact source derivatives; never rewrite the historical literal.
+# Whole actual images qualify in setUpClass. Only the three byte-history methods
+# explicitly project their inputs to the preserved Share188 source contract;
+# FF/current47 checks continue to hash actual current files, not projected bytes.
+CURRENT_TERMINAL_AWT240_SOURCE_SHA256 = {
+    ALERT: "6de5af63c8de7327bb1dbb85f6a44011b993f381b002fc2ef030a1d8467a2fa0",
+    HISTORY: "78a84a1c849ac8487644329e4293cf65064b7ea2580475a23e2c23a00bff0efa",
+    FF: "663bf8e7c846519e719ca1da7087feddc7a3f1e7dab65fe3dfad23e7a66c1669",
+    CONSOLE: "623fc7d14b47e048f0060836a726a662fa57678e9104b2191990bda0f3637952",
+    OWNING: "cbb64e0e7c79b120919b7be0e9511ba317d9bdd59ef96e883b2c2fc6c594d9cb",
+    "scripts/ci/library_tests.py": "5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2",
+}
+EXPECTED.update(CURRENT_TERMINAL_AWT240_SOURCE_SHA256)
 
 
 def digest(payload):
@@ -76,6 +94,8 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
                  "SHARE188_OUTER_GUARD_PINS")
         namespace = {n: literal(source, n) for n in names}
         namespace.update(ast=ast, hashlib=hashlib, json=json, ROOT=ROOT, HISTORICAL=HISTORY)
+        namespace.update(source_before_terminal_awt240=source_before_terminal_awt240,
+                         text_before_terminal_awt240=text_before_terminal_awt240)
         function_names = {"digest", "portable_ast", "ast_digest", "raw_node",
                           "compose_share188_outer_guard", "authored_guard_namespace"}
         functions = [n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name in function_names]
@@ -94,7 +114,7 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
             "scripts/ci/library_tests.py", "scripts/ci/workflow_matrix.py", ".github/workflows/gradle.yml"})
         for relative, binding in namespace["SHARE188_FAILED_ONLY_REBASE"].items():
             with self.subTest(relative=relative):
-                payload = self.payloads[relative]
+                payload = source_before_terminal_awt240(relative, self.payloads[relative])
                 restored = outer(relative, payload)
                 self.assertEqual(digest(restored), binding["before_sha256"])
                 self.assertEqual(digest(combined(relative, payload)),
@@ -107,7 +127,7 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
 
     def test_ci224_02_missing_duplicate_or_modified_outer_symbols_refuse_before_compilation(self):
         guard = self.alert_guard()
-        source = self.sources[HISTORY]
+        source = text_before_terminal_awt240(HISTORY, self.sources[HISTORY])
         declaration = assignment(source, "SHARE188_FAILED_ONLY_REBASE")
         function = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and
                         n.name == "source_before_share188_failed_only_rebase")
@@ -128,7 +148,7 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
         outer = namespace["source_before_share188_failed_only_rebase"]
         combined = namespace["source_before_share_alert153_rebase"]
         for relative in namespace["SHARE188_FAILED_ONLY_REBASE"]:
-            payload = self.payloads[relative]
+            payload = source_before_terminal_awt240(relative, self.payloads[relative])
             old = outer(relative, payload)
             for candidate in (old, payload + b"\n", payload[:-1], b"", None, bytearray(payload), payload.decode()):
                 with self.subTest(relative=relative, candidate_type=type(candidate).__name__):

@@ -16,6 +16,11 @@ from pathlib import Path
 import re
 import unittest
 
+if __package__:
+    from .terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240
+else:
+    from terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240
+
 ROOT = Path(__file__).resolve().parents[2]
 NATIVE = 'calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt'
 HISTORICAL = 'scripts/ci/test_ui_alert_important_recovery.py'
@@ -91,12 +96,13 @@ def compose_share188_outer_guard(source, parsed, namespace):
     historical = namespace["source_before_share_alert153_rebase"]
 
     def combined(relative, current):
-        return historical(relative, outer(relative, current))
+        return historical(relative, outer(relative, source_before_terminal_awt240(relative, current)))
 
     namespace["source_before_share_alert153_rebase"] = combined
 
 
 def authored_guard_namespace(source):
+    source = text_before_terminal_awt240(HISTORICAL, source)
     parsed = ast.parse(source)
     names = {"EXPECTED_SOURCE_SHA256", "ALERT_CONTAINER153_OBSERVATION", "SHARE_ALERT153_REBASE",
              "SHARE_ALERT153_OPTIONAL_WASM_PIN"}
@@ -125,7 +131,9 @@ def authored_guard_namespace(source):
 
 class AlertContainerTimeoutNewSourceControls(unittest.TestCase):
     def setUp(self):
-        self.historical = (ROOT / HISTORICAL).read_text()
+        self.historical = text_before_terminal_awt240(
+            HISTORICAL, (ROOT / HISTORICAL).read_text()
+        )
         self.parsed, self.assignments, self.namespace = authored_guard_namespace(self.historical)
         self.binding = self.namespace["ALERT_CONTAINER153_OBSERVATION"]
         self.native = (ROOT / NATIVE).read_bytes()

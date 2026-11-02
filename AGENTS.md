@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Solo CI244 source recovery247 accepted — 2026-11-02
+
+[Original244/actual246–248](docs/development/evidence/current-platform-recovery-20261101/shared-ci244-248/README.md)
+preserves41396407030/41396444059 FAILED2375tooling/eight errors each;
+73.947s/126.707s, ZERO profile/compiler/native/XML/artifacts. Originals acquired
+once/reused. Three outside-Camera47 readers reverse exact terminal/AWT240 before
+intact historical chains; finite two/six current-leaf overlays retain original
+literals/assertions. Actual24618methods/17pass/onefail20records/0.873s remains
+failed: raw current text mismatched projected AST coordinates. Same projected
+text now retained by setup; no19-body repin. Only failed1+affected3+NEWcoordinate1
+pass5/5/0.342s/wrapper0.378691s,1203/1281held. Three whole images/11fragments/
+42passive review checks and missing-only preflights qualify source, ZERO native.
+Other accepted246/control and unchanged Kotlin/compiler populations are reused,
+not replayed. Next development-only frozen WindowsStop1/Sharepublic1. #64/#81/
+#88/#48/#100 stay open;97closed/75open/172total and24implemented/40partial/
+95verified/five unresolved unchanged. SOLO/no new or resumed agents, serial local/
+8GiB/max2combined hosted INCLUDING queued; Actions/all/read-only/no mandatory SHA
+pinning and every publishing/Pages/main/history/native/consumer/API-ABI/dependency/
+legal/security/readiness gate remain. No package/release/deployment publication.
+
 ## Solo terminal/AWT owning batch reviewed — 2026-11-02
 
 [Actual237–243](docs/development/evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)

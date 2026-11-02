@@ -1,0 +1,91 @@
+{
+  "baseline_head": "c660de30f4ede3303dd4af27614082ed2bb5abd1",
+  "bindings": {
+    "scripts/ci/test_camera_ci213_source_projection.py": {
+      "after_sha256": "71ba35da167b245c6b008f21e1fde8320eaada9340384ff189c92bc960f621fb",
+      "before_sha256": "34116aeea6a1d7181b012515beeb0a64405d056c0f8e7367c7190ccb564269e5",
+      "fragments": [
+        {
+          "after": "        \"239bbde00bd8deb728119aa2d76395f4e01615ab25092a3fe2a6dd57f8a274bf\",\n}\n# Exact terminal/AWT240 metadata derivatives; the original EXPECTED literal and\n# all five method bodies remain historical and byte-identical. No live hash is\n# computed into this allowlist and the actual current bytes still require it.\nCURRENT_TERMINAL_AWT240_SOURCE_SHA256 = {\n    CONSOLE: \"623fc7d14b47e048f0060836a726a662fa57678e9104b2191990bda0f3637952\",\n    OWNING: \"cbb64e0e7c79b120919b7be0e9511ba317d9bdd59ef96e883b2c2fc6c594d9cb\",\n}\nEXPECTED.update(CURRENT_TERMINAL_AWT240_SOURCE_SHA256)\n",
+          "after_fragment_sha256": "ee6a32464c2f566d1f13b1365eaaf75d24ae0afebbb7eae02e8f9245c0ca8e1e",
+          "before": "        \"239bbde00bd8deb728119aa2d76395f4e01615ab25092a3fe2a6dd57f8a274bf\",\n}\n",
+          "before_fragment_sha256": "2b9f6ed64e870fc0888d6a7cb19d05fd35f1905a04908bb4f01a05e0f5529af7"
+        }
+      ]
+    },
+    "scripts/ci/test_ci224_shared_source_composition.py": {
+      "after_sha256": "079de586f43aa45999ada16e371719ad56b20a883eb20b841130d5dceb1f0e1d",
+      "before_sha256": "ac111ca6bb94b041916e035efa5b3edf1978637070b6cbd69b971dae01c7f6b7",
+      "fragments": [
+        {
+          "after": "from unittest.mock import patch\n\nif __package__:\n    from .terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240\nelse:\n    from terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240\n",
+          "after_fragment_sha256": "a3591113bcf8210f86def76aac8b0e9965abe55ad505d3be0eb920bb10df791e",
+          "before": "from unittest.mock import patch\n",
+          "before_fragment_sha256": "cb7a187127ab8da0ce3a2254bddf0cbcafdb7db25850da760ff654fc6e5bc5e1"
+        },
+        {
+          "after": "    \".github/workflows/gradle.yml\": \"ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561\",\n}\n# Current-only, exact source derivatives; never rewrite the historical literal.\n# Whole actual images qualify in setUpClass. Only the three byte-history methods\n# explicitly project their inputs to the preserved Share188 source contract;\n# FF/current47 checks continue to hash actual current files, not projected bytes.\nCURRENT_TERMINAL_AWT240_SOURCE_SHA256 = {\n    ALERT: \"6de5af63c8de7327bb1dbb85f6a44011b993f381b002fc2ef030a1d8467a2fa0\",\n    HISTORY: \"78a84a1c849ac8487644329e4293cf65064b7ea2580475a23e2c23a00bff0efa\",\n    FF: \"663bf8e7c846519e719ca1da7087feddc7a3f1e7dab65fe3dfad23e7a66c1669\",\n    CONSOLE: \"623fc7d14b47e048f0060836a726a662fa57678e9104b2191990bda0f3637952\",\n    OWNING: \"cbb64e0e7c79b120919b7be0e9511ba317d9bdd59ef96e883b2c2fc6c594d9cb\",\n    \"scripts/ci/library_tests.py\": \"5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2\",\n}\nEXPECTED.update(CURRENT_TERMINAL_AWT240_SOURCE_SHA256)\n",
+          "after_fragment_sha256": "85ce8d565f64306a6a867a05191562a91cd6b8934abc379dd7471dcc0907a2e7",
+          "before": "    \".github/workflows/gradle.yml\": \"ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561\",\n}\n",
+          "before_fragment_sha256": "5be100182458732b6c06a6d69627153482305d315d32a6a3ffd4c3f3eb805cb7"
+        },
+        {
+          "after": "        namespace.update(ast=ast, hashlib=hashlib, json=json, ROOT=ROOT, HISTORICAL=HISTORY)\n        namespace.update(source_before_terminal_awt240=source_before_terminal_awt240,\n                         text_before_terminal_awt240=text_before_terminal_awt240)\n",
+          "after_fragment_sha256": "e8af7d155437e28f19715e4f41a687e8be6f1b029aba0835b8d356f2ac0f3fb9",
+          "before": "        namespace.update(ast=ast, hashlib=hashlib, json=json, ROOT=ROOT, HISTORICAL=HISTORY)\n",
+          "before_fragment_sha256": "664e8d6d3820d93f5f608b85bbae0690a75e28a5c57e57867e84c19fa7a44eb1"
+        },
+        {
+          "after": "                payload = source_before_terminal_awt240(relative, self.payloads[relative])\n",
+          "after_fragment_sha256": "1ea425bfc78856ba7aae70f9b3d07817cb5e15130ea73dcc86763c11fb6b2d70",
+          "before": "                payload = self.payloads[relative]\n",
+          "before_fragment_sha256": "d9d3f86efdd6e75f3cfc0a6e6f74927605019d355df40bfa9463175216173ab3"
+        },
+        {
+          "after": "        source = text_before_terminal_awt240(HISTORY, self.sources[HISTORY])\n",
+          "after_fragment_sha256": "0af797fc91a5eace87a2588709fe30b9363aa26eccfd55dc05a56ba36bc4583c",
+          "before": "        source = self.sources[HISTORY]\n",
+          "before_fragment_sha256": "bd7cbf6b92a6e0d739f66960b812709ed5c0790019215a9bbe1d8b385b20e5f9"
+        },
+        {
+          "after": "        for relative in namespace[\"SHARE188_FAILED_ONLY_REBASE\"]:\n            payload = source_before_terminal_awt240(relative, self.payloads[relative])\n",
+          "after_fragment_sha256": "3ff3f96e56204184206474d59b0255c290a0f7c1fd458291d03611064a9375ce",
+          "before": "        for relative in namespace[\"SHARE188_FAILED_ONLY_REBASE\"]:\n            payload = self.payloads[relative]\n",
+          "before_fragment_sha256": "2cca6d279539c2c800950c55a396b762e787ff5fd9ab50ce92a57d4f32c9e7dc"
+        }
+      ]
+    },
+    "scripts/ci/test_ui_alert_container_timeout_observation.py": {
+      "after_sha256": "6de5af63c8de7327bb1dbb85f6a44011b993f381b002fc2ef030a1d8467a2fa0",
+      "before_sha256": "fc761b20a2d5a78e275dc1e5965402a0c284c7a61b3d97c17098b7b209cc9884",
+      "fragments": [
+        {
+          "after": "import unittest\n\nif __package__:\n    from .terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240\nelse:\n    from terminal_awt240_source_projection import source_before_terminal_awt240, text_before_terminal_awt240\n",
+          "after_fragment_sha256": "f79caa5550e2c447992fc51bfe77d8c773b5605955457acb31d82889e506564c",
+          "before": "import unittest\n",
+          "before_fragment_sha256": "e1d92481cfd5db7ec574fbd3ddef3734c629ec779e84eaa6ad92c125936320c7"
+        },
+        {
+          "after": "        return historical(relative, outer(relative, source_before_terminal_awt240(relative, current)))\n",
+          "after_fragment_sha256": "27bd49539f986ba1cde7b9d9467cf9e84155c4033b32b69919b2972c3b628436",
+          "before": "        return historical(relative, outer(relative, current))\n",
+          "before_fragment_sha256": "c982df5ba3eeea531b7df1bda22c0a244a4165e665fa8f6d7bd842a5eb1e10ad"
+        },
+        {
+          "after": "def authored_guard_namespace(source):\n    source = text_before_terminal_awt240(HISTORICAL, source)\n",
+          "after_fragment_sha256": "25fba7d837f5894f13e235446e1278e6f0aa9aae7d28b48d0d35101fb49b28ce",
+          "before": "def authored_guard_namespace(source):\n",
+          "before_fragment_sha256": "2fde7efbd741a35015d075c5207ba27f0f83cb84653d095e822465c2a760e641"
+        },
+        {
+          "after": "        self.historical = text_before_terminal_awt240(\n            HISTORICAL, (ROOT / HISTORICAL).read_text()\n        )\n",
+          "after_fragment_sha256": "d2815fd9a24985ee9e3a7970ee05c69d957830d46569438744506dd81892bce4",
+          "before": "        self.historical = (ROOT / HISTORICAL).read_text()\n",
+          "before_fragment_sha256": "1d0b832fd56a5ac2f90f8b01c44187698cd7e8a92adefad606884a3ea2b544af"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact three owning CI245 bridge changes. Evidence/source-only reconstruction; no library/native execution or generic repinning."
+}

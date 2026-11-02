@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Solo shared CI244 recovery — 2026-11-02
+
+[Original244/actual246–248](evidence/current-platform-recovery-20261101/shared-ci244-248/README.md)
+preserves both failed2375-tooling runs/eight errors each, before any native work.
+Three source readers now admit finite exact current derivatives and align raw
+historical text with its projected AST; original method pins remain. First246
+17pass/onefail is retained. Only failed/affected/NEW5 pass5/5 with1203/1281 held;
+42 passive review checks and finite source-only preflights qualify the recovery.
+No unchanged Kotlin rebuild or accepted population replay. Windows Stop1/Share
+public1 still require genuine hosted results; no new issue closure, publishing or
+readiness/security clearance. Continue solo under the owner's latest instruction.
+
 ## Solo Windows/iOS terminal lifecycle batch — 2026-11-02
 
 [Actual237–243](evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)

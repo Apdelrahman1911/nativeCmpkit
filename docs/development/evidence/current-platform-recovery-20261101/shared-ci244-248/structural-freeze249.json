@@ -1,0 +1,52 @@
+{
+  "observed_utc": "2026-11-02T06:12:34.724305+00:00",
+  "results": [
+    {
+      "command": [
+        "python3",
+        "scripts/migration/verify_migration.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/audit/validate_audit.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/development/generate_icon_catalogues.py",
+        "--check"
+      ],
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "successful": true
+}

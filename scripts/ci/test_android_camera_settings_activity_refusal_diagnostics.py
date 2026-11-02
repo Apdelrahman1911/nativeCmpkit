@@ -29,6 +29,12 @@ def pre_startup_helper_source(source: str) -> str:
     if hashlib.sha256(payload).hexdigest() != STARTUP_INVERSE_SHA256:
         raise AssertionError("Exact owning startup-inverse fixture is changed")
     contract = json.loads(payload)
+    # CI213: the exact owned-console repair precedes the untouched startup inverse.
+    from camera_scalar_failfast_source_projection import camera197_helper_source_before_owned_console
+    try:
+        source = camera197_helper_source_before_owned_console(source)
+    except AssertionError as error:
+        raise AssertionError("Full current helper bytes differ from the qualified afterimage") from error
     if type(source) is not str or hashlib.sha256(source.encode()).hexdigest() != contract["after_sha256"]:
         raise AssertionError("Full current helper bytes differ from the qualified afterimage")
     restored = source

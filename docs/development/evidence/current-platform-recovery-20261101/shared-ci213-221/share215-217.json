@@ -1,0 +1,39 @@
+{
+  "prior215": "FAILED setUpClass; zero tests; missing twelve unchanged supporting inputs",
+  "prior216": {
+    "result": "FAILED",
+    "tests_run": 4,
+    "passed": [
+      "CS01",
+      "CS03",
+      "CS04"
+    ],
+    "error": "CS02 fixture ast.literal_eval cannot decode exact owning4*1024*1024 bound; byte-reader assertions unreached",
+    "unittest_seconds": 0.145,
+    "wrapper_seconds": 0.21491096098907292,
+    "staged_inputs_held": 21
+  },
+  "failed_only217": {
+    "exit_code": 0,
+    "wrapper_seconds": 0.2145668959710747,
+    "unittest_log_sha256": "2c80a48f402513f993a07d89513da5e22d6f186a6009a8e7091dabe57f282071",
+    "accepted3_replay": 0,
+    "native_compiler_execution": 0
+  },
+  "repair217": {
+    "schema": 1,
+    "root_cause": "ast.literal_eval cannot decode the owning arithmetic bound4*1024*1024; the actual byte reader was unreached.",
+    "fix": "Require the exact bound AST, then provide that fixed integer in the inert support namespace; no eval or bound relaxation.",
+    "before_driver_sha256": "565813f4b40502542c5d02a365f6601e178ed9435fe6b2e56cb5e90d1e5e7d4a",
+    "after_driver_sha256": "44d4a9c8e8b1112fe8221a66f05966d0981ae842fd3d5dd85ad3599d1146d3be",
+    "all_four_test_bodies_raw_exact": true,
+    "execute_only_failed": "test_cs02_exact_current_shared_reader_admits_and_stale_missing_links_mutations_refuse",
+    "previous215": "zero methods/incomplete fixture",
+    "previous216": "3pass/1error; original retained"
+  },
+  "four_test_bodies_unchanged": true,
+  "accepted_three_replayed": 0,
+  "new4_driver_in_generic_CI_discovery": false,
+  "qualified_share_seven_postimages_current_exact": true,
+  "native_Kotlin207_compiler_result_reused_not_replayed": "Gradle0/32.01s; exact applicable two Kotlin sources retained; ZERO new Apple link/native"
+}

@@ -940,6 +940,18 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS] = {
 
 IOS_SHARE_APPLICATION_REQUIRED_GROUPS = UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS]["groups"]
 
+# Share188 failed FIRST/Main method only; all original thirteen bodies stay authored and enabled.
+IOS_SHARE_REMEMBERED_FAILURE_FOCUS = "share-ios-remembered-failure-observation"
+IOS_SHARE_REMEMBERED_FAILURE_METHOD = "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks"
+IOS_SHARE_TERMINAL_OBSERVATION_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/ShareTerminalInputObservation.kt"
+UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_REMEMBERED_FAILURE_FOCUS] = {
+    "module": "calf-share",
+    "groups": ({"classname": IOS_SHARE_PRESENTATION_CLASS, "source": IOS_SHARE_PRESENTATION_SOURCE,
+                "methods": (IOS_SHARE_REMEMBERED_FAILURE_METHOD,),
+                "declared_methods": IOS_SHARE_PRESENTATION_METHODS},),
+    "scope": "Only the unchanged failed Share188 public-remembered method, including its original Main/Default/IO/current-callback/reentry/disposal assertions and Completed expectation. The accepted twelve methods stay enabled and unselected. A test-owned per-request completion wrapper changes installed block identity/timing, forwards every received call once with all four original arguments to the immutable original delegate, and emits bounded fixed main-thread bool/count/phase observations only after failure. Genuine UIKit/public dispatch, original deadlines, original owner/native/root/Worker leases and refusals remain; no result injection/deduplication/coalescing, callback restoration after release, native origin attribution, production repair, accepted replay, #88/#81/#48/#100 closure or readiness/API-ABI/consumer/security/publishing certification.",
+}
+
 IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
 IOS_WEBVIEW_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest"
 IOS_WEBVIEW_LIFECYCLE_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt"
@@ -2151,7 +2163,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus == IOS_SHARE_PRESENTATION_FOCUS and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
             if (focus in UI_DATE_YEAR_NATIVE_FOCUSES or focus == UI_ALERT_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New important alert/year source must retain all enabled native declarations")
@@ -2164,6 +2176,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
+        if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS:
+            observer = safe_path(root, IOS_SHARE_TERMINAL_OBSERVATION_SOURCE)
+            if (IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in selected[0]["test_source_files"] or
+                    not observer.is_file() or observer.stat().st_nlink != 1 or
+                    re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", observer.read_text(encoding="utf-8"))):
+                raise ValueError("The exact failed Share method requires its enabled zero-test observation helper")
         if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):
             fixture = safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE)
             if not fixture.is_file() or fixture.stat().st_nlink != 1:
@@ -3194,11 +3212,14 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("project") != ":calf-ui" or
                 expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
             raise ValueError("Invalid finite four-method important alert recovery source/report plan")
-        if focus == IOS_SHARE_PRESENTATION_FOCUS and (len(expected) != 1 or
+        if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and (len(expected) != 1 or
                 expected[0].get("project") != ":calf-share" or
                 expected[0].get("report_directory") != "calf-share/build/test-results/" + IOS_APPLICATION_TASK or
                 any(path not in expected[0].get("test_source_files", []) for path in IOS_SHARE_APPLICATION_SOURCES)):
             raise ValueError("New Share disposal plan requires its exact owning app sources/project/report tree")
+        if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS and (len(expected) != 1 or
+                IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in expected[0].get("test_source_files", [])):
+            raise ValueError("Failed Share observation plan requires its exact zero-test helper source")
         application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or

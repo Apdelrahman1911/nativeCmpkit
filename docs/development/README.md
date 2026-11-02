@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Shared camera/Share CI recovery — actual213–221, 2026-11-02
+
+[The owning repair and source/results review](evidence/current-platform-recovery-20261101/shared-ci213-221/README.md)
+retain the original failed tooling run. Only three failed source methods plus
+five new regression controls pass **8/8**; both failed module imports qualify
+without replaying accepted method populations. Current camera/Share bindings and
+historical bodies hold on **1194/1272** source inputs. Both single-method native
+CLI preflights pass; actual native requests/results remain separate. **97closed/
+75open/172total**, no new closure or publishing/readiness clearance. Let current
+agents finish, then continue solo under the [current containment policy](containment.md).
+
 ## Android Local2 source/compiler recovery — actual200–201, 2026-11-02
 
 [Failure-only gate observation](evidence/current-platform-recovery-20261101/android-local2-200-201/README.md)

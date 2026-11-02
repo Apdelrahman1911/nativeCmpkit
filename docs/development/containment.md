@@ -1,15 +1,16 @@
 # Contained development with authorized verification CI
 
-## Current parallel-execution amendment — 2026-10-31
+## Current solo-execution amendment — 2026-11-02
 
-The owner now explicitly requests as many useful parallel agents as capacity
-permits, superseding the historical solo/two-agent limits below. Assign disjoint
-bounded tasks and avoid duplicate accepted tests. The lead owns integration,
-Git/GitHub mutations, immutable requests and acceptance/closure. Heavy local builds
-remain serial with at least 8 GiB reserve, and at most two combined heavy hosted
-requests. Related-patch important tests and immediate verified-subset closures
-remain the execution order. No publishing, permission, security, Pages, `main` or
-history restriction is relaxed.
+The owner's latest instruction is to let current agents finish, then continue
+solo. Do not spawn agents, resume completed agents or assign follow-up work.
+Previously delivered qualified packets may be reviewed/reused without duplicating
+accepted tests. This supersedes the 2026-10-31 parallel authorization and earlier
+solo/two-agent limits. The lead owns integration, Git/GitHub mutations, immutable
+requests and acceptance/closure. Local heavy builds remain serial with an 8 GiB
+reserve; at most two combined hosted-heavy reservations include queued work.
+Related-patch important tests and immediate verified-subset closures remain the
+execution order. Publishing, security, Pages, `main` and history gates are unchanged.
 
 ## Current owner decisions — 2026-10-26–27
 
@@ -19,7 +20,7 @@ configuration/fixes/execution with minimum permissions, and continued developmen
 Android/Apple/Windows/dependency/consumer verification. Routine development and
 verification require no further approval. The then-current supplied maintainer
 instructions required **contained single-agent execution**, superseded by the
-2026-10-31 amendment above.
+2026-11-02 solo amendment above.
 
 On **2026-10-27** the owner first reaffirmed single-agent containment, then
 explicitly permitted **up to two agents if useful**, asked to close completed
@@ -51,7 +52,7 @@ full documentation preflights or whole-release gates. Reuse valid unchanged
 evidence without calling it a fresh run. A batch is not permission to close its
 unverified members. Read back and document the exact closed subset afterward.
 The original single-agent requirement is historical; all publishing/security
-restrictions remain, with the parallel-execution amendment above now applicable.
+restrictions remain, with the current solo-execution amendment above now applicable.
 
 ### Authorized now
 
@@ -109,7 +110,7 @@ homes. No new token permissions or publishing/security gate is authorized.
   unrelated passing suite. Native/device, consumer, ABI, legal and dependency
   gates require their own reviewed execution and exact scope.
 - No destructive history changes or unrelated feature/refactor work.
-  Parallel delegation follows the bounded 2026-10-31 amendment above.
+  Parallel delegation follows the bounded 2026-11-02 solo amendment above.
   Preserve all other projects/caches; local builds retain an 8 GiB disk reserve.
 
 ## Observed controls and evidence boundaries

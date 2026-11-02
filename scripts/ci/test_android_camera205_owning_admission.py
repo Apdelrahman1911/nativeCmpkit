@@ -27,24 +27,21 @@ FIXTURE = "scripts/ci/test_android_camera_developer_prerequisite.py"
 FF14 = "test_ff14_full_source_inverses_preserve_original_readers_actions_cleanup_and_single_call"
 CN09 = "test_cn09_owning194_and_operational_native_bindings_are_not_rebased"
 OUTER = "camera197_helper_source_before_owned_console"
-EXPECTED_SHA256 = {
-    "scripts/ci/android_camera_developer_prerequisite.py": "0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26",
-    "scripts/ci/android_device_tests.py": "daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec",
-    "scripts/ci/camera_scalar_failfast_source_projection.py": "6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12",
-    "scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json": "9a3479f92b05e1bffda3b408ad9f5833ca655b0c913af813e888209de9b2828c",
-    "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json": "e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953",
-    "scripts/ci/fixtures/android-camera-startup-readiness-inverse.json": "43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c",
-    "scripts/ci/run_android_camera_scalar_failfast_new_only.py": "6ce3556e0df614757ede6c469ccc0e12a536b0aa9ce86214234e474fd22fc022",
-    "scripts/ci/test_android_camera_developer_prerequisite.py": "4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb",
-    "scripts/ci/test_android_camera_owned_avd_console_name.py": "f287837b12f41f8b86bb23696c75b6a102d8c604d47968209ba090a4f05d19da",
-    "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": "40e8b5450b81a51e45c018d455c7d31fa6b557a82bd809ad2f2472214bdc0676",
-    "scripts/ci/test_android_camera_scalar_control_refusal.py": "e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe"
-}
+EXPECTED_SHA256 = {'scripts/ci/android_camera_developer_prerequisite.py': '0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26', 'scripts/ci/android_device_tests.py': 'daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec', 'scripts/ci/camera_scalar_failfast_source_projection.py': '6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12', 'scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json': '9a3479f92b05e1bffda3b408ad9f5833ca655b0c913af813e888209de9b2828c', 'scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json': 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953', 'scripts/ci/fixtures/android-camera-startup-readiness-inverse.json': '43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c', 'scripts/ci/run_android_camera_scalar_failfast_new_only.py': '6ce3556e0df614757ede6c469ccc0e12a536b0aa9ce86214234e474fd22fc022', 'scripts/ci/test_android_camera_developer_prerequisite.py': '4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb', 'scripts/ci/test_android_camera_owned_avd_console_name.py': '733d2d79df215bddfc86a8f9be1df81f71485f7ac7056ed8905bf7cfca8c2981', 'scripts/ci/test_android_camera_pre_reporter_fail_fast.py': '40e8b5450b81a51e45c018d455c7d31fa6b557a82bd809ad2f2472214bdc0676', 'scripts/ci/test_android_camera_scalar_control_refusal.py': 'e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe'}
 DERIVATIVE_SHA256 = {
     "scripts/ci/camera_scalar_failfast_source_projection.py": "6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12",
     "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": "40e8b5450b81a51e45c018d455c7d31fa6b557a82bd809ad2f2472214bdc0676",
     "scripts/ci/test_android_camera_scalar_control_refusal.py": "e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe"
 }
+# Exact current Share188 shared derivatives; original Camera205 three-leaf literal remains.
+CAMERA205_SHARE188_SHARED_SOURCE_SHA256 = {
+    ".github/workflows/gradle.yml": "ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561",
+    "scripts/ci/library_tests.py": "93dfe1a301d861f091016de2dcf45ec7d7ed437f8284f90220f3971ecacabf88"
+}
+
+# Exact three owning CI213 derivatives, separate from the retained Camera205 literal.
+CAMERA213_DERIVATIVE_SOURCE_SHA256 = {'scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py': '048b40f6976fc6af2160c9934b39d620bbdac466d912edfbb9e315dfa92f8bf7', 'scripts/ci/test_android_camera_startup_readiness.py': '239bbde00bd8deb728119aa2d76395f4e01615ab25092a3fe2a6dd57f8a274bf', 'scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py': '9c2ee35603ccc5c30a49fd91d438fa88584386637bb550ab2557d44760d1bbe5'}
+
 HISTORICAL_SHA256 = {
     "FROZEN_CONTROLLER_SHA256": "02bb9ab153f147fab13bf58ff9fccaef754cc66f2dfcc067dc3ad2b1d8726640",
     "FROZEN_HELPER_SHA256": "5318d5893457dca141d08f3d269dc1a21078d42931c7846d4d105b7134154af1",
@@ -162,8 +159,14 @@ class Camera205OwningAdmissionNewOnlyTests(unittest.TestCase):
         self.assertEqual(len(before), 47)
         self.assertEqual(declared, DERIVATIVE_SHA256)
         self.assertEqual(set(after), set(before))
-        self.assertEqual(after, {**before, HELPER: EXPECTED_SHA256[HELPER], **DERIVATIVE_SHA256})
-        self.assertEqual({r for r in before if before[r] != after[r]}, {HELPER} | set(DERIVATIVE_SHA256))
+        self.assertEqual(set(CAMERA205_SHARE188_SHARED_SOURCE_SHA256), {
+            ".github/workflows/gradle.yml", "scripts/ci/library_tests.py"})
+        self.assertEqual(after, {**before, HELPER: EXPECTED_SHA256[HELPER], **DERIVATIVE_SHA256,
+                                 **CAMERA205_SHARE188_SHARED_SOURCE_SHA256,
+                                 **CAMERA213_DERIVATIVE_SOURCE_SHA256})
+        self.assertEqual({r for r in before if before[r] != after[r]},
+                         {HELPER} | set(DERIVATIVE_SHA256) | set(CAMERA205_SHARE188_SHARED_SOURCE_SHA256) |
+                         set(CAMERA213_DERIVATIVE_SOURCE_SHA256))
 
     def test_ca205_01_current_pins_admit_at_exact_preimport_statements(self):
         self.assertEqual(literal(self.sources[SCALAR], "EXPECTED_HELPER_SHA256"), EXPECTED_SHA256[HELPER])

@@ -1,0 +1,173 @@
+{
+  "share_seven_postimages_exact": true,
+  "camera_current47_exact": true,
+  "camera205_current11_exact": true,
+  "three_reader_raw_test_body_counts_retained": {
+    "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py": 16,
+    "scripts/ci/test_android_camera_startup_readiness.py": 18,
+    "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py": 9
+  },
+  "profiles": {
+    "android-camera-restoration-dont-keep": {
+      "matrix": {
+        "include": [
+          {
+            "slot": "android-device-api35",
+            "suite": "android-device",
+            "runner": "ubuntu-24.04",
+            "arch": "x64",
+            "python": "python3",
+            "emulator-api": "35",
+            "test-modules": "calf-camera-picker",
+            "test-focus": "android-camera-real-restoration-dont-keep"
+          }
+        ]
+      },
+      "preflight": {
+        "profile": "android-camera-restoration-dont-keep",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "android-device-api35",
+            "suite": "android-device",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "/root/projects/nativeCmpKit/scripts/ci/android_device_tests.py",
+              "plan",
+              "--api-level",
+              "35",
+              "--output",
+              "build/ci-plan",
+              "--module",
+              "calf-camera-picker",
+              "--focus",
+              "android-camera-real-restoration-dont-keep"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      }
+    },
+    "ios-share-remembered-failure-observation": {
+      "matrix": {
+        "include": [
+          {
+            "slot": "ios-iphone",
+            "suite": "ios",
+            "runner": "macos-26",
+            "arch": "arm64",
+            "python": "python3",
+            "simulator-kind": "iphone",
+            "test-modules": "calf-share",
+            "test-focus": "share-ios-remembered-failure-observation"
+          }
+        ]
+      },
+      "preflight": {
+        "profile": "ios-share-remembered-failure-observation",
+        "operation": "plan",
+        "source_only": true,
+        "Gradle_builds_executed": 0,
+        "library_tests_executed": 0,
+        "slots": [
+          {
+            "slot": "ios-iphone",
+            "suite": "ios",
+            "command": [
+              "/usr/bin/python3",
+              "-B",
+              "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+              "plan",
+              "--suite",
+              "ios",
+              "--module",
+              "calf-share",
+              "--focus",
+              "share-ios-remembered-failure-observation"
+            ],
+            "expected_modules": 1,
+            "exit_code": 0
+          }
+        ]
+      }
+    }
+  },
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/migration/verify_migration.py"
+      ],
+      "exit_code": 0,
+      "seconds": 18.53563495608978,
+      "log_sha256": "b904cf379ce74003c24833e9da58e4694e8708cf8199d006df8c798e6467e58b"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/audit/validate_audit.py"
+      ],
+      "exit_code": 0,
+      "seconds": 1.8720953989541158,
+      "log_sha256": "fb8d0a086dad1a3b620e94fea54a612ae6e59de0853ce3bf61090959efbb6e26"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/audit/source_inventory.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 1.7856312160147354,
+      "log_sha256": "150ec113ef681503061d193a0adf96af7cd81e533c196fe1f476f4cf6fe4a238"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "scripts/development/validate_resolutions.py",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.31063352804630995,
+      "log_sha256": "cc43c20aaba078bbc8c9846a1a42e00862da514c6659020faf468753bbdb21fe"
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        "-color",
+        "-shellcheck=",
+        "-pyflakes=",
+        ".github/workflows/gradle.yml"
+      ],
+      "exit_code": 0,
+      "seconds": 0.008614729042164981,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "seconds": 0.070115337963216,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "library_count": 1194,
+  "combined_count": 1272,
+  "library_inputs_held": true,
+  "combined_inputs_held": true,
+  "native_tests_compilers_executed": 0,
+  "accepted_local_controls_replayed": 0,
+  "original_CI213_status": "FAILED preserved"
+}

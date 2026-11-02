@@ -80,6 +80,7 @@ PROFILES = {
     "webview-desktop-security-linux-arm64-windows-pair": ("desktop-windows-x64", "desktop-linux-arm64"),
     "webview-desktop-security-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
     "webview-desktop-policy-macos-recovery": ("desktop-macos-arm64", "desktop-macos-x64"),
+    "webview-desktop-tls-windows-recovery": ("desktop-windows-x64",),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "share-clipboard-native": ("browser-js", "browser-wasm"),
@@ -271,6 +272,7 @@ MODULE_SUBSETS = {
     "webview-desktop-security-linux-arm64-windows-pair": "calf-webview",
     "webview-desktop-security-macos-pair": "calf-webview",
     "webview-desktop-policy-macos-recovery": "calf-webview",
+    "webview-desktop-tls-windows-recovery": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -403,6 +405,17 @@ def matrix(profile: str) -> dict:
         row = dict(inherited[0])
         row["test-focus"] = "webview-desktop-stop-windows-recovery"
         return {"include": [row]}
+    if profile == desktop_security_plan.WINDOWS_TLS_RECOVERY_PROFILE:
+        if PROFILES[profile] != ("desktop-windows-x64",) or MODULE_SUBSETS.get(profile) != "calf-webview":
+            raise ValueError("Windows TLS recovery requires its exact single host and WebView module")
+        inherited = [row for row in matrix("webview-desktop-security-linux-arm64-windows-pair")["include"]
+                     if row["slot"] == "desktop-windows-x64"]
+        canonical = {"slot": "desktop-windows-x64", "suite": "desktop", "runner": "windows-2025",
+                     "arch": "x64", "python": "python", "test-modules": "calf-webview",
+                     "test-focus": "tls-rendering-cookies-policy"}
+        if inherited != [canonical]:
+            raise ValueError("Windows TLS recovery refuses runner/architecture/suite/module/field drift")
+        return {"include": [dict(inherited[0], **{"test-focus": desktop_security_plan.WINDOWS_TLS_RECOVERY_FOCUS})]}
     if profile == desktop_security_plan.POLICY_RECOVERY_PROFILE:
         slots = ("desktop-macos-arm64", "desktop-macos-x64")
         if PROFILES[profile] != slots or MODULE_SUBSETS.get(profile) != "calf-webview":

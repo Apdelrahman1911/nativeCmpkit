@@ -1,6 +1,30 @@
 # Finite Desktop verification batches
 
+## Current failed-only Windows TLS recovery — 2026-11-02
+
+[Actual405–410](evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)
+accepts LinuxARM644/4 and Windowscookie/policy2/2, both full graphs and the only
+four new advisory-coordinate observations. **Never repeat that pair or graphs.**
+`webview-desktop-tls-windows-recovery` selects exactly Windows x64/original TLS1/
+XML1, no graph capture. Pending-only Java17 Finished-write classifier regression
+passes11 source controls and3 actual library JVM methods; native assertions stay
+strict/unverified. Freeze/push development/read capacity first, then one dispatch.
+If it passes, review #144's three originals and close immediately. #64 ordinary
+adoption/corresponding-source/legal/security/consumer/API–ABI remains separate.
+Both former reservations are terminal/free; max2 combined INCLUDING queued.
+Older paragraphs below retain their dated scope, not current pending requests.
+
+
 ## Current missing-only amendment — 2026-11-02
+
+[Policy originals402–404](evidence/current-platform-recovery-20261101/desktop-policy-native402-404/README.md)
+now accept **both macOS policy methods,2/2**. Never request the policy-only
+recovery or old macOS security pair on unchanged inputs. The remaining
+`webview-desktop-security-linux-arm64-windows-pair` was requested once in
+[41542403515](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41542403515):
+Windows3/Linux ARM644 plus both actual host graphs, reserving both allowed rows
+including queued. Its original results are pending; no duplicate dispatch.
+Later dated observations below retain their checkpoint scope.
 
 The first policy-only request [41538575328](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41538575328)
 failed in two stale source-history readers before any native execution or graphs.

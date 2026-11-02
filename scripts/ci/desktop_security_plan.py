@@ -44,6 +44,8 @@ EXPECTED_SELECTED = {
 PROFILE = "webview-desktop-security-regressions"
 POLICY_RECOVERY_PROFILE = "webview-desktop-policy-macos-recovery"
 POLICY_RECOVERY_FOCUS = "policy-macos-recovery"
+WINDOWS_TLS_RECOVERY_PROFILE = "webview-desktop-tls-windows-recovery"
+WINDOWS_TLS_RECOVERY_FOCUS = "tls-windows-recovery"
 MAX_PARALLEL = 2
 
 
@@ -87,21 +89,29 @@ def matrix() -> dict:
             "include": [selection(row["system"], row["arch"]) for row in ROWS]}
 
 
-FOCUSES = tuple(dict.fromkeys(row["focus"] for row in ROWS)) + (POLICY_RECOVERY_FOCUS,)
+FOCUSES = tuple(dict.fromkeys(row["focus"] for row in ROWS)) + (POLICY_RECOVERY_FOCUS, WINDOWS_TLS_RECOVERY_FOCUS)
 SOURCE_PATHS = {'tls-rendering': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt', 'cookie': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt', 'policy': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt', 'media': 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt'}
-SOURCE_SHA256 = {'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt': '00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt': 'a7c8b3fe15c94ef5f30ccb648cdbe5a52770aad1b0bf5eeed6415a802a05c703', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt': 'd5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt': 'cb8366e5283b8d1fb4a2e06970fdad85c7bf2e4ba30b86fbbaaab968aeb400ad', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt': 'aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456'}
+SOURCE_SHA256 = {'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt': '00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt': '6855ecb7610ba617efd04ab404e183dd05128c829765caecc66c4ba04fcff6ee', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt': 'd5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt': 'cb8366e5283b8d1fb4a2e06970fdad85c7bf2e4ba30b86fbbaaab968aeb400ad', 'calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt': 'aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456'}
 TLS_HELPER = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt"
 BUILD_SOURCE = "calf-webview/build.gradle.kts"
 INIT_SCRIPT = "scripts/ci/desktop-security.init.gradle.kts"
-INIT_SCRIPT_SHA256 = 'f03e42a6da093e685ce37c6e0cf891aae61929511029999fdcaa943cfe2e58bc'
-ISOLATION_BLOCK = 'val desktopSecurityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"\nval desktopSecurityMethod = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"\nval desktopCookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"\nval desktopPolicySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"\nval desktopMediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"\nval desktopSecurityFocus = providers.gradleProperty("nativecmpkitDesktopSecurityFocus").orNull\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\n    null -> emptyList()\n    "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")\n    "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)\n    "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n    "policy-macos-recovery" -> listOf(desktopPolicySelector)\n    else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")\n}\n\ntasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {\n    if (desktopSecurityFocus == null) {\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\n        filter { excludeTestsMatching(desktopSecurityClass) }\n    } else {\n        // Each selected class has exactly one selected method; no second class can\n        // reuse HTTP2Loader\'s static fixture-trusted HttpClient or a cookie handler.\n        maxParallelForks = 1\n        forkEvery = 1L\n        systemProperty("nativecmpkit.desktop.security.worker", "one-selected-class")\n        filter {\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\n            isFailOnNoMatchingTests = true\n        }\n    }\n}\n'
-ISOLATION_BLOCK_SHA256 = '588036e8186a8c50a91276fca3c779ecf98465dfa4dd647c6e7e4ae94b8d85e6'
+INIT_SCRIPT_SHA256 = '0bb21f3b22d69b6e65202f79f82ab5a8c31e165673f512c3ca9adfe24483b233'
+ISOLATION_BLOCK = 'val desktopSecurityClass = "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest"\nval desktopSecurityMethod = "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner"\nval desktopCookieSelector = "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie"\nval desktopPolicySelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"\nval desktopMediaSelector = "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument"\nval desktopSecurityFocus = providers.gradleProperty("nativecmpkitDesktopSecurityFocus").orNull\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\n    null -> emptyList()\n    "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")\n    "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)\n    "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n    "policy-macos-recovery" -> listOf(desktopPolicySelector)\n    "tls-windows-recovery" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")\n    else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")\n}\n\ntasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {\n    if (desktopSecurityFocus == null) {\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\n        filter { excludeTestsMatching(desktopSecurityClass) }\n    } else {\n        // Each selected class has exactly one selected method; no second class can\n        // reuse HTTP2Loader\'s static fixture-trusted HttpClient or a cookie handler.\n        maxParallelForks = 1\n        forkEvery = 1L\n        systemProperty("nativecmpkit.desktop.security.worker", "one-selected-class")\n        filter {\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\n            isFailOnNoMatchingTests = true\n        }\n    }\n}\n'
+ISOLATION_BLOCK_SHA256 = '131bcb833441e07589e73356a46dfc5f2a9bab54fecd9dd075932ef3fa4b9c8f'
 
 
 def focus_selection(focus: str) -> dict:
     validate_rows(ROWS)
     if focus not in FOCUSES:
         raise ValueError("Unknown finite Desktop security focus; no class/full-suite fallback")
+    if focus == WINDOWS_TLS_RECOVERY_FOCUS:
+        original = selection("Windows", "x64")
+        selector = SECURITY_CLASS + "." + SECURITY_METHOD
+        return {**original, "focus": focus, "selected": ("tls-rendering",),
+                "isolation_property": "-PnativecmpkitDesktopSecurityFocus=" + focus,
+                "selectors": (selector,),
+                "required_testcases": ({"classname": SECURITY_CLASS, "name": SECURITY_METHOD + "[desktop]"},),
+                "required_original_xml": 1}
     if focus == POLICY_RECOVERY_FOCUS:
         original = selection("Darwin", "arm64")
         selector = POLICY_CLASS + "." + POLICY_METHOD
@@ -125,6 +135,10 @@ def selected_sources(focus: str) -> dict[str, str]:
 
 
 def validate_host(system: str, architecture: str, focus: str) -> None:
+    if focus == WINDOWS_TLS_RECOVERY_FOCUS:
+        if selection(system, architecture)["slot"] != "desktop-windows-x64":
+            raise ValueError("TLS recovery requires the one failed actual Windows x64 host")
+        return
     if focus == POLICY_RECOVERY_FOCUS:
         if selection(system, architecture)["slot"] not in ("desktop-macos-arm64", "desktop-macos-x64"):
             raise ValueError("Policy recovery requires one of the two failed actual macOS hosts")

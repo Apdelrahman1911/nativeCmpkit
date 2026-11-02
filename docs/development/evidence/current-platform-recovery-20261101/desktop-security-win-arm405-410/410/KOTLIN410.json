@@ -1,0 +1,61 @@
+{
+  "Gradle": "9.7.1",
+  "JDK": "17.0.20+8-1-24.04-Ubuntu",
+  "actual_inputs_held": 1223,
+  "cases": [
+    {
+      "name": "originalBrokenPipeShapeRetainsItsExactJava17Classification[desktop]",
+      "time": "0.024"
+    },
+    {
+      "name": "missingReorderedAlteredOrUnownedStackFramesRemainFatalCandidates[desktop]",
+      "time": "0.003"
+    },
+    {
+      "name": "windowsAbortRequiresTheObservedHostJavaClassMessageAndFinishedFrames[desktop]",
+      "time": "0.0"
+    }
+  ],
+  "completed_utc": "2026-11-02T23:26:10.878295+00:00",
+  "errors": 0,
+  "execution": {
+    "command": [
+      "./gradlew",
+      ":calf-webview:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.ui.web.DesktopTlsFinishedWriteClassifierTest",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "--init-script",
+      "scripts/ci/fresh-tests.init.gradle.kts"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "elapsed_seconds": 111.5,
+    "exit_code": 0,
+    "free_bytes_after": 29579804672,
+    "free_bytes_before": 29605494784,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-02T23:23:55.048264+00:00",
+    "timeout_seconds": 600
+  },
+  "failed": 0,
+  "fresh_jvm_classifier_tests": 3,
+  "fresh_test_compile_passed": true,
+  "log_sha256": "bb715a84706e28aed493ce026e24245de18ff5336a05e2e8fe1bf7afabcf4d1d",
+  "native_executions": 0,
+  "no_accepted_native_replay": true,
+  "original_xml": 1,
+  "packages_published": false,
+  "passed": 3,
+  "production_compile_up_to_date": true,
+  "schema_version": 1,
+  "skipped": 0,
+  "synthetic_stacks_not_native_tls": true,
+  "xml_sha256": "02cd150c1af76ad2def6c57d60dbb51d10db49304c399c38e5441499f7b5912c"
+}

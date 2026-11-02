@@ -1,5 +1,45 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows/Linux six native passes; failed-only Windows TLS prepared — 2026-11-02
+
+[Actual405–410](docs/development/evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)
+preserves41542403515/635202b7 FAILED: LinuxARM644/4/XML4/Gradle0/103.02s;
+Windowscookie+policy2/2/TLS1fail/XML3/Gradle1/97.11s.66passive checks/all1219
+actualmaps; full24+48 graphs perhost/1222maps/sixalignedJavaFX21.0.13classifiers.
+Accept/exclude sixpasses; do not replay either pair, macOS policies or graphs.
+Only4newexactOSVqueries/HTTP200/zeroMatches/1.029912s,150coordinateunion; no
+engine/trust/legal/consumer/API–ABI/security/readiness clearance. Both reservations
+freed after terminalreview, subject to freshcapacity reconciliation.
+Confirmed Windows Java17 Finished-write shape now admitted only as pending
+native-rejection observation; original TLS method/hash/assertions/trust/cleanup
+unchanged. NEW8+affected3pass11/1.944s,20passive/Actionlint0; exact6bindings11
+fragments compose before immutable7bindings18policy. Fresh actual Kotlin3/3/
+XML1/Gradle0/111.50s/JDK17.0.20/1223held/productionUP-TO-DATE; ZERO nativeTLS.
+Next ONLYwebview-desktop-tls-windows-recovery1, no acceptedmethods/graphreplay;
+then allthree#144criteria and immediateclosure if verified. #64ordinaryadoption/
+correspondingsource/legal/security/consumer/API–ABI separate.97closed/75open/172;
+22implemented/42partial/95verified/five unresolved. SOLO/noagents/serial/8GiB/
+max2INCLUDINGqueued/developmentonly/read-onlyActions/all/no mandatorySHA;
+no publication/release/deploy/Pages/main/history change or gatewaiver.
+
+## Both macOS policy methods accepted; remaining security pair requested — 2026-11-02
+
+[Actual402–404](docs/development/evidence/current-platform-recovery-20261101/desktop-policy-native402-404/README.md)
+accepts41540076979/635202b7 SUCCESS: ARM64policy1/1/XML1/Gradle0/363.54s and
+x64policy1/1/XML1/Gradle0/418.14s,39 passive checks/all1219 actual maps frozen/Git.
+Genuine public creation admission/native typed values/off-on policy/throw identity/
+exactly-once/detached/owned cleanup and strict isolated worker parser qualify.
+Descriptor index is not OS PID; no independent exit/sandbox/engine/consumer/ABI
+inference. Never replay both accepted policy methods or old macOS TLS/cookie4/
+graphs; original41538575328 remains FAILED and archives are once-acquired.
+Remaining Windows3/LinuxARM644 plus real graphs requested ONCE41542403515 after
+capacity/remote/freeze; reserves BOTH slots INCLUDING queued, results pending.
+Then only new exact advisory coordinates/all three #144 criteria; #64 ordinary
+adoption/legal/security/consumer/API–ABI remains separate.97closed/75open/172total,
+22implemented/42partial/95verified/five unresolved. SOLO/no agent work/serial/8GiB/
+max2/read-onlyActions/all/no mandatorySHA/developmentonly; no publication/release/
+deploy/Pages/main/history change or readiness/security waiver.
+
 ## Policy recovery CI readers repaired together — 2026-11-02
 
 [Actual397–401](docs/development/evidence/current-platform-recovery-20261101/desktop-policy-tooling397-401/README.md)

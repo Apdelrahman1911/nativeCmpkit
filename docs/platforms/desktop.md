@@ -2,7 +2,8 @@
 
 Desktop is the JVM `desktop` target with Java 17, not macOS/Linux/Windows
 Kotlin/Native. Core/file code uses JVM APIs, adaptive widgets are Material3
-Compose, picker/share can cross JNI, and WebView embeds JavaFX 19 through Swing.
+Compose, picker/share can cross JNI, and WebView embeds JavaFX 21.0.13 through
+Swing (the preserved audit baseline used JavaFX 19).
 That combination has several independent threading and native packaging models.
 
 ## Thread and lifecycle map
@@ -15,12 +16,13 @@ That combination has several independent threading and native packaging models.
 | Picker JNI / rfd | Native dialog/parent handle lifecycle and per-platform UI dispatch; Kotlin cancellation does not automatically cancel/free safely |
 | macOS share JNI | AppKit main-thread work, sharing-service completion and blocking Rust synchronization |
 
-The current WebView correctly queues `applySettings` on FX, addressing old #344's
-specific direct-EDT crash. It still constructs `JFXPanel()` during composition;
-initializing JavaFX can enter a nested Swing loop, the scenario described by
-#346. Startup, listener teardown, view disposal and callback behavior must be
-tested independently. Do not treat `Platform.setImplicitExit(false)` as
-per-view cleanup.
+The current WebView queues native settings on FX, addressing old #344's specific
+direct-EDT crash. `LaunchedEffect` now creates its panel outside composition via
+the Swing event queue; constructing a Compose host does not mean JavaFX or the
+native view is ready. Await the public `onCreated` witness before native access.
+The baseline's synchronous `JFXPanel()` initialization could enter a nested Swing
+loop (#346). Startup, listener teardown, view disposal and callback behavior have
+separate contracts; `Platform.setImplicitExit(false)` is not per-view cleanup.
 
 ## Native picker and sharing packaging
 
@@ -51,12 +53,16 @@ documented action rather than imaginary recipient delivery.
 
 ## JavaFX-specific prerequisites
 
-`calf-webview/build.gradle.kts` explicitly includes six JavaFX artifacts at
-version 19 using a host-derived classifier. Compose/Skiko's successful startup
-does not prove JavaFX native libraries or its rendering pipeline work on the
-same host. Historical #39/#47/#151 describe QuantumRenderer/toolkit failures,
-including Ubuntu 24.04; verify libraries, architecture, display and graphics
-environment before labeling any one application bug as the universal cause.
+`calf-webview/build.gradle.kts` uses six aligned JavaFX 21.0.13 artifacts from
+`convention-plugins/src/main/kotlin/DesktopJavaFx.kt`. Library Desktop dependencies
+are `compileOnly`, so published metadata does not impose the publisher's native
+classifier. Applications must explicitly supply the six matching host-runtime
+artifacts; library tests do so independently. Compose/Skiko startup does not prove
+JavaFX native loading or painted content. Historical #39/#47/#151 describe
+QuantumRenderer/toolkit failures, including Ubuntu 24.04; verify libraries,
+architecture, display and graphics before assigning a universal cause. Linux
+needs the GTK/EGL runtime prerequisites; a software-display/audio regression is
+not physical GPU or audible-output certification.
 
 Headless CI can run selected pure JVM tests. Swing/Compose tests need a working
 display or a correctly configured virtual display; real file dialogs, portals,
@@ -64,6 +70,17 @@ macOS window parentage and GPU/WebView paths need OS sessions. JVM installers
 must include required runtime modules and host-native dependencies. The sample
 has DMG/MSI/DEB targets and a macOS appearance JVM property, but no installer is
 validated merely by that configuration existing.
+
+## Current bounded security regression coverage
+
+[Desktop security405–410](../development/evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)
+accepts Linux ARM64 TLS/rendering/cookies/JavaScript-policy/media and Windows
+cookies/policy, reusing accepted macOS and Linux x64 cells. All five host resolved
+runtime/compile/test scopes qualify;150 exact coordinate advisory observations
+have no matches. Windows TLS is the remaining failed fixture case; the pending-
+only Finished-write correction has source/JVM regressions, **not** native outcome
+acceptance yet. Zero advisory matches/native regression cells are not engine,
+sandbox, package-consumer, legal, API–ABI or release certification.
 
 ## Untrusted desktop-code execution
 

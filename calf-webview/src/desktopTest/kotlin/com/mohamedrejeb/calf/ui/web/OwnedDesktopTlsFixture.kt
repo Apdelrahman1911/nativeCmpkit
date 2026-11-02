@@ -34,6 +34,35 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertSame
 import kotlin.test.assertTrue
 
+/** Only observed Java17 TLS1.3 Finished-write transport shapes; not a certificate verdict. */
+internal fun observedDesktopTlsFinishedWrite(error: Throwable, windows: Boolean, javaFeature: Int): Boolean {
+    if (javaFeature != 17 || error.javaClass != SocketException::class.java) return false
+    val observedMessage = when {
+        error.message == "Broken pipe" -> true // Retain the previously qualified shape unchanged.
+        windows && error.message == "An established connection was aborted by the software in your host machine" -> true
+        else -> false
+    }
+    if (!observedMessage) return false
+    val frames = error.stackTrace.map { it.className to it.methodName }
+    val prefix = listOf(
+        "sun.nio.ch.NioSocketImpl" to "implWrite",
+        "sun.nio.ch.NioSocketImpl" to "write",
+        "sun.nio.ch.NioSocketImpl\$2" to "write",
+        "java.net.Socket\$SocketOutputStream" to "write",
+        "sun.security.ssl.SSLSocketOutputRecord" to "flush",
+        "sun.security.ssl.HandshakeOutStream" to "flush",
+        "sun.security.ssl.Finished\$T13FinishedProducer" to "onProduceFinished",
+        "sun.security.ssl.Finished\$T13FinishedProducer" to "produce",
+    )
+    if (frames.take(prefix.size) != prefix) return false
+    val caller = listOf(
+        "sun.security.ssl.SSLSocketImpl" to "startHandshake",
+        "sun.security.ssl.SSLSocketImpl" to "startHandshake",
+        "com.mohamedrejeb.calf.ui.web.OwnedDesktopTlsFixture\$Endpoint" to "respond",
+    )
+    return frames.windowed(caller.size).any { it == caller }
+}
+
 internal enum class DesktopTlsStage(val trusted: Boolean, val leftRgb: Int, val rightRgb: Int) {
     Seed(true, 0xc0392b, 0x2471a3),
     Untrusted(false, 0x884ea0, 0x616a6b),
@@ -292,29 +321,11 @@ internal class OwnedDesktopTlsFixture private constructor(
             if (!closing.get()) failure.compareAndSet(null, RecordedFailure(phase, error))
         }
         private fun observedFinishedWriteAbort(error: Throwable, phase: FailurePhase, handshaken: Boolean): Boolean {
-            // Narrowly the original Linux/JDK17 TLS1.3 Finished-write Broken-pipe shape.
-            // No other SocketException, trusted endpoint, post-handshake phase or shutdown is quarantined.
-            if (trusted || handshaken || phase != FailurePhase.Handshake || closing.get() ||
-                Runtime.version().feature() != 17 || error.javaClass != SocketException::class.java ||
-                error.message != "Broken pipe") return false
-            val frames = error.stackTrace.map { it.className to it.methodName }
-            val prefix = listOf(
-                "sun.nio.ch.NioSocketImpl" to "implWrite",
-                "sun.nio.ch.NioSocketImpl" to "write",
-                "sun.nio.ch.NioSocketImpl\$2" to "write",
-                "java.net.Socket\$SocketOutputStream" to "write",
-                "sun.security.ssl.SSLSocketOutputRecord" to "flush",
-                "sun.security.ssl.HandshakeOutStream" to "flush",
-                "sun.security.ssl.Finished\$T13FinishedProducer" to "onProduceFinished",
-                "sun.security.ssl.Finished\$T13FinishedProducer" to "produce",
-            )
-            if (frames.take(prefix.size) != prefix) return false
-            val caller = listOf(
-                "sun.security.ssl.SSLSocketImpl" to "startHandshake",
-                "sun.security.ssl.SSLSocketImpl" to "startHandshake",
-                "com.mohamedrejeb.calf.ui.web.OwnedDesktopTlsFixture\$Endpoint" to "respond",
-            )
-            return frames.windowed(caller.size).any { it == caller }
+            // Known transport shapes remain pending, never proof of native certificate rejection.
+            // Trusted/post-handshake/other-phase/shutdown faults retain the original fatal branches.
+            if (trusted || handshaken || phase != FailurePhase.Handshake || closing.get()) return false
+            return observedDesktopTlsFinishedWrite(error, System.getProperty("os.name").startsWith("Windows"),
+                Runtime.version().feature())
         }
         private fun quarantineFinishedWrite(error: Throwable) {
             synchronized(rejectionLock) {

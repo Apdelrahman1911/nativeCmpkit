@@ -20,6 +20,7 @@ gradle.settingsEvaluated {
             "tls-rendering-cookies-policy" -> listOf(securitySelector, cookieSelector, policySelector)
             "tls-rendering-cookies-policy-media" -> listOf(securitySelector, cookieSelector, policySelector, mediaSelector)
             "policy-macos-recovery" -> listOf(policySelector)
+            "tls-windows-recovery" -> listOf(securitySelector)
             else -> error("Unknown finite Desktop security observation focus")
         }
         val securityClasses = securitySelectors.map { it.substringBeforeLast('.') }.toSet()

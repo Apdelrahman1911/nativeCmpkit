@@ -34,6 +34,11 @@ def source_before_policy_creation(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact policy creation source identity and ordinary bytes are required")
     binding = _bindings().get(relative)
+    # A later exact offline stage must compose before the unchanged seven pins.
+    # Already-restored historical preimages retain their original idempotence.
+    if binding is None or hashlib.sha256(payload).hexdigest() != binding["before_sha256"]:
+        from desktop_windows_tls_source_projection import source_before_windows_tls
+        payload = source_before_windows_tls(relative, payload)
     if binding is None:
         return payload
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -67,6 +72,8 @@ def source_before_policy_creation(relative, payload):
 def current_source_before_policy_creation(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current policy creation source identity and ordinary bytes are required")
+    from desktop_windows_tls_source_projection import current_source_before_windows_tls
+    payload = current_source_before_windows_tls(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current policy creation source")

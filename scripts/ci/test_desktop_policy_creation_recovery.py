@@ -18,6 +18,7 @@ import xml.etree.ElementTree as ET
 import android_external328_source_projection as external
 import arm64_stop_candidate_source_projection as arm
 import desktop_policy_creation_source_projection as history
+import desktop_windows_tls_source_projection as later
 import desktop_security_plan as security
 import library_tests as library
 import workflow_matrix as matrix
@@ -65,16 +66,17 @@ class DesktopPolicyCreationRecoveryControls(unittest.TestCase):
         for path, binding in self.bindings.items():
             with self.subTest(path=path):
                 current = self.current[path]
+                historical_current = later.current_source_before_windows_tls(path, current)
                 previous = history.current_source_before_policy_creation(path, current)
                 self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
-                self.assertEqual(binding["after_sha256"], hashlib.sha256(current).hexdigest())
+                self.assertEqual(binding["after_sha256"], hashlib.sha256(historical_current).hexdigest())
                 self.assertEqual(previous, history.source_before_policy_creation(path, previous))
                 forward = previous
                 for fragment in binding["fragments"]:
                     before, after = fragment["before"].encode(), fragment["after"].encode()
                     self.assertEqual(1, forward.count(before))
                     forward = forward.replace(before, after, 1)
-                self.assertEqual(current, forward)
+                self.assertEqual(historical_current, forward)
 
     def test_current_admission_never_accepts_old_changed_truncated_or_foreign_bytes(self):
         for path, current in self.current.items():
@@ -143,7 +145,7 @@ class DesktopPolicyCreationRecoveryControls(unittest.TestCase):
         self.assertEqual(["desktop-macos-arm64", "desktop-macos-x64"], [r["slot"] for r in recovery])
         self.assertEqual([dict(r, **{"test-focus": FOCUS}) for r in original], recovery)
         before = history.current_source_before_policy_creation(".github/workflows/gradle.yml", self.current[".github/workflows/gradle.yml"]).decode()
-        after = self.current[".github/workflows/gradle.yml"].decode()
+        after = later.current_source_before_windows_tls(".github/workflows/gradle.yml", self.current[".github/workflows/gradle.yml"]).decode()
         self.assertEqual(before, after.replace("webview-desktop-policy-macos-recovery, ", "", 1))
         capture_if = next(line for line in after.splitlines() if "steps.plan.outcome == 'success'" in line and "webview-desktop-security-regressions" in line)
         self.assertNotIn(PROFILE, capture_if)

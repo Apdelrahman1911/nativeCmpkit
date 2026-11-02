@@ -1,5 +1,34 @@
 # NativeCmpKit development after the audit
 
+## Six remaining Desktop security methods accepted; only Windows TLS remains
+
+[Actual405–410](evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)
+reviews the original FAILED41542403515: Linux ARM644/4 and Windows cookie/policy
+2/2 accepted, Windows TLS1 failed at its Finished-write fixture classifier.
+Both full host graphs qualify; only four new advisory coordinates queried,zero
+matches (150-coordinate union). Do not replay the six accepted methods or graphs.
+The narrow pending-only Windows classifier repair passes **11 focused source
+controls +3 actual library JVM regressions**; unchanged native rejection/trust/
+cleanup predicates remain. Next exactly Windows TLS1, no broader pair or graphs,
+then review all three #144 criteria and close immediately if verified. #64's
+ordinary candidate adoption and separate legal/security/consumer/API–ABI remain.
+**97 closed /75 open /172**,22 implemented/42 partial/95 verified/5 unresolved.
+Solo/serial/8GiB/max2 including queued/development-only; no publishing or waiver.
+
+## Both macOS policy failures now pass; only Windows/Linux security remains
+
+[Actual402–404](evidence/current-platform-recovery-20261101/desktop-policy-native402-404/README.md)
+verifies both repaired native policy methods **2/2**, two original XML, Gradle0/
+363.54s and418.14s.39 passive source/results checks/all1,219 frozen Git input maps
+hold. Original public creation/typed values/off-on policy/callback identity/
+detached/cleanup assertions and strict isolated worker parser pass. No accepted
+TLS/cookie/graph replay or independent OS/sandbox/security/consumer inference.
+The remaining **Windows3/Linux ARM644** and actual host graphs were requested
+once in [41542403515](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41542403515)
+after both reservations freed; see the newer reviewed results above. #144/#64 remain open,97closed/
+75open/172total; solo/serial/8GiB/max2 including queued/development/read-only
+verification, with all publication/security/readiness restrictions unchanged.
+
 ## Policy-only request stopped in tooling; both reader causes repaired together
 
 [Original397–401](evidence/current-platform-recovery-20261101/desktop-policy-tooling397-401/README.md)

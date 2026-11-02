@@ -1,5 +1,31 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Solo full-JAR cancellation candidate prepared — 2026-11-02
+
+[Actual273–282](docs/development/evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
+accepts27 unique NEW controls as21+5+1, not a fresh27 invocation; first21 AST
+bodies and accepted dependency-native4 populations are reused without replay.
+274 JDK21 refusal precedes javac; explicit JDK17 recovery275 packages privately
+with compiler0/18.4077s, all1203 library/14 owning inputs held, ZERO native/library.
+548 original web members/542 nonowning payloads held; five replacement class
+hashes equal accepted263/270. Four inner classes also equal upstream: only loader
+and manifest bytes differ. Java-source312/311 held, complete native corresponding
+source/legal/security/consumer/API-ABI gates remain. Original276 task admission
+fails1/27.01s; corrected279 dry-run0/28.01s admits exact task+--tests+selector,
+skips actual test/compiler tasks,15 candidate bindings held. Actionlint277 v4
+input refusal preserved;278 reuses existing verified setup-java revision without
+mandatory SHA policy. Passive280/281 reviewer expectations were wrong (changed
+inner bytes/stdout vs stderr), not candidate defects;282 qualifies corrected
+checks with accepted work reused. [ADR0013](docs/decisions/0013-private-javafx-cancellation-candidate.md)
+allows only explicit private one-JAR replacement/failed Windows Stop1. New
+development push trigger reserves one hosted job; do not duplicate dispatch.
+#64 progress6572406697 already posted/read back; do not duplicate it or close
+solely from candidate preparation/Stop1.97closed/75open/172total,22implemented/
+42partial/95verified/five unresolved unchanged. Continue SOLO/no new/resumed
+agents, serial local/8GiB/max2 combined hosted INCLUDING queued. All publishing/
+Pages/main/history/native/consumer/API-ABI/dependency/legal/security/readiness
+gates remain; no package/release/deployment publication or default adoption.
+
 ## Solo JavaFX cancellation dependency qualified on Windows — 2026-11-02
 
 [Actual262–270/review271](docs/development/evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)

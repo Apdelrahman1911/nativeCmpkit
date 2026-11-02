@@ -36,6 +36,17 @@ hard-preemption, hostile-process or all-network-protocol certification.
 
 ## Important results
 
+**2026-11-02, subsequent private library-candidate preparation:**
+[273–282](../../../docs/development/evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
+adds `build_runtime_candidate.py` and an **explicitly loaded, one-task-only** init
+script. The identified full-JAR candidate replaces the sole original web JAR for
+only the failed original Windows library Stop method; it never changes normal
+dependencies.27 new controls pass as21+5+1, packaging and corrected Gradle dry-run
+pass, **zero new native/library executions**. Do not replay the accepted four
+dependency cases to test this new library route. See
+[ADR0013](../../../docs/decisions/0013-private-javafx-cancellation-candidate.md)
+for complete native-source/legal/security/consumer/API-ABI and adoption gates.
+
 **2026-11-02:** [Saved Windows270 and solo source/results review271](../../../docs/development/evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
 now qualify **4/4 Windows dependency scenarios**, process0/6.813s on
 Temurin17.0.20.1+1. Eleven source/JAR and ten reported compiled-class hashes

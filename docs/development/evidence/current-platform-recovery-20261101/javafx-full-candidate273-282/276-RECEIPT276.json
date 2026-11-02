@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "observed_utc": "2026-11-02T08:31:33.725938+00:00",
+  "command": [
+    "./gradlew",
+    "--no-daemon",
+    "--offline",
+    "--no-configuration-cache",
+    "--no-parallel",
+    "--max-workers=1",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts",
+    "--dry-run",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner",
+    "-PnativecmpkitJavaFxCandidateRoot=build/ci-verification/javafx-artifact-local-preflight",
+    "-PnativecmpkitJavaFxCandidateSha256=3853d545d374db7cc623fb588dcd9b925821c96e1f7fb5d967c627b069efb552"
+  ],
+  "execution": {
+    "exit_code": 1,
+    "elapsed_seconds": 27.01
+  },
+  "wrapper_seconds": 27.256512353080325,
+  "library_input_count": 1203,
+  "library_inputs_held": true,
+  "candidate_source_count": 14,
+  "candidate_sources_held": true,
+  "dry_run": true,
+  "native_executions": 0,
+  "actual_test_tasks": 0,
+  "default_dependency_adopted": false,
+  "accepted21_or_native4_replayed": false
+}

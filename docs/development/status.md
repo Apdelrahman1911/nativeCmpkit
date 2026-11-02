@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `6ae0bdb614647900dfcbfe56491be39ed8ff2b2f3841f84119f26c203643ad88`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f020f6842af134f2eea678506cb8df7c0518a8542306359ee6e3daa33dcfefa7`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 11 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 12 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -1798,8 +1798,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-02: Bounded owning Windows setup/disposal/source-regression batch is compiled and locally controlled-tested only. Only missing native Windows Stop1 next; original Windows199/Share227/Camera227 failures retained, other Desktop and browser-offline obligations unchanged.
 - 2026-11-02 original249: Windows Stop still fails at native/library/preheader conjunction; recovery unreached. Qualify an owning dependency cancellation fix, then rerun only this failed method, retaining10s/six predicates. No private route override, cache modification, guessed historical route or unchanged blind retry. Other original Desktop/browser-offline obligations remain.
 - 2026-11-02 actual262–271: Linux4/Windows4 dependency-native cancellation accepted without replay; ordinary dependency not adopted. Prepare a maintained full web artifact/corresponding source/notices/provenance/security/consumer/API-ABI strategy; replace not shadow original classes and verify only the failed original public Windows Stop method. Retain all other original Desktop/offline-browser obligations and every failure.
+- 2026-11-02 candidate273-283: Private full artifact/Java sources and explicit one-task Windows replacement route are prepared with source/packaging/dry-run qualification only. Execute/review only original failed Windows public Stop1 using this candidate, preserving10s/six predicates/actual EOF/recovery/cleanup. Default adoption, complete native corresponding source/legal/security/consumer/API-ABI and every other original Desktop/offline-browser requirement remain; no issue closure from preparation or this one case alone.
 
-**Owner verification scope:** Original Android one method and iOS request2/DNS accepted on exact applicable bytes; current Android Stop1 remains missing. Desktop10 and genuine offlineJS/Wasm2 still required. Source/tooling/APK preparation is ZERO new native methods and does not complete #64. Latest2026-11-02 corrects the earlier AndroidStop1-pending observation: accepted Android/iOS subsets remain reusable. Windows original41398651975 still fails at peerEOF0 before recovery; Desktop and genuine browser-offline requirements remain. Internal JavaFX defect is source-confirmed; historical Windows loader route and a production dependency fix are unverified. Latest262–271: Linux4/4 and Windows4/4 are dependency-level public JavaFX cancellation only, ZERO NativeCmpKit methods and no default adoption. Original public Windows Stop remains failed; maintained artifact/source/provenance/platform consumer/API-ABI/security gates and other Desktop/browser-offline obligations remain.
+**Owner verification scope:** Original Android one method and iOS request2/DNS accepted on exact applicable bytes; current Android Stop1 remains missing. Desktop10 and genuine offlineJS/Wasm2 still required. Source/tooling/APK preparation is ZERO new native methods and does not complete #64. Latest2026-11-02 corrects the earlier AndroidStop1-pending observation: accepted Android/iOS subsets remain reusable. Windows original41398651975 still fails at peerEOF0 before recovery; Desktop and genuine browser-offline requirements remain. Internal JavaFX defect is source-confirmed; historical Windows loader route and a production dependency fix are unverified. Latest262–271: Linux4/4 and Windows4/4 are dependency-level public JavaFX cancellation only, ZERO NativeCmpKit methods and no default adoption. Original public Windows Stop remains failed; maintained artifact/source/provenance/platform consumer/API-ABI/security gates and other Desktop/browser-offline obligations remain. Latest273-283:27 NEW controls (21+5+1), private full-JAR/Java-source packaging and corrected failed-only Gradle dry-run qualified; ZERO new native/library methods. Ordinary dependencies remain unchanged; Windows Stop1 and all other original/adoption/security/consumer/API-ABI gates remain.
 
 **Compatibility / scope:** requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.
 
@@ -3576,7 +3577,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `b31b81587e451a5a74ce9675e1de7626c5af5feff6be6b0235967fc0d6cb989e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `f0b725286e7771689f5cbd9fcb3c157f3b9f069090efb04cced65269c6ef15a5` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `e4213c98009a8f9efee224c7752a9bc34ba0a04c9dabeca0a91f569f1e5e9a5f` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `11dd35a46f26aed561b1cbece0512d71f138ca51ba2e1eb73dcbbc1c7f34cc34` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |

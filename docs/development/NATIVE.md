@@ -1,5 +1,18 @@
 # Native features: current implementation and verification ledger
 
+## 2026-11-02: explicit private JavaFX full-JAR library candidate
+
+[273–282](evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
+qualifies27 new source controls in three disjoint invocations, private JDK17
+packaging and failed-only Gradle dry-run recovery. Five emitted class hashes
+match accepted dependency evidence; only the top-level loader/manifest differ
+from upstream, with all other native/public/JPMS payloads held. The explicit
+test init replaces the original JAR once; ordinary library dependencies remain
+unchanged. **Zero new native/library methods**; only failed Windows Stop1 is
+prepared. #64 and its other Desktop/offline-browser obligations remain open;
+complete native corresponding-source/legal/security/consumer/API-ABI/adoption
+and release gates remain. See [ADR0013](../decisions/0013-private-javafx-cancellation-candidate.md).
+
 ## 2026-11-02: owning JavaFX cancellation dependency patch qualified, not adopted
 
 [Actual262–270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)

@@ -9,6 +9,16 @@ remain gated; this authority does not waive trust or actual-runtime prerequisite
 
 ## JavaFX cancellation candidate; no default adoption — 2026-11-02
 
+[Private full-JAR preparation273–282](evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
+now verifies identified artifact packaging, preserved native/public/JPMS payloads
+and Java corresponding sources. The explicit one-task-only test init replaces,
+not shadows, the original web JAR. Default dependencies are still unchanged.
+**Full native corresponding source, third-party/legal/security/provenance and
+supported-consumer/API-ABI adoption requirements remain incomplete.** See
+[ADR0013](../decisions/0013-private-javafx-cancellation-candidate.md). No candidate
+JAR/class/source package is committed, uploaded or published. Original public
+Windows Stop1 is prepared but not accepted by packaging or dry-run success.
+
 [Exact21.0.13 source/patch and Linux+Windows evidence262–271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
 qualify four dependency-native scenarios per x64 platform. The fix cancels the
 HTTP response future; it is not active in ordinary library dependencies. Official

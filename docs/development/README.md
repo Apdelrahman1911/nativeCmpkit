@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Private full-JAR JavaFX candidate prepared — 2026-11-02
+
+[273–282 source/artifact/results qualification](evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
+adds an identified full web JAR candidate and an explicit one-task replacement
+route, without changing ordinary dependencies.27 new controls pass as21+5+1;
+JDK17 packaging and corrected Gradle dry-run pass, **zero new native/library
+methods**. Original JDK/task-admission/actionlint/reviewer refusals are retained.
+[ADR0013](../decisions/0013-private-javafx-cancellation-candidate.md) keeps complete
+native-source/legal/security/consumer/API-ABI/adoption gates separate. Next only
+the original failed public Windows Stop1; no unchanged accepted-case replay.
+#64 remains open; prior progress comment6572406697 must not be duplicated.
+No default adoption, package/release/deployment publication or new issue closure.
+
 ## JavaFX owning cancellation patch passes Linux and Windows — 2026-11-02
 
 [Actual262–270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)

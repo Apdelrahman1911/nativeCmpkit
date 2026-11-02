@@ -79,6 +79,7 @@ PROFILES = {
     "webview-desktop-stop-windows-recovery": ("desktop-windows-x64",),
     "webview-desktop-security-linux-arm64-windows-pair": ("desktop-windows-x64", "desktop-linux-arm64"),
     "webview-desktop-security-macos-pair": ("desktop-macos-arm64", "desktop-macos-x64"),
+    "webview-desktop-policy-macos-recovery": ("desktop-macos-arm64", "desktop-macos-x64"),
     "webview-wasm": ("browser-wasm",),
     "share-browser": ("browser-js", "browser-wasm"),
     "share-clipboard-native": ("browser-js", "browser-wasm"),
@@ -269,6 +270,7 @@ MODULE_SUBSETS = {
     "webview-desktop-stop-windows-recovery": "calf-webview",
     "webview-desktop-security-linux-arm64-windows-pair": "calf-webview",
     "webview-desktop-security-macos-pair": "calf-webview",
+    "webview-desktop-policy-macos-recovery": "calf-webview",
     # Recover a Wasm-only fixture/compiler failure without replaying accepted JS.
     "webview-wasm": "calf-webview",
     # Share/clipboard callback boundaries only; unchanged Android results are reusable.
@@ -401,6 +403,15 @@ def matrix(profile: str) -> dict:
         row = dict(inherited[0])
         row["test-focus"] = "webview-desktop-stop-windows-recovery"
         return {"include": [row]}
+    if profile == desktop_security_plan.POLICY_RECOVERY_PROFILE:
+        slots = ("desktop-macos-arm64", "desktop-macos-x64")
+        if PROFILES[profile] != slots or MODULE_SUBSETS.get(profile) != "calf-webview":
+            raise ValueError("Policy recovery refuses host or module broadening")
+        inherited = matrix("webview-desktop-security-macos-pair")["include"]
+        if tuple(row["slot"] for row in inherited) != slots:
+            raise ValueError("Policy recovery requires both original failed macOS rows")
+        return {"include": [dict(row, **{"test-focus": desktop_security_plan.POLICY_RECOVERY_FOCUS})
+                            for row in inherited]}
     aliases = {
         "webview-desktop-request-state-linux-pair": ("webview-desktop-request-state", ("desktop-linux-x64", "desktop-linux-arm64")),
         "webview-desktop-request-state-macos-pair": ("webview-desktop-request-state", ("desktop-macos-arm64", "desktop-macos-x64")),

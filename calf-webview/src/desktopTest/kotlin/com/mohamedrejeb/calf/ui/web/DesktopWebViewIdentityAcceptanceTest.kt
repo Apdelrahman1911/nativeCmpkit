@@ -138,6 +138,8 @@ class DesktopWebViewIdentityAcceptanceTest {
         assertIs<JavascriptResult.Unavailable>(evaluate(owner, "1"))
         val host = WindowHost(owner, WebViewNavigator(scope))
         try {
+            // A fresh isolated worker must await genuine public onCreated, not test order.
+            host.awaitCreation(owner)
             host.awaitDocument(owner, "javascript")
             for ((script, expected) in listOf(
                 "'NativeCmpKit'" to JavascriptResult.Value("\"NativeCmpKit\""),

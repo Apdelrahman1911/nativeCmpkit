@@ -217,7 +217,9 @@ LITERALS = ({'new': 'import java.net.InetAddress\nimport java.net.SocketExceptio
 
 def source_contract(sources: dict[str, str] | None = None) -> dict[str, str]:
     if sources is None:
-        sources = {path: (ROOT / path).read_text(encoding="utf-8") for path in FILE_HASHES}
+        from desktop_policy_creation_source_projection import current_source_before_policy_creation
+        sources = {path: current_source_before_policy_creation(path, (ROOT / path).read_bytes()).decode("utf-8")
+                   for path in FILE_HASHES}
     originals = {}
     for path, hashes in FILE_HASHES.items():
         value = sources[path]
@@ -333,7 +335,9 @@ class EndpointModel:
 class DesktopTlsFinishedWriteRecoveryModels(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.sources = {path: (ROOT / path).read_text(encoding="utf-8") for path in FILE_HASHES}
+        from desktop_policy_creation_source_projection import current_source_before_policy_creation
+        cls.sources = {path: current_source_before_policy_creation(path, (ROOT / path).read_bytes()).decode("utf-8")
+                       for path in FILE_HASHES}
         cls.originals = source_contract(cls.sources)
         cls.signature = source_signature(cls.sources[HELPER])
 

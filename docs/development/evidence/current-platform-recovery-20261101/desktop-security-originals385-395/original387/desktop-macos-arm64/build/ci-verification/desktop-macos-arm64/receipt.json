@@ -1,0 +1,218 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/desktop-security.init.gradle.kts",
+    "-PnativecmpkitDesktopSecurityFocus=tls-rendering-cookies-policy",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    },
+    {
+      "error": "Exact public security-only worker boundaries incomplete or rejected",
+      "reason": "ValueError"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 145.58,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "tls-rendering-cookies-policy",
+  "finished_at_utc": "2026-11-02T22:06:50.002579+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "4b86291783e490331a9dd3d0d7a4beead67b6bb99e3ea000e56a5ff4a91b4f45",
+  "inputs_before_sha256": "4b86291783e490331a9dd3d0d7a4beead67b6bb99e3ea000e56a5ff4a91b4f45",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "disposition": "required-executed",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 2,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.xml",
+          "sha256": "bd02b818d08c8e3a7b40bcf06a56cf314874c98eb139e98477db9ff2dd8a89ac",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest.xml",
+          "sha256": "bdb32db1c8e567327dad946613cc924965191bcaf3841a19ac4d44755ba3b9c0",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.xml",
+          "sha256": "e308c48716ce97d0c4aa6d306c44e0ed959e277648fa07830fe619ec4f68ad37",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+          "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]",
+          "status": "failed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+          "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+          "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]",
+          "status": "passed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest",
+      "name": "trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest",
+      "name": "realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+      "name": "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "ccf7cff6b32a956e04d98672719b9251c7125c86d3dd670db8bef65e7197dc97",
+  "schema_version": 1,
+  "scope": "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance.",
+  "source_revision": "3a3a93bdee07f7568e6ff78c952efd6223c41df7",
+  "source_revision_after": "3a3a93bdee07f7568e6ff78c952efd6223c41df7",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-02T22:04:24.419323+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-webview:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 2,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

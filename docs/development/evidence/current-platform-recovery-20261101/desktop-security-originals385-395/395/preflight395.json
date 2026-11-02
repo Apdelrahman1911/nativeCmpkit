@@ -1,0 +1,92 @@
+{
+  "webview-desktop-policy-macos-recovery": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "webview-desktop-policy-macos-recovery",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "desktop",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "policy-macos-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "desktop-macos-arm64",
+        "suite": "desktop"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "desktop",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "policy-macos-recovery"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "desktop-macos-x64",
+        "suite": "desktop"
+      }
+    ],
+    "source_only": true
+  },
+  "webview-desktop-security-linux-arm64-windows-pair": {
+    "Gradle_builds_executed": 0,
+    "library_tests_executed": 0,
+    "operation": "plan",
+    "profile": "webview-desktop-security-linux-arm64-windows-pair",
+    "slots": [
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "desktop",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "tls-rendering-cookies-policy"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "desktop-windows-x64",
+        "suite": "desktop"
+      },
+      {
+        "command": [
+          "/usr/bin/python3",
+          "-B",
+          "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+          "plan",
+          "--suite",
+          "desktop",
+          "--module",
+          "calf-webview",
+          "--focus",
+          "tls-rendering-cookies-policy-media"
+        ],
+        "exit_code": 0,
+        "expected_modules": 1,
+        "slot": "desktop-linux-arm64",
+        "suite": "desktop"
+      }
+    ],
+    "source_only": true
+  }
+}

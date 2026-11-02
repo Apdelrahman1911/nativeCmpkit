@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## macOS security subsets accepted; policy-only recovery ready — 2026-11-02
+
+[Original385–395](docs/development/evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)
+preserves41532837164/3a3a93bd FAILED: eachmac3native/2pass1fail/threeXML, Gradle1/
+145.58s+192.20s.57passive checks accept/exclude four TLS-rendering/native-cookie
+methods; never replay them or reacquire unchanged full graphs. Each actual24+48
+graph/1218capture/1215native map holds/sixmatchingJavaFX21.0.13classifiers; only
+four new coordinates queried once/HTTP200/zeroOSVmatches, not native-engine trust.
+Both policy failures are Toolkit-not-initialized before JS assertions: genuine
+ComposeJFXPanel startup is asynchronous; add only existing public onCreated wait.
+NEW11pass1.584s then affectedinverse1+NEWsetup2pass3/0.514s;13unique/14invocations,
+unchangedfirstten reused. Exact7bindings18fragments preserve prior17draft/ARM/
+External328 pins; old TLS second source-reader fixed without old-method changes.
+Fresh Desktop-test compiler0/36.01s/JDK17.0.20/Gradle9.7.1/1218held/production
+UP-TO-DATE; four laterCI-only deltas reuse applicable compiler.25passive review/
+two source preflights/Actionlint0/ZEROnewnative. Original all-green worker parser
+stays strict/red; original worker lines were not uploaded, no independent OS exit.
+Next ONLYwebview-desktop-policy-macos-recovery2; graphcapture excluded. Never old
+macOSsecurity6; Windows/Linux7 waits for terminal/review. #64/#144open,97closed/
+75open/172total,22implemented/42partial/95verified/fiveunresolved. SOLO/no agents/
+serial/8GiB/max2combinedINCLUDINGqueued/development-only/read-onlyActions/all/no
+mandatorySHA; no publication/release/deploy/Pages/main/history or gate waiver.
+
 ## Desktop security first pair: source-only failure repaired — 2026-11-02
 
 [Original381–384](docs/development/evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)

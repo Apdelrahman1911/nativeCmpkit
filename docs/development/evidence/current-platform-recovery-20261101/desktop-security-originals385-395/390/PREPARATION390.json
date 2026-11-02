@@ -1,0 +1,159 @@
+{
+  "added_paths": [
+    "scripts/ci/desktop_policy_creation_source_projection.py",
+    "scripts/ci/fixtures/desktop-policy-creation-source-inverse.json"
+  ],
+  "after_inputs": 1217,
+  "before_inputs": 1215,
+  "fragments": {
+    ".github/workflows/gradle.yml": [
+      {
+        "after": "webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-wasm",
+        "after_fragment_sha256": "3999c78c6fb4fe14d1336e47cbdc094870f3ea53142a2d7727d61a697ecd766d",
+        "before": "webview-desktop-security-macos-pair, webview-wasm",
+        "before_fragment_sha256": "0967752cefa74352fbccd8a0be70d700f170c9a5aed91a5ffa91987354e9caaf"
+      }
+    ],
+    "calf-webview/build.gradle.kts": [
+      {
+        "after": "    \"tls-rendering-cookies-policy-media\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n    \"policy-macos-recovery\" -> listOf(desktopPolicySelector)\n",
+        "after_fragment_sha256": "9fc29ac2f789f6a0226a255e138f12dde3e5dfb5f22d856482c5cab46684446c",
+        "before": "    \"tls-rendering-cookies-policy-media\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\n",
+        "before_fragment_sha256": "1f598372657be7a8eed58f67030999b03be527c45e8ffd6fbd2e93ed2245b0fc"
+      }
+    ],
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt": [
+      {
+        "after": "        try {\n            // A fresh isolated worker must await genuine public onCreated, not test order.\n            host.awaitCreation(owner)\n            host.awaitDocument(owner, \"javascript\")\n",
+        "after_fragment_sha256": "eaaf07dc30d5777e4f8a32e07143e622f34606c8b3278dfe0c491af3317b17f6",
+        "before": "        try {\n            host.awaitDocument(owner, \"javascript\")\n",
+        "before_fragment_sha256": "fd76da11c183e1a525dd701370df53b7508f24755fde04c67dd796395ecda447"
+      }
+    ],
+    "scripts/ci/arm64_stop_candidate_source_projection.py": [
+      {
+        "after": "    binding = _bindings().get(relative)\n    # Retain this stage's original complete-preimage idempotence before newer admission.\n    if (binding is not None and 0 < len(payload) <= MAX_SOURCE_BYTES and\n            hashlib.sha256(payload).hexdigest() == binding[\"before_sha256\"]):\n        return payload\n    from desktop_policy_creation_source_projection import source_before_policy_creation\n    payload = source_before_policy_creation(relative, payload)\n    if binding is None:\n        return payload\n",
+        "after_fragment_sha256": "ae9add069b61337b86a8973c3ba590d71c9f8ac7e0ff4992d6e6105952020e99",
+        "before": "    binding = _bindings().get(relative)\n    if binding is None:\n        return payload\n",
+        "before_fragment_sha256": "072f62a03d215939ce65ca850972fe324dafdd9a96a4a9579ce30989cff4a30b"
+      },
+      {
+        "after": "    from desktop_policy_creation_source_projection import current_source_before_policy_creation\n    payload = current_source_before_policy_creation(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n",
+        "after_fragment_sha256": "3dc3c32908afe4f08dc44c79787e073df38a6918de4cf1eb024615bfd9a06ff3",
+        "before": "    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n",
+        "before_fragment_sha256": "9952803c55dc4753050171d4405fd172dd325d81ce7848388a653865c9e8f3be"
+      }
+    ],
+    "scripts/ci/desktop-security.init.gradle.kts": [
+      {
+        "after": "            \"tls-rendering-cookies-policy-media\" -> listOf(securitySelector, cookieSelector, policySelector, mediaSelector)\n            \"policy-macos-recovery\" -> listOf(policySelector)\n",
+        "after_fragment_sha256": "e3e0a257c43148f0ceae14a0a43a70c845fd87179bcea4e69a61bcb529f62bfc",
+        "before": "            \"tls-rendering-cookies-policy-media\" -> listOf(securitySelector, cookieSelector, policySelector, mediaSelector)\n",
+        "before_fragment_sha256": "88e913fe7593345bdfb9b89fa7c5c2aeac0b2403168d90dc663907c448a9bf39"
+      }
+    ],
+    "scripts/ci/desktop_security_plan.py": [
+      {
+        "after": "PROFILE = \"webview-desktop-security-regressions\"\nPOLICY_RECOVERY_PROFILE = \"webview-desktop-policy-macos-recovery\"\nPOLICY_RECOVERY_FOCUS = \"policy-macos-recovery\"\n",
+        "after_fragment_sha256": "5725174b85ed38a11520058b1d1df5bb287d8e5aa3b88372c45a150059632fdd",
+        "before": "PROFILE = \"webview-desktop-security-regressions\"\n",
+        "before_fragment_sha256": "74768f592d8c6f725442c0cae21b78169f4806b478f5325a20b53bbbb244b4b1"
+      },
+      {
+        "after": "FOCUSES = tuple(dict.fromkeys(row[\"focus\"] for row in ROWS)) + (POLICY_RECOVERY_FOCUS,)\n",
+        "after_fragment_sha256": "80236bf7da4d5767c5392169445e5758dd3d7c0419822fab0afbb57da94802ab",
+        "before": "FOCUSES = tuple(dict.fromkeys(row[\"focus\"] for row in ROWS))\n",
+        "before_fragment_sha256": "125a2aef7d4c1b722e7c14de8f13f78f98fca39385e0dc72d959aef0b33d0c04"
+      },
+      {
+        "after": "'cb8366e5283b8d1fb4a2e06970fdad85c7bf2e4ba30b86fbbaaab968aeb400ad'",
+        "after_fragment_sha256": "eb98b651a92b8ec6c7f7ab8329cd7c70c158c9a4d486b320f6b2d73f72a48961",
+        "before": "'2811d91948312b9626f9b3f99112de8bffaa26100405c402bba7989e02248e96'",
+        "before_fragment_sha256": "349617f661d6ae6045ab0518d8fadc59b2f509ef975108fb8e77a369009b351f"
+      },
+      {
+        "after": "INIT_SCRIPT_SHA256 = 'f03e42a6da093e685ce37c6e0cf891aae61929511029999fdcaa943cfe2e58bc'",
+        "after_fragment_sha256": "7e8a2720815a9e1d8ec3634a41b77e83fafde1b501b4f20f09eb5bfb7a968b50",
+        "before": "INIT_SCRIPT_SHA256 = 'bbe38d5d5ffc53cb56258b2996d41a3015f41237fb782c9b701376bcc62579b1'",
+        "before_fragment_sha256": "4913fa84929a68b265f6a63671d42d0df16895c0a853a84c66ebd379071c94b2"
+      },
+      {
+        "after": "ISOLATION_BLOCK = 'val desktopSecurityClass = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest\"\\nval desktopSecurityMethod = \"trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner\"\\nval desktopCookieSelector = \"com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie\"\\nval desktopPolicySelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce\"\\nval desktopMediaSelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument\"\\nval desktopSecurityFocus = providers.gradleProperty(\"nativecmpkitDesktopSecurityFocus\").orNull\\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\\n    null -> emptyList()\\n    \"tls-rendering\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\")\\n    \"tls-rendering-cookies-policy\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector)\\n    \"tls-rendering-cookies-policy-media\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\\n    \"policy-macos-recovery\" -> listOf(desktopPolicySelector)\\n    else -> error(\"Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback\")\\n}\\n\\ntasks.withType<Test>().matching { it.name == \"desktopTest\" }.configureEach {\\n    if (desktopSecurityFocus == null) {\\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\\n        filter { excludeTestsMatching(desktopSecurityClass) }\\n    } else {\\n        // Each selected class has exactly one selected method; no second class can\\n        // reuse HTTP2Loader\\'s static fixture-trusted HttpClient or a cookie handler.\\n        maxParallelForks = 1\\n        forkEvery = 1L\\n        systemProperty(\"nativecmpkit.desktop.security.worker\", \"one-selected-class\")\\n        filter {\\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\\n            isFailOnNoMatchingTests = true\\n        }\\n    }\\n}\\n'",
+        "after_fragment_sha256": "5f9a2b5e43b6838292b278420fdc3dccd0e4f27254703bf64a1fe2ec316325b8",
+        "before": "ISOLATION_BLOCK = 'val desktopSecurityClass = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewTlsRenderingAcceptanceTest\"\\nval desktopSecurityMethod = \"trustedHttpsPaintsTwoAuthoredDocumentsAndUntrustedCertificateFailsBeforeHttpOnTheSameOwner\"\\nval desktopCookieSelector = \"com.mohamedrejeb.calf.ui.web.JavaFxCookieIntegrationTest.realNativeLoginSurvivesLibraryCookieReadsAndHttpOnlyNeverLeaksIntoDocumentCookie\"\\nval desktopPolicySelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest.actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce\"\\nval desktopMediaSelector = \"com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest.disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument\"\\nval desktopSecurityFocus = providers.gradleProperty(\"nativecmpkitDesktopSecurityFocus\").orNull\\nval desktopSecuritySelectors = when (desktopSecurityFocus) {\\n    null -> emptyList()\\n    \"tls-rendering\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\")\\n    \"tls-rendering-cookies-policy\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector)\\n    \"tls-rendering-cookies-policy-media\" -> listOf(\"$desktopSecurityClass.$desktopSecurityMethod\", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)\\n    else -> error(\"Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback\")\\n}\\n\\ntasks.withType<Test>().matching { it.name == \"desktopTest\" }.configureEach {\\n    if (desktopSecurityFocus == null) {\\n        // Never auto-enable a process-global test trust lease in an ordinary worker.\\n        filter { excludeTestsMatching(desktopSecurityClass) }\\n    } else {\\n        // Each selected class has exactly one selected method; no second class can\\n        // reuse HTTP2Loader\\'s static fixture-trusted HttpClient or a cookie handler.\\n        maxParallelForks = 1\\n        forkEvery = 1L\\n        systemProperty(\"nativecmpkit.desktop.security.worker\", \"one-selected-class\")\\n        filter {\\n            setIncludePatterns(*desktopSecuritySelectors.toTypedArray())\\n            isFailOnNoMatchingTests = true\\n        }\\n    }\\n}\\n'",
+        "before_fragment_sha256": "faf38fd88d088bb7634ed41af693eb5954cb1c5baa295d34c4a721e850c705b3"
+      },
+      {
+        "after": "ISOLATION_BLOCK_SHA256 = '588036e8186a8c50a91276fca3c779ecf98465dfa4dd647c6e7e4ae94b8d85e6'",
+        "after_fragment_sha256": "6215597f3c18072f138fbfe56992a1b75056f7cae3188945f0be6a4071d5b78c",
+        "before": "ISOLATION_BLOCK_SHA256 = '99b6e740b98cbe6f584be887e78ab2c3734c283a38afe57577cdea301138dadf'",
+        "before_fragment_sha256": "624b9bb0076a3c0b38bd73f94d7738af306b6cf3e36aa019ef9eb55bcf36d13c"
+      },
+      {
+        "after": "    if focus not in FOCUSES:\n        raise ValueError(\"Unknown finite Desktop security focus; no class/full-suite fallback\")\n    if focus == POLICY_RECOVERY_FOCUS:\n        original = selection(\"Darwin\", \"arm64\")\n        selector = POLICY_CLASS + \".\" + POLICY_METHOD\n        return {**original, \"focus\": focus, \"selected\": (\"policy\",),\n                \"isolation_property\": \"-PnativecmpkitDesktopSecurityFocus=\" + focus,\n                \"selectors\": (selector,),\n                \"required_testcases\": ({\"classname\": POLICY_CLASS, \"name\": POLICY_METHOD + \"[desktop]\"},),\n                \"required_original_xml\": 1}\n    row = next(row for row in ROWS if row[\"focus\"] == focus)\n",
+        "after_fragment_sha256": "b8bb316873d3a8d6a8475ccfc43ee73df3481f8fcf55c153adb7cda737c3ce42",
+        "before": "    if focus not in FOCUSES:\n        raise ValueError(\"Unknown finite Desktop security focus; no class/full-suite fallback\")\n    row = next(row for row in ROWS if row[\"focus\"] == focus)\n",
+        "before_fragment_sha256": "699cf3a3e9cfca0ef303ae4d5d6c6759f39d0e4c1f0f03890edeb938276053cc"
+      },
+      {
+        "after": "    selected = focus_selection(focus)[\"selected\"]\n    if focus == POLICY_RECOVERY_FOCUS:\n        path = SOURCE_PATHS[\"policy\"]\n        return {path: SOURCE_SHA256[path]}\n    paths = [SOURCE_PATHS[\"tls-rendering\"], TLS_HELPER]\n",
+        "after_fragment_sha256": "7778821dcbc077f630a814aac09350a0798a2e61eb49ecdd21c8e85135a79f22",
+        "before": "    selected = focus_selection(focus)[\"selected\"]\n    paths = [SOURCE_PATHS[\"tls-rendering\"], TLS_HELPER]\n",
+        "before_fragment_sha256": "7ba5fa8c45011cf1667e168de12cca82083d955741874c0b89397b87a882aefd"
+      },
+      {
+        "after": "def validate_host(system: str, architecture: str, focus: str) -> None:\n    if focus == POLICY_RECOVERY_FOCUS:\n        if selection(system, architecture)[\"slot\"] not in (\"desktop-macos-arm64\", \"desktop-macos-x64\"):\n            raise ValueError(\"Policy recovery requires one of the two failed actual macOS hosts\")\n        return\n    if focus not in FOCUSES or selection(system, architecture)[\"focus\"] != focus:\n",
+        "after_fragment_sha256": "20859b01aa76b074f6ca7e0d61977374efdf00430372c669c9d84af3aca101ba",
+        "before": "def validate_host(system: str, architecture: str, focus: str) -> None:\n    if focus not in FOCUSES or selection(system, architecture)[\"focus\"] != focus:\n",
+        "before_fragment_sha256": "d8c6f6735a6e8c59f5f4b8eb003c58edd9396aca2c5a90643c3793033f19ac70"
+      }
+    ],
+    "scripts/ci/test_desktop_tls_finished_write_recovery.py": [
+      {
+        "after": "    if sources is None:\n        from desktop_policy_creation_source_projection import current_source_before_policy_creation\n        sources = {path: current_source_before_policy_creation(path, (ROOT / path).read_bytes()).decode(\"utf-8\")\n                   for path in FILE_HASHES}\n",
+        "after_fragment_sha256": "67a81c357613f124c0ed193c13187a828a293cd4bc7f8d9717928ba33d1b76e5",
+        "before": "    if sources is None:\n        sources = {path: (ROOT / path).read_text(encoding=\"utf-8\") for path in FILE_HASHES}\n",
+        "before_fragment_sha256": "901a8ba044c8b8e5439bd738b0633e4d1eb1df2f4094c7d73e7f019506e9debc"
+      }
+    ],
+    "scripts/ci/workflow_matrix.py": [
+      {
+        "after": "    \"webview-desktop-security-macos-pair\": (\"desktop-macos-arm64\", \"desktop-macos-x64\"),\n    \"webview-desktop-policy-macos-recovery\": (\"desktop-macos-arm64\", \"desktop-macos-x64\"),\n",
+        "after_fragment_sha256": "cf4cb3a7541611a4afc55dd73d12233164551f86cdfd6f5f926d3b0e9b15d419",
+        "before": "    \"webview-desktop-security-macos-pair\": (\"desktop-macos-arm64\", \"desktop-macos-x64\"),\n",
+        "before_fragment_sha256": "779834fd80e32b7d43df261c5250cd41a9fc1a7c563c4dff2fce3123ce1041b0"
+      },
+      {
+        "after": "    \"webview-desktop-security-macos-pair\": \"calf-webview\",\n    \"webview-desktop-policy-macos-recovery\": \"calf-webview\",\n",
+        "after_fragment_sha256": "e97b81a7a3a07756fd653e46565af92ac65928bb6a760dacb28af88f3ef104f0",
+        "before": "    \"webview-desktop-security-macos-pair\": \"calf-webview\",\n",
+        "before_fragment_sha256": "b386098fa51e348ad0a680d238616702035849e16123d36a88b35df8420a0b82"
+      },
+      {
+        "after": "    if profile == desktop_security_plan.POLICY_RECOVERY_PROFILE:\n        slots = (\"desktop-macos-arm64\", \"desktop-macos-x64\")\n        if PROFILES[profile] != slots or MODULE_SUBSETS.get(profile) != \"calf-webview\":\n            raise ValueError(\"Policy recovery refuses host or module broadening\")\n        inherited = matrix(\"webview-desktop-security-macos-pair\")[\"include\"]\n        if tuple(row[\"slot\"] for row in inherited) != slots:\n            raise ValueError(\"Policy recovery requires both original failed macOS rows\")\n        return {\"include\": [dict(row, **{\"test-focus\": desktop_security_plan.POLICY_RECOVERY_FOCUS})\n                            for row in inherited]}\n    aliases = {\n",
+        "after_fragment_sha256": "6130481f08d694711b578bd296d6bf6343fda6d8962cb6191bf06a5693f6a84d",
+        "before": "    aliases = {\n",
+        "before_fragment_sha256": "6ad5c4d59daaf658a4b4208467465c4d682b111b1223f1d4afa8600d078fa167"
+      }
+    ]
+  },
+  "historical_bindings": 7,
+  "historical_fragments": 17,
+  "manifest_sha256": "744983ffbe7958cfef8bf46437d30045005de5c4342c812ca279a68310fbcd32",
+  "modified_paths": [
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+    "scripts/ci/desktop_security_plan.py",
+    "calf-webview/build.gradle.kts",
+    "scripts/ci/desktop-security.init.gradle.kts",
+    "scripts/ci/workflow_matrix.py",
+    ".github/workflows/gradle.yml",
+    "scripts/ci/test_desktop_tls_finished_write_recovery.py",
+    "scripts/ci/arm64_stop_candidate_source_projection.py"
+  ],
+  "native_tests_executed": 0,
+  "new_policy_sha256": "cb8366e5283b8d1fb4a2e06970fdad85c7bf2e4ba30b86fbbaaab968aeb400ad",
+  "old_policy_sha256": "2811d91948312b9626f9b3f99112de8bffaa26100405c402bba7989e02248e96",
+  "ordered_fragments": 19,
+  "packages_published": false,
+  "schema_version": 1
+}

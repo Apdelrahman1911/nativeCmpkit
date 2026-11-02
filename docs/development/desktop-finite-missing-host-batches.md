@@ -2,6 +2,18 @@
 
 ## Current missing-only amendment — 2026-11-02
 
+[Original385–395](evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)
+now accepts all four macOS TLS/rendering/native-cookie methods and both actual
+full host graphs; the original pair remains FAILED because both policy methods
+called FX before public creation readiness. The owning existing-`onCreated` wait
+and exact failed-only route qualify important source tests/compile, not new native
+acceptance. **Never dispatch the old macOS security pair again:** it would replay
+accepted unchanged TLS/cookie methods and graphs. Next only
+`webview-desktop-policy-macos-recovery`: macOS ARM64 + x64, **2 methods / 2 XML**,
+fresh isolated sequential workers, no graph capture. Then Windows/Linux7 after
+terminal review. Each pair reserves both allowed hosted slots including queued.
+Earlier pending/missing counts below retain their dated preparation scope.
+
 The first macOS security pair request [41531273049](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41531273049)
 failed before any native execution at one stage-hash fixture. The
 [owning381–384 recovery](evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)

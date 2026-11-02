@@ -1,0 +1,133 @@
+{
+  "advisory_queries_requested": 0,
+  "capture_complete": true,
+  "errors": [],
+  "host": {
+    "architecture": "x64",
+    "system": "Darwin"
+  },
+  "inputs_after": {
+    "bytes": 186607,
+    "files": 1218,
+    "input_digest": "7bb5ab84895e492e37026a860d5dfc9d646cf39a993b7f7d42ad92139cdb6a9b",
+    "path": "build/ci-runtime/desktop-dependencies-inputs-after.json",
+    "sha256": "1f0c31321fade374b86b22463d0bdabf062f0f03774d2bee755d91adb16dd59a"
+  },
+  "inputs_and_runtime_unchanged": true,
+  "inputs_before": {
+    "bytes": 186607,
+    "files": 1218,
+    "input_digest": "7bb5ab84895e492e37026a860d5dfc9d646cf39a993b7f7d42ad92139cdb6a9b",
+    "path": "build/ci-runtime/desktop-dependencies-inputs-before.json",
+    "sha256": "1f0c31321fade374b86b22463d0bdabf062f0f03774d2bee755d91adb16dd59a"
+  },
+  "javafx_classifier_for_independent_review": "mac",
+  "native_methods_requested": 0,
+  "native_slot_output_absent": true,
+  "owned_private_inits_removed": true,
+  "packages_published": false,
+  "phases": [
+    {
+      "capture_complete": true,
+      "collector_sha256": "317a75102b265a173705571cb384f55a866e48e5c9f794eb07c17efb3890c639",
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "<owned-private-init>",
+        "nativeCmpKitAuditDesktopDependencies"
+      ],
+      "copied_graph": {
+        "bytes": 758483,
+        "path": "build/ci-runtime/desktop-dependencies-runtime-graph.json",
+        "sha256": "03a42100d8ae4de171012ea498397b96037b1901a589541a99a3c07a4da0238c"
+      },
+      "ended_at_utc": "2026-11-02T22:05:58.458901+00:00",
+      "errors": [],
+      "execution": {
+        "elapsed_seconds": 334.87,
+        "exit_code": 0
+      },
+      "graph_markers_match": true,
+      "observed_graph": {
+        "artifacts": 54,
+        "configurations": 24,
+        "external_coordinates": 108
+      },
+      "original_graph": {
+        "bytes": 758483,
+        "path": "build/ci-verification/desktop-dependency-audit-20261030/graph.json",
+        "sha256": "03a42100d8ae4de171012ea498397b96037b1901a589541a99a3c07a4da0238c"
+      },
+      "phase": "runtime",
+      "private_log": {
+        "bytes": 2343,
+        "path": "build/ci-verification/desktop-dependency-capture-private/runtime.log",
+        "sha256": "f41490a5a0aa9de44aa50f8d309b976360bce2c6d746bc4f4e7009081368d6ce"
+      },
+      "started_at_utc": "2026-11-02T22:00:23.417486+00:00"
+    },
+    {
+      "capture_complete": true,
+      "collector_sha256": "821056946d590f14ee7f88d807d3c88f0b3a32a885f193063383cc7eb6a66a6e",
+      "command": [
+        "./gradlew",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=2",
+        "--no-parallel",
+        "--console=plain",
+        "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+        "-Pkotlin.compiler.execution.strategy=in-process",
+        "--init-script",
+        "<owned-private-init>",
+        "nativeCmpKitAuditDesktopDependencies"
+      ],
+      "copied_graph": {
+        "bytes": 1411006,
+        "path": "build/ci-runtime/desktop-dependencies-compile-test-graph.json",
+        "sha256": "9427179deea715d3176ee8588387b81949b62f19dd2d14d078eea0e23d90cfa2"
+      },
+      "ended_at_utc": "2026-11-02T22:06:58.551011+00:00",
+      "errors": [],
+      "execution": {
+        "elapsed_seconds": 59.97,
+        "exit_code": 0
+      },
+      "graph_markers_match": true,
+      "observed_graph": {
+        "artifacts": 79,
+        "configurations": 48,
+        "external_coordinates": 142
+      },
+      "original_graph": {
+        "bytes": 1411006,
+        "path": "build/ci-verification/desktop-dependency-audit-supplement-20261030/graph.json",
+        "sha256": "9427179deea715d3176ee8588387b81949b62f19dd2d14d078eea0e23d90cfa2"
+      },
+      "phase": "compile-test",
+      "private_log": {
+        "bytes": 2189,
+        "path": "build/ci-verification/desktop-dependency-capture-private/compile-test.log",
+        "sha256": "073ac813e074ece6a7a3d87417db9e12213aca2a88a506cda5ded4df91c41a9d"
+      },
+      "started_at_utc": "2026-11-02T22:05:58.544179+00:00"
+    }
+  ],
+  "profile": "webview-desktop-security-regressions",
+  "runtime": {
+    "bytes": 815,
+    "path": "build/ci-runtime/actual.json",
+    "sha256": "44119ae953b69cc4a48b2010a51647faadc3eed50892050835197fb975b178de"
+  },
+  "schema_version": 1,
+  "scope": "Missing-host full Desktop graph acquisition only; independent source/graph/advisory/native/security review remains required.",
+  "slot": "desktop-macos-x64",
+  "source_revision": "3a3a93bdee07f7568e6ff78c952efd6223c41df7"
+}

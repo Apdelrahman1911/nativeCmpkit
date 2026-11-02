@@ -120,6 +120,7 @@ val desktopSecuritySelectors = when (desktopSecurityFocus) {
     "tls-rendering" -> listOf("$desktopSecurityClass.$desktopSecurityMethod")
     "tls-rendering-cookies-policy" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector)
     "tls-rendering-cookies-policy-media" -> listOf("$desktopSecurityClass.$desktopSecurityMethod", desktopCookieSelector, desktopPolicySelector, desktopMediaSelector)
+    "policy-macos-recovery" -> listOf(desktopPolicySelector)
     else -> error("Unknown finite Desktop security focus; no arbitrary class or whole-suite fallback")
 }
 

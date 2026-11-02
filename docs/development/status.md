@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `16fa8707ded293a2de12fafed826cf3f763f317b89f9cd75f38df3408fdbb03e`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8d23907cc3afcad531b1c5db657398b2bc55777ca8e7c5d71720de94079255fd`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -98,7 +98,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
-| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 4 |
+| 53 | [BUILD-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) | Low | 1 | M | partially-verified | BUILD-001 | 3 / 5 |
 | 54 | [BUILD-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) | Low | 1 | M | verified | BUILD-003, BUILD-005 | 3 / 0 |
 | 55 | [BUILD-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) | Low | 1 | M | verified | BUILD-005 | 3 / 0 |
 | 56 | [IO-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/43) | Medium | 2 | L | verified | IO-002, IO-004, IO-005 | 6 / 0 |
@@ -1276,6 +1276,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- 2026-11-02 current: macOS TLS/cookie4 and both full graphs/advisory deltas are accepted; rerun only macOS policy2 via webview-desktop-policy-macos-recovery, without graph replay. Then Windows3/LinuxARM644 plus real differing host graphs remain. Earlier13-missing entries describe their original checkpoint. Retain C1/C2/full original criteria and independent engine/security/readiness limits; C3 support boundary is already documented.
 - Full actual Linux library runtime/compile/test Maven coordinate checks are reviewed. Other-host resolved graph/classifier matrices and actual media/TLS/cookies/navigation/JavaScript/rendering on every desktop host remain required; zero OSV matches do not certify bundled engines or independent trust.
 - Document sandboxed untrusted-code execution support boundaries and finish the three original BUILD-002 acceptance criteria; no dependency/security/release waiver.
 - 2026-11-01: Reuse accepted Linux x64 TLS002 cell without native replay. Execute only remaining13 security cells on four other hosts; Desktop request10 is separate. Other-host dependency/classifier graphs and sandbox support boundaries retain original requirements.
@@ -3589,7 +3590,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `998adb566ad60ff56e342f1079417b340232b096e7abc9e25d8663d620a1e01f` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `608b13ce2183bb2854014d2acccf69d883d01e8fcbb1cc46b1365f86493aa852` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `5d302f02d00ccc8b79137d93f95df7987c741bc3d38ce6fee47a6cf849a81650` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |

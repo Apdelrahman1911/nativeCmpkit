@@ -35,6 +35,12 @@ def source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ARM64 Stop source identity and ordinary bytes are required")
     binding = _bindings().get(relative)
+    # Retain this stage's original complete-preimage idempotence before newer admission.
+    if (binding is not None and 0 < len(payload) <= MAX_SOURCE_BYTES and
+            hashlib.sha256(payload).hexdigest() == binding["before_sha256"]):
+        return payload
+    from desktop_policy_creation_source_projection import source_before_policy_creation
+    payload = source_before_policy_creation(relative, payload)
     if binding is None:
         return payload
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -68,6 +74,8 @@ def source_before_arm64_stop_candidate(relative, payload):
 def current_source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current ARM64 Stop source identity and ordinary bytes are required")
+    from desktop_policy_creation_source_projection import current_source_before_policy_creation
+    payload = current_source_before_policy_creation(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current ARM64 Stop source")

@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## macOS security subsets accepted; rerun only the two policy failures
+
+[Actual385–395](evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)
+preserves the latest macOS pair as FAILED: **4 native passes / 2 failures** across
+six original XML reports. All TLS/rendering and native-cookie methods are reviewed
+and excluded from replay. Both complete host dependency graphs qualify; only four
+new exact coordinates were queried, zero OSV matches, not engine/security clearance.
+The failures expose a confirmed test startup-admission race, repaired by awaiting
+the genuine existing public `onCreated` witness before FX document polling.
+**13 unique important source controls** qualify across11+3 invocations; Desktop
+test compilation passes0/36.01s and both two-row source preflights pass. Zero new
+native execution; source/history/native assertions and read-only permissions hold.
+Next freeze/push/capacity then **`webview-desktop-policy-macos-recovery`2 only**;
+no accepted macOS TLS/cookie or full-graph replay. Windows/Linux7 waits for terminal
+review. #64/#144 open;97closed/75open/172total, solo/8GiB/max2 including queued.
+No packages/releases/deployment/Pages/main/history change or release-gate waiver.
+
 ## First Desktop security request failed at one fixture; owning repair verified
 
 [381–384 evidence](evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)

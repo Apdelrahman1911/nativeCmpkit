@@ -82,3 +82,6 @@ automatically replay native cases. This registers the new workflow without a
 credentials, no publishing/deployment/OIDC permissions. Uploads contain selected
 test evidence only, never JARs or classes. Observe the project-wide maximum two
 combined queued/running/reserved hosted-heavy jobs before dispatch.
+Checkout preserves LF bytes, enables Git long paths before checkout and fetches
+only this dependency-test subtree. Archived XML and the full Kotlin build are not
+required by this diagnostic and are not checked out or claimed as verified.

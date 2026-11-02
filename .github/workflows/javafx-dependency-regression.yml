@@ -38,9 +38,16 @@ jobs:
     runs-on: ${{ inputs.platform == 'linux' && 'ubuntu-24.04' || 'windows-2025' }}
     timeout-minutes: 10
     steps:
+      - name: Preserve source bytes and support Windows archive paths before checkout
+        shell: bash
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.longpaths true
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          sparse-checkout: tests/dependency/javafx-http2-cancellation
+          sparse-checkout-cone-mode: true
       - uses: actions/setup-java@v4
         with:
           distribution: temurin

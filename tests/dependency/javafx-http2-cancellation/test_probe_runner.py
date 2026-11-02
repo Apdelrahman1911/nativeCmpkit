@@ -193,5 +193,19 @@ class WorkflowSourceTests(unittest.TestCase):
         self.assertNotIn("java.lang.reflect", source)
 
 
+class CheckoutRecoveryTests(unittest.TestCase):
+    def test_byte_preservation_and_long_paths_precede_checkout(self):
+        source = (runner.HERE.parents[2] / ".github/workflows/javafx-dependency-regression.yml").read_text()
+        checkout = source.index("uses: actions/checkout@v4")
+        self.assertLess(source.index("git config --global core.autocrlf false"), checkout)
+        self.assertLess(source.index("git config --global core.longpaths true"), checkout)
+
+    def test_sparse_checkout_keeps_exact_dependency_source_and_not_archived_xml(self):
+        source = (runner.HERE.parents[2] / ".github/workflows/javafx-dependency-regression.yml").read_text()
+        self.assertIn("sparse-checkout: tests/dependency/javafx-http2-cancellation", source)
+        self.assertIn("sparse-checkout-cone-mode: true", source)
+        self.assertNotIn("sparse-checkout: docs/", source)
+
+
 if __name__ == "__main__":
     unittest.main()

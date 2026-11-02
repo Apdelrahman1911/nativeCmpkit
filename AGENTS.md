@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows cache observation wiring corrected; actual index preflight passes — 2026-11-02
+
+[Actual291–296](docs/development/evidence/current-platform-recovery-20261101/javafx-cache291-296/README.md) retains41416593900/80af3ff8 FAILED
+at cache validation, ZERO candidate/Gradle/native. Actual Windows SDK23/current
+index/source plan/JDK17/exact dependency-cache restore pass, qualifying earlier
+path portability. Producer wrote candidate-specific observation; unchanged fence
+reads fixed library-dependencies.json. Only two names/two upload entries repair
+wiring and retain cache refusal receipts.292 fixture regex red remains invalid;
+corrected293 realCLI red missing-file,294 failed1+NEW3 pass4/4/0.147s and actionlint0,
+1204 maps held.29624 passive checks qualify13 held executable/legal/pin bindings;
+295 historical README mismatch retained/documentation bound separately. No
+accepted27/dependency-native4 replay or status promotion/closure. Next frozen
+development-only manual original Windows Stop1; no auto trigger from this delta.
+#64/#3 and97closed/75open/172total/22implemented/42partial/95verified/five unresolved
+stay. SOLO/8GiB/serial/max2 combined hosted INCLUDING queued and every publishing/
+Pages/main/history/native/consumer/API-ABI/legal/security/readiness gate remain.
+
 ## Windows index preflight failure repaired locally — 2026-11-02
 
 [Actual285–288](docs/development/evidence/current-platform-recovery-20261101/windows-index285-288/README.md)

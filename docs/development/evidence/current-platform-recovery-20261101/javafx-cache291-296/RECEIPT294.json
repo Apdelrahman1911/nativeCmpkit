@@ -1,0 +1,46 @@
+{
+  "after": {
+    ".github/workflows/javafx-library-candidate.yml": "e447441e1fb0e898e47d3039c35f12df5b37c864b66db1709587cff17f35d86f",
+    "scripts/ci/dependency_cache_inputs.py": "d53c8ce99d56f374e026a10b3c0adaf81a2ed1f5903c52f325ce681e08a77e4d",
+    "scripts/ci/library_dependency_cache.py": "97931e625870dd8e9cd7ba88be32c9222dead5a5e009e8a8de70340a008878c0",
+    "scripts/ci/test_javafx_candidate_cache_wiring.py": "b477f9332d979586c3b02dba074e5417c66d5dbdc30ff184ba9f35a00c94bc28"
+  },
+  "before": {
+    ".github/workflows/javafx-library-candidate.yml": "e447441e1fb0e898e47d3039c35f12df5b37c864b66db1709587cff17f35d86f",
+    "scripts/ci/dependency_cache_inputs.py": "d53c8ce99d56f374e026a10b3c0adaf81a2ed1f5903c52f325ce681e08a77e4d",
+    "scripts/ci/library_dependency_cache.py": "97931e625870dd8e9cd7ba88be32c9222dead5a5e009e8a8de70340a008878c0",
+    "scripts/ci/test_javafx_candidate_cache_wiring.py": "b477f9332d979586c3b02dba074e5417c66d5dbdc30ff184ba9f35a00c94bc28"
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_javafx_candidate_cache_wiring",
+        "-v"
+      ],
+      "cwd": "scripts/ci",
+      "duration_seconds": 0.316436754,
+      "exit_code": 0,
+      "name": "new4"
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/javafx-library-candidate.yml"
+      ],
+      "cwd": ".",
+      "duration_seconds": 0.008315602,
+      "exit_code": 0,
+      "name": "actionlint"
+    }
+  ],
+  "compiler_executions": 0,
+  "executed_new_methods": 4,
+  "held_library_inputs": true,
+  "library_input_count": 1204,
+  "native_executions": 0,
+  "recorded_utc": "2026-11-02T09:10:40.798160+00:00"
+}

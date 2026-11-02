@@ -86,13 +86,13 @@ jobs:
           python -B scripts/ci/runtime_context.py --expected-arch x64 --require-clean \
             --android-platform android-37.0 --output build/ci-runtime/javafx-candidate-runtime.json
           digest="$(python -B scripts/ci/dependency_cache_inputs.py --scope libraries --selection calf-webview \
-            --output build/ci-runtime/javafx-candidate-dependencies.json)"
+            --output build/ci-runtime/library-dependencies.json)"
           python -B - "$digest" <<'PY'
           import json, os, re, sys
           if not re.fullmatch('[0-9a-f]{64}', sys.argv[1]):
               raise SystemExit('Invalid configured dependency digest')
           runtime = json.load(open('build/ci-runtime/javafx-candidate-runtime.json'))
-          deps = json.load(open('build/ci-runtime/javafx-candidate-dependencies.json'))
+          deps = json.load(open('build/ci-runtime/library-dependencies.json'))
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
               output.write('digest=' + sys.argv[1] + '\n')
               output.write('selection=' + deps['selection_cache_key'] + '\n')
@@ -125,6 +125,8 @@ jobs:
           path: |
             build/ci-runtime/javafx-candidate-*.json
             build/ci-runtime/javafx-candidate-*.log
+            build/ci-runtime/library-dependencies.json
+            build/ci-runtime/library-cache-restore.json
             build/javafx-library-candidate-plan.json
             build/ci-verification/javafx-library-candidate/*.json
             build/ci-verification/javafx-library-candidate/gradle.log

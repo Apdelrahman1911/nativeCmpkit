@@ -1,0 +1,30 @@
+{
+  "after": {
+    ".github/workflows/javafx-library-candidate.yml": "903d3d9b3bb0dd8a97af850859bc708445cc293c7ebb4bbdb45a9113657d9b10",
+    "scripts/ci/dependency_cache_inputs.py": "d53c8ce99d56f374e026a10b3c0adaf81a2ed1f5903c52f325ce681e08a77e4d",
+    "scripts/ci/library_dependency_cache.py": "97931e625870dd8e9cd7ba88be32c9222dead5a5e009e8a8de70340a008878c0",
+    "scripts/ci/test_javafx_candidate_cache_wiring.py": "b477f9332d979586c3b02dba074e5417c66d5dbdc30ff184ba9f35a00c94bc28"
+  },
+  "before": {
+    ".github/workflows/javafx-library-candidate.yml": "903d3d9b3bb0dd8a97af850859bc708445cc293c7ebb4bbdb45a9113657d9b10",
+    "scripts/ci/dependency_cache_inputs.py": "d53c8ce99d56f374e026a10b3c0adaf81a2ed1f5903c52f325ce681e08a77e4d",
+    "scripts/ci/library_dependency_cache.py": "97931e625870dd8e9cd7ba88be32c9222dead5a5e009e8a8de70340a008878c0",
+    "scripts/ci/test_javafx_candidate_cache_wiring.py": "b477f9332d979586c3b02dba074e5417c66d5dbdc30ff184ba9f35a00c94bc28"
+  },
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "test_javafx_candidate_cache_wiring.JavaFxCandidateCacheWiringTests.test_workflow_producer_observation_reaches_the_real_fixed_path_validator",
+    "-v"
+  ],
+  "cwd": "scripts/ci",
+  "duration_seconds": 0.215684211,
+  "earlier292": "invalid test regex counted runtime observation output as well; original refusal retained; corrected only unaccepted fixture",
+  "executed_methods": 1,
+  "exit_code": 1,
+  "expected_preimage_failure": true,
+  "native_executions": 0,
+  "recorded_utc": "2026-11-02T09:09:57.666361+00:00"
+}

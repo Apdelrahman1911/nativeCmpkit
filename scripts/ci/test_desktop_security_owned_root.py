@@ -11,6 +11,13 @@ OPEN = 'gradle.settingsEvaluated {\n    if (rootProject.name == "NativeCmpKit") 
 CLOSE = '    }\n}\n'
 
 
+def current_owned_script_for_history():
+    """Admit current bytes before the exact existing offline policy inverse."""
+    from desktop_policy_creation_source_projection import current_source_before_policy_creation
+    relative = str(SCRIPT.relative_to(ROOT))
+    return current_source_before_policy_creation(relative, SCRIPT.read_bytes()).decode("utf-8")
+
+
 def exact_owned_inner(source):
     """Only the exact owning-root envelope may surround the retained listener."""
     if source.count(OPEN) != 1 or not source.endswith(CLOSE):
@@ -27,12 +34,12 @@ def exact_owned_inner(source):
 
 class DesktopSecurityOwnedRootGuards(unittest.TestCase):
     def test_security_init_is_owned_root_only_and_retains_exact_inner_observation(self):
-        original = exact_owned_inner(SCRIPT.read_text())
+        original = exact_owned_inner(current_owned_script_for_history())
         self.assertIn('?: error("Security observation requires the exact explicit finite focus")', original)
         self.assertIn('check(maxParallelForks == 1 && forkEvery == 1L)', original)
 
     def test_wrong_root_unscoped_or_changed_focus_and_worker_criteria_are_refused(self):
-        source = SCRIPT.read_text()
+        source = current_owned_script_for_history()
         for old, new in (
             ('rootProject.name == "NativeCmpKit"', 'rootProject.name != "NativeCmpKit"'),
             ('rootProject.name == "NativeCmpKit"', 'true'),

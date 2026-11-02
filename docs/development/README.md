@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Policy-only request stopped in tooling; both reader causes repaired together
+
+[Original397–401](evidence/current-platform-recovery-20261101/desktop-policy-tooling397-401/README.md)
+retains41538575328 FAILED before native:2,456 source methods/one failure/one error,
+zero library Gradle/XML/graphs/artifacts. Only two historical readers change, using
+the existing exact inverse without old-pin or assertion changes. Failed2+
+affected1+NEW2 pass **5/5**,0.524s;46 solo passive checks/1,219 held inputs qualify.
+Root Linux GTK's mandatory EGL dependency is reference-reviewed; no workflow or
+compiler replay. Next development-only macOS policy2, no accepted TLS/cookie/graph
+replay, then Windows/Linux7 after terminal review. #64/#144 remain open;97closed/
+75open/172total, solo/8GiB/max2 including queued and all publication gates unchanged.
+
 ## macOS security subsets accepted; rerun only the two policy failures
 
 [Actual385–395](evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)

@@ -2,6 +2,15 @@
 
 ## Current missing-only amendment — 2026-11-02
 
+The first policy-only request [41538575328](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41538575328)
+failed in two stale source-history readers before any native execution or graphs.
+[Owning397–401](evidence/current-platform-recovery-20261101/desktop-policy-tooling397-401/README.md)
+repairs both together,5/5 important source controls/46 passive checks, preserving
+all original criteria and exact prior pins. Next only the same still-unaccepted
+policy2 on the corrected development revision; Windows/Linux7 waits for terminal
+review. Root GTK→epoxy→EGL mandatory dependency is reference-reviewed, not a hosted
+loader/trust pass. No accepted native or graph populations are replayed.
+
 [Original385–395](evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)
 now accepts all four macOS TLS/rendering/native-cookie methods and both actual
 full host graphs; the original pair remains FAILED because both policy methods

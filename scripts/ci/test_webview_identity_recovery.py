@@ -17,6 +17,15 @@ FOCUS = 'webview-public-identity-recovery'
 IOS_FOCUS = 'webview-ios-native-remount-recovery'
 
 
+def current_identity_source_for_history(suite, relative):
+    """Only the exact desktop policy addition is reversed for offline history."""
+    payload = (lt.ROOT / relative).read_bytes()
+    if suite == 'desktop':
+        from desktop_policy_creation_source_projection import current_source_before_policy_creation
+        payload = current_source_before_policy_creation(relative, payload)
+    return payload.decode('utf-8')
+
+
 class WebViewIdentityRecoveryTests(unittest.TestCase):
     def test_remaining_profile_requests_only_the_two_failed_mobile_remount_methods(self):
         rows = matrix.matrix('webview-identity-remount-recovery')['include']
@@ -175,7 +184,7 @@ class WebViewIdentityRecoveryTests(unittest.TestCase):
         for suite in ('desktop', 'android-device', 'js'):
             path = lt.WEBVIEW_IDENTITY_SPECS[suite]['source']
             old = subprocess.check_output(['git', 'show', revision + ':' + path], cwd=lt.ROOT, text=True)
-            new = (lt.ROOT / path).read_text()
+            new = current_identity_source_for_history(suite, path)
             if suite == 'js':
                 self.assertEqual(old, new)
             elif suite == 'android-device':

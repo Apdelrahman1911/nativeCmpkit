@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Policy recovery CI readers repaired together — 2026-11-02
+
+[Actual397–401](docs/development/evidence/current-platform-recovery-20261101/desktop-policy-tooling397-401/README.md)
+preserves41538575328/e88434bc FAILED2456source/132.515s/onefailoneerror, ZERO
+profile/Gradle/native/XML/graphs/artifacts. Two owning historical readers now use
+the existing exact policy inverse; every old predicate/body AST and seven18-fragment
+bindings remain. Onlyfailed2+affectednegative1+NEW2 pass5/5/0.524s/wrapper0.715674s;
+46passive checks/1219held/1216priorunchanged. No compiler/accepted/native replay.
+RootGTK already mandatorily depends epoxy→EGLdev→EGL1 in once-acquired UbuntuARM64
+reference; no rootworkflow change or installed-loader/trust inference. Next ONLY
+macOSpolicy2 afterfreeze/push/capacity, then Windows/Linux7 after terminalreview;
+never old macOSsecurity6/graphs. #64/#144open,97closed/75open/172total and ledger
+22implemented/42partial/95verified/fiveunresolved. SOLO/serial/8GiB/max2INCLUDING
+queued/read-onlyActions/all/no mandatorySHA/developmentonly; no publishing/release/
+deploy/Pages/main/history or readiness/security waiver. Originals acquired once.
+
 ## macOS security subsets accepted; policy-only recovery ready — 2026-11-02
 
 [Original385–395](docs/development/evidence/current-platform-recovery-20261101/desktop-security-originals385-395/README.md)

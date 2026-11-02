@@ -1,5 +1,21 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Seven related CI fixture failures fixed and qualified — 2026-11-02
+
+[Actual336–341](docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/README.md)
+preserves41508129890/34a533b9 FAILED before selection:2431source/77.638s/
+6fail1error/sevenrecords, ZERO native/Gradle/APK/emulator/XML/artifacts/actualmaps;
+15passive original checks/once-only archives. Three owning fixture causes repaired
+as one patch: explicit private raw-config digest, actual/current versus private
+historical preimport reads, original full terminal-preimage idempotence before
+new outer admission. Exact16 bindings/49 fragments retain prior46/old pin literals.
+NEW5+failed7+affected1 pass13/13 once/1.217560692s; solo34133passive/current1212held.
+944 applicable non-CI compiler327 inputs remain exact; no whole1208 equality,
+new local compiler/native or accepted45/rendering/IO replay. Next frozen/pushed
+ExternalStorage1 only; Downloads/cloudC1/#55 stay open.97closed/75open/172total,
+22implemented/42partial/95verified/five unresolved; SOLO/serial/8GiB/max2combined
+hosted INCLUDING queued and all publishing/Pages/main/history/readiness gates hold.
+
 ## ExternalStorage shared CI source-fixture batch qualified — 2026-11-02
 
 [Actual329–335](docs/development/evidence/current-platform-recovery-20261101/android-external-tooling329-335/README.md)

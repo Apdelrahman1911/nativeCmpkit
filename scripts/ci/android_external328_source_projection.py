@@ -15,7 +15,7 @@ from pathlib import Path
 import stat
 
 SPEC_PATH = Path(__file__).parent / "fixtures/android-external328-source-inverse.json"
-SPEC_SHA256 = "879276009e7df2859f45521720a86f106dbefc23873fd3af47e05065909167ed"
+SPEC_SHA256 = "ec166c161309144efd8ffc2b5726a7fa98cbd0f83a6becbfd37ea539562a2c7a"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
 MAX_SPEC_BYTES = 512 * 1024
 

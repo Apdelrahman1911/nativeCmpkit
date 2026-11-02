@@ -90,7 +90,7 @@ class External328SourceHistoryControls(unittest.TestCase):
         contract = json.loads(self.raw_spec)
         self.assertEqual("8bfe511c7e625aea5140bdee310663b09d7cc83d", contract["before_selector_revision"])
         self.assertEqual("cfbc16a80b9d93d734130e1151a93551456d7bfe", contract["before_fixture_revision"])
-        self.assertEqual(46, sum(len(binding["fragments"]) for binding in self.bindings.values()))
+        self.assertEqual(49, sum(len(binding["fragments"]) for binding in self.bindings.values()))
         self.assertEqual(bridge.SPEC_SHA256, digest(self.raw_spec))
         self.assertTrue(all(not path.startswith("calf-") for path in self.bindings))
 

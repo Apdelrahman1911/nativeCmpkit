@@ -145,7 +145,7 @@
     },
     "scripts/ci/terminal_awt240_source_projection.py": {
       "after_bytes": 3228,
-      "after_sha256": "7403411fb994a0a3cd8812cfa07f07f28f38553873dbd9e6c742505b9e77afa1",
+      "after_sha256": "b7ce5b0cd5ce960371a32ab138eeeb627291ee947e1b602b76fba913fd5791c9",
       "before_bytes": 2841,
       "before_sha256": "e839883e8c80a49de66ff334489dadd4189b40a862d924920ffa35fc35b2ae1d",
       "fragments": [
@@ -154,13 +154,19 @@
           "after_fragment_sha256": "3172673b3da7c4208e0bf29ca252ae998dead4af0bb058d0b2012a3202cd5c6c",
           "before": "        raise ValueError(\"Exact source identity and ordinary bytes are required\")\n    bindings = json.loads(SPEC_PATH.read_text(encoding=\"utf-8\"))[\"bindings\"]\n",
           "before_fragment_sha256": "968a6d068c6817ad51b8d60e779328bc94d1409d0aeafd4a5c2dc3e2cf40e7ff"
+        },
+        {
+          "after": "def source_before_terminal_awt240(relative: str, payload: bytes) -> bytes:\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact source identity and ordinary bytes are required\")\n    bindings = json.loads(SPEC_PATH.read_text(encoding=\"utf-8\"))[\"bindings\"]\n    # A composed older guard can call us again after this inverse. Recognize\n    # only our exact original whole preimage before the newer outer admission;\n    # this is historical idempotence, never raw-current source acceptance.\n    if relative in bindings and hashlib.sha256(payload).hexdigest() == bindings[relative][\"before_sha256\"]:\n        return payload\n    # Admit the exact current finite Android focus before older byte-history guards.\n    from android_external328_source_projection import source_before_android_external328\n    try:\n        payload = source_before_android_external328(relative, payload)\n    except ValueError as error:\n        raise ValueError(\"Unreviewed terminal/AWT240 source is not an admitted postimage\") from error",
+          "after_fragment_sha256": "c7b55ef91f16825828209f6da9ee04243ef2f5c10ef5fdb006ef639fc1e08da5",
+          "before": "def source_before_terminal_awt240(relative: str, payload: bytes) -> bytes:\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact source identity and ordinary bytes are required\")\n    # Admit the exact current finite Android focus before older byte-history guards.\n    from android_external328_source_projection import source_before_android_external328\n    try:\n        payload = source_before_android_external328(relative, payload)\n    except ValueError as error:\n        raise ValueError(\"Unreviewed terminal/AWT240 source is not an admitted postimage\") from error\n    bindings = json.loads(SPEC_PATH.read_text(encoding=\"utf-8\"))[\"bindings\"]",
+          "before_fragment_sha256": "563370da8a813b0fa619f272d66847917f3eff145367382e1f81b98092ba9bff"
         }
       ],
       "scope": "historical offline reader/mutation fixture only"
     },
     "scripts/ci/test_android_camera205_owning_admission.py": {
       "after_bytes": 22215,
-      "after_sha256": "9293145eef7eb888f72b22dd445a0adf63f45c423bcc439975939bb2f9e81423",
+      "after_sha256": "f49ddb7da23003d9e06a20d20b74271358c0d217cb9542aef82bbb440629fee3",
       "before_bytes": 21927,
       "before_sha256": "cbb64e0e7c79b120919b7be0e9511ba317d9bdd59ef96e883b2c2fc6c594d9cb",
       "fragments": [
@@ -169,6 +175,12 @@
           "after_fragment_sha256": "62e55b1d7410a0f620f6fa2cd55b27c0f72f4b85e8a64da3437fb212202641e9",
           "before": "                raise AssertionError(\"An exact ordinary Camera205 source input is required\")\n            payload = path.read_bytes()\n            if not 0 < len(payload) <= 4 * 1024 * 1024 or digest(payload) != expected:\n",
           "before_fragment_sha256": "0f821f1e411438dcf7406800badbe9f0c6e2d1943b789665906c97a2aea0fff3"
+        },
+        {
+          "after": "        def bound_digest(path):\n            if tree == TREE:\n                from android_external328_source_projection import read_current_source_for_history\n                return digest(read_current_source_for_history(path, TREE))\n            # The explicit source-external scratch fixture contains already\n            # reconstructed historical inputs, not admitted current source.\n            return digest(path.read_bytes())\n\n        namespace = {\"TREE\": tree, \"HELPER_PATH\": tree / HELPER,\n                     \"digest\": bound_digest, \"__builtins__\": {\"AssertionError\": AssertionError}}",
+          "after_fragment_sha256": "d7a45e687a4e6e9d611e32eb8d144875e4e886ed0a8fc12086826ae2e22a3f3a",
+          "before": "        namespace = {\"TREE\": tree, \"HELPER_PATH\": tree / HELPER,\n                     \"digest\": lambda p: digest(p.read_bytes()), \"__builtins__\": {\"AssertionError\": AssertionError}}",
+          "before_fragment_sha256": "47287d8422890982f28ff2b1df725eee808b9c6071fee2454758d4c94833ac52"
         }
       ],
       "scope": "historical offline reader/mutation fixture only"
@@ -190,7 +202,7 @@
     },
     "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": {
       "after_bytes": 69228,
-      "after_sha256": "e0c157e8870d73d887824299356cd1dc9463f268a39514e7d012bfbd3840603f",
+      "after_sha256": "d18d35ca3d8853b68ccfda28b87fecec23da88c147e7e0da45bc5b56904b56ca",
       "before_bytes": 69024,
       "before_sha256": "663bf8e7c846519e719ca1da7087feddc7a3f1e7dab65fe3dfad23e7a66c1669",
       "fragments": [
@@ -199,6 +211,12 @@
           "after_fragment_sha256": "1e5a93c82c57f726f4d8594c974c12e2d1f2f4dd2d26e86c16903a799728d12a",
           "before": "def digest(path):\n    return hashlib.sha256(path.read_bytes()).hexdigest()\n\n",
           "before_fragment_sha256": "d9d43a4723a0b7e7eb29a1deb284c4f59e3c2405cbbd76e67c02ba9633bde204"
+        },
+        {
+          "after": "def digest(path):\n    # Private synthetic config bytes are not source-history inputs. Keep their\n    # raw digest; only explicit source-tree identities enter the current bridge.\n    if not path.is_relative_to(TREE):\n        return hashlib.sha256(path.read_bytes()).hexdigest()\n    # Historical pins remain literal; the outer bridge separately admits raw current bytes.\n    from android_external328_source_projection import read_current_source_for_history\n    return hashlib.sha256(read_current_source_for_history(path, TREE)).hexdigest()\n",
+          "after_fragment_sha256": "f234d117d9e0ad71978c03ef380e4818697ea2c39e6066a51f4d05ec27898321",
+          "before": "def digest(path):\n    # Historical pins remain literal; the outer bridge separately admits raw current bytes.\n    from android_external328_source_projection import read_current_source_for_history\n    return hashlib.sha256(read_current_source_for_history(path, TREE)).hexdigest()\n",
+          "before_fragment_sha256": "a90bbc8c33ece44d6be295293b8031f7bdc72b3b0cec8245e76de66ff81fc87e"
         }
       ],
       "scope": "historical offline reader/mutation fixture only"

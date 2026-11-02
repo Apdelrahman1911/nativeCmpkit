@@ -152,8 +152,16 @@ class Camera205OwningAdmissionNewOnlyTests(unittest.TestCase):
         self.assertEqual(len(found), 1)
         node = found[0]
         self.assertEqual(digest(ast.get_source_segment(source, node).encode()), IMPORT_BOUNDARY_SHA256[relative])
+        def bound_digest(path):
+            if tree == TREE:
+                from android_external328_source_projection import read_current_source_for_history
+                return digest(read_current_source_for_history(path, TREE))
+            # The explicit source-external scratch fixture contains already
+            # reconstructed historical inputs, not admitted current source.
+            return digest(path.read_bytes())
+
         namespace = {"TREE": tree, "HELPER_PATH": tree / HELPER,
-                     "digest": lambda p: digest(p.read_bytes()), "__builtins__": {"AssertionError": AssertionError}}
+                     "digest": bound_digest, "__builtins__": {"AssertionError": AssertionError}}
         if relative == SCALAR:
             namespace["EXPECTED_HELPER_SHA256"] = literal(source, "EXPECTED_HELPER_SHA256")
             self.assertLess(node.lineno, assignment(source, "SPEC").lineno)

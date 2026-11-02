@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d",
-    "docs/development/resolutions/IO.json": "36fcb500642ff4f328ebdc2ce57a16a73cfd93ab7b6af4c8bbea5ec43f0e6200",
+    "docs/development/resolutions/IO.json": "02d9d7d10c9ff349fde8e05f56adc58082341e119c7c87d0ad3c2258eaf322dd",
     "docs/development/resolutions/NATIVE.json": "290423027189a10939e563caf379846f0a48c1ada84191d98e094a9aa0b90a01",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "df7f0731def2884f10f20c612c3a78e95c5ee9543b7f4e05005e36f00c4a2e59",
     "docs/roadmap/backlog.json": "07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4"
   },
-  "input_fingerprint": "04f76204e30955ad916e3aa5e2bda1ab640cd62e47b095c00543f5adc916238c",
+  "input_fingerprint": "b47e6d112359b2a27c9684f23198dfa0db6df4fd775b3e5e06f7761a087647b7",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -11984,7 +11984,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "72a67e35636de9976f81332fa4782170b2128149a94aa5f30337d5be8a53edf3",
+      "owner_record_sha256": "62ac4bd42a9f78f58fe72e0a1df588b94f0338605beef39d85b84fce99295e84",
       "owner_record": {
         "id": "IO-019",
         "status": "partially-verified",
@@ -12190,6 +12190,26 @@
               "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling329-335/REVIEW335.json"
             ],
             "scope": "Exact finite source-history reader composition only; original current/history pin declarations and native actions/assertions/cleanup remain. ExternalStorage1 still must run; unchanged Downloads/root-policy limits and cloudC1/#55 stay open. No native/consumer/API-ABI/security/release inference."
+          },
+          {
+            "command": "gh workflow run gradle.yml -R Apdelrahman1911/nativeCmpkit --ref development/preview-hardening -f profile=android-io-named-external-storage; review original41508129890 once",
+            "result": "Actual336/337 at34a533b93599b00a15d80b4445ce332335a98c60 remains FAILED before profile selection: offline2431/77.638s,6 failures/one error/seven records. ZERO native/Gradle/APK/emulator/XML/artifacts or actual uploaded source maps. Fifteen passive original checks hold frozen1211 Git/dispatch/local only; no hosted after-map or #55 criterion acceptance.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/DISPATCH336.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/ORIGINAL338.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/ACQUISITION337.json"
+            ]
+          },
+          {
+            "command": "python3 -B <source-held private run340.py>; separately inspect changed source/results with review341.py; no accepted unchanged populations replayed",
+            "result": "One related fixture patch repairs private-config source-root hashing, actual/private historical preimport reads and exact terminal inverse idempotence. ImportantNEW5+actual failed7+affected1 pass13/13 once/1.217560692s; separate solo33 passive source/results checks/current1212 held. Six existing CI paths/one NEW file only;16 whole bindings/49 fragments retain prior46 and original pins. Reuse compiler327 on944 unchanged non-CI inputs and unchanged Actionlint/source-CLI bytes, not whole1208 equality. ZERO new compiler/native; ExternalStorage/Downloads/cloudC1 still missing, #55 open.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/important340.result.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/selected-methods340.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/REVIEW341.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/manifest339-before.json",
+              "docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/source-inputs341.json"
+            ]
           }
         ],
         "remaining": [

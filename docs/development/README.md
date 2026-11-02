@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+## Current focused Android CI fixture recovery — 2026-11-02
+
+[Actual336–341](evidence/current-platform-recovery-20261101/android-external-tooling336-341/README.md)
+repairs seven original CI source-fixture failures in one patch; important13/13
+and separate33 passive checks pass, ZERO native/compiler. The original focused
+run remains FAILED before selection; #55 stays open. Only the original missing
+ExternalStorage method is next, without Downloads/accepted IO replay.
+
+
 ## Focused ExternalStorage CI source-fixture failures repaired
 
 [329–335 evidence](evidence/current-platform-recovery-20261101/android-external-tooling329-335/README.md)

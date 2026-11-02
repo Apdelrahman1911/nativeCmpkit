@@ -46,9 +46,13 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
         // ACTION_OPEN_TREE installs PickFragment, not the document action-mode select menu.
         // PickFragment binds button1/open_tree_button and disables it while its blocking overlay is visible.
         val pickLabel = stringResource("open_tree_button")
+        // TextView allCaps changes accessibility text, not the installed resource string.
+        // This fixture requires English; accept only the exact resource or its exact rendering.
+        val renderedPickLabel = pickLabel.uppercase(java.util.Locale.ENGLISH)
         withGateFailureObservation(GateFailureRole.OPEN_TREE_BUTTON, pickLabel) {
         click({ root -> root.findAccessibilityNodeInfosByViewId("android:id/button1") }, {
-            it.text?.toString() == pickLabel && it.isEnabled && it.isClickable
+            (it.text?.toString() == pickLabel || it.text?.toString() == renderedPickLabel) &&
+                it.isEnabled && it.isClickable
         })
         } // End OPEN_TREE_BUTTON failure-only scope; original native body is unchanged.
         val context = instrumentation.targetContext
@@ -60,13 +64,15 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
         check(dialogTitle.contains(folder) && dialogTitle.contains(callerLabel) &&
             dialogMessage.contains(folder) && dialogMessage.contains(callerLabel))
         val allowLabel = stringResource("allow")
+        val renderedAllowLabel = allowLabel.uppercase(java.util.Locale.ENGLISH)
         // Both exact strings must belong to the same refreshed active root as the positive-button query.
         click({ root ->
             if (hasExactText(root, dialogTitle) && hasExactText(root, dialogMessage)) {
                 root.findAccessibilityNodeInfosByViewId("android:id/button1")
             } else emptyList()
         }, {
-            it.text?.toString() == allowLabel && it.isEnabled && it.isClickable
+            (it.text?.toString() == allowLabel || it.text?.toString() == renderedAllowLabel) &&
+                it.isEnabled && it.isClickable
         })
     }
 

@@ -50,6 +50,7 @@ PROFILES = {
     "android-io-provider-unavailable": ("android-device-api35",),
     "android-io-default-decode": ("android-device-api35",),
     "android-io-named-system-providers": ("android-device-api35",),
+    "android-io-named-external-storage": ("android-device-api35",),
     "android-io-reference-regressions": ("android-device-api35",),
     "android-permission-demo": ("android-device-api35",),
     "android-permission-demo-call-denial-recovery": ("android-device-api35",),
@@ -228,6 +229,7 @@ MODULE_SUBSETS = {
     "android-io-provider-unavailable": "calf-io",
     "android-io-default-decode": "calf-io",
     "android-io-named-system-providers": "calf-io",
+    "android-io-named-external-storage": "calf-io",
     "android-io-reference-regressions": "calf-io",
     "android-permission-demo": "calf-permissions/core",
     "android-permission-demo-call-denial-recovery": "calf-permissions/core",
@@ -715,9 +717,9 @@ def matrix(profile: str) -> dict:
     if profile == "android-io-default-decode":
         for row in rows:
             row["test-focus"] = "android-io-default-decode"
-    if profile == "android-io-named-system-providers":
+    if profile in {"android-io-named-system-providers", "android-io-named-external-storage"}:
         for row in rows:
-            row["test-focus"] = "android-io-named-system-providers"
+            row["test-focus"] = profile
     if profile == "android-io-reference-regressions":
         for row in rows:
             row["test-focus"] = "android-io-reference-regressions"

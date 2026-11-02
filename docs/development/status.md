@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `dbb4ff94a12f2ed2e7589c03a603f1beedc66e6d900f903b0088a350cc4b3144`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `62296bb8c8b47ed1365682620a18bd8e1103010da72adae71b396c2e93affece`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -112,7 +112,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
 | 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 9 |
-| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 12 |
+| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 13 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 12 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
@@ -1596,6 +1596,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-02 actual200–201: NEW23/source and fresh device-test compiler/APK accepted only. Recover the same two failed API35 Local2 methods once on immutable development source; do not replay accepted IO/APK/control populations. CloudC1 and full #55 remain open; no native gate relaxed.
 - 2026-11-02 original312: Local2 still failed, now with exact limited operands. Diagnose the owning selector/location from evidence before another request; do not normalize labels or guess provider/root. CloudC1 separate; no unchanged native retry or #55 closure.
 - 2026-11-02 preparation317-319: Only original failed API35 Local2 methods next on frozen source.14 unique source controls and compiler/APK pass qualify diagnostic preparation, not a root-cause fix/native pass. Original action20s unchanged; two independent cooperative1000ms snapshots. Preserve prior failed casing/location uncertainty, all accepted IO and APK/control reuse; cloudC1 separate/#55 open.
+- 2026-11-02 owning320-328: Run only changed ExternalStorage1 on a frozen revision after exact important/source/compiler acceptance. Do not replay the unchanged Downloads root-hint failure: reference ProvidersAccess explicitly excludes it from OPEN\_TREE, so a drawer/private/grant workaround is not an admissible fix. Document/verify real supported Downloads capability separately; cloudC1 and whole#55 remain. Original native failure and independent-after-timeout limits are retained.
 
 **Compatibility / scope:** Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content.
 
@@ -3582,7 +3583,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `67ac2f4d743f0546dfb4ee692e2162a728a294bcbd73970ed6564c8bfed9a487` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `db84bda068c99a0af8560b4643618dc2fbdee0bd597d9f38dd151ed24e217914` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `290423027189a10939e563caf379846f0a48c1ada84191d98e094a9aa0b90a01` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |

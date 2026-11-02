@@ -14,6 +14,7 @@ import xml.etree.ElementTree as ET
 from android_io_named_system_documents_gate_observations import (
     gate_observation_preimage, gate_observation_postimage, gate_observation_present,
 )
+from android_io_named_button_rendering import rendering_present
 
 FOCUS = "android-io-named-system-providers"
 CLASS = "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest"
@@ -240,6 +241,8 @@ def source_contract(root: Path) -> dict:
     if not gate_observation_present(live_ui):
         resource_admission_preimage(live_ui)
     observed_ui = gate_observation_preimage(live_ui)
+    require(rendering_present(live_ui),
+            "System UI ownership, exact controls, ambiguity refusal or flag restoration changed")
     ui = resource_admission_preimage(observed_ui)
     require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", test) == list(METHODS) and
             "class AndroidIoNamedSystemProviderTest" in test and
@@ -250,6 +253,7 @@ def source_contract(root: Path) -> dict:
             "Named-provider sources must retain the public library package")
     require(all(value in test for value in (
         'assertEquals(35, Build.VERSION.SDK_INT)', 'assertNotEquals(Looper.getMainLooper(), Looper.myLooper())',
+        'assertEquals("en", context.resources.configuration.locales[0].language)',
         'assertTrue(context.contentResolver.persistedUriPermissions.isEmpty()',
         '"com.android.externalstorage.ExternalStorageProvider"', '"com.android.providers.downloads.DownloadStorageProvider"',
         'check(tree.scheme == "content" && tree.authority == authority',

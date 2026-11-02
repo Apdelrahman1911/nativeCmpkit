@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android rendered-label correction prepared; Downloads root policy identified — 2026-11-02
+
+[Actual320–328](docs/development/evidence/current-platform-recovery-20261101/android-rendering320-328/README.md)
+preserves41498732953/8bfe511c FAILED2/0pass/oneXML/Gradle1/97.04s;26passive checks,
+four actual1206 maps held. External exact-ID/enabled/clickable uppercase-only1;
+Downloads wrong toolbar/ownedtext0 are separate after-timeout snapshots, not history.
+Exact four-fragment resource-or-English-allCaps correction retains all original
+actions20s/six admissions/assertions/cleanup. NEW12+affected5 pass17/17/0.080s;
+fresh test compiler/APK0/38.12s/1208held, production UP-TO-DATE/18warnings retained;
+20 separate solo passive checks/Actionlint/finite CLI pass, ZERO new native.
+AOSP reference ProvidersAccess also excludes !supportsChildren Downloads roots
+from OPEN_TREE: no drawer/private/grant/guessed-URI workaround or N/A inference;
+installed Google source/capability not proved. Next only new exact ExternalStorage1
+focus, not unchanged Local2/accepted IO replay; Downloads/cloudC1/#55 stay open.
+Earlier generic link resolver stays refused; only five prior scoped links/target
+existence qualified.97closed/75open/172total unchanged. SOLO/serial/8GiB/max2 combined
+hosted INCLUDING queued and all publishing/Pages/main/history/readiness gates hold.
+
 ## Browser offline originals accepted; Android detail snapshot compiled — 2026-11-02
 
 [Actual317–319](docs/development/evidence/current-platform-recovery-20261101/browser-android317-319/README.md)

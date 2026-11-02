@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Android rendered labels fixed; exact one-method native gate next
+
+[320–328 evidence](evidence/current-platform-recovery-20261101/android-rendering320-328/README.md)
+identifies the real uppercase button/resource mismatch and the wrong Downloads
+directory symptom from once-acquired originals. Exact resource-or-allCaps matching
+retains every safety/action/library assertion.17 important source controls and a
+fresh changed test compiler/APK pass; **zero new native methods yet**. Next only
+the original ExternalStorage method via its new finite API35 focus; no blind
+unchanged Downloads or accepted native replay. AOSP reference source excludes
+Downloads roots from OPEN_TREE, including the drawer list; do not bypass that
+policy or silently waive original criteria. Installed Google capability/cloudC1/
+#55 remain open. Work stays solo and all publishing/security/readiness gates hold.
+
 ## Browser offline originals accepted; Android focused observation prepared
 
 [317–319 evidence](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)

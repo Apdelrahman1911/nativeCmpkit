@@ -1,0 +1,47 @@
+{
+  "archived_corresponding_source": {
+    "AbstractActionHandler.java": "56508bd6251d4b010e83b3575a5b3fe68abf884745637d24f3c8a7794b2a618f",
+    "DownloadStorageProvider.java": "18a1a8132cb47d5a225b8b6e7b681b041c6309756557bfc676862ddf9eb33de5",
+    "PickerActionHandler.java": "07c42cbfdcb183d5fd150c70c3daca79a01d7008c391b5310bd9733a8641dd70",
+    "ProvidersAccess.java": "317556a6f3a17d14cce1518b8fcc2d3c34d4237fb3fd261b1f7bca402523717a",
+    "ProvidersCache.java": "a3eaa6b763b43d96c74e961e332c1e600345ea5f58a707fa8dd88e7277d0a299",
+    "RootInfo.java": "b625ae40e381261ef572412ffadbd13e434afc034055470e351c0ccae737c1ed",
+    "RootItem.java": "888735a21085fe11b8ba7b8d110bb8025a2e89396e8522396341aa6b8536367d",
+    "RootsFragment.java": "a27ba85ebf8cccaef2d5eeb7807428f3429be9ac5043454278ebea96fd2a3610"
+  },
+  "findings": [
+    {
+      "evidence": "isRootUri dispatches loadRoot(initialUri); root URIs are a supported navigation hint.",
+      "location": "reference-source/PickerActionHandler.java:174-200",
+      "recommendation": "Do not replace root with guessed document URI."
+    },
+    {
+      "evidence": "queryRoots flags omit FLAG_SUPPORTS_IS_CHILD.",
+      "location": "reference-source/DownloadStorageProvider.java:161-175",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "evidence": "supportsChildren() checks precisely FLAG_SUPPORTS_IS_CHILD.",
+      "location": "reference-source/RootInfo.java:372-374",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "evidence": "Initial ACTION_OPEN_TREE root without supportsChildren() loads device root.",
+      "location": "reference-source/AbstractActionHandler.java:828-842",
+      "status": "confirmed-reference-source; consistent with actual wrong-toolbar observation, not historical cause proof"
+    },
+    {
+      "evidence": "getMatchingRoots excludes !supportsChildren roots from ACTION_OPEN_TREE.",
+      "location": "reference-source/ProvidersAccess.java:93-98",
+      "recommendation": "A drawer-root workaround is also inadmissible: do not bypass excluded-root policy to obtain green tests."
+    },
+    {
+      "evidence": "Sidebar uses RootsLoader and item.open()/openRoot; this does not override the matching-root filter.",
+      "location": "reference-source/RootsFragment.java:245-254; reference-source/RootItem.java:145-147",
+      "status": "reference-source route only"
+    }
+  ],
+  "licenses": "Full unchanged original AOSP copyright and Apache-2.0 headers retained in each reference file; reference materials are not compiled dependencies.",
+  "schema_version": 1,
+  "scope": "Official android-15.0.0_r1 reference source only; not the installed Google system-image source revision. No native capability or N/A acceptance is inferred."
+}

@@ -8,6 +8,9 @@ import tempfile
 import unittest
 
 import android_io_named_system_documents as source
+from android_io_named_button_rendering import (
+    rendering_present, rendering_preimage, rendering_fixture_postimage,
+)
 
 
 class NamedSystemIoUiSelectorControls(unittest.TestCase):
@@ -24,8 +27,10 @@ class NamedSystemIoUiSelectorControls(unittest.TestCase):
     def replace_ui(self, before, after):
         path = self.root / source.UI
         text = path.read_text()
+        if rendering_present(text):
+            text = rendering_preimage(text)
         self.assertEqual(1, text.count(before), "A selector mutation must address exactly its authored boundary")
-        path.write_text(text.replace(before, after, 1))
+        path.write_text(rendering_fixture_postimage(text.replace(before, after, 1)))
 
     def refuses_ui(self):
         with self.assertRaisesRegex(ValueError, "^System UI ownership, exact controls, ambiguity refusal or flag restoration changed$"):

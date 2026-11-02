@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuites tests="2" failures="2" errors="0" skipped="0" time="0.000" timestamp="2026-11-02T18:25:48" hostname="localhost">
+  <testsuite name="com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest" tests="2" failures="2" errors="0" skipped="0" time="52.050" timestamp="2026-11-02T18:25:48" hostname="localhost">
+    <properties>
+      <property name="device" value="emulator-5588" />
+    </properties>
+    <testcase name="externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership" classname="com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest" time="30.086">
+      <failure>java.lang.IllegalStateException: Exact owned DocumentsUI control unavailable; samplesCapped512=302,maxVisibleMatches=0;documentsUiGateFailureSchema=1,observation=AFTER_TIMEOUT_ONLY,role=OPEN_TREE_BUTTON,application=GOOGLE_DOCUMENTS_UI,admittedNamespace=GOOGLE_DOCUMENTS_UI,status=COMPLETE,probeBudgetMillis=1000,rootPresent=true,rootRefreshed=true,rootVisible=true,rootPackageExact=true,rawContainersCapped65=null,containerVisited=null,containerRefreshed=null,containerVisible=null,containerPackageExact=null,rawNodesCapped65=1,nodeVisited=1,nodeRefreshed=1,nodeVisible=1,nodePackageExact=1,nodeIdExact=1,nodeTextExact=0,nodeIdAndText=0,nodeTextAndEnabled=0,nodeTextEnabledClickable=0,originalPredicateAtProbe=0;documentsUiGateDetailSchema=1,detailObservation=AFTER_TIMEOUT_SEPARATE_SNAPSHOT,detailRole=OPEN_TREE_BUTTON,detailStatus=COMPLETE,detailProbeBudgetMillis=1000,detailRootPresent=true,detailRootRefreshed=true,detailRootVisible=true,detailRootPackageExact=true,detailRawButtonNodesCapped65=1,detailQualifiedButtonIds=1,detailEnabledButtonIds=1,detailClickableButtonIds=1,detailButtonTextPresent=1,detailButtonTextExact=0,detailButtonTextUppercaseOnly=1,detailRootOwnedTextQueryCapped65=null,detailRootOwnedTextExact=null,detailDirListChildCountCapped65=null,detailDirListScrollable=null,detailDownloadsTitleQualified=null,detailToolbarDownloadsTitleExact=null
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.find(NamedSystemDocumentsUi.kt:250)
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.click(NamedSystemDocumentsUi.kt:203)
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.click$default(NamedSystemDocumentsUi.kt:201)
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.selectOwnedFolder(NamedSystemDocumentsUi.kt:50)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest.namedProviderCase(AndroidIoNamedSystemProviderTest.kt:71)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest.access$namedProviderCase(AndroidIoNamedSystemProviderTest.kt:35)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest$externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership$1.invokeSuspend(AndroidIoNamedSystemProviderTest.kt:43)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+    <testcase name="downloadsProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership" classname="com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest" time="21.964">
+      <failure>java.lang.IllegalStateException: Exact owned DocumentsUI control unavailable; samplesCapped512=326,maxVisibleMatches=0;documentsUiGateFailureSchema=1,observation=AFTER_TIMEOUT_ONLY,role=OWNED_FOLDER_ROW,application=GOOGLE_DOCUMENTS_UI,admittedNamespace=GOOGLE_DOCUMENTS_UI,status=COMPLETE,probeBudgetMillis=1000,rootPresent=true,rootRefreshed=true,rootVisible=true,rootPackageExact=true,rawContainersCapped65=1,containerVisited=1,containerRefreshed=1,containerVisible=1,containerPackageExact=1,rawNodesCapped65=0,nodeVisited=0,nodeRefreshed=0,nodeVisible=0,nodePackageExact=0,nodeIdExact=0,nodeTextExact=0,nodeIdAndText=0,nodeTextAndEnabled=0,nodeTextEnabledClickable=0,originalPredicateAtProbe=0;documentsUiGateDetailSchema=1,detailObservation=AFTER_TIMEOUT_SEPARATE_SNAPSHOT,detailRole=OWNED_FOLDER_ROW,detailStatus=COMPLETE,detailProbeBudgetMillis=1000,detailRootPresent=true,detailRootRefreshed=true,detailRootVisible=true,detailRootPackageExact=true,detailRawButtonNodesCapped65=null,detailQualifiedButtonIds=null,detailEnabledButtonIds=null,detailClickableButtonIds=null,detailButtonTextPresent=null,detailButtonTextExact=null,detailButtonTextUppercaseOnly=null,detailRootOwnedTextQueryCapped65=0,detailRootOwnedTextExact=0,detailDirListChildCountCapped65=14,detailDirListScrollable=false,detailDownloadsTitleQualified=true,detailToolbarDownloadsTitleExact=0
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.find(NamedSystemDocumentsUi.kt:250)
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.click(NamedSystemDocumentsUi.kt:203)
+	at com.mohamedrejeb.calf.io.NamedSystemDocumentsUi.selectOwnedFolder(NamedSystemDocumentsUi.kt:37)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest.namedProviderCase(AndroidIoNamedSystemProviderTest.kt:71)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest.access$namedProviderCase(AndroidIoNamedSystemProviderTest.kt:35)
+	at com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest$downloadsProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership$1.invokeSuspend(AndroidIoNamedSystemProviderTest.kt:48)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:124)
+	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:586)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:798)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:717)
+	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:704)
+</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

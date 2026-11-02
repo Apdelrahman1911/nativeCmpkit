@@ -1,0 +1,126 @@
+{
+  "findings": [
+    {
+      "claim": "Requested root URI is supported, so changing root URI to a document URI is not a justified fix by itself.",
+      "source": "PickerActionHandler.java:174-200",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "claim": "Downloads queryRoots flags omit FLAG_SUPPORTS_IS_CHILD.",
+      "source": "DownloadStorageProvider.java:161-175",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "claim": "RootInfo.supportsChildren tests exactly FLAG_SUPPORTS_IS_CHILD; OPEN_TREE onRootLoaded redirects unsupported roots to the device root.",
+      "source": "RootInfo.java:372-374; AbstractActionHandler.java:828-842",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "claim": "This explains a possible native wrong-directory symptom, but the tag is not the installed Google image source identity. Actual new toolbar facts are pending.",
+      "status": "hypothesis-consistent-with-reference-source"
+    },
+    {
+      "claim": "MediaStore.getDocumentUri does not solve the Downloads authority hint: the reference MediaProvider delegates its conversion to ExternalStorageProvider.",
+      "source": "MediaStore.java:4656-4686; MediaProvider.java:7064-7088",
+      "status": "confirmed-reference-source"
+    },
+    {
+      "claim": "PickFragment binds android:id/button1, applies a MaterialButton style and sets the declared open_tree_button text. Actual transformed/accessibility text remains pending.",
+      "source": "fragment_pick.xml:40-50; PickFragment.java:172-193",
+      "status": "confirmed-reference-source"
+    }
+  ],
+  "installed_image_source_identity": false,
+  "new_source_bindings": [
+    {
+      "acquired": true,
+      "automatic_retry": false,
+      "final_url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/roots/ProvidersCache.java?format=TEXT",
+      "http_status": 200,
+      "installed_image_source_identity": false,
+      "name": "ProvidersCache.java",
+      "reference_tag": "android-15.0.0_r1",
+      "requested_once": true,
+      "requested_utc": "2026-11-02T18:21:10.079000+00:00",
+      "source_bytes": 28010,
+      "source_lines": 715,
+      "source_path": "src/com/android/documentsui/roots/ProvidersCache.java",
+      "source_sha256": "a3eaa6b763b43d96c74e961e332c1e600345ea5f58a707fa8dd88e7277d0a299",
+      "transport_bytes": 37348,
+      "transport_sha256": "556cc7330ca668492108a1b6bd83b374489179c9a46f1e91de6ab7c59a1987dc",
+      "url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/roots/ProvidersCache.java?format=TEXT"
+    },
+    {
+      "acquired": true,
+      "automatic_retry": false,
+      "final_url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/base/RootInfo.java?format=TEXT",
+      "http_status": 200,
+      "installed_image_source_identity": false,
+      "name": "RootInfo.java",
+      "reference_tag": "android-15.0.0_r1",
+      "requested_once": true,
+      "requested_utc": "2026-11-02T18:21:11.344221+00:00",
+      "source_bytes": 17594,
+      "source_lines": 526,
+      "source_path": "src/com/android/documentsui/base/RootInfo.java",
+      "source_sha256": "b625ae40e381261ef572412ffadbd13e434afc034055470e351c0ccae737c1ed",
+      "transport_bytes": 23460,
+      "transport_sha256": "e7995713a722b8b940dd2f08a9d15955fd73bf80e3ff4ac78af700a5079cf3f2",
+      "url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/base/RootInfo.java?format=TEXT"
+    },
+    {
+      "acquired": true,
+      "automatic_retry": false,
+      "final_url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/AbstractActionHandler.java?format=TEXT",
+      "http_status": 200,
+      "installed_image_source_identity": false,
+      "name": "AbstractActionHandler.java",
+      "reference_tag": "android-15.0.0_r1",
+      "requested_once": true,
+      "requested_utc": "2026-11-02T18:21:12.363468+00:00",
+      "source_bytes": 36572,
+      "source_lines": 1020,
+      "source_path": "src/com/android/documentsui/AbstractActionHandler.java",
+      "source_sha256": "56508bd6251d4b010e83b3575a5b3fe68abf884745637d24f3c8a7794b2a618f",
+      "transport_bytes": 48764,
+      "transport_sha256": "0b134d018e8041a1c0b92f72f34dcd46b8d715ba18a86073a4f897b6900bdc24",
+      "url": "https://android.googlesource.com/platform/packages/apps/DocumentsUI/+/android-15.0.0_r1/src/com/android/documentsui/AbstractActionHandler.java?format=TEXT"
+    }
+  ],
+  "new_tests_or_native_executions": 0,
+  "no_source_changes": true,
+  "reference_tag": "android-15.0.0_r1",
+  "retained_source_bindings": [
+    {
+      "bytes": 222835,
+      "reused_no_acquisition": true,
+      "sha256": "f8dc01f72fa579c4ffd9a28172e6c862f1d7527084f3727e65e53e779cd24143",
+      "source": "sdk-source/MediaStore.java"
+    },
+    {
+      "bytes": 51099,
+      "reused_no_acquisition": true,
+      "sha256": "18a1a8132cb47d5a225b8b6e7b681b041c6309756557bfc676862ddf9eb33de5",
+      "source": "sdk-source/DownloadStorageProvider.java"
+    },
+    {
+      "bytes": 22088,
+      "reused_no_acquisition": true,
+      "sha256": "07c42cbfdcb183d5fd150c70c3daca79a01d7008c391b5310bd9733a8641dd70",
+      "source": "sdk-source/PickerActionHandler.java"
+    },
+    {
+      "bytes": 524480,
+      "reused_no_acquisition": true,
+      "sha256": "194bf47422b3493a380018a76a76129dc68b4671dc7e4ec8a92634c9a912e735",
+      "source": "sdk-source/MediaProvider.java"
+    },
+    {
+      "bytes": 2503,
+      "reused_no_acquisition": true,
+      "sha256": "0af46d60341c63ab285d4a240b552d1abf90e8d4b541d7bc75825cbdb8072401",
+      "source": "sdk-source/fragment_pick.xml"
+    }
+  ],
+  "scope": "Passive public reference-source review only; no guessed root, label normalization, broad permission, private route, grant injection or native success."
+}

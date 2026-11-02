@@ -34,6 +34,10 @@ def gate_observation_present(ui: str) -> bool:
 
 
 def gate_observation_preimage(ui: str) -> str:
+    # Remove only the complete source-qualified rendering correction. Historical
+    # native predicates are still reviewed below; malformed derivatives refuse.
+    if _rendering_present(ui):
+        ui = _rendering_preimage(ui)
     postimage = ui
     # Current admission requires exactly one complete NEW shape, never a missing/partial helper.
     for addition in GATE_FAILURE_ADDITIONS:
@@ -68,10 +72,16 @@ def gate_observation_postimage(ui: str) -> str:
         _require(ui.count(before) == 1, OBSERVATION_REFUSAL)
         ui = ui.replace(before, after, 1)
     _require(gate_observation_preimage(ui) == original, OBSERVATION_REFUSAL)
-    return ui
+    return _rendering_fixture_postimage(ui)
 
 
 # Exact diagnostic-only current derivative; original literals above stay historical.
 from android_io_named_gate_details import detail_images as _detail_images
 GATE_FAILURE_ADDITIONS, GATE_OBSERVATION_POSTIMAGE_DELTAS = _detail_images(
     GATE_FAILURE_ADDITIONS, GATE_OBSERVATION_POSTIMAGE_DELTAS)
+
+from android_io_named_button_rendering import (
+    rendering_present as _rendering_present,
+    rendering_preimage as _rendering_preimage,
+    rendering_fixture_postimage as _rendering_fixture_postimage,
+)

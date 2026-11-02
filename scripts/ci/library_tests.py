@@ -238,6 +238,8 @@ ANDROID_IO_NAMED_SYSTEM_METHODS = (
     "externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
     "downloadsProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
 )
+ANDROID_IO_NAMED_EXTERNAL_FOCUS = "android-io-named-external-storage"
+ANDROID_IO_NAMED_SYSTEM_FOCUSES = (ANDROID_IO_NAMED_SYSTEM_FOCUS, ANDROID_IO_NAMED_EXTERNAL_FOCUS)
 ANDROID_IO_NAMED_SYSTEM_SOURCE_DEPENDENCIES = (
     ANDROID_IO_NAMED_SYSTEM_SOURCE,
     "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt",
@@ -1776,7 +1778,7 @@ def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) 
             (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_UNAVAILABLE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_DEFAULT_DECODE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
-            (focus == ANDROID_IO_NAMED_SYSTEM_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_REFERENCE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
             (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
              modules == ("calf-io",)) or
@@ -1892,8 +1894,17 @@ def android_io_default_decode_identities() -> list[dict]:
     return [{"classname": ANDROID_IO_DEFAULT_DECODE_CLASS, "name": method} for method in ANDROID_IO_DEFAULT_DECODE_METHODS]
 
 
-def android_io_named_system_identities() -> list[dict]:
-    return [{"classname": ANDROID_IO_NAMED_SYSTEM_CLASS, "name": method} for method in ANDROID_IO_NAMED_SYSTEM_METHODS]
+def android_io_named_system_identities(focus: str = ANDROID_IO_NAMED_SYSTEM_FOCUS) -> list[dict]:
+    if focus not in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
+        raise ValueError("Unknown named-system-provider focus")
+    methods = ANDROID_IO_NAMED_SYSTEM_METHODS if focus == ANDROID_IO_NAMED_SYSTEM_FOCUS else ANDROID_IO_NAMED_SYSTEM_METHODS[:1]
+    return [{"classname": ANDROID_IO_NAMED_SYSTEM_CLASS, "name": method} for method in methods]
+
+
+def android_io_named_system_filter(focus: str = ANDROID_IO_NAMED_SYSTEM_FOCUS) -> str:
+    identities = android_io_named_system_identities(focus)
+    return (ANDROID_IO_NAMED_SYSTEM_CLASS if focus == ANDROID_IO_NAMED_SYSTEM_FOCUS else
+            ANDROID_IO_NAMED_SYSTEM_CLASS + "#" + identities[0]["name"])
 
 
 def android_io_reference_identities() -> list[dict]:
@@ -2509,7 +2520,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = ANDROID_IO_DEFAULT_DECODE_CLASS
         selected[0]["required_testcases"] = android_io_default_decode_identities()
         result["scope"] = "Three new actual API35 default Coil BitmapFactoryDecoder library methods only: native PNG binary unknown-size/encoded streaming/pixel parity, native JPEG EXIF rotation/reflection/bounds replay and repeated corrupt-image cross-UID descriptor closure. No injected decoder or replay of the five provider-lifecycle/accepted oversize methods. Local PNG/JPEG provider is separate-process same-UID; corrupt bytes use the existing separate-UID actual tree grant. No kernel seek/ImageDecoder metadata route, physical/min23/vendor/cloud, peak memory, request-key/invalidation, packaged consumer/API-ABI, other-platform or security/release certification."
-    elif focus == ANDROID_IO_NAMED_SYSTEM_FOCUS:
+    elif focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
         import android_io_named_system_documents as named_system
         source = safe_path(root, ANDROID_IO_NAMED_SYSTEM_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -2518,9 +2529,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             raise ValueError("The two named local-system-provider declarations or native dependencies changed")
         result["android_io_named_system_source"] = named_system.source_contract(root)
         result["explicit_test_focus"] = focus
-        selected[0]["test_filter"] = ANDROID_IO_NAMED_SYSTEM_CLASS
-        selected[0]["required_testcases"] = android_io_named_system_identities()
+        selected[0]["test_filter"] = android_io_named_system_filter(focus)
+        selected[0]["required_testcases"] = android_io_named_system_identities(focus)
         result["scope"] = "Only missing IO-019/#55 C1 local named-provider methods on stock API35: ExternalStorageProvider and Downloads folder URIs acquired by genuine system DocumentsUI, uniquely owned MediaStore seed rows, public KmpFile tree/child metadata and bounded native reads with explicit descriptor close ownership, persisted grant release and exact conditional row cleanup. No helper provider or manual URI/runtime grant; no accepted restart/reference/outage/Coil replay. Cloud folders, API23-28 seeded bootstrap, physical/vendor/minimum/consumer/API-ABI/security/release remain unverified. Empty unique directories are removed only by the existing controller-owned guest disposal, never recursive storage deletion."
+        if focus == ANDROID_IO_NAMED_EXTERNAL_FOCUS:
+            result["scope"] = "Only the missing ExternalStorageProvider method from IO-019/#55 C1 on stock API35: genuine system DocumentsUI acquisition of one uniquely owned MediaStore-seeded folder, exact tree/child metadata, bounded public reads, actual descriptor close ownership, persistence and release/denial, conditional row cleanup. The unchanged failed Downloads method is deliberately not selected; Downloads/root navigation and cloudC1 remain unverified, not skipped or passed. No helper/manual grant, accepted-case replay, broad storage privilege, minimum/vendor/consumer/API-ABI/security/release inference."
     elif focus == ANDROID_IO_REFERENCE_FOCUS:
         source = safe_path(root, ANDROID_IO_REFERENCE_SOURCE).read_text(encoding="utf-8")
         methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -2892,7 +2905,7 @@ def validate_test_focus(test_plan: dict) -> bool:
                 any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_DEFAULT_DECODE_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
             raise ValueError("Invalid finite Android default Coil decode plan")
         return True
-    if focus == ANDROID_IO_NAMED_SYSTEM_FOCUS:
+    if focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
         import android_io_named_system_documents as named_system
         named_system.validate_source_receipt(test_plan.get("android_io_named_system_source"))
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -2902,12 +2915,12 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
                 expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
                 expected[0].get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
-                expected[0].get("test_filter") != ANDROID_IO_NAMED_SYSTEM_CLASS or
+                expected[0].get("test_filter") != android_io_named_system_filter(focus) or
                 expected[0].get("test_filter_argument") is not None or expected[0].get("test_exclusion_annotation") is not None or
-                expected[0].get("required_testcases") != android_io_named_system_identities() or
+                expected[0].get("required_testcases") != android_io_named_system_identities(focus) or
                 any(relative not in expected[0]["test_source_files"] for relative in ANDROID_IO_NAMED_SYSTEM_SOURCE_DEPENDENCIES) or
                 test_plan.get("android_io_documents") is not None):
-            raise ValueError("Invalid finite two-method named local-system-provider plan")
+            raise ValueError("Invalid finite named local-system-provider plan")
         return True
     if focus == ANDROID_IO_REFERENCE_FOCUS:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
@@ -3702,11 +3715,11 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": ANDROID_IO_DEFAULT_DECODE_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
-        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_NAMED_SYSTEM_FOCUS:
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
-            policy_errors = ([] if actual == required and len(module_cases) == 2 and len(reports) == 1 and len(paths) == 1 else
-                             ["Named system-provider XML must contain exactly both new methods in one fresh report; no missing, duplicate or unrelated cases"])
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Named system-provider XML must contain exactly the selected missing methods in one fresh report; no missing, duplicate or unrelated cases"])
             scenarios = [{**c, "source": ANDROID_IO_NAMED_SYSTEM_SOURCE, "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
@@ -4589,7 +4602,7 @@ def main() -> int:
                                            IOS_PICKER_RECOVERY_FOCUS,
                                            IOS_PICKER_ADMISSION_FOCUS,
                                            BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
-                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, ANDROID_IO_NAMED_SYSTEM_FOCUS, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, *ANDROID_IO_NAMED_SYSTEM_FOCUSES, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
                                            UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_MATERIAL_FOCUS,
                                            *UI_APPLICATION_FOCUS_SPECS])),
                         help="Finite source-reviewed important tests only; never complete suite coverage")

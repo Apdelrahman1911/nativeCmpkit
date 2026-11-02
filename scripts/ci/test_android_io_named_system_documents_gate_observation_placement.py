@@ -10,6 +10,7 @@ import unittest
 import android_io_named_system_documents as source
 import android_io_named_system_documents_gate_observations as gate
 from android_io_named_gate_details import detail_preimage
+from android_io_named_button_rendering import rendering_preimage
 
 # One genuinely NEW owning relocation-negative obligation; no historical control imports/replay.
 BASE_UI_SHA256 = '1e71a260b1bf501f3f5b7a6121f7cf7dfcc2e6d274cd2733f2f516f8aea5b19f'
@@ -31,7 +32,7 @@ class NamedSystemIoGateObservationPlacementNewControl(unittest.TestCase):
 
         # This new witness explains why independent marker removal was insufficient:
         # its passive text inverse is still the held native UI, with no native relaxation.
-        inverse = moved
+        inverse = rendering_preimage(moved)
         for addition in gate.GATE_FAILURE_ADDITIONS:
             self.assertEqual(1, inverse.count(addition))
             inverse = inverse.replace(addition, "", 1)

@@ -207,6 +207,8 @@ def detail_images(additions: tuple[str, ...], deltas: tuple[tuple[str, str], ...
 def detail_preimage(current: str) -> str:
     """Read-only exact current-detail inverse, not a native/root admission."""
     require(type(current) is str)
+    if _rendering_present(current):
+        current = _rendering_preimage(current)
     require(current.count(KOTLIN_DETAIL) == 1 and current.count(RETURN_AFTER) == 1)
     original = current.replace(KOTLIN_DETAIL, "", 1).replace(RETURN_AFTER, RETURN_BEFORE, 1)
     require("gateDetail" not in original and "GateDetail" not in original)
@@ -220,9 +222,18 @@ def detail_fixture_postimage(original: str) -> str:
     the unchanged full source contract must still reject a mutated native guard.
     """
     require(type(original) is str)
+    if _rendering_present(original):
+        original = _rendering_preimage(original)
     require(original.count(RETURN_BEFORE) == 1 and original.count(CLOSE_ANCHOR) == 1)
     require("gateDetail" not in original and "GateDetail" not in original)
     current = original.replace(RETURN_BEFORE, RETURN_AFTER, 1)
     current = current.replace(CLOSE_ANCHOR, KOTLIN_DETAIL + CLOSE_ANCHOR, 1)
     require(detail_preimage(current) == original)
-    return current
+    return _rendering_fixture_postimage(current)
+
+
+from android_io_named_button_rendering import (
+    rendering_present as _rendering_present,
+    rendering_preimage as _rendering_preimage,
+    rendering_fixture_postimage as _rendering_fixture_postimage,
+)

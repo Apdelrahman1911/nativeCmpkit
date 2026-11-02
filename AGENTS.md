@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Linux missing-only originals accepted; ARM64 Stop remains — 2026-11-02
+
+[Actual346–349](docs/development/evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)
+preserves41514391419/51a6d8cc FAILED: x64request1/1/Gradle0/246.06s,
+ARM64request+302Reload2/3/Gradle1/237.06s; combined4executed/3pass/1fail/threeXML,
+zero errors/skips/N/A.45 solo passive checks/four actual1212 maps equal frozen
+Git/dispatch/current; exact architectures/JDK17.0.21/Gradle9.7.1. All three
+passing methods accepted/excluded from unchanged replay: never request old
+Linux pair again. Original ARM64Stop10s/six predicates fails before cleanup:
+WorkerCANCELLED/libraryFinished/cancel1 but peerEOF0/pending1/response0; recovery
+unreached/sequential scalars not atomic/actual loader route unobserved. Owning
+JavaFX flag-only defect is consistent, not historical instance proof. #64
+progress6587352844 posted/read back before docs; stays open. Next macOSpair4
+only with both reservations free, then failed ARM64Stop1 on owning correction.
+Ordinary JavaFX dependencies unchanged;97closed/75open/172total and22implemented/
+42partial/95verified/five unresolved. SOLO/serial/8GiB/max2combined hosted INCLUDING
+queued and every publishing/Pages/main/history/native/consumer/API-ABI/dependency/
+legal/security/readiness gate remain; no package/release/deployment publication.
+
 ## ExternalStorage native subset accepted; upstream issues reconciled — 2026-11-02
 
 [Actual342–345](docs/development/evidence/current-platform-recovery-20261101/android-external-native342-345/README.md)

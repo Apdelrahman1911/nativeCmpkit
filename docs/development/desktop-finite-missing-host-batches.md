@@ -4,7 +4,11 @@
 
 The original Windows request-state method and the private full-JAR candidate's
 original Windows Stop method are accepted and **must not be replayed via the
-Windows-single alias**. Linux-pair4 and macOS-pair4 remain missing; a pair reserves
+Windows-single alias**. [Linux originals346–349](evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)
+now accept x64 request1 and ARM64 request/302-Reload2; only ARM64 Stop fails.
+**Never dispatch the old Linux-pair alias again:** it would replay those three
+unchanged accepted methods. Only an owning correction and failed-only Stop1
+verification is appropriate. MacOS-pair4 remains missing; a pair reserves
 both global slots including queued work. Ordinary JavaFX adoption remains separate
 from the private Stop acceptance. The [JS1/Wasm1 offline destination result](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
 is now accepted, not pending or system-offline certification. Other security/
@@ -52,6 +56,7 @@ The new controls cover the expanded choice/cache populations without replaying
 old all-profile loops. A wrong private packet prefix was refused before edits or
 tests and recovered only as custody bookkeeping.
 
-No Desktop native method or graph collector has run for these aliases yet.
+No Desktop native method or graph collector had run for these aliases at that
+dated preparation checkpoint; current native acceptance is amended above.
 Source/model success does not establish platform behavior, loaded native bytes,
 resource lifetime, packaged consumers, security, ABI or release readiness.

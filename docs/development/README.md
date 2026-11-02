@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Linux request-state originals accepted; remaining Stop isolated — 2026-11-02
+
+[Original346–349](evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)
+accepts **three of four native methods**: x64 request and ARM64 request/302-Reload.
+Original ARM64 Stop fails with worker cancellation but peerEOF0/pending1 before
+cleanup; recovery is unreached and the internal loader route is unobserved.
+Four actual1,212-input maps match frozen Git/dispatch/current;45 passive checks,
+three original XML, zero skips/errors. #64 progress6587352844 is posted/read back;
+issue stays open. Do not replay accepted methods or the old Linux-pair profile.
+Next only macOSpair4 with both hosted reservations free, then ARM64 Stop1 after
+an owning correction. Ordinary JavaFX adoption/security/consumer/API-ABI/legal
+and all release gates remain separate. Work continues solo/serial/8GiB reserve.
+
 ## ExternalStorage native subset verified; upstream sync current — 2026-11-02
 
 [Original342–345](evidence/current-platform-recovery-20261101/android-external-native342-345/README.md)

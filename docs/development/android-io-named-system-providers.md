@@ -1,5 +1,24 @@
 # Android named system-provider verification
 
+## Current native acceptance — 2026-11-02
+
+[Original342–345](evidence/current-platform-recovery-20261101/android-external-native342-345/README.md)
+accepts **ExternalStorageProvider1/1 native**, one fresh XML, Gradle0/70.03s,
+with four actual1,212-input maps matching frozen Git/dispatch/current. Genuine
+system tree selection and all original metadata/bounded-read/descriptor/grant/
+conditional cleanup assertions pass. #55 progress6586939864 was posted/read
+back; **Downloads and cloud-provider C1 remain missing, #55 stays open**.
+
+Do not select the old two-method profile or replay the accepted ExternalStorage
+method unchanged. Earlier diagnostics/preparations below retain their dated
+scope: the final owning label correction now admits the exact resource string
+or its exact English all-caps rendering, not arbitrary case-insensitive text.
+The reference Downloads OPEN_TREE restriction is not installed-source proof,
+N/A or an authorization for alternate/private navigation or manual grants.
+Activity destruction is not a new process/device-restart witness. No consumer/
+API–ABI/security/release certification; continue solo/serial/8GiB/max2 hosted
+including queued/reserved.
+
 ## Independent detail snapshot qualified and compiled — 2026-11-02
 
 [317–319](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)

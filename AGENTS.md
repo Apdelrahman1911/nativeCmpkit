@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## ExternalStorage native subset accepted; upstream issues reconciled — 2026-11-02
+
+[Actual342–345](docs/development/evidence/current-platform-recovery-20261101/android-external-native342-345/README.md)
+accepts41510126699/260ea5dc **1native/1pass/oneXML/Gradle0/70.03s**;28 solo passive
+checks/four actual1212 maps equal frozen Git/dispatch/current. Genuine system tree,
+original metadata/read/descriptor/persist/revoke/conditional cleanup all hold;
+API35/Enforcing/JDK17.0.21/Gradle9.7.1/owned graceful guest shutdown. No independent
+io_documents/transport-removal/process-device-restart witness or timing inference.
+#55 progress6586939864 posted/read back before docs; original fields unchanged.
+ExternalStorage C1 subset ONLY; never replay it. Downloads/cloudC1/#55 stay open.
+[Fresh upstream1931](docs/migration/upstream-updates/20261102T193139Z/README.md)
+finds16open/onePR551/allmapped/zero missing duplicates mutations; source fields
+unchanged, no fresh comment/timeline bodies. CLI serialization/lossless destination
+archive retained; original combined-page parser refusal/cache-only recovery stay.
+97closed/75open/172total;22implemented/42partial/95verified/five unresolved.
+Next finite Linux-pair4/macOS-pair4 after capacity/preflight; SOLO/serial/8GiB/
+max2 combined hosted INCLUDING queued and all publishing/Pages/main/history/
+native/consumer/API-ABI/dependency/legal/security/readiness gates remain.
+
 ## Seven related CI fixture failures fixed and qualified — 2026-11-02
 
 [Actual336–341](docs/development/evidence/current-platform-recovery-20261101/android-external-tooling336-341/README.md)

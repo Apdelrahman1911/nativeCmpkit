@@ -1,0 +1,83 @@
+{
+  "android_io_named_system_source": {
+    "cloud_provider_coverage": false,
+    "controlled_helper_needed": false,
+    "minimum_seed_api": 29,
+    "native_success_inferred": false,
+    "schema_version": 1,
+    "source_files": {
+      "calf-io/src/androidDeviceTest/AndroidManifest.xml": "397d45d9201637e6a696b3c4148376bb02fe5c4bb1070c541616bdcdaefeeb19",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoNamedSystemProviderTest.kt": "ec15772e36b8d5676d9d98a5742f38c3b97b85c51123f27637f50a7238ca4909",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt": "760634c61aa94ffb04b16f94fc20ceb67f4c58aa06477ee6dde14c3dda24fdde",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt": "941c43e90bd8d32f113b3dc0b863b4885459a4f17716825eb26ffbf8b320a78a",
+      "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt": "e0251e1f3cc8bb4c93791b978d84de5bc4eb18469873c4879c190dbdd93956a0"
+    },
+    "verification_api_level": 35
+  },
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "agp_declared_xml_directory": "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest",
+      "module": "calf-io",
+      "project": ":calf-io",
+      "report_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest",
+          "name": "externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership"
+        }
+      ],
+      "task": ":calf-io:connectedAndroidDeviceTest",
+      "test_filter": "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest#externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
+      "test_source_files": [
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoNamedSystemProviderTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoReferenceRegressionTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSingleDocumentGrantActivity.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoUnavailableProviderTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/IoBookmarkClientService.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+        "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+        "calf-io/src/commonTest/kotlin/com/mohamedrejeb/calf/io/BoundedReadTest.kt"
+      ],
+      "test_source_sets": [
+        "commonTest",
+        "androidDeviceTest"
+      ],
+      "utp_results_directory": "calf-io/build/outputs/androidTest-results/connected/androidMain"
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-io"
+  ],
+  "explicit_test_focus": "android-io-named-external-storage",
+  "finite_only_device_modules_not_requested": [
+    "calf-permissions/core"
+  ],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "androidDeviceTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only the missing ExternalStorageProvider method from IO-019/#55 C1 on stock API35: genuine system DocumentsUI acquisition of one uniquely owned MediaStore-seeded folder, exact tree/child metadata, bounded public reads, actual descriptor close ownership, persistence and release/denial, conditional row cleanup. The unchanged failed Downloads method is deliberately not selected; Downloads/root navigation and cloudC1 remain unverified, not skipped or passed. No helper/manual grant, accepted-case replay, broad storage privilege, minimum/vendor/consumer/API-ABI/security/release inference.",
+  "suite": "android-device",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-geo",
+    "calf-navigation",
+    "calf-permissions/core",
+    "calf-share",
+    "calf-ui",
+    "calf-webview"
+  ],
+  "uncovered": []
+}

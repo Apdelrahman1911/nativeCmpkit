@@ -5,6 +5,14 @@
 **Source:** MohamedRejeb/Calf. **Baseline:**
 `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Migration began 2026-10-24 UTC.
 
+## Latest upstream issue reconciliation — 2026-11-02
+
+[19:31UTC record refresh](upstream-updates/20261102T193139Z/README.md) finds16
+currently open Calf issues, all already tracked; no missing imports/duplicates
+or source mutations. Exact original CLI bytes, labels/authors/descriptions and
+mapping are archived. No new discussion/timeline-body acquisition is claimed.
+Observed successor issue state remains97closed/75open/172total.
+
 ## Preservation model
 
 Git preserves commit bytes (author/committer identities, timestamps, parents,

@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## ExternalStorage native subset verified; upstream sync current — 2026-11-02
+
+[Original342–345](evidence/current-platform-recovery-20261101/android-external-native342-345/README.md)
+accepts **ExternalStorage1/1 native**, one fresh XML, Gradle0/70.03s and four
+actual1,212-input maps held against frozen Git/dispatch/current. Genuine system
+selection and original metadata/bounded-read/descriptor/grant/cleanup assertions
+pass;28 separate solo passive checks qualify the scope. #55 progress was posted
+and read back before docs, **not closed**: Downloads/cloud C1 remain missing.
+This accepted method is excluded from future unchanged replay.
+
+[Fresh upstream sync](../migration/upstream-updates/20261102T193139Z/README.md)
+finds16 open Calf issues, all already mapped; zero missing imports/duplicates.
+Descriptions/author/labels/IDs/links/timestamps/counts agree with earlier records;
+discussion/timeline bodies were not reacquired.97closed/75open/172total unchanged.
+Next finite Desktop Linux/macOS missing-only pairs, with two combined hosted
+reservations including queued; solo/serial/8GiB and all release/security gates stay.
+
 ## Current focused Android CI fixture recovery — 2026-11-02
 
 [Actual336–341](evidence/current-platform-recovery-20261101/android-external-tooling336-341/README.md)

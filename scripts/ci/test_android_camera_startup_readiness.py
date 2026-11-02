@@ -64,7 +64,9 @@ SECOND_HOME = "org.example.home/.OtherActivity"
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    # Historical pins remain literal; the outer bridge separately admits raw current bytes.
+    from android_external328_source_projection import read_current_source_for_history
+    return hashlib.sha256(read_current_source_for_history(path, TREE)).hexdigest()
 
 
 def forbidden(*args, **kwargs):

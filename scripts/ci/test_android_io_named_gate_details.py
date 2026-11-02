@@ -118,8 +118,10 @@ class NamedSystemIoGateDetailImportantControls(unittest.TestCase):
         self.assertIn("if (enabled) facts.enabledButtonIds", detail.KOTLIN_DETAIL)
         self.assertIn("if (clickable) facts.clickableButtonIds", detail.KOTLIN_DETAIL)
         self.assertNotIn("if (enabled && clickable)", detail.KOTLIN_DETAIL)
+        current_predicate = ("(it.text?.toString() == pickLabel || it.text?.toString() == renderedPickLabel) &&\n"
+                             "                it.isEnabled && it.isClickable")
         self.assert_refused_mutations([
-            (predicate, "it.text?.toString()?.uppercase(java.util.Locale.ROOT) == pickLabel.uppercase(java.util.Locale.ROOT)"),
+            (current_predicate, "it.text?.toString()?.uppercase(java.util.Locale.ROOT) == pickLabel.uppercase(java.util.Locale.ROOT)"),
         ], "System UI ownership, exact controls, ambiguity refusal or flag restoration changed")
 
     def test_refreshed_package_and_exact_container_identity_are_not_query_assumptions(self):

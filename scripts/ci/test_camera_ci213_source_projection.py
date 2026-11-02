@@ -75,7 +75,11 @@ class CameraCI213ProjectionTests(unittest.TestCase):
             path = ROOT / relative
             if path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1:
                 raise AssertionError("An ordinary owning source input is required")
-            payload = path.read_bytes()
+            from android_external328_source_projection import current_source_for_history
+            try:
+                payload = current_source_for_history(relative, path.read_bytes())
+            except ValueError as error:
+                raise AssertionError("An exact bounded owning source input is required") from error
             if not 0 < len(payload) <= 4 * 1024 * 1024 or digest(payload) != expected:
                 raise AssertionError("An exact bounded owning source input is required")
             cls.payloads[relative] = payload
@@ -83,7 +87,12 @@ class CameraCI213ProjectionTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        if any((ROOT / r).read_bytes() != b for r, b in cls.payloads.items()):
+        from android_external328_source_projection import read_current_source_for_history
+        try:
+            changed = any(read_current_source_for_history(ROOT / r, ROOT) != b for r, b in cls.payloads.items())
+        except ValueError as error:
+            raise AssertionError("The owning source changed during these controls") from error
+        if changed:
             raise AssertionError("The owning source changed during these controls")
 
     def test_ci213_01_three_exact_inverses_retain_all_historical_method_bodies(self):
@@ -181,7 +190,8 @@ class CameraCI213ProjectionTests(unittest.TestCase):
             prefix.append(statement)
         self.assertTrue(prefix and isinstance(prefix[-1], ast.Expr))
         pins = literal(source, "BOUND_SOURCE_AFTER47")
-        payloads = {r: (ROOT / r).read_bytes() for r in pins}
+        from android_external328_source_projection import read_current_source_for_history
+        payloads = {r: read_current_source_for_history(ROOT / r, ROOT) for r in pins}
         self.assertEqual({r: digest(b) for r, b in payloads.items()}, pins)
         # The unchanged historical tail is hashed above, not executed again.
         holder_type = type("CI213CurrentClosureOnly", (unittest.TestCase,), {"source_payloads": payloads})

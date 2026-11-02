@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## ExternalStorage shared CI source-fixture batch qualified — 2026-11-02
+
+[Actual329–335](docs/development/evidence/current-platform-recovery-20261101/android-external-tooling329-335/README.md)
+preserves41503076487/cfbc16a8 FAILED before selection:2354source/99.282s/
+16fail18error/34records, ZERO native/Gradle/APK/emulator/XML/artifacts/actualmaps;
+15passive original checks, once-only archives. Exact16 afterimages/46 fragments
+bridge four reviewed selectors and12 offline readers without old-pin rebases.
+First33343:42pass/one refusal-category error; failed1+NEW2 in334 pass3/3.
+45unique source acceptances=13NEW+29failed/blocked methods+3import admissions,
+not one fresh45/native run. Solo33540passive/current1211held;944 non-CI compiler327
+inputs stay exact, no whole1208 equality or new compiler/APK/accepted42/17 replay.
+Original categories and every native assertion remain strict. Next only original
+ExternalStorage1 after freeze/push; Downloads/reference limits/cloudC1/#55 remain.
+97closed/75open/172total,22implemented/42partial/95verified/five unresolved;
+SOLO/serial/8GiB/max2 combined hosted INCLUDING queued and all publishing/Pages/
+main/history/native/consumer/API-ABI/dependency/legal/security/readiness gates hold.
+
 ## Android rendered-label correction prepared; Downloads root policy identified — 2026-11-02
 
 [Actual320–328](docs/development/evidence/current-platform-recovery-20261101/android-rendering320-328/README.md)

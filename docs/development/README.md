@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Focused ExternalStorage CI source-fixture failures repaired
+
+[329–335 evidence](evidence/current-platform-recovery-20261101/android-external-tooling329-335/README.md)
+preserves the failed2354-tooling request with **zero Android execution**. One
+exact historical-reader patch restores all related failed admissions;45 unique
+important source checks pass across first43/recovery3,40 passive review checks,
+current1211held. Old pins/native assertions stay; no unchanged accepted controls
+or local APK/compiler replay. Next only the original ExternalStorage method after
+freeze/push; Downloads/cloudC1/#55 remain open. Solo/resource/security/release gates
+stay unchanged.
+
 ## Android rendered labels fixed; exact one-method native gate next
 
 [320–328 evidence](evidence/current-platform-recovery-20261101/android-rendering320-328/README.md)

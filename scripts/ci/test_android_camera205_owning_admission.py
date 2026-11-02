@@ -121,7 +121,11 @@ class Camera205OwningAdmissionNewOnlyTests(unittest.TestCase):
             path = TREE / relative
             if path.is_symlink() or not path.is_file():
                 raise AssertionError("An exact ordinary Camera205 source input is required")
-            payload = path.read_bytes()
+            from android_external328_source_projection import current_source_for_history
+            try:
+                payload = current_source_for_history(relative, path.read_bytes())
+            except ValueError as error:
+                raise AssertionError("An exact Camera205 source input hash is required") from error
             if not 0 < len(payload) <= 4 * 1024 * 1024 or digest(payload) != expected:
                 raise AssertionError("An exact Camera205 source input hash is required")
             cls.payloads[relative] = payload

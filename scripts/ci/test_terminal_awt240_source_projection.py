@@ -28,6 +28,11 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def current_bytes(relative):
+    from android_external328_source_projection import read_current_source_for_history
+    return read_current_source_for_history(ROOT / relative, ROOT)
+
+
 def literal(text, name):
     nodes = [n for n in ast.parse(text).body if isinstance(n, ast.Assign) and
              any(isinstance(t, ast.Name) and t.id == name for t in n.targets)]
@@ -46,7 +51,7 @@ class TerminalAwt240SourceControls(unittest.TestCase):
     def test_current_whole_images_invert_and_round_trip_all_explicit_fragments(self):
         self.assertEqual(14, len(self.spec["bindings"]))
         for rel, binding in self.spec["bindings"].items():
-            current = (ROOT / rel).read_bytes()
+            current = current_bytes(rel)
             self.assertEqual(binding["after_sha256"], digest(current))
             restored = projection.source_before_terminal_awt240(rel, current)
             self.assertEqual(binding["before_sha256"], digest(restored))
@@ -61,7 +66,7 @@ class TerminalAwt240SourceControls(unittest.TestCase):
 
     def test_unreviewed_full_sources_partial_edits_types_and_corrupted_fragments_refuse(self):
         for rel in self.spec["bindings"]:
-            raw = (ROOT / rel).read_bytes()
+            raw = current_bytes(rel)
             for changed in (raw + b"\n", raw[:-1], b"unreviewed", None, raw.decode()):
                 with self.subTest(path=rel), self.assertRaises(ValueError):
                     projection.source_before_terminal_awt240(rel, changed)
@@ -73,7 +78,7 @@ class TerminalAwt240SourceControls(unittest.TestCase):
                 file = Path(folder) / "explicitly-synthetic.json"
                 file.write_text(json.dumps(altered))
                 with patch.object(projection, "SPEC_PATH", file), self.assertRaises(ValueError):
-                    projection.source_before_terminal_awt240(rel, (ROOT / rel).read_bytes())
+                    projection.source_before_terminal_awt240(rel, current_bytes(rel))
 
     def test_current_terminal_path_keeps_first_result_native_barriers_main_queue_and_cleanup_before_reentry(self):
         text = (ROOT / SHARE).read_text()
@@ -115,7 +120,7 @@ class TerminalAwt240SourceControls(unittest.TestCase):
 
     def test_four_new_controlled_regressions_and_nine_awt_tests_are_real_enabled_library_sources(self):
         for rel, expected in ADDITION_SHA256.items():
-            self.assertEqual(expected, digest((ROOT / rel).read_bytes()))
+            self.assertEqual(expected, digest(current_bytes(rel)))
         scenarios = (ROOT / SCENARIOS).read_text()
         names = ["terminalDuringPresentationWaitsForBothCompletionsAndDeduplicates", "ownerDisposalSuppressesAPendingTerminalResult",
                  "neverPresentedTerminalReleasesBeforeApplicationCode", "throwingTerminalCallbackCannotRepeatReleaseOrDelivery"]
@@ -177,7 +182,7 @@ class TerminalAwt240SourceControls(unittest.TestCase):
             (root / "calf-webview").mkdir()
             (root / "calf-webview/build.gradle.kts").write_text("// synthetic source-only root\n")
             for rel in (DESKTOP, OWNER, lt.WEBVIEW_DESKTOP_REQUEST_SOURCE):
-                path = root / rel; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes((ROOT / rel).read_bytes())
+                path = root / rel; path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(current_bytes(rel))
             self.assertTrue(lt.validate_test_focus(lt.plan(root, "desktop", only_modules=("calf-webview",), focus=lt.WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS)))
             owner = root / OWNER; owner.write_bytes(owner.read_bytes() + b"\n")
             with self.assertRaisesRegex(ValueError, "owning source changed"):
@@ -185,16 +190,16 @@ class TerminalAwt240SourceControls(unittest.TestCase):
 
     def test_current_camera_maps_are_exact_and_every_before47_and_existing_method_body_is_preserved(self):
         path = "scripts/ci/test_android_camera_owned_avd_console_name.py"
-        current = (ROOT / path).read_text(); old = projection.text_before_terminal_awt240(path, current)
+        current = current_bytes(path).decode(); old = projection.text_before_terminal_awt240(path, current)
         self.assertEqual(literal(old, "BOUND_SOURCE_BEFORE47"), literal(current, "BOUND_SOURCE_BEFORE47"))
         after = literal(current, "BOUND_SOURCE_AFTER47")
         self.assertEqual(47, len(after))
         for rel, expected in after.items():
-            self.assertEqual(expected, digest((ROOT / rel).read_bytes()))
+            self.assertEqual(expected, digest(current_bytes(rel)))
         for path in (path, "scripts/ci/test_android_camera_pre_reporter_fail_fast.py", "scripts/ci/test_android_camera205_owning_admission.py",
                      "scripts/ci/test_ios_share_owned_root_barriers.py", "scripts/ci/test_ios_share_terminal_failure_observation.py",
                      "scripts/ci/test_share_settings_fixture_recovery.py", "scripts/ci/test_ui_alert_important_recovery.py"):
-            now = (ROOT / path).read_text(); was = projection.text_before_terminal_awt240(path, now)
+            now = current_bytes(path).decode(); was = projection.text_before_terminal_awt240(path, now)
             def methods(text):
                 return {n.name: ast.dump(n, include_attributes=False) for cls in ast.parse(text).body if isinstance(cls, ast.ClassDef)
                         for n in cls.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")}

@@ -111,7 +111,8 @@ def read_bound_source(relative):
             (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns) ==
             (final.st_dev, final.st_ino, final.st_size, final.st_mtime_ns, final.st_ctime_ns) and
             final.st_nlink == 1 and stat.S_ISREG(final.st_mode), "The exact source changed during readback")
-    return admit_bound_payload(relative, b"".join(blocks))
+    from android_external328_source_projection import current_source_for_history
+    return admit_bound_payload(relative, current_source_for_history(relative, b"".join(blocks)))
 
 
 def admit_console_source(source):

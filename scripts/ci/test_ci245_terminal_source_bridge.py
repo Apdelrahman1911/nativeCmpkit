@@ -34,6 +34,12 @@ def digest(payload):
     return hashlib.sha256(payload).hexdigest()
 
 
+def current_bytes(relative):
+    """Raw current admission precedes the unchanged CI245/terminal historical pins."""
+    from android_external328_source_projection import read_current_source_for_history
+    return read_current_source_for_history(ROOT / relative, ROOT)
+
+
 def assignment(source, name):
     matches = [n for n in ast.parse(source).body if isinstance(n, ast.Assign) and
                any(isinstance(t, ast.Name) and t.id == name for t in n.targets)]
@@ -66,6 +72,8 @@ def raw_methods(source):
 
 
 def original_source(relative, current, binding):
+    from android_external328_source_projection import source_before_android_external328
+    current = source_before_android_external328(relative, current)
     if type(current) is not bytes or digest(current) != binding["after_sha256"]:
         raise ValueError("Exact reviewed postimage required")
     restored = current
@@ -94,7 +102,7 @@ class CI245TerminalBridgeControls(unittest.TestCase):
         self.assertEqual(SPEC_SHA256, digest(raw))
         self.spec = json.loads(raw)
         self.assertEqual("c660de30f4ede3303dd4af27614082ed2bb5abd1", self.spec["baseline_head"])
-        self.sources = {r: (ROOT / r).read_text() for r in self.spec["bindings"]}
+        self.sources = {r: current_bytes(r).decode() for r in self.spec["bindings"]}
 
     def alert_namespace(self):
         source = self.sources[ALERT]
@@ -118,7 +126,7 @@ class CI245TerminalBridgeControls(unittest.TestCase):
             original_source(relative, (ROOT / relative).read_bytes(), binding)
         self.assertGreaterEqual(len(NATIVE_AND_PLANNER_SHA256), 9)
         for relative, expected in NATIVE_AND_PLANNER_SHA256.items():
-            self.assertEqual(expected, digest((ROOT / relative).read_bytes()))
+            self.assertEqual(expected, digest(current_bytes(relative)))
 
     def test_all_original_alert_and_camera_bodies_and_three_ci224_assertion_bodies_are_retained(self):
         for relative, count in ((ALERT, 6), (CI213, 5), (CI224, 5)):
@@ -170,7 +178,7 @@ class CI245TerminalBridgeControls(unittest.TestCase):
             self.assertLessEqual(set(overlay), set(original))
             current = {**original, **overlay}
             for path, expected in current.items():
-                self.assertEqual(expected, digest((ROOT / path).read_bytes()))
+                self.assertEqual(expected, digest(current_bytes(path)))
             updates = [n for n in ast.parse(source).body if isinstance(n, ast.Expr) and
                        isinstance(n.value, ast.Call) and isinstance(n.value.func, ast.Attribute) and
                        isinstance(n.value.func.value, ast.Name) and n.value.func.value.id == "EXPECTED"]
@@ -180,7 +188,8 @@ class CI245TerminalBridgeControls(unittest.TestCase):
 
     def test_both_exact_setups_and_teardowns_qualify_actual_bytes_without_old_method_execution(self):
         for relative, name in ((CI213, "CameraCI213ProjectionTests"), (CI224, "CI224SharedSourceCompositionTests")):
-            source = self.sources[relative]
+            # Exercise the new raw-current reader, not an extracted older setup.
+            source = (ROOT / relative).read_text()
             original = next(n for n in ast.parse(source).body if isinstance(n, ast.ClassDef) and n.name == name)
             functions = [copy.deepcopy(n) for n in original.body if isinstance(n, ast.FunctionDef) and n.name in {"setUpClass", "tearDownClass"}]
             self.assertEqual(2, len(functions))

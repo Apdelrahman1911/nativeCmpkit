@@ -18,6 +18,12 @@ SPEC_PATH = Path(__file__).parent / "fixtures/terminal-awt240-source-inverse.jso
 def source_before_terminal_awt240(relative: str, payload: bytes) -> bytes:
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact source identity and ordinary bytes are required")
+    # Admit the exact current finite Android focus before older byte-history guards.
+    from android_external328_source_projection import source_before_android_external328
+    try:
+        payload = source_before_android_external328(relative, payload)
+    except ValueError as error:
+        raise ValueError("Unreviewed terminal/AWT240 source is not an admitted postimage") from error
     bindings = json.loads(SPEC_PATH.read_text(encoding="utf-8"))["bindings"]
     if relative not in bindings:
         return payload

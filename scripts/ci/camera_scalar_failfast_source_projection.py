@@ -17,6 +17,11 @@ def historical_controller_source(source: str) -> str:
     if hashlib.sha256(payload).hexdigest() != CONTROLLER_INVERSE_SHA256:
         raise AssertionError("Exact owning compiler-boundary controller inverse is changed")
     contract = json.loads(payload)
+    from android_external328_source_projection import text_before_android_external328
+    try:
+        source = text_before_android_external328("scripts/ci/android_device_tests.py", source)
+    except (ValueError, UnicodeError) as error:
+        raise AssertionError("Full current controller bytes differ from the qualified afterimage") from error
     if type(source) is not str or hashlib.sha256(source.encode()).hexdigest() != contract["after_sha256"]:
         raise AssertionError("Full current controller bytes differ from the qualified afterimage")
     restored = source

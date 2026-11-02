@@ -77,7 +77,11 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
             path = ROOT / relative
             if path.is_symlink() or not path.is_file() or path.stat().st_nlink != 1:
                 raise AssertionError("An ordinary unshared current source file is required")
-            payload = path.read_bytes()
+            from android_external328_source_projection import current_source_for_history
+            try:
+                payload = current_source_for_history(relative, path.read_bytes())
+            except ValueError as error:
+                raise AssertionError("An exact bounded current source image is required") from error
             if not 0 < len(payload) <= 4 * 1024 * 1024 or digest(payload) != expected:
                 raise AssertionError("An exact bounded current source image is required")
             cls.payloads[relative] = payload
@@ -85,7 +89,12 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        if any((ROOT / r).read_bytes() != b for r, b in cls.payloads.items()):
+        from android_external328_source_projection import read_current_source_for_history
+        try:
+            changed = any(read_current_source_for_history(ROOT / r, ROOT) != b for r, b in cls.payloads.items())
+        except ValueError as error:
+            raise AssertionError("The admitted source changed during these controls") from error
+        if changed:
             raise AssertionError("The admitted source changed during these controls")
 
     def alert_guard(self):
@@ -178,7 +187,8 @@ class CI224SharedSourceCompositionTests(unittest.TestCase):
         current = namespace["UNCHANGED_NATIVE_SOURCE_SHA256"]
         self.assertEqual(set(current), set(original))
         self.assertEqual({r for r in original if original[r] != current[r]}, set(overlay))
-        self.assertTrue(all(digest((ROOT / r).read_bytes()) == expected for r, expected in current.items()))
+        from android_external328_source_projection import read_current_source_for_history
+        self.assertTrue(all(digest(read_current_source_for_history(ROOT / r, ROOT)) == expected for r, expected in current.items()))
         functions = [n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == "digest"]
         self.assertEqual(len(functions), 1)
         self.assertEqual(ast.get_source_segment(source, functions[0]),

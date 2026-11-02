@@ -47,6 +47,11 @@ REPAIRS = {
 def historical_source_before_camera213(relative: str, payload: bytes) -> bytes:
     if type(relative) is not str or relative not in REPAIRS or type(payload) is not bytes:
         raise ValueError("An exact owning CI213 source identity and bytes are required")
+    from android_external328_source_projection import source_before_android_external328
+    try:
+        payload = source_before_android_external328(relative, payload)
+    except ValueError as error:
+        raise ValueError("Full current CI213 source differs from the qualified postimage") from error
     binding = REPAIRS[relative]
     if not 0 < len(payload) <= 4 * 1024 * 1024 or hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("Full current CI213 source differs from the qualified postimage")

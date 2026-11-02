@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Solo hosted249 reviewed: Share passes, Windows dependency blocker — 2026-11-02
+
+[Original255–256/review257/diagnostics258–260](docs/development/evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)
+accepts Share41398699513 SUCCESS1/1/oneXML/Gradle0/1067.15s: genuine UIKit cleanup,
+Main/Default/IO/current callbacks/reentry/composition disposal; four controlled
+Request scenarios are inside one method, not OS-recipient success. Application
+9.44s/transport9.46s/Worker/owned-app cleanup hold; tiny XML clocks are buffered.
+Windows41398651975 remains FAILED1/pass0/Gradle1/293.78s: WorkerCANCELLED/Finished
+but peerEOF0/pending1/response0; recovery tail unreached.47 passive review checks,
+both1203 actual maps held/exact Git/current;1281combined is predispatch-only.
+Originals acquired once/reused; first canonical-digest reviewer refusal retained.
+JavaFX21.0.13 exact bytecode confirms internal HTTP2Loader fwkCancel flag-only,
+not exchange cancellation; historical Windows loader route is unobserved. Direct
+Linux dependency260 tail exits0/observes natural EOF1 after future cancel, not
+NativeCmpKit/Windows fix;258/259 remain failed/isCancelled assumption corrected.
+No production/dependency/private-property change or unchanged native retry.
+Scoped #81/#88 progress only; #64/#48/#100 and other original criteria stay open.
+97closed/75open/172total remains last verified;22implemented/42partial/95verified/
+five unresolved after scoped Share acceptance. SOLO/no new/resumed agents,
+serial local/8GiB/max2 combined hosted INCLUDING queued; Actions/all/read-only/
+no mandatory SHA pinning and every publishing/Pages/main/history/native/consumer/
+API-ABI/dependency/legal/security/readiness gate remain. No publication.
+
 ## Solo CI244 source recovery247 accepted — 2026-11-02
 
 [Original244/actual246–248](docs/development/evidence/current-platform-recovery-20261101/shared-ci244-248/README.md)

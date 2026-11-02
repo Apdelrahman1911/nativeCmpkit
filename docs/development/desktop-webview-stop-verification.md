@@ -1,5 +1,23 @@
 # Desktop WebView stop-loading verification
 
+## Windows249 and JavaFX cancellation blocker — 2026-11-02
+
+[Original255/solo review257](evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)
+preserves **0/1 failed**, Gradle1/293.78s, one original XML. The original10s
+conjunction reports WorkerCANCELLED/library Finished but actual preheader peerEOF0,
+pending1/response0. Recovery assertions are unreached; no unchanged blind retry.
+Both actual1203-file maps and exact runtime/source/owned cleanup qualify, not
+Windows success or whole #64 closure.
+
+[Exact dependency analysis258–260](evidence/current-platform-recovery-20261101/hosted249-review255-260/dependency-analysis.md)
+confirms JavaFX21.0.13 internal HTTP2Loader cancellation only sets a flag; its
+pending HttpClient exchange is not cancelled. The historical Windows instance
+is unobserved. A direct internal Linux diagnostic observes natural EOF after
+future cancellation, retaining both earlier diagnostic failures; no production
+fix, dependency/private-property change, consumer/ABI/security/readiness inference.
+Keep original native criteria and qualified dependency remediation separate from
+the already-completed NATIVE-001/#9 below.
+
 ## Windows failed-case-only recovery — 2026-11-01
 
 [Source/compile acceptance195–198](evidence/current-platform-recovery-20261101/windows-frame195-198/README.md)

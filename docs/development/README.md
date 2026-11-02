@@ -1,5 +1,28 @@
 # NativeCmpKit development after the audit
 
+## Solo hosted249 results and dependency diagnosis — 2026-11-02
+
+[Original255–256/review257/diagnostics258–260](evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)
+accepts the missing remembered-public iOS Share method **1/1**, with genuine
+presentation/dismissal, Main/Default/IO/current callbacks/reentry/disposal and
+owned application cleanup. Its four controlled Request scenarios are inside one
+JUnit method, not four methods or OS-recipient success. Windows Stop remains
+**0/1**, Worker cancelled/library Finished but actual preheader peerEOF0;
+same-owner recovery was not reached.47 passive review checks bind both actual
+1203-file maps;1281combined is predispatch-only. Originals were acquired once
+and reused, with no accepted native replay.
+
+Exact JavaFX21.0.13 disassembly confirms flag-only internal-loader cancellation.
+A direct Linux dependency diagnostic observes natural EOF after future cancel;
+the historical Windows instance/route and a complete production dependency fix
+remain unverified. #64 stays open. The bounded Share result advances only scoped
+#81/#88 verification, not their whole original criteria or #48/#100. Last verified
+issue state **97closed/75open/172total**, ledger22implemented/42partial/95verified/
+five unresolved; solo execution and all publishing/
+security/readiness/history gates remain. [ARM250–254](evidence/current-platform-recovery-20261101/arm208-continuation250-254/README.md)
+also records the accepted37-case private fixture-family recovery, not native ARM
+or current-source adapter integration.
+
 ## Solo shared CI244 recovery — 2026-11-02
 
 [Original244/actual246–248](evidence/current-platform-recovery-20261101/shared-ci244-248/README.md)

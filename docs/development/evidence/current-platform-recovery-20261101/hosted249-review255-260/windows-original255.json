@@ -1,0 +1,239 @@
+{
+  "acquisition": {
+    "attempt": 1,
+    "automatic_retry": false,
+    "observed_utc": "2026-11-02T06:27:03.115012+00:00",
+    "records": [
+      {
+        "bytes": 362773,
+        "description": "terminal workflow logs",
+        "exit_code": 0,
+        "name": "logs-original.zip",
+        "requested_once": true,
+        "sha256": "bbdca2bc1f06e98c84e71ff24ad54b0087dc9fea199226ffad7099227fd90061"
+      },
+      {
+        "bytes": 131005,
+        "description": "library-evidence-desktop-windows-x64",
+        "exit_code": 0,
+        "name": "artifact-13120128066-original.zip",
+        "requested_once": true,
+        "sha256": "8aaf9a0dd92e5343409e6c6d0eb7d9ed56e5129f1693c4a5787c3c7b2df9559d"
+      }
+    ],
+    "run": 41398651975
+  },
+  "causes_retained": "Caused by: java.lang.AssertionError: Timed out awaiting public Stop native cancellation and actual pre-header client EOF\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.awaitFx(DesktopWebViewStopRedirectAcceptanceTest.kt:230)\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.access$awaitFx(DesktopWebViewStopRedirectAcceptanceTest.kt:50)\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest$awaitFx$1.invokeSuspend(DesktopWebViewStopRedirectAcceptanceTest.kt)\n\t... 60 more\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 10000 ms\n\tat _COROUTINE._BOUNDARY._(CoroutineDebugging.kt:42)\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest$awaitFx$2.invokeSuspend(DesktopWebViewStopRedirectAcceptanceTest.kt:229)\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.awaitFx(DesktopWebViewStopRedirectAcceptanceTest.kt:229)\n\tat com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest$publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner$1.invokeSuspend(DesktopWebViewStopRedirectAcceptanceTest.kt:107)\nCaused by: kotlinx.coroutines.TimeoutCancellationException: Timed out waiting for 10000 ms\n\tat kotlinx.coroutines.TimeoutKt.TimeoutCancellationException(Timeout.kt:281)\n\tat kotlinx.coroutines.TimeoutCoroutine.run(Timeout.kt:243)\n\tat kotlinx.coroutines.EventLoopImplBase$DelayedRunnableTask.run(EventLoop.common.kt:498)\n\tat kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:256)\n\tat kotlinx.coroutines.DefaultExecutor.run(DefaultExecutor.kt:105)\n\tat java.base/java.lang.Thread.run(Thread.java:840)\n",
+  "evidence_files": [
+    {
+      "bytes": 849,
+      "path": "build/ci-runtime/actual.json",
+      "sha256": "27a566aa9178095e19a8e10865a03a8c105dd4290990a4a8a62a25b25d3457bc"
+    },
+    {
+      "bytes": 954,
+      "path": "build/ci-runtime/library-cache-restore.json",
+      "sha256": "1480ba1d404067f5e7443c1d87fd7a4ac502329bff4eb534f2b05c04dbecadb2"
+    },
+    {
+      "bytes": 1034,
+      "path": "build/ci-runtime/library-cache-save.json",
+      "sha256": "d46958ac6f0134bb61d8d26e601319594833f6c791fa8b2b05227b66c2b7ce5f"
+    },
+    {
+      "bytes": 13557,
+      "path": "build/ci-runtime/library-dependencies.json",
+      "sha256": "493436e908840cd9818db2337102841229c2b3c0d3c8299c6264aa8b6ab13273"
+    },
+    {
+      "bytes": 3173,
+      "path": "build/ci-plan/plan.json",
+      "sha256": "fdad8411bc53621274fe23c09f0a88caf2788fcf4bfba8f2f3b080575bbaacb4"
+    },
+    {
+      "bytes": 4389,
+      "path": "build/ci-verification/desktop-windows-x64/failure-diagnostics.json",
+      "sha256": "cdee918664d908fd5c38a62a49e2930f9903f35b72f9886f4e6d3751caf93138"
+    },
+    {
+      "bytes": 185843,
+      "path": "build/ci-verification/desktop-windows-x64/inputs-after.json",
+      "sha256": "8c785e19005b26a50c51e74785405af73f31aa99ff92b0f3235d1b6bc817d986"
+    },
+    {
+      "bytes": 185843,
+      "path": "build/ci-verification/desktop-windows-x64/inputs-before.json",
+      "sha256": "8c785e19005b26a50c51e74785405af73f31aa99ff92b0f3235d1b6bc817d986"
+    },
+    {
+      "bytes": 3173,
+      "path": "build/ci-verification/desktop-windows-x64/plan.json",
+      "sha256": "fdad8411bc53621274fe23c09f0a88caf2788fcf4bfba8f2f3b080575bbaacb4"
+    },
+    {
+      "bytes": 5757,
+      "path": "build/ci-verification/desktop-windows-x64/receipt.json",
+      "sha256": "5edc564f7adfb8dd7d3fdac8444b37580a466eebfe68dab1a3485c3888c5cdbc"
+    },
+    {
+      "bytes": 849,
+      "path": "build/ci-verification/desktop-windows-x64/runtime.json",
+      "sha256": "ef6927b10b6013b95bbb35eaf90f09af8a1797537c09b41ffd7f9ad39bc5b379"
+    },
+    {
+      "bytes": 10094,
+      "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.xml",
+      "sha256": "d1a4e00d2f4f33b9f5afa912ca27b780727c587664b6e8906c2a2c856eaef8a8"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 293.78,
+    "exit_code": 1
+  },
+  "explicit_focus": "webview-desktop-stop-windows-recovery",
+  "failure": {
+    "message": "java.lang.AssertionError: public Stop witness refused; sampled=true;worker=CANCELLED;running=false;finished=true;cancellations=1;peerEofs=0;pending=1;arrivals=1;responses=0;closing=false",
+    "type": "java.lang.AssertionError"
+  },
+  "head_sha": "c21a4c59d46aa1ef935e80af88227626c8a54e37",
+  "observation": {
+    "anchorCodeSourcesSameFile": true,
+    "archiveBytes": 37603369,
+    "capture": "captured",
+    "fileKeyAvailable": false,
+    "frameSnapshot": {
+      "available": 35,
+      "capture": "captured",
+      "closeWithCode": 0,
+      "examined": 253,
+      "occurrences": {
+        "http2Cancel": 0,
+        "http2Demand": 0,
+        "http2Next": 0,
+        "http2Subscribe": 0,
+        "responseCode": 0,
+        "urlCancel": 0,
+        "urlClose": 0,
+        "urlResponse": 0,
+        "urlRun": 0
+      },
+      "responseWithCode": 0,
+      "scope": "executing-method-names-only",
+      "threads": 35,
+      "unavailable": 0
+    },
+    "http2LoaderPropertyAtFailure": "absent",
+    "javaFeature": 17,
+    "javafxRuntimeVersionProperty": "21.0.13+2",
+    "metadataStable": true,
+    "resources": [
+      {
+        "bytes": 24020,
+        "name": "WebView",
+        "sha256": "83a1d4720c35b8f6dd20201381a136ea07bd9196fdf2b8642d7f704098f9d24c"
+      },
+      {
+        "bytes": 22244,
+        "name": "WebEngine",
+        "sha256": "3aca4f89b46bbf7da73195da81c6580767fcf6ebe1ad85f9633ac39fd42bac09"
+      },
+      {
+        "bytes": 7032,
+        "name": "LoadWorker",
+        "sha256": "b734c1b131717d5448f6b2be28f5942b4f593f2a91bed7b655b6c4a4bd02adad"
+      },
+      {
+        "bytes": 59806,
+        "name": "WebPage",
+        "sha256": "8e3e70d37fb2885b9ff40906925aeae953109b686830e8f21fcb15b5a3867d6c"
+      },
+      {
+        "bytes": 6141,
+        "name": "NetworkContext",
+        "sha256": "63a2d36191db57c34219fe5297066f4425b0c043d290f1e556771ff4e48fa020"
+      },
+      {
+        "bytes": 18274,
+        "name": "URLLoader",
+        "sha256": "b739b8ac502071645841d1b387d6168ef2d7179aa66d44944696ac0485013baa"
+      },
+      {
+        "bytes": 22469,
+        "name": "HTTP2Loader",
+        "sha256": "6d4958573b6e92ff1a7ee2b7142f3617bcf1718e25490df0335c8173e7289b74"
+      },
+      {
+        "bytes": 1983,
+        "name": "HTTP2BodySubscriber",
+        "sha256": "e5324d3b4643749b6463e83f1027cbceced0f6552022b8b78020f56ca122616d"
+      }
+    ],
+    "schema": 1,
+    "scope": "anchor-code-source-base-entries-only"
+  },
+  "recovery_assertions_reached": false,
+  "run": 41398651975,
+  "runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "cbe26bd403ae0abda0cc686f8392ddcea3b1cf8972885460fb96d43083545cff",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.10",
+      "system": "Windows"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.20.1"
+    },
+    "observed_at_utc": "2026-11-02T06:17:32.710919+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-pc-windows-msvc",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "c21a4c59d46aa1ef935e80af88227626c8a54e37",
+    "source_tree_dirty": false
+  },
+  "scalar_scope": "Sequential final-poll values, not atomic/historical/load-route/root-cause proof. After-timeout resource and method-frame observations are not executing-instance or historical absence proof.",
+  "scope": "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Bounded owned AWT setup/disposal and FX listener cleanup preserve late-return ownership and do not preempt blocked native calls. Scalar-only last-poll/after-timeout diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification.",
+  "task": ":calf-webview:desktopTest",
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  },
+  "url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41398651975",
+  "workflow_conclusion": "failure",
+  "xml": {
+    "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.xml",
+    "sha256": "d1a4e00d2f4f33b9f5afa912ca27b780727c587664b6e8906c2a2c856eaef8a8",
+    "suite": {
+      "errors": "0",
+      "failures": "1",
+      "hostname": "runnervmdaln5",
+      "name": "DesktopWebViewStopRedirectAcceptanceTest[desktop]",
+      "skipped": "0",
+      "tests": "1",
+      "time": "16.028",
+      "timestamp": "2026-11-02T06:22:08.285Z"
+    },
+    "testcase": {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+      "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+      "time": "16.021"
+    }
+  }
+}

@@ -66,6 +66,18 @@ substitutes for library integration or real browser download verification.
 
 ## Evidence and remaining scope
 
+The [Share249 original256/solo review257](evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)
+now accepts the corrected remembered-public method **1/1**, Gradle0/1067.15s,
+one fresh XML and actual1203-file before/after maps. Genuine UIKit cleanup,
+Main/Default/IO, current callbacks, reentry and composition disposal all execute;
+four new controlled Request regressions run inside this one JUnit method.
+Application9.44s/transport9.46s, runner exit0, Worker termination and owned app
+cleanup are separate witnesses. Deliberate activity `Completed` inputs are not
+OS-recipient success. The twelve accepted Share188 methods were not replayed.
+This completes that missing bounded lifecycle method, not all original #81/#88
+requirements or any saver/sample criterion. Main Thread Checker, positive
+security-scope and cross-process recipients/full-platform tests remain.
+
 The [Share227 original review](evidence/current-platform-recovery-20261101/share227-original238-239/README.md)
 preserves run41390900453 **FAILED:0 pass/one fail**. Its finite trace and exact
 source establish that the old fixture dismissed first and supplied its two true

@@ -1,0 +1,12 @@
+--- a/modules/javafx.web/src/main/java/com/sun/webkit/network/HTTP2Loader.java
++++ b/modules/javafx.web/src/main/java/com/sun/webkit/network/HTTP2Loader.java
+@@ -421,6 +421,9 @@
+             logger.finest(String.format("data: [0x%016X]", data));
+         }
+         canceled = true;
++        if (response != null) {
++            response.cancel(true);
++        }
+     }
+ 
+     private void callBackIfNotCanceled(final Runnable r) {

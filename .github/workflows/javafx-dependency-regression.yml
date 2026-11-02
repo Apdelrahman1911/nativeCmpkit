@@ -1,0 +1,73 @@
+# Verification only. The dependency patch is not activated in library builds.
+name: NativeCmpKit JavaFX cancellation regression
+
+on:
+  # A new workflow must first execute on this development branch to register it
+  # without modifying main. Only dependency/probe byte changes trigger a rerun.
+  push:
+    branches: [development/preview-hardening]
+    paths:
+      - tests/dependency/javafx-http2-cancellation/JavaFxPublicCancellationProbe.java
+      - tests/dependency/javafx-http2-cancellation/cancel-response-future.patch
+      - tests/dependency/javafx-http2-cancellation/artifacts.json
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Missing dependency-native platform only (accepted Linux evidence is reused)
+        type: choice
+        required: true
+        default: windows
+        options: [windows, linux]
+      cases:
+        description: Select unseen or failed cases; do not replay accepted unchanged cases
+        type: choice
+        required: true
+        default: all
+        options: [all, zero-header, plain-body, gzip-body, concurrent]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nativecmpkit-javafx-dependency-${{ github.ref }}-${{ inputs.platform || 'windows' }}
+  cancel-in-progress: false
+
+jobs:
+  cancellation:
+    if: github.ref == 'refs/heads/development/preview-hardening'
+    runs-on: ${{ inputs.platform == 'linux' && 'ubuntu-24.04' || 'windows-2025' }}
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install owned virtual display prerequisite
+        if: inputs.platform == 'linux'
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y xvfb libgtk-3-0 libasound2t64
+      - name: Exact dependency cancellation and recovery
+        env:
+          SELECTED_CASES: ${{ inputs.cases || 'all' }}
+        run: python -B tests/dependency/javafx-http2-cancellation/probe_runner.py --download --cases "$SELECTED_CASES" --output build/javafx-dependency-regression
+        shell: bash
+      - name: Preserve selected verification evidence (no classes/JARs/packages)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: javafx-cancellation-${{ inputs.platform || 'windows' }}-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            build/javafx-dependency-regression/results.json
+            build/javafx-dependency-regression/commands.json
+            build/javafx-dependency-regression/case-results.json
+            build/javafx-dependency-regression/source-bindings.json
+            build/javafx-dependency-regression/binary-bindings.json
+            build/javafx-dependency-regression/*.stdout
+            build/javafx-dependency-regression/*.stderr

@@ -165,7 +165,10 @@ def discover(root: Path) -> dict[str, list[str]]:
     for name, directory in (("findings", FINDING_DIR), ("ledgers", LEDGER_DIR)):
         folder = inside_root(root, directory)
         require(folder.is_dir(), directory, "missing input directory")
-        files = sorted(str(path.relative_to(root)) for path in folder.glob("*.json"))
+        # Index keys and Markdown links are repository-relative POSIX paths on
+        # every host; native Windows backslashes would change otherwise identical
+        # input fingerprints/outputs and falsely mark the committed index stale.
+        files = sorted(path.relative_to(root).as_posix() for path in folder.glob("*.json"))
         require(bool(files), directory, "no JSON input files")
         for relative in files:
             require(inside_root(root, relative).is_file(), relative, "expected a regular JSON file")

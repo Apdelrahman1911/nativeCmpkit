@@ -1,0 +1,36 @@
+﻿2026-11-02T08:48:23.2011238Z ##[group]Run python -B - <<'PY'
+2026-11-02T08:48:23.2011635Z [36;1mpython -B - <<'PY'[0m
+2026-11-02T08:48:23.2011886Z [36;1mimport os[0m
+2026-11-02T08:48:23.2012098Z [36;1mfrom pathlib import Path[0m
+2026-11-02T08:48:23.2012518Z [36;1mmanager = Path(os.environ['ANDROID_HOME']) / 'cmdline-tools/23.0/bin/sdkmanager.bat'[0m
+2026-11-02T08:48:23.2012943Z [36;1mif not manager.is_file():[0m
+2026-11-02T08:48:23.2013260Z [36;1m    raise SystemExit('Official SDK23 setup is incomplete')[0m
+2026-11-02T08:48:23.2013650Z [36;1mwith open(os.environ['GITHUB_PATH'], 'a') as output:[0m
+2026-11-02T08:48:23.2014009Z [36;1m    output.write(str(manager.parent) + '\n')[0m
+2026-11-02T08:48:23.2014279Z [36;1mPY[0m
+2026-11-02T08:48:23.2014481Z [36;1mmkdir -p build[0m
+2026-11-02T08:48:23.2014791Z [36;1mpython -B scripts/development/validate_resolutions.py --check[0m
+2026-11-02T08:48:23.2015312Z [36;1mpython -B scripts/ci/library_tests.py plan --suite desktop --module calf-webview \[0m
+2026-11-02T08:48:23.2015982Z [36;1m  --focus webview-desktop-stop-windows-recovery > build/javafx-library-candidate-plan.json[0m
+2026-11-02T08:48:23.2037579Z shell: C:\Program Files\Git\bin\bash.EXE --noprofile --norc -e -o pipefail {0}
+2026-11-02T08:48:23.2037981Z env:
+2026-11-02T08:48:23.2038144Z   GIT_CONFIG_COUNT: 2
+2026-11-02T08:48:23.2038353Z   GIT_CONFIG_KEY_0: core.autocrlf
+2026-11-02T08:48:23.2038591Z   GIT_CONFIG_VALUE_0: false
+2026-11-02T08:48:23.2038810Z   GIT_CONFIG_KEY_1: core.longpaths
+2026-11-02T08:48:23.2039041Z   GIT_CONFIG_VALUE_1: true
+2026-11-02T08:48:23.2039239Z   CARGO_BUILD_JOBS: 1
+2026-11-02T08:48:23.2039557Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.20-101\x64
+2026-11-02T08:48:23.2040084Z   JAVA_HOME_17_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\17.0.20-101\x64
+2026-11-02T08:48:23.2040479Z   MAVEN_ARGS: -ntp
+2026-11-02T08:48:23.2040763Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-02T08:48:23.2041217Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-02T08:48:23.2041677Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-02T08:48:23.2042070Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-02T08:48:23.2042459Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-02T08:48:23.2042820Z   GRADLE_ACTION_ID: gradle/actions/wrapper-validation
+2026-11-02T08:48:23.2043553Z   ANDROID_HOME: C:\Android\android-sdk
+2026-11-02T08:48:23.2043841Z   ANDROID_SDK_ROOT: C:\Android\android-sdk
+2026-11-02T08:48:23.2044095Z ##[endgroup]
+2026-11-02T08:48:24.8015783Z STALE: docs/development/status.json, docs/development/status.md; review inputs and regenerate with --write
+2026-11-02T08:48:24.8286195Z ##[error]Process completed with exit code 2.

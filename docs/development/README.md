@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Windows status-index portability repaired locally — 2026-11-02
+
+[Original285/red286/green287/review288](evidence/current-platform-recovery-20261101/windows-index285-288/README.md)
+fixes canonical discovery keys, not a CI gate workaround. The original candidate
+run failed before all library/native work because Windows backslashes changed
+index fingerprints; SDK23 passed. Failed1+NEW3 focused tests pass4/4 and actionlint
+passes; actual Windows acceptance remains next. Read-only --check/stale refusal
+stay strict, and preflight failure evidence now survives upload. No closure or
+accepted native replay; only the failed original public Windows Stop1 is pending.
+
 ## Private full-JAR JavaFX candidate prepared — 2026-11-02
 
 [273–282 source/artifact/results qualification](evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)

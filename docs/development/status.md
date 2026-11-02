@@ -15,9 +15,9 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f020f6842af134f2eea678506cb8df7c0518a8542306359ee6e3daa33dcfefa7`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f61ee467cac395a5943985e6aa6393f9622b5d40971fc34ac7d0e519d1f734ab`.
 
-Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
+Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
 **164/164 unique finding IDs** have a structurally valid owner record and existing issue mapping. **6 separate imported topics** are not miscounted as findings. **Zero statuses promoted; zero automatic closures.**
 
@@ -3575,7 +3575,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `b31b81587e451a5a74ce9675e1de7626c5af5feff6be6b0235967fc0d6cb989e` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `bfeff16c8844ba200c412100cbb5968d45153cc4b4556adf46d5886dc3e5b307` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `f0b725286e7771689f5cbd9fcb3c157f3b9f069090efb04cced65269c6ef15a5` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `11dd35a46f26aed561b1cbece0512d71f138ca51ba2e1eb73dcbbc1c7f34cc34` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |

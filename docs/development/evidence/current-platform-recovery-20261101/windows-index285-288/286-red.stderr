@@ -1,0 +1,27 @@
+test_windows_discovery_keys_equal_posix_inventory_without_backslashes (test_status_index_path_portability.StatusIndexPathPortabilityTests.test_windows_discovery_keys_equal_posix_inventory_without_backslashes) ... FAIL
+
+======================================================================
+FAIL: test_windows_discovery_keys_equal_posix_inventory_without_backslashes (test_status_index_path_portability.StatusIndexPathPortabilityTests.test_windows_discovery_keys_equal_posix_inventory_without_backslashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "REPO/scripts/development/test_status_index_path_portability.py", line 60, in test_windows_discovery_keys_equal_posix_inventory_without_backslashes
+    self.assertEqual(expected, actual)
+AssertionError: {'findings': ['docs/audit/findings/fixture.json'], 'ledgers'[119 chars]on']} != {'findings': ['docs\\audit\\findings\\fixture.json'], 'ledge[125 chars]on']}
+- {'findings': ['docs/audit/findings/fixture.json'],
+?                    ^     ^        ^
+
++ {'findings': ['docs\\audit\\findings\\fixture.json'],
+?                    ^^     ^^        ^^
+
+-  'ledgers': ['docs/development/resolutions/fixture.json'],
+?                   ^           ^           ^
+
++  'ledgers': ['docs\\development\\resolutions\\fixture.json'],
+?                   ^^           ^^           ^^
+
+   'metadata': ['docs/roadmap/backlog.json', 'docs/migration/issue-map.json']}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)

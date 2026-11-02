@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows index preflight failure repaired locally — 2026-11-02
+
+[Actual285–288](docs/development/evidence/current-platform-recovery-20261101/windows-index285-288/README.md)
+preserves41415588780/7445615b FAILED before plan/cache/candidate/Gradle/native:
+SDK23 passed, index --check2, independent no-files upload failure. Original logs
+acquired once. Confirmed discover str(relative_path) emitted Windows backslashes;
+only .as_posix conversion/comment repairs canonical keys. NEW286red1 fails as
+expected; failed1+NEW3 green2874/4/0.040s plus actionlint0,1203 library inputs held.
+Actual isolated fixture bytes/output/stale-refusal pass under controlled Windows
+path views, not hosted/native acceptance. Preflight SDK/log outputs now precede
+failure and retain pipefail/read-only --check; never regenerate on CI to waive
+staleness. Next manual workflow404301928 request only original Windows Stop1 on
+frozen development; no auto trigger from validator/workflow/docs-only changes.
+No accepted controls/artifact/native replay, status promotion or issue closure.
+97closed/75open/172total and all SOLO/8GiB/serial/max2 hosted INCLUDING queued/
+publishing/Pages/main/history/native/consumer/API-ABI/legal/security/readiness
+gates remain. Private ARM251 has current library_tests drift/five absent paths;
+not integrated, and its proposed ADR0013 now needs a qualified distinct number.
+
 ## Solo full-JAR cancellation candidate prepared — 2026-11-02
 
 [Actual273–282](docs/development/evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)

@@ -39,6 +39,13 @@ def source_before_android_external328(relative: str, payload: bytes) -> bytes:
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact External328 source identity and ordinary bytes are required")
     bindings = _bindings()
+    # Preserve the original exact complete preimage's compositional idempotence.
+    # Actual current admission below never accepts this historical shortcut.
+    if (relative in bindings and 0 < len(payload) <= MAX_SOURCE_BYTES and
+            hashlib.sha256(payload).hexdigest() == bindings[relative]["before_sha256"]):
+        return payload
+    from arm64_stop_candidate_source_projection import source_before_arm64_stop_candidate
+    payload = source_before_arm64_stop_candidate(relative, payload)
     if relative not in bindings:
         return payload
     binding = bindings[relative]
@@ -74,6 +81,8 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     """Admit actual current bytes before constructing a historical fixture view."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current source identity and ordinary bytes are required")
+    from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate
+    payload = current_source_before_arm64_stop_candidate(relative, payload)
     bindings = _bindings()
     if relative in bindings and hashlib.sha256(payload).hexdigest() != bindings[relative]["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current source")

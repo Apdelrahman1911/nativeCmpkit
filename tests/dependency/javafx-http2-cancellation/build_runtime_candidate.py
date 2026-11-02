@@ -123,12 +123,16 @@ def write_archive(original, destination, replacements, additions):
 
 
 def build(args):
-    target = probe.classifier()
+    compiler_host = probe.classifier()
+    target = getattr(args, "target_classifier", None) or compiler_host
+    probe.need(target in probe.CLASSIFIERS, "Only an exact pinned packaging classifier is allowed")
     output = args.output.absolute()
     probe.need(not output.exists() and not output.is_symlink(), "Use a new owned candidate directory")
     output.mkdir(parents=True)
     started = time.monotonic()
     result = {"schema_version": 1, "identity": IDENTITY, "classifier": target, "passed": False,
+              "compiler_host_classifier": compiler_host,
+              "cross_classifier_packaging_only": target != compiler_host, "native_executions": 0,
               "started_at_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
               "scope": "Private full-JAR dependency candidate; no default adoption, publication or release clearance",
               "full_native_corresponding_source_complete": False, "library_tests": 0}
@@ -257,4 +261,6 @@ if __name__ == "__main__":
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--artifact-dir", type=Path)
     parser.add_argument("--download", action="store_true")
+    parser.add_argument("--target-classifier", choices=probe.CLASSIFIERS,
+                        help="Packaging-only cross-classifier target; never native execution or host impersonation")
     build(parser.parse_args())

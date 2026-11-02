@@ -213,9 +213,10 @@ class CandidateCacheAndWorkflowTests(unittest.TestCase):
         self.assertIn("setIncludePatterns(selected)",text)
         self.assertNotIn("startParameter.taskNames.contains",text)
 
-    def test_workflow_has_one_windows_reservation_read_only_no_default_adoption_or_binary_upload(self):
+    def test_workflow_has_one_selected_reservation_read_only_no_default_adoption_or_binary_upload(self):
         text=(library_candidate.ROOT/library_candidate.WORKFLOW).read_text()
-        self.assertIn("runs-on: windows-2025",text);self.assertIn("contents: read",text)
+        self.assertIn("runs-on: ${{ inputs.platform == 'linux-arm64' && 'ubuntu-24.04-arm' || inputs.platform == 'macos-arm64' && 'macos-26' || inputs.platform == 'macos-x64' && 'macos-26-intel' || 'windows-2025' }}",text)
+        self.assertIn("github.event_name == 'workflow_dispatch'",text);self.assertIn("contents: read",text)
         self.assertNotIn("packages: write",text);self.assertNotIn("id-token:",text)
         self.assertNotIn("matrix:",text);self.assertIn("persist-credentials: false",text)
         self.assertNotIn("actions/cache/save",text);self.assertNotIn("restore-keys:",text)

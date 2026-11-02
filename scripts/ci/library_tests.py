@@ -1383,9 +1383,14 @@ WEBVIEW_DESKTOP_REQUEST_FOCUS = "webview-desktop-request-state"
 WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS = "webview-desktop-request-state-stop"
 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS = "webview-desktop-request-state-stop-redirect"
 WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS = "webview-desktop-stop-windows-recovery"
+WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS = "webview-desktop-stop-linux-arm64-recovery"
+WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS = "webview-desktop-stop-macos-recovery"
+WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES = (WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS,
+                                   WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS,
+                                   WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS)
 WEBVIEW_DESKTOP_REQUEST_FOCUSES = (WEBVIEW_DESKTOP_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS,
                                  WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS,
-                                 WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS)
+                                 *WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES)
 WEBVIEW_DESKTOP_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
 WEBVIEW_DESKTOP_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
 WEBVIEW_DESKTOP_REQUEST_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
@@ -1408,14 +1413,16 @@ WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS = {
     WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64")}),
     WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS: frozenset({("Linux", "arm64")}),
     WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS: frozenset({("Windows", "x64")}),
+    WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS: frozenset({("Linux", "arm64")}),
+    WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64")}),
 }
 
 
 def webview_desktop_request_specs(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
     if focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
         raise ValueError("Unknown finite Desktop request-state focus; no full-suite fallback")
-    if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS:
-        # Only the one failed Windows Stop method. Accepted request/redirect must not replay.
+    if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES:
+        # Only the failed host's Stop method. Accepted request/redirect must not replay.
         return [{"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_STOP_METHOD,
                  "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256}]
     specs = [{"classname": WEBVIEW_DESKTOP_REQUEST_CLASS, "method": WEBVIEW_DESKTOP_REQUEST_METHOD,
@@ -2438,9 +2445,13 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_source_sets"] = ["desktopTest"]
         selected[0]["test_source_sha256"] = sources
         result["scope"] = "One new real public Compose/JavaFX held pre-header native fail-to-fail-to-success method on the selected supported Desktop host only. Existing accepted stop/reload/redirect and browser fragments are reused, not replayed. Owned loopback transport refusal, not system-offline/DNS/TLS, media, another engine, full-suite, consumer, ABI, security or release certification."
-        if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS:
+        if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES:
             selected[0]["required_original_xml"] = 1
             result["scope"] = "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Bounded owned AWT setup/disposal and FX listener cleanup preserve late-return ownership and do not preempt blocked native calls. Scalar-only last-poll/after-timeout diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification."
+            if focus == WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS:
+                result["scope"] = "One failed Linux ARM64 public Stop method only after an owning cancellation correction. Original10s/six native/library/precleanup peer-EOF predicates, same-owner recovery and owned cleanup remain. Accepted Linux ARM64 request/302-Reload, Linux x64/Windows/mobile/browser cases are excluded. Actual Linux ARM64 host, exact source/filter/task/one fresh original XML required; no private route override, default dependency adoption, consumer/API-ABI/security/legal/release certification."
+            if focus == WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS:
+                result["scope"] = "One failed public Stop method on the exact selected macOS architecture after an owning cancellation correction. Original10s/six native/library/precleanup peer-EOF predicates, same-owner recovery and owned cleanup remain. Accepted both macOS request methods, Linux/Windows/mobile/browser cases are excluded. Actual Darwin architecture, exact source/filter/task/one fresh original XML required; no private route override, default dependency adoption, consumer/API-ABI/security/legal/release certification."
         elif focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
             result["scope"] = "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
@@ -3124,9 +3135,9 @@ def validate_test_focus(test_plan: dict) -> bool:
                 expected[0].get("test_source_sha256") != sources or
                 test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
             raise ValueError("Invalid exact finite Desktop request-state plan")
-        if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS and (
+        if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES and (
                 type(expected[0].get("required_original_xml")) is not int or expected[0]["required_original_xml"] != 1):
-            raise ValueError("Windows Stop recovery requires exactly one fresh original XML; no accepted-method replay")
+            raise ValueError("Stop recovery requires exactly one fresh original XML; no accepted-method replay")
         return True
     if focus in WEBVIEW_IDENTITY_FOCUSES:
         suite = test_plan["suite"]

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `b136d01df9849771c02f0cc963825726472935b22e66fd6ce315fb2a3c7fefe4`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `eb07b338dea0043c41df123a1a41f85fd0e660bedb83cd7fb75d20d3ee955fb7`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 15 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 17 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -1809,8 +1809,10 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-02 original308/review311: Windows Stop1 is now accepted and excluded from reruns. Other original Desktop/genuine JS-Wasm offline obligations remain. The private candidate is not default-adopted; complete native corresponding-source/legal/security/consumer/API-ABI/adoption requirements remain, so #64 stays open.
 - 2026-11-02 actual316-319: JS1/Wasm1 previously reachable owned destination-offline native subset accepted and excluded from replay. Linux-pair4/macOS-pair4 and ordinary JavaFX dependency adoption remain; accepted Windows request/private Stop must not be replayed through full Windows alias. Corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 open.
 - 2026-11-02 actual346-349 supersedes the earlier Linux-pair4-pending observations: accept three Linux methods/exclude unchanged replay; only original ARM64 Stop1 remains failed, plus four unexecuted macOS methods. Do not dispatch the old Linux pair. An owning correction must pass failed-only ARM64 Stop with original10s/six predicates and precleanup EOF/recovery. Ordinary JavaFX adoption, complete native corresponding-source/legal/security/consumer/API-ABI gates remain. #64 stays open.
+- 2026-11-02 actual350-354 supersedes macOS-pair4-pending: both macOS request methods accepted/excluded from unchanged replay; both original public Stops fail. This Desktop cohort lacks only Linux ARM64 Stop and both macOS Stops. Never dispatch old macOS/Linux/Windows request aliases. One owning candidate correction must retain original10s/six predicates and actual precleanup EOF/recovery/cleanup; private candidate success alone does not satisfy ordinary JavaFX dependency adoption/corresponding-source/legal/security/consumer/API-ABI requirements. #64 stays open.
+- 2026-11-02 candidate351-361: One owning correction/preparation is source/packaging-qualified for all three failed Desktop Stops; native executions remain zero for these routes. Dispatch exact Linux ARM64/macOS ARM64/macOS x64 candidates one host each on frozen development, max2 combined including queued. Never use old request-state pairs/Windows or dependency-native accepted populations. Ordinary JavaFX adoption, corresponding-source/legal/security/consumer/API-ABI remain separate even if all three candidates pass.
 
-**Owner verification scope:** Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop and Linux x64 request plus ARM64 request/302-Reload are accepted on their applicable unchanged sources. All historical failures remain in dated evidence. Original ARM64 Stop still fails before recovery; macOS four methods remain unexecuted. Linux native review348 accepts45 passive checks and four actual1212 maps, not a current whole-tree/consumer/security certificate. Dependency-native Linux4/Windows4 and private full-JAR Windows Stop1 do not activate the cancellation patch in ordinary dependencies. Do not replay unchanged accepted methods or old Linux/Windows request-state aliases. Original all-target criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 is partially-verified/open.
+**Owner verification scope:** Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop, Linux x64 request plus ARM64 request/302-Reload and both macOS request methods are accepted on their applicable unchanged sources. Historical failures remain dated. Only Linux ARM64 Stop and both macOS Stops remain failed in this Desktop cohort; recovery/actual internal loader route are unobserved. macOS review353 accepts48 passive checks/four actual1212 maps, not current whole-tree/consumer/security certification. Dependency-native Linux4/Windows4 and private full-JAR Windows Stop1 do not activate the patch in ordinary dependencies. Never replay accepted methods or old macOS/Linux/Windows request-state aliases. All original criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 partially-verified/open.
 
 **Compatibility / scope:** requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.
 
@@ -3587,7 +3589,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `fe3c26f77cb26abbc56ee6ce1117aa3f3f3faa00365fa4d4838a2187e43cc44c` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `2a303283ea79f2d39df5ba95065f3923067aa76468774041ae767b16a9e72a30` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |

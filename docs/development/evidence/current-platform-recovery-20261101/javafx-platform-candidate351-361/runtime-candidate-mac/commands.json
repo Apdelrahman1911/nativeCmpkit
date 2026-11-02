@@ -1,0 +1,36 @@
+[
+  {
+    "command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "-version"
+    ],
+    "elapsed_seconds": 0.036397165968082845,
+    "exit_code": 0,
+    "name": "java-version",
+    "stderr_sha256": "bc035065e1316ef11781a4b1e36dc4aa58d003abc47094dc55b4f7620f15f7c8",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timeout": false
+  },
+  {
+    "command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/javac",
+      "--release",
+      "17",
+      "--module-path",
+      "/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/official-inputs/javafx-base-21.0.13-mac.jar:/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/official-inputs/javafx-controls-21.0.13-mac.jar:/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/official-inputs/javafx-graphics-21.0.13-mac.jar:/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/official-inputs/javafx-media-21.0.13-mac.jar:/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/official-inputs/javafx-web-21.0.13-mac.jar",
+      "--add-modules",
+      "javafx.web",
+      "--patch-module",
+      "javafx.web=/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/runtime-candidate-mac/source",
+      "-d",
+      "/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/runtime-candidate-mac/classes",
+      "/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/runtime-candidate-mac/source/HTTP2Loader.java"
+    ],
+    "elapsed_seconds": 1.0435799770057201,
+    "exit_code": 0,
+    "name": "compile-owning-source",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timeout": false
+  }
+]

@@ -53,7 +53,7 @@ class ProbeRunnerTests(unittest.TestCase):
             runner.validate_row(row)
 
     def test_dependency_filename_escape_and_unpinned_version_refuse(self):
-        for value in ("../javafx-base.jar", "javafx-base\\evil.jar", "javafx-base-20-win.jar", "javafx-base-21.0.13-mac.jar"):
+        for value in ("../javafx-base.jar", "javafx-base\\evil.jar", "javafx-base-20-win.jar", "javafx-base-21.0.13-mac-aarch32.jar"):
             row = self.row()
             row["file"] = value
             with self.subTest(value=value), self.assertRaises(ValueError):

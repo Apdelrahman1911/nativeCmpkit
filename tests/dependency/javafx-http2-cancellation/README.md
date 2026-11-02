@@ -36,6 +36,20 @@ hard-preemption, hostile-process or all-network-protocol certification.
 
 ## Important results
 
+**2026-11-02, failed-only Linux ARM64/macOS extension:**
+[351–361 preparation](../../../docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
+qualifies one shared batch for the three remaining original library Stops. Exact
+official classifiers/pins, actual native host/daemon admission and one fresh
+original Stop/XML selection are retained.31 unique source controls qualify across
+38 earlier passing invocations plus one stale-classifier-control red/corrected
+green; an import-only refusal is separate. Three full-JAR packaging executions
+on Linux x64/JDK17 retain548 original members/542 nonowning payloads and accepted
+class pins: **zero new native/library executions**. Cross-classifier packaging is
+explicitly not platform acceptance. Both JavaFX workflows' native jobs are now
+**manual-only**, so added pins/source changes cannot automatically replay accepted
+Windows/Linux cases. The private Windows original library Stop is already accepted;
+reuse it and all accepted request/redirect/browser populations, without replay.
+
 **2026-11-02, subsequent private library-candidate preparation:**
 [273–282](../../../docs/development/evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md)
 adds `build_runtime_candidate.py` and an **explicitly loaded, one-task-only** init
@@ -71,12 +85,14 @@ rebuilds or replay of the accepted iOS/browser/library populations.
 ## Reproduction of missing/changed cases only
 
 JDK17, Python3.12 and a graphical host are required. Linux additionally needs
-Xvfb/GTK; the runner's pinned classifiers currently cover Linux x64 and Windows
-x64 only. Select a new owned output directory; existing results refuse overwrite.
+Xvfb/GTK. Pins cover Linux x64/ARM64, Windows x64 and macOS x64/ARM64. The library
+candidate admits only the explicitly selected Windows/Linux ARM64/macOS host;
+never impersonate another OS or architecture. Use a new owned output directory;
+existing results refuse overwrite. Run only changed or missing populations.
 
 ```sh
-# Offline synthetic runner guards; zero JavaFX/native/library executions.
-python -B -m unittest discover -s tests/dependency/javafx-http2-cancellation -p 'test_*.py' -v
+# Select the affected offline source-control method(s); do not replay all
+# unchanged accepted controls through unittest discover.
 
 # Example only: changed/unseen population on a Windows host, not accepted270 replay.
 python -B tests/dependency/javafx-http2-cancellation/probe_runner.py \
@@ -84,6 +100,12 @@ python -B tests/dependency/javafx-http2-cancellation/probe_runner.py \
 
 # Failed-only selection after an owning source/fixture correction:
 # --cases gzip-body --output build/javafx-dependency-regression-next
+
+# Exact real-host, failed-only library Stop. Do not replay accepted Windows.
+# platform: linux-arm64, macos-arm64 or macos-x64 on its matching native host.
+python -B tests/dependency/javafx-http2-cancellation/run_library_candidate.py \
+  --platform linux-arm64 --download \
+  --output build/ci-verification/javafx-library-candidate
 ```
 
 `--download` obtains only fixed official Maven files and verifies exact bytes
@@ -94,10 +116,11 @@ pins, not independent dependency-security/signing acceptance.
 
 The inactive-for-library-builds workflow is
 `.github/workflows/javafx-dependency-regression.yml`, development-branch only.
-It also runs the missing Windows population on a push changing the exact probe,
-patch or dependency-manifest bytes; documentation/runner-only changes do not
-automatically replay native cases. This registers the new workflow without a
-`main` change. It uses one hosted-heavy reservation, contents-read token, no stored checkout
+Its historical development push registration remains, but **native jobs require
+workflow_dispatch**. The library-candidate workflow likewise requires a manual
+explicit platform selection. Source/manifest changes cannot automatically replay
+accepted native cases; no `main` change is needed. Each dispatch uses one
+hosted-heavy reservation, contents-read token, no stored checkout
 credentials, no publishing/deployment/OIDC permissions. Uploads contain selected
 test evidence only, never JARs or classes. Observe the project-wide maximum two
 combined queued/running/reserved hosted-heavy jobs before dispatch.

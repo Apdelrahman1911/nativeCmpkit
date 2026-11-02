@@ -8,8 +8,12 @@ Windows-single alias**. [Linux originals346–349](evidence/current-platform-rec
 now accept x64 request1 and ARM64 request/302-Reload2; only ARM64 Stop fails.
 **Never dispatch the old Linux-pair alias again:** it would replay those three
 unchanged accepted methods. Only an owning correction and failed-only Stop1
-verification is appropriate. MacOS-pair4 remains missing; a pair reserves
-both global slots including queued work. Ordinary JavaFX adoption remains separate
+verification is appropriate. [macOS originals350–354](evidence/current-platform-recovery-20261101/desktop-macos-native350-354/README.md)
+now accept both request methods; both Stops still fail. **Never dispatch the old
+macOS-pair alias again.** Only Linux ARM64 Stop and the two macOS Stops remain
+in this cohort; select each failed method on its actual host after an owning
+correction. At most two combined hosted reservations include queued work.
+Ordinary JavaFX adoption remains separate
 from the private Stop acceptance. The [JS1/Wasm1 offline destination result](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
 is now accepted, not pending or system-offline certification. Other security/
 consumer/API-ABI/corresponding-source/legal requirements remain unchanged. Earlier
@@ -32,6 +36,14 @@ partition the thirteen remaining security executions and exclude the accepted
 Linux x64 TLS case. These are expected counts, **not native results**.
 
 ## Admission and execution
+
+Current failed-only candidate verification uses the dedicated
+`javafx-library-candidate.yml`, one `platform=linux-arm64`, `macos-arm64` or
+`macos-x64` host per dispatch. The original Stop1/XML1/native predicates remain.
+[Owning351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
+qualifies source/packaging only; actual native outcomes are still required.
+Both JavaFX native workflows are manual-only; accepted Windows/Linux cases are
+not automatically replayed by the added classifier pins.
 
 - `scripts/ci/workflow_matrix.py` inherits fresh rows from each canonical parent.
   Exact slot tuple/order, suite, module, runner and architecture are checked.

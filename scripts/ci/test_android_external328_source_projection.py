@@ -74,7 +74,10 @@ class External328SourceHistoryControls(unittest.TestCase):
     def setUpClass(cls):
         cls.raw_spec = bridge.SPEC_PATH.read_bytes()
         cls.bindings = bridge._bindings()
-        cls.current = {relative: (ROOT / relative).read_bytes() for relative in cls.bindings}
+        cls.actual_current = {relative: (ROOT / relative).read_bytes() for relative in cls.bindings}
+        from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate
+        cls.current = {relative: current_source_before_arm64_stop_candidate(relative, payload)
+                       for relative, payload in cls.actual_current.items()}
         cls.native_before = {relative: (ROOT / relative).read_bytes() for relative in NATIVE_INPUTS}
 
     @classmethod
@@ -82,7 +85,7 @@ class External328SourceHistoryControls(unittest.TestCase):
         if bridge.SPEC_PATH.read_bytes() != cls.raw_spec:
             raise AssertionError("The held current manifest changed")
         if any((ROOT / relative).read_bytes() != payload
-               for relative, payload in {**cls.current, **cls.native_before}.items()):
+               for relative, payload in {**cls.actual_current, **cls.native_before}.items()):
             raise AssertionError("An actual current source changed during the controls")
 
     def test_manifest_has_only_the_exact_four_selectors_and_twelve_historical_readers(self):
@@ -99,7 +102,7 @@ class External328SourceHistoryControls(unittest.TestCase):
             with self.subTest(relative=relative):
                 current = self.current[relative]
                 self.assertEqual(binding["after_sha256"], digest(current))
-                previous = bridge.current_source_for_history(relative, current)
+                previous = bridge.current_source_for_history(relative, self.actual_current[relative])
                 self.assertEqual(binding["before_sha256"], digest(previous))
                 self.assertEqual(previous, bridge.source_before_android_external328(relative, previous))
                 forward = previous

@@ -24,6 +24,7 @@ import zipfile
 HERE = Path(__file__).resolve().parent
 CASES = ("zero-header", "plain-body", "gzip-body", "concurrent")
 MODULES = ("base", "controls", "graphics", "media", "web")
+CLASSIFIERS = ("linux", "win", "linux-aarch64", "mac", "mac-aarch64")
 SOURCE_ENTRY = "com/sun/webkit/network/HTTP2Loader.java"
 BEFORE = b"        canceled = true;\n    }\n\n    private void callBackIfNotCanceled"
 AFTER = b"        canceled = true;\n        if (response != null) {\n            response.cancel(true);\n        }\n    }\n\n    private void callBackIfNotCanceled"
@@ -61,8 +62,13 @@ def selection(value):
 
 
 def classifier():
-    need(platform.machine().lower() in ("x86_64", "amd64"), "Only pinned x64 dependencies are supported here")
-    value = {"Linux": "linux", "Windows": "win"}.get(platform.system())
+    architecture = platform.machine().lower()
+    value = {("Linux", "x86_64"): "linux", ("Linux", "amd64"): "linux",
+             ("Windows", "x86_64"): "win", ("Windows", "amd64"): "win",
+             ("Linux", "aarch64"): "linux-aarch64", ("Linux", "arm64"): "linux-aarch64",
+             ("Darwin", "x86_64"): "mac", ("Darwin", "amd64"): "mac",
+             ("Darwin", "aarch64"): "mac-aarch64", ("Darwin", "arm64"): "mac-aarch64"}.get(
+                 (platform.system(), architecture))
     need(value is not None, "This diagnostic has no artifact pin for the current OS")
     return value
 
@@ -76,7 +82,7 @@ def validate_row(row):
     need(type(row["sha256"]) is str and len(row["sha256"]) == 64
          and all(c in "0123456789abcdef" for c in row["sha256"]), "Invalid dependency SHA256")
     module = name.split("-")[1]
-    allowed = {f"javafx-{m}-21.0.13-{kind}.jar" for m in MODULES for kind in ("linux", "win")}
+    allowed = {f"javafx-{m}-21.0.13-{kind}.jar" for m in MODULES for kind in CLASSIFIERS}
     allowed.add("javafx-web-21.0.13-sources.jar")
     need(name in allowed, "Unpinned version/classifier/source filename")
     expected = f"https://repo.maven.apache.org/maven2/org/openjfx/javafx-{module}/21.0.13/{name}"
@@ -237,7 +243,7 @@ def run(args):
         java_command = [java, "--module-path", module_path, "--add-modules", "javafx.controls,javafx.web",
                         "--patch-module", "javafx.web=" + str(patched), "-Djava.io.tmpdir=" + str(output / "tmp"),
                         "-cp", str(probe_classes), "JavaFxPublicCancellationProbe", ",".join(selected)]
-        if target == "linux":
+        if target in ("linux", "linux-aarch64"):
             need(shutil.which("xvfb-run") is not None, "Install Xvfb for this owned visible-Stage diagnostic")
             java_command = [shutil.which("xvfb-run"), "-a", *java_command]
         stdout, _ = command("native-cases", java_command)

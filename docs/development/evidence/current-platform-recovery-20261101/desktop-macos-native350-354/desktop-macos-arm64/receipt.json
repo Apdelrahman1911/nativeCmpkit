@@ -1,0 +1,180 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest.twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 326.93,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-desktop-request-state-stop",
+  "finished_at_utc": "2026-11-02T20:26:58.149182+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "7b967d7dac6b6e962f09122bf53f07dfb149084f52120749f9095e23340695f6",
+  "inputs_before_sha256": "7b967d7dac6b6e962f09122bf53f07dfb149084f52120749f9095e23340695f6",
+  "ios_applications": [],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 2,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest",
+          "disposition": "required-executed",
+          "name": "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest.xml",
+          "sha256": "5d2489d77580ac1175dffcccf4d70c365d02985298457910ef73ca479f5e5cfc",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.xml",
+          "sha256": "4bc67183f3ec066d024bb579ae10d42999ebc2b6c32758ebb46d2a45284315eb",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest",
+          "name": "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner[desktop]",
+          "status": "passed"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+          "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+          "status": "failed"
+        }
+      ],
+      "tests": 2,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest",
+      "name": "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner[desktop]"
+    },
+    {
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+      "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]"
+    }
+  ],
+  "runtime_receipt_sha256": "31659422b36765482ec413d461a77f2ef3cf53e42dd9c1817e3b2220116a720c",
+  "schema_version": 1,
+  "scope": "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification.",
+  "source_revision": "54fe20a01b953ebd32f1fa85aa4f1b795ec5c41f",
+  "source_revision_after": "54fe20a01b953ebd32f1fa85aa4f1b795ec5c41f",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-02T20:21:31.072351+00:00",
+  "suite": "desktop",
+  "task_execution_markers": {
+    ":calf-webview:desktopTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 2,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 2,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

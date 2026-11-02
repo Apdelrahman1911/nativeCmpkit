@@ -4,15 +4,22 @@
 
 ## Problem and evidence
 
-Original Windows #64/NATIVE-005 Stop acceptance still fails: the public Worker
-is cancelled and NativeCmpKit reports Finished, but the held HTTP peer remains
-connected. Exact OpenJFX21.0.13 `HTTP2Loader.fwkCancel()` only sets a callback
+The historical original Windows #64/NATIVE-005 Stop acceptance failed: the public
+Worker cancelled and NativeCmpKit reported Finished, but the held HTTP peer
+remained connected. The private Windows full-JAR candidate now passes the original
+library Stop method; ordinary dependencies are unchanged. Linux ARM64 and both
+macOS original Stops still fail with the same precleanup scalar observations.
+Exact OpenJFX21.0.13 `HTTP2Loader.fwkCancel()` only sets a callback
 suppression flag. Cancelling its stored response future fixes four genuine
 dependency-native cases on Linux and Windows. Those results are not library
 acceptance; the historical Windows loader instance was not observed.
 
 See [dependency evidence262–271](../development/evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
 and [private artifact preparation273–282](../development/evidence/current-platform-recovery-20261101/javafx-full-candidate273-282/README.md).
+The [Windows library result](../development/evidence/current-platform-recovery-20261101/platform-originals308-315/README.md),
+[Linux originals](../development/evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)
+and [macOS originals](../development/evidence/current-platform-recovery-20261101/desktop-macos-native350-354/README.md)
+separate accepted methods from the three still-failed Stops.
 
 ## Decision
 
@@ -34,10 +41,25 @@ An **explicitly loaded, one-task-only** Gradle init script removes the sole pinn
 original web JAR from the test classpath and inserts the generated candidate
 once, checking both digests. It does not affect normal builds or publications.
 No runtime module patch, private loader property or public library API change
-is allowed. A dedicated read-only Windows workflow runs only the failed original
-public Stop method, retaining its original ten-second/six-predicate acceptance,
+is allowed. The dedicated read-only workflow selects **one actual host** per
+dispatch: Linux ARM64, macOS ARM64 or macOS x64. Windows remains an explicit
+compatibility option, not an instruction to replay its accepted result. Each run
+selects only the failed original public Stop method, retaining ten-second/six-predicate acceptance,
 same-owner recovery and owned cleanup. Fresh XML, actual replacement marker,
 daemon/runtime identity and held source/JAR maps are all required.
+
+Native jobs in **both** JavaFX workflows are now **manual-only**. Historical
+development push registration events remain, but adding platform pins or changing
+candidate tooling must not automatically replay accepted Windows/Linux methods.
+Each candidate dispatch reserves one hosted-heavy slot; the project-wide limit
+is two, including queued/reserved jobs. Cache identities remain OS/architecture/
+slot/dependency/runtime-bound; cache only dependencies, not test success.
+
+The fixed official21.0.13 pins include Linux ARM64 and both macOS classifiers.
+`--target-classifier` in the builder permits **packaging only**, recording the
+actual compiler host and zero native executions. The library runner and Gradle
+init script independently require the classifier to match the actual native host
+and daemon; a cross-packaged JAR is not platform functionality evidence.
 
 ## Compatibility and limits
 
@@ -48,16 +70,18 @@ daemon/runtime identity and held source/JAR maps are all required.
   Preserved notices are not a redistribution or legal certification.
 - Same-registry hash pins are consistency evidence, not independent provenance,
   signing, vulnerability or supply-chain clearance.
-- Windows Stop1 success alone cannot close #64: remaining Desktop and genuine
-  browser-offline original criteria still apply. Accepted unchanged populations
-  are reused, not replayed.
+- Windows Stop1 success alone cannot close #64: three remaining Desktop Stops
+  and ordinary dependency adoption still apply. The browser offline-destination
+  subset is now accepted, not system-offline/DNS/TLS certification. Accepted
+  unchanged populations are reused, not replayed.
 - Workflow artifacts contain receipts/logs/XML only; no JARs, class files or
   source packages are uploaded. No package, deployment or release is authorized
   by this decision. Existing release-readiness/security gates remain.
 
 ## Before any ordinary adoption
 
-1. Review actual original library Stop1 source/results/runtime/cleanup evidence.
+1. Review actual original library Stop source/results/runtime/cleanup evidence
+   on all missing hosts, preserving prior failures and accepted subsets.
 2. Prefer a verified upstream fix if available; otherwise define a maintained,
    independent dependency artifact and ownership/update policy.
 3. Complete corresponding-source, licensing/notices, independent provenance,

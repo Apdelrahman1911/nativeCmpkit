@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d",
     "docs/development/resolutions/IO.json": "c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42",
-    "docs/development/resolutions/NATIVE.json": "fe3c26f77cb26abbc56ee6ce1117aa3f3f3faa00365fa4d4838a2187e43cc44c",
+    "docs/development/resolutions/NATIVE.json": "2a303283ea79f2d39df5ba95065f3923067aa76468774041ae767b16a9e72a30",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "df7f0731def2884f10f20c612c3a78e95c5ee9543b7f4e05005e36f00c4a2e59",
     "docs/roadmap/backlog.json": "07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4"
   },
-  "input_fingerprint": "b136d01df9849771c02f0cc963825726472935b22e66fd6ce315fb2a3c7fefe4",
+  "input_fingerprint": "eb07b338dea0043c41df123a1a41f85fd0e660bedb83cd7fb75d20d3ee955fb7",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -13681,7 +13681,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "2a001ee29b23e078c14c5aef5c28164a39b6cf9952837924b1f1e33281fa89f4",
+      "owner_record_sha256": "59d2eaf78cea8fa3dde59ce38521702a0f4a6d948c5036f5842b824751704e83",
       "owner_record": {
         "id": "NATIVE-005",
         "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
@@ -13699,7 +13699,9 @@
           "2026-11-02: Qualify the nonactivated exact OpenJFX21.0.13 owning response-future cancellation patch on Linux/Windows public JavaFX dependency regressions. Normal Gradle/library dependencies and cached JARs remain unchanged; no API or private-route change.",
           "2026-11-02: Prepare source-qualified explicitly identified private full JavaFX web JAR and one-task-only Windows library replacement route; retain all other native/public/JPMS payloads, original GPLv2/Classpath notices and Java source provenance. Ordinary dependencies remain unchanged; full native corresponding source/legal/security/consumer/API-ABI adoption gates remain.",
           "2026-11-02 original308/review311: Accept the original public Windows Stop/same-owner recovery/owned cleanup method1/1 under private identified full-JAR replacement. Ordinary dependencies remain unchanged; original failures and other Desktop/browser-offline criteria remain.",
-          "2026-11-02 original346/review348: Accept Linux x64 request fail/fail/recovery and Linux ARM64 request plus302/public Reload, three original methods. ARM64 public Stop still fails at precleanup peerEOF0/pending1 despite terminal worker/library cancellation; no actual loader-route proof. Ordinary JavaFX dependencies unchanged."
+          "2026-11-02 original346/review348: Accept Linux x64 request fail/fail/recovery and Linux ARM64 request plus302/public Reload, three original methods. ARM64 public Stop still fails at precleanup peerEOF0/pending1 despite terminal worker/library cancellation; no actual loader-route proof. Ordinary JavaFX dependencies unchanged.",
+          "2026-11-02 original352/review353: Accept both macOS original request fail/fail/same-owner recovery methods; both public Stops fail precleanup peerEOF0/pending1 despite cancelled terminal state. Preserve original10s/six predicates, failed results and unobserved loader route. Ordinary JavaFX dependencies unchanged.",
+          "2026-11-02 owning351-361: Integrate fixed Linux ARM64/macOS pins and one original-Stop-only full-artifact candidate route per actual host. Both JavaFX native workflows are manual-only, preventing automatic replay of accepted Windows/Linux populations. Preserve old source/hash/XML/native/API criteria through exact3bindings/eight-fragment source-history composition; ordinary dependencies remain unchanged."
         ],
         "affected_paths": [
           "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
@@ -13718,7 +13720,12 @@
           "tests/dependency/javafx-http2-cancellation/run_library_candidate.py",
           "tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts",
           "tests/dependency/javafx-http2-cancellation/test_runtime_candidate.py",
-          ".github/workflows/javafx-library-candidate.yml"
+          ".github/workflows/javafx-library-candidate.yml",
+          "scripts/ci/arm64_stop_candidate_source_projection.py",
+          "scripts/ci/test_arm64_stop_candidate_source_projection.py",
+          "scripts/ci/fixtures/arm64-stop-candidate-source-inverse.json",
+          "tests/dependency/javafx-http2-cancellation/test_arm64_candidate.py",
+          "tests/dependency/javafx-http2-cancellation/test_macos_candidate.py"
         ],
         "tests": [
           {
@@ -14129,6 +14136,29 @@
             ],
             "scope": "Accept and exclude the three passing methods from unchanged replay. Whole original run remains FAILED. No default JavaFX candidate adoption, macOS, consumer/API-ABI/security/legal/release inference. Cached originals acquired once.",
             "checkpoint": "solo-linux-native346-349-20261102"
+          },
+          {
+            "checkpoint": "solo-macos-native350-354-20261102",
+            "command": "Original41517918952 missing-only webview-desktop-request-state-macos-pair at54fe20a0; exact per-host commands in preserved receipts. Solo cached source/results review353.",
+            "result": "Combined4 native executions/2pass/2fail/four original XML/zero errors-skips-N/A. macOS ARM64 request1pass/Stop1fail/Gradle1/326.93s/JDK17.0.21; macOS x64 request1pass/Stop1fail/Gradle1/449.06s/JDK17.0.20.1. Four actual1212 maps equal frozen Git/dispatch/current;48 passive checks, exact architectures/Gradle9.7.1. Both Stops original10s/six predicates report workerCANCELLED/finished/cancel1/peerEOF0/pending1/response0 before cleanup; recovery unreached, sequential snapshots not atomic and actual loader unobserved. Two JDK label corrections retain predicates/results/original labels. Progress6587820742 posted/read back before docs; original issue fields unchanged/open.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/desktop-macos-native350-354/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/desktop-macos-native350-354/REVIEW353.json",
+              "docs/development/evidence/current-platform-recovery-20261101/desktop-macos-native350-354/PROGRESS354.json"
+            ],
+            "scope": "Accept and exclude both passing macOS request methods from unchanged replay. Whole original run remains FAILED. No ordinary dependency adoption, consumer/API-ABI/security/legal/release inference. Cached originals acquired once."
+          },
+          {
+            "checkpoint": "solo-javafx-platform-candidate351-361-20261102",
+            "command": "Completed private control batches351/355 plus changed-classifier red357/failed-only green358; cached three packaging originals351/355; solo source/results review360 and exact17-path integration/finite plan361. No new native/library executions.",
+            "result": "31 unique accepted source controls across38 earlier passing invocations plus one stale-control failure and one corrected invocation,40 owning invocations total;356 pre-import refusal has zero owning methods. Reported clocks0.364/0.047/0.201/0.148/0.077/0.001s. Three private full-JAR packaging passes15.1236/16.0128/13.6365s, actual Linux x64 JDK17.0.20, native0;548 original web/542 nonowning and312 Java-source/311 nonowning payloads retained. Five class pins hold; only loader+manifest payloads differ. ARM original14-input map is historical before macOS additions, represented by exact preserved stage sources; both macOS maps match final packaging inputs.62 passive checks accept source/results; original reviewer no-route guard false predicate preserved/corrected without source change. Integration1212->1215 library inputs changes exactly three CI files/adds three CI paths; other1209 inputs and original native acceptance bytes stay exact.",
+            "scope": "Owning test-only candidate preparation, NOT native platform/ordinary dependency adoption. Only Linux ARM64 Stop and both macOS Stops next. Accepted Windows/request/redirect/browser/other native populations excluded. Full corresponding-source/legal/security/consumer/API-ABI/release gates remain.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/REVIEW360.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/integration361.json",
+              "docs/decisions/0013-private-javafx-cancellation-candidate.md"
+            ]
           }
         ],
         "remaining": [
@@ -14146,10 +14176,12 @@
           "2026-11-02 candidate273-283: Private full artifact/Java sources and explicit one-task Windows replacement route are prepared with source/packaging/dry-run qualification only. Execute/review only original failed Windows public Stop1 using this candidate, preserving10s/six predicates/actual EOF/recovery/cleanup. Default adoption, complete native corresponding source/legal/security/consumer/API-ABI and every other original Desktop/offline-browser requirement remain; no issue closure from preparation or this one case alone.",
           "2026-11-02 original308/review311: Windows Stop1 is now accepted and excluded from reruns. Other original Desktop/genuine JS-Wasm offline obligations remain. The private candidate is not default-adopted; complete native corresponding-source/legal/security/consumer/API-ABI/adoption requirements remain, so #64 stays open.",
           "2026-11-02 actual316-319: JS1/Wasm1 previously reachable owned destination-offline native subset accepted and excluded from replay. Linux-pair4/macOS-pair4 and ordinary JavaFX dependency adoption remain; accepted Windows request/private Stop must not be replayed through full Windows alias. Corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 open.",
-          "2026-11-02 actual346-349 supersedes the earlier Linux-pair4-pending observations: accept three Linux methods/exclude unchanged replay; only original ARM64 Stop1 remains failed, plus four unexecuted macOS methods. Do not dispatch the old Linux pair. An owning correction must pass failed-only ARM64 Stop with original10s/six predicates and precleanup EOF/recovery. Ordinary JavaFX adoption, complete native corresponding-source/legal/security/consumer/API-ABI gates remain. #64 stays open."
+          "2026-11-02 actual346-349 supersedes the earlier Linux-pair4-pending observations: accept three Linux methods/exclude unchanged replay; only original ARM64 Stop1 remains failed, plus four unexecuted macOS methods. Do not dispatch the old Linux pair. An owning correction must pass failed-only ARM64 Stop with original10s/six predicates and precleanup EOF/recovery. Ordinary JavaFX adoption, complete native corresponding-source/legal/security/consumer/API-ABI gates remain. #64 stays open.",
+          "2026-11-02 actual350-354 supersedes macOS-pair4-pending: both macOS request methods accepted/excluded from unchanged replay; both original public Stops fail. This Desktop cohort lacks only Linux ARM64 Stop and both macOS Stops. Never dispatch old macOS/Linux/Windows request aliases. One owning candidate correction must retain original10s/six predicates and actual precleanup EOF/recovery/cleanup; private candidate success alone does not satisfy ordinary JavaFX dependency adoption/corresponding-source/legal/security/consumer/API-ABI requirements. #64 stays open.",
+          "2026-11-02 candidate351-361: One owning correction/preparation is source/packaging-qualified for all three failed Desktop Stops; native executions remain zero for these routes. Dispatch exact Linux ARM64/macOS ARM64/macOS x64 candidates one host each on frozen development, max2 combined including queued. Never use old request-state pairs/Windows or dependency-native accepted populations. Ordinary JavaFX adoption, corresponding-source/legal/security/consumer/API-ABI remain separate even if all three candidates pass."
         ],
         "compatibility": "requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.",
-        "verification_scope": "Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop and Linux x64 request plus ARM64 request/302-Reload are accepted on their applicable unchanged sources. All historical failures remain in dated evidence. Original ARM64 Stop still fails before recovery; macOS four methods remain unexecuted. Linux native review348 accepts45 passive checks and four actual1212 maps, not a current whole-tree/consumer/security certificate. Dependency-native Linux4/Windows4 and private full-JAR Windows Stop1 do not activate the cancellation patch in ordinary dependencies. Do not replay unchanged accepted methods or old Linux/Windows request-state aliases. Original all-target criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 is partially-verified/open.",
+        "verification_scope": "Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop, Linux x64 request plus ARM64 request/302-Reload and both macOS request methods are accepted on their applicable unchanged sources. Historical failures remain dated. Only Linux ARM64 Stop and both macOS Stops remain failed in this Desktop cohort; recovery/actual internal loader route are unobserved. macOS review353 accepts48 passive checks/four actual1212 maps, not current whole-tree/consumer/security certification. Dependency-native Linux4/Windows4 and private full-JAR Windows Stop1 do not activate the patch in ordinary dependencies. Never replay accepted methods or old macOS/Linux/Windows request-state aliases. All original criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 partially-verified/open.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-005",
         "prior_owner_dispositions": [
           {

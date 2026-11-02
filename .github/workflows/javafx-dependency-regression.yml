@@ -2,8 +2,8 @@
 name: NativeCmpKit JavaFX cancellation regression
 
 on:
-  # A new workflow must first execute on this development branch to register it
-  # without modifying main. Only dependency/probe byte changes trigger a rerun.
+  # Historical development registration trigger retained. Native jobs are now
+  # manual-only: adding another classifier cannot replay accepted Windows/Linux.
   push:
     branches: [development/preview-hardening]
     paths:
@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   cancellation:
-    if: github.ref == 'refs/heads/development/preview-hardening'
+    if: github.ref == 'refs/heads/development/preview-hardening' && github.event_name == 'workflow_dispatch'
     runs-on: ${{ inputs.platform == 'linux' && 'ubuntu-24.04' || 'windows-2025' }}
     timeout-minutes: 10
     steps:

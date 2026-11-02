@@ -1,5 +1,18 @@
 # Desktop WebView stop-loading verification
 
+## Three failed Desktop hosts prepared together — 2026-11-02
+
+[Owning351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
+qualifies shared exact-candidate routes for Linux ARM64 and both macOS original
+Stops, not new native passes. Their request/redirect subsets and private Windows
+Stop are already accepted and excluded from replay. One real host/Stop1/XML1 per
+manual dispatch, actual daemon/classifier/digests, original10s/six predicates,
+precleanup EOF/zero response/same-owner recovery/owned cleanup remain mandatory.
+Both JavaFX workflows' native jobs are manual-only, preventing automatic accepted
+population replay. At most two combined hosted-heavy reservations include queued
+work. Ordinary dependency adoption/legal/security/consumer/API–ABI remain separate;
+#64 stays open and publishing/Pages/main/history/readiness gates remain intact.
+
 ## Original Windows public Stop accepted — 2026-11-02
 
 [Original308/review311](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)

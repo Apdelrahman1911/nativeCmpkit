@@ -1,0 +1,72 @@
+{
+  "complete_suite_requested": false,
+  "expected": [
+    {
+      "module": "calf-webview",
+      "project": ":calf-webview",
+      "report_directory": "calf-webview/build/test-results/desktopTest",
+      "required_testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest",
+          "name": "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner[desktop]"
+        },
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+          "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]"
+        }
+      ],
+      "task": ":calf-webview:desktopTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest.twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner,com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner",
+      "test_source_files": [
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt"
+      ],
+      "test_source_sets": [
+        "desktopTest"
+      ],
+      "test_source_sha256": {
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt": "c7bccc89f020490ea6198b837c7a9e386b051a0926ec22e17b3557699420b082",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt": "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt": "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+      }
+    }
+  ],
+  "explicit_module_subset": [
+    "calf-webview"
+  ],
+  "explicit_test_focus": "webview-desktop-request-state-stop",
+  "finite_only_device_modules_not_requested": [],
+  "inherited_test_source_sets": [
+    "commonTest",
+    "materialTest",
+    "nonAndroidTest",
+    "desktopTest"
+  ],
+  "schema_version": 1,
+  "scope": "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification.",
+  "suite": "desktop",
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-cupertino-icons",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-ui"
+  ],
+  "uncovered": []
+}

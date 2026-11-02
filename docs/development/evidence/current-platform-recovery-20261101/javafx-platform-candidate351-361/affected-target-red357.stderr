@@ -1,0 +1,18 @@
+test_packaging_target_is_explicit_and_unknown_target_refuses_before_any_output_or_compiler (test_arm64_candidate.Arm64CandidateTests.test_packaging_target_is_explicit_and_unknown_target_refuses_before_any_output_or_compiler) ... FAIL
+
+======================================================================
+FAIL: test_packaging_target_is_explicit_and_unknown_target_refuses_before_any_output_or_compiler (test_arm64_candidate.Arm64CandidateTests.test_packaging_target_is_explicit_and_unknown_target_refuses_before_any_output_or_compiler)
+----------------------------------------------------------------------
+ValueError: Pinned dependency is absent; --download is required for acquisition
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/nativecmpkit-native-reviews-20261101/lead-candidate-platform351-muXCcucN/checkout/tests/dependency/javafx-http2-cancellation/test_arm64_candidate.py", line 151, in test_packaging_target_is_explicit_and_unknown_target_refuses_before_any_output_or_compiler
+    with self.assertRaisesRegex(ValueError, "exact pinned packaging"):
+AssertionError: "exact pinned packaging" does not match "Pinned dependency is absent; --download is required for acquisition"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

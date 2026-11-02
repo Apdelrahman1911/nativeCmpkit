@@ -1,5 +1,40 @@
 # NativeCmpKit development after the audit
 
+## One owning cancellation batch for all three remaining Desktop hosts — 2026-11-02
+
+[Preparation351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
+integrates17 exact paths/31 unique source-control acceptances/three actual
+cross-classifier packaging passes, **zero new native methods**.62 solo passive
+checks qualify original source/results/payloads; missed obsolete `mac` refusal
+control is repaired after a preserved red, only that method rerun1/1. ARM packaging
+keeps its exact historical14-input stage, not a falsely current map; five class
+pins/548 original members/542 nonowning payloads hold on all three artifacts.
+Exact inverse3bindings/eightfragments preserves prior External32816/49 and native
+Kotlin/XML acceptance. Actual library inputs1212→1215: three CI changes/three CI
+additions, other1209 held. Both JavaFX native jobs are now **manual-only**, so a
+classifier/source push cannot replay accepted Windows/Linux methods. Next only
+Linux ARM64 Stop1/macOS ARM64 Stop1, then macOS x64 Stop1 when capacity frees;
+one real host per dispatch/max2 combined including queued. Normal dependencies,
+legal/security/consumer/API–ABI/adoption/readiness remain separate; #64 open,
+97closed/75open/172total, solo/serial/8GiB/development only/no publication.
+
+## macOS request-state originals accepted; three Desktop Stops remain — 2026-11-02
+
+[Original350–354](evidence/current-platform-recovery-20261101/desktop-macos-native350-354/README.md)
+accepts both macOS request methods; both public Stops remain failed: combined
+4native/2pass/2fail/fourXML/Gradle1 on each host (326.93s/449.06s). All four actual
+1,212-input maps equal frozen Git/dispatch/current;48 solo passive checks qualify
+original results/runtime/cleanup. Corrected JDK labels preserve original predicates.
+Both failures observe terminal worker/library cancellation but peerEOF0/pending1
+before cleanup; recovery/actual loader route remain unobserved. #64 progress
+6587820742 posted/read back before docs; original issue fields unchanged/open.
+Never replay either accepted macOS request or the old macOS/Linux/Windows request
+aliases. Only Linux ARM64 Stop and both macOS Stops remain in this Desktop cohort.
+Next one owning candidate batch, then failed-only single-host verification under
+max2 combined hosted including queued. Ordinary dependency adoption/legal/security/
+consumer/API–ABI and all original issue/release gates stay separate. Solo/serial/
+8GiB/development only;97closed/75open/172total/no new closure or publication.
+
 ## Linux request-state originals accepted; remaining Stop isolated — 2026-11-02
 
 [Original346–349](evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)

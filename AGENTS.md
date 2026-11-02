@@ -1,5 +1,44 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## All three failed Desktop candidate routes qualified together — 2026-11-02
+
+[Owning351–361](docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
+integrates exact17paths/12modified5new.31unique sourcecontrols qualify across38
+earlierpassinvocations plus obsolete-mac-control red357/failed-onlygreen3581/1;
+40owninginvocations,356importrefusalZEROowningmethods. Original359reviewer falsely
+rejects strict forbidden-option guard; corrected360accepts62passive checks/no
+candidatechange. Three actual full-JAR packaging15.1236/16.0128/13.6365s/JDK17.0.20/
+Linuxx64 retain548/542web+312/311Java-source/fiveclasspins/ZEROnative. ARM14map stays
+exacthistoricalstage beforemacOS additions; macOSmapscurrent, nofalsewholemapclaim.
+Exactinverse3bindings/eightfragments preserves External32816bindings49fragments/
+oldpins/nativeKotlin/XML. Library1212→1215 only3changedCI/3addedCI;1209held.
+Both JavaFXnativeworkflows MANUAL-ONLY: registrationpush must not replay accepted
+Windows/Linux. Next only actualLinuxARM64Stop1/macOSARM64Stop1, then macOSx64Stop1
+aftercapacity; one realhost/reservation, max2combinedINCLUDINGqueued. Ordinary
+dependencies/notices/publicAPIs unchanged; #64open/legal/correspondingsource/security/
+consumer/API-ABI/adoption/readiness remain.97closed/75open/172total;22implemented/
+42partial/95verified/fiveunresolved. SOLO/serial/8GiB/developmentonly/no publication
+or main/Pages/history change. Reuse accepted controls/native cases/cached originals.
+
+## macOS request originals accepted; three Desktop Stops isolated — 2026-11-02
+
+[Actual350–354](docs/development/evidence/current-platform-recovery-20261101/desktop-macos-native350-354/README.md)
+preserves41517918952/54fe20a0 FAILED: ARM64request1pass/Stop1fail/Gradle1/326.93s,
+x64request1pass/Stop1fail/Gradle1/449.06s;4native/2pass/2fail/fourXML/zeroerrorsskips.
+48solo passive checks/four actual1212maps equal frozenGit/dispatch/current;
+ARM64JDK17.0.21/x64JDK17.0.20.1/Gradle9.7.1. Two corrected JDK labels retain original
+predicates/results/labels. Accept/exclude both request methods; never dispatch old
+macOS/Linux/Windows request aliases. Both original Stops10s/six predicates fail
+beforecleanup WorkerCANCELLED/finished/cancel1 but peerEOF0/pending1/response0;
+recoveryunreached/sequentialscalarsnonatomic/actual loaderrouteinstanceunobserved.
+Owning flag-only defect is consistent, not historical-instance proof. #64progress
+6587820742 posted/readback beforedocs/open/originalfieldsunchanged. Next only
+owningcorrection→LinuxARM64Stop1/bothmacOSStop1; ordinarydependencies unchanged,
+legal/correspondingsource/security/consumer/API-ABI/adoption/readiness stay separate.
+97closed/75open/172total;22implemented/42partial/95verified/fiveunresolved. SOLO/
+serial/8GiB/max2combinedhostedINCLUDINGqueued; publishing/Pages/main/history gates
+unchanged. No new closure/package/release/deployment publication.
+
 ## Linux missing-only originals accepted; ARM64 Stop remains — 2026-11-02
 
 [Actual346–349](docs/development/evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)

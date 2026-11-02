@@ -1,27 +1,34 @@
 # Private artifact verification only. No default adoption or binary publication.
-name: NativeCmpKit Windows JavaFX library candidate
+name: NativeCmpKit JavaFX library candidate
 
 on:
-  # Register on development without modifying main. Only candidate runtime-byte
-  # changes trigger automatic work; docs/collector-only changes do not replay it.
+  # Historical registration trigger retained. Native jobs are manual-only below:
+  # adding another classifier must never replay the accepted Windows Stop case.
   push:
     branches: [development/preview-hardening]
     paths:
       - tests/dependency/javafx-http2-cancellation/build_runtime_candidate.py
       - tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts
   workflow_dispatch:
+    inputs:
+      platform:
+        description: Failed-only exact host (accepted Windows result is reused)
+        type: choice
+        required: true
+        default: linux-arm64
+        options: [linux-arm64, macos-arm64, macos-x64, windows]
 
 permissions:
   contents: read
 
 concurrency:
-  group: nativecmpkit-javafx-library-candidate-${{ github.ref }}
+  group: nativecmpkit-javafx-library-candidate-${{ github.ref }}-${{ inputs.platform || 'windows' }}
   cancel-in-progress: false
 
 jobs:
-  windows-stop:
-    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/preview-hardening'
-    runs-on: windows-2025
+  public-stop:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/preview-hardening' && github.event_name == 'workflow_dispatch' && contains(fromJSON('["linux-arm64","macos-arm64","macos-x64","windows"]'), inputs.platform)
+    runs-on: ${{ inputs.platform == 'linux-arm64' && 'ubuntu-24.04-arm' || inputs.platform == 'macos-arm64' && 'macos-26' || inputs.platform == 'macos-x64' && 'macos-26-intel' || 'windows-2025' }}
     timeout-minutes: 45
     defaults:
       run:
@@ -33,6 +40,10 @@ jobs:
       GIT_CONFIG_KEY_1: core.longpaths
       GIT_CONFIG_VALUE_1: 'true'
       CARGO_BUILD_JOBS: '1'
+      CANDIDATE_PLATFORM: ${{ inputs.platform }}
+      CANDIDATE_FOCUS: ${{ inputs.platform == 'linux-arm64' && 'webview-desktop-stop-linux-arm64-recovery' || (inputs.platform == 'macos-arm64' || inputs.platform == 'macos-x64') && 'webview-desktop-stop-macos-recovery' || 'webview-desktop-stop-windows-recovery' }}
+      EXPECTED_ARCH: ${{ (inputs.platform == 'linux-arm64' || inputs.platform == 'macos-arm64') && 'arm64' || 'x64' }}
+      CANDIDATE_SLOT: ${{ inputs.platform == 'linux-arm64' && 'desktop-linux-arm64' || inputs.platform == 'macos-arm64' && 'desktop-macos-arm64' || inputs.platform == 'macos-x64' && 'desktop-macos-x64' || 'desktop-windows-x64' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -51,6 +62,9 @@ jobs:
         with:
           min-wrapper-count: 1
           allow-snapshots: false
+      - name: Linux ARM64 display and native GTK prerequisites only
+        if: inputs.platform == 'linux-arm64'
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y xvfb libgtk-3-0 libasound2t64
       - name: Exact Rust compiler setup (no bootstrap script)
         run: |
           command -v rustup
@@ -66,7 +80,7 @@ jobs:
           python -B - <<'PY'
           import json, os
           from pathlib import Path
-          manager = Path(os.environ['ANDROID_HOME']) / 'cmdline-tools/23.0/bin/sdkmanager.bat'
+          manager = Path(os.environ['ANDROID_HOME']) / ('cmdline-tools/23.0/bin/sdkmanager.bat' if os.name == 'nt' else 'cmdline-tools/23.0/bin/sdkmanager')
           present = manager.is_file()
           Path('build/ci-runtime/javafx-candidate-sdk.json').write_text(
               json.dumps({'package': 'cmdline-tools;23.0', 'manager_present': present}) + '\n')
@@ -78,12 +92,12 @@ jobs:
           python -B scripts/development/validate_resolutions.py --check \
             2>&1 | tee build/ci-runtime/javafx-candidate-index-check.log
           python -B scripts/ci/library_tests.py plan --suite desktop --module calf-webview \
-            --focus webview-desktop-stop-windows-recovery > build/javafx-library-candidate-plan.json
+            --focus "$CANDIDATE_FOCUS" > build/javafx-library-candidate-plan.json
       - name: Exact configured dependency and runtime cache identity
         id: cache-inputs
         run: |
           mkdir -p build/ci-runtime
-          python -B scripts/ci/runtime_context.py --expected-arch x64 --require-clean \
+          python -B scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean \
             --android-platform android-37.0 --output build/ci-runtime/javafx-candidate-runtime.json
           digest="$(python -B scripts/ci/dependency_cache_inputs.py --scope libraries --selection calf-webview \
             --output build/ci-runtime/library-dependencies.json)"
@@ -101,7 +115,7 @@ jobs:
       - name: Restore only the exact established dependency cache, never test results
         uses: actions/cache/restore@v4
         with:
-          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-desktop-windows-x64-desktop-${{ steps.cache-inputs.outputs.selection }}-${{ steps.cache-inputs.outputs.runtime }}-${{ steps.cache-inputs.outputs.digest }}
+          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CANDIDATE_SLOT }}-desktop-${{ steps.cache-inputs.outputs.selection }}-${{ steps.cache-inputs.outputs.runtime }}-${{ steps.cache-inputs.outputs.digest }}
           enableCrossOsArchive: false
           path: |
             ~/.gradle/wrapper/dists
@@ -111,15 +125,15 @@ jobs:
             ~/.konan/dependencies
       - name: Validate restored cache without deleting or trusting changed bytes
         run: python -B scripts/ci/library_dependency_cache.py --phase restore --selection calf-webview
-      - name: Full-JAR candidate and only the original failed public Windows Stop method
+      - name: Full-JAR candidate and only the original failed public Stop method on the selected host
         run: |
           python -B tests/dependency/javafx-http2-cancellation/run_library_candidate.py \
-            --download --output build/ci-verification/javafx-library-candidate
+            --platform "$CANDIDATE_PLATFORM" --download --output build/ci-verification/javafx-library-candidate
       - name: Preserve verification receipts only (no JARs, sources packages or classes)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: javafx-library-candidate-${{ github.run_id }}
+          name: javafx-library-candidate-${{ inputs.platform }}-${{ github.run_id }}
           if-no-files-found: error
           retention-days: 14
           path: |

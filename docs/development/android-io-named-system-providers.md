@@ -54,3 +54,19 @@ Existing controlled-provider/outage, IO, picker and Coil methods are excluded.
 Use the finite profile only after source admission and reporter compilation pass.
 Reserve one hosted-heavy slot; globally at most two including queued/reserved jobs.
 Cloud C1, API23–28, physical/vendor behavior and release/security gates remain.
+
+## Failed-gate observation and placement repair — 2026-11-02
+
+[Actual200–201](evidence/current-platform-recovery-20261101/android-local2-200-201/README.md)
+adds only test-side, after-timeout fixed/null/count facts to the two original
+failed gates. The source guard now round-trips the exact forward placement,
+refusing a moved row scope that could mislabel a toolbar failure. NEW23 passes
+once; the fresh device-test compiler/APK passes0/36.01s with1188/1266 held inputs
+and all12 compiler/configuration warnings retained. ZERO native executions.
+
+The original20s/public actions/six-resource admission/native expectations and
+owned cleanup remain strict. The diagnostic1000ms is cooperative; observations
+are neither atomic nor historical last-poll facts, and null/partial is not absence
+or zero. Original41357684810 remains FAILED2/0pass before public IO/grants; its
+cause/app variant are unknown. Recover only those two native methods, without
+replaying accepted IO, controls or unchanged APK. CloudC1/#55 remain separate.

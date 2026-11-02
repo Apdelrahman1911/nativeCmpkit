@@ -11,6 +11,10 @@ from pathlib import Path
 import re
 import xml.etree.ElementTree as ET
 
+from android_io_named_system_documents_gate_observations import (
+    gate_observation_preimage, gate_observation_postimage, gate_observation_present,
+)
+
 FOCUS = "android-io-named-system-providers"
 CLASS = "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest"
 KOTLIN = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/"
@@ -182,6 +186,9 @@ def resource_admission_preimage(ui: str) -> str:
     This is passive source validation, never a resource lookup or runtime receipt.
     An old-only/partial/hybrid shape cannot reach source_contract acceptance.
     """
+    # Direct historical fixture callers invert the diagnostic first; source_contract still requires it.
+    if isinstance(ui, str) and gate_observation_present(ui):
+        ui = gate_observation_preimage(ui)
     require(isinstance(ui, str) and
             all(ui.count(after) == 1 for before, after in RESOURCE_ADMISSION_DELTAS) and
             ui.count("qualifyResourceContract(") == 2 and
@@ -209,7 +216,7 @@ def resource_admission_postimage(ui: str) -> str:
     for before, after in RESOURCE_ADMISSION_DELTAS:
         require(ui.count(before) == 1, "Refusal-only DocumentsUI resource observations changed")
         ui = ui.replace(before, after, 1)
-    return ui
+    return gate_observation_postimage(ui)
 
 
 
@@ -228,7 +235,12 @@ def source_contract(root: Path) -> dict:
     text = {name: value.decode("utf-8") for name, value in values.items()}
     test, caller, live_ui = (text[name] for name in (TEST, CALLER, UI))
     # Admission is mandatory before old canonical/selector/cleanup obligations are reconstructed.
-    ui = resource_admission_preimage(live_ui)
+    # Bare historical malformed resource shapes retain their original refusal category.
+    # A valid resource shape without the NEW diagnostic still cannot return a source receipt.
+    if not gate_observation_present(live_ui):
+        resource_admission_preimage(live_ui)
+    observed_ui = gate_observation_preimage(live_ui)
+    ui = resource_admission_preimage(observed_ui)
     require(re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", test) == list(METHODS) and
             "class AndroidIoNamedSystemProviderTest" in test and
             test.count("= runBlocking(Dispatchers.IO)") == 2 and

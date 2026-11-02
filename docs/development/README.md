@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Android Local2 source/compiler recovery — actual200–201, 2026-11-02
+
+[Failure-only gate observation](evidence/current-platform-recovery-20261101/android-local2-200-201/README.md)
+passes NEW23 once and fresh device-test compiler/APK Gradle0/36.01s with1188/1266
+held inputs. Independent thin review accepts exact five postimages/14 bindings;
+original actions/resource admissions/20s/native assertions are unchanged. ZERO
+native; the two original failures stay failed, their cause and app variant unknown.
+Request only the failed Local2 methods; cloudC1 and whole #55 remain open. No
+accepted control/APK/IO replay, issue closure or release/security clearance.
+**97closed/75open/172total**; max2 combined hosted including queued, serial local/
+8GiB and publishing/Pages/main/history gates remain.
+
 ## Shared CI fixture recovery — actual183, 2026-11-01
 
 [The owning recovery](evidence/current-platform-recovery-20261101/documentsui-bridge183/README.md)

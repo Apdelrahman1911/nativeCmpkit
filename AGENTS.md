@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Android Local2 failure-only observation qualified and compiled — 2026-11-02
+
+[Owning200–201](docs/development/evidence/current-platform-recovery-20261101/android-local2-200-201/README.md)
+accepts NEW23 once/23pass/unittest0.041s/wrapper0.180999005s and exact14 bindings;
+ten ordered fragments/two modified+three added test/tooling paths integrate.
+Confirmed B1 placement admission gap repaired by exact nonrecursive forward
+round-trip; original Kotlin actions/20s/six resource admissions/assertions remain.
+Fresh device-test compiler/APK Gradle0/36.01s, production UP-TO-DATE,1188/1266
+actual maps held; all12 warnings retained (eight recycle/four native-config).
+ZERO native.1000ms probe is cooperative; partial/null is not zero/absence or the
+historical failed-poll value. First B1/static warning-classifier refusals stay.
+41357684810 remains FAILED2/0pass, grants/public IO unreached/cause unknown;
+#55 stays open/cloudC1 separate. Next only two failed API35 Local2 methods;
+do not replay NEW23/unchanged APK/accepted IO. Windows199 sole reservation at
+handoff; max2 combined hosted INCLUDING queued, serial local/8GiB, lead Git/
+dispatch/closure and all publishing/Pages/main/history/native/consumer/API-ABI/
+dependency/legal/security/readiness gates remain.97closed/75open/172total;
+24implemented/40partial/95verified/five unresolved; no release/package publication.
+
 ## Windows bounded observation compiled; Share188 subsets accepted — 2026-11-01
 
 [Windows195–198](docs/development/evidence/current-platform-recovery-20261101/windows-frame195-198/README.md)

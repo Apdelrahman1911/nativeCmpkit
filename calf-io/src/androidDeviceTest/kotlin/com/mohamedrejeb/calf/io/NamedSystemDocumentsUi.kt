@@ -12,6 +12,7 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
     private val instrumentation = InstrumentationRegistry.getInstrumentation()
     private val automation = instrumentation.uiAutomation
     private val originalFlags = automation.serviceInfo.flags
+    private var unavailableGate: GateFailureTarget? = null
     private data class ResourceContract(val resources: android.content.res.Resources, val namespace: String)
     private var admittedResourceContract: ResourceContract? = null
 
@@ -32,9 +33,11 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
         qualifyResourceContract()
         // Android15 ListDocumentHolder/GridDirectoryHolder bind the row display name to android:id/title.
         // Only the exact owned row inside DirectoryFragment's dir_list is admissible, not arbitrary text.
+        withGateFailureObservation(GateFailureRole.OWNED_FOLDER_ROW, folder) {
         click({ root -> textIn(root, resource("dir_list"), folder) }, {
             it.viewIdResourceName == "android:id/title" && it.text?.toString() == folder
         }, enclosingContainer = resource("dir_list"))
+        } // End OWNED_FOLDER_ROW failure-only scope; original native body is unchanged.
         // NavigationViewManager sets the toolbar title for this non-Recents directory.
         // A search bar, breadcrumb, generic root title or unavailable variant is not a substitute.
         observe({ root -> textIn(root, resource("toolbar"), folder) }) {
@@ -43,9 +46,11 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
         // ACTION_OPEN_TREE installs PickFragment, not the document action-mode select menu.
         // PickFragment binds button1/open_tree_button and disables it while its blocking overlay is visible.
         val pickLabel = stringResource("open_tree_button")
+        withGateFailureObservation(GateFailureRole.OPEN_TREE_BUTTON, pickLabel) {
         click({ root -> root.findAccessibilityNodeInfosByViewId("android:id/button1") }, {
             it.text?.toString() == pickLabel && it.isEnabled && it.isClickable
         })
+        } // End OPEN_TREE_BUTTON failure-only scope; original native body is unchanged.
         val context = instrumentation.targetContext
         val callerLabel = context.packageManager.getApplicationLabel(context.applicationInfo).toString()
         check(callerLabel.isNotBlank() && callerLabel.length <= 128)
@@ -242,7 +247,188 @@ internal class NamedSystemDocumentsUi(private val packageName: String) : AutoClo
             } finally { root.recycle() }
             Thread.sleep(40)
         }
-        error("Exact owned DocumentsUI control unavailable; samplesCapped512=$samples,maxVisibleMatches=$maxVisibleMatches")
+        error("Exact owned DocumentsUI control unavailable; samplesCapped512=$samples,maxVisibleMatches=$maxVisibleMatches" + unavailableGateObservation())
+    }
+
+    private enum class GateFailureRole { OWNED_FOLDER_ROW, OPEN_TREE_BUTTON }
+    private data class GateFailureTarget(val role: GateFailureRole, val expectedText: String)
+    private class GateProbeStop(val category: String) : RuntimeException()
+    private class GateProbeCounts {
+        var visited = 0
+        var refreshed = 0
+        var visible = 0
+        var packageExact = 0
+        var idExact = 0
+        var textExact = 0
+        var idAndText = 0
+        var textAndEnabled = 0
+        var textEnabledClickable = 0
+        var originalPredicate = 0
+    }
+    private class GateProbeFacts(val role: GateFailureRole, val application: String, val namespace: String) {
+        var status = "UNAVAILABLE"
+        var rootPresent: Boolean? = null
+        var rootRefreshed: Boolean? = null
+        var rootVisible: Boolean? = null
+        var rootPackageExact: Boolean? = null
+        var rawContainersCapped65: Int? = null
+        var rawNodesCapped65: Int? = null
+        var containers: GateProbeCounts? = null
+        var nodes: GateProbeCounts? = null
+        fun render(): String = "documentsUiGateFailureSchema=1,observation=AFTER_TIMEOUT_ONLY," +
+            "role=$role,application=$application,admittedNamespace=$namespace,status=$status," +
+            "probeBudgetMillis=1000,rootPresent=$rootPresent,rootRefreshed=$rootRefreshed," +
+            "rootVisible=$rootVisible,rootPackageExact=$rootPackageExact," +
+            "rawContainersCapped65=$rawContainersCapped65,containerVisited=${containers?.visited}," +
+            "containerRefreshed=${containers?.refreshed},containerVisible=${containers?.visible}," +
+            "containerPackageExact=${containers?.packageExact},rawNodesCapped65=$rawNodesCapped65," +
+            "nodeVisited=${nodes?.visited},nodeRefreshed=${nodes?.refreshed},nodeVisible=${nodes?.visible}," +
+            "nodePackageExact=${nodes?.packageExact},nodeIdExact=${nodes?.idExact}," +
+            "nodeTextExact=${nodes?.textExact},nodeIdAndText=${nodes?.idAndText}," +
+            "nodeTextAndEnabled=${nodes?.textAndEnabled},nodeTextEnabledClickable=${nodes?.textEnabledClickable}," +
+            "originalPredicateAtProbe=${nodes?.originalPredicate}"
+    }
+
+    private inline fun withGateFailureObservation(role: GateFailureRole, expectedText: String, action: () -> Unit) {
+        val previous = unavailableGate
+        unavailableGate = GateFailureTarget(role, expectedText)
+        try { action() } finally { unavailableGate = previous }
+    }
+
+    // Called only while constructing the original timeout error; it can never admit a late candidate.
+    private fun unavailableGateObservation(): String {
+        val target = unavailableGate ?: return ""
+        return try {
+            ";" + gateFailureObservation(target)
+        } catch (_: Throwable) {
+            // No diagnostic exception or raw label/body may replace the original gate failure.
+            ";documentsUiGateFailureSchema=1,observation=AFTER_TIMEOUT_ONLY,role=${target.role},status=UNAVAILABLE"
+        }
+    }
+
+    private fun gateProbeTime(deadline: Long) {
+        if (SystemClock.elapsedRealtime() >= deadline) throw GateProbeStop("TIME_BOUND")
+    }
+
+    private fun gateFailureObservation(target: GateFailureTarget): String {
+        val application = when (packageName) {
+            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
+            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
+            else -> "OTHER_REFUSED"
+        }
+        val namespace = when (admittedResourceContract?.namespace) {
+            "com.android.documentsui" -> "AOSP_DOCUMENTS_UI"
+            "com.google.android.documentsui" -> "GOOGLE_DOCUMENTS_UI"
+            null -> "UNQUALIFIED"
+            else -> "OTHER_REFUSED"
+        }
+        val facts = GateProbeFacts(target.role, application, namespace)
+        val deadline = SystemClock.elapsedRealtime() + 1_000
+        try {
+            gateProbeTime(deadline)
+            val probeRoot = automation.rootInActiveWindow
+            facts.rootPresent = probeRoot != null
+            if (probeRoot == null) {
+                gateProbeTime(deadline)
+                throw GateProbeStop("ROOT_UNAVAILABLE")
+            }
+            try {
+                gateProbeTime(deadline)
+                facts.rootRefreshed = probeRoot.refresh()
+                gateProbeTime(deadline)
+                if (facts.rootRefreshed != true) throw GateProbeStop("ROOT_REFUSED")
+                facts.rootVisible = probeRoot.isVisibleToUser
+                gateProbeTime(deadline)
+                if (facts.rootVisible != true) throw GateProbeStop("ROOT_REFUSED")
+                facts.rootPackageExact = probeRoot.packageName?.toString() == packageName
+                gateProbeTime(deadline)
+                if (facts.rootPackageExact != true) throw GateProbeStop("ROOT_REFUSED")
+                when (target.role) {
+                    GateFailureRole.OWNED_FOLDER_ROW -> {
+                        // Same mandatory resource recheck, exact dir_list scope and owned-text query.
+                        val scopes = probeRoot.findAccessibilityNodeInfosByViewId(resource("dir_list"))
+                        try {
+                            facts.rawContainersCapped65 = minOf(scopes.size, 65)
+                            gateProbeTime(deadline)
+                            if (scopes.size > 64) throw GateProbeStop("QUERY_BOUND")
+                            val counts = GateProbeCounts().also { facts.containers = it }
+                            val eligibleScopes = mutableListOf<AccessibilityNodeInfo>()
+                            for (scope in scopes) {
+                                gateProbeTime(deadline)
+                                val refreshed = scope.refresh()
+                                val visible = if (refreshed) scope.isVisibleToUser else null
+                                val packageExact = if (visible == true) scope.packageName?.toString() == packageName else null
+                                gateProbeTime(deadline)
+                                counts.visited += 1
+                                if (refreshed) counts.refreshed += 1
+                                if (visible == true) counts.visible += 1
+                                if (packageExact == true) {
+                                    counts.packageExact += 1
+                                    eligibleScopes += scope
+                                }
+                            }
+                            if (eligibleScopes.size != 1) throw GateProbeStop(
+                                if (eligibleScopes.isEmpty()) "NO_ELIGIBLE_CONTAINER" else "AMBIGUOUS_CONTAINER")
+                            gateProbeTime(deadline)
+                            val raw = eligibleScopes.single().findAccessibilityNodeInfosByText(target.expectedText)
+                            gateFailureNodes(raw, target, facts, deadline)
+                        } finally { scopes.forEach { it.recycle() } }
+                    }
+                    GateFailureRole.OPEN_TREE_BUTTON -> {
+                        gateProbeTime(deadline)
+                        val raw = probeRoot.findAccessibilityNodeInfosByViewId("android:id/button1")
+                        gateFailureNodes(raw, target, facts, deadline)
+                    }
+                }
+                gateProbeTime(deadline)
+                facts.status = "COMPLETE"
+            } finally { probeRoot.recycle() }
+        } catch (stop: GateProbeStop) {
+            facts.status = stop.category
+        } catch (_: Throwable) {
+            facts.status = "UNAVAILABLE"
+        }
+        return facts.render()
+    }
+
+    private fun gateFailureNodes(raw: List<AccessibilityNodeInfo>, target: GateFailureTarget,
+        facts: GateProbeFacts, deadline: Long) {
+        try {
+            facts.rawNodesCapped65 = minOf(raw.size, 65)
+            gateProbeTime(deadline)
+            if (raw.size > 64) throw GateProbeStop("QUERY_BOUND")
+            val counts = GateProbeCounts().also { facts.nodes = it }
+            val expectedId = when (target.role) {
+                GateFailureRole.OWNED_FOLDER_ROW -> "android:id/title"
+                GateFailureRole.OPEN_TREE_BUTTON -> "android:id/button1"
+            }
+            for (probeNode in raw) {
+                gateProbeTime(deadline)
+                val refreshed = probeNode.refresh()
+                val visible = if (refreshed) probeNode.isVisibleToUser else null
+                val packageExact = if (visible == true) probeNode.packageName?.toString() == packageName else null
+                val idExact = if (packageExact == true) probeNode.viewIdResourceName == expectedId else null
+                val textExact = if (packageExact == true) probeNode.text?.toString() == target.expectedText else null
+                val enabled = if (packageExact == true) probeNode.isEnabled else null
+                val clickable = if (packageExact == true) probeNode.isClickable else null
+                // Commit only fully observed nodes within the separate probe budget; late/partial is not zero.
+                gateProbeTime(deadline)
+                counts.visited += 1
+                if (refreshed) counts.refreshed += 1
+                if (visible == true) counts.visible += 1
+                if (packageExact == true) counts.packageExact += 1
+                if (idExact == true) counts.idExact += 1
+                if (textExact == true) counts.textExact += 1
+                if (idExact == true && textExact == true) counts.idAndText += 1
+                if (textExact == true && enabled == true) counts.textAndEnabled += 1
+                if (textExact == true && enabled == true && clickable == true) counts.textEnabledClickable += 1
+                val originalPredicate = when (target.role) {
+                    GateFailureRole.OWNED_FOLDER_ROW -> idExact == true && textExact == true
+                    GateFailureRole.OPEN_TREE_BUTTON -> textExact == true && enabled == true && clickable == true
+                }
+                if (originalPredicate) counts.originalPredicate += 1
+            }
+        } finally { raw.forEach { it.recycle() } }
     }
 
     override fun close() {

@@ -1,5 +1,9 @@
 # Finite Desktop verification batches
 
+## Final missing security method accepted; issue #144 closed — 2026-11-02
+
+[Original411–414](evidence/current-platform-recovery-20261101/desktop-security-closure411-414/README.md) now accepts Windows native TLS1/1/XML1/Gradle0/341.02s. **Never replay `webview-desktop-tls-windows-recovery` on unchanged applicable inputs.** Every literal #144 criterion is complete and GitHub closure/readback is verified. All prior macOS/Windows/Linux security methods, full graphs and accepted advisory observations stay reusable without replay. #64's original request/Stop/offline cohort is also accepted, but its private cancellation artifact is not activated by ordinary consumers; maintained adoption/corresponding-source/legal/security/consumer/API–ABI remains. No original archives are reacquired. Latest request is terminal; reconcile fresh capacity before any genuinely new hosted work. Older pending paragraphs describe their dated checkpoints only.
+
 ## Current failed-only Windows TLS recovery — 2026-11-02
 
 [Actual405–410](evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)

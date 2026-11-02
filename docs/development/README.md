@@ -1,5 +1,9 @@
 # NativeCmpKit development after the audit
 
+## JavaFX security complete; #144 closed directly after verification
+
+[Original411–414 and closure](evidence/current-platform-recovery-20261101/desktop-security-closure411-414/README.md) verify the final Windows native TLS **1/1**, XML1/Gradle0/341.02s,29 passive source/results checks/all1,223 held inputs. All three original criteria now qualify: five full runtime/compile/test host graphs/150 exact advisory coordinates, bounded media/TLS/cookies/navigation/JS policy/painted rendering, and documented unsupported untrusted-code sandboxing. **#144 closed/completed23:47:52UTC**, with comment6591441598 and exact independent readback, before docs. No accepted tests/graphs/queries replayed or original archives downloaded again. Current **98 closed /74 open /172**,22 implemented/41 partial/96 verified/5 unresolved. Continuing solo with #64 ordinary dependency adoption; all separate legal/security/consumer/API–ABI/publication readiness restrictions remain. Older entries below preserve their dated scope, not current open state.
+
 ## Six remaining Desktop security methods accepted; only Windows TLS remains
 
 [Actual405–410](evidence/current-platform-recovery-20261101/desktop-security-win-arm405-410/README.md)

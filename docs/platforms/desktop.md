@@ -77,10 +77,13 @@ validated merely by that configuration existing.
 accepts Linux ARM64 TLS/rendering/cookies/JavaScript-policy/media and Windows
 cookies/policy, reusing accepted macOS and Linux x64 cells. All five host resolved
 runtime/compile/test scopes qualify;150 exact coordinate advisory observations
-have no matches. Windows TLS is the remaining failed fixture case; the pending-
-only Finished-write correction has source/JVM regressions, **not** native outcome
-acceptance yet. Zero advisory matches/native regression cells are not engine,
-sandbox, package-consumer, legal, API–ABI or release certification.
+have no matches. The final [Windows TLS original411–414](../development/evidence/current-platform-recovery-20261101/desktop-security-closure411-414/README.md)
+now passes1/1 with original trust/error/zero-HTTP/painted-rendering/recovery/cleanup
+predicates. All original #144/BUILD-002 criteria are verified and the issue is
+closed. Accepted applicable native methods/graphs/queries are reused, not replayed.
+Zero advisory matches/native regression cells are not engine, sandbox,
+package-consumer, legal, API–ABI or release certification. #64 still needs ordinary
+consumer adoption of its private owning cancellation artifact.
 
 ## Untrusted desktop-code execution
 

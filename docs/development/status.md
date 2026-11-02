@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `bd1159b53ac67f9834ede1ffc86ee0f67f9a6e259c6d8325913f8be2e7d5f070`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `16fa8707ded293a2de12fafed826cf3f763f317b89f9cd75f38df3408fdbb03e`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -3589,7 +3589,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `998adb566ad60ff56e342f1079417b340232b096e7abc9e25d8663d620a1e01f` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `5d302f02d00ccc8b79137d93f95df7987c741bc3d38ce6fee47a6cf849a81650` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |

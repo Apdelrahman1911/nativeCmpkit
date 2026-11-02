@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## First Desktop security request failed at one fixture; owning repair verified
+
+[381–384 evidence](evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)
+preserves the first macOS security request as FAILED before profile selection:
+2,442 source methods/one failure, **zero native/Gradle/XML/artifacts**. One stale
+stage comparison is repaired without changing historical hashes or native tests.
+Only failed1+NEW1 run locally: **2/2**, six source mutation refusals;15 passive
+checks and both missing-only pair plans pass, all1,215 inputs held. Next commit/
+push and macOS security6 once under both hosted reservations, then Windows/Linux7
+only after terminal/tooling acceptance. #64/#144 remain open; no closure or
+publication, accepted-method/original-download replay, main or history change.
+
 ## Remaining Desktop cancellation hosts verified; security batch next
 
 [macOS x64 original](evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md)

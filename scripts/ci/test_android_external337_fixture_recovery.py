@@ -167,6 +167,8 @@ class External337FixtureRecoveryControls(unittest.TestCase):
                 terminal.source_before_terminal_awt240(relative, payload)
 
     def test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment(self):
+        from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate
+
         previous = copy.deepcopy(self.bindings)
         self.assertEqual(16, len(previous))
         self.assertEqual(49, sum(len(binding["fragments"]) for binding in previous.values()))
@@ -184,9 +186,32 @@ class External337FixtureRecoveryControls(unittest.TestCase):
         self.assertEqual(46, sum(len(binding["fragments"]) for binding in previous.values()))
         for relative, binding in self.bindings.items():
             current = self.current[relative]
-            self.assertEqual(binding["after_sha256"], digest(current))
+            # The prior manifest binds its own stage, not the newer Stop-only stage.
+            prior_current = current_source_before_arm64_stop_candidate(relative, current)
+            self.assertEqual(binding["after_sha256"], digest(prior_current))
             original = bridge.current_source_for_history(relative, current)
             self.assertEqual(binding["before_sha256"], digest(original))
+
+    def test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest(self):
+        from arm64_stop_candidate_source_projection import source_before_arm64_stop_candidate
+        from unittest.mock import patch
+
+        relative = "scripts/ci/library_tests.py"
+        current = self.current[relative]
+        variants = (
+            source_before_arm64_stop_candidate(relative, current),
+            bridge.current_source_for_history(relative, current),
+            current + b"\n",
+            current[:-1],
+            b"foreign",
+            b"",
+        )
+        for number, payload in enumerate(variants):
+            mutated = dict(self.current)
+            mutated[relative] = payload
+            with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+                    self.assertRaisesRegex(ValueError, "exact current ARM64 Stop source"):
+                self.test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment()
 
 
 if __name__ == "__main__":

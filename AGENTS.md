@@ -1,5 +1,20 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Desktop security first pair: source-only failure repaired — 2026-11-02
+
+[Original381–384](docs/development/evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)
+preserves41531273049/bfb00ec8 FAILED: CI2442/onefailure/129.845s, ZERO profile/
+Gradle/native/XML/artifacts. One old fixture compared External328 postimage with
+newer exact Stop-stage source. Only owning337 fixture composes existing strict
+current-stage inverse; original16/49 and3/8 manifests/pins remain. Failed1+NEW1
+pass2/2/0.135s/wrapper0.145196s/sixrefusals;15 separate passive checks,1215held/
+1214 unchanged from dispatch. No accepted controls/native replay or re-pinning.
+Next freeze/push/capacity then missing-only macOSsecurity6; Windows/Linux7 waits
+for terminal and working tooling. #64/#144open;97closed/75open/172total and
+22implemented/42partial/95verified/five unresolved. SOLO/serial/8GiB/max2combined
+hosted INCLUDINGqueued/development-only/read-only Actions/all/no mandatorySHA.
+No publishing/release/deploy/Pages/main/history change or original redownload.
+
 ## All missing Desktop Stop hosts accepted — 2026-11-02
 
 - [macOS x64 374–377](docs/development/evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md):

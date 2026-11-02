@@ -2,6 +2,14 @@
 
 ## Current missing-only amendment — 2026-11-02
 
+The first macOS security pair request [41531273049](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41531273049)
+failed before any native execution at one stage-hash fixture. The
+[owning381–384 recovery](evidence/current-platform-recovery-20261101/desktop-security-tooling381-384/README.md)
+passes only failed1+NEW1 and preserves every old pin/native criterion. Both pair
+populations remain unexecuted/unaccepted; request corrected macOS6 first after
+freeze/push/capacity, then Windows/Linux7 after it terminates. Never request the
+second pair against known-failed shared tooling.
+
 The newest [macOS x64](evidence/current-platform-recovery-20261101/javafx-macos-x64-native374-377/README.md)
 and [corrected Linux ARM64](evidence/current-platform-recovery-20261101/javafx-linux-native373-380/README.md)
 Stops pass1/1 each. **All three missing Desktop Stops are accepted; never replay

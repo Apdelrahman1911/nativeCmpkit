@@ -1,0 +1,142 @@
+{
+  "webview-desktop-security-linux-arm64-windows-pair": {
+    "matrix": {
+      "include": [
+        {
+          "arch": "x64",
+          "python": "python",
+          "runner": "windows-2025",
+          "slot": "desktop-windows-x64",
+          "suite": "desktop",
+          "test-focus": "tls-rendering-cookies-policy",
+          "test-modules": "calf-webview"
+        },
+        {
+          "arch": "arm64",
+          "python": "python3",
+          "runner": "ubuntu-24.04-arm",
+          "slot": "desktop-linux-arm64",
+          "suite": "desktop",
+          "test-focus": "tls-rendering-cookies-policy-media",
+          "test-modules": "calf-webview"
+        }
+      ]
+    },
+    "preflight": {
+      "Gradle_builds_executed": 0,
+      "library_tests_executed": 0,
+      "operation": "plan",
+      "profile": "webview-desktop-security-linux-arm64-windows-pair",
+      "slots": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+            "plan",
+            "--suite",
+            "desktop",
+            "--module",
+            "calf-webview",
+            "--focus",
+            "tls-rendering-cookies-policy"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "desktop-windows-x64",
+          "suite": "desktop"
+        },
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+            "plan",
+            "--suite",
+            "desktop",
+            "--module",
+            "calf-webview",
+            "--focus",
+            "tls-rendering-cookies-policy-media"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "desktop-linux-arm64",
+          "suite": "desktop"
+        }
+      ],
+      "source_only": true
+    }
+  },
+  "webview-desktop-security-macos-pair": {
+    "matrix": {
+      "include": [
+        {
+          "arch": "arm64",
+          "native-ui": "true",
+          "python": "python3",
+          "runner": "macos-26",
+          "slot": "desktop-macos-arm64",
+          "suite": "desktop",
+          "test-focus": "tls-rendering-cookies-policy",
+          "test-modules": "calf-webview"
+        },
+        {
+          "arch": "x64",
+          "native-ui": "true",
+          "python": "python3",
+          "runner": "macos-26-intel",
+          "slot": "desktop-macos-x64",
+          "suite": "desktop",
+          "test-focus": "tls-rendering-cookies-policy",
+          "test-modules": "calf-webview"
+        }
+      ]
+    },
+    "preflight": {
+      "Gradle_builds_executed": 0,
+      "library_tests_executed": 0,
+      "operation": "plan",
+      "profile": "webview-desktop-security-macos-pair",
+      "slots": [
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+            "plan",
+            "--suite",
+            "desktop",
+            "--module",
+            "calf-webview",
+            "--focus",
+            "tls-rendering-cookies-policy"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "desktop-macos-arm64",
+          "suite": "desktop"
+        },
+        {
+          "command": [
+            "/usr/bin/python3",
+            "-B",
+            "/root/projects/nativeCmpKit/scripts/ci/library_tests.py",
+            "plan",
+            "--suite",
+            "desktop",
+            "--module",
+            "calf-webview",
+            "--focus",
+            "tls-rendering-cookies-policy"
+          ],
+          "exit_code": 0,
+          "expected_modules": 1,
+          "slot": "desktop-macos-x64",
+          "suite": "desktop"
+        }
+      ],
+      "source_only": true
+    }
+  }
+}

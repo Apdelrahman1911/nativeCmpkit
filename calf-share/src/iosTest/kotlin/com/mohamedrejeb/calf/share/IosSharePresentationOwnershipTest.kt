@@ -77,6 +77,7 @@ class IosSharePresentationOwnershipTest {
     }
 
     @Test fun publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks() = runApplicationUiTest {
+        verifyControlledIosShareTerminalBarriers()
         val visible = mutableStateOf(true)
         val callbackVersion = mutableStateOf(0)
         val deliveries = mutableListOf<Pair<Int, ShareOutcome>>()
@@ -113,9 +114,17 @@ class IosSharePresentationOwnershipTest {
             }
             waitForNative {
                 val native = parent.presentedViewController
-                native is UIActivityViewController && !native.isBeingPresented() && native.view.window != null
+                val active = retained.currentIosOwner?.currentRequest
+                native is UIActivityViewController && !native.isBeingPresented() && native.view.window != null &&
+                    active?.presentationCompletionObserved == true && active.phase == IosShareRequestPhase.Presented
             }
             val native = onApplicationMain { assertIs<UIActivityViewController>(parent.presentedViewController) }
+            val request = onApplicationMain {
+                assertNotNull(assertNotNull(retained.currentIosOwner).currentRequest).also {
+                    assertTrue(sameNativeObject(native, it.controller))
+                    assertEquals(IosShareRequestPhase.Presented, it.phase)
+                }
+            }
             runOnIdle {
                 assertSame(retained, launcher)
                 callbackVersion.value = index + 1
@@ -126,13 +135,13 @@ class IosSharePresentationOwnershipTest {
                 val completed = assertNotNull(native.completionWithItemsHandler)
                 lateOriginal = { completed(null, true, null, null) }
                 original = native
-                // Genuine UIKit dismissal completes BEFORE the deliberately controlled activity
-                // terminal input. This neither simulates a recipient nor changes library phases.
-                native.dismissViewControllerAnimated(false) {
-                    ownedNativeDismissalCompleted(native)
-                    completed(null, true, null, null)
-                    completed(null, true, null, null)
-                }
+                // Deliver the deliberately controlled FIRST activity terminal input while
+                // presented, not after programmatic dismissal has already cancelled sharing.
+                // Production must perform/acknowledge its own genuine UIKit dismissal before
+                // releasing ownership or notifying this remembered callback. No recipient/OS
+                // success, manual phase assignment or test-owned native dismissal is inferred.
+                completed(null, true, null, null)
+                completed(null, true, null, null)
             }
             waitForNative {
                 deliveries.size == index + 1 && if (index == 2) {
@@ -143,6 +152,10 @@ class IosSharePresentationOwnershipTest {
             runOnIdle {
                 assertSame(retained, launcher)
                 assertTrue(allCallbacksOnMain)
+                assertTrue(request.presentationCompletionObserved)
+                assertTrue(request.dismissalCompletionObserved, "An activity input is not a native dismissal barrier")
+                assertEquals(IosShareRequestPhase.Released, request.phase)
+                assertTrue(hasNoOwnedNativePresentation(parent, native))
                 assertEquals<List<Pair<Int, ShareOutcome>>>((1..index + 1).map { it to ShareOutcome.Completed }, deliveries)
                 assertNotNull(lateOriginal).invoke()
                 assertEquals(index + 1, deliveries.size, "An old native block cannot deliver or clear a new generation")

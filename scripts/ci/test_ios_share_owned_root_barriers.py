@@ -10,6 +10,7 @@ import hashlib
 from pathlib import Path
 import re
 import unittest
+from terminal_awt240_source_projection import text_before_terminal_awt240
 
 ROOT = Path(__file__).resolve().parents[2]
 SHARE = 'calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt'
@@ -85,7 +86,8 @@ def _source_before_share188_observation(relative, text):
 def _read_sources():
     return {relative: _support_before_fixture_repair169(relative,
                 _source_before_compiler_repair172(relative,
-                    _source_before_share188_observation(relative, (ROOT / relative).read_bytes().decode("utf-8"))))
+                    _source_before_share188_observation(relative, text_before_terminal_awt240(
+                        relative, (ROOT / relative).read_bytes().decode("utf-8")))))
             for relative in (*_SPEC["changed_paths"], *_SPEC["support_paths"])}
 
 

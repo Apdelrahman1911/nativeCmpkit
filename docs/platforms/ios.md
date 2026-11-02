@@ -1,5 +1,16 @@
 # iOS implementation guide
 
+## Share terminal ownership correction — 2026-11-02
+
+`IosShareOwner.Request` now retains controller/scopes after the first activity
+input until actual UIKit presentation/dismissal completion. Owner disposal
+suppresses pending results; cleanup/invalidation precede callback/reentry. Main
+dispatch covers the completion state access too. Public signatures/result mapping
+remain; callback timing intentionally follows cleanup. The corrected library
+fixture uses controlled activity success, not OS-recipient success. See
+[240–243 source/KLIB evidence and native gaps](../development/evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md).
+No physical/iPad/positive-scope/delayed-recipient/security acceptance is inferred.
+
 Baseline `af388bd` declares `iosArm64` and `iosSimulatorArm64`, not `iosX64`.
 There is no standalone native macOS target. Building/linking/running UIKit and
 Objective-C interop requires a suitable macOS/Xcode host. None of this audit's

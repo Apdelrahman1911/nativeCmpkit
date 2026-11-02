@@ -1,11 +1,24 @@
 # Native features: camera, sharing, WebView and dormant modules
 
+## Current iOS terminal/desktop fixture checkpoint — 2026-11-02
+
+[The owning240–243 batch](../development/evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)
+keeps iOS Share controller/scopes through genuine presentation/dismissal barriers
+after the first activity input. Result mapping/public signatures remain; callback
+delivery intentionally follows cleanup, and owner disposal suppresses pending
+delivery. Controlled Request tests and KLIB/source results are not native
+acceptance. Bounded desktop AWT ownership is **test-only**, not library timeout
+or native-call preemption. Baseline review below retains its historical scope.
+
 ## Current clipboard development checkpoint — 2026-11-01
 
 [Native-context fixtures](../development/share-clipboard-native-contexts.md) add
 four missing JS/Wasm clipboard environment cases without changing public APIs or
 production dependencies. Actual compilers/important source controls pass; native
-permission/activation/Promise/owned-cleanup acceptance remains pending. Baseline
+permission/activation/Promise/owned-cleanup acceptance was subsequently reviewed
+and [#82 closed](../development/evidence/current-platform-recovery-20261101/clipboard82-closure196/README.md)
+within its original scoped criteria; other-engine/OS-paste/security gates remain.
+Baseline
 implementation/history below retain their original scope.
 
 ## Scope and reading guide

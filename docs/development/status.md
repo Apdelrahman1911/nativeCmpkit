@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `8a07958c38882833798e0fe70f7a3f2d9049005b4ebf627b8c0d877d8a36c68a`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `fe6fbcb6f83aac6255a0eb80d831ab81338c8a75559d7e9f86ecff6905cb6046`.
 
 Generator SHA256: `cc0597005f262d4d83cdd3790e8099196716b72b626a9ce43cb507841975012d`.
 
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 8 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 9 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -138,14 +138,14 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 90 | [NATIVE-022](https://github.com/Apdelrahman1911/nativeCmpkit/issues/78) | Medium | 2 | M | verified | — | 3 / 0 |
 | 91 | [NATIVE-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/79) | Medium | 2 | M | implemented | NATIVE-020 | 3 / 4 |
 | 92 | [NATIVE-024](https://github.com/Apdelrahman1911/nativeCmpkit/issues/80) | Medium | 2 | M | implemented | — | 3 / 6 |
-| 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 5 |
+| 93 | [NATIVE-025](https://github.com/Apdelrahman1911/nativeCmpkit/issues/81) | Medium | 2 | M | implemented | — | 3 / 6 |
 | 94 | [NATIVE-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/82) | Medium | 2 | S | verified | — | 3 / 0 |
 | 95 | [NATIVE-028](https://github.com/Apdelrahman1911/nativeCmpkit/issues/83) | Medium | 2 | M | verified | — | 3 / 0 |
 | 96 | [NATIVE-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/84) | Medium | 2 | M | implemented | — | 3 / 4 |
 | 97 | [NATIVE-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/85) | Medium | 2 | L | implemented | NATIVE-029 | 3 / 5 |
 | 98 | [NATIVE-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/86) | Medium | 2 | M | verified | — | 3 / 0 |
 | 99 | [NATIVE-032](https://github.com/Apdelrahman1911/nativeCmpkit/issues/87) | Medium | 2 | S | verified | — | 3 / 0 |
-| 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 4 |
+| 100 | [NATIVE-033](https://github.com/Apdelrahman1911/nativeCmpkit/issues/88) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 101 | [NATIVE-037](https://github.com/Apdelrahman1911/nativeCmpkit/issues/89) | Medium | 2 | M | verified | NATIVE-002, NATIVE-006 | 3 / 0 |
 | 102 | [NATIVE-038](https://github.com/Apdelrahman1911/nativeCmpkit/issues/90) | Medium | 2 | M | verified | — | 3 / 0 |
 | 103 | [NAV-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/91) | Medium | 2 | M | verified | — | 4 / 0 |
@@ -1795,6 +1795,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-01: Execute only Android original2 on the reviewed held-transport fixture; source/model/compiler success does not complete native criteria. Retain accepted iOS request2/DNS without replay; Desktop10 and actual JS/Wasm offline2 remain.
 - 2026-11-01 original070/owning073: Android held fail/fail/Reload is accepted on exact body; only original Stop1 needs fresh native verification. Only four declarative-content assertions changed. Accepted iOS request2/DNS stay unreplayed; Desktop10 and genuine JS/Wasm offline2 remain. Earlier Android2-pending statements are historical.
 - 2026-11-01 original076: Both Android methods cumulatively accepted across separate runs; old run failures remain. Current missing original#64 executions: Desktop10 and real browser JS/Wasm offline2 only. Accepted Android/iOS/DNS must not replay.
+- 2026-11-02: Bounded owning Windows setup/disposal/source-regression batch is compiled and locally controlled-tested only. Only missing native Windows Stop1 next; original Windows199/Share227/Camera227 failures retained, other Desktop and browser-offline obligations unchanged.
 
 **Owner verification scope:** Original Android one method and iOS request2/DNS accepted on exact applicable bytes; current Android Stop1 remains missing. Desktop10 and genuine offlineJS/Wasm2 still required. Source/tooling/APK preparation is ZERO new native methods and does not complete #64.
 
@@ -2178,10 +2179,11 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Verify callbacks occur at documented stages and exactly once.
 - Original required test pending full target verification: Delay recipient file reads past chooser selection to validate file lifetime.
 - Browser004 update: the named applicable cases now pass on both JS and Wasm with the75-input listener/timer freeze. This is bounded common/Chrome-DOM/controlled-Promise evidence,not completion of the original all-platform/native,other-engine,network,security/popup/window,GC/memory,OS-recipient or artifact/ABI acceptance tests; all original required tests remain.
+- 2026-11-02: Execute only the corrected failed remembered-public method with four NEW controlled Request regressions and genuine UIKit presentation/dismissal/Main/Default/IO/current-callback/reentry/disposal assertions. Earlier12 accepted methods remain excluded; source/KLIB does not satisfy all original scope/native/recipient/concurrency criteria.
 
 **Owner verification scope:** Latest scoped browser004 evidence: full Wasm004 and JS004 commands each passed290/290 cases across19modules/48freshXML; native50/50 per target(WebView30,camera3common,share17),693inputs unchanged and75nativehashes matched. Only the named applicable cases are evidence for this finding; common target repetitions and controlled navigator functions are not native-backend/OS completion. The WebView listener factory and share final-null timer fixture were compiled/executed on both targets. Earlier failed JS/Wasm/JVM/device archives retain their outcomes; earlier JavaFX/Robolectric/JNI/KLIB evidence keeps its prior provenance. Actual AndroidChromium history readiness,Apple/AppKit/macOS cold-start,other browser engines,GC/native-memory,network/security/window/recipient and immutable consumer/ABI/release gates remain. Zero finding closures;all115original required tests retained.
 
-**Compatibility / scope:** Original ShareResult sealed cases/exhaustive callers retained via documented lossy mapping; Success still does not prove delivery.
+**Compatibility / scope:** Original ShareResult sealed cases/exhaustive callers retained via documented lossy mapping; Success still does not prove delivery. 2026-11-02: iOS callback timing intentionally defers until genuine owned native cleanup; result mapping and public signatures retained, packaged API/ABI unverified.
 
 ### 94. NATIVE-026 — Web clipboard fallback reports success before its promise resolves
 
@@ -2328,10 +2330,11 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Original required test pending full target verification: Call supported public APIs from Dispatchers.Default/IO and main; observe deterministic safe dispatch/result.
 - Original required test pending full target verification: UIKit Main Thread Checker and Kotlin/Native concurrency tests.
 - Original required test pending full target verification: Cancellation before dispatch, after presentation and before callback cannot orphan work.
+- 2026-11-02: Execute only the corrected failed remembered-public method with four NEW controlled Request regressions and genuine UIKit presentation/dismissal/Main/Default/IO/current-callback/reentry/disposal assertions. Earlier12 accepted methods remain excluded; source/KLIB does not satisfy all original scope/native/recipient/concurrency criteria.
 
 **Owner verification scope:** Focused native rerun exit0/19s: WebView desktop36/36 and camera Android host14/14,all7actualJavaFX+5Activity fixtures;688before/after input maps equal and73native hashes held. This verifies the two fixture corrections,not every original finding. Untouched native suites retain86passes+1exactLinuxN/A from the still-failed second batch. Camera/share iOS KLIB compilation remains4tasks/zeroAppleexecution; Android Chromium history readiness still failed. Original device/Apple/browser/recipient/memory/consumer gates remain;zero verified finding closures.
 
-**Compatibility / scope:** Native operations gain defined dispatch; common settings objects remain UI-thread-confined rather than advertised as general concurrent state.
+**Compatibility / scope:** Native operations gain defined dispatch; common settings objects remain UI-thread-confined rather than advertised as general concurrent state. 2026-11-02: iOS callback timing intentionally defers until genuine owned native cleanup; result mapping and public signatures retained, packaged API/ABI unverified.
 
 ### 101. NATIVE-037 — Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound
 
@@ -3569,7 +3572,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `b31b81587e451a5a74ce9675e1de7626c5af5feff6be6b0235967fc0d6cb989e` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `f0b725286e7771689f5cbd9fcb3c157f3b9f069090efb04cced65269c6ef15a5` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `66b73a88e507661b42b912a92d8d25bbf99478243e1a1ef34129bb92507648ed` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `b17df3bd4e552280d6170dea5bff7e5cf24babd53608caa7859833c89f4f4264` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |

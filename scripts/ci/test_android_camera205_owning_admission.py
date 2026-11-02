@@ -27,7 +27,7 @@ FIXTURE = "scripts/ci/test_android_camera_developer_prerequisite.py"
 FF14 = "test_ff14_full_source_inverses_preserve_original_readers_actions_cleanup_and_single_call"
 CN09 = "test_cn09_owning194_and_operational_native_bindings_are_not_rebased"
 OUTER = "camera197_helper_source_before_owned_console"
-EXPECTED_SHA256 = {'scripts/ci/android_camera_developer_prerequisite.py': '0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26', 'scripts/ci/android_device_tests.py': 'daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec', 'scripts/ci/camera_scalar_failfast_source_projection.py': '6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12', 'scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json': '9a3479f92b05e1bffda3b408ad9f5833ca655b0c913af813e888209de9b2828c', 'scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json': 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953', 'scripts/ci/fixtures/android-camera-startup-readiness-inverse.json': '43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c', 'scripts/ci/run_android_camera_scalar_failfast_new_only.py': '6ce3556e0df614757ede6c469ccc0e12a536b0aa9ce86214234e474fd22fc022', 'scripts/ci/test_android_camera_developer_prerequisite.py': '4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb', 'scripts/ci/test_android_camera_owned_avd_console_name.py': '71709ee20947d4f97df38a75c4c591bf12db319f327840b51440c07c3e2c0f33', 'scripts/ci/test_android_camera_pre_reporter_fail_fast.py': 'afab5f37a89e0e94af7480ac7aac7023d88ffd2c85a4215e770697cb4d59f39c', 'scripts/ci/test_android_camera_scalar_control_refusal.py': 'e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe'}
+EXPECTED_SHA256 = {'scripts/ci/android_camera_developer_prerequisite.py': '0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26', 'scripts/ci/android_device_tests.py': 'daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec', 'scripts/ci/camera_scalar_failfast_source_projection.py': '6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12', 'scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json': '9a3479f92b05e1bffda3b408ad9f5833ca655b0c913af813e888209de9b2828c', 'scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json': 'e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953', 'scripts/ci/fixtures/android-camera-startup-readiness-inverse.json': '43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c', 'scripts/ci/run_android_camera_scalar_failfast_new_only.py': '6ce3556e0df614757ede6c469ccc0e12a536b0aa9ce86214234e474fd22fc022', 'scripts/ci/test_android_camera_developer_prerequisite.py': '4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb', 'scripts/ci/test_android_camera_owned_avd_console_name.py': '623fc7d14b47e048f0060836a726a662fa57678e9104b2191990bda0f3637952', 'scripts/ci/test_android_camera_pre_reporter_fail_fast.py': '663bf8e7c846519e719ca1da7087feddc7a3f1e7dab65fe3dfad23e7a66c1669', 'scripts/ci/test_android_camera_scalar_control_refusal.py': 'e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe'}
 DERIVATIVE_SHA256 = {
     "scripts/ci/camera_scalar_failfast_source_projection.py": "6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12",
     "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": "40e8b5450b81a51e45c018d455c7d31fa6b557a82bd809ad2f2472214bdc0676",
@@ -35,12 +35,12 @@ DERIVATIVE_SHA256 = {
 }
 # One CI224 FF16 derivative; the original three-leaf Camera205 literal stays exact.
 CAMERA224_DERIVATIVE_SOURCE_SHA256 = {
-    "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": "afab5f37a89e0e94af7480ac7aac7023d88ffd2c85a4215e770697cb4d59f39c",
+    "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": "663bf8e7c846519e719ca1da7087feddc7a3f1e7dab65fe3dfad23e7a66c1669",
 }
 # Exact current Share188 shared derivatives; original Camera205 three-leaf literal remains.
 CAMERA205_SHARE188_SHARED_SOURCE_SHA256 = {
     ".github/workflows/gradle.yml": "ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561",
-    "scripts/ci/library_tests.py": "93dfe1a301d861f091016de2dcf45ec7d7ed437f8284f90220f3971ecacabf88"
+    "scripts/ci/library_tests.py": "5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2"
 }
 
 # Exact three owning CI213 derivatives, separate from the retained Camera205 literal.

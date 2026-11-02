@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Solo terminal/AWT owning batch reviewed — 2026-11-02
+
+[Actual237–243](docs/development/evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)
+retains Windows199/Share227/Camera227 FAILED. Share false-first input/late true
+stimulus was invalid; ignoring stale inputs was correct. Separate owning fix
+retains controller/scopes through genuine native barriers, then callback/reentry;
+owner disposal suppresses pending delivery/main callback state access dispatches.
+Public signatures/mapping stay; delivery timing intentionally changes. Four NEW
+controlled Request scenarios sit inside failed public1, not four JUnit methods.
+Windows owned queued AWT creation30s/disposal10s+FX cleanup10s bound waiting only,
+not blocked native preemption. FirstNEW8/laterNEW9 pass separately; first immediate
+after map missing before two-file refinement/no current full-nine inference.
+Source241 first24pass+two pre-execution selectorErrors; only corrected2pass next,
+26unique/NEW8/no accepted24 replay. Final242 testKLIB0/28.01s/1201held, production
+UP-TO-DATE/ZERO Apple/native;31 passive review checks/14bindings/39fragments.
+Next frozen development-only WindowsStop1/Sharepublic1; no unchanged blind retry.
+Fresh upstream16 all mapped/no mutations, bodies/timelines not reacquired.
+97closed/75open/172total;24implemented/40partial/95verified/five unresolved unchanged.
+Continue SOLO; no spawning/resuming/reassigning agents. Serial local/8GiB/max2
+combined hosted INCLUDING queued, lead Git/closure and Actions/all/read-only/no
+mandatory SHA pinning remain. Every publishing/Pages/main/history/native/consumer/
+API-ABI/dependency/legal/security/readiness gate stays; no package/release publication.
+
 ## Owner execution update — 2026-11-02
 
 The owner now requests that current agents finish their existing assignments,
@@ -3737,10 +3760,10 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The latest read-only refresh is `docs/migration/upstream-updates/20261101T131519Z/`;
+  The latest read-only refresh is `docs/migration/upstream-updates/20261102T050936Z/`;
   all16 open issues still have exactly one current destination context, with
   no imports/comments/closures needed. Review evidence is in
-  `docs/development/upstream-refresh-20261101T131519Z/`; original posting/readback
+  `docs/development/upstream-refresh-20261102T050936Z/`; original posting/readback
   remains in `docs/development/upstream-sync-20261024T183300Z/`.
   Keep every dated snapshot and the original metadata archive immutable.
 - Pages issue #171 is now **verified and closed** after the owner's Unpublish
@@ -3752,8 +3775,8 @@ Neither a local pass nor a green CI badge alone satisfies a release gate.
   A source repair or a new test is not an executed/verified fix. Close issues only
   after reviewing their required tests and actual results; preserve technical issue
   bodies and add progress/resolution comments instead of destroying history.
-- Use parallel agents for disjoint tasks under the owner's 2026-10-31 instruction.
-  The lead integrates all areas and owns Git/GitHub operations. Run heavy local builds
+- Continue solo under the owner's 2026-11-02 instruction; do not spawn, resume or
+  reassign agents. The lead integrates all areas and owns Git/GitHub operations. Run heavy local builds
   serially with a disk reserve, and use immutable commits for CI/consumer
   evidence. Ordinary parallel CI jobs are not subagents; bound their concurrency.
 - Existing sample applications are not substitutes for library integration tests.

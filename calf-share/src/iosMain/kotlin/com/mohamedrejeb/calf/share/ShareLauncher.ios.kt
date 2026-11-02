@@ -56,6 +56,7 @@ internal class IosShareOwner(private val presenter: UIViewController, private va
         var onReleased: () -> Unit = {}
         private var disposalRequested = false
         private var dismissNative: ((() -> Unit) -> Unit)? = null
+        private var terminalResult: (() -> Unit)? = null
 
         fun beginPresentation(dismiss: (() -> Unit) -> Unit) {
             check(phase == IosShareRequestPhase.Prepared && !disposalRequested)
@@ -72,6 +73,20 @@ internal class IosShareOwner(private val presenter: UIViewController, private va
         }
 
         fun dispose() {
+            terminalResult = null // Real owner disposal also suppresses an already pending result.
+            disposalRequested = true
+            controller.completionWithItemsHandler = null
+            advanceDisposal()
+        }
+
+        /**
+         * Accept only the first terminal input. UIKit's activity result is not our
+         * presentation/dismissal completion: keep the controller and file scopes
+         * owned until those real barriers, then notify application code.
+         */
+        fun complete(deliver: () -> Unit) {
+            if (disposalRequested || phase == IosShareRequestPhase.Released) return
+            terminalResult = deliver
             disposalRequested = true
             controller.completionWithItemsHandler = null
             advanceDisposal()
@@ -104,11 +119,14 @@ internal class IosShareOwner(private val presenter: UIViewController, private va
             dismissNative = null
             val notifyOwner = onReleased
             onReleased = {}
+            val deliver = terminalResult
+            terminalResult = null
             // Invalidate before cleanup/notification so reentry or a throw cannot close twice.
             try {
                 controller.completionWithItemsHandler = null
                 leases.forEach { it.close() }
             } finally { notifyOwner() }
+            deliver?.invoke() // Owner cleanup precedes reentry; cleanup failure cannot report success.
         }
     }
     private var active: Request? = null
@@ -150,15 +168,15 @@ internal class IosShareOwner(private val presenter: UIViewController, private va
         request.onReleased = { if (active === request) active = null }
         active = request
         controller.completionWithItemsHandler = { _, completed, _, error ->
-            if (active === request && !disposed) {
-                active = null
-                request.release()
-                val result = when {
-                    error != null -> ShareOutcome.Failed(ShareFailureReason.Platform, error.localizedDescription)
-                    completed -> ShareOutcome.Completed
-                    else -> ShareOutcome.Dismissed
+            onIosShareMain {
+                if (active === request && !disposed) {
+                    val result = when {
+                        error != null -> ShareOutcome.Failed(ShareFailureReason.Platform, error.localizedDescription)
+                        completed -> ShareOutcome.Completed
+                        else -> ShareOutcome.Dismissed
+                    }
+                    request.complete { if (!disposed) onResult(result) }
                 }
-                onResult(result) // Cleanup precedes application code and cannot be skipped by it.
             }
         }
         controller.popoverPresentationController?.let { popover ->

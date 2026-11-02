@@ -2,12 +2,21 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
-**Current owner amendment, 2026-10-31:** use as many useful parallel agents as
+**Current owner amendment, 2026-11-02:** finish existing agent assignments, then
+continue **solo**. Do not spawn agents, resume completed agents or assign further
+work. Review and reuse already qualified deliveries without replaying accepted
+tests. The lead owns integration, Git/GitHub changes and evidence-based closures.
+Heavy local builds stay serial with an 8 GiB reserve; at most two combined
+hosted-heavy reservations include queued work. Actions/all/no mandatory SHA
+pinning, publishing/security/readiness and history gates are unchanged.
+
+**Historical owner amendment, 2026-10-31:** use as many useful parallel agents as
 capacity permits. Disjoint bounded delegation is authorized; the lead owns
 integration, Git/GitHub mutations, immutable verification requests and closures.
 Keep heavy local builds serial, at least 8 GiB reserve and at most two combined
 heavy requests. This supersedes the solo/two-agent limits below, not historical
-receipts. Actions permissions, publishing/security and history gates are unchanged.
+receipts. The 2026-11-02 instruction supersedes this delegation authority;
+Actions permissions, publishing/security and history gates are unchanged.
 
 **Owner amendments, 2026-10-27:** optional permission for up to two subagents is
 retained historically. The subsequently supplied maintainer instructions for
@@ -22,8 +31,8 @@ allowlist and mandatory SHA pinning for a supervised verification window. That
 prevented autonomous platform checks. The owner has now enabled **Allow all
 actions and reusable workflows**, explicitly accepted no mandatory SHA pinning,
 and authorized routine CI/development/dependency/consumer verification without
-additional approval. The 2026-10-31 amendment now authorizes parallel work; earlier
-solo/two-agent restrictions remain historical.
+additional approval. The 2026-11-02 amendment now requires solo continuation;
+earlier parallel/two-agent limits remain historical.
 
 ## Decision
 
@@ -31,8 +40,8 @@ solo/two-agent restrictions remain historical.
   not just documentation. Existing SHA references may remain as voluntary
   reproducibility controls; named action versions are not rejected solely for
   being non-SHA references. Review newly used actions and executed source.
-- Delegate disjoint bounded work under the 2026-10-31 owner instruction; the lead
-  integrates and freezes inputs. Necessary immutable development commits/pushes and reviewed
+- Continue solo under the 2026-11-02 owner instruction; the lead integrates and
+  freezes inputs. Necessary immutable development commits/pushes and reviewed
   verification dispatches are authorized. Preserve history and upstream
   read-only boundaries; do not dispatch inherited historical workflows.
 - Separate **verification authority** from **publication readiness**. Use minimum

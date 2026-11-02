@@ -55,7 +55,7 @@ UNCHANGED_NATIVE_SOURCE_SHA256 = {'.github/workflows/gradle.yml': '282254f7af66a
 # ordinary digest still reads actual bytes and never normalizes a historical pin.
 CAMERA224_SHARE188_SHARED_SOURCE_SHA256 = {
     ".github/workflows/gradle.yml": "ac55aee1f485f78914de5405c517f4a9f8a5a6fed2f7ba88650e2a4fb8401561",
-    "scripts/ci/library_tests.py": "93dfe1a301d861f091016de2dcf45ec7d7ed437f8284f90220f3971ecacabf88",
+    "scripts/ci/library_tests.py": "5012c3e2be83e62eba8239a0db12104d5f9f7efb3f262abd3b3080012f7afdc2",
 }
 UNCHANGED_NATIVE_SOURCE_SHA256.update(CAMERA224_SHARE188_SHARED_SOURCE_SHA256)
 FROZEN_HELPER_SHA256 = "5318d5893457dca141d08f3d269dc1a21078d42931c7846d4d105b7134154af1"

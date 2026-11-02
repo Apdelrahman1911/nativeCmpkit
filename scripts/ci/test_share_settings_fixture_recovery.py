@@ -22,6 +22,8 @@ _GUARD_SHARE188_OBSERVATION = {'before_sha256': '7f06ae1ecaf0beacd2ffbe24f95c6ba
 
 def guard_before_share188_observation(raw):
     """Only exact host-observation admission reconstructs the unchanged settings NEW2 guard."""
+    from terminal_awt240_source_projection import source_before_terminal_awt240
+    raw = source_before_terminal_awt240(GUARD, raw)
     if hashlib.sha256(raw).hexdigest() != _GUARD_SHARE188_OBSERVATION["after_sha256"]:
         raise ValueError("Exact Share188-composed owning guard is required")
     for fragment in reversed(_GUARD_SHARE188_OBSERVATION["fragments"]):

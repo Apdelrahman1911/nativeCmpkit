@@ -20,13 +20,15 @@ from xml.etree import ElementTree as ET
 
 import library_tests as lt
 import workflow_matrix as matrix
+from terminal_awt240_source_projection import text_before_terminal_awt240
 
 FOCUS = "webview-desktop-stop-windows-recovery"
 CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest"
 METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 REDIRECT = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-SOURCE_SHA256 = "c828401cd5e0dbae8138e5fc61e4540568e0d076d66953b746124fb104dc8a90"
+SOURCE_SHA256 = "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+BOUNDED_FIXTURE_PREIMAGE_SHA256 = "c828401cd5e0dbae8138e5fc61e4540568e0d076d66953b746124fb104dc8a90"
 PREIMAGE_SHA256 = "0a8301aa683b0b5e1f767e8d7928e21a9038b74e3a26c038e612f5a22958ce8b"
 CAPTURE_FIXTURE_PREIMAGE_SHA256 = "5a7db4734c215546d751b702b2b9c92766ec81e54f2eb33a788b0687cdebb4d7"
 CAPTURE_HELPER_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopFailureResources.kt"
@@ -76,7 +78,7 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
         build = root / "calf-webview/build.gradle.kts"
         build.parent.mkdir()
         build.write_text("// Explicitly synthetic discovery root, never compiled.\n")
-        for relative in (SOURCE, ACCEPTED_SOURCE):
+        for relative in (SOURCE, ACCEPTED_SOURCE, lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE):
             file = root / relative
             file.parent.mkdir(parents=True, exist_ok=True)
             file.write_bytes((lt.ROOT / relative).read_bytes())
@@ -157,8 +159,8 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
         self.assertEqual(":calf-webview:desktopTest", expected["task"])
         self.assertEqual("calf-webview/build/test-results/desktopTest", expected["report_directory"])
         self.assertEqual(["desktopTest"], expected["test_source_sets"])
-        self.assertEqual([SOURCE], expected["test_source_files"])
-        self.assertEqual({SOURCE: SOURCE_SHA256}, expected["test_source_sha256"])
+        self.assertEqual([SOURCE, lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE], expected["test_source_files"])
+        self.assertEqual({SOURCE: SOURCE_SHA256, lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE: lt.WEBVIEW_DESKTOP_AWT_OWNER_SHA256}, expected["test_source_sha256"])
         self.assertEqual(CLASS + "." + METHOD, expected["test_filter"])
         self.assertEqual([CASE], expected["required_testcases"])
         self.assertIs(type(expected["required_original_xml"]), int)
@@ -316,12 +318,12 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
                            r"\.(beginRequest|acceptContent)\s*\(|\bWebViewError\s*\(|@(Ignore|Disabled|IgnoredTest)\b")
 
     def test_sole_fixture_insertion_accepted_bodies_production_and_evidence_pipeline_are_unchanged(self):
-        text = (lt.ROOT / SOURCE).read_text()
+        text = text_before_terminal_awt240(SOURCE, (lt.ROOT / SOURCE).read_text())
         left, inserted_and_rest = text.split("                // Scalar-only last FX-poll sample;", 1)
         _, right = inserted_and_rest.split("                assertFalse(server.isClosing())", 1)
         reconstructed = left + ORIGINAL_BLOCK + "                assertFalse(server.isClosing())" + right
         self.assertEqual(PREIMAGE_SHA256, digest(reconstructed))
-        self.assertEqual(SOURCE_SHA256, digest(text))
+        self.assertEqual(BOUNDED_FIXTURE_PREIMAGE_SHA256, digest(text))
         suffix = text[text.index("    @Test fun " + REDIRECT):]
         self.assertEqual("1c152af0b6f9015fbd719c8c505fc918742a620e35aff6e8cf4a2b8e5ff914f4", digest(suffix))
         preserved = {
@@ -347,10 +349,10 @@ class DesktopWebViewStopWindowsRecoveryTests(unittest.TestCase):
         self.assertEqual(3, len(lt.webview_desktop_request_specs("webview-desktop-request-state-stop-redirect")))
 
     def test_failure_resource_capture_is_one_post_refusal_guarded_call_with_original_fixture_bytes_preserved(self):
-        text = (lt.ROOT / SOURCE).read_text()
+        text = text_before_terminal_awt240(SOURCE, (lt.ROOT / SOURCE).read_text())
         self.assertEqual(1, text.count(CAPTURE_CALL))
         self.assertEqual(CAPTURE_FIXTURE_PREIMAGE_SHA256, digest(text.replace(CAPTURE_CALL, "", 1)))
-        self.assertEqual(SOURCE_SHA256, digest(text))
+        self.assertEqual(BOUNDED_FIXTURE_PREIMAGE_SHA256, digest(text))
         catch = text.split("                } catch (error: AssertionError) {", 1)[1].split("                assertFalse(server.isClosing())", 1)[0]
         self.assertIn(CAPTURE_CALL, catch)
         self.assertLess(catch.index(CAPTURE_CALL), catch.index('throw AssertionError("public Stop witness refused; ${stopSnapshot.get()}", error)'))

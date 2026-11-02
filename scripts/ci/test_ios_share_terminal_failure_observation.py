@@ -37,6 +37,8 @@ def digest(text):
 
 def admit_sources(sources):
     """Exact postimage/inverse admission, never a native callback/state model."""
+    from terminal_awt240_source_projection import text_before_terminal_awt240
+    sources = {rel: text_before_terminal_awt240(rel, text) for rel, text in sources.items()}
     expected = set(_SPEC["changed_paths"]) | set(_SPEC["new_paths"]) | set(_SPEC["support_sha256"])
     if set(sources) != expected:
         raise ValueError("Exact failed Share observation source/support set required")

@@ -23,7 +23,15 @@ timer or nil-link release fallback. If UIKit never acknowledges, the request
 remains retained and verification fails rather than claiming cleanup.
 
 The existing public constructor, remembered current callbacks, content snapshot,
-main dispatch and ordinary activity-result mapping/timing remain. Internal,
+main dispatch and activity-result mapping remain. The terminal-lifecycle repair
+intentionally **defers result delivery until owned native cleanup completes**:
+the first activity input initiates disposal, but is not itself a dismissal
+acknowledgment. Owner disposal suppresses even an already pending result;
+duplicates/late blocks cannot replace it. Controller/scopes stay owned through
+the real presentation and dismissal completions, and owner invalidation precedes
+callback/reentry. This is an observable timing correction, not an API-signature
+change. If UIKit never acknowledges cleanup, the request remains retained rather
+than reporting successful release. Internal,
 main-confined read-only owner/request/presenter observations support verification;
 they are not public APIs or native completion hooks. Actual packaged API/ABI
 compatibility is a separate gate.
@@ -58,7 +66,22 @@ substitutes for library integration or real browser download verification.
 
 ## Evidence and remaining scope
 
-Actual [Share188](evidence/current-platform-recovery-20261101/share-original188/README.md)
+The [Share227 original review](evidence/current-platform-recovery-20261101/share227-original238-239/README.md)
+preserves run41390900453 **FAILED:0 pass/one fail**. Its finite trace and exact
+source establish that the old fixture dismissed first and supplied its two true
+inputs only inside dismissal completion, after a false terminal input had already
+released the request. Ignoring those stale inputs was correct; the observer does
+not independently attribute native-versus-fixture callback origin. Separately,
+the old production callback released ownership before any owned dismissal barrier.
+The corrected fixture supplies the deliberately controlled first true input while
+presented and requires production's genuine UIKit dismissal before callback.
+Four new controlled Request scenarios execute inside that one public method;
+they are not four independent native JUnit executions or OS-recipient success.
+The [terminal/AWT240–242 batch](evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)
+records source controls and KLIB compilation only. Actual Apple verification
+remains required; accepted earlier methods are not selected for replay.
+
+Earlier [Share188](evidence/current-platform-recovery-20261101/share-original188/README.md)
 at6c8684a3 remains **FAILED:12 pass/one fail**, three fresh XML, Gradle1/1230.61s.
 Independent original source/results review accepts the twelve bounded methods
 for reuse: four native host, four expressly controlled Request, three genuine

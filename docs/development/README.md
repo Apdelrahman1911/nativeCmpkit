@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Solo Windows/iOS terminal lifecycle batch — 2026-11-02
+
+[Actual237–243](evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)
+adds bounded owned AWT setup/disposal and fixes iOS Share release to wait for
+genuine native cleanup. The failed Share fixture supplies its first controlled
+terminal input while presented, not after cancellation. Windows NEW8/later NEW9
+pass separately;26 unique source controls pass across24+2 selections, preserving
+both incorrect original selectors. Final Share KLIB succeeds/1201 held; **zero
+new local native executions**. Share227/camera227/Windows199 stay failed. Missing
+Windows Stop1/Share public1 need genuine hosted acceptance;97closed/75open/172total
+remains the last verified issue state. Work is solo; all publication/security gates
+remain. The [fresh upstream snapshot](upstream-refresh-20261102T050936Z/README.md)
+maps all16 open Calf issues: zero missing/duplicate imports or mutations, with no
+fresh comment/timeline acquisition.
+
 ## Shared camera/Share CI recovery — actual213–221, 2026-11-02
 
 [The owning repair and source/results review](evidence/current-platform-recovery-20261101/shared-ci213-221/README.md)
@@ -2400,10 +2415,12 @@ No preview has been published by this phase at the time this document was starte
 The **2026-10-26 owner decision** in [containment.md](containment.md) authorizes
 automatic verification CI with Actions enabled, all actions/reusable workflows
 allowed, and no mandatory SHA pinning. Routine development and dependency/consumer
-verification need no additional approval. The owner's **2026-10-31 amendment**
-authorizes useful disjoint parallel agents, with lead-owned integration/Git/GitHub
-mutations/acceptance, serial local heavy builds, an 8 GiB reserve and at most two
-combined hosted-heavy jobs. The earlier solo/two-agent limits are historical. Fixes and
+verification need no additional approval. The owner's **2026-11-02 amendment**
+requires solo continuation after current agents finish, without spawning,
+resuming or reassigning agents. The lead owns integration/Git/GitHub mutations
+and acceptance; local heavy builds stay serial with an 8 GiB reserve and at most
+two combined hosted-heavy reservations, including queued work. Earlier
+solo/two-agent/parallel decisions are historical. Fixes and
 immutable CI commits belong on `development/preview-hardening`; earlier local
 receipts still describe dirty diagnostics, not a release candidate. Package/release
 publication, deployments and Pages remain blocked behind the readiness/security
@@ -2411,8 +2428,9 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 
 The owner initially reaffirmed single-agent containment on **2026-10-27**, then
 authorized up to two agents, closure of genuinely completed issues and the current
-library name **NativeCmpKit**. Those older agent limits are superseded by the
-2026-10-31 parallel amendment; the lead owns integration/closures. Continue
+library name **NativeCmpKit**. Those older agent limits and the 2026-10-31 parallel
+amendment are superseded by the 2026-11-02 solo instruction; the lead owns
+integration/closures. Continue
 bounded verification without lifting publication gates.
 
 ## Working indexes

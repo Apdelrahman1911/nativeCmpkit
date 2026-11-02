@@ -29,7 +29,7 @@ NEW_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTe
 STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 NEW_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-NEW_SHA256 = "c828401cd5e0dbae8138e5fc61e4540568e0d076d66953b746124fb104dc8a90"
+NEW_SHA256 = "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
 ROWS = (
     ("desktop-linux-x64", FOCUS, "Linux", "x86_64", 1, 1),
     ("desktop-macos-arm64", STOP_FOCUS, "Darwin", "arm64", 2, 2),
@@ -49,7 +49,8 @@ def selected_cases(focus):
 
 
 def source_hashes(focus):
-    return {OLD_SOURCE: OLD_SHA256, **({NEW_SOURCE: NEW_SHA256} if focus != FOCUS else {})}
+    return {OLD_SOURCE: OLD_SHA256, **({NEW_SOURCE: NEW_SHA256,
+        lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE: lt.WEBVIEW_DESKTOP_AWT_OWNER_SHA256} if focus != FOCUS else {})}
 
 
 def code_only(source):
@@ -71,7 +72,7 @@ class DesktopWebViewLiteralMatrixTests(unittest.TestCase):
         build = root / "calf-webview/build.gradle.kts"
         build.parent.mkdir()
         build.write_text("// Explicitly synthetic discovery root; never compiled\n")
-        for relative in (OLD_SOURCE, NEW_SOURCE):
+        for relative in (OLD_SOURCE, NEW_SOURCE, lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE):
             path = root / relative
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes((lt.ROOT / relative).read_bytes())

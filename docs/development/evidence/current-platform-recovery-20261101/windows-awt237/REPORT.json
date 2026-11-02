@@ -1,0 +1,110 @@
+{
+  "NEW1_held_inputs": 1197,
+  "NEW1_source_sha256": {
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt": "c7bccc89f020490ea6198b837c7a9e386b051a0926ec22e17b3557699420b082",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindowTest.kt": "0ab669d606bc6416e892f8509a694758c5a24447f904ed439de763886597bdc5",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt": "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+  },
+  "first_run_source_sha256": {
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt": "9b8eddc3b441d7352717156b8de0dfe011823511770f156b11ddce1dfa3934c1",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindowTest.kt": "e738ddcab4c86243884c30232e052d4406cbcf48568d0d83ce71364a91f72df3",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt": "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+  },
+  "issue64": "OPEN, original native criteria not yet passed",
+  "native_JavaFX_Windows_executions": 0,
+  "observed_utc": "2026-11-02T05:30:08.449620+00:00",
+  "packages_published": false,
+  "release_readiness_certified": false,
+  "runs": [
+    {
+      "Gradle": {
+        "command": [
+          "./gradlew",
+          ":calf-webview:desktopTest",
+          "--tests",
+          "*BoundedDesktopAwtWindowTest*",
+          "--no-daemon",
+          "--no-configuration-cache",
+          "--no-parallel",
+          "--max-workers=1",
+          "--console=plain",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          "--init-script",
+          "scripts/ci/fresh-tests.init.gradle.kts"
+        ],
+        "cwd": "/root/projects/nativeCmpKit",
+        "elapsed_seconds": 34.01,
+        "exit_code": 0,
+        "free_bytes_after": 35435679744,
+        "free_bytes_before": 35443822592,
+        "reserve_mib": 8192,
+        "started_utc": "2026-11-02T05:18:01.010282+00:00",
+        "timeout_seconds": 600
+      },
+      "XML_sha256": "5dce26974e715a2558a9b2cd4b2ac5206e93a3a3d5857db358d522252af25a28",
+      "XML_suite_seconds": "0.156",
+      "errors": 0,
+      "failures": 0,
+      "methods": [
+        "closeBeforeQueuedInitializerEntryPreventsAllAllocations[desktop]",
+        "queuedThenThrowingSchedulerCannotAllocateAfterTheOriginalFailure[desktop]",
+        "normalCompletionUsesTheSameObjectAndDisposesOnlyOnce[desktop]",
+        "configurationFailureRetainsPrimaryAndAttemptsOwnedDisposal[desktop]",
+        "lateFactoryReturnAfterTimeoutDisposesExactlyOnceWithoutConfiguring[desktop]",
+        "interruptedCreationWaitCancelsQueuedWorkAndKeepsTheFailureVisible[desktop]",
+        "nestedDispatchCannotDisposeWhileConfigurationStillOwnsTheWindow[desktop]",
+        "heldDisposalTimesOutWithoutPretendingReleaseOrRepeatingTheAttempt[desktop]"
+      ],
+      "selection": "first NEW8",
+      "skipped": 0,
+      "tests": 8
+    },
+    {
+      "Gradle": {
+        "command": [
+          "./gradlew",
+          ":calf-webview:desktopTest",
+          "--tests",
+          "*BoundedDesktopAwtWindowTest.theOwnedHandleIsRetainedDuringDisposalAndAfterFailureButClearedOnReturn*",
+          "--no-daemon",
+          "--no-configuration-cache",
+          "--no-parallel",
+          "--max-workers=1",
+          "--console=plain",
+          "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+          "-Pkotlin.compiler.execution.strategy=in-process",
+          "--init-script",
+          "scripts/ci/daemon-jvm.init.gradle.kts",
+          "--init-script",
+          "scripts/ci/fresh-tests.init.gradle.kts"
+        ],
+        "cwd": "/root/projects/nativeCmpKit",
+        "elapsed_seconds": 28.01,
+        "exit_code": 0,
+        "free_bytes_after": 35415212032,
+        "free_bytes_before": 35416326144,
+        "reserve_mib": 8192,
+        "started_utc": "2026-11-02T05:19:43.617408+00:00",
+        "timeout_seconds": 600
+      },
+      "XML_sha256": "b3c92b4a8b95af20df2e53d50403fcd6f0c6537d4ca5590ae5ac0525e82e8752",
+      "XML_suite_seconds": "0.119",
+      "errors": 0,
+      "failures": 0,
+      "methods": [
+        "theOwnedHandleIsRetainedDuringDisposalAndAfterFailureButClearedOnReturn[desktop]"
+      ],
+      "selection": "later NEW1 handle retention",
+      "skipped": 0,
+      "tests": 1
+    }
+  ],
+  "schema_version": 1,
+  "source_custody_limits": [
+    "First NEW8 immediate-after map was not captured before two-file handle-retention refinement.",
+    "NEW8 current full-nine acceptance is not inferred."
+  ]
+}

@@ -144,7 +144,9 @@ class DesktopWebViewStopRedirectAcceptanceTest {
             } catch (error: Throwable) { failure = error; throw error }
             finally {
                 runWebViewCleanup(failure,
-                    { observed?.let { view -> runBlocking { onFxThread { view.engine.loadWorker.stateProperty().removeListener(observer) } } } },
+                    { observed?.let { view -> runBlocking { withTimeout(10_000) {
+                        onFxThread { view.engine.loadWorker.stateProperty().removeListener(observer) }
+                    } } } },
                     { host?.close() }, { scope.cancel() },
                 )
             }
@@ -233,35 +235,40 @@ class DesktopWebViewStopRedirectAcceptanceTest {
         val disposed = AtomicInteger()
         private val ready = CompletableDeferred<Unit>()
         private val failure = AtomicReference<Throwable>()
-        private val window = AtomicReference<ComposeWindow?>()
+        private val window = BoundedDesktopAwtWindow(
+            schedule = { work -> SwingUtilities.invokeLater(work) },
+            create = { ComposeWindow() },
+            configure = { view ->
+                view.setSize(320, 240)
+                view.setContent {
+                    WebView(state, Modifier.fillMaxSize(), navigator = navigator,
+                        onCreated = {
+                            runCatching {
+                                assertTrue(Platform.isFxApplicationThread()); assertNotNull(state.webView); assertNotNull(state.owner)
+                                assertEquals(1, created.incrementAndGet())
+                            }.onFailure { failure.compareAndSet(null, it) }
+                            ready.complete(Unit)
+                        }, onDispose = {
+                            runCatching {
+                                assertTrue(Platform.isFxApplicationThread()); assertNotNull(state.webView)
+                                assertEquals(1, disposed.incrementAndGet())
+                            }.onFailure { failure.compareAndSet(null, it) }
+                        })
+                }
+                view.isVisible = true; assertTrue(view.isVisible && view.isShowing)
+            },
+            dispose = { view -> view.dispose() },
+        )
         init {
             try {
-                SwingUtilities.invokeAndWait {
-                    val view = ComposeWindow(); window.set(view); view.setSize(320, 240)
-                    view.setContent {
-                        WebView(state, Modifier.fillMaxSize(), navigator = navigator,
-                            onCreated = {
-                                runCatching {
-                                    assertTrue(Platform.isFxApplicationThread()); assertNotNull(state.webView); assertNotNull(state.owner)
-                                    assertEquals(1, created.incrementAndGet())
-                                }.onFailure { failure.compareAndSet(null, it) }
-                                ready.complete(Unit)
-                            }, onDispose = {
-                                runCatching {
-                                    assertTrue(Platform.isFxApplicationThread()); assertNotNull(state.webView)
-                                    assertEquals(1, disposed.incrementAndGet())
-                                }.onFailure { failure.compareAndSet(null, it) }
-                            })
-                    }
-                    view.isVisible = true; assertTrue(view.isVisible && view.isShowing)
-                }
+                window.awaitCreated(30_000)
             } catch (error: Throwable) { runWebViewCleanup(error, { close() }) }
         }
         suspend fun awaitCreated() = withTimeout(30_000) { ready.await(); assertHealthy() }
         fun assertHealthy() { failure.get()?.let { throw it } }
         override fun close() {
             runWebViewCleanup(null,
-                { window.getAndSet(null)?.let { view -> SwingUtilities.invokeAndWait { view.dispose() } } },
+                { window.close(10_000) },
                 { runBlocking { withTimeout(10_000) { while (state.webView != null || state.owner != null) delay(25) } } },
                 { if (created.get() == 1) assertEquals(1, disposed.get()) },
                 { assertNull(state.webView); assertNull(state.owner) }, { assertHealthy() },

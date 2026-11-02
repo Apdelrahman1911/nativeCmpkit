@@ -949,7 +949,7 @@ UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_REMEMBERED_FAILURE_FOCUS] = {
     "groups": ({"classname": IOS_SHARE_PRESENTATION_CLASS, "source": IOS_SHARE_PRESENTATION_SOURCE,
                 "methods": (IOS_SHARE_REMEMBERED_FAILURE_METHOD,),
                 "declared_methods": IOS_SHARE_PRESENTATION_METHODS},),
-    "scope": "Only the unchanged failed Share188 public-remembered method, including its original Main/Default/IO/current-callback/reentry/disposal assertions and Completed expectation. The accepted twelve methods stay enabled and unselected. A test-owned per-request completion wrapper changes installed block identity/timing, forwards every received call once with all four original arguments to the immutable original delegate, and emits bounded fixed main-thread bool/count/phase observations only after failure. Genuine UIKit/public dispatch, original deadlines, original owner/native/root/Worker leases and refusals remain; no result injection/deduplication/coalescing, callback restoration after release, native origin attribution, production repair, accepted replay, #88/#81/#48/#100 closure or readiness/API-ABI/consumer/security/publishing certification.",
+    "scope": "Only the previously failed Share188 public-remembered method: four NEW explicitly controlled Request terminal/barrier regressions, then original Main/Default/IO/current-callback/reentry/disposal/Completed assertions. The fixture now supplies its deliberately controlled FIRST true activity input while presented, never after an earlier native cancellation; production must acknowledge genuine UIKit dismissal before release and callback. No OS-recipient success is inferred. The accepted twelve methods stay enabled and unselected. The unchanged test-owned observation forwards all arguments once and emits finite failure-only main-thread bool/count/phase observations; block identity/timing changes and origin remains unknown. Original native/owner/root/Worker/deadline/refusal gates remain. No accepted replay, late-block restoration, forced Completed, #88/#81/#48/#100 closure or consumer/API-ABI/security/readiness/publishing certification.",
 }
 
 IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
@@ -1392,7 +1392,9 @@ WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebVi
 WEBVIEW_DESKTOP_STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
 WEBVIEW_DESKTOP_REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
 WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
-WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "c828401cd5e0dbae8138e5fc61e4540568e0d076d66953b746124fb104dc8a90"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+WEBVIEW_DESKTOP_AWT_OWNER_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt"
+WEBVIEW_DESKTOP_AWT_OWNER_SHA256 = "c7bccc89f020490ea6198b837c7a9e386b051a0926ec22e17b3557699420b082"
 # Same five classifier identities as DesktopJavaFx.kt; declaration, not runtime acceptance.
 WEBVIEW_DESKTOP_REQUEST_HOSTS = frozenset({
     ("Linux", "x64"), ("Linux", "arm64"), ("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64"),
@@ -1428,6 +1430,13 @@ def webview_desktop_request_specs(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) ->
 def webview_desktop_request_identities(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
     return [{"classname": spec["classname"], "name": spec["method"] + "[desktop]"}
             for spec in webview_desktop_request_specs(focus)]
+
+
+def webview_desktop_request_sources(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> dict[str, str]:
+    sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+    if WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE in sources:
+        sources[WEBVIEW_DESKTOP_AWT_OWNER_SOURCE] = WEBVIEW_DESKTOP_AWT_OWNER_SHA256
+    return sources
 
 
 def webview_desktop_request_filter(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> str:
@@ -2404,7 +2413,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                            test_source_sha256=sources)
         result["scope"] = "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance."
     elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
-        sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+        sources = webview_desktop_request_sources(focus)
         for relative, digest in sources.items():
             if (relative not in selected[0]["test_source_files"] or sha256(safe_path(root, relative)) != digest):
                 raise ValueError("Desktop request-state owning source changed; review the exact selected native methods and fixtures")
@@ -2420,7 +2429,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["scope"] = "One new real public Compose/JavaFX held pre-header native fail-to-fail-to-success method on the selected supported Desktop host only. Existing accepted stop/reload/redirect and browser fragments are reused, not replayed. Owned loopback transport refusal, not system-offline/DNS/TLS, media, another engine, full-suite, consumer, ABI, security or release certification."
         if focus == WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS:
             selected[0]["required_original_xml"] = 1
-            result["scope"] = "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Scalar-only last-poll refusal diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification."
+            result["scope"] = "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Bounded owned AWT setup/disposal and FX listener cleanup preserve late-return ownership and do not preempt blocked native calls. Scalar-only last-poll/after-timeout diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification."
         elif focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
             result["scope"] = "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification."
     elif focus in WEBVIEW_IDENTITY_FOCUSES:
@@ -3089,7 +3098,7 @@ def validate_test_focus(test_plan: dict) -> bool:
         desktop_security_plan.validate_fixture_contract(test_plan.get("desktop_security_fixture"), focus)
         return True
     if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
-        sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+        sources = webview_desktop_request_sources(focus)
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or

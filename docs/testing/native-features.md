@@ -1,5 +1,18 @@
 # Testing camera, sharing and WebView
 
+## Missing-only terminal/desktop batch — 2026-11-02
+
+[240–243 evidence](../development/evidence/current-platform-recovery-20261101/terminal-awt240-242/README.md)
+preserves Windows NEW8/later NEW9 controlled scheduler/thread tests,26 distinct
+source controls across24+2 selections and final Share KLIB compilation. These
+are not Windows/JavaFX/UIKit acceptance. Four new controlled Request scenarios
+are embedded in the single failed Share public method, not additional JUnit
+methods. Next finite profiles select only `webview-desktop-stop-windows-recovery`
+and `ios-share-remembered-failure-observation`; genuine native barriers, exact
+fresh XML, original assertions and owned cleanup remain required. Reuse accepted
+methods only on applicable unchanged paths; do not replay them indiscriminately.
+Continue solo; max2 combined hosted reservations includes queued work.
+
 ## 2026-10-29: scoped WebView lifetime regression results
 
 The [current development evidence](../development/evidence/webview-lifetime-important-20261029/README.md)

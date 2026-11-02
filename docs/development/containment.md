@@ -110,7 +110,8 @@ homes. No new token permissions or publishing/security gate is authorized.
   unrelated passing suite. Native/device, consumer, ABI, legal and dependency
   gates require their own reviewed execution and exact scope.
 - No destructive history changes or unrelated feature/refactor work.
-  Parallel delegation follows the bounded 2026-11-02 solo amendment above.
+  Continue solo under the 2026-11-02 amendment above; do not spawn, resume or
+  reassign agents.
   Preserve all other projects/caches; local builds retain an 8 GiB disk reserve.
 
 ## Observed controls and evidence boundaries

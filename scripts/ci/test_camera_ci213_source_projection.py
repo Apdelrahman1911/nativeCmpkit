@@ -26,8 +26,8 @@ CONSOLE = "scripts/ci/test_android_camera_owned_avd_console_name.py"
 OWNING = "scripts/ci/test_android_camera205_owning_admission.py"
 EXPECTED = {
     PROJECTION: "060376f53d3beaff8ad48941fa998fe3917403b46be750e08dbd25c1375aa60b",
-    CONSOLE: "733d2d79df215bddfc86a8f9be1df81f71485f7ac7056ed8905bf7cfca8c2981",
-    OWNING: "41d23722e7cd838b99b5c79c36a72ef7c68b25ea94cffa9b84392bec0fe90c92",
+    CONSOLE: "71709ee20947d4f97df38a75c4c591bf12db319f327840b51440c07c3e2c0f33",
+    OWNING: "172f39bf8c9af2a7827107bb64a0184cf8f14bf26e9913218dda37e16151b81d",
     "scripts/ci/test_android_camera_settings_activity_refusal_diagnostics.py":
         "048b40f6976fc6af2160c9934b39d620bbdac466d912edfbb9e315dfa92f8bf7",
     "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py":
@@ -139,7 +139,8 @@ class CameraCI213ProjectionTests(unittest.TestCase):
         self.assertEqual(literal(owning, "CAMERA213_DERIVATIVE_SOURCE_SHA256"), current)
         constants = {n: literal(owning, n) for n in (
             "DERIVATIVE_SHA256", "EXPECTED_SHA256", "CAMERA205_SHARE188_SHARED_SOURCE_SHA256",
-            "CAMERA213_DERIVATIVE_SOURCE_SHA256", "BEFORE47_MAPPING_SHA256", "HELPER")}
+            "CAMERA213_DERIVATIVE_SOURCE_SHA256", "CAMERA224_DERIVATIVE_SOURCE_SHA256",
+            "BEFORE47_MAPPING_SHA256", "HELPER", "FAILFAST")}
         utility = function(owning, "assert_closure")
         namespace = {**constants, "digest": digest,
                      "canonical": lambda x: json.dumps(x, sort_keys=True, separators=(",", ":")).encode()}
@@ -179,7 +180,7 @@ class CameraCI213ProjectionTests(unittest.TestCase):
         holder = holder_type()
         names = ("BOUND_SOURCE_BEFORE47", "BOUND_SOURCE_AFTER47", "CAMERA205_DERIVATIVE_SOURCE_SHA256",
                  "CAMERA205_SHARE188_SHARED_SOURCE_SHA256", "CAMERA213_DERIVATIVE_SOURCE_SHA256",
-                 "HELPER_RELATIVE_PATH")
+                 "CAMERA224_DERIVATIVE_SOURCE_SHA256", "HELPER_RELATIVE_PATH")
         namespace = {n: literal(source, n) for n in names}
         namespace["self"] = holder
         try:

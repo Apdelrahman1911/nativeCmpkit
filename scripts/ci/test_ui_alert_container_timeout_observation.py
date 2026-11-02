@@ -24,6 +24,18 @@ RETAINED_ASSIGNMENTS = {'EXPECTED_SOURCE_SHA256': {'raw_sha256': '85cdcbcd60738f
 RETAINED_FUNCTIONS = {'source_before_share_alert153_rebase': '49f9aa2e9363b648a1cda7aebf6eb465915d2287bbf338f836e40a1db38809fc', 'native_sections': '0cc721fb0ccb42ed26621d9a93afe096e60b8067060f42a75593834c96bf4d22'}
 OBSERVATION_DECLARATION = {'raw_sha256': 'f76b9d046ece0cf230b6071d0efff47033a7a64e036b28185340523c9a55ff57', 'portable_ast_sha256': 'fb30469864a3887013b5ac9fa7654cf222a5a9c753819dbb41eec6f8733e5aaf'}
 INERT_FUNCTION_PINS = {'digest': {'raw_sha256': '50b76bfffc27cbd7a792c95d031f6fd8e49777b6241b96ed8c4c4773edc356cb', 'portable_ast_sha256': '79110ef6e0fb50133ecb2621c78703d67de17ef6fc108445b38236c3d010f11b'}, 'source_before_alert_container153_observation': {'raw_sha256': '0caacf26af1c4eb4ea617cadba42ebd6a8bc001290716a001f45007f258b82fd', 'portable_ast_sha256': '0a09fdd11c70079e7e5385fd3dc2e7915d104cd4e5e8e5eb6a067cef507939c5'}, 'source_before_share_alert153_rebase': {'raw_sha256': 'c75e77220a26cb77b7686b73dec952adb27dd7e7ad7c97b71454dbf772cccb9e', 'portable_ast_sha256': '2a5ba9afa7dd4455680f88f863d786d3ff98e78a8c347918c9ed3f59c4ad8860'}}
+# CI224: qualify only the existing outer Share188 byte guard, not its test class.
+# Retained alert/Share153/Wasm declarations and their function pins stay exact.
+SHARE188_OUTER_GUARD_PINS = {
+    "SHARE188_FAILED_ONLY_REBASE": {
+        "raw_sha256": "f72f72aa2789193756e18abaf50768506e31a577cbf7fd138623f0875a7fba0d",
+        "portable_ast_sha256": "a0b435e719d67f748b0c3c058be17e7eec27da8eb3091f37113f200a566b95e7",
+    },
+    "source_before_share188_failed_only_rebase": {
+        "raw_sha256": "e3e3150b9d846edba81de820ba4a2d7464b736c94f7ac6c3d4913ae27bb8840a",
+        "portable_ast_sha256": "8a5f5fce3f33dbad87fab2e71f97d4a4d8aaf75f2e5726141e3616b097ef8471",
+    },
+}
 PREFIX = "NATIVECMPKIT_ALERT_ACTION_CONTAINER_TIMEOUT"
 
 
@@ -50,6 +62,40 @@ def raw_node(source, node):
     return "".join(source.splitlines(keepends=True)[start - 1:node.end_lineno]).encode()
 
 
+def compose_share188_outer_guard(source, parsed, namespace):
+    """Apply the qualified current outer inverse before the intact old chain.
+
+    Only one literal and one inert byte-guard function are admitted. Historical
+    test classes, imports and top-level statements are never compiled here.
+    """
+    declaration_name = "SHARE188_FAILED_ONLY_REBASE"
+    function_name = "source_before_share188_failed_only_rebase"
+    selected = {}
+    for name in (declaration_name, function_name):
+        matches = [node for node in parsed.body if
+                   (isinstance(node, ast.Assign) and len(node.targets) == 1 and
+                    isinstance(node.targets[0], ast.Name) and node.targets[0].id == name) or
+                   (isinstance(node, ast.FunctionDef) and node.name == name)]
+        if len(matches) != 1:
+            raise ValueError("An exact unique outer Share188 guard symbol is required")
+        node = matches[0]
+        expected = SHARE188_OUTER_GUARD_PINS[name]
+        if (digest(raw_node(source, node)) != expected["raw_sha256"] or
+                ast_digest(node) != expected["portable_ast_sha256"]):
+            raise ValueError("The exact outer Share188 byte guard changed before execution")
+        selected[name] = node
+    namespace[declaration_name] = ast.literal_eval(selected[declaration_name].value)
+    exec(compile(ast.Module(body=[selected[function_name]], type_ignores=[]),
+                 str(ROOT / HISTORICAL), "exec"), namespace)
+    outer = namespace[function_name]
+    historical = namespace["source_before_share_alert153_rebase"]
+
+    def combined(relative, current):
+        return historical(relative, outer(relative, current))
+
+    namespace["source_before_share_alert153_rebase"] = combined
+
+
 def authored_guard_namespace(source):
     parsed = ast.parse(source)
     names = {"EXPECTED_SOURCE_SHA256", "ALERT_CONTAINER153_OBSERVATION", "SHARE_ALERT153_REBASE",
@@ -73,6 +119,7 @@ def authored_guard_namespace(source):
                 ast_digest(node) != expected["portable_ast_sha256"]):
             raise ValueError("Exact inert guard function source changed before compilation or invocation")
     exec(compile(ast.Module(body=functions, type_ignores=[]), str(ROOT / HISTORICAL), "exec"), namespace)
+    compose_share188_outer_guard(source, parsed, namespace)
     return parsed, assignments, namespace
 
 

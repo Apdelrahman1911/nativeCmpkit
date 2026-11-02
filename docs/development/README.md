@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Browser offline originals accepted; Android focused observation prepared
+
+[317–319 evidence](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
+accepts the original public browser offline-destination method on **JS1/1 and
+Wasm1/1**, with actual listener closure/exact-port refusal, native events, metadata
+reset, recovery and cleanup. All1,204 frozen Git/actual inputs hold; no current
+whole-tree or system-offline inference. #64 remains open for other Desktop and
+ordinary JavaFX adoption gates. No accepted browser/Windows replay.
+
+Android adds diagnostic-only independent casing/eligibility/location observations,
+not normalized input or a root-cause fix.14 unique important source controls and
+a fresh serial test compiler/APK **0/44.01s/1,206held** qualify preparation only.
+Original actions20s/admissions/assertions stay; the old and new snapshots each
+have cooperative1,000ms budgets, not a hard total deadline. Next only the same
+two failed API35 Local2 methods on a frozen revision; #55/cloudC1 remain open.
+Solo/8GiB/serial/max2 combined hosted including queued and all release gates hold.
+
 ## Focused platform originals reviewed — 2026-11-02
 
 [Originals308–315](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)

@@ -1,5 +1,16 @@
 # Finite Desktop verification batches
 
+## Current missing-only amendment — 2026-11-02
+
+The original Windows request-state method and the private full-JAR candidate's
+original Windows Stop method are accepted and **must not be replayed via the
+Windows-single alias**. Linux-pair4 and macOS-pair4 remain missing; a pair reserves
+both global slots including queued work. Ordinary JavaFX adoption remains separate
+from the private Stop acceptance. The [JS1/Wasm1 offline destination result](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
+is now accepted, not pending or system-offline certification. Other security/
+consumer/API-ABI/corresponding-source/legal requirements remain unchanged. Earlier
+expected/missing counts below describe their preparation date, not current results.
+
 The full Desktop routes remain unchanged. Five additive aliases make the missing
 work dispatchable under the **two combined hosted-heavy row** limit. A queued or
 reserved matrix row counts even when `max-parallel` is one.

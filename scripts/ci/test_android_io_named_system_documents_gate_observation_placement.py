@@ -9,6 +9,7 @@ import unittest
 
 import android_io_named_system_documents as source
 import android_io_named_system_documents_gate_observations as gate
+from android_io_named_gate_details import detail_preimage
 
 # One genuinely NEW owning relocation-negative obligation; no historical control imports/replay.
 BASE_UI_SHA256 = '1e71a260b1bf501f3f5b7a6121f7cf7dfcc2e6d274cd2733f2f516f8aea5b19f'
@@ -21,7 +22,7 @@ class NamedSystemIoGateObservationPlacementNewControl(unittest.TestCase):
     def test_new_relocated_row_closing_cannot_label_toolbar_timeout_as_owned_row(self):
         staged = Path(__file__).resolve().parents[2]
         authored = (staged / source.UI).read_text()
-        self.assertEqual(AUTHORED_UI_SHA256, hashlib.sha256(authored.encode()).hexdigest())
+        self.assertEqual(AUTHORED_UI_SHA256, hashlib.sha256(detail_preimage(authored).encode()).hexdigest())
         self.assertEqual(1, authored.count(OWNED_ROW_CLOSING))
         self.assertEqual(1, authored.count(TOOLBAR_OBSERVATION))
         moved = authored.replace(OWNED_ROW_CLOSING, "", 1)

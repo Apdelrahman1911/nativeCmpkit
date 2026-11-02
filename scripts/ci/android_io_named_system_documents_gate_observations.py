@@ -69,3 +69,9 @@ def gate_observation_postimage(ui: str) -> str:
         ui = ui.replace(before, after, 1)
     _require(gate_observation_preimage(ui) == original, OBSERVATION_REFUSAL)
     return ui
+
+
+# Exact diagnostic-only current derivative; original literals above stay historical.
+from android_io_named_gate_details import detail_images as _detail_images
+GATE_FAILURE_ADDITIONS, GATE_OBSERVATION_POSTIMAGE_DELTAS = _detail_images(
+    GATE_FAILURE_ADDITIONS, GATE_OBSERVATION_POSTIMAGE_DELTAS)

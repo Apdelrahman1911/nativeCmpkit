@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Browser offline originals accepted; Android detail snapshot compiled — 2026-11-02
+
+[Actual317–319](docs/development/evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
+accepts41491637099/e80d426e **JS1/1+Wasm1/1/twoXML/Gradle0/386.10s+335.11s**:
+1204actual before-after equal frozen Git/dispatch,26passive checks, actual same
+leased destination closure/ECONNREFUSED/native events/metadata/inline recovery/
+owned cleanup. Destination offline, not system/DNS/TLS/other-engine/API-ABI.
+Archives once; reviewer wrong symbol retained/corrected. #64 progress6584304805
+posted/read back, not closure; other Desktop/ordinary JavaFX adoption gates stay.
+Never replay accepted browser/Windows methods. Earlier315 comment receipt stored.
+
+Android six test/tooling paths qualify **14unique source controls**, as first11
+10pass/one refusal-expectation error, only failed1pass, then NEW1+affected2pass3;
+no accepted populations replayed. Fresh test compiler/APK0/44.01s/1206actualheld,
+production UP-TO-DATE/18warnings14recycle+4native-config; later three tooling-only
+fixture deltas reuse applicable compiler, not false current whole-map equality.
+ZERO new Android native. Exact original actions20s/six admissions/assertions and
+old1000ms observer hold; extra independent cooperative1000ms snapshot observes
+button casing/independent eligibility and global row/installed root_downloads
+toolbar facts only. Uppercase is NOT selection; null/partial is not absence.
+Original41421993681 remainsFAILED2/0pass/#55open/cloudC1separate; next only Local2
+after frozen single-row request, no blind unchanged/accepted IO/APK replay.
+SOLO/serial-local/8GiB/max2combinedhosted INCLUDINGqueued; every publishing/Pages/
+main/history/native/consumer/API-ABI/dependency/legal/security/readiness gate holds.
+Last verified97closed/75open/172total and22implemented/42partial/95verified/five
+unresolved; ZERO closure/publication or default dependency adoption in this batch.
+
 ## Focused platform originals reviewed — 2026-11-02
 
 [Originals308–315](docs/development/evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)

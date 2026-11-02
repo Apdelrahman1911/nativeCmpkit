@@ -14,6 +14,7 @@ import unittest
 
 import android_io_named_system_documents as source
 import android_io_named_system_documents_gate_observations as gate
+from android_io_named_gate_details import detail_preimage, detail_fixture_postimage
 
 BASE_UI_SHA256 = "1e71a260b1bf501f3f5b7a6121f7cf7dfcc2e6d274cd2733f2f516f8aea5b19f"
 ROLES = {"OWNED_FOLDER_ROW", "OPEN_TREE_BUTTON"}
@@ -111,9 +112,11 @@ class NamedSystemIoGateObservationNewControls(unittest.TestCase):
         return (self.root / source.UI).read_text()
 
     def replace_once(self, before, after):
-        text = self.ui()
+        # Address the original observer once, not a duplicate bound in the new
+        # separate snapshot. Preserve malformed old bytes for the original refusal.
+        text = detail_preimage(self.ui())
         self.assertEqual(1, text.count(before), "Each NEW mutation must address one exact candidate fragment")
-        (self.root / source.UI).write_text(text.replace(before, after, 1))
+        (self.root / source.UI).write_text(detail_fixture_postimage(text.replace(before, after, 1)))
 
     def refuses(self, message=gate.OBSERVATION_REFUSAL):
         with self.assertRaisesRegex(ValueError, "^" + message + "$"):

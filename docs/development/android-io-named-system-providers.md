@@ -1,5 +1,24 @@
 # Android named system-provider verification
 
+## Independent detail snapshot qualified and compiled — 2026-11-02
+
+[317–319](evidence/current-platform-recovery-20261101/browser-android317-319/README.md)
+adds only after-timeout scalar observations for the remaining failed gates:
+button casing/presence and independent enabled/clickable counts; global owned-row
+query, exact dir_list children/scrollability, and toolbar comparison to installed
+Downloads `string/root_downloads` with canonical readback. Case conversion is
+**diagnostic only**, never selection. No provider content query or alternate root.
+
+14 unique important source methods are accepted with failure-only recovery and
+no unchanged accepted populations replayed. Fresh test compiler/APK **0/44.01s**
+holds1,206 inputs, production UP-TO-DATE,18 warnings retained. Later fixture-only
+Python deltas reuse unchanged applicable compiler/APK bytes. Zero new native.
+The original20s action, six admissions, assertions and original1,000ms observer
+remain; the new snapshot has a **second independent cooperative1,000ms** budget,
+not a hard or total1,000ms deadline. Partial/null is not zero/absence or the old
+poll state. Next only the original failed Local2 methods on a frozen revision;
+#55/cloudC1 remain open. Earlier preparation counts below retain their dates.
+
 ## First failure-only observation executed — 2026-11-02
 
 [Original312/review314](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)

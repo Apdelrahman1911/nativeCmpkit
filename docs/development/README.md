@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## JavaFX owning cancellation patch passes Linux and Windows — 2026-11-02
+
+[Actual262–270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+qualifies genuine public JavaFX cancellation on Linux4/4 and Windows4/4 with
+precleanup peer EOF, incomplete plain/gzip bodies, concurrent independent views,
+repeated idle cancellation and same-engine recovery. The exact21.0.13 fix cancels
+the stored response future; no private loader override.55 passive source/results
+checks bind11 source/JAR and10 reported compiled-class hashes. These are **zero
+library methods**, not Windows public Stop or consumer/API-ABI/security acceptance.
+The original checkout failure and Linux baseline red remain preserved; no accepted
+runtime replay. **The patch is not active in ordinary Gradle/library dependencies.**
+Next: maintained full artifact/source/notices/provenance candidate and the failed
+original Windows Stop method. #64 stays open; no closure or publication clearance.
+Last verified97closed/75open/172total,22implemented/42partial/95verified/five
+unresolved. Work remains solo under the owner's current instruction.
+
 ## Solo hosted249 results and dependency diagnosis — 2026-11-02
 
 [Original255–256/review257/diagnostics258–260](evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)

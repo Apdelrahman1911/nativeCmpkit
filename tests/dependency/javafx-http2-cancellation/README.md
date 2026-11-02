@@ -36,6 +36,14 @@ hard-preemption, hostile-process or all-network-protocol certification.
 
 ## Important results
 
+**2026-11-02:** [Saved Windows270 and solo source/results review271](../../../docs/development/evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+now qualify **4/4 Windows dependency scenarios**, process0/6.813s on
+Temurin17.0.20.1+1. Eleven source/JAR and ten reported compiled-class hashes
+match exact Git/pins/independently retained Linux bytes. No actual binary or
+independent after-map is uploaded. This is **zero NativeCmpKit library methods**;
+the patch remains nonactivated. Both accepted Linux and Windows populations must
+be reused, not replayed. The earlier missing-Windows wording below is historical.
+
 The original Linux unmodified-JAR baseline failed once at real peerEOF0 with
 responseBytes0. The exact private module patch subsequently passed **4/4 in
 3.5332s**, with same-engine recovery and whole-process exit0. All source/JAR and
@@ -59,7 +67,7 @@ x64 only. Select a new owned output directory; existing results refuse overwrite
 # Offline synthetic runner guards; zero JavaFX/native/library executions.
 python -B -m unittest discover -s tests/dependency/javafx-http2-cancellation -p 'test_*.py' -v
 
-# Example only: missing Windows population on a Windows host.
+# Example only: changed/unseen population on a Windows host, not accepted270 replay.
 python -B tests/dependency/javafx-http2-cancellation/probe_runner.py \
   --download --cases all --output build/javafx-dependency-regression
 

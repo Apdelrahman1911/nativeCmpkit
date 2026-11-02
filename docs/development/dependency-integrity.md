@@ -7,6 +7,20 @@ Current [containment](containment.md) authorizes routine dependency acquisition
 and verification workflows without further approval. Publication and deployment
 remain gated; this authority does not waive trust or actual-runtime prerequisites.
 
+## JavaFX cancellation candidate; no default adoption — 2026-11-02
+
+[Exact21.0.13 source/patch and Linux+Windows evidence262–271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+qualify four dependency-native scenarios per x64 platform. The fix cancels the
+HTTP response future; it is not active in ordinary library dependencies. Official
+source/JAR pins, retained GPLv2/Classpath legal bytes and identical member
+descriptors are useful provenance/compatibility evidence, not independent
+signature/advisory/legal-distribution or full consumer/API-ABI clearance.
+Any adoption needs an identified maintained artifact, complete corresponding
+source and modification/third-party notices, no duplicate original/patched web
+classes, platform verification and actual original public library Stop acceptance.
+No cached upstream JAR may be edited, no private JavaFX route may be disabled,
+and no package/release publication is implied by the diagnostic green run.
+
 ## Verified documentation scope
 
 See [`requirements/README.md`](../../requirements/README.md). A fresh, isolated

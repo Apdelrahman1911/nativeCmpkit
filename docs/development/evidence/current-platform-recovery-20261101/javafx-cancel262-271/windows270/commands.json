@@ -1,0 +1,82 @@
+[
+  {
+    "command": [
+      "C:\\hostedtoolcache\\windows\\Java_Temurin-Hotspot_jdk\\17.0.20-101\\x64\\bin\\java.EXE",
+      "-version"
+    ],
+    "elapsed_seconds": 1.5939999999999372,
+    "exit_code": 0,
+    "name": "java-version",
+    "stderr_bytes": 196,
+    "stderr_sha256": "2c05c59b13a701146c37d79936303eb8080cd353e096756dfab1cd833a306423",
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timeout": false
+  },
+  {
+    "command": [
+      "C:\\hostedtoolcache\\windows\\Java_Temurin-Hotspot_jdk\\17.0.20-101\\x64\\bin\\javac.EXE",
+      "--module-path",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-base-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-controls-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-graphics-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-media-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-web-21.0.13-win.jar",
+      "--add-modules",
+      "javafx.controls,javafx.web",
+      "-d",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\probe-classes",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\tests\\dependency\\javafx-http2-cancellation\\JavaFxPublicCancellationProbe.java"
+    ],
+    "elapsed_seconds": 2.9220000000000255,
+    "exit_code": 0,
+    "name": "compile-probe",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timeout": false
+  },
+  {
+    "command": [
+      "C:\\hostedtoolcache\\windows\\Java_Temurin-Hotspot_jdk\\17.0.20-101\\x64\\bin\\javac.EXE",
+      "--module-path",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-base-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-controls-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-graphics-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-media-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-web-21.0.13-win.jar",
+      "--add-modules",
+      "javafx.web",
+      "--patch-module",
+      "javafx.web=D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\source",
+      "-d",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\patched-module",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\source\\HTTP2Loader.java"
+    ],
+    "elapsed_seconds": 1.0159999999999627,
+    "exit_code": 0,
+    "name": "compile-patch",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timeout": false
+  },
+  {
+    "command": [
+      "C:\\hostedtoolcache\\windows\\Java_Temurin-Hotspot_jdk\\17.0.20-101\\x64\\bin\\java.EXE",
+      "--module-path",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-base-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-controls-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-graphics-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-media-21.0.13-win.jar;D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\dependencies\\javafx-web-21.0.13-win.jar",
+      "--add-modules",
+      "javafx.controls,javafx.web",
+      "--patch-module",
+      "javafx.web=D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\patched-module",
+      "-Djava.io.tmpdir=D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\tmp",
+      "-cp",
+      "D:\\a\\nativeCmpkit\\nativeCmpkit\\build\\javafx-dependency-regression\\probe-classes",
+      "JavaFxPublicCancellationProbe",
+      "zero-header,plain-body,gzip-body,concurrent"
+    ],
+    "elapsed_seconds": 6.812999999999988,
+    "exit_code": 0,
+    "name": "native-cases",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 1042,
+    "stdout_sha256": "eb2d6dbcaf0f1f08f4e0aa55077bc17362f930a517a110fab61cd2091c33517d",
+    "timeout": false
+  }
+]

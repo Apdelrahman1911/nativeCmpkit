@@ -1,5 +1,16 @@
 # Native features: current implementation and verification ledger
 
+## 2026-11-02: owning JavaFX cancellation dependency patch qualified, not adopted
+
+[Actual262–270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+accepts4/4 dependency-native scenarios on Linux and Windows: public cancellation
+causes real precleanup EOF, incomplete plain/gzip bodies parse, concurrent views
+remain independent and the same engine recovers. The source-confirmed21.0.13 fix
+cancels the stored response future, without private route overrides. **Zero library
+methods; ordinary dependencies are unchanged.** #64 remains open pending maintained
+artifact/source/legal/provenance adoption, original public Windows Stop and the
+other original Desktop/offline-browser criteria. All publication gates remain.
+
 ## 2026-10-30: observable Android popup rejection, native verification pending
 
 [NATIVE-038/#90 contract](android-popup-policy.md) and
@@ -30,8 +41,9 @@ actual security methods each. Whole original Wasm failure retained; new Wasm-onl
 workflow succeeds.38 closures confirmed, no native/other-engine/physical/ABI/consumer/
 dependency/legal/release waiver. Local Node timeout executed zero tests.
 
-Historical audit area: `audit_native_features`; current work uses useful disjoint
-agents under the owner's 2026-10-31 amendment, with lead-owned acceptance.
+Historical audit area: `audit_native_features`; the earlier disjoint-agent work
+is retained. Current work continues solo under the owner's 2026-11-02 amendment,
+with lead-owned acceptance and no new/resumed agent assignments.
 This additive development record covers
 **NATIVE-001–039**: WebView, camera, share, and the empty/excluded maps, media and
 notification experiments. The baseline [findings](../audit/findings/NATIVE.json),

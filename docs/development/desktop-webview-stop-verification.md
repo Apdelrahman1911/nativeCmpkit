@@ -1,5 +1,24 @@
 # Desktop WebView stop-loading verification
 
+## Dependency patch qualified; library adoption next — 2026-11-02
+
+[Linux263/Windows270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+accepts4/4 genuine public JavaFX dependency cases on each x64 platform. Real EOF
+must precede peer cleanup, incomplete plain/gzip bodies are parsed natively, an
+independent request is not cancelled and the same engine recovers. Exact21.0.13
+source cancels its response future; public NativeCmpKit APIs are unchanged.
+The Windows process exits0/6.813s on Temurin17.0.20.1+1, with11 source/JAR and
+10 reported binary bindings qualified against exact Git/pins/retained Linux bytes.
+No accepted cases were rerun. **Zero library methods; patch not active by default.**
+
+Original library41398651975 below stays failed. Next prepare an identified full
+dependency artifact, corresponding source/notices/provenance and replace the
+web runtime JAR without duplicate/shadow classes. Verify only
+`publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner`
+with its unchanged public command, original10s/six predicates and cleanup. #64
+still needs other Desktop and actual offline browser criteria; no closure, full
+API/ABI/consumer/security/legal/readiness or publishing inference.
+
 ## Windows249 and JavaFX cancellation blocker — 2026-11-02
 
 [Original255/solo review257](evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)

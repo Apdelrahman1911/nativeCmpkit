@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Solo JavaFX cancellation dependency qualified on Windows — 2026-11-02
+
+[Actual262–270/review271](docs/development/evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)
+retains Linux263 unmodified public-Worker red1/13.049950038s/peerEOF0 with observed
+HTTP2Loader, not historical Windows-route proof. Exact21.0.13 owning future-cancel
+patch passes Linux4/4/process0/3.533200393s and Windows41410458520 at3bda9234
+4/4/process0/6.813s/Temurin17.0.20.1+1; ZERO library methods/XML. Real peer EOF
+precedes cleanup, plain/incomplete-gzip native titles and independent concurrent
+WebView/repeated idle cancel/same-engine recovery hold.55 passive checks qualify
+11actual source/JAR hashes and10reported class hashes equal retained Linux bytes;
+no actual uploaded binary or second after-map.1203/1281 selectors exclude new
+diagnostic files; separate bindings apply. Descriptor/normalized inner-code
+checks are not full consumer/API-ABI/security/legal acceptance. First18 controls
+have terminal-only custody, NEW4+NEW2 stronger receipts;24unique/not one fresh24.
+Original267 checkout-longpath failure remains ZERO compiler/native; scoped
+precheckout CRLF-off/longpaths+sparse recovery is read-only/no cache/no JAR upload.
+Patch remains NONACTIVATED. Next maintained full dependency-artifact candidate,
+corresponding source/notices/provenance and failed original public Windows Stop1;
+not reflective/private-route/classpath-shadow workaround or accepted-case replay.
+#64 stays open,97closed/75open/172total and22implemented/42partial/95verified/five
+unresolved unchanged. Continue SOLO/no new/resumed agents, serial local/8GiB/max2
+combined hosted INCLUDING queued and all publishing/Pages/main/history/native/
+consumer/API-ABI/dependency/legal/security/readiness gates. No publication.
+
 ## Solo hosted249 reviewed: Share passes, Windows dependency blocker — 2026-11-02
 
 [Original255–256/review257/diagnostics258–260](docs/development/evidence/current-platform-recovery-20261101/hosted249-review255-260/README.md)

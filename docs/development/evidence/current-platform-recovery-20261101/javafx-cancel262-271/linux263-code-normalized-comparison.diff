@@ -1,0 +1,19 @@
+--- original-normalized
++++ candidate-normalized
+@@ -457,7 +457,15 @@
+       38: aload_0
+       39: iconst_1
+       40: putfield      #CP                // Field canceled:Z
+-      43: return
++      43: aload_0
++      44: getfield      #CP                // Field response:Ljava/util/concurrent/CompletableFuture;
++      47: ifnull        59
++      50: aload_0
++      51: getfield      #CP                // Field response:Ljava/util/concurrent/CompletableFuture;
++      54: iconst_1
++      55: invokevirtual #CP                // Method java/util/concurrent/CompletableFuture.cancel:(Z)Z
++      58: pop
++      59: return
+ 
+   private void callBackIfNotCanceled(java.lang.Runnable);
+     descriptor: (Ljava/lang/Runnable;)V

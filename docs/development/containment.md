@@ -21,6 +21,8 @@ and exact three/two dependency/probe/builder input paths on push; no broad paths
 main/release/tag/schedule/deployment triggers or write permissions are authorized.
 The owner already authorized automatic routine verification. Actions remain all
 allowed without mandatory SHA pinning; this does not relax any publishing gate.
+Both JavaFX workflows now gate native jobs on `workflow_dispatch` only; their
+historical narrow push registration must not replay accepted native cases.
 The later dated observation of two workflows describes2026-10-26, not current
 inventory. [Owning policy regression evidence](evidence/current-platform-recovery-20261101/platform-preflight300-305/README.md)
 retains the stale fixture failure and adversarial scope checks.

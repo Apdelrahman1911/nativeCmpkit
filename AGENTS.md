@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## macOS ARM64 Stop accepted; Linux EGL prerequisite repaired — 2026-11-02
+
+[Actual363–372](docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)
+accepts41523725059 at924a06c2: original macOS ARM64 Stop1/1/oneXML/Gradle0/
+378.17s/method8.785s. Original10s/six predicates/precleanup EOF/zero-response/
+same-owner recovery/cleanup hold; exclude from unchanged replay. Linux41523697951
+staysFAILED1/0pass/238.06s: missing libEGL.so.1 during Compose/Skiko startup,
+before Stop/transport.36 passive checks accept four1215/four18 actual maps before
+repair; candidate binaries unuploaded, producer pins match cached packaging only.
+Two-path Linux-only runtime package/strict ldconfig repair passes NEW red370 then
+failed-only green3711/1/seven mutations/0.001s; Actionlint0/review37214passive.
+All1215 library inputs stay exact; twoof18 candidate inputs change (workflow/test),
+so pending macOS x6441525181917 retains its frozen924a06c2 map, not full-current18.
+ZERO new local compiler/native. #64 progress6588525609 already readback; open,
+ordinary-adoption/correspondingsource/legal/security/consumer/API-ABI gates remain.
+Next LinuxARM64Stop1 only after commit/push/capacity; pending x64 originals once.
+97closed/75open/172total;22implemented/42partial/95verified/five unresolved.
+SOLO/no spawning/resuming/reassignment, serial/8GiB/max2hostedINCLUDINGqueued,
+development-only/read-only Actions/all/no mandatory SHA pinning; no publication,
+Pages/main/history change or accepted-method/original-download replay.
+
 ## All three failed Desktop candidate routes qualified together — 2026-11-02
 
 [Owning351–361](docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)

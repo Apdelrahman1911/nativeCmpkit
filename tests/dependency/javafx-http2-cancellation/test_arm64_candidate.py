@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shlex
 import tempfile
 import time
 import unittest
@@ -24,6 +25,43 @@ METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnThe
 
 
 class Arm64CandidateTests(unittest.TestCase):
+    def test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses(self):
+        source = (runner.ROOT / runner.WORKFLOW).read_text()
+
+        def verify(text):
+            start = "      - name: Linux ARM64 display and native GTK prerequisites only\n"
+            end = "      - name: Exact Rust compiler setup (no bootstrap script)\n"
+            self.assertEqual(text.count(start), 1)
+            stage = text.split(start, 1)[1].split(end, 1)[0]
+            self.assertIn("if: inputs.platform == 'linux-arm64'", stage)
+            installs = [line for line in stage.splitlines()
+                        if "apt-get install" in line and not line.strip().startswith("#")]
+            self.assertEqual(len(installs), 1)
+            tokens = shlex.split(installs[0].split("apt-get install", 1)[1])
+            for package in ("libegl1", "libegl-mesa0", "libgl1-mesa-dri", "xauth",
+                            "xvfb", "libgtk-3-0", "libasound2t64"):
+                self.assertIn(package, tokens)
+            self.assertIn("ldconfig -p | grep -F 'libEGL.so.1'", stage)
+            self.assertNotIn("|| true", stage)
+            self.assertNotIn("continue-on-error: true", stage)
+            self.assertNotIn("SKIKO_RENDER_API", text)
+            self.assertNotIn("-Dskiko.renderApi", text)
+
+        verify(source)
+        mutations = (
+            source.replace(" libegl1 ", " ", 1),
+            source.replace(" libegl-mesa0 ", " ", 1),
+            source.replace(" libgl1-mesa-dri\n", "\n", 1),
+            source.replace("ldconfig -p | grep -F 'libEGL.so.1'", "true", 1),
+            source.replace("ldconfig -p | grep -F 'libEGL.so.1'",
+                           "ldconfig -p | grep -F 'libEGL.so.1' || true", 1),
+            source.replace("if: inputs.platform == 'linux-arm64'", "if: false", 1),
+            source + "\n# No render-backend override is permitted\nSKIKO_RENDER_API: SOFTWARE\n",
+        )
+        for number, mutation in enumerate(mutations):
+            with self.subTest(mutation=number), self.assertRaises(AssertionError):
+                verify(mutation)
+
     def plan(self):
         return runner.focused_plan(runner.ROOT, FOCUS)
 

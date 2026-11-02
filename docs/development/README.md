@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## macOS ARM64 cancellation passes; Linux runtime repair ready — 2026-11-02
+
+[Originals363–372](evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)
+accept the original private-candidate macOS ARM64 Stop **1/1**, fresh XML,
+Gradle0/378.17s and original precleanup transport/recovery/cleanup assertions.
+Do not replay it. Linux ARM64 failed before those assertions because Skiko
+could not load `libEGL.so.1`; the exact Linux-only CI prerequisite is repaired,
+one new red/failed-only green control and seven mutations pass, Actionlint passes.
+36 native-result and14 repair source checks are passive, not new native tests.
+All1215 library inputs remain frozen; two candidate workflow/test inputs change,
+so pending macOS x64's full18 map stays its older immutable924a06c2 map.
+Next only repaired Linux Stop and once-acquired pending x64 originals. #64 stays
+open for ordinary dependency adoption/corresponding-source/legal/security/consumer/
+API–ABI;97closed/75open/172total. Solo/serial/8GiB/max2 combined including queued,
+development/read-only verification only; no publication or main/Pages/history change.
+
 ## One owning cancellation batch for all three remaining Desktop hosts — 2026-11-02
 
 [Preparation351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)

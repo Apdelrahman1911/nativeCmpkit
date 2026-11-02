@@ -1,0 +1,991 @@
+Fetching distribution.
+Downloading https://services.gradle.org/distributions/gradle-9.7.1-bin.zip
+..............10%..............20%...............30%..............40%...............50%..............60%...............70%..............80%..............90%...............100%
+
+Welcome to Gradle 9.7.1!
+
+Here are the highlights of this release:
+ - Isolated Projects graduates to incubating
+ - Broader Configuration Cache compatibility
+ - Resilient Sync helps you fix broken builds
+ - More source locations in problem reports
+
+For more details see https://docs.gradle.org/9.7.1/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+NATIVECMPKIT_DAEMON_JVM {"schema_version":1,"major":17,"java_version":"17.0.21","java_vendor":"Eclipse Adoptium","runtime_version":"17.0.21+9","gradle_version":"9.7.1","launcher_home_configured":true,"launcher_home_matches_daemon":true}
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins
+> Task :convention-plugins:compilePluginsBlocks
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors
+> Task :convention-plugins:generateScriptPluginAdapters
+> Task :convention-plugins:compileKotlin
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors
+> Task :convention-plugins:processResources
+> Task :convention-plugins:classes
+> Task :convention-plugins:jar
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-aarch64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-camera-picker' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-core
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-core' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-cupertino-icons
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-cupertino-icons' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-file-picker
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-file-picker' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-file-picker-coil
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-file-picker-coil' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-geo
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-io
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-io' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-maps
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-navigation
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-share
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-share' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-ui
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-ui' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-webview
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-webview' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-background-location
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-background-location' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-bluetooth
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-bluetooth' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-calendar
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-calendar' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-camera
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-camera' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-contacts
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-contacts' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-core
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-core' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-gallery
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-gallery' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-location
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-location' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-microphone
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-microphone' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-notifications
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-notifications' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :calf-permissions:calf-permissions-wifi
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+w: ⚠️ Kotlin Multiplatform publishing is disabled
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+Consequently, publishing for project 'calf-permissions-wifi' has been disabled to prevent incomplete artifacts.
+
+Compilation and publication of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+Solutions:
+ * Run the publish task on one of the supported host platforms (listed above).
+ * If using a CI/CD service, ensure the agent runs a supported OS (e.g., a Linux x86_64 agent).
+ * To force publishing (only for non-native targets), add 'kotlin.internal.mpp.allowMultiplatformPublicationsOnUnsupportedHost=true' to your Gradle properties.
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Configure project :sample:common
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: ⚠️ The host platform is not supported by Kotlin/Native
+The Kotlin/Native compiler does not support your current host platform: linux-aarch64.
+
+Compilation of Kotlin/Native targets is only possible on the following host platforms:
+* Linux (x86_64)
+* Windows (x86_64)
+* macOS (arm64)
+* macOS (x86_64)
+
+Your platform is not on this list, so the Kotlin/Native compiler cannot be executed.
+Solutions:
+ * Run your build on one of the supported host platforms (listed above).
+ * If using a CI/CD service, configure your build pipeline to use a supported runner (e.g., a Linux x86_64 agent).
+See https://kotlinlang.org/docs/native-target-support.html for more details.
+
+
+> Task :calf-webview:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-webview:generateComposeResClass SKIPPED
+> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+
+> Task :calf-webview:compileKotlinDesktop
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt:97:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt:282:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-webview:compileDesktopMainJava NO-SOURCE
+> Task :calf-webview:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-webview:assembleDesktopMainResources
+> Task :calf-webview:desktopProcessResources
+> Task :calf-webview:processDesktopMainResources SKIPPED
+> Task :calf-webview:desktopMainClasses
+> Task :calf-webview:prepareEmbeddedPublicationNotices
+> Task :calf-webview:desktopJar
+> Task :calf-webview:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForNonAndroidTest SKIPPED
+
+> Task :calf-webview:compileTestKotlinDesktop
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt:181:38 Unnecessary non-null assertion (!!) on a non-null receiver of type 'JFrame'.
+w: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt:181:60 Unnecessary non-null assertion (!!) on a non-null receiver of type 'JFrame'.
+
+> Task :calf-webview:compileDesktopTestJava NO-SOURCE
+> Task :calf-webview:assembleDesktopTestResources
+> Task :calf-webview:desktopTestProcessResources
+> Task :calf-webview:processDesktopTestResources SKIPPED
+> Task :calf-webview:desktopTestClasses
+
+> Task :calf-webview:desktopTest
+NATIVECMPKIT_JAVAFX_CANDIDATE task=:calf-webview:desktopTest originalRemoved=1 candidateCount=1 originalSha256=762e3bd7dfbabb418e65e3107e48fcfe7bd43437afeadd641855708f109503af candidateSha256=144c025cebbcf3539319d62017c0e872ea927335b571a23110da834fff044f85 runtimeModulePatch=false privateRouteOverride=false
+NATIVECMPKIT_TEST_RUNTIME task=:calf-webview:desktopTest gradle=9.7.1 java=17.0.21 vendor=Eclipse Adoptium os=Linux arch=aarch64
+
+DesktopWebViewStopRedirectAcceptanceTest[desktop] > publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop] FAILED
+    java.lang.ExceptionInInitializerError at SurfaceSkiaLayerComponent.desktop.kt:56
+        Caused by: org.jetbrains.skiko.LibraryLoadException at LibraryLoader.kt:49
+            Caused by: java.lang.UnsatisfiedLinkError at NativeLibraries.java:-2
+
+1 test completed, 1 failed
+
+> Task :calf-webview:desktopTest FAILED
+
+[Incubating] Problems report is available at: file:///home/runner/work/nativeCmpkit/nativeCmpkit/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':calf-webview:desktopTest'.
+> There were failing tests. See the report at: file:///home/runner/work/nativeCmpkit/nativeCmpkit/calf-webview/build/reports/tests/desktopTest/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 3m 57s
+21 actionable tasks: 21 executed

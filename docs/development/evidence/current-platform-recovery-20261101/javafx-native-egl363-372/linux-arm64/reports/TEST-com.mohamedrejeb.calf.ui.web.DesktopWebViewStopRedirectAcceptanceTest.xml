@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="DesktopWebViewStopRedirectAcceptanceTest[desktop]" tests="1" skipped="0" failures="1" errors="0" timestamp="2026-11-02T21:00:57.330Z" hostname="runnervm9u1px" time="0.594">
+  <properties/>
+  <testcase name="publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]" classname="com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest" time="0.59">
+    <failure message="java.lang.ExceptionInInitializerError" type="java.lang.ExceptionInInitializerError">java.lang.ExceptionInInitializerError
+	at androidx.compose.ui.scene.skia.SurfaceSkiaLayerComponent.&lt;init&gt;(SurfaceSkiaLayerComponent.desktop.kt:56)
+	at androidx.compose.ui.scene.skia.SkiaLayerComponent_desktopKt.SkiaLayerComponent(SkiaLayerComponent.desktop.kt:73)
+	at androidx.compose.ui.scene.ComposeContainer.createSkiaLayerComponent(ComposeContainer.desktop.kt:442)
+	at androidx.compose.ui.scene.ComposeContainer.access$createSkiaLayerComponent(ComposeContainer.desktop.kt:90)
+	at androidx.compose.ui.scene.ComposeContainer$mediator$2.invoke(ComposeContainer.desktop.kt:156)
+	at androidx.compose.ui.scene.ComposeContainer$mediator$2.invoke(ComposeContainer.desktop.kt:156)
+	at androidx.compose.ui.scene.ComposeSceneMediator.skiaLayerComponent_delegate$lambda$0(ComposeSceneMediator.desktop.kt:180)
+	at kotlin.SynchronizedLazyImpl.getValue(LazyJVM.kt:86)
+	at androidx.compose.ui.scene.ComposeSceneMediator.getSkiaLayerComponent(ComposeSceneMediator.desktop.kt:180)
+	at androidx.compose.ui.scene.ComposeSceneMediator.&lt;init&gt;(ComposeSceneMediator.desktop.kt:181)
+	at androidx.compose.ui.scene.ComposeSceneMediator.&lt;init&gt;(ComposeSceneMediator.desktop.kt:121)
+	at androidx.compose.ui.scene.ComposeContainer.&lt;init&gt;(ComposeContainer.desktop.kt:143)
+	at androidx.compose.ui.awt.ComposeWindowPanel.&lt;init&gt;(ComposeWindowPanel.desktop.kt:59)
+	at androidx.compose.ui.awt.ComposeWindow.&lt;init&gt;(ComposeWindow.desktop.kt:77)
+	at androidx.compose.ui.awt.ComposeWindow.&lt;init&gt;(ComposeWindow.desktop.kt:61)
+	at androidx.compose.ui.awt.ComposeWindow.&lt;init&gt;(ComposeWindow.desktop.kt:75)
+	at androidx.compose.ui.awt.ComposeWindow.&lt;init&gt;(ComposeWindow.desktop.kt:73)
+	at com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest$NativeWindow.window$lambda$1(DesktopWebViewStopRedirectAcceptanceTest.kt:240)
+	at com.mohamedrejeb.calf.ui.web.BoundedDesktopAwtWindow.initialize(BoundedDesktopAwtWindow.kt:54)
+	at com.mohamedrejeb.calf.ui.web.BoundedDesktopAwtWindow.access$initialize(BoundedDesktopAwtWindow.kt:15)
+	at com.mohamedrejeb.calf.ui.web.BoundedDesktopAwtWindow$1.invoke(BoundedDesktopAwtWindow.kt:41)
+	at com.mohamedrejeb.calf.ui.web.BoundedDesktopAwtWindow$1.invoke(BoundedDesktopAwtWindow.kt:41)
+	at com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest$NativeWindow.window$lambda$0$0(DesktopWebViewStopRedirectAcceptanceTest.kt:239)
+	at java.desktop/java.awt.event.InvocationEvent.dispatch(InvocationEvent.java:318)
+	at java.desktop/java.awt.EventQueue.dispatchEventImpl(EventQueue.java:773)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:720)
+	at java.desktop/java.awt.EventQueue$4.run(EventQueue.java:714)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:399)
+	at java.base/java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.desktop/java.awt.EventQueue.dispatchEvent(EventQueue.java:742)
+	at java.desktop/java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:203)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:124)
+	at java.desktop/java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:113)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
+	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+Caused by: org.jetbrains.skiko.LibraryLoadException: Failed to loade library /home/runner/.skiko/skiko-linux-arm64-ee66e016db90b5628bc4277c074ece4f88f3ccf0f2c736ab6053ba12f7bb36fe/libskiko-linux-arm64.so
+	at org.jetbrains.skiko.LibraryLoader.loadLibraryOrCopy(LibraryLoader.kt:49)
+	at org.jetbrains.skiko.LibraryLoader.findAndLoadLibrary(LibraryLoader.kt:160)
+	at org.jetbrains.skiko.LibraryLoader.loadOnce(LibraryLoader.kt:109)
+	at org.jetbrains.skiko.Library.load(Library.kt:29)
+	at org.jetbrains.skiko.SkiaLayer.&lt;clinit&gt;(SkiaLayer.awt.kt:40)
+	... 36 more
+Caused by: java.lang.UnsatisfiedLinkError: /home/runner/.skiko/skiko-linux-arm64-ee66e016db90b5628bc4277c074ece4f88f3ccf0f2c736ab6053ba12f7bb36fe/libskiko-linux-arm64.so: libEGL.so.1: cannot open shared object file: No such file or directory
+	at java.base/jdk.internal.loader.NativeLibraries.load(Native Method)
+	at java.base/jdk.internal.loader.NativeLibraries$NativeLibraryImpl.open(NativeLibraries.java:388)
+	at java.base/jdk.internal.loader.NativeLibraries.loadLibrary(NativeLibraries.java:232)
+	at java.base/jdk.internal.loader.NativeLibraries.loadLibrary(NativeLibraries.java:174)
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2394)
+	at java.base/java.lang.Runtime.load0(Runtime.java:755)
+	at java.base/java.lang.System.load(System.java:1970)
+	at org.jetbrains.skiko.LibraryLoader.loadLibraryOrCopy(LibraryLoader.kt:38)
+	... 40 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,16 @@
+test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses (test_arm64_candidate.Arm64CandidateTests.test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses) ... FAIL
+
+======================================================================
+FAIL: test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses (test_arm64_candidate.Arm64CandidateTests.test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/tests/dependency/javafx-http2-cancellation/test_arm64_candidate.py", line 50, in test_linux_renderer_libraries_are_explicit_and_missing_or_soft_failed_egl_preflight_refuses
+    verify(source)
+  File "/root/projects/nativeCmpKit/tests/dependency/javafx-http2-cancellation/test_arm64_candidate.py", line 43, in verify
+    self.assertIn(package, tokens)
+AssertionError: 'libegl1' not found in ['--no-install-recommends', '-y', 'xvfb', 'libgtk-3-0', 'libasound2t64']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

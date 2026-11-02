@@ -45,7 +45,7 @@
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d",
     "docs/development/resolutions/IO.json": "c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42",
-    "docs/development/resolutions/NATIVE.json": "2a303283ea79f2d39df5ba95065f3923067aa76468774041ae767b16a9e72a30",
+    "docs/development/resolutions/NATIVE.json": "ca626fd01b02d0672c82d97f736a180446dc6f694d46bdd454314ed40dba034c",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
     "docs/development/resolutions/PERM-permissions.json": "9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "df7f0731def2884f10f20c612c3a78e95c5ee9543b7f4e05005e36f00c4a2e59",
     "docs/roadmap/backlog.json": "07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4"
   },
-  "input_fingerprint": "eb07b338dea0043c41df123a1a41f85fd0e660bedb83cd7fb75d20d3ee955fb7",
+  "input_fingerprint": "2700b17b97bea22693174a6953a904eb39aea539d980a29eca810aeffe05db10",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -13681,7 +13681,7 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/NATIVE.json",
-      "owner_record_sha256": "59d2eaf78cea8fa3dde59ce38521702a0f4a6d948c5036f5842b824751704e83",
+      "owner_record_sha256": "bf7733412ab37148666ae40c92a506b7e8ca5a3fad565a4fd69873103190b388",
       "owner_record": {
         "id": "NATIVE-005",
         "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
@@ -13701,7 +13701,8 @@
           "2026-11-02 original308/review311: Accept the original public Windows Stop/same-owner recovery/owned cleanup method1/1 under private identified full-JAR replacement. Ordinary dependencies remain unchanged; original failures and other Desktop/browser-offline criteria remain.",
           "2026-11-02 original346/review348: Accept Linux x64 request fail/fail/recovery and Linux ARM64 request plus302/public Reload, three original methods. ARM64 public Stop still fails at precleanup peerEOF0/pending1 despite terminal worker/library cancellation; no actual loader-route proof. Ordinary JavaFX dependencies unchanged.",
           "2026-11-02 original352/review353: Accept both macOS original request fail/fail/same-owner recovery methods; both public Stops fail precleanup peerEOF0/pending1 despite cancelled terminal state. Preserve original10s/six predicates, failed results and unobserved loader route. Ordinary JavaFX dependencies unchanged.",
-          "2026-11-02 owning351-361: Integrate fixed Linux ARM64/macOS pins and one original-Stop-only full-artifact candidate route per actual host. Both JavaFX native workflows are manual-only, preventing automatic replay of accepted Windows/Linux populations. Preserve old source/hash/XML/native/API criteria through exact3bindings/eight-fragment source-history composition; ordinary dependencies remain unchanged."
+          "2026-11-02 owning351-361: Integrate fixed Linux ARM64/macOS pins and one original-Stop-only full-artifact candidate route per actual host. Both JavaFX native workflows are manual-only, preventing automatic replay of accepted Windows/Linux populations. Preserve old source/hash/XML/native/API criteria through exact3bindings/eight-fragment source-history composition; ordinary dependencies remain unchanged.",
+          "2026-11-02 actual363-372: Accept the original private-candidate macOS ARM64 Stop; Linux ARM64 initialization fails before public Stop because libEGL.so.1 is missing. Repair only the Linux CI runtime prerequisites (explicit EGL/Mesa/xauth plus strict ldconfig), add one red/failed-only green regression with seven mutation refusals; no default dependency/API/native assertion change."
         ],
         "affected_paths": [
           "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
@@ -14159,6 +14160,21 @@
               "docs/development/evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/integration361.json",
               "docs/decisions/0013-private-javafx-cancellation-candidate.md"
             ]
+          },
+          {
+            "checkpoint": "solo-javafx-native-egl363-372-20261102",
+            "command": "Actual41523697951 Linux ARM64/41523725059 macOS ARM64 one-original-Stop each at924a06c2; solo cached source/results review368. NEW missing-EGL control red370, only failed method green371, changed-workflow Actionlint371 and passive repair review372.",
+            "result": "macOS ARM64 PASS1/1/one fresh XML/Gradle0/378.17s/method8.785s: original10s/six predicates/precleanup EOF/zero-response/same-owner recovery/cleanup qualify. Linux FAILED1/0pass/Gradle1/238.06s during Compose/Skiko libEGL.so.1 initialization, before Stop/transport; compiler/package/replacement pass.36 passive checks verify actual1215 library/four18 candidate maps against frozen source before repair; producer pins match independently cached packaging, remote binaries unuploaded. NEW red confirms missing libegl1; failed-only green1/1/seven mutation refusals/unittest0.001s/wrapper0.264198s. Actionlint0/14 passive repair checks; all1215 library inputs held and only workflow/test twoof18 candidate inputs changed. ZERO new local compiler/native.",
+            "scope": "Accept/exclude macOS ARM64 Stop from unchanged replay; Linux original remains failed and macOS x64 original41525181917 pending review at this checkpoint. Its frozen924a06c2 full18 map is not falsely equated to post-EGL worktree. Ordinary adoption/corresponding-source/legal/security/consumer/API-ABI remain separate; #64 open.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/REVIEW368.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/PROGRESS369.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/RED370.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/GREEN371.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/ACTIONLINT371.json",
+              "docs/development/evidence/current-platform-recovery-20261101/javafx-native-egl363-372/REVIEW372.json"
+            ]
           }
         ],
         "remaining": [
@@ -14178,10 +14194,11 @@
           "2026-11-02 actual316-319: JS1/Wasm1 previously reachable owned destination-offline native subset accepted and excluded from replay. Linux-pair4/macOS-pair4 and ordinary JavaFX dependency adoption remain; accepted Windows request/private Stop must not be replayed through full Windows alias. Corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 open.",
           "2026-11-02 actual346-349 supersedes the earlier Linux-pair4-pending observations: accept three Linux methods/exclude unchanged replay; only original ARM64 Stop1 remains failed, plus four unexecuted macOS methods. Do not dispatch the old Linux pair. An owning correction must pass failed-only ARM64 Stop with original10s/six predicates and precleanup EOF/recovery. Ordinary JavaFX adoption, complete native corresponding-source/legal/security/consumer/API-ABI gates remain. #64 stays open.",
           "2026-11-02 actual350-354 supersedes macOS-pair4-pending: both macOS request methods accepted/excluded from unchanged replay; both original public Stops fail. This Desktop cohort lacks only Linux ARM64 Stop and both macOS Stops. Never dispatch old macOS/Linux/Windows request aliases. One owning candidate correction must retain original10s/six predicates and actual precleanup EOF/recovery/cleanup; private candidate success alone does not satisfy ordinary JavaFX dependency adoption/corresponding-source/legal/security/consumer/API-ABI requirements. #64 stays open.",
-          "2026-11-02 candidate351-361: One owning correction/preparation is source/packaging-qualified for all three failed Desktop Stops; native executions remain zero for these routes. Dispatch exact Linux ARM64/macOS ARM64/macOS x64 candidates one host each on frozen development, max2 combined including queued. Never use old request-state pairs/Windows or dependency-native accepted populations. Ordinary JavaFX adoption, corresponding-source/legal/security/consumer/API-ABI remain separate even if all three candidates pass."
+          "2026-11-02 candidate351-361: One owning correction/preparation is source/packaging-qualified for all three failed Desktop Stops; native executions remain zero for these routes. Dispatch exact Linux ARM64/macOS ARM64/macOS x64 candidates one host each on frozen development, max2 combined including queued. Never use old request-state pairs/Windows or dependency-native accepted populations. Ordinary JavaFX adoption, corresponding-source/legal/security/consumer/API-ABI remain separate even if all three candidates pass.",
+          "2026-11-02 actual363-372 supersedes three-Desktop-Stops-pending: macOS ARM64 private-candidate Stop1 accepted/excluded; only repaired Linux ARM64 Stop1 and pending macOS x64 Stop1 original remain in this cohort. Linux first attempt is a confirmed missing-EGL initialization failure, not another executed cancellation failure. All1215 library inputs remain frozen; pending x64 candidate map differs only at unrelated Linux-workflow/test inputs after repair. Never replay old pairs/accepted methods or redownload cached originals. Ordinary dependency adoption, complete native corresponding-source/legal/security/consumer/API-ABI requirements remain; #64 stays open."
         ],
         "compatibility": "requestedUrl is additive; unknown final metadata now becomes null instead of retaining an old security/title signal.",
-        "verification_scope": "Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop, Linux x64 request plus ARM64 request/302-Reload and both macOS request methods are accepted on their applicable unchanged sources. Historical failures remain dated. Only Linux ARM64 Stop and both macOS Stops remain failed in this Desktop cohort; recovery/actual internal loader route are unobserved. macOS review353 accepts48 passive checks/four actual1212 maps, not current whole-tree/consumer/security certification. Dependency-native Linux4/Windows4 and private full-JAR Windows Stop1 do not activate the patch in ordinary dependencies. Never replay accepted methods or old macOS/Linux/Windows request-state aliases. All original criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 partially-verified/open.",
+        "verification_scope": "Current cumulative scoped acceptance: original Android request/Stop, iOS request2/DNS, JS/Wasm offline-destination, Windows request/private-candidate Stop, Linux x64 request plus ARM64 request/302-Reload, both macOS request methods and macOS ARM64 private-candidate Stop are accepted on applicable unchanged sources. Historical failures remain dated. Only Linux ARM64 Stop after confirmed EGL runtime prerequisite repair and pending macOS x64 Stop remain in this Desktop cohort. Native review368 accepts36 passive checks/four actual1215 library/four18 candidate maps before repair; all1215 library inputs remain equal afterward, only two nonlibrary candidate workflow/test paths change. Remote binaries unuploaded, producer pins match cached packaging, not independent remote-binary inspection. Private full-JAR native success does not activate ordinary JavaFX dependencies. Never replay accepted methods or old request aliases. All original criteria and corresponding-source/legal/security/consumer/API-ABI/adoption gates remain; #64 partially-verified/open.",
         "original_finding": "docs/audit/findings/NATIVE.json#NATIVE-005",
         "prior_owner_dispositions": [
           {

@@ -1,0 +1,159 @@
+{
+  "actual_jar_sha256_after": "144c025cebbcf3539319d62017c0e872ea927335b571a23110da834fff044f85",
+  "candidate_manifest": {
+    "cached_JARs_modified": false,
+    "classifier": "linux-aarch64",
+    "compiler_host_classifier": "linux-aarch64",
+    "cross_classifier_packaging_only": false,
+    "default_dependencies_changed": false,
+    "elapsed_seconds": 11.730681247999996,
+    "finished_at_utc": "2026-11-02T20:57:00.707023+00:00",
+    "full_native_corresponding_source_complete": false,
+    "held_inputs": true,
+    "identity": "21.0.13-nativecmpkit-cancel1-local",
+    "jar_file": "javafx-web-21.0.13-nativecmpkit-cancel1-local-linux-aarch64.jar",
+    "jar_sha256": "144c025cebbcf3539319d62017c0e872ea927335b571a23110da834fff044f85",
+    "java_sources_file": "javafx-web-21.0.13-nativecmpkit-cancel1-local-java-sources.jar",
+    "java_sources_sha256": "e461d22831521fdfb6505cc75c08e3bb4aea23fbfab99fb73123a0ed9d9a8b7a",
+    "library_tests": 0,
+    "modified_class_sha256": {
+      "com/sun/webkit/network/HTTP2Loader$1$1.class": "376ee53b07d3053160769c280bb2e3807dbc4a2700a1b94858a50ed05b9c2d04",
+      "com/sun/webkit/network/HTTP2Loader$1.class": "251086066cdba566bf7cf3b69c7109f41a2ca548fbcc91cd5f141415437f7345",
+      "com/sun/webkit/network/HTTP2Loader$2.class": "0b3dfffd8396ad3a76c5a480f3573babda6a1f17312270f90f0051635e0e0b1e",
+      "com/sun/webkit/network/HTTP2Loader$3.class": "e5324d3b4643749b6463e83f1027cbceced0f6552022b8b78020f56ca122616d",
+      "com/sun/webkit/network/HTTP2Loader.class": "9e8663af362be84a12111e785b06f2cadf3c1f02e6cd19a9782a2e9f7e4675c2"
+    },
+    "modified_source_sha256": "b7282616828487aca2eced4115cd5337783c17478ddaf462c7cdf1f21b8c081d",
+    "native_executions": 0,
+    "original_java_sources_sha256": "1e19f7235b5643c9394c0c526daae530268b21ecb16948d0bb2c43114bab5b9e",
+    "original_web_sha256": "762e3bd7dfbabb418e65e3107e48fcfe7bd43437afeadd641855708f109503af",
+    "passed": true,
+    "schema_version": 1,
+    "scope": "Private full-JAR dependency candidate; no default adoption, publication or release clearance",
+    "started_at_utc": "2026-11-02T20:56:48.976365+00:00",
+    "unchanged_nonowning_members": 542,
+    "upstream_web_members": 548
+  },
+  "classifier": "linux-aarch64",
+  "command": [
+    "/usr/bin/xvfb-run",
+    "-a",
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-webview:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner",
+    "--no-parallel",
+    "--no-build-cache",
+    "--init-script",
+    "tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts",
+    "-PnativecmpkitJavaFxCandidateRoot=build/ci-verification/javafx-library-candidate/runtime-candidate",
+    "-PnativecmpkitJavaFxCandidateSha256=144c025cebbcf3539319d62017c0e872ea927335b571a23110da834fff044f85",
+    "-PnativecmpkitJavaFxCandidateClassifier=linux-aarch64"
+  ],
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-webview"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 238.06,
+    "exit_code": 1
+  },
+  "finished_at_utc": "2026-11-02T21:00:58.979579+00:00",
+  "focus": "webview-desktop-stop-linux-arm64-recovery",
+  "full_JAR_runtime_replacement": {
+    "candidate_providers": 1,
+    "jar_sha256": "144c025cebbcf3539319d62017c0e872ea927335b571a23110da834fff044f85",
+    "original_removed": 1,
+    "private_route_override": false,
+    "runtime_module_patch": false
+  },
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "held_inputs": true,
+  "library_tests": 1,
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 1,
+      "failures": 1,
+      "module": "calf-webview",
+      "native_scenarios": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+          "disposition": "required-not-passed",
+          "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+          "required_on_host": true,
+          "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 0,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 1,
+          "not_applicable": 0,
+          "passed": 0,
+          "path": "calf-webview/build/test-results/desktopTest/TEST-com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest.xml",
+          "sha256": "59ee18047550462d969417dcc2d0d785eafdbcb42a049618ff719f345cd9a6b7",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-webview:desktopTest",
+      "testcases": [
+        {
+          "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest",
+          "name": "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner[desktop]",
+          "status": "failed"
+        }
+      ],
+      "tests": 1,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "platform": "linux-arm64",
+  "quarantined_prior_reports": [],
+  "schema_version": 1,
+  "scope": "One failed original public Stop method on the exact selected host, full private dependency artifact; no default adoption/security/consumer/API-ABI/legal/release clearance",
+  "source_revision": "924a06c20d5ccdab14f2f62ee5f2d19e6157bb38",
+  "started_at_utc": "2026-11-02T20:56:48.565552+00:00",
+  "totals": {
+    "errors": 0,
+    "executed": 1,
+    "failures": 1,
+    "not_applicable": 0,
+    "passed": 0,
+    "skipped": 0,
+    "tests": 1,
+    "unexpected_skipped": 0
+  }
+}

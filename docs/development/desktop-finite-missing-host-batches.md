@@ -2,6 +2,14 @@
 
 ## Current missing-only amendment — 2026-11-02
 
+The later [candidate originals363–372](evidence/current-platform-recovery-20261101/javafx-native-egl363-372/README.md)
+accept macOS ARM64 Stop1/1; **never replay that accepted method**. Linux ARM64
+fails before Stop because Skiko lacks `libEGL.so.1`; the exact Linux-only runtime
+prerequisite is repaired and only its failed Stop method should run next.
+macOS x64 is already requested once on924a06c2; review its originals when terminal.
+These later observations supersede the three-Stops-pending statement below.
+Ordinary dependency adoption/legal/security/consumer/API–ABI still remain separate.
+
 The original Windows request-state method and the private full-JAR candidate's
 original Windows Stop method are accepted and **must not be replayed via the
 Windows-single alias**. [Linux originals346–349](evidence/current-platform-recovery-20261101/desktop-linux-native346-349/README.md)
@@ -41,7 +49,8 @@ Current failed-only candidate verification uses the dedicated
 `javafx-library-candidate.yml`, one `platform=linux-arm64`, `macos-arm64` or
 `macos-x64` host per dispatch. The original Stop1/XML1/native predicates remain.
 [Owning351–361](evidence/current-platform-recovery-20261101/javafx-platform-candidate351-361/README.md)
-qualifies source/packaging only; actual native outcomes are still required.
+qualified source/packaging at its dated checkpoint; later native acceptance is
+the current amendment above. Only the unaccepted host outcomes remain required.
 Both JavaFX native workflows are manual-only; accepted Windows/Linux cases are
 not automatically replayed by the added classifier pins.
 

@@ -64,7 +64,10 @@ jobs:
           allow-snapshots: false
       - name: Linux ARM64 display and native GTK prerequisites only
         if: inputs.platform == 'linux-arm64'
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y xvfb libgtk-3-0 libasound2t64
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y xvfb xauth libgtk-3-0 libasound2t64 libegl1 libegl-mesa0 libgl1-mesa-dri
+          ldconfig -p | grep -F 'libEGL.so.1'
       - name: Exact Rust compiler setup (no bootstrap script)
         run: |
           command -v rustup

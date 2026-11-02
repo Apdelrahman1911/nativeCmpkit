@@ -41,10 +41,10 @@ STARTUP_INVERSE_PATH = TREE / "scripts/ci/fixtures/android-camera-startup-readin
 CONTROLLER_INVERSE_PATH = TREE / "scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json"
 OBSERVATION_INVERSE_PATH = TREE / "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json"
 EXPECTED_INPUT_SHA256 = {
-    "scripts/ci/android_camera_developer_prerequisite.py": "da07bedb680e9ce36842bbf581f22bf7b3ebf8ab1c5d307b05745069c77bb5a4",
+    "scripts/ci/android_camera_developer_prerequisite.py": "0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26",
     "scripts/ci/android_device_tests.py": "daac8786b1b034efcad0687a2f3a995c2216ea1a400116f9c592693d5c6395ec",
     "scripts/ci/test_android_camera_developer_prerequisite.py": "4a78c909420383a59cb453c1ca58ab3c0ca909a08f17201ddc0bcea657a061bb",
-    "scripts/ci/camera_scalar_failfast_source_projection.py": "3a0f5a01f30e482af2cf3c6953d68a21aa3d824952eaca54556abe06045ccbbb",
+    "scripts/ci/camera_scalar_failfast_source_projection.py": "6858fbd343cefad52b709663fbf5e98bccfa52111c2a1b8fd6eff8d8536cdb12",
     "scripts/ci/fixtures/android-camera-scalar-failfast-controller-inverse.json": "9a3479f92b05e1bffda3b408ad9f5833ca655b0c913af813e888209de9b2828c",
     "scripts/ci/fixtures/android-camera-startup-readiness-inverse.json": "43a8963e59a7851e968fbbeeaafa19944956cbc6a6f0b5cb8924a4dba0342e2c",
     "scripts/ci/fixtures/android-camera-settings-absence-observation-inverse.json": "e7b0e9a3e361e39d1732ed33cd5e1d4e51a3e30ed377adf487001b742754c953",
@@ -864,7 +864,7 @@ class PreReporterFailFastNewOnlyTests(unittest.TestCase):
                 COUNTERS["other_route_models"] += 1
 
     def test_ff14_full_source_inverses_preserve_original_readers_actions_cleanup_and_single_call(self):
-        current = HELPER_PATH.read_text()
+        current = projection.camera197_helper_source_before_owned_console(HELPER_PATH.read_text())
         contract = json.loads(STARTUP_INVERSE_PATH.read_bytes())
         self.assertEqual(len(contract["inverse_fragments"]), 17)
         frozen = current

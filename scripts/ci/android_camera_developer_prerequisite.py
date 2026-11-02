@@ -868,8 +868,8 @@ class OwnedDeveloperPrerequisite:
     def action_guard(self) -> None:
         require(self.original is not None, "No exact original ownership for mutation")
         self.devices()
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD ownership changed before action")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Shell UID changed before action; never mutate as root")
@@ -920,8 +920,8 @@ class OwnedDeveloperPrerequisite:
         parse_recents(self.control("shell", "dumpsys", "activity", "-p", "com.android.settings", "recents"))
         parse_live_tasks(self.control("shell", "am", "stack", "list"))
         require(self.boot_id() == before_boot, "Guest rebooted during state observation")
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD name changed")
         self.devices()
         return Snapshot(master, scalar, native, before_boot)
@@ -958,8 +958,8 @@ class OwnedDeveloperPrerequisite:
         self.guest.verify_live()
         self.devices()
         require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD ownership changed during initial startup")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Initial startup requires the actual non-root shell UID2000")
@@ -991,8 +991,8 @@ class OwnedDeveloperPrerequisite:
                     "Initial startup HOME is excluded or not canonically flattened")
             component = home
         # Recheck the complete fixed identity after typed reads, not just at entry.
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD ownership changed during initial startup")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Initial startup requires the actual non-root shell UID2000")
@@ -1185,8 +1185,8 @@ class OwnedDeveloperPrerequisite:
         self.guest.verify_live()
         self.devices()
         require(self.boot_id() == expected_boot, "Kernel epoch changed during initial startup")
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD ownership changed during initial startup")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Initial startup requires the actual non-root shell UID2000")
@@ -1218,8 +1218,8 @@ class OwnedDeveloperPrerequisite:
                     "Initial startup HOME is excluded or not canonically flattened")
             component = home
         # Recheck the complete fixed identity after typed reads, not just at entry.
-        require(line(self.control("emu", "avd", "name"), 512,
-                     re.escape(self.guest.name.encode()) + rb"\nOK") == self.guest.name.encode() + b"\nOK",
+        require(owned_avd_console_name(self.control("emu", "avd", "name"), self.guest.name)
+                == self.guest.name.encode(),
                 "Actual AVD ownership changed during initial startup")
         require(line(self.control("shell", "id", "-u"), 512, rb"2000") == b"2000",
                 "Initial startup requires the actual non-root shell UID2000")
@@ -1724,3 +1724,15 @@ def scalar_control_refusal(error: BaseException, origin: dict | None) -> dict | 
             return dict(observation) if expected is not None and observation == expected else None
         node = node.tb_next
     return None
+
+
+def owned_avd_console_name(result: subprocess.CompletedProcess, expected_name: str) -> bytes:
+    """Exact owned console name/OK framing only; never a general scalar normalization."""
+    require(type(expected_name) is str and
+            re.fullmatch(r"nativecmpkit-api35-[a-f0-9]{12}", expected_name) is not None,
+            "Unknown owned AVD name contract")
+    name = expected_name.encode("ascii")
+    payload = result_bytes(result, 512)
+    require(payload in (name + b"\nOK\n", name + b"\r\nOK\r\n"),
+            "Unknown owned AVD console-name frame")
+    return name

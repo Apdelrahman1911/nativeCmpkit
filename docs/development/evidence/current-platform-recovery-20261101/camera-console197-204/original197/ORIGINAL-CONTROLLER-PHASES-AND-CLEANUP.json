@@ -1,0 +1,178 @@
+{
+  "actual_boot": {
+    "abi": "x86_64",
+    "api_level": "35",
+    "boot_completed": "1",
+    "release": "15",
+    "selinux": "Enforcing"
+  },
+  "actual_runtime": {
+    "android_platform": {
+      "AndroidVersion.ApiLevel": "37.0",
+      "AndroidVersion.CodeName": "",
+      "AndroidVersion.ExtensionLevel": "22",
+      "Pkg.Revision": "2",
+      "package": "platforms;android-37.0"
+    },
+    "compiler_runtime_fingerprint": "9f7851f8a7ea9a5a22094840ab87ac14354fc396c2446da98209469d5f3eada0",
+    "host": {
+      "architecture": "x64",
+      "python": "3.12.3",
+      "system": "Linux"
+    },
+    "java": {
+      "major": 17,
+      "version": "17.0.21"
+    },
+    "observed_at_utc": "2026-11-01T23:44:05.972062+00:00",
+    "rust": {
+      "commit-date": "2026-08-18",
+      "commit-hash": "88d9e12ae178fab0fb5cc050a94da85685d449ea",
+      "host": "x86_64-unknown-linux-gnu",
+      "release": "1.98.0"
+    },
+    "schema_version": 1,
+    "source_revision": "152489c4057fe67c42ef3d3e29708df0f12df2d5",
+    "source_tree_dirty": false
+  },
+  "attempt": 1,
+  "controller": {
+    "changed_inputs": [],
+    "controller_error": "ValueError",
+    "controller_error_origin": {
+      "line": 48,
+      "source": "android_camera_developer_prerequisite.py",
+      "symbol": "require"
+    },
+    "elapsed_seconds": 36.936672,
+    "emulator_shutdown": {
+      "clean_shutdown": true,
+      "exit_code": 0,
+      "finished_at_utc": "2026-11-01T23:44:44.755444+00:00",
+      "forced_owned_group": false,
+      "graceful_kill_requested": true,
+      "owned_adb_transport_removed": true,
+      "requested_at_utc": "2026-11-01T23:44:43.773062+00:00"
+    },
+    "finished_at_utc": "2026-11-01T23:44:45.373235+00:00",
+    "owned_avd_create": {
+      "elapsed_seconds": 2.0,
+      "exit_code": 0
+    },
+    "packages_published": false,
+    "passed": false,
+    "release_readiness_certified": false,
+    "reporter_compile_deferred_until_camera_read_only_prerequisite": true,
+    "source_revision": "152489c4057fe67c42ef3d3e29708df0f12df2d5",
+    "source_revision_after": "152489c4057fe67c42ef3d3e29708df0f12df2d5",
+    "source_tree_dirty": false,
+    "source_unchanged": true,
+    "started_at_utc": "2026-11-01T23:44:08.436563+00:00",
+    "test_suite_passed": false
+  },
+  "installation_uninstallation_or_restoration_inferred_from_removed_flags": false,
+  "native_XML_entries": [],
+  "native_method_executions": 0,
+  "original_guest_disposal": {
+    "avd_config_sha256": "a25e9a1f3afe8ec9dc821878324070d4281c84c43e9b9670a26a9c361c84525f",
+    "avd_definition_sha256": "43e875df9a581f4d65617c35739dbab70affb89dad092a9c83a9fbc874907ef8",
+    "clean_shutdown": true,
+    "disposal_status": "passed",
+    "documented_data_partition_temp_default_observed": true,
+    "engine_known_exited": true,
+    "errors": [],
+    "identity_confined_disposal": true,
+    "launch_attempted": true,
+    "mutable_paths_confined": true,
+    "owned_transport_absent": true,
+    "popen_child_session_established": true,
+    "raw_paths_environment_or_signing_material_exported": false,
+    "roots_absent": true,
+    "schema": "nativecmpkit.camera-fresh-guest.v1"
+  },
+  "original_master_native_scalar_restoration_accepted": false,
+  "original_prerequisite": {
+    "api_level": 35,
+    "cleanup_status": "failed",
+    "errors": [
+      {
+        "class": "ValueError",
+        "phase": "prepare",
+        "require_call_origin": {
+          "line": 242,
+          "source": "android_camera_developer_prerequisite.py",
+          "symbol": "line"
+        },
+        "scalar_control_refusal": {
+          "ascii_only": true,
+          "cap_bytes": 512,
+          "cr_bytes": 2,
+          "empty": false,
+          "escape_bytes": 0,
+          "leading_ascii_spaces": 0,
+          "lf_bytes": 2,
+          "nul_bytes": 0,
+          "pattern_bytes": 37,
+          "pattern_sha256": "300bacdd5aae97a4030ba49f86d53a59cd8ea0efe04a65c0023003eb893878c6",
+          "payload_bytes": 37,
+          "payload_sha256": "1ec0ae65ee9802369d19434032f07dad0e9b90cfdd845d563c7a27c955237324",
+          "printable_ascii_or_line_endings_only": true,
+          "query": "owned-avd-name",
+          "schema": "nativecmpkit.camera-scalar-control-refusal.v1",
+          "setting_key": null,
+          "space_bytes": 0,
+          "tab_bytes": 0,
+          "terminal_crlf": true,
+          "terminal_lf": true,
+          "trailing_ascii_spaces": 0
+        }
+      },
+      {
+        "class": "ValueError",
+        "phase": "cleanup",
+        "require_call_origin": {
+          "line": 1375,
+          "source": "android_camera_developer_prerequisite.py",
+          "symbol": "close"
+        }
+      }
+    ],
+    "focus": "android-camera-real-restoration-dont-keep",
+    "master_enable_attempts": 0,
+    "master_restore_attempts": 0,
+    "native_acceptance_inferred": false,
+    "normal_reboot_attempts": 0,
+    "post_reporter_revalidation_attempts": 0,
+    "post_reporter_revalidation_budget_seconds": 120.0,
+    "post_reporter_revalidation_status": "not-started",
+    "prepare_status": "failed",
+    "raw_boot_ids_dumps_paths_or_environment_exported": false,
+    "receiver_initial_absent": true,
+    "receiver_removed": true,
+    "reporter_absence_observed": true,
+    "reporter_assembly_recorded_passed": false,
+    "reporter_compile_preflight_read_only": true,
+    "reporter_compile_preflight_status": "failed",
+    "reporter_dispatch_attempted": false,
+    "reporter_initial_absent": true,
+    "reporter_installed_bytes_verified": false,
+    "reporter_removed": true,
+    "schema": "nativecmpkit.camera-developer-prerequisite.v1",
+    "startup_observations": 0,
+    "startup_queries_read_only": true,
+    "startup_readiness_status": "failed",
+    "startup_ready_hold_seconds": 0.5,
+    "startup_ready_hold_verified": false,
+    "startup_sleep_completion_bound_seconds": 1.0,
+    "startup_total_budget_seconds": 60.0
+  },
+  "owned_guest_disposal_independently_accepted": true,
+  "post_reporter_revalidation_not_started": true,
+  "prepare_failed_before_reporter_and_before_original_snapshot": true,
+  "raw_guest_names_paths_environment_or_terminal_transcripts_exported": false,
+  "reporter_Gradle_compilation_and_APK_executions": 0,
+  "run_id": 41363199860,
+  "schema": "nativecmpkit.camera197-original-controller-phases-cleanup.v1",
+  "source_revision": "152489c4057fe67c42ef3d3e29708df0f12df2d5",
+  "standalone_controller_readbacks_equal": true
+}

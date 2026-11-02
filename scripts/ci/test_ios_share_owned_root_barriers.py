@@ -62,9 +62,30 @@ def _source_before_compiler_repair172(relative, text):
     return text
 
 
+_SHARE188_OBSERVATION = {'path': 'calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHost.kt', 'before_sha256': 'e2b6affcea3a3a34b9d1b95f5d60e5d492efbca55f8a02ab38ac459cf23fb953', 'after_sha256': 'd3dc78ba45e1047eb7d6a85005dc3a08443ded38432c78d28d5c65e1c85d3a17', 'fragments': [{'id': 'per-root-optional-observer', 'before': '    private val nativeWork = mutableListOf<OwnedNativePresentation>()\n', 'after': '    private val nativeWork = mutableListOf<OwnedNativePresentation>()\n    private var terminalInputObservation: ShareTerminalInputObservation? = null\n', 'before_fragment_sha256': '164d40eefa77f462207431473819ecde7f228c240c504565dbf0bb0d25ece62c', 'after_fragment_sha256': 'aa03293d7e13f9e426bd7b9e4de917a0c79c50b8e70d12b85c0eb0c125be3132'}, {'id': 'exact-native-arguments-opt-in', 'before': '            window = requireOwnedApplicationWindow()\n', 'after': '            window = requireOwnedApplicationWindow()\n            terminalInputObservation = ShareTerminalInputObservation.forExactArguments(applicationArguments)\n', 'before_fragment_sha256': 'c81bfec28b582e33c9dc74d983fea724d60a1c0f59846b2b3fad5bd11a1cee31', 'after_fragment_sha256': 'ea834a56306c9721c1c165e2530e1188022f92e039828f617e04c6bf3562bb8c'}, {'id': 'marker-after-existing-real-acknowledgement', 'before': '        checkNotNull(nativeWork.singleOrNull { sameNativeObject(it.controller, native) }) {\n            "Refuse an unregistered native dismissal acknowledgement"\n        }.dismissalCompleted()\n', 'after': '        val work = checkNotNull(nativeWork.singleOrNull { sameNativeObject(it.controller, native) }) {\n            "Refuse an unregistered native dismissal acknowledgement"\n        }\n        work.dismissalCompleted()\n        terminalInputObservation?.dismissalAcknowledged(work.request)\n', 'before_fragment_sha256': '1ce61a9550483b54346f790afe2aeedf891d1a3dcda277e5ccfedb11188bd45f', 'after_fragment_sha256': '2ca65d52c721d9a51aa7d42b728568b34572cd424917ae8b3f0612b8d1f9f188'}, {'id': 'delegate-after-actual-request-retention', 'before': '                nativeWork += OwnedNativePresentation(request.controller, request)\n', 'after': '                nativeWork += OwnedNativePresentation(request.controller, request)\n                terminalInputObservation?.capture(lease.owner, request)\n', 'before_fragment_sha256': 'a2707ed1d7c42e3bd40eb71ec4c76e32cf38fbb691be7ec71b1d66ef08c2a0f6', 'after_fragment_sha256': 'e599f96e638ed039128b97d1b7eefc8a0d86293a75b07c51ea0fa3c2b1669614'}, {'id': 'nonmasking-failure-only-emitter', 'before': '    internal fun close() {\n', 'after': '    internal fun emitActivityTerminalFailureObservation() {\n        try { onApplicationMain { terminalInputObservation?.emitFailure() } }\n        catch (_: Throwable) { /* Observation cannot replace the original assertion/refusal. */ }\n    }\n\n    internal fun close() {\n', 'before_fragment_sha256': '312700c85943cb7e29280c5c9e5e721c7b06bca138242ba499bd5e3f242201d1', 'after_fragment_sha256': '96f7201d18d53fb1bb5dc5b11cd664bc4ad63bab4ec1c41ef7eb5b1557a46151'}, {'id': 'observer-teardown-inside-existing-all-barriers', 'before': '                // Only actual owner/native/root barriers release these test-only retaining leases.\n                closed = true\n', 'after': '                // Only actual owner/native/root barriers release these test-only retaining leases.\n                terminalInputObservation?.closeAfterVerifiedTeardown()\n                terminalInputObservation = null\n                closed = true\n', 'before_fragment_sha256': '9d6b48115952d14453d35416a0fb8fa44a4539a581150c9c98befa95753f9db5', 'after_fragment_sha256': 'e4616d0098f50affeaf9fcb81790bee3c82b23f80ea987737908a7423eaf9ba9'}, {'id': 'preserve-exact-primary-and-original-cleanup', 'before': '    try { host.block() } catch (error: Throwable) { failure = error; throw error } finally {\n', 'after': '    try { host.block() } catch (error: Throwable) {\n        failure = error\n        host.emitActivityTerminalFailureObservation()\n        throw error\n    } finally {\n', 'before_fragment_sha256': '0c82773a17445cf1e115ad8e7f72dafa3cb1725c9a2ae355329db07772d61656', 'after_fragment_sha256': '4c57aa04c03c92ed6cb622c64dd91014b79882731a6feeb17ca70409c346c0e1'}]}
+
+
+def _source_before_share188_observation(relative, text):
+    """Only the exact per-request observation may reconstruct retained Share172 source."""
+    if relative != _SHARE188_OBSERVATION["path"]:
+        return text
+    if _sha256(text) != _SHARE188_OBSERVATION["after_sha256"]:
+        raise ValueError("Exact Share188 observation host postimage is required")
+    for fragment in reversed(_SHARE188_OBSERVATION["fragments"]):
+        if (hashlib.sha256(fragment["before"].encode()).hexdigest() != fragment["before_fragment_sha256"] or
+                hashlib.sha256(fragment["after"].encode()).hexdigest() != fragment["after_fragment_sha256"] or
+                text.count(fragment["after"]) != 1):
+            raise ValueError("Exact unique Share188 host inverse is required")
+        text = text.replace(fragment["after"], fragment["before"], 1)
+    if _sha256(text) != _SHARE188_OBSERVATION["before_sha256"]:
+        raise ValueError("Share188 inverse changed original host assertions or lease bytes")
+    return text
+
+
 def _read_sources():
     return {relative: _support_before_fixture_repair169(relative,
-                _source_before_compiler_repair172(relative, (ROOT / relative).read_bytes().decode("utf-8")))
+                _source_before_compiler_repair172(relative,
+                    _source_before_share188_observation(relative, (ROOT / relative).read_bytes().decode("utf-8"))))
             for relative in (*_SPEC["changed_paths"], *_SPEC["support_paths"])}
 
 

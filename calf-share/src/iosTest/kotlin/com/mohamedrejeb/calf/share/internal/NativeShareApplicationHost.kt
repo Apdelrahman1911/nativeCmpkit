@@ -108,11 +108,13 @@ internal class NativeApplicationUiTest {
     }
     private val shareOwners = mutableListOf<RetainedShareOwner>()
     private val nativeWork = mutableListOf<OwnedNativePresentation>()
+    private var terminalInputObservation: ShareTerminalInputObservation? = null
 
     init {
         check(!NSThread.isMainThread) { "Generated tests must run on the owned worker, not block UIApplicationMain" }
         onApplicationMain {
             window = requireOwnedApplicationWindow()
+            terminalInputObservation = ShareTerminalInputObservation.forExactArguments(applicationArguments)
             previous = checkNotNull(window.rootViewController)
             content = mutableStateOf({})
             generation = mutableIntStateOf(0)
@@ -178,9 +180,11 @@ internal class NativeApplicationUiTest {
     internal fun ownedNativeDismissalCompleted(native: UIViewController) {
         check(NSThread.isMainThread)
         observeShareRequests()
-        checkNotNull(nativeWork.singleOrNull { sameNativeObject(it.controller, native) }) {
+        val work = checkNotNull(nativeWork.singleOrNull { sameNativeObject(it.controller, native) }) {
             "Refuse an unregistered native dismissal acknowledgement"
-        }.dismissalCompleted()
+        }
+        work.dismissalCompleted()
+        terminalInputObservation?.dismissalAcknowledged(work.request)
     }
 
     private fun observeShareRequests() {
@@ -190,6 +194,7 @@ internal class NativeApplicationUiTest {
             if (lease.requests.none { it === request }) {
                 lease.requests += request
                 nativeWork += OwnedNativePresentation(request.controller, request)
+                terminalInputObservation?.capture(lease.owner, request)
             }
         }
     }
@@ -304,6 +309,11 @@ internal class NativeApplicationUiTest {
         }
     }
 
+    internal fun emitActivityTerminalFailureObservation() {
+        try { onApplicationMain { terminalInputObservation?.emitFailure() } }
+        catch (_: Throwable) { /* Observation cannot replace the original assertion/refusal. */ }
+    }
+
     internal fun close() {
         if (onApplicationMain { closed }) return
         var failure: Throwable? = null
@@ -371,6 +381,8 @@ internal class NativeApplicationUiTest {
                     controller.view.window == null && sameNativeObject(window.rootViewController, previous) && nativeBarriersPassed())
                 check(retainedShareTestRoots.count { it === this } == 1) { "Exact retained root lease is required" }
                 // Only actual owner/native/root barriers release these test-only retaining leases.
+                terminalInputObservation?.closeAfterVerifiedTeardown()
+                terminalInputObservation = null
                 closed = true
                 nativeWork.clear()
                 shareOwners.clear()
@@ -384,7 +396,11 @@ internal class NativeApplicationUiTest {
 internal fun runApplicationUiTest(block: NativeApplicationUiTest.() -> Unit) {
     val host = NativeApplicationUiTest()
     var failure: Throwable? = null
-    try { host.block() } catch (error: Throwable) { failure = error; throw error } finally {
+    try { host.block() } catch (error: Throwable) {
+        failure = error
+        host.emitActivityTerminalFailureObservation()
+        throw error
+    } finally {
         try { host.close() } catch (cleanup: Throwable) {
             val prior = failure
             if (prior == null) throw cleanup else if (prior !== cleanup) prior.addSuppressed(cleanup)

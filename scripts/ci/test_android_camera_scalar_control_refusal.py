@@ -23,7 +23,7 @@ from unittest.mock import patch
 
 TREE = Path(os.environ.get("NATIVECMPKIT_CAMERA_SCALAR_MODEL_TREE", Path(__file__).resolve().parents[2])).resolve()
 HELPER_PATH = TREE / "scripts/ci/android_camera_developer_prerequisite.py"
-EXPECTED_HELPER_SHA256 = "da07bedb680e9ce36842bbf581f22bf7b3ebf8ab1c5d307b05745069c77bb5a4"
+EXPECTED_HELPER_SHA256 = "0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26"
 ATTRIBUTE = "_nativecmpkit_scalar_control_refusal"
 WITNESS = "_nativecmpkit_scalar_control_refusal_identity"
 MARKER = "synthetic-private-setting-or-process-body"

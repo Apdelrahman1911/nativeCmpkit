@@ -1,0 +1,741 @@
+{
+  "actual_gradle_invocation_count": 4,
+  "baseline": {
+    "allowlist_entry_count_is_not_all_entries_runtime_exercised": true,
+    "artifact_view_outputs": [
+      {
+        "bytes": 161,
+        "bytes_match_actual_local_repository_file": true,
+        "group": "org.nativecmpkit.fixture",
+        "module": "leaf",
+        "name": "leaf-1.0.jar",
+        "sha256": "0dccd3ab1acf0ca5a80d0a6fdd567912f9f573deba48936c6f0c04bc73d2ed89",
+        "version": "1.0"
+      },
+      {
+        "bytes": 163,
+        "bytes_match_actual_local_repository_file": true,
+        "group": "org.nativecmpkit.fixture",
+        "module": "parent",
+        "name": "parent-1.0.jar",
+        "sha256": "2703bd4163d171f6ad0ceebaf8c25bf8aa7a2fbe164e49da6b4830d8b7f39fac",
+        "version": "1.0"
+      }
+    ],
+    "buildscript_classpath_status": "empty-resolved",
+    "buildscript_version_lock_coverage": "not-covered-buildscript",
+    "detached_graph_inventory_complete": false,
+    "lock_coverage": "strict-project-init-script",
+    "project_configuration": "fixtureClasspath",
+    "resolved_modules": [
+      {
+        "dependency_lock_selection_reason_observed": true,
+        "group": "org.nativecmpkit.fixture",
+        "module": "leaf",
+        "version": "1.0"
+      },
+      {
+        "dependency_lock_selection_reason_observed": true,
+        "group": "org.nativecmpkit.fixture",
+        "module": "parent",
+        "version": "1.0"
+      }
+    ],
+    "root_and_captured_lock_sha256": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+    "settings_script_graph_acquired": false,
+    "status": "resolved",
+    "strict_constraint_edges": [
+      {
+        "constraint": true,
+        "from": "project::",
+        "requested": "org.nativecmpkit.fixture:leaf:{strictly 1.0}",
+        "selected": "module:org.nativecmpkit.fixture:leaf:1.0"
+      },
+      {
+        "constraint": true,
+        "from": "project::",
+        "requested": "org.nativecmpkit.fixture:parent:{strictly 1.0}",
+        "selected": "module:org.nativecmpkit.fixture:parent:1.0"
+      }
+    ]
+  },
+  "bootstrap_metadata_note": "Writer changed XML formatting/origin bytes; parsed eight-entry SHA256 mapping is exactly the same as baseline. Not a check-mode metadata rewrite.",
+  "cleanup": {
+    "all_four_daemon_leases_exited_and_pid_absent": true,
+    "cases": [
+      {
+        "all_descendants_verified": false,
+        "case": "bootstrap",
+        "client": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 13906,
+          "pid": 13907,
+          "pid_absent": true,
+          "process_group": 13907,
+          "role": "client",
+          "session": 13907,
+          "start_ticks": 88299111,
+          "term_sent": false,
+          "wait_status": "direct-popen-child-reaped"
+        },
+        "client_pid_matches_launch_and_execution": true,
+        "complete": true,
+        "daemon": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 13907,
+          "pid": 13948,
+          "pid_absent": true,
+          "process_group": 13948,
+          "role": "daemon",
+          "session": 13948,
+          "start_ticks": 88299186,
+          "term_sent": false,
+          "wait_status": "not-waitable-by-controller"
+        },
+        "directory_handle_closed": true,
+        "errors": [],
+        "global_process_scan_or_wildcard_wait": false,
+        "launch_receipt_java_identity_observed": false,
+        "ordinary_wrapper_or_other_host_verified": false,
+        "runtime_and_project_serialized_case_relative_property_environment_bindings_match_owning_layout": true,
+        "runtime_pid_matches_owned_daemon": true,
+        "runtime_property_environment_bodies_in_payload": false,
+        "signal_handlers_restored": true,
+        "temporary_subreaper_previous": 0,
+        "temporary_subreaper_restored": true
+      },
+      {
+        "all_descendants_verified": false,
+        "case": "baseline-check",
+        "client": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 13906,
+          "pid": 14087,
+          "pid_absent": true,
+          "process_group": 14087,
+          "role": "client",
+          "session": 14087,
+          "start_ticks": 88299994,
+          "term_sent": false,
+          "wait_status": "direct-popen-child-reaped"
+        },
+        "client_pid_matches_launch_and_execution": true,
+        "complete": true,
+        "daemon": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 14087,
+          "pid": 14126,
+          "pid_absent": true,
+          "process_group": 14126,
+          "role": "daemon",
+          "session": 14126,
+          "start_ticks": 88300054,
+          "term_sent": false,
+          "wait_status": "not-waitable-by-controller"
+        },
+        "directory_handle_closed": true,
+        "errors": [],
+        "global_process_scan_or_wildcard_wait": false,
+        "launch_receipt_java_identity_observed": false,
+        "ordinary_wrapper_or_other_host_verified": false,
+        "runtime_and_project_serialized_case_relative_property_environment_bindings_match_owning_layout": true,
+        "runtime_pid_matches_owned_daemon": true,
+        "runtime_property_environment_bodies_in_payload": false,
+        "signal_handlers_restored": true,
+        "temporary_subreaper_previous": 0,
+        "temporary_subreaper_restored": true
+      },
+      {
+        "all_descendants_verified": false,
+        "case": "wrong-pom-sha",
+        "client": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 13906,
+          "pid": 14232,
+          "pid_absent": true,
+          "process_group": 14232,
+          "role": "client",
+          "session": 14232,
+          "start_ticks": 88300756,
+          "term_sent": false,
+          "wait_status": "direct-popen-child-reaped"
+        },
+        "client_pid_matches_launch_and_execution": true,
+        "complete": true,
+        "daemon": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 14232,
+          "pid": 14273,
+          "pid_absent": true,
+          "process_group": 14273,
+          "role": "daemon",
+          "session": 14273,
+          "start_ticks": 88300821,
+          "term_sent": false,
+          "wait_status": "not-waitable-by-controller"
+        },
+        "directory_handle_closed": true,
+        "errors": [],
+        "global_process_scan_or_wildcard_wait": false,
+        "launch_receipt_java_identity_observed": false,
+        "ordinary_wrapper_or_other_host_verified": false,
+        "runtime_and_project_serialized_case_relative_property_environment_bindings_match_owning_layout": true,
+        "runtime_pid_matches_owned_daemon": true,
+        "runtime_property_environment_bodies_in_payload": false,
+        "signal_handlers_restored": true,
+        "temporary_subreaper_previous": 0,
+        "temporary_subreaper_restored": true
+      },
+      {
+        "all_descendants_verified": false,
+        "case": "missing-hash",
+        "client": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 13906,
+          "pid": 14377,
+          "pid_absent": true,
+          "process_group": 14377,
+          "role": "client",
+          "session": 14377,
+          "start_ticks": 88301517,
+          "term_sent": false,
+          "wait_status": "direct-popen-child-reaped"
+        },
+        "client_pid_matches_launch_and_execution": true,
+        "complete": true,
+        "daemon": {
+          "exited": true,
+          "handle_closed": true,
+          "java_verified": true,
+          "kill_sent": false,
+          "parent_pid": 14377,
+          "pid": 14416,
+          "pid_absent": true,
+          "process_group": 14416,
+          "role": "daemon",
+          "session": 14416,
+          "start_ticks": 88301569,
+          "term_sent": false,
+          "wait_status": "not-waitable-by-controller"
+        },
+        "directory_handle_closed": true,
+        "errors": [],
+        "global_process_scan_or_wildcard_wait": false,
+        "launch_receipt_java_identity_observed": false,
+        "ordinary_wrapper_or_other_host_verified": false,
+        "runtime_and_project_serialized_case_relative_property_environment_bindings_match_owning_layout": true,
+        "runtime_pid_matches_owned_daemon": true,
+        "runtime_property_environment_bodies_in_payload": false,
+        "signal_handlers_restored": true,
+        "temporary_subreaper_previous": 0,
+        "temporary_subreaper_restored": true
+      }
+    ],
+    "daemon_wait_status_for_every_case": "not-waitable-by-controller",
+    "daemons_directly_reaped_by_controller": 0,
+    "direct_clients_reaped": 4,
+    "fresh_cancellation_or_escalation_coverage": false,
+    "kill_sent_count": 0,
+    "leased_pid_absence": {
+      "13907": true,
+      "13948": true,
+      "14087": true,
+      "14126": true,
+      "14232": true,
+      "14273": true,
+      "14377": true,
+      "14416": true
+    },
+    "passive_exact_pid_absence_readback_utc": "2026-11-02T00:23:49.512245+00:00",
+    "process_scan_attach_or_signal_by_reviewer": false,
+    "producer_exact_pid_also_absent": true,
+    "producer_parent_pid": 13906,
+    "scope": "Exactly four owned client/daemon pairs; normal completion only",
+    "term_sent_count": 0
+  },
+  "gates": {
+    "external_runtime_witness_or_jcmd_executed": false,
+    "issue40_closed": false,
+    "library_native_or_junit_acceptance_inferred": false,
+    "ordinary_build_policy_installed": false,
+    "ordinary_root_or_composite_trust_certified": false,
+    "production_dependencies_verified": false,
+    "release_readiness_certified": false
+  },
+  "gradle_exit_codes": [
+    0,
+    0,
+    1,
+    1
+  ],
+  "independently_qualified_selected_cases_observed_as_expected": true,
+  "invocation_order": [
+    "bootstrap",
+    "baseline-check",
+    "wrong-pom-sha",
+    "missing-hash"
+  ],
+  "invocations": [
+    {
+      "case": "bootstrap",
+      "check_integrity_unchanged": null,
+      "classification_scope": "Independent original-byte/configuration/active-error-table review; no rewriting of original success/completeness flags",
+      "command_as_original_logical_argv": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=bootstrap",
+        "-Dnativecmpkit.dependencies.run=bootstrap",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain",
+        "--write-locks",
+        "--write-verification-metadata",
+        "sha256"
+      ],
+      "elapsed_seconds": 8.775,
+      "entry_root": ".",
+      "final_files_equal_captured_files": true,
+      "free_bytes_after": 35945246720,
+      "free_bytes_before": 35936391168,
+      "gradle_exit_code": 0,
+      "integrity_after": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "149f5a71bb104c65c9480790c745633a5ad7ac7430f8742c699f3c4b68b8ead6"
+      },
+      "integrity_before": {
+        "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+      },
+      "mode": "bootstrap",
+      "original_errors": [],
+      "original_flags": {
+        "all_required_hosts_complete": false,
+        "checksum_enforcement_exercised": false,
+        "independent_trust_reviewed": false,
+        "ordinary_build_policy_installed": false,
+        "project_lock_state_complete": true,
+        "selected_project_graph_complete": true
+      },
+      "owner_project": ":",
+      "qualified_expected_cause_observed": true,
+      "reserve_mib": 8192,
+      "source_input_digest": "196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+      "stop_reason": null,
+      "strict_verification": true,
+      "task_entries": [
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraphPart"
+        },
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraph"
+        }
+      ],
+      "verification_metadata_sha256_entry_count": 8,
+      "write_lock_or_metadata_flags_present": true,
+      "xml_policy": {
+        "verify-metadata": "true",
+        "verify-signatures": "false"
+      }
+    },
+    {
+      "case": "baseline-check",
+      "check_integrity_unchanged": true,
+      "classification_scope": "Independent original-byte/configuration/active-error-table review; no rewriting of original success/completeness flags",
+      "command_as_original_logical_argv": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 7.558,
+      "entry_root": ".",
+      "final_files_equal_captured_files": true,
+      "free_bytes_after": 35941105664,
+      "free_bytes_before": 35944583168,
+      "gradle_exit_code": 0,
+      "integrity_after": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+      },
+      "integrity_before": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+      },
+      "mode": "check",
+      "original_errors": [],
+      "original_flags": {
+        "all_required_hosts_complete": false,
+        "checksum_enforcement_exercised": true,
+        "independent_trust_reviewed": false,
+        "ordinary_build_policy_installed": false,
+        "project_lock_state_complete": true,
+        "selected_project_graph_complete": true
+      },
+      "owner_project": ":",
+      "qualified_expected_cause_observed": true,
+      "reserve_mib": 8192,
+      "source_input_digest": "196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+      "stop_reason": null,
+      "strict_verification": true,
+      "task_entries": [
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraphPart"
+        },
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraph"
+        }
+      ],
+      "verification_metadata_sha256_entry_count": 8,
+      "write_lock_or_metadata_flags_present": false,
+      "xml_policy": {
+        "verify-metadata": "true",
+        "verify-signatures": "false"
+      }
+    },
+    {
+      "case": "wrong-pom-sha",
+      "check_integrity_unchanged": true,
+      "classification_scope": "Independent original-byte/configuration/active-error-table review; no rewriting of original success/completeness flags",
+      "command_as_original_logical_argv": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=0d9e3dd48d8695cfb3ee0e47900de1a2fed6fa5c032d95810f23088551952101",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 7.556,
+      "entry_root": ".",
+      "final_files_equal_captured_files": true,
+      "free_bytes_after": 35936432128,
+      "free_bytes_before": 35940442112,
+      "gradle_exit_code": 1,
+      "integrity_after": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+      },
+      "integrity_before": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "875e8c1d019d6f11cefc3656fcfe8f801aa4c9c871877cfdf49ed7013558e87c"
+      },
+      "mode": "check",
+      "original_errors": [
+        {
+          "message": "Gradle command did not complete successfully",
+          "type": "IntegrityError"
+        }
+      ],
+      "original_flags": {
+        "all_required_hosts_complete": false,
+        "checksum_enforcement_exercised": false,
+        "independent_trust_reviewed": false,
+        "ordinary_build_policy_installed": false,
+        "project_lock_state_complete": false,
+        "selected_project_graph_complete": false
+      },
+      "owner_project": ":",
+      "qualified_expected_cause_observed": true,
+      "reserve_mib": 8192,
+      "source_input_digest": "0d9e3dd48d8695cfb3ee0e47900de1a2fed6fa5c032d95810f23088551952101",
+      "stop_reason": null,
+      "strict_verification": true,
+      "task_entries": [
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraphPart"
+        },
+        {
+          "status": "failed",
+          "task": "nativeCmpkitDependencyGraph"
+        }
+      ],
+      "verification_metadata_sha256_entry_count": 8,
+      "write_lock_or_metadata_flags_present": false,
+      "xml_policy": {
+        "verify-metadata": "true",
+        "verify-signatures": "false"
+      }
+    },
+    {
+      "case": "missing-hash",
+      "check_integrity_unchanged": true,
+      "classification_scope": "Independent original-byte/configuration/active-error-table review; no rewriting of original success/completeness flags",
+      "command_as_original_logical_argv": [
+        "<installed-gradle-9.7.1>/bin/gradle",
+        "nativeCmpkitDependencyGraph",
+        "--init-script",
+        "<candidate>/scripts/dependencies/resolve-graphs.init.gradle",
+        "-Dnativecmpkit.dependencies.workspace=<candidate>",
+        "-Dnativecmpkit.dependencies.mode=check",
+        "-Dnativecmpkit.dependencies.run=check",
+        "-Dnativecmpkit.dependencies.entry=.",
+        "-Dnativecmpkit.dependencies.digest=196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+        "--dependency-verification",
+        "strict",
+        "--no-daemon",
+        "--no-configuration-cache",
+        "--max-workers=1",
+        "--console=plain"
+      ],
+      "elapsed_seconds": 7.056,
+      "entry_root": ".",
+      "final_files_equal_captured_files": true,
+      "free_bytes_after": 35931299840,
+      "free_bytes_before": 35935399936,
+      "gradle_exit_code": 1,
+      "integrity_after": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "213ac41642ab6bb62ca52d35cab09d0c32da7f524851dd3d22d2db1a143c7be8"
+      },
+      "integrity_before": {
+        "gradle/dependency-locks/linux-x64.lockfile": "9e3362db874304a3a470dbccfc49f3d3f41647d15fa3d1e1f34e25484aa8379d",
+        "gradle/verification-metadata.xml": "213ac41642ab6bb62ca52d35cab09d0c32da7f524851dd3d22d2db1a143c7be8"
+      },
+      "mode": "check",
+      "original_errors": [
+        {
+          "message": "Gradle command did not complete successfully",
+          "type": "IntegrityError"
+        }
+      ],
+      "original_flags": {
+        "all_required_hosts_complete": false,
+        "checksum_enforcement_exercised": false,
+        "independent_trust_reviewed": false,
+        "ordinary_build_policy_installed": false,
+        "project_lock_state_complete": false,
+        "selected_project_graph_complete": false
+      },
+      "owner_project": ":",
+      "qualified_expected_cause_observed": true,
+      "reserve_mib": 8192,
+      "source_input_digest": "196063b6625de66430fa74e620b6fac3a53e5889ebed7b315f7dde54473353e2",
+      "stop_reason": null,
+      "strict_verification": true,
+      "task_entries": [
+        {
+          "status": "executed",
+          "task": "nativeCmpkitDependencyGraphPart"
+        },
+        {
+          "status": "failed",
+          "task": "nativeCmpkitDependencyGraph"
+        }
+      ],
+      "verification_metadata_sha256_entry_count": 7,
+      "write_lock_or_metadata_flags_present": false,
+      "xml_policy": {
+        "verify-metadata": "true",
+        "verify-signatures": "false"
+      }
+    }
+  ],
+  "lead_wrapper_elapsed_seconds": 31.816441472969018,
+  "lead_wrapper_exit_code": 0,
+  "missing_hash": {
+    "all_recorded_repository_source_and_lock_bytes_unchanged": true,
+    "checksum_mismatch_observed": false,
+    "exactly_one_entry_removed": true,
+    "leaf_jar_bytes": 161,
+    "leaf_jar_intact": true,
+    "leaf_jar_sha256": "0dccd3ab1acf0ca5a80d0a6fdd567912f9f573deba48936c6f0c04bc73d2ed89",
+    "other_seven_entries_retained_unchanged": true,
+    "removed_entry": {
+      "artifact": "leaf-1.0.jar",
+      "group": "org.nativecmpkit.fixture",
+      "module": "leaf",
+      "version": "1.0"
+    }
+  },
+  "negative_cases": [
+    {
+      "active_error_table_row_count": 1,
+      "active_row": {
+        "artifact": "parent-1.0.pom",
+        "artifact_href_binds_exact_owning_repository_file": true,
+        "artifact_logical_identity": "fixture-original/wrong-pom-sha/repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+        "module": "org.nativecmpkit.fixture:parent:1.0",
+        "problem": "Expected a sha256 checksum of 16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e but was 6895ea03f2cef5c7e398aff870a99dcadf704040cc337a46ce3dd18c230ee545",
+        "toggle_target": "target: #checksum-mismatch"
+      },
+      "case": "wrong-pom-sha",
+      "checksum_mismatch_observed": true,
+      "configuration_resolution_failure_count": 1,
+      "failure_type": "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException",
+      "global_help_modals_used_as_evidence": false,
+      "missing_checksum_entry_observed": false,
+      "original_report_logical_identity": "fixture-original/wrong-pom-sha/build/reports/dependency-verification/at-1793577963003/dependency-verification-report.html",
+      "other_configuration_or_artifact_failures": 0,
+      "report_bytes": 9965,
+      "report_sha256": "b700e6578aae76c53a90d9cc32cfadde818a9a9b8d73f34770d23847c7656e11",
+      "unresolved_edge_count": 0
+    },
+    {
+      "active_error_table_row_count": 1,
+      "active_row": {
+        "artifact": "leaf-1.0.jar",
+        "artifact_href_binds_exact_owning_repository_file": true,
+        "artifact_logical_identity": "fixture-original/missing-hash/repo/org/nativecmpkit/fixture/leaf/1.0/leaf-1.0.jar",
+        "module": "org.nativecmpkit.fixture:leaf:1.0",
+        "problem": "Checksums are missing from verification metadata",
+        "toggle_target": "target: #missing-checksums"
+      },
+      "case": "missing-hash",
+      "checksum_mismatch_observed": false,
+      "configuration_resolution_failure_count": 1,
+      "failure_type": "org.gradle.api.internal.artifacts.verification.exceptions.DependencyVerificationException",
+      "global_help_modals_used_as_evidence": false,
+      "missing_checksum_entry_observed": true,
+      "original_report_logical_identity": "fixture-original/missing-hash/build/reports/dependency-verification/at-1793577970285/dependency-verification-report.html",
+      "other_configuration_or_artifact_failures": 0,
+      "report_bytes": 9782,
+      "report_sha256": "18b820f2590db87160d410773e00f3a45c8a3aaae3f572ca55f1c77ede90562b",
+      "unresolved_edge_count": 0
+    }
+  ],
+  "no_automatic_retry": true,
+  "original_actual_scope": "Controlled single-root Linux x64 Gradle9.7.1 / runtime Java17.0.20; bootstrap, strict baseline, POM mismatch, missing hash",
+  "original_suite_elapsed_seconds": 31.186,
+  "original_suite_finished_utc": "2026-11-02T00:06:14.967729+00:00",
+  "original_suite_flags": {
+    "all_cases_observed_as_expected": false,
+    "bootstrap_complete": true,
+    "independent_trust_reviewed": false,
+    "production_dependencies_verified": false,
+    "selected_cases_observed_as_expected": true,
+    "selected_subset": true
+  },
+  "original_suite_observed_utc": "2026-11-02T00:05:43.782480+00:00",
+  "outer_cli_stderr_bytes": 0,
+  "outer_cli_stdout_bytes_equal_original_suite_bytes": true,
+  "outer_cli_stdout_json_equals_original_suite": true,
+  "pom_tamper": {
+    "actual_sha256": "6895ea03f2cef5c7e398aff870a99dcadf704040cc337a46ce3dd18c230ee545",
+    "exact_append_bytes": "<!-- intentional controlled metadata tamper -->\n",
+    "expected_sha256": "16ba9b921da2537de509ac0d453b2e3ce5943bdb005f11e8689cea294e3c955e",
+    "only_changed_recorded_source_file": "repo/org/nativecmpkit/fixture/parent/1.0/parent-1.0.pom",
+    "original_bytes": 346,
+    "other_recorded_source_and_enumerated_repository_bytes_unchanged": true,
+    "tampered_bytes": 394,
+    "tampered_equals_original_plus_exact_append": true,
+    "verification_metadata_and_lock_bytes_unchanged_during_check": true,
+    "verification_metadata_mapping_unchanged": true
+  },
+  "prelaunch_refusal_preserved_in": "PRELAUNCH-REFUSAL.json",
+  "record_type": "METADATA203-independent-qualified-actual-original-review",
+  "remaining_original_gates": [
+    "Real root/convention source acquisition and ordinary-build policy installation",
+    "Strict buildscript/settings/detached version-lock coverage",
+    "Other host runtimes and all library/release gates"
+  ],
+  "remaining_selected_cases": [],
+  "resource_limits": {
+    "all_recorded_free_byte_observations_exceed_reserve": true,
+    "all_stop_reasons_null": true,
+    "per_invocation_timeout_seconds": 90,
+    "reserve_mib": 8192,
+    "serial_local_slot": true,
+    "total_timeout_seconds": 300
+  },
+  "review_bookkeeping_notes": [
+    "Initial namespace-less passive XML lookup raised TypeError; final XML parsing is namespace-aware.",
+    "Initial serializer assumed an absolute graph-part pointer and refused the actual logical relative pointer with ValueError; final reader explicitly handles and validates relative pointers. Both were reviewer-only bookkeeping refusals before packet creation, not Gradle executions, source defects or actual failure causes.",
+    "Initial serializer also assumed absolute runtime binding values and refused their actual case-relative serialization; final comparison uses the original logical layout. No Gradle execution or live source change resulted.",
+    "An initial final-current equality check refused the later Camera helper edit. Lead explicitly qualified that postexecution unrelated delta; original actual before/after maps and dependency010 ten pins hold. No restoration, full-current-map-hold claim or execution replay was performed."
+  ],
+  "review_executions": {
+    "builds": 0,
+    "cleanup": 0,
+    "external_runtime_witness": 0,
+    "git": 0,
+    "jcmd": 0,
+    "models": 0,
+    "native": 0,
+    "network": 0,
+    "tests": 0
+  },
+  "review_finished_utc": "2026-11-02T00:23:49.808797+00:00",
+  "review_live_edits": 0,
+  "review_scope": "Passive local source/original-receipt/byte/hash inspection and stdlib bookkeeping only",
+  "review_started_utc": "2026-11-02T00:23:49.183855+00:00",
+  "runtime_isolation_scope": {
+    "arbitrary_descendants_verified": false,
+    "four_distinct_nonsymlink_private_cache_directories": true,
+    "gradle_jvm_recorded_case_relative_properties_and_environment_match_owning_layout": true,
+    "kernel_network_rss_or_filesystem_sandbox_verified": false,
+    "ordinary_wrapper_client_observed": false,
+    "other_hosts_verified": false,
+    "runtime_bodies_in_payload": false,
+    "sdk_compiler_cache_use_verified": false,
+    "whole_host_cold_cache_inferred": false
+  },
+  "schema_version": 1,
+  "selected_cases": [
+    "baseline-check",
+    "wrong-pom-sha",
+    "missing-hash"
+  ],
+  "unexecuted_cases": [
+    "wrong-jar-sha",
+    "missing-host-lock",
+    "missing-configuration-lock",
+    "transitive-strict-drift",
+    "dynamic-transitive-frozen",
+    "added-dependency",
+    "removed-dependency",
+    "included-root-check",
+    "standalone-wrong-hash"
+  ]
+}

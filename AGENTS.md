@@ -1,5 +1,66 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Owner execution update — 2026-11-02
+
+The owner now requests that current agents finish their existing assignments,
+then the lead continue **solo**. Do not spawn new agents or assign follow-up work
+after an agent completes. This supersedes earlier proactive parallel delegation
+for subsequent work; existing qualified deliveries can still be reviewed/reused.
+Lead integration/Git/GitHub, serial-local/8GiB, max2 combined hosted reservations
+INCLUDING queued, verification and publishing/security/readiness gates remain.
+
+## Camera preflight and Share guard integration211 — 2026-11-02
+
+[Share211](docs/development/evidence/current-platform-recovery-20261101/share-observation206-207/guard-integration211.json)
+integrates only two exact owning guard postimages, outside Camera47; all original
+8+2 test bodies/history remain exact. NEW8 evidence reused, not replayed.1191/1269
+canonical inputs; missing-only CameraC1 source preflight0/oneAPI35 row, ZERO
+native/compiler. Five Share planner/workflow paths remain pending.
+[Windows199](docs/development/evidence/current-platform-recovery-20261101/windows-stop199-original/README.md)
+is independently reviewed FAILED4200.61s/exit1/timeout/ZERO XML/completed cases,
+1185 actual maps held/1263 only predispatch;27 passive checks, not native tests.
+JNI callpaths prove some genuine fixture work, not deadlock/Stop/cleanup/cause.
+No blind70-minute retry or original reacquisition; #64 stays open. Terminal
+reservations are freed; recheck current queued/running capacity before dispatch.
+No new closure;97closed/75open/172total and all gates unchanged.
+
+## Camera admission repaired; Share compile verified — 2026-11-02
+
+[Camera197–210](docs/development/evidence/current-platform-recovery-20261101/camera-console197-204/README.md)
+preserves actual41363199860 FAILED before APK/Gradle/native/XML; permitted exact
+owned-name/CRLF/OK/CRLF rejected at one unknown of six LF-only callers. Exact LF/
+CRLF complete-only helper repair accepts NEW9 once9/9/0.743s with scalar/result/
+identity/cleanup gates unchanged. Camera205 derivative fixes stale scalar/failfast
+pins and adds exact full-source outer inverse before intact historical chain.
+NEW6 actual209 passes6/6 once/2.124s/exit0 on12 staged leaves,1190/1268 held;
+five-path integration210 holds1191/1269 and all47 AFTER pins. BEFORE47/FIRST30
+and accepted method/history remain exact/inert; no accepted/native replay.
+Ordinary source admission reviewed, not a complete fresh tooling/native pass.
+Next only missing API35 Dont-keepC1; #13 remains open.
+
+[Share206–207](docs/development/evidence/current-platform-recovery-20261101/share-observation206-207/README.md)
+accepts NEW8 once8/8/0.379s,166 staged1189/1267 held. Two transparent failure-only
+Kotlin paths integrate; fresh test-KLIB0/32.01s,1190/1268 held, main UP-TO-DATE,
+all warnings retained/ZERO native. Seven planner/workflow paths still pending
+exact Camera composition; original188 remains FAILED12pass/onefail, origin unknown.
+#81/#88/#48/#100 stay open, recover sole failed method only.
+
+[Metadata203](docs/development/evidence/current-platform-recovery-20261101/build007-metadata203/README.md)
+qualifies controlled bootstrap/baseline/POMtamper/missinghash exits0/0/1/1,
+suite31.186s; four client reaps/zero controller daemon reaps/no signals,010ten
+pins held. Ledger documented; #40 ordinary-wrapper/trust gates remain open.
+[ARM208](docs/development/evidence/current-platform-recovery-20261101/arm208-first-failure/README.md)
+FAILED3started/37cases:13 accepted from first2, G13_3 metadata-patch cleanup
+TypeError/23partial+oneerror;38labels unseen. Original sealed/adapter unchanged,
+no accepted8/native replay; new owning fixture repair must run only missing work.
+Android202 actual2failed/0pass before public IO; #55/cloudC1 stay open, no cause
+or text/viewport inference. Windows199 terminal FAILED/sole reviewer acquires once.
+97closed/75open/172total;24implemented/40partial/95verified/five unresolved.
+Lead integrates/Git/dispatch/closure, disjoint agents; serial local/8GiB/max2combined
+hosted INCLUDING queued. Actions/all/no mandatory SHA pinning/read-only and every
+publishing/Pages/main/history/native/consumer/API-ABI/dependency/legal/security/
+release-readiness gate remain. No release/packages/deployment publication.
+
 ## Android Local2 failure-only observation qualified and compiled — 2026-11-02
 
 [Owning200–201](docs/development/evidence/current-platform-recovery-20261101/android-local2-200-201/README.md)

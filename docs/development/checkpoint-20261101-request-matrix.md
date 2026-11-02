@@ -1,5 +1,32 @@
 # Remaining-platform execution checkpoint — 2026-11-01
 
+## Current camera/share/dependency patch — 2026-11-02
+
+- [Camera197–210](evidence/current-platform-recovery-20261101/camera-console197-204/README.md):
+  confirmed console protocol repair, NEW9 and NEW6 first-only green; exact current
+  scalar/failfast admission/inverse derivative integrated. All47 bindings hold.
+  Next only API35 Dont-keepC1, #13 open; no accepted restoration replay.
+- [Share206–207](evidence/current-platform-recovery-20261101/share-observation206-207/README.md):
+  NEW8 first-only8/8 and fresh test-KLIB0/32.01s; two Kotlin paths integrate,
+  seven planner/workflow paths pending precise Camera binding composition.
+  Original188 one failed remembered-public method remains; accepted12 reused.
+- [Metadata203](evidence/current-platform-recovery-20261101/build007-metadata203/README.md):
+  actual controlled bootstrap/baseline/POMtamper/missinghash0/0/1/1 independently
+  reviewed/documented. Ordinary copied-wrapper/root/composite trust still missing.
+- [ARM208](evidence/current-platform-recovery-20261101/arm208-first-failure/README.md):
+  original first-only NEW7 request FAILED at owning Python fixture cleanup,
+  firsttwo13 cases accepted/G13_3 partial23+oneerror/38unseen. Source repair pending,
+  not an adapter/native failure; no accepted tests replay.
+- Android202 remains2failed/0pass before grants/public IO; #55 local2/cloudC1 open,
+  text/theme/viewport explanations remain conditional. Windows199 terminal FAILED,
+  sole reviewer owns once-only originals; #64 open.
+
+Current97closed/75open/172total;24implemented/40partial/95verified/five unresolved.
+Maximum2 combined hosted-heavy INCLUDING queued; serial local8GiB reserve, lead
+Git/dispatch/closures. Actions/all/no mandatory SHA pinning/read-only verification;
+publishing, Pages/main/history, native/consumer/API-ABI/dependency/legal/security/
+release-readiness gates unchanged. Earlier checkpoint sections retain dated scope.
+
 ## Date year-policy verified and closed; related diagnostics prepared — 2026-11-01
 
 **#26/UI-001 CLOSED/completed**, immediately after all four original criteria

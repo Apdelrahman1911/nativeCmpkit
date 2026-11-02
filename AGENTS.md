@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Focused platform originals reviewed — 2026-11-02
+
+[Originals308–315](docs/development/evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)
+accepts Windows41420619487 **original public Stop1/1** with the private identified
+full-JAR candidate: one fresh XML, Gradle0/228.28s/method6.02s,1204library/16owning
+before-after inputs held,34passive checks; original10s/six predicates/precleanup
+EOF/zero-response/same-owner recovery/owned cleanup remain. Do not replay it.
+Ordinary dependencies unchanged; #64/#3 and other Desktop/browser-offline/legal/
+security/consumer/API-ABI/adoption gates stay open. Android41421993681 remains
+FAILED2/0pass/Gradle1/110.04s; exact buttonID1/text0 and Downloads dir_list1/owned
+query0 observed only after timeout; actual casing/root cause unknown, grants/IO
+unreached/#55open/cloudC1separate. iOS41420816652 remainsFAILED4/0pass/1484.39s:
+complete UIView36–65 label0 but first16 container owners truncated/unknown/index0;
+no full accessibility graph or activation, #28open. Cached originals acquired once;
+314final50passive checks and two reviewer bookkeeping corrections are not tests.
+Fresh315state97closed/75open/172total,22implemented/42partial/95verified/five
+unresolved; ZERO closure/publication. Continue SOLO/serial-local/8GiB/max2 combined
+hosted INCLUDING queued; every publishing/Pages/main/history/readiness gate holds.
+
 ## Windows compiled-key and shared workflow-policy recovery — 2026-11-02
 
 [Actual300–305](docs/development/evidence/current-platform-recovery-20261101/platform-preflight300-305/README.md) preserves Windows41418996640/f9ad18de FAILED

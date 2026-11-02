@@ -1,5 +1,16 @@
 # Desktop WebView stop-loading verification
 
+## Original Windows public Stop accepted — 2026-11-02
+
+[Original308/review311](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)
+passes the missing original public Stop method **1/1**, with genuine precleanup
+EOF, zero response, same native owner recovery and owned cleanup. Gradle0/228.28s,
+one fresh XML/method6.02s; actual1204library/16owning maps match frozen Git/current.
+The private full-JAR candidate is **not adopted by ordinary dependencies**.
+Reuse this method without rerun. Other Desktop/browser-offline and complete
+native-source/legal/security/consumer/API-ABI/adoption criteria keep #64 open;
+no default adoption or publication follows. Earlier failures below remain failed.
+
 ## Dependency patch qualified; library adoption next — 2026-11-02
 
 [Linux263/Windows270/review271](evidence/current-platform-recovery-20261101/javafx-cancel262-271/README.md)

@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `45aaf3515837b6706da058a440422b89ea4a5d3f1468143cc17a1698636aa306`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `0d99e07a6859a76a9a70c955d0fc109a670b6a2dd4c5c853652c2d3767d44d64`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -51,7 +51,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 3 | [BUILD-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/42) | Medium | 0 | S | verified | — | 2 / 0 |
 | 4 | [BUILD-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/146) | Low | 0 | S | verified | BUILD-003 | 3 / 0 |
 | 5 | [BUILD-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/1) | High | 1 | L | verified | — | 3 / 0 |
-| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 11 |
+| 6 | [BUILD-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/3) | High | 1 | XL | implemented | — | 4 / 12 |
 | 7 | [IO-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/4) | High | 1 | S | verified | — | 6 / 0 |
 | 8 | [IO-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/5) | High | 1 | M | verified | — | 5 / 0 |
 | 9 | [IO-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/6) | High | 1 | L | verified | — | 6 / 0 |
@@ -69,7 +69,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
-| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 3 |
+| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 4 |
 | 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 3 |
 | 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | partially-verified | — | 3 / 3 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
@@ -112,7 +112,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 64 | [IO-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/52) | Medium | 2 | M | partially-verified | — | 5 / 2 |
 | 65 | [IO-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/53) | Medium | 2 | S | verified | IO-003 | 5 / 0 |
 | 66 | [IO-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/54) | Medium | 2 | M | partially-verified | — | 5 / 9 |
-| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 10 |
+| 67 | [IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55) | Medium | 2 | M | partially-verified | IO-008, IO-010 | 4 / 11 |
 | 68 | [IO-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/56) | Medium | 2 | S | verified | — | 5 / 0 |
 | 69 | [IO-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/57) | Medium | 2 | L | partially-verified | IO-001, IO-020 | 6 / 12 |
 | 70 | [IO-023](https://github.com/Apdelrahman1911/nativeCmpkit/issues/58) | Medium | 2 | L | unresolved | IO-003, IO-017 | 5 / 7 |
@@ -121,7 +121,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 73 | [IO-026](https://github.com/Apdelrahman1911/nativeCmpkit/issues/61) | Medium | 2 | M | verified | — | 6 / 0 |
 | 74 | [NATIVE-003](https://github.com/Apdelrahman1911/nativeCmpkit/issues/62) | Medium | 2 | S | verified | — | 3 / 0 |
 | 75 | [NATIVE-004](https://github.com/Apdelrahman1911/nativeCmpkit/issues/63) | Medium | 2 | S | verified | — | 3 / 0 |
-| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 12 |
+| 76 | [NATIVE-005](https://github.com/Apdelrahman1911/nativeCmpkit/issues/64) | Medium | 2 | M | partially-verified | — | 3 / 13 |
 | 77 | [NATIVE-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/65) | Medium | 2 | M | verified | — | 3 / 0 |
 | 78 | [NATIVE-007](https://github.com/Apdelrahman1911/nativeCmpkit/issues/66) | Medium | 2 | M | implemented | — | 3 / 5 |
 | 79 | [NATIVE-008](https://github.com/Apdelrahman1911/nativeCmpkit/issues/67) | Medium | 2 | M | verified | — | 3 / 0 |
@@ -334,6 +334,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Independent Android native coverage gate retained after original IO-002 closure: real hard-link acquisition/save test actualHardLinkIsNotTruncatedOrDeleted still fails at Os.link EACCES in immutable40436756084. Do not waive, skip, weaken SELinux or claim a kernel hard-link pass from Unix/Robolectric. Destination-zero identity and broader provider/restart/minimum-API/process-death checks also remain separate from the five completed saver criteria. Full-module/CI/release approval remains blocked; see docs/development/evidence/android-saver-acceptance-closure-20261027/acceptance.json and docs/development/android-saver-verification.md.
 - Extra Linux-arm64 WebView consumer staging fails before tests in40768437205; root cause remains unknown. Inspect bounded immutable40772821771 recovery; do not replay the four original accepted hosts or call the whole workflow green.
 - Extra LinuxARM64 producer staging absence is explained by KGP2.4.20 unsupported Kotlin/Native host+declared-native guard. Use a supported producer execution retaining identical root/desktop metadata; no internal KGP override, fake target/publication or candidate-JAR transfer under reports-only policy. Real consuming-host execution and wider gates remain.
+- 2026-11-02 originals308/312/313: Windows candidate workflow is runner-green with original Stop1/1, not default dependency/legal/consumer/API-ABI clearance. AndroidLocal2 remains0/2 and iOSalert4 remains0/4; diagnose their observed harness readiness failures, preserve accepted results, and retain all broad BUILD-006 requirements.
 
 **Compatibility / scope:** No NO-SOURCE/cached/skipped/compilation-only or sample evidence relabeled as library integration success.
 
@@ -697,6 +698,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.
 - The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 - After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
+- 2026-11-02 original313: Important alert4 remain failed before accessibilityActivate. Diagnose incomplete accessibility observation/input harness on supported public APIs; first16 zero counts do not establish absent accessibility actions. Reuse earlier lifecycle acceptance without replay; #28 stays open.
 
 **Compatibility / scope:** No action/text-field constructor change; field initialValue is still initial-only.
 
@@ -1592,6 +1594,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-01 batch073: Run only new fixed unavailable-provider1; accepted lifecycle/default-decode methods remain unreplayed. Even a native outage pass completes only C4 subset, not original named system/cloud-provider C1; #55 stays open until its own criteria fully verify.
 - 2026-11-01 original076: C4 unavailable-provider half now accepted; do not replay it or accepted lifecycle/Coil methods. C1 ExternalStorageProvider/Downloads/cloud-provider real folder behavior remains original missing work, so #55 stays open.
 - 2026-11-02 actual200–201: NEW23/source and fresh device-test compiler/APK accepted only. Recover the same two failed API35 Local2 methods once on immutable development source; do not replay accepted IO/APK/control populations. CloudC1 and full #55 remain open; no native gate relaxed.
+- 2026-11-02 original312: Local2 still failed, now with exact limited operands. Diagnose the owning selector/location from evidence before another request; do not normalize labels or guess provider/root. CloudC1 separate; no unchanged native retry or #55 closure.
 
 **Compatibility / scope:** Original URI serialization retained; getPath only represents actual filesystem paths. Metadata denial/absence is not a grant to open content.
 
@@ -1799,6 +1802,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-02 original249: Windows Stop still fails at native/library/preheader conjunction; recovery unreached. Qualify an owning dependency cancellation fix, then rerun only this failed method, retaining10s/six predicates. No private route override, cache modification, guessed historical route or unchanged blind retry. Other original Desktop/browser-offline obligations remain.
 - 2026-11-02 actual262–271: Linux4/Windows4 dependency-native cancellation accepted without replay; ordinary dependency not adopted. Prepare a maintained full web artifact/corresponding source/notices/provenance/security/consumer/API-ABI strategy; replace not shadow original classes and verify only the failed original public Windows Stop method. Retain all other original Desktop/offline-browser obligations and every failure.
 - 2026-11-02 candidate273-283: Private full artifact/Java sources and explicit one-task Windows replacement route are prepared with source/packaging/dry-run qualification only. Execute/review only original failed Windows public Stop1 using this candidate, preserving10s/six predicates/actual EOF/recovery/cleanup. Default adoption, complete native corresponding source/legal/security/consumer/API-ABI and every other original Desktop/offline-browser requirement remain; no issue closure from preparation or this one case alone.
+- 2026-11-02 original308/review311: Windows Stop1 is now accepted and excluded from reruns. Other original Desktop/genuine JS-Wasm offline obligations remain. The private candidate is not default-adopted; complete native corresponding-source/legal/security/consumer/API-ABI/adoption requirements remain, so #64 stays open.
 
 **Owner verification scope:** Original Android one method and iOS request2/DNS accepted on exact applicable bytes; current Android Stop1 remains missing. Desktop10 and genuine offlineJS/Wasm2 still required. Source/tooling/APK preparation is ZERO new native methods and does not complete #64. Latest2026-11-02 corrects the earlier AndroidStop1-pending observation: accepted Android/iOS subsets remain reusable. Windows original41398651975 still fails at peerEOF0 before recovery; Desktop and genuine browser-offline requirements remain. Internal JavaFX defect is source-confirmed; historical Windows loader route and a production dependency fix are unverified. Latest262–271: Linux4/4 and Windows4/4 are dependency-level public JavaFX cancellation only, ZERO NativeCmpKit methods and no default adoption. Original public Windows Stop remains failed; maintained artifact/source/provenance/platform consumer/API-ABI/security gates and other Desktop/browser-offline obligations remain. Latest273-283:27 NEW controls (21+5+1), private full-JAR/Java-source packaging and corrected failed-only Gradle dry-run qualified; ZERO new native/library methods. Ordinary dependencies remain unchanged; Windows Stop1 and all other original/adoption/security/consumer/API-ABI gates remain.
 
@@ -3575,14 +3579,14 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/NAV.json](../audit/findings/NAV.json) | `6b17a05b029015297887dae425d9860aa9702489ef7a74c848c1fd5cdbb75157` |
 | [docs/audit/findings/PERM.json](../audit/findings/PERM.json) | `27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8` |
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
-| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `081846d26dcbbdfd29564a7c4faa850fedd2881c57483a14f64a59ae896dac43` |
-| [docs/development/resolutions/IO.json](resolutions/IO.json) | `f0b725286e7771689f5cbd9fcb3c157f3b9f069090efb04cced65269c6ef15a5` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `11dd35a46f26aed561b1cbece0512d71f138ca51ba2e1eb73dcbbc1c7f34cc34` |
+| [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `d3462db1793dfe38737c0022ddbd6661e84dc1648e926e7f726d6558fd145d9d` |
+| [docs/development/resolutions/IO.json](resolutions/IO.json) | `c27109e98ce1bc6c905e063d5f42a9093db3f01c141baa178d2310fbedba7262` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `f694eb2b75291727f23c45610ca8cf2e90eff6fafa6fe777082c0afe83cae9c6` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `8b249dc60d7921709d9874f8055e7d0953a31c3f4da9221677ffd0bc5a408827` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `96f093addd2aca9fd2dfd4f818c2c21f922098c2188e8fed3aee4f9fd21f97f4` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `df7f0731def2884f10f20c612c3a78e95c5ee9543b7f4e05005e36f00c4a2e59` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 

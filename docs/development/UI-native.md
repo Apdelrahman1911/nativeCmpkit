@@ -1,5 +1,15 @@
 # UI native/date/time/modal development — UI-001…UI-026
 
+## Important alert action gate still fails — 2026-11-02
+
+[Original313/review314](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)
+retains **0/4 pass** before genuine accessibilityActivate. Complete UIView samples
+36/65/35/36 have no exact action-label match; the public-container observer reads
+only first16 owners, all count0, truncated/unknown/indexchildren0. Full accessibility
+graph, input and root cause remain unknown. Worker/transport/installed identity/
+owned-app cleanup hold, not JUnit green. #28 stays open; do not replay unchanged
+failures or replace native input with manager/private/forced activation.
+
 This is a **post-audit implementation record**, not a replacement for the immutable
 [baseline UI findings](../audit/findings/UI.json). The root authorized this repair
 phase after the 2026-10-24 upstream reconciliation. Existing public packages and

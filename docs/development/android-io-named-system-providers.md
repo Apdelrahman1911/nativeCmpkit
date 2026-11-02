@@ -1,5 +1,16 @@
 # Android named system-provider verification
 
+## First failure-only observation executed — 2026-11-02
+
+[Original312/review314](evidence/current-platform-recovery-20261101/platform-originals308-315/README.md)
+remains **0/2 pass**. ExternalStorage observes an exact button ID but text mismatch;
+Downloads observes one admitted dir_list and zero owned-text nodes. Actual
+button text/casing/individual enabled-clickable and provider/root location are
+unobserved. These are after-timeout cooperative facts, not historical poll/cause.
+Four actual1204 maps, setup/KVM and owned guest disposal hold; grants/public IO
+remain unreached. Diagnose before another changed-source request; no guessed
+case normalization, relaxed selector or unchanged retry. #55/cloud C1 stay open.
+
 Issue [#55 / IO-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/55)
 remains open. This fixture covers the missing **local named-provider** portion,
 not cloud providers, minimum Android versions or packaged consumers.

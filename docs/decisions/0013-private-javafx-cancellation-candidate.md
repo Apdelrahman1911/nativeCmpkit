@@ -84,6 +84,17 @@ and daemon; a cross-packaged JAR is not platform functionality evidence.
   source packages are uploaded. No package, deployment or release is authorized
   by this decision. Existing release-readiness/security gates remain.
 
+## Current upstream fix check — 2026-11-02
+
+[Read-only observation386](../development/evidence/current-platform-recovery-20261101/javafx-upstream-cancel-observation386/README.md)
+finds `jfx21u/master` at `dd5bd597dc166a8b3807cde608109d0b6dc156be` still uses
+the same flag-only `HTTP2Loader.fwkCancel()` source as official21.0.13. The
+24,544-byte Java source SHA256 is identical; the latest path change dates2022.
+Do not assume a later21u branch/version fixes cancellation. This is not official
+native-binary correspondence, a verified new release, or legal/security clearance.
+No code/dependency/candidate change or native/build execution follows. The first
+private-selector parser refusal and same-byte recovery are retained.
+
 ## Before any ordinary adoption
 
 1. Review actual original library Stop source/results/runtime/cleanup evidence

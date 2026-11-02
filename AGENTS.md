@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Windows compiled-key and shared workflow-policy recovery — 2026-11-02
+
+[Actual300–305](docs/development/evidence/current-platform-recovery-20261101/platform-preflight300-305/README.md) preserves Windows41418996640/f9ad18de FAILED
+after cache fencePASS/javac0/2.469s, before packaging/Gradle/native. Compiled-class
+str(relative_path) emitted Windows backslash keys; only.as_posix/comment repairs
+JAR names, no SHA refresh. Actual1204before matches/current, after-map and class
+bytes/count unuploaded/unknown. Alert41419207500 FAILED209tooling/208pass/onefail:
+stale two-workflow fixture excluded both qualified JavaFX routes; ZERO profile/
+Apple/native. Four exact read-only workflows, finite existing development3/2push
+paths and manual others now guarded, with no workflow permission/trigger changes.
+NEW302red1;303only3class+3boundary pass/0.030s+0.012s/1204held/ZERO localcompilernative.
+304 one tautological inventory review predicate retained;305 corrected1 reuses17,
+18acceptedpassive/not fresh18. Accepted275/27/dependency-native4 are not replayed.
+Next frozen development push auto-reserves WindowsStop1; no duplicate dispatch.
+Missing Alert4 may coexist within max2INCLUDINGqueued. #64/#28/#3 remain open;
+97closed/75open/172total/22implemented/42partial/95verified/five unresolved unchanged.
+SOLO/8GiB/serial and publishing/Pages/main/history/native/consumer/API-ABI/legal/
+security/readiness gates remain; no default dependency or binary publication.
+
 ## Windows cache observation wiring corrected; actual index preflight passes — 2026-11-02
 
 [Actual291–296](docs/development/evidence/current-platform-recovery-20261101/javafx-cache291-296/README.md) retains41416593900/80af3ff8 FAILED

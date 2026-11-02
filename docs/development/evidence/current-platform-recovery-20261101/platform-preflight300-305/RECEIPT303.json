@@ -1,0 +1,50 @@
+{
+  "after": {
+    "scripts/development/test_preview_boundary_batch.py": "810fec9484240b6e2cbaed6f5e84566338a8b37c3b418b91de6dab851f07cdf2",
+    "tests/dependency/javafx-http2-cancellation/build_runtime_candidate.py": "99c57c154c7664226f1888cd6fcc445a967b093281d6c13173a89c1ba8acc537",
+    "tests/dependency/javafx-http2-cancellation/test_runtime_candidate_paths.py": "935410062676caaaef7a70b8d6ba1fd26a60d228c2038b51927e5b1223309278"
+  },
+  "before": {
+    "scripts/development/test_preview_boundary_batch.py": "810fec9484240b6e2cbaed6f5e84566338a8b37c3b418b91de6dab851f07cdf2",
+    "tests/dependency/javafx-http2-cancellation/build_runtime_candidate.py": "99c57c154c7664226f1888cd6fcc445a967b093281d6c13173a89c1ba8acc537",
+    "tests/dependency/javafx-http2-cancellation/test_runtime_candidate_paths.py": "935410062676caaaef7a70b8d6ba1fd26a60d228c2038b51927e5b1223309278"
+  },
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_runtime_candidate_paths",
+        "-v"
+      ],
+      "cwd": "tests/dependency/javafx-http2-cancellation",
+      "duration_seconds": 0.1660727,
+      "exit_code": 0,
+      "name": "class-path-new3"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "test_preview_boundary_batch.PreviewBoundaryBatchTests.test_active_workflows_use_only_reviewed_read_only_triggers_without_publication",
+        "test_preview_boundary_batch.PreviewBoundaryBatchTests.test_candidate_automatic_trigger_cannot_expand_branches_paths_or_events",
+        "test_preview_boundary_batch.PreviewBoundaryBatchTests.test_reviewed_workflow_cannot_gain_write_permissions_publish_commands_or_unknown_files",
+        "-v"
+      ],
+      "cwd": "scripts/development",
+      "duration_seconds": 0.115911484,
+      "exit_code": 0,
+      "name": "failed-boundary1-new2"
+    }
+  ],
+  "held_inputs": true,
+  "library_input_count": 1204,
+  "native_or_compiler_executions": 0,
+  "recorded_utc": "2026-11-02T09:20:49.320430+00:00",
+  "scope": "Only failed owning class inventory and stale workflow-policy family plus NEW adversarial controls. No accepted275/27/native4 replay, SHA refresh, publishing or native acceptance.",
+  "source_control_methods": 6
+}

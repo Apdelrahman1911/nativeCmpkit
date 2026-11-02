@@ -12,6 +12,19 @@ reserve; at most two combined hosted-heavy reservations include queued work.
 Related-patch important tests and immediate verified-subset closures remain the
 execution order. Publishing, security, Pages, `main` and history gates are unchanged.
 
+## Current reviewed workflow entry points — 2026-11-02
+
+There are now exactly four active read-only verification workflows. `gradle.yml`
+and `build-native-libs.yml` remain manual. `javafx-dependency-regression.yml` and
+`javafx-library-candidate.yml` also accept only the existing development branch
+and exact three/two dependency/probe/builder input paths on push; no broad paths,
+main/release/tag/schedule/deployment triggers or write permissions are authorized.
+The owner already authorized automatic routine verification. Actions remain all
+allowed without mandatory SHA pinning; this does not relax any publishing gate.
+The later dated observation of two workflows describes2026-10-26, not current
+inventory. [Owning policy regression evidence](evidence/current-platform-recovery-20261101/platform-preflight300-305/README.md)
+retains the stale fixture failure and adversarial scope checks.
+
 ## Current owner decisions — 2026-10-26–27
 
 The owner explicitly enabled **Allow all actions and reusable workflows** and

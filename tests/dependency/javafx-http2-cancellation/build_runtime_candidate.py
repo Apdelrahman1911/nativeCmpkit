@@ -217,7 +217,8 @@ def build(args):
                                           os.pathsep.join(map(str, jars)), "--add-modules", "javafx.web",
                                           "--patch-module", "javafx.web=" + str(source.parent),
                                           "-d", str(classes), str(source)])
-        actual_classes = {str(p.relative_to(classes)): p.read_bytes() for p in classes.rglob("*.class")}
+        # JAR member names are POSIX paths on every compiler host.
+        actual_classes = {p.relative_to(classes).as_posix(): p.read_bytes() for p in classes.rglob("*.class")}
         expected_classes = {CLASS_PREFIX + n: d for n, d in CLASS_SHA256.items()}
         probe.need({n: probe.digest(b) for n, b in actual_classes.items()} == expected_classes,
                    "Compiler emits changed/extra owning classes; do not automatically refresh accepted pins")

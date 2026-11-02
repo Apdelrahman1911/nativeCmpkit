@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import re
+import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,16 +39,87 @@ class PreviewBoundaryBatchTests(unittest.TestCase):
         self.assertIn('fresh Gradle configuration, an implemented API contract', roadmap)
         self.assertIn('platform privacy/provider setup and native device tests', roadmap)
 
-    def test_all_active_workflows_remain_manual_read_only_with_no_version_stamping_or_release_template(self):
-        workflows = list((ROOT / '.github/workflows').glob('*.yml')) + list((ROOT / '.github/workflows').glob('*.yaml'))
-        self.assertEqual({'gradle.yml', 'build-native-libs.yml'}, {path.name for path in workflows})
+    def assert_reviewed_workflow_policy(self, root):
+        workflows = list((root / '.github/workflows').glob('*.yml')) + list((root / '.github/workflows').glob('*.yaml'))
+        push_paths = {
+            'javafx-library-candidate.yml': (
+                'tests/dependency/javafx-http2-cancellation/build_runtime_candidate.py',
+                'tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts',
+            ),
+            'javafx-dependency-regression.yml': (
+                'tests/dependency/javafx-http2-cancellation/JavaFxPublicCancellationProbe.java',
+                'tests/dependency/javafx-http2-cancellation/cancel-response-future.patch',
+                'tests/dependency/javafx-http2-cancellation/artifacts.json',
+            ),
+        }
+        self.assertEqual({'gradle.yml', 'build-native-libs.yml', *push_paths}, {path.name for path in workflows})
         for path in workflows:
             text = re.sub(r'(?m)^\s*#.*$', '', path.read_text())
+            blocks = re.findall(r'(?ms)^on:\n(.*?)(?=^\S|\Z)', text)
+            self.assertEqual(1, len(blocks))
+            events = re.findall(r'(?m)^  ([a-z_]+):', blocks[0])
+            expected = {'workflow_dispatch', 'push'} if path.name in push_paths else {'workflow_dispatch'}
+            self.assertEqual(expected, set(events))
+            self.assertEqual(len(expected), len(events))
+            if path.name in push_paths:
+                push = re.findall(r'(?ms)^  push:\n(.*?)(?=^  [a-z_]+:|\Z)', blocks[0])
+                self.assertEqual(1, len(push))
+                allowed = '    branches: [development/preview-hardening]\n    paths:\n' + ''.join(
+                    '      - ' + name + '\n' for name in push_paths[path.name])
+                self.assertEqual(allowed.strip(), push[0].strip())
+                self.assertIn("github.ref == 'refs/heads/development/preview-hardening'", text)
             self.assertIn('workflow_dispatch:', text)
             self.assertIn('permissions:\n  contents: read', text)
             self.assertNotRegex(text, r'(?m)^\s*[\w-]+:\s*(?:write|write-all)\s*$')
             for forbidden in ('gh release create', 'cargo publish', 'npm publish', 'gh-deploy', 'sed -i', 'publishAndReleaseToMavenCentral'):
                 self.assertNotIn(forbidden, text)
+
+    def test_active_workflows_use_only_reviewed_read_only_triggers_without_publication(self):
+        self.assert_reviewed_workflow_policy(ROOT)
+
+    def fixture_workflows(self):
+        temporary = tempfile.TemporaryDirectory(prefix='nativecmpkit-workflow-boundary-')
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        directory = root / '.github/workflows'
+        directory.mkdir(parents=True)
+        for source in (ROOT / '.github/workflows').glob('*.yml'):
+            (directory / source.name).write_bytes(source.read_bytes())
+        return root
+
+    def test_candidate_automatic_trigger_cannot_expand_branches_paths_or_events(self):
+        root = self.fixture_workflows()
+        path = root / '.github/workflows/javafx-library-candidate.yml'
+        original = path.read_text()
+        mutations = (
+            original.replace('branches: [development/preview-hardening]', 'branches: [main]'),
+            original.replace('paths:\n', 'paths:\n      - "**"\n', 1),
+            original.replace('  workflow_dispatch:', '  release:\n  workflow_dispatch:', 1),
+        )
+        for number, mutation in enumerate(mutations):
+            with self.subTest(mutation=number):
+                path.write_text(mutation)
+                with self.assertRaises(AssertionError):
+                    self.assert_reviewed_workflow_policy(root)
+
+    def test_reviewed_workflow_cannot_gain_write_permissions_publish_commands_or_unknown_files(self):
+        root = self.fixture_workflows()
+        directory = root / '.github/workflows'
+        path = directory / 'javafx-library-candidate.yml'
+        original = path.read_text()
+        for mutation in (
+            original.replace('  contents: read', '  contents: read\n  packages: write', 1),
+            original.replace('  contents: read', '  contents: read\n  id-token: write', 1),
+            original + '\n# comment ignored\n      - run: gh release create unsafe\n',
+        ):
+            with self.subTest(kind=mutation[-50:]):
+                path.write_text(mutation)
+                with self.assertRaises(AssertionError):
+                    self.assert_reviewed_workflow_policy(root)
+        path.write_text(original)
+        (directory / 'unreviewed.yml').write_text('on:\n  workflow_dispatch:\npermissions:\n  contents: read\n')
+        with self.assertRaises(AssertionError):
+            self.assert_reviewed_workflow_policy(root)
 
 
 if __name__ == '__main__':

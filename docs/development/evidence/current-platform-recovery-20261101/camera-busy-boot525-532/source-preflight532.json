@@ -1,0 +1,32 @@
+{
+  "profile": "android-camera-restoration-dont-keep",
+  "operation": "plan",
+  "source_only": true,
+  "Gradle_builds_executed": 0,
+  "library_tests_executed": 0,
+  "slots": [
+    {
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "[repository]/scripts/ci/android_device_tests.py",
+        "plan",
+        "--api-level",
+        "35",
+        "--output",
+        "build/ci-plan",
+        "--module",
+        "calf-camera-picker",
+        "--focus",
+        "android-camera-real-restoration-dont-keep"
+      ],
+      "expected_modules": 1,
+      "exit_code": 0
+    }
+  ],
+  "source_input_count": 1304,
+  "source_input_digest": "bbacce7dd8ba614858d8a1779807651822f18f1730e0880ec4ad5fb3bb09f2d3",
+  "scope": "Source-only current routing admission; native outcomes and issue13 closure not inferred"
+}

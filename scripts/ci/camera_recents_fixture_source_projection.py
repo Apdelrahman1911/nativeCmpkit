@@ -33,6 +33,8 @@ def _bindings():
 def source_before_recents_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact recents-fixture source identity and ordinary bytes required")
+    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history
+    payload = peel_current_boot_busy_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +70,8 @@ def source_before_recents_fixture(relative, payload):
 def current_source_before_recents_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current recents-fixture identity and ordinary bytes required")
+    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history
+    payload = peel_current_boot_busy_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace exact current recents-fixture source")

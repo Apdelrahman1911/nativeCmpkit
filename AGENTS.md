@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Busy-camera readiness repaired; iPad native subset reviewed — 2026-11-03
+
+[Camera525–532](docs/development/evidence/current-platform-recovery-20261101/camera-busy-boot525-532/README.md)
+keeps41719792072 FAILED before Gradle/APK/native/XML: first header/footer300,
+173 rows/no empty sentinel, actual component/body/producer unknown; separate
+cleanup733 fails and owned guest disposal passes.36 passive original checks,
+1296 actual own-Git maps and3575 tooling invocations qualify ONCE. Public AOSP
+prints `(nothing)` only on an empty filtered report. New canonical user0 fallback
+busy references permit guarded read-only waiting ONLY; later unchanged strict
+empty parser/original capture/native/restoration/cleanup remain mandatory.
+NEW12 red1failure/21error records; same12+affected5 green17/17 once0.117s,
+36 source/results checks/1304held, three old paths/five fragments/three additions.
+No actual busy component, new native/compile or #13 closure inference.
+
+[iPad520/530](docs/development/evidence/current-platform-recovery-20261101/ios-popover-ipad520-530/README.md)
+accepts actual41712867688 own570edb50:4/5 UIKit/oneXML/Gradle1/1852.1s,
+1295maps/Worker6/native agreement/runtime/cleanup; unsupported bar nil assertion
+alone fails, exact presenter pointer and fallback tail unreached. Reuse four
+accepted bodies on each host, not replay. Missing-bar-only41723586208 iPhone and
+41725142093 iPad at3a8d8796/1301 each reserve TWO INCLUDINGqueued; originals pending.
+#29 remains open for OSrotation/real splitview/explicittraits regardless of bar.
+Fresh GitHub103closed/69open/172; ledger22implemented/36partial/101verified/five
+unresolved unchanged, no closure/publication. SOLO/no new assignments, serial
+local8GiB/max2INCLUDINGqueued/development/read-only Actions/all/no mandatory SHA
+and every main/history/Pages/native/consumer/API–ABI/dependency/legal/security/
+readiness/publishing gate remains. Do not redispatch accepted POSTs or originals.
+
 ## Actual popover subset reviewed; failed bar-case source recovery — 2026-11-03
 
 [520–524](docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar520-524/README.md)

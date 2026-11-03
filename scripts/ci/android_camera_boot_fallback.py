@@ -73,6 +73,67 @@ def fallback_marker_facts(payload: bytes) -> dict:
     }
 
 
+def busy_fallback_marker_facts(payload: bytes) -> dict:
+    """A nonempty filtered Android15 dump is wait-only, not malformed absence.
+
+    ActivityTaskManagerService prints '(nothing)' ONLY when no matching
+    activity was printed. Recognize canonical user0 FallbackHome references
+    in the public history/resumed/paused roles, without claiming the detailed
+    body, installed image, task ownership or complete producer grammar. Unknown
+    references and envelopes fail fast. A later unchanged strict empty parser
+    remains the ONLY successful boot-handoff gate.
+    """
+    camera.require(type(payload) is bytes and 0 < len(payload) <= camera.CONTROL_BYTES,
+                   "A bounded ordinary busy activity observation is required")
+    camera.require(not any(byte < 32 and byte != 10 for byte in payload),
+                   "Unsafe busy activity observation")
+    rows = payload.decode("utf-8").removesuffix("\n").split("\n")
+    display_ids = []
+    display_shapes_valid = True
+    for row in rows:
+        if row.lstrip(" ").startswith("Display #"):
+            match = re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", row)
+            if match is None or int(match[1]) > 2147483647:
+                display_shapes_valid = False
+            else:
+                display_ids.append(int(match[1]))
+    outer_shape = (payload.endswith(b"\n") and len(rows) >= 4 and
+                   rows[0] == camera.ACTIVITIES_HEADER and rows.count(camera.ACTIVITIES_HEADER) == 1 and
+                   rows.count("  (nothing)") == 0 and bool(display_ids) and
+                   re.fullmatch(r"Display #(0|[1-9][0-9]{0,9}) \(activities from top to bottom\):", rows[1]) is not None and
+                   display_shapes_valid and len(display_ids) == len(set(display_ids)))
+    descriptor = re.compile(
+        r"ActivityRecord\{[0-9a-f]{1,8} u0 com\.android\.settings/\.FallbackHome"
+        r"(?: t(-1|0|[1-9][0-9]{0,9})(?: f\})?(?: isExiting)?\})?"
+    )
+    history_role = re.compile(r" +(?:\* )?(?:Hist|Fin|Stop) +#(0|[1-9][0-9]{0,9}): ")
+    state_role = re.compile(r" +(?:(?:Resumed|ResumedActivity|mLastPausedActivity): |(?:topPausingActivity|topResumedActivity)=)")
+    marker_rows = [row for row in rows if "ActivityRecord{" in row]
+    qualified = history_rows = 0
+    for row in marker_rows:
+        if row.count("ActivityRecord{") != 1:
+            continue
+        index = row.index("ActivityRecord{")
+        history = history_role.fullmatch(row[:index])
+        known_role = ((history is not None and int(history[1]) <= 2147483647) or
+                      state_role.fullmatch(row[:index]) is not None)
+        match = descriptor.fullmatch(row[index:])
+        if known_role and match is not None and (match[1] is None or -1 <= int(match[1]) <= 2147483647):
+            qualified += 1
+            history_rows += history is not None
+    return {
+        "activity_record_marker_rows": len(marker_rows),
+        "reference_fallback_marker_rows": qualified,
+        "unqualified_marker_rows": len(marker_rows) - qualified,
+        "history_marker_rows": history_rows,
+        "known_busy_header_and_displays": outer_shape,
+        "only_reference_fallback_markers": outer_shape and history_rows > 0 and qualified == len(marker_rows),
+        "detailed_body_grammar_certified": False,
+        "activity_absence_inferred": False,
+        "actual_image_producer_or_ownership_inferred": False,
+    }
+
+
 def wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dict:
     """One cooperative60s read-only preflight; no startup/native-gate waiver.
 
@@ -168,15 +229,26 @@ def wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dic
                 except BaseException:
                     pass  # Observation never replaces the original strict refusal.
                 origin = camera.require_call_origin(error)
-                # Only the unchanged interior-row refusal can be provisional.
-                # Unsafe bytes, status/stderr, headers, duplicate displays and
-                # truncation keep their exact original error and fail fast.
-                if origin != {"source": "android_camera_developer_prerequisite.py",
-                              "symbol": "parse_settings_activity_absence", "line": 307}:
+                interior = {"source": "android_camera_developer_prerequisite.py",
+                            "symbol": "parse_settings_activity_absence", "line": 307}
+                header_footer = {"source": "android_camera_developer_prerequisite.py",
+                                 "symbol": "parse_settings_activity_absence", "line": 300}
+                if origin == interior:
+                    facts = fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))
+                    receipt["last_marker_facts"] = facts
+                    receipt["last_interior_refusal_origin"] = origin
+                elif origin == header_footer:
+                    facts = None
+                    try:
+                        facts = busy_fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))
+                    except BaseException:
+                        pass  # A classifier failure cannot replace the original parser refusal.
+                    if facts is None:
+                        raise
+                    receipt["last_busy_marker_facts"] = facts
+                    receipt["last_header_footer_refusal_origin"] = origin
+                else:
                     raise
-                facts = fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))
-                receipt["last_marker_facts"] = facts
-                receipt["last_interior_refusal_origin"] = origin
                 if not facts["only_reference_fallback_markers"]:
                     raise
                 receipt["fallback_wait_observations"] += 1

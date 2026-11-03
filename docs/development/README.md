@@ -1,5 +1,21 @@
 # NativeCmpKit development after the audit
 
+## Related readiness patch; native iPad subset accepted — 2026-11-03
+
+[Camera525–532](evidence/current-platform-recovery-20261101/camera-busy-boot525-532/README.md)
+reviews the first boot footer refusal with zero compiler/native work and fixes a
+source-confirmed busy-report readiness gap without changing empty/native/cleanup
+admission. **NEW12+affected5 pass17/17 once**,36 source/results checks,1,304 held
+inputs; #13 stays open until actual Dont-keep C1/restoration/cleanup passes.
+
+[iPad520/530](evidence/current-platform-recovery-20261101/ios-popover-ipad520-530/README.md)
+accepts **4/5 actual iPad UIKit methods**, matching the prior iPhone subset.
+Both original runs remain failed at the unsupported bar-sourceView nil assertion.
+Only the repaired bar case is requested on each host at3a8d8796; four accepted
+cases excluded, no source-control/plan replay. **#29 stays open** for actual OS
+rotation/split view/traits. Two reserved hosts INCLUDINGqueued; no third dispatch.
+Fresh103closed/69open/172, no closure/publication. SOLO and all gates unchanged.
+
 ## Actual anchor subset and failed-case-only recovery — 2026-11-03
 
 [520–524](evidence/current-platform-recovery-20261101/ios-popover-bar520-524/README.md)

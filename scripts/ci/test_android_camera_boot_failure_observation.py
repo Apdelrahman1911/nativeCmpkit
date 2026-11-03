@@ -182,6 +182,8 @@ class CameraBootFailureObservationControls(unittest.TestCase):
         self.assertEqual([SOURCE], list(spec["bindings"]))
         binding = spec["bindings"][SOURCE]
         current = (ROOT / SOURCE).read_bytes()
+        from camera_boot_busy_source_projection import current_source_before_boot_busy
+        current = current_source_before_boot_busy(SOURCE, current)
         self.assertEqual(binding["after_sha256"], hashlib.sha256(current).hexdigest())
         self.assertEqual(3, len(binding["fragments"]))
         previous = current

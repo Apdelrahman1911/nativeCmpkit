@@ -1,0 +1,70 @@
+{
+  "before_revision": "3a8d87964b6875a8cb286ad90c390f3e31b62a1f",
+  "bindings": {
+    "scripts/ci/android_camera_boot_fallback.py": {
+      "after_bytes": 19480,
+      "after_sha256": "be47576f4e6f902804f9691ff61b1b2dbbc4aa67ac73f9741d5a11fd1c07283a",
+      "before_bytes": 15466,
+      "before_sha256": "88ec6bfd13e07a1b38abaafdd342381f7e2befd039e0e618ef4dcd6c3288815b",
+      "fragments": [
+        {
+          "after": "def busy_fallback_marker_facts(payload: bytes) -> dict:\n    \"\"\"A nonempty filtered Android15 dump is wait-only, not malformed absence.\n\n    ActivityTaskManagerService prints '(nothing)' ONLY when no matching\n    activity was printed. Recognize canonical user0 FallbackHome references\n    in the public history/resumed/paused roles, without claiming the detailed\n    body, installed image, task ownership or complete producer grammar. Unknown\n    references and envelopes fail fast. A later unchanged strict empty parser\n    remains the ONLY successful boot-handoff gate.\n    \"\"\"\n    camera.require(type(payload) is bytes and 0 < len(payload) <= camera.CONTROL_BYTES,\n                   \"A bounded ordinary busy activity observation is required\")\n    camera.require(not any(byte < 32 and byte != 10 for byte in payload),\n                   \"Unsafe busy activity observation\")\n    rows = payload.decode(\"utf-8\").removesuffix(\"\\n\").split(\"\\n\")\n    display_ids = []\n    display_shapes_valid = True\n    for row in rows:\n        if row.lstrip(\" \").startswith(\"Display #\"):\n            match = re.fullmatch(r\"Display #(0|[1-9][0-9]{0,9}) \\(activities from top to bottom\\):\", row)\n            if match is None or int(match[1]) > 2147483647:\n                display_shapes_valid = False\n            else:\n                display_ids.append(int(match[1]))\n    outer_shape = (payload.endswith(b\"\\n\") and len(rows) >= 4 and\n                   rows[0] == camera.ACTIVITIES_HEADER and rows.count(camera.ACTIVITIES_HEADER) == 1 and\n                   rows.count(\"  (nothing)\") == 0 and bool(display_ids) and\n                   re.fullmatch(r\"Display #(0|[1-9][0-9]{0,9}) \\(activities from top to bottom\\):\", rows[1]) is not None and\n                   display_shapes_valid and len(display_ids) == len(set(display_ids)))\n    descriptor = re.compile(\n        r\"ActivityRecord\\{[0-9a-f]{1,8} u0 com\\.android\\.settings/\\.FallbackHome\"\n        r\"(?: t(-1|0|[1-9][0-9]{0,9})(?: f\\})?(?: isExiting)?\\})?\"\n    )\n    history_role = re.compile(r\" +(?:\\* )?(?:Hist|Fin|Stop) +#(0|[1-9][0-9]{0,9}): \")\n    state_role = re.compile(r\" +(?:(?:Resumed|ResumedActivity|mLastPausedActivity): |(?:topPausingActivity|topResumedActivity)=)\")\n    marker_rows = [row for row in rows if \"ActivityRecord{\" in row]\n    qualified = history_rows = 0\n    for row in marker_rows:\n        if row.count(\"ActivityRecord{\") != 1:\n            continue\n        index = row.index(\"ActivityRecord{\")\n        history = history_role.fullmatch(row[:index])\n        known_role = ((history is not None and int(history[1]) <= 2147483647) or\n                      state_role.fullmatch(row[:index]) is not None)\n        match = descriptor.fullmatch(row[index:])\n        if known_role and match is not None and (match[1] is None or -1 <= int(match[1]) <= 2147483647):\n            qualified += 1\n            history_rows += history is not None\n    return {\n        \"activity_record_marker_rows\": len(marker_rows),\n        \"reference_fallback_marker_rows\": qualified,\n        \"unqualified_marker_rows\": len(marker_rows) - qualified,\n        \"history_marker_rows\": history_rows,\n        \"known_busy_header_and_displays\": outer_shape,\n        \"only_reference_fallback_markers\": outer_shape and history_rows > 0 and qualified == len(marker_rows),\n        \"detailed_body_grammar_certified\": False,\n        \"activity_absence_inferred\": False,\n        \"actual_image_producer_or_ownership_inferred\": False,\n    }\n\n\ndef wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dict:\n",
+          "after_fragment_sha256": "d3ddb34d3bea7ef743bfceae4d4b8433b95289502216954903b2d4b4d4462ca7",
+          "before": "def wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dict:\n",
+          "before_fragment_sha256": "a3e134412b149dfa84c7d2b3c7675f2a93675aecae2635a060a8381ae59b5227"
+        },
+        {
+          "after": "                interior = {\"source\": \"android_camera_developer_prerequisite.py\",\n                            \"symbol\": \"parse_settings_activity_absence\", \"line\": 307}\n                header_footer = {\"source\": \"android_camera_developer_prerequisite.py\",\n                                 \"symbol\": \"parse_settings_activity_absence\", \"line\": 300}\n                if origin == interior:\n                    facts = fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))\n                    receipt[\"last_marker_facts\"] = facts\n                    receipt[\"last_interior_refusal_origin\"] = origin\n                elif origin == header_footer:\n                    facts = None\n                    try:\n                        facts = busy_fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))\n                    except BaseException:\n                        pass  # A classifier failure cannot replace the original parser refusal.\n                    if facts is None:\n                        raise\n                    receipt[\"last_busy_marker_facts\"] = facts\n                    receipt[\"last_header_footer_refusal_origin\"] = origin\n                else:\n                    raise\n",
+          "after_fragment_sha256": "177c5e47ecc30dfa39f06b32970eea3ceac90999d18e3d4d122150b1118e6488",
+          "before": "                # Only the unchanged interior-row refusal can be provisional.\n                # Unsafe bytes, status/stderr, headers, duplicate displays and\n                # truncation keep their exact original error and fail fast.\n                if origin != {\"source\": \"android_camera_developer_prerequisite.py\",\n                              \"symbol\": \"parse_settings_activity_absence\", \"line\": 307}:\n                    raise\n                facts = fallback_marker_facts(camera.result_bytes(result, camera.CONTROL_BYTES))\n                receipt[\"last_marker_facts\"] = facts\n                receipt[\"last_interior_refusal_origin\"] = origin\n",
+          "before_fragment_sha256": "fe01d6dffaf41e8153990460bbdd8c84d9378ebbc8dd5291f7be0226c07a5025"
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_fixture_source_projection.py": {
+      "after_bytes": 3974,
+      "after_sha256": "c26143fd9068fb597bb83678d7e28a7ff51bbd2335767b4838ab2f1bbef24938",
+      "before_bytes": 3642,
+      "before_sha256": "eca761f76fbc3b3d1b12ff158ed666916b7a02d9f4bb4e5b95c47bd8a1dce1f2",
+      "fragments": [
+        {
+          "after": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n",
+          "after_fragment_sha256": "5eb49ea79fe018034108b2f69cbc438f5c1c66f6626cf468eb7a3ac648c44227",
+          "before": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "44dbbc20626fdca852e8a41196b83e468f7bce76f68c015305cf25278c2e2aa5"
+        },
+        {
+          "after": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n",
+          "after_fragment_sha256": "a611709d811ca7ed75af9123613ed8372410a19d0dbe1996710e5223cd0785bd",
+          "before": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "add2a66ad2ff6efc279b5d8ac1796fe7eedc34242fc59cb33f8868d1428b3c89"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_boot_failure_observation.py": {
+      "after_bytes": 12262,
+      "after_sha256": "d96cbdb74b3e8d82cafaf0d0401502a3d7a26506f2cbaf6fbfd38900c2e169e8",
+      "before_bytes": 12108,
+      "before_sha256": "a329201e3dfcad36aad55b97150a6c25acd4b2a23c4d63e15cbaa7e4755d33fb",
+      "fragments": [
+        {
+          "after": "        current = (ROOT / SOURCE).read_bytes()\n        from camera_boot_busy_source_projection import current_source_before_boot_busy\n        current = current_source_before_boot_busy(SOURCE, current)\n",
+          "after_fragment_sha256": "77bc49d9b485c9e1a3cb6bcf370ce0c9a3e4528adb5305a67ff6eaef798c9e9f",
+          "before": "        current = (ROOT / SOURCE).read_bytes()\n",
+          "before_fragment_sha256": "6c7ae439cad02e6efe8ec3184035425a6d77dee857fd95b5fa38190388e221c5"
+        }
+      ]
+    }
+  },
+  "original_failed_run": 41719792072,
+  "schema_version": 1,
+  "scope": "Recognized busy FallbackHome references permit bounded read-only waiting only; unchanged strict empty parser/native/original/cleanup gates remain. Installed image and original actual component not inferred.",
+  "unchanged_owning_inputs": {
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "scripts/ci/android_camera_developer_prerequisite.py": "0e47097d10f1886bec0ee8eebc280b29afb704dc47d09df1bbdb41ddaa651b26",
+    "scripts/ci/android_device_tests.py": "f096609a3731628c02966b7f6edd40641d7c0ff8119d0922605f6c7e6e99d7d8",
+    "scripts/ci/fixtures/camera-boot-failure-observation-source-inverse.json": "33c20dc9f166d1aa3e91c1d7a3655c9c0d0d9a1b197e5d5f4f70563347c154a0",
+    "scripts/ci/fixtures/camera-boot-handoff-source-inverse.json": "525f7f43222f92ab5730d0154e817dbfc60858e21b1daaa60d5203d954535367",
+    "scripts/ci/fixtures/camera-recents-fixture-source-inverse.json": "4aaaac4178b727c388ae0969985171de0df802d0f1268b4dc6100b255c25d982"
+  }
+}

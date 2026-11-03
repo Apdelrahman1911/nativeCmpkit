@@ -1,5 +1,43 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Both bar originals verified; missing OS-geometry batch prepared — 2026-11-03
+
+[Bar529–533](docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar529-533/README.md)
+accepts41723586208 iPhone1/1/Gradle0/2012.77s and41725142093 iPad1/1/Gradle0/975.5s,
+each one fresh XML/1301 actual own-Git inputs/native agreement/Worker6/runtime/
+owned cleanup. Original bar/fallback tails pass; four accepted bodies per host
+reused, not replayed. Originals acquired/reviewed ONCE. #29 still requires genuine
+OS geometry/explicit traits and real split view, not device-type assumptions.
+
+[Geometry535–548](docs/development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/README.md)
+adds real opt-in UIWindowScene and two NEW one-method-per-host library profiles;
+normal source-set inheritance/production/API/dependencies/old pins unchanged.
+Seven old paths/24 fragments/seven additions; NEW18 pass once, affected16/17 then
+only failed+changed3 pass, NEW2+changed2 launch controls pass4. Nested false==0 and
+plain-env-vs-SIMCTL_CHILD draft gaps repaired before hosted native execution.
+Compiler540 fails one delegate protocol cast; only failed544 recovers0/30.01s/
+1311held/production UP-TO-DATE/one unnecessary-!! warning. Later Python launch
+changes do not alter four compiler inputs/init/toolchain, but are not that full
+compiler map. Two source CLI plans/Actionlint pass. ZERO new geometry native/Apple
+links; use docs/testing/ios-popover-geometry.md. #29 stays open even if both pass,
+until legitimate real split-view coverage. No accepted bar/native replay.
+
+[Camera534–536](docs/development/evidence/current-platform-recovery-20261101/camera534-536-recents/README.md)
+keeps41729467621/34a5b35c FAILED/ZERO Gradle/APK/native/XML: boot8 observations/
+7 waits/strict activity absence pass, thenrecents324 exact_tail=false; original
+capture unreached, cleanup1375 separately fails, owned guest disposal passes.
+Forty passive checks/1304actual/32logs/17reports/3595tooling qualify ONCE. Bounded
+HOME/FallbackHome/empty-Activities roles are not full task/image/ownership proof;
+do not purge/ignore unknown preexisting tasks or retry unchanged failures. #13
+C1 still missing; camera009C2/C3 excluded. Prior progress comments533 are archived,
+not reposted. Fresh103closed/69open/172 and22implemented/36partial/101verified/five
+unresolved unchanged. All old reservations terminal/freed at this checkpoint;
+fresh all-status capacity before new dispatch. SOLO/no assignments, serial-local
+8GiB/max2 INCLUDINGqueued/development/read-only Actions/all/no mandatory SHA,
+and every main/history/Pages/native/consumer/API–ABI/dependency/legal/security/
+readiness/publication gate remain. No release/package/deployment publication.
+
+
 ## Busy-camera readiness repaired; iPad native subset reviewed — 2026-11-03
 
 [Camera525–532](docs/development/evidence/current-platform-recovery-20261101/camera-busy-boot525-532/README.md)

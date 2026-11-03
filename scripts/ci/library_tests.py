@@ -739,6 +739,23 @@ UI_APPLICATION_FOCUS_SPECS[IOS_POPOVER_BAR_RECOVERY_FOCUS] = {
     "scope": "Only the original failed bar-button/detached/missing-view method: documented bar identity, attached native ownership and permissible presenter-provided source, followed by all original fallback/disposal assertions. Four accepted iPhone methods are reused only on unchanged applicable bodies, not selected again; iPad evidence has its own original source. Exact four-source compiler receipt, genuine ApplicationTest/Worker/native XML/runtime and owned cleanup remain mandatory. This is NOT actual OS rotation, split view, explicit regular/compact traits, physical/minimum-platform, consumer/API-ABI/security/release or whole UI-013 acceptance.",
 }
 
+IOS_POPOVER_GEOMETRY_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativePopoverGeometryTest"
+IOS_POPOVER_GEOMETRY_SOURCE = "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt"
+IOS_POPOVER_GEOMETRY_SCENE_SOURCE = "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt"
+IOS_POPOVER_GEOMETRY_METHODS = (
+    "nativePortraitTraitsAndViewLocalAnchorUseTheOwnedScene",
+    "nativeOSRotationRefreshesOwnedAnchorsAndRestoresTheOriginalOrientation",
+)
+IOS_POPOVER_PORTRAIT_FOCUS = "ui-native-popover-portrait-traits"
+IOS_POPOVER_ROTATION_FOCUS = "ui-native-popover-os-rotation"
+IOS_POPOVER_GEOMETRY_FOCUSES = (IOS_POPOVER_PORTRAIT_FOCUS, IOS_POPOVER_ROTATION_FOCUS)
+for _focus, _method in zip(IOS_POPOVER_GEOMETRY_FOCUSES, IOS_POPOVER_GEOMETRY_METHODS):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_POPOVER_GEOMETRY_CLASS, "source": IOS_POPOVER_GEOMETRY_SOURCE,
+                    "methods": (_method,), "declared_methods": IOS_POPOVER_GEOMETRY_METHODS},),
+        "scope": "One NEW genuine library UIKit OS-geometry method only: observed native iPhone compact portrait or iPad regular portrait/landscape with public UIWindowScene geometry input, automatic view-local/fallback anchor updates while the SAME controller is presented, and admitted original interface-orientation restoration. The dedicated test-only input tree is compiled only by its exact focused init script; ordinary source sets and prior accepted native methods are unchanged/excluded. Exact four-source compiler receipt, current scene manifest/launch mode, actual native XML/Worker/runtime/owned cleanup mandatory. This is NOT real split view, physical/minimum-platform, full UI-013, consumer/API-ABI/security/release certification.",
+    }
+
 IOS_MODAL_OWNERSHIP_FOCUS = "ui-native-modal-ownership-batch"
 IOS_MODAL_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest"
 IOS_MODAL_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt"
@@ -2195,6 +2212,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         if source_root.is_dir():
             unknown = {path.name for path in source_root.iterdir()
                        if path.name.endswith("Test") and path.name not in KNOWN_TEST_SETS
+                       # This owner-only opt-in input tree is excluded from ordinary
+                       # source-set inheritance. Its exact four-file init script and
+                       # geometry focus must admit it explicitly before compilation.
+                       and not (module == "calf-ui" and path.name == "iosGeometryTest")
                        and source_files(root, path.relative_to(root).as_posix())}
             if unknown:
                 raise ValueError(f"Unknown test source sets in {module}: {sorted(unknown)}; update hierarchy mapping")
@@ -2302,6 +2323,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["scope"] = "Two new important public Material year-policy companions only: actual rule-change setter retention/in-range snapping and actual disabled/enabled single/range calendar click policy. The shared zero-test assertions execute against this Material actual independently of the same-host UIKit application. Never replay accepted date-transaction/bounds/month/dropdown/old alert methods or claim native/physical/older/all-OS/consumer/API-ABI/dependency/security/release certification."
     elif focus in UI_APPLICATION_FOCUS_SPECS:
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            geometry_plan.validate_sources(root)
+            # Opt-in library test inputs, not a new public target or ordinary source-set mutation.
+            selected[0]["test_source_files"] = sorted(set((*selected[0]["test_source_files"],
+                IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)))
         for group in ui_application_focus_groups(focus):
             source = safe_path(root, group["source"]).read_text(encoding="utf-8")
             methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
@@ -2326,6 +2353,10 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and any(
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", safe_path(root, name).read_text(encoding="utf-8"))
+                for name in (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)):
+            raise ValueError("OS geometry requires enabled exact native inputs, not skipped/disabled declarations")
         if focus == IOS_MODAL_XCUI_FOCUS:
             import native_ui_input
             if native_ui_input.NATIVE not in selected[0]["test_source_files"]:
@@ -3381,6 +3412,10 @@ def validate_test_focus(test_plan: dict) -> bool:
         if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS and (len(expected) != 1 or
                 IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in expected[0].get("test_source_files", [])):
             raise ValueError("Failed Share observation plan requires its exact zero-test helper source")
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and (len(expected) != 1 or
+                any(name not in expected[0].get("test_source_files", []) for name in
+                    (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE))):
+            raise ValueError("OS geometry plan requires both exact opt-in library test inputs")
         application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
@@ -4097,6 +4132,9 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.extend(["--init-script", "scripts/ci/ios_popover_anchor_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") == IOS_POPOVER_BAR_RECOVERY_FOCUS:
         command.extend(["--init-script", "scripts/ci/ios_popover_bar_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") in IOS_POPOVER_GEOMETRY_FOCUSES:
+        command.extend(["--init-script", "scripts/ci/ios_popover_geometry_compile.init.gradle.kts",
+                        "-PnativecmpkitPopoverGeometryFocus=" + test_plan["explicit_test_focus"]])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
                         "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
@@ -4382,6 +4420,12 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             import ios_popover_anchor_plan
             need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),
                  "Native popover anchor cases require their fresh exact four-source compiler receipt")
+        if test_plan.get("explicit_test_focus") in IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            need(geometry_plan.validate_compilation(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
+                 "OS geometry requires its fresh exact four-source compiler receipt")
+            need(geometry_plan.validate_application_fixture(document.get("popover_geometry"), root, context["simulator"],
+                    test_plan["explicit_test_focus"]), "OS geometry requires its exact scene manifest and owned launch mode")
         if test_plan.get("explicit_test_focus") == IOS_POPOVER_BAR_RECOVERY_FOCUS:
             import ios_popover_bar_recovery_plan
             need(ios_popover_bar_recovery_plan.validate_compilation(root, started_ns, ended_ns),

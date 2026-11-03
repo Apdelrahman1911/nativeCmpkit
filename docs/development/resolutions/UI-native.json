@@ -857,16 +857,24 @@
       "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverAnchorTest.kt",
       "scripts/ci/ios_popover_anchor_compile.init.gradle.kts",
       "scripts/ci/ios_popover_anchor_plan.py",
-      "scripts/ci/test_ios_popover_anchor.py"
+      "scripts/ci/test_ios_popover_anchor.py",
+      "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt",
+      "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt",
+      "scripts/ci/ios_popover_geometry_plan.py",
+      "scripts/ci/ios_popover_geometry_compile.init.gradle.kts",
+      "scripts/ci/test_ios_popover_geometry.py",
+      "docs/testing/ios-popover-geometry.md"
     ],
     "changes": [
       "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation.",
       "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained.",
-      "2026-11-03 additive popover503–509: supported iOS-only view-local/bar-button CompositionLocal input; latest queue-granted geometry; Main/exact owned complete native reposition-pointer pairs; terminal descriptor and matching native source/bar/delegate cleanup. Original common signatures/Alert UIKit delegation/old manifests unchanged. Prepared/source-compiled only; original rotation/split-view criteria and #29 remain open."
+      "2026-11-03 additive popover503–509: supported iOS-only view-local/bar-button CompositionLocal input; latest queue-granted geometry; Main/exact owned complete native reposition-pointer pairs; terminal descriptor and matching native source/bar/delegate cleanup. Original common signatures/Alert UIKit delegation/old manifests unchanged. Prepared/source-compiled only; original rotation/split-view criteria and #29 remain open.",
+      "2026-11-03 535–548: test-only genuine owned WindowScene fixture, exact one-new-method-per-host profiles, bounded typed compiler/scene receipt validation and process-local SIMCTL_CHILD forwarding. Ordinary source-set inheritance, public/production APIs and old pins remain unchanged. Native geometry still unexecuted."
     ],
     "compatibility": "Safe fallback added without changing public dialog signatures.",
     "id": "UI-013",
     "remaining": [
+      "Current 2026-11-03 529–548: both missing bar methods now pass once on genuine iPhone/iPad UIKit (41723586208/41725142093), with all original fallback/cleanup assertions. Reuse four earlier accepted methods per host on unchanged applicable bodies. New opt-in actual WindowScene portrait/compact and iPad OS-rotation/regular methods are source-qualified and KLIB-compiled only; both native executions and real split view remain required. No whole UI-013/release closure.",
       "Current 2026-11-03: supported anchors are implemented/compiled; original iPhone and iPad each pass4/5 real UIKit methods with owned transport/cleanup. Both native runs remain FAILED at the unsupported bar nil assertion; source-qualified repaired-bar-only runs41723586208/41725142093 pending original review. Actual OS portrait/landscape rotation, real split view and explicit regular/compact traits still required; no device-type/controlled-bounds substitute.",
       "The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.",
       "After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.",
@@ -935,6 +943,24 @@
           "docs/development/evidence/current-platform-recovery-20261101/ios-popover-ipad520-530/ipad-dispatch530.json"
         ],
         "result": "PASS scoped4/5 genuine iPad UIKit methods; original remains FAILED/oneXML/Gradle1/1852.1s at570edb50 with1295 own-Git maps/Worker6/native agreement/runtime/binary/owned cleanup. Same unsupported bar-null assertion fails after exact bar identity; actual source/presenter pointer and all fallback tail unverified. Missing-bar-only iPhone41723586208/iPad41725142093 requested ONCE at3a8d8796/1301each; four accepted bodies excluded and source controls/plans reused, not replayed. Terminal new originals pending; no geometry/trait/split-view/issue29 or release inference."
+      },
+      {
+        "command": "Once-acquired immutable bar-only originals41723586208 and41725142093 at3a8d87964b6875a8cb286ad90c390f3e31b62a1f; no accepted four-case replay",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar529-533/iphone-original-review.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar529-533/ipad-original-review.json"
+        ],
+        "result": "PASS each1/1 real UIKit, one fresh XML, Gradle0/2012.77s and975.50s; each1301 actual own-Git inputs, original fallback tail/native-XML/Worker6/runtime/binary/owned-cleanup qualified. Not OS rotation, real split view or explicit native trait acceptance; #29 remains open."
+      },
+      {
+        "command": "NEW18/affected17 source controls, failed-only fixture/compiler recovery, NEW2 simctl forwarding controls and source CLI/Actionlint; original commands/results in535–548 packet",
+        "evidence": [
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/README.md",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/compiler540-result.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/compiler544-result.json",
+          "docs/development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/source-preflight547.json"
+        ],
+        "result": "SOURCE/KLIB ONLY: first red/refusals retained; NEW18 pass, affected16/17 then failed+changed3/3, NEW2+changed2 pass4/4. Real compiler540 fails one owning delegate protocol argument; only failed compiler544 passes0/30.01s on1311 held inputs, production UP-TO-DATE. Two source plans/Actionlint pass. Later Python launch changes preserve four compiler inputs/init/toolchain, not its frozen whole map. ZERO new geometry native/Apple linking; original split-view requirement remains."
       }
     ]
   },

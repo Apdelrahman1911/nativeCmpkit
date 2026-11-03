@@ -1166,8 +1166,13 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             raise OSError("Application staging would violate the owned disk reserve")
         app.mkdir()
         shutil.copy2(binary, app / APP_EXECUTABLE)
-        (app / "Info.plist").write_bytes(plistlib.dumps(app_information(bundle_id, identity["minimum_os"],
-            local_webview_requests=request_fixture_requested), sort_keys=True))
+        information = app_information(bundle_id, identity["minimum_os"], local_webview_requests=request_fixture_requested)
+        if host["module"] == "calf-ui" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            geometry_plan.validate_sources(root)
+            information.update(geometry_plan.scene_information())
+            receipt["popover_geometry"] = geometry_plan.application_fixture(root, before["simulator"], focus)
+        (app / "Info.plist").write_bytes(plistlib.dumps(information, sort_keys=True))
         phase = "adhoc-sign-local-verification-app"
         if profile_debug_entitlements(focus) is not None:
             debug_details = {}
@@ -1219,6 +1224,9 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             phase = "prepare-owned-localhost-wk-request-fixture"
             request_fixture = wk_requests.RequestFixture(root, bundle_id, signed_hash, plist_hash)
             native_environment = request_fixture.prepare()
+        if host["module"] == "calf-ui" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            native_environment = geometry_plan.process_launch_environment(before["simulator"], focus)
         if host["module"] == "calf-ui" and focus == lt.IOS_MODAL_XCUI_FOCUS:
             import native_ui_input
             phase = "prepare-independent-owned-xctest-input"

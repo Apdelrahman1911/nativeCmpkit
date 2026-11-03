@@ -1,0 +1,198 @@
+{
+  "added_inputs": {
+    "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt": "6f5803b7996bfecc2835c13ccc6c7bb4b7695a93934ac2d402ec9e8b91c7f441",
+    "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt": "c9ec604a2006a5412f52dc9d1e8601aa61caace62dad88a4e89f4bbdddf9043b",
+    "scripts/ci/ios_popover_geometry_compile.init.gradle.kts": "2779cc77d0fbbed7fd8428c1b20e6666851a157d3b811df863c571b436eb628e",
+    "scripts/ci/ios_popover_geometry_plan.py": "9869cb094679ed3802e319ee0d4d5068b616659beef1c9b43f71ec636a990364",
+    "scripts/ci/test_ios_popover_geometry.py": "1124dd508f4fa7efc7c104c489cdb36971280257ddbfa562727b67e239efa019"
+  },
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "after_sha256": "3d5d2ea0313055366bf6bc83550f7e2f40c50438c450508588db778fb6bb75f7",
+      "before_sha256": "98d52f9b66a7acd4bc63ba8ad8e5bb05acfebe3a9a19d0f879572ae46ca506d9",
+      "fragments": [
+        {
+          "after": "ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-popover-geometry-iphone, ios-popover-geometry-ipad, ios-date-year-predicate-red",
+          "after_fragment_sha256": "28945a10dd9bb8cb34b07983600d26189f96b358bd226e1f85d59c0d1bf3eabf",
+          "before": "ios-popover-bar-recovery, ios-popover-bar-ipad-recovery, ios-date-year-predicate-red",
+          "before_fragment_sha256": "78b019e17787766f538762016ee74b51857cdeeb2184071364070360392a79d7"
+        }
+      ]
+    },
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": {
+      "after_sha256": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+      "before_sha256": "95c3dea0a73ec2a5bd306e81f7fb001d10552cf302681b936165c3ebbf16b6eb",
+      "fragments": [
+        {
+          "after": "import platform.UIKit.UIWindow\nimport platform.UIKit.UIWindowScene\nimport platform.UIKit.UIWindowSceneSessionRoleApplication\nimport platform.UIKit.UISceneActivationStateForegroundActive\n",
+          "after_fragment_sha256": "26b209f77b05222260e321890eb6d61b294c4fadae7897e29a92aa17999ef660",
+          "before": "import platform.UIKit.UIWindow\n",
+          "before_fragment_sha256": "44bc6c82da70c7e9035e64be958f54c0a0f445d94eba90d2487b5a4779cbccf9"
+        },
+        {
+          "after": "/** One opt-in scene fixture only; invalid or forged modes are not a legacy fallback. */\ninternal fun ownedPopoverGeometryRequested(): Boolean {\n    check(NSThread.isMainThread)\n    val value = NSProcessInfo.processInfo.environment[\"NATIVECMPKIT_OWNED_POPOVER_GEOMETRY\"]\n    check(value == null || value == \"1\") { \"Unknown test-only scene mode\" }\n    return value == \"1\"\n}\n\ninternal fun <T> onApplicationMain(action: () -> T): T {",
+          "after_fragment_sha256": "bfc69aa63008976f1acebb43b5ab10c6c9a2a191fec7135d4eda66b9499afb7f",
+          "before": "internal fun <T> onApplicationMain(action: () -> T): T {",
+          "before_fragment_sha256": "c58e463ee608f02f9d95bb46b3decd76f10f246f12b25e46c0d876cc77d4ed70"
+        },
+        {
+          "after": "    private var ownedWindow: UIWindow? = null\n    private var ownedGeometryScene: UIWindowScene? = null\n    private var activationRequested",
+          "after_fragment_sha256": "839e6ec272f931ace333fd5e06aa165851468e3870384208e267208a081791fc",
+          "before": "    private var ownedWindow: UIWindow? = null\n    private var activationRequested",
+          "before_fragment_sha256": "99e8c8aace8ba4372a3c6a52174f059260e70e5d980d78bc05d5ed703da5631b"
+        },
+        {
+          "after": "        check(NSThread.isMainThread)\n        if (ownedPopoverGeometryRequested()) return true // UIKit's genuine scene connection owns this fixture window.\n        ownedWindow = UIWindow(frame = UIScreen.mainScreen.bounds).apply {",
+          "after_fragment_sha256": "e4064f8238ce53d4fa370f96a68e4b3976ba2b26024695586dbde2d95a46704d",
+          "before": "        check(NSThread.isMainThread)\n        ownedWindow = UIWindow(frame = UIScreen.mainScreen.bounds).apply {",
+          "before_fragment_sha256": "8e89600e1ef4df56ce73befc3391b4e280352517b142333451eaed622f255c1d"
+        },
+        {
+          "after": "    internal fun connectOwnedPopoverGeometryScene(scene: UIWindowScene) {\n        check(NSThread.isMainThread && ownedPopoverGeometryRequested())\n        check(sameNativeObject(UIApplication.sharedApplication.delegate as? NativeUiApplicationDelegate, this))\n        check(scene.session.role == UIWindowSceneSessionRoleApplication)\n        check(ownedGeometryScene == null && ownedWindow == null && applicationWindow == null && !activationRequested)\n        ownedGeometryScene = scene // Bind before an uncertain native window construction.\n        ownedWindow = UIWindow(windowScene = scene).apply {\n            rootViewController = UIViewController()\n            makeKeyAndVisible()\n        }\n        applicationWindow = ownedWindow\n        check(sameNativeObject(ownedWindow?.windowScene, scene))\n    }\n\n    internal fun activateOwnedPopoverGeometryScene(scene: UIWindowScene) {\n        check(NSThread.isMainThread && ownedPopoverGeometryRequested())\n        check(sameNativeObject(ownedGeometryScene, scene) && sameNativeObject(ownedWindow?.windowScene, scene))\n        check(scene.activationState == UISceneActivationStateForegroundActive)\n        requestGeneratedTestActivation() // Called only by the genuine owned scene's native active callback.\n    }\n\n    override fun applicationDidBecomeActive(application: UIApplication) {\n        check(NSThread.isMainThread)\n        if (ownedPopoverGeometryRequested()) return // Do not substitute legacy activation for a scene callback.\n        requestGeneratedTestActivation()\n    }\n\n    private fun requestGeneratedTestActivation() {\n        check(NSThread.isMainThread)\n        if (activationRequested) return",
+          "after_fragment_sha256": "9c1a3269d80bf4974983581459a2a91964c39bffbc7e65b2d0c1999458da54cd",
+          "before": "    override fun applicationDidBecomeActive(application: UIApplication) {\n        check(NSThread.isMainThread)\n        if (activationRequested) return",
+          "before_fragment_sha256": "3d7fa15be028c2a42f5156bfe3522914d2dfe1e71c6bc3b3db3c3908eb01cb20"
+        },
+        {
+          "after": "        ownedWindow?.hidden = true\n        ownedWindow = null\n        ownedGeometryScene = null\n",
+          "after_fragment_sha256": "398125281c10fa63816c72d4135fc7976e2192e1633cd5e19fa0d86260f58d61",
+          "before": "        ownedWindow?.hidden = true\n        ownedWindow = null\n",
+          "before_fragment_sha256": "7594d0b51fbc838145ca58ee77cf6a259caff584ccadcf7f162b4c6e59b0cea4"
+        }
+      ]
+    },
+    "scripts/ci/ios_popover_bar_recovery_source_projection.py": {
+      "after_sha256": "07300d75b6a7017365701e0ece22e89711236ee1f528e08e5d0e38a0a745d698",
+      "before_sha256": "e7beb19e4c4a82ad3cd7743ace2d3f445c56ed0195766b30288639ad52b0ec39",
+      "fragments": [
+        {
+          "after": "import stat\n\nimport ios_popover_geometry_source_projection as geometry_history\n\nSPEC_PATH",
+          "after_fragment_sha256": "3d8644186bd3b733f4570cee601aa4bcf0ecff830fec5a129cab58d9ca6caeb6",
+          "before": "import stat\n\nSPEC_PATH",
+          "before_fragment_sha256": "a3d65a9f99d265d63b0bf1d6a62b6cde861abc6db0148ce80c83b0b225f94071"
+        },
+        {
+          "after": "        raise ValueError(\"Exact bar-recovery identity and ordinary source bytes are required\")\n    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "1989b3048c5ef5dfba45a56b56c561b911441d4a66742dc0fd7b7fff5f87f72a",
+          "before": "        raise ValueError(\"Exact bar-recovery identity and ordinary source bytes are required\")\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "eb9955842c707515a42a4ce292f2929d08ac30de302dae020e107f57e4d52efd"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current bar-recovery identity and ordinary bytes are required\")\n    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "f7e8433083c441dc091d14dd2334c4a12018a8c9c826f1855b0d3339fb05c4b2",
+          "before": "        raise ValueError(\"Exact current bar-recovery identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "db8919e7e0877f391cfd91ff2a7aa9a6abefa56f5af82f298ed9cf4d45951a72"
+        },
+        {
+          "after": "        raise ValueError(\"Exact ancestor bar-recovery identity and ordinary bytes are required\")\n    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "5e933e9c03cbf9ef476e3e0d7b710f9f3ceb3971ebd2e2d29ec739dba0f7bbb4",
+          "before": "        raise ValueError(\"Exact ancestor bar-recovery identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "64037df3e7b6ff10589c621cab3751a4478fcf83a3ef955314fa988e5ba6ed5d"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_sha256": "4e407426bc8535ea547eb5fbee74f7a801c87f222add88de94e26966f65690ae",
+      "before_sha256": "edc4e95464413288a15693fc4398c7502ff6de9db72d27731ca6dabd753c4b3a",
+      "fragments": [
+        {
+          "after": "        information = app_information(bundle_id, identity[\"minimum_os\"], local_webview_requests=request_fixture_requested)\n        if host[\"module\"] == \"calf-ui\" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            geometry_plan.validate_sources(root)\n            information.update(geometry_plan.scene_information())\n            receipt[\"popover_geometry\"] = geometry_plan.application_fixture(root, before[\"simulator\"], focus)\n        (app / \"Info.plist\").write_bytes(plistlib.dumps(information, sort_keys=True))",
+          "after_fragment_sha256": "3bd0a0036a81159414a362c24b404d1f56b39d26dfcbec7c21983d4ba4706cdf",
+          "before": "        (app / \"Info.plist\").write_bytes(plistlib.dumps(app_information(bundle_id, identity[\"minimum_os\"],\n            local_webview_requests=request_fixture_requested), sort_keys=True))",
+          "before_fragment_sha256": "113b70a79356e3ca3b2b60bafdabcdf3fea232c06b98423f53a2f876a446629d"
+        },
+        {
+          "after": "        if host[\"module\"] == \"calf-ui\" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            native_environment = geometry_plan.process_launch_environment(before[\"simulator\"], focus)\n        if host[\"module\"] == \"calf-ui\" and focus == lt.IOS_MODAL_XCUI_FOCUS:\n",
+          "after_fragment_sha256": "ec6e3044a4c4738860f8383e16dfdf078464038d56076786affb0129fe91420f",
+          "before": "        if host[\"module\"] == \"calf-ui\" and focus == lt.IOS_MODAL_XCUI_FOCUS:\n",
+          "before_fragment_sha256": "3848f0f549390df1af58abd8bc7432448c89a4cd5daa3014b0387639ad183d63"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_sha256": "a07b17a9460f657f9f26cbcff00377cda7a0397d19461121074d4411eec770b5",
+      "before_sha256": "0e59884abde1d112ed5bcffff3c78667fbdc1934bed02bce88f8bcc2d6924663",
+      "fragments": [
+        {
+          "after": "                       if path.name.endswith(\"Test\") and path.name not in KNOWN_TEST_SETS\n                       # This owner-only opt-in input tree is excluded from ordinary\n                       # source-set inheritance. Its exact four-file init script and\n                       # geometry focus must admit it explicitly before compilation.\n                       and not (module == \"calf-ui\" and path.name == \"iosGeometryTest\")\n                       and source_files(root, path.relative_to(root).as_posix())}",
+          "after_fragment_sha256": "249e0af9139ac33a9c9d95ab3e396c976ce5bbcf10578a826f607e567f323271",
+          "before": "                       if path.name.endswith(\"Test\") and path.name not in KNOWN_TEST_SETS\n                       and source_files(root, path.relative_to(root).as_posix())}",
+          "before_fragment_sha256": "4ef6f253327818be4808eb57ceadd692ad17b131a5d2efd46aa5f2101b86029b"
+        },
+        {
+          "after": "IOS_POPOVER_GEOMETRY_CLASS = \"com.mohamedrejeb.calf.ui.dialog.NativePopoverGeometryTest\"\nIOS_POPOVER_GEOMETRY_SOURCE = \"calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt\"\nIOS_POPOVER_GEOMETRY_SCENE_SOURCE = \"calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt\"\nIOS_POPOVER_GEOMETRY_METHODS = (\n    \"nativePortraitTraitsAndViewLocalAnchorUseTheOwnedScene\",\n    \"nativeOSRotationRefreshesOwnedAnchorsAndRestoresTheOriginalOrientation\",\n)\nIOS_POPOVER_PORTRAIT_FOCUS = \"ui-native-popover-portrait-traits\"\nIOS_POPOVER_ROTATION_FOCUS = \"ui-native-popover-os-rotation\"\nIOS_POPOVER_GEOMETRY_FOCUSES = (IOS_POPOVER_PORTRAIT_FOCUS, IOS_POPOVER_ROTATION_FOCUS)\nfor _focus, _method in zip(IOS_POPOVER_GEOMETRY_FOCUSES, IOS_POPOVER_GEOMETRY_METHODS):\n    UI_APPLICATION_FOCUS_SPECS[_focus] = {\n        \"groups\": ({\"classname\": IOS_POPOVER_GEOMETRY_CLASS, \"source\": IOS_POPOVER_GEOMETRY_SOURCE,\n                    \"methods\": (_method,), \"declared_methods\": IOS_POPOVER_GEOMETRY_METHODS},),\n        \"scope\": \"One NEW genuine library UIKit OS-geometry method only: observed native iPhone compact portrait or iPad regular portrait/landscape with public UIWindowScene geometry input, automatic view-local/fallback anchor updates while the SAME controller is presented, and admitted original interface-orientation restoration. The dedicated test-only input tree is compiled only by its exact focused init script; ordinary source sets and prior accepted native methods are unchanged/excluded. Exact four-source compiler receipt, current scene manifest/launch mode, actual native XML/Worker/runtime/owned cleanup mandatory. This is NOT real split view, physical/minimum-platform, full UI-013, consumer/API-ABI/security/release certification.\",\n    }\n\nIOS_MODAL_OWNERSHIP_FOCUS = \"ui-native-modal-ownership-batch\"",
+          "after_fragment_sha256": "02a66a8ed10087da892a6189dcb6368c4e97b540c6791722305d30b539bfd2f2",
+          "before": "IOS_MODAL_OWNERSHIP_FOCUS = \"ui-native-modal-ownership-batch\"",
+          "before_fragment_sha256": "e95fe1bd41e54b0b63b5d544f2d6f90c6e4ea3d8798e0b429f0e63adbc38e7ef"
+        },
+        {
+          "after": "    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n        if focus in IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            geometry_plan.validate_sources(root)\n            # Opt-in library test inputs, not a new public target or ordinary source-set mutation.\n            selected[0][\"test_source_files\"] = sorted(set((*selected[0][\"test_source_files\"],\n                IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)))\n        for group in ui_application_focus_groups(focus):",
+          "after_fragment_sha256": "1492910512cb570049c6fd7ed88b12f6ec1ffac81a810350bcd3ded81c6f058d",
+          "before": "    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n        for group in ui_application_focus_groups(focus):",
+          "before_fragment_sha256": "44afa37f4dbdf0b3ebcbb8b059d3a7aa423d5604d8cedeae8e49038eac1d61f5"
+        },
+        {
+          "after": "        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and any(\n                re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", safe_path(root, name).read_text(encoding=\"utf-8\"))\n                for name in (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)):\n            raise ValueError(\"OS geometry requires enabled exact native inputs, not skipped/disabled declarations\")\n        if focus == IOS_MODAL_XCUI_FOCUS:\n            import native_ui_input",
+          "after_fragment_sha256": "0e1c37d07e23cbc784e69b3433fbb6956fe539a4075f3db169320868a625fe41",
+          "before": "        if focus == IOS_MODAL_XCUI_FOCUS:\n            import native_ui_input",
+          "before_fragment_sha256": "28bd9bb795807a49e79da0c86e3bceeee9e81b670252ba3e4f348aed67085cf9"
+        },
+        {
+          "after": "        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and (len(expected) != 1 or\n                any(name not in expected[0].get(\"test_source_files\", []) for name in\n                    (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE))):\n            raise ValueError(\"OS geometry plan requires both exact opt-in library test inputs\")\n        application_module = UI_APPLICATION_FOCUS_SPECS[focus].get(\"module\", \"calf-ui\")\n        if (not allowed_test_focus",
+          "after_fragment_sha256": "edb974d2ecb1cb732a820c729606351dafca958e32493a485c5009a83f8cdb0f",
+          "before": "        application_module = UI_APPLICATION_FOCUS_SPECS[focus].get(\"module\", \"calf-ui\")\n        if (not allowed_test_focus",
+          "before_fragment_sha256": "f74b5923b87f08b3bf7698e1a1567770b084b176e2cd6a1d09eb1b139ff649bd"
+        },
+        {
+          "after": "    if test_plan.get(\"explicit_test_focus\") in IOS_POPOVER_GEOMETRY_FOCUSES:\n        command.extend([\"--init-script\", \"scripts/ci/ios_popover_geometry_compile.init.gradle.kts\",\n                        \"-PnativecmpkitPopoverGeometryFocus=\" + test_plan[\"explicit_test_focus\"]])\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,",
+          "after_fragment_sha256": "dca6998b7f5fe7e57dd5ac125458947d7c03d418905c3e5abfb6d3d77e29ee71",
+          "before": "    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,",
+          "before_fragment_sha256": "dc7b7beec0847a5c58d1123cbd92e46eecbe4c845dfb27cca33811bd562cc2bc"
+        },
+        {
+          "after": "        if test_plan.get(\"explicit_test_focus\") in IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            need(geometry_plan.validate_compilation(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n                 \"OS geometry requires its fresh exact four-source compiler receipt\")\n            need(geometry_plan.validate_application_fixture(document.get(\"popover_geometry\"), root, context[\"simulator\"],\n                    test_plan[\"explicit_test_focus\"]), \"OS geometry requires its exact scene manifest and owned launch mode\")\n        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_BAR_RECOVERY_FOCUS:\n",
+          "after_fragment_sha256": "159f5a9790688b6354d19f4f6c3bedf7b63cc5f6cafeef3f3b70c977a052d1f0",
+          "before": "        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_BAR_RECOVERY_FOCUS:\n",
+          "before_fragment_sha256": "0b46915824a0ad47fe9138a3c8af118b993d28daa67b20ea8c014c7700c78758"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_popover_bar_recovery.py": {
+      "after_sha256": "1f07496ef5f6432e62444e9280ab259d524432862d8062931ca45541819f29d0",
+      "before_sha256": "6cfa1a97e03a07593df6dcb38341ab2a7cd26ccb6cdc2292fe19990d540241ac",
+      "fragments": [
+        {
+          "after": "    def test_exact_new_fragments_roundtrip_keep_all_four_accepted_method_bodies_and_old_pins(self):\n        import ios_popover_bar_recovery_source_projection as recovery\n        import ios_popover_anchor_source_projection as old\n        import ios_popover_geometry_source_projection as geometry_history\n        bindings = recovery._bindings()\n        self.assertEqual(6, len(bindings))\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            current = geometry_history.peel_current_geometry_for_older_history(relative, current)\n            previous = recovery.current_source_before_bar_recovery(relative, current)\n",
+          "after_fragment_sha256": "21c826092a08d03cfa4b77d515b8426877f2efe8db4b41b97d4dc23e69b5d1f4",
+          "before": "    def test_exact_new_fragments_roundtrip_keep_all_four_accepted_method_bodies_and_old_pins(self):\n        import ios_popover_bar_recovery_source_projection as recovery\n        import ios_popover_anchor_source_projection as old\n        bindings = recovery._bindings()\n        self.assertEqual(6, len(bindings))\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = recovery.current_source_before_bar_recovery(relative, current)\n",
+          "before_fragment_sha256": "80bd18da07e0df847025b705d18df532dc231dbc6d3e7106ce7db04d9371dae7"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_sha256": "d30827f8811f2cc72fed4398908072ee03ded8872a1cd3a7c6bdb593b0ba7439",
+      "before_sha256": "34e511f52c66e9120bbdfcdab015737dcd113158cbdc8e99de41cb038bdd7e3f",
+      "fragments": [
+        {
+          "after": "    \"ios-popover-bar-ipad-recovery\": (\"ios-ipad\",),\n    \"ios-popover-geometry-iphone\": (\"ios-iphone\",),\n    \"ios-popover-geometry-ipad\": (\"ios-ipad\",),",
+          "after_fragment_sha256": "26809055aa70e5d1146bbe56bb2c5748038abc7f406c5241aa537a00f4d03a0f",
+          "before": "    \"ios-popover-bar-ipad-recovery\": (\"ios-ipad\",),",
+          "before_fragment_sha256": "2b46bd35da78e47669d78cabcc7400b5bb26e93b8b92adcb66540ae2d7ca1518"
+        },
+        {
+          "after": "    \"ios-popover-bar-ipad-recovery\": \"calf-ui\",\n    \"ios-popover-geometry-iphone\": \"calf-ui\",\n    \"ios-popover-geometry-ipad\": \"calf-ui\",",
+          "after_fragment_sha256": "bce66a84f674917cf8e386c14c8ff23de29e2adaf4d8973ad293acbca5d4eb64",
+          "before": "    \"ios-popover-bar-ipad-recovery\": \"calf-ui\",",
+          "before_fragment_sha256": "cb608fef15bcad62c24f9c27dcfa03a4ad23b1077b56578f241decc4569a3620"
+        },
+        {
+          "after": "    if profile in (\"ios-popover-geometry-iphone\", \"ios-popover-geometry-ipad\"):\n        kind = \"iphone\" if profile == \"ios-popover-geometry-iphone\" else \"ipad\"\n        canonical = {\"slot\": \"ios-\" + kind, \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": kind, \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-\" + kind,) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"OS geometry requires one fixed genuine Arm64 UIKit host and calf-ui only\")\n        rows[0][\"test-focus\"] = \"ui-native-popover-portrait-traits\" if kind == \"iphone\" else \"ui-native-popover-os-rotation\"\n    if profile == \"ios-modal-worker-memory-recovery\":\n",
+          "after_fragment_sha256": "cb1962cc80446b9a58be2b8e21e7027d6cbfa65901d3b5bcf22618facc87a4ad",
+          "before": "    if profile == \"ios-modal-worker-memory-recovery\":\n",
+          "before_fragment_sha256": "71f7f372b1bae352c6e8a8944418f98167bb0ea675041d2eaf8853895703bc5e"
+        }
+      ]
+    }
+  },
+  "schema_version": 1
+}

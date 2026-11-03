@@ -36,6 +36,9 @@ import platform.UIKit.UIResponder
 import platform.UIKit.UIScreen
 import platform.UIKit.UIViewController
 import platform.UIKit.UIWindow
+import platform.UIKit.UIWindowScene
+import platform.UIKit.UIWindowSceneSessionRoleApplication
+import platform.UIKit.UISceneActivationStateForegroundActive
 import platform.darwin.dispatch_get_main_queue
 import platform.darwin.dispatch_sync
 import platform.posix.usleep
@@ -45,6 +48,14 @@ import platform.posix.usleep
 private var applicationArguments: Array<String> = emptyArray()
 @kotlin.native.concurrent.ThreadLocal
 private var applicationWindow: UIWindow? = null
+
+/** One opt-in scene fixture only; invalid or forged modes are not a legacy fallback. */
+internal fun ownedPopoverGeometryRequested(): Boolean {
+    check(NSThread.isMainThread)
+    val value = NSProcessInfo.processInfo.environment["NATIVECMPKIT_OWNED_POPOVER_GEOMETRY"]
+    check(value == null || value == "1") { "Unknown test-only scene mode" }
+    return value == "1"
+}
 
 internal fun <T> onApplicationMain(action: () -> T): T {
     if (NSThread.isMainThread) return action()
@@ -219,6 +230,7 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
     constructor() : super()
 
     private var ownedWindow: UIWindow? = null
+    private var ownedGeometryScene: UIWindowScene? = null
     private var activationRequested = false
     private var started = false
     private var worker: Worker? = null
@@ -230,6 +242,7 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
 
     override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
         check(NSThread.isMainThread)
+        if (ownedPopoverGeometryRequested()) return true // UIKit's genuine scene connection owns this fixture window.
         ownedWindow = UIWindow(frame = UIScreen.mainScreen.bounds).apply {
             rootViewController = UIViewController()
             makeKeyAndVisible()
@@ -238,7 +251,34 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
         return true
     }
 
+    internal fun connectOwnedPopoverGeometryScene(scene: UIWindowScene) {
+        check(NSThread.isMainThread && ownedPopoverGeometryRequested())
+        check(sameNativeObject(UIApplication.sharedApplication.delegate as? NativeUiApplicationDelegate, this))
+        check(scene.session.role == UIWindowSceneSessionRoleApplication)
+        check(ownedGeometryScene == null && ownedWindow == null && applicationWindow == null && !activationRequested)
+        ownedGeometryScene = scene // Bind before an uncertain native window construction.
+        ownedWindow = UIWindow(windowScene = scene).apply {
+            rootViewController = UIViewController()
+            makeKeyAndVisible()
+        }
+        applicationWindow = ownedWindow
+        check(sameNativeObject(ownedWindow?.windowScene, scene))
+    }
+
+    internal fun activateOwnedPopoverGeometryScene(scene: UIWindowScene) {
+        check(NSThread.isMainThread && ownedPopoverGeometryRequested())
+        check(sameNativeObject(ownedGeometryScene, scene) && sameNativeObject(ownedWindow?.windowScene, scene))
+        check(scene.activationState == UISceneActivationStateForegroundActive)
+        requestGeneratedTestActivation() // Called only by the genuine owned scene's native active callback.
+    }
+
     override fun applicationDidBecomeActive(application: UIApplication) {
+        check(NSThread.isMainThread)
+        if (ownedPopoverGeometryRequested()) return // Do not substitute legacy activation for a scene callback.
+        requestGeneratedTestActivation()
+    }
+
+    private fun requestGeneratedTestActivation() {
         check(NSThread.isMainThread)
         if (activationRequested) return
         activationRequested = true
@@ -298,6 +338,7 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
         ownedWindow?.rootViewController = null
         ownedWindow?.hidden = true
         ownedWindow = null
+        ownedGeometryScene = null
     }
 
     private fun pollCompletion() {

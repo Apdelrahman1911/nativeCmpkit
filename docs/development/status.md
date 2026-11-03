@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `ddf4d15a1e03db0f2366aee58724bd176a9a2271a1174d71a018ca3afe4e6dd0`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `3462535b806d8828a6ee51efcdd79430b1fe2fd0082fb287526787c017d9ea09`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 6 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 7 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -70,7 +70,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | verified | — | 3 / 0 |
-| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 4 |
+| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 5 |
 | 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | verified | — | 3 / 0 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | partially-verified | UI-020 | 3 / 2 |
@@ -514,6 +514,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- Current 2026-11-03 534–536: run41729467621 at34a5b35c remains FAILED before Gradle/APK/native/XML. Guarded busy-boot wait passes8 observations/7 waits and original strict activity absence; original snapshot then refuses recents324 on a bounded HOME/FallbackHome-shaped retained baseline. Full task/image provenance/ownership and native C1 remain unverified. Separate cleanup1375 fails; owned guest disposal passes independently. Do not ignore/purge unknown baseline tasks, blind-retry unchanged bytes or replay accepted camera009 C2/C3.
 - Current 2026-11-03 camera525–532: source-confirmed legitimate-busy readiness gap is repaired/17important controls qualify, not actual hosted FallbackHome or native C1 acceptance. Original first footer300 and separate cleanup733 remain failed; recents diagnostics unreached. Next changed immutable missing-C1 only after current two iOS reservations free, retaining all original capture/readable exactly-once/restoration/owned cleanup requirements and excluding camera009C2/C3.
 - Run only the remaining actual Dont-keep API35 method on an immutable source with independently proved exclusive-fresh-AVD Developer Options prerequisite. Preserve native/scalar/UI setting reads, actual destruction/rebuilt owner, exactly one readable KmpFile, exact original null/0/1 master/native/scalar restoration and owned app/emulator/AVD/transport disposal. camera011 stopped before mutation/capture; actual master value and root cause remain unknown. Reuse accepted rotation/kernel death/restored cancellation without replay.
 - 2026-11-01: Only genuine Dont-keep capture/return/readable exactly-once result remains; actual013 prelaunch confinement cause unknown, next bounded observation must preserve refusal and FD cleanup.
@@ -715,6 +716,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- Current 2026-11-03 529–548: both missing bar methods now pass once on genuine iPhone/iPad UIKit (41723586208/41725142093), with all original fallback/cleanup assertions. Reuse four earlier accepted methods per host on unchanged applicable bodies. New opt-in actual WindowScene portrait/compact and iPad OS-rotation/regular methods are source-qualified and KLIB-compiled only; both native executions and real split view remain required. No whole UI-013/release closure.
 - Current 2026-11-03: supported anchors are implemented/compiled; original iPhone and iPad each pass4/5 real UIKit methods with owned transport/cleanup. Both native runs remain FAILED at the unsupported bar nil assertion; source-qualified repaired-bar-only runs41723586208/41725142093 pending original review. Actual OS portrait/landscape rotation, real split view and explicit regular/compact traits still required; no device-type/controlled-bounds substitute.
 - The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 - After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
@@ -3592,13 +3594,13 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `818e550c64c5aa0f7ebd5092ac1fe4d73824f8a5f1f37f1650d5453c1d82360c` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `5f72cad9a12cef6904805935546e7a6cac90f595b2434fed9b8512d1e38cd4cb` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `d92c537f83f6e35b87e872f3af1aa61a729e201519add2d943ef020527e8d0de` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `d12ff93867e9bf6940057ed0caceb43472551028e16211d361a68e78876b6ff4` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `bcfc1dc8648a504097666a44fde9c00af171cf553d2af0f12dbc1ecb15fab921` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
-| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
+| [docs/roadmap/backlog.json](../roadmap/backlog.json) | `044eb0eb9f7f640035f26f15a86a0fb60887747f6a12e02dd2b94df371273e10` |
 
 No source/build/GitHub changes, tests, releases or packages are executed by generation. Use the area ledgers and exact archived command/input receipts for human acceptance review.

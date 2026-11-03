@@ -126,10 +126,12 @@ class PopoverBarRecoveryControls(unittest.TestCase):
     def test_exact_new_fragments_roundtrip_keep_all_four_accepted_method_bodies_and_old_pins(self):
         import ios_popover_bar_recovery_source_projection as recovery
         import ios_popover_anchor_source_projection as old
+        import ios_popover_geometry_source_projection as geometry_history
         bindings = recovery._bindings()
         self.assertEqual(6, len(bindings))
         for relative, binding in bindings.items():
             current = (ROOT / relative).read_bytes()
+            current = geometry_history.peel_current_geometry_for_older_history(relative, current)
             previous = recovery.current_source_before_bar_recovery(relative, current)
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             self.assertIs(previous, recovery.source_before_bar_recovery(relative, previous))

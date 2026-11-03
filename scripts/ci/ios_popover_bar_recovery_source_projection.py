@@ -12,6 +12,8 @@ import json
 from pathlib import Path
 import stat
 
+import ios_popover_geometry_source_projection as geometry_history
+
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-popover-bar-recovery-source-inverse.json"
 SPEC_SHA256 = "73d76bddfa722ec816c397e0dd1fbb069178908475742ff5424162615e1f2127"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
@@ -34,6 +36,7 @@ def _bindings():
 def source_before_bar_recovery(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact bar-recovery identity and ordinary source bytes are required")
+    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +71,7 @@ def source_before_bar_recovery(relative, payload):
 def current_source_before_bar_recovery(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current bar-recovery identity and ordinary bytes are required")
+    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current bar-recovery source")
@@ -78,6 +82,7 @@ def peel_current_bar_for_older_history(relative, payload):
     """Not current admission: untouched old bytes MUST pass their older pinned reader."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor bar-recovery identity and ordinary bytes are required")
+    payload = geometry_history.peel_current_geometry_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_bar_recovery(relative, payload)

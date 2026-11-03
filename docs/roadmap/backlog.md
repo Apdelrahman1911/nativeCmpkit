@@ -63,7 +63,7 @@ Generated from every audit finding plus actionable historical requests. See [roa
 | 50 | **UI-030** — Liquid Glass switch can visually diverge from its controlled checked value | Medium | M | — | closed | [#134](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) |
 | 51 | **UI-029** — Liquid Glass slider and switch lack actionable accessibility and keyboard semantics | High | M | UI-030 | open | [#35](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) |
 | 52 | **UI-031** — Cancelled pointer gestures can commit a Liquid Glass switch toggle | High | M | UI-030 | closed | [#36](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) |
-| 53 | **BUILD-002** — Pinned JavaFX media 19 matches a published low-severity security advisory | Low | M | BUILD-001 | open | [#144](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) |
+| 53 | **BUILD-002** — Pinned JavaFX media 19 matches a published low-severity security advisory | Low | M | BUILD-001 | closed | [#144](https://github.com/Apdelrahman1911/nativeCmpkit/issues/144) |
 | 54 | **BUILD-010** — Desktop resource processing always invokes an untracked release-mode Cargo build | Low | M | BUILD-003, BUILD-005 | closed | [#145](https://github.com/Apdelrahman1911/nativeCmpkit/issues/145) |
 | 55 | **BUILD-012** — Resolved Linux picker graph contains three newly unmaintained D-Bus crates | Low | M | BUILD-005 | closed | [#147](https://github.com/Apdelrahman1911/nativeCmpkit/issues/147) |
 

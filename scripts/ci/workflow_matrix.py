@@ -156,6 +156,8 @@ PROFILES = {
     "ios-popover-anchor-ipad": ("ios-ipad",),
     "ios-popover-bar-recovery": ("ios-iphone",),
     "ios-popover-bar-ipad-recovery": ("ios-ipad",),
+    "ios-popover-geometry-iphone": ("ios-iphone",),
+    "ios-popover-geometry-ipad": ("ios-ipad",),
     "ios-date-year-predicate-red": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
@@ -381,6 +383,8 @@ MODULE_SUBSETS = {
     "ios-popover-anchor-ipad": "calf-ui",
     "ios-popover-bar-recovery": "calf-ui",
     "ios-popover-bar-ipad-recovery": "calf-ui",
+    "ios-popover-geometry-iphone": "calf-ui",
+    "ios-popover-geometry-ipad": "calf-ui",
     "ios-date-year-predicate-red": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
@@ -697,6 +701,13 @@ def matrix(profile: str) -> dict:
         if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
             raise ValueError("Failed bar-anchor recovery requires one fixed genuine Arm64 UIKit host and calf-ui only")
         rows[0]["test-focus"] = "ui-native-popover-bar-recovery"
+    if profile in ("ios-popover-geometry-iphone", "ios-popover-geometry-ipad"):
+        kind = "iphone" if profile == "ios-popover-geometry-iphone" else "ipad"
+        canonical = {"slot": "ios-" + kind, "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": kind, "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("OS geometry requires one fixed genuine Arm64 UIKit host and calf-ui only")
+        rows[0]["test-focus"] = "ui-native-popover-portrait-traits" if kind == "iphone" else "ui-native-popover-os-rotation"
     if profile == "ios-modal-worker-memory-recovery":
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}

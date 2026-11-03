@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Shared XCTest startup scope repaired without replaying memory — 2026-11-03
+
+[444–445](evidence/current-platform-recovery-20261101/ios-xctest-project-scope444-445/README.md)
+reproduces and fixes the extracted runner's undefined project path on both input
+routes. Failed1+NEW1 pass **2/2 once**;27 passive checks/1,257 held inputs, zero
+Swift/native/compiler. The knowingly doomed queued startup was cancelled before
+Apple allocation, preserving its successful2,525-method tooling result. Memory3
+continues untouched at5e0dc713. Next only corrected startup; real XCUI waits for
+acceptance. No closure or publication; solo/max2 including queued/8GiB reserve.
+
 ## Shared historical fixture-reader recovery accepted — 2026-11-03
 
 [441–442](evidence/current-platform-recovery-20261101/ios-modal-fixture-reader441-442/README.md)

@@ -334,6 +334,7 @@ class InputDriver:
     def _start_runner(self) -> dict:
         self._serve()
         endpoint = "http://127.0.0.1:" + str(self.server.server_port)
+        project_root = self.scratch / "project"
         derived = self.scratch / "derived"
         log_path = self.scratch / "xcodebuild.log"
         self.log = log_path.open("xb")

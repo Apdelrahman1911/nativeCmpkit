@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared XCTest project scope repaired; memory request unaffected — 2026-11-03
+
+[444–445](docs/development/evidence/current-platform-recovery-20261101/ios-xctest-project-scope444-445/README.md)
+qualifies NEW1 preimage red2/two NameErrors: extracted `_start_runner` referenced
+another method's local project path, before Swift/Popen on BOTH input routes.
+One local path derivation repairs owning scope; additive exact one-line inverse
+keeps six23/fixture/AWT/oldpins and all Kotlin/Swift/API/native predicates held.
+Failed1+NEW1 pass2/2 once/1.353258s/1257held;27 passive source/results checks pass,
+ZERO compiler/Swift/native. First wrong no-server fixture and binding-script
+SyntaxError remain unqualified/refused, not the confirmed NameError reproduction.
+41574865107/5e0dc713 CANCELLED while runner0/steps0/no artifacts/native; source
+tooling actually2525/124.961s green. Original acquired/reviewed ONCE;1256 own-Git
+freeze is not actual platform custody or local1257.41574895107 memory3 continues
+UNTOUCHED at5e0dc713; review its own original Git/source inputs, never substitute
+later1257. Next ONLY startup-only at corrected development revision within fresh
+max2INCLUDINGqueued; real XCUI/iPad waits for startup acceptance. No closure/comment:
+98closed/74open/172/22implemented41partial96verifiedfive unresolved. SOLO/serial/
+8GiB/read-only Actions/all/no mandatorySHA; all publishing/Pages/main/history/legal/
+security/consumer/API–ABI/release-readiness gates remain. No publication.
+
 ## Worker fixture reader shared boundary qualified — 2026-11-03
 
 [Original441/repair442](docs/development/evidence/current-platform-recovery-20261101/ios-modal-fixture-reader441-442/README.md)

@@ -1,0 +1,30 @@
+test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal (project_root_controls.XCTestProjectRootRecoveryControls.test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal) ... 
+  test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal (project_root_controls.XCTestProjectRootRecoveryControls.test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal) (standalone=False) ... ERROR
+  test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal (project_root_controls.XCTestProjectRootRecoveryControls.test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal) (standalone=True) ... ERROR
+
+======================================================================
+ERROR: test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal (project_root_controls.XCTestProjectRootRecoveryControls.test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal) (standalone=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-native-reviews-20261101/lead-modal444-project-root/test_ios_xctest_project_root_recovery.py", line 30, in test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal
+    driver._start_runner()
+  File "/root/projects/nativeCmpKit/scripts/ci/native_ui_input.py", line 336, in _start_runner
+    endpoint = "http://127.0.0.1:" + str(self.server.server_port)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'server_port'
+
+======================================================================
+ERROR: test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal (project_root_controls.XCTestProjectRootRecoveryControls.test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal) (standalone=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-native-reviews-20261101/lead-modal444-project-root/test_ios_xctest_project_root_recovery.py", line 30, in test_both_startup_routes_use_their_own_prepared_project_and_preserve_compiler_refusal
+    driver._start_runner()
+  File "/root/projects/nativeCmpKit/scripts/ci/native_ui_input.py", line 336, in _start_runner
+    endpoint = "http://127.0.0.1:" + str(self.server.server_port)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'server_port'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+FAILED (errors=2)

@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual XCTest startup accepted; real interaction batch requested — 2026-11-03
+
+[Original448](docs/development/evidence/current-platform-recovery-20261101/ios-xctest-startup-original448/README.md)
+accepts41575956373/edc8c44d SUCCESS: Swift0/72.511s, authenticated readiness74.085s/
+readytrue/exitnull/deadlinefalse, actual runner0/finished, invocation206.314s.
+All1257 actual before-after own-Git maps/cleanup4/exact simulator restoration hold.
+ZERO library app/input/method/XML; driververified FALSE and library validator
+refuses zero operations. First artifact-prefix reviewer refusal repaired by exact
+basename lookup on held originals; no redownload/native/compiler replay. Earlier
+510f startup cause unknown. Samefive current driver hashes qualify only new real
+XCUI7 in41578428938/7a9340a7/1262, requested ONCE/readback; no startup replay.
+Memory41574895107 stays5e0dc713/1256 executing at this checkpoint; combined2 reserved
+INCLUDINGqueued. iPad7/repeat2 wait for capacity. #28/#30/#31/#125/#126 stay open;
+no closure/comment:98closed/74open/172/22implemented41partial96verifiedfive unresolved.
+SOLO/serial-local/8GiB/read-only Actions/all/no mandatory SHA; all publication/Pages/
+main/history/legal/security/consumer/API–ABI/readiness gates stay. No publication.
+
 ## Same-operation sheet cancellation coverage prepared — 2026-11-03
 
 [447](docs/development/evidence/current-platform-recovery-20261101/ios-sheet-repeat447/README.md)

@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Real XCTest startup gate accepted; actual interaction tests next — 2026-11-03
+
+[Original448](evidence/current-platform-recovery-20261101/ios-xctest-startup-original448/README.md)
+verifies standalone41575956373/edc8c44d: Swift0/72.511s, real authenticated readiness,
+runner0/completion/cleanup4/exact simulator restoration, all1,257 actual Git inputs.
+ZERO library input/methods/XML; ordinary driver verification remains false.
+The missing real alert/sheet **seven-case** batch is requested once in41578428938
+at7a9340a7/1,262, with all five driver bytes matched to the successful startup.
+Memory3 retains its own5e0/1,256 reservation; do not mix source populations, replay
+accepted startup/native outcomes or exceed two INCLUDINGqueued. No issue closure
+or publication; iPad7 and repeat2 remain pending and every readiness gate holds.
+
 ## Same-operation sheet cancellation tests prepared — 2026-11-03
 
 [447](evidence/current-platform-recovery-20261101/ios-sheet-repeat447/README.md)

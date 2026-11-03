@@ -14,6 +14,7 @@ import workflow_matrix as workflow
 import native_ui_input as native
 import native_ui_input_startup as startup
 import ios_modal_worker_source_projection as history
+import ios_worker_completion_source_projection as completion_history
 from test_native_ui_input import driver_fixture, TOKEN, AUTH, DEVICE, BUNDLE, HASH, no_native
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -40,7 +41,8 @@ class ModalWorkerStartupControls(unittest.TestCase):
         self.assertLess(bridge.index("if (NSThread.isMainThread) return action()"), bridge.index("return autoreleasepool"))
         self.assertIn("dispatch_sync(dispatch_get_main_queue()) { result = runCatching(action) }", bridge)
         self.assertIn("checkNotNull(result).getOrThrow()", bridge)
-        self.assertEqual(previous.split("internal fun requireOwnedApplicationWindow", 1)[1], source.split("internal fun requireOwnedApplicationWindow", 1)[1])
+        prior_stage = completion_history.current_source_before_worker_completion(HOST, source.encode()).decode()
+        self.assertEqual(previous.split("internal fun requireOwnedApplicationWindow", 1)[1], prior_stage.split("internal fun requireOwnedApplicationWindow", 1)[1])
         source = (ROOT / library.IOS_WORKER_OWNERSHIP_SOURCE).read_text()
         self.assertEqual(library.IOS_WORKER_OWNERSHIP_METHODS, tuple(re.findall(r"@Test fun (\w+)\(", source)))
         self.assertNotIn("BottomSheetManager", source)

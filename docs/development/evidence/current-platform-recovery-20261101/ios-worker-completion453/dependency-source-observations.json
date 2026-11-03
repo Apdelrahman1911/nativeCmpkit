@@ -1,0 +1,37 @@
+{
+  "records": [
+    {
+      "url": "https://raw.githubusercontent.com/JetBrains/kotlin/v2.4.20/kotlin-native/runtime/src/main/cpp/Console.cpp",
+      "exit_code": 0,
+      "bytes": 3935,
+      "sha256": "07f251a26f6403036578a6986b7905d06e07cfc5c223c7a976bbbaded9b6e00d",
+      "elapsed_seconds": 0.658581315074116,
+      "observed_utc": "2026-11-03T04:42:31.455992+00:00",
+      "not_hosted_darwin_binary_proof": true
+    },
+    {
+      "url": "https://raw.githubusercontent.com/JetBrains/kotlin/v2.4.20/kotlin-native/runtime/src/main/cpp/Porting.cpp",
+      "exit_code": 0,
+      "bytes": 9138,
+      "sha256": "c3f436d5a1553f16a890013e467700665036b8a34e4441b1b4ebf2a446de2390",
+      "elapsed_seconds": 0.6063603590009734,
+      "observed_utc": "2026-11-03T04:42:44.048176+00:00",
+      "not_hosted_darwin_binary_proof": true
+    },
+    {
+      "archive_sha256": "1584cc79c4e49f22eab8dce165ba9a9fa16960ed88b0adfc8ea7dbbdd25f2b3c",
+      "member": "nativeMain/kotlin/native/internal/test/Launcher.kt",
+      "member_sha256": "01e0f8da296b914caec000ae2c9207a20f763f4a9892bd9fca2c74c4324dcbaf",
+      "bytes": 1830,
+      "exact_cached_version": "2.4.20",
+      "testLauncherEntryPoint_returns_TestRunner_run": true,
+      "no_hosted_Darwin_binary_custody": true
+    }
+  ],
+  "conclusions": [
+    "Kotlin2.4.20 testLauncherEntryPoint returns TestRunner.run; the separate native main/worker launcher owns exitProcess.",
+    "Non-Android Porting.cpp consoleWriteUtf8 directly calls write(STDOUT_FILENO); stdio flushing is not an established explanation or fix."
+  ],
+  "actual_hosted_Darwin_binary_custody": false,
+  "missing_worker_completion_cause_unknown": true
+}

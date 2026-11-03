@@ -131,6 +131,11 @@ PICKER_HOST_STEPS = tuple((phase, iteration, main_thread) for iteration in (1, 2
     ("recomposed", True), ("restored", True)))
 # Exact source-defined validation messages -> finite diagnostic IDs. Never archive str(error)
 # itself: malformed frames can contain private data. An unknown error stays unclassified/red.
+WORKER_LIFECYCLE_STEPS = (
+    ("runner-returned", False), ("runner-result-consumed", True),
+    ("termination-requested", True), ("termination-result-consumed", True),
+    ("main-leases-releasing", True), ("main-leases-released", True),
+)
 TRANSPORT_FAILURE_REASONS = {
     "Malformed native TeamCity frame; do not fabricate replacement XML": "malformed-teamcity-frame",
     "Duplicate TeamCity attribute": "duplicate-teamcity-attribute",
@@ -141,6 +146,8 @@ TRANSPORT_FAILURE_REASONS = {
     "Native application reported an error, timeout or unknown lifecycle marker": "unknown-lifecycle-marker",
     "Owned UIKit application reported a native lifecycle failure": "native-lifecycle-failure",
     "Unexpected native runner/worker completion contract": "invalid-worker-completion",
+    "Invalid owned Worker lifecycle observation": "invalid-worker-lifecycle-observation",
+    "Incomplete owned Worker lifecycle observation": "incomplete-worker-lifecycle-observation",
     "Native test frame outside the owned UIKit application lifecycle": "frame-outside-active-lifecycle",
     "Unexpected nested/active native suite": "overlapping-suite",
     "Unbalanced native suite completion": "unbalanced-suite",
@@ -275,6 +282,7 @@ class NativeProtocol:
         self.stream_bytes = 0
         self.startup_failure_observation = None
         self.lifecycle_failure_observation = None
+        self.worker_lifecycle_observations = []
         self.picker_admission_observations = []
         self.picker_host_observations = []
         self.slider_structural_observations = {}
@@ -526,6 +534,21 @@ class NativeProtocol:
             if image[3] != "true":
                 raise ValueError("Image lifetime callback is not on the actual main thread")
             return
+        worker_lifecycle = re.fullmatch(
+            r"NATIVECMPKIT_WORKER_LIFECYCLE phase=([a-z-]+) runnerExit=(0|[1-9][0-9]{0,9}) mainThread=(true|false)", line)
+        if worker_lifecycle:
+            phase, exit_code, main_thread = worker_lifecycle[1], int(worker_lifecycle[2]), worker_lifecycle[3] == "true"
+            index = len(self.worker_lifecycle_observations)
+            if (self.active is None or self.completed is not None or self.stack or self.open_case is not None or
+                    not self.cases or not all(case["finished"] for case in self.cases.values()) or
+                    index >= len(WORKER_LIFECYCLE_STEPS) or (phase, main_thread) != WORKER_LIFECYCLE_STEPS[index] or
+                    exit_code > 2**31 - 1 or self.worker_lifecycle_observations and
+                    exit_code != self.worker_lifecycle_observations[0]["runner_exit"]):
+                raise ValueError("Invalid owned Worker lifecycle observation")
+            self.worker_lifecycle_observations.append({"phase": phase, "runner_exit": exit_code, "main_thread": main_thread})
+            return
+        if line.startswith("NATIVECMPKIT_WORKER_LIFECYCLE"):
+            raise ValueError("Invalid owned Worker lifecycle observation")
         startup = re.fullmatch(
             r"NATIVECMPKIT_UIKIT_STARTUP_TIMEOUT active=(true|false) key=(true|false) hidden=(true|false) "
             r"rootAttached=(true|false) rootNativeEqual=(true|false) workerStarted=false", line)
@@ -568,6 +591,10 @@ class NativeProtocol:
             self.active = {"main_worker": int(active[1]), "owned_worker": int(active[2])}
             return
         if complete:
+            if self.worker_lifecycle_observations and (
+                    len(self.worker_lifecycle_observations) != len(WORKER_LIFECYCLE_STEPS) or
+                    int(complete[1]) != self.worker_lifecycle_observations[0]["runner_exit"]):
+                raise ValueError("Incomplete owned Worker lifecycle observation")
             if self.active is not None and self.completed is None and 0 < int(complete[1]) <= 2**31 - 1:
                 self.lifecycle_failure_observation = {"stage": "runner_completion", "runner_exit": int(complete[1]),
                                                       "worker_termination_verified": True}
@@ -682,6 +709,8 @@ class NativeProtocol:
                 "open_suites": list(self.stack), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"worker_lifecycle_observations": self.worker_lifecycle_observations}
+                   if self.worker_lifecycle_observations else {}),
                 **({"image_profile_observations": self.image_profile_observations}
                    if self.image_profile_observations else {}),
                 **({"lifecycle_failure_observation": self.lifecycle_failure_observation}
@@ -730,6 +759,8 @@ class NativeProtocol:
                 "counts": lt.case_counts(cases), "stream_bytes": self.stream_bytes,
                 "observed_launch_pid": self.observed_launch_pid,
                 "image_lifetime_observation": self.image_lifetime_observation,
+                **({"worker_lifecycle_observations": self.worker_lifecycle_observations}
+                   if self.worker_lifecycle_observations else {}),
                 **({"image_profile_observations": self.image_profile_observations}
                    if self.image_profile_observations else {}),
                 **({"picker_admission_observations": self.picker_admission_observations}

@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related Worker/cancellation batch qualified; originals remain failed — 2026-11-03
+
+[445/451/453](docs/development/evidence/current-platform-recovery-20261101/ios-worker-completion453/README.md)
+preserves memory41574895107/5e0/1256 FAILED: XML/partial3pass/twoXML/Gradle1/
+1553.16s, console0/9.8s/missing Worker completion; cleanup4 passes separately,
+ZERO complete native acceptance/post-runtime/cause proof. XCUI41578428938/7a9340/
+1262 FAILED before profile:2531source/88.327s/sixrecords/one method/ZERO Apple.
+Both acquired/reviewed ONCE. Causal pre-historical-read barrier repairs brittle
+message fixture without relaxing current admission/pins. Six bounded native
+phase/thread/exit observations never replace original completion or gates; exact
+Kotlin source disproves stdio-flush assumption, not actual hosted exit cause.
+NEW10+failed1+affected1 pass12/0.605s; only NEWguard1+changed-plan1 pass2/0.055s:
+13unique/14invocations, accepted11 unchanged not replayed. Exact5source testKLIB0/
+43.01s/1266 held/production UP-TO-DATE/four warnings; later2CI-only deltas reuse
+unchanged Kotlin/dependencies/compiler-only route.14passive/Actionlint0. Six19
+inverse/old Worker six23 hold; first nonrecursive composition and workflow-map
+bookkeeping refusals retained. ZERO new Apple/native locally. Next ONLY combined
+memory3+repeat2 in one iPhone/compiler/link/Worker task after freeze/push/freshcapacity;
+unfiltered registry disallowed, accepted populations excluded. XCUI iPhone7/iPad7
+wait for shared transport qualification. #28/#30/#31/#125/#126 open;98closed/74open/
+172/22implemented41partial96verifiedfive unresolved, no closure/comment/publication.
+SOLO/serial-local/8GiB/max2INCLUDINGqueued/development/read-only Actions/all/no
+mandatorySHA. All publication/Pages/main/history/legal/security/consumer/API–ABI/
+readiness gates remain. Earlier dated checkpoints retain their own scopes.
+
 ## Actual XCTest startup accepted; real interaction batch requested — 2026-11-03
 
 [Original448](docs/development/evidence/current-platform-recovery-20261101/ios-xctest-startup-original448/README.md)

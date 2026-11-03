@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## One related Worker/cancellation batch, not green-XML closure — 2026-11-03
+
+[445/451/453](evidence/current-platform-recovery-20261101/ios-worker-completion453/README.md)
+preserves memory **3XML passes but FAILED Worker completion**, and the real-XCUI
+request's **pre-platform** single-fixture failure. Both originals are reviewed;
+neither justifies native acceptance/closure. A causal historical-reader barrier
+repairs the fixture; six bounded phase observations retain strict completion.
+Important controls **13unique/14invocations** pass; exact five-source KLIB
+**exit0/43.01s/1,266 held**, production UP-TO-DATE, four warnings, ZERO native.
+The pending one-host five-case request groups memory3 with missing repeat2 to
+avoid duplicate Apple links, excluding all accepted populations. Interactive
+iPhone7/iPad7 wait for applicable shared transport review. No issue closure or
+publication; solo/max2INCLUDINGqueued/8GiB and all readiness gates remain.
+
 ## Real XCTest startup gate accepted; actual interaction tests next — 2026-11-03
 
 [Original448](evidence/current-platform-recovery-20261101/ios-xctest-startup-original448/README.md)

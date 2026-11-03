@@ -206,12 +206,23 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             b"foreign",
             b"",
         )
+        historical_reader = bridge.current_source_for_history
+        historical_library_calls = []
+
+        def refuse_historical_library_read(path, source):
+            if path == relative:
+                historical_library_calls.append(path)
+                raise AssertionError("Current-source refusal must precede the historical library digest")
+            return historical_reader(path, source)
+
         for number, payload in enumerate(variants):
             mutated = dict(self.current)
             mutated[relative] = payload
             with self.subTest(mutation=number), patch.object(self, "current", mutated), \
-                    self.assertRaisesRegex(ValueError, "exact current iOS modal Worker/startup recovery source"):
+                    patch.object(bridge, "current_source_for_history", side_effect=refuse_historical_library_read), \
+                    self.assertRaises(ValueError):
                 self.test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment()
+            self.assertEqual([], historical_library_calls)
 
 
 if __name__ == "__main__":

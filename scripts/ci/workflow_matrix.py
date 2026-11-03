@@ -147,6 +147,7 @@ PROFILES = {
     "ios-modal-lifecycle-replacement-ipad": ("ios-ipad",),
     "ios-modal-worker-memory-recovery": ("ios-iphone",),
     "ios-sheet-cancellation-repeat": ("ios-iphone",),
+    "ios-modal-completion-cancellation": ("ios-iphone",),
     "ios-xctest-startup": (),
     "ios-modal-lifecycle-memory-recovery": ("ios-iphone",),
     "ios-modal-xcui-batch": ("ios-iphone",),
@@ -368,6 +369,7 @@ MODULE_SUBSETS = {
     "ios-modal-lifecycle-replacement-ipad": "calf-ui",
     "ios-modal-worker-memory-recovery": "calf-ui",
     "ios-sheet-cancellation-repeat": "calf-ui",
+    "ios-modal-completion-cancellation": "calf-ui",
     "ios-modal-lifecycle-memory-recovery": "calf-ui",
     "ios-modal-xcui-batch": "calf-ui",
     "ios-modal-xcui-batch-ipad": "calf-ui",
@@ -685,6 +687,12 @@ def matrix(profile: str) -> dict:
         if PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
             raise ValueError("Same-operation cancellation requires one genuine iPhone calf-ui host")
         rows[0]["test-focus"] = "ui-native-sheet-cancellation-repeat"
+    if profile == "ios-modal-completion-cancellation":
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("Combined completion/cancellation requires one genuine iPhone calf-ui host")
+        rows[0]["test-focus"] = "ui-native-modal-completion-cancellation"
     if profile == "ios-modal-lifecycle-memory-recovery":
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}

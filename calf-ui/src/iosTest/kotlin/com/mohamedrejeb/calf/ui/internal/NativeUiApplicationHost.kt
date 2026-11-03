@@ -281,7 +281,13 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
         val owned = Worker.start(name = "nativecmpkit-owned-uikit-library-tests")
         worker = owned
         println("NATIVECMPKIT_UIKIT_ACTIVE mainWorker=${Worker.current.id} ownedWorker=${owned.id}")
-        runner = owned.execute(TransferMode.SAFE, { arguments }) { testLauncherEntryPoint(it) }
+        runner = owned.execute(TransferMode.SAFE, { arguments }) {
+            val exit = testLauncherEntryPoint(it)
+            // Bounded observations only. Finished test frames do not establish
+            // Future consumption or actual Worker termination on UIKit's Main.
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=runner-returned runnerExit=$exit mainThread=${NSThread.isMainThread}")
+            exit
+        }
     }
 
     private fun releaseMainLeases() {
@@ -314,7 +320,9 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
                 1
             }
             runner = null
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=runner-result-consumed runnerExit=$runnerExit mainThread=${NSThread.isMainThread}")
             termination = checkNotNull(worker).requestTermination()
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=termination-requested runnerExit=$runnerExit mainThread=${NSThread.isMainThread}")
         }
         val stopping = termination
         if (stopping != null && stopping.state != FutureState.SCHEDULED) {
@@ -325,7 +333,10 @@ class NativeUiApplicationDelegate : UIResponder, UIApplicationDelegateProtocol {
             }
             termination = null
             worker = null
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=termination-result-consumed runnerExit=$runnerExit mainThread=${NSThread.isMainThread}")
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=main-leases-releasing runnerExit=$runnerExit mainThread=${NSThread.isMainThread}")
             releaseMainLeases()
+            println("NATIVECMPKIT_WORKER_LIFECYCLE phase=main-leases-released runnerExit=$runnerExit mainThread=${NSThread.isMainThread}")
             // KGP passes --ktest_no_exit_code: failed tests normally still
             // return0 here. Their real TeamCity/JUnit outcomes decide Gradle.
             println("NATIVECMPKIT_UIKIT_COMPLETED runnerExit=$runnerExit workerTerminated=true")

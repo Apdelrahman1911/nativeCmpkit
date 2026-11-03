@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "run": 41566720024,
+  "source_sha": "b5fb998dea9603443629e48dda34813d34d74428",
+  "original_conclusion": "failure",
+  "once_acquired": true,
+  "native_executed": 0,
+  "XML": 0,
+  "artifacts": 0,
+  "profile_selection_reached": false,
+  "tooling_ci_methods": 2507,
+  "tooling_ci_seconds": 133.087,
+  "failure_records": 7,
+  "failed_methods": [
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=0)"
+    },
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=1)"
+    },
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=2)"
+    },
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=3)"
+    },
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=4)"
+    },
+    {
+      "method": "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "qualified_name": "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "subtest": "(mutation=5)"
+    },
+    {
+      "method": "test_source_wiring_keeps_WK_finally_and_help_only_job_exact_and_uploads_no_private_log_native_xml_or_bundle",
+      "qualified_name": "test_apple_appinfo_shape_route.AppleAppinfoShapeRouteTests.test_source_wiring_keeps_WK_finally_and_help_only_job_exact_and_uploads_no_private_log_native_xml_or_bundle",
+      "subtest": ""
+    }
+  ],
+  "root_causes": [
+    "Six mutations are correctly refused at the newer exact XCTest/input source boundary, while the older fixture expects the lifecycle-only refusal category.",
+    "The WK fixture selects finalbody[0], now the independent input-driver cleanup, instead of selecting its unique exact WK guard."
+  ],
+  "source_inputs_held": true,
+  "source_input_count": 1245,
+  "accepted_methods_replayed_locally": 0,
+  "original_redownloads": 0,
+  "issue_closures": 0,
+  "release_allowed": false,
+  "reviewed_utc": "2026-11-03T02:37:05.066651+00:00",
+  "inspection_note": "First local inspection snippet refused at SyntaxError before reading cached bytes; corrected cached-only inspection, zero reacquisition/test/source effects."
+}

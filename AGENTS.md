@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared pre-platform source fixtures repaired together — 2026-11-03
+
+[Actual429/repair430–431](docs/development/evidence/current-platform-recovery-20261101/ios-modal-ci-fixture429-431/README.md)
+preserves41566701746+41566720024/b5fb998d FAILED before profile selection:
+2507source methods each/137.358s+133.087s/sevenrecords/two failedmethods each;
+ZERO Gradle/Apple/native/XML/artifacts. New exact refusal category and unique WK
+finally-guard selection repair only two fixture files; original WK body hash/oldpins/
+live admissions stay. Onlyfailed2+NEW2 pass4/4 once/unittest0.251s/wrapper0.563869s,
+1246 held/1243 prior inputs unchanged. No native/Kotlin/Swift/workflow/dependency
+changes; reuse accepted controls and both current applicable KLIB compilers.
+Next development freeze/push then only missing memory2/XCUI iPhone7 within max2
+INCLUDINGqueued; iPad7 later. Earlier native weak-content failures stay FAILED;
+no original redownloads/closure/comment.98closed/74open/172;22implemented/41partial/
+96verified/five unresolved. SOLO/serial-local/8GiB/read-only Actions/all/no mandatory
+SHA pinning; every publication/Pages/main/history/legal/security/consumer/API–ABI/
+readiness gate remains. No releases/packages/deployment or native-pass inference.
+
 ## Shared iOS memory cleanup compiled; real XCTest batch prepared — 2026-11-03
 
 [Original425/owning424–426](docs/development/evidence/current-platform-recovery-20261101/ios-modal-memory-xcui424-426/README.md)

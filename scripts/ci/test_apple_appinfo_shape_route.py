@@ -45,6 +45,14 @@ def observation():
             "shape": captured_shape(), "tool_path_resolution": []}
 
 
+def unique_finally_guard(source, finalbody, condition):
+    matches = [node for node in finalbody if isinstance(node, ast.If) and
+               ast.get_source_segment(source, node.test) == condition]
+    if len(matches) != 1:
+        raise ValueError("One exact authored cleanup guard required")
+    return matches[0]
+
+
 class AppleAppinfoShapeRouteTests(unittest.TestCase):
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory(prefix="synthetic-appinfo-route-")
@@ -344,7 +352,7 @@ class AppleAppinfoShapeRouteTests(unittest.TestCase):
         source = Path(application.__file__).read_text()
         node = next(n for n in ast.parse(source).body if isinstance(n, ast.FunctionDef) and n.name == "run")
         owner = next(n for n in node.body if isinstance(n, ast.Try) and n.finalbody)
-        wk = owner.finalbody[0]
+        wk = unique_finally_guard(source, owner.finalbody, "request_fixture is not None")
         self.assertEqual("request_fixture is not None", ast.get_source_segment(source, wk.test))
         body = "".join(source.splitlines(keepends=True)[wk.lineno - 1:wk.end_lineno]).encode()
         self.assertEqual("1e51ca8edf5d2b53d7ff2d5bc8457bb8b9c7963a2edac986db3f5174e2eb720c", hashlib.sha256(body).hexdigest())

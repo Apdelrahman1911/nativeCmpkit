@@ -1,0 +1,29 @@
+{
+  "command": [
+    "env",
+    "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+    "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/opt/node/current/bin:/opt/android-sdk/platform-tools",
+    "./gradlew",
+    ":calf-ui:desktopTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.QueuedPresentationStateTest",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-11-03T00:01:49.753143+00:00",
+  "free_bytes_before": 29361950720,
+  "exit_code": 0,
+  "elapsed_seconds": 59.02,
+  "free_bytes_after": 29356244992
+}

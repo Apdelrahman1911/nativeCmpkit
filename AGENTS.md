@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related-issue batches, not singleton bookkeeping — 2026-11-03
+
+The owner requests faster coordinated patches: group issues by shared root cause,
+implement the related fixes together, run the important affected/new tests once,
+review source/results once, then close **every fully verified issue in that batch
+immediately**, before routine documentation. Never imply compilation verifies native
+behavior or close incomplete siblings just because they share a patch. Keep progress
+notes concise; reuse applicable accepted evidence and do not replay successful tests.
+Continue SOLO: no spawning/resuming/reassigning agents.
+
+[Modal batch416](docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/README.md)
+implements shared queued alert/sheet cancellation and concurrent/latest-intent fixes
+for #28/#30/#31/#125/#126. Fresh common4/4 and iOS production/test recovery compiler0/
+56.01s qualify locally; first missing IO import failure and tooling refusals remain.
+Nine new genuine UIKit methods/one finite iPhone or iPad host are prepared, ZERO native
+locally/no new closure. Original #28 activation4 failures and complete touch/parent/
+detent/iPad requirements stay separate. #144 already CLOSED/completed; never repeat
+its closure.98closed/74open/172total. Serial-local/8GiB/max2hosted INCLUDING queued,
+development-only/read-only Actions/all/no mandatory SHA pinning and all publication,
+Pages/main/history/legal/security/consumer/API-ABI/readiness gates remain.
+
 ## JavaFX security original criteria verified and closed — 2026-11-02
 
 **[#144/BUILD-002 CLOSED/completed](docs/development/evidence/current-platform-recovery-20261101/desktop-security-closure411-414/README.md)**23:47:52UTC immediately after allthree original criteria review/before docs; comment6591441598 and exact readback retain original metadata.41545807583/ae7893816f SUCCESS WindowsTLS1/1/XML1/Gradle0/341.02s/JDK17.0.20.1/Gradle9.7.1;29passive original checks/all1223 actual frozen maps. Original method/hash/trust/error/zeroHTTP/paint/recovery/cleanup unchanged; no Finished-write branch-instance inference.122 pre-mutation checks accept five full24+48hostgraphs/150-coordinate OSVunion, bounded native media/TLS/cookie/navigation/JSoff-on/rendering and unsupported sandboxed-untrusted-code policy. Reuse accepted142+eight delta queries, all prior cells/graphs, not replay. Exclude finalWindowsTLS1 forever on unchanged applicable bytes. First414 dependency143 misidentification refused before mutation; correct BUILD001/#1 already closed verified, never reclosed. Earlier failed pairs stayFAILED/originals acquired once.98closed/74open/172;22implemented/41partial/96verified/five unresolved. Next #64 maintained-artifact ordinary adoption/corresponding-source/legal/security/consumer/API–ABI; no remaining original request/Stop/offline methods, but private candidate is not an ordinary-consumer fix. #55 Downloads/cloud remain; acceptedExternalStorage excluded. SOLO/no spawning/resuming/reassigning, seriallocal/8GiB/max2combinedINCLUDINGqueued/developmentonly/read-onlyActions/all/no mandatorySHA. No publication/release/deploy/Pages/main/history or security/readiness waiver. Earlier checkpoints retain dated scope.

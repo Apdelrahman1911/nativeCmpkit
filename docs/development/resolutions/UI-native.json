@@ -753,7 +753,8 @@
     "changes": [
       "Resolve action/field callbacks from latest descriptors; key structure by visible action/field identity; recreate native controller serially for structural changes; guard repeated action dispatch.",
       "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained.",
-      "2026-11-02 original313/review314: Qualify four original important alert failures before public accessibilityActivate. Complete36-65 UIView observations have zero label/button matches; first16-only public-container observations are truncated/unknown with zero index children. No full accessibility graph or root-cause inference."
+      "2026-11-02 original313/review314: Qualify four original important alert failures before public accessibilityActivate. Complete36-65 UIView observations have zero label/button matches; first16-only public-container observations are truncated/unknown with zero index children. No full accessibility graph or root-cause inference.",
+      "2026-11-03 shared modal batch416: withdraw ordinary queued alert/sheet hides and structural alert rebuilds; Main-confined sheet intent updates no longer hold a mutex over native suspension. Superseded unstarted intent waiters cancel, while admitted native animations retain their own completion. Related subset only; original full acceptance remains required."
     ],
     "compatibility": "No action/text-field constructor change; field initialValue is still initial-only.",
     "id": "UI-012",
@@ -806,6 +807,11 @@
         ],
         "scope": "No native accessibility action delivered; current callback/reorder/cardinality assertions still unverified. Public container prefix is not whole graph/absence/cause. No private/manager/forced-input fallback, issue closure, consumer/API-ABI/security/readiness acceptance.",
         "checkpoint": "solo-platform-originals308-315-20261102"
+      },
+      {
+        "command": "Shared modal batch416 focused common tests and iOS production/test KLIB compilation; finite ios-modal-ownership-batch/ipad plans prepared, native not yet executed.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/local-verification.json",
+        "result": "PASS4/4 fresh common transition cases/Gradle0/59.02s and fresh iOS recovery compilation0/56.01s after preserved missing IO import failure1/51.01s; 1226 compiler inputs held. Nine genuine UIKit cases prepared, ZERO Apple/native execution/issue closure. Later history-tool-only deltas do not replay accepted tests or imply current whole-issue acceptance."
       }
     ]
   },
@@ -877,7 +883,8 @@
     ],
     "changes": [
       "Queue requested/actual modal transitions with generation tokens; dispose separately from semantic dismissal; coordinate replacement owners; hit-test outside taps; key lifetime to manager.",
-      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
+      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained.",
+      "2026-11-03 shared modal batch416: withdraw ordinary queued alert/sheet hides and structural alert rebuilds; Main-confined sheet intent updates no longer hold a mutex over native suspension. Superseded unstarted intent waiters cancel, while admitted native animations retain their own completion. Related subset only; original full acceptance remains required."
     ],
     "compatibility": "Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers.",
     "id": "UI-014",
@@ -955,6 +962,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (dialog.NativeAlertLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Shared modal batch416 focused common tests and iOS production/test KLIB compilation; finite ios-modal-ownership-batch/ipad plans prepared, native not yet executed.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/local-verification.json",
+        "result": "PASS4/4 fresh common transition cases/Gradle0/59.02s and fresh iOS recovery compilation0/56.01s after preserved missing IO import failure1/51.01s; 1226 compiler inputs held. Nine genuine UIKit cases prepared, ZERO Apple/native execution/issue closure. Later history-tool-only deltas do not replay accepted tests or imply current whole-issue acceptance."
       }
     ]
   },
@@ -1071,7 +1083,8 @@
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt"
     ],
     "changes": [
-      "Apply skip/confirmation policy to programmatic and native sheet transitions; map outside policy to native adaptive interactive dismissal; separate forced cleanup."
+      "Apply skip/confirmation policy to programmatic and native sheet transitions; map outside policy to native adaptive interactive dismissal; separate forced cleanup.",
+      "2026-11-03 shared modal batch416: withdraw ordinary queued alert/sheet hides and structural alert rebuilds; Main-confined sheet intent updates no longer hold a mutex over native suspension. Superseded unstarted intent waiters cancel, while admitted native animations retain their own completion. Related subset only; original full acceptance remains required."
     ],
     "compatibility": "hide with skipHiddenState throws; forced disposal bypasses veto by design. UIKit interactive delegate cannot distinguish all drag/outside origins.",
     "id": "UI-016",
@@ -1099,6 +1112,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Shared modal batch416 focused common tests and iOS production/test KLIB compilation; finite ios-modal-ownership-batch/ipad plans prepared, native not yet executed.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/local-verification.json",
+        "result": "PASS4/4 fresh common transition cases/Gradle0/59.02s and fresh iOS recovery compilation0/56.01s after preserved missing IO import failure1/51.01s; 1226 compiler inputs held. Nine genuine UIKit cases prepared, ZERO Apple/native execution/issue closure. Later history-tool-only deltas do not replay accepted tests or imply current whole-issue acceptance."
       }
     ]
   },
@@ -1108,7 +1126,8 @@
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt"
     ],
     "changes": [
-      "Order medium/large detents ascending, choose intended show detent and synchronize native detent/dismiss callbacks before user callback."
+      "Order medium/large detents ascending, choose intended show detent and synchronize native detent/dismiss callbacks before user callback.",
+      "2026-11-03 shared modal batch416: withdraw ordinary queued alert/sheet hides and structural alert rebuilds; Main-confined sheet intent updates no longer hold a mutex over native suspension. Superseded unstarted intent waiters cancel, while admitted native animations retain their own completion. Related subset only; original full acceptance remains required."
     ],
     "compatibility": "Show now reports PartiallyExpanded when medium is the actual initial detent instead of falsely reporting Expanded.",
     "id": "UI-017",
@@ -1136,6 +1155,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Shared modal batch416 focused common tests and iOS production/test KLIB compilation; finite ios-modal-ownership-batch/ipad plans prepared, native not yet executed.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/local-verification.json",
+        "result": "PASS4/4 fresh common transition cases/Gradle0/59.02s and fresh iOS recovery compilation0/56.01s after preserved missing IO import failure1/51.01s; 1226 compiler inputs held. Nine genuine UIKit cases prepared, ZERO Apple/native execution/issue closure. Later history-tool-only deltas do not replay accepted tests or imply current whole-issue acceptance."
       }
     ]
   },
@@ -1148,7 +1172,8 @@
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt"
     ],
     "changes": [
-      "Main-confined serialized operations with per-call completions; cancellation removes only its waiter; terminal cleanup queues through native animation, detaches state owner and releases controller/content."
+      "Main-confined serialized operations with per-call completions; cancellation removes only its waiter; terminal cleanup queues through native animation, detaches state owner and releases controller/content.",
+      "2026-11-03 shared modal batch416: withdraw ordinary queued alert/sheet hides and structural alert rebuilds; Main-confined sheet intent updates no longer hold a mutex over native suspension. Superseded unstarted intent waiters cancel, while admitted native animations retain their own completion. Related subset only; original full acceptance remains required."
     ],
     "compatibility": "Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal.",
     "id": "UI-018",
@@ -1212,6 +1237,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset3/3 passes (sheet.NativeSheetLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Shared modal batch416 focused common tests and iOS production/test KLIB compilation; finite ios-modal-ownership-batch/ipad plans prepared, native not yet executed.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/local-verification.json",
+        "result": "PASS4/4 fresh common transition cases/Gradle0/59.02s and fresh iOS recovery compilation0/56.01s after preserved missing IO import failure1/51.01s; 1226 compiler inputs held. Nine genuine UIKit cases prepared, ZERO Apple/native execution/issue closure. Later history-tool-only deltas do not replay accepted tests or imply current whole-issue acceptance."
       }
     ]
   },

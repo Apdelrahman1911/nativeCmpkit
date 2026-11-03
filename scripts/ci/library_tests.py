@@ -715,6 +715,26 @@ UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {
     "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
 }
 
+IOS_MODAL_OWNERSHIP_FOCUS = "ui-native-modal-ownership-batch"
+IOS_MODAL_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest"
+IOS_MODAL_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt"
+IOS_MODAL_OWNERSHIP_METHODS = (
+    "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker",
+    "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters",
+    "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly",
+    "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition",
+    "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation",
+    "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete",
+    "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal",
+    "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain",
+    "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_OWNERSHIP_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_OWNERSHIP_CLASS, "source": IOS_MODAL_OWNERSHIP_SOURCE,
+                "methods": IOS_MODAL_OWNERSHIP_METHODS},),
+    "scope": "Nine new genuine UIKit alert/sheet queued-admission, opposing/alternating/concurrent visibility, cancellation, captured-content GC, policy and Main/Default/IO regressions only. No accepted lifecycle replay or native-touch, interactive-detent, physical-device, whole-issue or release certification.",
+}
+
 IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
 UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
     "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,

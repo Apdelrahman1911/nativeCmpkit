@@ -1,0 +1,27 @@
+{
+  "command": [
+    "env",
+    "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+    "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/opt/node/current/bin:/opt/android-sdk/platform-tools",
+    "./gradlew",
+    ":calf-ui:compileKotlinIosSimulatorArm64",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    "--offline",
+    "--no-daemon",
+    "--no-configuration-cache",
+    "--max-workers=2",
+    "--no-parallel",
+    "--console=plain",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-11-03T00:02:48.825196+00:00",
+  "free_bytes_before": 29356232704,
+  "exit_code": 1,
+  "elapsed_seconds": 51.01,
+  "free_bytes_after": 29352464384
+}

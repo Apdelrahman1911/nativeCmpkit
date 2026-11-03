@@ -103,6 +103,22 @@ internal class BottomSheetManager(
         val completion = CompletableDeferred<Unit>() // one token per invocation; never reused
         waiters[completion] = visible
         presentation.request(visible)
+        // A new intent may replace the next transition while the opposite native animation is
+        // already running. Cancel only the unstarted intent's waiters, never that animation's
+        // callers: show/hide/show and hide/show/hide must not strand the middle invocation.
+        if (visible && presentation.phase == NativePresentationState.Phase.Presenting) {
+            cancelWaiters(false)
+        } else if (!visible && presentation.phase == NativePresentationState.Phase.Dismissing) {
+            cancelWaiters(true)
+        }
+        if (!visible && NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
+            check(presentation.cancelQueuedPresentation())
+            currentValue = SheetValue.Hidden
+            // A superseded queued show never reached UIKit. Its callers must not remain pending
+            // or be told that a native presentation succeeded. Hidden callers complete normally.
+            cancelWaiters(true)
+            finishWaiters(false)
+        }
         publishState()
         pump()
         if (presentation.phase == if (visible) NativePresentationState.Phase.Presented else NativePresentationState.Phase.Hidden) {
@@ -123,6 +139,13 @@ internal class BottomSheetManager(
         waiters.filterValues { it == visible }.keys.toList().forEach {
             waiters.remove(it)
             it.complete(Unit)
+        }
+    }
+
+    private fun cancelWaiters(visible: Boolean) {
+        waiters.filterValues { it == visible }.keys.toList().forEach {
+            waiters.remove(it)
+            it.cancel(CancellationException("Sheet visibility request superseded before its native transition"))
         }
     }
 
@@ -172,7 +195,7 @@ internal class BottomSheetManager(
         waiters.keys.toList().forEach { it.cancel(CancellationException("Sheet owner disposed")) }
         waiters.clear()
         if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
-            presentation.dismissedInteractively()
+            check(presentation.cancelQueuedPresentation())
         }
         pump() // a pending presentation completion will pump the queued terminal hide
     }

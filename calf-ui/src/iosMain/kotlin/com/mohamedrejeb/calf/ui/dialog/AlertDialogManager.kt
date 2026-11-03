@@ -202,13 +202,26 @@ class AlertDialogManager internal constructor(
         onDismissRequest = {}
         presentation.dispose()
         if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
-            presentation.dismissedInteractively()
+            check(presentation.cancelQueuedPresentation())
             clearController()
         }
         pump()
     }
 
     private fun pump() {
+        if (!presentation.requestedVisible &&
+            presentation.phase == NativePresentationState.Phase.Presenting &&
+            NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
+            check(presentation.cancelQueuedPresentation())
+            val shouldNotify = notifyDismiss && !presentation.disposed && !actionChosen
+            notifyDismiss = false
+            clearController()
+            if (rebuild && !presentation.disposed) {
+                rebuild = false
+                presentation.request(true)
+            }
+            if (shouldNotify) onDismissRequest()
+        }
         val transition = presentation.nextTransition() ?: return
         val viewController = getController()
         if (transition.visible) {

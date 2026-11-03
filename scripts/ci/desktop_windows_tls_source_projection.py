@@ -34,6 +34,11 @@ def source_before_windows_tls(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact Windows TLS recovery source identity and ordinary bytes are required")
     binding = _bindings().get(relative)
+    # Compose the later modal patch before the unchanged historical TLS pins.
+    # An already-restored TLS preimage keeps its original idempotence.
+    if binding is None or hashlib.sha256(payload).hexdigest() != binding["before_sha256"]:
+        from ios_modal_ownership_source_projection import source_before_modal_ownership
+        payload = source_before_modal_ownership(relative, payload)
     if binding is None:
         return payload
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -67,6 +72,8 @@ def source_before_windows_tls(relative, payload):
 def current_source_before_windows_tls(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current Windows TLS recovery source identity and ordinary bytes are required")
+    from ios_modal_ownership_source_projection import current_source_before_modal_ownership
+    payload = current_source_before_modal_ownership(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current Windows TLS recovery source")

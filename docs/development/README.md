@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Work by related-issue patches
+
+Current [iOS modal batch416](evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/README.md)
+fixes shared queued ownership/concurrent intent causes across **#28/#30/#31/#125/#126**.
+Common **4/4** and fresh iOS KLIB compilation pass; nine focused genuine UIKit tests
+are prepared, not yet executed. Review the batch once and close all fully verified
+issues together; retain incomplete original interaction/parent/iPad requirements.
+Use concise batch notes and reuse accepted unchanged results, rather than repeating
+singleton documentation or full successful suites. #144 is already closed.
+
 ## JavaFX security complete; #144 closed directly after verification
 
 [Original411–414 and closure](evidence/current-platform-recovery-20261101/desktop-security-closure411-414/README.md) verify the final Windows native TLS **1/1**, XML1/Gradle0/341.02s,29 passive source/results checks/all1,223 held inputs. All three original criteria now qualify: five full runtime/compile/test host graphs/150 exact advisory coordinates, bounded media/TLS/cookies/navigation/JS policy/painted rendering, and documented unsupported untrusted-code sandboxing. **#144 closed/completed23:47:52UTC**, with comment6591441598 and exact independent readback, before docs. No accepted tests/graphs/queries replayed or original archives downloaded again. Current **98 closed /74 open /172**,22 implemented/41 partial/96 verified/5 unresolved. Continuing solo with #64 ordinary dependency adoption; all separate legal/security/consumer/API–ABI/publication readiness restrictions remain. Older entries below preserve their dated scope, not current open state.

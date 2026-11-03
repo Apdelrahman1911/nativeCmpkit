@@ -45,6 +45,17 @@ internal class NativePresentationState {
         return true
     }
 
+    /**
+     * The driver removed this owner from its admission queue before UIKit started presenting.
+     * Never call this for an admitted animation: that animation must complete its own token.
+     */
+    fun cancelQueuedPresentation(): Boolean {
+        if (phase != Phase.Presenting || requestedVisible) return false
+        generation++
+        phase = Phase.Hidden
+        return true
+    }
+
     /** UIKit completed an interactive dismissal, not a completion belonging to a driver token. */
     fun dismissedInteractively() {
         generation++

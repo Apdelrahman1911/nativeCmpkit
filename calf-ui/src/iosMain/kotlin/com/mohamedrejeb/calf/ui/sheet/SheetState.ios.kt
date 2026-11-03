@@ -9,8 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,7 +37,6 @@ actual class AdaptiveSheetState actual constructor(
     actual val isVisible: Boolean get() = currentValue != SheetValue.Hidden
     internal var iosSheetManager: BottomSheetManager? = null
     internal var showDragHandle = true
-    private val operations = Mutex()
 
     internal fun permits(value: SheetValue): Boolean =
         !(skipHiddenState && value == SheetValue.Hidden) &&
@@ -53,20 +50,18 @@ actual class AdaptiveSheetState actual constructor(
     }
 
     actual suspend fun show() = withContext(Dispatchers.Main.immediate) {
-        operations.withLock {
-            val manager = iosSheetManager ?: return@withLock
-            val destination = if (currentValue != SheetValue.Hidden) currentValue else if (skipPartiallyExpanded)
-                SheetValue.Expanded else SheetValue.PartiallyExpanded
-            if (permits(destination)) manager.show(skipPartiallyExpanded, showDragHandle, destination)
-        }
+        val manager = iosSheetManager ?: return@withContext
+        val destination = if (currentValue != SheetValue.Hidden) currentValue else if (skipPartiallyExpanded)
+            SheetValue.Expanded else SheetValue.PartiallyExpanded
+        // Main confinement serializes intent updates, not the whole native animation. Holding a
+        // mutex across show()'s suspension prevents hide() from cancelling a queued presentation.
+        if (permits(destination)) manager.show(skipPartiallyExpanded, showDragHandle, destination)
     }
 
     actual suspend fun hide() = withContext(Dispatchers.Main.immediate) {
-        operations.withLock {
-            check(!skipHiddenState) { "hide() is not permitted when skipHiddenState is true" }
-            val manager = iosSheetManager ?: return@withLock
-            if (permits(SheetValue.Hidden)) manager.hide()
-        }
+        check(!skipHiddenState) { "hide() is not permitted when skipHiddenState is true" }
+        val manager = iosSheetManager ?: return@withContext
+        if (permits(SheetValue.Hidden)) manager.hide()
     }
 
     actual companion object {

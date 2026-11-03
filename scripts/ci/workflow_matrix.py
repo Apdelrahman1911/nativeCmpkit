@@ -141,6 +141,8 @@ PROFILES = {
     "ios-dates-important": ("ios-iphone",),
     "ios-alert-date-important": ("ios-iphone",),
     "ios-alert-important-recovery": ("ios-iphone",),
+    "ios-modal-ownership-batch": ("ios-iphone",),
+    "ios-modal-ownership-ipad": ("ios-ipad",),
     "ios-date-year-predicate-red": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
@@ -352,6 +354,8 @@ MODULE_SUBSETS = {
     "ios-dates-important": "calf-ui",
     "ios-alert-date-important": "calf-ui",
     "ios-alert-important-recovery": "calf-ui",
+    "ios-modal-ownership-batch": "calf-ui",
+    "ios-modal-ownership-ipad": "calf-ui",
     "ios-date-year-predicate-red": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
@@ -633,6 +637,13 @@ def matrix(profile: str) -> dict:
                 rows != [canonical]):
             raise ValueError("Important alert recovery requires the exact single Arm64 iPhone row and calf-ui module")
         rows[0]["test-focus"] = "ui-native-alert-important-recovery"
+    if profile in ("ios-modal-ownership-batch", "ios-modal-ownership-ipad"):
+        kind = "iphone" if profile == "ios-modal-ownership-batch" else "ipad"
+        canonical = {"slot": "ios-" + kind, "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": kind, "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("Modal ownership batches require one fixed genuine Arm64 UIKit host and calf-ui only")
+        rows[0]["test-focus"] = "ui-native-modal-ownership-batch"
     if profile == "ios-saver-write-failure":
         for row in rows:
             row["test-focus"] = "ios-native-saver-write-failure"

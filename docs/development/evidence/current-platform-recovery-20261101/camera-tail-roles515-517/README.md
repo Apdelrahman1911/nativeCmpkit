@@ -28,7 +28,7 @@ header/dump-ID equality. It never exports actual IDs, callers, components,
 intent bodies, paths or unknown rows.
 
 The whole-tail limit is 64 rows; each row is at most 2,048 UTF-8 bytes, inside
-the original 16-KiB query bound. Exhaustion is explicitly unavailable, not
+the original **64-KiB** query bound (`CONTROL_BYTES = 65536`). Exhaustion is explicitly unavailable, not
 partial/zero/absence. Bounds are cooperative, not hard deadlines. A matched
 HOME/standard shape is **not** a complete task parser, ownership decision or
 authorization to ignore/remove that task.
@@ -62,6 +62,11 @@ Files: `red516.json`, `green516.json`, `review517.json`, `source-before.json`,
 `held-inputs.json`, `archive.json`, and the AOSP template acquisition receipt.
 The archive removes only repository absolute-root prefixes from text reports;
 original and archived SHA-256 values are explicit.
+
+**Documentation correction:** the first README misstated the unchanged original
+query limit as 16 KiB. Source line 37 defines 65,536 bytes; only this description
+is corrected. Neither the original refusal nor any accepted test result changes;
+see `query-bound-correction.json`. No test is replayed for this editorial repair.
 
 ## Next and unchanged gates
 

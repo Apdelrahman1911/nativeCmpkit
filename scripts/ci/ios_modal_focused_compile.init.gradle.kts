@@ -17,10 +17,15 @@ gradle.projectsEvaluated {
         "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
         "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent",
     ).flatMap { method -> listOf("--tests", "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.$method") }
+    val memoryRecoveryRequest = listOf(":calf-ui:iosSimulatorArm64ApplicationTest") + listOf(
+        "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+        "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent",
+    ).flatMap { method -> listOf("--tests", "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.$method") }
     val permittedTasks = setOf(
         listOf(":calf-ui:compileTestKotlinIosSimulatorArm64"),
         listOf(":calf-ui:iosSimulatorArm64ApplicationTest"),
         applicationRequest,
+        memoryRecoveryRequest,
     )
     check(gradle.startParameter.taskNames in permittedTasks) {
         "Focused modal compilation accepts only its exact test compiler or application task"

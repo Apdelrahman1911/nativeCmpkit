@@ -1,0 +1,45 @@
+test_atomic_response_never_overwrites_existing_bytes_or_admits_a_partial_publication (test_native_ui_input.NativeUiInputControls.test_atomic_response_never_overwrites_existing_bytes_or_admits_a_partial_publication) ... ok
+test_cleanup_closes_a_real_blocked_owned_http_connection_without_waiting_for_its_body (test_native_ui_input.NativeUiInputControls.test_cleanup_closes_a_real_blocked_owned_http_connection_without_waiting_for_its_body) ... ok
+test_cleanup_reaps_its_actual_python_process_group_not_a_foreign_process (test_native_ui_input.NativeUiInputControls.test_cleanup_reaps_its_actual_python_process_group_not_a_foreign_process) ... ok
+test_cleanup_stage_failure_does_not_bypass_other_stages_or_remove_a_live_workspace (test_native_ui_input.NativeUiInputControls.test_cleanup_stage_failure_does_not_bypass_other_stages_or_remove_a_live_workspace) ... ok
+test_directory_replacement_dangling_requests_and_foreign_case_cannot_look_like_no_input (test_native_ui_input.NativeUiInputControls.test_directory_replacement_dangling_requests_and_foreign_case_cannot_look_like_no_input) ... ok
+test_field_and_button_delivery_require_all_typed_native_witnesses (test_native_ui_input.NativeUiInputControls.test_field_and_button_delivery_require_all_typed_native_witnesses) ... ok
+test_foreign_app_launch_remote_endpoint_and_shared_credential_are_refused_before_configuration_mutation (test_native_ui_input.NativeUiInputControls.test_foreign_app_launch_remote_endpoint_and_shared_credential_are_refused_before_configuration_mutation) ... ok
+test_foreign_runner_can_never_be_stopped_or_uninstalled_even_with_the_expected_bundle_id (test_native_ui_input.NativeUiInputControls.test_foreign_runner_can_never_be_stopped_or_uninstalled_even_with_the_expected_bundle_id) ... ok
+test_independent_receipt_tampering_and_python_only_success_cannot_pass_native_admission (test_native_ui_input.NativeUiInputControls.test_independent_receipt_tampering_and_python_only_success_cannot_pass_native_admission) ... ok
+test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads (test_native_ui_input.NativeUiInputControls.test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads) ... 
+  test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads (test_native_ui_input.NativeUiInputControls.test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads) (size=2207) ... FAIL
+test_only_fixed_refusal_codes_are_published_and_refusals_can_never_verify_native_success (test_native_ui_input.NativeUiInputControls.test_only_fixed_refusal_codes_are_published_and_refusals_can_never_verify_native_success) ... ok
+test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation (test_native_ui_input.NativeUiInputControls.test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation) ... 
+  test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation (test_native_ui_input.NativeUiInputControls.test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation) (path='tmpk2bye9vc') ... ERROR
+test_private_log_diagnostics_exclude_the_credential_and_do_not_export_raw_log_or_paths (test_native_ui_input.NativeUiInputControls.test_private_log_diagnostics_exclude_the_credential_and_do_not_export_raw_log_or_paths) ... ok
+test_readiness_pending_mutation_stale_responses_and_once_only_finish_are_strict (test_native_ui_input.NativeUiInputControls.test_readiness_pending_mutation_stale_responses_and_once_only_finish_are_strict) ... ok
+test_real_loopback_http_auth_and_round_trip_use_only_this_owned_temporary_directory (test_native_ui_input.NativeUiInputControls.test_real_loopback_http_auth_and_round_trip_use_only_this_owned_temporary_directory) ... ok
+test_requests_admit_only_exact_bounded_operations_and_typed_next_sequence (test_native_ui_input.NativeUiInputControls.test_requests_admit_only_exact_bounded_operations_and_typed_next_sequence) ... ok
+test_two_xctestrun_formats_are_typed_single_targets_with_private_separate_configuration (test_native_ui_input.NativeUiInputControls.test_two_xctestrun_formats_are_typed_single_targets_with_private_separate_configuration) ... ok
+
+======================================================================
+ERROR: test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation (test_native_ui_input.NativeUiInputControls.test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation) (path='tmpk2bye9vc')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_native_ui_input.py", line 85, in test_ordinary_files_reject_empty_oversized_links_directories_fifo_and_read_mutation
+    with self.subTest(path=path.name), self.assertRaises(ValueError): native.read_ordinary(path)
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/native_ui_input.py", line 45, in read_ordinary
+    with os.fdopen(os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK), "rb") as stream:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen os>", line 1037, in fdopen
+IsADirectoryError: [Errno 21] Is a directory: 4
+
+======================================================================
+FAIL: test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads (test_native_ui_input.NativeUiInputControls.test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads) (size=2207)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_native_ui_input.py", line 102, in test_json_rejects_duplicate_nonfinite_overflow_nested_and_nonobject_payloads
+    with self.subTest(size=len(raw)), self.assertRaises(ValueError): native.decode(raw)
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.544s
+
+FAILED (failures=1, errors=1)

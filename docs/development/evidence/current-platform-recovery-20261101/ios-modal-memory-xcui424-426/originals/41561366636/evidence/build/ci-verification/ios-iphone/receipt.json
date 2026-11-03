@@ -1,0 +1,220 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/ios_modal_focused_compile.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent"
+  ],
+  "complete_suite_requested": false,
+  "errors": [
+    {
+      "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate",
+      "module": "calf-ui"
+    }
+  ],
+  "execution": {
+    "elapsed_seconds": 1242.58,
+    "exit_code": 1
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-modal-lifecycle-replacement",
+  "finished_at_utc": "2026-11-03T02:09:20.142961+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "125c465ddd1a2f6e0a360fa57abfa9a741cf72c7e86fdd85c3ac91cf94f5f386",
+  "inputs_before_sha256": "125c465ddd1a2f6e0a360fa57abfa9a741cf72c7e86fdd85c3ac91cf94f5f386",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "1b9b4918b6dad0954de16c8a80f09323446869b7e2c9cfffd7104115039d6fc4",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.r62cf1e974ece.td55a1681e6984972b3fd6955006cb3ce",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 3,
+        "failures": 2,
+        "not_applicable": 0,
+        "passed": 1,
+        "skipped": 0,
+        "tests": 3,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/d55a1681e6984972b3fd6955006cb3ce/receipt.json",
+      "receipt_sha256": "5ea697f887c9d7e0af35c4e10c7e33a09828aee0cdebea09f24c05978586a89a",
+      "required_native_cases_found": 3,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 3,
+      "failures": 2,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "disposition": "required-not-passed",
+          "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "disposition": "required-executed",
+          "name": "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "disposition": "required-not-passed",
+          "name": "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt",
+          "status": "failed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 1,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 3,
+          "failures": 2,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applicatio-5905UOTVPDR5K.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.xml",
+          "sha256": "85f7bd3ad88c746dcbdef2c5547220ccce5da684387a651cdb4d09668b0f0383",
+          "skipped": 0,
+          "tests": 3,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]",
+          "status": "failed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "name": "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "name": "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent[iosSimulatorArm64]",
+          "status": "failed"
+        }
+      ],
+      "tests": 3,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": false,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+      "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+      "name": "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+      "name": "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "3ec979da69ab359addd19fa5853f2780b62d814cfac790481eda40d74da205eb",
+  "schema_version": 1,
+  "scope": "Three new genuine UIKit library methods: public composition disposal during native hide/reopen/GC, hoisted state through two actual presenters and direct state replacement/stale detach, and repeated admitted show/hide disposal/GC. Retain original nine-modal and old sheet selections without replay; no native gestures, detent, physical-device, whole-issue or release certification.",
+  "source_revision": "62cf1e974ece66b0e03db2e9d8b47648d9847e0b",
+  "source_revision_after": "62cf1e974ece66b0e03db2e9d8b47648d9847e0b",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-03T01:48:37.527363+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 3,
+    "failures": 2,
+    "not_applicable": 0,
+    "passed": 1,
+    "skipped": 0,
+    "tests": 3,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -12,6 +12,7 @@ from pathlib import Path
 import stat
 
 import ios_modal_lifecycle_source_projection as lifecycle_history
+import ios_modal_xcui_source_projection as input_history
 
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-modal-ownership-source-inverse.json"
 SPEC_SHA256 = '541e0e1f5d08dc699a8a450361ef00780de2e5c92607b0a141c487fd1156c72f'
@@ -35,6 +36,8 @@ def _bindings():
 def source_before_modal_ownership(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact iOS modal ownership source identity and ordinary bytes are required")
+    if relative == "scripts/ci/ios_ui_application.py":
+        return input_history.source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -44,6 +47,8 @@ def source_before_modal_ownership(relative, payload):
     if observed == binding["before_sha256"]:
         return payload
     payload = lifecycle_history.source_before_modal_lifecycle(relative, payload)
+    if relative == "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt":
+        payload = input_history.source_before_modal_xcui(relative, payload)
     observed = hashlib.sha256(payload).hexdigest()
     if observed != binding["after_sha256"]:
         raise ValueError("Unreviewed iOS modal ownership source is not an admitted postimage")
@@ -71,9 +76,13 @@ def source_before_modal_ownership(relative, payload):
 def current_source_before_modal_ownership(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current iOS modal ownership source identity and ordinary bytes are required")
+    if relative == "scripts/ci/ios_ui_application.py":
+        return input_history.current_source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None:
         payload = lifecycle_history.current_source_before_modal_lifecycle(relative, payload)
+        if relative == "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt":
+            payload = input_history.current_source_before_modal_xcui(relative, payload)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current iOS modal ownership source")
     return source_before_modal_ownership(relative, payload)

@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared iOS memory cleanup compiled; real XCTest batch prepared — 2026-11-03
+
+[Original425/owning424–426](docs/development/evidence/current-platform-recovery-20261101/ios-modal-memory-xcui424-426/README.md)
+preserves41561366636/62cf1e97 FAILED3native/1pass2fail/XML1/Gradle1/1242.58s,
+72 passive checks/all1234 actual own-Git maps. Accept/exclude real presenter/state
+replacement1; both original captured-owner GC failures remain, exact retention
+chain/persistent growth unproven; two appearance warnings retained. #31 stays open.
+Observable content lease/terminal delegate release repair compiles unchanged
+original lifecycle3 sources0/40.01s and new XCUI4 sources0/67.02s,1245 held;
+ZERO Apple link/Swift/XCTest/native locally, one BetaInterop warning retained.
+NEWdriver first17/15pass1fail1error; onlyfailed2+NEW1 then3/3:18unique/20invocations.
+NEWsource6+affectedhistory2 pass8/8 once; six22-fragment inverse preserves oldpins;
+AWT helper unchanged. Real loopback/own-Python cleanup is tooling, not native input.
+Next freeze/push then failed-only memory2 and independent public XCTest iPhone7;
+iPad7 only after capacity frees. Original ninecase accepted host pairs never replay.
+#28/#30/#31/#125/#126 remain partial; no closure/comment,98closed/74open/172total,
+22implemented/41partial/96verified/five unresolved. SOLO/no agent use, serial-local/
+8GiB/max2 INCLUDING queued/development-only/read-only Actions/all/no mandatory SHA
+pinning. All publication/Pages/main/history/legal/security/consumer/API–ABI/readiness
+gates remain. No releases/packages/deployment; actual Xcode/input recovery pending.
+
 ## Both modal hosts accepted; shared task-request blocker repaired — 2026-11-03
 
 [Original418–422](docs/development/evidence/current-platform-recovery-20261101/ios-modal-originals418-422/README.md)

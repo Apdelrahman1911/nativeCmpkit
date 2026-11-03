@@ -749,6 +749,32 @@ UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_FOCUS] = {
     "scope": "Three new genuine UIKit library methods: public composition disposal during native hide/reopen/GC, hoisted state through two actual presenters and direct state replacement/stale detach, and repeated admitted show/hide disposal/GC. Retain original nine-modal and old sheet selections without replay; no native gestures, detent, physical-device, whole-issue or release certification.",
 }
 
+IOS_MODAL_LIFECYCLE_MEMORY_FOCUS = "ui-native-modal-lifecycle-memory-recovery"
+IOS_MODAL_LIFECYCLE_MEMORY_METHODS = (IOS_MODAL_LIFECYCLE_METHODS[0], IOS_MODAL_LIFECYCLE_METHODS[2])
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_MEMORY_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+                "methods": IOS_MODAL_LIFECYCLE_MEMORY_METHODS, "declared_methods": IOS_MODAL_LIFECYCLE_METHODS},),
+    "scope": "Only the two original failed captured-content lifecycle methods from run41561366636. Keep all three authored bodies and original native animation/weak-reference/GC assertions; the accepted real presenter/state replacement method and prior nine-modal selections stay unselected. Genuine library application/Worker and owned cleanup required; no physical/heap-profiler/consumer/API-ABI/security/release inference.",
+}
+
+IOS_MODAL_XCUI_FOCUS = "ui-native-modal-xcui-batch"
+IOS_MODAL_XCUI_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest"
+IOS_MODAL_XCUI_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt"
+IOS_MODAL_XCUI_METHODS = (
+    "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+    "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+    "insideAndOutsideNativeTouchesRespectDismissalProperties",
+    "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser",
+    "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+    "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies",
+    "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_XCUI_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_XCUI_CLASS, "source": IOS_MODAL_XCUI_SOURCE,
+                "methods": IOS_MODAL_XCUI_METHODS},),
+    "scope": "Seven missing shared alert/sheet interaction criteria with independent public XCTest input in the genuine library application. Fresh KGP XML, original Worker and owned app/input-runner cleanup are mandatory; no accepted nine-modal/lifecycle replay or physical/rotation/accessibility/release certification.",
+}
+
 IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
 UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
     "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,
@@ -2224,7 +2250,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus == IOS_MODAL_LIFECYCLE_FOCUS and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New modal lifecycle source must retain all enabled native declarations")
             if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
@@ -2239,6 +2265,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["explicit_test_focus"] = focus
         selected[0]["test_filter"] = ui_application_focus_filter(focus)
         selected[0]["required_testcases"] = ui_application_focus_identities(focus)
+        if focus == IOS_MODAL_XCUI_FOCUS:
+            import native_ui_input
+            if native_ui_input.NATIVE not in selected[0]["test_source_files"]:
+                raise ValueError("Native modal input requires its exact enabled zero-test Kotlin helper")
+            native_ui_input.validate_sources(root)
         if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS:
             observer = safe_path(root, IOS_SHARE_TERMINAL_OBSERVATION_SOURCE)
             if (IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in selected[0]["test_source_files"] or
@@ -3408,6 +3439,7 @@ def snapshot_inputs(root: Path) -> dict[str, str]:
         if path.is_file():
             inputs.add(path)
     for tree in ("gradle", "convention-plugins", "scripts/ci", "scripts/native", "kotlin-js-store",
+                 "tests/native-ui-input",
                  "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver", "tests/consumer/android-io-documents", "tests/consumer/android-permission-demo", "tests/consumer/android-storage-probe"):
         inputs.update(source_files(root, tree))
     for module in projects(root):
@@ -3990,8 +4022,10 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
-    if test_plan.get("explicit_test_focus") == IOS_MODAL_LIFECYCLE_FOCUS:
+    if test_plan.get("explicit_test_focus") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):
         command.extend(["--init-script", "scripts/ci/ios_modal_focused_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_xcui_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
                         "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
@@ -4349,6 +4383,13 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         if focused_ui:
             need(cases.keys() == required, "Focused application must execute exactly all selected methods")
         need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
+        if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
+            import native_ui_input
+            need(native_ui_input.validate_receipt(document.get("native_xctest_input"), root, IOS_MODAL_XCUI_METHODS,
+                    bundle_id=document["bundle_id"], device=context["simulator"]["udid"],
+                    native_pid=protocol.get("observed_launch_pid"),
+                    signed_hash=document["signed_application_executable_sha256"], plist_hash=document["application_plist_sha256"]),
+                 "Native modal interaction cases require independent owned public XCTest input and cleanup")
         if any((IOS_WEBVIEW_REQUEST_CLASS, method) in cases for method in IOS_WEBVIEW_REQUEST_METHODS):
             import ios_webview_request_fixture as wk_requests
             fixture_hash = sha256(safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE))

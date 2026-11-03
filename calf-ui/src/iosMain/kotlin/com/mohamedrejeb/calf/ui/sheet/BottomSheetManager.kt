@@ -4,6 +4,7 @@ package com.mohamedrejeb.calf.ui.sheet
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.SheetValue
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.window.ComposeUIViewController
@@ -25,13 +26,13 @@ internal class BottomSheetManager(
     private var isDark: Boolean,
     private var containerColor: Color,
     private var onDismiss: () -> Unit,
-    private val confirmValueChange: (SheetValue) -> Boolean,
+    private var confirmValueChange: (SheetValue) -> Boolean,
     private var onStateChanged: (SheetValue, SheetValue) -> Unit,
     content: @Composable () -> Unit,
     internal var layoutDirection: LayoutDirection = LayoutDirection.Ltr,
 ) {
     private val presentation = NativePresentationState()
-    private var content: (@Composable () -> Unit)? = content
+    private val contentState = mutableStateOf<(@Composable () -> Unit)?>(content)
     private var controller: UIViewController? = null
     private var currentValue = SheetValue.Hidden
     private var shownValue = SheetValue.Expanded
@@ -64,14 +65,17 @@ internal class BottomSheetManager(
 
     private fun requireMain() = check(NSThread.isMainThread) { "UIKit sheet operations must run on Main" }
 
-    private fun getController(): UIViewController = controller ?: ComposeUIViewController {
-        content?.invoke()
-    }.apply {
-        modalPresentationStyle = UIModalPresentationPageSheet
-        modalTransitionStyle = UIModalTransitionStyleCoverVertical
-        sheetPresentationController?.delegate = delegate
-        presentationController?.delegate = delegate
-    }.also { controller = it }
+    private fun getController(): UIViewController = controller ?: run {
+        // A Compose controller must not retain its owning manager through its
+        // immutable content closure. Observe a separately clearable content lease.
+        val lease = contentState
+        ComposeUIViewController { lease.value?.invoke() }.apply {
+            modalPresentationStyle = UIModalPresentationPageSheet
+            modalTransitionStyle = UIModalTransitionStyleCoverVertical
+            sheetPresentationController?.delegate = delegate
+            presentationController?.delegate = delegate
+        }.also { controller = it }
+    }
 
     fun applyTheme(dark: Boolean) {
         requireMain()
@@ -192,6 +196,11 @@ internal class BottomSheetManager(
         presentation.dispose()
         onDismiss = {}
         onStateChanged = { _, _ -> }
+        confirmValueChange = { false }
+        // Invalidate the live composition before its native window goes away.
+        // Dropping a plain closure only after dismissal cannot invalidate the
+        // rendered subtree, and native ARC roots can outlive Kotlin GC passes.
+        contentState.value = null
         waiters.keys.toList().forEach { it.cancel(CancellationException("Sheet owner disposed")) }
         waiters.clear()
         if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
@@ -204,8 +213,9 @@ internal class BottomSheetManager(
         if (!presentation.disposed || presentation.phase != NativePresentationState.Phase.Hidden) return
         controller?.presentationController?.delegate = null
         controller?.sheetPresentationController?.delegate = null
+        delegate.releaseCallbacks()
         controller = null
-        content = null
+        contentState.value = null
     }
 }
 
@@ -218,10 +228,18 @@ private fun SheetValue.detentIdentifier(): String? = when (this) {
 /** Retained delegate; the historical two-argument constructor remains available. */
 @OptIn(ExperimentalMaterial3Api::class)
 class BottomSheetControllerDelegate(
-    private val onDismiss: () -> Unit,
-    private val confirmValueChange: (SheetValue) -> Boolean,
+    private var onDismiss: () -> Unit,
+    private var confirmValueChange: (SheetValue) -> Boolean,
 ) : NSObject(), UISheetPresentationControllerDelegateProtocol {
     internal var onDetentChanged: (SheetValue) -> Unit = {}
+
+    /** Break retained Objective-C block/Kotlin owner edges after terminal cleanup. */
+    internal fun releaseCallbacks() {
+        check(NSThread.isMainThread)
+        onDismiss = {}
+        confirmValueChange = { false }
+        onDetentChanged = {}
+    }
 
     override fun presentationControllerShouldDismiss(presentationController: UIPresentationController): Boolean =
         confirmValueChange(SheetValue.Hidden)

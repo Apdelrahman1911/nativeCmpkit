@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Current shared iOS memory/input preparation — 2026-11-03
+
+[Batch424–426](evidence/current-platform-recovery-20261101/ios-modal-memory-xcui424-426/README.md)
+retains lifecycle3 as FAILED1pass/2fail, accepts only real presenter/state replacement,
+and repairs observable content/delegate ownership. Both focused KLIB compilers pass,
+not Apple/XCTest execution. Next failed-only memory2 plus seven genuine XCUI iPhone
+interactions; iPad7 after capacity frees. Related #28/#30/#31/#125/#126 stay open;
+98closed/74open. SOLO, important tests once, immediate complete-subset closures, all
+publishing/security gates unchanged.
+
 ## Work by related-issue patches
 
 Current [iOS modal batch416](evidence/current-platform-recovery-20261101/ios-modal-ownership-batch416/README.md)

@@ -1112,6 +1112,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     appearance_driver = None
     image_profile_driver = None
     request_fixture = None
+    native_input_driver = None
     request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)
     native_environment = None
     try:
@@ -1187,6 +1188,11 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             phase = "prepare-owned-localhost-wk-request-fixture"
             request_fixture = wk_requests.RequestFixture(root, bundle_id, signed_hash, plist_hash)
             native_environment = request_fixture.prepare()
+        if host["module"] == "calf-ui" and focus == lt.IOS_MODAL_XCUI_FOCUS:
+            import native_ui_input
+            phase = "prepare-independent-owned-xctest-input"
+            native_input_driver = native_ui_input.InputDriver(root, device, bundle_id, token, execute_control, signed_hash, plist_hash)
+            native_environment = native_input_driver.prepare()
         if host["module"] == "calf-ui" and focus in (None, lt.IOS_IMAGE_MEMORY_FOCUS, *lt.IOS_IMAGE_DARWIN_FOCUSES):
             import apple_image_profile
             phase = "prepare-owned-image-memory-profile"
@@ -1212,6 +1218,10 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             ["/usr/bin/xcrun", "simctl", "launch", "--console", "--terminate-running-process", device, bundle_id, *arguments],
             protocol, timeout=application_timeout_seconds(focus), **provider_c3_options,
             **({"environment": native_environment} if native_environment is not None else {}))
+        if native_input_driver is not None:
+            phase = "finish-independent-owned-xctest-input"
+            native_input_driver.receipt["native_launch_pid"] = protocol.observed_launch_pid
+            native_input_driver.finish()
         if appearance_driver is not None:
             phase = "restore-owned-simulator-system-appearance"
             appearance_driver.restore()
@@ -1230,6 +1240,17 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["error"] = {"phase": phase, "type": type(error).__name__}
         # No arbitrary exception/app/environment transcript is archived.
     finally:
+        if native_input_driver is not None:
+            try:
+                native_input_driver.close()
+                receipt["native_xctest_input"] = native_input_driver.receipt
+                if not native_input_driver.receipt.get("verified"):
+                    receipt["transport_passed"] = False
+                    receipt.setdefault("error", {"phase": "independent-owned-xctest-input", "type": "EvidenceError"})
+            except Exception as error:
+                receipt["native_xctest_input"] = {**native_input_driver.receipt, "cleanup_error_type": type(error).__name__}
+                receipt["transport_passed"] = False
+                receipt.setdefault("error", {"phase": "independent-owned-xctest-input-cleanup", "type": type(error).__name__})
         if request_fixture is not None:
             try:
                 request_fixture.close()

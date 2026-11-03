@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Shared iPhone/iPad input readiness repair — 2026-11-03
+
+[463–464](evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)
+reviews both original interactive hosts **FAILED:7 native failures/0 passes each**,
+with complete Worker/cleanup but first XCTest foreground refusal and later input
+timeouts. Exact initial state/cause was not observed. Apple's asynchronous-state
+contract motivates one bounded public foreground wait; fixed failure-only scalars
+preserve unknown outcomes without activation/relaunch or a gate waiver.
+**14 unique important controls qualify**,1,270 inputs hold; every Kotlin/compiler/
+workflow/production/API/dependency byte is unchanged, so applicable compiler
+evidence is reused without rebuild. ZERO new local native executions. Next only
+the missing seven per iPhone/iPad at a new immutable development freeze, maximum
+two INCLUDINGqueued. #28/#30/#125/#126 remain open; counts/ledger unchanged and
+no publication. Both originals were acquired once and reservations are freed.
+
 ## Grouped native five verified; sheet issue closed directly — 2026-11-03
 
 [459–460](evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)

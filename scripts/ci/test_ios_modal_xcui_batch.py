@@ -92,7 +92,7 @@ class IosModalXcuiBatchControls(unittest.TestCase):
 
     def test_public_input_has_no_launch_private_activation_callback_fallback_or_sample_substitution(self):
         swift = (ROOT / input_driver.SWIFT).read_text()
-        for token in ("XCUIApplication(bundleIdentifier: bundle)", "application.state == .runningForeground", "field.typeText(text)",
+        for token in ("XCUIApplication(bundleIdentifier: bundle)", "finalState == .runningForeground", "field.typeText(text)",
                       "button.tap()", "thenDragTo: to", "query.count == 1", "URLSessionConfiguration.ephemeral",
                       "session?.invalidateAndCancel()", 'request.setValue("Bearer " + token', "token != sessionToken"):
             self.assertIn(token, swift)

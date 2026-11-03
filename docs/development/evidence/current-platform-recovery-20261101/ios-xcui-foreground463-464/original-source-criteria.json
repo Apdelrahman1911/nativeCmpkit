@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "source_revision": "b73a1078777f37a2bff547073aafef2e4cb58c74",
+  "source_input_count": 1267,
+  "source_digest": "d2b060d1407b64739f15123e8334e5d4fd02e3e501f2d869bf90d7397461bed2",
+  "reviewed_utc": "2026-11-03T06:17:30.203403+00:00",
+  "scope": "Implementation-level source/original-criteria preparation only; all genuine input/native/runtime/cleanup outcomes are still pending.",
+  "original_criteria": {
+    "28": {
+      "title": "[High][UI-012] Presented iOS alerts update their text but retain original action and text-field callbacks",
+      "original_body_sha256": "d472e3ef2e8df0fb5743bc87b1419638357cba960e6229ca7c3da662ea2dd945",
+      "original_criteria": "- Keep alert open, swap title/data/callback fromA toB, then confirm; onlyB callback executes.\n- Swap text-field callback without replacing controller, reorder actions safely, change enabled flag.\n- Confirm/cancel callback cardinality and full modal lifecycle tests.",
+      "current_verdict": "source-reviewed; terminal native originals pending",
+      "criterion_source_mapping": {
+        "C1": "New genuine XCTest liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors must pass with same native controller/field and B-only handlers.",
+        "C2": "Same-field keyboard plus reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce must qualify actual native input and structurally rebuilt action ordering.",
+        "C3": "Genuine confirm/cancel/remove/reopen, animated public disposal and accepted queued-modal cardinality. No direct manager action may substitute for touch."
+      },
+      "current_source_mapping": {
+        "C1": {
+          "methods": [
+            "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors"
+          ],
+          "contract": "Native controller and field identity retained after A-to-B title/message, enabled and callback update; genuine XCTest typeText then Confirm delivers only B. Old text callback remains unused, native action count once, cleanup without user-dismiss callback."
+        },
+        "C2": {
+          "methods": [
+            "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+          ],
+          "contract": "Same-field callback replacement uses actual keyboard input, enabled false-to-true is asserted, action reorder causes safe native-controller replacement with exact Cancel/Save ordering and B-only Save callback."
+        },
+        "C3": {
+          "methods": [
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Genuine confirm AND cancel with caller removal, native detach and immediate reopen; removal during actual presenting AND dismissing phases, retired callback silence and genuine reopened confirmation. Reuse accepted queued-alert/rebuild cardinality separately; no manager activation substitute."
+        }
+      }
+    },
+    "30": {
+      "title": "[High][UI-014] Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks",
+      "original_body_sha256": "13720199007e1f0e7daab949b8c84a9e3e6e1730c9f2010d65c61ba38eebfd32",
+      "original_criteria": "- Remove composition during presentation and during dismissal; immediately reopen.\n- Confirm action followed by caller removal invokes each semantic callback at most once.\n- Parent controller replacement, inside text-field taps, outside taps and dismissOnClickOutside=false.",
+      "current_verdict": "source-reviewed; terminal native originals pending",
+      "criterion_source_mapping": {
+        "C1": "New animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser includes removal during both actual animations and public reopen.",
+        "C2": "Genuine confirm/cancel\u2192caller-removal callback cardinality and immediate public reopen.",
+        "C3": "Actual replacement host identity and insideAndOutsideNativeTouchesRespectDismissalProperties; both outside=false and enabled=true delivered inputs required."
+      },
+      "current_source_mapping": {
+        "C1": {
+          "methods": [
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Both actual native animation phases are explicitly observed before composition removal; detached controller, public immediate reopen and exactly one current confirmation/no disposal dismissal."
+        },
+        "C2": {
+          "methods": [
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+          ],
+          "contract": "Confirm/cancel loops set visible=false in actual semantic callback, observe native detach, reopen and then caller disposal without duplicate callbacks."
+        },
+        "C3": {
+          "methods": [
+            "insideAndOutsideNativeTouchesRespectDismissalProperties",
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Fresh native parent differs from retired host; independent public XCTest inside field tap/type, outside tap while disabled, then current enabled outside dismissal exactly once. No direct native dismiss or synthetic activation in body."
+        }
+      }
+    },
+    "125": {
+      "title": "[Medium][UI-016] iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState",
+      "original_body_sha256": "c570ac1e85cc51777f02f9abb8125775e95bcd28593d2b0174b8dd20dcdb6a60",
+      "original_criteria": "- Veto Hidden/Expanded independently for show/hide/drag/outside dismissal.\n- skipHiddenState=true with permitted initial state; confirm no forbidden transition.\n- Dismissal properties and disposal cleanup policy on iPhone/iPad.",
+      "current_verdict": "source-reviewed; terminal native originals pending",
+      "criterion_source_mapping": {
+        "C1": "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies must qualify Expanded/Hidden programmatic and drag/outside veto paths independently. UIKit detent veto is post-change restoration, not pre-drag veto.",
+        "C2": "Same real native method uses skipPartial+skipHidden, forbidden public hide refusal and forced disposal without user callbacks.",
+        "C3": "Only after iPhone AND iPad current actual input/cleanup qualify; mapping is outside/interactive dismissal, not Android back/threshold emulation."
+      },
+      "current_source_mapping": {
+        "C1": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "Expanded detent veto restores previous selected Medium and state; Hidden programmatic/drag/outside vetoes and disabled outside are independently counted before allowed counterparts. Third host independently vetoes and permits programmatic initial Expanded show and Hidden hide."
+        },
+        "C2": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "skipPartial+skipHidden initial Expanded, exact large-only detents, actual drag cannot hide, public hide refuses with IllegalStateException, forced composition cleanup bypasses veto without user dismissal."
+        },
+        "C3": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "required_hosts": [
+            "iphone",
+            "ipad"
+          ],
+          "contract": "Both current real-input/owned cleanup originals required; excludes Android back or thresholds. Expanded drag policy is documented POST-change restoration, not pre-drag native veto."
+        }
+      }
+    },
+    "126": {
+      "title": "[Medium][UI-017] iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order",
+      "original_body_sha256": "d0fa3c66c80ee110056a1e6facf9b51c259e51387b92319c6906997791cc9d2f",
+      "original_criteria": "- Show with and without partial detent; drag medium-to-large and back while observing state.\n- Interactive dismissal without removing composition must set Hidden.\n- Save/restore all supported SheetValue values and iPad adaptation.",
+      "current_verdict": "source-reviewed; terminal native originals pending",
+      "criterion_source_mapping": {
+        "C1": "nativeDetentDragsAndInteractiveDismissalTrackAllValues must qualify actual medium\u2192large\u2192medium drags; skip-partial actual large-only native detents must pass.",
+        "C2": "Interactive Hidden while composition retains attached manager; callback once and detached native view.",
+        "C3": "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent must save/restore all values; iPad run must observe actual regular horizontal trait and native bounded geometry."
+      },
+      "current_source_mapping": {
+        "C1": {
+          "methods": [
+            "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "Exact Medium-before-Large native detents, actual Medium-to-Large-to-Medium drags observing both current/target values, plus actual large-only skip-partial host."
+        },
+        "C2": {
+          "methods": [
+            "nativeDetentDragsAndInteractiveDismissalTrackAllValues"
+          ],
+          "contract": "Interactive drag to Hidden while composition stays live and manager stays attached; native presentation/view detach and dismissal callback exactly once."
+        },
+        "C3": {
+          "methods": [
+            "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent"
+          ],
+          "required_hosts": [
+            "iphone",
+            "ipad"
+          ],
+          "contract": "Save actual PartiallyExpanded/Expanded/Hidden values after real drags, restore each state without native owner, attach public sheet consistently; iPad explicitly observes regular horizontal trait and nonzero geometry bounded by owned window."
+        }
+      }
+    }
+  },
+  "function_locations": {
+    "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "41-90"
+    },
+    "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "91-148"
+    },
+    "insideAndOutsideNativeTouchesRespectDismissalProperties": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "149-177"
+    },
+    "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "178-226"
+    },
+    "nativeDetentDragsAndInteractiveDismissalTrackAllValues": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "227-248"
+    },
+    "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "249-357"
+    },
+    "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent": {
+      "path": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+      "lines": "358-400"
+    }
+  },
+  "source_bindings": {
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt": "e468733ea7652fd32a2e9224e3ac3ddc18839cdb29c17e817ab9a25dd0bfd0f5",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt": "0017fc30af70c1dbae92b25009bc8b611dc259a096929b0aa5e88818903d0aba",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeXcuiInput.kt": "315c2f3fab43219b9b1c14997e248707e822f6e79c3d107d7251afbdcc95a28a",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "95c3dea0a73ec2a5bd306e81f7fb001d10552cf302681b936165c3ebbf16b6eb",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt": "6400ce0b2b2ec34ba020a35e9d429a0e7452e266499e15e580f8ba7ae0932325",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt": "9b50497cbfe5b91ba251762d136d927a4ea85aeed809619c8f711550dab900ad",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt": "27f25327ecb0714de1d5533651482be8160c42c22e7a875277af833ab9694849",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt": "2ac53a191d1aa8b62c0c82cb5e629092ca207ab477df8608010aa2758a1c589f",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/AdaptiveBottomSheet.ios.kt": "ba96935b8113051567bfd5fb778551440cc6b88d8ed2e9fd6415f84d1f51406d",
+    "scripts/ci/native_ui_input.py": "7da8c5a573db7730d364b0ced92f649e6bf5d3ec0f84a3726e5855f2d240e77c",
+    "tests/native-ui-input/NativeCmpKitInputTests.swift": "a8a09e4f1b96a3604f0e083fd4f3e46e3033a9b966d5c1cc547029fb780ff954",
+    "tests/native-ui-input/NativeCmpKitInput.xcodeproj/project.pbxproj": "4aeb239712016f0e4ebcdcb8f7fc5a2ef0424d8b0f8cbab544511b637ec095a0",
+    "tests/native-ui-input/NativeCmpKitInput.xcodeproj/xcshareddata/xcschemes/NativeCmpKitInput.xcscheme": "a7b3bb8e07a3302107c75a787c6c78c82be4b1b014a980c1bd38aeaaa2e1ddbf",
+    "scripts/ci/ios_modal_xcui_compile.init.gradle.kts": "5f37f0bb48bef0f163f1ba6ee6ceaf1ec5d89cad3aa68368eced05fa499b398a"
+  },
+  "selected_methods": [
+    "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+    "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+    "insideAndOutsideNativeTouchesRespectDismissalProperties",
+    "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser",
+    "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+    "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies",
+    "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent"
+  ],
+  "pending_runs": [
+    41587733015,
+    41587765229
+  ],
+  "required_complete_native_worker_phases": [
+    "runner-returned",
+    "runner-result-consumed",
+    "termination-requested",
+    "termination-result-consumed",
+    "main-leases-releasing",
+    "main-leases-released"
+  ],
+  "mandatory_completion_separate": true,
+  "required_XCTest_input_receipt": true,
+  "expected_original_public_input_operations": 23,
+  "accepted_native_replays": 0,
+  "native_executions_during_review": 0,
+  "issue_closures": 0,
+  "release_allowed": false
+}

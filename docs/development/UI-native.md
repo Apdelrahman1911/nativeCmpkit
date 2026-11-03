@@ -1,5 +1,21 @@
 # UI native/date/time/modal development — UI-001…UI-026
 
+## Related alert/sheet interaction hosts: shared readiness recovery — 2026-11-03
+
+[463–464](evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)
+preserves iPhone41587733015 and iPad41587765229 **FAILED7/0pass each**. Full Worker
+completion and cleanup pass separately; the first public-input request is refused
+at XCTest's foreground guard, and subsequent requests time out. Exact original
+state/cause is unknown, not evidence against alert/sheet production callbacks.
+The independent runner now waits at most5s for public observed foreground and
+records bounded failure-only state scalars; it never activates/relaunches an app
+or substitutes callbacks. Important14 controls qualify,1,270 inputs hold, exact
+Kotlin/production/compiler bytes unchanged and reused. ZERO new native locally.
+The seven missing interaction methods remain required on both hosts for
+#28/#30/#125/#126; no closure or status promotion. #31 remains verified/closed.
+Review the new immutable batch's actual input, full protocol and cleanup before
+direct sibling closures. SOLO/max2INCLUDINGqueued and all publishing gates remain.
+
 ## Original sheet criteria verified and immediately closed — 2026-11-03
 
 [459–460](evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)

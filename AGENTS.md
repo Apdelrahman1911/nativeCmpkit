@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared XCTest foreground recovery qualified; both originals failed — 2026-11-03
+
+[463–464](docs/development/evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)
+preserves41587733015/iPhone7 and41587765229/iPad7 atb73a1078/1267: eachFAILED/
+7nativefail/0pass/onefreshXML; Gradle1/1568.14s+1863.82s. FullWorker/sixphases/
+appcleanup4/inputcleanup4 independently hold, not input/native acceptance. First
+sequence1 getsforeignOrInactiveApplication; sixlater inputs time out. Exact state/
+causeunknown; originals acquired/reviewed ONCE, both reservations freed. Public
+state is asynchronous: bounded5s observed foreground wait and failure-only raw
+state/wait scalars repair one shared source readiness gap, no activate/launch/
+private/callback fallback or gate relaxation.14unique important controls qualify
+over18invocations; firstred/threehistoryerrors preserved, onlyfailed3 recovered.
+Exact2path/3fragment inverse retains oldWorker6/23/pins/current admission.1270held;
+all Kotlin/fourcompiler/workflow/dependency/API/native predicates unchanged; prior
+exact compilers reused, ZERO new localSwift/Kotlin/native. Next freeze/push and
+missing7 per actual iPhone/iPad ONCE within max2INCLUDINGqueued; old dispatches
+never replayed. #28/#30/#125/#126 open; #31/#144/#171 alreadyclosed.99closed/73open/
+172 and22implemented40partial97verifiedfive unresolved unchanged/no newclosure.
+SOLO/serial-local/8GiB/development/read-onlyActions/all/no mandatorySHA; every
+publishing/Pages/main/history/legal/security/consumer/API–ABI/readiness gate stays.
+No publication. Earlier pending entries below retain their historical dates.
+
 ## Grouped native five accepted; UI-018 verified and closed — 2026-11-03
 
 [459–460](docs/development/evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)

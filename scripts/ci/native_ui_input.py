@@ -186,6 +186,26 @@ def validate_sources(root: Path) -> bool:
     return True
 
 
+def foreground_refusal_observations(raw: bytes, auth: str, session_token: str) -> list[dict]:
+    """Failure-only public state scalars, never a foreground/input acceptance."""
+    if (type(raw) is not bytes or len(raw) > 16 * 1024**2 or
+            any(type(value) is not str or not TOKEN.fullmatch(value) for value in (auth, session_token))):
+        raise ValueError("Bounded held XCTest log and exact private session required")
+    result = []
+    for line in raw.decode("utf-8", errors="replace").splitlines():
+        if len(result) >= 24:
+            break
+        if auth in line or session_token in line:
+            continue
+        match = re.fullmatch(
+            r"NATIVECMPKIT_XCTEST_FOREGROUND_REFUSAL sequence=([1-9][0-9]?) "
+            r"initial=([0-4]) final=([0-4]) waited=(true|false) observed=(true|false)", line)
+        if match and int(match[1]) <= MAX_OPERATIONS:
+            result.append(dict(sequence=int(match[1]), initial_state=int(match[2]), final_state=int(match[3]),
+                               wait_attempted=match[4] == "true", wait_reported_foreground=match[5] == "true"))
+    return result
+
+
 class InputDriver:
     def __init__(self, root: Path, device: str, bundle_id: str, token: str, execute,
                  signed_hash: str, plist_hash: str):
@@ -522,6 +542,7 @@ class InputDriver:
         self.log.close()
         raw = read_ordinary(self.scratch / "xcodebuild.log", 16 * 1024**2)
         self.receipt["private_log_sha256"] = hashlib.sha256(raw).hexdigest()
+        self.receipt["foreground_refusals"] = foreground_refusal_observations(raw, self.auth, self.token)
         # Fixed source-authored startup phases and typed OS error codes only.
         # Never export arbitrary XCTest/URL/exception/configuration text.
         startup = []

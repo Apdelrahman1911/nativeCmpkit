@@ -81,7 +81,18 @@ final class NativeCmpKitInputTests: XCTestCase {
     }
 
     private func deliver(_ request: [String: Any]) throws -> [String: Any] {
-        guard application.state == .runningForeground else { throw InputError.foreignOrInactiveApplication }
+        // The independent runner is ready before simctl launches the owned app.
+        // Public XCTest discovery may lag that launch. Wait for observed state,
+        // never activate, launch or relaunch an unknown/background application.
+        let initialState = application.state
+        let waited = initialState != .runningForeground
+        let observedForeground = !waited || application.wait(for: .runningForeground, timeout: 5)
+        let finalState = application.state
+        guard observedForeground && finalState == .runningForeground else {
+            let sequence = try number(request["sequence"])
+            print("NATIVECMPKIT_XCTEST_FOREGROUND_REFUSAL sequence=\(sequence) initial=\(initialState.rawValue) final=\(finalState.rawValue) waited=\(waited) observed=\(observedForeground)")
+            throw InputError.foreignOrInactiveApplication
+        }
         let operation = try required(request["operation"] as? String)
         switch operation {
         case "alert-button", "alert-field":

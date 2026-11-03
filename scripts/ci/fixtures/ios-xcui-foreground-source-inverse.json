@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "scope": "Exact additive public XCTest foreground wait/failure-only state observations. Offline source history only; no native activation, old pin update or acceptance waiver.",
+  "bindings": {
+    "scripts/ci/native_ui_input.py": {
+      "before_sha256": "7da8c5a573db7730d364b0ced92f649e6bf5d3ec0f84a3726e5855f2d240e77c",
+      "after_sha256": "6055ea5509d5949c5c6d0880ea928d8d2091b8dc614e69c61fd47f7f724d9426",
+      "fragments": [
+        {
+          "id": "foreground-readiness-01",
+          "before": "        if relative == NATIVE and re.search(rb\"@(Test|Ignore|Disabled|IgnoredTest)\\b\", raw):\n            raise ValueError(\"Native input helper must remain an enabled zero-test source\")\n    return True\n\n\nclass InputDriver:\n",
+          "after": "        if relative == NATIVE and re.search(rb\"@(Test|Ignore|Disabled|IgnoredTest)\\b\", raw):\n            raise ValueError(\"Native input helper must remain an enabled zero-test source\")\n    return True\n\n\ndef foreground_refusal_observations(raw: bytes, auth: str, session_token: str) -> list[dict]:\n    \"\"\"Failure-only public state scalars, never a foreground/input acceptance.\"\"\"\n    if (type(raw) is not bytes or len(raw) > 16 * 1024**2 or\n            any(type(value) is not str or not TOKEN.fullmatch(value) for value in (auth, session_token))):\n        raise ValueError(\"Bounded held XCTest log and exact private session required\")\n    result = []\n    for line in raw.decode(\"utf-8\", errors=\"replace\").splitlines():\n        if len(result) >= 24:\n            break\n        if auth in line or session_token in line:\n            continue\n        match = re.fullmatch(\n            r\"NATIVECMPKIT_XCTEST_FOREGROUND_REFUSAL sequence=([1-9][0-9]?) \"\n            r\"initial=([0-4]) final=([0-4]) waited=(true|false) observed=(true|false)\", line)\n        if match and int(match[1]) <= MAX_OPERATIONS:\n            result.append(dict(sequence=int(match[1]), initial_state=int(match[2]), final_state=int(match[3]),\n                               wait_attempted=match[4] == \"true\", wait_reported_foreground=match[5] == \"true\"))\n    return result\n\n\nclass InputDriver:\n",
+          "before_fragment_sha256": "4bd4892a8735769952f8b529de8fc6d78f9dae21b29af41cedcb83754a1b5bc5",
+          "after_fragment_sha256": "25ad51e91c970a2fa8f77846e39718c6fe0ba4a007d2c7748aacd33d72e26415"
+        },
+        {
+          "id": "foreground-readiness-02",
+          "before": "        self.log.close()\n        raw = read_ordinary(self.scratch / \"xcodebuild.log\", 16 * 1024**2)\n        self.receipt[\"private_log_sha256\"] = hashlib.sha256(raw).hexdigest()\n        # Fixed source-authored startup phases and typed OS error codes only.\n        # Never export arbitrary XCTest/URL/exception/configuration text.\n        startup = []\n",
+          "after": "        self.log.close()\n        raw = read_ordinary(self.scratch / \"xcodebuild.log\", 16 * 1024**2)\n        self.receipt[\"private_log_sha256\"] = hashlib.sha256(raw).hexdigest()\n        self.receipt[\"foreground_refusals\"] = foreground_refusal_observations(raw, self.auth, self.token)\n        # Fixed source-authored startup phases and typed OS error codes only.\n        # Never export arbitrary XCTest/URL/exception/configuration text.\n        startup = []\n",
+          "before_fragment_sha256": "048c02448f8a695bd8da64397629b53a3e8f2d74307d87e9d1bfb966e59b2752",
+          "after_fragment_sha256": "fedbaf86a7a883a9d62e589cf47d123a073807613622dddc65c61e3e52b91513"
+        }
+      ]
+    },
+    "tests/native-ui-input/NativeCmpKitInputTests.swift": {
+      "before_sha256": "a8a09e4f1b96a3604f0e083fd4f3e46e3033a9b966d5c1cc547029fb780ff954",
+      "after_sha256": "076d72c77eb35b4439fba80c11ebefce1fe3c17bcea3c64312ca4a5900ce5f27",
+      "fragments": [
+        {
+          "id": "foreground-readiness-01",
+          "before": "    }\n\n    private func deliver(_ request: [String: Any]) throws -> [String: Any] {\n        guard application.state == .runningForeground else { throw InputError.foreignOrInactiveApplication }\n        let operation = try required(request[\"operation\"] as? String)\n        switch operation {\n        case \"alert-button\", \"alert-field\":\n",
+          "after": "    }\n\n    private func deliver(_ request: [String: Any]) throws -> [String: Any] {\n        // The independent runner is ready before simctl launches the owned app.\n        // Public XCTest discovery may lag that launch. Wait for observed state,\n        // never activate, launch or relaunch an unknown/background application.\n        let initialState = application.state\n        let waited = initialState != .runningForeground\n        let observedForeground = !waited || application.wait(for: .runningForeground, timeout: 5)\n        let finalState = application.state\n        guard observedForeground && finalState == .runningForeground else {\n            let sequence = try number(request[\"sequence\"])\n            print(\"NATIVECMPKIT_XCTEST_FOREGROUND_REFUSAL sequence=\\(sequence) initial=\\(initialState.rawValue) final=\\(finalState.rawValue) waited=\\(waited) observed=\\(observedForeground)\")\n            throw InputError.foreignOrInactiveApplication\n        }\n        let operation = try required(request[\"operation\"] as? String)\n        switch operation {\n        case \"alert-button\", \"alert-field\":\n",
+          "before_fragment_sha256": "a0abddd00384ba533a6ac0b766a6364a7e6137376544236f383d8b9d790d3ce5",
+          "after_fragment_sha256": "0f39ca1774744f15c02ad955db3b60c6fcb1fba7a3a464d9fd2ef78d718fa6b7"
+        }
+      ]
+    }
+  }
+}

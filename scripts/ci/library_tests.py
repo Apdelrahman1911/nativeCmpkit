@@ -792,6 +792,19 @@ UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_XCUI_FOCUS] = {
     "scope": "Seven missing shared alert/sheet interaction criteria with independent public XCTest input in the genuine library application. Fresh KGP XML, original Worker and owned app/input-runner cleanup are mandatory; no accepted nine-modal/lifecycle replay or physical/rotation/accessibility/release certification.",
 }
 
+IOS_SHEET_REPEAT_FOCUS = "ui-native-sheet-cancellation-repeat"
+IOS_SHEET_REPEAT_CLASS = "com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest"
+IOS_SHEET_REPEAT_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetCancellationRepeatTest.kt"
+IOS_SHEET_REPEAT_METHODS = (
+    "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+    "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SHEET_REPEAT_FOCUS] = {
+    "groups": ({"classname": IOS_SHEET_REPEAT_CLASS, "source": IOS_SHEET_REPEAT_SOURCE,
+                "methods": IOS_SHEET_REPEAT_METHODS},),
+    "scope": "Two missing UI-018 same-operation cancellation regressions only. Cancel the native show/hide waiter, observe its real animation completion, reset visibility, then require the SAME repeated operation to remain suspended until its own native completion. Also verify stable-state no-op timing, native controller identity and owned cleanup. Prior opposite-operation, ownership, memory and XCTest selections are excluded; no touch/heap-profiler/physical/consumer/API-ABI/security/release inference.",
+}
+
 IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
 UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
     "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,
@@ -2267,7 +2280,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New modal lifecycle source must retain all enabled native declarations")
             if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
@@ -4045,6 +4058,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.extend(["--init-script", "scripts/ci/ios_modal_worker_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
         command.extend(["--init-script", "scripts/ci/ios_modal_xcui_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_SHEET_REPEAT_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_sheet_repeat_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
                         "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])

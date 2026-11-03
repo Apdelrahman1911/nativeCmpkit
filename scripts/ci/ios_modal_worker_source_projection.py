@@ -12,6 +12,7 @@ from pathlib import Path
 import stat
 
 import ios_modal_fixture_reader_projection as fixture_history
+import ios_sheet_repeat_source_projection as repeat_history
 
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-modal-worker-source-inverse.json"
 SPEC_SHA256 = '8a1f2c4b0f418b9aab96f9d3c8f615acff5efce31fe457886204559fd2448d48'
@@ -78,6 +79,7 @@ def source_before_modal_worker(relative, payload):
     # project repair. The current reader below never uses this shortcut.
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["before_sha256"]:
         return payload
+    payload = repeat_history.source_before_sheet_repeat(relative, payload)
     payload = source_before_xctest_project_scope(relative, payload)
     payload = fixture_history.source_before_worker_fixture_reader(relative, payload)
     if binding is None:
@@ -113,6 +115,7 @@ def source_before_modal_worker(relative, payload):
 def current_source_before_modal_worker(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current iOS modal Worker/startup recovery source identity and ordinary bytes are required")
+    payload = repeat_history.current_source_before_sheet_repeat(relative, payload)
     payload = source_before_xctest_project_scope(relative, payload, current=True)
     payload = fixture_history.current_source_before_worker_fixture_reader(relative, payload)
     binding = _bindings().get(relative)

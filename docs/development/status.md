@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `73cd9b8be08dab37a7efd6c849dd4808cb86ffc02e534ed462ffd923635b88ce`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `b4f80ed0c41cb1820c9f95a0fc37581c6c2950c6eab1e85087737bcc0a222869`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -94,7 +94,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | verified | PERM-018, PERM-020 | 2 / 0 |
 | 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 3 |
 | 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 3 |
-| 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 3 |
+| 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 4 |
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
@@ -1208,6 +1208,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - Heap/weak-reference leak tooling, off-main callers, repeated stress and collisions with unrelated native presenters.
 - The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 - 2026-11-03 original41561366636: rerun only both failed original captured-content/GC disposal methods after the owning repair; reuse accepted real presenter/state replacement method, not all three or old nine-case host runs.
+- 2026-11-03 batch447 corrects the C2 coverage gap: accepted cancelled-show→hide/cancelled-hide→show do not prove repeating the SAME operation. Two new same-operation native regressions compile but remain unexecuted; memory41574895107 and startup41575956373 retain their distinct original source populations.
 
 **Compatibility / scope:** Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal.
 
@@ -3598,7 +3599,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `bad33d5bc419970c380f4e55d9aa4f7f75ea719eed5892a3e12f8d440b6609ae` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `3754c649aaef0e82a06741c5ecb13c3073dcb4e498e1155d65668a3d1c154f66` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 

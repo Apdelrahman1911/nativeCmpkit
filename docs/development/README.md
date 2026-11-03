@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Same-operation sheet cancellation tests prepared — 2026-11-03
+
+[447](evidence/current-platform-recovery-20261101/ios-sheet-repeat447/README.md)
+adds two missing #31 C2 regressions: repeat the SAME cancelled operation after
+native completion and a full reset, not merely show→hide or hide→show. Five
+unique source controls qualify over first4pass/1fail and failed-only1pass; narrow
+test KLIB **exit0/39.01s**,1,262 held inputs, production UP-TO-DATE. ZERO native;
+repeat2 still needs execution. Existing memory/startup reservations retain their
+own5e0/1,256 andedc8/1,257 inputs. No issue closure, accepted replay or publication;
+solo/max2INCLUDINGqueued/8GiB and every security/readiness restriction remain.
+
 ## Shared XCTest startup scope repaired without replaying memory — 2026-11-03
 
 [444–445](evidence/current-platform-recovery-20261101/ios-xctest-project-scope444-445/README.md)

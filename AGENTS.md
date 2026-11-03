@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Same-operation sheet cancellation coverage prepared — 2026-11-03
+
+[447](docs/development/evidence/current-platform-recovery-20261101/ios-sheet-repeat447/README.md)
+corrects #31 C2: cancelled show→hide/hide→show is not repeating the SAME operation.
+Two new genuine library native cases observe cancelled animation completion,
+stable no-op, full reset and repeated show/hide pending through its own animation;
+controller identity/state/callback/cleanup gates hold. NEW4+affected1 first4pass/
+1fail(KGP decoration), onlyfailed1 then1pass: five unique/six invocations, accepted
+four not replayed. Exact three-path/seven-fragment additive inverse keeps oldpins/
+six23 immutable; first nonunique bookkeeping anchor refusal retained. Narrow3source
+testKLIB0/39.01s/1262held/production UP-TO-DATE/four platform configuration warnings;
+11precompiler+11results passive checks, ZERO Apple/native. Native repeat2 still
+required; #31 open. Existing41574895107 memory stays5e0dc713/1256;41575956373
+startup staysedc8c44d/1257; never substitute this later1262. No closure/comment,
+98closed/74open/172/22implemented41partial96verifiedfive unresolved. SOLO/serial/
+8GiB/max2INCLUDINGqueued/development/read-only Actions/all/no mandatory SHA;
+all publication/Pages/main/history/security/legal/consumer/API–ABI/readiness gates.
+
 ## Shared XCTest project scope repaired; memory request unaffected — 2026-11-03
 
 [444–445](docs/development/evidence/current-platform-recovery-20261101/ios-xctest-project-scope444-445/README.md)

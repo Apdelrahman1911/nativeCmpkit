@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "scope": "Exact additive two-method same-operation cancellation source history, offline only. No original pins, native selection or current bytes are replaced by historical images.",
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "before_sha256": "05b4920415161e9ff056bbb9449d34cfd5c99ff187d7892185ac4590989de7c8",
+      "after_sha256": "e547d438c6184d5e3545edf01de18645c7a1b1d475509e6756315fb5841107b1",
+      "fragments": [
+        {
+          "before": "ios-modal-worker-memory-recovery, ios-xctest-startup",
+          "after": "ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-xctest-startup",
+          "before_fragment_sha256": "ba3e16ee8a77da9f2d60b4483f54852f29fd5f696d55b3b6e6759d8a96811a67",
+          "after_fragment_sha256": "199cc6efeec4dcba663688e2df26e40ec4d9e07d4f032dc0a82bf51f38fbdfe7"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "before_sha256": "120683b54e39317f381ab9460998dde8f7ba8a08ad9e35de14044274a97dd99d",
+      "after_sha256": "5183e517187036bacdd059b3f6e2d61a0579aa0309d4705d09e043c770c0a758",
+      "fragments": [
+        {
+          "before": "IOS_TIME_STATE_RECOVERY_FOCUS = \"ios-native-time-state-recovery\"\n",
+          "after": "IOS_SHEET_REPEAT_FOCUS = \"ui-native-sheet-cancellation-repeat\"\nIOS_SHEET_REPEAT_CLASS = \"com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest\"\nIOS_SHEET_REPEAT_SOURCE = \"calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetCancellationRepeatTest.kt\"\nIOS_SHEET_REPEAT_METHODS = (\n    \"cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion\",\n    \"cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion\",\n)\nUI_APPLICATION_FOCUS_SPECS[IOS_SHEET_REPEAT_FOCUS] = {\n    \"groups\": ({\"classname\": IOS_SHEET_REPEAT_CLASS, \"source\": IOS_SHEET_REPEAT_SOURCE,\n                \"methods\": IOS_SHEET_REPEAT_METHODS},),\n    \"scope\": \"Two missing UI-018 same-operation cancellation regressions only. Cancel the native show/hide waiter, observe its real animation completion, reset visibility, then require the SAME repeated operation to remain suspended until its own native completion. Also verify stable-state no-op timing, native controller identity and owned cleanup. Prior opposite-operation, ownership, memory and XCTest selections are excluded; no touch/heap-profiler/physical/consumer/API-ABI/security/release inference.\",\n}\n\nIOS_TIME_STATE_RECOVERY_FOCUS = \"ios-native-time-state-recovery\"\n",
+          "before_fragment_sha256": "1167ec19d2db56d102bd6be9d24b9bafbc96d9c9c0d80c89d1e8591754212491",
+          "after_fragment_sha256": "c585a7635a0a68430f0fe2c99559d035d86e04b29797e1d340ac4f238d97700e"
+        },
+        {
+          "before": "IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS) and re.search",
+          "after": "IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS) and re.search",
+          "before_fragment_sha256": "6b8ed430fac3e5fa10d3f6ffefa48da785c30cd63b1dce46199deb1ccded2e49",
+          "after_fragment_sha256": "d382c2ae0849b3e151bf7e73e6cf9e100de80b6b1c3c5a29f27ea169a22d66d5"
+        },
+        {
+          "before": "    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n",
+          "after": "    if test_plan.get(\"explicit_test_focus\") == IOS_SHEET_REPEAT_FOCUS:\n        command.extend([\"--init-script\", \"scripts/ci/ios_sheet_repeat_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n",
+          "before_fragment_sha256": "82db605ea260ac71aa9678b71fef844737848f1fcc57662aecbc3cfcf2ba2135",
+          "after_fragment_sha256": "f2b9c688d553da7cf4ff31557e2d3be6a3f7d7eac7b80adf3e20b62c24727aa1"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "before_sha256": "4f923d6812a749b815e607c135402dc591d48a85321261739b65720e211788ea",
+      "after_sha256": "8d8a07a7dfca4b9c0965a076af2368862a020710573fd1cb2377d2267e596e28",
+      "fragments": [
+        {
+          "before": "    \"ios-modal-worker-memory-recovery\": (\"ios-iphone\",),\n",
+          "after": "    \"ios-modal-worker-memory-recovery\": (\"ios-iphone\",),\n    \"ios-sheet-cancellation-repeat\": (\"ios-iphone\",),\n",
+          "before_fragment_sha256": "8436fc678d2069cb1a515d6a54c90d88f3ad292cc681e46f705212428006c127",
+          "after_fragment_sha256": "c779fd48ec67634edd7075b42fb45b26a257dbffcc16166fda3e7b038b0227c4"
+        },
+        {
+          "before": "    \"ios-modal-worker-memory-recovery\": \"calf-ui\",\n",
+          "after": "    \"ios-modal-worker-memory-recovery\": \"calf-ui\",\n    \"ios-sheet-cancellation-repeat\": \"calf-ui\",\n",
+          "before_fragment_sha256": "6a7ced216cb3014149fdb7e23c55443876a843954b4ee43e164adf9d579ad6e1",
+          "after_fragment_sha256": "458bc0e65a1036ec3e8be7fe4305937999120646f06e938b37c5ea2a0c89a123"
+        },
+        {
+          "before": "    if profile == \"ios-modal-lifecycle-memory-recovery\":\n",
+          "after": "    if profile == \"ios-sheet-cancellation-repeat\":\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-iphone\",) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Same-operation cancellation requires one genuine iPhone calf-ui host\")\n        rows[0][\"test-focus\"] = \"ui-native-sheet-cancellation-repeat\"\n    if profile == \"ios-modal-lifecycle-memory-recovery\":\n",
+          "before_fragment_sha256": "c4fd0df2865598e1639c56cf98820ccf0eb3ae596a4199635e08abb4999990b9",
+          "after_fragment_sha256": "2e720a168d44eb1132ee52f929e50f7d64c57f22c9dc71a0120bc1893ad41bf3"
+        }
+      ]
+    }
+  }
+}

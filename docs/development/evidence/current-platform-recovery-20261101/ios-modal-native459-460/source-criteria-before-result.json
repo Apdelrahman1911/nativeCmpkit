@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "issue": 31,
+  "finding": "UI-018",
+  "source_revision": "b73a1078777f37a2bff547073aafef2e4cb58c74",
+  "original_body_sha256": "b74516439afd71f99e34d9564663cf432b8c81ead55af0d1fd88e380d7aa43d0",
+  "scope": "SOURCE preparation only; no closure eligibility until missing five-case native original qualifies",
+  "accepted_nine_case_methods": [
+    "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker",
+    "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters",
+    "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly",
+    "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition",
+    "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation",
+    "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete",
+    "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal",
+    "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain",
+    "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers"
+  ],
+  "accepted_originals": [
+    41552604094,
+    41553575992
+  ],
+  "exact_unchanged_nine_case_source_sha256": "0017fc30af70c1dbae92b25009bc8b611dc259a096929b0aa5e88818903d0aba",
+  "exact_unchanged_admission_state_main_queue_sources": [
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/SheetState.ios.kt",
+    "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationState.kt",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/internal/NativePresentationQueue.kt"
+  ],
+  "changed_native_production": "BottomSheetManager content lease invalidation and terminal delegate callback release only; native animation/request/waiter policy unchanged",
+  "criteria": {
+    "C1": {
+      "required": "show then hide before native completion; dispose during either animation",
+      "reused": [
+        "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters",
+        "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition",
+        "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal",
+        "accepted four alternating disposal/GC cycles in41567513880"
+      ],
+      "pending": [
+        "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen from41582968150"
+      ]
+    },
+    "C2": {
+      "required": "cancel show/hide waiter, finish native animation, then repeat SAME operation with correct await",
+      "prior_opposite_operation_tests_not_substituted": true,
+      "pending": [
+        "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+        "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion"
+      ]
+    },
+    "C3": {
+      "required": "concurrency/replacement/off-main and weak-reference/heap checks after disposal",
+      "reused": [
+        "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete",
+        "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain",
+        "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement from41561366636"
+      ],
+      "pending": [
+        "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+        "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker",
+        "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity"
+      ],
+      "weak_heap_scope": "bounded weak-owner and actual Recomposer baseline after native disposal, not a persistent allocation profiler"
+    }
+  },
+  "required_current_native_original": 41582968150,
+  "native_executions_during_review": 0,
+  "accepted_native_replays": 0,
+  "original_redownloads": 0,
+  "issue_closures": 0,
+  "release_allowed": false,
+  "reviewed_utc": "2026-11-03T05:52:40.093376+00:00"
+}

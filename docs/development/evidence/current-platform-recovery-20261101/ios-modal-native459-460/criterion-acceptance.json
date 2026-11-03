@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "issue": 31,
+  "finding": "UI-018",
+  "verdict": "all three original acceptance criteria verified",
+  "native_run": 41582968150,
+  "native_source_sha": "b73a1078777f37a2bff547073aafef2e4cb58c74",
+  "native_original_review_sha256": "f7176b92b7a1c64d1f95a36e1cec837fd2dcacc8813169ffe0f3be616c8cb5dc",
+  "original_body_sha256": "b74516439afd71f99e34d9564663cf432b8c81ead55af0d1fd88e380d7aa43d0",
+  "criteria": {
+    "C1": "Accepted original show\u2192hide/alternating intent, queued disposal and four native show/hide disposal cycles reused; fresh public native-hide disposal/weak content/reopen now passes with actual cancelled waiter/detached presenter and no dismissal callback.",
+    "C2": "BOTH fresh same-operation regressions pass: cancelled show\u2192native completion\u2192hide reset\u2192new show and cancelled hide\u2192native completion\u2192show reset\u2192new hide. Each repeated job is genuinely pending during its own UIKit animation and finishes at its matching native state. Opposite-operation tests are not substituted.",
+    "C3": "Accepted original concurrency/Main dispatch/default/IO/real presenter-state replacement reused on applicable unchanged request/queue policy; fresh public captured-owner GC, plain Worker capture and exact Main result/throwable bridge pass. Bounded weak-owner/Recomposer scope, not heap-profiler or physical-device certification."
+  },
+  "current_native": {
+    "passed": 5,
+    "XML": 3,
+    "Gradle_exit": 0,
+    "Gradle_seconds": 1373.16,
+    "protocol_seconds": 10.19,
+    "actual_inputs": 1267,
+    "actual_own_Git_before_after_held": true,
+    "full_completion_and_six_phases": true,
+    "post_runtime_and_binary_held": true,
+    "owned_cleanup_four": true
+  },
+  "original445_transport_failure_cause_still_unknown": true,
+  "appearance_warnings_retained": 3,
+  "accepted_native_replays": 0,
+  "release_allowed": false,
+  "reviewed_utc": "2026-11-03T06:03:49.592812+00:00"
+}

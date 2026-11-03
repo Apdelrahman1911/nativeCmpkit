@@ -1,5 +1,24 @@
 # UI native/date/time/modal development — UI-001…UI-026
 
+## Original sheet criteria verified and immediately closed — 2026-11-03
+
+[459–460](evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)
+accepts41582968150/b73a1078 **5/5 native/three fresh XML/Gradle0** with full Worker
+completion/six phases,1,267 own-Git inputs, runtime/binary custody and cleanup4.
+Fresh public hide-disposal/collection/reopen, both **same-operation** cancellation
+repeats and exact Worker/Main capture/throwable methods complete #31/UI-018's three
+original criteria alongside explicitly reused accepted intent/concurrency/replacement
+and four-disposal-cycle results. **#31 closed/completed06:03:55UTC before docs**;
+UI-018 verified, no remaining original criteria. Bounded weak-owner/Recomposer scope
+is not persistent heap profiling or physical-device/release certification.
+
+Related #28/#30/#125/#126 remain open. Their real XCTest-input **iPhone7** and
+**iPad7** requests41587733015/41587765229 are pending atb73a1078/1,267, not later
+documentation HEAD; both reservations held INCLUDINGqueued. Accept source/XML,
+genuine input, full protocol and cleanup before direct sibling closures. Earlier
+missing-completion failure and three appearance warnings remain unexplained;
+never replay accepted native populations or waive publication/security gates.
+
 ## Same related five-case request: owning fixture recovered — 2026-11-03
 
 [455–456](evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)

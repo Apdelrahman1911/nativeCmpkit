@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `16b1e84fc917fe56d9c4b66de8af09a40c45ebda7f8b616687ce6c96f49d2701`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `aae315770337456dc386559f68ac3de20420440b93c96374b4a69f95b70d8dcb`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 22 |
-| partially-verified | 41 |
-| verified | 96 |
+| partially-verified | 40 |
+| verified | 97 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -94,7 +94,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | verified | PERM-018, PERM-020 | 2 / 0 |
 | 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 3 |
 | 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 3 |
-| 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | partially-verified | UI-016, UI-017 | 3 / 4 |
+| 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | verified | UI-016, UI-017 | 3 / 0 |
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
 | 52 | [UI-031](https://github.com/Apdelrahman1911/nativeCmpkit/issues/36) | High | 1 | M | verified | UI-030 | 3 / 0 |
@@ -1193,7 +1193,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 49. UI-018 — Sheet operation cancellation and disposal can leave native presentation and retained owners behind
 
-**High · partially-verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (partially-verified; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (partially-verified; original order 48).
 
@@ -1205,10 +1205,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Heap/weak-reference leak tooling, off-main callers, repeated stress and collisions with unrelated native presenters.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- 2026-11-03 original41561366636: rerun only both failed original captured-content/GC disposal methods after the owning repair; reuse accepted real presenter/state replacement method, not all three or old nine-case host runs.
-- 2026-11-03 batch447 corrects the C2 coverage gap: accepted cancelled-show→hide/cancelled-hide→show do not prove repeating the SAME operation. Two new same-operation native regressions compile but remain unexecuted; memory41574895107 and startup41575956373 retain their distinct original source populations.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** Original UI-018 criteria accepted within controlled iOS26.5 iPhone simulator scope, including bounded weak-owner/Recomposer collection, concurrency/off-main policy, actual native animation completions and replacement. Not a physical-device, persistent heap-profiler, API-ABI, consumer, dependency/legal/security or release certificate; earlier missing-completion failure and three appearance warnings remain unexplained.
 
 **Compatibility / scope:** Cancellation does not pretend UIKit animation was cancelled; actual completion remains authoritative. Old manager callbacks are muted on disposal.
 
@@ -3599,7 +3598,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `09223cb868b1dab9c64a2aaff3b252f5c0af77bd3242beb53083e1b13149221c` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `bb3db10dd01c6853f193a2fbc5ca3d8b7d187ff261b8b95ea7861d4548dc6cbf` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 

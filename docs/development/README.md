@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Grouped native five verified; sheet issue closed directly — 2026-11-03
+
+[459–460](evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)
+accepts41582968150/b73a1078 **5/5 genuine iOS library methods**, three fresh XML,
+Gradle0/1,373.16s; full Worker completion/six ordered phases,1,267 actual own-Git
+inputs, signed/runtime custody and four owned-app cleanup witnesses hold. All
+three original **#31/UI-018** criteria pass using fresh same-operation repeats and
+public disposal/ownership plus explicitly reused accepted policy/replacement cases.
+**Closed/completed06:03:55UTC before documentation**, exact readback; never repeat.
+Current99closed/73open; ledger22implemented/40partial/97verified/5unresolved.
+The pending real-interaction iPhone7/41587733015 and iPad7/41587765229 both retain
+their b73a1078/1,267 freeze and both reservations INCLUDINGqueued. Review originals
+once and close complete #28/#30/#125/#126 siblings directly, not from partial XML.
+Earlier completion failure/cause and three appearance warnings remain; no accepted
+native replay or physical/profiler/security/release inference. SOLO/all gates stay;
+no packages, releases or deployments.
+
 ## Grouped native request recovered at its owning CI fixture — 2026-11-03
 
 [455–456](evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)

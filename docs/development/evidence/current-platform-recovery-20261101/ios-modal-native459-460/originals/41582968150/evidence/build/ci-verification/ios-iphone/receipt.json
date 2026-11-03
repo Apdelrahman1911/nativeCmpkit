@@ -1,0 +1,277 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/ios_modal_completion_compile.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest.replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest.pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest.cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest.cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1373.16,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-modal-completion-cancellation",
+  "finished_at_utc": "2026-11-03T06:00:08.330912+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "d2b060d1407b64739f15123e8334e5d4fd02e3e501f2d869bf90d7397461bed2",
+  "inputs_before_sha256": "d2b060d1407b64739f15123e8334e5d4fd02e3e501f2d869bf90d7397461bed2",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "648afaf73bb359568cf18f113a37f1bf46bcb9db8e86253d025ce99acd653ab3",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rb73a1078777f.t29b48d624e5a4baca7f427e07f1f7107",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 5,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 5,
+        "skipped": 0,
+        "tests": 5,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/29b48d624e5a4baca7f427e07f1f7107/receipt.json",
+      "receipt_sha256": "5d4b6c6b9dd354dc9d6d37219f305222d3016bd8880919107cd2379ae617a163",
+      "required_native_cases_found": 5,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 5,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "disposition": "required-executed",
+          "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+          "disposition": "required-executed",
+          "name": "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeWorkerBridgeOwnershipTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+          "disposition": "required-executed",
+          "name": "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeWorkerBridgeOwnershipTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+          "disposition": "required-executed",
+          "name": "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetCancellationRepeatTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+          "disposition": "required-executed",
+          "name": "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetCancellationRepeatTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 5,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 1,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 1,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64Applicatio-5905UOTVPDR5K.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.xml",
+          "sha256": "fab72d00a0166ed26a92bc723ea26adb0b8818aaa8029f1a1569b7d2aa63d657",
+          "skipped": 0,
+          "tests": 1,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTes-L9KIPAHQKOFM4.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest.xml",
+          "sha256": "9503f8da836715dc7270a35c2c4428a8a38aa276e0fcf4a2d073312565fdd0fa",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        },
+        {
+          "errors": 0,
+          "executed": 2,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 2,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest.xml",
+          "sha256": "a27550e3ed06a1ea61c7a027466a3022f718da28a74923a8d5bb730d69042d15",
+          "skipped": 0,
+          "tests": 2,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+          "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+          "name": "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+          "name": "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+          "name": "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+          "name": "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 5,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest",
+      "name": "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+      "name": "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest",
+      "name": "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+      "name": "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest",
+      "name": "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "8068f47bcc215ed4666fbbdedff7b8fb3ed5f7b114f2ed30c1e165ee8621e27b",
+  "schema_version": 1,
+  "scope": "One five-case library invocation: the original unaccepted memory/Worker three plus both unexecuted same-operation cancellation cases. One exact five-source compiler/link and one real application/Worker lifecycle; no accepted ownership/lifecycle/XCTest replay. Bounded phase observations never replace native completion, original assertions, actual XML, runtime/binary or owning cleanup. No heap-profiler/physical/consumer/API-ABI/security/release inference.",
+  "source_revision": "b73a1078777f37a2bff547073aafef2e4cb58c74",
+  "source_revision_after": "b73a1078777f37a2bff547073aafef2e4cb58c74",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-03T05:37:15.131650+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 5,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 5,
+    "skipped": 0,
+    "tests": 5,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

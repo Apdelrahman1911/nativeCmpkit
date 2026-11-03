@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Grouped native five accepted; UI-018 verified and closed — 2026-11-03
+
+[459–460](docs/development/evidence/current-platform-recovery-20261101/ios-modal-native459-460/README.md)
+accepts41582968150/b73a1078 SUCCESS5/5genuine library iOS/three fresh XML/Gradle0/
+1373.16s. Exact1267 actual own-Git before-after/fivecompiler sources/full runner0/
+Worker termination/sixordered phases/postruntime-binary/cleanup4 hold; protocol
+10.19s/console0/Main1Worker2. Originals acquired ONCE; accepted nine-case/replacement/
+fourdisposalcycle populations reused, not replayed. All3 original criteria reviewed;
+**#31/UI-018 CLOSED/completed06:03:55UTC**, before docs/exact metadata-comment
+readback. Never close31/144/171 again.99closed/73open/172;22implemented40partial/
+97verifiedfive unresolved. Earlier41574895107 missing-completion remains FAILED/
+causeunknown, three appearance warnings retained; bounded weak/Recomposer scope,
+not persistentheap/physical/consumer/API–ABI/security/release proof. Real-interaction
+iPhone7 **41587733015** and iPad7 **41587765229** requested ONCE atb73a1078/1267;
+both pending/both reservations held INCLUDINGqueued; no third request or dispatch
+script replay. Review each terminal original ONCE, then close complete #28/#30/
+#125/#126 siblings immediately after their own genuineinput/protocol/source/results/
+cleanup criteria, not from partialgreenXML. Later docs HEAD never replaces actual
+b73a1078/1267. SOLO/no agent assignments/serial-local/8GiB/max2INCLUDINGqueued/
+development/read-onlyActions/all/no mandatorySHA. All publication/Pages/main/history/
+legal/security/consumer/API–ABI/readiness gates stay; no publication. Older pending
+entries below retain dated historical scope.
+
 ## Grouped modal CI fixture repaired without native replay — 2026-11-03
 
 [455–456](docs/development/evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)

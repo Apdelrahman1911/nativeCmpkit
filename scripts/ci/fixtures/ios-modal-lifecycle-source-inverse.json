@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "scope": "Exact offline lifecycle routing inverse only; existing modal manifest/pins and every production source remain unchanged. No native input or successful historical replay.",
+  "base_git_revision": "c5bc917a5e56d0249383ae2e3e8f0cd65b60ba58",
+  "bindings": {
+    "scripts/ci/library_tests.py": {
+      "before_sha256": "62bd3de8ccc16a737ad9a6d13cae1c15cf6153744bf60c5178215b0a07c64da6",
+      "after_sha256": "e0d74cab6e2333d37f1cba4e344fab50f1e70f103184782dbd54a9143863827b",
+      "fragments": [
+        {
+          "id": "modal-lifecycle-01",
+          "before": "IOS_TIME_STATE_RECOVERY_FOCUS = \"ios-native-time-state-recovery\"\n",
+          "after": "IOS_MODAL_LIFECYCLE_FOCUS = \"ui-native-modal-lifecycle-replacement\"\nIOS_MODAL_LIFECYCLE_CLASS = \"com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest\"\nIOS_MODAL_LIFECYCLE_SOURCE = \"calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt\"\nIOS_MODAL_LIFECYCLE_METHODS = (\n    \"publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen\",\n    \"hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement\",\n    \"repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent\",\n)\nUI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_FOCUS] = {\n    \"groups\": ({\"classname\": IOS_MODAL_LIFECYCLE_CLASS, \"source\": IOS_MODAL_LIFECYCLE_SOURCE,\n                \"methods\": IOS_MODAL_LIFECYCLE_METHODS},),\n    \"scope\": \"Three new genuine UIKit library methods: public composition disposal during native hide/reopen/GC, hoisted state through two actual presenters and direct state replacement/stale detach, and repeated admitted show/hide disposal/GC. Retain original nine-modal and old sheet selections without replay; no native gestures, detent, physical-device, whole-issue or release certification.\",\n}\n\nIOS_TIME_STATE_RECOVERY_FOCUS = \"ios-native-time-state-recovery\"\n",
+          "before_fragment_sha256": "1167ec19d2db56d102bd6be9d24b9bafbc96d9c9c0d80c89d1e8591754212491",
+          "after_fragment_sha256": "acb3f70d35e41060f687dce0690e7ff3c6e2da7b7266adbedd75f29ab113291b"
+        },
+        {
+          "id": "modal-lifecycle-02",
+          "before": "            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n",
+          "after": "            if focus == IOS_MODAL_LIFECYCLE_FOCUS and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n                raise ValueError(\"New modal lifecycle source must retain all enabled native declarations\")\n            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n",
+          "before_fragment_sha256": "eee3a5a197ed61edb5abb867337cd9041ea5f899085629c482719683a92adf24",
+          "after_fragment_sha256": "26b64f32c5fb6c2e7ff399694bc3489e82a68592df072c2ee85b1ffe17125df8"
+        },
+        {
+          "id": "modal-lifecycle-03",
+          "before": "    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n",
+          "after": "    if test_plan.get(\"explicit_test_focus\") == IOS_MODAL_LIFECYCLE_FOCUS:\n        command.extend([\"--init-script\", \"scripts/ci/ios_modal_focused_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n",
+          "before_fragment_sha256": "82db605ea260ac71aa9678b71fef844737848f1fcc57662aecbc3cfcf2ba2135",
+          "after_fragment_sha256": "5d039d5d7b18aec8f9ef944a304a96ce1843102eb0483e38ab215ae476d3c18b"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "before_sha256": "0dfe5e5ea3ec03eb1c4717445ea2d232f6f1abfb6485f7fde5e9791fd61ed8ff",
+      "after_sha256": "940c17b80eb17cbc173d43387bbf78d6e763c0b9cad99165c83a4e2d14e3a546",
+      "fragments": [
+        {
+          "id": "modal-lifecycle-01",
+          "before": "    \"ios-modal-ownership-ipad\": (\"ios-ipad\",),\n",
+          "after": "    \"ios-modal-ownership-ipad\": (\"ios-ipad\",),\n    \"ios-modal-lifecycle-replacement\": (\"ios-iphone\",),\n    \"ios-modal-lifecycle-replacement-ipad\": (\"ios-ipad\",),\n",
+          "before_fragment_sha256": "554e81f399ef2fb07fea2732830fcb66b09c7702a29d827d4c9bd119ae1dbb9e",
+          "after_fragment_sha256": "3b14406cdbd9fc24366b40b5ddea0040de34a5be3a70c661a98360ffe8018363"
+        },
+        {
+          "id": "modal-lifecycle-02",
+          "before": "    \"ios-modal-ownership-ipad\": \"calf-ui\",\n",
+          "after": "    \"ios-modal-ownership-ipad\": \"calf-ui\",\n    \"ios-modal-lifecycle-replacement\": \"calf-ui\",\n    \"ios-modal-lifecycle-replacement-ipad\": \"calf-ui\",\n",
+          "before_fragment_sha256": "8df4303c1824146c698031bc14caad96d9354408c373aa09a91a4ccbb1ca9f80",
+          "after_fragment_sha256": "0cc3ae61589a1eb07515e72fb8c305667320a416d2ba768dab31acd20da3eb66"
+        },
+        {
+          "id": "modal-lifecycle-03",
+          "before": "    if profile == \"ios-saver-write-failure\":\n",
+          "after": "    if profile in (\"ios-modal-lifecycle-replacement\", \"ios-modal-lifecycle-replacement-ipad\"):\n        kind = \"iphone\" if profile == \"ios-modal-lifecycle-replacement\" else \"ipad\"\n        canonical = {\"slot\": \"ios-\" + kind, \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": kind, \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-\" + kind,) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Modal lifecycle replacement requires one fixed genuine Arm64 UIKit host and calf-ui only\")\n        rows[0][\"test-focus\"] = \"ui-native-modal-lifecycle-replacement\"\n    if profile == \"ios-saver-write-failure\":\n",
+          "before_fragment_sha256": "7d6ae764f60f05c9c72af6b0f4f8752eac4096501d2799d13bd0886829facf6f",
+          "after_fragment_sha256": "c971f19389f5abdb1112b45e690e7181b8f504b029f4ef551a945f2a24a2b92e"
+        }
+      ]
+    },
+    ".github/workflows/gradle.yml": {
+      "before_sha256": "e5fb3395097e9cecb7aca082c62d4a9bd38e9d519c7c8bddf1bb620b9801e688",
+      "after_sha256": "3dec3d10d49460a6e3c6273ee9ca5fa9b6b3f49d395528ab9552113c37ea5ecf",
+      "fragments": [
+        {
+          "id": "modal-lifecycle-01",
+          "before": "ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-date-year-predicate-red",
+          "after": "ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-date-year-predicate-red",
+          "before_fragment_sha256": "377f265dfc60a16356f0bb991dc6ccd0045c8fa64541464967497ae27a28fe05",
+          "after_fragment_sha256": "5b7206286afa1e7379ed9d3dc93ee4559b77b991612aa0dfde9981a89cdfe8d3"
+        },
+        {
+          "id": "modal-lifecycle-02",
+          "before": "            build/ci-runtime/*.json\n            build/ci-plan/*.json\n",
+          "after": "            build/ci-runtime/*.json\n            build/ci-plan/*.json\n            build/ci-verification/ios-focused-compilation.json\n",
+          "before_fragment_sha256": "26beb44a45a6bfafef123816a69c9a51a2b666ba2a66181e24b0aec760e7d703",
+          "after_fragment_sha256": "28ac539be4eac75678b319e255ca62c7ab37c6eb3cbc2c87880fbd5903bac915"
+        }
+      ]
+    }
+  }
+}

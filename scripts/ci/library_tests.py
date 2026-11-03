@@ -735,6 +735,20 @@ UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_OWNERSHIP_FOCUS] = {
     "scope": "Nine new genuine UIKit alert/sheet queued-admission, opposing/alternating/concurrent visibility, cancellation, captured-content GC, policy and Main/Default/IO regressions only. No accepted lifecycle replay or native-touch, interactive-detent, physical-device, whole-issue or release certification.",
 }
 
+IOS_MODAL_LIFECYCLE_FOCUS = "ui-native-modal-lifecycle-replacement"
+IOS_MODAL_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest"
+IOS_MODAL_LIFECYCLE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt"
+IOS_MODAL_LIFECYCLE_METHODS = (
+    "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+    "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+    "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+                "methods": IOS_MODAL_LIFECYCLE_METHODS},),
+    "scope": "Three new genuine UIKit library methods: public composition disposal during native hide/reopen/GC, hoisted state through two actual presenters and direct state replacement/stale detach, and repeated admitted show/hide disposal/GC. Retain original nine-modal and old sheet selections without replay; no native gestures, detent, physical-device, whole-issue or release certification.",
+}
+
 IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
 UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
     "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,
@@ -2210,6 +2224,8 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
+            if focus == IOS_MODAL_LIFECYCLE_FOCUS and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New modal lifecycle source must retain all enabled native declarations")
             if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
             if (focus in UI_DATE_YEAR_NATIVE_FOCUSES or focus == UI_ALERT_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
@@ -3974,6 +3990,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_LIFECYCLE_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_focused_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
                         "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])

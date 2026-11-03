@@ -1,0 +1,88 @@
+test_current_modal_sources_restore_exact_history_without_admitting_old_or_mutated_sources (test_ios_modal_ownership_batch.IosModalOwnershipBatchTests.test_current_modal_sources_restore_exact_history_without_admitting_old_or_mutated_sources) ... ok
+test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) ... 
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=0) ... FAIL
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=1) ... FAIL
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=2) ... FAIL
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=3) ... FAIL
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=4) ... FAIL
+  test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=5) ... FAIL
+test_three_exact_full_sources_roundtrip_and_preserve_original_eight_fragments (test_arm64_stop_candidate_source_projection.Arm64StopHistoryTests.test_three_exact_full_sources_roundtrip_and_preserve_original_eight_fragments) ... ok
+test_no_graph_or_accepted_native_replay_and_workflow_permissions_remain_exact (test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_no_graph_or_accepted_native_replay_and_workflow_permissions_remain_exact) ... ok
+test_six_exact_inverses_and_eleven_fragments_restore_original_complete_sources (test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_six_exact_inverses_and_eleven_fragments_restore_original_complete_sources) ... ok
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=0)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=1)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=2)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=3)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=4)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+======================================================================
+FAIL: test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest) (mutation=5)
+----------------------------------------------------------------------
+ValueError: A historical image cannot replace the exact current iOS modal lifecycle source
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_android_external337_fixture_recovery.py", line 212, in test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest
+    with self.subTest(mutation=number), patch.object(self, "current", mutated), \
+AssertionError: "exact current iOS modal ownership source" does not match "A historical image cannot replace the exact current iOS modal lifecycle source"
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.767s
+
+FAILED (failures=6)

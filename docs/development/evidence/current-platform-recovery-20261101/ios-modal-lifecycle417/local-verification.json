@@ -1,0 +1,151 @@
+{
+  "reviewed_utc": "2026-11-03T00:49:29.419108+00:00",
+  "base_git_revision": "c5bc917a5e56d0249383ae2e3e8f0cd65b60ba58",
+  "related_shared_patch_issues": [
+    28,
+    30,
+    31,
+    125,
+    126
+  ],
+  "missing_sheet_lifecycle_native_methods": 3,
+  "default_compiler": {
+    "command": [
+      "env",
+      "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+      "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/opt/node/current/bin:/opt/android-sdk/platform-tools",
+      "./gradlew",
+      ":calf-ui:compileKotlinIosSimulatorArm64",
+      ":calf-ui:compileTestKotlinIosSimulatorArm64",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-03T00:37:52.905730+00:00",
+    "free_bytes_before": 29201473536,
+    "base_git_revision": "c5bc917a5e56d0249383ae2e3e8f0cd65b60ba58",
+    "exit_code": 0,
+    "elapsed_seconds": 40.01,
+    "held_input_files": 1232,
+    "inputs_held": true,
+    "free_bytes_after": 29199798272,
+    "native_executions": 0
+  },
+  "focused_compiler_first": {
+    "command": [
+      "env",
+      "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+      "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/opt/node/current/bin:/opt/android-sdk/platform-tools",
+      "./gradlew",
+      ":calf-ui:compileTestKotlinIosSimulatorArm64",
+      "--init-script",
+      "scripts/ci/ios_modal_focused_compile.init.gradle.kts",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-03T00:44:23.011863+00:00",
+    "free_bytes_before": 29189578752,
+    "exit_code": 1,
+    "elapsed_seconds": 18.01,
+    "held_inputs": 1233,
+    "inputs_held": true,
+    "native_executions": 0
+  },
+  "focused_compiler_recovery": {
+    "command": [
+      "env",
+      "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+      "PATH=/usr/lib/jvm/java-17-openjdk-amd64/bin:/root/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/opt/node/current/bin:/opt/android-sdk/platform-tools",
+      "./gradlew",
+      ":calf-ui:compileTestKotlinIosSimulatorArm64",
+      "--init-script",
+      "scripts/ci/ios_modal_focused_compile.init.gradle.kts",
+      "--offline",
+      "--no-daemon",
+      "--no-configuration-cache",
+      "--max-workers=2",
+      "--no-parallel",
+      "--console=plain",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process",
+      "-Pkotlin.native.jvmArgs=-Xmx2048m"
+    ],
+    "cwd": "/root/projects/nativeCmpKit",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-03T00:45:58.634698+00:00",
+    "free_bytes_before": 29188083712,
+    "recovery_of": "focused-compile.result.json",
+    "exit_code": 0,
+    "elapsed_seconds": 42.01,
+    "held_inputs": 1233,
+    "inputs_held": true,
+    "native_executions": 0
+  },
+  "effective_compilation": {
+    "task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    "focus": "ui-native-modal-lifecycle-replacement",
+    "source_sha256": {
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt": "dd73e1a96b6a7cbf64d67b39ab0f4c62d1f8b7100771409f75336410c6a7d7db",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "4eb8b1c7cc43de5bc39f0d36ec818d7216054e0b6b262b936826b4efe51fbc65",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0"
+    },
+    "effective_sources": [
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+    ],
+    "excluded_unrelated_test_sources": true,
+    "production_source_sets_changed": false,
+    "native_tests_executed": 0,
+    "scope": "Actual precompiler source admission only; compiler exit and fresh native XML decide outcomes"
+  },
+  "source_controls": {
+    "new_unique": 7,
+    "initial_five": "5/5, 0.146s",
+    "affected_history_initial": "4 pass/one method with six refusal-message expectation failures, 0.767s; exact byte rejection remained active",
+    "history_failed_only_and_workflow_choice": "2/2, 0.204s",
+    "new_compile_controls_and_affected_history": "2 pass/one wrong positional command assertion, 0.096s; actual command unchanged",
+    "failed_compile_control_only": "1/1, 0.104s",
+    "unchanged_accepted_library_methods_replayed": 0
+  },
+  "history_inverse": {
+    "manifest": "scripts/ci/fixtures/ios-modal-lifecycle-source-inverse.json",
+    "sha256": "d911d4c08c649f81e68f869b9b15fd8a6194697fb073fd011a18a05d2299dfff",
+    "bindings": 3,
+    "ordered_fragments": 8,
+    "original_modal_manifest_unchanged": true
+  },
+  "later_only_compiler_delta": {
+    "scripts/ci/test_ios_modal_lifecycle_replacement.py": {
+      "compiled": "38472da1cba7fe62050708702d78e04c711d807a8fa034023b76211b0651dfef",
+      "current": "e9f62d1a5fa9e2de176700089742b1addae1d1f0a6fc15b5b795bc451562d586"
+    }
+  },
+  "actionlint": {
+    "version": "1.7.12",
+    "exit_code": 0
+  },
+  "native_executions": 0,
+  "new_issue_closures": 0,
+  "scope": "Test/CI-only completion of missing ownership/disposal/GC criteria. No production/API/dependency/source-set mutation, full native result, gestures, whole-issue acceptance or release/publication."
+}

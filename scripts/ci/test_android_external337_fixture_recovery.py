@@ -210,7 +210,7 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             mutated = dict(self.current)
             mutated[relative] = payload
             with self.subTest(mutation=number), patch.object(self, "current", mutated), \
-                    self.assertRaisesRegex(ValueError, "exact current iOS modal ownership source"):
+                    self.assertRaisesRegex(ValueError, "exact current iOS modal lifecycle source"):
                 self.test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment()
 
 

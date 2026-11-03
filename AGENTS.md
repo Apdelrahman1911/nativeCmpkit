@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared modal lifecycle completion; narrow compiler qualified — 2026-11-03
+
+[Batch417](docs/development/evidence/current-platform-recovery-20261101/ios-modal-lifecycle417/README.md)
+adds three missing disposal/replacement/GC regressions beside shared five-issue416.
+Default KLIB0/40.01s/1232 held; included-build-only initial narrow refusal1/18.01s,
+then exact three-source test compiler0/42.01s/1233 held. Seven new source controls
+qualify through affected/failed-only checks; original pins and all production/API/
+dependency/source sets remain. Compiler admission is not native execution or measured
+speedup. iPhone41552604094/iPad41553575992 at c5bc917a occupy both reservations;
+review originals once, then only new lifecycle3 when capacity frees. ZERO new closure,
+98closed/74open. SOLO/max2 INCLUDING queued/serial-local/8GiB/development-only/read-only
+Actions/all/no mandatory SHA pinning and all publishing/Pages/main/history/legal/
+security/consumer/API-ABI/readiness gates remain. Do not replay accepted populations.
+
 ## Related-issue batches, not singleton bookkeeping — 2026-11-03
 
 The owner requests faster coordinated patches: group issues by shared root cause,

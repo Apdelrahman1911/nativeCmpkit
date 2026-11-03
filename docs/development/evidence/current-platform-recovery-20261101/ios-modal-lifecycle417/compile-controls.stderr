@@ -1,0 +1,19 @@
+test_only_this_new_focus_uses_the_narrow_compiler_without_changing_old_commands (test_ios_modal_lifecycle_replacement.IosModalLifecycleReplacementTests.test_only_this_new_focus_uses_the_narrow_compiler_without_changing_old_commands) ... FAIL
+test_focused_compiler_holds_the_exact_three_sources_and_ignores_unrelated_included_builds (test_ios_modal_lifecycle_replacement.IosModalLifecycleReplacementTests.test_focused_compiler_holds_the_exact_three_sources_and_ignores_unrelated_included_builds) ... ok
+test_history_restores_every_routing_byte_without_refreshing_original_modal_pins (test_ios_modal_lifecycle_replacement.IosModalLifecycleReplacementTests.test_history_restores_every_routing_byte_without_refreshing_original_modal_pins) ... ok
+
+======================================================================
+FAIL: test_only_this_new_focus_uses_the_narrow_compiler_without_changing_old_commands (test_ios_modal_lifecycle_replacement.IosModalLifecycleReplacementTests.test_only_this_new_focus_uses_the_narrow_compiler_without_changing_old_commands)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_ios_modal_lifecycle_replacement.py", line 30, in test_only_this_new_focus_uses_the_narrow_compiler_without_changing_old_commands
+    self.assertEqual(":calf-ui:iosSimulatorArm64ApplicationTest", command[-1])
+AssertionError: ':calf-ui:iosSimulatorArm64ApplicationTest' != 'com.mohamedrejeb.calf.ui.internal.NativeM[98 chars]tent'
+- :calf-ui:iosSimulatorArm64ApplicationTest
++ com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.096s
+
+FAILED (failures=1)

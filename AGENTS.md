@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Actual popover subset reviewed; failed bar-case source recovery — 2026-11-03
+
+[520–524](docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar520-524/README.md)
+keeps41712809800/570edb50 FAILED:actual5/4pass/1fail/oneXML/Gradle1/950.64s,
+1295own-Git maps/Worker6/native XML agreement/runtime/binary/ownedcleanup accepted.
+Baridentity passes thenpostpresentation sourceView-null fails; actualComposeview
+doesnot prove samepresenterpointer, andfallbacktail isunreached. Apple publicAPI
+permits alternative anchors, notnilpostcondition; one test-only correction requires
+exactbar/window/arrow andnull-or-THISpresenter. Sixoldpaths/15fragments/fiveadded,
+originalpins/production/nativehelpers/fouracceptedbodies unchanged; NEW8 red3fail/
+5errors, same8+affected7 green15/15once0.648s/77passivechecks/1301held/ZERO compiler/
+native. Two missing-only sourceplans accepted; firstPATH discoveryrefusal retained,
+actualActionlint0 viaexactarchivedtool, no supply-chain clearance orplanreplay.
+#29open/OSrotation/splitview/explicittraits missing; iPad41712867688 own570edb50
+originalspending. Camera51941719792072 at4081f6aa terminalFAILED/originalreview next;
+#13notinferredfixed.103closed69open/172/22implemented36partial101verifiedfiveunresolved
+unchanged. SOLO/serial-local8GiB/max2INCLUDINGqueued/development/read-onlyActions/all/
+no mandatorySHA and everypublication/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remain. No publication or newclosure.
+
 ## Camera actual task-shape observation qualified — 2026-11-03
 
 [515–517](docs/development/evidence/current-platform-recovery-20261101/camera-tail-roles515-517/README.md)

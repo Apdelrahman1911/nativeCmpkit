@@ -154,6 +154,8 @@ PROFILES = {
     "ios-modal-xcui-batch-ipad": ("ios-ipad",),
     "ios-popover-anchor": ("ios-iphone",),
     "ios-popover-anchor-ipad": ("ios-ipad",),
+    "ios-popover-bar-recovery": ("ios-iphone",),
+    "ios-popover-bar-ipad-recovery": ("ios-ipad",),
     "ios-date-year-predicate-red": ("ios-iphone",),
     "ios-io": ("ios-iphone",),
     "ios-saver-write-failure": ("ios-iphone",),
@@ -377,6 +379,8 @@ MODULE_SUBSETS = {
     "ios-modal-xcui-batch-ipad": "calf-ui",
     "ios-popover-anchor": "calf-ui",
     "ios-popover-anchor-ipad": "calf-ui",
+    "ios-popover-bar-recovery": "calf-ui",
+    "ios-popover-bar-ipad-recovery": "calf-ui",
     "ios-date-year-predicate-red": "calf-ui",
     # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged
     # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.
@@ -686,6 +690,13 @@ def matrix(profile: str) -> dict:
         if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
             raise ValueError("Popover anchor verification requires one fixed genuine Arm64 UIKit host and calf-ui only")
         rows[0]["test-focus"] = "ui-native-popover-anchor"
+    if profile in ("ios-popover-bar-recovery", "ios-popover-bar-ipad-recovery"):
+        kind = "iphone" if profile == "ios-popover-bar-recovery" else "ipad"
+        canonical = {"slot": "ios-" + kind, "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": kind, "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("Failed bar-anchor recovery requires one fixed genuine Arm64 UIKit host and calf-ui only")
+        rows[0]["test-focus"] = "ui-native-popover-bar-recovery"
     if profile == "ios-modal-worker-memory-recovery":
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}

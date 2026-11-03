@@ -12,6 +12,8 @@ import json
 from pathlib import Path
 import stat
 
+import ios_popover_bar_recovery_source_projection as bar_history
+
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-popover-anchor-source-inverse.json"
 SPEC_SHA256 = "145287111a3c12354efa3b30c2df93ee3a8120f3a42a37f2193a02d17065544f"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
@@ -34,6 +36,7 @@ def _bindings():
 def source_before_popover_anchor(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact popover-anchor identity and ordinary source bytes are required")
+    payload = bar_history.peel_current_bar_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +71,7 @@ def source_before_popover_anchor(relative, payload):
 def current_source_before_popover_anchor(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current popover-anchor identity and ordinary bytes are required")
+    payload = bar_history.current_source_before_bar_recovery(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current popover-anchor source")
@@ -78,6 +82,7 @@ def peel_current_popover_for_older_history(relative, payload):
     """Not current admission: untouched old bytes MUST pass their older pinned reader."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor popover-anchor identity and ordinary bytes are required")
+    payload = bar_history.peel_current_bar_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_popover_anchor(relative, payload)

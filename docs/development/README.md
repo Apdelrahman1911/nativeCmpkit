@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Actual anchor subset and failed-case-only recovery — 2026-11-03
+
+[520–524](evidence/current-platform-recovery-20261101/ios-popover-bar520-524/README.md)
+qualifies **4/5 actual iPhone UIKit methods**, native protocol/Worker/custody/
+cleanup and1295 own-Git inputs while preserving the FAILED run. One unsupported
+postpresentation nil assertion is corrected with exact bar/window/arrow and
+null-or-this-presenter checks; its original fallback tail remains unverified.
+Related six-path/15-fragment patch plus five additions passes **NEW8+affected7
+15/15 once**,77 passive checks/1301 held, ZERO new compiler/native. Source-only
+single-case iPhone/iPad routes and actual Actionlint pass after a preserved PATH
+discovery refusal. Reuse the four unchanged bodies, not a new full native replay.
+**#29 stays open** for original native/OS geometry criteria; no new closure or
+release readiness claim.103closed/69open, SOLO/max2INCLUDINGqueued and all gates
+remain. Camera C1 terminal41719792072 needs its separate original review.
+
 ## Camera failure-only shape diagnostics accepted — 2026-11-03
 
 [515–517](evidence/current-platform-recovery-20261101/camera-tail-roles515-517/README.md)

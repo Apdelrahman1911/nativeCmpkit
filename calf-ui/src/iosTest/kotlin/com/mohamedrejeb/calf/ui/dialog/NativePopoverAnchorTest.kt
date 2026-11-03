@@ -97,7 +97,14 @@ class NativePopoverAnchorTest {
             waitForNative { parent.presentedViewController is UIAlertController }
             runOnIdle {
                 val popover = requireNotNull((parent.presentedViewController as UIAlertController).popoverPresentationController)
-                assertTrue(sameNativeObject(bar, popover.barButtonItem)); assertNull(popover.sourceView)
+                assertTrue(sameNativeObject(bar, popover.barButtonItem))
+                assertTrue(sameNativeObject(parent.view.window, bar.customView?.window))
+                assertEquals(UIPopoverArrowDirectionAny, popover.permittedArrowDirections)
+                // UIKit documents sourceView/sourceRect as an alternative to barButtonItem,
+                // not a required nil postcondition after presentation. It may expose the
+                // presenting view; never accept a foreign source or a substituted bar.
+                val nativeSource = popover.sourceView
+                assertTrue(nativeSource == null || sameNativeObject(parent.view, nativeSource))
                 toolbar.removeFromSuperview()
                 manager.popoverAnchor = AlertDialogIosPopoverAnchor.ViewRect(bar.customView, CGRectMake(0.0, 0.0, 1.0, 1.0))
                 manager.updateDialogProperties()

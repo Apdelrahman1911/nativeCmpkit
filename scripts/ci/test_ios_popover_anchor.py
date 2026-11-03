@@ -13,6 +13,7 @@ from unittest.mock import patch
 
 import ios_popover_anchor_plan as compiler
 import ios_popover_anchor_source_projection as history
+import ios_popover_bar_recovery_source_projection as bar_history
 import library_tests as library
 import workflow_matrix as workflow
 
@@ -115,7 +116,7 @@ class PopoverAnchorSourceControls(unittest.TestCase):
             for fragment in row["fragments"]:
                 self.assertEqual(1, forward.count(fragment["before"].encode()))
                 forward = forward.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
-            self.assertEqual(current, forward)
+            self.assertEqual(bar_history.source_before_bar_recovery(relative, current), forward)
 
     def test_current_admission_rejects_historical_unknown_drift_types_and_identity_guessing(self):
         bindings = history._bindings()

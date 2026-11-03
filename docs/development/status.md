@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `cbcde25a4370ef44199786a6b085ea7635556c3cf8d1687ededc1ce394de3647`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `c6c3a6e8756e0ff669d702ee4bdc2fb1ce1bd3b3ed1719d9ea41c3f436522175`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -714,7 +714,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Regular-width iPad/split view/rotation and explicit custom bar-button anchor API remain future work.
+- Current 2026-11-03: supported additive ViewRect/BarButton composition input is implemented/previously compiled (503–509). Original iPhone520 passes4/5 with native transport/cleanup; failed bar-case recovery523–524 is source-qualified but not newly compiled/executed. Actual iPad regular/compact traits, portrait/landscape rotation and split view remain unverified.
 - The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
 - After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
 - 2026-11-03 current503–513: explicit supported anchors are implemented/source-compiled, so the older future-API line is historical. The first five-case iPhone/iPad requests failed shared CI history checks before native; that owning prerequisite is now qualified. All five native methods per host and actual OS rotation/split-view coverage still require execution.
@@ -3596,7 +3596,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `cf89a4d9b6b541382a0375c62edecbdf22ec5b68d90e668540ec7f2f5a4605dc` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `415243a455a49546b0e156bb274c38873e4ed9a81ee4fb9571ce11790d62e851` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 

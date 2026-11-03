@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera actual task-shape observation qualified — 2026-11-03
+
+[515–517](docs/development/evidence/current-platform-recovery-20261101/camera-tail-roles515-517/README.md)
+keeps41706153561 FAILED/ZERO Gradle/native; onlypublic row5 header fingerprint
+matches, no task/image/owner/cause inference. One observer changes/oneNEW test;
+64tailrows/2048bytes cooperative role/identity counts from the SAME refusing
+returned query export no actual bodies/IDs. Missing/overflow is unavailable, not
+zero/admission. Original observer AST exceptonefield, Python/controller/Kotlin
+owners/all oldpins remain. NEW8 red8/15errors thenFAILED8+affected2 green10/10
+once0.016s;19passivechecks/1296held/ZERO compiler/native/no accepted replay.
+#13open/onlymissingC1 next aftercapacity;camera009C2/C3 reuse only. Bothpopover
+41712809800/41712867688 at570edb50 reserve2 INCLUDINGqueued; own1295 maps, tooling
+passed/native notyet.103closed69open/172/22implemented36partial101verifiedfive
+unresolved unchanged;SOLO/serial-local8GiB/read-onlyActions/all/no mandatorySHA
+and everypublication/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/readiness gate remains. No package/release/deployment publication.
+
 ## Shared iPhone/iPad popover CI prerequisite repaired — 2026-11-03
 
 [511–513](docs/development/evidence/current-platform-recovery-20261101/ios-popover-ci511-513/README.md)

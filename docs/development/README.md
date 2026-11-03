@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Camera failure-only shape diagnostics accepted — 2026-11-03
+
+[515–517](evidence/current-platform-recovery-20261101/camera-tail-roles515-517/README.md)
+adds bounded original-query role counts without changing either Python/Kotlin
+ownership prerequisite. **Failed8 + affected2 pass10/10 once**,19passive checks,
+1,296held inputs; no compiler/native or closure. Original41706153561 stays failed,
+#13 stays open; only its missing C1 is next after capacity. The five-case iPhone/
+iPad runs41712809800/41712867688 at570edb50 passed tooling and are queued for
+macOS at this checkpoint. **103closed/69open**; SOLO/max2INCLUDINGqueued and
+all publishing/security/readiness gates unchanged.
+
 ## One shared iPhone/iPad CI blocker repaired — 2026-11-03
 
 [511–513](evidence/current-platform-recovery-20261101/ios-popover-ci511-513/README.md)

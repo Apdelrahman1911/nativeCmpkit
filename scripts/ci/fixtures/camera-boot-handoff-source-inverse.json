@@ -1,0 +1,54 @@
+{
+  "bindings": {
+    "scripts/ci/android_device_tests.py": {
+      "after_sha256": "398c35d2e41b318ec9e5f918599b598e4ccfc2592e4e41010926bcc639721b37",
+      "before_sha256": "b877f80a6c526e7d56a5b5cd4daa54eb9555837184b4028a300bfd38b123f1fe",
+      "fragments": [
+        {
+          "after": "    allowed = {\"android_device_tests.py\", \"library_tests.py\", \"runtime_context.py\",\n               \"android_camera_receiver.py\", \"android_share_recipient.py\", \"android_geo_probe.py\", \"android_io_documents.py\", \"android_permission_demo.py\", \"android_storage_probe.py\", \"android_camera_developer_prerequisite.py\", \"android_camera_boot_fallback.py\"}\n",
+          "after_fragment_sha256": "0300fa2f5d7bdd5400514180c3d31bdede79201ff0e8c34d5c31a5497ba88614",
+          "before": "    allowed = {\"android_device_tests.py\", \"library_tests.py\", \"runtime_context.py\",\n               \"android_camera_receiver.py\", \"android_share_recipient.py\", \"android_geo_probe.py\", \"android_io_documents.py\", \"android_permission_demo.py\", \"android_storage_probe.py\", \"android_camera_developer_prerequisite.py\"}\n",
+          "before_fragment_sha256": "08e7df87b7205717803c211a431cf7364459d7948eb79dd2634dd6bd03319a1a"
+        },
+        {
+          "after": "            developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)\n            # HOME resolution is not proof that Android's asynchronous boot\n            # FallbackHome has left the complete Settings Activity hierarchy.\n            # This read-only wait cannot replace the original strict capture.\n            from android_camera_boot_fallback import wait_for_owned_boot_handoff\n            result[\"camera_boot_handoff_preflight\"] = wait_for_owned_boot_handoff(developer)\n",
+          "after_fragment_sha256": "6bcbf5c6e574c9955b550fd9748347844f81a1927a7d1d9d4a049c25c9cca013",
+          "before": "            developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)\n",
+          "before_fragment_sha256": "16e8ffd4b9e6a00979efc834990728d41a5a3bda361b3e0c74ef8bd0090a96f2"
+        }
+      ]
+    },
+    "scripts/ci/ios_xcui_foreground_source_projection.py": {
+      "after_sha256": "e3de8f3ddae8f70ff0309d0255c50f0c5df4dfbe6b58cf85c14218392e7f2296",
+      "before_sha256": "00a2c931a04bd8f4da9888bb22b1dd9f9a9d9924e4cd408312bb6187c459683b",
+      "fragments": [
+        {
+          "after": "        raise ValueError(\"Exact foreground-readiness source identity and ordinary bytes required\")\n    from camera_boot_handoff_source_projection import source_before_boot_handoff\n    payload = source_before_boot_handoff(relative, payload)\n",
+          "after_fragment_sha256": "8d1467e1e7e3e49c203c4510d67d48cc37d81a9494ed300e43ce240f22ebb87a",
+          "before": "        raise ValueError(\"Exact foreground-readiness source identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "adf0cd549bb5f3418cd767ddab3d59731664f0fc54b3f92db6fe56332ebb1087"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current foreground-readiness identity and ordinary bytes required\")\n    from camera_boot_handoff_source_projection import current_source_before_boot_handoff\n    payload = current_source_before_boot_handoff(relative, payload)\n",
+          "after_fragment_sha256": "0330d506023fa936f32324b5000ae7cf87a040771df559a9dab4ae5e2b373a4f",
+          "before": "        raise ValueError(\"Exact current foreground-readiness identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "f4797bfbb8069226c3a84e7c86c6eac5c0305d20e11b63f766115c8ec1e0e922"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_pre_reporter_fail_fast.py": {
+      "after_sha256": "8a2f0d6a5f8a7e06f8721fc7ac4f3a38f5fd159b1c602b725032795ce33d4114",
+      "before_sha256": "d18d35ca3d8853b68ccfda28b87fecec23da88c147e7e0da45bc5b56904b56ca",
+      "fragments": [
+        {
+          "after": "\n# Retain the exact pre-handoff compiler-boundary stage for these old controls;\n# the additive read-only handoff is qualified by its own new controls.\nfrom camera_boot_handoff_source_projection import current_source_before_boot_handoff\nCONTROLLER_SOURCE = current_source_before_boot_handoff(\n    \"scripts/ci/android_device_tests.py\", CONTROLLER_PATH.read_bytes()).decode(\"utf-8\")\n",
+          "after_fragment_sha256": "ba491e9d4b808ade42938776c4b625b8215f2dc0b3bc5e15b2b94c1208a6bb91",
+          "before": "\nCONTROLLER_SOURCE = CONTROLLER_PATH.read_text()\n",
+          "before_fragment_sha256": "f9a053824dfe9654bf85bd82e639433ab65baf8b65a105b3976c265eab48fa13"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact additive boot-handoff source history only; no native admission or historical pin rewrite"
+}

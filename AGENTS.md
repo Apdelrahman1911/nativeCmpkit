@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera boot handoff qualified; original remains failed — 2026-11-03
+
+[472–474](docs/development/evidence/current-platform-recovery-20261101/camera-boot-handoff472-474/README.md)
+preserves41687321949/b47fa976 FAILED before Gradle/APK/native/XML. Original32logs/
+17reports acquired ONCE; all1270 actual frozen own-Git maps and independent guest
+disposal hold; prepare307/cleanup1375 remain failed. New one-shot cooperative60s
+read-only boot handoff waits ONLY on exact user0 FallbackHome reference-marker
+syntax, then still requires the UNCHANGED strict no-body parser and all original
+capture/compiler/native/cleanup gates. This is not body-grammar/actual-owner/image
+equivalence or original-cause proof; unknown/mixed/refusal/drift/late/journal errors
+fail. NEW21 passes once/0.053s/wrapper0.20293s;1274 held/1267 old inputs unchanged,
+three existing paths/five reversible fragments and four new source inputs. All18
+old fail-fast bodies/pins retained; old reader selects pre-handoff stage, never
+certifies new behavior. Initial reviewer17-vs18 bookkeeping refusal preserved,
+no test replay. ZERO local compiler/native; #13 stays open/missingC1. Next only
+new immutable C1 after freeze/capacity, never unchanged original or camera009
+accepted replay.103closed/69open/172;22implemented36partial101verifiedfive unresolved.
+SOLO/no assignments, serial-local/8GiB/max2 INCLUDINGqueued/development/read-only
+Actions/all/no mandatory SHA and every publication/Pages/main/history/legal/
+security/consumer/API–ABI/readiness gate remain. No publication.
+
 ## Grouped genuine modal interaction verified; four issues closed — 2026-11-03
 
 [466–468](docs/development/evidence/current-platform-recovery-20261101/ios-modal-native466-468/README.md)

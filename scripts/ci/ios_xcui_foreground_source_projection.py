@@ -33,6 +33,8 @@ def _bindings():
 def source_before_xcui_foreground(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact foreground-readiness source identity and ordinary bytes required")
+    from camera_boot_handoff_source_projection import source_before_boot_handoff
+    payload = source_before_boot_handoff(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -67,6 +69,8 @@ def source_before_xcui_foreground(relative, payload):
 def current_source_before_xcui_foreground(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current foreground-readiness identity and ordinary bytes required")
+    from camera_boot_handoff_source_projection import current_source_before_boot_handoff
+    payload = current_source_before_boot_handoff(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current foreground-readiness source")

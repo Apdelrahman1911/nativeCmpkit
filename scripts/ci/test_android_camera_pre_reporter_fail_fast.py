@@ -196,7 +196,11 @@ def _load_inert_fixture(private):
         raise AssertionError("Only the exact reusable test-free owning fixture may be constructed")
 
 
-CONTROLLER_SOURCE = CONTROLLER_PATH.read_text()
+# Retain the exact pre-handoff compiler-boundary stage for these old controls;
+# the additive read-only handoff is qualified by its own new controls.
+from camera_boot_handoff_source_projection import current_source_before_boot_handoff
+CONTROLLER_SOURCE = current_source_before_boot_handoff(
+    "scripts/ci/android_device_tests.py", CONTROLLER_PATH.read_bytes()).decode("utf-8")
 CONTROLLER_AST = ast.parse(CONTROLLER_SOURCE)
 CONTROLLER_NODES = [node for node in CONTROLLER_AST.body if isinstance(node, ast.FunctionDef) and node.name in ("_run", "preflight_error_origin")]
 if {node.name for node in CONTROLLER_NODES} != {"_run", "preflight_error_origin"}:

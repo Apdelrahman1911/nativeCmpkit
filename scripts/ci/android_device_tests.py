@@ -45,7 +45,7 @@ IMAGE = f"system-images;android-{API};google_apis;x86_64"
 def preflight_error_origin(error: Exception, *, skip_prerequisite_require: bool = False) -> dict:
     """Public source location only; never exception text, locals or machine paths."""
     allowed = {"android_device_tests.py", "library_tests.py", "runtime_context.py",
-               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py"}
+               "android_camera_receiver.py", "android_share_recipient.py", "android_geo_probe.py", "android_io_documents.py", "android_permission_demo.py", "android_storage_probe.py", "android_camera_developer_prerequisite.py", "android_camera_boot_fallback.py"}
     directory = Path(__file__).resolve().parent
     origin = {"source": "unavailable", "symbol": "unavailable", "line": 0}
     frame = error.__traceback__
@@ -367,6 +367,11 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
             # guest. No helper install, master write, reporter dispatch or native
             # success precedes the unchanged actual reporter assembly and revalidation.
             developer = camera_developer.OwnedDeveloperPrerequisite(root, output, home, SERIAL, guest)
+            # HOME resolution is not proof that Android's asynchronous boot
+            # FallbackHome has left the complete Settings Activity hierarchy.
+            # This read-only wait cannot replace the original strict capture.
+            from android_camera_boot_fallback import wait_for_owned_boot_handoff
+            result["camera_boot_handoff_preflight"] = wait_for_owned_boot_handoff(developer)
             result["camera_developer_prerequisite"] = developer.capture_before_reporter()
             try:
                 execution = lt.execute(root, assemble, output / "apk-assembly.log", 900, RESERVE_MIB, env=env)

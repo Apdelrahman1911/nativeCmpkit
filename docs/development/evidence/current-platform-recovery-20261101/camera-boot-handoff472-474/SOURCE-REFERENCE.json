@@ -1,0 +1,49 @@
+{
+  "ActivityRecord_marker_reference": {
+    "copyright_and_license_header": "/*\n * Copyright (C) 2006 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+    "first_and_cached_branches_not_complete_body_grammar": true,
+    "lines": [
+      10652,
+      10667
+    ],
+    "source": "    @Override\n    public String toString() {\n        if (stringName != null) {\n            return stringName + \" t\" + (task == null ? INVALID_TASK_ID : task.mTaskId) +\n                    (finishing ? \" f}\" : \"\") + (mIsExiting ? \" isExiting\" : \"\") + \"}\";\n        }\n        StringBuilder sb = new StringBuilder(128);\n        sb.append(\"ActivityRecord{\");\n        sb.append(Integer.toHexString(System.identityHashCode(this)));\n        sb.append(\" u\");\n        sb.append(mUserId);\n        sb.append(' ');\n        sb.append(intent.getComponent().flattenToShortString());\n        stringName = sb.toString();\n        return stringName;\n    }\n",
+    "source_sha256": "84266fe352c189be1fdf143a47e0fa5c3d3fee7eb05ac485f14a38e0575f75d3",
+    "symbol": "ActivityRecord.toString",
+    "url": "https://android.googlesource.com/platform/frameworks/base/+/4e43ad12e1b211f15152e9c5b16b0fe88e6b93f3/services/core/java/com/android/server/wm/ActivityRecord.java"
+  },
+  "acquisition": {
+    "actual_google_image_source_equivalence_proved": false,
+    "elapsed_seconds": 0.9551228149794042,
+    "final_url": "https://android.googlesource.com/platform/packages/apps/Settings/+/refs/tags/android-15.0.0_r1/src/com/android/settings/FallbackHome.java?format=TEXT",
+    "observed_utc": "2026-11-03T18:05:14.833929+00:00",
+    "once": true,
+    "source_bytes": 7559,
+    "source_sha256": "8521326a53a27f25620b608a69b0d19fd05709d5f88ef8685a137ef1eb829790",
+    "status": 200,
+    "transport_bytes": 10080,
+    "transport_sha256": "cd3ea692375c6550999989506dc65374f615fc814b5d6e8536519d3dc792e63e",
+    "url": "https://android.googlesource.com/platform/packages/apps/Settings/+/refs/tags/android-15.0.0_r1/src/com/android/settings/FallbackHome.java?format=TEXT"
+  },
+  "copyright_and_license_header": "/*\n * Copyright (C) 2015 The Android Open Source Project\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n *      http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\n",
+  "excerpts": [
+    {
+      "lines": [
+        168,
+        183
+      ],
+      "source": "    private void maybeFinish() {\n        if (getSystemService(UserManager.class).isUserUnlocked()) {\n            final Intent homeIntent = new Intent(Intent.ACTION_MAIN)\n                    .addCategory(Intent.CATEGORY_HOME);\n            final ResolveInfo homeInfo = getPackageManager().resolveActivity(homeIntent, 0);\n            if (Objects.equals(getPackageName(), homeInfo.activityInfo.packageName)) {\n                Log.d(TAG, \"User unlocked but no home; let's hope someone enables one soon?\");\n                mHandler.sendEmptyMessageDelayed(0, 500);\n            } else {\n                Log.d(TAG, \"User unlocked and real home found; let's go!\");\n                getSystemService(PowerManager.class).userActivity(\n                        SystemClock.uptimeMillis(), false);\n                finish();\n            }\n        }\n    }\n",
+      "symbol": "FallbackHome.maybeFinish"
+    },
+    {
+      "lines": [
+        196,
+        201
+      ],
+      "source": "    private Handler mHandler = new Handler() {\n        @Override\n        public void handleMessage(Message msg) {\n            maybeFinish();\n        }\n    };\n",
+      "symbol": "FallbackHome.mHandler"
+    }
+  ],
+  "schema_version": 1,
+  "semantic_review": "HOME resolution and RUNNING_UNLOCKED are checked by FallbackHome before finish() is requested. Resolver readiness therefore does not synchronously prove completed native Activity removal. Reference markers only authorize a bounded read-only wait; the unchanged all-Activity no-body parser is still required before original capture. This is a source-qualified readiness gap, not proof that FallbackHome caused original41687321949.",
+  "source_reference_only_not_actual_image_identity": true
+}

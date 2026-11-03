@@ -1,5 +1,20 @@
 # NativeCmpKit development after the audit
 
+## Camera boot readiness repaired without bypassing native gates — 2026-11-03
+
+[472–474](evidence/current-platform-recovery-20261101/camera-boot-handoff472-474/README.md)
+keeps the actual camera original **FAILED before compilation/native/XML**, with
+all1,270 source maps and independent emulator disposal reviewed once. A new
+one-shot read-only boot-handoff wait addresses the asynchronous HOME/Activity
+removal gap; recognized FallbackHome syntax only permits waiting, never absence.
+The unchanged strict parser and original capture/native/cleanup remain required.
+**21/21 important new controls pass once**,1,274 held inputs; all18 old compiler-
+boundary bodies/pins survive exact source-history composition. ZERO new native
+or compiler executions; source references are not actual-image/root-cause proof.
+Next only missing #13 Dont-keep C1 at changed immutable bytes; accepted camera
+cases stay excluded. **103closed /69open**, no new closure or publication; solo,
+max2 INCLUDINGqueued and every independent security/readiness gate remain.
+
 ## Four related UIKit issues closed in one verified batch — 2026-11-03
 
 [466–468](evidence/current-platform-recovery-20261101/ios-modal-native466-468/README.md)

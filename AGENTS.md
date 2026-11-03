@@ -17,7 +17,8 @@ NEW10+failed1+affected1 pass12/0.605s; only NEWguard1+changed-plan1 pass2/0.055s
 unchanged Kotlin/dependencies/compiler-only route.14passive/Actionlint0. Six19
 inverse/old Worker six23 hold; first nonrecursive composition and workflow-map
 bookkeeping refusals retained. ZERO new Apple/native locally. Next ONLY combined
-memory3+repeat2 in one iPhone/compiler/link/Worker task after freeze/push/freshcapacity;
+memory3+repeat2 requested ONCE41581612628/bf5b30b0/1266 at freshzero capacity;
+one iPhone/compiler/link/Worker row reserved INCLUDINGqueued, results pending;
 unfiltered registry disallowed, accepted populations excluded. XCUI iPhone7/iPad7
 wait for shared transport qualification. #28/#30/#31/#125/#126 open;98closed/74open/
 172/22implemented41partial96verifiedfive unresolved, no closure/comment/publication.

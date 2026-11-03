@@ -9,8 +9,9 @@ neither justifies native acceptance/closure. A causal historical-reader barrier
 repairs the fixture; six bounded phase observations retain strict completion.
 Important controls **13unique/14invocations** pass; exact five-source KLIB
 **exit0/43.01s/1,266 held**, production UP-TO-DATE, four warnings, ZERO native.
-The pending one-host five-case request groups memory3 with missing repeat2 to
-avoid duplicate Apple links, excluding all accepted populations. Interactive
+The one-host five-case request41581612628 atbf5b30b0 groups memory3 with
+missing repeat2 to avoid duplicate Apple links, excluding all accepted populations;
+results are pending and one hosted-heavy row remains reserved INCLUDINGqueued. Interactive
 iPhone7/iPad7 wait for applicable shared transport review. No issue closure or
 publication; solo/max2INCLUDINGqueued/8GiB and all readiness gates remain.
 

@@ -82,9 +82,13 @@ Evidence: [source preconditions](source-precontrols.json),
 
 ## Next and restrictions
 
-Freeze/push development only, obtain fresh hosted capacity, run this **five-case**
-batch once, review originals/source/results, then only still-missing interactive
-iPhone7/iPad7 after shared transport qualification. #28/#30/#31/#125/#126 remain
+The development patch **bf5b30b090635309c5401c9ee67a6eb4d242b96c** is committed/pushed.
+Fresh capacity was empty; the five-case batch was requested **once** as
+[41581612628](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41581612628),
+with exact actual head/readback and1,266 own-Git inputs plus separate workflow
+custody. One combined hosted-heavy row is reserved INCLUDINGqueued; results
+are pending, not accepted. See [dispatch454](dispatch454.json). Review originals/
+source/results before only still-missing interactive iPhone7/iPad7 requests. #28/#30/#31/#125/#126 remain
 open. Close all fully verified siblings immediately after their original criteria
 pass, not from compiler or partial-green XML.
 

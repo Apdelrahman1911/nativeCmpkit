@@ -13,6 +13,7 @@ import stat
 
 import ios_modal_lifecycle_source_projection as lifecycle_history
 import ios_modal_xcui_source_projection as input_history
+import ios_popover_anchor_source_projection as anchor_history
 
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-modal-ownership-source-inverse.json"
 SPEC_SHA256 = '541e0e1f5d08dc699a8a450361ef00780de2e5c92607b0a141c487fd1156c72f'
@@ -36,6 +37,9 @@ def _bindings():
 def source_before_modal_ownership(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact iOS modal ownership source identity and ordinary bytes are required")
+    # Peel only the complete new afterimage. Historical images still face their
+    # original exact pinned readers; this path never certifies current source.
+    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)
     if relative == "scripts/ci/ios_ui_application.py":
         return input_history.source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)
@@ -79,6 +83,7 @@ def source_before_modal_ownership(relative, payload):
 def current_source_before_modal_ownership(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current iOS modal ownership source identity and ordinary bytes are required")
+    payload = anchor_history.current_source_before_popover_anchor(relative, payload)
     if relative == "scripts/ci/ios_ui_application.py":
         return input_history.current_source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)

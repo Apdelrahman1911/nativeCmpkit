@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## iOS anchor source/compile qualified; camera recent-task prerequisite failed — 2026-11-03
+
+[503–509](docs/development/evidence/current-platform-recovery-20261101/ios-popover-anchor503-509/README.md)
+adds iOS-only supported ViewRect/BarButton composition input, Main/owned complete
+pointer reposition, queue-granted bounds refresh and matching native-reference
+cleanup; common signatures/Alert UIKit delegation/old pins stay. Actual504 fails
+one production import;506 production passes/test fails six diagnostics; only failed
+test compiler507 recovers0/32.01s, productionUP-TO-DATE/1289held/three warnings.
+ZERO Apple/native locally.508 first22pass(NEW13+affected9)/0.645s;50934passive checks,
+eight paths/29fragments/seven added/1293library held/1279old unchanged; one owning
+workflow is Git-only. First count-domain reviewer refusal retained, no accepted
+replay. Exact iPhone/iPad five-case routes/compiler receipts/source CLI/Actionlint
+qualified. #29 stays open: real OS rotation/split view/portrait-landscape criteria
+are not controlled callback/bounds tests, even if those five later pass.
+
+[Camera502–505](docs/development/evidence/current-platform-recovery-20261101/camera-recents-original502-505/README.md)
+keeps41706153561/630d895b FAILED before Gradle/APK/native/XML:tooling3549/2609CI
+93.390s, boot5observations4waits strictabsence passes, thenrecents324 exact_tail
+false/all other operands true;19rows/14nonempty tail, actual tasks/producer unknown.
+Separatecleanup1375 refuses, independentguestdisposal passes, all1286 actual own-Git
+maps/originals acquiredONCE/33passive checks. #13 open/no unchanged retry or camera009
+replay; qualify actual grammar/ownership-preserving restoration first.103closed69open/
+172/22implemented36partial101verifiedfive unresolved unchanged. SOLO/serial-local8GiB/
+max2INCLUDINGqueued/development/read-onlyActions/all/no mandatorySHA and every
+publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/
+readiness gate remain. No publication or new closure at this source checkpoint.
+
 ## Camera actual preflight reviewed; bounded failure observation qualified — 2026-11-03
 
 [498–501](docs/development/evidence/current-platform-recovery-20261101/camera-boot-original498-501/README.md)

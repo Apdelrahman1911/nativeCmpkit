@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "scope": "Additive exact offline history for popover production/adapter/five-case route; no old manifest/pin/native test is rewritten. Current admission and historical peeling are separate.",
+  "base_git_revision": "630d895b4c74de517144d1a0482ce2124ed029c5",
+  "bindings": {
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AlertDialogManager.kt": {
+      "before_sha256": "9b50497cbfe5b91ba251762d136d927a4ea85aeed809619c8f711550dab900ad",
+      "after_sha256": "fb4538e02bcbf5554ca5ca0a6ebf43d63b608b5101823be92a8a0374829bbfea",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n// Modified for nativeCmpkit (2026-10-27): preserve UIKit-owned alert delegation.\n@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)\n\npackage com.mohamedrejeb.calf.ui.dialog\n",
+          "after": "// Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.\n// Modified for nativeCmpkit (2026-10-27): preserve UIKit-owned alert delegation.\n// Modified for NativeCmpKit (2026-11-03): refresh owned action-sheet anchors and release native references.\n@file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)\n\npackage com.mohamedrejeb.calf.ui.dialog\n",
+          "before_fragment_sha256": "0d2301d5e72d7fda74be97bd713bfc93b7a7fb74549f0eba9196376a41d45ddf",
+          "after_fragment_sha256": "8259e072cade353afa9362c39d3a83732cfc042231c6f0f60adca7ce8b5fefc4"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "import com.mohamedrejeb.calf.ui.internal.NativePresentationState\nimport com.mohamedrejeb.calf.ui.utils.*\nimport kotlinx.cinterop.ObjCAction\nimport kotlinx.cinterop.objcPtr\nimport kotlinx.cinterop.useContents\nimport platform.CoreGraphics.CGRectContainsPoint\nimport platform.CoreGraphics.CGRectMake\nimport platform.Foundation.NSThread\n",
+          "after": "import com.mohamedrejeb.calf.ui.internal.NativePresentationState\nimport com.mohamedrejeb.calf.ui.utils.*\nimport kotlinx.cinterop.ObjCAction\nimport kotlinx.cinterop.CPointer\nimport kotlinx.cinterop.ObjCObjectVar\nimport kotlinx.cinterop.objcPtr\nimport kotlinx.cinterop.pointed\nimport kotlinx.cinterop.useContents\nimport kotlinx.cinterop.value\nimport platform.CoreGraphics.CGRect\nimport platform.CoreGraphics.CGRectContainsPoint\nimport platform.CoreGraphics.CGRectMake\nimport platform.Foundation.NSThread\n",
+          "before_fragment_sha256": "37d4e0b8bc53afbb2287c12c7ed3b8796eb8cb52e15a1cbe38ed7262bb4a8424",
+          "after_fragment_sha256": "70369d384e8dfa40c54337e7806c8a9c0a94cfb8c374198fdf48fa7ff73cad74"
+        },
+        {
+          "id": "popover-anchor-03",
+          "before": "    private val textFieldDelegates = mutableListOf<NSObject>()\n    private var outsideTap: UITapGestureRecognizer? = null\n    private var ownedPopover: UIPopoverPresentationController? = null\n\n    // UIAlertController's Alert presentation delegate belongs to UIKit: even\n    // assigning null throws on current iOS. Only ActionSheet's public popover\n",
+          "after": "    private val textFieldDelegates = mutableListOf<NSObject>()\n    private var outsideTap: UITapGestureRecognizer? = null\n    private var ownedPopover: UIPopoverPresentationController? = null\n    internal var popoverAnchor: AlertDialogIosPopoverAnchor? = null\n    private var ownedAnchorView: UIView? = null\n    private var ownedAnchorBarButton: UIBarButtonItem? = null\n\n    // UIAlertController's Alert presentation delegate belongs to UIKit: even\n    // assigning null throws on current iOS. Only ActionSheet's public popover\n",
+          "before_fragment_sha256": "7151c833b3ccf4f9ebdad12264158b90e58f5517c6503b3e06989505d5e800ec",
+          "after_fragment_sha256": "7ee38f5427a8cc0295be3683ab66f65ad5e012a2585f641f3f1faeda82f7c640"
+        },
+        {
+          "id": "popover-anchor-04",
+          "before": "        override fun popoverPresentationControllerDidDismissPopover(\n            popoverPresentationController: UIPopoverPresentationController,\n        ) = dismissedNatively(popoverPresentationController)\n    }\n\n    private fun requireMain() = check(NSThread.isMainThread) { \"UIKit alert operations must run on Main\" }\n",
+          "after": "        override fun popoverPresentationControllerDidDismissPopover(\n            popoverPresentationController: UIPopoverPresentationController,\n        ) = dismissedNatively(popoverPresentationController)\n\n        override fun popoverPresentationController(\n            popoverPresentationController: UIPopoverPresentationController,\n            willRepositionPopoverToRect: CPointer<CGRect>?,\n            inView: CPointer<ObjCObjectVar<UIView?>>?,\n        ) {\n            requireMain()\n            if (!ownsPopover(popoverPresentationController) || presentation.disposed ||\n                presentation.phase == NativePresentationState.Phase.Dismissing) return\n            when (val anchor = popoverAnchor.resolveFor(parentUIViewController)) {\n                is ResolvedAlertPopoverAnchor.BarButton -> {\n                    // UIKit owns system bar-item geometry; never guess its private view.\n                    applyPopoverAnchor(popoverPresentationController, anchor)\n                }\n                is ResolvedAlertPopoverAnchor.ViewRect -> {\n                    // Both are UIKit-owned in/out pointers valid only for this callback.\n                    // A partial pointer pair is not permission to change one coordinate space.\n                    if (willRepositionPopoverToRect == null || inView == null) return\n                    anchor.rect.useContents {\n                        val target = willRepositionPopoverToRect.pointed\n                        target.origin.x = origin.x\n                        target.origin.y = origin.y\n                        target.size.width = size.width\n                        target.size.height = size.height\n                    }\n                    inView.pointed.value = anchor.view\n                    applyPopoverAnchor(popoverPresentationController, anchor)\n                }\n            }\n        }\n    }\n\n    private fun requireMain() = check(NSThread.isMainThread) { \"UIKit alert operations must run on Main\" }\n",
+          "before_fragment_sha256": "8871ee0767c9afb1ff11d037f492b68a65460753fd28865d6030f39ff4656281",
+          "after_fragment_sha256": "5592aca1bc90ea5deeef83c9913eb551abd7fe2b7d8f4879945dfbccece8072c"
+        },
+        {
+          "id": "popover-anchor-05",
+          "before": "                    delegate = presentationDelegate\n                    ownedPopover = this\n                    sourceView = parentUIViewController.view\n                    sourceRect = parentUIViewController.view.bounds.useContents {\n                        CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)\n                    }\n",
+          "after": "                    delegate = presentationDelegate\n                    ownedPopover = this\n                    sourceView = parentUIViewController.view\n                    ownedAnchorView = parentUIViewController.view\n                    sourceRect = parentUIViewController.view.bounds.useContents {\n                        CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)\n                    }\n",
+          "before_fragment_sha256": "c6cecba9194257a5da450be6eb10d529bbb0ce9718ea2fea15165fc42d7364bc",
+          "after_fragment_sha256": "d67a0f5585d63e5f0bad1aa929e1a1d077f69b3cada5ad330fcd8c9f32e062df"
+        },
+        {
+          "id": "popover-anchor-06",
+          "before": "                if (descriptor.isPreferred) viewController.setPreferredAction(it)\n            }\n        }\n    }\n\n    /** User/outside dismissal request, unlike [dispose]. */\n",
+          "after": "                if (descriptor.isPreferred) viewController.setPreferredAction(it)\n            }\n        }\n        refreshPopoverAnchor()\n    }\n\n    /** User/outside dismissal request, unlike [dispose]. */\n",
+          "before_fragment_sha256": "643b3e26a613ac87f50bba57f2106d0792b01cfe1c90f0d21dc658d3000c7272",
+          "after_fragment_sha256": "99b9152de3622031a4a9f88653cb27ec2d7bf0854ad21baff80ddc34b3813dc4"
+        },
+        {
+          "id": "popover-anchor-07",
+          "before": "        notifyDismiss = false\n        rebuild = false\n        onDismissRequest = {}\n        presentation.dispose()\n        if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {\n            check(presentation.cancelQueuedPresentation())\n",
+          "after": "        notifyDismiss = false\n        rebuild = false\n        onDismissRequest = {}\n        popoverAnchor = null\n        presentation.dispose()\n        if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {\n            check(presentation.cancelQueuedPresentation())\n",
+          "before_fragment_sha256": "e8d6a9a61004586045be16799bc4282902cafa789f3647cc2ec784ab2b7375ae",
+          "after_fragment_sha256": "b09a03f194a4b70cbb41bcdaea5639f1b07994227018a07025c271d492affdf1"
+        },
+        {
+          "id": "popover-anchor-08",
+          "before": "        if (transition.visible) {\n            updateDialogProperties()\n            NativePresentationQueue.acquire(parentUIViewController, this) {\n                parentUIViewController.presentViewController(viewController, iosProperties.animated) {\n                    if (presentation.complete(transition)) {\n                        if (viewController.preferredStyle == UIAlertControllerStyleAlert) {\n",
+          "after": "        if (transition.visible) {\n            updateDialogProperties()\n            NativePresentationQueue.acquire(parentUIViewController, this) {\n                // A queued owner's original bounds/anchor may have changed before admission.\n                refreshPopoverAnchor()\n                parentUIViewController.presentViewController(viewController, iosProperties.animated) {\n                    if (presentation.complete(transition)) {\n                        if (viewController.preferredStyle == UIAlertControllerStyleAlert) {\n",
+          "before_fragment_sha256": "eeca6fca92ee2ae33cc5f1b86c0d4d1beb15cf1ab0843cf093802ee022e44595",
+          "after_fragment_sha256": "99d1f7695feb6025663b2866ed4f6de58f71cb9900d72c1be9b32c9a154a9444"
+        },
+        {
+          "id": "popover-anchor-09",
+          "before": "        ownedPopover?.let { popover ->\n            val delegate = popover.delegate as? NSObject\n            if (delegate != null && delegate.objcPtr() == presentationDelegate.objcPtr()) {\n                popover.delegate = null\n            }\n        }\n        ownedPopover = null\n        controller = null\n        controllerStructure = null\n        textFieldDelegates.clear()\n    }\n\n    companion object {\n",
+          "after": "        ownedPopover?.let { popover ->\n            val delegate = popover.delegate as? NSObject\n            if (delegate != null && delegate.objcPtr() == presentationDelegate.objcPtr()) {\n                if (ownedAnchorView?.objcPtr() == popover.sourceView?.objcPtr()) popover.sourceView = null\n                if (ownedAnchorBarButton?.objcPtr() == popover.barButtonItem?.objcPtr()) popover.barButtonItem = null\n                popover.delegate = null\n            }\n        }\n        ownedPopover = null\n        ownedAnchorView = null\n        ownedAnchorBarButton = null\n        controller = null\n        controllerStructure = null\n        textFieldDelegates.clear()\n    }\n\n    private fun ownsPopover(popover: UIPopoverPresentationController): Boolean {\n        val owned = ownedPopover ?: return false\n        val delegate = popover.delegate as? NSObject ?: return false\n        return owned.objcPtr() == popover.objcPtr() && ownsNativeController(popover) &&\n            delegate.objcPtr() == presentationDelegate.objcPtr()\n    }\n\n    private fun refreshPopoverAnchor() {\n        val popover = ownedPopover ?: return\n        if (!ownsPopover(popover) || presentation.disposed) return\n        applyPopoverAnchor(popover, popoverAnchor.resolveFor(parentUIViewController))\n    }\n\n    private fun applyPopoverAnchor(popover: UIPopoverPresentationController, anchor: ResolvedAlertPopoverAnchor) {\n        when (anchor) {\n            is ResolvedAlertPopoverAnchor.ViewRect -> {\n                popover.barButtonItem = null\n                popover.sourceView = anchor.view\n                popover.sourceRect = anchor.rect\n                popover.permittedArrowDirections = anchor.arrows\n                ownedAnchorView = anchor.view\n                ownedAnchorBarButton = null\n            }\n            is ResolvedAlertPopoverAnchor.BarButton -> {\n                popover.sourceView = null\n                popover.barButtonItem = anchor.item\n                popover.permittedArrowDirections = anchor.arrows\n                ownedAnchorView = null\n                ownedAnchorBarButton = anchor.item\n            }\n        }\n    }\n\n    companion object {\n",
+          "before_fragment_sha256": "894b83d65da343733f8526da9cf6ecbafab8ea007156899ca7f72b1e960d2be0",
+          "after_fragment_sha256": "11747b88e911d7dad5a1fe584a5bfaa4e57aa5e02fee4f9aad7b07d8ee7b4719"
+        }
+      ]
+    },
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt": {
+      "before_sha256": "6400ce0b2b2ec34ba020a35e9d429a0e7452e266499e15e580f8ba7ae0932325",
+      "after_sha256": "a1712df5af54aec9f905b5bb1944f7c077e49561b079cf7b89c2e3302af2b732",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosActionStyle\nimport com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosProperties\nimport com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosStyle\n\n@OptIn(InternalCalfApi::class)\n@Composable\n",
+          "after": "import com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosActionStyle\nimport com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosProperties\nimport com.mohamedrejeb.calf.ui.dialog.uikit.AlertDialogIosStyle\nimport com.mohamedrejeb.calf.ui.dialog.uikit.LocalAlertDialogIosPopoverAnchor\n\n@OptIn(InternalCalfApi::class)\n@Composable\n",
+          "before_fragment_sha256": "de30d3d260dc33d7a613dd9180b1cdafe1decb54703eef3c2d23c153f3eec767",
+          "after_fragment_sha256": "65fdcbf8d482f449c4462fb384c6c5fa1db9b4332769403a7b7d4fd18b4a6a32"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": ") {\n    val currentUIViewController = LocalUIViewController.current\n    val layoutDirection = LocalLayoutDirection.current\n\n    fun createIosDialogProperties(): AlertDialogIosProperties {\n        return AlertDialogIosProperties(\n",
+          "after": ") {\n    val currentUIViewController = LocalUIViewController.current\n    val layoutDirection = LocalLayoutDirection.current\n    val popoverAnchor = LocalAlertDialogIosPopoverAnchor.current\n\n    fun createIosDialogProperties(): AlertDialogIosProperties {\n        return AlertDialogIosProperties(\n",
+          "before_fragment_sha256": "0372b13641853221ce05693b8b910070fe7d45b40927fc6e669f567a23b409b2",
+          "after_fragment_sha256": "b3dbafad9c5a8da42b5e09d606485d944af945106fd6b03a1d61aab7a5fe1ec1"
+        },
+        {
+          "id": "popover-anchor-03",
+          "before": "            iosProperties = createIosDialogProperties(),\n            properties = properties,\n            layoutDirection = layoutDirection,\n        )\n    }\n\n    SideEffect {\n        alertDialogManager.onDismissRequest = onDismiss\n        alertDialogManager.iosProperties = createIosDialogProperties()\n        alertDialogManager.properties = properties\n",
+          "after": "            iosProperties = createIosDialogProperties(),\n            properties = properties,\n            layoutDirection = layoutDirection,\n        ).also { it.popoverAnchor = popoverAnchor }\n    }\n\n    SideEffect {\n        alertDialogManager.popoverAnchor = popoverAnchor\n        alertDialogManager.onDismissRequest = onDismiss\n        alertDialogManager.iosProperties = createIosDialogProperties()\n        alertDialogManager.properties = properties\n",
+          "before_fragment_sha256": "58ad4e124b979773259eaa80cf0c5698c685f734a85bd31b3be2475f41751659",
+          "after_fragment_sha256": "7bc2e60e718ea268f01661efed9d092552b008f3c5c2676fb3f1e3f691f83065"
+        },
+        {
+          "id": "popover-anchor-04",
+          "before": ") {\n    val currentUIViewController = LocalUIViewController.current\n    val layoutDirection = LocalLayoutDirection.current\n\n    val alertDialogManager = remember(currentUIViewController) {\n        AlertDialogManager(\n",
+          "after": ") {\n    val currentUIViewController = LocalUIViewController.current\n    val layoutDirection = LocalLayoutDirection.current\n    val popoverAnchor = LocalAlertDialogIosPopoverAnchor.current\n\n    val alertDialogManager = remember(currentUIViewController) {\n        AlertDialogManager(\n",
+          "before_fragment_sha256": "4bfabf4e5ade8d9484988fc796cf037377f7355bb636548e79d9030f5c3f20bf",
+          "after_fragment_sha256": "03d838ba4bda3ea307ce4dbe86f0695f55abbd1725c76139f7996aa34ee43e9d"
+        },
+        {
+          "id": "popover-anchor-05",
+          "before": "            iosProperties = iosProperties,\n            properties = properties,\n            layoutDirection = layoutDirection,\n        )\n    }\n\n    SideEffect {\n        alertDialogManager.onDismissRequest = onDismissRequest\n        alertDialogManager.iosProperties = iosProperties\n        alertDialogManager.properties = properties\n",
+          "after": "            iosProperties = iosProperties,\n            properties = properties,\n            layoutDirection = layoutDirection,\n        ).also { it.popoverAnchor = popoverAnchor }\n    }\n\n    SideEffect {\n        alertDialogManager.popoverAnchor = popoverAnchor\n        alertDialogManager.onDismissRequest = onDismissRequest\n        alertDialogManager.iosProperties = iosProperties\n        alertDialogManager.properties = properties\n",
+          "before_fragment_sha256": "087fc44fa6c951000a719b4ee05670f9b048ab7ee71465fa5804a21be49a89f4",
+          "after_fragment_sha256": "68e08c670cf12e5cc93c4954234a0940f67f58de637d6477e8ec1ffb8c2711e6"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "before_sha256": "1cc634224a7e494cd76b3d75f0db8c1278247649eee081fe79f6518decd48a8b",
+      "after_sha256": "76fb592d0a48f9072eabdd3e7bfa77e07f790427455b6e5e5a5c46874fa98686",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {\n    \"groups\": IOS_UI_STATE_GROUPS,\n    \"scope\": \"Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.\",\n}\n\nIOS_MODAL_OWNERSHIP_FOCUS = \"ui-native-modal-ownership-batch\"\n",
+          "after": "UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {\n    \"groups\": IOS_UI_STATE_GROUPS,\n    \"scope\": \"Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.\",\n}\n\nIOS_POPOVER_ANCHOR_FOCUS = \"ui-native-popover-anchor\"\nIOS_POPOVER_ANCHOR_CLASS = \"com.mohamedrejeb.calf.ui.dialog.NativePopoverAnchorTest\"\nIOS_POPOVER_ANCHOR_SOURCE = \"calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverAnchorTest.kt\"\nIOS_POPOVER_ANCHOR_METHODS = (\n    \"publicCompositionAnchorUsesLocalRectAndUpdatesWithoutRebuilding\",\n    \"nativeBarButtonAndDetachedOrMissingViewUseTheDocumentedFallback\",\n    \"queuedPresentationRefreshesBoundsAndDisposalReleasesOwnedAnchorReferences\",\n    \"controlledNativeRepositionWritesOnlyCompleteOwnedPointerPairs\",\n    \"invalidRectanglesAreRejectedBeforeUIKitAndAlertDelegationIsUnchanged\",\n)\nUI_APPLICATION_FOCUS_SPECS[IOS_POPOVER_ANCHOR_FOCUS] = {\n    \"groups\": ({\"classname\": IOS_POPOVER_ANCHOR_CLASS, \"source\": IOS_POPOVER_ANCHOR_SOURCE,\n                \"methods\": IOS_POPOVER_ANCHOR_METHODS},),\n    \"scope\": \"Five new genuine library UIKit anchor/ownership regressions only: public view-local input and live updates, bar-button and missing/detached fallback, queue-granted bounds refresh and terminal native-reference cleanup, controlled owned reposition pointers, finite rectangles and unchanged UIKit Alert delegation. Exact four-source compiler receipt, real ApplicationTest/Worker/native XML/runtime and owned cleanup required. Controlled bounds/delegate input is NOT actual OS portrait/landscape rotation or split view, physical, minimum-OS, consumer/API-ABI/security/release or whole UI-013 acceptance; no accepted modal-case replay.\",\n}\n\nIOS_MODAL_OWNERSHIP_FOCUS = \"ui-native-modal-ownership-batch\"\n",
+          "before_fragment_sha256": "3cb5e1115984d70f52008554300a45481ee7c42bf6d8ff9af674990d65986ccb",
+          "after_fragment_sha256": "8d84d0e7204b6b47aea8703e3d67e38c9425089d9034aeb7c681692c1b568921"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "                    not set(group[\"methods\"]) <= set(declared) or\n                    \"class \" + classname not in source or \"package \" + package not in source):\n                raise ValueError(\"Native date declarations changed; review the exact finite application selection\")\n            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS, IOS_MODAL_COMPLETION_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n                raise ValueError(\"New modal lifecycle source must retain all enabled native declarations\")\n            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n                raise ValueError(\"New Share application declarations must remain enabled\")\n",
+          "after": "                    not set(group[\"methods\"]) <= set(declared) or\n                    \"class \" + classname not in source or \"package \" + package not in source):\n                raise ValueError(\"Native date declarations changed; review the exact finite application selection\")\n            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS, IOS_MODAL_COMPLETION_FOCUS, IOS_POPOVER_ANCHOR_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n                raise ValueError(\"New modal lifecycle source must retain all enabled native declarations\")\n            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r\"@(Ignore|Disabled|IgnoredTest)\\b\", source):\n                raise ValueError(\"New Share application declarations must remain enabled\")\n",
+          "before_fragment_sha256": "b7bb16131a4e2bdee354be8868e2362bed755885b6434443dfde17479162771e",
+          "after_fragment_sha256": "88dcf9ec24e500efef984c8b8645d7f6d2caf2f24e93a7744668250d5b830158"
+        },
+        {
+          "id": "popover-anchor-03",
+          "before": "        command.extend([\"--init-script\", \"scripts/ci/ios_sheet_repeat_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") == IOS_MODAL_COMPLETION_FOCUS:\n        command.extend([\"--init-script\", \"scripts/ci/ios_modal_completion_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n                        \"-PnativecmpkitDesktopSecurityFocus=\" + test_plan[\"explicit_test_focus\"]])\n",
+          "after": "        command.extend([\"--init-script\", \"scripts/ci/ios_sheet_repeat_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") == IOS_MODAL_COMPLETION_FOCUS:\n        command.extend([\"--init-script\", \"scripts/ci/ios_modal_completion_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n        command.extend([\"--init-script\", \"scripts/ci/ios_popover_anchor_compile.init.gradle.kts\"])\n    if test_plan.get(\"explicit_test_focus\") in desktop_security_plan.FOCUSES:\n        command.extend([\"--init-script\", desktop_security_plan.INIT_SCRIPT,\n                        \"-PnativecmpkitDesktopSecurityFocus=\" + test_plan[\"explicit_test_focus\"]])\n",
+          "before_fragment_sha256": "ba6870ef247227e3265a60d61800e5a13afd218aef21fdf87f16cb587859cca5",
+          "after_fragment_sha256": "22b1d6ae0c93da1bceb79011411191ffea28fc036e78b7e9b1db9c38660890e2"
+        },
+        {
+          "id": "popover-anchor-04",
+          "before": "        focused_ui = test_plan.get(\"explicit_test_focus\") in UI_APPLICATION_FOCUS_SPECS\n        if focused_ui:\n            validate_test_focus(test_plan)\n        need(document.get(\"packages_published\") is False and document.get(\"release_readiness_certified\") is False,\n             \"Verification must not claim publication or release certification\")\n        need(context.get(\"source_tree_dirty\") is False and document.get(\"source_tree_dirty\") is False and\n",
+          "after": "        focused_ui = test_plan.get(\"explicit_test_focus\") in UI_APPLICATION_FOCUS_SPECS\n        if focused_ui:\n            validate_test_focus(test_plan)\n        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n            import ios_popover_anchor_plan\n            need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),\n                 \"Native popover anchor cases require their fresh exact four-source compiler receipt\")\n        need(document.get(\"packages_published\") is False and document.get(\"release_readiness_certified\") is False,\n             \"Verification must not claim publication or release certification\")\n        need(context.get(\"source_tree_dirty\") is False and document.get(\"source_tree_dirty\") is False and\n",
+          "before_fragment_sha256": "be4d247bdb051310c6d05646cba8b18a15081e54ead58b72d89df5a64dd62e46",
+          "after_fragment_sha256": "7eed849197db1d020425a1a6f5bb3134196bfec022ca645444e316308fba7651"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "before_sha256": "66136139feb1efb870f75817d1fe1890275093f0965ac523eded05f8f65b6609",
+      "after_sha256": "0842e80dfa2dece260fb88edf2f38ca14068655fd22fb26be9a96779db46610b",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "    \"ios-modal-lifecycle-memory-recovery\": (\"ios-iphone\",),\n    \"ios-modal-xcui-batch\": (\"ios-iphone\",),\n    \"ios-modal-xcui-batch-ipad\": (\"ios-ipad\",),\n    \"ios-date-year-predicate-red\": (\"ios-iphone\",),\n    \"ios-io\": (\"ios-iphone\",),\n    \"ios-saver-write-failure\": (\"ios-iphone\",),\n",
+          "after": "    \"ios-modal-lifecycle-memory-recovery\": (\"ios-iphone\",),\n    \"ios-modal-xcui-batch\": (\"ios-iphone\",),\n    \"ios-modal-xcui-batch-ipad\": (\"ios-ipad\",),\n    \"ios-popover-anchor\": (\"ios-iphone\",),\n    \"ios-popover-anchor-ipad\": (\"ios-ipad\",),\n    \"ios-date-year-predicate-red\": (\"ios-iphone\",),\n    \"ios-io\": (\"ios-iphone\",),\n    \"ios-saver-write-failure\": (\"ios-iphone\",),\n",
+          "before_fragment_sha256": "1d02b08010efebe877a5a859490e26295e3925773c861ba4f3c9516b3f510d76",
+          "after_fragment_sha256": "7cb9bab9781b21ff981e03c7bc867bbb41c53029b2e5def147217f41af35abca"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "    \"ios-modal-lifecycle-memory-recovery\": \"calf-ui\",\n    \"ios-modal-xcui-batch\": \"calf-ui\",\n    \"ios-modal-xcui-batch-ipad\": \"calf-ui\",\n    \"ios-date-year-predicate-red\": \"calf-ui\",\n    # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged\n    # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.\n",
+          "after": "    \"ios-modal-lifecycle-memory-recovery\": \"calf-ui\",\n    \"ios-modal-xcui-batch\": \"calf-ui\",\n    \"ios-modal-xcui-batch-ipad\": \"calf-ui\",\n    \"ios-popover-anchor\": \"calf-ui\",\n    \"ios-popover-anchor-ipad\": \"calf-ui\",\n    \"ios-date-year-predicate-red\": \"calf-ui\",\n    # Foundation/guarded-copy/stream/Coil evidence without replaying unchanged\n    # UIKit, picker-dialog, browser, Windows or packaged-consumer execution.\n",
+          "before_fragment_sha256": "541c20a1e6b037eb51c6d4917ef6cbf2f7592014ac893426bf5e0286fd5ee495",
+          "after_fragment_sha256": "f250dfb4ac805808d83343d71062a378c27acea9562ffc20cc7e5c50c7ed033d"
+        },
+        {
+          "id": "popover-anchor-03",
+          "before": "        if PROFILES[profile] != (\"ios-\" + kind,) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Native modal XCTest batches require one fixed real Arm64 UIKit host and calf-ui only\")\n        rows[0][\"test-focus\"] = \"ui-native-modal-xcui-batch\"\n    if profile == \"ios-modal-worker-memory-recovery\":\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-ui\"}\n",
+          "after": "        if PROFILES[profile] != (\"ios-\" + kind,) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Native modal XCTest batches require one fixed real Arm64 UIKit host and calf-ui only\")\n        rows[0][\"test-focus\"] = \"ui-native-modal-xcui-batch\"\n    if profile in (\"ios-popover-anchor\", \"ios-popover-anchor-ipad\"):\n        kind = \"iphone\" if profile == \"ios-popover-anchor\" else \"ipad\"\n        canonical = {\"slot\": \"ios-\" + kind, \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": kind, \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-\" + kind,) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Popover anchor verification requires one fixed genuine Arm64 UIKit host and calf-ui only\")\n        rows[0][\"test-focus\"] = \"ui-native-popover-anchor\"\n    if profile == \"ios-modal-worker-memory-recovery\":\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-ui\"}\n",
+          "before_fragment_sha256": "3d623dbac7e830fff674119b591dc69c9a7c8e9b4b184be89926df0893529837",
+          "after_fragment_sha256": "defa6c000dc61cd482ada38ab3c6fa9906045514aedf71e45ff5b380576b8009"
+        }
+      ]
+    },
+    ".github/workflows/gradle.yml": {
+      "before_sha256": "a8e2c74ea0d89ff219aca7837a373cd80fe80083f519abc60e6292e93fe60ac8",
+      "after_sha256": "89807f6e78ab3bc63bba6e429d913a0d603cfc867e156b0acbf15b7e2ba94d4b",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "        type: choice\n        required: true\n        default: core\n        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]\n\npermissions:\n  contents: read\n",
+          "after": "        type: choice\n        required: true\n        default: core\n        options: [core, browser, browser-picker, browser-coil-io, browser-coil-io-js, browser-coil-io-wasm, webview-browser, webview-content-transitions, webview-request-state, webview-offline-destination, webview-desktop-request-state, webview-desktop-stop-windows-recovery, webview-desktop-security-regressions, webview-desktop-request-state-linux-pair, webview-desktop-request-state-macos-pair, webview-desktop-request-state-windows-single, webview-desktop-security-linux-arm64-windows-pair, webview-desktop-security-macos-pair, webview-desktop-policy-macos-recovery, webview-desktop-tls-windows-recovery, webview-wasm, share-browser, share-clipboard-native, share-clipboard-native-wasm, ui-dropdown-platforms, ui-dropdown-android-recovery, ui-date-platforms, ui-date-browser, ui-date-js, ui-date-wasm, ui-date-android, navigation-geo, navigation-desktop, webview-desktop, webview-identity, webview-identity-linux, webview-identity-browser, webview-identity-wasm, webview-identity-android, webview-identity-recovery, webview-identity-remount-recovery, webview-identity-ios-remount-recovery, webview-lifetime, webview-lifetime-android, webview-lifetime-android-media, webview-lifetime-linux, webview-lifetime-macos-arm64, webview-lifetime-macos-x64, webview-lifetime-macos-media, webview-lifetime-windows, picker-batch, picker-batch-recovery, picker-batch-linux, picker-batch-macos, picker-batch-windows, picker-saver-state, picker-linux-portal, picker-linux-portal-save, desktop-data-safety, android-resource-safety, android-coil-resource, android-permission-alias, permissions-unsupported, permissions-unsupported-windows, permissions-ios, permissions-ios-safety, permissions-ios-empty-batch, permissions-completion-android, navigation-geo-matrix, apple, ios, ios-ui, ios-secure-alert-input, ios-date-bounds, ios-date-replacement, ios-date-compact, ios-dates-important, ios-alert-date-important, ios-alert-important-recovery, ios-modal-ownership-batch, ios-modal-ownership-ipad, ios-modal-lifecycle-replacement, ios-modal-lifecycle-replacement-ipad, ios-modal-lifecycle-memory-recovery, ios-modal-worker-memory-recovery, ios-sheet-cancellation-repeat, ios-modal-completion-cancellation, ios-xctest-startup, ios-modal-xcui-batch, ios-modal-xcui-batch-ipad, ios-popover-anchor, ios-popover-anchor-ipad, ios-date-year-predicate-red, ios-io, ios-saver-write-failure, ios-picker-batch, ios-picker-recovery, ios-picker-admission, ios-picker-provider-cancellation, ios-share-presentation-disposal, ios-share-remembered-failure-observation, ios-switch-cancellation, ios-switch-ownership, ios-slider-numeric, ios-ui-state, ios-time-state-recovery, ios-slider-lifecycle, ios-slider-remaining, ios-slider-structure, ios-slider-tap, ios-slider-pair-structure, ios-vector-theme, ios-vector-theme-recovery, ios-vector-rendering-recovery, ios-vector-rendering-iphone-recovery, ios-vector-native-screen-pair, ios-slider-recovery, ios-image-memory, ios-image-memory-darwin, ios-image-profile-recovery, ios-appinfo-capability, ios-appinfo-shape, ios-webview-lifecycle, ios-webview-recovery, ios-webview-request-state, ios-webview-provisional-dns, ios-webview-request-dns, windows, windows-cache, windows-share-loader, windows-share-boundaries, extended, android-device, android-webview, android-webview-popups, android-webview-request-state, android-webview-stop-redirect-recovery, android-navigation-back, android-geo-ownership, android-geo-provider, android-geo-prerequisites, android-share-grants, android-camera-provider, android-camera-provider-minimum, android-camera-no-handler-minimum, android-camera-restoration, android-camera-restoration-dont-keep, android-io-provider-lifecycle, android-io-provider-unavailable, android-io-named-system-providers, android-io-named-external-storage, android-io-default-decode, android-io-oversize, android-saver-identity, android-saver-identity-missing, android-io-reference-regressions, android-permission-demo, android-permission-demo-call-denial-recovery, android-permission-demo-denial-recovery, android-io-permission-storage-api35, android-permission-storage-api35-recovery, android-permission-storage-compatibility, android-storage-compatibility, android-media-selection-compatibility, android-media-selection-api33, android-media-selection-api34, android-storage-api28, android-storage-api29-target28, android-storage-api29-legacy, android-storage-api29-scoped, android-storage-api30-normal, android-storage-api30-all-files, android-storage-api35-normal, android-storage-api35-all-files, consumer-core-io, consumer-webview, consumer-webview-remaining, consumer-webview-linux-x64, consumer-webview-linux-arm64, consumer-webview-macos-arm64, consumer-webview-macos-x64, consumer-webview-windows-x64, sample-platforms-linux, sample-platforms-apple, sample-builds-linux, sample-builds-apple, all, tooling]\n\npermissions:\n  contents: read\n",
+          "before_fragment_sha256": "711bbf3968b94cce8fa69ab577010d5522dbf6f43c390a264af4fea5b9ba3697",
+          "after_fragment_sha256": "c41c7989365a62da866953d4210e3582389193ea93c211ece81427758eb4c8ac"
+        }
+      ]
+    },
+    "scripts/ci/ios_modal_ownership_source_projection.py": {
+      "before_sha256": "bb1ea8d6665f8786a374a4e5febea9a727c57f8dfb15297db58febe0dc9c2eb0",
+      "after_sha256": "50ac763e93bd6f690e4fdc524291bf78ec8f5e70484f13b063ea665c04446a59",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "\nimport ios_modal_lifecycle_source_projection as lifecycle_history\nimport ios_modal_xcui_source_projection as input_history\n\nSPEC_PATH = Path(__file__).parent / \"fixtures/ios-modal-ownership-source-inverse.json\"\nSPEC_SHA256 = '541e0e1f5d08dc699a8a450361ef00780de2e5c92607b0a141c487fd1156c72f'\n",
+          "after": "\nimport ios_modal_lifecycle_source_projection as lifecycle_history\nimport ios_modal_xcui_source_projection as input_history\nimport ios_popover_anchor_source_projection as anchor_history\n\nSPEC_PATH = Path(__file__).parent / \"fixtures/ios-modal-ownership-source-inverse.json\"\nSPEC_SHA256 = '541e0e1f5d08dc699a8a450361ef00780de2e5c92607b0a141c487fd1156c72f'\n",
+          "before_fragment_sha256": "ff351ba68f8eb4642fa1080b85b8572e16b476d9c056ad3d28e7b9ead984e7c7",
+          "after_fragment_sha256": "d30724f6e5db13e18b4619f248869c9f2c9649be623dcf7ce704eb82c0c63666"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "def source_before_modal_ownership(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact iOS modal ownership source identity and ordinary bytes are required\")\n    if relative == \"scripts/ci/ios_ui_application.py\":\n        return input_history.source_before_modal_xcui(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after": "def source_before_modal_ownership(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact iOS modal ownership source identity and ordinary bytes are required\")\n    # Peel only the complete new afterimage. Historical images still face their\n    # original exact pinned readers; this path never certifies current source.\n    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)\n    if relative == \"scripts/ci/ios_ui_application.py\":\n        return input_history.source_before_modal_xcui(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "d0cf541b0069085171b79508121d9b64e5222c1d0b2bbb33312817e099da4607",
+          "after_fragment_sha256": "4fc56c792436d8ef9a1024514e9fb34ee5e50c12b7a617a3ceb0947638c03833"
+        },
+        {
+          "id": "popover-anchor-03",
+          "before": "def current_source_before_modal_ownership(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current iOS modal ownership source identity and ordinary bytes are required\")\n    if relative == \"scripts/ci/ios_ui_application.py\":\n        return input_history.current_source_before_modal_xcui(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after": "def current_source_before_modal_ownership(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current iOS modal ownership source identity and ordinary bytes are required\")\n    payload = anchor_history.current_source_before_popover_anchor(relative, payload)\n    if relative == \"scripts/ci/ios_ui_application.py\":\n        return input_history.current_source_before_modal_xcui(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "605d2eeef4690a8c94f8231fc21dd17bfd08003d09e9acc2b4c87e08c0b4c0c5",
+          "after_fragment_sha256": "804a5c705ee0d65d2399a50ea6b5735ee05a0186378bc02492201c9cefec240b"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_modal_xcui_batch.py": {
+      "before_sha256": "a67b7d1ec816a486b97508f2ee23a41461e9f0893984b2f66ea12f4acc916de5",
+      "after_sha256": "1efd4ff462f17da4b685c0518322b24034b79509d492180cce7ca404934cf2a0",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "import workflow_matrix as workflow\nimport native_ui_input as input_driver\nimport ios_modal_xcui_source_projection as history\n\nROOT = Path(__file__).resolve().parents[2]\nSIMULATOR = \"726D52AF-426A-408A-974D-CA8B9BE8A479\"\n",
+          "after": "import workflow_matrix as workflow\nimport native_ui_input as input_driver\nimport ios_modal_xcui_source_projection as history\nimport ios_popover_anchor_source_projection as anchor_history\n\nROOT = Path(__file__).resolve().parents[2]\nSIMULATOR = \"726D52AF-426A-408A-974D-CA8B9BE8A479\"\n",
+          "before_fragment_sha256": "39fe31ecdc0859b18b380ddad312a4648c25c316bd6fb6f989875b3bc27f7d46",
+          "after_fragment_sha256": "09798f7fe8a34c9b8caf48a728b077a42ebf33d8f9130ed149d6e82ad7f84387"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "        self.assertEqual(22, sum(len(binding[\"fragments\"]) for binding in bindings.values()))\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = history.current_source_before_modal_xcui(relative, current)\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(previous, history.source_before_modal_xcui(relative, previous))\n            for changed in (previous, current + b\"\\n\", current.replace(b\"\\n\", b\"\\r\\n\")):\n",
+          "after": "        self.assertEqual(22, sum(len(binding[\"fragments\"]) for binding in bindings.values()))\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = history.current_source_before_modal_xcui(relative,\n                anchor_history.current_source_before_popover_anchor(relative, current))\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(previous, history.source_before_modal_xcui(relative, previous))\n            for changed in (previous, current + b\"\\n\", current.replace(b\"\\n\", b\"\\r\\n\")):\n",
+          "before_fragment_sha256": "93182bb23489d24cb324b2dcb6d2c64c1154175c8d942751a42693a54e05e80d",
+          "after_fragment_sha256": "daf96076c951d5cc81650280858d21404dac420dca3f6a70e7f1b981fad7dc65"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_modal_lifecycle_replacement.py": {
+      "before_sha256": "e9f62d1a5fa9e2de176700089742b1addae1d1f0a6fc15b5b795bc451562d586",
+      "after_sha256": "43c2d6a059fe2f9f20dace4d591c1b2df6ef09c03ab2f7e396c7397a520d0edb",
+      "fragments": [
+        {
+          "id": "popover-anchor-01",
+          "before": "import workflow_matrix as workflow\nimport ios_modal_lifecycle_source_projection as lifecycle\nimport ios_modal_ownership_source_projection as modal\n\nROOT = Path(__file__).resolve().parents[2]\nPROFILES = ((\"ios-modal-lifecycle-replacement\", \"iphone\"),\n",
+          "after": "import workflow_matrix as workflow\nimport ios_modal_lifecycle_source_projection as lifecycle\nimport ios_modal_ownership_source_projection as modal\nimport ios_popover_anchor_source_projection as anchor_history\n\nROOT = Path(__file__).resolve().parents[2]\nPROFILES = ((\"ios-modal-lifecycle-replacement\", \"iphone\"),\n",
+          "before_fragment_sha256": "c49d0a51daaadc7ce7a2fd68ebf878ebd493731a255e690a91a45f497c24c3fc",
+          "after_fragment_sha256": "e1f1619269fa7c9f25e977c91206ef3fdcaf2ea636f62ebb7f48b7413bb8d7ef"
+        },
+        {
+          "id": "popover-anchor-02",
+          "before": "        old_bindings = json.loads(modal.SPEC_PATH.read_text())[\"bindings\"]\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = lifecycle.current_source_before_modal_lifecycle(relative, current)\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(old_bindings[relative][\"after_sha256\"], hashlib.sha256(previous).hexdigest())\n            historical = modal.current_source_before_modal_ownership(relative, current)\n",
+          "after": "        old_bindings = json.loads(modal.SPEC_PATH.read_text())[\"bindings\"]\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = lifecycle.current_source_before_modal_lifecycle(relative,\n                anchor_history.current_source_before_popover_anchor(relative, current))\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(old_bindings[relative][\"after_sha256\"], hashlib.sha256(previous).hexdigest())\n            historical = modal.current_source_before_modal_ownership(relative, current)\n",
+          "before_fragment_sha256": "3eef22f8f131fba391a7824a4b7e843db0e247fc9e54684783cbadd608c5f95e",
+          "after_fragment_sha256": "9f58ae9ad462b45b3805af7b17c5b9df68d7fa85393892466bbf1130fabb5746"
+        }
+      ]
+    }
+  }
+}

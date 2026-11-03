@@ -11,6 +11,7 @@ import library_tests as library
 import workflow_matrix as workflow
 import ios_modal_lifecycle_source_projection as lifecycle
 import ios_modal_ownership_source_projection as modal
+import ios_popover_anchor_source_projection as anchor_history
 
 ROOT = Path(__file__).resolve().parents[2]
 PROFILES = (("ios-modal-lifecycle-replacement", "iphone"),
@@ -100,7 +101,8 @@ class IosModalLifecycleReplacementTests(unittest.TestCase):
         old_bindings = json.loads(modal.SPEC_PATH.read_text())["bindings"]
         for relative, binding in bindings.items():
             current = (ROOT / relative).read_bytes()
-            previous = lifecycle.current_source_before_modal_lifecycle(relative, current)
+            previous = lifecycle.current_source_before_modal_lifecycle(relative,
+                anchor_history.current_source_before_popover_anchor(relative, current))
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             self.assertEqual(old_bindings[relative]["after_sha256"], hashlib.sha256(previous).hexdigest())
             historical = modal.current_source_before_modal_ownership(relative, current)

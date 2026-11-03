@@ -715,6 +715,22 @@ UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {
     "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
 }
 
+IOS_POPOVER_ANCHOR_FOCUS = "ui-native-popover-anchor"
+IOS_POPOVER_ANCHOR_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativePopoverAnchorTest"
+IOS_POPOVER_ANCHOR_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverAnchorTest.kt"
+IOS_POPOVER_ANCHOR_METHODS = (
+    "publicCompositionAnchorUsesLocalRectAndUpdatesWithoutRebuilding",
+    "nativeBarButtonAndDetachedOrMissingViewUseTheDocumentedFallback",
+    "queuedPresentationRefreshesBoundsAndDisposalReleasesOwnedAnchorReferences",
+    "controlledNativeRepositionWritesOnlyCompleteOwnedPointerPairs",
+    "invalidRectanglesAreRejectedBeforeUIKitAndAlertDelegationIsUnchanged",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_POPOVER_ANCHOR_FOCUS] = {
+    "groups": ({"classname": IOS_POPOVER_ANCHOR_CLASS, "source": IOS_POPOVER_ANCHOR_SOURCE,
+                "methods": IOS_POPOVER_ANCHOR_METHODS},),
+    "scope": "Five new genuine library UIKit anchor/ownership regressions only: public view-local input and live updates, bar-button and missing/detached fallback, queue-granted bounds refresh and terminal native-reference cleanup, controlled owned reposition pointers, finite rectangles and unchanged UIKit Alert delegation. Exact four-source compiler receipt, real ApplicationTest/Worker/native XML/runtime and owned cleanup required. Controlled bounds/delegate input is NOT actual OS portrait/landscape rotation or split view, physical, minimum-OS, consumer/API-ABI/security/release or whole UI-013 acceptance; no accepted modal-case replay.",
+}
+
 IOS_MODAL_OWNERSHIP_FOCUS = "ui-native-modal-ownership-batch"
 IOS_MODAL_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest"
 IOS_MODAL_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt"
@@ -2287,7 +2303,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS, IOS_MODAL_COMPLETION_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS, IOS_MODAL_COMPLETION_FOCUS, IOS_POPOVER_ANCHOR_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New modal lifecycle source must retain all enabled native declarations")
             if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
@@ -4069,6 +4085,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
         command.extend(["--init-script", "scripts/ci/ios_sheet_repeat_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") == IOS_MODAL_COMPLETION_FOCUS:
         command.extend(["--init-script", "scripts/ci/ios_modal_completion_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_popover_anchor_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
         command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
                         "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
@@ -4350,6 +4368,10 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         focused_ui = test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
         if focused_ui:
             validate_test_focus(test_plan)
+        if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
+            import ios_popover_anchor_plan
+            need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),
+                 "Native popover anchor cases require their fresh exact four-source compiler receipt")
         need(document.get("packages_published") is False and document.get("release_readiness_certified") is False,
              "Verification must not claim publication or release certification")
         need(context.get("source_tree_dirty") is False and document.get("source_tree_dirty") is False and

@@ -1,5 +1,25 @@
 # NativeCmpKit development after the audit
 
+## Supported iOS popover anchors prepared; camera original still blocked — 2026-11-03
+
+[503–509](evidence/current-platform-recovery-20261101/ios-popover-anchor503-509/README.md)
+implements additive iOS view-rect/bar-item input, current queue-granted geometry,
+owned native reposition pointers and cleanup, preserving common APIs/Alert UIKit
+delegation. **22/22 important controls** and final **test-KLIB0/32.01s** qualify;
+the original two compiler failures/warnings and reviewer domain-count refusal are
+retained.1,293 library inputs hold; both exact five-case native profiles are ready.
+**No Apple/native pass and no #29 closure**: real iPad rotation/split-view criteria
+still require their own execution. Reuse current compiler evidence, not rebuild.
+
+[Camera502–505](evidence/current-platform-recovery-20261101/camera-recents-original502-505/README.md)
+reviews41706153561/630d895b once: **FAILED before compiler/native/XML** despite all
+tooling and boot handoff passing. Exact recent-task tail operand refuses19rows/
+14nonempty tail; actual records/producer remain unqualified, separate cleanup
+fails and owned guest disposal passes. All1,286 actual own-Git maps/33passive checks
+hold. #13 remains open; no unchanged retry or accepted camera009 replay.
+**103closed/69open**, no new closure/publication; SOLO/max2INCLUDINGqueued and all
+development/security/readiness/history/main/Pages gates remain.
+
 ## Camera preflight failure reviewed; original diagnostics repaired — 2026-11-03
 
 [498–501](evidence/current-platform-recovery-20261101/camera-boot-original498-501/README.md)

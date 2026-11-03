@@ -1,5 +1,6 @@
 // Modified for nativeCmpkit (2026-10-24): correctness, lifecycle, testing and build hardening.
 // Modified for nativeCmpkit (2026-10-27): preserve UIKit-owned alert delegation.
+// Modified for NativeCmpKit (2026-11-03): refresh owned action-sheet anchors and release native references.
 @file:OptIn(kotlinx.cinterop.ExperimentalForeignApi::class, kotlinx.cinterop.BetaInteropApi::class)
 
 package com.mohamedrejeb.calf.ui.dialog
@@ -12,8 +13,13 @@ import com.mohamedrejeb.calf.ui.internal.NativePresentationQueue
 import com.mohamedrejeb.calf.ui.internal.NativePresentationState
 import com.mohamedrejeb.calf.ui.utils.*
 import kotlinx.cinterop.ObjCAction
+import kotlinx.cinterop.CPointer
+import kotlinx.cinterop.ObjCObjectVar
 import kotlinx.cinterop.objcPtr
+import kotlinx.cinterop.pointed
 import kotlinx.cinterop.useContents
+import kotlinx.cinterop.value
+import platform.CoreGraphics.CGRect
 import platform.CoreGraphics.CGRectContainsPoint
 import platform.CoreGraphics.CGRectMake
 import platform.Foundation.NSThread
@@ -39,6 +45,9 @@ class AlertDialogManager internal constructor(
     private val textFieldDelegates = mutableListOf<NSObject>()
     private var outsideTap: UITapGestureRecognizer? = null
     private var ownedPopover: UIPopoverPresentationController? = null
+    internal var popoverAnchor: AlertDialogIosPopoverAnchor? = null
+    private var ownedAnchorView: UIView? = null
+    private var ownedAnchorBarButton: UIBarButtonItem? = null
 
     // UIAlertController's Alert presentation delegate belongs to UIKit: even
     // assigning null throws on current iOS. Only ActionSheet's public popover
@@ -57,6 +66,36 @@ class AlertDialogManager internal constructor(
         override fun popoverPresentationControllerDidDismissPopover(
             popoverPresentationController: UIPopoverPresentationController,
         ) = dismissedNatively(popoverPresentationController)
+
+        override fun popoverPresentationController(
+            popoverPresentationController: UIPopoverPresentationController,
+            willRepositionPopoverToRect: CPointer<CGRect>?,
+            inView: CPointer<ObjCObjectVar<UIView?>>?,
+        ) {
+            requireMain()
+            if (!ownsPopover(popoverPresentationController) || presentation.disposed ||
+                presentation.phase == NativePresentationState.Phase.Dismissing) return
+            when (val anchor = popoverAnchor.resolveFor(parentUIViewController)) {
+                is ResolvedAlertPopoverAnchor.BarButton -> {
+                    // UIKit owns system bar-item geometry; never guess its private view.
+                    applyPopoverAnchor(popoverPresentationController, anchor)
+                }
+                is ResolvedAlertPopoverAnchor.ViewRect -> {
+                    // Both are UIKit-owned in/out pointers valid only for this callback.
+                    // A partial pointer pair is not permission to change one coordinate space.
+                    if (willRepositionPopoverToRect == null || inView == null) return
+                    anchor.rect.useContents {
+                        val target = willRepositionPopoverToRect.pointed
+                        target.origin.x = origin.x
+                        target.origin.y = origin.y
+                        target.size.width = size.width
+                        target.size.height = size.height
+                    }
+                    inView.pointed.value = anchor.view
+                    applyPopoverAnchor(popoverPresentationController, anchor)
+                }
+            }
+        }
     }
 
     private fun requireMain() = check(NSThread.isMainThread) { "UIKit alert operations must run on Main" }
@@ -127,6 +166,7 @@ class AlertDialogManager internal constructor(
                     delegate = presentationDelegate
                     ownedPopover = this
                     sourceView = parentUIViewController.view
+                    ownedAnchorView = parentUIViewController.view
                     sourceRect = parentUIViewController.view.bounds.useContents {
                         CGRectMake(origin.x + size.width / 2, origin.y + size.height / 2, 1.0, 1.0)
                     }
@@ -168,6 +208,7 @@ class AlertDialogManager internal constructor(
                 if (descriptor.isPreferred) viewController.setPreferredAction(it)
             }
         }
+        refreshPopoverAnchor()
     }
 
     /** User/outside dismissal request, unlike [dispose]. */
@@ -200,6 +241,7 @@ class AlertDialogManager internal constructor(
         notifyDismiss = false
         rebuild = false
         onDismissRequest = {}
+        popoverAnchor = null
         presentation.dispose()
         if (NativePresentationQueue.cancelWaiting(parentUIViewController, this)) {
             check(presentation.cancelQueuedPresentation())
@@ -227,6 +269,8 @@ class AlertDialogManager internal constructor(
         if (transition.visible) {
             updateDialogProperties()
             NativePresentationQueue.acquire(parentUIViewController, this) {
+                // A queued owner's original bounds/anchor may have changed before admission.
+                refreshPopoverAnchor()
                 parentUIViewController.presentViewController(viewController, iosProperties.animated) {
                     if (presentation.complete(transition)) {
                         if (viewController.preferredStyle == UIAlertControllerStyleAlert) {
@@ -263,13 +307,50 @@ class AlertDialogManager internal constructor(
         ownedPopover?.let { popover ->
             val delegate = popover.delegate as? NSObject
             if (delegate != null && delegate.objcPtr() == presentationDelegate.objcPtr()) {
+                if (ownedAnchorView?.objcPtr() == popover.sourceView?.objcPtr()) popover.sourceView = null
+                if (ownedAnchorBarButton?.objcPtr() == popover.barButtonItem?.objcPtr()) popover.barButtonItem = null
                 popover.delegate = null
             }
         }
         ownedPopover = null
+        ownedAnchorView = null
+        ownedAnchorBarButton = null
         controller = null
         controllerStructure = null
         textFieldDelegates.clear()
+    }
+
+    private fun ownsPopover(popover: UIPopoverPresentationController): Boolean {
+        val owned = ownedPopover ?: return false
+        val delegate = popover.delegate as? NSObject ?: return false
+        return owned.objcPtr() == popover.objcPtr() && ownsNativeController(popover) &&
+            delegate.objcPtr() == presentationDelegate.objcPtr()
+    }
+
+    private fun refreshPopoverAnchor() {
+        val popover = ownedPopover ?: return
+        if (!ownsPopover(popover) || presentation.disposed) return
+        applyPopoverAnchor(popover, popoverAnchor.resolveFor(parentUIViewController))
+    }
+
+    private fun applyPopoverAnchor(popover: UIPopoverPresentationController, anchor: ResolvedAlertPopoverAnchor) {
+        when (anchor) {
+            is ResolvedAlertPopoverAnchor.ViewRect -> {
+                popover.barButtonItem = null
+                popover.sourceView = anchor.view
+                popover.sourceRect = anchor.rect
+                popover.permittedArrowDirections = anchor.arrows
+                ownedAnchorView = anchor.view
+                ownedAnchorBarButton = null
+            }
+            is ResolvedAlertPopoverAnchor.BarButton -> {
+                popover.sourceView = null
+                popover.barButtonItem = anchor.item
+                popover.permittedArrowDirections = anchor.arrows
+                ownedAnchorView = null
+                ownedAnchorBarButton = anchor.item
+            }
+        }
     }
 
     companion object {

@@ -851,11 +851,18 @@
       "scripts/ci/test_native_alert_delegate_contract.py",
       "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertLifecycleTest.kt",
       "scripts/ci/library_tests.py",
-      "scripts/ci/test_ios_application_receipts.py"
+      "scripts/ci/test_ios_application_receipts.py",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/uikit/AlertDialogIosPopoverAnchor.kt",
+      "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/dialog/AdaptiveAlertDialog.ios.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverAnchorTest.kt",
+      "scripts/ci/ios_popover_anchor_compile.init.gradle.kts",
+      "scripts/ci/ios_popover_anchor_plan.py",
+      "scripts/ci/test_ios_popover_anchor.py"
     ],
     "changes": [
       "Anchor iPad action sheets to a one-point center rect in presenting-view coordinates before presentation.",
-      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained."
+      "2026-10-27 additive Alert repair: never assign/clear UIKit-owned Alert presentation delegation; own ActionSheet popover/adaptation callbacks only, reconcile exact native owner/Main/phase/cardinality, clear only our delegate, and preserve terminal disposal/queue release. New genuine outside-dismiss/disposal/replacement method is mandatory; original alert methods retained.",
+      "2026-11-03 additive popover503–509: supported iOS-only view-local/bar-button CompositionLocal input; latest queue-granted geometry; Main/exact owned complete native reposition-pointer pairs; terminal descriptor and matching native source/bar/delegate cleanup. Original common signatures/Alert UIKit delegation/old manifests unchanged. Prepared/source-compiled only; original rotation/split-view criteria and #29 remain open."
     ],
     "compatibility": "Safe fallback added without changing public dialog signatures.",
     "id": "UI-013",
@@ -897,6 +904,11 @@
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
         ],
         "result": "2026-10-27 immutable202059090bbbf896d07d38a3441cf21c8888c63b UIKit40522929974 attempt2: whole suite121/121 actual cases,24 fresh XML, zero failures/errors/skips, command0/1295.15s. Reviewed owning class subset4/4 passes (dialog.NativeAlertLifecycleTest); these overlap the121 total, not extra executions. All13 mandatory genuine application cases, original20 main-thread GC collections/63 finite markers, protocol/XML agreement and owned cleanup pass. Class-scoped/direct manager assertions do not satisfy every finding requirement or all native touches/device/profiling/branch matrices. Earlier failed attempts and Unknown GC interruption remain preserved; its root cause is still unknown. This revision predates the new tab membership and remember regression changes."
+      },
+      {
+        "command": "Source-held serial actual iOS production/test-KLIB compilers504/506/507; only failed diagnostics corrected; first important controls508 and source/results qualification509; exact iPhone/iPad five-case source-only plans.",
+        "evidence": "docs/development/evidence/current-platform-recovery-20261101/ios-popover-anchor503-509/README.md",
+        "result": "PREPARED, NOT NATIVE:504 FAILED production missing interop import1/45.01s;506 production passes, test fails six diagnostics1/53.01s;507 failed-test-only compiler PASS0/32.01s with productionUP-TO-DATE/1289held/three warnings.22/22 important controls (NEW13/affected9) pass once/0.645s;34passive checks/1293library inputs held/eight owning paths/29fragments. First reviewer Git-only/library domain-count refusal preserved; accepted tests/compilers not replayed. ZERO Apple link/native executions. Five real application anchor controls prepared; controlled bounds/delegate delivery is not actual portrait/landscape OS rotation or split-view acceptance. No issue closure/API-ABI/consumer/security/release or publication inference."
       }
     ]
   },

@@ -12,6 +12,7 @@ import library_tests as library
 import workflow_matrix as workflow
 import native_ui_input as input_driver
 import ios_modal_xcui_source_projection as history
+import ios_popover_anchor_source_projection as anchor_history
 
 ROOT = Path(__file__).resolve().parents[2]
 SIMULATOR = "726D52AF-426A-408A-974D-CA8B9BE8A479"
@@ -134,7 +135,8 @@ class IosModalXcuiBatchControls(unittest.TestCase):
         self.assertEqual(22, sum(len(binding["fragments"]) for binding in bindings.values()))
         for relative, binding in bindings.items():
             current = (ROOT / relative).read_bytes()
-            previous = history.current_source_before_modal_xcui(relative, current)
+            previous = history.current_source_before_modal_xcui(relative,
+                anchor_history.current_source_before_popover_anchor(relative, current))
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             self.assertEqual(previous, history.source_before_modal_xcui(relative, previous))
             for changed in (previous, current + b"\n", current.replace(b"\n", b"\r\n")):

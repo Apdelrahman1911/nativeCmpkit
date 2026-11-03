@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared iPhone/iPad popover CI prerequisite repaired — 2026-11-03
+
+[511–513](docs/development/evidence/current-platform-recovery-20261101/ios-popover-ci511-513/README.md)
+preserves41711039589/41711096345 at76a9c535 FAILED before platform/Gradle/Apple/native:
+2622CI each/five identical stale ancestor-entry errors/154.474s and97.357s;
+eight original logs/zero artifacts each acquiredONCE/16passive checks.1293frozen
+own-Git inputs are NOT actual native maps. One timestamp reviewer refusal retained.
+Shared older Worker reader now peels ONLY exact new popover postimages before
+unchanged old stage hashes/refusals/roundtrips. Oneoldpath/threefragments/twoadded
+inputs; FAILED5+NEW5 pass10/10 once0.410s/15passive checks/1295held/1292oldunchanged.
+Ancestors are not latest-source certification; strict popover current stays.
+Production/native/compiler/helpers/workflow/dependency/API bytes unchanged;reuse507,
+ZERO localcompiler/native and #29open/realOS rotation+split-view missing. Both old
+reservations freed; next only unexecutedfive per iPhone/iPad at new immutable bytes.
+103closed69open/172/22implemented36partial101verifiedfiveunresolved unchanged;
+SOLO/serial-local8GiB/max2INCLUDINGqueued/development/read-onlyActions/all/no
+mandatorySHA and all publication/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gates remain; no publication.
+
 ## iOS anchor source/compile qualified; camera recent-task prerequisite failed — 2026-11-03
 
 [503–509](docs/development/evidence/current-platform-recovery-20261101/ios-popover-anchor503-509/README.md)

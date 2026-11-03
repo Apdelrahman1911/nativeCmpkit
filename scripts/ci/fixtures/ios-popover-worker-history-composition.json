@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "purpose": "Offline ancestor-composition repair only; new popover current admission and all native/compiler assertions remain unchanged.",
+  "source_revision_before": "76a9c53569543d17d648636f949c72c74cd70132",
+  "bindings": {
+    "scripts/ci/ios_worker_completion_source_projection.py": {
+      "before_sha256": "ec54d77aba2740a7388bed702f14d436db81432ebc35d3c66b736be775669d9e",
+      "after_sha256": "6dfd60ae064aeb25c9eee7727770a87b769ecd66a41106003f98f773b7fe0ac2",
+      "fragments": [
+        {
+          "before": "import stat\n\n",
+          "after": "import stat\n\nimport ios_popover_anchor_source_projection as anchor_history\n\n",
+          "before_fragment_sha256": "8041aaf796b525a2e5114edbb62f9dcba9bcb70e3f0f2f1005d9974229560eb6",
+          "after_fragment_sha256": "739b018341eada40e0e38b81244f4e1d60af1902aedc210587b9c20f29aa8096"
+        },
+        {
+          "before": "        raise ValueError(\"Exact Worker completion observation source identity and ordinary bytes required\")\n",
+          "after": "        raise ValueError(\"Exact Worker completion observation source identity and ordinary bytes required\")\n    # This is the older stage, not newest-source certification. Peel only the\n    # exact later popover afterimage; any other bytes still face this stage's\n    # original pinned admission and full inverse/forward round-trip below.\n    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)\n",
+          "before_fragment_sha256": "3ed776e2d848f8bc88bf792085a85f14fcbcd3e5379497a80520fec6c8c76f01",
+          "after_fragment_sha256": "2d1a4fca5e56965b57edd29a1eb053ee830017014952a81e5f9a6520cae67b58"
+        },
+        {
+          "before": "        raise ValueError(\"Exact current Worker completion observation identity and ordinary bytes required\")\n",
+          "after": "        raise ValueError(\"Exact current Worker completion observation identity and ordinary bytes required\")\n    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)\n",
+          "before_fragment_sha256": "f40fa32bf7a7b6384866b72ba0af835b445d467e67e9fd8980defdabb9f2670b",
+          "after_fragment_sha256": "66d0de16a342afc1b32146f15fc7390822c03ca461d1db689f733bd5887924a8"
+        }
+      ]
+    }
+  }
+}

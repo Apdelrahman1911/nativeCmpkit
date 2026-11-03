@@ -11,6 +11,8 @@ import json
 from pathlib import Path
 import stat
 
+import ios_popover_anchor_source_projection as anchor_history
+
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-worker-completion-source-inverse.json"
 SPEC_SHA256 = "5e08c7a05137b117d080b74f698a13a0fe6cd25c439eab40750de0e260faef60"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
@@ -33,6 +35,10 @@ def _bindings():
 def source_before_worker_completion(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact Worker completion observation source identity and ordinary bytes required")
+    # This is the older stage, not newest-source certification. Peel only the
+    # exact later popover afterimage; any other bytes still face this stage's
+    # original pinned admission and full inverse/forward round-trip below.
+    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -67,6 +73,7 @@ def source_before_worker_completion(relative, payload):
 def current_source_before_worker_completion(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current Worker completion observation identity and ordinary bytes required")
+    payload = anchor_history.peel_current_popover_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current Worker completion observation source")

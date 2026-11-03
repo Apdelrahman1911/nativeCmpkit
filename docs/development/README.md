@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## One shared iPhone/iPad CI blocker repaired — 2026-11-03
+
+[511–513](evidence/current-platform-recovery-20261101/ios-popover-ci511-513/README.md)
+reviews both originals FAILED before native: the same five stale Worker-history
+entry checks. A single three-fragment offline-reader fix preserves every old pin,
+production/native/API/dependency/workflow byte. **Failed5 + NEW5 pass10/10 once**;
+15 passive checks/1,295held inputs. Exact compiler507 is reused, not rebuilt.
+Next only the five unexecuted native methods per iPhone/iPad; real OS rotation/
+split-view criteria remain separate and **#29 stays open**.103closed/69open,
+SOLO/max2INCLUDINGqueued and all publication/security/readiness gates unchanged.
+
 ## Supported iOS popover anchors prepared; camera original still blocked — 2026-11-03
 
 [503–509](evidence/current-platform-recovery-20261101/ios-popover-anchor503-509/README.md)

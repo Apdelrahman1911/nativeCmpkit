@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared historical fixture admission restored for both requests — 2026-11-03
+
+[Actual438/repair439](docs/development/evidence/current-platform-recovery-20261101/ios-modal-shared-fixture438-439/README.md)
+preserves41572882788+41572894835/2ef28eaa FAILED before profile/platform:
+2515CI methods each/29records(11fail18error)/136.770s+91.536s, ZERO library
+Gradle/Apple/Swift/native/XML/artifacts.1252 is Git freeze, not actual receipts.
+Original AWT-pinned alert guard restored; exact Worker host inverse now at shared
+owning boundary. Two historical host comparisons/one exact refusal category repair;
+AWT helper/manifest/oldpins/native bodies/four compiler sources/six23 bindings held.
+Onlyfailed/unexecuted+NEW2 first30 gives28pass2fail/sevenrecords; onlyfailed2 then
+2/2.30unique/32invocations/1253held, accepted28 not replayed, no compiler/native.
+Originals acquired/reviewed ONCE. Next only unexecuted memory3/startup-only after
+development freeze and fresh max2 INCLUDINGqueued; no XCUI/iPad against failed
+startup. No closure/comment:98closed/74open/172;22implemented/41partial/96verified/
+five unresolved. SOLO/serial/8GiB/read-only Actions/all/no mandatorySHA; every
+publication/Pages/main/history/legal/security/consumer/API–ABI/readiness gate stays.
+
 ## Shared Worker/XCTest recovery qualified, originals remain failed — 2026-11-03
 
 [Actual433/owning436](docs/development/evidence/current-platform-recovery-20261101/ios-modal-worker-startup433-436/README.md)

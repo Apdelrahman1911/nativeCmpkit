@@ -202,7 +202,9 @@ class IosWebViewLifecycleFocusTests(unittest.TestCase):
         for original, target in (("NativeUiApplicationHost.kt", lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]),
                                  ("NativeUiApplicationHostTest.kt", lt.IOS_WEBVIEW_APPLICATION_SOURCES[1]),
                                  ("NativeObjectIdentity.kt", lt.IOS_WEBVIEW_APPLICATION_SOURCES[2])):
-            source = (lt.ROOT / "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal" / original).read_text()
+            path = lt.ROOT / "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal" / original
+            from ios_modal_worker_source_projection import current_source_before_modal_worker
+            source = current_source_before_modal_worker(path.relative_to(lt.ROOT).as_posix(), path.read_bytes()).decode()
             for old, new in replacements: source = source.replace(old, new)
             actual = (lt.ROOT / target).read_text()
             if target == lt.IOS_WEBVIEW_APPLICATION_SOURCES[0]:

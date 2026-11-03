@@ -40,7 +40,10 @@ def source_before_modal_ownership(relative, payload):
         return input_history.source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
-        return payload
+        # New Worker ownership affects a formerly unlisted UI host, not the
+        # original alert guard's source. Compose the exact outer stage here so
+        # every older reader still sees its unchanged guard and host pins.
+        return input_history.source_before_modal_xcui(relative, payload)
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
         raise ValueError("Bounded iOS modal ownership source bytes are required")
     observed = hashlib.sha256(payload).hexdigest()
@@ -79,6 +82,8 @@ def current_source_before_modal_ownership(relative, payload):
     if relative == "scripts/ci/ios_ui_application.py":
         return input_history.current_source_before_modal_xcui(relative, payload)
     binding = _bindings().get(relative)
+    if binding is None:
+        return input_history.current_source_before_modal_xcui(relative, payload)
     if binding is not None:
         payload = lifecycle_history.current_source_before_modal_lifecycle(relative, payload)
         if relative == "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/sheet/BottomSheetManager.kt":

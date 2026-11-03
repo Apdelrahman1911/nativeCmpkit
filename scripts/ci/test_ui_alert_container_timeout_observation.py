@@ -151,7 +151,9 @@ class AlertContainerTimeoutNewSourceControls(unittest.TestCase):
         self.assertEqual(1, self.original.count(b"eligible.single().accessibilityActivate()"))
         self.assertEqual(1, self.native.count(b"recordImportantAlertContainerTimeoutObservation(alert, title, window, sample)"))
         host = ROOT / "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
-        self.assertEqual(digest(host.read_bytes()), self.namespace["EXPECTED_SOURCE_SHA256"][host.relative_to(ROOT).as_posix()])
+        from ios_modal_worker_source_projection import current_source_before_modal_worker
+        prior_host = current_source_before_modal_worker(host.relative_to(ROOT).as_posix(), host.read_bytes())
+        self.assertEqual(digest(prior_host), self.namespace["EXPECTED_SOURCE_SHA256"][host.relative_to(ROOT).as_posix()])
         self.assertIn("val deadline = NSProcessInfo.processInfo.systemUptime + 10.0", host.read_text())
 
     def test_all_19_accepted_methods_and_existing_share_wasm_declarations_remain_raw_and_ast_identical(self):

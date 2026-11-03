@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+## Shared source admission restored without native/build replay — 2026-11-03
+
+[438–439](evidence/current-platform-recovery-20261101/ios-modal-shared-fixture438-439/README.md)
+retains both requests FAILED before platform setup. Original historical alert
+guard/pins remain unchanged; the exact Worker-host projection now belongs at the
+shared owning boundary. Only failed/unexecuted+NEW cases qualify30unique across
+32invocations, no accepted replay/compiler/native. Next missing memory3 and small
+Swift startup-only request. No closure;98closed/74open, all publishing gates stay.
+
 ## Current failed-only Worker / independent startup batch — 2026-11-03
 
 [433–436 originals and recovery](evidence/current-platform-recovery-20261101/ios-modal-worker-startup433-436/README.md)

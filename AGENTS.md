@@ -1,5 +1,19 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Fresh upstream discussion and issue synchronization — 2026-11-03
+
+[Current read-only reconciliation](docs/development/upstream-sync-20261103T191006Z/README.md)
+actually acquires 16 open Calf issues, PR551 separately, 14 comments and 47 timeline
+items over 63 responses; all 16 destination contexts already exist, zero imports,
+comments or closures required. All 172 snapshot file hashes qualify; 17 added
+timeline events are archived without rewriting original metadata. Descriptions,
+labels, authors and existing comments remain unchanged. Production assessment
+differences are versus migration baseline, not production edits in this sync.
+Destination default-main observation is not current development source custody.
+Source-addressed historical requests do not authorize current issue closures.
+103closed/69open/172 remains; SOLO and all development/native/security/readiness,
+8GiB/serial-local/max2INCLUDINGqueued/publication/Pages/main/history gates remain.
+
 ## Camera recents prerequisite isolated; observation batch qualified — 2026-11-03
 
 [482–489](docs/development/evidence/current-platform-recovery-20261101/camera-recents482-489/README.md)
@@ -4602,10 +4616,10 @@ preserve `main` at the synchronization checkpoint until reviewed integration.
 Neither a local pass nor a green CI badge alone satisfies a release gate.
 
 - First reconcile every currently open Calf issue before production fixes.
-  The latest read-only refresh is `docs/migration/upstream-updates/20261102T050936Z/`;
+  The latest read-only refresh is `docs/migration/upstream-updates/20261103T191006Z/`;
   all16 open issues still have exactly one current destination context, with
   no imports/comments/closures needed. Review evidence is in
-  `docs/development/upstream-refresh-20261102T050936Z/`; original posting/readback
+  `docs/development/upstream-sync-20261103T191006Z/`; original posting/readback
   remains in `docs/development/upstream-sync-20261024T183300Z/`.
   Keep every dated snapshot and the original metadata archive immutable.
 - Pages issue #171 is now **verified and closed** after the owner's Unpublish

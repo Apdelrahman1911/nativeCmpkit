@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `3462535b806d8828a6ee51efcdd79430b1fe2fd0082fb287526787c017d9ea09`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `4b7660d2da477a70874ea1d246f601d2e755bb01235c6938fee36e016fd3e36c`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -70,7 +70,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | verified | — | 3 / 0 |
-| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 5 |
+| 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 6 |
 | 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | verified | — | 3 / 0 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | partially-verified | UI-020 | 3 / 2 |
@@ -716,6 +716,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
+- Current 2026-11-03 550–553: both initial geometry CI originals41735731904/41735787813 FAILED before native at one stale Worker cleanup image-domain fixture. Shared two-fragment fixture fix plus four new controls qualifies failed1+NEW4 once5/5;34passive checks/1313held. Native/Kotlin/init/workflow/production/dependencies unchanged, accepted compiler544/source547/bar outcomes reused. Both original geometry methods remain UNEXECUTED; request only them after corrected immutable freeze. Real split view remains separate and #29 stays open.
 - Current 2026-11-03 529–548: both missing bar methods now pass once on genuine iPhone/iPad UIKit (41723586208/41725142093), with all original fallback/cleanup assertions. Reuse four earlier accepted methods per host on unchanged applicable bodies. New opt-in actual WindowScene portrait/compact and iPad OS-rotation/regular methods are source-qualified and KLIB-compiled only; both native executions and real split view remain required. No whole UI-013/release closure.
 - Current 2026-11-03: supported anchors are implemented/compiled; original iPhone and iPad each pass4/5 real UIKit methods with owned transport/cleanup. Both native runs remain FAILED at the unsupported bar nil assertion; source-qualified repaired-bar-only runs41723586208/41725142093 pending original review. Actual OS portrait/landscape rotation, real split view and explicit regular/compact traits still required; no device-type/controlled-bounds substitute.
 - The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
@@ -3599,7 +3600,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `bcfc1dc8648a504097666a44fde9c00af171cf553d2af0f12dbc1ecb15fab921` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `41565e17bb2fb285f5e47ebc6bef0eb50b77178af24a1920bb5419bde554d41f` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `044eb0eb9f7f640035f26f15a86a0fb60887747f6a12e02dd2b94df371273e10` |
 

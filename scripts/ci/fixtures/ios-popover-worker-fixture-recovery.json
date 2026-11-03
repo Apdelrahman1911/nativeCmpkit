@@ -1,0 +1,26 @@
+{
+  "base_revision": "9cc2459d4ce8e0f5a74527dd4df8c0a9f7f42189",
+  "bindings": {
+    "scripts/ci/test_ios_worker_completion.py": {
+      "after_sha256": "9420f98a6ed2ce54ab7e21a0318a05ad101f93d808e4e726a3fd68b84fd8080c",
+      "before_sha256": "692ec086f77be126f893b255b74c5ce0c0faa4fde8593168b1c9c88f535e04a5",
+      "fragments": [
+        {
+          "after": "import ios_worker_completion_source_projection as history\nimport ios_popover_geometry_source_projection as geometry_history\n",
+          "after_fragment_sha256": "3f9f895dd98bb71ddd8d547262a77b1b83ec3846a5eac84f815e2c6636681b9b",
+          "before": "import ios_worker_completion_source_projection as history\n",
+          "before_fragment_sha256": "44b7ac1cce98579c81c62988c688832b04e4179eb479653f3dc42d970ad109d9"
+        },
+        {
+          "after": "        source = geometry_history.current_source_before_geometry(HOST, (ROOT / HOST).read_bytes()).decode()\n",
+          "after_fragment_sha256": "478ffaca627a37277229a2b43beac7449488472b7525f1b6ed363e88a75251f3",
+          "before": "        source = (ROOT / HOST).read_text()\n",
+          "before_fragment_sha256": "0f446044d3fafe8605108039f9c19d817c6b6ca225bb09b83df217e6df30249e"
+        }
+      ]
+    }
+  },
+  "native_helpers_production_workflows_unchanged": true,
+  "schema_version": 1,
+  "scope": "Historical offline Worker comparison first reads the exact current geometry inverse; no current-native or relaxed-unknown admission."
+}

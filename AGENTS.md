@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared geometry CI fixture blocker repaired — 2026-11-03
+
+[550–553](docs/development/evidence/current-platform-recovery-20261101/ios-geometry-tooling550-553/README.md)
+keeps41735731904/41735787813 at9cc2459d FAILED before platform:2675CI each/
+2674pass/one shared historical cleanup-image comparison fail, eight logs/zero
+artifacts each acquired ONCE; seven skipped zero-step placeholders are not
+executed platform jobs.1311 freezes are not actual native maps. Only two fixture
+fragments/two tooling additions; failed1+NEW4 pass5/5 once0.028s,34passive checks/
+1313held. First reviewer no-placeholder assumption refused/preserved, not native
+failure. Native/Kotlin/init/workflow/production/dependency/oldpins unchanged;
+reuse544/source547/bar originals, no accepted replay. Next only two UNEXECUTED
+geometry methods after development freeze/fresh capacity. #29 stays open for
+actual native geometry/traits and real split view;#13 baseline contract still
+blocked/no purge or unchanged retry.103closed69open/172,22implemented36partial/
+101verified/five unresolved unchanged, no closure/publication. SOLO/8GiB/serial
+local/max2INCLUDINGqueued/read-onlyActions/all/no mandatorySHA and every main/
+history/Pages/native/consumer/API–ABI/dependency/legal/security/readiness gate stay.
+
 ## Both bar originals verified; missing OS-geometry batch prepared — 2026-11-03
 
 [Bar529–533](docs/development/evidence/current-platform-recovery-20261101/ios-popover-bar529-533/README.md)

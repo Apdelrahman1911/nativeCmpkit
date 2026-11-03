@@ -19,6 +19,7 @@ from unittest.mock import Mock, patch
 import ios_ui_application as application
 import ios_modal_worker_source_projection as worker
 import ios_worker_completion_source_projection as history
+import ios_popover_geometry_source_projection as geometry_history
 import library_tests as library
 import workflow_matrix as workflow
 from test_ios_ui_application import ACTIVE, COMPLETE, frame
@@ -58,7 +59,7 @@ def protocol(lines):
 
 class WorkerCompletionControls(unittest.TestCase):
     def test_source_observes_future_return_consumption_and_original_cleanup_without_changing_cases(self):
-        source = (ROOT / HOST).read_text()
+        source = geometry_history.current_source_before_geometry(HOST, (ROOT / HOST).read_bytes()).decode()
         previous = history.current_source_before_worker_completion(HOST, source.encode()).decode()
         phases = re.findall(r'NATIVECMPKIT_WORKER_LIFECYCLE phase=([a-z-]+)', source)
         self.assertEqual([phase for phase, _ in application.WORKER_LIFECYCLE_STEPS], phases)

@@ -1,0 +1,47 @@
+{
+  "before_revision": "dd614a75bba7dda1678f7a0cfcf97943697db92f",
+  "bindings": {
+    "scripts/ci/android_device_tests.py": {
+      "after_bytes": 47573,
+      "after_sha256": "f096609a3731628c02966b7f6edd40641d7c0ff8119d0922605f6c7e6e99d7d8",
+      "before_bytes": 47147,
+      "before_sha256": "398c35d2e41b318ec9e5f918599b598e4ccfc2592e4e41010926bcc639721b37",
+      "fragments": [
+        {
+          "after": "        if diagnostics:\n            result[\"controller_error_origin\"] = preflight_error_origin(error)\n        if camera_developer_required:\n            try:\n                from android_camera_recents_observation import recents_refusal\n                observation = recents_refusal(error)\n                if observation is not None:\n                    result[\"camera_recents_refusal\"] = observation\n            except BaseException:\n                pass  # Optional returned-query facts never replace failure or owned cleanup.\n        # Keep the owned logs, not arbitrary exception bodies/environment values.\n",
+          "after_fragment_sha256": "fb3b668d09f595aa5df9008e396de2e00ba9c1dd493cb98ee60463979f92c074",
+          "before": "        if diagnostics:\n            result[\"controller_error_origin\"] = preflight_error_origin(error)\n        # Keep the owned logs, not arbitrary exception bodies/environment values.\n",
+          "before_fragment_sha256": "e63be8ca77e67e9feb617a38d2b522be4cebda9aff20f4c5c47f698297cbff39",
+          "id": "recents-observation-1"
+        }
+      ],
+      "historical_composition_sha256": [
+        "b877f80a6c526e7d56a5b5cd4daa54eb9555837184b4028a300bfd38b123f1fe"
+      ]
+    },
+    "scripts/ci/camera_handoff_fixture_source_projection.py": {
+      "after_bytes": 3952,
+      "after_sha256": "9d226779c3c8b5cd20010315d794a2e7be7ded258aa72c3ac73ebd49fc67e588",
+      "before_bytes": 3636,
+      "before_sha256": "60aecb13a8cc4505c13de52a03afd88711aaafb92331a08e38f9c68031861505",
+      "fragments": [
+        {
+          "after": "        raise ValueError(\"Exact handoff-fixture source identity and ordinary bytes required\")\n    from camera_recents_source_projection import source_before_recents_observation\n    payload = source_before_recents_observation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "8025ea5b21da8f777707890de6a13181879540590f1baa5b22a90c5c93ffa4c3",
+          "before": "        raise ValueError(\"Exact handoff-fixture source identity and ordinary bytes required\")\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "851275c7b31f16c825140768d64ee47a262e8004a3d075e0fa07d51cddb39e2e",
+          "id": "recents-observation-1"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current handoff-fixture identity and ordinary bytes required\")\n    from camera_recents_source_projection import current_source_before_recents_observation\n    payload = current_source_before_recents_observation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "b1c7c140788897ad57723a97f1821844b46c4d78677b58b6b27f30d6f8622730",
+          "before": "        raise ValueError(\"Exact current handoff-fixture identity and ordinary bytes required\")\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "1397967fed1b5c238d882989e9ae60c54fd3bec593cb08d5aad211ad559ae854",
+          "id": "recents-observation-2"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact failure-only returned-query observation and current source admission; all original camera readers/actions/cleanup and old manifests remain unchanged. Synthetic history is not native acceptance."
+}

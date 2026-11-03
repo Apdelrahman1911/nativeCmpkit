@@ -1,5 +1,22 @@
 # NativeCmpKit development after the audit
 
+## Camera prerequisite observation qualified without parser waiver — 2026-11-03
+
+[482–489](evidence/current-platform-recovery-20261101/camera-recents482-489/README.md)
+retains41695956006 **FAILED before Gradle/APK/native/XML**. Shared tooling and
+strict boot handoff pass; the recent-task compound require and separate missing
+original-state cleanup refuse. Independent owned guest disposal passes. All1,277
+actual source maps match their freeze/Git; original recents operands/cause unknown.
+Only **19 NEW important controls** run once,19/19; source/helper/native/API/dependency/
+workflow assertions stay unchanged. Bounded failure-only returned-query facts
+make no new query, parser retry, normalization or acceptance. A first historical
+source-stage refusal is preserved and narrowly repaired;27passive checks/1,281held
+inputs qualify, ZERO new native locally. Next only missing immutable Dont-keepC1;
+accepted camera009 outcomes are reused, not replayed. #13/#141 remain open;
+**103closed /69open**, no new closure/publication, solo/max2INCLUDINGqueued/8GiB
+and every independent security/readiness gate remain. Apple480 reserves1 for its
+SDK-only link/install/shape prerequisite, not native or profiling acceptance.
+
 ## Camera CI boundary repaired in one affected batch — 2026-11-03
 
 [476–478](evidence/current-platform-recovery-20261101/camera-ci-fixture476-478/README.md)

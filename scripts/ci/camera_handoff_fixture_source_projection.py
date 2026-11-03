@@ -34,6 +34,8 @@ def _bindings():
 def source_before_handoff_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact handoff-fixture source identity and ordinary bytes required")
+    from camera_recents_source_projection import source_before_recents_observation
+    payload = source_before_recents_observation(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -68,6 +70,8 @@ def source_before_handoff_fixture(relative, payload):
 def current_source_before_handoff_fixture(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current handoff-fixture identity and ordinary bytes required")
+    from camera_recents_source_projection import current_source_before_recents_observation
+    payload = current_source_before_recents_observation(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace exact current handoff-fixture source")

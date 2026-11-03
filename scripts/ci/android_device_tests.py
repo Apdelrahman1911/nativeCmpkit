@@ -463,6 +463,14 @@ def _run(root: Path, relative: str, only_modules: tuple[str, ...] | None = None,
         result["controller_error"] = type(error).__name__
         if diagnostics:
             result["controller_error_origin"] = preflight_error_origin(error)
+        if camera_developer_required:
+            try:
+                from android_camera_recents_observation import recents_refusal
+                observation = recents_refusal(error)
+                if observation is not None:
+                    result["camera_recents_refusal"] = observation
+            except BaseException:
+                pass  # Optional returned-query facts never replace failure or owned cleanup.
         # Keep the owned logs, not arbitrary exception bodies/environment values.
     finally:
         # A repeated termination signal must not interrupt owned-engine cleanup

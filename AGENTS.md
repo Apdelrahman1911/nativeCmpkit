@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera recents prerequisite isolated; observation batch qualified — 2026-11-03
+
+[482–489](docs/development/evidence/current-platform-recovery-20261101/camera-recents482-489/README.md)
+preserves41695956006/dd614a75 FAILED:2,577source/144.744s,32original logs/17JSON,
+1,277 actual own-Git maps, boot handoff6observations/5waits/strictabsence passes;
+then original recents324 and separate cleanup1375 refuse. Owned guest disposal
+passes independently; ZERO Gradle/APK/native/XML. Individual recents operands,
+actual payload/producer and cause unknown; held AOSP source is not that proof.
+Failure-only exact live traceback/returned-query Boolean/fingerprint observation
+keeps all parser/helper/native/cleanup/API/dependency/workflow bytes unchanged.
+NEW13+NEW3+NEW3 pass19 unique once; earlier accepted classes/native not replayed.
+First historical-domain source refusal retained; only exact original pre-boot
+own-Git digest admits history, never current/drift. Two existing paths/three
+fragments, both old manifests/pins intact;27passive checks/16External+3ARM qualify,
+1,281held/1,275other old inputs unchanged. No new native or closure; #13 onlyC1
+next after freeze/capacity; camera009C2/C3 reuse only. Apple48041696878178 reserves1
+INCLUDINGqueued, SDK-owned-shape only/zero native/#141open. 103closed69open/172,
+22implemented36partial101verifiedfive unresolved. SOLO/serial-local/8GiB/max2
+INCLUDINGqueued/development/read-onlyActions/all/no mandatorySHA; every publication,
+Pages/main/history/native/consumer/API–ABI/legal/dependency/security/readiness gate
+remains. No package/release/deployment publication. Older checkpoints keep dates.
+
 ## Shared camera CI fixture batch verified — 2026-11-03
 
 [476–478](docs/development/evidence/current-platform-recovery-20261101/camera-ci-fixture476-478/README.md)

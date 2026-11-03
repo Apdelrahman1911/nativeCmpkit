@@ -11,6 +11,8 @@ import json
 from pathlib import Path
 import stat
 
+import ios_modal_worker_source_projection as worker_history
+
 SPEC_PATH = Path(__file__).parent / "fixtures/ios-modal-xcui-source-inverse.json"
 SPEC_SHA256 = 'fc3be730f172f6f7e1b22d3fa1b8d84095e268540525722a7c95b73d39180014'
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
@@ -34,6 +36,9 @@ def source_before_modal_xcui(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact iOS modal XCTest/input recovery source identity and ordinary bytes are required")
     binding = _bindings().get(relative)
+    if binding is not None and hashlib.sha256(payload).hexdigest() == binding["before_sha256"]:
+        return payload
+    payload = worker_history.source_before_modal_worker(relative, payload)
     if binding is None:
         return payload
     if not 0 < len(payload) <= MAX_SOURCE_BYTES:
@@ -67,6 +72,7 @@ def source_before_modal_xcui(relative, payload):
 def current_source_before_modal_xcui(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current iOS modal XCTest/input recovery source identity and ordinary bytes are required")
+    payload = worker_history.current_source_before_modal_worker(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current iOS modal XCTest/input recovery source")

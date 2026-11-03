@@ -11,6 +11,12 @@ final class NativeCmpKitInputTests: XCTestCase {
     private var session: URLSession!
 
     override func setUpWithError() throws {
+        startup("setup-enter")
+        do { try configureInput(); startup("setup-configured") }
+        catch { startup("setup-refused"); throw error }
+    }
+
+    private func configureInput() throws {
         continueAfterFailure = false
         let environment = ProcessInfo.processInfo.environment
         token = try required(environment["NATIVECMPKIT_INPUT_AUTH"])
@@ -40,7 +46,9 @@ final class NativeCmpKitInputTests: XCTestCase {
     }
 
     func testDeliverOnlyOwnedLibraryNativeInput() throws {
+        startup("ready-enter")
         _ = try exchange("ready", body: [:])
+        startup("ready-acknowledged")
         let deadline = ProcessInfo.processInfo.systemUptime + 900
         var previous = 0
         while ProcessInfo.processInfo.systemUptime < deadline {
@@ -50,6 +58,7 @@ final class NativeCmpKitInputTests: XCTestCase {
             }
             if request["operation"] as? String == "finish" {
                 _ = try exchange("finished", body: ["delivered": previous])
+                startup("finished")
                 return
             }
             let sequence = try number(request["sequence"])
@@ -129,7 +138,15 @@ final class NativeCmpKitInputTests: XCTestCase {
         session.dataTask(with: request) { data, response, error in
             defer { completed.signal() }
             do {
-                if let error = error { throw error }
+                if let error = error {
+                    let failure = error as NSError
+                    let known = ["NSURLErrorDomain", "NSCocoaErrorDomain", "NSPOSIXErrorDomain"]
+                    let domain = known.contains(failure.domain) ? failure.domain : "other"
+                    if (-2147483648...2147483647).contains(failure.code) {
+                        print("NATIVECMPKIT_XCTEST_TRANSPORT domain=\(domain) code=\(failure.code)")
+                    }
+                    throw error
+                }
                 guard let response = response as? HTTPURLResponse else { throw InputError.transport }
                 if response.statusCode == 204 { result = .success(nil); return }
                 guard response.statusCode == 200, let data = data, data.count <= 8192,
@@ -143,6 +160,11 @@ final class NativeCmpKitInputTests: XCTestCase {
             throw InputError.transport
         }
         return try result.get()
+    }
+
+    private func startup(_ phase: String) {
+        // Call sites supply fixed literals, never environment/error contents.
+        print("NATIVECMPKIT_XCTEST_STARTUP \(phase)")
     }
 
     private func required(_ value: String?) throws -> String {

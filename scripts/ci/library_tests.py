@@ -757,6 +757,23 @@ UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_MEMORY_FOCUS] = {
     "scope": "Only the two original failed captured-content lifecycle methods from run41561366636. Keep all three authored bodies and original native animation/weak-reference/GC assertions; the accepted real presenter/state replacement method and prior nine-modal selections stay unselected. Genuine library application/Worker and owned cleanup required; no physical/heap-profiler/consumer/API-ABI/security/release inference.",
 }
 
+IOS_MODAL_WORKER_MEMORY_FOCUS = "ui-native-modal-worker-memory-recovery"
+IOS_WORKER_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest"
+IOS_WORKER_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeWorkerBridgeOwnershipTest.kt"
+IOS_WORKER_OWNERSHIP_METHODS = (
+    "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker",
+    "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_WORKER_MEMORY_FOCUS] = {
+    "groups": (
+        {"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+         "methods": (IOS_MODAL_LIFECYCLE_METHODS[0],), "declared_methods": IOS_MODAL_LIFECYCLE_METHODS},
+        {"classname": IOS_WORKER_OWNERSHIP_CLASS, "source": IOS_WORKER_OWNERSHIP_SOURCE,
+         "methods": IOS_WORKER_OWNERSHIP_METHODS},
+    ),
+    "scope": "Only the failed public captured-content method from run41567513880 plus two new Worker bridge ownership/value/throwable controls. Original lifecycle bodies and GC/animation assertions remain unchanged; accepted state-replacement and repeated four-cycle disposal methods are excluded. Genuine library app/Worker/native XML and owned cleanup required. Autorelease retention is a hypothesis until actual controls; no touch/heap-profiler/physical/consumer/API-ABI/security/release inference.",
+}
+
 IOS_MODAL_XCUI_FOCUS = "ui-native-modal-xcui-batch"
 IOS_MODAL_XCUI_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest"
 IOS_MODAL_XCUI_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt"
@@ -2250,7 +2267,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
                     not set(group["methods"]) <= set(declared) or
                     "class " + classname not in source or "package " + package not in source):
                 raise ValueError("Native date declarations changed; review the exact finite application selection")
-            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New modal lifecycle source must retain all enabled native declarations")
             if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
                 raise ValueError("New Share application declarations must remain enabled")
@@ -4024,6 +4041,8 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
     if test_plan.get("explicit_test_focus") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):
         command.extend(["--init-script", "scripts/ci/ios_modal_focused_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_WORKER_MEMORY_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_worker_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
         command.extend(["--init-script", "scripts/ci/ios_modal_xcui_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:

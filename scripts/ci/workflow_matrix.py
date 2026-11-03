@@ -145,6 +145,8 @@ PROFILES = {
     "ios-modal-ownership-ipad": ("ios-ipad",),
     "ios-modal-lifecycle-replacement": ("ios-iphone",),
     "ios-modal-lifecycle-replacement-ipad": ("ios-ipad",),
+    "ios-modal-worker-memory-recovery": ("ios-iphone",),
+    "ios-xctest-startup": (),
     "ios-modal-lifecycle-memory-recovery": ("ios-iphone",),
     "ios-modal-xcui-batch": ("ios-iphone",),
     "ios-modal-xcui-batch-ipad": ("ios-ipad",),
@@ -363,6 +365,7 @@ MODULE_SUBSETS = {
     "ios-modal-ownership-ipad": "calf-ui",
     "ios-modal-lifecycle-replacement": "calf-ui",
     "ios-modal-lifecycle-replacement-ipad": "calf-ui",
+    "ios-modal-worker-memory-recovery": "calf-ui",
     "ios-modal-lifecycle-memory-recovery": "calf-ui",
     "ios-modal-xcui-batch": "calf-ui",
     "ios-modal-xcui-batch-ipad": "calf-ui",
@@ -668,6 +671,12 @@ def matrix(profile: str) -> dict:
         if PROFILES[profile] != ("ios-" + kind,) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
             raise ValueError("Native modal XCTest batches require one fixed real Arm64 UIKit host and calf-ui only")
         rows[0]["test-focus"] = "ui-native-modal-xcui-batch"
+    if profile == "ios-modal-worker-memory-recovery":
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("Worker ownership recovery requires one genuine iPhone calf-ui host")
+        rows[0]["test-focus"] = "ui-native-modal-worker-memory-recovery"
     if profile == "ios-modal-lifecycle-memory-recovery":
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}

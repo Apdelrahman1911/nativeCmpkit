@@ -15,6 +15,7 @@ import androidx.compose.ui.window.ComposeUIViewController
 import androidx.compose.ui.uikit.ComposeUIViewControllerDelegate
 import kotlinx.cinterop.ExportObjCClass
 import kotlinx.cinterop.ObjCObjectBase.OverrideInit
+import kotlinx.cinterop.autoreleasepool
 import kotlin.native.concurrent.Future
 import kotlin.native.concurrent.FutureState
 import kotlin.native.concurrent.TransferMode
@@ -47,9 +48,15 @@ private var applicationWindow: UIWindow? = null
 
 internal fun <T> onApplicationMain(action: () -> T): T {
     if (NSThread.isMainThread) return action()
-    var result: Result<T>? = null
-    dispatch_sync(dispatch_get_main_queue()) { result = runCatching(action) }
-    return checkNotNull(result).getOrThrow()
+    // The owned test Worker has no UIKit event-loop autorelease pool. Its
+    // temporary Objective-C dispatch block must not retain action captures until
+    // the entire generated suite returns. Drain only this call's Worker pool;
+    // UIKit's Main dispatch and the exact value/throwable contract stay intact.
+    return autoreleasepool {
+        var result: Result<T>? = null
+        dispatch_sync(dispatch_get_main_queue()) { result = runCatching(action) }
+        checkNotNull(result).getOrThrow()
+    }
 }
 
 internal fun requireOwnedApplicationWindow(): UIWindow {

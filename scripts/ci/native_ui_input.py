@@ -142,14 +142,21 @@ def prepare_xctestrun(document: dict, endpoint: str, token: str, bundle_id: str,
     target = targets[0]
     if target.get("IsUITestBundle") is not True or target.get("BlueprintName") != "NativeCmpKitInputTests":
         raise ValueError("Only the independent native-input UI target is allowed")
-    environment = target.get("TestingEnvironmentVariables", {})
-    if type(environment) is not dict or any(type(key) is not str or type(value) is not str for key, value in environment.items()):
+    # Scheme test-action variables use EnvironmentVariables. Preserve Xcode's
+    # separate TestingEnvironmentVariables (DYLD paths/placeholders) unchanged.
+    # Both fields are documented; this is not proof of the old startup cause.
+    environment = target.get("EnvironmentVariables", {})
+    testing = target.get("TestingEnvironmentVariables", {})
+    if any(type(values) is not dict or any(type(key) is not str or type(value) is not str
+            for key, value in values.items()) for values in (environment, testing)):
         raise ValueError("Ordinary string XCTest environment required")
+    if any(key.startswith("NATIVECMPKIT_INPUT_") for values in (environment, testing) for key in values):
+        raise ValueError("Do not replace preexisting native input credentials")
     # The library app is already installed/launched by its original controller.
     # No app-under-test path may ask Xcode to replace/relaunch it implicitly.
     if target.get("UITargetAppPath") or target.get("UITargetAppBundleIdentifier"):
         raise ValueError("XCTest must not own or launch a second target application")
-    target["TestingEnvironmentVariables"] = {
+    target["EnvironmentVariables"] = {
         **environment,
         "NATIVECMPKIT_INPUT_URL": endpoint,
         "NATIVECMPKIT_INPUT_AUTH": auth,
@@ -186,6 +193,10 @@ class InputDriver:
                 not UUID.fullmatch(device) or not TOKEN.fullmatch(token) or not BUNDLE.fullmatch(bundle_id) or
                 not bundle_id.endswith(".t" + token) or not HASH.fullmatch(signed_hash) or not HASH.fullmatch(plist_hash)):
             raise ValueError("Exact owned application/simulator/session required")
+        self._initialize(root, device, bundle_id, token, execute)
+        self.receipt.update(signed_application_executable_sha256=signed_hash, application_plist_sha256=plist_hash)
+
+    def _initialize(self, root, device, bundle_id, token, execute):
         self.root, self.device, self.bundle_id, self.token, self.execute = root, device, bundle_id, token, execute
         self.auth = secrets.token_hex(16)  # Never reuse the publicly archived application nonce as a credential.
         if self.auth == token:
@@ -209,7 +220,6 @@ class InputDriver:
         self.methods = IOS_MODAL_XCUI_METHODS
         self.receipt = {"schema_version": 1, "focus": FOCUS, "source_sha256": {}, "operations": [],
                         "bundle_id": bundle_id, "selected_simulator": device,
-                        "signed_application_executable_sha256": signed_hash, "application_plist_sha256": plist_hash,
                         "loopback_only": True, "separate_public_xctest_runner": True,
                         "app_launched_by_input_driver": False, "private_input_used": False,
                         "raw_configuration_logs_or_screenshots_uploaded": False,
@@ -284,7 +294,7 @@ class InputDriver:
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
 
-    def prepare(self) -> dict:
+    def _prepare_project(self):
         self.receipt["phase"] = "private-project"
         self.scratch.mkdir(mode=0o700, parents=True, exist_ok=False)
         info = self.scratch.lstat()
@@ -306,6 +316,9 @@ class InputDriver:
                     raw = raw.replace(b"NCK_RUN_TOKEN", self.token.encode())
                 target.write_bytes(raw)
                 self.copied_sources[target] = hashlib.sha256(raw).hexdigest()
+    def prepare(self) -> dict:
+        self._prepare_project()
+        self.receipt["phase"] = "owned-application-data"
         data = self._control(["/usr/bin/xcrun", "simctl", "get_app_container", self.device, self.bundle_id, "data"])
         container = Path(data.stdout.decode("utf-8", errors="strict").strip())
         base = Path.home() / "Library/Developer/CoreSimulator/Devices" / self.device / "data/Containers/Data/Application"
@@ -316,6 +329,9 @@ class InputDriver:
         self.directory.mkdir(parents=True, exist_ok=False)
         self.directory_identity = (self.directory.stat().st_dev, self.directory.stat().st_ino)
         self._input_directory()
+        return self._start_runner()
+
+    def _start_runner(self) -> dict:
         self._serve()
         endpoint = "http://127.0.0.1:" + str(self.server.server_port)
         derived = self.scratch / "derived"
@@ -368,16 +384,31 @@ class InputDriver:
             "-resultBundlePath", str(self.scratch / "result.xcresult")], cwd=self.root, stdout=self.log,
             stderr=subprocess.STDOUT, start_new_session=True)
         self.processes.append(self.process)
-        self.receipt["phase"] = "runner-readiness"
-        deadline = time.monotonic() + 180
-        while not self.ready.wait(.1):
-            if self.process.poll() is not None or time.monotonic() >= deadline:
-                raise RuntimeError("Independent XCTest did not become ready")
-        self.receipt["runner_ready"] = True
+        self._await_runner_readiness()
         self.receipt["phase"] = "native-input"
         environment = os.environ.copy()
         environment["SIMCTL_CHILD_NATIVECMPKIT_NATIVE_INPUT_TOKEN"] = self.token
         return environment
+
+    def _await_runner_readiness(self):
+        self.receipt["phase"] = "runner-readiness"
+        started = time.monotonic()
+        deadline = started + 180
+        while not self.ready.wait(.1):
+            code = self.process.poll()
+            now = time.monotonic()
+            if code is not None or now >= deadline:
+                self.receipt["runner_startup"] = {
+                    "ready": False, "process_exit_code": code,
+                    "deadline_reached": now >= deadline,
+                    "elapsed_seconds": round(now - started, 3),
+                }
+                raise RuntimeError("Independent XCTest did not become ready")
+        self.receipt["runner_startup"] = {
+            "ready": True, "process_exit_code": self.process.poll(),
+            "deadline_reached": False, "elapsed_seconds": round(time.monotonic() - started, 3),
+        }
+        self.receipt["runner_ready"] = True
 
     def handle(self, method: str, path: str, body: dict | None):
         with self.lock:
@@ -490,6 +521,18 @@ class InputDriver:
         self.log.close()
         raw = read_ordinary(self.scratch / "xcodebuild.log", 16 * 1024**2)
         self.receipt["private_log_sha256"] = hashlib.sha256(raw).hexdigest()
+        # Fixed source-authored startup phases and typed OS error codes only.
+        # Never export arbitrary XCTest/URL/exception/configuration text.
+        startup = []
+        for line in raw.decode("utf-8", errors="replace").splitlines():
+            if len(startup) >= 24: break
+            if self.auth in line or self.token in line: continue
+            match = re.fullmatch(r"NATIVECMPKIT_XCTEST_STARTUP (setup-enter|setup-configured|setup-refused|ready-enter|ready-acknowledged|finished)", line)
+            if match: startup.append({"phase": match[1]}); continue
+            match = re.fullmatch(r"NATIVECMPKIT_XCTEST_TRANSPORT domain=(NSURLErrorDomain|NSCocoaErrorDomain|NSPOSIXErrorDomain|other) code=(-?[0-9]{1,10})", line)
+            if match and -(2**31) <= int(match[2]) < 2**31:
+                startup.append({"phase": "transport", "domain": match[1], "code": int(match[2])})
+        self.receipt["startup_diagnostics"] = startup
         diagnostics = []
         for line in raw.decode("utf-8", errors="replace").splitlines():
             if len(diagnostics) >= 24: break

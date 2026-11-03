@@ -56,7 +56,8 @@ class IosModalXcuiBatchControls(unittest.TestCase):
     def test_failed_only_memory_request_keeps_original_three_bodies_and_excludes_every_accepted_method(self):
         self.assertEqual(LIFECYCLE_SHA256, hashlib.sha256((ROOT / library.IOS_MODAL_LIFECYCLE_SOURCE).read_bytes()).hexdigest())
         host = ROOT / "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
-        self.assertEqual(HOST_SHA256, hashlib.sha256(host.read_bytes()).hexdigest())
+        from ios_modal_worker_source_projection import current_source_before_modal_worker
+        self.assertEqual(HOST_SHA256, hashlib.sha256(current_source_before_modal_worker(host.relative_to(ROOT).as_posix(), host.read_bytes())).hexdigest())
         plan = library.plan(ROOT, "ios", only_modules=("calf-ui",), focus=library.IOS_MODAL_LIFECYCLE_MEMORY_FOCUS)
         required = plan["expected"][0]["required_testcases"]
         self.assertEqual({method + "[iosSimulatorArm64]" for method in library.IOS_MODAL_LIFECYCLE_MEMORY_METHODS}, {c["name"] for c in required})

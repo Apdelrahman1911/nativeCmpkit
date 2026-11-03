@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Current failed-only Worker / independent startup batch — 2026-11-03
+
+[433–436 originals and recovery](evidence/current-platform-recovery-20261101/ios-modal-worker-startup433-436/README.md)
+accept all four repeated native disposal/GC cycles, but retain the public capture
+failure and pre-library XCTest startup failure. Important NEW/affected source
+controls16/16 and exact four-source KLIB compilation pass, not native acceptance.
+Next `ios-modal-worker-memory-recovery`3 and lightweight `ios-xctest-startup`;
+seven-case real input follows only accepted startup, iPad later. Original methods,
+old pins, production/APIs and publication gates remain. No new issue closure;
+98closed/74open. SOLO/max2 including queued/serial-local/8GiB reserve.
+
 ## Current shared iOS memory/input preparation — 2026-11-03
 
 [Batch424–426](evidence/current-platform-recovery-20261101/ios-modal-memory-xcui424-426/README.md)

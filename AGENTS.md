@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared Worker/XCTest recovery qualified, originals remain failed — 2026-11-03
+
+[Actual433/owning436](docs/development/evidence/current-platform-recovery-20261101/ios-modal-worker-startup433-436/README.md)
+preserves41567513880 FAILED2native/1pass1fail/XML1/Gradle1/1398.63s and
+41567531261 FAILED pre-library/ZEROlibraryXML-input/Gradle1/1491.28s;1246 actual
+own-Git inputs held. Accept/exclude all four repeated disposal/GC cycles, not the
+public captured-owner failure/reopen tail. Swift build0/52.483s holds; original
+runner-readiness exit-vs-timeout/cause unknown, not ZERO XCTest code. All owning
+cleanup witnesses pass independently. Both originals acquired/reviewed ONCE.
+Worker call-owned pool/plain capture+exact throwable controls and standalone
+Swift startup are prepared; old retention/environment cause remains a hypothesis.
+NEW10+affected5 pass15/15 once, separate NEW SHA1 correction1/1; first predispatch
+validator defect retained. Exact four-source KLIB0/36.771s/1252held, production
+UP-TO-DATE, ZERO Apple/Swift/native locally. Six23-fragment inverses/oldpins/AWT
+hold; Actionlint0/oldalertbindings/four passive plans pass. Next only memory3 and
+startup-only; no iPad/library-XCUI against known failed startup or accepted replay.
+[Upstream refresh434](docs/migration/upstream-updates/20261103T025304Z/README.md)
+maps16open+onePR/no missing/mutations; cached-only first parser recovery, no fresh
+discussion/timeline claim. No closure/comment:98closed/74open/172,22implemented/
+41partial/96verified/five unresolved. SOLO/no agents/serial-local/8GiB/max2combined
+INCLUDINGqueued/development-only/read-only Actions/all/no mandatory SHA pinning.
+All publication/Pages/main/history/legal/security/consumer/API–ABI/readiness gates
+remain. No packages/releases/deployment or current-native-pass inference.
+
 ## Shared pre-platform source fixtures repaired together — 2026-11-03
 
 [Actual429/repair430–431](docs/development/evidence/current-platform-recovery-20261101/ios-modal-ci-fixture429-431/README.md)

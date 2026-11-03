@@ -142,8 +142,9 @@ SHARE188_FAILED_ONLY_REBASE = {'scripts/ci/library_tests.py': {'before_sha256': 
 
 def source_before_share188_failed_only_rebase(relative, current):
     """Exact failed-only Share route inverses precede unchanged Share/Wasm/alert153 admissions."""
+    from ios_modal_worker_source_projection import source_before_modal_worker
     from terminal_awt240_source_projection import source_before_terminal_awt240
-    current = source_before_terminal_awt240(relative, current)
+    current = source_before_terminal_awt240(relative, source_before_modal_worker(relative, current))
     if relative not in SHARE188_FAILED_ONLY_REBASE:
         return current
     if type(current) is not bytes:

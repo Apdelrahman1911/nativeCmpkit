@@ -129,7 +129,8 @@ class NativeUiInputControls(unittest.TestCase):
 
     def test_two_xctestrun_formats_are_typed_single_targets_with_private_separate_configuration(self):
         target = {"IsUITestBundle": True, "BlueprintName": "NativeCmpKitInputTests",
-                  "TestingEnvironmentVariables": {"OWNED": "retained"}}
+                  "EnvironmentVariables": {"OWNED": "retained"},
+                  "TestingEnvironmentVariables": {"DYLD_FRAMEWORK_PATH": "__TESTROOT__/Debug-iphonesimulator"}}
         old = {"NativeCmpKitInputTests": target, "__xctestrun_metadata__": {"FormatVersion": 1}}
         new = {"TestConfigurations": [{"TestTargets": [target]}], "__xctestrun_metadata__": {"FormatVersion": 2}}
         for document in (old, new):
@@ -138,10 +139,11 @@ class NativeUiInputControls(unittest.TestCase):
             selected = (prepared["TestConfigurations"][0]["TestTargets"][0] if "TestConfigurations" in prepared
                         else prepared["NativeCmpKitInputTests"])
             self.assertEqual(["NativeCmpKitInputTests/testDeliverOnlyOwnedLibraryNativeInput"], selected["OnlyTestIdentifiers"])
-            environment = selected["TestingEnvironmentVariables"]
+            environment = selected["EnvironmentVariables"]
             self.assertEqual(AUTH, environment["NATIVECMPKIT_INPUT_AUTH"])
             self.assertNotEqual(TOKEN, environment["NATIVECMPKIT_INPUT_AUTH"])
             self.assertEqual("retained", environment["OWNED"])
+            self.assertEqual(target["TestingEnvironmentVariables"], selected["TestingEnvironmentVariables"])
         for malformed in ({}, {"TestConfigurations": []}, {"TestConfigurations": [{}, {}]},
                           {"TestConfigurations": [{"TestTargets": [target, target]}]},
                           {"NativeCmpKitInputTests": dict(target, IsUITestBundle=1)},

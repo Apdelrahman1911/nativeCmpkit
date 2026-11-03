@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Camera CI boundary repaired in one affected batch — 2026-11-03
+
+[476–478](evidence/current-platform-recovery-20261101/camera-ci-fixture476-478/README.md)
+retains41693271218 FAILED before native:four failed source methods/nine records,
+zero artifacts/Gradle/APK/native/XML. Only those four plus four new guards run:
+**8/8 pass once**,1.136s,1,277 held inputs. Exact source-stage admission repairs
+preserve all old pins, native criteria and cleanup; no accepted21 handoff/native
+replay. Next missing-only immutable cameraC1. #13 stays open/counts unchanged;
+solo/max2 INCLUDINGqueued and all publication/security/readiness gates remain.
+
 ## Camera boot readiness repaired without bypassing native gates — 2026-11-03
 
 [472–474](evidence/current-platform-recovery-20261101/camera-boot-handoff472-474/README.md)

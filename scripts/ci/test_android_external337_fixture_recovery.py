@@ -103,7 +103,7 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             self.assertEqual(digest(previous), changed_digest(path))
             for payload in (previous, current + b"\n", current[:-1], b"foreign", b""):
                 path.write_bytes(payload)
-                with self.assertRaisesRegex(ValueError, "exact current source"):
+                with self.assertRaisesRegex(ValueError, "^A historical image cannot replace exact current boot-handoff source$"):
                     changed_digest(path)
             outside = root.parent / (root.name + "-ordinary-config")
             try:
@@ -175,7 +175,7 @@ class External337FixtureRecoveryControls(unittest.TestCase):
         for relative, expected in PRIOR_AFTER_SHA256.items():
             binding = previous[relative]
             repair = binding["fragments"].pop()
-            restored = self.current[relative]
+            restored = current_source_before_arm64_stop_candidate(relative, self.current[relative])
             before, after = repair["before"].encode(), repair["after"].encode()
             self.assertEqual(1, restored.count(after))
             restored = restored.replace(after, before, 1)

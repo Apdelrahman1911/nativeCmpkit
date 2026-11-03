@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared camera CI fixture batch verified — 2026-11-03
+
+[476–478](docs/development/evidence/current-platform-recovery-20261101/camera-ci-fixture476-478/README.md)
+keeps41693271218/d4d17f86 FAILED before profile/platform:2573source/146.745s,
+nine records/four methods,8original log members/zero artifacts/Gradle/APK/native/
+XML.1274predispatch own-Git inputs, not actual platform maps. One shared fixture
+patch fixes actual-current/path admission, newer-stage-before-old-inverse and
+exact new refusal wording; three existing paths/five reversible fragments,
+original boot manifest/all old pins/native/API/dependency/workflow gates intact.
+Onlyfailed4+NEW4 pass8/8 once/1.136s/wrapper1.51732s,1277held/1271oldinputs unchanged;
+21passivechecks and16External/3ARM endpoints qualify. Accepted21handoff and
+camera009 natives not replayed; no original reacquisition. #13 stillopen/onlyC1
+next at new immutable bytes; no closure/count change103closed69open/172,
+22implemented36partial101verifiedfive unresolved. No current reservation after
+terminal review; SOLO/serial-local8GiB/max2INCLUDINGqueued/development/read-only
+Actions/all/no mandatorySHA and every publication/Pages/main/history/native/
+consumer/API–ABI/legal/dependency/security/readiness gate remain. No publication.
+
 ## Camera boot handoff qualified; original remains failed — 2026-11-03
 
 [472–474](docs/development/evidence/current-platform-recovery-20261101/camera-boot-handoff472-474/README.md)

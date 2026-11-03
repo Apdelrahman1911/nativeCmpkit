@@ -1,0 +1,61 @@
+{
+  "before_revision": "d4d17f868eadf501e10baa50613388a84200971e",
+  "bindings": {
+    "scripts/ci/camera_boot_handoff_source_projection.py": {
+      "after_bytes": 3900,
+      "after_sha256": "28cbf1f5c7fb11ee6f7605da604808ea27ad803e1b4a6ecaa72ce092252d9abb",
+      "before_bytes": 3584,
+      "before_sha256": "1154ac9cb9549223605d79b2b59a1917027bce3812422c0cddfb5665e3b02779",
+      "fragments": [
+        {
+          "after": "        raise ValueError(\"Exact boot-handoff source identity and ordinary bytes required\")\n    from camera_handoff_fixture_source_projection import source_before_handoff_fixture\n    payload = source_before_handoff_fixture(relative, payload)\n",
+          "after_fragment_sha256": "495bd38ea77a230546ac628657d74ede08ad289220efc455c2710d793504db29",
+          "before": "        raise ValueError(\"Exact boot-handoff source identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "fd32756a38f8ba5e55d599f8346a803ff29d4e444ef045108875ac66da1dc19a"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current boot-handoff identity and ordinary bytes required\")\n    from camera_handoff_fixture_source_projection import current_source_before_handoff_fixture\n    payload = current_source_before_handoff_fixture(relative, payload)\n",
+          "after_fragment_sha256": "3803b2bc80f2fd52e417e3a49b56054e95be6c4b98db6d0f3f4027e069bd8884",
+          "before": "        raise ValueError(\"Exact current boot-handoff identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "987fcb218b8287b720cee8891f3f375faff7a4106dc62a3e511f3de372ee09dd"
+        }
+      ]
+    },
+    "scripts/ci/test_android_external328_source_projection.py": {
+      "after_bytes": 16665,
+      "after_sha256": "58250b74041b79c187572974d0573f2b907e8219855e3341fc96cc7d27ca9fb1",
+      "before_bytes": 16658,
+      "before_sha256": "d0f4d0326e70238de4e80a6c9c1cfd233344c19d564c5f13c777422a33df4fa4",
+      "fragments": [
+        {
+          "after": "            path.write_bytes(self.actual_current[relative])\n            expected = bridge.source_before_android_external328(relative, self.current[relative])\n",
+          "after_fragment_sha256": "21ba37ac17bc1c1b6a7e074084b4d19fb55539dd9d2e3db1a864b31950a11adb",
+          "before": "            path.write_bytes(self.current[relative])\n            expected = bridge.source_before_android_external328(relative, self.current[relative])\n",
+          "before_fragment_sha256": "bf8d2d89c754185e0f0f355045c98cbfa5b082475fa0c486d29ebf01e0331f65"
+        }
+      ]
+    },
+    "scripts/ci/test_android_external337_fixture_recovery.py": {
+      "after_bytes": 11387,
+      "after_sha256": "84a669a821fefd03f616847674891de24e2db6f066a5bea5b5dd90e9c4943aeb",
+      "before_bytes": 11284,
+      "before_sha256": "df25d5ac1d19151261d66f908f345cd6861d20241a23194d07a6362b43330ddc",
+      "fragments": [
+        {
+          "after": "                with self.assertRaisesRegex(ValueError, \"^A historical image cannot replace exact current boot-handoff source$\"):\n                    changed_digest(path)\n",
+          "after_fragment_sha256": "a153153a9ad0bceb382bc1eb50c05b82cdd78ed5b8a81ebdd6bf05a64fa9f2a5",
+          "before": "                with self.assertRaisesRegex(ValueError, \"exact current source\"):\n                    changed_digest(path)\n",
+          "before_fragment_sha256": "57bad0c20ac218364fb51db7d7c7c7c38f9aecff17258013c059b9db73e172de"
+        },
+        {
+          "after": "            restored = current_source_before_arm64_stop_candidate(relative, self.current[relative])\n",
+          "after_fragment_sha256": "f363b32a0dc1fc5dc470e1e7fd6955c7f9d820f88bd8c9289af3ae29881365de",
+          "before": "            restored = self.current[relative]\n",
+          "before_fragment_sha256": "3ba8f77789723d72cc1fec9dbc22e942dfab49fa563b3b2584477772adf067d0"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact CI476 fixture recovery only; original boot-handoff bindings, native admission and APIs unchanged."
+}

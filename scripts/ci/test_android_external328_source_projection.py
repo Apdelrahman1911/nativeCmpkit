@@ -175,7 +175,7 @@ class External328SourceHistoryControls(unittest.TestCase):
             root = Path(name)
             path = root / relative
             path.parent.mkdir(parents=True)
-            path.write_bytes(self.current[relative])
+            path.write_bytes(self.actual_current[relative])
             expected = bridge.source_before_android_external328(relative, self.current[relative])
             self.assertEqual(expected, bridge.read_current_source_for_history(path, root))
             path.write_bytes(expected)

@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Camera actual preflight reviewed; bounded failure observation qualified — 2026-11-03
+
+[498–501](docs/development/evidence/current-platform-recovery-20261101/camera-boot-original498-501/README.md)
+keeps41702852115/7c94640a FAILED before Gradle/APK/native/XML:ten tooling scopes
+pass3540 invocations/2600CI116.235s; first boot Activity observation1/waits0,
+inner parser/payload/cause unrecorded, require48 only, originalcapture notstarted.
+Separatecleanup733 refuses; independentguestdisposal passes. All1284actual own-Git
+maps and32logs/17reports acquiredONCE/30passive checks. New failure-only live-frame/
+returned-query observation and exact original require origin keep parser/controller/
+helper/native/API/dependency/workflow/oldpins unchanged. Oneexistingpath/three
+fragments/twoaddedinputs; first4998pass/one filenamefixtureerror, onlyfailed1
+recovers1/1 at500; finalNEW9/10invocations qualify, accepted8 neverreplayed.
+50126passive checks/1286held/1283otherexisting unchanged/ZEROlocalcompiler/native.
+#13open/onlymissingC1 next afterfreeze/capacity; camera009C2/C3 reuseonly. Both
+camera495 andApple480 reservations terminal/freed; Apple SDK-only/#141open. Counts
+103closed69open/172/22implemented36partial101verifiedfiveunresolved unchanged.
+SOLO/serial-local8GiB/max2INCLUDINGqueued/read-onlyActions/all/no mandatorySHA/
+development and every publication/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remain; no publication.
+
 ## Apple owned-install SDK prerequisite accepted — 2026-11-03
 
 [496–497](docs/development/evidence/current-platform-recovery-20261101/apple-owned-shape496-497/README.md)

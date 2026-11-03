@@ -9,8 +9,11 @@ reporter identity, native method and cleanup remain the admission gates.
 """
 from __future__ import annotations
 
+import hashlib
 import math
+from pathlib import PurePosixPath
 import re
+import subprocess
 
 import android_camera_developer_prerequisite as camera
 
@@ -158,6 +161,12 @@ def wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dic
             try:
                 camera.parse_settings_activity_absence(result)
             except ValueError as error:
+                try:
+                    observation = activity_refusal(error)
+                    if observation is not None:
+                        receipt["parser_refusal"] = observation
+                except BaseException:
+                    pass  # Observation never replaces the original strict refusal.
                 origin = camera.require_call_origin(error)
                 # Only the unchanged interior-row refusal can be provisional.
                 # Unsafe bytes, status/stderr, headers, duplicate displays and
@@ -185,10 +194,92 @@ def wait_for_owned_boot_handoff(owner: camera.OwnedDeveloperPrerequisite) -> dic
                 remaining()
                 owner.publish()  # Failure here must still refuse original capture.
                 return dict(receipt)
-    except BaseException:
+    except BaseException as error:
         receipt["status"] = "failed"
+        try:
+            receipt["primary_require_call_origin"] = camera.require_call_origin(error)
+        except BaseException:
+            pass  # Unavailable callsite facts do not change failure or cleanup.
         try:
             owner.publish()
         except BaseException:
             pass  # Secondary journal failure never masks the primary refusal.
         raise
+
+
+def activity_refusal(error: BaseException) -> dict | None:
+    """Bounded facts from the genuine refusing parser's already-returned query.
+
+    In camera495, the first boot Activity observation refused before the old
+    interior-only observer could run. Inspect its real frame and exact SDK/guest
+    query; do not repeat, trim, normalize, parse for acceptance, or expose rows.
+    Missing envelope/rows are unavailable, never evidence of native absence.
+    """
+    if type(error) not in (ValueError, UnicodeDecodeError):
+        return None
+    trace = error.__traceback__
+    for _ in range(64):
+        if trace is None:
+            return None
+        if trace.tb_frame.f_code is camera.parse_settings_activity_absence.__code__:
+            result = trace.tb_frame.f_locals.get("result")
+            if (type(result) is not subprocess.CompletedProcess or type(result.args) is not list or
+                    len(result.args) != 9 or any(type(arg) is not str for arg in result.args) or
+                    tuple(result.args[1:]) != ("-s", camera.SERIAL, *ACTIVITIES) or
+                    type(result.stdout) is not bytes or type(result.stderr) is not bytes or
+                    len(result.stdout) + len(result.stderr) > camera.CONTROL_BYTES or
+                    type(result.returncode) is not int or not -2147483648 <= result.returncode <= 2147483647):
+                return None
+            tool = PurePosixPath(result.args[0])
+            if (not tool.is_absolute() or ".." in tool.parts or tool.name != "adb" or
+                    tool.parent.name != "platform-tools" or
+                    any(char in result.args[0] for char in ("\0", "\r", "\n", "\x1b"))):
+                return None
+            payload = result.stdout
+            if trace.tb_frame.f_locals.get("payload", payload) is not payload:
+                return None  # A changed CompletedProcess cannot describe the refused bytes.
+            rows = trace.tb_frame.f_locals.get("rows")
+            try:
+                decoded = payload.decode("utf-8")
+            except UnicodeError:
+                decoded = None
+            rows_available = (decoded is not None and type(rows) is list and
+                              all(type(row) is str for row in rows) and
+                              rows == decoded.removesuffix("\n").split("\n"))
+            observation = {
+                "schema": "nativecmpkit.camera-boot-activity-refusal.v1",
+                "parser_frame_line": trace.tb_lineno,
+                "require_call_origin": camera.require_call_origin(error),
+                "stdout_bytes": len(payload), "stdout_sha256": hashlib.sha256(payload).hexdigest(),
+                "stderr_bytes": len(result.stderr), "stderr_sha256": hashlib.sha256(result.stderr).hexdigest(),
+                "command_exit_code": result.returncode,
+                "unsafe_control_bytes": any(byte in payload for byte in (b"\r", b"\0", b"\x1b")),
+                "decoded_utf8": decoded is not None, "original_rows_available": rows_available,
+                "read_only_returned_query": True, "new_queries_or_native_operations": 0,
+                "parser_retried": False, "original_reader_still_refused": True,
+                "activity_absence_verified": False, "actual_producer_or_cause_inferred": False,
+                "raw_rows_identifiers_paths_or_environment_exported": False,
+            }
+            if rows_available:
+                observation.update(
+                    row_count=len(rows), header_occurrences=rows.count(camera.ACTIVITIES_HEADER),
+                    footer_occurrences=rows.count("  (nothing)"),
+                    empty_rows=rows.count(""),
+                    original_header_footer_operands={
+                        "minimum_three_rows": len(rows) >= 3,
+                        "header": bool(rows) and rows[0] == camera.ACTIVITIES_HEADER,
+                        "unique_header": rows.count(camera.ACTIVITIES_HEADER) == 1,
+                        "footer": bool(rows) and rows[-1] == "  (nothing)",
+                        "unique_footer": rows.count("  (nothing)") == 1,
+                    },
+                    observed_rows=[{
+                        "index": index, "bytes": len(row.encode("utf-8")),
+                        "sha256": hashlib.sha256(row.encode("utf-8")).hexdigest(),
+                        "leading_ascii_spaces": len(row) - len(row.lstrip(" ")),
+                        "trailing_ascii_spaces": len(row) - len(row.rstrip(" ")),
+                        "ascii_only": row.isascii(), "empty": row == "",
+                    } for index, row in enumerate(rows[:8])],
+                )
+            return observation
+        trace = trace.tb_next
+    return None

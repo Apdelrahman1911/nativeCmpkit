@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Camera preflight failure reviewed; original diagnostics repaired — 2026-11-03
+
+[498–501](evidence/current-platform-recovery-20261101/camera-boot-original498-501/README.md)
+retains41702852115 **FAILED before Gradle/APK/native/XML**, despite all tooling
+green. The first boot observation fails without recorded inner operands/cause;
+separate original cleanup refuses, owned guest disposal passes. All1,284 actual
+own-Git maps/originals qualify once. Bounded failure-only original-frame facts
+retain every parser/helper/native/cleanup gate; **nine final new controls qualify**
+without replaying accepted eight after one filename-only fixture recovery.
+26passive checks/1,286held inputs; ZERO new local compiler/native/closures.
+Next missing-only immutable cameraC1; accepted camera009 remains excluded.
+**103closed/69open**. SOLO/max2INCLUDINGqueued/all publishing/readiness gates stay.
+
 ## Actual iOS SDK prerequisite verified; native/profile gates remain — 2026-11-03
 
 [496–497](evidence/current-platform-recovery-20261101/apple-owned-shape496-497/README.md)

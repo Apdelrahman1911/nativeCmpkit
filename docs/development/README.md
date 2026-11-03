@@ -1,5 +1,17 @@
 # NativeCmpKit development after the audit
 
+## Grouped native request recovered at its owning CI fixture — 2026-11-03
+
+[455–456](evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)
+preserves41581612628 **FAILED before platform**:2,542 tooling methods, one stale
+stage-composition error, ZERO native/XML/artifacts. Reservation freed. Only that
+fixture changes; current completion admission precedes the older SheetRepeat
+reader and both refusal populations stay strict. Failed1+NEW3 pass **4/4 once**;
+15 passive checks accept1,267 held inputs. Reuse exact43.01s five-source KLIB;
+no accepted controls/compiler/native replay. Next freeze/push and one new five-case
+request; interactive iPhone7/iPad7 await shared transport qualification. No issue
+closure/promotion/publication; solo/max2INCLUDINGqueued/8GiB, all gates unchanged.
+
 ## One related Worker/cancellation batch, not green-XML closure — 2026-11-03
 
 [445/451/453](evidence/current-platform-recovery-20261101/ios-worker-completion453/README.md)

@@ -1,5 +1,15 @@
 # UI native/date/time/modal development — UI-001…UI-026
 
+## Same related five-case request: owning fixture recovered — 2026-11-03
+
+[455–456](evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)
+records41581612628 FAILED at one historical-stage fixture **before native**.
+The exact completion inverse now precedes the older SheetRepeat reader; both
+admission layers retain negative controls. Failed1+NEW3 pass4/4/0.106s and15
+passive source/results checks accept1,267 held inputs; exact five-source KLIB
+reused without compilation or native replay. Original native completion/interactive
+criteria remain required. #28/#30/#31/#125/#126 stay open; no status promotion.
+
 ## Shared modal originals and same-operation recovery — 2026-11-03
 
 [445/451/453](evidence/current-platform-recovery-20261101/ios-worker-completion453/README.md)

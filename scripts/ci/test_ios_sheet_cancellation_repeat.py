@@ -11,6 +11,7 @@ import library_tests as library
 import workflow_matrix as workflow
 import ios_modal_worker_source_projection as worker
 import ios_sheet_repeat_source_projection as history
+import ios_worker_completion_source_projection as completion_history
 
 ROOT = Path(__file__).resolve().parents[2]
 COMPILER = "scripts/ci/ios_sheet_repeat_compile.init.gradle.kts"
@@ -104,19 +105,23 @@ class SheetCancellationRepeatControls(unittest.TestCase):
         self.assertEqual(7, sum(len(binding["fragments"]) for binding in bindings.values()))
         for relative, binding in bindings.items():
             current = (ROOT / relative).read_bytes()
-            previous = history.current_source_before_sheet_repeat(relative, current)
+            stage = completion_history.current_source_before_worker_completion(relative, current)
+            previous = history.current_source_before_sheet_repeat(relative, stage)
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             self.assertEqual(previous, history.source_before_sheet_repeat(relative, previous))
             forward = previous
             for fragment in binding["fragments"]:
                 before, after = fragment["before"].encode(), fragment["after"].encode()
                 self.assertEqual(1, forward.count(before)); forward = forward.replace(before, after, 1)
-            self.assertEqual(current, forward)
+            self.assertEqual(stage, forward)
             self.assertEqual(worker.source_before_modal_worker(relative, previous),
                              worker.current_source_before_modal_worker(relative, current))
-            for changed in (previous, current + b"\n", current[:-1], current.replace(b"\n", b"\r\n"),
-                            b"", None, bytearray(current)):
+            for changed in (previous, stage + b"\n", stage[:-1], stage.replace(b"\n", b"\r\n"),
+                            b"", None, bytearray(stage)):
                 with self.assertRaises(ValueError): history.current_source_before_sheet_repeat(relative, changed)
+            for changed in (stage, current + b"\n", current[:-1], current.replace(b"\n", b"\r\n"),
+                            b"", None, bytearray(current)):
+                with self.assertRaises(ValueError): completion_history.current_source_before_worker_completion(relative, changed)
         self.assertEqual("8a1f2c4b0f418b9aab96f9d3c8f615acff5efce31fe457886204559fd2448d48",
                          hashlib.sha256(worker.SPEC_PATH.read_bytes()).hexdigest())
         with tempfile.TemporaryDirectory(prefix="explicitly-synthetic-repeat-manifest-") as folder:

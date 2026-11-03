@@ -1,5 +1,24 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Grouped modal CI fixture repaired without native replay — 2026-11-03
+
+[455–456](docs/development/evidence/current-platform-recovery-20261101/ios-modal-tooling455-456/README.md)
+preserves41581612628/bf5b30b0 FAILED before platform:2542source/2541pass/oneerror/
+109.710s/eight original log members/ZERO libraryGradle/Apple/Swift/native/XML/
+artifacts. Original acquired/reviewed ONCE;1266 own-Git freeze is not platform
+custody; reservation freed. Older SheetRepeat reader was passed newer completion
+postimage. Only failed fixture now admits/inverts owning completion first, then
+round-trips exact oldstage; both mutation populations/pins/live helpers/native
+bodies/workflow/dependencies/APIs remain. Failed1+NEW3 pass4/4 once/0.106s/
+wrapper0.247427374s;15passive checks/1267held. Exact five-source43.01s KLIB reused,
+ZERO new compiler/native or accepted replay. Next freeze/push and same missing
+memory3+repeat2 ONCE at newrevision after fresh capacity; do not rerun olddispatch.
+XCUI iPhone7/iPad7 wait for shared transport qualification. #28/#30/#31/#125/#126
+open;98closed/74open/172/22implemented41partial96verifiedfive unresolved unchanged.
+SOLO/serial-local/8GiB/max2INCLUDINGqueued/development/read-only Actions/all/no
+mandatorySHA; all publication/Pages/main/history/legal/security/consumer/API–ABI/
+readiness gates remain. Earlier dated pending checkpoints retain historical scope.
+
 ## Related Worker/cancellation batch qualified; originals remain failed — 2026-11-03
 
 [445/451/453](docs/development/evidence/current-platform-recovery-20261101/ios-worker-completion453/README.md)

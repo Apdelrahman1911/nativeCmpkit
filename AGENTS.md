@@ -1,5 +1,23 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Both modal hosts accepted; shared task-request blocker repaired — 2026-11-03
+
+[Original418–422](docs/development/evidence/current-platform-recovery-20261101/ios-modal-originals418-422/README.md)
+accepts iPhone41552604094/iPad41553575992 at c5bc917a:9/9 each/oneXML each,
+Gradle0/1950.29s+1574.88s,69 passive checks each/all1228 actual own-Git inputs;
+genuine UIKit/Worker/owned cleanup hold. Six/eight appearance warnings remain,
+not proven harmless. Never replay these accepted nine-case selections.
+Lifecycle41557330504/4efe8a19 FAILED before compiler/link/app:0native/0XML,
+Gradle1/571.59s/all1233 held;59 original checks preserve every refusal.
+Actual Gradle9.7.1 taskNames retains --tests/selectors. Exact ordered three-selector
+admission repairs the shared guard without normalization/source-set/API changes;
+NEW6/affected1 pass once; real dry-run first1/36.01s/recovery0/27.01s/wildcard1/
+23.01s, ZERO native. Next only unexecuted lifecycle3; callback/touch/detent/veto/
+save/restore/iPad criteria stay missing.98closed/74open/no new closure. SOLO/no
+agents/serial-local/8GiB/max2INCLUDINGqueued/development-only/read-only Actions/all/
+no mandatory SHA pinning; all publication/Pages/main/history/legal/security/
+consumer/API–ABI/readiness gates remain. No release/package/deployment.
+
 ## Shared modal lifecycle completion; narrow compiler qualified — 2026-11-03
 
 [Batch417](docs/development/evidence/current-platform-recovery-20261101/ios-modal-lifecycle417/README.md)

@@ -1,0 +1,327 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=C31127F4-83B8-4B9A-ACFE-3135F1C62B4E",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1574.88,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-modal-ownership-batch",
+  "finished_at_utc": "2026-11-03T01:05:49.713050+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.20.1",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.20.1+1",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "58856340b2a1cfc11d9f1e5a02e3f55251ebf89ce43e62cb589e2243b5395d50",
+  "inputs_before_sha256": "58856340b2a1cfc11d9f1e5a02e3f55251ebf89ce43e62cb589e2243b5395d50",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "99fb6bb4c948aaea2ce07db2d06cda6391708f2255bda643e69ad94fb3b5649c",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rc5bc917a5e56.t18b68ba4953d45d1972e986018139084",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 9,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 9,
+        "skipped": 0,
+        "tests": 9,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-ipad/native-ui-application/18b68ba4953d45d1972e986018139084/receipt.json",
+      "receipt_sha256": "a1fdedcf778ee92f21722d295fb59ec279445e543cba398bd60aa8e101e96182",
+      "required_native_cases_found": 9,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "C31127F4-83B8-4B9A-ACFE-3135F1C62B4E",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 9,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "disposition": "required-executed",
+          "name": "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 9,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 9,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 9,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest.xml",
+          "sha256": "1dd53762d70f1c76b3c96ded5f53bc2caa271ff29193f5082fa401eabefe49d6",
+          "skipped": 0,
+          "tests": 9,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+          "name": "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 9,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest",
+      "name": "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "09176be269bd6d229dde1eac1c3ae516e79fd9d29e3be8a782be0c09f9be2d81",
+  "schema_version": 1,
+  "scope": "Nine new genuine UIKit alert/sheet queued-admission, opposing/alternating/concurrent visibility, cancellation, captured-content GC, policy and Main/Default/IO regressions only. No accepted lifecycle replay or native-touch, interactive-detent, physical-device, whole-issue or release certification.",
+  "source_revision": "c5bc917a5e56d0249383ae2e3e8f0cd65b60ba58",
+  "source_revision_after": "c5bc917a5e56d0249383ae2e3e8f0cd65b60ba58",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-03T00:39:34.822670+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 9,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 9,
+    "skipped": 0,
+    "tests": 9,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

@@ -10,9 +10,17 @@ gradle.projectsEvaluated {
     // Init scripts also visit convention/included builds. They do not own UI's
     // compilation and must not reject their independent plugin-resolution tasks.
     val project = rootProject.findProject(":calf-ui") ?: return@projectsEvaluated
+    // Gradle retains task-specific --tests options in startParameter.taskNames.
+    // Admit the exact authored selection, not arbitrary options or wildcards.
+    val applicationRequest = listOf(":calf-ui:iosSimulatorArm64ApplicationTest") + listOf(
+        "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+        "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+        "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent",
+    ).flatMap { method -> listOf("--tests", "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.$method") }
     val permittedTasks = setOf(
         listOf(":calf-ui:compileTestKotlinIosSimulatorArm64"),
         listOf(":calf-ui:iosSimulatorArm64ApplicationTest"),
+        applicationRequest,
     )
     check(gradle.startParameter.taskNames in permittedTasks) {
         "Focused modal compilation accepts only its exact test compiler or application task"

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "root_cause": "Gradle 9.7.1 taskNames contains task-specific --tests flags and selectors; the standalone-only list refused the original selected application request.",
+  "production_or_test_body_changes": false,
+  "native_executions": 0,
+  "issue_closures": 0,
+  "source_controls": {
+    "new_methods": 6,
+    "passed": 6,
+    "unittest_seconds": 0.053,
+    "affected_original_method_passed": 1,
+    "accepted_tests_replayed": 0,
+    "measurement_origin": "Observed terminal unittest output; no native claim"
+  },
+  "request_runs": {
+    "request-parser-first": {
+      "exit_code": 1,
+      "elapsed_seconds": 36.01,
+      "dry_run": true,
+      "log_sha256": "dda1ff80967162e8455d74c0b483e95364f02f8177ac9a97788b7f4733415319",
+      "observed_task_names": [
+        [
+          ":calf-ui:iosSimulatorArm64ApplicationTest",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent"
+        ]
+      ],
+      "guard_refusal_observed": true,
+      "native_tests_executed": 0
+    },
+    "request-parser-recovery": {
+      "exit_code": 0,
+      "elapsed_seconds": 27.01,
+      "dry_run": true,
+      "log_sha256": "d92d7de869329341fe3f29547d13e1a386c1800547fb556395dcae9e7026aa7a",
+      "observed_task_names": [
+        [
+          ":calf-ui:iosSimulatorArm64ApplicationTest",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+          "--tests",
+          "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest.repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent"
+        ]
+      ],
+      "guard_refusal_observed": false,
+      "native_tests_executed": 0
+    },
+    "request-wildcard-refusal": {
+      "exit_code": 1,
+      "elapsed_seconds": 23.01,
+      "dry_run": true,
+      "log_sha256": "21bd0ff7d3f8a8da460a8a4c18e29dfe5714108f0835a24ea48fde03417822a0",
+      "observed_task_names": [],
+      "guard_refusal_observed": true,
+      "native_tests_executed": 0
+    }
+  },
+  "source_sha256": "dbbf34cf6eded212df82ce6991c0ddefc206bd336e0a7a2c2ba283fabea8d165"
+}

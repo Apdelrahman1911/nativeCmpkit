@@ -45,6 +45,17 @@ See [local-verification.json](local-verification.json) and the original XML/logs
 
 ## Remaining acceptance
 
+### First CI tooling failure repaired together
+
+[41551470920](https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41551470920)
+at `d961cab9` failed **before** platform selection: 2,470 CI fixture methods,
+10 failure records across four methods. Three historical readers compared newer
+raw modal sources against older stage pins or expected the older refusal stage.
+All four failed methods now pass together (**4/4 /0.855s**); original pins,
+other method bodies, live workflow permissions and native tests are unchanged.
+See [the once-acquired originals and review](ci-tooling-recovery/review.json).
+Zero library Gradle/native/XML; reuse the accepted local compiler/common results.
+
 Native queued/concurrent/cancellation/GC outcomes await the immutable hosted run.
 The four original #28 accessibility-activation failures remain failed: this patch
 does not diagnose their observation/input problem. Inside/outside touches, actual

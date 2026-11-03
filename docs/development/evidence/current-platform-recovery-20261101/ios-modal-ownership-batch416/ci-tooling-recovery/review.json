@@ -1,0 +1,78 @@
+{
+  "reviewed_utc": "2026-11-03T00:23:30.441662+00:00",
+  "original_run_id": 41551470920,
+  "original_git_revision": "d961cab93867ffd027a0d1d820b891689046e22d",
+  "original_conclusion": "failure",
+  "original_ci_methods": 2470,
+  "original_failure_records": 10,
+  "failed_methods": 4,
+  "original_ci_elapsed_seconds": 130.353,
+  "library_gradle_native_xml": 0,
+  "owning_repairs": [
+    {
+      "path": "scripts/ci/test_android_external337_fixture_recovery.py",
+      "changed_methods": [
+        "test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest"
+      ],
+      "retained_methods": 12
+    },
+    {
+      "path": "scripts/ci/test_arm64_stop_candidate_source_projection.py",
+      "changed_methods": [
+        "test_three_exact_full_sources_roundtrip_and_preserve_original_eight_fragments"
+      ],
+      "retained_methods": 5
+    },
+    {
+      "path": "scripts/ci/test_desktop_windows_tls_recovery.py",
+      "changed_methods": [
+        "test_six_exact_inverses_and_eleven_fragments_restore_original_complete_sources",
+        "test_no_graph_or_accepted_native_replay_and_workflow_permissions_remain_exact"
+      ],
+      "retained_methods": 10
+    }
+  ],
+  "failed_only_recovery": {
+    "command": [
+      "/usr/bin/python3",
+      "-B",
+      "-m",
+      "unittest",
+      "-v",
+      "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "test_arm64_stop_candidate_source_projection.Arm64StopHistoryTests.test_three_exact_full_sources_roundtrip_and_preserve_original_eight_fragments",
+      "test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_no_graph_or_accepted_native_replay_and_workflow_permissions_remain_exact",
+      "test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_six_exact_inverses_and_eleven_fragments_restore_original_complete_sources"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 0.9737030569231138,
+    "selected_original_failed_methods": [
+      "test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_owning_manifest_check_refuses_old_or_changed_live_source_before_historical_digest",
+      "test_arm64_stop_candidate_source_projection.Arm64StopHistoryTests.test_three_exact_full_sources_roundtrip_and_preserve_original_eight_fragments",
+      "test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_no_graph_or_accepted_native_replay_and_workflow_permissions_remain_exact",
+      "test_desktop_windows_tls_recovery.DesktopWindowsTlsRecoveryControls.test_six_exact_inverses_and_eleven_fragments_restore_original_complete_sources"
+    ],
+    "original_failure_records": 10,
+    "original_ci_methods": 2470,
+    "original_ci_elapsed_seconds": 130.353,
+    "native_execution": 0,
+    "reviewed_utc": "2026-11-03T00:22:28.862616+00:00"
+  },
+  "original_source_pins_refreshed": 0,
+  "native_or_production_changes": 0,
+  "compiler_evidence_reused": {
+    "held_original_compiler_inputs": 1226,
+    "later_only_ci_deltas": [
+      "scripts/ci/desktop_windows_tls_source_projection.py",
+      "scripts/ci/fixtures/ios-modal-ownership-source-inverse.json",
+      "scripts/ci/ios_modal_ownership_source_projection.py",
+      "scripts/ci/test_android_external337_fixture_recovery.py",
+      "scripts/ci/test_arm64_stop_candidate_source_projection.py",
+      "scripts/ci/test_desktop_windows_tls_recovery.py",
+      "scripts/ci/test_ios_modal_ownership_batch.py"
+    ],
+    "repeated_common_or_native_tests": 0
+  },
+  "new_closures": 0,
+  "scope": "Four historical fixture methods only. Preserve current-byte rejection and all original source pins; live permissions remain checked on raw current workflow. Only historical equality uses exact modal inverse."
+}

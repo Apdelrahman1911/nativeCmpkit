@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 import arm64_stop_candidate_source_projection as arm
 import android_external328_source_projection as previous
+import ios_modal_ownership_source_projection as modal_history
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -23,9 +24,10 @@ class Arm64StopHistoryTests(unittest.TestCase):
             "scripts/ci/android_external328_source_projection.py", "scripts/ci/test_android_external328_source_projection.py"})
         self.assertEqual(sum(len(row["fragments"]) for row in bindings.values()), 8)
         for relative, row in bindings.items():
-            current = (ROOT / relative).read_bytes()
+            live = (ROOT / relative).read_bytes()
+            current = modal_history.current_source_before_modal_ownership(relative, live)
             self.assertEqual(hashlib.sha256(current).hexdigest(), row["after_sha256"])
-            old = arm.current_source_before_arm64_stop_candidate(relative, current)
+            old = arm.current_source_before_arm64_stop_candidate(relative, live)
             self.assertEqual(hashlib.sha256(old).hexdigest(), row["before_sha256"])
             forward = old
             for fragment in row["fragments"]:

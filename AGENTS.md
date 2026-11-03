@@ -15,7 +15,9 @@ implements shared queued alert/sheet cancellation and concurrent/latest-intent f
 for #28/#30/#31/#125/#126. Fresh common4/4 and iOS production/test recovery compiler0/
 56.01s qualify locally; first missing IO import failure and tooling refusals remain.
 Nine new genuine UIKit methods/one finite iPhone or iPad host are prepared, ZERO native
-locally/no new closure. Original #28 activation4 failures and complete touch/parent/
+locally/no new closure. First41551470920 failed before platform selection:2470CI/
+10 records/four methods; one three-reader batch now passes only those four,0.855s,
+original pins/native/compiler inputs unchanged. Original #28 activation4 failures and complete touch/parent/
 detent/iPad requirements stay separate. #144 already CLOSED/completed; never repeat
 its closure.98closed/74open/172total. Serial-local/8GiB/max2hosted INCLUDING queued,
 development-only/read-only Actions/all/no mandatory SHA pinning and all publication,

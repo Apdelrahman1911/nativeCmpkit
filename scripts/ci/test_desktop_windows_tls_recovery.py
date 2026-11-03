@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch
 
 import desktop_windows_tls_source_projection as later
+import ios_modal_ownership_source_projection as modal_history
 import desktop_policy_creation_source_projection as history
 import desktop_security_plan as security
 import library_tests as library
@@ -40,8 +41,9 @@ class DesktopWindowsTlsRecoveryControls(unittest.TestCase):
         self.assertEqual(11, sum(len(r['fragments']) for r in self.bindings.values()))
         for path, binding in self.bindings.items():
             with self.subTest(path=path):
-                raw = (ROOT / path).read_bytes()
-                prior = later.current_source_before_windows_tls(path, raw)
+                live = (ROOT / path).read_bytes()
+                raw = modal_history.current_source_before_modal_ownership(path, live)
+                prior = later.current_source_before_windows_tls(path, live)
                 self.assertEqual(binding['before_sha256'], hashlib.sha256(prior).hexdigest())
                 self.assertEqual(binding['after_sha256'], hashlib.sha256(raw).hexdigest())
                 self.assertEqual(prior, later.source_before_windows_tls(path, prior))
@@ -155,7 +157,8 @@ class DesktopWindowsTlsRecoveryControls(unittest.TestCase):
         path = '.github/workflows/gradle.yml'; raw = (ROOT / path).read_bytes()
         prior = later.current_source_before_windows_tls(path, raw).decode()
         current = raw.decode()
-        self.assertEqual(prior, current.replace(PROFILE + ', ', '', 1))
+        historical_current = modal_history.current_source_before_modal_ownership(path, raw).decode()
+        self.assertEqual(prior, historical_current.replace(PROFILE + ', ', '', 1))
         capture_if = next(r for r in current.splitlines() if "steps.plan.outcome == 'success'" in r and 'webview-desktop-security-regressions' in r)
         self.assertNotIn(PROFILE, capture_if)
         self.assertIn('permissions:\n  contents: read', current)

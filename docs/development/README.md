@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Actual iOS SDK prerequisite verified; native/profile gates remain — 2026-11-03
+
+[496–497](evidence/current-platform-recovery-20261101/apple-owned-shape496-497/README.md)
+accepts41696878178/dd614a75: **fixed link0/1,148.66s**, ordinary owned install,
+one bounded appinfo lexical query0,1,277 actual own-Git inputs and exact app/device
+cleanup. Forty passive checks qualify once-acquired originals. Original terminal
+Data Migration Failed is preserved; schema/registration/native/profile are not
+inferred from this **SDK-only** result. ZERO launch/Worker/native/XML/profiler.
+#141 remains open. Its reservation is freed; camera41702852115 remains at its
+own7c94640a/1,284 freeze. Counts103closed/69open, no new closure/publication.
+
 ## Related camera CI fixture batch qualified — 2026-11-03
 
 [491–494](evidence/current-platform-recovery-20261101/camera-recents-ci491-494/README.md)

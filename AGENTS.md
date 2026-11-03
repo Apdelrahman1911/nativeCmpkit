@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Apple owned-install SDK prerequisite accepted — 2026-11-03
+
+[496–497](docs/development/evidence/current-platform-recovery-20261101/apple-owned-shape496-497/README.md)
+accepts41696878178/dd614a75 SUCCESS SDK-only: fixed link0/1148.66s, ordinary
+ad-hoc install/readback, one query0/1218stdout/empty stderr/0.529s helper+0.573s
+outer,1277actual own-Git before/after maps, four appcleanup witnesses/uninstall0,
+same iPhoneAir/iOS26.5 original/final Shutdown.25logs/oneartifact/threeJSON acquired
+ONCE;40passive checks. First ten-vs-four tooling-envelope reviewer refusal stays,
+all ten actual tooling scopes pass3517 invocations/2577CI methods. Bootstatus
+terminal Data Migration Failed is retained/cause+nativeimpact unknown. ZERO
+launch/Worker/native/XML/Instruments/leaks/schema/registration/profile acceptance;
+raw payload deleted, lexical delimiters are not field/serializer proof. #141open/
+original failures unwaived; do not replay accepted SDK or redownload originals.
+Apple reservation freed. Camera49541702852115 at7c94640a/1284 remains sole1
+reservation until terminal; old camera491 stays failed.103closed69open/172 and
+22implemented36partial101verifiedfive unresolved unchanged. SOLO/serial-local8GiB/
+max2INCLUDINGqueued/read-onlyActions/all/no mandatorySHA/development and every
+publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/
+readiness gate remain. No package/release/deployment publication.
+
 ## Related camera CI fixture recovery qualified — 2026-11-03
 
 [491–494](docs/development/evidence/current-platform-recovery-20261101/camera-recents-ci491-494/README.md)

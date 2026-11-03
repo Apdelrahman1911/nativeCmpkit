@@ -338,9 +338,13 @@ class CameraBootHandoffControls(unittest.TestCase):
         with self.assertRaises(ValueError): handoff.wait_for_owned_boot_handoff(object())
 
     def test_new_stage_exact_inverse_preserves_old_pins_sources_and_roundtrip(self):
+        from camera_handoff_fixture_source_projection import current_source_before_handoff_fixture
+
         for relative, binding in history._bindings().items():
-            current = (ROOT / relative).read_bytes()
-            previous = history.current_source_before_boot_handoff(relative, current)
+            actual_current = (ROOT / relative).read_bytes()
+            current = current_source_before_handoff_fixture(relative, actual_current)
+            previous = history.current_source_before_boot_handoff(relative, actual_current)
+            self.assertEqual(binding["after_sha256"], hashlib.sha256(current).hexdigest())
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             self.assertEqual(previous, history.source_before_boot_handoff(relative, previous))
             for fragment in binding["fragments"]:

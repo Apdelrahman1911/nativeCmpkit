@@ -1,5 +1,19 @@
 # NativeCmpKit development after the audit
 
+## Related camera CI fixture batch qualified — 2026-11-03
+
+[491–494](evidence/current-platform-recovery-20261101/camera-recents-ci491-494/README.md)
+preserves41700490263 FAILED before platform:2,596source methods/two failures,
+zero Gradle/APK/native/XML. One owning source-stage/message batch fixes both,
+preserving every old manifest/pin/native/cleanup/API/dependency/workflow byte.
+First7pass/oneerror remains; onlyfailed1/newgeometry1/affected2 recover **4/4**.
+Eight final important obligations and38passive checks qualify,1,284held inputs;
+no unchanged accepted19/native replay. Next only missing immutable #13 C1,
+max2INCLUDINGqueued. Apple480 retains its own older source freeze/SDK-only scope.
+**103closed/69open**, no new closure or publication, all readiness/security gates
+remain. [Fresh upstream synchronization](upstream-sync-20261103T191006Z/README.md)
+also preserves16issues/14comments/47timeline items; no missing imports or mutations.
+
 ## Camera prerequisite observation qualified without parser waiver — 2026-11-03
 
 [482–489](evidence/current-platform-recovery-20261101/camera-recents482-489/README.md)

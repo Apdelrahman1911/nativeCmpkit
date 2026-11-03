@@ -1,0 +1,90 @@
+{
+  "before_revision": "d63e57f1d3ac7b0a297a1d39f2641292fea71bd3",
+  "bindings": {
+    "scripts/ci/camera_recents_source_projection.py": {
+      "after_bytes": 4115,
+      "after_sha256": "fc25f725e2afd6bbca08673c607e99a44b479b1e2bb28c285ccd97951ae58c01",
+      "before_bytes": 3799,
+      "before_sha256": "d2024812a65b707bad0c32ff243e25b2d27a449cd6a85a012cf08bd5fb1962f2",
+      "fragments": [
+        {
+          "after": "        raise ValueError(\"Exact recents-observation source identity and ordinary bytes required\")\n    from camera_recents_fixture_source_projection import source_before_recents_fixture\n    payload = source_before_recents_fixture(relative, payload)\n",
+          "after_fragment_sha256": "69f58bc1cb1f5564afc94bee4bbda0829240ea001d8c555d5dae990c6f0b1d2e",
+          "before": "        raise ValueError(\"Exact recents-observation source identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "ff5442c48e1605798cd4ce16b7529c0b9bc59da906ff2f894d4332b242f73425"
+        },
+        {
+          "after": "        raise ValueError(\"Exact current recents-observation identity and ordinary bytes required\")\n    from camera_recents_fixture_source_projection import current_source_before_recents_fixture\n    payload = current_source_before_recents_fixture(relative, payload)\n",
+          "after_fragment_sha256": "bba0fb72300f71ecbb6721b7ba92ec24f2d258740b0a9d28c1fca209fc088d24",
+          "before": "        raise ValueError(\"Exact current recents-observation identity and ordinary bytes required\")\n",
+          "before_fragment_sha256": "651e4ab659bbf4539182cf76ddcdc9a40e4cf877e2a546e17bc59bd7229c19e9"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_boot_handoff.py": {
+      "after_bytes": 20651,
+      "after_sha256": "300274339f36cfe687157f6a6d72f7fe66fbaadf7989e6406581847f04a7f08b",
+      "before_bytes": 20360,
+      "before_sha256": "8c5aadc362b95755fb06a372a24aa09dd7960b5c4f2c7624e8dba22338a641d1",
+      "fragments": [
+        {
+          "after": "    def test_new_stage_exact_inverse_preserves_old_pins_sources_and_roundtrip(self):\n        from camera_handoff_fixture_source_projection import current_source_before_handoff_fixture\n\n        for relative, binding in history._bindings().items():\n            actual_current = (ROOT / relative).read_bytes()\n            current = current_source_before_handoff_fixture(relative, actual_current)\n            previous = history.current_source_before_boot_handoff(relative, actual_current)\n            self.assertEqual(binding[\"after_sha256\"], hashlib.sha256(current).hexdigest())\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(previous, history.source_before_boot_handoff(relative, previous))\n            for fragment in binding[\"fragments\"]:\n                self.assertEqual(1, previous.count(fragment[\"before\"].encode()))\n                previous = previous.replace(fragment[\"before\"].encode(), fragment[\"after\"].encode(), 1)\n            self.assertEqual(current, previous)\n",
+          "after_fragment_sha256": "c09ada801d162384a7f92fbb7afaf17de1d5d707d31548445b495165e89a1984",
+          "before": "    def test_new_stage_exact_inverse_preserves_old_pins_sources_and_roundtrip(self):\n        for relative, binding in history._bindings().items():\n            current = (ROOT / relative).read_bytes()\n            previous = history.current_source_before_boot_handoff(relative, current)\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            self.assertEqual(previous, history.source_before_boot_handoff(relative, previous))\n            for fragment in binding[\"fragments\"]:\n                self.assertEqual(1, previous.count(fragment[\"before\"].encode()))\n                previous = previous.replace(fragment[\"before\"].encode(), fragment[\"after\"].encode(), 1)\n            self.assertEqual(current, previous)\n",
+          "before_fragment_sha256": "338e994855d943239f23748b93adc3c17d433ce7a871678199eb066275f3a8bf"
+        }
+      ]
+    },
+    "scripts/ci/test_android_external337_fixture_recovery.py": {
+      "after_bytes": 11394,
+      "after_sha256": "496d9a45261f5856c98e8ac4fa505f3700c51a063bb07cab3bec3462715a2683",
+      "before_bytes": 11387,
+      "before_sha256": "84a669a821fefd03f616847674891de24e2db6f066a5bea5b5dd90e9c4943aeb",
+      "fragments": [
+        {
+          "after": "                with self.assertRaisesRegex(ValueError, \"^A historical image cannot replace exact current recents-observation source$\"):\n",
+          "after_fragment_sha256": "9e9335376d050748eba9c081e10bb5cc35cd93c17febb60b80892dc33f867c8e",
+          "before": "                with self.assertRaisesRegex(ValueError, \"^A historical image cannot replace exact current boot-handoff source$\"):\n",
+          "before_fragment_sha256": "e0a6baa87b145882a88697adc5d2243f72e93843ab1bd5479390ab8a2ba5485e"
+        }
+      ],
+      "historical_composition_sha256": [
+        "df25d5ac1d19151261d66f908f345cd6861d20241a23194d07a6362b43330ddc"
+      ]
+    },
+    "scripts/ci/test_camera_handoff_fixture_recovery.py": {
+      "after_bytes": 6956,
+      "after_sha256": "a7643bd0fdf1c568248d1f7ff54d8c9724f09e9425d7780203185aa8e5595e71",
+      "before_bytes": 6633,
+      "before_sha256": "c9dbadb9936d3e9db387677f9a7f674ec65fa2479a1281953d89481fba141ad0",
+      "fragments": [
+        {
+          "after": "        cls.actual_current = {relative: (ROOT / relative).read_bytes() for relative in PATHS}\n        from camera_recents_fixture_source_projection import current_source_before_recents_fixture\n        cls.current = {relative: current_source_before_recents_fixture(relative, payload)\n                       for relative, payload in cls.actual_current.items()}\n",
+          "after_fragment_sha256": "36c5a343d2bdb426d6e75b94d15bbc391b2c830cda35bee7d287e39b75fc54cd",
+          "before": "        cls.current = {relative: (ROOT / relative).read_bytes() for relative in PATHS}\n",
+          "before_fragment_sha256": "ba0018503743078115fa217e3ed10de4a0bd219eaf577d1f21af9ba4c8c0a3b0"
+        },
+        {
+          "after": "                (ROOT / relative).read_bytes() != payload for relative, payload in cls.actual_current.items()):\n",
+          "after_fragment_sha256": "33cb66369b8871fccc2b1df2720a09fc391f819b2773fbbd908f90900b75ed54",
+          "before": "                (ROOT / relative).read_bytes() != payload for relative, payload in cls.current.items()):\n",
+          "before_fragment_sha256": "9edbe4c713d02857a139eaef6042f8e10c02968c9ed457b367e35e499e0e1b10"
+        },
+        {
+          "after": "            self.assertEqual(previous, boot.current_source_before_boot_handoff(relative, self.actual_current[relative]))\n",
+          "after_fragment_sha256": "b1e0e29bd4de7a1732fa8a67bb59e85e4f018e9237150fdabe837a441b212cc5",
+          "before": "            self.assertEqual(previous, boot.current_source_before_boot_handoff(relative, current))\n",
+          "before_fragment_sha256": "7cffe259159023fee6d6db2b6b8fe030243784a3aa52ec9ee8c1e331ad1fad35"
+        },
+        {
+          "after": "            previous = recovery.current_source_before_handoff_fixture(relative, self.actual_current[relative])\n",
+          "after_fragment_sha256": "e4b7c1a37b4f83f6e6be5ef30f1c07ee747bef5e1d682da6705c5d131be8a65d",
+          "before": "            previous = recovery.current_source_before_handoff_fixture(relative, current)\n",
+          "before_fragment_sha256": "7a599aff7e5f37b643833399eadd671cc4949bccb2f9852f6dd29498e3dd5507"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "CI491 fixture stage and exact message repairs only; every original manifest and native gate remains unchanged."
+}

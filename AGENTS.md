@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Related camera CI fixture recovery qualified — 2026-11-03
+
+[491–494](docs/development/evidence/current-platform-recovery-20261101/camera-recents-ci491-494/README.md)
+keeps41700490263/d63e57f1 FAILED before platform:2596source/119.139s/two failures,
+eight original log members/zero artifacts/Gradle/APK/native/XML.1281own-Git freeze
+is not actual platform maps; originals acquired/reviewed ONCE. Older boot forward
+comparison and exact newest refusal message repaired together. Four existing paths/
+eight fragments/three new inputs, every old manifest/pin/runtime/Kotlin/API/
+dependency/workflow gate intact. First4927pass/oneerror preserved; onlyfailed1+
+newgeometry1+affected2 recover4/4 at493. Eight final live obligations/9named methods/
+12invocations qualify; no unchanged accepted19/native replay.49438passive checks,
+1284held/1277other existing inputs unchanged/16External+3ARM/three old endpoint
+stages accepted. ZERO local compiler/native; #13open/missingC1 only after freeze.
+Apple48041696878178 retains its actualdd614a75/1277 SDK-only reservation until
+terminal; never replace its actual bytes with later docs.103closed69open/172 and
+ledger22implemented36partial101verifiedfive unresolved unchanged. SOLO/no new
+assignments, serial-local8GiB/max2INCLUDINGqueued/development/read-onlyActions/all/
+no mandatorySHA and every publication/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remain. No publication.
+
 ## Fresh upstream discussion and issue synchronization — 2026-11-03
 
 [Current read-only reconciliation](docs/development/upstream-sync-20261103T191006Z/README.md)

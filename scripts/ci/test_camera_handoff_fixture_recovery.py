@@ -32,12 +32,15 @@ class CameraHandoffFixtureRecoveryControls(unittest.TestCase):
     def setUpClass(cls):
         cls.spec_bytes = recovery.SPEC_PATH.read_bytes()
         cls.bindings = recovery._bindings()
-        cls.current = {relative: (ROOT / relative).read_bytes() for relative in PATHS}
+        cls.actual_current = {relative: (ROOT / relative).read_bytes() for relative in PATHS}
+        from camera_recents_fixture_source_projection import current_source_before_recents_fixture
+        cls.current = {relative: current_source_before_recents_fixture(relative, payload)
+                       for relative, payload in cls.actual_current.items()}
 
     @classmethod
     def tearDownClass(cls):
         if recovery.SPEC_PATH.read_bytes() != cls.spec_bytes or any(
-                (ROOT / relative).read_bytes() != payload for relative, payload in cls.current.items()):
+                (ROOT / relative).read_bytes() != payload for relative, payload in cls.actual_current.items()):
             raise AssertionError("Owning fixture source or manifest changed during the controls")
 
     def test_exact_three_paths_five_fragments_keep_original_boot_manifest_and_endpoints(self):
@@ -54,11 +57,11 @@ class CameraHandoffFixtureRecoveryControls(unittest.TestCase):
         for relative, binding in self.bindings.items():
             current = self.current[relative]
             self.assertEqual(binding["after_sha256"], sha(current))
-            previous = recovery.current_source_before_handoff_fixture(relative, current)
+            previous = recovery.current_source_before_handoff_fixture(relative, self.actual_current[relative])
             self.assertEqual(binding["before_sha256"], sha(previous))
             self.assertEqual(binding["before_bytes"], len(previous))
             self.assertIs(previous, recovery.source_before_handoff_fixture(relative, previous))
-            self.assertEqual(previous, boot.current_source_before_boot_handoff(relative, current))
+            self.assertEqual(previous, boot.current_source_before_boot_handoff(relative, self.actual_current[relative]))
             forward = previous
             for fragment in binding["fragments"]:
                 before, after = fragment["before"].encode(), fragment["after"].encode()

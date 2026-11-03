@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "source_revision": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "source_digest": "73ef73ca17ca6e803b0df14ded388f224df9ba3594a5be487170037f5c29466e",
+  "source_input_count": 1270,
+  "reviewed_utc": "2026-11-03T17:32:47.283727+00:00",
+  "original_native_runs": [
+    41593638135,
+    41593671454
+  ],
+  "review_sha256": {
+    "41593638135": "17103806e2ac17baadfa806ef93c6d80f818cc6fa1c529713e9986edeaa2a16c",
+    "41593671454": "7ecc2641139799913ab540834d25a9f0703e3f4b1e3f1e8299076eb71c88e3db"
+  },
+  "issues": [
+    {
+      "issue": 28,
+      "original_body_sha256": "d472e3ef2e8df0fb5743bc87b1419638357cba960e6229ca7c3da662ea2dd945",
+      "source_criterion_mapping": {
+        "C1": {
+          "methods": [
+            "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors"
+          ],
+          "contract": "Native controller and field identity retained after A-to-B title/message, enabled and callback update; genuine XCTest typeText then Confirm delivers only B. Old text callback remains unused, native action count once, cleanup without user-dismiss callback."
+        },
+        "C2": {
+          "methods": [
+            "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+          ],
+          "contract": "Same-field callback replacement uses actual keyboard input, enabled false-to-true is asserted, action reorder causes safe native-controller replacement with exact Cancel/Save ordering and B-only Save callback."
+        },
+        "C3": {
+          "methods": [
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Genuine confirm AND cancel with caller removal, native detach and immediate reopen; removal during actual presenting AND dismissing phases, retired callback silence and genuine reopened confirmation. Reuse accepted queued-alert/rebuild cardinality separately; no manager activation substitute."
+        }
+      },
+      "all_original_criteria_verified": true,
+      "actual_accepted_hosts": [
+        "ios-iphone",
+        "ios-ipad"
+      ]
+    },
+    {
+      "issue": 30,
+      "original_body_sha256": "13720199007e1f0e7daab949b8c84a9e3e6e1730c9f2010d65c61ba38eebfd32",
+      "source_criterion_mapping": {
+        "C1": {
+          "methods": [
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Both actual native animation phases are explicitly observed before composition removal; detached controller, public immediate reopen and exactly one current confirmation/no disposal dismissal."
+        },
+        "C2": {
+          "methods": [
+            "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+          ],
+          "contract": "Confirm/cancel loops set visible=false in actual semantic callback, observe native detach, reopen and then caller disposal without duplicate callbacks."
+        },
+        "C3": {
+          "methods": [
+            "insideAndOutsideNativeTouchesRespectDismissalProperties",
+            "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+          ],
+          "contract": "Fresh native parent differs from retired host; independent public XCTest inside field tap/type, outside tap while disabled, then current enabled outside dismissal exactly once. No direct native dismiss or synthetic activation in body."
+        }
+      },
+      "all_original_criteria_verified": true,
+      "actual_accepted_hosts": [
+        "ios-iphone",
+        "ios-ipad"
+      ]
+    },
+    {
+      "issue": 125,
+      "original_body_sha256": "c570ac1e85cc51777f02f9abb8125775e95bcd28593d2b0174b8dd20dcdb6a60",
+      "source_criterion_mapping": {
+        "C1": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "Expanded detent veto restores previous selected Medium and state; Hidden programmatic/drag/outside vetoes and disabled outside are independently counted before allowed counterparts. Third host independently vetoes and permits programmatic initial Expanded show and Hidden hide."
+        },
+        "C2": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "skipPartial+skipHidden initial Expanded, exact large-only detents, actual drag cannot hide, public hide refuses with IllegalStateException, forced composition cleanup bypasses veto without user dismissal."
+        },
+        "C3": {
+          "methods": [
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "required_hosts": [
+            "iphone",
+            "ipad"
+          ],
+          "contract": "Both current real-input/owned cleanup originals required; excludes Android back or thresholds. Expanded drag policy is documented POST-change restoration, not pre-drag native veto."
+        }
+      },
+      "all_original_criteria_verified": true,
+      "actual_accepted_hosts": [
+        "ios-iphone",
+        "ios-ipad"
+      ]
+    },
+    {
+      "issue": 126,
+      "original_body_sha256": "d0fa3c66c80ee110056a1e6facf9b51c259e51387b92319c6906997791cc9d2f",
+      "source_criterion_mapping": {
+        "C1": {
+          "methods": [
+            "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+            "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+          ],
+          "contract": "Exact Medium-before-Large native detents, actual Medium-to-Large-to-Medium drags observing both current/target values, plus actual large-only skip-partial host."
+        },
+        "C2": {
+          "methods": [
+            "nativeDetentDragsAndInteractiveDismissalTrackAllValues"
+          ],
+          "contract": "Interactive drag to Hidden while composition stays live and manager stays attached; native presentation/view detach and dismissal callback exactly once."
+        },
+        "C3": {
+          "methods": [
+            "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent"
+          ],
+          "required_hosts": [
+            "iphone",
+            "ipad"
+          ],
+          "contract": "Save actual PartiallyExpanded/Expanded/Hidden values after real drags, restore each state without native owner, attach public sheet consistently; iPad explicitly observes regular horizontal trait and nonzero geometry bounded by owned window."
+        }
+      },
+      "all_original_criteria_verified": true,
+      "actual_accepted_hosts": [
+        "ios-iphone",
+        "ios-ipad"
+      ]
+    }
+  ],
+  "source_results_review_complete": true,
+  "shared_source14_reused": true,
+  "native_replays": 0,
+  "issue_closures": 0,
+  "scope": "Original three-criterion source and genuine native interaction/complete lifecycle/cleanup results per sibling; exact source mappings retained. Expanded veto is post-native-change restoration. iOS26.5 simulator scope, not physical/consumer/API-ABI/legal/security/release certification.",
+  "release_allowed": false,
+  "closure_script_sha256": "6c30a23362bce1d1f1a65e0b344f7d45bbc332cec5fcabb05ed82bf10c45f604"
+}

@@ -1,5 +1,25 @@
 # UI native/date/time/modal development — UI-001…UI-026
 
+## Original interaction criteria complete; four direct closures — 2026-11-03
+
+[466–468](evidence/current-platform-recovery-20261101/ios-modal-native466-468/README.md)
+accepts **iPhone7/7 and iPad7/7** at ac5e1c4e: actual input46 operations across
+seven unique bodies/two hosts, fresh XML2, full Worker completion/six phases,
+1,270 held actual source inputs and signed/runtime/binary/cleanup custody.
+All three original criteria of **UI-012/#28, UI-014/#30, UI-016/#125 and
+UI-017/#126** qualify; all four are verified/closed with exact GitHub readback,
+immediately before documentation. Callback/field identity, reordered actions,
+genuine inside/outside policy, animated disposal/reopen/parent replacement,
+independent transition vetoes/skip flags, actual detents/interactive Hidden and
+all-value restoration/regular-width iPad geometry are now exercised directly.
+
+Reuse accepted ownership/memory/repeat/source controls; do not replay these
+seven successful native methods. Preserve current8+7 appearance warnings and
+prior failed originals/unknown foreground cause. Expanded detent veto restores
+after native selection; it is not a pre-drag promise. #29 action-sheet/iPad
+scope and other control families remain open. Physical/minimum-OS/assistive/
+profiling/consumer/API–ABI/legal/security/release gates are not cleared.
+
 ## Related alert/sheet interaction hosts: shared readiness recovery — 2026-11-03
 
 [463–464](evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)

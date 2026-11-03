@@ -1,5 +1,25 @@
 # NativeCmpKit development after the audit
 
+## Four related UIKit issues closed in one verified batch — 2026-11-03
+
+[466–468](evidence/current-platform-recovery-20261101/ios-modal-native466-468/README.md)
+verifies **7/7 genuine library-native tests on iPhone and 7/7 on iPad**, each with
+23 authenticated public XCTest operations, fresh XML, complete Worker lifecycle,
+source/runtime/binary custody and both owning cleanups. Actual Gradle exits0 in
+1,558.79s/1,601.25s at **ac5e1c4e /1,270 held inputs**. After all12 original
+criteria and source/results review, **#28, #30, #125 and #126 closed/completed
+17:33:11–17:33:35UTC**, immediately before documentation; exact readback confirms
+original metadata preserved. Current **103 closed /69 open /172**; ledger
+**22 implemented /36 partially verified /101 verified /5 unresolved**.
+
+Seven unique test bodies ran on two hosts, not14 unique tests. Accepted source,
+ownership and memory/repeat results were reused, not rerun; originals acquired
+once. Current8+7 appearance warnings and earlier failed runs remain recorded.
+Expanded veto is post-change native detent restoration. Physical/minimum-OS,
+assistive/profiling, consumer/API–ABI/legal/security/release gates remain separate.
+**#29's action-sheet/iPad criteria are not automatically closed.** Continue solo,
+related patches, important tests and direct verified closures; no publication.
+
 ## Shared iPhone/iPad input readiness repair — 2026-11-03
 
 [463–464](evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)

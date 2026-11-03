@@ -1,0 +1,291 @@
+{
+  "changed_inputs": [],
+  "command": [
+    "./gradlew",
+    "--continue",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "scripts/ci/fresh-tests.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "scripts/ci/ios_modal_xcui_compile.init.gradle.kts",
+    "-PnativecmpkitSimulatorDevice=1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+    ":calf-ui:iosSimulatorArm64ApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.insideAndOutsideNativeTouchesRespectDismissalProperties",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent"
+  ],
+  "complete_suite_requested": false,
+  "errors": [],
+  "execution": {
+    "elapsed_seconds": 1558.79,
+    "exit_code": 0
+  },
+  "explicit_module_subset": [
+    "calf-ui"
+  ],
+  "explicit_test_focus": "ui-native-modal-xcui-batch",
+  "finished_at_utc": "2026-11-03T07:37:18.256986+00:00",
+  "finite_only_device_modules_not_requested": [],
+  "gradle_daemon": {
+    "gradle_version": "9.7.1",
+    "java_vendor": "Eclipse Adoptium",
+    "java_version": "17.0.21",
+    "launcher_home_configured": true,
+    "launcher_home_matches_daemon": true,
+    "major": 17,
+    "runtime_version": "17.0.21+9",
+    "schema_version": 1
+  },
+  "inputs_after_sha256": "73ef73ca17ca6e803b0df14ded388f224df9ba3594a5be487170037f5c29466e",
+  "inputs_before_sha256": "73ef73ca17ca6e803b0df14ded388f224df9ba3594a5be487170037f5c29466e",
+  "ios_applications": [
+    {
+      "activation": {
+        "main_worker": 1,
+        "owned_worker": 2
+      },
+      "binary_sha256": "f8abff5aa81b40ea8877d5f3fcc406ed4fe75f08a3d1f556b53f3cea56d2850a",
+      "bundle_id": "io.github.apdelrahman1911.nativecmpkit.verification.ui.rac5e1c4eea20.t0dde8ef0e63141b5ac6f5744de64b554",
+      "completion": {
+        "runner_exit": 0,
+        "worker_terminated": true
+      },
+      "counts": {
+        "errors": 0,
+        "executed": 7,
+        "failures": 0,
+        "not_applicable": 0,
+        "passed": 7,
+        "skipped": 0,
+        "tests": 7,
+        "unexpected_skipped": 0
+      },
+      "module": "calf-ui",
+      "protocol_xml_agreement": true,
+      "receipt_path": "build/ci-verification/ios-iphone/native-ui-application/0dde8ef0e63141b5ac6f5744de64b554/receipt.json",
+      "receipt_sha256": "1a2afd2cb7f063c8a18f20fd6fc82dd7fff8fbf0b38642acbb75bcd3c87db52a",
+      "required_native_cases_found": 7,
+      "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+      "selected_simulator": "1F0A9C4B-2DFC-444E-B162-696E5078A72B",
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest"
+    }
+  ],
+  "modules": [
+    {
+      "errors": 0,
+      "executed": 7,
+      "failures": 0,
+      "module": "calf-ui",
+      "native_scenarios": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "insideAndOutsideNativeTouchesRespectDismissalProperties[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "nativeDetentDragsAndInteractiveDismissalTrackAllValues[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "disposition": "required-executed",
+          "name": "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent[iosSimulatorArm64]",
+          "required_on_host": true,
+          "source": "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt",
+          "status": "passed"
+        }
+      ],
+      "not_applicable": 0,
+      "passed": 7,
+      "reports": [
+        {
+          "errors": 0,
+          "executed": 7,
+          "failures": 0,
+          "not_applicable": 0,
+          "passed": 7,
+          "path": "calf-ui/build/test-results/iosSimulatorArm64ApplicationTest/TEST-iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest.xml",
+          "sha256": "5a81b476f70490fa0dc5913cc99b8063db16b64718657aa64b59189e5585db0c",
+          "skipped": 0,
+          "tests": 7,
+          "unexpected_skipped": 0
+        }
+      ],
+      "skipped": 0,
+      "task": ":calf-ui:iosSimulatorArm64ApplicationTest",
+      "testcases": [
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "insideAndOutsideNativeTouchesRespectDismissalProperties[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "nativeDetentDragsAndInteractiveDismissalTrackAllValues[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies[iosSimulatorArm64]",
+          "status": "passed"
+        },
+        {
+          "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+          "name": "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent[iosSimulatorArm64]",
+          "status": "passed"
+        }
+      ],
+      "tests": 7,
+      "unexpected_skipped": 0
+    }
+  ],
+  "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+  "passed": true,
+  "quarantined_prior_reports": [],
+  "required_focused_testcases": [
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "insideAndOutsideNativeTouchesRespectDismissalProperties[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "nativeDetentDragsAndInteractiveDismissalTrackAllValues[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies[iosSimulatorArm64]"
+    },
+    {
+      "classname": "iosSimulatorArm64ApplicationTest.com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest",
+      "name": "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent[iosSimulatorArm64]"
+    }
+  ],
+  "runtime_receipt_sha256": "522d33e4b2a09a9cd7b8f411dbb81fdd6c30b185cef09b4e11177d3d4674e603",
+  "schema_version": 1,
+  "scope": "Seven missing shared alert/sheet interaction criteria with independent public XCTest input in the genuine library application. Fresh KGP XML, original Worker and owned app/input-runner cleanup are mandatory; no accepted nine-modal/lifecycle replay or physical/rotation/accessibility/release certification.",
+  "source_revision": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "source_revision_after": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "source_tree_dirty": false,
+  "started_at_utc": "2026-11-03T07:11:18.975875+00:00",
+  "suite": "ios",
+  "task_execution_markers": {
+    ":calf-ui:iosSimulatorArm64ApplicationTest": 1
+  },
+  "test_bearing_modules_not_requested": [
+    "calf-camera-picker",
+    "calf-file-picker",
+    "calf-file-picker-coil",
+    "calf-geo",
+    "calf-io",
+    "calf-navigation",
+    "calf-permissions/background-location",
+    "calf-permissions/bluetooth",
+    "calf-permissions/calendar",
+    "calf-permissions/camera",
+    "calf-permissions/contacts",
+    "calf-permissions/core",
+    "calf-permissions/gallery",
+    "calf-permissions/location",
+    "calf-permissions/microphone",
+    "calf-permissions/notifications",
+    "calf-permissions/wifi",
+    "calf-share",
+    "calf-webview"
+  ],
+  "totals": {
+    "errors": 0,
+    "executed": 7,
+    "failures": 0,
+    "not_applicable": 0,
+    "passed": 7,
+    "skipped": 0,
+    "tests": 7,
+    "unexpected_skipped": 0
+  },
+  "uncovered": []
+}

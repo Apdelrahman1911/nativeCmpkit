@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "issue": 126,
+  "finding": "UI-017",
+  "source_revision": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "original_body_sha256": "d0fa3c66c80ee110056a1e6facf9b51c259e51387b92319c6906997791cc9d2f",
+  "source_criterion_mapping": {
+    "C1": {
+      "methods": [
+        "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+        "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies"
+      ],
+      "contract": "Exact Medium-before-Large native detents, actual Medium-to-Large-to-Medium drags observing both current/target values, plus actual large-only skip-partial host."
+    },
+    "C2": {
+      "methods": [
+        "nativeDetentDragsAndInteractiveDismissalTrackAllValues"
+      ],
+      "contract": "Interactive drag to Hidden while composition stays live and manager stays attached; native presentation/view detach and dismissal callback exactly once."
+    },
+    "C3": {
+      "methods": [
+        "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent"
+      ],
+      "required_hosts": [
+        "iphone",
+        "ipad"
+      ],
+      "contract": "Save actual PartiallyExpanded/Expanded/Hidden values after real drags, restore each state without native owner, attach public sheet consistently; iPad explicitly observes regular horizontal trait and nonzero geometry bounded by owned window."
+    }
+  },
+  "criteria_reviewed": [
+    "C1: exact Medium-before-Large detents and genuine Medium\u2192Large\u2192Medium drags keep native/current/target values consistent; the large-only skip-partial path also passes.",
+    "C2: genuine interactive dismissal sets Hidden and detaches the native view while composition and the attached state manager remain live; dismissal callback is exactly once.",
+    "C3: all actual PartiallyExpanded/Expanded/Hidden values save/restore without a stale native owner; the iPad application observes actual regular-width traits and positive native geometry bounded by its owned window."
+  ],
+  "native_original_runs": [
+    41593638135,
+    41593671454
+  ],
+  "original_review_sha256": {
+    "41593638135": "17103806e2ac17baadfa806ef93c6d80f818cc6fa1c529713e9986edeaa2a16c",
+    "41593671454": "7ecc2641139799913ab540834d25a9f0703e3f4b1e3f1e8299076eb71c88e3db"
+  },
+  "all_original_criteria_verified": true,
+  "verified_utc": "2026-11-03T17:33:27.531849+00:00",
+  "accepted_native_replays": 0,
+  "release_allowed": false
+}

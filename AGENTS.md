@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Grouped genuine modal interaction verified; four issues closed — 2026-11-03
+
+[466–468](docs/development/evidence/current-platform-recovery-20261101/ios-modal-native466-468/README.md)
+accepts41593638135/iPhone and41593671454/iPad atac5e1c4e/1270: eachSUCCESS7/7,
+onefreshXML/Gradle0/1558.79s+1601.25s. Seven unique bodies/two actual hosts,
+23authenticated public XCTest operations PER host, exact four compiler sources,
+all1270 actual own-Git before-after/full Worker completion/SIX ordered phases/
+postruntime-binary custody/appcleanup4/inputcleanup4 independently hold. Original
+12criteria/source/results qualify: **#28/#30/#125/#126 CLOSED/completed**17:33:11/
+19/27/35UTC immediately BEFORE docs; exact original metadata/comment/state readback.
+103closed/69open/172;22implemented36partial101verifiedfive unresolved. Accepted
+source14/ownership/memory/repeat populations reused, ZERO accepted native replay
+or original reacquisition. Current8+7 appearance warnings and older FAILED runs/
+unknown exact foreground cause remain. Expanded veto is POST-native-change
+restoration, not pre-drag guarantee; simulator/controlled input is not physical/
+assistive/minimum-OS/profiler/consumer/API–ABI/legal/security/release proof.
+#29 separate action-sheet/iPad scope; #31/#144/#171 alreadyclosed, never reclose.
+Both reservations freed after terminal review; max2INCLUDINGqueued, SOLO/no agent
+assignments, serial-local/8GiB/development/read-onlyActions/all/no mandatorySHA.
+Every publishing/Pages/main/history/dependency/legal/security/consumer/API–ABI/
+readiness gate remains; no package/release/deployment publication. Older pending
+entries below retain dated historical scope, not the current issue state.
+
 ## Shared XCTest foreground recovery qualified; both originals failed — 2026-11-03
 
 [463–464](docs/development/evidence/current-platform-recovery-20261101/ios-xcui-foreground463-464/README.md)

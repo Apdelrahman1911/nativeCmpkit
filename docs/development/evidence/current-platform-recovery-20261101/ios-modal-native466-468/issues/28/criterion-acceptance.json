@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "issue": 28,
+  "finding": "UI-012",
+  "source_revision": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "original_body_sha256": "d472e3ef2e8df0fb5743bc87b1419638357cba960e6229ca7c3da662ea2dd945",
+  "source_criterion_mapping": {
+    "C1": {
+      "methods": [
+        "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors"
+      ],
+      "contract": "Native controller and field identity retained after A-to-B title/message, enabled and callback update; genuine XCTest typeText then Confirm delivers only B. Old text callback remains unused, native action count once, cleanup without user-dismiss callback."
+    },
+    "C2": {
+      "methods": [
+        "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+        "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+      ],
+      "contract": "Same-field callback replacement uses actual keyboard input, enabled false-to-true is asserted, action reorder causes safe native-controller replacement with exact Cancel/Save ordering and B-only Save callback."
+    },
+    "C3": {
+      "methods": [
+        "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+        "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+      ],
+      "contract": "Genuine confirm AND cancel with caller removal, native detach and immediate reopen; removal during actual presenting AND dismissing phases, retired callback silence and genuine reopened confirmation. Reuse accepted queued-alert/rebuild cardinality separately; no manager activation substitute."
+    }
+  },
+  "criteria_reviewed": [
+    "C1: the still-open native controller/text field survives A\u2192B title/message, enabled and callback updates; genuine XCTest keyboard and Confirm input invoke only current B callbacks.",
+    "C2: same-field callback replacement, enabled false\u2192true and safe structural action reorder with the exact current Cancel/Save order and B-only Save callback pass.",
+    "C3: genuine Confirm AND Cancel followed by caller removal, native detach and immediate reopen are exactly once; animated presentation/dismissal disposal never delivers a user callback. Accepted queued-alert/rebuild results are reused, not replayed."
+  ],
+  "native_original_runs": [
+    41593638135,
+    41593671454
+  ],
+  "original_review_sha256": {
+    "41593638135": "17103806e2ac17baadfa806ef93c6d80f818cc6fa1c529713e9986edeaa2a16c",
+    "41593671454": "7ecc2641139799913ab540834d25a9f0703e3f4b1e3f1e8299076eb71c88e3db"
+  },
+  "all_original_criteria_verified": true,
+  "verified_utc": "2026-11-03T17:33:03.384344+00:00",
+  "accepted_native_replays": 0,
+  "release_allowed": false
+}

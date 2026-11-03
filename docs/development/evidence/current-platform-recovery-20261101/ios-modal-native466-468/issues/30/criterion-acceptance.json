@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "issue": 30,
+  "finding": "UI-014",
+  "source_revision": "ac5e1c4eea203ff521c01438151dd2da61db9ca7",
+  "original_body_sha256": "13720199007e1f0e7daab949b8c84a9e3e6e1730c9f2010d65c61ba38eebfd32",
+  "source_criterion_mapping": {
+    "C1": {
+      "methods": [
+        "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+      ],
+      "contract": "Both actual native animation phases are explicitly observed before composition removal; detached controller, public immediate reopen and exactly one current confirmation/no disposal dismissal."
+    },
+    "C2": {
+      "methods": [
+        "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce"
+      ],
+      "contract": "Confirm/cancel loops set visible=false in actual semantic callback, observe native detach, reopen and then caller disposal without duplicate callbacks."
+    },
+    "C3": {
+      "methods": [
+        "insideAndOutsideNativeTouchesRespectDismissalProperties",
+        "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser"
+      ],
+      "contract": "Fresh native parent differs from retired host; independent public XCTest inside field tap/type, outside tap while disabled, then current enabled outside dismissal exactly once. No direct native dismiss or synthetic activation in body."
+    }
+  },
+  "criteria_reviewed": [
+    "C1: composition is removed during both actually observed UIKit presentation and dismissal animations, followed by native detach and public immediate reopen without disposal notifications.",
+    "C2: genuine Confirm/Cancel followed by caller removal invokes each semantic callback at most once; reopening and later caller disposal do not duplicate callbacks.",
+    "C3: replacement uses a different real native parent; independent XCTest inside field tap/keyboard, outside-disabled tap and current outside-enabled tap obey the policy, with exactly one genuine outside dismissal."
+  ],
+  "native_original_runs": [
+    41593638135,
+    41593671454
+  ],
+  "original_review_sha256": {
+    "41593638135": "17103806e2ac17baadfa806ef93c6d80f818cc6fa1c529713e9986edeaa2a16c",
+    "41593671454": "7ecc2641139799913ab540834d25a9f0703e3f4b1e3f1e8299076eb71c88e3db"
+  },
+  "all_original_criteria_verified": true,
+  "verified_utc": "2026-11-03T17:33:11.414465+00:00",
+  "accepted_native_replays": 0,
+  "release_allowed": false
+}

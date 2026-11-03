@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `aae315770337456dc386559f68ac3de20420440b93c96374b4a69f95b70d8dcb`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `f42a4ca3d2c7627b2fc406de40678de7787f09e6e913b0de1a275a32f951548b`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -26,8 +26,8 @@ Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce
 | Owner-ledger status | Findings |
 |---|---:|
 | implemented | 22 |
-| partially-verified | 40 |
-| verified | 97 |
+| partially-verified | 36 |
+| verified | 101 |
 | unresolved | 5 |
 | not-applicable | 0 |
 
@@ -69,9 +69,9 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
-| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | partially-verified | — | 3 / 5 |
+| 24 | [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) | High | 1 | M | verified | — | 3 / 0 |
 | 25 | [UI-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/29) | High | 1 | M | partially-verified | — | 2 / 3 |
-| 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | partially-verified | — | 3 / 4 |
+| 26 | [UI-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30) | High | 1 | L | verified | — | 3 / 0 |
 | 27 | [UI-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/32) | High | 1 | M | partially-verified | — | 3 / 2 |
 | 28 | [UI-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/33) | High | 1 | L | partially-verified | UI-020 | 3 / 2 |
 | 29 | [UI-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/34) | High | 1 | M | verified | — | 3 / 0 |
@@ -92,8 +92,8 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 44 | [PERM-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/23) | High | 1 | L | partially-verified | PERM-007 | 3 / 3 |
 | 45 | [PERM-020](https://github.com/Apdelrahman1911/nativeCmpkit/issues/116) | Medium | 1 | M | verified | PERM-018 | 2 / 0 |
 | 46 | [PERM-021](https://github.com/Apdelrahman1911/nativeCmpkit/issues/25) | High | 1 | L | verified | PERM-018, PERM-020 | 2 / 0 |
-| 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | partially-verified | — | 3 / 3 |
-| 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | partially-verified | UI-016 | 3 / 3 |
+| 47 | [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) | Medium | 1 | M | verified | — | 3 / 0 |
+| 48 | [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) | Medium | 1 | M | verified | UI-016 | 3 / 0 |
 | 49 | [UI-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31) | High | 1 | L | verified | UI-016, UI-017 | 3 / 0 |
 | 50 | [UI-030](https://github.com/Apdelrahman1911/nativeCmpkit/issues/134) | Medium | 1 | M | verified | — | 3 / 0 |
 | 51 | [UI-029](https://github.com/Apdelrahman1911/nativeCmpkit/issues/35) | High | 1 | M | partially-verified | UI-030 | 3 / 3 |
@@ -683,7 +683,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 24. UI-012 — Presented iOS alerts update their text but retain original action and text-field callbacks
 
-**High · partially-verified · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · verified · original effort M** — [nativeCmpkit #28](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -695,11 +695,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Actual action touches, reorder during interaction, structural changes preserving desired input and full modal callback matrix.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
-- 2026-11-02 original313: Important alert4 remain failed before accessibilityActivate. Diagnose incomplete accessibility observation/input harness on supported public APIs; first16 zero counts do not establish absent accessibility actions. Reuse earlier lifecycle acceptance without replay; #28 stays open.
-- 2026-11-03: independent public XCTest iPhone/iPad seven-case input profiles are compiled/source-qualified only. Verify real input, descriptors/cardinality/detents/veto/traits and both owned cleanups before closing; no sample or direct-callback substitution.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All literal original criteria verified on genuine iPhone and iPad iOS26.5 simulator applications. Separate physical/minimum-OS/assistive/profiling/consumer/API-ABI/dependency/legal/security/release gates remain; expanded detent veto is documented post-change restoration, not a pre-drag guarantee.
 
 **Compatibility / scope:** No action/text-field constructor change; field initialValue is still initial-only.
 
@@ -724,7 +722,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 26. UI-014 — Alert dismissal during presentation is dropped and cleanup shares user-dismiss callbacks
 
-**High · partially-verified · original effort L** — [nativeCmpkit #30](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**High · verified · original effort L** — [nativeCmpkit #30](https://github.com/Apdelrahman1911/nativeCmpkit/issues/30); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -736,10 +734,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Inside/outside taps, accessibility actions, unrelated native-presenter collisions and broader controller-replacement stress.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- After the supported popover-only delegate repair, all13 genuine application methods now pass in the archived immutable attempt2. Direct production dispatch/dismiss assertions do not verify actual outside/inside/action touch delivery, reorder during interaction, iPad regular-width/rotation, accessibility or older OS behavior; retain complete original requirements and all earlier failures.
-- 2026-11-03: independent public XCTest iPhone/iPad seven-case input profiles are compiled/source-qualified only. Verify real input, descriptors/cardinality/detents/veto/traits and both owned cleanups before closing; no sample or direct-callback substitution.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All literal original criteria verified on genuine iPhone and iPad iOS26.5 simulator applications. Separate physical/minimum-OS/assistive/profiling/consumer/API-ABI/dependency/legal/security/release gates remain; expanded detent veto is documented post-change restoration, not a pre-drag guarantee.
 
 **Compatibility / scope:** Disposal no longer emits a user cancel callback. Coordinator owns only nativeCmpkit alerts/sheets, never unrelated controllers.
 
@@ -1153,7 +1150,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 ### 47. UI-016 — iOS sheet programmatic transitions bypass confirmValueChange and skipHiddenState
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #125](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
 **Original dependencies:** none.
 
@@ -1165,17 +1162,17 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Native pre-drag veto is unavailable (post-change detent restoration); Android back policy/native visual-slot parity is not added.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- 2026-11-03: independent public XCTest iPhone/iPad seven-case input profiles are compiled/source-qualified only. Verify real input, descriptors/cardinality/detents/veto/traits and both owned cleanups before closing; no sample or direct-callback substitution.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All literal original criteria verified on genuine iPhone and iPad iOS26.5 simulator applications. Separate physical/minimum-OS/assistive/profiling/consumer/API-ABI/dependency/legal/security/release gates remain; expanded detent veto is documented post-change restoration, not a pre-drag guarantee.
 
 **Compatibility / scope:** hide with skipHiddenState throws; forced disposal bypasses veto by design. UIKit interactive delegate cannot distinguish all drag/outside origins.
 
 ### 48. UI-017 — iOS sheet state never tracks partial detents or interactive dismissal and uses reversed detent order
 
-**Medium · partially-verified · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
+**Medium · verified · original effort M** — [nativeCmpkit #126](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (partially-verified; original order 47).
+**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (verified; original order 47).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -1185,9 +1182,9 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Owner-recorded remaining gates:**
 
-- Real medium/large drags, interactive dismissal, saved-state restoration and iPad adaptive presentation.
-- The cited iPhone26.5 simulator subset actually executed; physical-device and complete original interaction/trait/branch requirements remain unverified.
-- 2026-11-03: independent public XCTest iPhone/iPad seven-case input profiles are compiled/source-qualified only. Verify real input, descriptors/cardinality/detents/veto/traits and both owned cleanups before closing; no sample or direct-callback substitution.
+- None recorded. This does not itself prove the original requirements passed.
+
+**Owner verification scope:** All literal original criteria verified on genuine iPhone and iPad iOS26.5 simulator applications. Separate physical/minimum-OS/assistive/profiling/consumer/API-ABI/dependency/legal/security/release gates remain; expanded detent veto is documented post-change restoration, not a pre-drag guarantee.
 
 **Compatibility / scope:** Show now reports PartiallyExpanded when medium is the actual initial detent instead of falsely reporting Expanded.
 
@@ -1195,7 +1192,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **High · verified · original effort L** — [nativeCmpkit #31](https://github.com/Apdelrahman1911/nativeCmpkit/issues/31); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (partially-verified; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (partially-verified; original order 48).
+**Original dependencies:** [UI-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/125) (verified; original order 47), [UI-017](https://github.com/Apdelrahman1911/nativeCmpkit/issues/126) (verified; original order 48).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3477,7 +3474,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 **Low · verified · original effort S** — [nativeCmpkit #160](https://github.com/Apdelrahman1911/nativeCmpkit/issues/160); owner [docs/development/resolutions/UI-native.json](resolutions/UI-native.json); baseline [docs/audit/findings/UI.json](../audit/findings/UI.json).
 
-**Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (partially-verified; original order 24).
+**Original dependencies:** [UI-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/28) (verified; original order 24).
 
 **Original required tests (not auto-dispositioned):**
 
@@ -3598,7 +3595,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
-| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `bb3db10dd01c6853f193a2fbc5ca3d8b7d187ff261b8b95ea7861d4548dc6cbf` |
+| [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `a81e2500091296bc54761b6fb7d2584796534bfea76bc163f7540ec6b990857b` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |
 | [docs/roadmap/backlog.json](../roadmap/backlog.json) | `07629a22199cf8af4f4a6a1ea189412bb3fe59652fe87621b689894b8c2684b4` |
 

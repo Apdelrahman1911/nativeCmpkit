@@ -1,5 +1,15 @@
 # NativeCmpKit development after the audit
 
+## Shared historical fixture-reader recovery accepted — 2026-11-03
+
+[441–442](evidence/current-platform-recovery-20261101/ios-modal-fixture-reader441-442/README.md)
+preserves both requests FAILED before platform setup, seven shared tooling records.
+One exact source-reader inverse repairs all affected readers without changing live
+controls/native bodies/old pins. Failed6+NEW3 pass **9/9 once**,1.558s;28 passive
+checks and1,256 held inputs qualify. Zero native/compiler/accepted replay or closure.
+Next only unexecuted memory3 and independent Swift startup; real input waits for
+startup acceptance. SOLO/max2 including queued/serial-local/8GiB, gates unchanged.
+
 ## Shared source admission restored without native/build replay — 2026-11-03
 
 [438–439](evidence/current-platform-recovery-20261101/ios-modal-shared-fixture438-439/README.md)

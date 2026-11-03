@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "baseline_head": "2ef28eaa4abd37a660df671d4f787677136a959e",
+  "scope": "Historical source-reader adaptation only; no native source, old pin, selector or dependency change",
+  "bindings": {
+    "scripts/ci/test_ui_alert_container_timeout_observation.py": {
+      "before_sha256": "6de5af63c8de7327bb1dbb85f6a44011b993f381b002fc2ef030a1d8467a2fa0",
+      "after_sha256": "972d9d91df005e4a9d4e8ac0c9fa4ec7d8579cf5992b96dece546e990899ed78",
+      "fragments": [
+        {
+          "before": "        self.assertEqual(digest(host.read_bytes()), self.namespace[\"EXPECTED_SOURCE_SHA256\"][host.relative_to(ROOT).as_posix()])\n",
+          "after": "        from ios_modal_worker_source_projection import current_source_before_modal_worker\n        prior_host = current_source_before_modal_worker(host.relative_to(ROOT).as_posix(), host.read_bytes())\n        self.assertEqual(digest(prior_host), self.namespace[\"EXPECTED_SOURCE_SHA256\"][host.relative_to(ROOT).as_posix()])\n",
+          "before_fragment_sha256": "f306832c14acbf92bd7d7f01e0a010033eb3e9ea4cb0acbb13f8575f32a65dfd",
+          "after_fragment_sha256": "7959e868864135e14db6d2be89f7495dcef65fc86fe06bc674e992f4a9a8db14"
+        }
+      ]
+    }
+  }
+}

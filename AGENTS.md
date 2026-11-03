@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Worker fixture reader shared boundary qualified — 2026-11-03
+
+[Original441/repair442](docs/development/evidence/current-platform-recovery-20261101/ios-modal-fixture-reader441-442/README.md)
+preserves41573898265+41573910311/2d0af6e9 FAILED before profile/platform:
+2517CI each/7records(3fail4error)/141.769s+139.232s/ZERO Gradle/Apple/Swift/native/
+XML/artifacts.1253 is own-Git freeze, not actual platform custody. One exact
+fixture-reader inverse/one fragment composes at Worker history; current live host
+comparison and all CI224/CI245/desktop/native bodies, oldpins, six23/AWT bindings
+remain unchanged. Onlyfailed6+NEW3 pass9/9 once/1.557634s/1256held;28 passive
+source/results checks pass. First passive workflow-snapshot KeyError preserved;
+workflow is separately own-Git checked, no accepted/compiler replay or native.
+Both originals acquired/reviewed ONCE. Next only unexecuted memory3/startup-only
+after development freeze/push/fresh max2INCLUDINGqueued; no XCUI/iPad against
+failed startup. No closure/comment:98closed/74open/172,22implemented/41partial/
+96verified/five unresolved. SOLO/serial/8GiB/read-only Actions/all/no mandatorySHA;
+all publication/Pages/main/history/legal/security/consumer/API–ABI/readiness gates.
+
 ## Shared historical fixture admission restored for both requests — 2026-11-03
 
 [Actual438/repair439](docs/development/evidence/current-platform-recovery-20261101/ios-modal-shared-fixture438-439/README.md)

@@ -1,5 +1,10 @@
 # Native popover OS-geometry tests
 
+## Current mirror recovery, 2026-11-04
+
+The [584–588 report](../development/evidence/current-platform-recovery-20261101/ios-owned-geometry584-588/README.md) preserves both failed2,762-control original runs. NEW2+failed/affected7 pass9/9 on1,337 held inputs; later camera composition map1,339 is not that test run. Reuse accepted9 and unchanged compiler544/Actionlint577. Only original missing phone portrait/traits and tablet OSrotation next; neither substitutes for real splitview. Parallel isolated patches may proceed during hosted waits; maxtwo combined INCLUDINGqueued/reserved, lead alone dispatches/reviews/closes.
+
+
 These are opt-in **library** tests, not sample-app or synthetic bounds substitutes.
 The source preparation is [535–548](../development/evidence/current-platform-recovery-20261101/ios-popover-geometry535-548/README.md).
 

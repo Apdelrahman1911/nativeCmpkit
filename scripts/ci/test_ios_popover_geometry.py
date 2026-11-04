@@ -289,6 +289,9 @@ class PopoverGeometryControls(unittest.TestCase):
         paths = set(spec["bindings"]) | set(spec["added_inputs"])
         owning = owned_history._document()
         paths |= set(owning["bindings"]) | set(owning["added_inputs"])
+        import ios_owned_geometry_fixture_recovery as fixture_recovery
+        newest = fixture_recovery._document()
+        paths |= set(newest["bindings"]) | set(newest["added_inputs"])
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             for name in paths:

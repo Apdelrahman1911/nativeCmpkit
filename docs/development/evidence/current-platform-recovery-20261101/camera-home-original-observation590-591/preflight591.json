@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "observed_utc": "2026-11-04T02:26:07.899993+00:00",
+  "commands": [
+    {
+      "kind": "iphone",
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-portrait-traits"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.2592493500560522
+    },
+    {
+      "kind": "ipad",
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-os-rotation"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.24282934796065092
+    },
+    {
+      "kind": "camera",
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "android-device",
+        "--module",
+        "calf-camera-picker",
+        "--focus",
+        "android-camera-real-restoration-dont-keep"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.19376894598826766
+    }
+  ],
+  "inputs_held": 1339,
+  "source_held": true,
+  "workflow_sha256": "5d67a37f6890df2b9f1ba80b3f406a61ea1c7f860ff033f30cc1a177a2e60932",
+  "unchanged_actionlint_and_compilers_reused": true,
+  "native_executions": 0,
+  "compiler_executions": 0,
+  "issues_closed": 0,
+  "release_allowed": false
+}

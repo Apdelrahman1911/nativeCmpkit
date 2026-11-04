@@ -1,0 +1,9 @@
+{
+  "path": "scripts/ci/test_ios_popover_geometry.py",
+  "before_sha256": "bd857ba589e0f5db208e7a218f02aaba82cd45827c95d97f8aa27717c332c6fa",
+  "after_sha256": "734e2dbfa3c86ae32e73043054c25918e46f4723822de7e8f98c86f810f1cdab",
+  "before_fragment": "        paths = set(spec[\"bindings\"]) | set(spec[\"added_inputs\"])\n        owning = owned_history._document()\n        paths |= set(owning[\"bindings\"]) | set(owning[\"added_inputs\"])\n        with tempfile.TemporaryDirectory() as temporary:\n            root = Path(temporary)\n            for name in paths:\n",
+  "after_fragment": "        paths = set(spec[\"bindings\"]) | set(spec[\"added_inputs\"])\n        owning = owned_history._document()\n        paths |= set(owning[\"bindings\"]) | set(owning[\"added_inputs\"])\n        import ios_owned_geometry_fixture_recovery as fixture_recovery\n        newest = fixture_recovery._document()\n        paths |= set(newest[\"bindings\"]) | set(newest[\"added_inputs\"])\n        with tempfile.TemporaryDirectory() as temporary:\n            root = Path(temporary)\n            for name in paths:\n",
+  "before_fragment_sha256": "3c7bb38f56a9f311fbe63ca2e053c25dc61c4d0b249c854863199170ec136213",
+  "after_fragment_sha256": "05c0912d0b3f50d06185ea519585e7abd169cec10905ce8fbdb9c21fd978d5c8"
+}

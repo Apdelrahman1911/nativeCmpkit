@@ -137,8 +137,11 @@ def recents_refusal(error: BaseException) -> dict | None:
     No filesystem, network, shell, process, registry or native operation occurs.
     Missing/foreign/unsafe/partial observations are unavailable, never zero.
     """
-    if type(error) is not ValueError or error.args != ("Settings recent task absence is unproved",):
+    if type(error) is not ValueError:
         return None
+    if error.args != ("Settings recent task absence is unproved",):
+        from android_camera_home_refusal_observation import home_refusal
+        return home_refusal(error)
     origin = camera.require_call_origin(error)
     if (type(origin) is not dict or set(origin) != {"source", "symbol", "line"} or
             origin["source"] != "android_camera_developer_prerequisite.py" or

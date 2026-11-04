@@ -2,7 +2,17 @@
 
 **Status:** accepted owner control-policy decision, 2026-10-26.
 
-**Current owner amendment, 2026-11-02:** finish existing agent assignments, then
+**Current owner amendment, 2026-11-04:** parallel agents are authorized again.
+Develop independent related-issue batches on isolated branches/worktrees while
+preceding CI runs. The lead coordinates disjoint ownership and alone integrates,
+pushes, dispatches, reviews results and closes verified subsets. Important tests
+and direct evidence-backed batch closures remain required; accepted unchanged
+results are reused, not replayed. Serial local heavy builds/8 GiB reserve/max two
+combined hosted-heavy reservations INCLUDING queued/reserved remain. Read-only
+Actions/all/no mandatory SHA pinning and publishing/security/readiness/history
+gates are unchanged. The solo amendment below is now historical.
+
+**Historical owner amendment, 2026-11-02:** finish existing agent assignments, then
 continue **solo**. Do not spawn agents, resume completed agents or assign further
 work. Review and reuse already qualified deliveries without replaying accepted
 tests. The lead owns integration, Git/GitHub changes and evidence-based closures.
@@ -31,8 +41,8 @@ allowlist and mandatory SHA pinning for a supervised verification window. That
 prevented autonomous platform checks. The owner has now enabled **Allow all
 actions and reusable workflows**, explicitly accepted no mandatory SHA pinning,
 and authorized routine CI/development/dependency/consumer verification without
-additional approval. The 2026-11-02 amendment now requires solo continuation;
-earlier parallel/two-agent limits remain historical.
+additional approval. The 2026-11-04 amendment authorizes overlapping, isolated
+related-issue agent patches; earlier solo/two-agent limits remain historical.
 
 ## Decision
 
@@ -40,8 +50,8 @@ earlier parallel/two-agent limits remain historical.
   not just documentation. Existing SHA references may remain as voluntary
   reproducibility controls; named action versions are not rejected solely for
   being non-SHA references. Review newly used actions and executed source.
-- Continue solo under the 2026-11-02 owner instruction; the lead integrates and
-  freezes inputs. Necessary immutable development commits/pushes and reviewed
+- Use coordinated isolated branches under the 2026-11-04 owner instruction;
+  the lead integrates and freezes inputs. Necessary immutable development commits/pushes and reviewed
   verification dispatches are authorized. Preserve history and upstream
   read-only boundaries; do not dispatch inherited historical workflows.
 - Separate **verification authority** from **publication readiness**. Use minimum

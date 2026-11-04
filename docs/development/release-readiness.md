@@ -22,8 +22,8 @@ evidence remain intact. Current resolutions belong to this development phase.
 The owner's 2026-10-26 decision permits enabled Actions with all actions/reusable
 workflows allowed and no mandatory SHA pinning. Routine development, CI testing,
 dependency acquisition and consumer verification proceed autonomously. The owner's
-**2026-11-02 solo-execution amendment** requires the lead to continue alone after
-existing agents finish; do not spawn, resume or reassign agents. The lead owns
+**2026-11-04 overlapping-patch amendment** authorizes coordinated agents on
+isolated branches/worktrees while prior CI runs. The lead owns
 integration, Git/GitHub mutations and acceptance. Heavy local builds remain
 serial with an 8 GiB reserve; combined hosted-heavy jobs, including queued and
 reserved work, are capped at two.
@@ -32,8 +32,8 @@ applicable readiness and security gates pass. CI authority does not clear a gate
 
 The owner initially reaffirmed single-agent containment on2026-10-27, then
 authorized optional bounded two-agent assistance and the name **NativeCmpKit**;
-those older agent limits and the 2026-10-31 parallel amendment are superseded by
-the 2026-11-02 solo instruction. Verification
+those older agent limits and the 2026-11-02 solo amendment are superseded by
+the 2026-11-04 overlapping-patch instruction. Verification
 authorization and all publication/security gates remain unchanged; individual
 evidence-backed issue closures do not certify this release.
 

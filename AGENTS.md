@@ -1,5 +1,31 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Current parallel related-patch execution — owner amendment, 2026-11-04
+
+The owner now explicitly authorizes agents again and requests overlapping work:
+dispatch a reviewed related-issue batch, then develop the next independent patch
+on a separate branch while CI runs. This supersedes the 2026-11-02 solo amendment;
+all dated solo checkpoints below remain historical evidence, not current limits.
+Use isolated worktrees/branches with disjoint file ownership. The lead alone
+integrates, pushes, dispatches, reviews results and closes issues. Agents must not
+dispatch CI, mutate GitHub or publish; additional delegation needs lead coordination.
+Run important affected tests, review source/results, then immediately close the
+fully verified subset together. Reuse unchanged accepted results, never present
+them as fresh executions. Continue the next independent patch during hosted waits.
+Heavy local builds stay serial with at least 8 GiB free; maximum two combined
+hosted-heavy reservations INCLUDING queued/reserved work is unchanged. Actions
+remain all allowed/no mandatory SHA pinning/read-only verification. Publishing,
+release/deployment/Pages, main/history, native, consumer, API–ABI, dependency,
+legal, security and release-readiness gates remain unchanged.
+
+## Parallel related patches; original-frame/mirror CI recovery — 2026-11-04
+
+[584–588](docs/development/evidence/current-platform-recovery-20261101/ios-owned-geometry584-588/README.md) preserves both41759144360/41759163549 FAILED before platform/native at missing mirror inputs:2762CI/oneerror each/eight once-acquiredlogs/zeroartifacts. Three mirror lines/exact embedded leaf recover NEW2+failed/affected7:9/9once0.388s,1337held;18passive checks reuse unchanged bytes. Later1339 map includes separate camera delta, not relabelled execution. Native/lifecycle/workflow/dates/assertions stay.
+
+[Camera590–591](docs/development/evidence/current-platform-recovery-20261101/camera-home-original-observation590-591/README.md) observes original HOME terminal require/caller/instruction and held rows only; no parser/query replay, guessed absence/ownership/cause or raw metadata. NEW10+affected5:14pass/one AST RHS-classifier refusal; onlyfailed1 recovers1/1,16passive checks/1339held/ZERO compiler/native. Original576 remainsFAILED/#13open. All three source plans pass; only missing cameraC1/phoneportrait/tabletrotation next afterfreeze/freshcapacity. #29stillneeds real splitview.
+
+[Fresh upstream585](docs/development/upstream-sync-20261104T021250Z/README.md):63responses/16open/PR551/14comments/47timeline, allmapped/zero mutations; Nov3diff only nested repository pushed_at/size.103closed69open172/22implemented36partial101verified/fiveunresolved unchanged; no closure. Owner NOW permits isolated parallel related branches during prior CI; lead integrates/Git/dispatch/accepts/closes. Max2INCLUDINGqueued/reserved/seriallocal8GiB/read-onlyActions/all/no mandatorySHA and every publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/readiness gate remain.
+
 ## Shared owned-geometry fixture failure recovered — 2026-11-04
 
 [580–583](docs/development/evidence/current-platform-recovery-20261101/ios-owned-geometry580-583/README.md)

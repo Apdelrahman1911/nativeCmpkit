@@ -1,5 +1,14 @@
 # NativeCmpKit development after the audit
 
+## Parallel related patches; original-frame/mirror CI recovery — 2026-11-04
+
+[584–588](evidence/current-platform-recovery-20261101/ios-owned-geometry584-588/README.md) preserves both41759144360/41759163549 FAILED before platform/native at missing mirror inputs:2762CI/oneerror each/eight once-acquiredlogs/zeroartifacts. Three mirror lines/exact embedded leaf recover NEW2+failed/affected7:9/9once0.388s,1337held;18passive checks reuse unchanged bytes. Later1339 map includes separate camera delta, not relabelled execution. Native/lifecycle/workflow/dates/assertions stay.
+
+[Camera590–591](evidence/current-platform-recovery-20261101/camera-home-original-observation590-591/README.md) observes original HOME terminal require/caller/instruction and held rows only; no parser/query replay, guessed absence/ownership/cause or raw metadata. NEW10+affected5:14pass/one AST RHS-classifier refusal; onlyfailed1 recovers1/1,16passive checks/1339held/ZERO compiler/native. Original576 remainsFAILED/#13open. All three source plans pass; only missing cameraC1/phoneportrait/tabletrotation next afterfreeze/freshcapacity. #29stillneeds real splitview.
+
+[Fresh upstream585](upstream-sync-20261104T021250Z/README.md):63responses/16open/PR551/14comments/47timeline, allmapped/zero mutations; Nov3diff only nested repository pushed_at/size.103closed69open172/22implemented36partial101verified/fiveunresolved unchanged; no closure. Owner NOW permits isolated parallel related branches during prior CI; lead integrates/Git/dispatch/accepts/closes. Max2INCLUDINGqueued/reserved/seriallocal8GiB/read-onlyActions/all/no mandatorySHA and every publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/readiness gate remain.
+
+
 ## Shared geometry fixture recovered — 2026-11-04
 
 [580–583](evidence/current-platform-recovery-20261101/ios-owned-geometry580-583/README.md)
@@ -3184,9 +3193,9 @@ No preview has been published by this phase at the time this document was starte
 The **2026-10-26 owner decision** in [containment.md](containment.md) authorizes
 automatic verification CI with Actions enabled, all actions/reusable workflows
 allowed, and no mandatory SHA pinning. Routine development and dependency/consumer
-verification need no additional approval. The owner's **2026-11-02 amendment**
-requires solo continuation after current agents finish, without spawning,
-resuming or reassigning agents. The lead owns integration/Git/GitHub mutations
+verification need no additional approval. The owner's **2026-11-04 amendment**
+authorizes coordinated agents on isolated branches/worktrees and the next related
+patch while preceding CI runs. The lead owns integration/Git/GitHub mutations
 and acceptance; local heavy builds stay serial with an 8 GiB reserve and at most
 two combined hosted-heavy reservations, including queued work. Earlier
 solo/two-agent/parallel decisions are historical. Fixes and
@@ -3198,7 +3207,8 @@ gates. See [ADR 0005](../decisions/0005-verification-actions-policy.md).
 The owner initially reaffirmed single-agent containment on **2026-10-27**, then
 authorized up to two agents, closure of genuinely completed issues and the current
 library name **NativeCmpKit**. Those older agent limits and the 2026-10-31 parallel
-amendment are superseded by the 2026-11-02 solo instruction; the lead owns
+amendment and 2026-11-02 solo instruction are superseded by the 2026-11-04
+overlapping-patch instruction; the lead owns
 integration/closures. Continue
 bounded verification without lifting publication gates.
 

@@ -1,6 +1,20 @@
 # Contained development with authorized verification CI
 
-## Current solo-execution amendment — 2026-11-02
+## Current overlapping related-patch amendment — 2026-11-04
+
+The owner explicitly reauthorizes agents and asks for the next independent
+related-issue patch to start on a separate branch while the preceding batch's CI
+runs. Use isolated worktrees/branches, disjoint ownership and lead-coordinated
+delegation. The lead alone integrates, freezes/pushes, dispatches, accepts evidence
+and closes verified subsets. Agents do not mutate GitHub or publish. Important
+affected tests → source/results review → immediate justified batch closures still
+apply; no unchanged accepted-population replay. Maximum two combined hosted-heavy
+reservations INCLUDING queued/reserved and serial local heavy builds with an
+8 GiB reserve remain. Actions/all/no mandatory SHA pinning/read-only verification,
+all publishing/security/readiness/Pages/main/history gates remain unchanged.
+This supersedes the solo amendment below, not its historical receipts.
+
+## Historical solo-execution amendment — 2026-11-02
 
 The owner's latest instruction is to let current agents finish, then continue
 solo. Do not spawn agents, resume completed agents or assign follow-up work.
@@ -125,8 +139,8 @@ homes. No new token permissions or publishing/security gate is authorized.
   unrelated passing suite. Native/device, consumer, ABI, legal and dependency
   gates require their own reviewed execution and exact scope.
 - No destructive history changes or unrelated feature/refactor work.
-  Continue solo under the 2026-11-02 amendment above; do not spawn, resume or
-  reassign agents.
+  Parallel agents now work only on isolated, disjoint patches under the
+  2026-11-04 amendment above; the lead coordinates integration and verification.
   Preserve all other projects/caches; local builds retain an 8 GiB disk reserve.
 
 ## Observed controls and evidence boundaries

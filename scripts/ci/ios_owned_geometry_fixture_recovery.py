@@ -17,6 +17,54 @@ SPEC_SHA256 = "441995a9a586509700a8359c744c6a2d7420abed2df2924333c6f111598dcd58"
 MAX_SOURCE_BYTES = 4 * 1024 * 1024
 MAX_SPEC_BYTES = 512 * 1024
 
+# One later fixture-only mirror leaf; every dated manifest remains immutable.
+# The exact full before/after files and unique fragment are independently bound.
+MIRROR_BINDING = {'after_fragment': '        paths = set(spec["bindings"]) | set(spec["added_inputs"])\n'
+                   '        owning = owned_history._document()\n'
+                   '        paths |= set(owning["bindings"]) | set(owning["added_inputs"])\n'
+                   '        import ios_owned_geometry_fixture_recovery as fixture_recovery\n'
+                   '        newest = fixture_recovery._document()\n'
+                   '        paths |= set(newest["bindings"]) | set(newest["added_inputs"])\n'
+                   '        with tempfile.TemporaryDirectory() as temporary:\n'
+                   '            root = Path(temporary)\n'
+                   '            for name in paths:\n',
+ 'after_fragment_sha256': '05c0912d0b3f50d06185ea519585e7abd169cec10905ce8fbdb9c21fd978d5c8',
+ 'after_sha256': '734e2dbfa3c86ae32e73043054c25918e46f4723822de7e8f98c86f810f1cdab',
+ 'before_fragment': '        paths = set(spec["bindings"]) | set(spec["added_inputs"])\n'
+                    '        owning = owned_history._document()\n'
+                    '        paths |= set(owning["bindings"]) | set(owning["added_inputs"])\n'
+                    '        with tempfile.TemporaryDirectory() as temporary:\n'
+                    '            root = Path(temporary)\n'
+                    '            for name in paths:\n',
+ 'before_fragment_sha256': '3c7bb38f56a9f311fbe63ca2e053c25dc61c4d0b249c854863199170ec136213',
+ 'before_sha256': 'bd857ba589e0f5db208e7a218f02aaba82cd45827c95d97f8aa27717c332c6fa',
+ 'path': 'scripts/ci/test_ios_popover_geometry.py'}
+
+
+def _mirror_stage(relative, payload, *, current, strict):
+    binding = MIRROR_BINDING
+    if relative != binding["path"]:
+        return payload
+    observed = hashlib.sha256(payload).hexdigest()
+    if current and observed != binding["after_sha256"]:
+        raise ValueError("Only the exact current geometry fixture mirror can admit")
+    if observed == binding["before_sha256"]:
+        return payload  # Ancestor only; the current check above has already refused it.
+    if observed != binding["after_sha256"]:
+        if strict:
+            raise ValueError("Unreviewed geometry fixture mirror is not an exact image")
+        return payload  # A later dated pin must refuse unknown ancestor bytes.
+    before, after = binding["before_fragment"].encode(), binding["after_fragment"].encode()
+    if (not 0 < len(payload) <= MAX_SOURCE_BYTES or payload.count(after) != 1 or
+            hashlib.sha256(before).hexdigest() != binding["before_fragment_sha256"] or
+            hashlib.sha256(after).hexdigest() != binding["after_fragment_sha256"]):
+        raise ValueError("The exact bounded geometry fixture mirror fragment is required")
+    restored = payload.replace(after, before, 1)
+    if (hashlib.sha256(restored).hexdigest() != binding["before_sha256"] or
+            restored.count(before) != 1 or restored.replace(before, after, 1) != payload):
+        raise ValueError("The complete geometry fixture mirror must round trip exactly")
+    return restored
+
 
 def _document():
     info = SPEC_PATH.lstat()
@@ -36,6 +84,7 @@ def source_before_recovery(relative, payload):
     """Exact reversible ancestor view; never certify an old image as current."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact fixture581 source identity and ordinary bytes are required")
+    payload = _mirror_stage(relative, payload, current=False, strict=True)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload
@@ -70,6 +119,7 @@ def source_before_recovery(relative, payload):
 def current_source_before_recovery(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current fixture581 identity and ordinary bytes are required")
+    payload = _mirror_stage(relative, payload, current=True, strict=True)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("An old fixture cannot replace exact current fixture581 source")
@@ -80,6 +130,7 @@ def peel_current_recovery_for_history(relative, payload):
     """No admission: unchanged or unknown bytes still require their next pin."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor fixture581 identity and ordinary bytes are required")
+    payload = _mirror_stage(relative, payload, current=False, strict=False)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_recovery(relative, payload)

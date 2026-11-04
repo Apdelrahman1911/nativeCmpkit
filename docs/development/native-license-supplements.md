@@ -24,6 +24,16 @@ packet does not implement it**, stage native artifacts or clear any release gate
 Current work is lead-coordinated parallel development; the dated single-agent
 statements below retain their original historical scope.
 
+## Separate exact legacy adapter follow-up
+
+The [source-qualified schema3 follow-up](native-license-legacy-winapi.md) now
+implements only the two reviewed WinAPI0.4.0 archive contexts. NEW16 controls
+qualify via first14/recovered1/recovered1, not a fresh broad replay. The genuine
+only-two collector retains full93 declarations and90 unexecuted cache gaps; the
+unchanged inspector passes all42 owning checks while its overall151/102-failed
+result remains incomplete. The current original17/15 failures, all fifteen
+objc2 gaps and every native/full-consumer/legal/release gate remain.
+
 ## Owning contract and implementation
 
 The [2026-10-24 collection](evidence/native-license-material-20261024T193225Z/README.md)

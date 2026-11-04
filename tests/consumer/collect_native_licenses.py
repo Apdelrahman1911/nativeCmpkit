@@ -142,16 +142,25 @@ def collect(metadata_path: Path, cache_roots: list[Path], output: Path,
                     raise InvalidArtifact("Expected exactly one cached public .crate archive")
                 supplement = supplements.get(package["id"])
                 external = False
-                try:
-                    texts = collect_archive(archives[0], name, version, package.get("checksum", ""), package.get("license_file"))
-                except MissingLicenseText:
-                    if supplement is None:
-                        raise
-                    # Capture/revalidate actual crate bytes. Never fallback on
-                    # checksum, link, traversal, declared-file or encoding errors.
+                if supplement is not None and supplement.manifest.get("schema_version") == 3:
+                    # Only two known missing-text legacy archives: their complete
+                    # payload/source correspondence was sealed before this adapter.
+                    # Rebind exact compressed bytes, never rescan accepted payloads
+                    # or synthesize a Cargo VCS declaration. Ordinary v1 stays below.
                     verify_crate_correspondence(archives[0], supplement)
                     external = True
                     texts = {}
+                else:
+                    try:
+                        texts = collect_archive(archives[0], name, version, package.get("checksum", ""), package.get("license_file"))
+                    except MissingLicenseText:
+                        if supplement is None:
+                            raise
+                        # Capture/revalidate actual crate bytes. Never fallback on
+                        # checksum, link, traversal, declared-file or encoding errors.
+                        verify_crate_correspondence(archives[0], supplement)
+                        external = True
+                        texts = {}
                 if supplement is not None and not external:
                     raise InvalidArtifact("Reviewed missing-text supplement is stale/unnecessary for this archive")
                 if not isinstance(package.get("license"), str) or not package["license"].strip():

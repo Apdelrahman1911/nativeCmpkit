@@ -149,6 +149,10 @@ def load_supplement(catalog: Path, package: dict) -> Supplement | None:
         return None
     raw = regular_bytes(entry, "manifest.json", MAX_MANIFEST_BYTES)
     data = load_json_bytes(raw)
+    if isinstance(data, dict) and type(data.get("schema_version")) is int and data["schema_version"] == 3:
+        # Explicit legacy format, not relaxation of v1's three Cargo VCS proofs.
+        from native_license_legacy_winapi import load_legacy
+        return load_legacy(entry, package, data, raw)
     keys = {"schema_version", "package", "repository", "revision", "path_in_vcs", "crate_files",
             "vcs_files", "license_files", "scope", "license_obligations_reviewed"}
     expected_package = {key: package[key] for key in ("name", "version", "checksum", "license")}
@@ -221,6 +225,12 @@ def load_supplement(catalog: Path, package: dict) -> Supplement | None:
 
 def verify_crate_correspondence(path: Path, supplement: Supplement) -> None:
     """Recheck captured exact .crate bytes; fallback cannot hide checksum/link/path errors."""
+    if supplement.manifest.get("schema_version") == 3:
+        from native_license_legacy_winapi import LegacyWinapiSupplement, verify_archive
+        if not isinstance(supplement, LegacyWinapiSupplement):
+            raise InvalidArtifact("Unreviewed legacy supplement implementation")
+        verify_archive(path, supplement)
+        return
     raw = regular_bytes(path.parent, path.name, MAX_CRATE_BYTES)
     if digest(raw) != supplement.manifest["package"]["checksum"]:
         raise InvalidArtifact("Supplement crate differs from its locked checksum")

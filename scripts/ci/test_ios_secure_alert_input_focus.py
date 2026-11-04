@@ -8,6 +8,7 @@ additional console-control methods. This is not physical-device/full-log proof.
 from collections import Counter
 import copy
 from pathlib import Path
+import re
 import subprocess
 import tempfile
 import time
@@ -19,6 +20,39 @@ import secure_alert_input_plan as s
 import test_ios_application_receipts as receipts
 import test_secure_alert_input_plan as bindings
 import workflow_matrix as matrix
+
+
+def _secure_alert_profile_options(workflow):
+    """Require literal, unique choices, not adjacency to unrelated profiles."""
+    declaration, = [line for line in workflow.splitlines()
+                    if line.startswith("        options: [") and line.endswith("]")]
+    choices = [value.strip() for value in declaration.split("[", 1)[1][:-1].split(",")]
+    if (any(re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", value) is None for value in choices)
+            or len(choices) != len(set(choices))
+            or any(choices.count(profile) != 1
+                   for profile in ("ios-ui", "ios-secure-alert-input", "ios-date-bounds"))):
+        raise ValueError("Secure alert requires its three distinct literal workflow profile choices")
+    return choices
+
+
+class SecureAlertProfileOptionsTests(unittest.TestCase):
+    def test_related_profile_insertions_and_reordering_do_not_change_secure_alert_admission(self):
+        for choices in (
+            "ios-ui, ios-secure-alert-input, ios-date-bounds",
+            "ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input, ios-date-bounds",
+            "ios-date-bounds, ios-ui-adaptive-pre26, ios-secure-alert-input, ios-ui",
+        ):
+            self.assertIn("ios-secure-alert-input", _secure_alert_profile_options("        options: [" + choices + "]"))
+
+    def test_missing_duplicate_ambiguous_or_nonliteral_profile_choices_refuse(self):
+        required = ["ios-ui", "ios-secure-alert-input", "ios-date-bounds"]
+        valid = "        options: [" + ", ".join(required) + "]"
+        malformed = [valid + "\n" + valid, valid.replace("ios-ui", '"ios-ui"', 1), "        options: []"]
+        malformed += ["        options: [" + ", ".join(required[:index] + required[index + 1:]) + "]" for index in range(3)]
+        malformed += ["        options: [" + ", ".join(required + [profile]) + "]" for profile in required]
+        for workflow in malformed:
+            with self.subTest(workflow=workflow), self.assertRaises(ValueError):
+                _secure_alert_profile_options(workflow)
 
 
 class IosSecureAlertInputFocusTests(unittest.TestCase):
@@ -73,7 +107,7 @@ class IosSecureAlertInputFocusTests(unittest.TestCase):
         command = r.gradle_command("ios", self.plan, simulator="11111111-1111-1111-1111-111111111111")
         self.assertEqual([part for value in filters for part in ("--tests", value)], command[-2 * len(filters):])
         workflow = (r.ROOT / ".github/workflows/gradle.yml").read_text()
-        self.assertIn("ios-ui, ios-secure-alert-input, ios-date-bounds", workflow)
+        self.assertIn(s.PROFILE, _secure_alert_profile_options(workflow))
         self.assertEqual(11, len(matrix.matrix("all")["include"]))
         for suite, modules in (("desktop", (s.MODULE,)), ("ios", ("calf-file-picker",)), ("ios", None)):
             with self.assertRaises(ValueError): r.plan(self.root, suite, only_modules=modules, focus=s.FOCUS)

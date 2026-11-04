@@ -1,0 +1,19 @@
+{
+  "base_revision": "c8b07d046ffbc9b303ffcf3599fc6715c53f9285",
+  "bindings": {
+    "scripts/ci/ios_ui_application.py": {
+      "after_sha256": "5cd8bc716484a7f1b1f65e41d0832e3855825d505dc78b24e7602980c4a8cee3",
+      "before_sha256": "4e407426bc8535ea547eb5fbee74f7a801c87f222add88de94e26966f65690ae",
+      "fragments": [
+        {
+          "after": "            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if host[\"module\"] == \"calf-ui\" and focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS:\n            import apple_appinfo_shape as appinfo_shape\n            import apple_image_launch_readiness as launch_readiness\n            phase = \"observe-owned-image-prelaunch-readiness\"\n            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,\n                before[\"source_revision\"], signed_hash, plist_hash, before, preexisting, result, container)\n            receipt[\"owned_image_launch_readiness\"] = launch_readiness.observe(context)\n            # Unknown syntax/query observations cannot replace the original\n            # launch. Positive identity drift must never launch unowned bytes.\n            launch_readiness.require_current_owned_identity(context, receipt[\"owned_image_launch_readiness\"])\n        if request_fixture_requested:\n",
+          "after_fragment_sha256": "65541c4dda1daff931ee7697b55183829b0b27c2c7ccdad99df6d0db85eede44",
+          "before": "            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if request_fixture_requested:\n",
+          "before_fragment_sha256": "71d1b3092af3f4701b869019abbe15eb843431a8d0768af7273eb79f5418f4c7"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Evidence-only exact launcher fragment for lead-coordinated historical ingress; no reader is changed or certified by this file"
+}

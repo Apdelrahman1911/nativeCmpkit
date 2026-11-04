@@ -1219,6 +1219,16 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             # Return through the original finally. Never fall through to launch,
             # Worker, WK/profile preparation, transport pass or native test output.
             return receipt
+        if host["module"] == "calf-ui" and focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS:
+            import apple_appinfo_shape as appinfo_shape
+            import apple_image_launch_readiness as launch_readiness
+            phase = "observe-owned-image-prelaunch-readiness"
+            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,
+                before["source_revision"], signed_hash, plist_hash, before, preexisting, result, container)
+            receipt["owned_image_launch_readiness"] = launch_readiness.observe(context)
+            # Unknown syntax/query observations cannot replace the original
+            # launch. Positive identity drift must never launch unowned bytes.
+            launch_readiness.require_current_owned_identity(context, receipt["owned_image_launch_readiness"])
         if request_fixture_requested:
             import ios_webview_request_fixture as wk_requests
             phase = "prepare-owned-localhost-wk-request-fixture"

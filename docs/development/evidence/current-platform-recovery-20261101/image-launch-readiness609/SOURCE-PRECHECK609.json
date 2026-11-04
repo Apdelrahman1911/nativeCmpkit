@@ -1,0 +1,29 @@
+{
+  "added_tooling_paths": [
+    "scripts/ci/apple_image_launch_readiness.py",
+    "scripts/ci/test_apple_image_launch_readiness.py"
+  ],
+  "base_blob_sha256_checks": {
+    "all_passed": true,
+    "count": 1340
+  },
+  "base_input_digest": "1ed06d10f4d263511c54bca3e4393ca444b164b509c2d7a7b60a1a0d50ef16b0",
+  "base_launcher_sha256": "4e407426bc8535ea547eb5fbee74f7a801c87f222add88de94e26966f65690ae",
+  "base_library_input_count": 1340,
+  "base_revision": "c8b07d046ffbc9b303ffcf3599fc6715c53f9285",
+  "changed_existing_paths": [
+    "scripts/ci/ios_ui_application.py"
+  ],
+  "current_input_digest": "a25f13e42dc11e83d32cbb4b5a0c1bf78739bd0269492e22d646d44f56f5cefd",
+  "current_library_input_count": 1342,
+  "launcher_bytes_exact_after_removing_one_new_hook": true,
+  "native_or_Apple_tool_or_network_executions": 0,
+  "original_registration_schema_and_launch_cause_remain_unknown": true,
+  "post_launcher_sha256": "5cd8bc716484a7f1b1f65e41d0832e3855825d505dc78b24e7602980c4a8cee3",
+  "schema_version": 1,
+  "scope": "Passive local Git/source inspection before NEW controls; not compiler/native execution",
+  "shared_fragment": "        if host[\"module\"] == \"calf-ui\" and focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS:\n            import apple_appinfo_shape as appinfo_shape\n            import apple_image_launch_readiness as launch_readiness\n            phase = \"observe-owned-image-prelaunch-readiness\"\n            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,\n                before[\"source_revision\"], signed_hash, plist_hash, before, preexisting, result, container)\n            receipt[\"owned_image_launch_readiness\"] = launch_readiness.observe(context)\n            # Unknown syntax/query observations cannot replace the original\n            # launch. Positive identity drift must never launch unowned bytes.\n            launch_readiness.require_current_owned_identity(context, receipt[\"owned_image_launch_readiness\"])\n",
+  "unchanged_entire_original_finally": true,
+  "unchanged_existing_inputs": 1339,
+  "unchanged_original_launch_argv_and_deadlines": true
+}

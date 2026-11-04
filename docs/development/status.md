@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `80a63a3df30b9d20fb640d12da9791de36b1a9c02833b499963ec9e42c3216cc`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9a254b02682d7771c571fc8f5379006971b132362735d43a70fac90155421e88`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -60,7 +60,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 12 | [NATIVE-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/10) | High | 1 | M | verified | — | 3 / 0 |
 | 13 | [NATIVE-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/11) | High | 1 | M | verified | — | 3 / 0 |
 | 14 | [NATIVE-013](https://github.com/Apdelrahman1911/nativeCmpkit/issues/12) | High | 1 | M | verified | — | 3 / 0 |
-| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 10 |
+| 15 | [NATIVE-019](https://github.com/Apdelrahman1911/nativeCmpkit/issues/13) | High | 1 | M | partially-verified | — | 3 / 11 |
 | 16 | [NATIVE-027](https://github.com/Apdelrahman1911/nativeCmpkit/issues/14) | High | 1 | M | verified | — | 3 / 0 |
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
@@ -524,6 +524,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 - 2026-11-01 batch073: Execute only original Dont-keep1 with strict parser/owned state/cleanup and newly qualified diagnostics. ZERO new native execution; camera009 C2/C3 stay accepted. If refused again, review actual diagnostic facts before an owning source-qualified correction; never waive unknown rows.
 - 2026-11-04 actual562: freeze qualified six-path/nine-fragment fixture recovery and obtain fresh max2 INCLUDING queued capacity before only missing Dont-keep C1. Original41746019912 stays tooling-failed/ZERO native; do not replay unchanged common/APK/camera009 C2/C3. Require every original C1/native/scalar/master/owned cleanup predicate before closure.
 - 2026-11-04 actual566/recovery567–568: original41749936269 FAILED before platform, causes confined to confirmed duplicate current-source admission and missing busy-stage composition. Related important15 and original setup/read-only admissions qualify; freeze/push repaired bytes and obtain fresh max2 INCLUDING queued capacity before only missing Dont-keep C1. Retain readable exactly-once capture/destruction/rebuilt owner/native/scalar/master/owned cleanup criteria; no unchanged failed retry or camera009/JVM/APK replay.
+- 2026-11-04 original571/recovery572–573: four dated HOME fixture errors fixed/8 important controls qualify without helper/current-ingress/native changes. Freeze/push and obtain fresh max2 INCLUDING queued capacity before only original Dont-keep C1. Preserve actual destruction/rebuilt owner/readable exactly-once/grants/descriptors/sibling/native/scalar/master/owned cleanup; no unchanged failed retry or accepted native/compile replay.
 
 **Owner verification scope:** Original criteria2/3 accepted from three complete camera009 native methods. Immediate reconstruction before external camera completion is not an original requirement; exact constructor timing unobserved. Only actual Dont-keep capture/restoration remains unverified. Earlier stricter/pending designations are historical and retained, not changed verdicts.
 
@@ -3599,7 +3600,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/audit/findings/UI.json](../audit/findings/UI.json) | `9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a` |
 | [docs/development/resolutions/BUILD.json](resolutions/BUILD.json) | `818e550c64c5aa0f7ebd5092ac1fe4d73824f8a5f1f37f1650d5453c1d82360c` |
 | [docs/development/resolutions/IO.json](resolutions/IO.json) | `c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42` |
-| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `20789512e4fd7466ee86bfe723547e376ad78e8c31e8cf3a9f552f432945f5bc` |
+| [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a82cd101d2a629e7e83837e6f5e837b9abebcda2ae750ddc38f90032dc17dfa8` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
 | [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |

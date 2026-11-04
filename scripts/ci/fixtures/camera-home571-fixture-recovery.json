@@ -1,0 +1,43 @@
+{
+  "bindings": {
+    "scripts/ci/test_camera_home_baseline_source_projection.py": {
+      "after_bytes": 9512,
+      "after_sha256": "2851a2b5d8a6a4bb8135539aff4a4dcc7fc643b20144281086f9f4b3fe866536",
+      "before_bytes": 8928,
+      "before_sha256": "378c2b99cc35edcd9c0e4c82da8c09985bd8c23d05daba6fa6e5233f9a038a2b",
+      "fragments": [
+        {
+          "after": "    return hashlib.sha256(raw).hexdigest()\n\n\ndef preserved_home_stage(relative, payload):\n    # Admit the complete newest listed bytes before this dated HOME-stage pin.\n    # Unlisted paths are not certified here; their original HOME pin still owns\n    # them. This pure source view never replaces an actual helper/native input.\n    from camera_tooling566_source_projection import current_source_before_tooling566\n    return current_source_before_tooling566(relative, payload)\n\n\nclass HomeBaselineHistoryTests(unittest.TestCase):\n    def test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages(self):\n        bindings = history._bindings()\n        self.assertEqual(OWNING, set(bindings))\n        for relative, binding in bindings.items():\n            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())\n            previous = history.current_source_before_home_baseline(relative, current)\n            self.assertEqual(binding[\"after_sha256\"], sha(current))\n            self.assertEqual(binding[\"before_sha256\"], sha(previous))\n",
+          "after_fragment_sha256": "529537c178ded4fe0c8e3d4eb5257f5b898b97f9be2ba9bd7ac977d33638554a",
+          "before": "    return hashlib.sha256(raw).hexdigest()\n\n\nclass HomeBaselineHistoryTests(unittest.TestCase):\n    def test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages(self):\n        bindings = history._bindings()\n        self.assertEqual(OWNING, set(bindings))\n        for relative, binding in bindings.items():\n            current = (ROOT / relative).read_bytes()\n            previous = history.current_source_before_home_baseline(relative, current)\n            self.assertEqual(binding[\"after_sha256\"], sha(current))\n            self.assertEqual(binding[\"before_sha256\"], sha(previous))\n",
+          "before_fragment_sha256": "d7043d1668344222b025892828f535abda6179d7a316d804c8201f7adbe1ce84",
+          "id": "exact-source-stage-1"
+        },
+        {
+          "after": "\n    def test_current_admission_refuses_old_partial_displaced_and_mutated_images(self):\n        for relative in OWNING:\n            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())\n            old = history.source_before_home_baseline(relative, current)\n            for bad in (old, current[:-1], current + b\"\\n\", b\"\", None, bytearray(current), current.decode(),\n                        b\"x\" * (history.MAX_SOURCE_BYTES + 1)):\n",
+          "after_fragment_sha256": "427aae25fe04c5322f197560ba5b204ddf6e145a039cdfef0a7c4ac07b0f8e82",
+          "before": "\n    def test_current_admission_refuses_old_partial_displaced_and_mutated_images(self):\n        for relative in OWNING:\n            current = (ROOT / relative).read_bytes()\n            old = history.source_before_home_baseline(relative, current)\n            for bad in (old, current[:-1], current + b\"\\n\", b\"\", None, bytearray(current), current.decode(),\n                        b\"x\" * (history.MAX_SOURCE_BYTES + 1)):\n",
+          "before_fragment_sha256": "00308640c7cd053785975d541fce9ecede764db01e2f9cd59666b4740aad9261",
+          "id": "exact-source-stage-2"
+        },
+        {
+          "after": "\n    def test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes(self):\n        for relative in OWNING:\n            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())\n            old = history.current_source_before_home_baseline(relative, current)\n            self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, current))\n            self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, old))\n",
+          "after_fragment_sha256": "77e261b3d99089f5889233fa43b9eb532726347e55dcf792579948e73e8d38cc",
+          "before": "\n    def test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes(self):\n        for relative in OWNING:\n            current = (ROOT / relative).read_bytes()\n            old = history.current_source_before_home_baseline(relative, current)\n            self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, current))\n            self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, old))\n",
+          "before_fragment_sha256": "d31f2b772d3c1cdd84a21d73bc73bcc4884b3d47a09733683618e878c5071930",
+          "id": "exact-source-stage-3"
+        },
+        {
+          "after": "        from android_external328_source_projection import current_source_for_history, source_before_android_external328\n        relative = \"scripts/ci/android_external328_source_projection.py\"\n        current = (ROOT / relative).read_bytes()\n        stage = preserved_home_stage(relative, current)\n        previous = history.current_source_before_home_baseline(relative, stage)\n        self.assertEqual(source_before_android_external328(relative, previous), current_source_for_history(relative, current))\n        for bad in (previous, current[:-1], current + b\"\\n\", b\"\", bytearray(current), None):\n            with self.subTest(kind=type(bad).__name__), self.assertRaises(ValueError):\n",
+          "after_fragment_sha256": "2841e4cd8159bbb48436150255769f78480ef7e55dfab874a82c0ca31d33e097",
+          "before": "        from android_external328_source_projection import current_source_for_history, source_before_android_external328\n        relative = \"scripts/ci/android_external328_source_projection.py\"\n        current = (ROOT / relative).read_bytes()\n        previous = history.current_source_before_home_baseline(relative, current)\n        self.assertEqual(source_before_android_external328(relative, previous), current_source_for_history(relative, current))\n        for bad in (previous, current[:-1], current + b\"\\n\", b\"\", bytearray(current), None):\n            with self.subTest(kind=type(bad).__name__), self.assertRaises(ValueError):\n",
+          "before_fragment_sha256": "f1b818fff84d82fbd45572a36cdd69cab8e5fbcb33902f95fa322c20b9dc8f0f",
+          "id": "exact-source-stage-4"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "HOME571 failed fixture-only recovery; original native/helper/controller/current-ingress code remains unchanged",
+  "source_sha": "4ae49b6e23d13dac4d4da3c869ebb53ba86212c8"
+}

@@ -23,12 +23,20 @@ def sha(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def preserved_home_stage(relative, payload):
+    # Admit the complete newest listed bytes before this dated HOME-stage pin.
+    # Unlisted paths are not certified here; their original HOME pin still owns
+    # them. This pure source view never replaces an actual helper/native input.
+    from camera_tooling566_source_projection import current_source_before_tooling566
+    return current_source_before_tooling566(relative, payload)
+
+
 class HomeBaselineHistoryTests(unittest.TestCase):
     def test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages(self):
         bindings = history._bindings()
         self.assertEqual(OWNING, set(bindings))
         for relative, binding in bindings.items():
-            current = (ROOT / relative).read_bytes()
+            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())
             previous = history.current_source_before_home_baseline(relative, current)
             self.assertEqual(binding["after_sha256"], sha(current))
             self.assertEqual(binding["before_sha256"], sha(previous))
@@ -42,7 +50,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
 
     def test_current_admission_refuses_old_partial_displaced_and_mutated_images(self):
         for relative in OWNING:
-            current = (ROOT / relative).read_bytes()
+            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())
             old = history.source_before_home_baseline(relative, current)
             for bad in (old, current[:-1], current + b"\n", b"", None, bytearray(current), current.decode(),
                         b"x" * (history.MAX_SOURCE_BYTES + 1)):
@@ -58,7 +66,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
 
     def test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes(self):
         for relative in OWNING:
-            current = (ROOT / relative).read_bytes()
+            current = preserved_home_stage(relative, (ROOT / relative).read_bytes())
             old = history.current_source_before_home_baseline(relative, current)
             self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, current))
             self.assertEqual(old, history.peel_current_home_baseline_for_older_history(relative, old))
@@ -134,7 +142,8 @@ class HomeBaselineHistoryTests(unittest.TestCase):
         from android_external328_source_projection import current_source_for_history, source_before_android_external328
         relative = "scripts/ci/android_external328_source_projection.py"
         current = (ROOT / relative).read_bytes()
-        previous = history.current_source_before_home_baseline(relative, current)
+        stage = preserved_home_stage(relative, current)
+        previous = history.current_source_before_home_baseline(relative, stage)
         self.assertEqual(source_before_android_external328(relative, previous), current_source_for_history(relative, current))
         for bad in (previous, current[:-1], current + b"\n", b"", bytearray(current), None):
             with self.subTest(kind=type(bad).__name__), self.assertRaises(ValueError):

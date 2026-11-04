@@ -1,0 +1,34 @@
+{
+  "failure_records": [
+    {
+      "heading": "ERROR: test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes (test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes)",
+      "traceback": "----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 62, in test_ancestor_peeling_is_idempotent_but_never_repairs_unknown_bytes\n    old = history.current_source_before_home_baseline(relative, current)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/camera_home_baseline_source_projection.py\", line 74, in current_source_before_home_baseline\n    raise ValueError(\"A historical image cannot replace the exact current preserved-HOME source\")\nValueError: A historical image cannot replace the exact current preserved-HOME source\n"
+    },
+    {
+      "heading": "ERROR: test_current_admission_refuses_old_partial_displaced_and_mutated_images (test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_current_admission_refuses_old_partial_displaced_and_mutated_images)",
+      "traceback": "----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 46, in test_current_admission_refuses_old_partial_displaced_and_mutated_images\n    old = history.source_before_home_baseline(relative, current)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/camera_home_baseline_source_projection.py\", line 47, in source_before_home_baseline\n    raise ValueError(\"Unreviewed preserved-HOME source is not an admitted afterimage\")\nValueError: Unreviewed preserved-HOME source is not an admitted afterimage\n"
+    },
+    {
+      "heading": "ERROR: test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages (test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages)",
+      "traceback": "----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 32, in test_exact_six_complete_afterimages_roundtrip_to_unchanged_beforeimages\n    previous = history.current_source_before_home_baseline(relative, current)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/camera_home_baseline_source_projection.py\", line 74, in current_source_before_home_baseline\n    raise ValueError(\"A historical image cannot replace the exact current preserved-HOME source\")\nValueError: A historical image cannot replace the exact current preserved-HOME source\n"
+    },
+    {
+      "heading": "ERROR: test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image (test_camera_home_baseline_source_projection.HomeBaselineHistoryTests.test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image)",
+      "traceback": "----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/test_camera_home_baseline_source_projection.py\", line 137, in test_latest_shared_entry_itself_is_bound_and_refuses_its_old_or_unknown_image\n    previous = history.current_source_before_home_baseline(relative, current)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/nativeCmpkit/nativeCmpkit/scripts/ci/camera_home_baseline_source_projection.py\", line 74, in current_source_before_home_baseline\n    raise ValueError(\"A historical image cannot replace the exact current preserved-HOME source\")\nValueError: A historical image cannot replace the exact current preserved-HOME source\n"
+    }
+  ],
+  "library_gradle_executions": 0,
+  "native_executions": 0,
+  "run_id": 41751554426,
+  "scope_summaries": [
+    "Ran 35 tests in 0.048s",
+    "OK",
+    "Ran 80 tests in 0.145s",
+    "OK",
+    "Ran 96 tests in 1.415s",
+    "OK",
+    "Ran 2723 tests in 140.831s",
+    "FAILED (errors=4)"
+  ],
+  "source_sha": "4ae49b6e23d13dac4d4da3c869ebb53ba86212c8"
+}

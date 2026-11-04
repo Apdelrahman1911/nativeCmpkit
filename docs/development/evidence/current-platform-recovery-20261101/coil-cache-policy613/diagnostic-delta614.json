@@ -1,0 +1,27 @@
+{
+  "kind": "failure-observation-only-diagnostic614-source-qualification",
+  "recorded_utc": "2026-11-04T03:50:37.095892+00:00",
+  "original_run_retained": "original-review613.json",
+  "original_xml_sha256": "617d69fdc6209f9f2ebab4b2818bd22dad2a94b8afbf5fbba136d5b70832c8a4",
+  "delta": {
+    "path": "calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileCachePolicyAcceptanceTest.kt",
+    "fragments": 1,
+    "preimage": "                val result = assertIs<SuccessResult>(loader.execute(request))\n",
+    "postimage": "                val actual = loader.execute(request)\n                val result = if (actual is ErrorResult) {\n                    throw AssertionError(\"Actual Coil request returned ErrorResult instead of SuccessResult\", actual.throwable)\n                } else assertIs<SuccessResult>(actual)\n",
+    "original_sha256": "9ec0478a68602ebe086cd4c93c257b1a66723ac2fa3c093e1da9331037eb2e35",
+    "diagnostic_sha256": "7e6d7f4dd31058ef20391d53f86f0bf6b72f47b9365937b50af617bf61f40be0",
+    "roundtrip_exact": true
+  },
+  "all_prior_assertions_fixture_cleanup_and_production_bytes_retained": true,
+  "only_build_input_changed": [
+    "calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileCachePolicyAcceptanceTest.kt"
+  ],
+  "held_inputs": 1348,
+  "input_digest": "9c797938f2f3b366ad64cd9efee43d8952fcf379096d9a682f5f962239e60b49",
+  "coil_error_contract": "Real ErrorResult exposes Throwable; diagnostic preserves it as AssertionError cause. Success remains mandatory.",
+  "runtime_recovery_executions": 0,
+  "cause_inferred": false,
+  "opt_in_and_other_warnings_unchanged": true,
+  "whole_issue_closure": false,
+  "proposed_failed_only_command": "Same prior bounded offline Xvfb argv selecting only KmpFileCachePolicyAcceptanceTest.callerRevisionControlsDefaultDecoderCacheAndSourceOwnership; log diagnostic-cache614.log; requires new lead grant."
+}

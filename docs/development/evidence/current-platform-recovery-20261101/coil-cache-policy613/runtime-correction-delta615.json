@@ -1,0 +1,36 @@
+{
+  "kind": "desktopTest-native-runtime-only-delta615",
+  "recorded_utc": "2026-11-04T04:00:00.237667+00:00",
+  "source_controls": [
+    "exact one desktopTest dependency block addition",
+    "exact inverse recovers entire prior Gradle file",
+    "only existing compose.desktop.currentOs selector",
+    "runtimeOnly, not production api/implementation",
+    "KotlinDependencyHandler runtimeOnly API passively confirmed",
+    "Coil default decoder/test assertions unchanged",
+    "all original docs unchanged",
+    "all prior build inputs unchanged except owning Gradle test wiring",
+    "four exact scoped changed paths",
+    "both staged/worktree whitespace checks"
+  ],
+  "delta": {
+    "path": "calf-file-picker-coil/build.gradle.kts",
+    "fragments": 1,
+    "addition": "    sourceSets.desktopTest.dependencies {\n        // The real default JVM Coil decoder needs the host Skiko native runtime.\n        // Test-only: do not publish a host-classified runtime to library consumers.\n        runtimeOnly(compose.desktop.currentOs)\n    }\n\n",
+    "preimage_sha256": "163d73fed96bf8b0b2da54c7d8cd297cbdacdb0628995500a9aeed2c063610d9",
+    "postimage_sha256": "414098c26d05bba8a414029861b910c0a34704f386606623ce9767182b04e5e9"
+  },
+  "actual_original_cause": "distinct diagnostic614 LibraryLoadException: missing Skiko native resource",
+  "source_classification": "Missing desktopTest runtime prerequisite, not proven production fetcher bug",
+  "existing_exact_owning_selector": "compose.desktop.currentOs via Compose 1.12.0 plugin; cached Linux x64 POM supplies skiko-awt-runtime-linux-x64 0.150.1",
+  "exact_declared_cached_native_jar_sha256": "920c1cb033abfb79202f9f455fb86491bec5e45c156f186c0125b10fce97e093",
+  "default_decoder_pixel_key_source_descriptor_cleanup_predicates_retained": true,
+  "source_map_count": 1348,
+  "source_map_digest": "0f57b9e1928f44c5344da2733cf5b2804f226033f36fcb2ea894ba53f61c2834",
+  "only_delta_since_diagnostic614": [
+    "calf-file-picker-coil/build.gradle.kts"
+  ],
+  "new_recovery_runtime_executions": 0,
+  "whole_issue_closure": false,
+  "remaining_criterion": "Large image peak-memory benchmark by target"
+}

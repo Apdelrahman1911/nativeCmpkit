@@ -1,5 +1,27 @@
 # NativeCmpKit development after the audit
 
+## Shared CI alias blocker repaired; Coil cache runtime accepted — 2026-11-04
+
+[Originals628/repair629](evidence/current-platform-recovery-20261101/matrix-alias-repair628-629/README.md)
+preserves both Camera/Share requests FAILED before native and repairs both old
+AST readers together. Only failed5+NEW8 execute **13/13 once**,1,373 held inputs;
+126 independent passive checks accept exact source/results with all17 original
+test bodies/native assertions/dates unchanged. No platform result or closure
+is inferred. Next only missing CameraC1 and ShareAppKit8/JNI3 after reviewed
+development push and fresh two-reservation capacity check.
+
+[Coil613/615](evidence/current-platform-recovery-20261101/coil-cache-policy613/README.md)
+accepts **one actual Linux cache method**, four default Skia decodes/two hits,
+caller revision invalidation, unknown-revision cache disable and descriptor0→1→0.
+Gradle0/35.01s,1,348 held inputs; only test host runtime/documentation change.
+Both prior failures remain failed. IO-021 updates without promotion; **#57 open**
+for large-image/per-target memory and other original criteria. No new closure:
+103closed/69open/172,22implemented/36partial/101verified/five unresolved.
+Isolated parallel patches continue while CI runs; lead owns integration/Git/
+dispatch/acceptance/closure. All publishing/security/readiness/native/consumer/
+API–ABI/legal/dependency/Pages/main/history gates and max2hosted INCLUDINGqueued,
+serial local8GiB/read-only Actions/all/no mandatory SHA pinning remain unchanged.
+
 ## Parallel related patches; original-frame/mirror CI recovery — 2026-11-04
 
 [584–588](evidence/current-platform-recovery-20261101/ios-owned-geometry584-588/README.md) preserves both41759144360/41759163549 FAILED before platform/native at missing mirror inputs:2762CI/oneerror each/eight once-acquiredlogs/zeroartifacts. Three mirror lines/exact embedded leaf recover NEW2+failed/affected7:9/9once0.388s,1337held;18passive checks reuse unchanged bytes. Later1339 map includes separate camera delta, not relabelled execution. Native/lifecycle/workflow/dates/assertions stay.

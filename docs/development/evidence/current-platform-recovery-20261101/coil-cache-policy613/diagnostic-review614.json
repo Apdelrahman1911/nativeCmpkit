@@ -1,0 +1,62 @@
+{
+  "kind": "distinct-original-diagnostic614-runtime-failure",
+  "recorded_utc": "2026-11-04T03:57:24.707444+00:00",
+  "run": {
+    "command": [
+      "xvfb-run",
+      "-a",
+      "env",
+      "JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64",
+      "ANDROID_HOME=/opt/android-sdk",
+      "ANDROID_SDK_ROOT=/opt/android-sdk",
+      "./gradlew",
+      ":calf-file-picker-coil:desktopTest",
+      "--tests",
+      "com.mohamedrejeb.calf.picker.coil.KmpFileCachePolicyAcceptanceTest.callerRevisionControlsDefaultDecoderCacheAndSourceOwnership",
+      "--rerun",
+      "--offline",
+      "--no-daemon",
+      "--no-parallel",
+      "--max-workers=1",
+      "--no-configuration-cache",
+      "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+      "-Pkotlin.compiler.execution.strategy=in-process"
+    ],
+    "cwd": "/root/nativecmpkit-worktrees/coil-cache-policy613",
+    "timeout_seconds": 600,
+    "reserve_mib": 8192,
+    "started_utc": "2026-11-04T03:55:19.127042+00:00",
+    "free_bytes_before": 11393363968,
+    "exit_code": 1,
+    "elapsed_seconds": 32.01,
+    "free_bytes_after": 11360264192
+  },
+  "cases": [
+    {
+      "classname": "com.mohamedrejeb.calf.picker.coil.KmpFileCachePolicyAcceptanceTest",
+      "name": "callerRevisionControlsDefaultDecoderCacheAndSourceOwnership[desktop]",
+      "status": "failed"
+    }
+  ],
+  "xml_sha256": "5e69da7e66462e38740c135dbbd2be655824b9bb16db9ae3128549cd2f02b70b",
+  "xml_fresh": true,
+  "held_inputs": 1348,
+  "input_digest": "9c797938f2f3b366ad64cd9efee43d8952fcf379096d9a682f5f962239e60b49",
+  "inputs_unchanged": true,
+  "warnings": [
+    "w: \u001b[33m\u001b[1m\u26a0\ufe0f Native task 'iosSimulatorArm64Test' is disabled\u001b[0m\u001b[0m",
+    "w: \u001b[33m\u001b[1m\u26a0\ufe0f Cross Compilation with Cinterop Not Supported in Project 'calf-webview'\u001b[0m\u001b[0m",
+    "w: \u001b[33m\u001b[1m\u26a0\ufe0f Cross Compilation with Cinterop Not Supported in Project 'calf-webview'\u001b[0m\u001b[0m",
+    "w: \u001b[33m\u001b[1m\u26a0\ufe0f Disabled Kotlin/Native Targets\u001b[0m\u001b[0m",
+    "w: file:///root/nativecmpkit-worktrees/coil-cache-policy613/calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileCachePolicyAcceptanceTest.kt:115:14 This declaration needs opt-in. Its usage should be marked with '@coil3.annotation.ExperimentalCoilApi' or '@OptIn(coil3.annotation.ExperimentalCoilApi::class)'"
+  ],
+  "actual_cause_chain": [
+    "AssertionError: Actual Coil request returned ErrorResult instead of SuccessResult",
+    "ExceptionInInitializerError at SkiaImageDecoderKt.decodeBitmapSync",
+    "org.jetbrains.skiko.LibraryLoadException: Cannot find libskiko-linux-x64.so.sha256, proper native dependency missing."
+  ],
+  "cache_pixel_acceptance": false,
+  "original613_retained_and_not_relabelled": true,
+  "heavy_slot_released_at_terminal": true,
+  "whole_issue_closure": false
+}

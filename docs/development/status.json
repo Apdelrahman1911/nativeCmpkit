@@ -44,7 +44,7 @@
     "docs/audit/findings/PERM.json": "27ad1d47cad95bdb5943d6c776febf3e9fb713ba20a4a4b15fd398a968612cc8",
     "docs/audit/findings/UI.json": "9a507808155d4d8c99047a15247f7450042762b985875262a7681dbd39ad8c3a",
     "docs/development/resolutions/BUILD.json": "818e550c64c5aa0f7ebd5092ac1fe4d73824f8a5f1f37f1650d5453c1d82360c",
-    "docs/development/resolutions/IO.json": "c7955ebcae2c1b96baf8c7a057997a72aa0eafbc53510b492a19982ce21eac42",
+    "docs/development/resolutions/IO.json": "3c74252fbf02a26388de7c53a80aaabc190a1e8aeffdbebd54ceb41f251b4dd1",
     "docs/development/resolutions/NATIVE.json": "a82cd101d2a629e7e83837e6f5e837b9abebcda2ae750ddc38f90032dc17dfa8",
     "docs/development/resolutions/NAV.json": "73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3",
     "docs/development/resolutions/PERM-geo.json": "553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b",
@@ -54,7 +54,7 @@
     "docs/migration/issue-map.json": "5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861",
     "docs/roadmap/backlog.json": "044eb0eb9f7f640035f26f15a86a0fb60887747f6a12e02dd2b94df371273e10"
   },
-  "input_fingerprint": "5cfeb1c521d832a6668ea888e8a771593766216069332f2b7f6a2cbdae3c4d9f",
+  "input_fingerprint": "ed298ae33228c2bba4cc4cdfcaafb86a07ca509a2532cea1750f35a840657af9",
   "counts": {
     "baseline_findings": 164,
     "unique_resolution_ids": 164,
@@ -12960,20 +12960,23 @@
       },
       "reported_status": "partially-verified",
       "owner_ledger": "docs/development/resolutions/IO.json",
-      "owner_record_sha256": "c75878aee368a0537e83b794a0e06d66053e5eb7853aeaeed5d031afdd7d76c9",
+      "owner_record_sha256": "b0e807cd1f415064d708579b128a18c5404bd45e55fc32d6f2fcd929dacdbd34",
       "owner_record": {
         "id": "IO-021",
         "status": "partially-verified",
         "changes": [
           "Replace eager byte-array+Okio-buffer copying with official kotlinx-io-okio streaming adapter on native/JVM.",
           "Transfer source ownership to Coil ImageSource on success; close on pre-transfer error/cancellation; classify DISK versus browser MEMORY and use MIME metadata.",
-          "Expose configurable browser pre-buffering size limit (default64MiB), preserve constructors and document background reading/decoded-size guidance."
+          "Expose configurable browser pre-buffering size limit (default64MiB), preserve constructors and document background reading/decoded-size guidance.",
+          "2026-11-04: Test-only Desktop host runtime wires genuine Skia decode for caller-owned revision-cache regression. Actual Linux runtime615 passes1/1 with four real decodes/two cache hits, exact stale-revision and changed-revision boundaries, unknown-revision caching disabled, and owned source descriptor0→1→0. No production/API/version change; #57 remains open for per-target peak-memory and other original requirements."
         ],
         "affected_paths": [
           "calf-file-picker-coil/src/commonMain/kotlin/com.mohamedrejeb.calf/picker/coil/KmpFileFetcher.kt",
           "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/BoundedRead.kt",
           "calf-io/src/commonMain/kotlin/com.mohamedrejeb.calf/io/KmpFile.kt",
-          "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt"
+          "calf-io/src/iosMain/kotlin/com.mohamedrejeb.calf/io/KmpFileSource.ios.kt",
+          "calf-file-picker-coil/build.gradle.kts",
+          "calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileCachePolicyAcceptanceTest.kt"
         ],
         "tests": [
           {
@@ -13240,6 +13243,18 @@
               "docs/development/evidence/android-io-default-decode-20261031/native-ci002/accepted-case-ledger.json"
             ],
             "scope": "Default PNG source streaming/full pixel parity, default JPEG EXIF6/7 rotation/reflection, four sequential corrupt-default-decode cross-UID descriptor-closure rounds. PNG/JPEG provider is same UID/separate process; corrupt provider is cross-UID. Earlier five lifecycle cases reused on47 unchanged owning sources/declarations, not rerun. No peak-memory/key policy, default cancellation, system/cloud/Apple/minimum/consumer/API-ABI/dependency/legal/security/release acceptance."
+          },
+          {
+            "checkpoint": "coil-caller-revision-cache-policy-runtime615-20261104",
+            "command": "Exact bounded :calf-file-picker-coil:desktopTest --tests com.mohamedrejeb.calf.picker.coil.KmpFileCachePolicyAcceptanceTest invocation in runtime-review615.json; retained originals613/614 remain failed.",
+            "result": "Actual Linux default Skia/Coil runtime615 passes1/1 original method, Gradle0/35.01s, one fresh XML,1,348 held source inputs. Six image requests: four genuine default decodes/two memory-cache hits; unchanged same-length revision intentionally stale, changed revision refreshes, unknown revision disables caching. Real owned descriptor0→1→0 and bitmap/cache/loader/file cleanup reviewed. Production/test compilers UP-TO-DATE, not fresh compilation. Original613 underlying ErrorResult cause unknown; separate614 identifies missing libskiko-linux-x64.so.sha256 and test-only currentOs runtime prerequisite. This is not large-image/per-target memory, every-stage default cancellation, Apple/browser, consumer/API-ABI/security or release acceptance. #57 remains open.",
+            "evidence": [
+              "docs/development/evidence/current-platform-recovery-20261101/coil-cache-policy613/README.md",
+              "docs/development/evidence/current-platform-recovery-20261101/coil-cache-policy613/lead-review.json",
+              "docs/development/evidence/current-platform-recovery-20261101/coil-cache-policy613/runtime-review615.json",
+              "docs/development/evidence/current-platform-recovery-20261101/coil-cache-policy613/original-runtime615/TEST-com.mohamedrejeb.calf.picker.coil.KmpFileCachePolicyAcceptanceTest.xml",
+              "docs/development/evidence/current-platform-recovery-20261101/coil-cache-policy613/runtime-correction-delta615.json"
+            ]
           }
         ],
         "remaining": [
@@ -13254,7 +13269,8 @@
           "Browser004 contains no Coil compile/test despite full helper-discovered browser-suite success. Retain genuine Coil target compilation, fetch/decode/error/cancellation/size-limit/peak-memory coverage and immutable consumers; common IO prerequisites do not clear those gates.",
           "Post-plugin desktop001 executes no Coil module. Actual Coil decoder failure/request cancellation, modified-file key policy, native provider ownership and target memory measurements remain required.",
           "Host002 contains no Coil task. Retain genuine per-target Coil compilation/consumer/fetch/decode/error/request-cancel/size-cap/key-policy/memory tests and native provider ownership, regardless of shared IO prerequisites.",
-          "2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results."
+          "2026-10-31 actual lifecycle5 remains accepted for its exact fixed API35 grant/restart/revocation/transient Binder/injected-decoder subsets. Actual default-Coil run41250376146 now additionally accepts three native PNG/default JPEG EXIF/corrupt-decode methods; see android-io-default-decode-20261031/native-ci002/criterion-subset-review.json. The latter does not newly complete provider/restart criteria in #45/#55. Earlier broad pending lines are historical, not a claim these accepted subsets remain unexecuted. System/cloud/Apple/single-document/file://, per-target peak-memory/key policy/default cancellation/consumer and original issue-specific checks remain; do not replay accepted results.",
+          "2026-11-04 caller-owned revision cache policy has actual small-image Linux default-decoder/cache/descriptor acceptance; earlier broad key-policy lines retain dated scope, not a claim this subset is unexecuted. Per-target large-image peak-memory, other engines/native providers/default-cancellation/consumer/API–ABI/security and all other original #57 requirements remain."
         ],
         "compatibility": "Existing Fetcher/Factory constructors preserved; browser oversized fetches now error. Source-byte cap does not bound decoded bitmap allocation. Mutable-file request key/invalidation policy still needs integration guidance."
       },

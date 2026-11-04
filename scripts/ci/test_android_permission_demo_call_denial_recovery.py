@@ -16,6 +16,8 @@ import unittest
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
+from native_matrix_declarative_aliases import native_aliases, validate_literal_matrix_declarations
+
 TREE = Path(os.environ.get("PERMISSION_RECOVERY_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 REFERENCE = Path(os.environ.get("PERMISSION_RECOVERY_REVIEW_REFERENCE", TREE)).resolve()
 PROFILE = "android-permission-demo-call-denial-recovery"
@@ -134,6 +136,9 @@ def matrix_environment():
     env.update(android_batch_plan=modules["android_device_batch_plan"], storage_plan=modules["android_storage_compatibility_plan"],
                desktop_security_plan=modules["desktop_security_plan"])
     tree = ast.parse(source_at("scripts/ci/workflow_matrix.py"))
+    aliases = native_aliases(tree, source_at)
+    validate_literal_matrix_declarations(tree, aliases)
+    env.update(aliases)
     execute_nodes([assignment(tree, name) for name in ("SLOTS", "PROFILES", "MODULE_SUBSETS")] + [named_function(tree, "matrix")],
                   env, "selected-declarative-matrix-and-existing-finite-function")
     return env

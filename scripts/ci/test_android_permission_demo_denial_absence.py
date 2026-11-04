@@ -13,6 +13,8 @@ from pathlib import Path
 import re
 import unittest
 
+from native_matrix_declarative_aliases import literal_metadata, native_aliases
+
 TREE = Path(os.environ.get("PERMISSION_DENIAL_ABSENCE_REVIEW_TREE", Path(__file__).resolve().parents[2])).resolve()
 CORE = "calf-permissions/core"
 KOTLIN = CORE + "/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/"
@@ -210,15 +212,16 @@ def validate_denial_route(library, matrix, workflow):
             ast.unparse(old[0].body[0]) == 'return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION',
             "Retain accepted old annotation selector; never broaden or replay it")
     mat = ast.parse(matrix)
+    aliases = native_aliases(mat, lambda relative: (TREE / relative).read_text(encoding="utf-8"))
     profile_nodes = assignment(mat, 'PROFILES')
     require(isinstance(profile_nodes, ast.Dict), "Keep the original declarative profile mapping")
-    profile_names = [ast.literal_eval(key) for key in profile_nodes.keys]
+    profile_names = [literal_metadata(key, aliases) for key in profile_nodes.keys]
     require(len(profile_names) == len(set(profile_names)), "No duplicate profile declarations")
     def profile_node(name):
         values = [value for key, value in zip(profile_names, profile_nodes.values) if key == name]
         require(len(values) == 1, "One exact owning profile declaration is required")
         return values[0]
-    modules = ast.literal_eval(assignment(mat, 'MODULE_SUBSETS'))
+    modules = literal_metadata(assignment(mat, 'MODULE_SUBSETS'), aliases)
     require(ast.literal_eval(profile_node(PROFILE)) == ('android-device-api35',) and modules[PROFILE] == CORE,
             "Only one exact existing API35 host and permission-core module")
     slots = ast.literal_eval(assignment(mat, 'SLOTS'))

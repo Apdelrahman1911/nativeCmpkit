@@ -81,7 +81,7 @@ full documentation preflights or whole-release gates. Reuse valid unchanged
 evidence without calling it a fresh run. A batch is not permission to close its
 unverified members. Read back and document the exact closed subset afterward.
 The original single-agent requirement is historical; all publishing/security
-restrictions remain, with the current solo-execution amendment above now applicable.
+restrictions remain, with the current overlapping related-patch amendment above applicable.
 
 ### Authorized now
 

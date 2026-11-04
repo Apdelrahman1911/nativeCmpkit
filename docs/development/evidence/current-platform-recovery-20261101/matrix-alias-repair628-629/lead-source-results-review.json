@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "reviewed_at_utc": "2026-11-04",
+  "source_head_before_evidence": "45df48f3",
+  "confirmed_root_causes": [
+    "Three old bounded AST/execution methods did not supply calendar_native or macos_share_native namespaces introduced by the new declarative selectors.",
+    "Two old literal-only route methods rejected known ast.Attribute keys and module values."
+  ],
+  "repair": "Shared AST-only reader verifies the exact known import aliases and each helper literal PROFILE/MODULE/FOCUS; no controller/helper body is executed. Whole selected declarative maps remain literal-only except the unchanged all-slot generator. Two old reader ingress sites use these qualified values.",
+  "actual_important_tests": {
+    "failed_old_methods": 5,
+    "new_regression_methods": 8,
+    "executed": 13,
+    "passed": 13,
+    "failures": 0,
+    "errors": 0,
+    "unittest_seconds": 2.361,
+    "wrapper_seconds": 2.500129571883008,
+    "source_inputs": 1373,
+    "source_maps_held": true
+  },
+  "original_test_bodies_unchanged": 17,
+  "original_runs_remain_failed": [
+    41771597113,
+    41771623474
+  ],
+  "zero_new_native_compilers_sdk_browser_or_library_test_executions": true,
+  "unchanged_dated_recovery_sha256": "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
+  "limitations": [
+    "This is a tooling repair, not Camera or AppKit native acceptance.",
+    "#13/#84/#85/#150 and release gates remain open; no issue closure is justified by these offline controls.",
+    "First atomic patch refused one incorrect import anchor before any source changes; original files stayed untouched until the corrected patch."
+  ],
+  "github_or_publication_mutations": 0
+}

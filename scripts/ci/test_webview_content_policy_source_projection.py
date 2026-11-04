@@ -15,6 +15,7 @@ import ios_ui_related_source_projection as ui
 import macos_share_missing_source_projection as share
 import webview_content_policy_native_focus as policy
 import webview_content_policy_source_projection as history
+import camera_ios_ownership_source_projection as camera_history
 
 ROOT = Path(__file__).resolve().parents[2]
 GUARD_SHA256 = "c8b75a6b06454135db4b6143987855e27588648d4eb3aefc0d72611fc35ac875"
@@ -34,7 +35,7 @@ def sha(raw):
 def fixture_inputs():
     document = history._document()
     return {history.SOURCE_RELATIVE, history.SPEC_RELATIVE, "scripts/ci/test_webview_content_policy_source_projection.py",
-            *document["bindings"], *document["added_inputs"], *document["unchanged_inputs"]}
+            *document["bindings"], *document["added_inputs"], *document["unchanged_inputs"]} | camera_history.fixture_inputs()
 
 
 def copy_fixture(root):
@@ -105,10 +106,11 @@ class WebViewContentPolicySourceProjectionControls(unittest.TestCase):
         document = history._document()
         self.assertEqual(8, len(document["bindings"]))
         self.assertEqual(33, sum(len(row["fragments"]) for row in document["bindings"].values()))
-        self.assertEqual(GUARD_SHA256, sha((ROOT / history.SOURCE_RELATIVE).read_bytes()))
+        self.assertEqual(GUARD_SHA256, sha(camera_history.source_before_camera_ios_ownership(history.SOURCE_RELATIVE, (ROOT / history.SOURCE_RELATIVE).read_bytes())))
         self.assertEqual(history.SPEC_SHA256, sha((ROOT / history.SPEC_RELATIVE).read_bytes()))
         for name, row in document["bindings"].items():
-            raw = (ROOT / name).read_bytes(); prior = history.current_source_before_content_policy(name, raw)
+            raw_current = (ROOT / name).read_bytes(); prior = history.current_source_before_content_policy(name, raw_current)
+            raw = camera_history.source_before_camera_ios_ownership(name, raw_current)
             self.assertEqual((row["after_sha256"], row["after_bytes"]), (sha(raw), len(raw)))
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(prior), len(prior)))
             self.assertIs(prior, history.source_before_content_policy(name, prior))

@@ -25,6 +25,12 @@ internal class CameraPickerLauncherIosImpl(
         var job: Job? = null
         var path: String? = null
         var processing = false
+        // UIKit's void present call is not its completion. Keep this request's native leases
+        // until the official completion, including when composition disposal arrives first.
+        var presentationCompleted = false
+        var dismissalStarted = false
+        var dismissAnimated = true
+        var afterDismissal: (() -> Unit)? = null
     }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var active: Request? = null
@@ -57,27 +63,29 @@ internal class CameraPickerLauncherIosImpl(
         val delegate = object : NSObject(), UIImagePickerControllerDelegateProtocol, UINavigationControllerDelegateProtocol {
             override fun imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo: Map<Any?, Any?>) {
                 if (active !== request || request.processing) return
+                request.processing = true // Claim every terminal input, including a missing image.
                 val image = didFinishPickingMediaWithInfo[UIImagePickerControllerOriginalImage] as? UIImage
                 if (image == null) { finish(request, CameraPickerResult.Failed(CameraFailureReason.Io, "Camera returned no original image")); return }
-                request.processing = true
                 // Dismiss before expensive encoding; retain the UIImage, not a live camera UI, in the job.
-                picker.delegate = null
-                picker.dismissViewControllerAnimated(true) {
-                    request.picker = null
-                    request.delegate = null
-                    if (disposed || active !== request) return@dismissViewControllerAnimated
+                dismissOwned(request, true) {
+                    if (disposed || active !== request) return@dismissOwned
                     encodeImage(request, image)
                 }
             }
             override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
-                if (active === request && !request.processing) finish(request, CameraPickerResult.Cancelled)
+                if (active !== request || request.processing) return
+                request.processing = true
+                finish(request, CameraPickerResult.Cancelled)
             }
         }
         request.picker = picker
         request.delegate = delegate
         picker.delegate = delegate
         active = request
-        viewController.presentViewController(picker, true, null)
+        viewController.presentViewController(picker, true) {
+            request.presentationCompleted = true
+            advanceDismissal(request)
+        }
     }
 
     private fun encodeImage(request: Request, image: UIImage) {
@@ -126,9 +134,35 @@ internal class CameraPickerLauncherIosImpl(
                 onResult(result) // All internal ownership was cleared before invoking application code.
             }
         }
+        dismissOwned(request, true, complete)
+    }
+
+    private fun dismissOwned(request: Request, animated: Boolean, complete: () -> Unit) {
+        request.dismissAnimated = request.dismissAnimated && animated
+        // Disposal replaces any pending image/result continuation with no delivery.
+        request.afterDismissal = complete
+        advanceDismissal(request)
+    }
+
+    private fun advanceDismissal(request: Request) {
+        val complete = request.afterDismissal ?: return
         val picker = request.picker
-        if (picker?.presentingViewController != null) picker.dismissViewControllerAnimated(true) { complete() }
-        else complete()
+        if (picker == null) {
+            request.afterDismissal = null // Encoding already crossed the native dismissal barrier.
+            complete()
+            return
+        }
+        if (!request.presentationCompleted || request.dismissalStarted) return
+        request.dismissalStarted = true // Claim before UIKit; its completion may be synchronous.
+        picker.delegate = null
+        picker.dismissViewControllerAnimated(request.dismissAnimated) {
+            picker.delegate = null
+            request.picker = null
+            request.delegate = null
+            val complete = request.afterDismissal
+            request.afterDismissal = null
+            complete?.invoke()
+        }
     }
 
     fun dispose() = onCameraMain {
@@ -136,12 +170,9 @@ internal class CameraPickerLauncherIosImpl(
         disposed = true
         val request = active
         active = null
-        request?.picker?.delegate = null
-        request?.picker?.dismissViewControllerAnimated(false, null)
-        request?.delegate = null
-        request?.picker = null
         request?.job?.cancel()
         request?.path?.let(::deleteTemporary)
+        request?.let { dismissOwned(it, false) {} }
         scope.cancel()
     }
 }

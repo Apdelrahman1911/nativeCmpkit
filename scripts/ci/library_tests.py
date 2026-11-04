@@ -37,6 +37,7 @@ import secure_alert_input_plan as secure_alert
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
 import ios_ui_related_native_focus as ui_related
+import camera_ios_ownership_native_focus as camera_ios
 import webview_content_policy_native_focus as content_policy
 import macos_share_missing_ci as share_missing
 
@@ -563,6 +564,7 @@ UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
 }
 
 
+UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()
 UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-pre26"] = ui_related.focus_spec("ui-native-adaptive-pre26")
 UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-drag-shader-ios26plus"] = ui_related.focus_spec("ui-native-adaptive-drag-shader-ios26plus")
 
@@ -2255,15 +2257,18 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             # getResultsDir tree. Its separately inspected getXmlResultsDirectory
             # is an empty intermediate. Preserve both contracts explicitly;
             # do not discover arbitrary XML or count protobuf inventories as tests.
-            actual_task = (IOS_APPLICATION_TASK if suite == "ios" and module in IOS_APPLICATION_HOST_SOURCES
-                           and not (module == "calf-file-picker" and focus == IOS_SAVE_WRITE_FOCUS) else task_name)
+            actual_task = (IOS_APPLICATION_TASK if suite == "ios" and (
+                           (module in IOS_APPLICATION_HOST_SOURCES and not (module == "calf-file-picker" and focus == IOS_SAVE_WRITE_FOCUS)) or
+                           (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)
             report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
                                 if suite == "android-device" else f"{module}/build/test-results/{actual_task}")
             item = {"module": module, "project": project, "task": f"{project}:{actual_task}",
                     "report_directory": report_directory,
                     "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
             if actual_task == IOS_APPLICATION_TASK:
-                if not all(source in inputs for source in IOS_APPLICATION_HOST_SOURCES[module]):
+                application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS
+                                       else IOS_APPLICATION_HOST_SOURCES[module])
+                if not all(source in inputs for source in application_sources):
                     raise ValueError("Required genuine UIKit application host/tests are missing; a Skiko/zero-suite fallback is not allowed")
                 item["native_test_host"] = "genuine-uikit-application"
             if suite == "android-device":
@@ -2346,6 +2351,12 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
         if focus == content_policy.IOS_FOCUS:
             content_policy.configure_item(root, selected[0], focus)
+        if focus == camera_ios.FOCUS:
+            camera_ios.validate_sources(root)
+            selected[0]["test_source_files"] = sorted(camera_ios.SOURCES)
+            selected[0]["test_source_sets"] = ["iosTest"]
+            selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)
+            selected[0]["required_original_xml"] = 1
         if focus in ui_related.FOCUSES:
             ui_related.validate_sources(root, focus)
             selected[0]["test_source_files"] = sorted(ui_related.sources(focus))
@@ -3051,6 +3062,8 @@ def validate_test_focus(test_plan: dict) -> bool:
     validate_android_permission_demo_plan(test_plan)
     validate_android_storage_probe_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
+    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan["expected"]):
+        raise ValueError("No Camera application/Photos source contract on unrelated or unfocused plans")
     if focus not in content_policy.FOCUSES and any(content_policy.CONTRACT_FIELD in item for item in test_plan["expected"]):
         raise ValueError("No content-policy source or fixture contract on an unrelated or unfocused suite")
     if focus != secure_alert.FOCUS and any("secure_alert_input_contract" in item for item in test_plan["expected"]):
@@ -3439,6 +3452,8 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite two-method important Material year-policy plan")
         return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
+        if focus == camera_ios.FOCUS:
+            camera_ios.validate_plan(test_plan)
         if focus in ui_related.FOCUSES:
             ui_related.validate_plan(test_plan)
         if focus == secure_alert.FOCUS:
@@ -3812,6 +3827,11 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == camera_ios.FOCUS:
+            scenarios, policy_errors = camera_ios.outcomes(module_cases, host_system or platform.system(),
+                cases_by_report=cases_by_report)
+            if len(paths) != 1 or len(reports) != 1:
+                policy_errors.append("Camera requires one original fresh five-case class XML, no extra empty reports")
         elif boundary_focus and test_plan["explicit_test_focus"] in ui_related.FOCUSES:
             scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),
                 test_plan["explicit_test_focus"], cases_by_report=cases_by_report)
@@ -4258,6 +4278,13 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+    if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+        if platform.system() != "Darwin" or platform.machine().lower() not in {"arm64", "aarch64"}:
+            raise ValueError("Camera native command requires actual Arm64 Apple host; Linux KLIB is separate")
+        if camera_ios.source_contract(root) != test_plan["expected"][0][camera_ios.CONTRACT_KEY]:
+            raise ValueError("Camera exact inputs changed before the owning native command")
+        command.extend(["--init-script", camera_ios.INIT_SCRIPT,
+                        "-P" + camera_ios.FOCUS_PROPERTY + "=" + camera_ios.FOCUS])
     if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
         focus = test_plan["explicit_test_focus"]
         if ui_related.source_contract(root, focus) != test_plan["expected"][0]["ui_related_source_contract"]:
@@ -4530,7 +4557,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             need(len(sessions) == 0 and re.fullmatch(r"[0-9a-f]{32}", entry.name), "Expected exactly one fresh application session")
             session = safe_path(root, entry.relative_to(root).as_posix())
             need(session.is_dir(), "Invalid application session directory")
-            need([p.name for p in session.iterdir()] == ["receipt.json"], "Receipt missing or disposable app/other files remain")
+            import apple_image_sidecar_evidence as image_sidecar
+            image_sidecar.require_session_membership(session, expected["module"], test_plan.get("explicit_test_focus"))
             sessions.append(session)
         need(len(sessions) == 1, "Missing fresh application session")
         path = safe_path(root, (sessions[0] / "receipt.json").relative_to(root).as_posix())
@@ -4546,6 +4574,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         need(isinstance(document, dict) and type(document.get("schema_version")) is int and
              document["schema_version"] == 1 and document.get("task") == task,
              "Unexpected application receipt schema or task")
+        image_sidecar.validate_retained(sessions[0], document, context, started_ns, ended_ns,
+            expected["module"], test_plan.get("explicit_test_focus"), receipt_payload=payload)
         need(document.get("transport_passed") is True and "error" not in document and
              "startup_failure_observation" not in document and "application_protocol_partial" not in document and
              "owned_crash_diagnostics" not in document and "owned_launch_diagnostics" not in document,
@@ -4562,6 +4592,11 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         focused_ui = test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
         if focused_ui:
             validate_test_focus(test_plan)
+        if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+            need(camera_ios.validate_admission(root, started_ns, ended_ns),
+                 "Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution")
+        else:
+            need("camera_photos" not in document, "No Camera Photos lease claim on unrelated application")
         if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
             need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
                  "Related UI requires fresh exact source/selection admission, not a historical KLIB receipt")
@@ -4633,6 +4668,25 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         need(isinstance(protocol, dict) and type(protocol.get("process_exit")) is int and protocol["process_exit"] == 0,
              "App crash or missing real console process exit")
         need("lifecycle_failure_observation" not in protocol, "Failed owned native lifecycle cannot be accepted")
+        if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+            import ios_camera_photo_fixture as camera_photo
+            import plistlib
+            info = app.app_information(document["bundle_id"], document["macho"]["minimum_os"])
+            info.update(camera_photo.privacy_information())
+            need(document["application_plist_sha256"] == hashlib.sha256(plistlib.dumps(info, sort_keys=True)).hexdigest(),
+                 "Camera requires its exact ordinary plist/privacy keys and no ATS/scene/debug/foreign fixture lease")
+            need(camera_photo.validate_receipt(document.get("camera_photos"),
+                    simulator=context["simulator"]["udid"], bundle_id=document["bundle_id"],
+                    source_revision=context["source_revision"], session_nonce=token,
+                    signed_hash=document["signed_application_executable_sha256"], plist_hash=document["application_plist_sha256"],
+                    native_pid=protocol.get("observed_launch_pid")) and
+                 document["camera_photos"]["native_status"] == protocol.get("camera_photo_authorization"),
+                 "Camera requires owned official photos grant/reset plus actual same-source/nonce/PID Main Authorized readback")
+            need(not any(key in document for key in ("webview_request_fixture", "webview_content_policy_fixture",
+                 "image_memory_profile", "native_xctest_input", "system_appearance_driver", "popover_geometry")),
+                 "Camera may not reuse any accepted UI/Share/WebView/profile/input fixture")
+        else:
+            need("camera_photo_authorization" not in protocol, "No Camera native-status claim on unrelated application")
         active, complete = protocol.get("activation"), protocol.get("completion")
         need(isinstance(active, dict) and all(type(active.get(k)) is int and active[k] > 0 for k in ("main_worker", "owned_worker")) and
              active["main_worker"] != active["owned_worker"], "Missing distinct main/owned-worker execution witness")

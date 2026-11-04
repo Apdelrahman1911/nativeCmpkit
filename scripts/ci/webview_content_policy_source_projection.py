@@ -103,6 +103,8 @@ def _identity(relative, payload):
 def source_before_content_policy(relative, payload):
     """Complete exact inverse or its one exact preimage; never current admission."""
     _identity(relative, payload)
+    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history
+    payload = peel_camera_ios_ownership_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, guessed or executed.
@@ -136,6 +138,8 @@ def source_before_content_policy(relative, payload):
 def current_source_before_content_policy(relative, payload):
     """One raw newest ingress; old/partial/unknown images cannot be current."""
     _identity(relative, payload)
+    from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership
+    payload = current_source_before_camera_ios_ownership(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current content-policy source")
@@ -145,6 +149,8 @@ def current_source_before_content_policy(relative, payload):
 def peel_content_policy_for_history(relative, payload):
     """Peel only the complete latest image; unknown bytes still need old strict pins."""
     _identity(relative, payload)
+    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history
+    payload = peel_camera_ios_ownership_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_content_policy(relative, payload)
@@ -169,12 +175,14 @@ def read_current_source_for_history(path: Path, root: Path):
 
 def validate_current_sources(root: Path):
     """Source custody only. Own guard/control pins are independent held-review inputs."""
+    import camera_ios_ownership_source_projection as camera_history
+    camera_history.validate_current_sources(root)
     document = _document()
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(camera_history.source_before_camera_ios_ownership(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current content-policy input differs from its complete owning image: " + name)
     return True
 
@@ -182,5 +190,6 @@ def validate_current_sources(root: Path):
 def fixture_inputs():
     """Only this finite latest custody fixture union; never native/controller execution."""
     document = _document()
+    from camera_ios_ownership_source_projection import fixture_inputs as camera_fixture_inputs
     return (set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) |
-            {SPEC_RELATIVE, SOURCE_RELATIVE, "scripts/ci/test_webview_content_policy_source_projection.py"})
+            {SPEC_RELATIVE, SOURCE_RELATIVE, "scripts/ci/test_webview_content_policy_source_projection.py"} | camera_fixture_inputs())

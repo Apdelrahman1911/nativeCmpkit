@@ -178,6 +178,7 @@ PROFILES = {
     "ios-picker-recovery": ("ios-iphone",),
     "ios-picker-admission": ("ios-iphone",),
     "ios-picker-provider-cancellation": ("ios-iphone",),
+    "ios-camera-ownership-memory-callback": ("ios-iphone",),
     "ios-share-presentation-disposal": ("ios-iphone",),
     "ios-share-remembered-failure-observation": ("ios-iphone",),
     "ios-switch-cancellation": ("ios-iphone",),
@@ -417,6 +418,7 @@ MODULE_SUBSETS = {
     "ios-picker-recovery": "calf-file-picker",
     "ios-picker-admission": "calf-file-picker",
     "ios-picker-provider-cancellation": "calf-file-picker",
+    "ios-camera-ownership-memory-callback": "calf-camera-picker",
     "ios-share-presentation-disposal": "calf-share",
     "ios-share-remembered-failure-observation": "calf-share",
     "ios-switch-cancellation": "calf-ui",
@@ -801,6 +803,12 @@ def matrix(profile: str) -> dict:
     if profile == "ios-picker-provider-cancellation":
         for row in rows:
             row["test-focus"] = "picker-ios-provider-cancellation"
+    if profile == "ios-camera-ownership-memory-callback":
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-camera-picker"}
+        if (PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-camera-picker" or rows != [canonical]):
+            raise ValueError("Camera requires exactly one genuine iPhone library row; no alternate runner/module/host")
+        rows[0]["test-focus"] = "ios-camera-ownership-memory-callback"
     if profile in ("ios-share-presentation-disposal", "ios-share-remembered-failure-observation"):
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-share"}

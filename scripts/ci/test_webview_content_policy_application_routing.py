@@ -14,6 +14,7 @@ import ios_ui_application as application
 import library_tests as r
 import webview_content_policy_native_focus as policy
 import webview_content_policy_source_projection as history
+import camera_ios_ownership_source_projection as camera_history
 from test_webview_content_policy_native_focus import copy_model_checkout, native_plan
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -22,7 +23,8 @@ LIBRARY_SOURCE = "scripts/ci/library_tests.py"
 
 
 def functions(name, payload=None):
-    source = (ROOT / name).read_bytes() if payload is None else payload
+    source = (camera_history.source_before_camera_ios_ownership(name, (ROOT / name).read_bytes())
+              if payload is None else payload)
     return {node.name: node for node in ast.parse(source).body if isinstance(node, ast.FunctionDef)}
 
 
@@ -185,7 +187,7 @@ class WebViewContentPolicyApplicationRoutingControls(unittest.TestCase):
         self.assertEqual({"source_model_only": True}, validate.call_args.args[0])
 
     def test_original_launch_argv_timeout_runtime_sdk_helpers_and_every_old_cleanup_block_are_byte_ast_unchanged(self):
-        current = (ROOT / APP_SOURCE).read_bytes(); old = history.source_before_content_policy(APP_SOURCE, current)
+        current = camera_history.source_before_camera_ios_ownership(APP_SOURCE, (ROOT / APP_SOURCE).read_bytes()); old = history.source_before_content_policy(APP_SOURCE, current)
         before = functions(APP_SOURCE, old); after = functions(APP_SOURCE, current)
         self.assertEqual(set(before), set(after))
         for name in set(before) - {"run"}:

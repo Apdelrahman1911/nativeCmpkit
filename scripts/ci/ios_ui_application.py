@@ -51,6 +51,11 @@ APPLICATION_HOSTS = {
                    "binary_directory": "calf-share/build/bin/iosSimulatorArm64/applicationDebugTest",
                    "receipt_subdirectory": "native-share-application"},
 }
+APPLICATION_HOSTS["calf-camera-picker"] = {
+    "task": ":calf-camera-picker:" + lt.IOS_APPLICATION_TASK,
+    "binary_directory": "calf-camera-picker/build/bin/iosSimulatorArm64/applicationDebugTest",
+    "receipt_subdirectory": "native-camera-application",
+}
 APP_EXECUTABLE = "NativeCmpkitLibraryTests"
 MAX_BINARY_BYTES = 1024 * 1024**2
 MAX_STREAM_BYTES = 16 * 1024**2
@@ -1012,6 +1017,8 @@ def application_host(binary_relative: str, focus: str | None) -> dict:
     if len(matching) != 1:
         raise ValueError("Unknown library application executable directory")
     module, host = matching[0]
+    if module == lt.camera_ios.MODULE and focus != lt.camera_ios.FOCUS:
+        raise ValueError("Camera application is exact NEW5-only, never a generic/full or SDK fixture")
     if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui") != module:
         raise ValueError("Application test selection belongs to a different owning module")
     return {"module": module, **host}
@@ -1112,7 +1119,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         raise ValueError("Expected the distinct linked application test executable")
     result_relative = os.environ.get("NATIVECMPKIT_UIKIT_RESULT_ROOT", "")
     result_root = lt.safe_path(root, result_relative)
-    if host["module"] in {"calf-file-picker", "calf-webview", "calf-share"}:
+    if host["module"] in {"calf-file-picker", "calf-webview", "calf-share", lt.camera_ios.MODULE}:
         if result_root.name not in {"native-ui-application", host["receipt_subdirectory"]}:
             raise ValueError("Library receipts require their finite owning application output")
         result_root = lt.safe_path(root, (result_root.parent / host["receipt_subdirectory"]).relative_to(root).as_posix())
@@ -1149,6 +1156,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)
     content_fixture_requested = host["module"] == "calf-webview" and focus == lt.content_policy.IOS_FOCUS
     native_environment = None
+    camera_photos = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
             **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))
@@ -1162,6 +1170,11 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         receipt["bundle_id"] = bundle_id
         provider_c3_only = provider_c3_observation_route(host, focus, arguments)
         protocol = NativeProtocol(bundle_id=bundle_id, **({"provider_c3_only": True} if provider_c3_only else {}))
+        if host["module"] == lt.camera_ios.MODULE:
+            import ios_camera_photo_fixture as camera_photo
+            lt.camera_ios.source_contract(root)
+            protocol = camera_photo.protocol_adapter(NativeProtocol, bundle_id=bundle_id,
+                source_revision=before["source_revision"], session_nonce=token)
         phase = "foreign-app-preflight"
         preexisting = execute_control(["/usr/bin/xcrun", "simctl", "get_app_container", device, bundle_id, "app"])
         receipt["steps"][phase] = {**control_status(preexisting), "preexisting_app_absence_verified": missing_app(preexisting)}
@@ -1178,6 +1191,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             geometry_plan.validate_sources(root)
             information.update(geometry_plan.scene_information())
             receipt["popover_geometry"] = geometry_plan.application_fixture(root, before["simulator"], focus)
+        if host["module"] == lt.camera_ios.MODULE:
+            information.update(camera_photo.privacy_information())
         (app / "Info.plist").write_bytes(plistlib.dumps(information, sort_keys=True))
         phase = "adhoc-sign-local-verification-app"
         if profile_debug_entitlements(focus) is not None:
@@ -1235,6 +1250,12 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             # Unknown syntax/query observations cannot replace the original
             # launch. Positive identity drift must never launch unowned bytes.
             launch_readiness.require_current_owned_identity(context, receipt["owned_image_launch_readiness"])
+        if host["module"] == lt.camera_ios.MODULE:
+            phase = "prepare-owned-camera-photos-controlled-setup"
+            camera_photos = camera_photo.OwnedPhotosLease(root=root, simulator=device, bundle_id=bundle_id,
+                source_revision=before["source_revision"], session_nonce=token, signed_hash=signed_hash, plist_hash=plist_hash,
+                execute_control=execute_control, installed_identity=installed_identity, control_status=control_status)
+            camera_photos.prepare()
         if request_fixture_requested:
             import ios_webview_request_fixture as wk_requests
             phase = "prepare-owned-localhost-wk-request-fixture"
@@ -1417,6 +1438,15 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                 receipt["cleanup"]["terminate_exit_code"] = stop.returncode
                 receipt["cleanup"]["terminate_status"] = control_status(stop)
                 receipt["cleanup"]["owned_app_stopped_verified"] = stopped_app(stop)
+                if camera_photos is not None:
+                    try:
+                        if not stopped_app(stop):
+                            raise ValueError("Owned application stop is unverified; refuse Photos reset")
+                        camera_photos.close()
+                    except Exception as privacy_cleanup:
+                        receipt["camera_photos_reset_error_type"] = type(privacy_cleanup).__name__
+                        receipt["transport_passed"] = False
+                        receipt.setdefault("error", {"phase": "owned-camera-photos-reset", "type": type(privacy_cleanup).__name__})
                 uninstall = execute_control(["/usr/bin/xcrun", "simctl", "uninstall", device, bundle_id], 120)
                 gone = execute_control(["/usr/bin/xcrun", "simctl", "get_app_container", device, bundle_id, "app"])
                 receipt["cleanup"].update(uninstall_exit_code=uninstall.returncode,
@@ -1434,6 +1464,18 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                 receipt["transport_passed"] = False
         else:
             receipt["cleanup"]["foreign_app_mutated"] = False
+        if camera_photos is not None:
+            try:
+                receipt["camera_photos"] = camera_photos.receipt(getattr(protocol, "camera_photo_observation", None))
+                if not camera_photo.validate_receipt(receipt["camera_photos"],
+                        simulator=device, bundle_id=bundle_id, source_revision=before["source_revision"], session_nonce=token,
+                        signed_hash=signed_hash, plist_hash=plist_hash, native_pid=protocol.observed_launch_pid):
+                    receipt["transport_passed"] = False
+                    receipt.setdefault("error", {"phase": "owned-camera-photos-status-and-reset", "type": "EvidenceError"})
+            except Exception as privacy_receipt:
+                receipt["camera_photos"] = {"receipt_error_type": type(privacy_receipt).__name__}
+                receipt["transport_passed"] = False
+                receipt.setdefault("error", {"phase": "owned-camera-photos-receipt", "type": type(privacy_receipt).__name__})
         if app.exists():
             try:
                 if app.is_symlink() or app.parent != output:

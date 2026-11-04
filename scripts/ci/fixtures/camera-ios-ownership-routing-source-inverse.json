@@ -1,0 +1,433 @@
+{
+  "added_inputs": {
+    "docs/testing/ios-camera-ownership-native-routing.md": "aec2d2e3a6f36746b7e13ebb76db245954ebf183a94e1901373b371e78d92b60",
+    "scripts/ci/apple_image_sidecar_evidence.py": "6d72320179d24d190774059b325cceec9e7a5b35139b9b086509091496d75f8c",
+    "scripts/ci/camera_ios_ownership_native_focus.py": "538182cfa3bb90785d2d462b79508b4cc618fac52496ff8191bc8c919ee25c92",
+    "scripts/ci/ios_camera_ownership_native.init.gradle.kts": "4e32b8ab66bf86e820f358d204fa41bae3c545bf791f2a9cd4fc856f38352154",
+    "scripts/ci/ios_camera_photo_fixture.py": "0cae6165e230445944dc59c2aabbcc7b8a1d3c16e156eae9bf8c074e3465d752",
+    "scripts/ci/test_apple_image_sidecar_evidence.py": "6c77acc785a5ab326720be87b929de87f1d0d6b1a85385da3ae417b8a53ddfa4"
+  },
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 68527,
+      "after_sha256": "e601c1936c2b0603b3a9cff645a7f766744bd8053501c1e6be8048d387e50236",
+      "before_bytes": 68489,
+      "before_sha256": "4d0d32d5a5e9c10407089ad9c30c6126d2e4ded27b66de9339d3d110929fb068",
+      "fragments": [
+        {
+          "after": "ios-picker-provider-cancellation, ios-camera-ownership-memory-callback, ios-share-presentation-disposal",
+          "after_fragment_sha256": "f023873c81e04e264b8b082904b9eb61c00c53304b253ed1c8ad933759ca6da7",
+          "before": "ios-picker-provider-cancellation, ios-share-presentation-disposal",
+          "before_fragment_sha256": "eebfe7539a0de436e82ae441585b5321e01cd9ffd329525357ae00a0d1556cc2",
+          "obligation": "Only one finite workflow_dispatch choice; minimum contents:read, no jobs/action/deploy/publication change"
+        }
+      ]
+    },
+    "calf-camera-picker/build.gradle.kts": {
+      "after_bytes": 4391,
+      "after_sha256": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+      "before_bytes": 1104,
+      "before_sha256": "f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7",
+      "fragments": [
+        {
+          "after": "import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget\nimport org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG\nimport org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest\nimport java.time.Duration\n\nplugins {\n",
+          "after_fragment_sha256": "6c24adf869a8972e9f0b7491de06b2daa660564a071e6ccbd580b1a24f27c9dd",
+          "before": "plugins {\n",
+          "before_fragment_sha256": "4404010315bdbb0fea0fd6ff0214d8bc921ce2836d1cc6bcb8849f3576cf5a67",
+          "obligation": "Only verification-task Kotlin imports; no new dependency or production source-set mutation"
+        },
+        {
+          "after": "    id(\"module.publication\")\n}\n\nval cameraIosFocus = providers.gradleProperty(\"nativecmpkitCameraIosFocus\").orNull\ncheck(cameraIosFocus == null || cameraIosFocus == \"ios-camera-ownership-memory-callback\") {\n    \"Only the exact Camera NEW5 verification focus is allowed\"\n}\n\nkotlin {\n",
+          "after_fragment_sha256": "6a21ef7b3546c873b8e83cd2cde0e6e8d5c1b37b3f2ed7de7f70b7f69fa7872e",
+          "before": "    id(\"module.publication\")\n}\n\nkotlin {\n",
+          "before_fragment_sha256": "d52c5506a42bd389e9b5d30d0945825e7e354fd7c1f053874933002ae57ee95a",
+          "obligation": "An exact absent-or-known opt-in; ordinary Camera target/task routing stays unchanged"
+        },
+        {
+          "after": "\n\n    // Opt-in verification-only Camera application; never a sample/public framework.\n    // With no focus property, the existing iosSimulatorArm64Test route is untouched.\n    if (cameraIosFocus != null) {\n        targets.withType<KotlinNativeTarget>().matching { it.name == \"iosSimulatorArm64\" }.configureEach {\n            binaries.test(\"application\", listOf(DEBUG)) {\n                freeCompilerArgs += listOf(\"-entry\", \"com.mohamedrejeb.calf.camerapicker.internal.nativeCameraApplicationMain\")\n            }\n            val application = binaries.getTest(\"application\", DEBUG)\n            tasks.register<KotlinNativeHostTest>(\"iosSimulatorArm64ApplicationTest\") {\n                group = \"verification\"\n                description = \"Only NEW5 Camera ownership methods in a separately owned UIKit application using KGP's actual JUnit parser.\"\n                executable(rootProject.file(\"scripts/ci/ios_ui_application.py\"))\n                dependsOn(application.linkTaskProvider)\n                args = listOf(\"--binary\", application.outputFile.absolutePath)\n                targetName = \"iosSimulatorArm64\"\n                ignoreFailures = false\n                ignoreRunFailures = false\n                binaryResultsDirectory.set(layout.buildDirectory.dir(\"test-results/$name/binary\"))\n                reports.html.outputLocation.set(layout.buildDirectory.dir(\"reports/tests/$name\"))\n                reports.junitXml.required.set(true)\n                reports.junitXml.outputLocation.set(layout.buildDirectory.dir(\"test-results/$name\"))\n                timeout.set(Duration.ofSeconds(2400))\n                outputs.upToDateWhen { false }\n                outputs.doNotCacheIf(\"Camera application requires fresh actual native execution\") { true }\n                onlyIf(\"UIKit simulator applications require macOS\") { System.getProperty(\"os.name\") == \"Mac OS X\" }\n                doFirst {\n                    check(providers.gradleProperty(\"nativecmpkitCameraIosFocus\").orNull == \"ios-camera-ownership-memory-callback\")\n                    val identifier = providers.gradleProperty(\"nativecmpkitSimulatorDevice\").orNull\n                        ?: error(\"Select the actual recorded booted simulator\")\n                    check(Regex(\"[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}\").matches(identifier))\n                    environment(\"NATIVECMPKIT_UIKIT_SIMULATOR\", identifier)\n                    environment(\"NATIVECMPKIT_UIKIT_RESULT_ROOT\",\n                        providers.environmentVariable(\"NATIVECMPKIT_UIKIT_RESULT_ROOT\").orNull\n                            ?: \"build/ci-verification/native-camera-application\")\n                    logger.lifecycle(\"NATIVECMPKIT_TEST_SIMULATOR task=$path device=$identifier host=genuine-uikit-application\")\n                }\n            }\n        }\n    }\n\n}\n",
+          "after_fragment_sha256": "b482a422135cc0e881205938686833d2711e29b11d31306d72552349f0ea8609",
+          "before": "\n\n}\n",
+          "before_fragment_sha256": "80ac004de887708876587cf89d657ca7b050a9d18ee8c601112c065ccbf559f5",
+          "obligation": "Distinct opt-in Camera application binary, original Worker/transport/JUnit/report/cleanup conventions; no host substitution"
+        }
+      ]
+    },
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraApplicationHost.kt": {
+      "after_bytes": 17967,
+      "after_sha256": "9a8a186ce3205a8b3ffb136d92e53c44139059e56775d84c9b21129ad8fa05fc",
+      "before_bytes": 16469,
+      "before_sha256": "b4477359b87faf19df236e3511f1545cb1e411f5ba6d8743316fbb2c15c51b9c",
+      "fragments": [
+        {
+          "after": "import platform.Foundation.NSBundle\nimport platform.Foundation.NSClassFromString\nimport platform.Photos.*\n",
+          "after_fragment_sha256": "58dbcb4241ca0376d33227f7cee1349dc939e8486af96b1cefcb48ac0c2b2261",
+          "before": "import platform.Foundation.NSClassFromString\n",
+          "before_fragment_sha256": "3b84a8f304882487cbd1b076a30783df7efff6bd40ef3f961635fcccda93eb9a",
+          "obligation": "Same third compiler input gains official Photos status/NSBundle APIs only; no dependency or native test edits"
+        },
+        {
+          "after": "    private fun observeOwnedCameraPhotoAuthorization(): Boolean {\n        check(NSThread.isMainThread)\n        val bundle = checkNotNull(NSBundle.mainBundle.bundleIdentifier)\n        val identity = Regex(\"io\\\\.github\\\\.apdelrahman1911\\\\.nativecmpkit\\\\.verification\\\\.ui\\\\.r([0-9a-f]{12})\\\\.t([0-9a-f]{32})\")\n            .matchEntire(bundle) ?: error(\"Use the source-bound disposable Camera application\")\n        val pid = NSProcessInfo.processInfo.processIdentifier\n        check(pid > 0)\n        val status = PHPhotoLibrary.authorizationStatusForAccessLevel(PHAccessLevelReadWrite)\n        val label = when (status) {\n            PHAuthorizationStatusAuthorized -> \"authorized\"\n            PHAuthorizationStatusLimited -> \"limited\"\n            PHAuthorizationStatusNotDetermined -> \"not-determined\"\n            PHAuthorizationStatusDenied -> \"denied\"\n            PHAuthorizationStatusRestricted -> \"restricted\"\n            else -> \"unknown\"\n        }\n        // Actual Main readback, not simctl acceptance/consent/denial evidence.\n        println(\"NATIVECMPKIT_CAMERA_PHOTOS phase=readback mainThread=true service=photos access=read-write \" +\n            \"status=$label source=${identity.groupValues[1]} nonce=${identity.groupValues[2]} pid=$pid\")\n        return status == PHAuthorizationStatusAuthorized\n    }\n\n    private fun startGeneratedTests() {\n",
+          "after_fragment_sha256": "57688141cdab75f1a2b3a94704100f6fe92c23c1db7596c15496f3e59e547c18",
+          "before": "    private fun startGeneratedTests() {\n",
+          "before_fragment_sha256": "0002a2e5cc680bc8891ed50a2c56df20bc2d95c6d9c97b64e2c589f8ded840a6",
+          "obligation": "One real Main PHPhotoLibrary status with bundle source/session/PID; no fabricated precondition, requestAuthorization or synthetic test result"
+        },
+        {
+          "after": "        check(!started && worker == null && runner == null && termination == null)\n        requireCameraApplicationWindow()\n        if (!observeOwnedCameraPhotoAuthorization()) {\n            releaseMainLeases()\n            exitProcess(2)\n        }\n        started = true\n",
+          "after_fragment_sha256": "6fed8541fec68e97c57ea72237d8dbc8ce1e353224988c445512693ba84e2fcd",
+          "before": "        check(!started && worker == null && runner == null && termination == null)\n        requireCameraApplicationWindow()\n        started = true\n",
+          "before_fragment_sha256": "3636bfc4844fe5395f356f5e4171d4ce74e83b74938f11bf96222fb9753e28de",
+          "obligation": "Refuse every non-Authorized native state before creating the Worker; real native readback is not permission-denial acceptance"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_bytes": 101050,
+      "after_sha256": "b3fb8e7a88c19c10ac0e8f8af674c7228f59d3c7c80269e3078ef97258a0d52c",
+      "before_bytes": 97993,
+      "before_sha256": "24b341d598c547626936b8b59c04ab94a885dbe1c0a2faf5f1aec0da1b0e2dec",
+      "fragments": [
+        {
+          "after": "APPLICATION_HOSTS[\"calf-camera-picker\"] = {\n    \"task\": \":calf-camera-picker:\" + lt.IOS_APPLICATION_TASK,\n    \"binary_directory\": \"calf-camera-picker/build/bin/iosSimulatorArm64/applicationDebugTest\",\n    \"receipt_subdirectory\": \"native-camera-application\",\n}\nAPP_EXECUTABLE = \"NativeCmpkitLibraryTests\"\n",
+          "after_fragment_sha256": "39f05a5a04d34d7ff8a2fc14406a5ac0ae68856fa1ab185dfe937cf9bcf49073",
+          "before": "APP_EXECUTABLE = \"NativeCmpkitLibraryTests\"\n",
+          "before_fragment_sha256": "2cb45ec437cb67b3b6d9a3835b0bc66a1d67691dcf29efa02eef68f393b74033",
+          "obligation": "Distinct Camera application directory/receipt; no accepted host copied/relabelled"
+        },
+        {
+          "after": "    module, host = matching[0]\n    if module == lt.camera_ios.MODULE and focus != lt.camera_ios.FOCUS:\n        raise ValueError(\"Camera application is exact NEW5-only, never a generic/full or SDK fixture\")\n    if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get(\"module\", \"calf-ui\") != module:\n",
+          "after_fragment_sha256": "3578ab4bf9a651bb65704471bc7d257a31775671a73bd09a6577c20f6cf48a2f",
+          "before": "    module, host = matching[0]\n    if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get(\"module\", \"calf-ui\") != module:\n",
+          "before_fragment_sha256": "1993fac2356b61abffdbc91511c0a15897c0e779f98b07ed9f1cea4c9b7a1e8e",
+          "obligation": "Camera application binary refuses every non-Camera/full/generic/SDK selection"
+        },
+        {
+          "after": "    if host[\"module\"] in {\"calf-file-picker\", \"calf-webview\", \"calf-share\", lt.camera_ios.MODULE}:\n",
+          "after_fragment_sha256": "d052cab91d2c58bd9a7faf2825e0eb62297bf4e0c656a0e749722e2ce3676ceb",
+          "before": "    if host[\"module\"] in {\"calf-file-picker\", \"calf-webview\", \"calf-share\"}:\n",
+          "before_fragment_sha256": "21ad526cb2b70a0f006164bf7b8fd85ad83f3bee8a44a5d43a72bd0c96b6a0bf",
+          "obligation": "Derive separate Camera receipt child from the fresh owned environment; never inherited/other-run output"
+        },
+        {
+          "after": "    native_environment = None\n    camera_photos = None\n    try:\n",
+          "after_fragment_sha256": "7afa56379760ecd9ac3dd4a84409fe47ed469ba9e57bf941ffc08461c22527a3",
+          "before": "    native_environment = None\n    try:\n",
+          "before_fragment_sha256": "574e6d835a5f08fd00110a5bae1780a8421fc78c4196c3681704080b45f153a3",
+          "obligation": "A separate per-installed-bundle Photos object, no external image/server/profile/input or process-environment fixture"
+        },
+        {
+          "after": "        protocol = NativeProtocol(bundle_id=bundle_id, **({\"provider_c3_only\": True} if provider_c3_only else {}))\n        if host[\"module\"] == lt.camera_ios.MODULE:\n            import ios_camera_photo_fixture as camera_photo\n            lt.camera_ios.source_contract(root)\n            protocol = camera_photo.protocol_adapter(NativeProtocol, bundle_id=bundle_id,\n                source_revision=before[\"source_revision\"], session_nonce=token)\n",
+          "after_fragment_sha256": "e02259fe9d35e5a4e7ad465de7c9d26babbcf8003a7c9bd8610132e0054cec42",
+          "before": "        protocol = NativeProtocol(bundle_id=bundle_id, **({\"provider_c3_only\": True} if provider_c3_only else {}))\n",
+          "before_fragment_sha256": "75011affaefdbc318373a401166658425050c82d09873f24911b112822fe1ae1",
+          "obligation": "Camera-only bounded Photos adapter delegates unmodified original NativeProtocol/TeamCity and refuses old Main-return marker"
+        },
+        {
+          "after": "        if host[\"module\"] == lt.camera_ios.MODULE:\n            information.update(camera_photo.privacy_information())\n        (app / \"Info.plist\").write_bytes(plistlib.dumps(information, sort_keys=True))\n",
+          "after_fragment_sha256": "680e4fb0b4198e341ca1f1e62f2094e27aec696d6ed5bf5ec304d8cbf72ee9e8",
+          "before": "        (app / \"Info.plist\").write_bytes(plistlib.dumps(information, sort_keys=True))\n",
+          "before_fragment_sha256": "3a910962c34c7fadaaac04119719d9da405585fc444054c8aa56c4ff688be7ac",
+          "obligation": "Only Camera gets both nonblank legitimate privacy keys; ordinary plist/ATS/scene/debug/security gates remain"
+        },
+        {
+          "after": "        if host[\"module\"] == lt.camera_ios.MODULE:\n            phase = \"prepare-owned-camera-photos-controlled-setup\"\n            camera_photos = camera_photo.OwnedPhotosLease(root=root, simulator=device, bundle_id=bundle_id,\n                source_revision=before[\"source_revision\"], session_nonce=token, signed_hash=signed_hash, plist_hash=plist_hash,\n                execute_control=execute_control, installed_identity=installed_identity, control_status=control_status)\n            camera_photos.prepare()\n        if request_fixture_requested:\n            import ios_webview_request_fixture as wk_requests\n",
+          "after_fragment_sha256": "baaa2f448b7087c87d9ad8727d31ec3d0f926b4a1996b9b057bf50e5c1d2d95c",
+          "before": "        if request_fixture_requested:\n            import ios_webview_request_fixture as wk_requests\n",
+          "before_fragment_sha256": "2fc8f27709e28d3cbaf1c2154216d9576338d2b29f3c9969084785433b37457b",
+          "obligation": "Only after actual foreign absence/install/readback: official photos grant for exact signed/plist/source/nonce bundle; errors refuse"
+        },
+        {
+          "after": "                if camera_photos is not None:\n                    try:\n                        if not stopped_app(stop):\n                            raise ValueError(\"Owned application stop is unverified; refuse Photos reset\")\n                        camera_photos.close()\n                    except Exception as privacy_cleanup:\n                        receipt[\"camera_photos_reset_error_type\"] = type(privacy_cleanup).__name__\n                        receipt[\"transport_passed\"] = False\n                        receipt.setdefault(\"error\", {\"phase\": \"owned-camera-photos-reset\", \"type\": type(privacy_cleanup).__name__})\n                uninstall = execute_control([\"/usr/bin/xcrun\", \"simctl\", \"uninstall\", device, bundle_id], 120)\n",
+          "after_fragment_sha256": "421e3d67c4d4f1a651fe3099ea574a4ea00afcf471a095bd7eaaf4f35167637f",
+          "before": "                uninstall = execute_control([\"/usr/bin/xcrun\", \"simctl\", \"uninstall\", device, bundle_id], 120)\n",
+          "before_fragment_sha256": "83ff2055024ef58f2c87314b60e86636ec790558c40c0b3251d145c27c337be4",
+          "obligation": "Original owned stop precedes bundle-only photos reset; reset failure never skips independent owned uninstall/absence/local cleanup"
+        },
+        {
+          "after": "        if camera_photos is not None:\n            try:\n                receipt[\"camera_photos\"] = camera_photos.receipt(getattr(protocol, \"camera_photo_observation\", None))\n                if not camera_photo.validate_receipt(receipt[\"camera_photos\"],\n                        simulator=device, bundle_id=bundle_id, source_revision=before[\"source_revision\"], session_nonce=token,\n                        signed_hash=signed_hash, plist_hash=plist_hash, native_pid=protocol.observed_launch_pid):\n                    receipt[\"transport_passed\"] = False\n                    receipt.setdefault(\"error\", {\"phase\": \"owned-camera-photos-status-and-reset\", \"type\": \"EvidenceError\"})\n            except Exception as privacy_receipt:\n                receipt[\"camera_photos\"] = {\"receipt_error_type\": type(privacy_receipt).__name__}\n                receipt[\"transport_passed\"] = False\n                receipt.setdefault(\"error\", {\"phase\": \"owned-camera-photos-receipt\", \"type\": type(privacy_receipt).__name__})\n        if app.exists():\n            try:\n",
+          "after_fragment_sha256": "25e1b3f2ce50ba79f0f15bd34a6f2dc8fbe2c8588c2b60e086eb4decc6ada52e",
+          "before": "        if app.exists():\n            try:\n",
+          "before_fragment_sha256": "24e5af7258375b5428c58fd74a765f36b4b5f43a042ff1484a4c17e6a2ad5837",
+          "obligation": "Always retain sanitized actual privacy/status/reset receipt independently of local cleanup; no unsupported/error fallback"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 396090,
+      "after_sha256": "f33a7d8484f71c69dedef487b5ba17814c226f77613a80767f381ac21cb91438",
+      "before_bytes": 391661,
+      "before_sha256": "fc8509e3788efee3ca37d70052d6d6862516199cf709839c9f249a623cf24846",
+      "fragments": [
+        {
+          "after": "import ios_ui_related_native_focus as ui_related\nimport camera_ios_ownership_native_focus as camera_ios\n",
+          "after_fragment_sha256": "769c5fbdbe33638b4c16bd5e478ddb622530cb154d591ae35d3b196e6cc91194",
+          "before": "import ios_ui_related_native_focus as ui_related\n",
+          "before_fragment_sha256": "eea9ba69a3e69110b4d0b96e3fd3820cff1d2c01d2cad1f397865d57108b3a82",
+          "obligation": "Only one finite Camera source/selector owner; no broad test choice"
+        },
+        {
+          "after": "UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-pre26\"] = ui_related.focus_spec(\"ui-native-adaptive-pre26\")\n",
+          "after_fragment_sha256": "e0fea6d7f47b670a83a094426e0483b488a31b3c29da4af816921cdd7dcfed07",
+          "before": "UI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-pre26\"] = ui_related.focus_spec(\"ui-native-adaptive-pre26\")\n",
+          "before_fragment_sha256": "d11ec936ea23e86cf67a19b967a2401171045eac99a956e3619cf84511293d84",
+          "obligation": "Register exactly NEW5 under the generic finite-module registry; all accepted specs unchanged"
+        },
+        {
+          "after": "            actual_task = (IOS_APPLICATION_TASK if suite == \"ios\" and (\n                           (module in IOS_APPLICATION_HOST_SOURCES and not (module == \"calf-file-picker\" and focus == IOS_SAVE_WRITE_FOCUS)) or\n                           (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)\n",
+          "after_fragment_sha256": "3781f8c5d5217793171daba66b3cd7ceb1efbbc41eb5d60d6a2c5e7334b44a07",
+          "before": "            actual_task = (IOS_APPLICATION_TASK if suite == \"ios\" and module in IOS_APPLICATION_HOST_SOURCES\n                           and not (module == \"calf-file-picker\" and focus == IOS_SAVE_WRITE_FOCUS) else task_name)\n",
+          "before_fragment_sha256": "212e539c0f476435784964a9536e8350ff0fd493aed65876d50a67faecd13aac",
+          "obligation": "Camera application routing is exact focus/module-only; no-focus/full Camera still uses its original task"
+        },
+        {
+          "after": "            if actual_task == IOS_APPLICATION_TASK:\n                application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS\n                                       else IOS_APPLICATION_HOST_SOURCES[module])\n                if not all(source in inputs for source in application_sources):\n",
+          "after_fragment_sha256": "f73c5e0fe38294fb88267b528f11a3286cd238c29afb7d9f5d150c60b6139529",
+          "before": "            if actual_task == IOS_APPLICATION_TASK:\n                if not all(source in inputs for source in IOS_APPLICATION_HOST_SOURCES[module]):\n",
+          "before_fragment_sha256": "bba26ea691b57d5485b72a25049d635eb00b710ef21af9f2e8b85c1d36eb21dc",
+          "obligation": "Require the Camera-owned three files without adding Camera to global default application-host inheritance"
+        },
+        {
+          "after": "        if focus == camera_ios.FOCUS:\n            camera_ios.validate_sources(root)\n            selected[0][\"test_source_files\"] = sorted(camera_ios.SOURCES)\n            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n            selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)\n            selected[0][\"required_original_xml\"] = 1\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_sources(root, focus)\n",
+          "after_fragment_sha256": "c7ba5f61ce758d6acd214206f590479836499348589b791afa8e05802fe81dee",
+          "before": "        if focus in ui_related.FOCUSES:\n            ui_related.validate_sources(root, focus)\n",
+          "before_fragment_sha256": "e9cd0f04a7cb694350817e657391b1c0e17dab82b4c2f0084dd392abea36601f",
+          "obligation": "Exactly three Camera test/compiler inputs and empty common-test admission, never accepted/common/native helpers"
+        },
+        {
+          "after": "    validate_android_storage_probe_plan(test_plan)\n    focus = test_plan.get(\"explicit_test_focus\")\n    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No Camera application/Photos source contract on unrelated or unfocused plans\")\n",
+          "after_fragment_sha256": "5fd142176606ce7da87366f89374bc6379dd8628e62b2094f95896148089fbaa",
+          "before": "    validate_android_storage_probe_plan(test_plan)\n    focus = test_plan.get(\"explicit_test_focus\")\n",
+          "before_fragment_sha256": "2e7492d1b24f08050e08bc5ff2593558376098fe1c3e93e41f0e88a801b6f364",
+          "obligation": "Reject Camera fixture/source contracts on all old/generic/other-module plans"
+        },
+        {
+          "after": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus == camera_ios.FOCUS:\n            camera_ios.validate_plan(test_plan)\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_plan(test_plan)\n",
+          "after_fragment_sha256": "7e2aa06469e89741390a4c77093b47c0bc56109d8ba87a01d52e8d0b27013ac5",
+          "before": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_plan(test_plan)\n",
+          "before_fragment_sha256": "875c60d2ec946294dccf7909a0075724800a4496fb7e1170393d090f6e6ed7a6",
+          "obligation": "Camera exact focus/task/module/project/report/filter/required5 contract before unchanged generic UIKit gates"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] == camera_ios.FOCUS:\n            scenarios, policy_errors = camera_ios.outcomes(module_cases, host_system or platform.system(),\n                cases_by_report=cases_by_report)\n            if len(paths) != 1 or len(reports) != 1:\n                policy_errors.append(\"Camera requires one original fresh five-case class XML, no extra empty reports\")\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ui_related.FOCUSES:\n",
+          "after_fragment_sha256": "20f8920a2c960c2ec23f4d4cfdbb0014b8cb53fb6cb86b9af665092606a9b496",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ui_related.FOCUSES:\n",
+          "before_fragment_sha256": "54cb6a41d0fd16c798bbaa43f430137c51d09ebad15b521066a9d908f21c8cb0",
+          "obligation": "Exactly required5, one original XML, all passed; missing/duplicate/foreign/extra/empty/skip/fail cannot substitute"
+        },
+        {
+          "after": "    if test_plan.get(\"explicit_test_focus\") == camera_ios.FOCUS:\n        if platform.system() != \"Darwin\" or platform.machine().lower() not in {\"arm64\", \"aarch64\"}:\n            raise ValueError(\"Camera native command requires actual Arm64 Apple host; Linux KLIB is separate\")\n        if camera_ios.source_contract(root) != test_plan[\"expected\"][0][camera_ios.CONTRACT_KEY]:\n            raise ValueError(\"Camera exact inputs changed before the owning native command\")\n        command.extend([\"--init-script\", camera_ios.INIT_SCRIPT,\n                        \"-P\" + camera_ios.FOCUS_PROPERTY + \"=\" + camera_ios.FOCUS])\n    if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n",
+          "after_fragment_sha256": "20c1d4348cceebfeac74227c67252f7ba4104814047a169bdff7640eeb683523",
+          "before": "    if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n",
+          "before_fragment_sha256": "6e1adf9ae00930bca2d53a6e54a8fa33b040056b2e9e8a66dce2be5e85a031df",
+          "obligation": "Only exact native init and opt-in property; current source/Apple host rechecked without replaying accepted controls"
+        },
+        {
+          "after": "        if test_plan.get(\"explicit_test_focus\") == camera_ios.FOCUS:\n            need(camera_ios.validate_admission(root, started_ns, ended_ns),\n                 \"Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution\")\n        else:\n            need(\"camera_photos\" not in document, \"No Camera Photos lease claim on unrelated application\")\n        if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n",
+          "after_fragment_sha256": "1ac68280084f0dac3897a1b888b9b813d433e913eff6d04d329e2c32a8837d03",
+          "before": "        if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n",
+          "before_fragment_sha256": "d17e129e79996d8c603a89fb26fa180773c735ae6e19c0f67879cac74f38c6aa",
+          "obligation": "Camera fresh source admission is independent; original runtime/clean Git/binary/Worker/cleanup gates retained"
+        },
+        {
+          "after": "        if test_plan.get(\"explicit_test_focus\") == camera_ios.FOCUS:\n            import ios_camera_photo_fixture as camera_photo\n            import plistlib\n            info = app.app_information(document[\"bundle_id\"], document[\"macho\"][\"minimum_os\"])\n            info.update(camera_photo.privacy_information())\n            need(document[\"application_plist_sha256\"] == hashlib.sha256(plistlib.dumps(info, sort_keys=True)).hexdigest(),\n                 \"Camera requires its exact ordinary plist/privacy keys and no ATS/scene/debug/foreign fixture lease\")\n            need(camera_photo.validate_receipt(document.get(\"camera_photos\"),\n                    simulator=context[\"simulator\"][\"udid\"], bundle_id=document[\"bundle_id\"],\n                    source_revision=context[\"source_revision\"], session_nonce=token,\n                    signed_hash=document[\"signed_application_executable_sha256\"], plist_hash=document[\"application_plist_sha256\"],\n                    native_pid=protocol.get(\"observed_launch_pid\")) and\n                 document[\"camera_photos\"][\"native_status\"] == protocol.get(\"camera_photo_authorization\"),\n                 \"Camera requires owned official photos grant/reset plus actual same-source/nonce/PID Main Authorized readback\")\n            need(not any(key in document for key in (\"webview_request_fixture\", \"webview_content_policy_fixture\",\n                 \"image_memory_profile\", \"native_xctest_input\", \"system_appearance_driver\", \"popover_geometry\")),\n                 \"Camera may not reuse any accepted UI/Share/WebView/profile/input fixture\")\n        else:\n            need(\"camera_photo_authorization\" not in protocol, \"No Camera native-status claim on unrelated application\")\n        active, complete = protocol.get(\"activation\"), protocol.get(\"completion\")\n",
+          "after_fragment_sha256": "52f4ddaac677910b314db2e7a048f2a182b879633f2094e8f7cca9b3d7d752c0",
+          "before": "        active, complete = protocol.get(\"activation\"), protocol.get(\"completion\")\n",
+          "before_fragment_sha256": "59702edc0c93e4fe4616f154a75391838db34354c7ead924fcd8bd8e2618fd6b",
+          "obligation": "Bind actual Photos state and reset lease to installed plist/signed bytes/session/PID; reject unrelated fixtures without weakening native XML/Worker"
+        },
+        {
+          "after": "            import apple_image_sidecar_evidence as image_sidecar\n            image_sidecar.require_session_membership(session, expected[\"module\"], test_plan.get(\"explicit_test_focus\"))\n",
+          "after_fragment_sha256": "5998a9abc3d8886c3aa4982e9fc45a8d0f4c418d7c4780f6e405ec29b6880452",
+          "before": "            need([p.name for p in session.iterdir()] == [\"receipt.json\"], \"Receipt missing or disposable app/other files remain\")\n",
+          "before_fragment_sha256": "7b763da9ab0a6164beba87424addfdb83746180a98ea4f3eeb314fcc1464f033",
+          "obligation": "Only the exact calf-ui allocation recovery permits its one retained named ordinary sidecar; other scopes remain receipt-only"
+        },
+        {
+          "after": "        need(isinstance(document, dict) and type(document.get(\"schema_version\")) is int and\n             document[\"schema_version\"] == 1 and document.get(\"task\") == task,\n             \"Unexpected application receipt schema or task\")\n        image_sidecar.validate_retained(sessions[0], document, context, started_ns, ended_ns,\n            expected[\"module\"], test_plan.get(\"explicit_test_focus\"), receipt_payload=payload)\n",
+          "after_fragment_sha256": "96aa5db7889f917fc011619333ad35c44d13c1eb7dacfc2b11f0bb78b601181d",
+          "before": "        need(isinstance(document, dict) and type(document.get(\"schema_version\")) is int and\n             document[\"schema_version\"] == 1 and document.get(\"task\") == task,\n             \"Unexpected application receipt schema or task\")\n",
+          "before_fragment_sha256": "bf237c06330d382ff5a156217e3a849b3b10c3e01fac125ad427c5639af85ca7",
+          "obligation": "Canonical bounded retained schema/hash and independent source/session/simulator/signed-byte plus unchanged inline/receipt correspondence before all unchanged native/profile gates"
+        }
+      ]
+    },
+    "scripts/ci/test_webview_content_policy_application_routing.py": {
+      "after_bytes": 19505,
+      "after_sha256": "976b9f1e48235625755ccb653003447a5d71700a8b387542f3e4b364b89a20fb",
+      "before_bytes": 19305,
+      "before_sha256": "c344452142bdcb3d9a5b7bcc174ac7e95b9d6ed5d32994e55b8f0955d61719ec",
+      "fragments": [
+        {
+          "after": "import webview_content_policy_source_projection as history\nimport camera_ios_ownership_source_projection as camera_history\n",
+          "after_fragment_sha256": "a660260e5ad549795681a404bb2b256cff184628296eb169d3ee193d75f9e8d6",
+          "before": "import webview_content_policy_source_projection as history\n",
+          "before_fragment_sha256": "13796f30279e17a672fdd6cdde83046ec495881e2777ffe6e68b0f582c919fb1",
+          "obligation": "Existing WebView AST controls use Camera history, not a full-current source assumption"
+        },
+        {
+          "after": "    source = (camera_history.source_before_camera_ios_ownership(name, (ROOT / name).read_bytes())\n              if payload is None else payload)\n",
+          "after_fragment_sha256": "9daa1f21551b2629ead5bdf827395cd3a3eac660063eaa806c96ee537373f443",
+          "before": "    source = (ROOT / name).read_bytes() if payload is None else payload\n",
+          "before_fragment_sha256": "7ec12b0583987e660684aa3e85a67efadb05b08b06cd883ae392c7c010fa2842",
+          "obligation": "Only implicit current AST operands peel Camera; already supplied old ancestors remain unchanged"
+        },
+        {
+          "after": "        current = camera_history.source_before_camera_ios_ownership(APP_SOURCE, (ROOT / APP_SOURCE).read_bytes()); old = history.source_before_content_policy(APP_SOURCE, current)\n",
+          "after_fragment_sha256": "2a55da727cdb35e340537da539787886563d4c7b09e8f01cc4b3bb6dfdefb787",
+          "before": "        current = (ROOT / APP_SOURCE).read_bytes(); old = history.source_before_content_policy(APP_SOURCE, current)\n",
+          "before_fragment_sha256": "465e2ec78cb012081f1d526869f4964a7c671865102fbcccd5f2ba3620b034ba",
+          "obligation": "Original WebView argv/runtime/sdk/finally comparison restores only Camera first; no assertion/native waiver"
+        }
+      ]
+    },
+    "scripts/ci/test_webview_content_policy_source_projection.py": {
+      "after_bytes": 21695,
+      "after_sha256": "9649bca14a080999da984b852cc3ab360e88f928c3c0bf59a252168e4fb04dd3",
+      "before_bytes": 21418,
+      "before_sha256": "1073781560a01bb1849fec4dee3ded14dcb6718138b139a4e752f73d7f544e4d",
+      "fragments": [
+        {
+          "after": "import webview_content_policy_source_projection as history\nimport camera_ios_ownership_source_projection as camera_history\n",
+          "after_fragment_sha256": "a660260e5ad549795681a404bb2b256cff184628296eb169d3ee193d75f9e8d6",
+          "before": "import webview_content_policy_source_projection as history\n",
+          "before_fragment_sha256": "13796f30279e17a672fdd6cdde83046ec495881e2777ffe6e68b0f582c919fb1",
+          "obligation": "WebView mirror uses finite Camera source operands only"
+        },
+        {
+          "after": "            *document[\"bindings\"], *document[\"added_inputs\"], *document[\"unchanged_inputs\"]} | camera_history.fixture_inputs()\n",
+          "after_fragment_sha256": "5938010fc4a61c3fca8cfc09ba9146959f3f739d7e5793f795684f5d251a9d89",
+          "before": "            *document[\"bindings\"], *document[\"added_inputs\"], *document[\"unchanged_inputs\"]}\n",
+          "before_fragment_sha256": "04d020266cc786266df3aae8fb1ace7dcd9fd74eea5c90d507dcb25dfb701cd4",
+          "obligation": "WebView complete owning fixture adds Camera union without replacing old inputs"
+        },
+        {
+          "after": "        self.assertEqual(GUARD_SHA256, sha(camera_history.source_before_camera_ios_ownership(history.SOURCE_RELATIVE, (ROOT / history.SOURCE_RELATIVE).read_bytes())))\n",
+          "after_fragment_sha256": "dc52b42026829f85699a09c7c5a645b727e0da833e2c78f8d8d8944e61af259c",
+          "before": "        self.assertEqual(GUARD_SHA256, sha((ROOT / history.SOURCE_RELATIVE).read_bytes()))\n",
+          "before_fragment_sha256": "ca963bb8827d306753fee03485108e62f9176efe0edef9f887e12d3173e3e49f",
+          "obligation": "Original444e guard pin is verbatim against exact Camera-restored620 guard"
+        },
+        {
+          "after": "            raw_current = (ROOT / name).read_bytes(); prior = history.current_source_before_content_policy(name, raw_current)\n            raw = camera_history.source_before_camera_ios_ownership(name, raw_current)\n",
+          "after_fragment_sha256": "60e270032a797d3e9d8ed5f7a3d39186cc6508788306d8a8a362dca23bfb57f8",
+          "before": "            raw = (ROOT / name).read_bytes(); prior = history.current_source_before_content_policy(name, raw)\n",
+          "before_fragment_sha256": "99ccb5bca7adc71e45b6321fbeb39a98eb5f58b0c14dd21017d5feadb2c11a5b",
+          "obligation": "Real latest raw admitted once; all old620 afterhash/forward assertions retain their original operand domain"
+        }
+      ]
+    },
+    "scripts/ci/webview_content_policy_source_projection.py": {
+      "after_bytes": 11455,
+      "after_sha256": "cc3f7cb7099e744d08db6273194c6bcf586613521d0c8fae7757d3defa4af878",
+      "before_bytes": 10657,
+      "before_sha256": "c8b75a6b06454135db4b6143987855e27588648d4eb3aefc0d72611fc35ac875",
+      "fragments": [
+        {
+          "after": "    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history\n    payload = peel_camera_ios_ownership_for_history(relative, payload)\n",
+          "after_fragment_sha256": "52898b07ed0e537273fe01df1183f4cdb0fdc1536980cc1c85f52dee0cefacad",
+          "before": "    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "9c4fac35aabee3dd1bbe5ddaecece5751d6ceaec85805357eb6913c85d7e017c",
+          "obligation": "Camera ancestor peel before exact WebView inverse; unknown remains for old strict pins"
+        },
+        {
+          "after": "    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n    from camera_ios_ownership_source_projection import current_source_before_camera_ios_ownership\n    payload = current_source_before_camera_ios_ownership(relative, payload)\n",
+          "after_fragment_sha256": "67306c4c51c4be5c7e4376f69f2b966f065f2ac8e5a3585a16cc20bad2d6cabe",
+          "before": "    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "b153e37178c03232bd6955f241403cf8dc892d21f19d45dda032eb3a77699da2",
+          "obligation": "Exactly one latest Camera raw admission before unchanged WebView/Share/UI/image/Calendar/Android"
+        },
+        {
+          "after": "    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history\n    payload = peel_camera_ios_ownership_for_history(relative, payload)\n",
+          "after_fragment_sha256": "926226929809a5c58330d64de17aea93ab78aa55b3dbea52b937d82e7e65f928",
+          "before": "    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "85fb84b82ec6e144bd278d29256c4aa389e51bc03f42b1be42627284cd1bdfea",
+          "obligation": "Exact complete Camera history peel, never duplicate raw current admission"
+        },
+        {
+          "after": "    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    import camera_ios_ownership_source_projection as camera_history\n    camera_history.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "db847d2b4c0398a917b28641c85ec65b23ff772b1a579a334b77bf4932d39b7e",
+          "before": "    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    document = _document()\n",
+          "before_fragment_sha256": "61d9445a85aff38f98c0b206c8d7a2a84803e7d6b42d5f664ac33574f9c454ec",
+          "obligation": "Independent Camera owning source-only validator first, not ancestor as current certification"
+        },
+        {
+          "after": "        if sha(camera_history.source_before_camera_ios_ownership(name, _ordinary_bytes(root, name)[0])) != digest:\n",
+          "after_fragment_sha256": "eec15f42446b401bb4caf2671c70a4f40094c4e33787e02f17cfe918dfd37eb5",
+          "before": "        if sha(_ordinary_bytes(root, name)[0]) != digest:\n",
+          "before_fragment_sha256": "3cbe03c9bba0eb1c26329f2fd5829ee4158468e45898da40a98f33d9466c2694",
+          "obligation": "All original WebView pins compare only exact full Camera-restored preimages"
+        },
+        {
+          "after": "    document = _document()\n    from camera_ios_ownership_source_projection import fixture_inputs as camera_fixture_inputs\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE, \"scripts/ci/test_webview_content_policy_source_projection.py\"} | camera_fixture_inputs())",
+          "after_fragment_sha256": "3c0b1e0e3f46ee7925617a2038f839db0af8a8ea3b5c1444e1b911680b967d0c",
+          "before": "    document = _document()\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE, \"scripts/ci/test_webview_content_policy_source_projection.py\"})",
+          "before_fragment_sha256": "515207bf36cf8810d79137510909636493eba6e16cfa81a5e0009ec48ed9ff61",
+          "obligation": "Finite Camera fixture ingress export; no helper/controller/native work"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 60144,
+      "after_sha256": "6e53180de2324d0e42489c7571e8cc31f04f6c6b75ba5b11cbaf55bfa515b9e7",
+      "before_bytes": 59433,
+      "before_sha256": "56692cfbfa5b7c057149708f18be38dcb2058c71cb9daaa00f239fd0863882d9",
+      "fragments": [
+        {
+          "after": "    \"ios-picker-provider-cancellation\": (\"ios-iphone\",),\n    \"ios-camera-ownership-memory-callback\": (\"ios-iphone\",),\n",
+          "after_fragment_sha256": "0e59ae19cd80f241cadb89917ea4d36e36aa927d288859760b9cdb5bb73ef0ca",
+          "before": "    \"ios-picker-provider-cancellation\": (\"ios-iphone\",),\n",
+          "before_fragment_sha256": "9d8c7575de8c35b2dcefee06ffafe7f4db72ebafdfa64a2b31d7898d52b66bf3",
+          "obligation": "One finite manual Camera profile, maximum one exact existing iPhone row"
+        },
+        {
+          "after": "    \"ios-picker-provider-cancellation\": \"calf-file-picker\",\n    \"ios-camera-ownership-memory-callback\": \"calf-camera-picker\",\n",
+          "after_fragment_sha256": "305351e3eeaab7cf00b432d56072035dbdef75d0f1b1e37063f480aade26a501",
+          "before": "    \"ios-picker-provider-cancellation\": \"calf-file-picker\",\n",
+          "before_fragment_sha256": "77fbf4b476f0c31c42d60a99e67c94fba79d75de1dd77ae9a5026e104bf041f6",
+          "obligation": "Only Camera library module; no accepted native/profile companion or Android route"
+        },
+        {
+          "after": "    if profile == \"ios-camera-ownership-memory-callback\":\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-camera-picker\"}\n        if (PROFILES[profile] != (\"ios-iphone\",) or MODULE_SUBSETS.get(profile) != \"calf-camera-picker\" or rows != [canonical]):\n            raise ValueError(\"Camera requires exactly one genuine iPhone library row; no alternate runner/module/host\")\n        rows[0][\"test-focus\"] = \"ios-camera-ownership-memory-callback\"\n    if profile in (\"ios-share-presentation-disposal\", \"ios-share-remembered-failure-observation\"):\n",
+          "after_fragment_sha256": "deec68e6e0f542db7a1b44461723c10bb0757a856cb2db655342a9065cac6e12",
+          "before": "    if profile in (\"ios-share-presentation-disposal\", \"ios-share-remembered-failure-observation\"):\n",
+          "before_fragment_sha256": "4d7544ece3fd0348831756fb85f1120d7112772c1d500d668134c37112dc120e",
+          "obligation": "Exact row mutation refuses extra/foreign hosts; ordinary ios/all/other profiles unchanged"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact Camera iOS application routing source/history custody only; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "calf-camera-picker/src/androidDeviceTest/AndroidManifest.xml": "c24a6c2498dddb660cafd78d31bfc4f4730f8ae34f1c807eff3f17ff6034962b",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": "e222639ed728465798aa0be937f13dc181c36dfd566db0b2fa9bbdbe67f18532",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt": "8aeb2acf56287c08619c854f4da21c3f0c4f95d7dba19e17ca6ceacff03a0c12",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraVerificationProviders.kt": "09956cd5f88d5c18dff5be3251d9ece6beb679f5c961c3041e1450cf46e96f82",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt": "2010803e066ce0de1a34051ed40a50c9bca08f238a6218dcaabb4e7d0a09bee7",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedCameraReceiver.kt": "a15663164f0b66eccf225a0a24d0af7be77e13c80bc620be501d388224a76a6d",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_paths.xml": "1448a27bb209ef4b8b99f1d90bf2ac44f8eb86a55fadcab5caf24fe524a98413",
+    "calf-camera-picker/src/androidDeviceTest/res/xml/nativecmpkit_camera_device_wrong_paths.xml": "f008fdc746753acf4e40f56ad01b6eea79ad56eb84254ea09fac1524b91d1f4b",
+    "calf-camera-picker/src/androidHostTest/AndroidManifest.xml": "f9c3c1a1b0e59d018fb576defd49771ad8d6faf5129ef8b95bdd8463a93633b5",
+    "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraLifecycleTest.kt": "726deb93c02a5d5ec06d87efc71e1393c7389afe2d613684053bf5032441dc09",
+    "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt": "8227aa3581d30521e8dff05f7ad634f842b36202d1091565344050fe3cfd0efa",
+    "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRequestTest.kt": "39ae5998755f2affcfb31b51ff2e24ebc00dc2be87188e1522c632f34404d4bb",
+    "calf-camera-picker/src/androidHostTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraHostFileProvider.kt": "3802d3cb28b9b8c40c937178de67db0b5614b2f52a2b9de2af055d6570a9d6b6",
+    "calf-camera-picker/src/androidHostTest/res/xml/nativecmpkit_camera_test_paths.xml": "27c005b2d14af7af2589b48b60fd9e9dbdf6edc0d8daab04f2c21b1b31968ece",
+    "calf-camera-picker/src/androidHostTest/res/xml/nativecmpkit_camera_wrong_paths.xml": "090895cc867173d973ea207d5cee25b8512a31f34c7e619c45e9e31a25fb887f",
+    "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt": "b7094d795bfaa209b254bbf2c549de21a7fff07df636fbb68f4cb1a3baa917a7",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt": "abeb590d3f9edacc9fd638d40125d20ccbe3c0814bce1586d398c09c5e0cb493",
+    "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerResult.kt": "b7d906813c66604e76a4f64f55306dbea6e92889bf3e77a66cd3aaa13a9891ab",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRequestStateTest.kt": "0ff1470d93f9580e27b54e499b2dda6843a50c5d7b4f4b5c4cfaca7980c7e841",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaseline.kt": "044d050378036573aa527226130ccb67bdbe4717231b8cc1ff10da70816b3801",
+    "calf-camera-picker/src/commonTest/kotlin/com/mohamedrejeb/calf/camerapicker/SettingsHomeTaskBaselineTest.kt": "f46f20ff936c4909ca1b9a96c9dbbe1c970c1363d8616141077bdcc6d9cb7c57",
+    "calf-camera-picker/src/desktopMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.desktop.kt": "5b80e0004d2a8b6cb234ababa175fd1e332ce1886b70c024e2ae67246124d8bd",
+    "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt": "3956439ee461c54ad26f7b86eef6939379d2d0c8918948072119411c8802a729",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/IosCameraOwnershipAcceptanceTest.kt": "b9abd3aaccbea97feb02c0bfd076c1f09c83b1828dad2639a0357ec8be6c88c2",
+    "calf-camera-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/camerapicker/internal/NativeCameraObjectIdentity.kt": "62cb9f661dea845a7b103b497b3d788cbe3b738a6449e9860855b94575f80f1b",
+    "calf-camera-picker/src/webMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.web.kt": "a5d5ae334350e0b65c69a5a506a24798a41a624bb7e4890ab524052ecc3139c9",
+    "docs/testing/ios-camera-ownership-memory-callback.md": "3e28ed2d75022c3e71dd0cb3f3bdad29ed3f5aa7651b9f85d94b6c554c305970",
+    "scripts/ci/test_camera_ios_terminal_barrier_source.py": "17a3fa29c8b82651d40b2cc820a83855fb467015b7acd51f8ffa3155310d54e5"
+  }
+}

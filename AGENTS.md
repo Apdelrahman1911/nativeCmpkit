@@ -1,5 +1,22 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared camera source-ingress recovery verified — 2026-11-04
+
+[565–568](docs/development/evidence/current-platform-recovery-20261101/camera-single-ingress565-568/README.md) keeps41749936269
+at23e0ed9b FAILED before platform:2695 reported/118.306s/one failure/seven errors,
+including three class setups blocking20 methods; zero artifacts/Gradle/APK/native/
+XML. Cached originals acquired ONCE. Confirmed duplicate raw-current admission
+moves to one checkout ingress; nested stages keep exact ancestor idempotence and
+old pins. Six tooling paths/11 fragments/three additions; NEW8+failed/changed7
+pass15/15 once4.789s, wrapper5.3493400879669935s.35passive checks/1326held;
+1317 prior local/1311 historical compiler inputs unchanged. First count/scalar-AST
+review refusals stay; ZERO new compiler/native. Reuse unchanged JVM/APK/camera009
+C2/C3, never replay. #13 open/C1 only next after development freeze/fresh capacity;
+#29 iOS causes separate/unknown. Counts103closed69open/172 and22implemented/
+36partial101verified/five unresolved unchanged. SOLO/serial-local8GiB/max2 INCLUDING
+queued/read-only Actions/all/no mandatorySHA and every publication/Pages/main/
+history/native/consumer/API–ABI/dependency/legal/security/readiness gate remains.
+
 ## Camera shared CI fixture recovery qualified — 2026-11-04
 
 [560–564](docs/development/evidence/current-platform-recovery-20261101/camera-home-tooling560-564/README.md)

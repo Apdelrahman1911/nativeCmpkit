@@ -81,6 +81,12 @@ def current_source_for_history(relative: str, payload: bytes) -> bytes:
     """Admit actual current bytes before constructing a historical fixture view."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current source identity and ordinary bytes are required")
+    # Qualify each newest complete image ONCE, at this raw checkout boundary.
+    # Nested readers receive exact ancestors, not another raw-current admission.
+    from camera_tooling566_source_projection import current_source_before_tooling566
+    payload = current_source_before_tooling566(relative, payload)
+    from camera_tooling562_source_projection import current_source_before_tooling
+    payload = current_source_before_tooling(relative, payload)
     from camera_home_baseline_source_projection import current_source_before_home_baseline
     payload = current_source_before_home_baseline(relative, payload)
     from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate

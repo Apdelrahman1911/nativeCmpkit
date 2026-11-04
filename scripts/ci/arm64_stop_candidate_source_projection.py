@@ -34,6 +34,8 @@ def _bindings():
 def source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ARM64 Stop source identity and ordinary bytes are required")
+    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history
+    payload = peel_current_tooling566_for_older_history(relative, payload)
     from camera_tooling562_source_projection import peel_current_tooling_for_older_history
     payload = peel_current_tooling_for_older_history(relative, payload)
     binding = _bindings().get(relative)
@@ -76,8 +78,12 @@ def source_before_arm64_stop_candidate(relative, payload):
 def current_source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current ARM64 Stop source identity and ordinary bytes are required")
-    from camera_tooling562_source_projection import current_source_before_tooling
-    payload = current_source_before_tooling(relative, payload)
+    # The outer raw checkout reader already qualified the latest tooling image.
+    # Exact stage peeling must remain idempotent inside this older composition.
+    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history
+    payload = peel_current_tooling566_for_older_history(relative, payload)
+    from camera_tooling562_source_projection import peel_current_tooling_for_older_history
+    payload = peel_current_tooling_for_older_history(relative, payload)
     from desktop_policy_creation_source_projection import current_source_before_policy_creation
     payload = current_source_before_policy_creation(relative, payload)
     binding = _bindings().get(relative)

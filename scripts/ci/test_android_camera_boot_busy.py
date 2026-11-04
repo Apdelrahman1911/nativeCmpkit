@@ -199,12 +199,16 @@ class CameraBootBusyControls(unittest.TestCase):
         self.assertEqual(5, sum(len(v["fragments"]) for v in spec.values()))
         for relative, binding in spec.items():
             current = (ROOT / relative).read_bytes()
+            from camera_tooling566_source_projection import current_source_before_tooling566
+            from camera_tooling562_source_projection import current_source_before_tooling
+            stage = current_source_before_tooling(relative,
+                current_source_before_tooling566(relative, current))
             previous = history.current_source_before_boot_busy(relative, current)
             self.assertEqual(binding["before_sha256"], hashlib.sha256(previous).hexdigest())
             for fragment in binding["fragments"]:
                 self.assertEqual(1, previous.count(fragment["before"].encode()))
                 previous = previous.replace(fragment["before"].encode(), fragment["after"].encode(), 1)
-            self.assertEqual(current, previous)
+            self.assertEqual(stage, previous)  # This old forward ends at its own stage.
             for bad in (current[:-1], current + b"\n", b"", bytearray(current), None):
                 with self.assertRaises(ValueError): history.current_source_before_boot_busy(relative, bad)
             old = history.source_before_boot_busy(relative, current)

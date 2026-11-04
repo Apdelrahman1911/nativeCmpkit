@@ -34,6 +34,10 @@ def _bindings():
 def source_before_boot_busy(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact busy-boot identity and ordinary source bytes are required")
+    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history
+    payload = peel_current_tooling566_for_older_history(relative, payload)
+    from camera_tooling562_source_projection import peel_current_tooling_for_older_history
+    payload = peel_current_tooling_for_older_history(relative, payload)
     from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history
     payload = peel_current_home_baseline_for_older_history(relative, payload)
     binding = _bindings().get(relative)
@@ -70,6 +74,10 @@ def source_before_boot_busy(relative, payload):
 def current_source_before_boot_busy(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current busy-boot identity and ordinary bytes are required")
+    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history
+    payload = peel_current_tooling566_for_older_history(relative, payload)
+    from camera_tooling562_source_projection import peel_current_tooling_for_older_history
+    payload = peel_current_tooling_for_older_history(relative, payload)
     from camera_home_baseline_source_projection import current_source_before_home_baseline
     payload = current_source_before_home_baseline(relative, payload)
     binding = _bindings().get(relative)
@@ -82,6 +90,10 @@ def peel_current_boot_busy_for_older_history(relative, payload):
     """Not current admission: untouched old bytes MUST pass their older pinned reader."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor busy-boot identity and ordinary bytes are required")
+    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history
+    payload = peel_current_tooling566_for_older_history(relative, payload)
+    from camera_tooling562_source_projection import peel_current_tooling_for_older_history
+    payload = peel_current_tooling_for_older_history(relative, payload)
     from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history
     payload = peel_current_home_baseline_for_older_history(relative, payload)
     binding = _bindings().get(relative)

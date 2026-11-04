@@ -1,0 +1,143 @@
+{
+  "added_inputs": {
+    "scripts/ci/test_camera_tooling566_source_projection.py": "024e66b5b881b58d537d4624c2dbdd77f5b69590887e8d9ac67d38abc7aead91"
+  },
+  "bindings": {
+    "scripts/ci/android_external328_source_projection.py": {
+      "after_bytes": 5867,
+      "after_sha256": "fcefed9d07d973d7de6b0621e66b73b0497c8c6dbf791f56863b628cd9c98472",
+      "before_bytes": 5412,
+      "before_sha256": "d1e6073d1a0d1c87a014a066fa8522c293b7525fb9e7bca8bb6ed9af8427677f",
+      "fragments": [
+        {
+          "after": "    \"\"\"Admit actual current bytes before constructing a historical fixture view.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current source identity and ordinary bytes are required\")\n    # Qualify each newest complete image ONCE, at this raw checkout boundary.\n    # Nested readers receive exact ancestors, not another raw-current admission.\n    from camera_tooling566_source_projection import current_source_before_tooling566\n    payload = current_source_before_tooling566(relative, payload)\n    from camera_tooling562_source_projection import current_source_before_tooling\n    payload = current_source_before_tooling(relative, payload)\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate\n",
+          "after_fragment_sha256": "21df4673247489ac2e296c2238be2d32ff63bddb8d410e078c14ca74e3bf42ba",
+          "before": "    \"\"\"Admit actual current bytes before constructing a historical fixture view.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current source identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    from arm64_stop_candidate_source_projection import current_source_before_arm64_stop_candidate\n",
+          "before_fragment_sha256": "736ab45d0f2cabe0287499978940fad870588f329cf8d524f275b277df60e1ff",
+          "id": "owning-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/arm64_stop_candidate_source_projection.py": {
+      "after_bytes": 5064,
+      "after_sha256": "79c4af44b4846e730c89d12ce963a0f3caa1c64667de64f1c1b6026ee9dd8af6",
+      "before_bytes": 4548,
+      "before_sha256": "02892878100a823314064e650e7f93e79381289b0bc9eee55c31466300d201f3",
+      "fragments": [
+        {
+          "after": "def source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ARM64 Stop source identity and ordinary bytes are required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "168e16f631de6285923795c67e0008dc42a5069fd908f1e3cd0f5beb4e4d3dbb",
+          "before": "def source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ARM64 Stop source identity and ordinary bytes are required\")\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "19d26c97bcc9c9157748d14fdf7d4637208b2be3b0743df6358b8f574f6724ad",
+          "id": "owning-exact-hunk-1"
+        },
+        {
+          "after": "def current_source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current ARM64 Stop source identity and ordinary bytes are required\")\n    # The outer raw checkout reader already qualified the latest tooling image.\n    # Exact stage peeling must remain idempotent inside this older composition.\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from desktop_policy_creation_source_projection import current_source_before_policy_creation\n    payload = current_source_before_policy_creation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "fa4a3fbc2fde81edb3d1cc2cee87cd454df6639a2d1180f3ac8dcce8ecab6e95",
+          "before": "def current_source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current ARM64 Stop source identity and ordinary bytes are required\")\n    from camera_tooling562_source_projection import current_source_before_tooling\n    payload = current_source_before_tooling(relative, payload)\n    from desktop_policy_creation_source_projection import current_source_before_policy_creation\n    payload = current_source_before_policy_creation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "25c74830df0ff3debf8f4d60584caad77c6dc53a0466208d05b97677a0e7857e",
+          "id": "owning-exact-hunk-2"
+        }
+      ]
+    },
+    "scripts/ci/camera_boot_busy_source_projection.py": {
+      "after_bytes": 5739,
+      "after_sha256": "c99f62d8c868dcb2a99b43d33c5a1e4c5e6145e3a576b9c61731dfc5520ff00c",
+      "before_bytes": 4743,
+      "before_sha256": "80ee4cfcbd2b93fe800da0373c1b17174c32ec2277475cd9791adf1a79c5388e",
+      "fragments": [
+        {
+          "after": "def source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact busy-boot identity and ordinary source bytes are required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "7fda500fb61bc597ef289bb1a09e0358f3d16092bf321d913465f3e9e1a3c1db",
+          "before": "def source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact busy-boot identity and ordinary source bytes are required\")\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "75ebbfe0d825bbb4a445918a7471a11a23e1fb4a1293a9297ef1d17ac32f5fbb",
+          "id": "owning-exact-hunk-1"
+        },
+        {
+          "after": "def current_source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current busy-boot identity and ordinary bytes are required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "650cbd33a744c8f36c57bb985c6c7b949f3ba61858b71b17c7972dab57f55798",
+          "before": "def current_source_before_boot_busy(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current busy-boot identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import current_source_before_home_baseline\n    payload = current_source_before_home_baseline(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "54c05249adcc3a5bbb8a504faf0a028ba68340b48b2f691e6bbe23768ad15ca0",
+          "id": "owning-exact-hunk-2"
+        },
+        {
+          "after": "    \"\"\"Not current admission: untouched old bytes MUST pass their older pinned reader.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor busy-boot identity and ordinary bytes are required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "15bf679205ac363b47cef37fa8f6497e150cd35fe54345ce562fdf24f602ff24",
+          "before": "    \"\"\"Not current admission: untouched old bytes MUST pass their older pinned reader.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor busy-boot identity and ordinary bytes are required\")\n    from camera_home_baseline_source_projection import peel_current_home_baseline_for_older_history\n    payload = peel_current_home_baseline_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "aa53f7167275a9c450d727f30100e4b0030f8baceae5e9a7100ea64d9ed2835d",
+          "id": "owning-exact-hunk-3"
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_fixture_source_projection.py": {
+      "after_bytes": 4719,
+      "after_sha256": "a45ad1c018dc78474e9b5a3513379bcfcba75489dc9af960eb29d87c7c7988f2",
+      "before_bytes": 4282,
+      "before_sha256": "f7eb886d2f81893a13f6ae5d96c4d5bb06c3fb64d09978ca11ebe5e7e094ad20",
+      "fragments": [
+        {
+          "after": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n",
+          "after_fragment_sha256": "0ea71677d7e394326f5150869e9058241ce955bc05ce3f42bba6afd183584bfa",
+          "before": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n",
+          "before_fragment_sha256": "c3180d4c20fd8ca57cb6605253a3717cf283fbf43ba7897a9347b7a32b900b07",
+          "id": "owning-exact-hunk-1"
+        },
+        {
+          "after": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    # Already-qualified outer images are ancestors here, never fresh raw inputs.\n    from camera_tooling566_source_projection import peel_current_tooling566_for_older_history\n    payload = peel_current_tooling566_for_older_history(relative, payload)\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "a91c19b47fc09f561fb0e70a06c553535d8f11d2a6f0f2e5a893946bb0035cb4",
+          "before": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from camera_tooling562_source_projection import current_source_before_tooling\n    payload = current_source_before_tooling(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "37eb5ff159fc8684e8f60b3c0602b2f639ff6be7207712db686922ed96a4137e",
+          "id": "owning-exact-hunk-2"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_boot_busy.py": {
+      "after_bytes": 15324,
+      "after_sha256": "3badee2d5d29d402900992f17a72c27c7d3e6afb80e5c597401a201440067923",
+      "before_bytes": 14971,
+      "before_sha256": "6c6b65a3e25a3787cb833f43d7140cfd1e11f26202497d7830e5ee925a0915a3",
+      "fragments": [
+        {
+          "after": "        self.assertEqual(5, sum(len(v[\"fragments\"]) for v in spec.values()))\n        for relative, binding in spec.items():\n            current = (ROOT / relative).read_bytes()\n            from camera_tooling566_source_projection import current_source_before_tooling566\n            from camera_tooling562_source_projection import current_source_before_tooling\n            stage = current_source_before_tooling(relative,\n                current_source_before_tooling566(relative, current))\n            previous = history.current_source_before_boot_busy(relative, current)\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            for fragment in binding[\"fragments\"]:\n                self.assertEqual(1, previous.count(fragment[\"before\"].encode()))\n                previous = previous.replace(fragment[\"before\"].encode(), fragment[\"after\"].encode(), 1)\n            self.assertEqual(stage, previous)  # This old forward ends at its own stage.\n            for bad in (current[:-1], current + b\"\\n\", b\"\", bytearray(current), None):\n                with self.assertRaises(ValueError): history.current_source_before_boot_busy(relative, bad)\n            old = history.source_before_boot_busy(relative, current)\n",
+          "after_fragment_sha256": "00f9b01681e89468515f590b9ff9c86564ce5918a9f89c2751befbed52c64e01",
+          "before": "        self.assertEqual(5, sum(len(v[\"fragments\"]) for v in spec.values()))\n        for relative, binding in spec.items():\n            current = (ROOT / relative).read_bytes()\n            previous = history.current_source_before_boot_busy(relative, current)\n            self.assertEqual(binding[\"before_sha256\"], hashlib.sha256(previous).hexdigest())\n            for fragment in binding[\"fragments\"]:\n                self.assertEqual(1, previous.count(fragment[\"before\"].encode()))\n                previous = previous.replace(fragment[\"before\"].encode(), fragment[\"after\"].encode(), 1)\n            self.assertEqual(current, previous)\n            for bad in (current[:-1], current + b\"\\n\", b\"\", bytearray(current), None):\n                with self.assertRaises(ValueError): history.current_source_before_boot_busy(relative, bad)\n            old = history.source_before_boot_busy(relative, current)\n",
+          "before_fragment_sha256": "322a5a1380c6a65c816287e4020bc5dc9421b058f977bfaa73f5f28c66896147",
+          "id": "owning-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_tooling562_source_projection.py": {
+      "after_bytes": 7410,
+      "after_sha256": "1b2e20c82b11538956cfa2bf94423d9d91a8bb8970ba61166782682783f6aeef",
+      "before_bytes": 7144,
+      "before_sha256": "06ddf2730bb4a86e1b32352be8d7f03909f4d08179d6c2106ace0377207c064c",
+      "fragments": [
+        {
+          "after": "        self.assertEqual(6, len(bindings))\n        self.assertEqual(9, sum(len(b[\"fragments\"]) for b in bindings.values()))\n        for path, binding in bindings.items():\n            from camera_tooling566_source_projection import current_source_before_tooling566\n            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())\n            old = history.current_source_before_tooling(path, current)\n            self.assertEqual(binding[\"before_sha256\"], digest(old))\n            rebuilt = old\n",
+          "after_fragment_sha256": "e1b9f737cf39682fd4be1ee8b9cbb75f032b7aaa65c9f4f366206cf5b757f2cc",
+          "before": "        self.assertEqual(6, len(bindings))\n        self.assertEqual(9, sum(len(b[\"fragments\"]) for b in bindings.values()))\n        for path, binding in bindings.items():\n            current = (ROOT / path).read_bytes()\n            old = history.current_source_before_tooling(path, current)\n            self.assertEqual(binding[\"before_sha256\"], digest(old))\n            rebuilt = old\n",
+          "before_fragment_sha256": "8d71e873ca4b10f7394d3d458a441bbeaa77ec50536b36233407916e2376b1c1",
+          "id": "owning-exact-hunk-1"
+        },
+        {
+          "after": "\n    def test_current_refuses_old_partial_unknown_and_nonordinary_payloads(self):\n        for path in history._bindings():\n            from camera_tooling566_source_projection import current_source_before_tooling566\n            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())\n            old = history.source_before_tooling(path, current)\n            for bad in (old, current[:-1], current + b\"\\n\", b\"\", b\"foreign\", None, bytearray(current)):\n                with self.subTest(path=path, kind=type(bad).__name__), self.assertRaises(ValueError):\n",
+          "after_fragment_sha256": "697e6ea5efea1dfd8aeac11daf74b6dfea22e50ecb7522f81fd58eeacf69d90d",
+          "before": "\n    def test_current_refuses_old_partial_unknown_and_nonordinary_payloads(self):\n        for path in history._bindings():\n            current = (ROOT / path).read_bytes()\n            old = history.source_before_tooling(path, current)\n            for bad in (old, current[:-1], current + b\"\\n\", b\"\", b\"foreign\", None, bytearray(current)):\n                with self.subTest(path=path, kind=type(bad).__name__), self.assertRaises(ValueError):\n",
+          "before_fragment_sha256": "c208f8147181632deea15f2988eec7ce66544ca1dac3c232614f6cde6b5c0383",
+          "id": "owning-exact-hunk-2"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact source-only single raw ingress and idempotent ancestor composition after actual tooling566 failure; no native/compiler/controller/API changes",
+  "source_revision": "23e0ed9bc68c78b7c1e2549c1518a86d172e4b8c",
+  "unchanged_owning_inputs": {
+    ".github/workflows/gradle.yml": "3d5d2ea0313055366bf6bc83550f7e2f40c50438c450508588db778fb6bb75f7",
+    "calf-camera-picker/build.gradle.kts": "f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt": "357c8545e35d5fa529a6b38b064a86c1724ea2b0a2d2b7ec46d5ff4c3671a7d0",
+    "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt": "01771567b969a88094d88a2906dadc6bc4d1e8502e695abc9f145b7ca197e06e",
+    "scripts/ci/android_camera_developer_prerequisite.py": "92f8d79d3a0871f1abb619a0a17b36c87568e11151fb3dbefa4f12773de78bdb",
+    "scripts/ci/android_device_tests.py": "f096609a3731628c02966b7f6edd40641d7c0ff8119d0922605f6c7e6e99d7d8"
+  }
+}

@@ -30,7 +30,8 @@ class CameraTooling562Controls(unittest.TestCase):
         self.assertEqual(6, len(bindings))
         self.assertEqual(9, sum(len(b["fragments"]) for b in bindings.values()))
         for path, binding in bindings.items():
-            current = (ROOT / path).read_bytes()
+            from camera_tooling566_source_projection import current_source_before_tooling566
+            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())
             old = history.current_source_before_tooling(path, current)
             self.assertEqual(binding["before_sha256"], digest(old))
             rebuilt = old
@@ -43,7 +44,8 @@ class CameraTooling562Controls(unittest.TestCase):
 
     def test_current_refuses_old_partial_unknown_and_nonordinary_payloads(self):
         for path in history._bindings():
-            current = (ROOT / path).read_bytes()
+            from camera_tooling566_source_projection import current_source_before_tooling566
+            current = current_source_before_tooling566(path, (ROOT / path).read_bytes())
             old = history.source_before_tooling(path, current)
             for bad in (old, current[:-1], current + b"\n", b"", b"foreign", None, bytearray(current)):
                 with self.subTest(path=path, kind=type(bad).__name__), self.assertRaises(ValueError):

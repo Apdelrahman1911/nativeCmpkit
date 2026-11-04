@@ -21,6 +21,7 @@ in [`docs/development/evidence/`](../../docs/development/evidence/).
 | `PublishedCommonContractTest` | Eight executable packaged value/identity/default/API-linking tests | Native feature parity |
 | `PublishedIoConsumerTest` | Six real filesystem/stream boundary, empty, Unicode, independent-concurrency and repeated-close tests | iOS security scope, Android providers, native save-dialog outcomes, exhaustive leak/sanitizer campaign |
 | `PublishedNativeConsumerTest` | Three tests require exact staged loaded-bridge JAR names/hashes and same-owning-JAR native resources, then initialize bridges, query native share capability and create/destroy 100 valid picker configurations | Displaying/cancelling a dialog, real AppKit sharing, stale/invalid handles, physical device behavior; the full packaged run is still pending |
+| `verifyNativeConsumerResults` / `verify_native_test_results.py` | Native-only focus requires a fresh invocation directory and exactly the three original class/method identities, zero fail/error/skip and no foreign XML; preserves original JVM assertions | Synthetic XML/source controls are not actual JNI execution, binary authenticity, native minima or release readiness; actual Gradle/finalizer wiring is pending |
 | `jvm_abi.py` | Public/protected JVM descriptors, class declarations and constants from actual JARs; reviewable before/after delta | Kotlin metadata/nullability/default/inline semantics, Swift ABI, Android/JS/Wasm/Native ABI |
 | `binary_linkage.py` | Compiles a six-case Java fixture against source-bound baseline JARs; runs unchanged class bytes on baseline and staged artifacts, or explicitly separate receipt-bound local-JAR diagnostics | Complete Kotlin/default/inline/Compose or non-JVM ABI certification; two local candidates passed 6 cases / 31 assertions, but staged Maven execution remains pending |
 | `collect_native_licenses.py` | Raw texts from checksum-verified public `.crate` archives; optional explicit reviewed pinned-VCS missing-text supplements retain exact origin/proofs | Signed authenticity, native functionality, or a legal determination that every obligation has been discharged |
@@ -81,22 +82,60 @@ allowed solely in the isolated local repository:
 and the full target/native assembly described by the build owner. No remote or
 Central publication may bypass signing/verification using this local-only flag.
 
-From the repository root, after successful staging:
+From the repository root, after successful staging and independent review of
+the clean producer revision/source root, run **only the missing three native
+methods on one intended host**:
 
 ```sh
-./gradlew -p tests/consumer verifyCandidateResolution desktopTest \
+./gradlew -p tests/consumer verifyCandidateResolution verifyNativeConsumerResults \
   -PnativecmpkitRepository="$PWD/build/verification-repo" \
   -PnativecmpkitVersion=0.1.0-preview.1 \
-  -PconsumerTargets=desktop --max-workers=2 --no-configuration-cache
+  -PconsumerTargets=desktop -PnativecmpkitConsumerTestFocus=native \
+  -PnativecmpkitExpectedNativeRevision="$REVIEWED_PRODUCER_REVISION" \
+  -PnativecmpkitProducerSourceRoot="$REVIEWED_PRODUCER_ROOT" \
+  --no-build-cache --max-workers=2 --no-configuration-cache
+```
 
+This is the **prepared task contract, not an executed Gradle/JNI pass**. The
+fixture still resolves all21 roots and compiles the original public consumer;
+the focus does not reduce dependencies or modify any of the original17 methods.
+Omit `nativecmpkitConsumerTestFocus=native` and use `desktopTest` for the original
+17-method inventory, with the same independent producer properties. Do not
+replay accepted methods merely to fill a report; the lead checks applicability.
+
+Every desktop Test now depends on `verifyCandidateNativePackages`, which first
+depends on `verifyCandidateResolution` and then invokes the source-bound static
+checker **before test/JNI initialization**. It requires an explicit independent
+producer root matching the supplied full revision and a clean Git checkout;
+neither is read/inferred from the candidate artifact. Inspecting producer source
+provenance is not a project/composite dependency or a compiler substitution.
+Copied consumers must retain the checker and its native notice/helper modules.
+All native/material/notice checks remain strict and no dirty diagnostic or
+reduced-module flag enters this task's command.
+
+Native-only focus disables UP-TO-DATE/build-cache reuse and uses a new UUID XML
+directory. The result checker is both an explicit task depending on desktopTest
+and its finalizer: missing/NO-SOURCE, failed, skipped, foreign or stale directory
+results must not silently pass. Its report is bounded/flat, contains one owning
+XML and exactly the original3 methods. Original JNI checks, staged/loaded
+JAR-origin binding, serial forks and 100-handle `finally` disposal remain intact.
+The task stores package and result JSON receipts under
+`build/reports/native-consumer/<invocation>/`, without publishing anything.
+
+Independent **static-only** package inspection can also be run separately below.
+Do not needlessly repeat it after an accepted unchanged auto-preflight; this
+standalone command never initializes JNI:
+
+```sh
 python3 tests/consumer/verify_artifacts.py \
+  --source-root "$REVIEWED_PRODUCER_ROOT" \
   --repository "$PWD/build/verification-repo" --version 0.1.0-preview.1 \
   --target desktop --native-platform linux-x64 \
   --expected-native-revision "$REVIEWED_PRODUCER_REVISION" \
   --output build/consumer-static-linux.json
 ```
 
-The second command is a **partial Linux/desktop scope**, not a release pass. It
+The static command is a **partial Linux/desktop scope**, not a release pass. It
 still checks every publication root. Omit target/native-platform filters for the
 full static 21 × 7-coordinate / five-native-slot matrix, after all host artifacts
 are assembled. Timestamped SNAPSHOT repositories are deliberately excluded from
@@ -109,6 +148,12 @@ slot records a different revision, or the producer records a dirty tree. The
 source inventory and bytes must still match; these checks establish consistency,
 not builder authenticity. Nonnative Core/IO and WebView partial controllers do
 not need this option and retain their existing accepted scopes.
+`REVIEWED_PRODUCER_ROOT` must be the independently inspected absolute clean
+producer source checkout, not a candidate manifest/path claim. The native focus
+is desktop-only and maps the existing five intended JavaFX/native host slots;
+Windows ARM64 and musl remain unclaimed. Actual Gradle configuration/task order,
+fresh real XML, loaded JNI behavior and minimum-platform compatibility still
+require verified staging and host execution before any acceptance/closure.
 
 For a specifically authorized **local dirty diagnostic**, add
 `--allow-dirty-native-diagnostic` and explicitly select fewer than all five native

@@ -1,0 +1,19 @@
+{
+  "refusals": [
+    {
+      "cause": "Literal substring scan treated the check label policies/root/shared in REVIEW-source606.json as an absolute private path. grep identified only that label, not a private path. The source-review bytes stay unchanged; use an anchored absolute-path detector.",
+      "location": "documentation private-path scan",
+      "observed": "AssertionError: evidence contains no private root path"
+    },
+    {
+      "cause": "REVIEW-documentation606.json had not been written because the earlier scan refused. The shell continued staging without committing. Final exact packet is recomputed only after new documentation review, rather than weakening path ownership.",
+      "location": "following staged packet population assertion",
+      "observed": "Expected13 staged files; actual12"
+    }
+  ],
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Retained first passive documentation/bookkeeping refusals; not source-test, Gradle, candidate or native failures",
+  "source_review_sha256": "6aba9e5f568c7d1862558186977c1f8ccc282879f21b103ee51c57d56675ee3d",
+  "test_execution_count": 0
+}

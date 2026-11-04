@@ -1,0 +1,43 @@
+test_checked_consumer_copy_and_documented_native_route_preserve_jni_ownership (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_checked_consumer_copy_and_documented_native_route_preserve_jni_ownership) ... ok
+test_empty_failed_or_skipped_selection_cannot_silently_omit_result_gate (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_empty_failed_or_skipped_selection_cannot_silently_omit_result_gate) ... ok
+test_five_intended_native_slots_are_exact_and_windows_arm_is_not_claimed (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_five_intended_native_slots_are_exact_and_windows_arm_is_not_claimed) ... ok
+test_independent_root_revision_and_clean_checkout_are_required_not_manifest_inferred (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_independent_root_revision_and_clean_checkout_are_required_not_manifest_inferred) ... ok
+test_native_focus_is_fresh_not_up_to_date_or_build_cache_xml_reuse (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_native_focus_is_fresh_not_up_to_date_or_build_cache_xml_reuse) ... ok
+test_native_focus_selects_exact_original3_and_preserves_default_all (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_native_focus_selects_exact_original3_and_preserves_default_all) ... ok
+test_native_jni_task_depends_on_package_and_actual_resolution_preflight (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_native_jni_task_depends_on_package_and_actual_resolution_preflight) ... ok
+test_preflight_keeps_all21_roots_and_forbids_dirty_or_reduced_module_flags (test_native_consumer_preflight.NativeConsumerPreflightSourceTest.test_preflight_keeps_all21_roots_and_forbids_dirty_or_reduced_module_flags) ... ok
+test_cli_preserves_existing_receipt_and_directory_size_is_bounded (test_verify_native_test_results.NativeFocusedResultTest.test_cli_preserves_existing_receipt_and_directory_size_is_bounded) ... ok
+test_cli_reports_missing_and_exact_synthetic_results_honestly (test_verify_native_test_results.NativeFocusedResultTest.test_cli_reports_missing_and_exact_synthetic_results_honestly) ... ok
+test_duplicate_missing_and_foreign_native_methods_refuse (test_verify_native_test_results.NativeFocusedResultTest.test_duplicate_missing_and_foreign_native_methods_refuse) ... ok
+test_exact_three_synthetic_reports_pass_without_native_or_release_claim (test_verify_native_test_results.NativeFocusedResultTest.test_exact_three_synthetic_reports_pass_without_native_or_release_claim) ... ok
+test_extra_nested_or_linked_xml_refuses (test_verify_native_test_results.NativeFocusedResultTest.test_extra_nested_or_linked_xml_refuses) ... ok
+test_failure_error_skip_counters_and_hidden_elements_refuse (test_verify_native_test_results.NativeFocusedResultTest.test_failure_error_skip_counters_and_hidden_elements_refuse) ... ok
+test_foreign_suite_or_class_cannot_satisfy_native_methods (test_verify_native_test_results.NativeFocusedResultTest.test_foreign_suite_or_class_cannot_satisfy_native_methods) ... ok
+test_hardlinked_xml_is_not_fresh_task_owned_output (test_verify_native_test_results.NativeFocusedResultTest.test_hardlinked_xml_is_not_fresh_task_owned_output) ... ok
+test_malformed_utf8_dtd_and_oversized_reports_refuse (test_verify_native_test_results.NativeFocusedResultTest.test_malformed_utf8_dtd_and_oversized_reports_refuse) ... ok
+test_missing_and_empty_no_source_results_refuse (test_verify_native_test_results.NativeFocusedResultTest.test_missing_and_empty_no_source_results_refuse) ... ok
+test_mutation_during_read_refuses_and_stream_still_closes (test_verify_native_test_results.NativeFocusedResultTest.test_mutation_during_read_refuses_and_stream_still_closes) ... ok
+test_nested_foreign_suite_case_or_namespace_cannot_hide_in_properties (test_verify_native_test_results.NativeFocusedResultTest.test_nested_foreign_suite_case_or_namespace_cannot_hide_in_properties) ... ok
+test_raw_descriptor_closes_if_stream_construction_fails (test_verify_native_test_results.NativeFocusedResultTest.test_raw_descriptor_closes_if_stream_construction_fails) ... ok
+test_stale_or_invalid_invocation_cannot_rebind_existing_xml (test_verify_native_test_results.NativeFocusedResultTest.test_stale_or_invalid_invocation_cannot_rebind_existing_xml) ... 
+  test_stale_or_invalid_invocation_cannot_rebind_existing_xml (test_verify_native_test_results.NativeFocusedResultTest.test_stale_or_invalid_invocation_cannot_rebind_existing_xml) (invocation=None) ... ERROR
+test_unknown_suite_and_testcase_elements_refuse (test_verify_native_test_results.NativeFocusedResultTest.test_unknown_suite_and_testcase_elements_refuse) ... ok
+test_xml_reader_closes_descriptor_on_success_and_parse_failure (test_verify_native_test_results.NativeFocusedResultTest.test_xml_reader_closes_descriptor_on_success_and_parse_failure) ... ok
+
+======================================================================
+ERROR: test_stale_or_invalid_invocation_cannot_rebind_existing_xml (test_verify_native_test_results.NativeFocusedResultTest.test_stale_or_invalid_invocation_cannot_rebind_existing_xml) (invocation=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<worktree>/tests/consumer/test_verify_native_test_results.py", line 93, in test_stale_or_invalid_invocation_cannot_rebind_existing_xml
+    gate.verify(self.results, invocation)
+  File "<worktree>/tests/consumer/verify_native_test_results.py", line 63, in verify
+    canonical = str(uuid.UUID(invocation))
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/uuid.py", line 172, in __init__
+    raise TypeError('one of the hex, bytes, bytes_le, fields, '
+TypeError: one of the hex, bytes, bytes_le, fields, or int arguments must be given
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.023s
+
+FAILED (errors=1)

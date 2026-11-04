@@ -2,9 +2,11 @@ import com.android.build.api.dsl.KotlinMultiplatformAndroidLibraryTarget
 import groovy.json.JsonSlurper
 import java.io.File
 import java.security.MessageDigest
+import java.util.UUID
 import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.artifacts.component.ProjectComponentIdentifier
 import org.gradle.api.plugins.ExtensionAware
+import org.gradle.api.tasks.Exec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -18,6 +20,10 @@ val consumerTargets = providers.gradleProperty("consumerTargets").orElse("deskto
     .get().split(',').map(String::trim).toSet()
 require(consumerTargets.isNotEmpty() && consumerTargets.all { it in setOf("desktop", "android", "web", "ios") }) {
     "consumerTargets must select desktop,android,web,ios (comma separated)"
+}
+val consumerTestFocus = providers.gradleProperty("nativecmpkitConsumerTestFocus").orElse("all").get()
+require(consumerTestFocus in setOf("all", "native") && (consumerTestFocus != "native" || consumerTargets == setOf("desktop"))) {
+    "nativecmpkitConsumerTestFocus must be all, or native with consumerTargets=desktop only"
 }
 val candidateVersion = providers.gradleProperty("nativecmpkitVersion").orNull
     ?: error("Pass the exact staged -PnativecmpkitVersion (no implicit installed version)")
@@ -53,6 +59,15 @@ fun consumerJavaFxClassifier(): String {
         os.contains("linux") -> if (arm) "linux-aarch64" else "linux"
         else -> error("No verified nativeCmpkit desktop distribution contract for $os/$arch")
     }
+}
+
+fun consumerNativePlatform(): String = when (consumerJavaFxClassifier()) {
+    "linux" -> "linux-x64"
+    "linux-aarch64" -> "linux-arm64"
+    "mac" -> "macos-x64"
+    "mac-aarch64" -> "macos-arm64"
+    "win" -> "windows-x64"
+    else -> error("No intended native consumer slot for this host")
 }
 
 kotlin {
@@ -195,7 +210,82 @@ fun bindCandidateArtifact(id: ModuleComponentIdentifier, resolved: File): Map<St
     return primaryBindings.single()
 }
 
+// No candidate JNI may initialize before independently reviewed package/source
+// provenance has been checked. Reading producer sources here is inspection,
+// never a project/composite dependency or a compiler classpath substitution.
+val nativeInvocation = if ("desktop" in consumerTargets) UUID.randomUUID().toString() else ""
+val focusedNativeResults = layout.buildDirectory.dir("test-results/native-focused/$nativeInvocation")
+val nativeEvidenceDirectory = layout.buildDirectory.dir("reports/native-consumer/$nativeInvocation")
+val nativePython = providers.gradleProperty("nativecmpkitPython")
+    .orElse(if ("desktop" in consumerTargets && consumerNativePlatform() == "windows-x64") "python" else "python3")
+val nativePackagePreflight = if ("desktop" in consumerTargets) tasks.register<Exec>("verifyCandidateNativePackages") {
+    group = "verification"
+    description = "Check every desktop candidate root and clean native provenance before any consumer JNI test"
+    dependsOn("verifyCandidateResolution")
+    workingDir(layout.projectDirectory)
+    outputs.file(nativeEvidenceDirectory.map { it.file("package-preflight.json") })
+    outputs.upToDateWhen { false }
+    doFirst {
+        val expectedRevision = providers.gradleProperty("nativecmpkitExpectedNativeRevision").orNull
+            ?: error("Native consumer requires independently reviewed -PnativecmpkitExpectedNativeRevision")
+        check(Regex("[0-9a-f]{40}").matches(expectedRevision)) { "Expected native producer revision must be a full Git SHA" }
+        val sourceRoot = File(providers.gradleProperty("nativecmpkitProducerSourceRoot").orNull
+            ?: error("Native consumer requires independent -PnativecmpkitProducerSourceRoot"))
+        check(sourceRoot.isAbsolute && sourceRoot.isDirectory) { "Producer source root must be an existing absolute directory" }
+        val actualRevision = providers.exec {
+            workingDir(sourceRoot)
+            commandLine("git", "rev-parse", "HEAD")
+        }.standardOutput.asText.get().trim()
+        check(actualRevision == expectedRevision) { "Independent producer source root differs from the reviewed revision" }
+        val sourceStatus = providers.exec {
+            workingDir(sourceRoot)
+            commandLine("git", "status", "--porcelain", "--untracked-files=normal")
+        }.standardOutput.asText.get()
+        check(sourceStatus.isBlank()) { "Native consumer producer source root must be clean" }
+        val checker = layout.projectDirectory.file("verify_artifacts.py").asFile
+        check(checker.isFile) { "Independent consumer copy must retain its source-bound package checker/helpers" }
+        if (consumerTestFocus == "native") {
+            check(!focusedNativeResults.get().asFile.exists()) { "Focused native XML directory must be fresh for this invocation" }
+        }
+        // The default module list is all21. No dirty diagnostic or reduced-root
+        // switch may bypass native/notice/material gates in this readiness path.
+        commandLine(nativePython.get(), checker.absolutePath,
+            "--source-root", sourceRoot.absolutePath, "--repository", candidateRepository.absolutePath,
+            "--version", candidateVersion, "--target", "desktop", "--native-platform", consumerNativePlatform(),
+            "--expected-native-revision", expectedRevision,
+            "--output", nativeEvidenceDirectory.get().file("package-preflight.json").asFile.absolutePath)
+    }
+} else null
+
+val nativeFocusedResultCheck = if (consumerTestFocus == "native") tasks.register<Exec>("verifyNativeConsumerResults") {
+    group = "verification"
+    description = "Require fresh XML for exactly the original three native consumer methods; reject empty/foreign/skipped results"
+    dependsOn("desktopTest")
+    workingDir(layout.projectDirectory)
+    outputs.file(nativeEvidenceDirectory.map { it.file("native-results.json") })
+    outputs.upToDateWhen { false }
+    commandLine(nativePython.get(), layout.projectDirectory.file("verify_native_test_results.py").asFile.absolutePath,
+        "--results-dir", focusedNativeResults.get().asFile.absolutePath, "--invocation-id", nativeInvocation,
+        "--output", nativeEvidenceDirectory.get().file("native-results.json").asFile.absolutePath)
+} else null
+
 tasks.withType<Test>().configureEach {
+    if (name == "desktopTest") {
+        dependsOn(checkNotNull(nativePackagePreflight))
+        if (consumerTestFocus == "native") {
+            val methods = listOf("pickerNativeLibraryLoadsAndInitializes", "packagedPickerCreatesAndReleasesValidHandles",
+                "shareNativeLibraryLoadsAndReportsActualHostCapability")
+            filter {
+                methods.forEach { includeTestsMatching("nativecmpkit.consumer.PublishedNativeConsumerTest.$it") }
+                isFailOnNoMatchingTests = true
+            }
+            failOnNoDiscoveredTests.set(true)
+            outputs.upToDateWhen { false }
+            outputs.doNotCacheIf("Native-only consumer focus requires actual fresh JNI execution") { true }
+            reports.junitXml.outputLocation.set(focusedNativeResults)
+            finalizedBy(checkNotNull(nativeFocusedResultCheck))
+        }
+    }
     maxParallelForks = 1
     // A JNI contract violation must not be hidden by the VM's unchecked fast path.
     jvmArgs("-Xcheck:jni")

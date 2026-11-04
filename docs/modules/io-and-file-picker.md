@@ -18,6 +18,16 @@ guarded Foundation copying and real descriptor/error/cancellation integration.
 All six original criteria accepted and#4 closed. This additive scope does not
 rewrite the baseline below or certify separate picker/provider/device/ABI/release gates.
 
+Current-development Coil cache policy (IO-021.C4 / #57): the streaming fetcher
+does not register a `KmpFile` keyer. Callers opting into memory-cache reuse supply
+an explicit application-owned content identity **and revision**, updating the
+revision after any write/replacement, even when the length stays the same. Unknown
+revision requests disable memory caching; filename/path/size alone are not a
+freshness policy. See the [request example and ownership limits](../development/IO.md#explicit-coil-memory-cache-opt-in-io-021c4-57)
+and the new default-decoder desktop regression. This is separate from per-target
+peak-memory benchmarks, which remain required; cache-only work does not close #57
+or rewrite the baseline observations below.
+
 ## 1. Boundaries and dependency graph
 
 ```text

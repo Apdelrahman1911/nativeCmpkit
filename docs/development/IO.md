@@ -134,14 +134,73 @@ tree root. The original URI remains available for grants and enumeration.
 - Coil now uses the official `kotlinx-io-okio` bridge. `ImageSource` owns the
   buffered source after a successful fetch; failures/cancellation before that
   transfer close it. Native/JVM data is reported as `DISK`, browser buffering as
-  `MEMORY`; source MIME metadata is retained. Real memory profiling and request
-  invalidation behavior still need measurement/integration tests.
+  `MEMORY`; source MIME metadata is retained. Per-target peak-memory measurements
+  remain required; the explicit request-key policy below is a separate concern.
 - Browser Coil fetches reject unknown/negative or over-limit immutable Blob sizes
   before reading. Default limit: **64 MiB**. Configure
   `KmpFileFetcher.Factory(maxInMemoryBytes = ...)` explicitly for another policy;
   the existing no-argument factory and two-argument fetcher constructors remain.
   This cap is source bytes, **not decoded bitmap size**; set an appropriate Coil
   request size too. No peak-memory benchmark is claimed.
+
+### Explicit Coil memory-cache opt-in (IO-021.C4 / #57)
+
+`KmpFileFetcher.Factory()` registers a fetcher, **not a `KmpFile` keyer**. A file
+reference is not an immutable content identity. Opt into Coil's memory cache
+only when the application has both a stable, namespaced content identity and a
+revision it owns. Keep the identity/revision unchanged only while the content is
+unchanged; publish a new revision after every write or replacement, **including
+same-length replacement**. Coordinate mutation and requests so the revision and
+bytes describe the same content. A cache key does not obtain/persist an access
+grant, keep a temporary copy alive, or check whether the original is still readable.
+
+Use the existing Coil 3 `ImageRequest.Builder.memoryCacheKey(String)` API, for
+example with an application identity and a monotonically increasing revision:
+
+```kotlin
+// Application-owned values, not KmpFile metadata. Never reuse a revision for new bytes.
+val contentId: String = record.id
+val revision: Long? = record.contentRevision // null when freshness cannot be established
+val variant = "1024x1024:fit:exact:no-transform:v1"
+val key = revision?.let {
+    require(contentId.isNotBlank() && it >= 0)
+    "my-app:kmp-image:v1:${contentId.length}:$contentId:r$it:${variant.length}:$variant"
+}
+val request = ImageRequest.Builder(context).data(file)
+    .size(1024, 1024).scale(Scale.FIT).precision(Precision.EXACT)
+    .coroutineContext(Dispatchers.IO)
+    .diskCachePolicy(CachePolicy.DISABLED)
+    .apply {
+        if (key == null) memoryCachePolicy(CachePolicy.DISABLED)
+        else memoryCacheKey(key).memoryCachePolicy(CachePolicy.ENABLED)
+    }.build()
+```
+
+The example uses Coil `ImageRequest`, `CachePolicy`, `Scale` and `Precision`, plus
+coroutines `Dispatchers`; `record` is application data, not a new library API.
+Length-prefixed identity/variant fields avoid delimiter collisions. Include every
+output-changing decode/size/scale/transformation option in the variant; change it
+when those options change. Do not infer a revision from a filename, path, size,
+object `hashCode`, or a provider timestamp whose availability/freshness is unknown.
+If the revision is unknown, build a fresh request with memory caching **disabled**,
+even if a custom keyer is registered. This example disables disk caching too;
+no disk-cache invalidation policy is claimed.
+
+The same identity/revision can return cached pixels without reopening the source;
+reusing that revision after mutation can therefore return old pixels. A new key
+selects new content but does not evict old revisions. If desired, remove the exact
+old `SuccessResult.memoryCacheKey` from the owning loader's `memoryCache` after its
+consumers finish. Call `memoryCache.clear()`/`imageLoader.shutdown()` only when the
+application owns that cache/loader and all its consumers have finished, not after
+each UI request or on a shared loader owned elsewhere.
+
+The [desktop cache-policy regression](../../calf-file-picker-coil/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/coil/KmpFileCachePolicyAcceptanceTest.kt)
+uses the actual default decoder and memory cache, unchanged-key hits, controlled
+same-length replacement/new revisions, unknown-revision refetches and transferred
+source closure. Linux additionally checks actual device/inode descriptor counts.
+This small image scenario is **not** IO-021.C1's large-image per-target peak-memory
+benchmark and cannot close #57 by itself; other JVM hosts do not inherit Linux
+descriptor evidence, and no Android/browser/Apple cache execution is inferred.
 
 ### Access grants and temporary-copy ownership (IO-008/013)
 

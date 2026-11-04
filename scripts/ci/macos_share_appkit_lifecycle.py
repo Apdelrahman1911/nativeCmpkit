@@ -30,6 +30,7 @@ import tomllib
 import xml.etree.ElementTree as ET
 
 import library_tests as library
+import macos_share_missing_only as recovery
 import runtime_context
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -426,8 +427,10 @@ def read_xml(payload: bytes, case: str) -> dict:
     return cases[0]
 
 
-def collect_reports(root: Path, output: Path, execution: dict, baseline: dict, stdout: bytes) -> dict:
+def collect_reports(root: Path, output: Path, execution: dict, baseline: dict, stdout: bytes,
+                    selected_cases: tuple[str, ...] = CASES) -> dict:
     """Preserve reached original XML even if the native process failed/stopped early."""
+    recovery.validate_population(selected_cases)
     final = report_state(root)
     prefix = REPORT_PARENT + "/process-" + str(execution.get("pid", "unstarted"))
     collision = any(name == prefix or name.startswith(prefix + "/") for name in baseline)
@@ -437,7 +440,7 @@ def collect_reports(root: Path, output: Path, execution: dict, baseline: dict, s
     errors, reports, cases, markers = [], [], [], []
     if nonowned != baseline or collision:
         errors.append("preexisting-native-reports-changed-or-pid-collision")
-    expected_files = {prefix + "/TEST-" + name + ".xml": name for name in CASES}
+    expected_files = {prefix + "/TEST-" + name + ".xml": name for name in selected_cases}
     if set(owned) - {prefix, *expected_files}:
         errors.append("unexpected-owned-native-report-entry")
     folder = output / "fresh-reports"
@@ -472,16 +475,17 @@ def collect_reports(root: Path, output: Path, execution: dict, baseline: dict, s
         for line in stdout.decode("utf-8", errors="replace").splitlines():
             if line.startswith("NATIVECMPKIT_APPKIT_CASE"):
                 match = MARKER.fullmatch(line)
-                if match is None or match[1] not in CASES or float(match[3]) > NATIVE_SECONDS:
+                if match is None or match[1] not in selected_cases or float(match[3]) > NATIVE_SECONDS:
                     errors.append("native-console-marker-mismatch")
                     continue
                 markers.append({"name": match[1], "passed": match[2] == "true", "live": int(match[4]),
                                 "registry": int(match[5]), "cleanup": match[6] == "true"})
-    if ([row["name"] for row in markers] != list(CASES) or
+    if ([row["name"] for row in markers] != list(selected_cases) or
             any(not row["passed"] or row["live"] != 0 or row["registry"] != 0 or not row["cleanup"] for row in markers)):
         errors.append("native-console-population-or-cleanup-not-accepted")
-    if [case["name"] for case in cases] != list(CASES) or len(reports) != len(CASES):
-        errors.append("native-eight-xml-population-not-accepted")
+    if [case["name"] for case in cases] != list(selected_cases) or len(reports) != len(selected_cases):
+        errors.append("native-eight-xml-population-not-accepted" if selected_cases == CASES
+                      else "native-selected-xml-population-not-accepted")
     if execution.get("passed") is not True:
         errors.append("native-process-not-accepted")
     return {"passed": not errors, "errors": errors, "reports": reports, "testcases": cases,
@@ -506,16 +510,192 @@ def logged_execution(root: Path, output: Path, role: str, command: list[str], en
     return execution, paths[0].read_bytes() if size_ok else b""
 
 
-def plan() -> dict:
-    return {"schema_version": 1, "platform": PLATFORM, "rust_target": TARGET, "rust_toolchain": PINNED,
-            "cargo_command": cargo_command("<fresh-owned-target>"), "native_command": ["<admitted-mh-execute>"],
-            "exact_native_cases": list(CASES), "native_case_arguments": [], "stress_selected": False,
+def missing_view_failure_observation(root: Path, output: Path, execution: dict,
+                                     reports: dict, inputs: dict) -> dict:
+    """Failure-only bounded reader of THIS owned sealed stderr, without another native query."""
+    if (execution.get("passed") is not False or not any(
+            row.get("name") == "missing_content_view" and row.get("status") == "failed"
+            for row in reports.get("testcases", []))):
+        return recovery.unavailable("missing-view-failure-not-reached")
+    expected_path = (output / "native.stderr.private.log").relative_to(root).as_posix()
+    logs = [row for row in execution.get("private_logs", []) if row.get("relative_path") == expected_path]
+    if len(logs) != 1:
+        return recovery.unavailable("owned-private-failure-stream-not-captured")
+    sealed = logs[0]
+    if type(sealed.get("size")) is not int or not 0 <= sealed["size"] <= recovery.MAX_STDERR:
+        return recovery.unavailable("private-stream-outside-observation-bound")
+    try:
+        path = ordinary_file(root, expected_path)
+        before = path.lstat()
+        keys = ("device", "inode", "size", "mtime_ns", "mode")
+        metadata = lambda value: {"device": value.st_dev, "inode": value.st_ino,
+                                  "size": value.st_size, "mtime_ns": value.st_mtime_ns,
+                                  "mode": value.st_mode}
+        require(metadata(before) == {key: sealed[key] for key in keys}, "private-stream-identity-changed")
+        descriptor = os.open(path, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+        with os.fdopen(descriptor, "rb") as stream:
+            opened = os.fstat(stream.fileno())
+            require(metadata(opened) == metadata(before) and opened.st_nlink == 1,
+                    "private-stream-open-identity-changed")
+            payload = stream.read(recovery.MAX_STDERR + 1)
+            after = os.fstat(stream.fileno())
+        final = path.lstat()
+        require(metadata(after) == metadata(before) == metadata(final) and
+                after.st_nlink == final.st_nlink == 1 and
+                len(payload) == sealed["size"] and hashlib.sha256(payload).hexdigest() == sealed["sha256"],
+                "private-stream-read-custody-changed")
+        value = recovery.appkit_failure(payload, source_hash=inputs.get(CASES_SOURCE),
+                                        operation_hash=inputs.get(recovery.OPERATION_SOURCE),
+                                        source_absolute=str(root / CASES_SOURCE),
+                                        failed_case="missing_content_view")
+        value["owned_stream_sha256"] = sealed["sha256"]
+        value["owned_stream_bytes"] = sealed["size"]
+        return value
+    except (OSError, ValueError, KeyError):
+        return recovery.unavailable("private-failure-stream-custody-refused")
+
+
+def run_missing_six(root: Path, output: Path, artifact_path: Path, artifact: dict,
+                    environment: dict, before: dict, native_before: dict,
+                    git_before: dict, runtime_before: dict, baseline: dict) -> tuple[dict, list[dict]]:
+    """One admitted compilation; SIX fixed cases, serial fresh processes, stop on first refusal."""
+    runs, current_baseline = [], baseline
+    folders = output / "cases"
+    folders.mkdir(mode=0o700)
+    for case in recovery.MISSING_APPKIT:
+        case_output = folders / case
+        case_output.mkdir(mode=0o700)
+        record = {"case": case, "passed": False, "errors": [],
+                  "native_command": [artifact["relative_path"], "--case=" + case],
+                  "native_case_arguments": ["--case=" + case], "phase": "pre-native"}
+        runs.append(record)
+        case_before, case_native_before, case_runtime_before, case_git_before = None, None, None, None
+        try:
+            case_before = library.snapshot_inputs(root)
+            case_native_before = native.expected_source_files(root, MODULE)
+            case_git_before = git_identity(root, environment)
+            case_runtime_before = runtime_identity(root, environment)
+            record.update(inputs_before_sha256=library.input_digest(case_before),
+                          native_inputs_before_sha256=library.input_digest(case_native_before),
+                          git_before=case_git_before, runtime_before=case_runtime_before)
+            library.write_json(case_output / "inputs-before.json", case_before)
+            library.write_json(case_output / "native-inputs-before.json", case_native_before)
+            library.write_json(case_output / "runtime-before.json", case_runtime_before)
+            require(case_before == before and case_native_before == native_before and
+                    case_git_before == git_before, "source-changed-before-selected-native-case")
+            require(case_runtime_before == runtime_before, "runtime-changed-before-selected-native-case")
+            identity = file_identity(ordinary_file(root, artifact["relative_path"]))
+            record["artifact_before"] = identity
+            require(all(identity[key] == artifact[key] for key in identity),
+                    "executable-changed-before-selected-native-case")
+            require(report_state(root) == current_baseline, "reports-changed-before-selected-native-case")
+            library.write_json(case_output / "preexisting-native-reports.json", current_baseline)
+            record["phase"] = "native"
+            execution, stdout = logged_execution(root, case_output, "native",
+                                                 [str(artifact_path), "--case=" + case], environment,
+                                                 NATIVE_SECONDS, MAX_NATIVE_LOG)
+            record["native_execution"] = execution
+            record["native_reports"] = collect_reports(root, case_output, execution,
+                                                        current_baseline, stdout, (case,))
+            if case == "missing_content_view" and execution.get("passed") is False:
+                record["missing_view_failure_observation"] = missing_view_failure_observation(
+                    root, case_output, execution, record["native_reports"], before)
+            require(record["native_reports"]["passed"], "selected-native-case-not-accepted")
+            record["phase"] = "final-custody"
+        except (Exception, KeyboardInterrupt) as error:
+            record["errors"].append(str(error) if isinstance(error, Refusal) else (
+                "owner-interrupted" if isinstance(error, KeyboardInterrupt) else
+                "selected-case-stage-refused-" + type(error).__name__))
+        finally:
+            for name, acquire, expected in (
+                ("inputs_after", lambda: library.snapshot_inputs(root), case_before),
+                ("native_inputs_after", lambda: native.expected_source_files(root, MODULE), case_native_before),
+                ("git_after", lambda: git_identity(root, environment), case_git_before),
+                ("runtime_after", lambda: runtime_identity(root, environment), case_runtime_before),
+                ("artifact_after", lambda: file_identity(ordinary_file(root, artifact["relative_path"])),
+                 record.get("artifact_before")),
+            ):
+                try:
+                    value = acquire()
+                    record[name + "_held"] = expected is not None and value == expected
+                    if name in {"inputs_after", "native_inputs_after"}:
+                        record[name + "_sha256"] = library.input_digest(value)
+                    else:
+                        record[name] = value
+                    library.write_json(case_output / (name.replace("_", "-") + ".json"), value)
+                    if not record[name + "_held"]:
+                        record["errors"].append("selected-case-custody-changed-" + name)
+                except (Exception, KeyboardInterrupt):
+                    record["errors"].append("selected-case-final-custody-refused-" + name)
+            try:
+                final = report_state(root)
+                digest = hashlib.sha256(json.dumps(final, sort_keys=True).encode()).hexdigest()
+                reports = record.get("native_reports")
+                record["reports_held"] = (digest == reports["source_report_state_sha256"]
+                                           if reports is not None else final == current_baseline)
+                record["preexisting_reports_unchanged"] = (reports["preexisting_reports_unchanged"]
+                                                            if reports is not None else final == current_baseline)
+                record["source_report_state_sha256"] = digest
+                library.write_json(case_output / "reports-after.json", final)
+                if not record["reports_held"]:
+                    record["errors"].append("selected-case-final-report-custody-changed")
+                current_baseline = final
+            except (Exception, KeyboardInterrupt):
+                record["errors"].append("selected-case-final-report-custody-refused")
+            record["passed"] = (not record["errors"] and record.get("native_execution", {}).get("passed") is True
+                                and record.get("native_reports", {}).get("passed") is True
+                                and record.get("reports_held") is True
+                                and all(record.get(name + "_held") is True for name in
+                                        ("inputs_after", "native_inputs_after", "git_after", "runtime_after", "artifact_after")))
+            library.write_json(case_output / "receipt.json", record)
+        # A failed/unknown population never reaches a later selected case.
+        if not record["passed"]:
+            break
+    reports, cases, markers = [], [], []
+    for record in runs:
+        value = record.get("native_reports", {})
+        reports.extend({**row, "artifact_relative_path": "cases/" + record["case"] + "/" + row["artifact_relative_path"]}
+                       for row in value.get("reports", []))
+        cases.extend(value.get("testcases", []))
+        markers.extend(value.get("console_markers", []))
+    passed = len(runs) == len(recovery.MISSING_APPKIT) and all(row["passed"] for row in runs)
+    summary = {"passed": passed, "errors": [] if passed else ["native-six-missing-case-batch-not-accepted"],
+               "reports": reports, "testcases": cases, "console_markers": markers,
+               "reached_original_xml": len(reports),
+               "accepted_xml_cases": sum(row["status"] == "passed" for row in cases),
+               "preexisting_reports_unchanged": all(row.get("preexisting_reports_unchanged") is True for row in runs),
+               "source_report_state_sha256": runs[-1].get("source_report_state_sha256"),
+               "remaining_unexecuted_cases": [case for case in recovery.MISSING_APPKIT
+                                               if case not in {row["name"] for row in cases}],
+               "compile_once": True, "stop_on_first_failure": True,
+               "raw_control_flag_exported": False, "raw_control_flag_independently_observed": False,
+               "remaining_witness_limits": ["visible presentation", "recipient/service delivery", "stress_2048",
+                                             "Instruments/leaks", "ASan", "unbounded/concurrent stress"]}
+    return summary, runs
+
+
+def plan(case: str | None = None, *, missing_only: bool = False) -> dict:
+    selected = recovery.appkit_selection(case, missing_only=missing_only)
+    arguments = [] if case is None else ["--case=" + case]
+    value = {"schema_version": 1, "platform": PLATFORM, "rust_target": TARGET, "rust_toolchain": PINNED,
+            "cargo_command": cargo_command("<fresh-owned-target>"),
+            "native_command": ["<admitted-mh-execute>", *arguments],
+            "exact_native_cases": list(selected), "native_case_arguments": arguments, "stress_selected": False,
             "compile_timeout_seconds": COMPILE_SECONDS, "native_timeout_seconds": NATIVE_SECONDS,
             "filesystem_wallclock_envelope_ns": FRESHNESS_SLOP_NS,
             "disk_reserve_bytes": DISK_RESERVE, "read_only_plan": True, "publication_commands": []}
+    if case is not None or missing_only:
+        value["recovery_reference"] = recovery.recovery_reference()
+    if missing_only:
+        value.update(native_command=None, native_case_arguments=None,
+                     native_commands=[["<admitted-mh-execute>", "--case=" + name] for name in selected],
+                     compile_once=True, stop_on_first_failure=True, missing_only_share630=True)
+    return value
 
 
-def run(root: Path, output_relative: str) -> dict:
+def run(root: Path, output_relative: str, case: str | None = None, *, missing_only: bool = False) -> dict:
+    selected = recovery.appkit_selection(case, missing_only=missing_only)
+    arguments = [] if case is None else ["--case=" + case]
     root = root.resolve()
     output = relative_path(root, output_relative)
     allowed = root / "build/ci-verification"
@@ -528,9 +708,13 @@ def run(root: Path, output_relative: str) -> dict:
     receipt = {"schema_version": 1, "scope": "actual-macos-arm64-default-eight-AppKit-ownership",
                "started_at_utc": now(), "passed": False, "errors": [], "phase": "preflight",
                "platform": PLATFORM, "rust_target": TARGET, "rust_toolchain": PINNED,
-               "exact_native_cases": list(CASES), "stress_selected": False, "release_readiness_verified": False,
+               "exact_native_cases": list(selected), "stress_selected": False, "release_readiness_verified": False,
                "publication_performed": False, "raw_control_flag_exported": False,
                "raw_control_flag_independently_observed": False}
+    if case is not None or missing_only:
+        receipt.update(scope="actual-macos-arm64-Share630-missing-only-AppKit-ownership",
+                       recovery_reference=recovery.recovery_reference(),
+                       missing_only_share630=missing_only)
     lock = allowed / ".macos-share-appkit-lifecycle.lock"
     locked, environment, before, native_before, baseline, artifact_path, artifact = False, None, None, None, None, None, None
     try:
@@ -564,13 +748,27 @@ def run(root: Path, output_relative: str) -> dict:
         require(launch_identity == {key: artifact[key] for key in launch_identity},
                 "native-executable-changed-before-launch")
         require(report_state(root) == baseline, "native-reports-changed-before-launch")
-        receipt.update(phase="native", native_command=[artifact["relative_path"]], native_case_arguments=[])
-        execution, stdout = logged_execution(root, output, "native", [str(artifact_path)], environment,
-                                             NATIVE_SECONDS, MAX_NATIVE_LOG)
-        receipt["native_execution"] = execution
-        receipt["native_reports"] = collect_reports(root, output, execution, baseline, stdout)
+        receipt["phase"] = "native"
+        if missing_only:
+            receipt.update(native_command=None, native_case_arguments=None, compile_once=True,
+                           stop_on_first_failure=True)
+            summary, runs = run_missing_six(root, output, artifact_path, artifact, environment,
+                                            before, native_before, receipt["git_before"],
+                                            receipt["runtime_before"], baseline)
+            receipt.update(native_reports=summary, native_case_runs=runs)
+        else:
+            receipt.update(native_command=[artifact["relative_path"], *arguments], native_case_arguments=arguments)
+            execution, stdout = logged_execution(root, output, "native", [str(artifact_path), *arguments], environment,
+                                                 NATIVE_SECONDS, MAX_NATIVE_LOG)
+            receipt["native_execution"] = execution
+            receipt["native_reports"] = collect_reports(root, output, execution, baseline, stdout, selected)
+            if any(row["name"] == "missing_content_view" and row["status"] == "failed"
+                   for row in receipt["native_reports"]["testcases"]):
+                receipt["missing_view_failure_observation"] = missing_view_failure_observation(
+                    root, output, execution, receipt["native_reports"], before)
         receipt["control_failure_witness"]["compiled_with_admitted_executable"] = True
-        require(receipt["native_reports"]["passed"], "actual-native-eight-case-verification-not-accepted")
+        require(receipt["native_reports"]["passed"], "actual-native-eight-case-verification-not-accepted" if selected == CASES
+                else "actual-native-selected-case-verification-not-accepted")
         receipt["phase"] = "final-custody"
     except (Exception, KeyboardInterrupt) as error:
         receipt["errors"].append(str(error) if isinstance(error, Refusal) else (
@@ -644,12 +842,17 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default=DEFAULT_OUTPUT)
     parser.add_argument("--plan", action="store_true")
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument("--case", choices=recovery.MISSING_APPKIT,
+                           help="One exact failed/unexecuted Share630 case, never an accepted case or stress")
+    selection.add_argument("--missing-only-share630", action="store_true",
+                           help="Compile once; six exact missing cases serially, stopping on the first failure")
     args = parser.parse_args()
     if args.plan:
-        print(json.dumps(plan(), indent=2, sort_keys=True))
+        print(json.dumps(plan(args.case, missing_only=args.missing_only_share630), indent=2, sort_keys=True))
         return 0
     try:
-        receipt = run(ROOT, args.output)
+        receipt = run(ROOT, args.output, args.case, missing_only=args.missing_only_share630)
     except (OSError, ValueError):
         print("AppKit runner refused output ownership; no existing output was modified.", file=sys.stderr)
         return 1

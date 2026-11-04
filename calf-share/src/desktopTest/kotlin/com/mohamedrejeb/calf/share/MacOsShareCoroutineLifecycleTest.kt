@@ -48,7 +48,7 @@ class MacOsShareCoroutineLifecycleTest {
     fun realNativeTimeoutReportsOnceWithoutFallbackAndAllowsFreshRequestAfterMainCleanup() = withRealWindow {
         withRealOwner(ShareOptions(desktopTimeoutMillis = 2_000, allowClipboardFallback = false)) { fixture ->
             fixture.owner.launch(ShareContent.Text("NativeCmpKit owned timeout fixture"))
-            awaitRetainedRequest()
+            awaitTimeoutRetention(fixture, RetentionPhase.InitialTimeout)
             awaitCondition("Native deadline did not deliver its outcome", 5_000) { fixture.results.size == 1 }
             val failed = assertIs<ShareOutcome.Failed>(fixture.results.single())
             assertEquals(ShareFailureReason.TimedOut, failed.reason)
@@ -56,7 +56,7 @@ class MacOsShareCoroutineLifecycleTest {
             assertTrue(fixture.failures.isEmpty())
             fixture.options.set(ShareOptions(desktopTimeoutMillis = 15_000, allowClipboardFallback = false))
             fixture.owner.launch(ShareContent.Text("NativeCmpKit fresh request after timeout"))
-            awaitRetainedRequest()
+            awaitTimeoutRetention(fixture, RetentionPhase.ReplacementAfterTimeout)
             assertEquals(1, fixture.results.size, "Completed timeout generated another callback")
             fixture.job.cancel()
             runBlocking { withTimeout(2_000) { fixture.job.join() } }
@@ -164,6 +164,65 @@ class MacOsShareCoroutineLifecycleTest {
 
     private fun awaitRetainedRequest() = awaitCondition("Actual AppKit operation was not retained", 10_000) {
         NativeShareBridge.activeRequestCount() == 1 && NativeShareBridge.liveUiOperationCount() == 1
+    }
+
+    private enum class RetentionPhase { InitialTimeout, ReplacementAfterTimeout }
+
+    /** Failure-only fields from the SAME original predicate; no retry, new query or deadline change. */
+    private fun awaitTimeoutRetention(fixture: Fixture, phase: RetentionPhase) {
+        var active: Int? = null
+        var live: Int? = null
+        try {
+            awaitCondition("Actual AppKit operation was not retained", 10_000) {
+                val queriedActive = NativeShareBridge.activeRequestCount()
+                val queriedLive = if (queriedActive == 1) NativeShareBridge.liveUiOperationCount() else null
+                active = queriedActive
+                live = queriedLive
+                queriedActive == 1 && queriedLive == 1
+            }
+        } catch (error: AssertionError) {
+            if (error.message == "Actual AppKit operation was not retained") {
+                // CopyOnWriteArrayList iterators retain one immutable emitted snapshot. Bound the
+                // diagnostic iteration even if a callback bug has emitted an unexpected population.
+                val emitted = fixture.results.iterator()
+                var count = 0
+                var first: ShareOutcome? = null
+                while (emitted.hasNext() && count <= 64) {
+                    val value = emitted.next()
+                    if (count == 0) first = value
+                    count++
+                }
+                val outcome = when {
+                    count > 64 -> "overflow"
+                    count == 0 -> "not-emitted"
+                    count > 1 -> "multiple"
+                    else -> when (val value = first) {
+                        ShareOutcome.Presented -> "Presented"
+                        ShareOutcome.Selected -> "Selected"
+                        ShareOutcome.Completed -> "Completed"
+                        ShareOutcome.CopiedToClipboard -> "CopiedToClipboard"
+                        ShareOutcome.Dismissed -> "Dismissed"
+                        ShareOutcome.Busy -> "Busy"
+                        is ShareOutcome.Unavailable -> "Unavailable"
+                        is ShareOutcome.Failed -> "Failed.${value.reason.name}"
+                        null -> "not-emitted" // Never substitute a native count or error body.
+                    }
+                }
+                val failures = fixture.failures.iterator()
+                var failureCount = 0
+                while (failures.hasNext() && failureCount <= 64) { failures.next(); failureCount++ }
+                fun nativeCount(value: Int?): String = when {
+                    value == null -> "unavailable"
+                    value !in 0..64 -> "out-of-range"
+                    else -> value.toString()
+                }
+                val resultCount = if (count > 64) "overflow" else count.toString()
+                val recordedFailures = if (failureCount > 64) "overflow" else failureCount.toString()
+                println("NATIVECMPKIT_SHARE_RETENTION phase=${phase.name} active=${nativeCount(active)} " +
+                    "live=${nativeCount(live)} outcome=$outcome result_count=$resultCount failure_count=$recordedFailures")
+            }
+            throw error // Preserve the original assertion and independent owned cleanup.
+        }
     }
 
     private fun awaitNoNativeOwners() = awaitCondition("Native Main cleanup did not release owned references", 5_000) {

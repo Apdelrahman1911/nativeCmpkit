@@ -12,6 +12,13 @@ Both use `macos-26`, Arm64, a recorded booted simulator of the exact idiom, and
 the genuine `:calf-ui:iosSimulatorArm64ApplicationTest`. Each profile selects one
 new method; all previously accepted anchor/bar methods remain excluded.
 
+The first owned575 requests failed in a shared **historical workflow hash test**,
+before any platform/native step. [Fixture581 recovery](../development/evidence/current-platform-recovery-20261101/ios-owned-geometry580-583/README.md)
+qualifies exact current bytes before reading that dated stage; no expected pin,
+native assertion, lifecycle code or workflow was changed. Only failed/owning
+affected controls were recovered; compiler544/Actionlint577 and accepted native
+populations remain unchanged reuse, not new executions.
+
 ## Native execution flow
 
 0. Geometry-only profiles predetermine a fresh **owned** simulator of the recorded

@@ -1,0 +1,141 @@
+{
+  "accepted_native_replayed": false,
+  "added_inputs": {
+    "scripts/ci/test_ios_owned_geometry_fixture_recovery.py": "971788785cfb971e57bc64bbc85d3b285ebdd8333ff6480591042b292dfef9df"
+  },
+  "bindings": {
+    "scripts/ci/ios_geometry_simulator_source_projection.py": {
+      "after_bytes": 5702,
+      "after_sha256": "a21630fa255dc0a5651ac07d70c2e30a3215a6c5e1f2b6f39ff17dfbf6472370",
+      "before_bytes": 5073,
+      "before_sha256": "ba26001e3975efa86ef3dd4eac45fe023844b7f694edb361df05eb80477b472a",
+      "fragments": [
+        {
+          "after": "def source_before_owned_geometry(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact owned-geometry identity and ordinary source bytes are required\")\n    from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history\n    payload = peel_current_recovery_for_history(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is None:\n        return payload\n",
+          "after_fragment_sha256": "a1abaee4255bfde0278523ee749b5ee9b600a6528fbae3261ee91f9ba214d0a9",
+          "before": "def source_before_owned_geometry(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact owned-geometry identity and ordinary source bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is None:\n        return payload\n",
+          "before_fragment_sha256": "06b98a0e0e34e1f8532629c914eb78b9f59e722ea40dcf88cdccc7c43745787d",
+          "id": "fixture581-exact-hunk-1"
+        },
+        {
+          "after": "    \"\"\"Only the outer raw checkout boundary may certify a listed latest image.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current owned-geometry identity and ordinary bytes are required\")\n    from ios_owned_geometry_fixture_recovery import current_source_before_recovery\n    payload = current_source_before_recovery(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n        raise ValueError(\"A historical image cannot replace the exact current owned-geometry source\")\n",
+          "after_fragment_sha256": "bc89c9bf47ba3b9ed2708df0262b58824eeea8c48370c932aae8c41804ba2e1a",
+          "before": "    \"\"\"Only the outer raw checkout boundary may certify a listed latest image.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current owned-geometry identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() != binding[\"after_sha256\"]:\n        raise ValueError(\"A historical image cannot replace the exact current owned-geometry source\")\n",
+          "before_fragment_sha256": "63938b1940ea7f61ada6646b4b68210f94a4ec9076276732d25ae81d9fad678e",
+          "id": "fixture581-exact-hunk-2"
+        },
+        {
+          "after": "    \"\"\"Not current admission: unknown/older bytes still need their next older pin.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor owned-geometry identity and ordinary bytes are required\")\n    from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history\n    payload = peel_current_recovery_for_history(relative, payload)\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() == binding[\"after_sha256\"]:\n        return source_before_owned_geometry(relative, payload)\n",
+          "after_fragment_sha256": "f2e441a3210f9ebb780f8bd942c4df2a1125582142e0ee628b5b6ade6a3e020a",
+          "before": "    \"\"\"Not current admission: unknown/older bytes still need their next older pin.\"\"\"\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor owned-geometry identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n    if binding is not None and hashlib.sha256(payload).hexdigest() == binding[\"after_sha256\"]:\n        return source_before_owned_geometry(relative, payload)\n",
+          "before_fragment_sha256": "d0c71d43a3ef448a0e7e4fb2ad896c6a78f19088a112becccf1d95ce751b6990",
+          "id": "fixture581-exact-hunk-3"
+        },
+        {
+          "after": "\ndef validate_current_sources(root: Path):\n    \"\"\"Live admission uses actual new bytes; the inverse is never a native input.\"\"\"\n    import ios_owned_geometry_fixture_recovery as recovery\n    recovery.validate_current_sources(root)\n    document = _document()\n    expected = {name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} | document[\"added_inputs\"]\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        payload = recovery.current_source_before_recovery(name, _ordinary_bytes(root, name)[0])\n        if hashlib.sha256(payload).hexdigest() != digest:\n            raise ValueError(\"Current owned-geometry source differs from its owning image: \" + name)\n    return True\n",
+          "after_fragment_sha256": "44ad4704f374e80abf0105d70e606fe4e3108f904a6b68812a09ba99b87423bd",
+          "before": "\ndef validate_current_sources(root: Path):\n    \"\"\"Live admission uses actual new bytes; the inverse is never a native input.\"\"\"\n    document = _document()\n    expected = {name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} | document[\"added_inputs\"]\n    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:\n            raise ValueError(\"Current owned-geometry source differs from its owning image: \" + name)\n    return True\n",
+          "before_fragment_sha256": "7839d26ed15de4ef5315502ea29180d91560572b93b3ec9151740bf119825d76",
+          "id": "fixture581-exact-hunk-4"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_home571_fixture_recovery.py": {
+      "after_bytes": 6701,
+      "after_sha256": "8550a9b29b24f3f752b33408364df8a8de2f414dbcd126bb5500229727ee9e17",
+      "before_bytes": 6541,
+      "before_sha256": "8fcc2a2042f9214874d355c41d1d43e34e6678abce689a9499ec1f3da1755b95",
+      "fragments": [
+        {
+          "after": "        current = (ROOT / FIXTURE).read_bytes()\n        old = original_fixture(current)\n        def assertions(raw):\n            from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history\n            raw = peel_current_recovery_for_history(FIXTURE, raw)\n            return [ast.dump(n, include_attributes=False) for n in ast.walk(ast.parse(raw))\n                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and\n                    isinstance(n.func.value, ast.Name) and n.func.value.id == \"self\" and\n",
+          "after_fragment_sha256": "825a4a13899c10ec7c8db5d42afe9b31ad0ac3323572fd364741b2cf367593c3",
+          "before": "        current = (ROOT / FIXTURE).read_bytes()\n        old = original_fixture(current)\n        def assertions(raw):\n            return [ast.dump(n, include_attributes=False) for n in ast.walk(ast.parse(raw))\n                    if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and\n                    isinstance(n.func.value, ast.Name) and n.func.value.id == \"self\" and\n",
+          "before_fragment_sha256": "e125704157a2f03e01bf280c736189c79b3617a5626001acb1ae1928fb6160d7",
+          "id": "fixture581-exact-hunk-1"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_home_baseline_source_projection.py": {
+      "after_bytes": 9803,
+      "after_sha256": "4f29e88d18193320a04803679efa1c36b91d4e6c9a4fa862566c6849e5ec22b6",
+      "before_bytes": 9676,
+      "before_sha256": "5d3d54b4f2afb9f4378d68aac8de74ecb9ff175028614bc88511b9fdb8ac17bf",
+      "fragments": [
+        {
+          "after": "from unittest.mock import patch\n\nimport camera_home_baseline_source_projection as history\nimport ios_geometry_simulator_source_projection as owned_history\n\nROOT = Path(__file__).resolve().parents[2]\nHELPER = \"scripts/ci/android_camera_developer_prerequisite.py\"\n",
+          "after_fragment_sha256": "8588a33d2e310227841b9a21bc2a64574c891ef97105303ee79ab682f77da60c",
+          "before": "from unittest.mock import patch\n\nimport camera_home_baseline_source_projection as history\n\nROOT = Path(__file__).resolve().parents[2]\nHELPER = \"scripts/ci/android_camera_developer_prerequisite.py\"\n",
+          "before_fragment_sha256": "dde7c09c547b1d3c07a6945db740916985be5b04b422ddf58e11925c05bed1e7",
+          "id": "fixture581-exact-hunk-1"
+        },
+        {
+          "after": "        for relative, expected in document[\"added_behavior_sources\"].items():\n            self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)\n        for relative, expected in document[\"unchanged_native_inputs\"].items():\n            self.assertEqual(expected, sha(owned_history.current_source_before_owned_geometry(relative, (ROOT / relative).read_bytes())), relative)\n        current = (ROOT / NATIVE).read_bytes()\n        previous = history.current_source_before_home_baseline(NATIVE, current)\n        def body(raw, name):\n",
+          "after_fragment_sha256": "84617548bc88ca7e7080fceefc98aeb8d138edc77222a6a8d3e121cca22019ac",
+          "before": "        for relative, expected in document[\"added_behavior_sources\"].items():\n            self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)\n        for relative, expected in document[\"unchanged_native_inputs\"].items():\n            self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)\n        current = (ROOT / NATIVE).read_bytes()\n        previous = history.current_source_before_home_baseline(NATIVE, current)\n        def body(raw, name):\n",
+          "before_fragment_sha256": "0b8d40300790474620cd5b2398577d9627799e4ca3bd3cb38b48673a1c7561e4",
+          "id": "fixture581-exact-hunk-2"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_geometry_simulator_source_projection.py": {
+      "after_bytes": 9925,
+      "after_sha256": "a13aa64cdc102fe1d755c5e4c95c7a5e4b24330f32109312927a688713b150d4",
+      "before_bytes": 9611,
+      "before_sha256": "a80980b48069ac0b83a18d71f43e2c71df698f4cf3c7a7d0a66fd0944864c4f9",
+      "fragments": [
+        {
+          "after": "from unittest.mock import patch\n\nimport ios_geometry_simulator_source_projection as history\nimport ios_owned_geometry_fixture_recovery as recovery\nimport android_external328_source_projection as bridge\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "after_fragment_sha256": "96afbc53e9b0790c856cff6525e99c04ef7cac194eae22e386d498314160042f",
+          "before": "from unittest.mock import patch\n\nimport ios_geometry_simulator_source_projection as history\nimport android_external328_source_projection as bridge\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "before_fragment_sha256": "1da99259c954453f45865a5e84a57a90a36cef8b5997d98c55d63abe32947f49",
+          "id": "fixture581-exact-hunk-1"
+        },
+        {
+          "after": "    def test_eight_complete_images_and_every_unique_fragment_roundtrip(self):\n        self.assertEqual(PATHS, set(history._bindings()))\n        for name, binding in history._bindings().items():\n            actual = (ROOT / name).read_bytes()\n            current = recovery.current_source_before_recovery(name, actual)\n            old = history.current_source_before_owned_geometry(name, actual)\n            self.assertEqual(binding[\"before_sha256\"], sha(old), name)\n            self.assertEqual(binding[\"before_bytes\"], len(old), name)\n            forward = old\n",
+          "after_fragment_sha256": "849a402df234c42a5277a159d44af9399e0e88736a7fddc84522553ebfe9a3a8",
+          "before": "    def test_eight_complete_images_and_every_unique_fragment_roundtrip(self):\n        self.assertEqual(PATHS, set(history._bindings()))\n        for name, binding in history._bindings().items():\n            current = (ROOT / name).read_bytes()\n            old = history.current_source_before_owned_geometry(name, current)\n            self.assertEqual(binding[\"before_sha256\"], sha(old), name)\n            self.assertEqual(binding[\"before_bytes\"], len(old), name)\n            forward = old\n",
+          "before_fragment_sha256": "2a3e071e72678440b612bd8a66e1148da839b688100ce2febe3da573a40def16",
+          "id": "fixture581-exact-hunk-2"
+        },
+        {
+          "after": "            current = (ROOT / name).read_bytes()\n            old = history.source_before_owned_geometry(name, current)\n            def obligations(raw):\n                raw = recovery.peel_current_recovery_for_history(name, raw)\n                tree = QualificationOnly().visit(ast.parse(raw))\n                methods = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name.startswith(\"test_\")]\n                assertions = [ast.dump(node, include_attributes=False) for node in ast.walk(tree)\n",
+          "after_fragment_sha256": "451dfe384288192b7480c9831f56af52ba638cf88a2f3863083c3b3a87232adc",
+          "before": "            current = (ROOT / name).read_bytes()\n            old = history.source_before_owned_geometry(name, current)\n            def obligations(raw):\n                tree = QualificationOnly().visit(ast.parse(raw))\n                methods = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name.startswith(\"test_\")]\n                assertions = [ast.dump(node, include_attributes=False) for node in ast.walk(tree)\n",
+          "before_fragment_sha256": "8cf741485ab7052f5b77f4e7410c4bbad197685b443601dbc4d9c166aa917e52",
+          "id": "fixture581-exact-hunk-3"
+        },
+        {
+          "after": "    def test_live_geometry_admission_checks_new_bytes_not_an_old_fixture_view(self):\n        document = history._document()\n        paths = set(document[\"bindings\"]) | set(document[\"added_inputs\"])\n        latest = recovery._document()\n        paths |= set(latest[\"bindings\"]) | set(latest[\"added_inputs\"])\n        with tempfile.TemporaryDirectory() as directory:\n            root = Path(directory)\n            for name in paths:\n",
+          "after_fragment_sha256": "ec9f9857cc0187e13f62f7abb871cdd7f59b6bbc97160ed5c07dc4bf9ba88073",
+          "before": "    def test_live_geometry_admission_checks_new_bytes_not_an_old_fixture_view(self):\n        document = history._document()\n        paths = set(document[\"bindings\"]) | set(document[\"added_inputs\"])\n        with tempfile.TemporaryDirectory() as directory:\n            root = Path(directory)\n            for name in paths:\n",
+          "before_fragment_sha256": "6732e85c47cc78b926507aef4ac43c5ae593c7097ac1b24e9bca86ba8d63178e",
+          "id": "fixture581-exact-hunk-4"
+        }
+      ]
+    }
+  },
+  "native_tests_executed": 0,
+  "packages_published": false,
+  "schema_version": 1,
+  "scope": "Fixture581 shared failed historical workflow hash recovery; current raw source admission retained, native/helper/lifecycle/workflow/old manifests/compiler/API/dependencies unchanged",
+  "source_before_sha": "e43d06580b2fce7e9ebd7b523151317ed24124b4",
+  "unchanged_inputs": {
+    ".github/workflows/gradle.yml": "5d67a37f6890df2b9f1ba80b3f406a61ea1c7f860ff033f30cc1a177a2e60932",
+    "build.gradle.kts": "036a7f0c63c1492278205be67669c20914ea1ed26bc6524552d6b716f5846d99",
+    "calf-ui/build.gradle.kts": "ad833c62e9e492b3ef5e5019f4d805326ed267c17b1b159aa543b8b8896c448e",
+    "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt": "6f5803b7996bfecc2835c13ccc6c7bb4b7695a93934ac2d402ec9e8b91c7f441",
+    "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt": "c9ec604a2006a5412f52dc9d1e8601aa61caace62dad88a4e89f4bbdddf9043b",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "scripts/ci/android_camera_developer_prerequisite.py": "92f8d79d3a0871f1abb619a0a17b36c87568e11151fb3dbefa4f12773de78bdb",
+    "scripts/ci/android_camera_home_baseline.py": "1a83b99e06c554f0bf4f0db0288fb08be49415265af34f502016b14e234187c5",
+    "scripts/ci/fixtures/camera-home-baseline-source-inverse.json": "b968373d8de34a53525efd291055ad61f8d034a17236f663d8c58ba4c0716dcb",
+    "scripts/ci/fixtures/camera-home571-fixture-recovery.json": "681d4eb39370cfff45de265f9baf0913e9e60f04a29f3a331e6fe1b61de9923b",
+    "scripts/ci/fixtures/ios-owned-geometry575-source-inverse.json": "736ef0e38d1e89baa0c7cbdd0707189d28a197b08fb11500943d94cede28efdd",
+    "scripts/ci/ios_geometry_simulator.py": "de7d9b0016b1e933fce76de8becc5118b38c205b71b49bd265be0dc351c67678",
+    "scripts/ci/ios_popover_geometry_compile.init.gradle.kts": "2779cc77d0fbbed7fd8428c1b20e6666851a157d3b811df863c571b436eb628e",
+    "scripts/ci/test_ios_geometry_simulator.py": "5d36314dc4d6e4880b995cb95efffd80cf8411e57392f8a1bf5ca92ddcd16f2f"
+  }
+}

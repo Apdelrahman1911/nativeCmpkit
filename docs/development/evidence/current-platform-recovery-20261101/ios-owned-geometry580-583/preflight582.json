@@ -1,0 +1,81 @@
+{
+  "accepted_populations_replayed": false,
+  "commands": [
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "ios-popover-geometry-iphone"
+      ],
+      "elapsed_seconds": 0.08699531713500619,
+      "exit_code": 0,
+      "name": "matrix-iphone"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-portrait-traits"
+      ],
+      "elapsed_seconds": 0.24807449104264379,
+      "exit_code": 0,
+      "name": "plan-iphone"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "ios-popover-geometry-ipad"
+      ],
+      "elapsed_seconds": 0.08320905989967287,
+      "exit_code": 0,
+      "name": "matrix-ipad"
+    },
+    {
+      "arguments": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-popover-os-rotation"
+      ],
+      "elapsed_seconds": 0.24786366196349263,
+      "exit_code": 0,
+      "name": "plan-ipad"
+    },
+    {
+      "arguments": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "elapsed_seconds": 0.0761889941059053,
+      "exit_code": 0,
+      "name": "whitespace"
+    }
+  ],
+  "compiler_executions": 0,
+  "inputs_held": 1336,
+  "native_executions": 0,
+  "observed_utc": "2026-11-04T02:09:34.059110+00:00",
+  "release_allowed": false,
+  "schema_version": 1,
+  "source_held": true,
+  "source_sha": "e43d06580b2fce7e9ebd7b523151317ed24124b4",
+  "unchanged_actionlint_reused": true,
+  "workflow_sha256": "5d67a37f6890df2b9f1ba80b3f406a61ea1c7f860ff033f30cc1a177a2e60932"
+}

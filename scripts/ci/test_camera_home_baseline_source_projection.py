@@ -10,6 +10,7 @@ import unittest
 from unittest.mock import patch
 
 import camera_home_baseline_source_projection as history
+import ios_geometry_simulator_source_projection as owned_history
 
 ROOT = Path(__file__).resolve().parents[2]
 HELPER = "scripts/ci/android_camera_developer_prerequisite.py"
@@ -129,7 +130,7 @@ class HomeBaselineHistoryTests(unittest.TestCase):
         for relative, expected in document["added_behavior_sources"].items():
             self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)
         for relative, expected in document["unchanged_native_inputs"].items():
-            self.assertEqual(expected, sha((ROOT / relative).read_bytes()), relative)
+            self.assertEqual(expected, sha(owned_history.current_source_before_owned_geometry(relative, (ROOT / relative).read_bytes())), relative)
         current = (ROOT / NATIVE).read_bytes()
         previous = history.current_source_before_home_baseline(NATIVE, current)
         def body(raw, name):

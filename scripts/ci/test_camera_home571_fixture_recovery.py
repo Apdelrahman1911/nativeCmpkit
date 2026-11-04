@@ -59,6 +59,8 @@ class Home571FixtureRecoveryControls(unittest.TestCase):
         current = (ROOT / FIXTURE).read_bytes()
         old = original_fixture(current)
         def assertions(raw):
+            from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history
+            raw = peel_current_recovery_for_history(FIXTURE, raw)
             return [ast.dump(n, include_attributes=False) for n in ast.walk(ast.parse(raw))
                     if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and
                     isinstance(n.func.value, ast.Name) and n.func.value.id == "self" and

@@ -39,6 +39,8 @@ def _bindings():
 def source_before_owned_geometry(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact owned-geometry identity and ordinary source bytes are required")
+    from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history
+    payload = peel_current_recovery_for_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -74,6 +76,8 @@ def current_source_before_owned_geometry(relative, payload):
     """Only the outer raw checkout boundary may certify a listed latest image."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current owned-geometry identity and ordinary bytes are required")
+    from ios_owned_geometry_fixture_recovery import current_source_before_recovery
+    payload = current_source_before_recovery(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("A historical image cannot replace the exact current owned-geometry source")
@@ -84,6 +88,8 @@ def peel_current_owned_geometry_for_older_history(relative, payload):
     """Not current admission: unknown/older bytes still need their next older pin."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor owned-geometry identity and ordinary bytes are required")
+    from ios_owned_geometry_fixture_recovery import peel_current_recovery_for_history
+    payload = peel_current_recovery_for_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_owned_geometry(relative, payload)
@@ -92,10 +98,13 @@ def peel_current_owned_geometry_for_older_history(relative, payload):
 
 def validate_current_sources(root: Path):
     """Live admission uses actual new bytes; the inverse is never a native input."""
+    import ios_owned_geometry_fixture_recovery as recovery
+    recovery.validate_current_sources(root)
     document = _document()
     expected = {name: row["after_sha256"] for name, row in document["bindings"].items()} | document["added_inputs"]
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:
+        payload = recovery.current_source_before_recovery(name, _ordinary_bytes(root, name)[0])
+        if hashlib.sha256(payload).hexdigest() != digest:
             raise ValueError("Current owned-geometry source differs from its owning image: " + name)
     return True

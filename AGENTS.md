@@ -1,5 +1,26 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared owned-geometry fixture failure recovered — 2026-11-04
+
+[580–583](docs/development/evidence/current-platform-recovery-20261101/ios-owned-geometry580-583/README.md)
+keeps41755972095/41755991218 at e43d0658 FAILED before platform/Gradle/native:
+2758 CI methods each/one identical historical workflow hash failure, eight logs
+each acquired ONCE/zero artifacts/seven skipped zero-step placeholders.23 passive
+original checks;1333 frozen Git inputs are not native maps, workflow separate.
+Four tooling paths/11 fragments/three additions qualify exact latest581 before
+dated575 hash operands; every original pin/assertion/native/helper/lifecycle/
+workflow/API/dependency remains. First17:15pass/two ancestor-view errors; only
+failed2+owning affected2 pass4/4/0.110s;20 passive checks/1336 held. Two source
+plans/matrices/whitespace pass; unchanged Actionlint577/compiler544 reused, ZERO
+new compiler/native or accepted lifecycle/bar replay. First workflow-map KeyError
+review refusal retained, bookkeeping only/no redownload. Next freeze/push and only
+two missing geometry methods after fresh capacity; #29 still requires real split
+view even if both pass. #13 parser cause remains unknown. Retained103closed69open/
+172 and22implemented36partial101verified/five unresolved; no closure/publication.
+SOLO/serial-local8GiB/max2INCLUDINGqueued/read-only Actions/all/no mandatory SHA
+and every publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/readiness gate remain.
+
 ## Owned geometry lifecycle qualified; camera new parser boundary — 2026-11-04
 
 [575–578](docs/development/evidence/current-platform-recovery-20261101/ios-owned-geometry575-578/README.md)

@@ -1,5 +1,16 @@
 # NativeCmpKit development after the audit
 
+## Shared geometry fixture recovered — 2026-11-04
+
+[580–583](evidence/current-platform-recovery-20261101/ios-owned-geometry580-583/README.md)
+preserves both owned-simulator requests as FAILED before platform/native:2758 CI
+methods/one identical stale workflow-stage hash failure each. Four tooling paths/
+11 reversible fragments fix that historical operand without changing native or
+workflow code. First17 yields15pass/two ancestor-view errors; only failed2+affected2
+recover4/4.20 source and23 original passive checks;1336 held inputs. No new compiler,
+native, issue closure or publication. Next only the two missing geometry methods;
+#29 still needs real split view. SOLO/max2INCLUDINGqueued/8GiB and all gates remain.
+
 ## Geometry owning batch qualified; camera failure located — 2026-11-04
 
 [575–578](evidence/current-platform-recovery-20261101/ios-owned-geometry575-578/README.md)

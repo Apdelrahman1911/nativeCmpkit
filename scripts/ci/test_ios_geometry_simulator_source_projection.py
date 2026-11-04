@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 
 import ios_geometry_simulator_source_projection as history
+import ios_owned_geometry_fixture_recovery as recovery
 import android_external328_source_projection as bridge
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,8 +33,9 @@ class OwnedGeometrySourceControls(unittest.TestCase):
     def test_eight_complete_images_and_every_unique_fragment_roundtrip(self):
         self.assertEqual(PATHS, set(history._bindings()))
         for name, binding in history._bindings().items():
-            current = (ROOT / name).read_bytes()
-            old = history.current_source_before_owned_geometry(name, current)
+            actual = (ROOT / name).read_bytes()
+            current = recovery.current_source_before_recovery(name, actual)
+            old = history.current_source_before_owned_geometry(name, actual)
             self.assertEqual(binding["before_sha256"], sha(old), name)
             self.assertEqual(binding["before_bytes"], len(old), name)
             forward = old
@@ -84,6 +86,7 @@ class OwnedGeometrySourceControls(unittest.TestCase):
             current = (ROOT / name).read_bytes()
             old = history.source_before_owned_geometry(name, current)
             def obligations(raw):
+                raw = recovery.peel_current_recovery_for_history(name, raw)
                 tree = QualificationOnly().visit(ast.parse(raw))
                 methods = [node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")]
                 assertions = [ast.dump(node, include_attributes=False) for node in ast.walk(tree)
@@ -95,6 +98,8 @@ class OwnedGeometrySourceControls(unittest.TestCase):
     def test_live_geometry_admission_checks_new_bytes_not_an_old_fixture_view(self):
         document = history._document()
         paths = set(document["bindings"]) | set(document["added_inputs"])
+        latest = recovery._document()
+        paths |= set(latest["bindings"]) | set(latest["added_inputs"])
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             for name in paths:

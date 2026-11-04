@@ -82,6 +82,8 @@ def _identity(relative, payload):
 def source_before_image_launch(relative, payload):
     """Complete exact inverse, or its one exact preimage; never raw admission."""
     _identity(relative, payload)
+    from ios_ui_related_source_projection import peel_ui_related_for_history
+    payload = peel_ui_related_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, guessed or rewritten.
@@ -118,6 +120,8 @@ def source_before_image_launch(relative, payload):
 def current_source_before_image_launch(relative, payload):
     """The one raw ingress: old/partial/unknown images can never be current."""
     _identity(relative, payload)
+    from ios_ui_related_source_projection import current_source_before_ui_related
+    payload = current_source_before_ui_related(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (hashlib.sha256(payload).hexdigest() != binding["after_sha256"] or
                                 len(payload) != binding["after_bytes"]):
@@ -128,6 +132,8 @@ def current_source_before_image_launch(relative, payload):
 def peel_image_launch_for_history(relative, payload):
     """Ancestor-only: fixed whole pins, never arbitrary historical fallback."""
     _identity(relative, payload)
+    from ios_ui_related_source_projection import peel_ui_related_for_history
+    payload = peel_ui_related_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # No admission for an unlisted identity.
@@ -167,11 +173,13 @@ def validate_current_sources(root: Path):
 The implementation and NEW control have explicit independent source pins in
 the NEW control and held review map, avoiding self-referential manifest hashes.
 """
+    import ios_ui_related_source_projection as ui_history
+    ui_history.validate_current_sources(root)
     document = _document()
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:
+        if hashlib.sha256(ui_history.peel_ui_related_for_history(name, _ordinary_bytes(root, name)[0])).hexdigest() != digest:
             raise ValueError("Current image-launch input differs from its exact owning image: " + name)
     return True

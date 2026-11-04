@@ -17,6 +17,8 @@ import subprocess
 import sys
 import tomllib
 
+import ios_adaptive_controls_runtime as adaptive_runtime
+
 ROOT = Path(__file__).resolve().parents[2]
 UUID = re.compile(r"[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}\Z")
 IOS_RUNTIME = re.compile(r"com\.apple\.CoreSimulator\.SimRuntime\.iOS-([0-9]+(?:-[0-9]+)*)\Z")
@@ -167,7 +169,12 @@ def compiler_runtime_fingerprint(context: dict) -> str:
 
 def capture(*, expected_arch: str | None = None, apple: bool = False, select: str | None = None,
             device: str | None = None, require_booted: bool = False, android_package: str | None = None,
-            android_serial: str | None = None, require_clean: bool = False, browser: bool = False) -> dict:
+            android_serial: str | None = None, require_clean: bool = False, browser: bool = False,
+            adaptive_focus: str | None = None) -> dict:
+    if adaptive_focus is not None:
+        adaptive_runtime.branch(adaptive_focus)
+        if select not in (None, "iphone") or not (select or device):
+            raise ValueError("Adaptive runtime capture requires an explicit iPhone selection")
     arch = platform.machine().lower()
     arch = {"amd64": "x64", "x86_64": "x64", "aarch64": "arm64", "arm64": "arm64"}.get(arch, arch)
     if expected_arch and arch != expected_arch:
@@ -197,8 +204,14 @@ def capture(*, expected_arch: str | None = None, apple: bool = False, select: st
         result["apple_sdks"] = {sdk: sdk_version(command("xcrun", "--sdk", sdk, "--show-sdk-version"))
                                 for sdk in ["macosx", "iphoneos", "iphonesimulator"]}
         if select or device:
-            result["simulator"] = simulator(json.loads(command("xcrun", "simctl", "list", "devices", "--json")),
-                                            json.loads(command("xcrun", "simctl", "list", "runtimes", "--json")), select, device)
+            if adaptive_focus is not None:
+                result["simulator"] = adaptive_runtime.select_iphone_json(
+                    command("xcrun", "simctl", "list", "devices", "--json"),
+                    command("xcrun", "simctl", "list", "runtimes", "--json"), adaptive_focus, udid=device)
+                result["adaptive_runtime_focus"] = adaptive_focus
+            else:
+                result["simulator"] = simulator(json.loads(command("xcrun", "simctl", "list", "devices", "--json")),
+                                                json.loads(command("xcrun", "simctl", "list", "runtimes", "--json")), select, device)
             if require_booted and result["simulator"]["state"] != "Booted":
                 raise ValueError("Selected simulator is not actually booted")
     elif require_booted:
@@ -232,10 +245,12 @@ def main() -> int:
     parser.add_argument("--android-platform")
     parser.add_argument("--android-emulator")
     parser.add_argument("--browser", action="store_true", help="Record the actual explicit CHROME_BIN used by Karma")
+    parser.add_argument("--adaptive-focus", choices=["ui-native-adaptive-pre26", "ui-native-adaptive-ios26plus"])
     args = parser.parse_args()
     result = capture(expected_arch=args.expected_arch, apple=args.apple, select=args.select_simulator,
                      device=args.simulator, require_booted=args.require_booted, android_package=args.android_platform,
-                     android_serial=args.android_emulator, require_clean=args.require_clean, browser=args.browser)
+                     android_serial=args.android_emulator, require_clean=args.require_clean, browser=args.browser,
+                     **({"adaptive_focus": args.adaptive_focus} if args.adaptive_focus is not None else {}))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print(json.dumps(result, indent=2, sort_keys=True))

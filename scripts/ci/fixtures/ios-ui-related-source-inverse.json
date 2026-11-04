@@ -1,0 +1,370 @@
+{
+  "added_inputs": {
+    "scripts/ci/ios_ui_adaptive_drag_shader_native.init.gradle.kts": "6f11a305e3ffbe778d4b3aaa6e8a83e50b51c30af63666d2515f26250839e3c8",
+    "scripts/ci/ios_ui_related_native_focus.py": "2ea4e6e41c4304bd9272460780216030368b6ef3ecbeaa929d7012146d67757e",
+    "scripts/ci/test_ios_ui_related_native_focus.py": "36d395e8d564f76a446b7495532bd489f46e0cad5cb7312c7a61c99509ab8c42",
+    "scripts/ci/test_ios_ui_related_native_wiring.py": "8633759ebb37c23f3b6141271ef9ee7a398d5be9d3c69b9f7eb0edadbd05dde4"
+  },
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 67634,
+      "after_sha256": "ffcf3804708e00ae22f2900257adec9f1aafcf34e74a76af3814d0ec84bc9d23",
+      "before_bytes": 67315,
+      "before_sha256": "108166894766501ea3c86c18cae5a6e52e36b386921091b09c4d1b587270bdc6",
+      "fragments": [
+        {
+          "after": "ios, ios-ui, ios-ui-adaptive-pre26, ios-ui-adaptive-drag-shader-ios26plus, ios-secure-alert-input,",
+          "after_fragment_sha256": "1cc5e9e1343dc97417f67adeb8cad5d7c6a56d85d86adfb44b19820103f8dedc",
+          "before": "ios, ios-ui, ios-secure-alert-input,",
+          "before_fragment_sha256": "6297c36b839f3e01e0b0fb5736d9bcfd08b36112a50b35e5c189503c2a9ee385",
+          "obligation": "Only two literal manual profile additions; triggers/permissions/native jobs unchanged"
+        },
+        {
+          "after": "          if [[ \"$SUITE\" == ios ]]; then\n            case \"$TEST_FOCUS\" in\n              ui-native-adaptive-pre26) args+=(--adaptive-focus ui-native-adaptive-pre26) ;;\n              ui-native-adaptive-drag-shader-ios26plus) args+=(--adaptive-focus ui-native-adaptive-ios26plus) ;;\n            esac\n            \"$PYTHON\" scripts/ci/runtime_context.py \"${args[@]}\" --apple --select-simulator \"$SIMULATOR_KIND\" --output build/ci-runtime/selection.json\n",
+          "after_fragment_sha256": "4c64840d155b6564d45b10fa0b5b865daae739495790b307d974b5bc6669d29e",
+          "before": "          if [[ \"$SUITE\" == ios ]]; then\n            \"$PYTHON\" scripts/ci/runtime_context.py \"${args[@]}\" --apple --select-simulator \"$SIMULATOR_KIND\" --output build/ci-runtime/selection.json\n",
+          "before_fragment_sha256": "3ccc89f6b6033f98a143986b92dc7ff57d2495539027802ba0ff6815ab44902e",
+          "obligation": "Map only the two new routes before FIRST complete actual inventory response; retain boot/device/postboot/custody/cleanup"
+        }
+      ]
+    },
+    "scripts/ci/apple_image_launcher_source_projection.py": {
+      "after_bytes": 9862,
+      "after_sha256": "95243d48e83e420670925440491808908b8f662036c26a1a8e5e4750b4f0cabb",
+      "before_bytes": 9288,
+      "before_sha256": "5f13a039c95d4a9f0ce7fbf3026da3de572370aaf2bb80bb0dd60bfe6c65875a",
+      "fragments": [
+        {
+          "after": "def source_before_image_launch(relative, payload):\n    \"\"\"Complete exact inverse, or its one exact preimage; never raw admission.\"\"\"\n    _identity(relative, payload)\n    from ios_ui_related_source_projection import peel_ui_related_for_history\n    payload = peel_ui_related_for_history(relative, payload)\n",
+          "after_fragment_sha256": "07ccf6bdce7b9e796f3e06dc8c74775ad56fa716b488039fb4610811e95a695b",
+          "before": "def source_before_image_launch(relative, payload):\n    \"\"\"Complete exact inverse, or its one exact preimage; never raw admission.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "f7800b35d13a0ef66107e2b440235ccd391f92316107f04c6d3a7b22d593bb80",
+          "obligation": "Outer latest UI exact ancestor peel only; all image624 core/pins/roundtrip/refusals unchanged"
+        },
+        {
+          "after": "def current_source_before_image_launch(relative, payload):\n    \"\"\"The one raw ingress: old/partial/unknown images can never be current.\"\"\"\n    _identity(relative, payload)\n    from ios_ui_related_source_projection import current_source_before_ui_related\n    payload = current_source_before_ui_related(relative, payload)\n",
+          "after_fragment_sha256": "498f4d73ff899b0e83e449b5835d4466bb6b338b101b1059954782ea6ffab9da",
+          "before": "def current_source_before_image_launch(relative, payload):\n    \"\"\"The one raw ingress: old/partial/unknown images can never be current.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "ac256f95215746209fbd502b4824d6d844866178ad4728ad00bb0a988f96aec8",
+          "obligation": "Outer latest UI raw-current admission only; all image624 core/pins/roundtrip/refusals unchanged"
+        },
+        {
+          "after": "def peel_image_launch_for_history(relative, payload):\n    \"\"\"Ancestor-only: fixed whole pins, never arbitrary historical fallback.\"\"\"\n    _identity(relative, payload)\n    from ios_ui_related_source_projection import peel_ui_related_for_history\n    payload = peel_ui_related_for_history(relative, payload)\n",
+          "after_fragment_sha256": "18acbc71908302ebb173c1ebd01e281e870a119b874a24c0b8ff41a952602e19",
+          "before": "def peel_image_launch_for_history(relative, payload):\n    \"\"\"Ancestor-only: fixed whole pins, never arbitrary historical fallback.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "a4578a85246ca6da66419bcf327c71882ca4ce8b85e6aeb7bda060bcb210302a",
+          "obligation": "Outer latest UI exact ancestor peel only; all image624 core/pins/roundtrip/refusals unchanged"
+        },
+        {
+          "after": "    import ios_ui_related_source_projection as ui_history\n    ui_history.validate_current_sources(root)\n    document = _document()\n    expected = ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n",
+          "after_fragment_sha256": "80476c5c0c297e81079020bde96a2494854b5210f12d147185e82f8ebc2cc7c5",
+          "before": "    document = _document()\n    expected = ({name: row[\"after_sha256\"] for name, row in document[\"bindings\"].items()} |\n",
+          "before_fragment_sha256": "de01a3a7d2706fb98844abec61c4174c8914ebf1d1da7b671df12590262cb4b5",
+          "obligation": "Require complete latest UI current custody before the unchanged image624 validator pins"
+        },
+        {
+          "after": "        if hashlib.sha256(ui_history.peel_ui_related_for_history(name, _ordinary_bytes(root, name)[0])).hexdigest() != digest:\n",
+          "after_fragment_sha256": "c1b1a6b95e2f405ee249bbd1151a0a051135202b397972e4e55e44edd5c8fcae",
+          "before": "        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:\n",
+          "before_fragment_sha256": "e8aae5c6378255a9787db3d9621611cf34166424d7b7d9b33839c623e4d17adc",
+          "obligation": "Only exact latest UI inverse before unchanged image624 raw hash operands"
+        }
+      ]
+    },
+    "scripts/ci/calendar_share_selector_source_projection.py": {
+      "after_bytes": 7823,
+      "after_sha256": "93bd15445b9c0bb404f3c830be5fc32c81f80f52a65261b903c28fbd0a1a5bab",
+      "before_bytes": 7711,
+      "before_sha256": "bf22ff7bf51de408042052693afc5cf970206e511becb7faf8b8cd361e1f194c",
+      "fragments": [
+        {
+          "after": "    image_history.validate_current_sources(root)\n    from ios_ui_related_source_projection import peel_ui_related_for_history\n    document = _document()\n",
+          "after_fragment_sha256": "3f57d6f3ecf7e7dbb9dee92a77ad406a9f570dc122801ec0248ca8ae3de1d4da",
+          "before": "    image_history.validate_current_sources(root)\n    document = _document()\n",
+          "before_fragment_sha256": "bf44fce1ee3034be64273b83ffc8db587908dcab45ae1aecac58c7db3f7eb2fe",
+          "obligation": "ONE current validator-only hook, after delegated strict UI/image custody; no Calendar execution or three Camera/Calendar ingress callbacks changed"
+        },
+        {
+          "after": "        if hashlib.sha256(peel_ui_related_for_history(name, _ordinary_bytes(root, name)[0])).hexdigest() != digest:\n",
+          "after_fragment_sha256": "e6103c4e5e8a42cde3a98a73cbfef1acfcd2d2a1962cea4509832e5a8dd285f6",
+          "before": "        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:\n",
+          "before_fragment_sha256": "e8aae5c6378255a9787db3d9621611cf34166424d7b7d9b33839c623e4d17adc",
+          "obligation": "Same original Calendar current hashes require only exact latest UI inverse for three shared inputs"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_bytes": 95365,
+      "after_sha256": "1965495c575933f2b933c3093862b9d9a9638cd7b94620c2d2900610f42db131",
+      "before_bytes": 94910,
+      "before_sha256": "5cd8bc716484a7f1b1f65e41d0832e3855825d505dc78b24e7602980c4a8cee3",
+      "fragments": [
+        {
+          "after": "        before = runtime.capture(expected_arch=\"arm64\", apple=True, device=device, require_booted=True, require_clean=True,\n            **({\"adaptive_focus\": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))\n        if focus in lt.ui_related.FOCUSES:\n            lt.ui_related.validate_context(before, focus, udid=device)\n",
+          "after_fragment_sha256": "ddfa59d97f8cff07036c76e8102b3ea50ad82bc928d7bea9347073e914872376",
+          "before": "        before = runtime.capture(expected_arch=\"arm64\", apple=True, device=device, require_booted=True, require_clean=True)\n",
+          "before_fragment_sha256": "a47a13a659784251bccf70bc7b15d4474d726260eb5b5a8a5cbfbcf9d73c7c13",
+          "obligation": "Application first capture directly infers mapped band from exact accepted Gradle filter; default/SDK-only kwargs unchanged"
+        },
+        {
+          "after": "        after = runtime.capture(expected_arch=\"arm64\", apple=True, device=device, require_booted=True, require_clean=True,\n            **({\"adaptive_focus\": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))\n        if focus in lt.ui_related.FOCUSES:\n            lt.ui_related.validate_context(after, focus, udid=device)\n",
+          "after_fragment_sha256": "5f9644ea147fb88176400fc2b481fc26e28b681da93c34ce97631b62393c6923",
+          "before": "        after = runtime.capture(expected_arch=\"arm64\", apple=True, device=device, require_booted=True, require_clean=True)\n",
+          "before_fragment_sha256": "fe55509574f875ed54ac1fa8d221e9022bfcf54d445351bb5a941a57a3840f60",
+          "obligation": "Application last normal capture same explicit UUID and genuine band; SDK return path, image hook, argv/deadline/complete finally unchanged"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 383651,
+      "after_sha256": "943972f35b0d628a2957b0867f95e879272db68d26dd33315689fc1b8b5d0f31",
+      "before_bytes": 381348,
+      "before_sha256": "2d37474884bda9841980206ff56e2f91885b77fe44d2f555a4ff609ca6e50146",
+      "fragments": [
+        {
+          "after": "import macos_share_native_focus as macos_share_native\nimport ios_ui_related_native_focus as ui_related\n",
+          "after_fragment_sha256": "f0d5a8aa671f11907b1d059ec225265f1d93e5dcd0f7650e0738edd89ddaa5ef",
+          "before": "import macos_share_native_focus as macos_share_native\n",
+          "before_fragment_sha256": "f5dd938ff2d19461494657d15ea8cc3e72ba12017f881444707823d6eba70362",
+          "obligation": "New finite spec only, no transport substitution"
+        },
+        {
+          "after": "UI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-pre26\"] = ui_related.focus_spec(\"ui-native-adaptive-pre26\")\nUI_APPLICATION_FOCUS_SPECS[\"ui-native-adaptive-drag-shader-ios26plus\"] = ui_related.focus_spec(\"ui-native-adaptive-drag-shader-ios26plus\")\n\n\nUI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {\n",
+          "after_fragment_sha256": "8fb15088cd6df859adda2e5e4b4580c8295ded8c8adf497d1b867a9288c7dff7",
+          "before": "UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {\n",
+          "before_fragment_sha256": "6df23f0a0d9ca47314b98421103564d6e3491b57ed37c9d1b175e1562311ce9d",
+          "obligation": "Register exact independent pre26 four and combined26+ ten; do not register/replay old four-only26+ selection"
+        },
+        {
+          "after": "    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_sources(root, focus)\n            selected[0][\"test_source_files\"] = sorted(ui_related.sources(focus))\n            selected[0][\"test_source_sets\"] = [\"iosTest\"]\n            selected[0][\"ui_related_source_contract\"] = ui_related.source_contract(root, focus)\n",
+          "after_fragment_sha256": "f3473ab4c1b9dc202946165fa9bc4ed635cde622ee3a8ae07e31949006278688",
+          "before": "    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n",
+          "before_fragment_sha256": "9684982d6a6231330468f74b7d878f808a47efc74ce846facd146bc866cd4b44",
+          "obligation": "Admit exact11/6 iosTest files, empty common compile inputs,14/8 declarations with exact10/4 native selection; native bodies unchanged"
+        },
+        {
+          "after": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_plan(test_plan)\n        if focus == secure_alert.FOCUS:\n",
+          "after_fragment_sha256": "fd4b00662608777652f0ad309ca5b002067c8422100ad79a0b8d2f3729668ac2",
+          "before": "    if focus in UI_APPLICATION_FOCUS_SPECS:\n        if focus == secure_alert.FOCUS:\n",
+          "before_fragment_sha256": "1f235aa488330f456f7c366dacda204e794d81da4c11a67cec6874caa3499a61",
+          "obligation": "Reject any source/field/focus/task/module/hash contract broadening before original focused-plan validation"
+        },
+        {
+          "after": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ui_related.FOCUSES:\n            scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),\n                test_plan[\"explicit_test_focus\"], cases_by_report=cases_by_report)\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in UI_APPLICATION_FOCUS_SPECS:\n",
+          "after_fragment_sha256": "38aa1c1e715a8d003288bc2d2eacb1049a3f40b8d9562e1fd142ba241157cb29",
+          "before": "        elif boundary_focus and test_plan[\"explicit_test_focus\"] in UI_APPLICATION_FOCUS_SPECS:\n",
+          "before_fragment_sha256": "e5ba1e7bb5ce778a8c6f8683875005f305f7b91c13484dc7de2b0a13f7e017d2",
+          "obligation": "Exact10/4 XML identities, one fresh report per selected class, no duplicates/foreign/missing/skipped/other-host acceptance; unchanged actual totals"
+        },
+        {
+          "after": "    if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n        if ui_related.source_contract(root, focus) != test_plan[\"expected\"][0][\"ui_related_source_contract\"]:\n            raise ValueError(\"Related UI exact source admission changed before the native command\")\n        command.extend([\"--init-script\", ui_related.init_script(focus),\n                        \"-P\" + ui_related.focus_property(focus) + \"=\" + focus])\n    if test_plan.get(\"explicit_test_focus\") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):\n",
+          "after_fragment_sha256": "62d6e397326f3b4e379b34bdcc9154430796a5938afbc81cd862d7c0b7c55a25",
+          "before": "    if test_plan.get(\"explicit_test_focus\") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):\n",
+          "before_fragment_sha256": "42c29f2a0c2fdc5f77165de925ed3d53f84c7ca251c999ba0bec5d8af4e9b014",
+          "obligation": "Pre26 unchanged exact-four native init; combined only new native-only union11 init/property; compile-only init authority unchanged"
+        },
+        {
+          "after": "        if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan[\"explicit_test_focus\"]),\n                 \"Related UI requires fresh exact source/selection admission, not a historical KLIB receipt\")\n        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n",
+          "after_fragment_sha256": "f1dee07f91a3ff88f49bcd5a50b0165b36d93e5452d1d95281bc7617cec82a17",
+          "before": "        if test_plan.get(\"explicit_test_focus\") == IOS_POPOVER_ANCHOR_FOCUS:\n",
+          "before_fragment_sha256": "38730b1d711f2d21aa56712336156e8f75ee8dc452e08e690f86c46ee3862da9",
+          "obligation": "Fresh owning native-task source receipt cross-check; never infer a compiler/link/native execution from receipt"
+        },
+        {
+          "after": "            if test_plan.get(\"explicit_test_focus\") in ui_related.FOCUSES:\n                ui_related.validate_context(observed, test_plan[\"explicit_test_focus\"], udid=context[\"simulator\"][\"udid\"])\n            for key in (\"host\", \"java\", \"rust\", \"xcode\", \"apple_sdks\", \"simulator\"):\n",
+          "after_fragment_sha256": "0e2c9a62514c773deae9c718c07682a11dd231c1d9612d0387f7c61156c3e1c0",
+          "before": "            for key in (\"host\", \"java\", \"rust\", \"xcode\", \"apple_sdks\", \"simulator\"):\n",
+          "before_fragment_sha256": "aabed3d29115687ed7854c30d2a69e31440a6b275b18c3c25e32aae4f5ee4b7c",
+          "obligation": "Independently check both fresh complete same-UUID actual app contexts including full runtime label/build/band/clean Apple host"
+        },
+        {
+          "after": "                                          browser=suite in {\"js\", \"wasm\"},\n                                          **({\"adaptive_focus\": ui_related.runtime_focus(focus), \"require_clean\": True,\n                                              \"expected_arch\": \"arm64\"} if focus in ui_related.FOCUSES else {}))\n        if focus in ui_related.FOCUSES:\n            ui_related.validate_context(context, focus, udid=simulator)\n",
+          "after_fragment_sha256": "6be3b9a1d5f769d380d62ca67ac29371be74443e3e4af15f87ea46cc05aafcd9",
+          "before": "                                          browser=suite in {\"js\", \"wasm\"})\n",
+          "before_fragment_sha256": "4f81a6597aa5042a976be3a68f9b9b1597e29c819284a8f2512c1c86841fac4b",
+          "obligation": "Actual library preflight maps only new band routes; default kwargs/env/runner/finally unchanged"
+        }
+      ]
+    },
+    "scripts/ci/runtime_context.py": {
+      "after_bytes": 15054,
+      "after_sha256": "56a3072e2164c3ff9d8113a94e68dd400a609c0040cf8ce0514d0c1ef1e79a96",
+      "before_bytes": 14085,
+      "before_sha256": "e23aff04c665dc1041dc9e27db775135223ace15c63a651e17b94a7155731712",
+      "fragments": [
+        {
+          "after": "import tomllib\n\nimport ios_adaptive_controls_runtime as adaptive_runtime\n",
+          "after_fragment_sha256": "70c0e3004c9654527850e674755ef553d884dea909318db5e0dbaba2ebfe2d36",
+          "before": "import tomllib\n",
+          "before_fragment_sha256": "200cbfda6f7409b731e10200358395aa2f8458092a0f5d87b51eba2c824fa2ff",
+          "obligation": "Reuse immutable runtime620, never alter its finite focus labels or models"
+        },
+        {
+          "after": "            android_serial: str | None = None, require_clean: bool = False, browser: bool = False,\n            adaptive_focus: str | None = None) -> dict:\n    if adaptive_focus is not None:\n        adaptive_runtime.branch(adaptive_focus)\n        if select not in (None, \"iphone\") or not (select or device):\n            raise ValueError(\"Adaptive runtime capture requires an explicit iPhone selection\")\n",
+          "after_fragment_sha256": "1afd6dc820cda55e797c3b06062ea186608577f5d6f426c10a4e6d773246fc7c",
+          "before": "            android_serial: str | None = None, require_clean: bool = False, browser: bool = False) -> dict:\n",
+          "before_fragment_sha256": "655d74ab5a9a1b74126c5177f09cc09e18ca9153641427f89869aaa79bcec656",
+          "obligation": "Finite optional parameter; refuse incompatible kinds before actual capture; default unchanged"
+        },
+        {
+          "after": "            if adaptive_focus is not None:\n                result[\"simulator\"] = adaptive_runtime.select_iphone_json(\n                    command(\"xcrun\", \"simctl\", \"list\", \"devices\", \"--json\"),\n                    command(\"xcrun\", \"simctl\", \"list\", \"runtimes\", \"--json\"), adaptive_focus, udid=device)\n                result[\"adaptive_runtime_focus\"] = adaptive_focus\n            else:\n                result[\"simulator\"] = simulator(json.loads(command(\"xcrun\", \"simctl\", \"list\", \"devices\", \"--json\")),\n                                                json.loads(command(\"xcrun\", \"simctl\", \"list\", \"runtimes\", \"--json\")), select, device)\n",
+          "after_fragment_sha256": "84d2f48e9c8b5d8fcc4f40c463df0157c5769345ee0b081bec273abdea7ec7ef",
+          "before": "            result[\"simulator\"] = simulator(json.loads(command(\"xcrun\", \"simctl\", \"list\", \"devices\", \"--json\")),\n                                            json.loads(command(\"xcrun\", \"simctl\", \"list\", \"runtimes\", \"--json\")), select, device)\n",
+          "before_fragment_sha256": "a390dc18caed8b85556932b6f73bf002b524360cacb2e8970a1a3373c7a375c9",
+          "obligation": "FIRST two full completed raw responses directly enter unchanged strict runtime620; preserve actual version/build including26.4.1; default parser unchanged"
+        },
+        {
+          "after": "    parser.add_argument(\"--browser\", action=\"store_true\", help=\"Record the actual explicit CHROME_BIN used by Karma\")\n    parser.add_argument(\"--adaptive-focus\", choices=[\"ui-native-adaptive-pre26\", \"ui-native-adaptive-ios26plus\"])\n",
+          "after_fragment_sha256": "3c33ba80b108b0d2d689efb9104611e801ac88b34f1ae40ca8027283a87e384e",
+          "before": "    parser.add_argument(\"--browser\", action=\"store_true\", help=\"Record the actual explicit CHROME_BIN used by Karma\")\n",
+          "before_fragment_sha256": "cfd5608519a53f0e9f2549e09e2026a2941e7253d9c645893bb3998a08b69f9f",
+          "obligation": "Literal finite CLI runtime labels; no arbitrary version/runtime download or fallback"
+        },
+        {
+          "after": "                     android_serial=args.android_emulator, require_clean=args.require_clean, browser=args.browser,\n                     **({\"adaptive_focus\": args.adaptive_focus} if args.adaptive_focus is not None else {}))\n",
+          "after_fragment_sha256": "afdf1a12d65040b579d05bc328a6799f6198a14d3911d47597ba4cde199c1dd3",
+          "before": "                     android_serial=args.android_emulator, require_clean=args.require_clean, browser=args.browser)\n",
+          "before_fragment_sha256": "05ddf4655375f9119fc3b11e3f6226956b1c3ca07cc74700df5145bb9ef55934",
+          "obligation": "Default CLI call kwargs identical; optional keyword appears only for reviewed adaptive capture"
+        }
+      ]
+    },
+    "scripts/ci/test_apple_image_launcher_source_projection.py": {
+      "after_bytes": 22593,
+      "after_sha256": "9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9",
+      "before_bytes": 22212,
+      "before_sha256": "aab2f66523fef969837ed6db125ab6c68c6b18a7c76fe8872d978904db954b79",
+      "fragments": [
+        {
+          "after": "import apple_image_launcher_source_projection as history\nimport ios_ui_related_source_projection as ui_history\n",
+          "after_fragment_sha256": "54744e0d0c10f3663362661c698e06215a83f85466101aff0b8b9809887b5bde",
+          "before": "import apple_image_launcher_source_projection as history\n",
+          "before_fragment_sha256": "2f939cab2df41e44c8b16b27ed1143e6fd404c071a5341d90b440122257f282d",
+          "obligation": "New exact latest-stage fixture operand only; no image-model/native replay"
+        },
+        {
+          "after": "        self.assertEqual(HELPER_SHA256, sha(ui_history.peel_ui_related_for_history(HELPER, (ROOT / HELPER).read_bytes())))\n",
+          "after_fragment_sha256": "b5787ea27985b40541a633ab3574480fb932ddf09e3341ce003bb62233cd1b8c",
+          "before": "        self.assertEqual(HELPER_SHA256, sha((ROOT / HELPER).read_bytes()))\n",
+          "before_fragment_sha256": "f0e458b780f9762c01cc9e231997f210303309441463b66bf2902fdd109dd396",
+          "obligation": "Preserve immutable image624 helper pin after exact UI hook inverse"
+        },
+        {
+          "after": "        for name, row in document[\"bindings\"].items():\n            raw_current = (ROOT / name).read_bytes()\n            current = ui_history.peel_ui_related_for_history(name, raw_current)\n            previous = history.current_source_before_image_launch(name, raw_current)\n",
+          "after_fragment_sha256": "0342d4cf2379cb5564345d52cfb3ada0ae9e42d0f00783c58b015092eb240e7e",
+          "before": "        for name, row in document[\"bindings\"].items():\n            current = (ROOT / name).read_bytes()\n            previous = history.current_source_before_image_launch(name, current)\n",
+          "before_fragment_sha256": "a5b611c770ad0d4ac9f6e8f03853680f4f836cb1c39586b79615cd060f9eb87e",
+          "obligation": "Raw latest UI admission stays once; exact image624 after/before/forward source assertions unchanged"
+        },
+        {
+          "after": "    def test_latest_three_hooks_and_mirror_qualification_preserve_original_bodies(self):\n        raw_current = (ROOT / history.SELECTOR).read_bytes()\n        current = ui_history.peel_ui_related_for_history(history.SELECTOR, raw_current)\n        old = history.current_source_before_image_launch(history.SELECTOR, raw_current)\n",
+          "after_fragment_sha256": "9c4bba464b421a7b5f04ba24979c70bc0cb2c3f7d113d3597d74ed8e25d7b8ec",
+          "before": "    def test_latest_three_hooks_and_mirror_qualification_preserve_original_bodies(self):\n        current = (ROOT / history.SELECTOR).read_bytes()\n        old = history.current_source_before_image_launch(history.SELECTOR, current)\n",
+          "before_fragment_sha256": "f0f2737fdff564d4e23ed025c2c4c384f1a06e51835cc318972554139e8b1b60",
+          "obligation": "Image624 original Calendar hook AST comparison retains its exact ancestor image, never relabelled current"
+        },
+        {
+          "after": "        raw_control = (ROOT / history.CONTROL).read_bytes()\n        control = ui_history.peel_ui_related_for_history(history.CONTROL, raw_control)\n        previous = history.current_source_before_image_launch(history.CONTROL, raw_control)\n",
+          "after_fragment_sha256": "7e4bba15455954db9ff4c8790375eb55794018ddcc1965b5ca22faab731ef3ab",
+          "before": "        control = (ROOT / history.CONTROL).read_bytes()\n        previous = history.current_source_before_image_launch(history.CONTROL, control)\n",
+          "before_fragment_sha256": "85f1ef24f791095c107398fc923b5ac26bdfa5c3da0ddd3923af00f9819872c5",
+          "obligation": "Image624 retained control/assertion comparison uses exact prior image only; raw source still strictly admitted"
+        }
+      ]
+    },
+    "scripts/ci/test_calendar_share_selector_source_projection.py": {
+      "after_bytes": 13445,
+      "after_sha256": "6d17b52d6b3ea3990e240d65468d50b109dfbdea487f14eb28a1d1b7f8f9342c",
+      "before_bytes": 13001,
+      "before_sha256": "5561a43899c80aca255c70a092a8a365fd8b592b7c962314ae8a31caf4fca7a9",
+      "fragments": [
+        {
+          "after": "import apple_image_launcher_source_projection as image_history\nimport ios_ui_related_source_projection as ui_history\n",
+          "after_fragment_sha256": "9307dfa955c1d199121517c30fcabe40e50b32f4de5c4ed4dc0430df280d7b19",
+          "before": "import apple_image_launcher_source_projection as image_history\n",
+          "before_fragment_sha256": "06d724015e9a19841193c816fd6c5e7e00caed17d81e2521741bb27fb592ef0d",
+          "obligation": "Fixture latest-stage operand only; preserve all dated native/assertion/pin bodies"
+        },
+        {
+          "after": "        for name, binding in document[\"bindings\"].items():\n            raw_current = (ROOT / name).read_bytes()\n            current = ui_history.peel_ui_related_for_history(name, raw_current)\n            old = selectors.current_source_before_calendar_share_selectors(name, raw_current)\n",
+          "after_fragment_sha256": "f4ca5a2ecf32591ff03d5f8c43825a6bd80074d650ff7d5cfab18bf2423d8569",
+          "before": "        for name, binding in document[\"bindings\"].items():\n            current = (ROOT / name).read_bytes()\n            old = selectors.current_source_before_calendar_share_selectors(name, current)\n",
+          "before_fragment_sha256": "a3d150f244e64219f1cb1d0159560fe54fee94c976870f1c6a76c6722fe0ff57",
+          "obligation": "Current UI raw bytes still admitted once; original Calendar after/before/forward assertions retain ancestor operands and exact old pins"
+        },
+        {
+          "after": "        paths |= (set(image[\"bindings\"]) | set(image[\"added_inputs\"]) |\n                  set(image[\"unchanged_inputs\"]) | {image_history.SPEC_RELATIVE})\n        ui = ui_history._document()\n        paths |= (set(ui[\"bindings\"]) | set(ui[\"added_inputs\"]) | set(ui[\"unchanged_inputs\"]) |\n                  {ui_history.SPEC_RELATIVE, \"scripts/ci/ios_ui_related_source_projection.py\",\n                   \"scripts/ci/test_ios_ui_related_source_projection.py\"})\n",
+          "after_fragment_sha256": "8e4377e6cfa7beaf7275990859b0a77678f43298d73ab36d2d732ea73fc61c90",
+          "before": "        paths |= (set(image[\"bindings\"]) | set(image[\"added_inputs\"]) |\n                  set(image[\"unchanged_inputs\"]) | {image_history.SPEC_RELATIVE})\n",
+          "before_fragment_sha256": "07fbd4e9b03b5a78704711a28c95bfb579e89d03fbe3297b6569c150a5f0d644",
+          "obligation": "Complete current fixture union, no assertion deletion or dated manifest repinning"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 57915,
+      "after_sha256": "493f068730e921963269fc295ce471b4605fe44836c5f8f73d55dbe065f17f3e",
+      "before_bytes": 57026,
+      "before_sha256": "e89381ab5ecb943db2bd884b92af8d5faf93a315ca871dfeb92eed895ee59aa3",
+      "fragments": [
+        {
+          "after": "    \"ios-ui\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-pre26\": (\"ios-iphone\",),\n    \"ios-ui-adaptive-drag-shader-ios26plus\": (\"ios-iphone\",),\n",
+          "after_fragment_sha256": "da2bdae80abfe2c54e76b0f67ecabdb061b0b2ba3e99d86f9c8140dededdba25",
+          "before": "    \"ios-ui\": (\"ios-iphone\",),\n",
+          "before_fragment_sha256": "e5b8457b42e0bac7cd791d9e42351feb5d5d43c9c0206d490336868732044b51",
+          "obligation": "Literal PROFILES additions, no new Name/Attribute aliases"
+        },
+        {
+          "after": "    \"ios-ui\": \"calf-ui\",\n    \"ios-ui-adaptive-pre26\": \"calf-ui\",\n    \"ios-ui-adaptive-drag-shader-ios26plus\": \"calf-ui\",\n",
+          "after_fragment_sha256": "fccdf8a61840fede0f648accce0ae932746a5fd7f1a2df4a0ac00033ba964cec",
+          "before": "    \"ios-ui\": \"calf-ui\",\n",
+          "before_fragment_sha256": "69f3c66401c2357c0ab42bb18c83e58d80fe2eddbbdd6894170b657ef6a3d849",
+          "obligation": "Literal MODULE_SUBSETS additions only"
+        },
+        {
+          "after": "    if profile in {\"ios-ui-adaptive-pre26\", \"ios-ui-adaptive-drag-shader-ios26plus\"}:\n        canonical = {\"slot\": \"ios-iphone\", \"suite\": \"ios\", \"runner\": \"macos-26\", \"arch\": \"arm64\",\n                     \"python\": \"python3\", \"simulator-kind\": \"iphone\", \"test-modules\": \"calf-ui\"}\n        if PROFILES[profile] != (\"ios-iphone\",) or MODULE_SUBSETS.get(profile) != \"calf-ui\" or rows != [canonical]:\n            raise ValueError(\"Related adaptive UI verification requires its exact single iPhone native row\")\n        rows[0][\"test-focus\"] = (\"ui-native-adaptive-pre26\" if profile == \"ios-ui-adaptive-pre26\" else\n                                \"ui-native-adaptive-drag-shader-ios26plus\")\n    if profile == calendar_native.PROFILE:\n",
+          "after_fragment_sha256": "6f946dfa41e27750334b818b08070cc2d2b6677ab9ae4e32f00948d563f06f3b",
+          "before": "    if profile == calendar_native.PROFILE:\n",
+          "before_fragment_sha256": "081a371bd5d35bc4305634fe0a7ac75126281d2a46c3ddcbdaac083060d8018a",
+          "obligation": "Validate every literal canonical field and set only exact test-focus; no serial companion or old/all profile mutation"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact UI source/history custody only; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt": "68c1d422b0994aeadbd9ac443ea273eac8410b0446cc751f39864552a9be68a3",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "efc57f78749bcf4fe81f7fd0e9746159a5edbfaf38596cbd8176f920af400895",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt": "7b111cf30b994374f5780175b790682e75f20f9df8f5aae283103dd5522c14c5",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt": "1b417a078d26c7d2f09dcaa5c5e17ac9be0806fd4f8a88dffb5e616978207954",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "c792203a97cc8bdea914856b5cd53195f7a623170820fbc3f91a4ef9fd55d61d",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt": "5e9aef0d114a3e4b9d992ce3be2fd5fd96951443a527e68f1c6f87f78d6a1b2b",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt": "9ed073effcf3b5399f4838887d271a1b893a2a9bb123afc6771fcd15d2ca87d4",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt": "c7cfac7363f93e1fa880378f5e38c7289faa9e0b3570e3999c9fe11b2bdc2207",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt": "d1e96296dce57bb817a08abca87a2943d9924745d1208fd7591751ed9d5dd3e8",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt": "701f5d1ae8e91f8d4419d8781f9b0554251e427b338cf22ee3567b52ec6f841c",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt": "9ded1ba61f6702ef2b6f28312b6971a37a112564c1d030dbe22b0f25419fefbf",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt": "7ce8cef67a1d4df0430852e77d37967574d42fd039b76a0a6ebb347f93b8cb8c",
+    "scripts/ci/adaptive_controls_compile.init.gradle.kts": "29787a01ed76e780c0054102f276d683280799bdc9733a113360dc6b2440f866",
+    "scripts/ci/android_external328_source_projection.py": "d931688dd5f1bd196c6ee358a35e3c7664e1ee24639320cdecefa7057a2358f9",
+    "scripts/ci/apple_appinfo_capability.py": "d5d091757a7996d8265667b2c1dfc0f6d977b6b6c1c0f4d9e6d61d565c7fe263",
+    "scripts/ci/apple_appinfo_shape.py": "d3c9624c8e3b51c8e1b50c7f560df7a9ab67766d2255bc70cb804ea4301e1508",
+    "scripts/ci/apple_appinfo_shape_route.py": "eff38992e587037d848eb6c93fcd50496bf269d072c8060abef852c82025efc7",
+    "scripts/ci/apple_image_launch_readiness.py": "bafea0957404052acfb3a6f6ec56dabb96319448ae736f6b81f9ebdfeae18fc5",
+    "scripts/ci/camera_home_affinity_source_projection.py": "313d05b5be8c8c223f547baf7b69b5fe2ec07d9c975d2e2ae09572e18814aefe",
+    "scripts/ci/fixtures/apple-image-launcher-source-inverse.json": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/ios_adaptive_controls_native.init.gradle.kts": "90ac4d7f46ee8f88192eb23a3da5b3ce62ef1c00c9a8003a89800b47e305e8e8",
+    "scripts/ci/ios_adaptive_controls_native_focus.py": "696826bbdf9dfff7142f0e5f905d6114a7e0f9fda06c25e155e86d3aa9914a28",
+    "scripts/ci/ios_adaptive_controls_runtime.py": "420ba61013fc790d03fadc00360642fd7d65651b0da3b358027b90b49a2ce67e",
+    "scripts/ci/ios_owned_geometry_fixture_recovery.py": "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
+    "scripts/ci/test_apple_image_launch_readiness.py": "d7b4bcb1a8c1efa61baa64498d39e908da809520e9c19cdb40a946233727f1b7",
+    "scripts/ci/test_ios_adaptive_controls_native_focus.py": "7fa4ceb016c7ef1e39829e9b2e1bf4ef05df9253512b933597c9305d1e3c9e50",
+    "scripts/ci/test_ios_adaptive_controls_runtime.py": "f12533841037f7ea6e8c9e672a2eee56a55be6fd0b93c9b5a307ac997b4131c3",
+    "scripts/ci/ui_drag_shader_compile.init.gradle.kts": "bc8045f3893de119925546703cf59c4006a9e5013e41a17a16fd4d37941893c7"
+  }
+}

@@ -1147,7 +1147,10 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)
     native_environment = None
     try:
-        before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
+        before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
+            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))
+        if focus in lt.ui_related.FOCUSES:
+            lt.ui_related.validate_context(before, focus, udid=device)
         receipt.update(source_revision=before["source_revision"], source_tree_dirty=before["source_tree_dirty"], runtime_before=before)
         binary_hash = lt.sha256(binary)
         identity = macho_simulator_identity(binary)
@@ -1279,7 +1282,10 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                 if not simulator_appearance.validate_receipt(appearance_driver.receipt, device):
                     raise ValueError("Passing native system appearance lacks actual control/readback/restoration evidence")
         phase = "post-runtime-and-binary"
-        after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True)
+        after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
+            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))
+        if focus in lt.ui_related.FOCUSES:
+            lt.ui_related.validate_context(after, focus, udid=device)
         receipt["runtime_after"] = after
         receipt["binary_sha256_after"] = lt.sha256(binary)
         if before["source_revision"] != after["source_revision"] or before["simulator"] != after["simulator"] or receipt["binary_sha256_after"] != binary_hash:

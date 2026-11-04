@@ -130,11 +130,12 @@ independent explicit pins in the new controls and the lead's held input map.
 """
     import apple_image_launcher_source_projection as image_history
     image_history.validate_current_sources(root)
+    from ios_ui_related_source_projection import peel_ui_related_for_history
     document = _document()
     expected = ({name: binding["after_sha256"] for name, binding in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if hashlib.sha256(_ordinary_bytes(root, name)[0]).hexdigest() != digest:
+        if hashlib.sha256(peel_ui_related_for_history(name, _ordinary_bytes(root, name)[0])).hexdigest() != digest:
             raise ValueError("Current calendar/share selector input differs from its exact owning image: " + name)
     return True

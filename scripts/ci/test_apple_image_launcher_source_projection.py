@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 
 import apple_image_launcher_source_projection as history
+import ios_ui_related_source_projection as ui_history
 import calendar_share_selector_source_projection as selectors
 import camera_home_affinity_source_projection as camera
 import android_external328_source_projection as bridge
@@ -57,10 +58,11 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
         document = history._document()
         self.assertEqual({history.LAUNCHER, history.SELECTOR, history.CONTROL}, set(document["bindings"]))
         self.assertEqual(8, sum(len(row["fragments"]) for row in document["bindings"].values()))
-        self.assertEqual(HELPER_SHA256, sha((ROOT / HELPER).read_bytes()))
+        self.assertEqual(HELPER_SHA256, sha(ui_history.peel_ui_related_for_history(HELPER, (ROOT / HELPER).read_bytes())))
         for name, row in document["bindings"].items():
-            current = (ROOT / name).read_bytes()
-            previous = history.current_source_before_image_launch(name, current)
+            raw_current = (ROOT / name).read_bytes()
+            current = ui_history.peel_ui_related_for_history(name, raw_current)
+            previous = history.current_source_before_image_launch(name, raw_current)
             self.assertEqual((row["after_sha256"], row["after_bytes"]), (sha(current), len(current)), name)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(previous), len(previous)), name)
             self.assertIs(previous, history.source_before_image_launch(name, previous))
@@ -235,8 +237,9 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
             with self.assertRaises(ValueError): history.read_current_source_for_history(alias / history.LAUNCHER, alias)
 
     def test_latest_three_hooks_and_mirror_qualification_preserve_original_bodies(self):
-        current = (ROOT / history.SELECTOR).read_bytes()
-        old = history.current_source_before_image_launch(history.SELECTOR, current)
+        raw_current = (ROOT / history.SELECTOR).read_bytes()
+        current = ui_history.peel_ui_related_for_history(history.SELECTOR, raw_current)
+        old = history.current_source_before_image_launch(history.SELECTOR, raw_current)
         class ExactImageHooks(ast.NodeTransformer):
             def visit_ImportFrom(self, node):
                 return None if node.module == "apple_image_launcher_source_projection" else node
@@ -260,8 +263,9 @@ class ImageLauncherSourceProjectionControls(unittest.TestCase):
         source = current.decode()
         self.assertEqual(2, source.count("payload = peel_image_launch_for_history(relative, payload)"))
         self.assertEqual(1, source.count("payload = current_source_before_image_launch(relative, payload)"))
-        control = (ROOT / history.CONTROL).read_bytes()
-        previous = history.current_source_before_image_launch(history.CONTROL, control)
+        raw_control = (ROOT / history.CONTROL).read_bytes()
+        control = ui_history.peel_ui_related_for_history(history.CONTROL, raw_control)
+        previous = history.current_source_before_image_launch(history.CONTROL, raw_control)
         class ExactHashOperand(ast.NodeTransformer):
             def visit_Call(self, node):
                 node = self.generic_visit(node)

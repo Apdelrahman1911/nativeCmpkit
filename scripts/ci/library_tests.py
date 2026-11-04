@@ -36,6 +36,7 @@ import android_storage_compatibility_plan as storage_plan
 import secure_alert_input_plan as secure_alert
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
+import ios_ui_related_native_focus as ui_related
 
 ROOT = Path(__file__).resolve().parents[2]
 SUITES = {
@@ -558,6 +559,10 @@ UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
     ),
     "scope": "One new native-year-predicate regression method only, retaining its complete six-method declaration. Development preimage-red/repaired-green selection for actual public inline/wheels/compact/range policy and recovery; controlled native target/delegate delivery, not native taps. Exclude alert4, the other five new date methods, Material2 and every previously accepted method. A source-confirmed predicted red is not executed evidence or an added whole-issue acceptance gate. No physical/older/all-OS/iPad/consumer/API-ABI/security/release certification.",
 }
+
+
+UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-pre26"] = ui_related.focus_spec("ui-native-adaptive-pre26")
+UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-drag-shader-ios26plus"] = ui_related.focus_spec("ui-native-adaptive-drag-shader-ios26plus")
 
 
 UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {
@@ -2327,6 +2332,11 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         result["scope"] = "Two new important public Material year-policy companions only: actual rule-change setter retention/in-range snapping and actual disabled/enabled single/range calendar click policy. The shared zero-test assertions execute against this Material actual independently of the same-host UIKit application. Never replay accepted date-transaction/bounds/month/dropdown/old alert methods or claim native/physical/older/all-OS/consumer/API-ABI/dependency/security/release certification."
     elif focus in UI_APPLICATION_FOCUS_SPECS:
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
+        if focus in ui_related.FOCUSES:
+            ui_related.validate_sources(root, focus)
+            selected[0]["test_source_files"] = sorted(ui_related.sources(focus))
+            selected[0]["test_source_sets"] = ["iosTest"]
+            selected[0]["ui_related_source_contract"] = ui_related.source_contract(root, focus)
         if focus in IOS_POPOVER_GEOMETRY_FOCUSES:
             import ios_popover_geometry_plan as geometry_plan
             geometry_plan.validate_sources(root)
@@ -3403,6 +3413,8 @@ def validate_test_focus(test_plan: dict) -> bool:
             raise ValueError("Invalid finite two-method important Material year-policy plan")
         return True
     if focus in UI_APPLICATION_FOCUS_SPECS:
+        if focus in ui_related.FOCUSES:
+            ui_related.validate_plan(test_plan)
         if focus == secure_alert.FOCUS:
             if len(expected) != 1:
                 raise ValueError("The new secure-input source fixture requires exactly one library module")
@@ -3741,6 +3753,9 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
                           "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
                          for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ui_related.FOCUSES:
+            scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),
+                test_plan["explicit_test_focus"], cases_by_report=cases_by_report)
         elif boundary_focus and test_plan["explicit_test_focus"] in UI_APPLICATION_FOCUS_SPECS:
             sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"]
                        for group in ui_application_focus_groups(test_plan["explicit_test_focus"])}
@@ -4167,6 +4182,12 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
                "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
                "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
                "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+    if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        if ui_related.source_contract(root, focus) != test_plan["expected"][0]["ui_related_source_contract"]:
+            raise ValueError("Related UI exact source admission changed before the native command")
+        command.extend(["--init-script", ui_related.init_script(focus),
+                        "-P" + ui_related.focus_property(focus) + "=" + focus])
     if test_plan.get("explicit_test_focus") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):
         command.extend(["--init-script", "scripts/ci/ios_modal_focused_compile.init.gradle.kts"])
     if test_plan.get("explicit_test_focus") == IOS_MODAL_WORKER_MEMORY_FOCUS:
@@ -4465,6 +4486,9 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
         focused_ui = test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
         if focused_ui:
             validate_test_focus(test_plan)
+        if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
+                 "Related UI requires fresh exact source/selection admission, not a historical KLIB receipt")
         if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
             import ios_popover_anchor_plan
             need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),
@@ -4487,6 +4511,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             observed = document.get(when)
             need(isinstance(observed, dict) and observed.get("source_revision") == context["source_revision"] and
                  observed.get("source_tree_dirty") is False, "Application runtime source identity changed")
+            if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+                ui_related.validate_context(observed, test_plan["explicit_test_focus"], udid=context["simulator"]["udid"])
             for key in ("host", "java", "rust", "xcode", "apple_sdks", "simulator"):
                 need(key in context and observed.get(key) == context[key], "Application compiler/SDK/selected-simulator runtime mismatch")
         need(context["host"].get("system") == "Darwin" and context["host"].get("architecture") == "arm64" and
@@ -4718,7 +4744,11 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                                           require_booted=suite == "ios",
                                           android_package="android-37.0",
                                           android_serial=android_serial,
-                                          browser=suite in {"js", "wasm"})
+                                          browser=suite in {"js", "wasm"},
+                                          **({"adaptive_focus": ui_related.runtime_focus(focus), "require_clean": True,
+                                              "expected_arch": "arm64"} if focus in ui_related.FOCUSES else {}))
+        if focus in ui_related.FOCUSES:
+            ui_related.validate_context(context, focus, udid=simulator)
         if android_permission_demo_required(test_plan):
             import android_permission_demo
             actual_api = context["android_emulator"]["api_level"]

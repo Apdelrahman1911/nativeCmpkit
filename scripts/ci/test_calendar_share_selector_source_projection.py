@@ -14,6 +14,7 @@ import ios_owned_geometry_fixture_recovery as recovery
 import ios_geometry_simulator_source_projection as owned
 import android_external328_source_projection as bridge
 import apple_image_launcher_source_projection as image_history
+import ios_ui_related_source_projection as ui_history
 
 ROOT = Path(__file__).resolve().parents[2]
 LAYER = "scripts/ci/calendar_share_selector_source_projection.py"
@@ -32,8 +33,9 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
         document = selectors._document()
         self.assertEqual(set(SHARED) | {CAMERA}, set(document["bindings"]))
         for name, binding in document["bindings"].items():
-            current = (ROOT / name).read_bytes()
-            old = selectors.current_source_before_calendar_share_selectors(name, current)
+            raw_current = (ROOT / name).read_bytes()
+            current = ui_history.peel_ui_related_for_history(name, raw_current)
+            old = selectors.current_source_before_calendar_share_selectors(name, raw_current)
             self.assertEqual((binding["after_sha256"], binding["after_bytes"]), (sha(current), len(current)), name)
             self.assertEqual((binding["before_sha256"], binding["before_bytes"]), (sha(old), len(old)), name)
             self.assertIs(old, selectors.source_before_calendar_share_selectors(name, old))
@@ -123,6 +125,10 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
         image = image_history._document()
         paths |= (set(image["bindings"]) | set(image["added_inputs"]) |
                   set(image["unchanged_inputs"]) | {image_history.SPEC_RELATIVE})
+        ui = ui_history._document()
+        paths |= (set(ui["bindings"]) | set(ui["added_inputs"]) | set(ui["unchanged_inputs"]) |
+                  {ui_history.SPEC_RELATIVE, "scripts/ci/ios_ui_related_source_projection.py",
+                   "scripts/ci/test_ios_ui_related_source_projection.py"})
         with tempfile.TemporaryDirectory(prefix="nativecmpkit-selectors617-") as temporary:
             root = Path(temporary)
             for name in paths:

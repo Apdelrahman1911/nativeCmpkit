@@ -46,6 +46,8 @@ def source_before_home_affinity(relative, payload):
     """Exact ancestor view; an older image is not an admission to current code."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact HOME-affinity source identity and ordinary bytes required")
+    from calendar_share_selector_source_projection import peel_calendar_share_selectors_for_history
+    payload = peel_calendar_share_selectors_for_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is None:
         return payload
@@ -81,6 +83,8 @@ def current_source_before_home_affinity(relative, payload):
     """Only one outer raw-checkout boundary admits a listed current afterimage."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current HOME-affinity identity and ordinary bytes required")
+    from calendar_share_selector_source_projection import current_source_before_calendar_share_selectors
+    payload = current_source_before_calendar_share_selectors(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("An old/unknown image cannot replace current HOME-affinity source")
@@ -91,6 +95,8 @@ def peel_home_affinity_for_history(relative, payload):
     """No admission: unchanged or unknown bytes still require the next dated pin."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor HOME-affinity identity and ordinary bytes required")
+    from calendar_share_selector_source_projection import peel_calendar_share_selectors_for_history
+    payload = peel_calendar_share_selectors_for_history(relative, payload)
     binding = _bindings().get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_home_affinity(relative, payload)

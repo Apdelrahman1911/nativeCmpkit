@@ -1,0 +1,587 @@
+{
+  "created_at_utc": "2026-11-04T03:48:01.318538+00:00",
+  "disposition": {
+    "issue_closure_approved": false,
+    "native_acceptance": false,
+    "source_and_recorded_local_results": "ACCEPT",
+    "source_defect_or_unresolved_source_refusal_found": false,
+    "summary": "The scoped switch-thumb fix and new public adaptive test proposal are accepted with their preserved real Desktop RED2 to GREEN2 and current compile-only KLIB results. Both actual iOS host branches remain unexecuted; native routing is a separate unreviewed patch.",
+    "whole_issue_acceptance": false
+  },
+  "evidence_anchors": {
+    "docs/development/adaptive-controls-20261104/.gitattributes": {
+      "bytes": 178,
+      "sha256": "5ee35f7a996a73fe550cbccd8dadab7185d37ccb82fb268bfcc34635599ea08b"
+    },
+    "docs/development/adaptive-controls-20261104/CupertinoSwitch-before.kt": {
+      "bytes": 3478,
+      "sha256": "264df97d1bb459a71d6c662eaa9d3cefa2e0e5cc20c83cb49d930b68c3b46916"
+    },
+    "docs/development/adaptive-controls-20261104/README.md": {
+      "bytes": 1803,
+      "sha256": "3ad87585842749f33c5e0208413afcd3d9b5c2ea58785fef33db99c4485284b3"
+    },
+    "docs/development/adaptive-controls-20261104/customization-fixture-affected-control.log": {
+      "bytes": 364,
+      "sha256": "f5047b3e36f5b4de17bc65a16b846d3a830fcb86c15b9b2c85586bf360fd1b23"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-filter-red.log": {
+      "bytes": 9100,
+      "sha256": "60f7f80aca6156b1e85a70f4b8e54b93bea082aa331d838890591877d03fa621"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-first-compilation.json": {
+      "bytes": 618,
+      "sha256": "8fe799d2af3a0854a8eb7cb353ae22a74d4caeaf14c41da05c703ef88c09af6f"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-green.log": {
+      "bytes": 14665,
+      "sha256": "7133cdf4d968d8645b173cf70a6df478574a25e39e9b028a3f7fa9989e4edc25"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-green.xml": {
+      "bytes": 711,
+      "sha256": "ec9f2a1cb10334dc0c2219d7f57640e45e4f4e0a80c5e8010d5468fb3eed45c8"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-loader-reflection-red.log": {
+      "bytes": 3924,
+      "sha256": "5b541230b4256b7ecf4a93391237ad5c73e54d51c6c1d7043644430d2e668c6c"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-red-compilation.json": {
+      "bytes": 618,
+      "sha256": "8fe799d2af3a0854a8eb7cb353ae22a74d4caeaf14c41da05c703ef88c09af6f"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-red.log": {
+      "bytes": 9840,
+      "sha256": "49bd9c9a10a8d61acd8e28e3931a019e3be9ffebed3eb4d6f125e0b0126d0448"
+    },
+    "docs/development/adaptive-controls-20261104/desktop-red.xml": {
+      "bytes": 26821,
+      "sha256": "1fbb92f016d29d66f3193057408b19c1cb5ba32be9de6882cf205c9d3fc5f5c2"
+    },
+    "docs/development/adaptive-controls-20261104/filter-red-inputs.json": {
+      "bytes": 39348,
+      "sha256": "c82825480f505ce2354b9cdd8fec49d8fd62ddaaef7b0b41dd092a89aea3928c"
+    },
+    "docs/development/adaptive-controls-20261104/green-inputs.json": {
+      "bytes": 22943,
+      "sha256": "2404bb991a805985b61afd9cda39d6e89e52416ac70d01a409068875c66ba352"
+    },
+    "docs/development/adaptive-controls-20261104/ios-compiler-inputs.json": {
+      "bytes": 27274,
+      "sha256": "c97ffde93e674e2b512b35afec394842250506bed45368174ab86a5b3469c6fa"
+    },
+    "docs/development/adaptive-controls-20261104/ios-compiler.log": {
+      "bytes": 16553,
+      "sha256": "6ba0336f994191b19c40af33d4c76227daadc5c5193fe336bef15355a55bd1d5"
+    },
+    "docs/development/adaptive-controls-20261104/ios-focused-compilation.json": {
+      "bytes": 1984,
+      "sha256": "fe61bc28fdff0aa817ddac8e500ed64e4f5da269caf2970504bf09ced26dddff"
+    },
+    "docs/development/adaptive-controls-20261104/loader-red-inputs.json": {
+      "bytes": 39348,
+      "sha256": "a8e25504852639241e2de61799dec3125e0d1360291c20e7fa085cf515a6d5a1"
+    },
+    "docs/development/adaptive-controls-20261104/new-source-controls.log": {
+      "bytes": 1891,
+      "sha256": "f6a68f245a720f033270f97d44b322aba558df0ab9eee1155491bd320a509a22"
+    },
+    "docs/development/adaptive-controls-20261104/receipt.json": {
+      "bytes": 5516,
+      "sha256": "6a825be855ee6bebcf9678a4de13b826c165dd0c86657d877c9555602b965c1a"
+    },
+    "docs/development/adaptive-controls-20261104/red-inputs.json": {
+      "bytes": 22995,
+      "sha256": "3dfe2475974af9bd8d338f338ed09e8ee31f7f82bbcd2c7904f27463310377ac"
+    },
+    "docs/testing/adaptive-controls-native-matrix.md": {
+      "bytes": 8972,
+      "sha256": "c4670c48a34fde3aa7bdd7fa2780e90762c7f99e5810885ea6e5c324083cc631"
+    }
+  },
+  "native_method_groups_not_executed": {
+    "com.mohamedrejeb.calf.ui.controls.AdaptiveControlCustomizationMatrixTest": [
+      "pre26CustomColorsContentAndInteractionsSurviveDarkAndLargeText",
+      "ios26CustomColorsContentAndInteractionsSurviveDarkAndLargeText"
+    ],
+    "com.mohamedrejeb.calf.ui.slider.AdaptiveSliderNativeMatrixTest": [
+      "pre26PublicStepsTapDragAndAccessibilityMatrix",
+      "ios26PublicStepsTapDragAndAccessibilityMatrix",
+      "pre26PublicNegativeStepsAreRejected",
+      "ios26PublicNegativeStepsAreRejected"
+    ],
+    "com.mohamedrejeb.calf.ui.toolbar.AdaptiveToolbarFallbackNativeTest": [
+      "pre26EmptyAndPopulatedItemsRenderMaterialSlotsAndCallerPlacement",
+      "ios26EmptyItemsRenderMaterialSlotsAndCallerPlacement"
+    ]
+  },
+  "original_criteria_preserved_verbatim": {
+    "UI-023": {
+      "dependencies": [],
+      "required_tests": [
+        "Pre26/26+ with empty and populated iosItems, expanded changes and content counters.",
+        "Modifiers/insets, simultaneous bottom bar, keyboard and orientation."
+      ],
+      "risks": "UIToolbar itself exists beforeiOS26, so this is a contract/behavior problem, not an unsupported-class crash claim."
+    },
+    "UI-028": {
+      "dependencies": [
+        "UI-029",
+        "UI-032"
+      ],
+      "required_tests": [
+        "steps0,1,3 and invalid negative; drag/tap/accessibility values on pre26 and26+.",
+        "Nonzero/negative ranges, RTL and endpoint rounding."
+      ],
+      "risks": "Keep the public steps convention (number of interior steps), avoid changing existing continuous behavior, and share validation with numeric-domain fixes."
+    },
+    "UI-035": {
+      "dependencies": [],
+      "required_tests": [
+        "Distinctive custom colors/shape/padding/thumb content on both iOS branches.",
+        "Pressed/released/drag interactions observed through supplied MutableInteractionSource.",
+        "Disabled contrast, dark mode and large text snapshots."
+      ],
+      "risks": "Some Material-specific appearance differences are intentionally adaptive and not defects by themselves. Prioritize unused platform-neutral arguments and exposed Liquid-specific parameters; do not promise pixel-identical native and Material design."
+    }
+  },
+  "pending_gates": {
+    "apple_links": 0,
+    "four_methods_per_actual_os_branch_not_all_eight_on_one_runtime": true,
+    "fresh_native_xml_executions": 0,
+    "issue_129": "Partial regardless of these Material fallback cases; populated native26-plus toolbar and real native bottom-bar/safe-area/keyboard/orientation coverage remain.",
+    "issue_133": "Both actual public slider and negative-input host branches need fresh original application/Worker/native XML/source-custody/runtime/owned-cleanup evidence; UI-029/UI-032 numeric-domain dependencies remain.",
+    "issue_138": "Both actual customization host branches need fresh native evidence; retained Desktop GREEN2 and KLIB are narrower accepted local results, not complete iOS or whole-issue acceptance.",
+    "issues_remain_open": [
+      133,
+      138,
+      129
+    ],
+    "lead_alone_integrates_dispatches_accepts_and_closes": true,
+    "native_consumer_api_abi_dependency_legal_security_readiness_publication_gates_unchanged": true,
+    "native_routing": "Separate uniquely named source/control files and subsequent commit remain outside this review and need their own qualification.",
+    "native_test_executions": 0
+  },
+  "preserved_existing_source": {
+    "accepted_liquid_first_eight_prefix_sha256": "e6d841ab255b36ea60652d1df04ee49c49cd8ab86d0c291f63305637c0f40e91",
+    "accepted_liquid_prefix_methods": [
+      "sliderNegativeStepsAccessibilityAndCallbackReplacement",
+      "sliderRekeysRangeStepsDirectionGeometryAndEnabled",
+      "sliderCancelPairsItsInteractionWithoutCompletion",
+      "switchReadOnlyHasStateButNoToggleActionOrEnglishDescription",
+      "switchFullTrackTapAndSemanticActionEachProposeOnce",
+      "rejectingSwitchOwnerRetainsVisualAndSemanticStateAfterDrag",
+      "switchPointerCancelAndVerticalScrollCannotCommit",
+      "externalCheckedOrDisabledChangeCancelsAnActiveSwitchDrag"
+    ],
+    "application_helper_sha256": {
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f"
+    },
+    "cupertino_parent_sha256": "264df97d1bb459a71d6c662eaa9d3cefa2e0e5cc20c83cb49d930b68c3b46916",
+    "production_reversible_to_parent": true
+  },
+  "recorded_result_verification": {
+    "actual_desktop_test_compiler_source_count": 1,
+    "actual_ios_test_compiler_source_count": 6,
+    "author_records_before_after_held": true,
+    "desktop_assertion_test_bytes_identical_red_green_commit": true,
+    "desktop_assertion_test_source_sha256": "a8cc2052ac2ceac40c4f60aeb189698c574bd65a119818fd0349700ff7414309",
+    "desktop_exact_two_case_sets_identical_red_green": true,
+    "desktop_green": {
+      "after_inputs_held": true,
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "gradle_seconds": 45,
+      "input_count": 136,
+      "only_changed_red_input": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt",
+      "same_test_bodies": true,
+      "skipped": 0,
+      "tests": 2,
+      "xml_seconds": 1.206
+    },
+    "desktop_green_custody_hashes_matching_reviewed_commit": 136,
+    "desktop_red": {
+      "errors": 0,
+      "exit_code": 1,
+      "expected_failures": [
+        "java.lang.AssertionError: expected:<Color(1.0, 0.0, 1.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)>",
+        "java.lang.AssertionError: current caller colors enabled=true checked=false replaced=false expected:<Color(1.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.5411765, 0.34117648, 0.19215687, 1.0, sRGB IEC61966-2.1)>"
+      ],
+      "failures": 2,
+      "gradle_seconds": 34,
+      "skipped": 0,
+      "tests": 2,
+      "xml_seconds": 0.965
+    },
+    "desktop_xml": {
+      "desktop-green.xml": {
+        "cases": [
+          {
+            "attributes": {
+              "classname": "com.mohamedrejeb.calf.ui.toggle.CupertinoSwitchThumbContentColorTest",
+              "name": "disabledCustomThumbInDarkLargeTextActuallyDrawsTheSuppliedIconColor[desktop]",
+              "time": "0.876"
+            },
+            "outcomes": []
+          },
+          {
+            "attributes": {
+              "classname": "com.mohamedrejeb.calf.ui.toggle.CupertinoSwitchThumbContentColorTest",
+              "name": "currentCallerIconColorsFollowEveryStateAndDoNotLeakToSiblingContent[desktop]",
+              "time": "0.327"
+            },
+            "outcomes": []
+          }
+        ],
+        "suite_attributes": {
+          "errors": "0",
+          "failures": "0",
+          "hostname": "(none)",
+          "name": "CupertinoSwitchThumbContentColorTest[desktop]",
+          "skipped": "0",
+          "tests": "2",
+          "time": "1.206",
+          "timestamp": "2026-11-04T03:11:00.983Z"
+        }
+      },
+      "desktop-red.xml": {
+        "cases": [
+          {
+            "attributes": {
+              "classname": "com.mohamedrejeb.calf.ui.toggle.CupertinoSwitchThumbContentColorTest",
+              "name": "disabledCustomThumbInDarkLargeTextActuallyDrawsTheSuppliedIconColor[desktop]",
+              "time": "0.901"
+            },
+            "outcomes": [
+              {
+                "attributes": {
+                  "message": "java.lang.AssertionError: expected:<Color(1.0, 0.0, 1.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)>",
+                  "type": "java.lang.AssertionError"
+                },
+                "tag": "failure"
+              }
+            ]
+          },
+          {
+            "attributes": {
+              "classname": "com.mohamedrejeb.calf.ui.toggle.CupertinoSwitchThumbContentColorTest",
+              "name": "currentCallerIconColorsFollowEveryStateAndDoNotLeakToSiblingContent[desktop]",
+              "time": "0.062"
+            },
+            "outcomes": [
+              {
+                "attributes": {
+                  "message": "java.lang.AssertionError: current caller colors enabled=true checked=false replaced=false expected:<Color(1.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.5411765, 0.34117648, 0.19215687, 1.0, sRGB IEC61966-2.1)>",
+                  "type": "java.lang.AssertionError"
+                },
+                "tag": "failure"
+              }
+            ]
+          }
+        ],
+        "suite_attributes": {
+          "errors": "0",
+          "failures": "2",
+          "hostname": "(none)",
+          "name": "CupertinoSwitchThumbContentColorTest[desktop]",
+          "skipped": "0",
+          "tests": "2",
+          "time": "0.965",
+          "timestamp": "2026-11-04T03:08:33.503Z"
+        }
+      }
+    },
+    "independent_passive_commit_hash_comparison_passed": true,
+    "initial_loader_and_filter_custody_maps": {
+      "contains_uncompiled_ios_drafts": true,
+      "drift_paths": [
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt",
+        "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt",
+        "scripts/ci/adaptive_controls_compile.init.gradle.kts"
+      ],
+      "each_drift_to_final_commit_count": 4,
+      "each_input_count": 237,
+      "not_qualified_as_global_current_freeze": true
+    },
+    "ios_compiler": {
+      "apple_links": 0,
+      "before_after_inputs_held": true,
+      "exit_code": 0,
+      "focused_test_sources": [
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+      ],
+      "gradle_seconds": 53,
+      "input_count": 167,
+      "native_tests": 0,
+      "production_task": ":calf-ui:compileKotlinIosSimulatorArm64",
+      "test_task": ":calf-ui:compileTestKotlinIosSimulatorArm64"
+    },
+    "ios_current_six_source_precompiler_admission_hashes_match_commit": true,
+    "ios_custody_hashes_matching_reviewed_commit": 167,
+    "maps_are_relevant_input_supersets_not_actual_compiled_source_counts": true,
+    "original_log_facts": {
+      "desktop-filter-red.log": {
+        "apple_link_or_native_application_test_tasks": [],
+        "compiler_and_test_tasks": [
+          "> Task :calf-core:compileKotlinDesktop FROM-CACHE",
+          "> Task :calf-ui:compileKotlinDesktop FROM-CACHE",
+          "> Task :calf-ui:compileTestKotlinDesktop",
+          "> Task :calf-ui:desktopTest FAILED"
+        ],
+        "daemon_observation": [
+          {
+            "gradle_version": "9.7.1",
+            "java_vendor": "Ubuntu",
+            "java_version": "17.0.20",
+            "launcher_home_configured": true,
+            "launcher_home_matches_daemon": true,
+            "major": 17,
+            "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+            "schema_version": 1
+          }
+        ],
+        "desktop_runtime": [],
+        "focused_admission": [
+          "NATIVECMPKIT_ADAPTIVE_FOCUSED_COMPILE sources=1 nativeTestsExecuted=0"
+        ],
+        "source_warning_rows": 0,
+        "terminal": [
+          "BUILD FAILED in 42s"
+        ],
+        "total_warning_rows": 4
+      },
+      "desktop-green.log": {
+        "apple_link_or_native_application_test_tasks": [],
+        "compiler_and_test_tasks": [
+          "> Task :calf-core:compileKotlinDesktop UP-TO-DATE",
+          "> Task :calf-ui:compileKotlinDesktop",
+          "> Task :calf-ui:compileTestKotlinDesktop UP-TO-DATE",
+          "> Task :calf-ui:desktopTest"
+        ],
+        "daemon_observation": [
+          {
+            "gradle_version": "9.7.1",
+            "java_vendor": "Ubuntu",
+            "java_version": "17.0.20",
+            "launcher_home_configured": true,
+            "launcher_home_matches_daemon": true,
+            "major": 17,
+            "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+            "schema_version": 1
+          }
+        ],
+        "desktop_runtime": [
+          "NATIVECMPKIT_TEST_RUNTIME task=:calf-ui:desktopTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+        ],
+        "focused_admission": [],
+        "source_warning_rows": 14,
+        "terminal": [
+          "BUILD SUCCESSFUL in 45s"
+        ],
+        "total_warning_rows": 18
+      },
+      "desktop-loader-reflection-red.log": {
+        "apple_link_or_native_application_test_tasks": [],
+        "compiler_and_test_tasks": [],
+        "daemon_observation": [
+          {
+            "gradle_version": "9.7.1",
+            "java_vendor": "Ubuntu",
+            "java_version": "17.0.20",
+            "launcher_home_configured": true,
+            "launcher_home_matches_daemon": true,
+            "major": 17,
+            "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+            "schema_version": 1
+          }
+        ],
+        "desktop_runtime": [],
+        "focused_admission": [],
+        "source_warning_rows": 0,
+        "terminal": [
+          "BUILD FAILED in 28s"
+        ],
+        "total_warning_rows": 4
+      },
+      "desktop-red.log": {
+        "apple_link_or_native_application_test_tasks": [],
+        "compiler_and_test_tasks": [
+          "> Task :calf-core:compileKotlinDesktop UP-TO-DATE",
+          "> Task :calf-ui:compileKotlinDesktop UP-TO-DATE",
+          "> Task :calf-ui:compileTestKotlinDesktop",
+          "> Task :calf-ui:desktopTest FAILED"
+        ],
+        "daemon_observation": [
+          {
+            "gradle_version": "9.7.1",
+            "java_vendor": "Ubuntu",
+            "java_version": "17.0.20",
+            "launcher_home_configured": true,
+            "launcher_home_matches_daemon": true,
+            "major": 17,
+            "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+            "schema_version": 1
+          }
+        ],
+        "desktop_runtime": [
+          "NATIVECMPKIT_TEST_RUNTIME task=:calf-ui:desktopTest gradle=9.7.1 java=17.0.20 vendor=Ubuntu os=Linux arch=amd64"
+        ],
+        "focused_admission": [
+          "NATIVECMPKIT_ADAPTIVE_FOCUSED_COMPILE sources=1 nativeTestsExecuted=0"
+        ],
+        "source_warning_rows": 0,
+        "terminal": [
+          "BUILD FAILED in 34s"
+        ],
+        "total_warning_rows": 4
+      },
+      "ios-compiler.log": {
+        "apple_link_or_native_application_test_tasks": [],
+        "compiler_and_test_tasks": [
+          "> Task :calf-core:compileKotlinIosSimulatorArm64 FROM-CACHE",
+          "> Task :calf-ui:compileKotlinIosSimulatorArm64",
+          "> Task :calf-ui:compileTestKotlinIosSimulatorArm64"
+        ],
+        "daemon_observation": [
+          {
+            "gradle_version": "9.7.1",
+            "java_vendor": "Ubuntu",
+            "java_version": "17.0.20",
+            "launcher_home_configured": true,
+            "launcher_home_matches_daemon": true,
+            "major": 17,
+            "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+            "schema_version": 1
+          }
+        ],
+        "desktop_runtime": [],
+        "focused_admission": [
+          "NATIVECMPKIT_ADAPTIVE_FOCUSED_COMPILE sources=6 nativeTestsExecuted=0"
+        ],
+        "source_warning_rows": 17,
+        "terminal": [
+          "BUILD SUCCESSFUL in 53s"
+        ],
+        "total_warning_rows": 21
+      }
+    },
+    "original_manifest_members_verified": 18,
+    "red_green_only_changed_hash_paths": [
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt"
+    ],
+    "red_green_source_custody_keys_identical": true,
+    "red_production_matches_parent_and_archived_before_file": true,
+    "source_controls": {
+      "first_invocations": 7,
+      "not_library_tests": true,
+      "passed": 7,
+      "seconds": 0.003,
+      "subsequent_changed_native_fixture_only": {
+        "invocations": 1,
+        "passed": 1,
+        "seconds": 0.001
+      },
+      "unique_methods": 7
+    },
+    "source_controls_not_library_or_native_evidence": true,
+    "source_controls_total_recorded_invocations": 8,
+    "source_controls_unique_recorded_methods": 7
+  },
+  "retained_refusals_and_review_observations": {
+    "author_reported_cached_whitespace_refusal": {
+      "archive_attribute_scope": "Only this evidence directory; raw log/XML -text -whitespace, JSON/before-source -text. Ordinary source and README checks remain; no shared policy change.",
+      "preserved_as_reported_refusal_not_an_independent_fresh_pass": true,
+      "raw_failed_check_output_not_in_the_18_member_original_manifest": true,
+      "source": "Agent607 freeze message"
+    },
+    "host_disabled_cinterop_configuration_warnings_preserved": true,
+    "independent_combined_diagnostic_display_truncated": {
+      "first_display_not_used_to_admit_missing_middle_rows": true,
+      "no_redownload_tests_or_builds": true,
+      "recovery": "Compact passive extraction of owning compiler/test/terminal/JDK/warning facts from unchanged, already hashed raw logs."
+    },
+    "original_init_refusals_verified_in_unchanged_raw_logs": [
+      {
+        "cause": "Native-only getCommonSources getter absent on JVM KotlinCompile",
+        "executed_library_tests": 0,
+        "exit_code": 1,
+        "file": "desktop-loader-reflection-red.log",
+        "gradle_seconds": 28
+      },
+      {
+        "cause": "Configured includePatterns differs from actual separate CLI --tests patterns; one test source compiled",
+        "executed_library_tests": 0,
+        "exit_code": 1,
+        "file": "desktop-filter-red.log",
+        "gradle_seconds": 42
+      }
+    ],
+    "real_desktop_red_failures_not_relabelled_passed": true,
+    "source_warning_rows_preserved": {
+      "desktop_green": 14,
+      "ios_compiler": 17
+    }
+  },
+  "review_activity": {
+    "builds_executed": 0,
+    "github_mutations": 0,
+    "native_executions": 0,
+    "network_requests": 0,
+    "only_authorized_write": "This independent receipt in the unique external adaptive-independent619 directory.",
+    "passive_source_result_reads_git_objects_hashes_json_ast_xml_only": true,
+    "pushes_dispatches_publications": 0,
+    "source_edits": 0,
+    "subdelegations": 0,
+    "tests_executed": 0,
+    "unchanged_accepted_results_reused_not_reexecuted": true
+  },
+  "review_task": "adaptive-independent619",
+  "reviewer": "/root/calendar_independent609",
+  "schema_version": 1,
+  "scope": {
+    "branch": "development/batch-adaptive-controls-20261104",
+    "comparison": "Exact committed freeze versus its immediate parent; no later native routing files or commit included.",
+    "evidence_directory": "docs/development/adaptive-controls-20261104",
+    "lead_root_source_context": "eed20040",
+    "planned_issue_mapping": {
+      "UI-023": 129,
+      "UI-028": 133,
+      "UI-035": 138
+    },
+    "reviewed_commit": "b542da6509a15a1583fcc24fb460797383e5a55f",
+    "reviewed_parent": "ac487941316626cc4b19546ab70f939d98c1c52d",
+    "source_input_count": 8,
+    "source_inputs_sha256": {
+      "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt": "b6b233d30086763282210ca976cbe951b941bb53277d8ccce244cefa574e8413",
+      "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitchThumbContentColorTest.kt": "a8cc2052ac2ceac40c4f60aeb189698c574bd65a119818fd0349700ff7414309",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "c792203a97cc8bdea914856b5cd53195f7a623170820fbc3f91a4ef9fd55d61d",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt": "9ed073effcf3b5399f4838887d271a1b893a2a9bb123afc6771fcd15d2ca87d4",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt": "c7cfac7363f93e1fa880378f5e38c7289faa9e0b3570e3999c9fe11b2bdc2207",
+      "scripts/ci/adaptive_controls_compile.init.gradle.kts": "29787a01ed76e780c0054102f276d683280799bdc9733a113360dc6b2440f866",
+      "scripts/ci/test_adaptive_controls_native_matrix_source.py": "a6507c10742d39d51ae17b4ffd4b66af31e37b8f26bd62107e95015a7e5bf9ae"
+    },
+    "worktree": "/root/projects/nativecmpkit-worktrees/adaptive-controls",
+    "worktree_clean_when_frozen_commit_inspected": true
+  },
+  "source_findings": [
+    "Non-null Cupertino custom thumb content receives current enabled/disabled and checked/unchecked caller icon colors, scoped inside that thumb. No cached color or sibling/parent LocalContentColor mutation is introduced.",
+    "The production edit reverses byte-for-byte to parent by removing its attribution/imports and provider fragment and restoring the original EOF. Public signature, default-null thumb, existing track/thumb color selection, layout, animation, pointer handling and supplied interaction source remain unchanged.",
+    "Two owning real Compose Desktop methods cover all four states plus caller color replacement and unchanged inherited sibling local; the second captures actual disabled magenta glyph pixels under dark Material and fontScale2.",
+    "Native host admission reads actual UIDevice.systemVersion on application Main after requiring the existing active/key/visible/attached owned application window. It requires a parseable positive integer major and asserts pre26 or 26-plus; no version override, wrong-host skip or direct Cupertino renderer masquerade exists.",
+    "The public slider matrix authors twelve rows per host: steps0/1/3, negative/nonzero ranges and LTR/RTL. Real taps, complete swipes, supplied interaction source pairs, current range/step semantics, exact ties, unchanged/nonfinite proposals, clamps and independently calculated grid membership are asserted.",
+    "Invalid-negative host admission occurs outside assertFailsWith. The exact IllegalArgumentException message is required, preventing an unrelated host/setup failure from satisfying the invalid-input contract.",
+    "The public customization matrix authors light/dark times fontScale1/2 rows using actual platform density. Actual surface/track/glyph captures, content locals, measured padding/text growth, supplied press/release and drag/stop identity pairs and disabled owner/source inactivity are asserted.",
+    "Compose density/fontScale overrides and Compose input/snapshots are not actual OS Accessibility Settings, spoken assistive, hardware keyboard or a general contrast-ratio certification.",
+    "Toolbar methods positively prove authored Material main/leading/trailing slots and current content, expanded updates and allocated modifier/caller-row placement. Pre26 covers empty/populated items; 26-plus covers only empty items. Static caller bottom-row placement does not prove populated native toolbar, native bottom-bar integration, OS safe-area/keyboard or orientation.",
+    "Standalone compile init admits only the exact Desktop2 CLI request or the single iOS compiler task. It validates configured and CLI filters separately, exact public compiler sources and native commonSources, failure/no-match behavior and single-fork policy. It does not add native application routing or alter ordinary source sets/dependencies/shared policies.",
+    "Existing common CupertinoSwitch parent, full LiquidGlassControlTest and both application helpers match lead root eed20040. Accepted Liquid first-eight prefix hash and exact eight method names remain unchanged; accepted native bodies were not replayed."
+  ]
+}

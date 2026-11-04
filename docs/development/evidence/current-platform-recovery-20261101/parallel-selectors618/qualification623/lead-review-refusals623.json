@@ -1,0 +1,17 @@
+{
+  "scope": "Passive lead bookkeeping refusals, not source-control/compiler/native results; no test/native replay",
+  "refusals": [
+    {
+      "stage": "first passive wrapper",
+      "error": "FileNotFoundError",
+      "cause": "Incorrect guessed recovery pathname; manifest directly binds scripts/ci/ios_owned_geometry_fixture_recovery.py",
+      "action": "Use exact manifest identity, original recovery bytes held"
+    },
+    {
+      "stage": "second passive wrapper",
+      "error": "AssertionError",
+      "cause": "Incorrect guessed iosMain location for the switch; actual git diff and source maps show commonMain",
+      "action": "Use actual commonMain identity, actual independent RED2/GREEN2 remains unchanged"
+    }
+  ]
+}

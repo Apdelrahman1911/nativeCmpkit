@@ -15,7 +15,7 @@ python3 -m unittest discover -s scripts/development -p 'test_validate_resolution
 
 Freshness covers only the listed metadata/ledger inputs and generator. Referenced source, tests, logs/XML and evidence files are **not rehashed or certified**. They can change while this ledger index remains `CURRENT`; owner acceptance review must still check exact source/evidence receipts.
 
-Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `9a254b02682d7771c571fc8f5379006971b132362735d43a70fac90155421e88`.
+Baseline: `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`. Input fingerprint: `5cfeb1c521d832a6668ea888e8a771593766216069332f2b7f6a2cbdae3c4d9f`.
 
 Generator SHA256: `82ad5502dbec4a5a151336a0e6d33eb97e7a1eb10bb099d2af242d4969fce982`.
 
@@ -65,7 +65,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 17 | [NAV-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/15) | High | 1 | L | verified | — | 3 / 0 |
 | 18 | [NAV-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/16) | High | 1 | L | verified | NAV-001 | 5 / 0 |
 | 19 | [NAV-009](https://github.com/Apdelrahman1911/nativeCmpkit/issues/17) | High | 1 | M | verified | — | 3 / 0 |
-| 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 2 |
+| 20 | [PERM-011](https://github.com/Apdelrahman1911/nativeCmpkit/issues/22) | High | 1 | M | partially-verified | — | 2 / 3 |
 | 21 | [PERM-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/24) | High | 1 | M | verified | — | 2 / 0 |
 | 22 | [UI-001](https://github.com/Apdelrahman1911/nativeCmpkit/issues/26) | High | 1 | M | verified | — | 4 / 0 |
 | 23 | [UI-002](https://github.com/Apdelrahman1911/nativeCmpkit/issues/27) | High | 1 | M | partially-verified | — | 3 / 2 |
@@ -163,7 +163,7 @@ Historical phase labels are reproduced for traceability, **not a fresh verificat
 | 115 | [NAV-018](https://github.com/Apdelrahman1911/nativeCmpkit/issues/103) | Medium | 2 | M | verified | NAV-008 | 4 / 0 |
 | 116 | [PERM-006](https://github.com/Apdelrahman1911/nativeCmpkit/issues/107) | Medium | 2 | M | partially-verified | PERM-013 | 2 / 2 |
 | 117 | [PERM-010](https://github.com/Apdelrahman1911/nativeCmpkit/issues/109) | Medium | 2 | M | partially-verified | PERM-007, PERM-009 | 2 / 1 |
-| 118 | [PERM-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/110) | Medium | 2 | M | partially-verified | PERM-011 | 2 / 1 |
+| 118 | [PERM-012](https://github.com/Apdelrahman1911/nativeCmpkit/issues/110) | Medium | 2 | M | partially-verified | PERM-011 | 2 / 2 |
 | 119 | [PERM-014](https://github.com/Apdelrahman1911/nativeCmpkit/issues/111) | Medium | 2 | M | partially-verified | PERM-007 | 2 / 3 |
 | 120 | [PERM-015](https://github.com/Apdelrahman1911/nativeCmpkit/issues/112) | Medium | 2 | M | partially-verified | PERM-007 | 2 / 1 |
 | 121 | [PERM-016](https://github.com/Apdelrahman1911/nativeCmpkit/issues/113) | Medium | 2 | L | partially-verified | — | 2 / 2 |
@@ -625,6 +625,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 
 - iOS simulator-arm64 production/test KLIB compilation passed; Apple SDK linking, minimum-OS and missing/correct usage-key runtime checks remain pending.
 - Sample owner separately updated Info.plist; configuration source is not native runtime evidence.
+- Calendar605 five new real EventKit/NSBundle/Darwin native regression methods are compiled/prepared, not executed; documented minimum-OS and actual configured key/deny/restricted/Settings matrix remain required.
 
 **Compatibility / scope:** No arbitrary deployment-target increase; old iOS uses its available shared-access API.
 
@@ -2709,6 +2710,7 @@ Every baseline test requirement is retained below and verbatim in `status.json`.
 **Owner-recorded remaining gates:**
 
 - Real write-only/full/read-upgrade grants and usage descriptions need iOS17+ integration tests.
+- Calendar605 five passive/configuration native methods await actual iOS execution and do not replace genuine write-only/full approval/read-upgrade verification.
 
 **Compatibility / scope:** Legacy iOS cannot offer write-only event authorization; documented shared access remains there.
 
@@ -3603,7 +3605,7 @@ The JSON also preserves all input sets/hashes and the generator hash. `--check` 
 | [docs/development/resolutions/NATIVE.json](resolutions/NATIVE.json) | `a82cd101d2a629e7e83837e6f5e837b9abebcda2ae750ddc38f90032dc17dfa8` |
 | [docs/development/resolutions/NAV.json](resolutions/NAV.json) | `73424c5dffff0f05a981181d53c7edd690d15e7e6c4e60486572de46cd95e5a3` |
 | [docs/development/resolutions/PERM-geo.json](resolutions/PERM-geo.json) | `553cb93d8133e8b3107692bc3075d21d2a8f656ccd5252cd5ad5182fca3dd15b` |
-| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `9f43bef017baaeebb75cf6deef001c7c58b656ff10470f28b0c0519072838950` |
+| [docs/development/resolutions/PERM-permissions.json](resolutions/PERM-permissions.json) | `811a6c4b51016b0dd2dc7376056663d51badbd3cccecd83dd242cc522bf16154` |
 | [docs/development/resolutions/UI-controls.json](resolutions/UI-controls.json) | `2ea79cea83d7553bc1abf305e7974ec2f769c2ee670d4a4bade47edc5fcf1057` |
 | [docs/development/resolutions/UI-native.json](resolutions/UI-native.json) | `4e822554dcc612923415263e460524ecbb5da10754f88d7d5c7f1868d7f6e974` |
 | [docs/migration/issue-map.json](../migration/issue-map.json) | `5ebc06ad6e81bd6a6953b9731fd617edfe1d99189bea236d9c2198daa48be861` |

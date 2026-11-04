@@ -1,0 +1,77 @@
+{
+  "steps": [
+    {
+      "role": "matrix-android-camera-restoration-dont-keep",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "android-camera-restoration-dont-keep"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07942113280296326
+    },
+    {
+      "role": "source-plan-android-camera-restoration-dont-keep",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys;sys.path.insert(0,\"scripts/ci\");import workflow_matrix as m;print(json.dumps(m.preflight_plans(sys.argv[1]),indent=2,sort_keys=True))",
+        "android-camera-restoration-dont-keep"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.28253658791072667
+    },
+    {
+      "role": "matrix-permissions-ios-calendar-configuration",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "permissions-ios-calendar-configuration"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.091097119031474
+    },
+    {
+      "role": "source-plan-permissions-ios-calendar-configuration",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys;sys.path.insert(0,\"scripts/ci\");import workflow_matrix as m;print(json.dumps(m.preflight_plans(sys.argv[1]),indent=2,sort_keys=True))",
+        "permissions-ios-calendar-configuration"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.2937157810665667
+    },
+    {
+      "role": "matrix-macos-share-lifecycle",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "macos-share-lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.07935472903773189
+    },
+    {
+      "role": "source-plan-macos-share-lifecycle",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "-c",
+        "import json,sys;sys.path.insert(0,\"scripts/ci\");import workflow_matrix as m;print(json.dumps(m.preflight_plans(sys.argv[1]),indent=2,sort_keys=True))",
+        "macos-share-lifecycle"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.27140743914060295
+    }
+  ],
+  "input_count": 1360,
+  "inputs_held": true,
+  "native_or_compiler_invocations": 0,
+  "scope": "Corrected actual profile CLI and documented preflight_plans API, failed flag refusals retained; accepted Actionlint not replayed"
+}

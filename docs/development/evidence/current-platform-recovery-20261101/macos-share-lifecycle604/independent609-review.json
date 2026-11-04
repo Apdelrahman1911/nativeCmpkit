@@ -1,0 +1,260 @@
+{
+  "created_at_utc": "2026-11-04T03:17:21.510176+00:00",
+  "disposition": {
+    "issue_closure_approved": false,
+    "native_acceptance": false,
+    "production_defect_found": false,
+    "source_and_recorded_results": "ACCEPT",
+    "source_refusal_remaining": false,
+    "summary": "Scoped commit-parent source and recorded local compilation/source-control results support acceptance for lead integration. No fresh native evidence or issue closure is accepted."
+  },
+  "evidence_anchors": {
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/README.md": {
+      "bytes": 9238,
+      "sha256": "01b7279243b1359b072a83a7c2131fdcffd0aee68dd2348e209aa7a0287bd00e"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/archive604.json": {
+      "bytes": 10351,
+      "sha256": "50c5628d256dfb7120625092a911f26f96d885cae5f76eba1c46a40b78e31055"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/compiler-classpath-after.json": {
+      "bytes": 25516,
+      "sha256": "5483b625e43e7458f7f6d870d0cb535f7c0bc8c4ae7dd9d0adb63626f5243e25"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/compiler-classpath-before.json": {
+      "bytes": 25517,
+      "sha256": "751e073f2b277a7403f50ab5611b52a3d1389be3e940319a6d2dcf7cda199d8f"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/compiler-inputs.json": {
+      "bytes": 202512,
+      "sha256": "f3efc215d403cc0da4ca8baa03c3cb50f104aafd51f18384a478716a30e2b43d"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/results/cargo604-final-affected-result.json": {
+      "bytes": 679,
+      "sha256": "4e92599b69932bfc5b3b29193d91ebf930e9b3bd0dd3df0a55d5604f1863e035"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/results/desktop604-compile-only-failed-included-build-recovery-result.json": {
+      "bytes": 1772,
+      "sha256": "f06d9bfd71a05d060b8a76b6195260174acdffa5d0586fcc984228f96d3594d7"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/results/important604-final-new3-result.json": {
+      "bytes": 488,
+      "sha256": "e76fac8f8396359498f66347d5c1aa813a7f994702b7fefae66c900502381f20"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/results/important604-final-targets-affected5-result.json": {
+      "bytes": 699,
+      "sha256": "e4bd8749003c4ad0d7ffde52112df6dd86919495c4b68052758dd5d8c8a43308"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/results/important604-result.json": {
+      "bytes": 333,
+      "sha256": "3789f74e26522b9a5f0ed929c6af15d2a306e4594e658a3643c0bf047c4c8db4"
+    },
+    "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604/review604.json": {
+      "bytes": 10188,
+      "sha256": "a9deeb0b5360ce5ac451b79fa0adf6b72de15b2c2e08b0d0a08a7115c994d52e"
+    }
+  },
+  "finite_native_case_names": [
+    "cancel_before_dispatch",
+    "no_key_window",
+    "missing_content_view",
+    "real_picker_cancel",
+    "controlled_picker_dismissal",
+    "controlled_success_duplicate_late",
+    "controlled_service_failure",
+    "bounded_concurrent_requests"
+  ],
+  "kotlin_method_names": [
+    "cancellingRetainedAppKitRequestFreesOwnersAndDoesNotOccupySingleCoroutineWorker",
+    "realNativeTimeoutReportsOnceWithoutFallbackAndAllowsFreshRequestAfterMainCleanup",
+    "independentRealNativeOwnersRejectOverlapWithoutReplacingTheRetainedRequest"
+  ],
+  "original_requirements_preserved_verbatim": {
+    "NATIVE-029": {
+      "required_tests": [
+        "Thousands of share/cancel cycles show stable allocations under Instruments/leaks.",
+        "Success, cancellation, timeout, no-window and late/duplicate callbacks drop each owner exactly once.",
+        "ASan/native stress with concurrent requests validates no UAF or double-free after cleanup."
+      ],
+      "upstream_refs": [
+        "https://github.com/MohamedRejeb/Calf/pull/508"
+      ]
+    },
+    "NATIVE-030": {
+      "required_tests": [
+        "Cancel scope while picker open and verify prompt cleanup without occupying an IO worker until timeout.",
+        "Repeated requests, unavailable keyWindow/contentView, timeout, spurious wake and late callback.",
+        "Stress a bounded pool and assert exactly-once terminal result with balanced native lifetime."
+      ],
+      "upstream_refs": [
+        "https://github.com/MohamedRejeb/Calf/pull/508"
+      ]
+    },
+    "NATIVE-034": {
+      "required_tests": [
+        "iOS Mail subject for text, URL, single and multiple files.",
+        "Web payload inspection verifies title/file fields; unsupported metadata is documented.",
+        "Desktop native/fallback subject behavior is explicit and tested where implementable."
+      ],
+      "upstream_refs": [
+        "https://github.com/MohamedRejeb/Calf/pull/508",
+        "https://developer.apple.com/documentation/uikit/uiactivityitemsource/activityviewcontroller(_:subjectforactivitytype:)"
+      ]
+    }
+  },
+  "original_source_projection": {
+    "accepted_appended_newlines": 2,
+    "accepted_total_separator_newlines": 3,
+    "expected_original_sha256": "f9ba9848f41703e7c5c5ab07c9c37e69c146c541536a488ea18a034bfc54c300",
+    "first_appended_newlines": 3,
+    "first_refused_sha256": "cefea84884b64487faadbf33acc0b5de63c8d7ce2afd75dda72488e8e8d4581f",
+    "initial_projection_existing_trailing_newlines": 1,
+    "original_hash_match": true,
+    "passive_only": true,
+    "recovered_sha256": "f9ba9848f41703e7c5c5ab07c9c37e69c146c541536a488ea18a034bfc54c300",
+    "tests_replayed": 0
+  },
+  "passively_verified_results": {
+    "all_compiler_input_hashes_match_reviewed_commit_and_worktree": true,
+    "all_seven_scoped_source_hashes_match_review_and_compiler_map": true,
+    "archive_members_verified_sha256_and_length": 23,
+    "classpath_before_after_rows_identical": true,
+    "classpath_entries": 43,
+    "classpath_exact_absent_entry": {
+      "directory": false,
+      "exists": false,
+      "files": [],
+      "name": "desktopMain"
+    },
+    "classpath_present_entries": 42,
+    "classpath_raw_hashes_match_final_compiler_receipt": true,
+    "compiler_input_count": 1340,
+    "main_class_contains_exact_three_methods": true,
+    "new_kotlin_class_outputs_verified": 16,
+    "no_unchanged_accepted_control_or_native_replay_by_reviewer": true,
+    "recorded_cargo_final": {
+      "apple_links": 0,
+      "elapsed_seconds": 0.7539769669529051,
+      "exit_code": 0,
+      "host": "x86_64-unknown-linux-gnu",
+      "native_runtime_executions": 0,
+      "receipt": "results/cargo604-final-affected-result.json",
+      "target": "aarch64-apple-darwin"
+    },
+    "recorded_desktop_final": {
+      "actual_test_compiler_task": "compileTestKotlinDesktop",
+      "elapsed_seconds": 40.29463297990151,
+      "excluded_tasks": [
+        ":calf-share:buildNativeLib",
+        ":calf-share:prepareNativeResources"
+      ],
+      "exit_code": 0,
+      "gradle": "9.7.1",
+      "jdk": "17.0.20",
+      "launcher_daemon_agreement": true,
+      "minimum_observed_disk_bytes": 10859827200,
+      "native_runtime_executions": 0,
+      "receipt": "results/desktop604-compile-only-failed-included-build-recovery-result.json",
+      "required_reserve_bytes": 8589934592,
+      "supporting_production_compilation": "FROM-CACHE",
+      "test_compiler_executed": true,
+      "vendor": "Ubuntu"
+    },
+    "source_control_batches": {
+      "final_harness_new": 3,
+      "initial_new": 11,
+      "target_repair_new_plus_affected": 5
+    },
+    "source_control_recorded_executions": 19,
+    "source_control_repeated_executions": {
+      "count": 4,
+      "reason": "owning affected controls"
+    },
+    "source_control_unique_methods": 15
+  },
+  "pending_native_and_closure_gates": {
+    "asan_executions": 0,
+    "fresh_appkit8_executions": 0,
+    "fresh_jni_kotlin3_executions": 0,
+    "fresh_stress_executions": 0,
+    "future_runtime_must_remove_local_native_task_exclusions_and_produce_real_native_resources": true,
+    "instruments_leaks_executions": 0,
+    "issue_150": "No service/recipient-delivery acceptance; subject readback is a narrower control.",
+    "issue_84": "Thousands of instrumented share/cancel cycles, stable Instruments/leaks allocations and ASan/concurrent native stress are still required; finite/source/compile evidence does not replace them.",
+    "issue_85": "Genuinely visible-picker cancellation and prolonged bounded-worker/native-lifetime evidence are still required; retained-count assertions alone do not prove visible picker presentation.",
+    "issues_must_remain_open": [
+      84,
+      85
+    ],
+    "lead_alone_integrates_dispatches_accepts_and_closes": true,
+    "native_xml_executions": 0,
+    "publication_and_release_readiness_gates_unchanged": true
+  },
+  "retained_failures_and_warnings": {
+    "failures_not_relabelled_as_passed": [
+      "Initial Cargo compile lacked MainThreadOnly import and required MainThreadMarker.",
+      "Initial Cargo metadata exposed an unintended ungated helper target; helper relocation and exact-target control repair are recorded without runtime execution.",
+      "First private Desktop init failed heterogeneous-map type inference before projects/compiler.",
+      "Second private Desktop init failed included-build admission before root projects/compiler.",
+      "Initial passive original-source projection added one surplus separator newline and refused the original hash."
+    ],
+    "warnings_retained": [
+      "Rust unused import",
+      "Existing Desktop unused-expression warning",
+      "Normal host-disabled configuration warnings"
+    ]
+  },
+  "review_activity": {
+    "agents_spawned": 0,
+    "builds_executed": 0,
+    "github_mutations": 0,
+    "native_executions": 0,
+    "network_requests": 0,
+    "only_authorized_write": "This independent receipt outside the source worktree.",
+    "passive_reads_hashes_json_and_ast_only": true,
+    "pushes_dispatches_publications": 0,
+    "source_edits": 0,
+    "tests_executed": 0,
+    "unchanged_accepted_results_reused_not_reexecuted": true
+  },
+  "review_task": "resource-independent609",
+  "reviewer": "/root/calendar_independent609",
+  "schema_version": 1,
+  "scope": {
+    "branch": "development/batch-resource-lifecycle-20261104",
+    "comparison": "reviewed commit versus its immediate parent only",
+    "evidence_directory": "docs/development/evidence/current-platform-recovery-20261101/macos-share-lifecycle604",
+    "excluded_dirty_owner_amendments": [
+      "AGENTS.md",
+      "docs/development/containment.md"
+    ],
+    "reviewed_commit": "090870fbee2c0988e3a979f2a1e3f222973de576",
+    "reviewed_parent": "f566078507bbfc000244561ed925565913c3342b",
+    "source_input_count": 7,
+    "source_inputs_sha256": {
+      "calf-share/native/Cargo.toml": "f632ec5d71d244d3e9bb67af643a0f8a2f037ec3dcb3055b3989493305397ffd",
+      "calf-share/native/src/macos.rs": "22c545dcc5c999f513b04990978fe0a157cdcd2a3e6c1a97ba7e7d3b6ef27e51",
+      "calf-share/native/tests/appkit_lifecycle/cases.rs": "9e038b83b4e2e4d3d4718869ec05c9eaa198ce1f3c886a38b97b7c13ff83842b",
+      "calf-share/native/tests/appkit_lifecycle_main.rs": "b31cad1ca8403b8649b33f43067d778459fe5816099c90c40059465d6b6bbd79",
+      "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/MacOsShareCoroutineLifecycleTest.kt": "598c3d8768f5d637d2be34c91edd06a101025b81d3d29f26dfc8e576f8592bb3",
+      "scripts/ci/native_test_policy.py": "a3647391cf429ec6bab833e1d4643d915ac422d46b7cde0bd5ec3474c0b76dd5",
+      "scripts/ci/test_macos_share_lifecycle_policy.py": "9d5947cb459cf2790a9146be7fbb5edbc66a796efa30dbdf5dfce1c499feee83"
+    },
+    "test_instructions": "docs/testing/macos-share-lifecycle.md",
+    "worktree": "/root/projects/nativecmpkit-worktrees/resource-lifecycle"
+  },
+  "source_findings": [
+    "Cargo adds a default-disabled appkit-lifecycle-tests feature and exactly one explicit harness=false, feature-required test target; original package, dependencies, JNI identity and release profiles remain unchanged.",
+    "The executable includes actual ../src/lib.rs and runs AppKit on the actual process Main thread, not Cargo test workers.",
+    "Removing the six-line test/feature inclusion from production macos.rs reproduces its parent bytes exactly.",
+    "AppKit owners remain on Main. Cross-thread exchanges contain owned Rust values, IDs and atomic counts.",
+    "Presented native cases capture Objective-C Weak<AnyObject> and Rust Weak<Completion> witnesses and assert release after queued cleanup. Pre-presentation cases use counts/admission evidence and have an empty weak-witness collection; they do not establish equivalent weak-owner proof.",
+    "CONTROL_FAILED independently records dispatched assertion panics, preventing the production panic catcher from manufacturing a passing control result.",
+    "Fresh exclusive per-process XML records only reached cases; a first failed ownership state prevents subsequent cases from running.",
+    "The finite batch selects eight cases. Separate stress_2048 remains outside the finite batch and has not executed.",
+    "Controlled actual native messages and Mail-service subject readback do not establish recipient or service-delivery acceptance.",
+    "The three Kotlin methods use default DesktopShareOwner through actual JNI/AppKit, an owned JFrame and a single-thread coroutine executor; no native-operation injection or virtual scheduler is used. Counts establish retained operations, not visible picker presentation.",
+    "Native outcome policy requires the exact three Kotlin methods/class once; only exact opposite-host skips are N/A. MacOS failure, headless/opt-out, missing, duplicate and unknown outcomes stay red.",
+    "Finite selectors must directly call macos_lifecycle_cases. The four-case existing registry and all original policy function semantics remain unchanged after removal of appended new-class handling, verified by AST comparison."
+  ]
+}

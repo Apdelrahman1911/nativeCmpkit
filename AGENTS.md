@@ -1,5 +1,33 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Ready related native batches; parallel fixes integrated — 2026-11-04
+
+[Selector618/qualification623](docs/development/evidence/current-platform-recovery-20261101/parallel-selectors618/README.md)
+accepts NEW6 once and only affected old17 once (17/17,4.082s; wrapper4.602411s),
+1,360 actual held source-control inputs,16 lead/64 retained independent passive
+checks and six corrected source/matrix plans. Initial unsupported CLI flags and
+two passive pathname/location refusals stay recorded. Four bindings/17 exact
+inverse fragments preserve every dated recovery pin. Current1,370 inputs are a
+separate snapshot after the isolated adaptive patch, not fresh native results.
+Camera manifest-specific HOME affinity is JVM5/compiler-qualified only; original
+41762135079/cleanup remain FAILED, #13 still requires Dont-keep C1. Next dispatch
+only missing CameraC1 and ShareAppKit8+JNI3 within max2 combined hosted reservations
+INCLUDING queued; Calendar5 follows when capacity frees. No accepted native replay.
+
+Integrated common Cupertino switch thumb-content-color fix has retained identical
+Desktop RED2→GREEN2; iOS test KLIB is compile-only and genuine pre26/26+ runs remain.
+Native consumer now requires all21 provenance/package checks before exact3 JNI and
+fresh XML finalizer; dry-run40 skipped actions is ZERO candidate/native acceptance.
+The existing local stage is incomplete. Separate adaptive native routing is not yet
+registered: actual available runtime bands must be admitted, never faked by latest
+simulator. Independent Coil cache, real drag/shader lifecycle and safe CI-reuse
+patches continue in isolated worktrees while CI runs; lead alone integrates/Git/
+dispatches/accepts/closes.103closed/69open/172total and22implemented/36partial/
+101verified/five unresolved remain; no closure or publication in this preparation.
+Every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/
+readiness gate and serial-local8GiB/read-only Actions/all/no mandatory SHA pinning
+remain. This checkpoint is source preparation, not CI/native/issue completion.
+
 ## Current parallel related-patch execution — owner amendment, 2026-11-04
 
 The owner now explicitly authorizes agents again and requests overlapping work:

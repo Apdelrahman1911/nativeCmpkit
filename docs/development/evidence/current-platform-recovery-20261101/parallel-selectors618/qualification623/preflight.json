@@ -1,0 +1,53 @@
+{
+  "steps": [
+    {
+      "role": "camera-plan",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "android-camera-restoration-dont-keep",
+        "--preflight"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 0.08973900112323463
+    },
+    {
+      "role": "calendar-plan",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "permissions-ios-calendar-configuration",
+        "--preflight"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 0.08829147182404995
+    },
+    {
+      "role": "share-plan",
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/ci/workflow_matrix.py",
+        "macos-share-lifecycle",
+        "--preflight"
+      ],
+      "exit_code": 2,
+      "elapsed_seconds": 0.0866693640127778
+    },
+    {
+      "role": "actionlint",
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.009835417149588466
+    }
+  ],
+  "input_count": 1360,
+  "inputs_held": true,
+  "native_or_compiler_invocations": 0,
+  "scope": "Three finite current source plans and changed workflow lint only"
+}

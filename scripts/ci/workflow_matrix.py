@@ -13,6 +13,8 @@ import sys
 import android_storage_compatibility_plan as storage_plan
 import android_device_batch_plan as android_batch_plan
 import desktop_security_plan
+import ios_calendar_native_focus as calendar_native
+import macos_share_native_focus as macos_share_native
 
 SLOTS = (
     {"slot": "desktop-linux-x64", "suite": "desktop", "runner": "ubuntu-24.04", "arch": "x64", "python": "python3"},
@@ -129,6 +131,8 @@ PROFILES = {
     "permissions-ios": ("ios-iphone",),
     "permissions-ios-safety": ("ios-iphone",),
     "permissions-ios-empty-batch": ("ios-iphone",),
+    calendar_native.PROFILE: ("ios-iphone",),
+    macos_share_native.PROFILE: ("desktop-macos-arm64",),
     "permissions-completion-android": ("android-host",),
     "navigation-geo-matrix": ("desktop-linux-x64", "browser-js", "browser-wasm", "ios-iphone"),
     "apple": ("desktop-macos-arm64", "ios-iphone"),
@@ -351,6 +355,8 @@ MODULE_SUBSETS = {
     "permissions-ios": "calf-permissions/core",
     "permissions-ios-safety": "calf-permissions/core",
     "permissions-ios-empty-batch": "calf-permissions/core",
+    calendar_native.PROFILE: calendar_native.MODULE,
+    macos_share_native.PROFILE: macos_share_native.MODULE,
     "permissions-completion-android": "calf-permissions/core",
     # A changed common test requires its own JVM/browser/Native execution, not
     # reuse of the older source tests or repetition of unrelated UIKit/consumer
@@ -634,6 +640,19 @@ def matrix(profile: str) -> dict:
     if profile == "permissions-ios-empty-batch":
         for row in rows:
             row["test-focus"] = "permission-ios-empty-batch"
+    if profile == calendar_native.PROFILE:
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": calendar_native.MODULE}
+        if PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != calendar_native.MODULE or rows != [canonical]:
+            raise ValueError("Calendar configuration requires one fixed Apple iPhone native library row")
+        rows[0]["test-focus"] = calendar_native.FOCUS
+    if profile == macos_share_native.PROFILE:
+        canonical = {"slot": "desktop-macos-arm64", "suite": "desktop", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "native-ui": "true", "test-modules": macos_share_native.MODULE}
+        if (PROFILES[profile] != ("desktop-macos-arm64",) or
+                MODULE_SUBSETS.get(profile) != macos_share_native.MODULE or rows != [canonical]):
+            raise ValueError("AppKit lifecycle requires one fixed opted-in macos-arm64 library row")
+        rows[0]["test-focus"] = macos_share_native.FOCUS
     if profile == "permissions-completion-android":
         for row in rows:
             row["test-focus"] = "permission-android-completion"

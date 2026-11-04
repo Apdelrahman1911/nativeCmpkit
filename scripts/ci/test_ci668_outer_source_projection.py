@@ -41,13 +41,23 @@ class Ci668OuterIngressTests(unittest.TestCase):
 
     def test_current_hash_and_path_apis_report_actual175_not_ancestor_hashes(self):
         hashes = ci668.current_input_hashes()
+        import macos_share_ci668_composition as latest
         sealed175 = ci668.sealed_ci668_175_hashes()
         self.assertEqual(len(sealed175), 175)
+        self.assertEqual(sealed175, latest.predecessor_input_hashes(latest.CI_VIEW))
+        # The immutable175 count now qualifies the distinctly named predecessor,
+        # while every current hash/path API below must return actual latest bytes.
+        self.assertEqual(len(latest.predecessor_input_hashes(latest.CI_VIEW)), 175)
+        self.assertEqual(hashes, latest.current_input_hashes())
         self.assertEqual(set(hashes), ci668.fixture_inputs())
         self.assertEqual(hashes, tooling.current_input_hashes())
         self.assertEqual(set(hashes), tooling.fixture_inputs())
         self.assertTrue(all(sha((ROOT / name).read_bytes()) == digest for name, digest in hashes.items()))
-        self.assertEqual(hashes[ci668.WORKFLOW], ci668.WORKFLOW_AFTER_SHA256)
+        self.assertEqual(hashes[ci668.WORKFLOW],
+                         "7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566")
+        workflow = (ROOT / ci668.WORKFLOW).read_bytes()
+        named_ci175 = latest.current_source_in_view(ci668.WORKFLOW, workflow, latest.CI_VIEW, ROOT)
+        self.assertEqual(sha(named_ci175), ci668.WORKFLOW_AFTER_SHA256)
         self.assertNotEqual(hashes[ci668.ORIGINAL671_GUARD], ci668.ORIGINAL671_GUARD_SHA256)
 
     def test_old_partial_drift_nonbytes_and_wrong_identity_refuse_current(self):
@@ -110,8 +120,10 @@ class Ci668OuterIngressTests(unittest.TestCase):
     def test_new_ci_guard_template_and_manifest_partial_drift_refuse(self):
         document = ci668._document()
         raw = (ROOT / ci668.SOURCE_RELATIVE).read_bytes()
-        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw),
-                         ci668.source_before_ci668(ci668.SOURCE_RELATIVE, raw))
+        import macos_share_ci668_composition as latest
+        accepted = latest.current_source_in_view(ci668.SOURCE_RELATIVE, raw, latest.CI_VIEW)
+        self.assertEqual(sha(accepted), latest.CI_OWNER_ANCESTOR_SHA256)
+        self.assertEqual(ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, raw), accepted)
         for variant in (raw + b'\n', raw[:-1]):
             with self.assertRaises(ValueError):
                 ci668.current_source_before_ci668(ci668.SOURCE_RELATIVE, variant)

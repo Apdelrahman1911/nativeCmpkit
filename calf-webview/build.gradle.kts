@@ -2,6 +2,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import java.time.Duration
 import org.gradle.api.tasks.testing.Test
 
@@ -140,4 +142,36 @@ tasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {
             isFailOnNoMatchingTests = true
         }
     }
+}
+
+// Missing-only cookie scope. Environment-dependent wire bodies stay parked in
+// every ordinary profile until genuine DNS/TLS/engine ownership is qualified.
+val cookieCommonJdkFocus = providers.gradleProperty("nativecmpkitCookieCommonJdkFocus").orNull
+check(cookieCommonJdkFocus == null || cookieCommonJdkFocus == "common-jdk4") {
+    "Unknown finite cookie focus; no native, engine or whole-suite fallback"
+}
+val cookieCommonJdkSelectors = listOf(
+    "com.mohamedrejeb.calf.ui.web.CookieHeaderMultiplicityTest.requestCookieParsingRetainsDuplicateNamesAndEqualValues",
+    "com.mohamedrejeb.calf.ui.web.CookieHeaderMultiplicityTest.nestedPathAndDomainScopeStillApplyToDuplicateCookieIdentities",
+    "com.mohamedrejeb.calf.ui.web.DesktopCookieRequestParityTest.realJdkRequestHeadersAndLibraryResultsKeepDuplicateNamesAcrossPathAndDomainScopes",
+    "com.mohamedrejeb.calf.ui.web.DesktopCookieRequestParityTest.anOwnedJdkHandlerSelectingOneEqualValueOccurrenceDoesNotInventTwoResults",
+)
+tasks.withType<Test>().matching { it.name == "desktopTest" }.configureEach {
+    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.DesktopCookieWireAcceptanceTest.*") }
+    if (cookieCommonJdkFocus != null) {
+        check(desktopSecurityFocus == null) { "Cookie common/JDK4 cannot borrow a native security worker" }
+        maxParallelForks = 1
+        filter {
+            setIncludePatterns(*cookieCommonJdkSelectors.toTypedArray())
+            isFailOnNoMatchingTests = true
+        }
+    }
+}
+// Exact classes only: retain normal source-set inheritance and every other
+// native/browser test. No Ignore, forced skip or process/trust activation.
+tasks.withType<KotlinNativeTest>().configureEach {
+    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*") }
+}
+tasks.withType<KotlinJsTest>().configureEach {
+    filter { excludeTestsMatching("com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*") }
 }

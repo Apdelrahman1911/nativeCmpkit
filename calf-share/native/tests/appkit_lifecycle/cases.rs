@@ -482,6 +482,10 @@ pub(crate) fn run() {
     for (name, case) in selected {
         let started = Instant::now();
         let result = catch_unwind(AssertUnwindSafe(|| autoreleasepool(|_| case())));
+        if failed_owned_key_wait(name, &result) {
+            // A late read-only sample cannot replace this panic or prevent independent cleanup.
+            let _ = catch_unwind(AssertUnwindSafe(observe_owned_key_wait_post_failure));
+        }
         let cleanup = catch_unwind(AssertUnwindSafe(cleanup_owned));
         let passed =
             result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire);
@@ -506,4 +510,92 @@ pub(crate) fn run() {
     if failed {
         std::process::exit(1);
     }
+}
+
+fn failed_owned_key_wait(
+    name: &str,
+    result: &Result<(), Box<dyn std::any::Any + Send>>,
+) -> bool {
+    if name != "missing_content_view" {
+        return false;
+    }
+    let Some(error) = result.as_ref().err() else {
+        return false;
+    };
+    error
+        .downcast_ref::<String>()
+        .map(String::as_str)
+        .or_else(|| error.downcast_ref::<&str>().copied())
+        == Some("Owned AppKit window did not become key")
+}
+
+fn observed_bool(value: bool) -> &'static str {
+    if value { "true" } else { "false" }
+}
+
+// Exactly one sequential late sample after the original key-wait panic and before cleanup.
+// It is not the failed predicate's value, an atomic snapshot, activation proof or native cause.
+fn observe_owned_key_wait_post_failure() {
+    let Some(main) = MainThreadMarker::new() else {
+        eprintln!(concat!(
+            "NATIVECMPKIT_APPKIT_KEY_WAIT_POST_FAILURE version=1 main=unavailable owned=unavailable ",
+            "app_active=unavailable app_running=unavailable policy=unavailable visible=unavailable ",
+            "key=unavailable can_key=unavailable miniaturized=unavailable app_key=unavailable ",
+            "loop_main=unavailable mode=unavailable"
+        ));
+        return;
+    };
+    // Release the RefCell borrow before any Objective-C getter can synchronously call back.
+    let owned = TEST_WINDOW.with(|owned| {
+        owned
+            .try_borrow()
+            .map(|held| held.as_ref().cloned())
+            .map_err(|_| ())
+    });
+    let (owned_state, window) = match owned {
+        Ok(Some(window)) => ("available", Some(window)),
+        Ok(None) => ("absent", None),
+        Err(()) => ("unavailable", None),
+    };
+    let app = NSApplication::sharedApplication(main);
+    let active = observed_bool(app.isActive());
+    let running = observed_bool(app.isRunning());
+    let policy = match app.activationPolicy() {
+        NSApplicationActivationPolicy::Regular => "regular",
+        NSApplicationActivationPolicy::Accessory => "accessory",
+        NSApplicationActivationPolicy::Prohibited => "prohibited",
+        _ => "other",
+    };
+    let (visible, key, can_key, miniaturized) = if let Some(window) = window.as_deref() {
+        (
+            observed_bool(window.isVisible()),
+            observed_bool(window.isKeyWindow()),
+            observed_bool(window.canBecomeKeyWindow()),
+            observed_bool(window.isMiniaturized()),
+        )
+    } else {
+        ("unavailable", "unavailable", "unavailable", "unavailable")
+    };
+    let key_relation = match app.keyWindow() {
+        None => "absent",
+        Some(key) => match window.as_deref() {
+            Some(window) if std::ptr::eq(&*key, window) => "this-owned",
+            Some(_) => "other",
+            None => "present-unclassified",
+        },
+    };
+    let current = NSRunLoop::currentRunLoop();
+    let main_loop = NSRunLoop::mainRunLoop();
+    let loop_main = observed_bool(std::ptr::eq(&*current, &*main_loop));
+    let mode = match current.currentMode().as_deref() {
+        None => "absent",
+        Some(mode) if mode.isEqualToString(unsafe { NSDefaultRunLoopMode }) => "default",
+        Some(_) => "other",
+    };
+    eprintln!(concat!(
+        "NATIVECMPKIT_APPKIT_KEY_WAIT_POST_FAILURE version=1 main=available owned={} ",
+        "app_active={} app_running={} policy={} visible={} key={} can_key={} miniaturized={} ",
+        "app_key={} loop_main={} mode={}"
+    ), owned_state, active, running, policy, visible, key, can_key, miniaturized,
+        key_relation, loop_main, mode);
 }

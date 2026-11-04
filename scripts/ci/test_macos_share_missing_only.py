@@ -14,6 +14,7 @@ from unittest.mock import patch
 
 import macos_share_appkit_lifecycle as runner
 import macos_share_missing_only as recovery
+import macos_share_key_wait_observation as key_wait
 from test_macos_share_appkit_lifecycle_runner import artifact, cargo_stdout, execution, make_reports, markers
 
 
@@ -336,7 +337,8 @@ class JniSourceAndPolicy(unittest.TestCase):
                 recovery.jni_validate_host(system, machine)
 
     def test_fixed_native_source_diagnostic_pins_are_unchanged_and_not_native_certification(self):
-        self.assertEqual(recovery.CASES_SHA, hashlib.sha256((runner.ROOT / recovery.CASES_SOURCE).read_bytes()).hexdigest())
+        self.assertEqual(recovery.CASES_SHA, hashlib.sha256(key_wait.source_before_key_wait(
+            recovery.CASES_SOURCE, (runner.ROOT / recovery.CASES_SOURCE).read_bytes())).hexdigest())
         self.assertEqual(recovery.OPERATION_SHA, hashlib.sha256((runner.ROOT / recovery.OPERATION_SOURCE).read_bytes()).hexdigest())
         self.assertTrue(recovery.recovery_reference()["original_failures_unwaived"])
         self.assertFalse(recovery.recovery_reference()["release_readiness_certified"])

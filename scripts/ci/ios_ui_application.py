@@ -967,6 +967,8 @@ def forward_application(argv: list[str], protocol: NativeProtocol, timeout: int 
 
 
 def application_test_focus(arguments: list[str], image_diagnostics: str | None = None) -> str | None:
+    import cookie_common_jdk_plan as cookie_scope
+    arguments = cookie_scope.native_argument_view(arguments)
     if image_diagnostics is not None:
         if image_diagnostics != "darwin-tools":
             raise ValueError("Unknown native image diagnostic mode")
@@ -1114,6 +1116,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     else:
         focus = application_test_focus(arguments, image_diagnostics)
     host = application_host(binary_relative, focus)
+    import cookie_common_jdk_plan as cookie_scope
+    cookie_scope.validate_native_exclusion_owner(host["module"], arguments)
     device = os.environ.get("NATIVECMPKIT_UIKIT_SIMULATOR", "")
     if not runtime.UUID.fullmatch(device):
         raise ValueError("Use the exact task-recorded simulator, not a guessed/default device")

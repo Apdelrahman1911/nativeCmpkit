@@ -197,6 +197,8 @@ def _inverse(payload, row):
 def source_before_producer698(relative, payload):
     """One exact complete ancestor view; never current admission or code execution."""
     _identity(relative, payload)
+    import macos_share_ci668_composition as joint
+    payload = joint.peel_for_history(relative, payload, joint.PRODUCER_VIEW)
     row = _document()["bindings"].get(relative)
     if row is None:
         return payload  # Unlisted data is not certified or globally peeled.
@@ -208,6 +210,8 @@ def source_before_producer698(relative, payload):
 def peel_producer698_for_history(relative, payload):
     """Only exact declared current endpoints peel; unknown ancestors face older pins."""
     _identity(relative, payload)
+    import macos_share_ci668_composition as joint
+    payload = joint.peel_for_history(relative, payload, joint.PRODUCER_VIEW)
     row = _document()["bindings"].get(relative)
     if row is not None and sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
         return _inverse(payload, row)
@@ -232,6 +236,8 @@ def current_source_before_producer698(relative, payload):
     """One newest raw ingress; old, partial, duplicate, displaced and drift images refuse."""
     _identity(relative, payload)
     document = _document()
+    import macos_share_ci668_composition as joint
+    payload = joint.current_source_in_view(relative, payload, joint.PRODUCER_VIEW)
     if relative == SOURCE_RELATIVE:
         _own_guard_payload(payload, document)
         return payload
@@ -243,24 +249,36 @@ def current_source_before_producer698(relative, payload):
 
 
 def validate_current_sources(root: Path):
-    """Validate actual combined current files; no restored checkout/test/native action."""
+    """Whole exact raw279, then distinctly named original190 guard/645 rows only."""
+    import macos_share_ci668_composition as joint
+    joint.validate_current_sources(root)
     document = _document()
-    _own_guard_payload(_ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES), document)
+    raw = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
+    _own_guard_payload(joint.current_source_in_view(SOURCE_RELATIVE, raw, joint.PRODUCER_VIEW, root), document)
     for name, digest in _expected(document).items():
         raw = _ordinary(root, name, MAX_SOURCE_BYTES)
-        if sha(raw) != digest:
-            raise ValueError("Current producer698 input differs from its exact complete raw image: " + name)
+        named = joint.current_source_in_view(name, raw, joint.PRODUCER_VIEW, root)
+        if sha(named) != digest:
+            raise ValueError("The named original producer190 input differs: " + name)
     for name, row in document["bindings"].items():
-        _inverse(_ordinary(root, name, MAX_SOURCE_BYTES), row)
+        raw = _ordinary(root, name, MAX_SOURCE_BYTES)
+        _inverse(joint.current_source_in_view(name, raw, joint.PRODUCER_VIEW, root), row)
     return True
 
 
 def current_input_hashes(root=None):
-    """Actual combined raw190 inputs; never substitute the original raw175 snapshot."""
+    """Actual combined raw279; original190 is a distinctly named sealed snapshot."""
     root = ROOT if root is None else root
     validate_current_sources(root)
-    document = _document()
-    return _expected(document) | {SOURCE_RELATIVE: _own_guard_payload(_ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES), document)}
+    import macos_share_ci668_composition as joint
+    return joint.current_input_hashes(root)
+
+
+def original_producer190_input_hashes(root=None):
+    """Named immutable producer676 raw190 bytes, never current279 identities."""
+    root = ROOT if root is None else root
+    import macos_share_ci668_composition as joint
+    return joint.predecessor_input_hashes(joint.PRODUCER_VIEW, root)
 
 
 def original_ci668_input_hashes():
@@ -269,5 +287,6 @@ def original_ci668_input_hashes():
 
 
 def fixture_inputs():
-    """Finite current190 source custody only, never a test/native/cache selector."""
-    return set(_expected(_document())) | {SOURCE_RELATIVE}
+    """Finite actual joint279 source custody only; never a native/cache selector."""
+    import macos_share_ci668_composition as joint
+    return joint.fixture_inputs(ROOT)

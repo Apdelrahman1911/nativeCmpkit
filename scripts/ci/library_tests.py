@@ -4978,6 +4978,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
         android_io_documents_receipt: dict | None = None,
         android_io_remote_documents_receipt: dict | None = None,
         android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:
+    if focus == share_missing.FOCUS:
+        raise ValueError("Accepted Share JNI3 are retired from live execution; use the existing-profile same-job AppKit6-only CLI reference")
     output = safe_path(root, output_relative)
     allowed = root / "build/ci-verification"
     if output == allowed or not output.is_relative_to(allowed) or output.exists():
@@ -5217,6 +5219,9 @@ def main() -> int:
         parser.error("--android-emulator is available only for Android-device run")
     if args.focus is not None and not allowed_test_focus(args.suite, tuple(args.module or ()), args.focus):
         parser.error("--focus requires its exact reviewed suite and single --module")
+    if args.focus == share_missing.FOCUS:
+        import macos_share_appkit_only_route as appkit_only
+        return appkit_only.main_for_existing_profile(ROOT, args)
     if args.operation == "plan":
         if args.output or args.simulator:
             parser.error("plan is read-only and takes neither output nor simulator")

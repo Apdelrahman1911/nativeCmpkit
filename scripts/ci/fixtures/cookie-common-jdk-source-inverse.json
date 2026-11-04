@@ -1,0 +1,134 @@
+{
+  "added_inputs": {
+    "calf-webview/karma.config.d/nativecmpkit-cookie-wire-fixture.js": "a0e557cfb2746551dcd5f5041b29071f72653dbb735442c680c511af357b69b8",
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/CookieHeaderMultiplicityTest.kt": "cd16b8924d530932336b49d961540bac1ff363e2d4c7a15260102ad3a5b12b1e",
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/CookieWireContract.kt": "9b80595101d1f4e799d2de4dbe6079b6695a03eb7bca705560c27b1b4806964a",
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/NativeCookieWireScenario.kt": "db142a088e025bf9a965ca6f601983f991b46c020fa7c36d1188423887091698",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieRequestParityTest.kt": "da6f840d3aadabbb49fbb472bbc2404f102aa67944ddf37dd015704702bd219d",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieWireAcceptanceTest.kt": "d2b1de74f01190e2a98cf00f0107c581bdf897660e31c1e6f767056c7fa46ca0",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieWireFixture.kt": "d1ecff2a81ce985667f208ef8e1d5308237b8a746707f4c79a28343256a7f120",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosCookieWireAcceptanceTest.kt": "b039975e045d198e3a2e6b72b5165119454f932c084328099806d9acee8dc83a",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosCookieWireFixture.kt": "c3505460cb9ee10a2afb238d0bd24f8f9cc1bbcd5e1f06ab226cc8ae1d5b1d10",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserCookieWireAcceptanceTest.kt": "a0714fd4188da4ec663aa41cfde356c1d15c1b67c725d286fa24d30c11952e5e",
+    "scripts/ci/cookie_common_jdk_plan.py": "bc8e9157e4fc26df183a5164f686716bf3a91a3a30e20a2c5ad295898cf99226",
+    "scripts/ci/cookie_native_wire_fixture.py": "1f7cf6decd96a7aac543099672bbd509b9625aa62edb084be77cc8068d16c66c",
+    "scripts/ci/cookie_wire_material.py": "49fd2d26fb4984f2d630134814425866958f257caaa26d007f9aa551bb30df58",
+    "scripts/ci/fixtures/cookie-wire-v1.json": "7b675f4ac252be68dd2c690be90d9c97555308305bf479cdbcaf6914158d16ad",
+    "scripts/ci/tests/test_cookie_common_jdk_scope681.py": "29da5e6de99b7a91cae2603b09f2f02fc3433982f3bebf5a69b21658977dbc42",
+    "scripts/ci/tests/test_cookie_wire_fixtures671.py": "b328371182d2b2ae0663dc6a81468a2e4115973ca31ee87ea567040652b4f530",
+    "scripts/ci/tests/test_cookie_wire_middleware671.cjs": "f357f748ffa965387a3a68e5f98b04906ee45b3bebdc53b9afdecf17641346c3"
+  },
+  "bindings": {
+    "calf-webview/build.gradle.kts": {
+      "after_bytes": 9474,
+      "after_sha256": "01801ef71db7b6b404a663eaf3a4585745b7e9fa8decad81dcb601f2b11d66c8",
+      "before_bytes": 7383,
+      "before_sha256": "6e924d26f988f960ff828383a41901b79d7692d3eea6a07cb38230866b86e908",
+      "fragments": [
+        {
+          "after": "import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget\nimport org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG\nimport org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest\nimport org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest\nimport org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest\nimport java.time.Duration\nimport org.gradle.api.tasks.testing.Test\n\n",
+          "after_fragment_sha256": "6708eda1cb58a152d7a746a08e7489fb742e4d7fbc81797f57b1b15e640c89c3",
+          "before": "import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget\nimport org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType.DEBUG\nimport org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeHostTest\nimport java.time.Duration\nimport org.gradle.api.tasks.testing.Test\n\n",
+          "before_fragment_sha256": "542b64434bb365b900334807eb4767a04d1fedc14229a579e9c3cdb03bcfb197"
+        },
+        {
+          "after": "        }\n    }\n}\n\n// Missing-only cookie scope. Environment-dependent wire bodies stay parked in\n// every ordinary profile until genuine DNS/TLS/engine ownership is qualified.\nval cookieCommonJdkFocus = providers.gradleProperty(\"nativecmpkitCookieCommonJdkFocus\").orNull\ncheck(cookieCommonJdkFocus == null || cookieCommonJdkFocus == \"common-jdk4\") {\n    \"Unknown finite cookie focus; no native, engine or whole-suite fallback\"\n}\nval cookieCommonJdkSelectors = listOf(\n    \"com.mohamedrejeb.calf.ui.web.CookieHeaderMultiplicityTest.requestCookieParsingRetainsDuplicateNamesAndEqualValues\",\n    \"com.mohamedrejeb.calf.ui.web.CookieHeaderMultiplicityTest.nestedPathAndDomainScopeStillApplyToDuplicateCookieIdentities\",\n    \"com.mohamedrejeb.calf.ui.web.DesktopCookieRequestParityTest.realJdkRequestHeadersAndLibraryResultsKeepDuplicateNamesAcrossPathAndDomainScopes\",\n    \"com.mohamedrejeb.calf.ui.web.DesktopCookieRequestParityTest.anOwnedJdkHandlerSelectingOneEqualValueOccurrenceDoesNotInventTwoResults\",\n)\ntasks.withType<Test>().matching { it.name == \"desktopTest\" }.configureEach {\n    filter { excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.DesktopCookieWireAcceptanceTest.*\") }\n    if (cookieCommonJdkFocus != null) {\n        check(desktopSecurityFocus == null) { \"Cookie common/JDK4 cannot borrow a native security worker\" }\n        maxParallelForks = 1\n        filter {\n            setIncludePatterns(*cookieCommonJdkSelectors.toTypedArray())\n            isFailOnNoMatchingTests = true\n        }\n    }\n}\n// Exact classes only: retain normal source-set inheritance and every other\n// native/browser test. No Ignore, forced skip or process/trust activation.\ntasks.withType<KotlinNativeTest>().configureEach {\n    filter { excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.IosCookieWireAcceptanceTest.*\") }\n}\ntasks.withType<KotlinJsTest>().configureEach {\n    filter { excludeTestsMatching(\"com.mohamedrejeb.calf.ui.web.BrowserCookieWireAcceptanceTest.*\") }\n}\n",
+          "after_fragment_sha256": "080281e42d89886c0cceefd2863f3f66f129dcba088f5a7396c0cd9db4ecc0ce",
+          "before": "        }\n    }\n}\n",
+          "before_fragment_sha256": "b4a365a90ec11e90432752cf9376ec5ed36b80ba5e8e6854fcf98970d3044469"
+        }
+      ]
+    },
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt": {
+      "after_bytes": 6569,
+      "after_sha256": "5d65a58d48666fa09d846477c27fca99673042a36cc61f2dc08eeb3c09bbcaf2",
+      "before_bytes": 5117,
+      "before_sha256": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f",
+      "fragments": [
+        {
+          "after": " * Adapts the existing handler without ever replacing application/JavaFX global state. JavaFX's\n * handler is NOT a java.net.CookieManager. Generic handlers expose request Cookie headers only;\n * their metadata and full-store deletion cannot be recovered through the public CookieHandler API.\n * A JDK subclass can also select indistinguishable same-name/value cookies on different paths.\n * Such ambiguous reductions return header-only Cookie values (attributes are unavailable), not\n * invented path/domain/expiry identity. Always apply returned values only to the queried URL.\n */\npublic actual class CookieManager actual constructor() {\n    private var explicitHandler: CookieHandler? = null\n",
+          "after_fragment_sha256": "c6c51cb717d0c9940b4707c327654725b3862e71378988047b3a0153a172efc1",
+          "before": " * Adapts the existing handler without ever replacing application/JavaFX global state. JavaFX's\n * handler is NOT a java.net.CookieManager. Generic handlers expose request Cookie headers only;\n * their metadata and full-store deletion cannot be recovered through the public CookieHandler API.\n */\npublic actual class CookieManager actual constructor() {\n    private var explicitHandler: CookieHandler? = null\n",
+          "before_fragment_sha256": "e6260c5d3cce28538905a889758286151ccb76fba41fcd4f55260d5bf865072c"
+        },
+        {
+          "after": "                .values.flatten().flatMap(::parseCookieHeader)\n            if (handler !is java.net.CookieManager) return@synchronized sent\n            pruneKnown(handler)\n            // Request headers may contain identical names AND values on different paths.\n            // Membership alone would invent extra occurrences when an application-owned\n            // CookieManager subclass selects only part of that native store.\n            val transmitted = sent.groupingBy { it.name to it.value }.eachCount()\n            val remaining = transmitted.toMutableMap()\n            val now = System.currentTimeMillis()\n            val candidates = handler.cookieStore.get(uri).filter { native ->\n                val metadata = known[native]\n                !native.hasExpired() && (metadata?.expiry == null || metadata.expiry > now) &&\n                    cookieMatchesRequest(uri.host, uri.path.orEmpty(), uri.scheme.equals(\"https\", true),\n                        native.domain ?: metadata?.host ?: uri.host, native.path ?: \"/\", native.secure,\n                        metadata?.hostOnly ?: (native.domain == null))\n            }\n            val candidateCounts = candidates.groupingBy { it.name to it.value }.eachCount()\n            candidates.filter { native ->\n                val identity = native.name to native.value\n                val occurrences = remaining[identity] ?: 0\n                if (occurrences == 0) false else {\n                    remaining[identity] = occurrences - 1\n                    true\n                }\n            }.map { native ->\n                val identity = native.name to native.value\n                if (candidateCounts.getValue(identity) > (transmitted[identity] ?: 0)) {\n                    // A Cookie header carries no path/domain. Which equal occurrence\n                    // the subclass chose cannot be reconstructed without guessing.\n                    Cookie(native.name, native.value)\n                } else {\n                    Cookie(native.name, native.value, native.domain, native.path,\n                        known[native]?.expiry, native.secure, native.isHttpOnly)\n                }\n            }\n        }\n    }\n",
+          "after_fragment_sha256": "2ef20029b82897cf83c2ce75e0b67d068adcca1f7c492f120ba1e17edebe27ea",
+          "before": "                .values.flatten().flatMap(::parseCookieHeader)\n            if (handler !is java.net.CookieManager) return@synchronized sent\n            pruneKnown(handler)\n            val now = System.currentTimeMillis()\n            handler.cookieStore.get(uri).filter { native ->\n                val metadata = known[native]\n                !native.hasExpired() && (metadata?.expiry == null || metadata.expiry > now) &&\n                    sent.any { it.name == native.name && it.value == native.value } &&\n                    cookieMatchesRequest(uri.host, uri.path.orEmpty(), uri.scheme.equals(\"https\", true),\n                        native.domain ?: metadata?.host ?: uri.host, native.path ?: \"/\", native.secure,\n                        metadata?.hostOnly ?: (native.domain == null))\n            }.map { native ->\n                Cookie(native.name, native.value, native.domain, native.path,\n                    known[native]?.expiry, native.secure, native.isHttpOnly)\n            }\n        }\n    }\n",
+          "before_fragment_sha256": "9ff8b59d6aebfb73f8279bbf4647a1015dd6c7fc867061c1c61aa31b7584e5af"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_bytes": 101954,
+      "after_sha256": "e33573faac0e1b7bbf92d04f9922dcd50e3c6f2da8eeaa8acc57aaaef92f43d0",
+      "before_bytes": 101717,
+      "before_sha256": "b3d0f2c2986e42a5e662ba8c2521393f7564916e27084b9473c354b7328b9605",
+      "fragments": [
+        {
+          "after": "\n\ndef application_test_focus(arguments: list[str], image_diagnostics: str | None = None) -> str | None:\n    import cookie_common_jdk_plan as cookie_scope\n    arguments = cookie_scope.native_argument_view(arguments)\n    if image_diagnostics is not None:\n        if image_diagnostics != \"darwin-tools\":\n            raise ValueError(\"Unknown native image diagnostic mode\")\n",
+          "after_fragment_sha256": "b58b485a6f3751bb8bdb8593d1d069da3851544df2e3b94af82869b707a519f0",
+          "before": "\n\ndef application_test_focus(arguments: list[str], image_diagnostics: str | None = None) -> str | None:\n    if image_diagnostics is not None:\n        if image_diagnostics != \"darwin-tools\":\n            raise ValueError(\"Unknown native image diagnostic mode\")\n",
+          "before_fragment_sha256": "565dbcd248ebb746db16b5adee388715a68cf615f7bbcce704e6fa9838c6f51a"
+        },
+        {
+          "after": "    else:\n        focus = application_test_focus(arguments, image_diagnostics)\n    host = application_host(binary_relative, focus)\n    import cookie_common_jdk_plan as cookie_scope\n    cookie_scope.validate_native_exclusion_owner(host[\"module\"], arguments)\n    device = os.environ.get(\"NATIVECMPKIT_UIKIT_SIMULATOR\", \"\")\n    if not runtime.UUID.fullmatch(device):\n        raise ValueError(\"Use the exact task-recorded simulator, not a guessed/default device\")\n",
+          "after_fragment_sha256": "c4c15ca2a6db1f4f9e011f82fa998c70a201d39082afc6917980d31d83aa9fc0",
+          "before": "    else:\n        focus = application_test_focus(arguments, image_diagnostics)\n    host = application_host(binary_relative, focus)\n    device = os.environ.get(\"NATIVECMPKIT_UIKIT_SIMULATOR\", \"\")\n    if not runtime.UUID.fullmatch(device):\n        raise ValueError(\"Use the exact task-recorded simulator, not a guessed/default device\")\n",
+          "before_fragment_sha256": "43b037d12bcab6b68b89a3c1afcbf64d53236b92aeec33e4b38547bc47b287d2"
+        }
+      ]
+    },
+    "scripts/ci/webview_content_policy_source_projection.py": {
+      "after_bytes": 14440,
+      "after_sha256": "ad544703072bd892274a08b29304f313d1915d8c24840f6d136474ea1e560253",
+      "before_bytes": 14011,
+      "before_sha256": "bb0b63b32a41667c0c33401f44873bd20426524ece52caaa3cfa41ffd880f60d",
+      "fragments": [
+        {
+          "after": "def source_before_content_policy(relative, payload):\n    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    import cookie_common_jdk_source_projection as cookie_history\n    payload = cookie_history.peel_cookie_for_history(relative, payload)\n    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history\n    payload = peel_camera_ios_ownership_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n",
+          "after_fragment_sha256": "434f7abcc9b7596810b662bf4b06910a7b52dca9148fc4c98c7ab5440f2951d5",
+          "before": "def source_before_content_policy(relative, payload):\n    \"\"\"Complete exact inverse or its one exact preimage; never current admission.\"\"\"\n    _identity(relative, payload)\n    from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history\n    payload = peel_camera_ios_ownership_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n",
+          "before_fragment_sha256": "8d155c6e12f83972ee8c113e5e0e78e80aa12e708b4e73a8a366df3c47ca6e97"
+        },
+        {
+          "after": "\ndef validate_current_sources(root: Path):\n    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    import cookie_common_jdk_source_projection as cookie_history\n    cookie_history.validate_current_sources(root)\n    import camera_ios_ownership_source_projection as camera_history\n    camera_history.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "b11b0b810947a4665bf5bbd36ca7c2522423cd339379a3e16d55467f7b9d2d65",
+          "before": "\ndef validate_current_sources(root: Path):\n    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    import camera_ios_ownership_source_projection as camera_history\n    camera_history.validate_current_sources(root)\n    document = _document()\n",
+          "before_fragment_sha256": "47d329c1ce5641b3f1cbc79a475595e0199a89e87c641605cd47fca50dc59436"
+        },
+        {
+          "after": "    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        if sha(camera_history.source_before_camera_ios_ownership(\n                name, cookie_history.peel_cookie_for_history(name,\n                    _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0])))) != digest:\n            raise ValueError(\"Current content-policy input differs from its complete owning image: \" + name)\n    return True\n\n",
+          "after_fragment_sha256": "c7ccd8bee1efbb8080cc6b7120f47b994323565bce4035483ec47d7b60ed6ed5",
+          "before": "    from ios_popover_anchor_plan import _ordinary_bytes\n    for name, digest in expected.items():\n        if sha(camera_history.source_before_camera_ios_ownership(\n                name, _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0]))) != digest:\n            raise ValueError(\"Current content-policy input differs from its complete owning image: \" + name)\n    return True\n\n",
+          "before_fragment_sha256": "a2e6c0e99d6d6194cabf852dbe3e6f35f734ecd38d8ce1d55531ec8a1d2defe7"
+        },
+        {
+          "after": "    \"\"\"Only this finite latest custody fixture union; never native/controller execution.\"\"\"\n    document = _document()\n    from camera_ios_ownership_source_projection import fixture_inputs as camera_fixture_inputs\n    import cookie_common_jdk_source_projection as cookie_history\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE, \"scripts/ci/test_webview_content_policy_source_projection.py\"} |\n            camera_fixture_inputs() | cookie_history.fixture_inputs())\n",
+          "after_fragment_sha256": "9d0708a11d9bbf6278ca096262c8b34a6bf82c381566bfbca52d4293a7768263",
+          "before": "    \"\"\"Only this finite latest custody fixture union; never native/controller execution.\"\"\"\n    document = _document()\n    from camera_ios_ownership_source_projection import fixture_inputs as camera_fixture_inputs\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, SOURCE_RELATIVE, \"scripts/ci/test_webview_content_policy_source_projection.py\"} | camera_fixture_inputs())\n",
+          "before_fragment_sha256": "d34c030af046bdee9c9e9ae048797fc81411f8a4380d0d4bf8e2a151a3aee405"
+        }
+      ]
+    }
+  },
+  "own_guard": {
+    "bytes": 15226,
+    "template_sha256": "52c1d71e3004fcddb156d264151450da9241f7ff12c502638b5de0f6d39c031e"
+  },
+  "schema_version": 1,
+  "scope": "Exact cookie common/JDK4 source custody and parked native/browser bodies; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt": "bb2d453725767f8f333398221f50d8919fd7eb756edba383f9d4c59d0c1df360",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "gradle/wrapper/gradle-wrapper.jar": "7a9ce74cff467ca1bf60a4fcd9f05185acceda4d0f382434d393e17864262c5d",
+    "gradle/wrapper/gradle-wrapper.properties": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907",
+    "gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "scripts/ci/fixtures/webview-content-policy-routing-source-inverse.json": "c44400087570740d3248704c2165c3222229f2c05ff1a2a3840dbda9aa04b916",
+    "scripts/ci/fresh-tests.init.gradle.kts": "bc14e3ac5105e6a337c896f4f7e88dd565e8862b2b2dc0d8ff055f40ab8cb9d4",
+    "scripts/ci/test_webview_content_policy_fixture.py": "75b52cd2abc6816bb23e02c01d89b7c5cade3219e737b18a9fe2ca17fd25c550",
+    "scripts/ci/webview_content_policy_fixture.py": "7ef8dfd4e8eee68a8d584e91d3ea231daa46b15a68f36cf762ee4409c8b4d571"
+  }
+}

@@ -13,6 +13,9 @@ import java.util.IdentityHashMap
  * Adapts the existing handler without ever replacing application/JavaFX global state. JavaFX's
  * handler is NOT a java.net.CookieManager. Generic handlers expose request Cookie headers only;
  * their metadata and full-store deletion cannot be recovered through the public CookieHandler API.
+ * A JDK subclass can also select indistinguishable same-name/value cookies on different paths.
+ * Such ambiguous reductions return header-only Cookie values (attributes are unavailable), not
+ * invented path/domain/expiry identity. Always apply returned values only to the queried URL.
  */
 public actual class CookieManager actual constructor() {
     private var explicitHandler: CookieHandler? = null
@@ -64,17 +67,37 @@ public actual class CookieManager actual constructor() {
                 .values.flatten().flatMap(::parseCookieHeader)
             if (handler !is java.net.CookieManager) return@synchronized sent
             pruneKnown(handler)
+            // Request headers may contain identical names AND values on different paths.
+            // Membership alone would invent extra occurrences when an application-owned
+            // CookieManager subclass selects only part of that native store.
+            val transmitted = sent.groupingBy { it.name to it.value }.eachCount()
+            val remaining = transmitted.toMutableMap()
             val now = System.currentTimeMillis()
-            handler.cookieStore.get(uri).filter { native ->
+            val candidates = handler.cookieStore.get(uri).filter { native ->
                 val metadata = known[native]
                 !native.hasExpired() && (metadata?.expiry == null || metadata.expiry > now) &&
-                    sent.any { it.name == native.name && it.value == native.value } &&
                     cookieMatchesRequest(uri.host, uri.path.orEmpty(), uri.scheme.equals("https", true),
                         native.domain ?: metadata?.host ?: uri.host, native.path ?: "/", native.secure,
                         metadata?.hostOnly ?: (native.domain == null))
+            }
+            val candidateCounts = candidates.groupingBy { it.name to it.value }.eachCount()
+            candidates.filter { native ->
+                val identity = native.name to native.value
+                val occurrences = remaining[identity] ?: 0
+                if (occurrences == 0) false else {
+                    remaining[identity] = occurrences - 1
+                    true
+                }
             }.map { native ->
-                Cookie(native.name, native.value, native.domain, native.path,
-                    known[native]?.expiry, native.secure, native.isHttpOnly)
+                val identity = native.name to native.value
+                if (candidateCounts.getValue(identity) > (transmitted[identity] ?: 0)) {
+                    // A Cookie header carries no path/domain. Which equal occurrence
+                    // the subclass chose cannot be reconstructed without guessing.
+                    Cookie(native.name, native.value)
+                } else {
+                    Cookie(native.name, native.value, native.domain, native.path,
+                        known[native]?.expiry, native.secure, native.isHttpOnly)
+                }
             }
         }
     }

@@ -1,5 +1,30 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Grouped CI recovery accepted and integrated — 2026-11-04
+
+[707–708](docs/development/evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)
+adopts17existing/38added exact sources,225held/current280; original17modes preserved,
+NEW0644. Independent705 source+saved-results accepts finalsamefailed5 **5/5once**,
+67.943s/68.20504042506218s; actual280held. OriginalFIRST24 stays19pass/5fail;
+firstfailed5 stays0pass/5errors; pre-execution CURRENT-pin refusal/assembler error
+remain. Reuse accepted19/lead9/NEW707sixteen/FIRST13 only within unchanged scopes,
+not fresh24green. Current Cookie pins repaired, named175/190/40/36 ancestors and
+512KiB cap retained. Shared1500s/tooling30min budget is provisional; bounded nullable
+failure metadata/pread/primary-before-cleanup ordering do not prove complete capacity.
+Cookie multiplicity fix/commonJDK4, parked wire tests and Share AppKit-only/failure
+observations are source-integrated, ZERO new compiler/native/consumer/closure.
+Cancelled41861467433 remains cancelled/eightterminaljobs/zeroartifacts/no reusable
+certificate;41842636546 remains FAILED. Next changed same-HEAD successful producer
+and exact four-ID authentication before missingCamera5/AndroidWebView5; no docs
+commit between cohort requests. Parallel Windows ordinary-consumer branch preparation
+continues; accepted private Windows Stop excluded. #76 Android A→B capture native
+result is unestablished in reviewed authority; iOS5 alone does not close it.
+103closed/69open/172 and22implemented/36partial/101verified/fiveunresolved unchanged;
+#144/#171 already closed. Lead integration/Git/dispatch/closure; isolated agents,
+serial local8GiB disk/compiler6GiB memory/max2combinedhosted INCLUDINGqueued/reserved.
+Actions/all/no mandatorySHA/minimumread and every publishing/Pages/main/history/
+native/consumer/API–ABI/dependency/legal/security/readiness gate remain.
+
 ## Producer failure repaired as one related batch — 2026-11-04
 
 [Recovery701](docs/development/evidence/current-platform-recovery-20261101/tooling-producer698-recovery701/README.md)

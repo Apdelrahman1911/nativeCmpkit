@@ -1,0 +1,19 @@
+{
+  "accepted16_replays": 0,
+  "after_bytes": 17731,
+  "after_sha256": "e591f1988302dd7353262087c3731197887e61e6574c264d814a1e0c67282133",
+  "before_sha256": "eae8a084e6c6421a2c0cb0f83be3e4e62f8234bf9dbe7266bfccd73865d377db",
+  "cause_scope": "Original exception operand was AssertionError instead of intended owning ValueError. Global os.fstat patch also affects standard-library temporary-context disposal; precise original fstat caller was not exported. Recovery limits refusal to this owning execute_scope code object while retaining stdlib calls.",
+  "failed_method": "test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand",
+  "first17_failed": 1,
+  "first17_passed": 16,
+  "fragments": [
+    {
+      "after": "    def test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand(self):\n        original_fstat = reuse.os.fstat\n        def owner_fstat(fd):\n            # os is shared with stdlib tempfile/shutil: preserve their ordinary\n            # disposal checks and forbid only this owning guard's direct call.\n            if sys._getframe(1).f_code is reuse.execute_scope.__code__:\n                raise AssertionError(\"short-circuited owning fstat must not run\")\n            return original_fstat(fd)\n        actual = self.model(b\"x\" * 100, seconds=0, hooks=(\n            patch.object(reuse, \"MAX_LOG_BYTES\", 64),\n            patch.object(reuse.os, \"fstat\", side_effect=owner_fstat),\n        ))\n",
+      "before": "    def test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand(self):\n        actual = self.model(b\"x\" * 100, seconds=0, hooks=(\n            patch.object(reuse, \"MAX_LOG_BYTES\", 64),\n            patch.object(reuse.os, \"fstat\", side_effect=AssertionError(\"short-circuited fstat must not run\")),\n        ))\n"
+    }
+  ],
+  "new_control_original_preserved": "FIRST17-ORIGINAL-CONTROL-SOURCE707.py",
+  "production_changes_after_first17": 0,
+  "relative": "scripts/ci/test_offline_tooling_scope_observation707.py"
+}

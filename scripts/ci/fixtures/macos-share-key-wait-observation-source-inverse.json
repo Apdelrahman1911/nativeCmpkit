@@ -1,0 +1,130 @@
+{
+  "added_inputs": {
+    "docs/testing/macos-share-key-wait-observation.md": "539efcfa88bc0e4f5e5b16bae07b2ec8303b0f3c27f73ab00efec62463aa8ee1",
+    "scripts/ci/test_macos_share_key_wait_observation.py": "bb68efbec88bd3a572abee3f5f2067750314d9918a7e9d3917b66a6499008e9a"
+  },
+  "bindings": {
+    "calf-share/native/tests/appkit_lifecycle/cases.rs": {
+      "after_bytes": 24072,
+      "after_sha256": "2ee076e833b1cdc619a5aa94194d5d23e3b62d2da1a9797ebe37ac377361b790",
+      "before_bytes": 20272,
+      "before_sha256": "9e038b83b4e2e4d3d4718869ec05c9eaa198ce1f3c886a38b97b7c13ff83842b",
+      "fragments": [
+        {
+          "after": "    for (name, case) in selected {\n        let started = Instant::now();\n        let result = catch_unwind(AssertUnwindSafe(|| autoreleasepool(|_| case())));\n        if failed_owned_key_wait(name, &result) {\n            // A late read-only sample cannot replace this panic or prevent independent cleanup.\n            let _ = catch_unwind(AssertUnwindSafe(observe_owned_key_wait_post_failure));\n        }\n        let cleanup = catch_unwind(AssertUnwindSafe(cleanup_owned));\n        let passed =\n            result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire);\n",
+          "after_fragment_sha256": "08c28b92c25f7971211cbd75cf3ef919e077458e0c6dab25f28aefd0f45df6e6",
+          "before": "    for (name, case) in selected {\n        let started = Instant::now();\n        let result = catch_unwind(AssertUnwindSafe(|| autoreleasepool(|_| case())));\n        let cleanup = catch_unwind(AssertUnwindSafe(cleanup_owned));\n        let passed =\n            result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire);\n",
+          "before_fragment_sha256": "27a946691a8717fcfeb5e0ead82321abf8954d5cef49ca63376290edf44713c2",
+          "obligation": "Exact local calf-share/native/tests/appkit_lifecycle/cases.rs owning late-observation/hash operand fragment 1; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "        std::process::exit(1);\n    }\n}\n\nfn failed_owned_key_wait(\n    name: &str,\n    result: &Result<(), Box<dyn std::any::Any + Send>>,\n) -> bool {\n    if name != \"missing_content_view\" {\n        return false;\n    }\n    let Some(error) = result.as_ref().err() else {\n        return false;\n    };\n    error\n        .downcast_ref::<String>()\n        .map(String::as_str)\n        .or_else(|| error.downcast_ref::<&str>().copied())\n        == Some(\"Owned AppKit window did not become key\")\n}\n\nfn observed_bool(value: bool) -> &'static str {\n    if value { \"true\" } else { \"false\" }\n}\n\n// Exactly one sequential late sample after the original key-wait panic and before cleanup.\n// It is not the failed predicate's value, an atomic snapshot, activation proof or native cause.\nfn observe_owned_key_wait_post_failure() {\n    let Some(main) = MainThreadMarker::new() else {\n        eprintln!(concat!(\n            \"NATIVECMPKIT_APPKIT_KEY_WAIT_POST_FAILURE version=1 main=unavailable owned=unavailable \",\n            \"app_active=unavailable app_running=unavailable policy=unavailable visible=unavailable \",\n            \"key=unavailable can_key=unavailable miniaturized=unavailable app_key=unavailable \",\n            \"loop_main=unavailable mode=unavailable\"\n        ));\n        return;\n    };\n    // Release the RefCell borrow before any Objective-C getter can synchronously call back.\n    let owned = TEST_WINDOW.with(|owned| {\n        owned\n            .try_borrow()\n            .map(|held| held.as_ref().cloned())\n            .map_err(|_| ())\n    });\n    let (owned_state, window) = match owned {\n        Ok(Some(window)) => (\"available\", Some(window)),\n        Ok(None) => (\"absent\", None),\n        Err(()) => (\"unavailable\", None),\n    };\n    let app = NSApplication::sharedApplication(main);\n    let active = observed_bool(app.isActive());\n    let running = observed_bool(app.isRunning());\n    let policy = match app.activationPolicy() {\n        NSApplicationActivationPolicy::Regular => \"regular\",\n        NSApplicationActivationPolicy::Accessory => \"accessory\",\n        NSApplicationActivationPolicy::Prohibited => \"prohibited\",\n        _ => \"other\",\n    };\n    let (visible, key, can_key, miniaturized) = if let Some(window) = window.as_deref() {\n        (\n            observed_bool(window.isVisible()),\n            observed_bool(window.isKeyWindow()),\n            observed_bool(window.canBecomeKeyWindow()),\n            observed_bool(window.isMiniaturized()),\n        )\n    } else {\n        (\"unavailable\", \"unavailable\", \"unavailable\", \"unavailable\")\n    };\n    let key_relation = match app.keyWindow() {\n        None => \"absent\",\n        Some(key) => match window.as_deref() {\n            Some(window) if std::ptr::eq(&*key, window) => \"this-owned\",\n            Some(_) => \"other\",\n            None => \"present-unclassified\",\n        },\n    };\n    let current = NSRunLoop::currentRunLoop();\n    let main_loop = NSRunLoop::mainRunLoop();\n    let loop_main = observed_bool(std::ptr::eq(&*current, &*main_loop));\n    let mode = match current.currentMode().as_deref() {\n        None => \"absent\",\n        Some(mode) if mode.isEqualToString(unsafe { NSDefaultRunLoopMode }) => \"default\",\n        Some(_) => \"other\",\n    };\n    eprintln!(concat!(\n        \"NATIVECMPKIT_APPKIT_KEY_WAIT_POST_FAILURE version=1 main=available owned={} \",\n        \"app_active={} app_running={} policy={} visible={} key={} can_key={} miniaturized={} \",\n        \"app_key={} loop_main={} mode={}\"\n    ), owned_state, active, running, policy, visible, key, can_key, miniaturized,\n        key_relation, loop_main, mode);\n}\n",
+          "after_fragment_sha256": "1d64fa57bdf1d1bc6e970edd87df64bbc38b64525f38174b78a6419f86afa6f7",
+          "before": "        std::process::exit(1);\n    }\n}\n",
+          "before_fragment_sha256": "c034f82899cffbdb2362653e70f0b05fe9fd25f4353237fe7606773b029559fd",
+          "obligation": "Exact local calf-share/native/tests/appkit_lifecycle/cases.rs owning late-observation/hash operand fragment 2; all original predicates, pins, primary and cleanup results retained"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_appkit_lifecycle.py": {
+      "after_bytes": 53955,
+      "after_sha256": "1305179f1294ffa894c02ccedec1c17e5d096d3233f20d58db5d60195ede0c6e",
+      "before_bytes": 53214,
+      "before_sha256": "b04a67a0a8b80e6d335ee6408e6149db0f3616f353b38b984b6cf39406415455",
+      "fragments": [
+        {
+          "after": "\nimport library_tests as library\nimport macos_share_missing_only as recovery\nimport macos_share_key_wait_observation as key_wait\nimport runtime_context\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "after_fragment_sha256": "1c48d83cf2fb2cf1e9838db3978af1d585e3f85b2199ed1ab1a6943922be6775",
+          "before": "\nimport library_tests as library\nimport macos_share_missing_only as recovery\nimport runtime_context\n\nROOT = Path(__file__).resolve().parents[2]\n",
+          "before_fragment_sha256": "4915bf763eb09b9a1f35aba846585abc1d39d5c89b7401a74a5ac542c99ae63a",
+          "obligation": "Exact local scripts/ci/macos_share_appkit_lifecycle.py owning late-observation/hash operand fragment 1; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "\n\ndef source_contract(root: Path, sources: dict) -> dict:\n    key_wait.validate_current_sources(root)\n    for relative, expected in HARNESS_PINS.items():\n        payload = key_wait._ordinary_bytes(root, relative)[0]\n        require(sources.get(relative) == hashlib.sha256(payload).hexdigest() and\n                hashlib.sha256(key_wait.current_source_before_key_wait(relative, payload)).hexdigest() == expected,\n                \"unqualified-native-harness-bytes\")\n    manifest = tomllib.loads(ordinary_file(root, MANIFEST).read_text())\n    require(manifest[\"package\"][\"name\"] == \"calf-share-native\" and manifest[\"package\"][\"version\"] == \"0.1.0\"\n            and manifest[\"package\"][\"publish\"] is False and manifest.get(\"test\") == [{\n                \"name\": \"appkit_lifecycle\", \"path\": \"tests/appkit_lifecycle_main.rs\", \"harness\": False,\n                \"required-features\": [\"appkit-lifecycle-tests\"]}], \"native-target-contract-changed\")\n    return {\"source_path\": CASES_SOURCE, \"source_sha256\": sources[CASES_SOURCE],\n            \"original_harness_sha256\": HARNESS_PINS[CASES_SOURCE],\n            \"source_bound_failed_control_gate_verified\": True,\n            \"raw_control_flag_exported\": False, \"raw_control_flag_independently_observed\": False,\n            \"weak_release_witnesses\": \"source-qualified native assertions, not separate exported readings\"}\n",
+          "after_fragment_sha256": "a17d4b21e0479f4bd3bc674d592850809959c96fbc0b08a4fc89bab5f36434a1",
+          "before": "\n\ndef source_contract(root: Path, sources: dict) -> dict:\n    for relative, expected in HARNESS_PINS.items():\n        require(sources.get(relative) == expected and native.digest(ordinary_file(root, relative)) == expected,\n                \"unqualified-native-harness-bytes\")\n    manifest = tomllib.loads(ordinary_file(root, MANIFEST).read_text())\n    require(manifest[\"package\"][\"name\"] == \"calf-share-native\" and manifest[\"package\"][\"version\"] == \"0.1.0\"\n            and manifest[\"package\"][\"publish\"] is False and manifest.get(\"test\") == [{\n                \"name\": \"appkit_lifecycle\", \"path\": \"tests/appkit_lifecycle_main.rs\", \"harness\": False,\n                \"required-features\": [\"appkit-lifecycle-tests\"]}], \"native-target-contract-changed\")\n    return {\"source_path\": CASES_SOURCE, \"source_sha256\": HARNESS_PINS[CASES_SOURCE],\n            \"source_bound_failed_control_gate_verified\": True,\n            \"raw_control_flag_exported\": False, \"raw_control_flag_independently_observed\": False,\n            \"weak_release_witnesses\": \"source-qualified native assertions, not separate exported readings\"}\n",
+          "before_fragment_sha256": "19b34584cc939f331db0a26852c837645a55f99571e792abd2dec8c2274ca9cf",
+          "obligation": "Exact local scripts/ci/macos_share_appkit_lifecycle.py owning late-observation/hash operand fragment 2; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "                                        operation_hash=inputs.get(recovery.OPERATION_SOURCE),\n                                        source_absolute=str(root / CASES_SOURCE),\n                                        failed_case=\"missing_content_view\")\n        if inputs.get(CASES_SOURCE) == key_wait.cases_after_sha256():\n            value[\"post_failure_owned_key_wait_snapshot\"] = key_wait.post_failure_snapshot(\n                payload, source_hash=inputs[CASES_SOURCE], failed_case=\"missing_content_view\",\n                source_absolute=str(root / CASES_SOURCE))\n        value[\"owned_stream_sha256\"] = sealed[\"sha256\"]\n        value[\"owned_stream_bytes\"] = sealed[\"size\"]\n        return value\n",
+          "after_fragment_sha256": "e6a4af93748009482f330adddbdf412d604eb308b30a5b831d3cfc35290537f4",
+          "before": "                                        operation_hash=inputs.get(recovery.OPERATION_SOURCE),\n                                        source_absolute=str(root / CASES_SOURCE),\n                                        failed_case=\"missing_content_view\")\n        value[\"owned_stream_sha256\"] = sealed[\"sha256\"]\n        value[\"owned_stream_bytes\"] = sealed[\"size\"]\n        return value\n",
+          "before_fragment_sha256": "f67a063a58d54ee74e13cc971803b55c7a1e7445cb564a1ba63e6b9a0e94413a",
+          "obligation": "Exact local scripts/ci/macos_share_appkit_lifecycle.py owning late-observation/hash operand fragment 3; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "            \"disk_reserve_bytes\": DISK_RESERVE, \"read_only_plan\": True, \"publication_commands\": []}\n    if case is not None or missing_only:\n        value[\"recovery_reference\"] = recovery.recovery_reference()\n    if \"missing_content_view\" in selected:\n        value[\"key_wait_post_failure_snapshot\"] = key_wait.plan_description()\n    if missing_only:\n        value.update(native_command=None, native_case_arguments=None,\n                     native_commands=[[\"<admitted-mh-execute>\", \"--case=\" + name] for name in selected],\n",
+          "after_fragment_sha256": "ad8359c57e503e9144651e54cec8a067e8b110bce4e190a734b4ea8521355a23",
+          "before": "            \"disk_reserve_bytes\": DISK_RESERVE, \"read_only_plan\": True, \"publication_commands\": []}\n    if case is not None or missing_only:\n        value[\"recovery_reference\"] = recovery.recovery_reference()\n    if missing_only:\n        value.update(native_command=None, native_case_arguments=None,\n                     native_commands=[[\"<admitted-mh-execute>\", \"--case=\" + name] for name in selected],\n",
+          "before_fragment_sha256": "a67f235ba98cb96dbac2a854e2619d4728eac8de88a3179a842ead08a4e8eaab",
+          "obligation": "Exact local scripts/ci/macos_share_appkit_lifecycle.py owning late-observation/hash operand fragment 4; all original predicates, pins, primary and cleanup results retained"
+        }
+      ]
+    },
+    "scripts/ci/test_macos_share_appkit_lifecycle_runner.py": {
+      "after_bytes": 32673,
+      "after_sha256": "dc9f44d2fb1d88e71a9959b4a86a02f704bdbc07f4b31fa82ec9367212937970",
+      "before_bytes": 32460,
+      "before_sha256": "4408913f171ac14468eec9a64022d4796f87a672424f5b55deaf60baad4aa751",
+      "fragments": [
+        {
+          "after": "from unittest.mock import patch\n\nimport macos_share_appkit_lifecycle as runner\nimport macos_share_key_wait_observation as key_wait\n\n\ndef execution(*, passed=True, pid=4242, started=0, ended=None):\n",
+          "after_fragment_sha256": "c895128f6cd74f42d80e14ff9a7cf7a5a72e6ca317f53246bed6146b945795af",
+          "before": "from unittest.mock import patch\n\nimport macos_share_appkit_lifecycle as runner\n\n\ndef execution(*, passed=True, pid=4242, started=0, ended=None):\n",
+          "before_fragment_sha256": "1a13a8adf6bf4faef49c985d41ef5812de0d86477621e72562bdcea0bdcb7821",
+          "obligation": "Exact local scripts/ci/test_macos_share_appkit_lifecycle_runner.py owning late-observation/hash operand fragment 1; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "        self.assertNotRegex(\" \".join(command), r\"--case|stress|publish|\\bbuild --release\\b\")\n\n    def test_exact_reviewed_source_gate_does_not_invent_exported_flag_or_visibility(self):\n        value = runner.source_contract(runner.ROOT, {\n            name: hashlib.sha256((runner.ROOT / name).read_bytes()).hexdigest() for name in runner.HARNESS_PINS})\n        self.assertTrue(value[\"source_bound_failed_control_gate_verified\"])\n        self.assertFalse(value[\"raw_control_flag_exported\"])\n        self.assertFalse(value[\"raw_control_flag_independently_observed\"])\n",
+          "after_fragment_sha256": "2dd484f1121dea6123cd9d60f404117d54bdf118e50631a23b98716acbf5f75a",
+          "before": "        self.assertNotRegex(\" \".join(command), r\"--case|stress|publish|\\bbuild --release\\b\")\n\n    def test_exact_reviewed_source_gate_does_not_invent_exported_flag_or_visibility(self):\n        value = runner.source_contract(runner.ROOT, runner.HARNESS_PINS)\n        self.assertTrue(value[\"source_bound_failed_control_gate_verified\"])\n        self.assertFalse(value[\"raw_control_flag_exported\"])\n        self.assertFalse(value[\"raw_control_flag_independently_observed\"])\n",
+          "before_fragment_sha256": "35088623abeea3bc1c993c84d14718e639e7f2be12e0d0a4922b68055398a6c4",
+          "obligation": "Exact local scripts/ci/test_macos_share_appkit_lifecycle_runner.py owning late-observation/hash operand fragment 2; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "        self.assertIn(\"result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire)\", source)\n        self.assertIn(\"CONTROL_FAILED.store(true, AtomicOrdering::Release)\", source)\n        self.assertNotIn(\"raw-control-flag=\", source)\n        self.assertEqual(runner.HARNESS_PINS[runner.CASES_SOURCE],\n            hashlib.sha256(key_wait.source_before_key_wait(runner.CASES_SOURCE, source.encode())).hexdigest())\n\n    def test_changed_harness_hash_is_refused_before_native(self):\n        altered = {**runner.HARNESS_PINS, runner.CASES_SOURCE: \"0\" * 64}\n",
+          "after_fragment_sha256": "10239e69fccea70a316c8834d5094d828877d072939e66aece7cb9caf2e5f93f",
+          "before": "        self.assertIn(\"result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire)\", source)\n        self.assertIn(\"CONTROL_FAILED.store(true, AtomicOrdering::Release)\", source)\n        self.assertNotIn(\"raw-control-flag=\", source)\n        self.assertEqual(runner.HARNESS_PINS[runner.CASES_SOURCE], hashlib.sha256(source.encode()).hexdigest())\n\n    def test_changed_harness_hash_is_refused_before_native(self):\n        altered = {**runner.HARNESS_PINS, runner.CASES_SOURCE: \"0\" * 64}\n",
+          "before_fragment_sha256": "8541db82a8871e29bde14b9ae121d6ac0280ec5827c1e0ea2f70be724289ed67",
+          "obligation": "Exact local scripts/ci/test_macos_share_appkit_lifecycle_runner.py owning late-observation/hash operand fragment 3; all original predicates, pins, primary and cleanup results retained"
+        }
+      ]
+    },
+    "scripts/ci/test_macos_share_missing_only.py": {
+      "after_bytes": 22881,
+      "after_sha256": "93b69767337d4a224a9624e7ca431b3b3a5c96bdbd2909f33c6c6d8d8475f01d",
+      "before_bytes": 22760,
+      "before_sha256": "167c6f047a73ccb1657091a427ada91fd29afd97cfbcc9f87de2c12ed82045d9",
+      "fragments": [
+        {
+          "after": "\nimport macos_share_appkit_lifecycle as runner\nimport macos_share_missing_only as recovery\nimport macos_share_key_wait_observation as key_wait\nfrom test_macos_share_appkit_lifecycle_runner import artifact, cargo_stdout, execution, make_reports, markers\n\n\n",
+          "after_fragment_sha256": "3aef02a25dca4db49151c5b32c9a59a624c9c7cfbbdf1e1d98ca95cc687bbcb1",
+          "before": "\nimport macos_share_appkit_lifecycle as runner\nimport macos_share_missing_only as recovery\nfrom test_macos_share_appkit_lifecycle_runner import artifact, cargo_stdout, execution, make_reports, markers\n\n\n",
+          "before_fragment_sha256": "96cc7214db2d8edd1ab54bab1fb068d31d7b715b03b2647aebaa43a040d00817",
+          "obligation": "Exact local scripts/ci/test_macos_share_missing_only.py owning late-observation/hash operand fragment 1; all original predicates, pins, primary and cleanup results retained"
+        },
+        {
+          "after": "                recovery.jni_validate_host(system, machine)\n\n    def test_fixed_native_source_diagnostic_pins_are_unchanged_and_not_native_certification(self):\n        self.assertEqual(recovery.CASES_SHA, hashlib.sha256(key_wait.source_before_key_wait(\n            recovery.CASES_SOURCE, (runner.ROOT / recovery.CASES_SOURCE).read_bytes())).hexdigest())\n        self.assertEqual(recovery.OPERATION_SHA, hashlib.sha256((runner.ROOT / recovery.OPERATION_SOURCE).read_bytes()).hexdigest())\n        self.assertTrue(recovery.recovery_reference()[\"original_failures_unwaived\"])\n        self.assertFalse(recovery.recovery_reference()[\"release_readiness_certified\"])\n",
+          "after_fragment_sha256": "baf954da178275ffb1bcb26d62bdf87a7b05d9ef1ae87354e671e62d3b7191c9",
+          "before": "                recovery.jni_validate_host(system, machine)\n\n    def test_fixed_native_source_diagnostic_pins_are_unchanged_and_not_native_certification(self):\n        self.assertEqual(recovery.CASES_SHA, hashlib.sha256((runner.ROOT / recovery.CASES_SOURCE).read_bytes()).hexdigest())\n        self.assertEqual(recovery.OPERATION_SHA, hashlib.sha256((runner.ROOT / recovery.OPERATION_SOURCE).read_bytes()).hexdigest())\n        self.assertTrue(recovery.recovery_reference()[\"original_failures_unwaived\"])\n        self.assertFalse(recovery.recovery_reference()[\"release_readiness_certified\"])\n",
+          "before_fragment_sha256": "a75dd0677b90e5de69df7dc7c9760f9c46a0da0320ca036f9747f332f41aa59f",
+          "obligation": "Exact local scripts/ci/test_macos_share_missing_only.py owning late-observation/hash operand fragment 2; all original predicates, pins, primary and cleanup results retained"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact local AppKit failure-only late-snapshot source custody; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "calf-share/native/Cargo.lock": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d",
+    "calf-share/native/Cargo.toml": "f632ec5d71d244d3e9bb67af643a0f8a2f037ec3dcb3055b3989493305397ffd",
+    "calf-share/native/src/lib.rs": "4b96f5eff772da84c92dfda167353e97faa5f569abb295c85b02d7678a19deff",
+    "calf-share/native/src/macos.rs": "22c545dcc5c999f513b04990978fe0a157cdcd2a3e6c1a97ba7e7d3b6ef27e51",
+    "calf-share/native/src/operation.rs": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942",
+    "calf-share/native/tests/appkit_lifecycle_main.rs": "b31cad1ca8403b8649b33f43067d778459fe5816099c90c40059465d6b6bbd79",
+    "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/MacOsShareCoroutineLifecycleTest.kt": "43bcc488ed94c0568b9fba1448c278d8438e6d4c7536ab3035063102820970a2",
+    "scripts/ci/macos_share_missing_ci.py": "dafee8cc888caf3b3d840cccb6576846dd14b7aa06bd2225fe9d6c5988d5d633",
+    "scripts/ci/macos_share_missing_only.py": "26946c343deec7337310b9ee880c8d5eb39732e5ce7d557dd1630088d5a0a4a8"
+  }
+}

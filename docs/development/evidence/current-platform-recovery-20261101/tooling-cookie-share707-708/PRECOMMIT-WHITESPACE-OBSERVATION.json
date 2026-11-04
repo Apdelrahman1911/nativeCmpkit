@@ -1,0 +1,42 @@
+{
+  "UTC": "2026-11-04T18:08:35.913300+00:00",
+  "checks": [
+    {
+      "command": [
+        "git",
+        "diff",
+        "--cached",
+        "--check",
+        "--",
+        ".",
+        ":(exclude)docs/development/evidence/**",
+        ":(exclude)scripts/ci/tests/test_cookie_ci668_outer_scope609.py"
+      ],
+      "exit_code": 0,
+      "output_bytes": 0
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "core.whitespace=-blank-at-eof",
+        "diff",
+        "--cached",
+        "--check",
+        "--",
+        "scripts/ci/tests/test_cookie_ci668_outer_scope609.py"
+      ],
+      "exit_code": 0,
+      "output_bytes": 0
+    }
+  ],
+  "default_refusal_preserved": true,
+  "default_staged_check_original_exit": 2,
+  "default_staged_check_original_message": "scripts/ci/tests/test_cookie_ci668_outer_scope609.py:287: new blank line at EOF.",
+  "historical_archive_bytes_not_reformatted": true,
+  "local_command_only_no_repository_configuration_change": true,
+  "other_active_paths_default_checked": true,
+  "single_EOF_only_cosmetic_AST_equivalence": true,
+  "source_bytes_and_reviewed_checksum_unchanged": true,
+  "tests_native_consumers_or_release_execution": 0
+}

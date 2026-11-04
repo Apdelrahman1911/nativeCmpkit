@@ -138,6 +138,8 @@ def _current_tooling656_control_source(relative, payload):
 def source_before_content_policy(relative, payload):
     """Complete exact inverse or its one exact preimage; never current admission."""
     _identity(relative, payload)
+    import cookie_common_jdk_source_projection as cookie_history
+    payload = cookie_history.peel_cookie_for_history(relative, payload)
     from camera_ios_ownership_source_projection import peel_camera_ios_ownership_for_history
     payload = peel_camera_ios_ownership_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
@@ -210,6 +212,8 @@ def read_current_source_for_history(path: Path, root: Path):
 
 def validate_current_sources(root: Path):
     """Source custody only. Own guard/control pins are independent held-review inputs."""
+    import cookie_common_jdk_source_projection as cookie_history
+    cookie_history.validate_current_sources(root)
     import camera_ios_ownership_source_projection as camera_history
     camera_history.validate_current_sources(root)
     document = _document()
@@ -218,7 +222,8 @@ def validate_current_sources(root: Path):
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
         if sha(camera_history.source_before_camera_ios_ownership(
-                name, _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0]))) != digest:
+                name, cookie_history.peel_cookie_for_history(name,
+                    _current_tooling656_control_source(name, _ordinary_bytes(root, name)[0])))) != digest:
             raise ValueError("Current content-policy input differs from its complete owning image: " + name)
     return True
 
@@ -227,5 +232,7 @@ def fixture_inputs():
     """Only this finite latest custody fixture union; never native/controller execution."""
     document = _document()
     from camera_ios_ownership_source_projection import fixture_inputs as camera_fixture_inputs
+    import cookie_common_jdk_source_projection as cookie_history
     return (set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) |
-            {SPEC_RELATIVE, SOURCE_RELATIVE, "scripts/ci/test_webview_content_policy_source_projection.py"} | camera_fixture_inputs())
+            {SPEC_RELATIVE, SOURCE_RELATIVE, "scripts/ci/test_webview_content_policy_source_projection.py"} |
+            camera_fixture_inputs() | cookie_history.fixture_inputs())

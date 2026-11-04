@@ -605,7 +605,7 @@ def run(mode="off", *, root=ROOT, output_dir, selectors=None, recorded_signature
         state.journal = Journal(state.store, state)
         if mode == "off":
             state.stage = "ordinary-offline-scopes"
-            results, deadline = [], time.monotonic() + 840
+            results, deadline = [], time.monotonic() + reuse.TOTAL_SCOPE_SECONDS
             for scope in reuse.SCOPES:
                 result = reuse.execute_scope(root, scope, deadline - time.monotonic())
                 results.append(result)

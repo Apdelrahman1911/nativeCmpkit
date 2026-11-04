@@ -1,5 +1,18 @@
 # NativeCmpKit development after the audit
 
+## Grouped tooling recovery and Cookie/Share source adoption — 2026-11-04
+
+[707–708](evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)
+integrates17existing+38new source paths after independent source/results review.
+The final failed-five subset passes5/5 once; original24 and first recovery remain
+failed records, with accepted subsets reused only on applicable unchanged inputs.
+Tooling1500s/30min budget is provisional. Current Cookie checksums, multiplicity
+handling and missing-only Share routing are repaired together. No new native/
+consumer/closure is inferred. Cancelled41861467433 has no reuse certificate.
+Next changed successful producer→authenticated four-ID reuse→missingCamera5/
+AndroidWebView5 on the same HEAD; independent Windows consumer work stays isolated.
+All publication/readiness/security gates and103closed/69open issue state remain.
+
 ## Related producer recovery integrated — 2026-11-04
 
 [Recovery701](evidence/current-platform-recovery-20261101/tooling-producer698-recovery701/README.md)

@@ -136,8 +136,17 @@ def _identity(relative, payload):
 def source_before_ci668(relative, payload):
     """Complete reviewed inverse or its one exact declared ancestor, not admission."""
     _identity(relative, payload)
-    from producer698_source_fixture_recovery import peel_producer698_for_history
-    payload = peel_producer698_for_history(relative, payload)
+    import cookie_ci668_outer_source_projection as cookie_outer
+    current_raw = payload
+    payload = cookie_outer.peel_cookie_outer_for_history(relative, current_raw)
+    import producer698_source_fixture_recovery as producer698
+    producer = producer698.peel_producer698_for_history(relative, current_raw)
+    if payload == current_raw:
+        payload = producer  # Independent producer ancestry, not a Cookie inverse readmission.
+    import macos_share_ci668_composition as joint
+    named = joint.peel_for_history(relative, current_raw, joint.CI_VIEW)
+    if named != current_raw:
+        payload = named  # The exact named view, never restored-as-current.
     row = _document()["bindings"].get(relative)
     if row is None:
         return payload  # Unlisted bytes are not certified, guessed, reconstructed or executed.
@@ -179,8 +188,17 @@ def _own_guard_payload(payload, document):
 def current_source_before_ci668(relative, payload):
     """The sole strict final raw ingress; old, partial, displaced and drift refuse."""
     _identity(relative, payload)
-    from producer698_source_fixture_recovery import current_source_before_producer698
-    payload = current_source_before_producer698(relative, payload)
+    import cookie_ci668_outer_source_projection as cookie_outer
+    current_raw = payload
+    payload = cookie_outer.current_source_before_cookie_outer(relative, current_raw)
+    import producer698_source_fixture_recovery as producer698
+    producer = producer698.current_source_before_producer698(relative, current_raw)
+    if payload == current_raw:
+        payload = producer  # Exactly one producer current ingress on the original raw bytes.
+    import macos_share_ci668_composition as joint
+    named = joint.current_source_in_view(relative, current_raw, joint.CI_VIEW)
+    if named != current_raw:
+        payload = named  # Independently qualify original raw, not the Cookie inverse.
     document = _document()
     if relative == SOURCE_RELATIVE:
         _own_guard_payload(payload, document)
@@ -196,8 +214,17 @@ def current_source_before_ci668(relative, payload):
 def peel_ci668_for_history(relative, payload):
     """Only exact complete final endpoints peel; all other bytes face older pins."""
     _identity(relative, payload)
-    from producer698_source_fixture_recovery import peel_producer698_for_history
-    payload = peel_producer698_for_history(relative, payload)
+    import cookie_ci668_outer_source_projection as cookie_outer
+    current_raw = payload
+    payload = cookie_outer.peel_cookie_outer_for_history(relative, current_raw)
+    import producer698_source_fixture_recovery as producer698
+    producer = producer698.peel_producer698_for_history(relative, current_raw)
+    if payload == current_raw:
+        payload = producer  # Independent producer ancestry, not a Cookie inverse readmission.
+    import macos_share_ci668_composition as joint
+    named = joint.peel_for_history(relative, current_raw, joint.CI_VIEW)
+    if named != current_raw:
+        payload = named  # The exact named view, never restored-as-current.
     row = _document()["bindings"].get(relative)
     if row is not None and sha(payload) == row["after_sha256"] and len(payload) == row["after_bytes"]:
         return source_before_ci668(relative, payload)
@@ -205,11 +232,17 @@ def peel_ci668_for_history(relative, payload):
 
 
 def _validate_own_guard(root, document):
-    raw_current = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
-    from producer698_source_fixture_recovery import current_source_before_producer698
-    raw = current_source_before_producer698(SOURCE_RELATIVE, raw_current)
-    _own_guard_payload(raw, document)
-    return sha(raw_current)
+    import cookie_ci668_outer_source_projection as cookie_outer
+    current_raw = _ordinary(root, SOURCE_RELATIVE, MAX_SOURCE_BYTES)
+    payload = cookie_outer.current_source_before_cookie_outer(SOURCE_RELATIVE, current_raw, root)
+    import producer698_source_fixture_recovery as producer698
+    producer698.current_source_before_producer698(SOURCE_RELATIVE, current_raw)
+    import macos_share_ci668_composition as joint
+    named = joint.current_source_in_view(SOURCE_RELATIVE, current_raw, joint.CI_VIEW, root)
+    if named != current_raw:
+        payload = named
+    _own_guard_payload(payload, document)
+    return sha(current_raw)
 
 
 def _expected(document):
@@ -218,28 +251,34 @@ def _expected(document):
 
 
 def current_input_hashes():
-    """Actual combined current custody; named original175 is a separate sealed view."""
+    """Actual joint279 custody; original current207 and producer190 stay historical."""
     validate_current_sources(ROOT)
-    from producer698_source_fixture_recovery import current_input_hashes as producer698_hashes
-    return producer698_hashes(ROOT)
+    import macos_share_ci668_composition as joint
+    return joint.current_input_hashes(ROOT)
 
 
 def sealed_ci668_175_hashes():
-    """The immutable original raw175 snapshot, never relabeled as latest current."""
+    """The immutable original raw175 snapshot, never relabeled latest current."""
     from producer698_source_fixture_recovery import original_ci668_input_hashes
     return original_ci668_input_hashes()
 
 
 def validate_current_sources(root: Path):
-    """Strict latest producer698, then only exact qualified original668 operands."""
+    """Strict finite ordinary current bytes only; no source/test/native execution."""
+    import cookie_ci668_outer_source_projection as cookie_outer
+    cookie_outer.validate_current_sources(root)
+    import macos_share_ci668_composition as joint
     import producer698_source_fixture_recovery as producer698
-    producer698.validate_current_sources(root)
+    producer698.validate_current_sources(root)  # Whole raw279, then original645/190 guard/rows.
     document = _document()
     _validate_own_guard(root, document)
     for relative, digest in _expected(document).items():
-        raw_current = _ordinary(root, relative, MAX_SOURCE_BYTES)
-        raw = producer698.current_source_before_producer698(relative, raw_current)
-        if sha(raw) != digest:
+        raw = _ordinary(root, relative, MAX_SOURCE_BYTES)
+        comparison = cookie_outer.peel_cookie_outer_for_history(relative, raw, root)
+        named = joint.current_source_in_view(relative, raw, joint.CI_VIEW, root)
+        if named != raw:
+            comparison = named  # Owning CI fixture8e is historical, raw7d stays current.
+        if sha(comparison) != digest:
             raise ValueError("Current final CI668 input differs from its complete reviewed raw image: " + relative)
     for relative in BOUND_PATHS:
         source_before_ci668(relative, _ordinary(root, relative, MAX_SOURCE_BYTES))
@@ -247,7 +286,6 @@ def validate_current_sources(root: Path):
 
 
 def fixture_inputs():
-    """Only the exact finite175 current source union, never a test/native selector."""
-    document = _document()
-    from producer698_source_fixture_recovery import fixture_inputs as producer698_fixture_inputs
-    return BOUND_PATHS | ADDED_PATHS | set(document["unchanged_inputs"]) | {SOURCE_RELATIVE, SPEC_RELATIVE} | producer698_fixture_inputs()
+    """Actual joint279 source union; original finite207 and producer190 are historical, not a selector."""
+    import macos_share_ci668_composition as joint
+    return joint.fixture_inputs(ROOT)

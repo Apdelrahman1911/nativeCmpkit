@@ -1,0 +1,17 @@
+{
+  "accepted16_replays": 0,
+  "after_bytes": 17723,
+  "after_sha256": "128e215ccbe2077b8089930fea4f0bb3f989208f645f1f047d079b8b15d7d496",
+  "before_sha256": "eae8a084e6c6421a2c0cb0f83be3e4e62f8234bf9dbe7266bfccd73865d377db",
+  "direct_function_hook_preserves_immediate_caller_code_object": true,
+  "first17_result": "16pass/1fail held originals",
+  "fragments": [
+    {
+      "after": "    def test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand(self):\n        original_fstat = reuse.os.fstat\n        def owner_fstat(fd):\n            # os is shared with stdlib tempfile/shutil: preserve their ordinary\n            # disposal checks and forbid only this owning guard's direct call.\n            if sys._getframe(1).f_code is reuse.execute_scope.__code__:\n                raise AssertionError(\"short-circuited owning fstat must not run\")\n            return original_fstat(fd)\n        actual = self.model(b\"x\" * 100, seconds=0, hooks=(\n            patch.object(reuse, \"MAX_LOG_BYTES\", 64),\n            patch.object(reuse.os, \"fstat\", new=owner_fstat),\n        ))\n        self.assert_bound_refusal(actual)\n        refused = records(actual[\"stderr\"], \"[offline-scope] \")[-1]\n        self.assertIsNone(refused[\"guard_output_bytes\"])\n        self.assertEqual(65, records(actual[\"stderr\"], \"[offline-scope-buffer] \")[0][\"buffered_prefix_bytes\"])",
+      "before": "    def test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand(self):\n        actual = self.model(b\"x\" * 100, seconds=0, hooks=(\n            patch.object(reuse, \"MAX_LOG_BYTES\", 64),\n            patch.object(reuse.os, \"fstat\", side_effect=AssertionError(\"short-circuited fstat must not run\")),\n        ))\n        self.assert_bound_refusal(actual)\n        refused = records(actual[\"stderr\"], \"[offline-scope] \")[-1]\n        self.assertIsNone(refused[\"guard_output_bytes\"])\n        self.assertEqual(65, records(actual[\"stderr\"], \"[offline-scope-buffer] \")[0][\"buffered_prefix_bytes\"])"
+    }
+  ],
+  "only_changed_test_method": "test_expired_time_does_not_call_fstat_or_claim_an_oversized_output_operand",
+  "relative": "scripts/ci/test_offline_tooling_scope_observation707.py",
+  "scope_controls_executed_after_change": 0
+}

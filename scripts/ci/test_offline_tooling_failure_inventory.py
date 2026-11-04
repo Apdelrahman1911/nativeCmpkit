@@ -41,8 +41,10 @@ def _output(*records, failures=1, errors=0, decoration=""):
 
 
 def _owner_sources():
-    # Portable repository control: only its sibling, no external proposal files.
-    after = AFTER.read_bytes()
+    # Portable repository control: exact707 data peel, never external proposals.
+    from macos_share_ci668_composition import peel_budget707_for_history
+    after = peel_budget707_for_history(
+        "scripts/ci/offline_tooling_reuse.py", AFTER.read_bytes(), AFTER.parents[2])
     if after.count(NEW_FAILED_PATH) != 1:
         raise AssertionError("One exact new failed-observation span is required")
     return after.replace(NEW_FAILED_PATH, OLD_FAILED_PATH), after
@@ -67,12 +69,22 @@ def _branch(path):
 
 
 def _run_failed_block(output, passed=False, stream=None):
-    # Compile only the observation/tail branch, never execute_scope or its child.
-    _, _, failed = _branch(AFTER)
+    # Compile only the actual inventory helper and failed branch, never execute_scope.
+    module, _, failed = _branch(AFTER)
+    helpers = [node for node in module.body if isinstance(node, ast.FunctionDef)
+               and node.name == "emit_scope_failure_inventory"]
+    if len(helpers) != 1:
+        raise AssertionError("One actual sibling inventory helper is required")
+    caps = [node for node in module.body if isinstance(node, ast.Assign)
+            and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+            and node.targets[0].id == "MAX_FAILURE_METADATA_BYTES"]
+    if len(caps) != 1 or ast.literal_eval(caps[0].value) != 65536:
+        raise AssertionError("The actual bounded inventory cap is required")
     summary = {"passed": passed, "returncode": 9, "tests": 2, "output_sha256": "unchanged"}
     stream = io.StringIO() if stream is None else stream
-    namespace = {"summary": summary, "output": output, "sys": SimpleNamespace(stderr=stream), "re": re}
-    executable = ast.fix_missing_locations(ast.Module(body=[failed], type_ignores=[]))
+    namespace = {"summary": summary, "output": output, "sys": SimpleNamespace(stderr=stream), "re": re,
+                 "MAX_FAILURE_METADATA_BYTES": ast.literal_eval(caps[0].value)}
+    executable = ast.fix_missing_locations(ast.Module(body=[helpers[0], failed], type_ignores=[]))
     exec(compile(executable, "<new-failed-observation-block-only>", "exec"), namespace)
     return namespace["summary"], summary, stream
 
@@ -305,17 +317,32 @@ class NewFailureInventoryControls(unittest.TestCase):
 
 
     def test_repository_controls_need_only_sibling_source_not_external_proposal(self):
+        import macos_share_ci668_composition as joint
+        # Preload repository path/custody helpers before observing source reads.
+        import macos_share_appkit_only_source_projection  # noqa: F401
         original_read = Path.read_bytes
-        observed = []
+        original_ordinary = joint._ordinary
+        observed, manifest_reads = [], []
 
         def sibling_only(path):
             self.assertEqual(AFTER, path)
             observed.append(path)
             return original_read(path)
 
-        with mock.patch.object(Path, "read_bytes", sibling_only):
+        def one_repository_manifest(root, relative, maximum):
+            self.assertEqual(AFTER.parents[2], root)
+            self.assertEqual(joint.SPEC, relative)
+            self.assertEqual(joint.MAX_SPEC, maximum)
+            manifest_reads.append(relative)
+            return original_ordinary(root, relative, maximum)
+
+        with mock.patch.object(Path, "read_bytes", sibling_only), \
+             mock.patch.object(joint, "_ordinary", new=one_repository_manifest), \
+             mock.patch.object(joint, "_document", side_effect=AssertionError("No named predecessor traversal")), \
+             mock.patch.object(joint, "_view", side_effect=AssertionError("No historical view search")):
             before, after = _owner_sources()
         self.assertEqual([AFTER], observed)
+        self.assertEqual([joint.SPEC], manifest_reads)
         self.assertEqual(OLD_OWNER_SHA256, hashlib.sha256(before).hexdigest())
         self.assertEqual(after, before.replace(OLD_FAILED_PATH, NEW_FAILED_PATH))
         self.assertEqual("offline_tooling_reuse.py", AFTER.name)

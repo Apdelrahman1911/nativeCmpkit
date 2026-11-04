@@ -1,0 +1,5244 @@
+#!/usr/bin/env python3
+"""Fresh, bounded library test runs with source-bound, sanitized JUnit receipts.
+
+This repository-specific runner deliberately has no arbitrary Gradle arguments,
+publication command, source fallback, arbitrary skip list, or cached-report
+success path. Two exact native host-inapplicable scenarios are reported N/A,
+never counted as passed; every applicable native scenario remains required.
+It is NOT a sandbox or a trusted-builder attestation. Coordinate other builds;
+its lock covers only other invocations of this helper in the same checkout.
+"""
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import datetime as dt
+import hashlib
+import json
+import os
+from pathlib import Path
+import platform
+import re
+import shutil
+import signal
+import subprocess
+import sys
+import time
+import xml.etree.ElementTree as ET
+
+import runtime_context
+import native_test_policy
+import daemon_jvm
+import desktop_media_context
+import desktop_security_plan
+import picker_dialog_context
+import android_storage_compatibility_plan as storage_plan
+import secure_alert_input_plan as secure_alert
+import ios_calendar_native_focus as calendar_native
+import macos_share_native_focus as macos_share_native
+import ios_ui_related_native_focus as ui_related
+import camera_ios_ownership_native_focus as camera_ios
+import android_camera_callback_native_focus as camera_callback
+import webview_content_policy_native_focus as content_policy
+import macos_share_missing_ci as share_missing
+
+ROOT = Path(__file__).resolve().parents[2]
+SUITES = {
+    "desktop": ("desktopTest", ("commonTest", "materialTest", "nonAndroidTest", "desktopTest")),
+    "android-host": ("testAndroidHostTest", ("commonTest", "materialTest", "androidHostTest")),
+    "android-device": ("connectedAndroidDeviceTest", ("commonTest", "materialTest", "androidDeviceTest")),
+    "js": ("jsBrowserTest", ("commonTest", "materialTest", "nonAndroidTest", "webTest", "jsTest")),
+    "wasm": ("wasmJsBrowserTest", ("commonTest", "materialTest", "nonAndroidTest", "webTest", "wasmJsTest")),
+    "ios": ("iosSimulatorArm64Test", ("commonTest", "nonAndroidTest", "nativeTest", "appleTest", "iosTest", "iosSimulatorArm64Test")),
+}
+# Guard the current minimum, independently of discovery, so deleting a module's
+# last tests cannot turn a missing suite into a green "not applicable" entry.
+PERMISSION_MODULES = tuple("calf-permissions/" + name for name in (
+    "core", "camera", "gallery", "location", "background-location", "bluetooth",
+    "contacts", "calendar", "notifications", "wifi", "microphone",
+))
+SHARED_MINIMUM = ("calf-io", "calf-file-picker", "calf-ui", "calf-navigation", "calf-geo",
+                  "calf-camera-picker", "calf-share", "calf-webview", *PERMISSION_MODULES)
+MINIMUM_MODULES = {suite: SHARED_MINIMUM for suite in SUITES}
+MINIMUM_MODULES["desktop"] = (*SHARED_MINIMUM, "calf-file-picker-coil", "calf-cupertino-icons")
+MINIMUM_MODULES["ios"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
+MINIMUM_MODULES["js"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
+MINIMUM_MODULES["wasm"] = (*SHARED_MINIMUM, "calf-file-picker-coil")
+MINIMUM_MODULES["android-device"] = ("calf-io", "calf-file-picker", "calf-geo", "calf-webview", "calf-ui", "calf-navigation", "calf-share", "calf-camera-picker", "calf-permissions/core")
+KNOWN_TEST_SETS = set(name for _, names in SUITES.values() for name in names) | {"androidDeviceTest", "iosArm64Test"}
+ROOT_INPUTS = (
+    "build.gradle.kts", "settings.gradle.kts", "gradle.properties", "gradle.lockfile",
+    "gradlew", "gradlew.bat", "rust-toolchain.toml", ".cargo/config", ".cargo/config.toml",
+    "package.json", "yarn.lock", "package-lock.json", "pnpm-lock.yaml",
+)
+IGNORED_INPUT_DIRS = {".git", ".gradle", "build", "target", "node_modules", "__pycache__", ".kotlin"}
+MAX_REPORT_BYTES = 16 * 1024 * 1024
+MAX_TOTAL_REPORT_BYTES = 256 * 1024 * 1024
+MAX_REPORTS = 10000
+MAX_CASES = 200000
+COUNTS = ("tests", "failures", "errors", "skipped")
+PROJECT_PATH = re.compile(r":[a-z][a-z0-9-]*(?::[a-z][a-z0-9-]*)*\Z")
+IOS_APPLICATION_TASK = "iosSimulatorArm64ApplicationTest"
+IOS_APPLICATION_SOURCES = (
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHostTest.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageConversionTest.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/RememberNativeAlertPropertiesTest.kt",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/navigation/NativeBarOwnershipTest.kt",
+)
+IOS_PICKER_APPLICATION_SOURCES = (
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHost.kt",
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativePickerApplicationHostTest.kt",
+    "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/internal/NativeObjectIdentity.kt",
+)
+IOS_SHARE_APPLICATION_SOURCES = (
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHost.kt",
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeShareApplicationHostTest.kt",
+    "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/NativeObjectIdentity.kt",
+)
+IOS_APPLICATION_HOST_SOURCES = {"calf-ui": IOS_APPLICATION_SOURCES,
+                                "calf-file-picker": IOS_PICKER_APPLICATION_SOURCES,
+                                "calf-share": IOS_SHARE_APPLICATION_SOURCES}
+IOS_APPLICATION_CASES = (
+    ("dialog.NativeAlertLifecycleTest", "presentedAlertUsesLatestActionAndTextFieldCallbacks"),
+    ("dialog.NativeAlertLifecycleTest", "disposalDuringPresentationQueuesCleanupAndReplacement"),
+    ("dialog.NativeAlertLifecycleTest", "actionSheetHasAPresentingViewPopoverAnchor"),
+    ("dialog.NativeAlertLifecycleTest", "outsideDismissRequestsAndDisposalRemainExactlyOnce"),
+    ("dropdown.NativeDropDownLifecycleTest", "expandedStateControlsActualMenuAndDismissalIsNotReportedAtOpen"),
+    ("sheet.NativeSheetLifecycleTest", "cancellingAShowWaiterDoesNotReuseItsCompletionForHide"),
+    ("sheet.NativeSheetLifecycleTest", "disposalDuringShowDetachesOwnerWithoutUserDismissal"),
+    ("timepicker.NativeTimePickerTest", "replacingStateReplacesTheNativeOwnerAndNeverWritesToOldState"),
+    ("internal.NativeUiApplicationHostTest", "generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication"),
+    ("internal.NativeUiApplicationHostTest", "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner"),
+    ("internal.NativeUiApplicationHostTest", "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter"),
+    ("internal.NativeUiApplicationHostTest", "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects"),
+    ("utils.UIImageConversionTest", "returnedImageOwnsItsPixelsAfterTemporaryArraysAndContextsAreCollected"),
+    ("dialog.RememberNativeAlertPropertiesTest", "stableInputsRetainIdentityButTextFieldReplacementReachesTheCaller"),
+    ("navigation.NativeBarOwnershipTest", "emptyTabsClearSelectionAndRepopulationClampsIndex"),
+    ("navigation.NativeBarOwnershipTest", "selectionUsesCurrentNativeMembershipInsteadOfStaleOrMutableTags"),
+)
+NATIVE_SHARE_BOUNDARY_FOCUS = "native-share-boundaries"
+NATIVE_SHARE_BOUNDARY_MODULE = "calf-share"
+NATIVE_SHARE_BOUNDARY_CLASS = "com.mohamedrejeb.calf.share.platform.NativeLoaderBoundaryIntegrationTest"
+NATIVE_SHARE_BOUNDARY_SOURCE = "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/platform/NativeLoaderBoundaryIntegrationTest.kt"
+NATIVE_SHARE_BOUNDARY_METHODS = (
+    "missingBundledResourceFailsVisiblyWithoutPublishingOrRetryingANativeImage",
+    "explicitExternalPackagerPathLoadsTheRealHostLibraryWithoutTouchingTheHomeCache",
+    "homePermissionPolicyFollowsActualPrivateDirectoryCreationRatherThanTheWritableHint",
+    "failedCacheDirectoryCreationCannotOverwriteAnExistingOrdinaryFile",
+    "redirectedHomeCacheCannotWriteOrLoadThroughTheActualDirectoryAlias",
+)
+DATE_TRANSACTION_FOCUS = "material-date-transaction"
+DATE_TRANSACTION_MODULE = "calf-ui"
+DATE_TRANSACTION_CLASS = "com.mohamedrejeb.calf.ui.datepicker.CompactDateTransactionAcceptanceTest"
+DATE_TRANSACTION_PACKAGE_PATH = "kotlin/com/mohamedrejeb/calf/ui/datepicker/"
+DATE_TRANSACTION_SOURCE_SETS = {
+    "desktop": "desktopTest", "android-host": "androidHostTest",
+    # webTest is a sibling fragment of materialTest. Leaf test fragments depend
+    # on both; put the thin runner wrappers there rather than changing hierarchy.
+    "android-device": "androidDeviceTest", "js": "jsTest", "wasm": "wasmJsTest",
+}
+DATE_TRANSACTION_SCENARIOS_SOURCE = ("calf-ui/src/materialTest/" + DATE_TRANSACTION_PACKAGE_PATH +
+                                     "CompactDateTransactionScenarios.kt")
+DATE_TRANSACTION_METHODS = (
+    "capturedConfirmRevalidatesTheLatestRules",
+    "replacementOwnerYearRangeAndRuleStartAnIndependentTransaction",
+    "nullInputClearCancelReopenAndConfirmRemainTransactional",
+    "noSelectableDateRejectsCommitAndCancelReopenRecovers",
+)
+DROPDOWN_FOCUS = "material-dropdown-contract"
+DROPDOWN_ANDROID_RECOVERY_FOCUS = "material-dropdown-android-dismissal-recovery"
+DROPDOWN_FOCUSES = (DROPDOWN_FOCUS, DROPDOWN_ANDROID_RECOVERY_FOCUS)
+DROPDOWN_CLASS = "com.mohamedrejeb.calf.ui.dropdown.MaterialDropdownAcceptanceTest"
+DROPDOWN_METHODS = (
+    "offsetAndRtlMutationsMoveTheActualPopup",
+    "callerScrollStateReachesBothEndsOfTheActualLongMenu",
+    "shapeColorBothElevationsAndBorderMatchActualMaterialPixels",
+    "focusAndDismissalPropertiesControlActualBackAndPointerEvents",
+)
+DROPDOWN_SOURCE_SETS = {"desktop": "desktopTest", "android-device": "androidDeviceTest",
+                        "js": "jsTest", "wasm": "wasmJsTest"}
+DROPDOWN_PACKAGE_PATH = "/kotlin/com/mohamedrejeb/calf/ui/dropdown/"
+DROPDOWN_SCENARIOS_SOURCE = "calf-ui/src/materialTest" + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceScenarios.kt"
+ANDROID_PERMISSION_DEMO_FOCUS = "android-permission-demo-contracts"
+ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS = "android-permission-demo-call-denial-recovery"
+ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS = "android-permission-demo-denial-recovery"
+ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION = "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoCallDenialVerification"
+ANDROID_MEDIA_SELECTION_FOCUS = "android-media-selection"
+ANDROID_PERMISSION_DEVICE_SPECS = {
+    ANDROID_PERMISSION_DEMO_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+            "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+        ),
+        "scope": "Three new API35 library/source-app tests only: approved fresh Call grant, actual denial/permanent-denial, real document/photo picker and bounded synthetic reads. No sample UI, phone call, recording, Android13/14 selected-media or packaged/minimum/ABI/security/release inference.",
+    },
+    ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "declared_methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+            "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+        ),
+        "methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+        ),
+        "scope": "Only the two failed actual API35 Call/denial methods from the unchanged complete three-method source: genuine approved fresh Call request/grant and microphone denial/permanent-denial/rationale/one callback per request. Reuse the independently accepted document/photo picker; never replay it or broaden to storage/media/accepted suites. Timeout observations are finite scalars, not native dispatch/grant/callback proof. No phone call, recording, sample UI, packaged/minimum/ABI/security/release inference.",
+    },
+    ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidPermissionDemoDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionDemoDeviceTest.kt",
+        "declared_methods": (
+            "callOnFreshApprovedVariantUsesPublicRequestAndActualSystemGrant",
+            "denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",
+            "pickersReadRealDocumentsAndImagesWithoutAllFilesOrSmsPermissions",
+        ),
+        "methods": ("denialThenPermanentDenialKeepsActualRationaleAndOneResultPerRequest",),
+        "scope": "Only the remaining failed actual API35 microphone denial/permanent-denial method: original public requests, actual system Deny controls, native denied/rationale true then false, exactly one callback per request, original absolute five-second third-request active-root/native-host absence admission and final Unknown. Reuse independently accepted Call C2 and document/photo picker C3; never replay them or expand to Android13/14 media, storage, all-files/SMS or other accepted suites. Null/stale/invisible/foreign/unready/late evidence is not no dialog; finite diagnostic scalars are not a cause or native proof. No recording, sample UI, packaged/minimum/ABI/security/release inference.",
+    },
+    ANDROID_MEDIA_SELECTION_FOCUS: {
+        "classname": "com.mohamedrejeb.calf.permissions.AndroidMediaSelectionDeviceTest",
+        "source": "calf-permissions/core/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidMediaSelectionDeviceTest.kt",
+        "methods": ("realPlatformMediaSelectionIsReflectedByPublicLibraryStates",),
+        "scope": "One media method on the exact actual API: API33 public-library image/video request/full scope; API34 real platform explicit selected-photo request followed by public library Limited/denied observation. Platform selection is not a library request result; no accepted Call/denial/picker replay or foreign-media/packaged/ABI/release inference.",
+    },
+}
+# NEW controlled-loopback routes; no full/default fixture population is admitted.
+ANDROID_IO_REMOTE_FOCUSES = ("android-io-controlled-remote", "android-io-controlled-remote-positive",
+                            "android-io-controlled-remote-cancel")
+ANDROID_IO_REMOTE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoRemoteDocumentsTest.kt"
+ANDROID_IO_PROVIDER_FOCUS = "android-io-provider-lifecycle"
+ANDROID_IO_PROVIDER_CLASS = "com.mohamedrejeb.calf.io.AndroidIoProviderLifecycleTest"
+ANDROID_IO_PROVIDER_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderLifecycleTest.kt"
+ANDROID_IO_PROVIDER_METHODS = (
+    "persistedTreeBookmarkSurvivesOwnedClientRestartAndExplicitRelease",
+    "ownerRevocationDeniesTreeAndChildMetadataAndActualContentRead",
+    "ownedProviderDeathProducesRealBinderFailureAndTreeMetadataRecovers",
+    "nativeCoilDecoderFailureClosesCrossUidSourceAfterExactBinaryRead",
+    "nativeCoilCancellationClosesTransferredSourceWithoutLateSuccess",
+)
+ANDROID_IO_UNAVAILABLE_FOCUS = "android-io-provider-unavailable"
+ANDROID_IO_UNAVAILABLE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoUnavailableProviderTest"
+ANDROID_IO_UNAVAILABLE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoUnavailableProviderTest.kt"
+ANDROID_IO_UNAVAILABLE_METHOD = "publicTreeAndChildLookupRefuseDuringOwnedProviderUnavailability"
+ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES = (
+    ANDROID_IO_UNAVAILABLE_SOURCE,
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoGrantActivity.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt",
+)
+ANDROID_IO_DEFAULT_DECODE_FOCUS = "android-io-default-decode"
+ANDROID_IO_DEFAULT_DECODE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoDefaultDecodeTest"
+ANDROID_IO_DEFAULT_DECODE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoDefaultDecodeTest.kt"
+ANDROID_IO_DEFAULT_DECODE_METHODS = (
+    "defaultPngDecodeStreamsUnknownSizeBinaryAndPreservesEveryPixel",
+    "defaultJpegDecodeReplaysBoundsAndExifForRotationAndReflection",
+    "repeatedDefaultCorruptDecodesReleaseActualCrossUidDescriptors",
+)
+ANDROID_IO_NAMED_SYSTEM_FOCUS = "android-io-named-system-providers"
+ANDROID_IO_NAMED_SYSTEM_CLASS = "com.mohamedrejeb.calf.io.AndroidIoNamedSystemProviderTest"
+ANDROID_IO_NAMED_SYSTEM_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoNamedSystemProviderTest.kt"
+ANDROID_IO_NAMED_SYSTEM_METHODS = (
+    "externalStorageProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
+    "downloadsProviderTreePreservesOwnedFolderMetadataAndBoundedReadOwnership",
+)
+ANDROID_IO_NAMED_EXTERNAL_FOCUS = "android-io-named-external-storage"
+ANDROID_IO_NAMED_SYSTEM_FOCUSES = (ANDROID_IO_NAMED_SYSTEM_FOCUS, ANDROID_IO_NAMED_EXTERNAL_FOCUS)
+ANDROID_IO_NAMED_SYSTEM_SOURCE_DEPENDENCIES = (
+    ANDROID_IO_NAMED_SYSTEM_SOURCE,
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSystemTreeGrantActivity.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/NamedSystemDocumentsUi.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+)
+ANDROID_IO_REFERENCE_FOCUS = "android-io-reference-regressions"
+ANDROID_IO_REFERENCE_CLASS = "com.mohamedrejeb.calf.io.AndroidIoReferenceRegressionTest"
+ANDROID_IO_REFERENCE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoReferenceRegressionTest.kt"
+ANDROID_IO_REFERENCE_METHODS = (
+    "nativeFileProviderSingleFileMetadataAndNonPersistableAccessStayDistinctFromTrees",
+    "nativeSandboxFileUriSupportsDecodedPathsBookmarksDirectoriesAndMissingReadFailures",
+    "nativeOrdinaryDocumentGrantBookmarkAndOwnerRevokeNeverBecomeTreeAccess",
+)
+ANDROID_IO_REFERENCE_SOURCE_DEPENDENCIES = (
+    ANDROID_IO_REFERENCE_SOURCE,
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoSingleDocumentGrantActivity.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/DeviceDescriptorProbe.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/OwnedIoEndpoint.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/AndroidIoProviderContract.kt",
+    "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/instrumentation/DeviceIoFileProvider.kt",
+)
+ANDROID_IO_OVERSIZE_FOCUS = "io-device-known-oversize"
+ANDROID_IO_DEVICE_CLASS = "com.mohamedrejeb.calf.io.KmpFileDeviceTest"
+ANDROID_IO_DEVICE_SOURCE = "calf-io/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/io/KmpFileDeviceTest.kt"
+ANDROID_IO_OVERSIZE_METHOD = "knownOversizeIsRejectedBeforeAnyNativeStreamIsOpened"
+ANDROID_IO_DEVICE_METHODS = (
+    "nativeDescriptorProbeCountsFilesAndPipeEndsWithoutLeaksOrOffsetChanges",
+    "fdInfoParserAcceptsUnsignedInodesAndRejectsInvalidRecords",
+    "wholeArrayReadClosesTheActualProviderDescriptor",
+    "returnedSourceOwnsItsNativeDescriptorUntilExplicitClose",
+    "unknownSizeOverrunThrowsInsteadOfReturningTruncatedDataAndCloses",
+    ANDROID_IO_OVERSIZE_METHOD,
+    "emptyAndExactLimitFilesReturnAllBytesAndClose",
+    "providerReadErrorIsNotEmptySuccessAndClosesTheRealTransferredPipe",
+    "boundedReadAlsoClosesOnActualProviderReadError",
+    "alreadyCancelledCallerDoesNotOpenAProviderStream",
+    "repeatedSuccessAndConsumingFailureDoNotAccumulateDescriptors",
+    "contentReferenceRetainsItsUriAndNeverInventsAFilesystemPath",
+)
+ANDROID_SAVE_IDENTITY_FOCUS = "save-device-identity"
+ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS = "save-device-identity-missing"
+ANDROID_SAVE_IDENTITY_FOCUSES = (ANDROID_SAVE_IDENTITY_FOCUS, ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS)
+ANDROID_SAVE_IDENTITY_ANNOTATION = "com.mohamedrejeb.calf.picker.SaveIdentityAcceptance"
+ANDROID_SAVE_CALIBRATION_ANNOTATION = "com.mohamedrejeb.calf.picker.SaveIdentityCalibration"
+ANDROID_SAVE_ANNOTATION_SOURCE = "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveIdentityAcceptance.kt"
+ANDROID_SAVE_IDENTITY_GROUPS = (
+    {
+        "classname": "com.mohamedrejeb.calf.picker.SaveDestinationDeviceTest",
+        "source": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/SaveDestinationDeviceTest.kt",
+        "declared_methods": (
+            "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+            "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+            "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+            "actualHardLinkIsNotTruncatedOrDeleted",
+            "actualSymlinkAndCanonicalPathAliasesPreserveTheOriginal",
+            "emptyContentDoesNotMeanUnknownOrMatchingNativeIdentity",
+            "missingSourceNeverAuthorizesWriteOrCleanupOfAnExistingDestination",
+            "onlyMissingDestinationIsCreatedAfterSourceIdentityIsKnown",
+            "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+            "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+            "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+            "fileProviderToDocumentsProviderCopyUsesRealStreamsAndClosesThem",
+            "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+        ),
+        "methods": (
+            "nativeDescriptorProbeRejectsAKnownOpenFileWithoutChangingItsOffsetOrLeaking",
+            "fdInfoParserRejectsMissingDuplicateAndMalformedKernelInodes",
+            "distinctNativeInodesCopyAllBytesAndCloseBothFiles",
+            "realNotADirectoryStatErrorIsNotTreatedAsMissingDestination",
+            "realTreeAndSingleDocumentAliasesOpenOnlyForReadAndNeverDelete",
+            "revokedReadOnAnIdentifiedDocumentAliasCannotTruncateOrDeleteIt",
+            "failedDistinctProviderSourceDeletesOnlyTheNewDocumentWithoutWritingIt",
+        ),
+    },
+    {
+        "classname": "com.mohamedrejeb.calf.picker.FileSaverActivityDeviceTest",
+        "source": "calf-file-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverActivityDeviceTest.kt",
+        "declared_methods": (
+            "byteRequestSurvivesAnActualActivityResultRoundTrip",
+            "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+            "nullBytesDeliberatelyProduceARealEmptyDocument",
+            "frameworkCancellationDeliversOneNullResultAndReleasesTheNextLaunch",
+            "overlapReportsOneErrorWithoutReplacingTheAcceptedNativeRequest",
+            "originalReturnedUnderATreeAliasIsNeverOpenedForWriteOrDeleted",
+            "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+            "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+        ),
+        "methods": (
+            "publicFileOverloadStreamsFromARealFileProviderWithoutMovingTheSource",
+            "uriPayloadSurvivesActualHostActivityRecreationBeforeTheResult",
+            "lostBytePayloadAfterActualRecreationIsAnErrorNotEmptySuccess",
+        ),
+    },
+)
+
+
+def android_save_identity_filter() -> str:
+    # ATE1.0.1 serializes its whole argument map as CSV and splits values at
+    # commas: class=A#one,A#two silently executes only A#one. Use the standard
+    # AndroidJUnitRunner runtime annotation selector, not quoting/URL escaping,
+    # a dependency downgrade, a broad class run or a relaxed XML inventory.
+    return ANDROID_SAVE_IDENTITY_ANNOTATION
+
+
+def android_save_identity_identities(focus: str = ANDROID_SAVE_IDENTITY_FOCUS) -> list[dict]:
+    if focus not in ANDROID_SAVE_IDENTITY_FOCUSES:
+        raise ValueError("Unknown finite native saver selection")
+    calibration = ANDROID_SAVE_IDENTITY_GROUPS[0]["methods"][0]
+    return [{"classname": group["classname"], "name": method}
+            for group in ANDROID_SAVE_IDENTITY_GROUPS for method in group["methods"]
+            if focus != ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS or method != calibration]
+
+
+def validate_save_identity_annotations(root: Path, test_sources: list[str]) -> None:
+    """Bind runtime annotation selection to the exact declarations, not just XML."""
+    if ANDROID_SAVE_ANNOTATION_SOURCE not in test_sources:
+        raise ValueError("Missing native saver runtime annotation source")
+    source = safe_path(root, ANDROID_SAVE_ANNOTATION_SOURCE).read_text(encoding="utf-8")
+    expected = {"SaveIdentityAcceptance", "SaveIdentityCalibration"}
+    actual = re.findall(r"@Target\(AnnotationTarget.FUNCTION\)\s+"
+                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+annotation class ([A-Za-z_][A-Za-z0-9_]*)", source)
+    if set(actual) != expected or len(actual) != 2 or "package com.mohamedrejeb.calf.picker" not in source:
+        raise ValueError("Native saver selector annotations must retain method/runtime contracts")
+    annotated, calibrations = [], []
+    for relative in test_sources:
+        if relative == ANDROID_SAVE_ANNOTATION_SOURCE:
+            continue
+        text = safe_path(root, relative).read_text(encoding="utf-8")
+        if "@SaveIdentityAcceptance" not in text and "@SaveIdentityCalibration" not in text:
+            continue
+        group = next((g for g in ANDROID_SAVE_IDENTITY_GROUPS if g["source"] == relative), None)
+        if group is None:
+            raise ValueError("Native saver selection annotation used by an unreviewed source")
+        hits = re.findall(r"@SaveIdentityAcceptance\s+(?:@SaveIdentityCalibration\s+)?"
+                          r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", text)
+        cal = re.findall(r"@SaveIdentityAcceptance\s+@SaveIdentityCalibration\s+"
+                         r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", text)
+        if (len(hits) != text.count("@SaveIdentityAcceptance") or
+                len(cal) != text.count("@SaveIdentityCalibration")):
+            raise ValueError("Unrecognized native saver selection annotation placement")
+        annotated += [{"classname": group["classname"], "name": name} for name in hits]
+        calibrations += [{"classname": group["classname"], "name": name} for name in cal]
+    identity = lambda cases: Counter((c["classname"], c["name"]) for c in cases)
+    if identity(annotated) != identity(android_save_identity_identities()) or identity(calibrations) != identity(android_save_identity_identities()[:1]):
+        raise ValueError("Native saver annotation inventory differs from the exact ten/calibration identities")
+
+
+UNSUPPORTED_PERMISSION_FOCUS = "permission-public-unsupported"
+UNSUPPORTED_PERMISSION_MODULE = "calf-permissions/core"
+UNSUPPORTED_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.UnsupportedPublicFactoryTest"
+UNSUPPORTED_PERMISSION_SOURCE_SETS = {"desktop": "desktopTest", "js": "jsTest", "wasm": "wasmJsTest"}
+UNSUPPORTED_PERMISSION_FIXTURE = "calf-permissions/core/src/commonTest/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryFixture.kt"
+UNSUPPORTED_PERMISSION_METHODS = (
+    "allNamedSingleRequestsCompleteOnceWithoutImplyingAuthorization",
+    "publicBatchChildAndEmptyRequestsReturnExactUnsupportedMaps",
+    "publicCallbacksFollowRecompositionAndPreserveTheState",
+    "publicPermissionChangesCannotLeakThePreviousSelection",
+    "throwingAndReentrantCallbacksHaveExactlyOneSynchronousResult",
+    "environmentAndLegacyFlagsCannotManufactureAuthorization",
+)
+IOS_PERMISSION_FOCUS = "permission-ios-factories"
+IOS_PERMISSION_MODULE = "calf-permissions/core"
+IOS_PERMISSION_CLASS = "com.mohamedrejeb.calf.permissions.IOSPublicPermissionFactoryTest"
+IOS_PERMISSION_SOURCE = "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPublicPermissionFactoryTest.kt"
+IOS_PERMISSION_METHODS = (
+    "unknownAndExplicitNoGateHaveDifferentCoherentOutcomes",
+    "delayedSingleUsesLatestCallbackAndRealMainQueueWithoutReplacingOwner",
+    "delayedChildAndSerialBatchUseLatestCallbacksAndExactRequestedMap",
+    "emptyAndNotRequiredPublicRequestsUseLatestCallbackWithoutNativeWork",
+    "replacementAndDisposalDropOldNativeResultsAndReleaseLifecycleObservers",
+    "nativeRegistryHandlesNameCollisionsConcurrentLookupsAndReentrantFactories",
+    "throwingRegisteredFactoryRemainsFailedRatherThanMasqueradingAsUnsupported",
+)
+IOS_PERMISSION_SAFETY_FOCUS = "permission-ios-safety"
+IOS_PERMISSION_SAFETY_CLASS = "com.mohamedrejeb.calf.permissions.IOSPermissionSafetyAcceptanceTest"
+IOS_PERMISSION_SAFETY_SOURCE = "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionSafetyAcceptanceTest.kt"
+IOS_PERMISSION_SAFETY_METHODS = (
+    "throwingBackgroundCompletionKeepsThePublicOwnerRecoverableAndStatusCurrent",
+    "racedRealBackgroundQueriesAndPendingDisposalNeverPublishObsoleteState",
+)
+IOS_PERMISSION_BATCH_FOCUS = "permission-ios-empty-batch"
+IOS_PERMISSION_BATCH_CLASS = "com.mohamedrejeb.calf.permissions.IOSPermissionBatchSafetyAcceptanceTest"
+IOS_PERMISSION_BATCH_SOURCE = "calf-permissions/core/src/iosTest/kotlin/com/mohamedrejeb/calf/permissions/IOSPermissionBatchSafetyAcceptanceTest.kt"
+IOS_PERMISSION_BATCH_METHODS = (
+    "emptyCallbackFailurePreservesRecompositionLaterRequestsAndDisposal",
+)
+IOS_PERMISSION_SAFETY_SPECS = {
+    IOS_PERMISSION_SAFETY_FOCUS: {
+        "classname": IOS_PERMISSION_SAFETY_CLASS, "source": IOS_PERMISSION_SAFETY_SOURCE,
+        "methods": IOS_PERMISSION_SAFETY_METHODS,
+        "scope": "Two exact real iOS callback-error/query-race/disposal methods only; no privacy UI or unrelated suite pass",
+    },
+    IOS_PERMISSION_BATCH_FOCUS: {
+        "classname": IOS_PERMISSION_BATCH_CLASS, "source": IOS_PERMISSION_BATCH_SOURCE,
+        "methods": IOS_PERMISSION_BATCH_METHODS,
+        "scope": "One exact real iOS public empty-batch failure/recomposition/replacement/disposal method only; no OS privacy UI or accepted-suite replay",
+    },
+}
+ANDROID_PERMISSION_COMPLETION_FOCUS = "permission-android-completion"
+ANDROID_PERMISSION_COMPLETION_CLASS = "com.mohamedrejeb.calf.permissions.AndroidPermissionCompletionAcceptanceTest"
+ANDROID_PERMISSION_COMPLETION_SOURCE = "calf-permissions/core/src/androidHostTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionCompletionAcceptanceTest.kt"
+ANDROID_PERMISSION_COMPLETION_METHODS = (
+    "emptyFilteredAndMixedBatchesReturnCompleteMapsIncludingRealNotificationBoundaries",
+    "runtimeNotRequiredAndUnknownChildrenUseLatestCallbacksExactlyOnce",
+    "destroyedAndRecreatedActivityOwnersCannotDeliverOldOrDuplicateChildResults",
+)
+# New finite related UI regressions only. Accepted alert/date/dropdown bodies
+# remain unselected; native accessibility/delegate delivery is not a touch claim.
+UI_ALERT_DATE_IMPORTANT_FOCUS = "ui-native-alert-date-important"
+UI_ALERT_RECOVERY_FOCUS = "ui-native-alert-important-recovery"
+UI_DATE_YEAR_PREDICATE_RED_FOCUS = "ui-native-date-year-predicate-red"
+UI_DATE_YEAR_NATIVE_FOCUSES = (UI_ALERT_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_PREDICATE_RED_FOCUS)
+UI_ALERT_IMPORTANT_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativeAlertImportantRegressionTest"
+UI_ALERT_IMPORTANT_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativeAlertImportantRegressionTest.kt"
+UI_ALERT_IMPORTANT_METHODS = (
+    "publicRecordSwapUpdatesVisibleIntentAndConfirmsOnlyB",
+    "publicFieldCallbackAndEnabledChangesKeepControllerAndField",
+    "actionReorderRebuildsAndRefusesStaleIndexDispatch",
+    "publicConfirmAndCancelRemovalRemainOnceAndImmediatelyReopen",
+)
+UI_DATE_YEAR_NATIVE_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateYearPolicyImportantTest"
+UI_DATE_YEAR_NATIVE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateYearPolicyImportantTest.kt"
+UI_DATE_YEAR_NATIVE_METHODS = (
+    "publicInlineCalendarSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicWheelsSelectBothYearEndpointsAndRejectAdjacentYears",
+    "publicCompactSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicRangeCalendarSelectsBothYearEndpointsAndRejectsAdjacentYears",
+    "publicRuleChangesNeverSnapBeyondYearRange",
+    "publicNativeYearPredicateRejectsDateTrueUserPicksAndRecovers",
+)
+UI_DATE_YEAR_SHARED_SOURCE = "calf-ui/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DateYearPolicyImportantScenarios.kt"
+UI_DATE_YEAR_MATERIAL_FOCUS = "ui-material-year-policy-important"
+UI_DATE_YEAR_MATERIAL_CLASS = "com.mohamedrejeb.calf.ui.datepicker.MaterialDateYearPolicyImportantTest"
+UI_DATE_YEAR_MATERIAL_SOURCE = "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/MaterialDateYearPolicyImportantTest.kt"
+UI_DATE_YEAR_MATERIAL_METHODS = (
+    "materialRuleChangesNeverSnapBeyondYearRange",
+    "publicMaterialYearPredicateRejectsDateTruePicksAndRecovers",
+)
+UI_DATE_YEAR_MATERIAL_SOURCES = (
+    UI_DATE_YEAR_MATERIAL_SOURCE, UI_DATE_YEAR_SHARED_SOURCE,
+    "calf-ui/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/DayCells.kt",
+)
+UI_DATE_BOUNDS_FOCUS = "ui-native-date-bounds"
+UI_DATE_BOUNDS_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateBoundsAcceptanceTest"
+UI_DATE_BOUNDS_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateBoundsAcceptanceTest.kt"
+UI_DATE_BOUNDS_METHODS = (
+    "everyUidatePickerStyleHandlesEmptyIntradayExtremeAndNullBounds",
+    "singleAndRangeCalendarsPreserveSafeIntervalsAndRecoverAtYearEndpoints",
+    "publicDateAndRangeControlsApplyChangingDisjointAndSameDayRules",
+    "publicInlineCalendarKeepsSelectionIndependentFromActualMonthNavigation",
+    "nativeMonthNavigationSurvivesRealRootDisposalAndSaverRestoration",
+    "publicWheelsAndCompactKeepIndependentMonthIntentDuringNativeEditsAndClear",
+)
+UI_DATE_REPLACEMENT_FOCUS = "ui-native-date-replacement"
+UI_DATE_REPLACEMENT_CLASS = "com.mohamedrejeb.calf.ui.datepicker.NativeDateStateReplacementAcceptanceTest"
+UI_DATE_REPLACEMENT_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/datepicker/NativeDateStateReplacementAcceptanceTest.kt"
+UI_DATE_REPLACEMENT_METHODS = (
+    "inlineStateReplacementInitializesAllEqualSettings",
+    "compactDisabledReplacementInitializesAllEqualSettings",
+    "rangeStateReplacementInitializesAllEqualSettings",
+)
+UI_DATE_IMPORTANT_FOCUS = "ui-native-important-dates"
+UI_DATE_COMPACT_FOCUS = "ui-native-compact-replacement"
+UI_APPLICATION_FOCUS_SPECS = {
+    UI_DATE_BOUNDS_FOCUS: {
+        "classname": UI_DATE_BOUNDS_CLASS, "source": UI_DATE_BOUNDS_SOURCE, "methods": UI_DATE_BOUNDS_METHODS,
+        "scope": "Six exact attached UIKit bounds/month/Saver/Compose methods only; no unrelated native UI replay or device/release certification",
+    },
+    UI_DATE_REPLACEMENT_FOCUS: {
+        "classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
+        "methods": UI_DATE_REPLACEMENT_METHODS,
+        "scope": "Three exact public UIKit equal-settings state-replacement methods only; no accepted date/UI replay or device/release certification",
+    },
+    UI_DATE_COMPACT_FOCUS: {
+        "groups": (
+            {"classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
+             "methods": (UI_DATE_REPLACEMENT_METHODS[1],), "declared_methods": UI_DATE_REPLACEMENT_METHODS},
+        ),
+        "scope": "Only the failed compact-disabled replacement with raw UIKit appearance diagnostics; no replay of accepted inline/range/date methods or device/release certification",
+    },
+    UI_DATE_IMPORTANT_FOCUS: {
+        "groups": (
+            {"classname": UI_DATE_BOUNDS_CLASS, "source": UI_DATE_BOUNDS_SOURCE,
+             "methods": UI_DATE_BOUNDS_METHODS[2:], "declared_methods": UI_DATE_BOUNDS_METHODS},
+            {"classname": UI_DATE_REPLACEMENT_CLASS, "source": UI_DATE_REPLACEMENT_SOURCE,
+             "methods": UI_DATE_REPLACEMENT_METHODS},
+        ),
+        "scope": "Four previously failed public date methods and three new state-replacement methods in one real application; two accepted backend methods are not replayed; no device/release certification",
+    },
+}
+
+
+UI_APPLICATION_FOCUS_SPECS[UI_ALERT_DATE_IMPORTANT_FOCUS] = {
+    "groups": (
+        {"classname": UI_ALERT_IMPORTANT_CLASS, "source": UI_ALERT_IMPORTANT_SOURCE,
+         "methods": UI_ALERT_IMPORTANT_METHODS},
+        {"classname": UI_DATE_YEAR_NATIVE_CLASS, "source": UI_DATE_YEAR_NATIVE_SOURCE,
+         "methods": UI_DATE_YEAR_NATIVE_METHODS},
+    ),
+    "scope": "Ten new important application methods only: four latest-record/field/action/reorder/modal alert regressions and six public year-endpoint/rule/native-year-predicate date regressions. Exact attached owned UIKit controls, controlled ValueChanged/EditingChanged and actual retained calendar-delegate delivery; supported native accessibility action must qualify and may not fall back to a manager/private handler. Neither accessibility nor delegate delivery is an outside touch, OS gesture or physical/XCUI input. Shared constructor/setter/date-bounds/month/dropdown and old alert acceptance are reused without replay. Same-host Material two-method companion remains an independent Desktop result. No #30/#131 closure, older/physical/iPad/all-OS/consumer/API-ABI/dependency/security/release certification.",
+}
+UI_APPLICATION_FOCUS_SPECS[UI_ALERT_RECOVERY_FOCUS] = {
+    "groups": (
+        {"classname": UI_ALERT_IMPORTANT_CLASS, "source": UI_ALERT_IMPORTANT_SOURCE,
+         "methods": UI_ALERT_IMPORTANT_METHODS},
+    ),
+    "scope": "Only the four original failed important alert methods from41338100010, retaining the attached/enabled/unique native action and supported accessibility activation criteria. A bounded failure-only numeric/Boolean snapshot cannot identify the historical failing conjunct or repair action delivery. Exclude newly accepted date6, independent Material2 and every older accepted UIKit test; the original App10/full slots remain unchanged. No automatic retry, private handler/input fallback, physical/iPad/older/all-OS/consumer/API-ABI/dependency/security/release certification.",
+}
+UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
+    "groups": (
+        {"classname": UI_DATE_YEAR_NATIVE_CLASS, "source": UI_DATE_YEAR_NATIVE_SOURCE,
+         "methods": (UI_DATE_YEAR_NATIVE_METHODS[5],), "declared_methods": UI_DATE_YEAR_NATIVE_METHODS},
+    ),
+    "scope": "One new native-year-predicate regression method only, retaining its complete six-method declaration. Development preimage-red/repaired-green selection for actual public inline/wheels/compact/range policy and recovery; controlled native target/delegate delivery, not native taps. Exclude alert4, the other five new date methods, Material2 and every previously accepted method. A source-confirmed predicted red is not executed evidence or an added whole-issue acceptance gate. No physical/older/all-OS/iPad/consumer/API-ABI/security/release certification.",
+}
+
+
+UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()
+UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-pre26"] = ui_related.focus_spec("ui-native-adaptive-pre26")
+UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-drag-shader-ios26plus"] = ui_related.focus_spec("ui-native-adaptive-drag-shader-ios26plus")
+for _focus in ui_related.SPLIT_FOCUSES:
+    UI_APPLICATION_FOCUS_SPECS[_focus] = ui_related.focus_spec(_focus)
+
+
+UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {
+    "groups": (
+        {"classname": secure_alert.NATIVE_CLASS, "source": secure_alert.NATIVE, "methods": secure_alert.NATIVE_METHODS},
+        {"classname": secure_alert.CAPTURE_CLASS, "source": secure_alert.CONTROLS, "methods": secure_alert.CAPTURE_METHODS},
+    ),
+    "scope": "Ten exact library UIKit input/capture methods: four original unexecuted and six new console controls; original source-bound sample callbacks, genuine UIKeyInput/software-keyboard event and blurred hierarchy masking, bounded current-process stdout/stderr only; FD_CLOEXEC=1, stderr-overflow, reported-short-read and safe post-success cleanup refusals, not genuinely failed-syscall recovery or concurrent-thread proof. No sample app, OS/unified-log, physical-keytap/device, clipboard/storage, accepted-suite replay or release certification.",
+}
+
+
+def ui_application_focus_groups(focus: str) -> tuple[dict, ...]:
+    spec = UI_APPLICATION_FOCUS_SPECS[focus]
+    return spec["groups"] if "groups" in spec else (spec,)
+
+
+def ui_application_focus_filter(focus: str) -> str:
+    spec = UI_APPLICATION_FOCUS_SPECS[focus]
+    if "groups" not in spec:
+        return spec["classname"]
+    return ",".join(group["classname"] + "." + method
+                    for group in ui_application_focus_groups(focus) for method in group["methods"])
+
+
+def ui_application_focus_identities(focus: str) -> list[dict]:
+    if focus in ui_related.SPLIT_FOCUSES:
+        return ui_related.identities(focus)
+    return [{"classname": IOS_APPLICATION_TASK + "." + group["classname"],
+             "name": method + "[iosSimulatorArm64]"}
+            for group in ui_application_focus_groups(focus) for method in group["methods"]]
+
+
+def ui_date_bounds_identities() -> list[dict]:
+    return ui_application_focus_identities(UI_DATE_BOUNDS_FOCUS)
+
+
+def ui_date_year_material_identities() -> list[dict]:
+    return [{"classname": UI_DATE_YEAR_MATERIAL_CLASS, "name": method + "[desktop]"}
+            for method in UI_DATE_YEAR_MATERIAL_METHODS]
+
+
+def android_permission_completion_identities() -> list[dict]:
+    # Inspected Robolectric multi-SDK identity: API29 is suffixed, final API33
+    # is the unsuffixed method. Missing either SDK is never accepted as 3/3.
+    return [{"classname": ANDROID_PERMISSION_COMPLETION_CLASS, "name": method + suffix}
+            for method in ANDROID_PERMISSION_COMPLETION_METHODS for suffix in ("[29]", "")]
+
+
+def ios_permission_identities() -> list[dict]:
+    # Inspected KGP 2.4.20 Native JUnit uses a task-prefixed class and the
+    # target-suffixed method. The Gradle --tests selector remains the bare class.
+    # Match these seven exact identities; never normalize foreign targets/classes.
+    return [{"classname": "iosSimulatorArm64Test." + IOS_PERMISSION_CLASS,
+             "name": method + "[iosSimulatorArm64]"} for method in IOS_PERMISSION_METHODS]
+
+
+def ios_permission_safety_identities(focus: str = IOS_PERMISSION_SAFETY_FOCUS) -> list[dict]:
+    spec = IOS_PERMISSION_SAFETY_SPECS[focus]
+    return [{"classname": "iosSimulatorArm64Test." + spec["classname"],
+             "name": method + "[iosSimulatorArm64]"} for method in spec["methods"]]
+
+
+IOS_SAVE_WRITE_FOCUS = "ios-native-saver-write-failure"
+IOS_SAVE_WRITE_SOURCE = "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/FileSaverStagingTest.kt"
+IOS_SAVE_WRITE_CLASS = "com.mohamedrejeb.calf.picker.FileSaverStagingTest"
+IOS_SAVE_WRITE_METHOD = "nativeWriteFalseCleansOnlyPrivateStagingAndNeverReturnsSuccess"
+IOS_SAVE_WRITE_DECLARATIONS = (
+    "stagedFileKeepsTheRequestedName", "twoStagingsOfTheSameNameDoNotCollide",
+    "stagedFileLivesUnderTheTemporaryDirectoryAndIsWritten", "stagingAnExistingFileCopiesItUnderTheRequestedName",
+    "stagingAMissingFileFails", "aNonFileUrlCannotStageOrRemoveTheLocalFileWithItsPath",
+    "exportCopyRemainsUntilDismissalCompletionButNeverDeletesTheOriginal", IOS_SAVE_WRITE_METHOD,
+)
+
+
+def ios_save_write_identities() -> list[dict]:
+    return [{"classname": "iosSimulatorArm64Test." + IOS_SAVE_WRITE_CLASS,
+             "name": IOS_SAVE_WRITE_METHOD + "[iosSimulatorArm64]"}]
+
+
+IOS_SWITCH_CANCELLATION_FOCUS = "ios-native-switch-cancellation"
+IOS_SWITCH_CANCELLATION_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassControlTest.kt"
+IOS_SWITCH_CANCELLATION_CLASS = "com.mohamedrejeb.calf.ui.controls.LiquidGlassControlTest"
+IOS_SWITCH_CANCELLATION_METHODS = (
+    "cancellationAcceptanceSecondPointerHandoffCommitsOnlyAtTheFinalUp",
+    "cancellationAcceptanceDisposalCancelsTheDragAndCannotToggleTheReplacement",
+)
+IOS_SWITCH_CANCELLATION_DECLARATIONS = (
+    "sliderNegativeStepsAccessibilityAndCallbackReplacement",
+    "sliderRekeysRangeStepsDirectionGeometryAndEnabled", "sliderCancelPairsItsInteractionWithoutCompletion",
+    "switchReadOnlyHasStateButNoToggleActionOrEnglishDescription",
+    "switchFullTrackTapAndSemanticActionEachProposeOnce", "rejectingSwitchOwnerRetainsVisualAndSemanticStateAfterDrag",
+    "switchPointerCancelAndVerticalScrollCannotCommit", "externalCheckedOrDisabledChangeCancelsAnActiveSwitchDrag",
+    *IOS_SWITCH_CANCELLATION_METHODS,
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SWITCH_CANCELLATION_FOCUS] = {
+    "groups": ({"classname": IOS_SWITCH_CANCELLATION_CLASS, "source": IOS_SWITCH_CANCELLATION_SOURCE,
+                "methods": IOS_SWITCH_CANCELLATION_METHODS,
+                "declared_methods": IOS_SWITCH_CANCELLATION_DECLARATIONS},),
+    "scope": "Two new genuine UIKit/Compose second-pointer/disposal methods only; eight unchanged controls not replayed, no hardware/VoiceOver/release certification",
+}
+
+
+def ios_switch_cancellation_identities() -> list[dict]:
+    return ui_application_focus_identities(IOS_SWITCH_CANCELLATION_FOCUS)
+
+
+IOS_SWITCH_OWNERSHIP_FOCUS = "ios-native-switch-ownership"
+IOS_SWITCH_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/LiquidGlassSwitchOwnershipTest.kt"
+IOS_SWITCH_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.controls.LiquidGlassSwitchOwnershipTest"
+IOS_SWITCH_OWNERSHIP_METHODS = (
+    "delayedOwnerUpdateRestoresAuthoritativeThumbBeforeApplyingTheProposal",
+    "thumbAndBothTrackEndsProposeOnceAndThresholdReturnDoesNotCommit",
+    "disabledTapAndDragLeaveThumbAndToggleSemanticsUnchanged",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SWITCH_OWNERSHIP_FOCUS] = {
+    "groups": ({"classname": IOS_SWITCH_OWNERSHIP_CLASS, "source": IOS_SWITCH_OWNERSHIP_SOURCE,
+                "methods": IOS_SWITCH_OWNERSHIP_METHODS},),
+    "scope": "Three new genuine UIKit/Compose delayed-owner/full-track/threshold-return/disabled-visual methods only; accepted control methods not replayed, no hardware/assistive/release certification",
+}
+
+
+IOS_SLIDER_NUMERIC_FOCUS = "ios-native-slider-numeric"
+IOS_SLIDER_NUMERIC_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/LiquidGlassSliderNumericTest.kt"
+IOS_SLIDER_NUMERIC_CLASS = "com.mohamedrejeb.calf.ui.slider.LiquidGlassSliderNumericTest"
+IOS_SLIDER_NUMERIC_METHODS = (
+    "constantZeroNarrowAndUnboundedControlsRenderFiniteAndStayInert",
+    "rangeGeometryAndRtlReplacementDuringLiveInputKeepsEveryFrameFinite",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_NUMERIC_FOCUS] = {
+    "groups": ({"classname": IOS_SLIDER_NUMERIC_CLASS, "source": IOS_SLIDER_NUMERIC_SOURCE,
+                "methods": IOS_SLIDER_NUMERIC_METHODS},),
+    "scope": "Two new actual UIKit public Liquid slider degenerate/unbounded/RTL/live-range-replacement methods only; 16 accepted numeric/animation methods not replayed, no hardware/profiling/release certification",
+}
+
+IOS_UI_STATE_FOCUS = "ios-native-remembered-state"
+IOS_TIME_STATE_CLASS = "com.mohamedrejeb.calf.ui.timepicker.NativeTimeStateLifecycleAcceptanceTest"
+IOS_TIME_STATE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/timepicker/NativeTimeStateLifecycleAcceptanceTest.kt"
+IOS_TIME_STATE_METHODS = (
+    "identicalStateAndLiveNativeZoneLocaleChangesKeepTheCurrentOwner",
+    "hoistedTimeSurvivesRealControllerReplacementAndOldActionsAreDetached",
+)
+IOS_SHEET_STATE_CLASS = "com.mohamedrejeb.calf.ui.sheet.NativeSheetStateAcceptanceTest"
+IOS_SHEET_STATE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetStateAcceptanceTest.kt"
+IOS_SHEET_STATE_METHODS = (
+    "visibleRememberedSheetKeepsIdentityAndUsesTheNewPolicyAfterDensityChanges",
+    "realSaveableRegistryRestoresTheVisibleSheetAndStructuralSkipChangesReplaceOnlyItsOwner",
+)
+IOS_UI_STATE_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.ui.internal.NativeUiApplicationHostTest", "source": IOS_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE, "methods": IOS_TIME_STATE_METHODS},
+    {"classname": IOS_SHEET_STATE_CLASS, "source": IOS_SHEET_STATE_SOURCE, "methods": IOS_SHEET_STATE_METHODS},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_UI_STATE_FOCUS] = {
+    "groups": IOS_UI_STATE_GROUPS,
+    "scope": "Four new genuine UIKit/Compose time/sheet state, native zone/locale/action cleanup, density/registry/structural-policy methods plus four changed host acceptance methods. Accepted date/other-control suites not replayed; no OS Settings locale/hour-cycle, physical/minimum/gesture/ABI/release certification.",
+}
+
+IOS_POPOVER_ANCHOR_FOCUS = "ui-native-popover-anchor"
+IOS_POPOVER_ANCHOR_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativePopoverAnchorTest"
+IOS_POPOVER_ANCHOR_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverAnchorTest.kt"
+IOS_POPOVER_ANCHOR_METHODS = (
+    "publicCompositionAnchorUsesLocalRectAndUpdatesWithoutRebuilding",
+    "nativeBarButtonAndDetachedOrMissingViewUseTheDocumentedFallback",
+    "queuedPresentationRefreshesBoundsAndDisposalReleasesOwnedAnchorReferences",
+    "controlledNativeRepositionWritesOnlyCompleteOwnedPointerPairs",
+    "invalidRectanglesAreRejectedBeforeUIKitAndAlertDelegationIsUnchanged",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_POPOVER_ANCHOR_FOCUS] = {
+    "groups": ({"classname": IOS_POPOVER_ANCHOR_CLASS, "source": IOS_POPOVER_ANCHOR_SOURCE,
+                "methods": IOS_POPOVER_ANCHOR_METHODS},),
+    "scope": "Five new genuine library UIKit anchor/ownership regressions only: public view-local input and live updates, bar-button and missing/detached fallback, queue-granted bounds refresh and terminal native-reference cleanup, controlled owned reposition pointers, finite rectangles and unchanged UIKit Alert delegation. Exact four-source compiler receipt, real ApplicationTest/Worker/native XML/runtime and owned cleanup required. Controlled bounds/delegate input is NOT actual OS portrait/landscape rotation or split view, physical, minimum-OS, consumer/API-ABI/security/release or whole UI-013 acceptance; no accepted modal-case replay.",
+}
+
+IOS_POPOVER_BAR_RECOVERY_FOCUS = "ui-native-popover-bar-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_POPOVER_BAR_RECOVERY_FOCUS] = {
+    "groups": ({"classname": IOS_POPOVER_ANCHOR_CLASS, "source": IOS_POPOVER_ANCHOR_SOURCE,
+                "methods": ("nativeBarButtonAndDetachedOrMissingViewUseTheDocumentedFallback",),
+                "declared_methods": IOS_POPOVER_ANCHOR_METHODS},),
+    "scope": "Only the original failed bar-button/detached/missing-view method: documented bar identity, attached native ownership and permissible presenter-provided source, followed by all original fallback/disposal assertions. Four accepted iPhone methods are reused only on unchanged applicable bodies, not selected again; iPad evidence has its own original source. Exact four-source compiler receipt, genuine ApplicationTest/Worker/native XML/runtime and owned cleanup remain mandatory. This is NOT actual OS rotation, split view, explicit regular/compact traits, physical/minimum-platform, consumer/API-ABI/security/release or whole UI-013 acceptance.",
+}
+
+IOS_POPOVER_GEOMETRY_CLASS = "com.mohamedrejeb.calf.ui.dialog.NativePopoverGeometryTest"
+IOS_POPOVER_GEOMETRY_SOURCE = "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/dialog/NativePopoverGeometryTest.kt"
+IOS_POPOVER_GEOMETRY_SCENE_SOURCE = "calf-ui/src/iosGeometryTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativePopoverGeometryScene.kt"
+IOS_POPOVER_GEOMETRY_METHODS = (
+    "nativePortraitTraitsAndViewLocalAnchorUseTheOwnedScene",
+    "nativeOSRotationRefreshesOwnedAnchorsAndRestoresTheOriginalOrientation",
+)
+IOS_POPOVER_PORTRAIT_FOCUS = "ui-native-popover-portrait-traits"
+IOS_POPOVER_ROTATION_FOCUS = "ui-native-popover-os-rotation"
+IOS_POPOVER_GEOMETRY_FOCUSES = (IOS_POPOVER_PORTRAIT_FOCUS, IOS_POPOVER_ROTATION_FOCUS)
+for _focus, _method in zip(IOS_POPOVER_GEOMETRY_FOCUSES, IOS_POPOVER_GEOMETRY_METHODS):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_POPOVER_GEOMETRY_CLASS, "source": IOS_POPOVER_GEOMETRY_SOURCE,
+                    "methods": (_method,), "declared_methods": IOS_POPOVER_GEOMETRY_METHODS},),
+        "scope": "One NEW genuine library UIKit OS-geometry method only: observed native iPhone compact portrait or iPad regular portrait/landscape with public UIWindowScene geometry input, automatic view-local/fallback anchor updates while the SAME controller is presented, and admitted original interface-orientation restoration. The dedicated test-only input tree is compiled only by its exact focused init script; ordinary source sets and prior accepted native methods are unchanged/excluded. Exact four-source compiler receipt, current scene manifest/launch mode, actual native XML/Worker/runtime/owned cleanup mandatory. This is NOT real split view, physical/minimum-platform, full UI-013, consumer/API-ABI/security/release certification.",
+    }
+
+IOS_MODAL_OWNERSHIP_FOCUS = "ui-native-modal-ownership-batch"
+IOS_MODAL_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalOwnershipBatchTest"
+IOS_MODAL_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalOwnershipBatchTest.kt"
+IOS_MODAL_OWNERSHIP_METHODS = (
+    "publicHideCancelsAQueuedSheetWithoutDismissingTheActualBlocker",
+    "opposingPublicIntentsDuringNativePresentationCompleteTheirOwnWaiters",
+    "cancellingANativeHideWaiterCannotCompleteItsReopenedShowEarly",
+    "alternatingPublicIntentsCancelOnlyTheUnstartedMiddleTransition",
+    "hiddenVetoKeepsTheQueuedShowUntilTheCurrentPolicyAllowsCancellation",
+    "concurrentQueuedShowCallersAllCancelAndHiddenCallersAllComplete",
+    "queuedDisposalReleasesCapturedContentWithoutRunningUserDismissal",
+    "publicDefaultAndIoOperationsMarshalBothPoliciesAndNativeChangesToMain",
+    "queuedAlertDismissAndStructuralRebuildNeverPresentStaleControllers",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_OWNERSHIP_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_OWNERSHIP_CLASS, "source": IOS_MODAL_OWNERSHIP_SOURCE,
+                "methods": IOS_MODAL_OWNERSHIP_METHODS},),
+    "scope": "Nine new genuine UIKit alert/sheet queued-admission, opposing/alternating/concurrent visibility, cancellation, captured-content GC, policy and Main/Default/IO regressions only. No accepted lifecycle replay or native-touch, interactive-detent, physical-device, whole-issue or release certification.",
+}
+
+IOS_MODAL_LIFECYCLE_FOCUS = "ui-native-modal-lifecycle-replacement"
+IOS_MODAL_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalLifecycleReplacementTest"
+IOS_MODAL_LIFECYCLE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalLifecycleReplacementTest.kt"
+IOS_MODAL_LIFECYCLE_METHODS = (
+    "publicCompositionDisposalDuringNativeHideReleasesContentAndCanReopen",
+    "hoistedStateReattachesToANewRealPresenterAndStaleOwnersCannotDetachItsReplacement",
+    "repeatedDisposalDuringBothNativeAnimationsLeavesNoWaiterOrCapturedContent",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+                "methods": IOS_MODAL_LIFECYCLE_METHODS},),
+    "scope": "Three new genuine UIKit library methods: public composition disposal during native hide/reopen/GC, hoisted state through two actual presenters and direct state replacement/stale detach, and repeated admitted show/hide disposal/GC. Retain original nine-modal and old sheet selections without replay; no native gestures, detent, physical-device, whole-issue or release certification.",
+}
+
+IOS_MODAL_LIFECYCLE_MEMORY_FOCUS = "ui-native-modal-lifecycle-memory-recovery"
+IOS_MODAL_LIFECYCLE_MEMORY_METHODS = (IOS_MODAL_LIFECYCLE_METHODS[0], IOS_MODAL_LIFECYCLE_METHODS[2])
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_LIFECYCLE_MEMORY_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+                "methods": IOS_MODAL_LIFECYCLE_MEMORY_METHODS, "declared_methods": IOS_MODAL_LIFECYCLE_METHODS},),
+    "scope": "Only the two original failed captured-content lifecycle methods from run41561366636. Keep all three authored bodies and original native animation/weak-reference/GC assertions; the accepted real presenter/state replacement method and prior nine-modal selections stay unselected. Genuine library application/Worker and owned cleanup required; no physical/heap-profiler/consumer/API-ABI/security/release inference.",
+}
+
+IOS_MODAL_WORKER_MEMORY_FOCUS = "ui-native-modal-worker-memory-recovery"
+IOS_WORKER_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeWorkerBridgeOwnershipTest"
+IOS_WORKER_OWNERSHIP_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeWorkerBridgeOwnershipTest.kt"
+IOS_WORKER_OWNERSHIP_METHODS = (
+    "replacedPlainCompositionReleasesAnOwnerCreatedOnTheWorker",
+    "pooledWorkerBridgePreservesMainResultAndExactThrowableIdentity",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_WORKER_MEMORY_FOCUS] = {
+    "groups": (
+        {"classname": IOS_MODAL_LIFECYCLE_CLASS, "source": IOS_MODAL_LIFECYCLE_SOURCE,
+         "methods": (IOS_MODAL_LIFECYCLE_METHODS[0],), "declared_methods": IOS_MODAL_LIFECYCLE_METHODS},
+        {"classname": IOS_WORKER_OWNERSHIP_CLASS, "source": IOS_WORKER_OWNERSHIP_SOURCE,
+         "methods": IOS_WORKER_OWNERSHIP_METHODS},
+    ),
+    "scope": "Only the failed public captured-content method from run41567513880 plus two new Worker bridge ownership/value/throwable controls. Original lifecycle bodies and GC/animation assertions remain unchanged; accepted state-replacement and repeated four-cycle disposal methods are excluded. Genuine library app/Worker/native XML and owned cleanup required. Autorelease retention is a hypothesis until actual controls; no touch/heap-profiler/physical/consumer/API-ABI/security/release inference.",
+}
+
+IOS_MODAL_XCUI_FOCUS = "ui-native-modal-xcui-batch"
+IOS_MODAL_XCUI_CLASS = "com.mohamedrejeb.calf.ui.internal.NativeModalXcuiBatchTest"
+IOS_MODAL_XCUI_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeModalXcuiBatchTest.kt"
+IOS_MODAL_XCUI_METHODS = (
+    "liveAlertCallbacksAndKeyboardUseOnlyCurrentDescriptors",
+    "reorderedAlertActionsAndConfirmCancelRemovalAreExactlyOnce",
+    "insideAndOutsideNativeTouchesRespectDismissalProperties",
+    "animatedAlertDisposalAndPresenterReplacementDoNotNotifyUser",
+    "nativeDetentDragsAndInteractiveDismissalTrackAllValues",
+    "nativeSheetVetoesAndSkipFlagsRespectCurrentPolicies",
+    "nativeSheetSaveRestoreAndRegularWidthAdaptationRemainConsistent",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_XCUI_FOCUS] = {
+    "groups": ({"classname": IOS_MODAL_XCUI_CLASS, "source": IOS_MODAL_XCUI_SOURCE,
+                "methods": IOS_MODAL_XCUI_METHODS},),
+    "scope": "Seven missing shared alert/sheet interaction criteria with independent public XCTest input in the genuine library application. Fresh KGP XML, original Worker and owned app/input-runner cleanup are mandatory; no accepted nine-modal/lifecycle replay or physical/rotation/accessibility/release certification.",
+}
+
+IOS_SHEET_REPEAT_FOCUS = "ui-native-sheet-cancellation-repeat"
+IOS_SHEET_REPEAT_CLASS = "com.mohamedrejeb.calf.ui.sheet.NativeSheetCancellationRepeatTest"
+IOS_SHEET_REPEAT_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/sheet/NativeSheetCancellationRepeatTest.kt"
+IOS_SHEET_REPEAT_METHODS = (
+    "cancelledShowRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+    "cancelledHideRepeatsWithANewNativeAnimationAndItsOwnCompletion",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SHEET_REPEAT_FOCUS] = {
+    "groups": ({"classname": IOS_SHEET_REPEAT_CLASS, "source": IOS_SHEET_REPEAT_SOURCE,
+                "methods": IOS_SHEET_REPEAT_METHODS},),
+    "scope": "Two missing UI-018 same-operation cancellation regressions only. Cancel the native show/hide waiter, observe its real animation completion, reset visibility, then require the SAME repeated operation to remain suspended until its own native completion. Also verify stable-state no-op timing, native controller identity and owned cleanup. Prior opposite-operation, ownership, memory and XCTest selections are excluded; no touch/heap-profiler/physical/consumer/API-ABI/security/release inference.",
+}
+
+IOS_MODAL_COMPLETION_FOCUS = "ui-native-modal-completion-cancellation"
+UI_APPLICATION_FOCUS_SPECS[IOS_MODAL_COMPLETION_FOCUS] = {
+    "groups": tuple(dict(group) for focus in (IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_SHEET_REPEAT_FOCUS)
+                    for group in UI_APPLICATION_FOCUS_SPECS[focus]["groups"]),
+    "scope": "One five-case library invocation: the original unaccepted memory/Worker three plus both unexecuted same-operation cancellation cases. One exact five-source compiler/link and one real application/Worker lifecycle; no accepted ownership/lifecycle/XCTest replay. Bounded phase observations never replace native completion, original assertions, actual XML, runtime/binary or owning cleanup. No heap-profiler/physical/consumer/API-ABI/security/release inference.",
+}
+
+IOS_TIME_STATE_RECOVERY_FOCUS = "ios-native-time-state-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_TIME_STATE_RECOVERY_FOCUS] = {
+    "groups": ({"classname": IOS_TIME_STATE_CLASS, "source": IOS_TIME_STATE_SOURCE,
+                "methods": (IOS_TIME_STATE_METHODS[0],),
+                "declared_methods": IOS_TIME_STATE_METHODS},),
+    "scope": "Only the failed identical-state/native zone/locale/current-owner method after repairing its composition epoch witness. Seven completed host/sheet/controller methods are explicitly reused, not replayed; all genuine protocol/XML/Worker/runtime/binary/cleanup gates remain. No physical OS Settings/hour-cycle/minimum-platform/ABI/release certification.",
+}
+
+IOS_SLIDER_LIFECYCLE_FOCUS = "ios-native-slider-input-lifecycle"
+IOS_SLIDER_LIFECYCLE_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/NativeSliderInputLifecycleAcceptanceTest.kt"
+IOS_SLIDER_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.slider.NativeSliderInputLifecycleAcceptanceTest"
+IOS_SLIDER_LIFECYCLE_METHODS = (
+    "liquidEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "cupertinoEnabledAndLiveCallbacksFollowOnlyTheCurrentGestureOwner",
+    "liquidEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "cupertinoEveryStructuralInputChangeCancelsOnlyTheOldInteraction",
+    "liquidTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+    "cupertinoTapDragOppositeTapAndCancellationHaveNoPendingWriter",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SLIDER_LIFECYCLE_FOCUS] = {
+    "groups": ({"classname": IOS_SLIDER_LIFECYCLE_CLASS, "source": IOS_SLIDER_LIFECYCLE_SOURCE,
+                "methods": IOS_SLIDER_LIFECYCLE_METHODS},),
+    "scope": "Six new actual UIKit-hosted production Liquid/Cupertino input-owner methods: live callbacks, idle/drag enablement, individually replaced geometry/density/RTL/range/steps/source, cancellation and atomic tap/drag cleanup. Accepted controls/host/state/time suites are not replayed. Direct Cupertino is not adaptive pre-26 OS selection, hardware accessibility or physical/minimum/performance/ABI/release certification.",
+}
+
+IOS_SLIDER_REMAINING_FOCUS = "ios-native-slider-input-remaining"
+IOS_SLIDER_STRUCTURE_FOCUS = "ios-native-slider-structure-diagnostic"
+IOS_SLIDER_TAP_FOCUS = "ios-native-slider-tap-cancellation"
+IOS_SLIDER_PAIR_STRUCTURE_FOCUS = "ios-native-slider-pair-structure"
+for _focus, _methods, _scope in (
+    (IOS_SLIDER_REMAINING_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[3:],
+     "Only the three never-started Cupertino structural and Liquid/Cupertino tap/drag methods from40865834481; two completed enable/callback methods are reused, not replayed. Interrupted Liquid structural input is isolated so it cannot hide unrelated outcomes."),
+    (IOS_SLIDER_STRUCTURE_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[2:3],
+     "Only the interrupted Liquid structural method, with finite per-axis diagnostics and a stricter transport deadline. No accepted enable/callback/other gesture methods are replayed; partial phases do not establish a passing test."),
+    (IOS_SLIDER_TAP_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[4:],
+     "Only the two still never-started Liquid/Cupertino tap/drag/cancellation methods. Both interrupted structural methods are isolated so they cannot hide these outcomes; two completed enable/callback methods are explicitly reused, not replayed."),
+    (IOS_SLIDER_PAIR_STRUCTURE_FOCUS, IOS_SLIDER_LIFECYCLE_METHODS[2:4],
+     "Both unfinished Liquid/Cupertino structural methods together, retaining all assertions and finite pre-assertion drag/failure-only pointer cleanup diagnostics. No accepted enable/callback or separately executed tap methods are replayed; cleanup never changes a failure into success."),
+):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_SLIDER_LIFECYCLE_CLASS, "source": IOS_SLIDER_LIFECYCLE_SOURCE,
+                    "methods": _methods, "declared_methods": IOS_SLIDER_LIFECYCLE_METHODS},),
+        "scope": _scope + " All genuine protocol/XML/Worker/runtime/binary/install/cleanup gates remain; no physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+    }
+
+IOS_VECTOR_THEME_FOCUS = "ios-native-vector-theme-ownership"
+IOS_VECTOR_THEME_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/NativeVectorThemeAcceptanceTest.kt"
+IOS_VECTOR_THEME_CLASS = "com.mohamedrejeb.calf.ui.utils.NativeVectorThemeAcceptanceTest"
+IOS_VECTOR_THEME_METHODS = (
+    "convertedVectorsKeepOriginalPixelsAndSupportActualNativeTemplateTint",
+    "attachedOppositeAndInheritedThemesFollowOnlyTheirOwnNativeAppearanceOwner",
+    "transparentDayControlInsideRealComposeNativeSheetNeverRewritesAnyAncestorTheme",
+    "realComposeNativePopoverRetainsItsExplicitThemeAndTransparentChildOwnership",
+    "actualSimulatorSystemAppearanceChangesLeaveExplicitNativeOverridesIsolated",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_VECTOR_THEME_FOCUS] = {
+    "groups": ({"classname": IOS_VECTOR_THEME_CLASS, "source": IOS_VECTOR_THEME_SOURCE,
+                "methods": IOS_VECTOR_THEME_METHODS},),
+    "scope": "Five new actual UIImageView template/original raster, attached sibling, Compose/native sheet/popover and real restoring CoreSimulator system-appearance methods. Unchanged accepted vector/UIImage/GC/theme/host suites are explicitly reused, not replayed. iPad slot exercises a real popover; an iPhone adaptation is not iPad evidence. No physical Settings/VoiceOver/ASan/Instruments/minimum-platform/ABI/consumer/security/release certification.",
+}
+IOS_VECTOR_RENDERING_FOCUS = "ios-native-vector-rendering-recovery"
+IOS_SYSTEM_APPEARANCE_FOCUS = "ios-native-system-appearance-recovery"
+for _focus, _methods, _scope in (
+    (IOS_VECTOR_RENDERING_FOCUS, IOS_VECTOR_THEME_METHODS[:1],
+     "Only the failed UIImageView original/template method with exact channel diagnostics; the three completed native theme methods and twelve accepted component methods are not replayed."),
+    (IOS_SYSTEM_APPEARANCE_FOCUS, IOS_VECTOR_THEME_METHODS[-1:],
+     "Only the interrupted actual system-appearance method, in a separately installed application so a pixel assertion cannot hide its result. Three completed native theme methods are explicitly reused, not replayed."),
+):
+    UI_APPLICATION_FOCUS_SPECS[_focus] = {
+        "groups": ({"classname": IOS_VECTOR_THEME_CLASS, "source": IOS_VECTOR_THEME_SOURCE,
+                    "methods": _methods, "declared_methods": IOS_VECTOR_THEME_METHODS},),
+        "scope": _scope + " All actual protocol/XML/Worker/runtime/binary/install/owned-cleanup gates remain. No physical/minimum-platform/accessibility/ABI/consumer/security/release certification.",
+    }
+# Full applications must retain the new real system-appearance acceptance case.
+IOS_APPLICATION_SOURCES += (IOS_VECTOR_THEME_SOURCE,)
+IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
+IOS_APPLICATION_CASES += (("utils.NativeVectorThemeAcceptanceTest", IOS_VECTOR_THEME_METHODS[-1]),)
+
+IOS_IMAGE_MEMORY_FOCUS = "ios-native-image-memory"
+IOS_IMAGE_MEMORY_SOURCE = "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UIImageMemoryDiagnosticsTest.kt"
+IOS_IMAGE_MEMORY_CLASS = "com.mohamedrejeb.calf.ui.utils.UIImageMemoryDiagnosticsTest"
+IOS_IMAGE_MEMORY_METHODS = (
+    "oneMegapixelRetainedImageSurvivesGcAtTheActualSnapshotBoundary",
+    "repeatedRealNativeFailuresAndSuccessesBalanceEveryOwnedAllocation",
+    "actualLibraryConversionsRemainBoundedDuringOwnedAllocationProfile",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS] = {
+    "groups": ({"classname": IOS_IMAGE_MEMORY_CLASS, "source": IOS_IMAGE_MEMORY_SOURCE,
+                "methods": IOS_IMAGE_MEMORY_METHODS},),
+    "scope": "Three new real-native large-buffer/concurrent-GC/repeated-allocation-failure/profile-workload methods only. Nine accepted conversion methods are explicitly reused, not replayed. Native runtime panic/external-call checks and observed Darwin heap requests are diagnostics, not ASan or proof of every allocator check. Instruments/leak outcomes are independently reviewed; an unsupported profile cannot clear UI-038. No physical/minimum-platform/ABI/consumer/security/release certification.",
+}
+IOS_IMAGE_DARWIN_FOCUS = "ios-native-image-memory-darwin-tools"
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_DARWIN_FOCUS] = {
+    "groups": UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_MEMORY_FOCUS]["groups"],
+    "scope": "Independent supported Darwin/Instruments/leaks attempt on the same three unchanged real-native memory methods and default Kotlin runtime. The strict runtime profile and its confirmed pre-activation ObjC abort remain failed, not waived or overwritten. Actual process heap requests, owned allocation rows and PID-specific zero leaks are separately required; no ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification. Nine accepted UIImage methods are not replayed.",
+}
+IOS_IMAGE_PROFILE_RECOVERY_FOCUS = "ios-native-image-allocation-profile-recovery"
+IOS_IMAGE_DARWIN_FOCUSES = (IOS_IMAGE_DARWIN_FOCUS, IOS_IMAGE_PROFILE_RECOVERY_FOCUS)
+UI_APPLICATION_FOCUS_SPECS[IOS_IMAGE_PROFILE_RECOVERY_FOCUS] = {
+    "groups": ({"classname": IOS_IMAGE_MEMORY_CLASS, "source": IOS_IMAGE_MEMORY_SOURCE,
+                "methods": IOS_IMAGE_MEMORY_METHODS[-1:], "declared_methods": IOS_IMAGE_MEMORY_METHODS},),
+    "scope": "Only the failed actual allocation-profile workload after its owning PID/readiness repair. This finite recovery alone ad-hoc signs its disposable verification app with one explicit get-task-allow flag and requires signed readback/owned-input cleanup; no elevated permissions or public binary signing, and attachment authorization is not inferred. Two accepted large-buffer/GC/allocation-failure methods and nine accepted UIImage methods are reused, not replayed. Default-runtime Darwin/Instruments/leaks remains separate from the preserved strict-startup failure. Actual correlated native allocation rows and PID-specific zero leaks, not test passes, must certify profiling. No ASan/strict-runtime/physical/minimum/ABI/consumer/security/release certification.",
+}
+IOS_APPLICATION_SOURCES += (IOS_IMAGE_MEMORY_SOURCE,)
+IOS_APPLICATION_HOST_SOURCES["calf-ui"] = IOS_APPLICATION_SOURCES
+IOS_APPLICATION_CASES += (("utils.UIImageMemoryDiagnosticsTest", IOS_IMAGE_MEMORY_METHODS[-1]),)
+
+IOS_PICKER_BOUNDARY_FOCUS = "picker-ios-native-ownership"
+IOS_PICKER_BOUNDARY_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.picker.internal.NativePickerApplicationHostTest",
+     "source": IOS_PICKER_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": "com.mohamedrejeb.calf.picker.IosPickerFilterAcceptanceTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerFilterAcceptanceTest.kt",
+     "methods": ("applicationDocumentFilterAdmitsPdfOfficeAndZipNotJustApplicationBundles",
+                 "explicitPdfWordAndSpreadsheetKeepSpecificNativeFilters",
+                 "unknownAndMixedTypesFollowActualNativeRegistrationWithoutSilentWidening",
+                 "emptyAndInvalidFiltersRejectBeforeAnyNativePickerIsConstructed")},
+    {"classname": "com.mohamedrejeb.calf.picker.IosPickerRuntimeOwnershipTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosPickerRuntimeOwnershipTest.kt",
+     "methods": ("actualAttachedCompetingAndDetachedPresentersCannotReplaceAnotherNativeOwner",
+                 "cancellationDuringRealExportPresentationWaitsForNativeCompletionBeforeRemovingStaging",
+                 "retainedPublicPhotoLauncherUsesFourNativeConfigurationSnapshotsAndCurrentCallback")},
+    {"classname": "com.mohamedrejeb.calf.picker.NativePickedCopyBoundaryTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePickedCopyBoundaryTest.kt",
+     "methods": ("readableUnicodeCopySurvivesDeletedOriginAndUriRestorationDoesNotInventCopyAccess",
+                 "sameNamesHaveIndependentBytesAndExplicitPersistenceOutlivesTemporaryRelease",
+                 "repeatedRealCopyReadReleaseReturnsOwnedDirectoryAccountingToItsBaseline")},
+    {"classname": IOS_SAVE_WRITE_CLASS, "source": IOS_SAVE_WRITE_SOURCE,
+     "declared_methods": IOS_SAVE_WRITE_DECLARATIONS,
+     "methods": IOS_SAVE_WRITE_DECLARATIONS[:-1]},
+    {"classname": "com.mohamedrejeb.calf.picker.PickedCopyOwnershipTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/PickedCopyOwnershipTest.kt",
+     "methods": ("oneHundredSelectionsWithLimitOneCreateOnlyOneOwnedDirectory",
+                 "cancellationBetweenCopiesRemovesEveryUnreturnedCopy",
+                 "releasedUnicodeCopyDisappearsButTheSourceRemainsAndReleaseIsIdempotent")},
+    {"classname": "com.mohamedrejeb.calf.picker.StagePickedUrlsTest",
+     "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/StagePickedUrlsTest.kt",
+     "methods": ("everyReadableFileIsDeliveredWithoutAFailure",
+                 "anUnreadableFileIsReportedAndTheOthersAreKept")},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_BOUNDARY_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_BOUNDARY_GROUPS,
+    "scope": "26 related actual UIKit/PhotosUI/type-database/Foundation/Compose picker methods, with real animation/admission and explicitly controlled delegate/source-removal inputs; no cloud-provider selection, swipe gesture, physical/minimum-platform or release certification. Accepted native write-failure/IO/Coil/other-host suites not replayed.",
+}
+
+# Recovery changes only the UIKit owner projection and picker application host.
+# Keep the original26 selection above intact; do not replay its19 completed
+# Foundation/filter/copy/staging methods or accepted other-platform suites.
+IOS_PICKER_RECOVERY_FOCUS = "picker-ios-native-ownership-recovery"
+IOS_PICKER_RECOVERY_GROUPS = (IOS_PICKER_BOUNDARY_GROUPS[0], IOS_PICKER_BOUNDARY_GROUPS[2])
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_RECOVERY_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_RECOVERY_GROUPS,
+    "scope": "Seven failed/changed actual UIKit/Compose picker ownership and full application-host methods only. Original26-method plan and all protocol/XML/Worker/runtime/cleanup gates retained; no19-method completed subset or successful other-host replay, cloud/swipe/physical/minimum/release certification.",
+}
+
+IOS_PICKER_ADMISSION_FOCUS = "picker-ios-deferred-admission"
+IOS_DEFERRED_PRESENTATION_GROUP = {
+    "classname": "com.mohamedrejeb.calf.picker.IosDeferredPresentationOwnershipTest",
+    "source": "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/IosDeferredPresentationOwnershipTest.kt",
+    "methods": ("deferredVoidPresentationKeepsCancelledExportAndWeakDelegateUntilActualNativeCompletion",
+                "exceptionAfterQueuedPresentationCannotDeleteStagingBeforeActualNativeCompletion"),
+}
+IOS_PICKER_ADMISSION_GROUPS = (*IOS_PICKER_RECOVERY_GROUPS, IOS_DEFERRED_PRESENTATION_GROUP)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_ADMISSION_FOCUS] = {
+    "module": "calf-file-picker", "groups": IOS_PICKER_ADMISSION_GROUPS,
+    "scope": "Seven changed UIKit/Compose ownership and complete application-host methods plus two controlled deferred-call/real UIKit-completion regressions. Original26/7 selections, protocol/XML/Worker/runtime/binary/cleanup gates retained. No unchanged19-method Foundation/filter/copy/staging replay, OS-refusal/swipe/provider/physical/minimum/release certification.",
+}
+
+# Missing IO-013/#50 C3 only. Keep all accepted picker/admission/IO selections unchanged.
+IOS_PICKER_PROVIDER_CANCELLATION_FOCUS = "picker-ios-provider-cancellation"
+IOS_PICKER_PROVIDER_CANCELLATION_CLASS = "com.mohamedrejeb.calf.picker.NativePhotoProviderCancellationTest"
+IOS_PICKER_PROVIDER_CANCELLATION_SOURCE = "calf-file-picker/src/iosTest/kotlin/com/mohamedrejeb/calf/picker/NativePhotoProviderCancellationTest.kt"
+IOS_PICKER_PROVIDER_CANCELLATION_METHODS = (
+    "publicPhotoCancellationStopsAnInFlightNativeProviderCopyAndReleasesEarlierStaging",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_PICKER_PROVIDER_CANCELLATION_FOCUS] = {
+    "module": "calf-file-picker",
+    "groups": ({"classname": IOS_PICKER_PROVIDER_CANCELLATION_CLASS,
+                "source": IOS_PICKER_PROVIDER_CANCELLATION_SOURCE,
+                "methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS,
+                "declared_methods": IOS_PICKER_PROVIDER_CANCELLATION_METHODS},),
+    "scope": "One missing IO-013/#50 provider-copy cancellation method in the genuine UIKit application through the public Compose photo launcher and registered Foundation providers. Two internal native provider loads, real public/native child cancellation, actual descriptor/partial-copy/earlier-staging cleanup, and separately witnessed held registered producer completion invocation/normal return plus genuine native client callback entry/exit. The locked client snapshot before the explicit producer call is descriptive; no zero-callback order or NSError identity is required, and producer return never substitutes for the actual native client. Post-extraction provider arrival is controlled through the installed delegate's shared owning guard, not nonempty Objective-C result extraction or actual Photos/cloud/cross-process/format-filter acceptance. Accepted picker/admission/Foundation/IO3 methods are not replayed. No forced late-success URL, synchronous-copy interruptibility, swipe/physical/minimum/other-host/consumer/API-ABI/security/readiness/publishing certification.",
+}
+
+# New owning Share presentation/disposal regressions only. The sample is not a library host;
+# no accepted picker/provider/IO/browser or other-platform methods are selected by this focus.
+IOS_SHARE_PRESENTATION_FOCUS = "share-ios-presentation-disposal"
+IOS_SHARE_PRESENTATION_CLASS = "com.mohamedrejeb.calf.share.IosSharePresentationOwnershipTest"
+IOS_SHARE_PRESENTATION_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosSharePresentationOwnershipTest.kt"
+IOS_SHARE_PRESENTATION_METHODS = (
+    "realAnimatedShareDisposalWaitsForNativePresentationAndDismissalBeforeLeaseRelease",
+    "deferredNativeSharePresentationRetainsDisposedRequestWhileBothLinksAreNil",
+    "disposalAfterRealPresentationClosesOneRequestAndSuppressesLateActivityCompletion",
+    "disposedPublicShareLaunchersCalledFromDefaultAndIoCannotRestartNativeWork",
+    "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks",
+)
+IOS_SHARE_REQUEST_CONTROL_CLASS = "com.mohamedrejeb.calf.share.IosShareRequestTest"
+IOS_SHARE_REQUEST_CONTROL_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/IosShareRequestTest.kt"
+IOS_SHARE_REQUEST_CONTROL_METHODS = (
+    "preparedCancellationReleasesOnlyTheNeverPresentedRequestOnce",
+    "nilNativeLinksDuringControlledPresentationCannotReleaseOrDismissTheRequest",
+    "repeatedCancellationDuringDismissalCannotIssueOrCompleteCleanupTwice",
+    "releasedRequestIgnoresLateCompletionsAndThrowingOwnerNotificationCannotRepeatCleanup",
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS] = {
+    "module": "calf-share",
+    "groups": (
+        {"classname": "com.mohamedrejeb.calf.share.internal.NativeShareApplicationHostTest",
+         "source": IOS_SHARE_APPLICATION_SOURCES[1],
+         "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                     "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                     "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                     "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+        {"classname": IOS_SHARE_REQUEST_CONTROL_CLASS, "source": IOS_SHARE_REQUEST_CONTROL_SOURCE,
+         "methods": IOS_SHARE_REQUEST_CONTROL_METHODS},
+        {"classname": IOS_SHARE_PRESENTATION_CLASS, "source": IOS_SHARE_PRESENTATION_SOURCE,
+         "methods": IOS_SHARE_PRESENTATION_METHODS},
+    ),
+    "scope": "Thirteen new calf-share library application methods only: four owning UIApplication/Worker/root/cleanup fixtures, four explicitly controlled Request transitions and five real UIKit/public ShareLauncher ownership regressions. Actual animated/deferred presentation and real dismissal callbacks own disposal cleanup; nil backlinks/timers do not. Main/Default/IO dispatch, current callbacks, reentry and stale/disposed suppression use genuine Compose/native controllers but controlled activity-terminal inputs, not user/recipient completion. Real sandbox-file scope objects execute, with no assumed successful security-scope start, bookmark grant, delayed/cross-process recipient access or original native occurrence. Sample saver tests are separate and never library evidence. No accepted picker/provider/IO/browser/other-host replay, #88/#81/#48/#100 closure, Main Thread Checker/concurrency-suite, physical/minimum/iPad/consumer/API-ABI/dependency/security/readiness/publishing certification.",
+}
+
+IOS_SHARE_APPLICATION_REQUIRED_GROUPS = UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_PRESENTATION_FOCUS]["groups"]
+
+# Share188 failed FIRST/Main method only; all original thirteen bodies stay authored and enabled.
+IOS_SHARE_REMEMBERED_FAILURE_FOCUS = "share-ios-remembered-failure-observation"
+IOS_SHARE_REMEMBERED_FAILURE_METHOD = "publicRememberedShareMainDefaultIoReentryAndDisposalUseCurrentCallbacks"
+IOS_SHARE_TERMINAL_OBSERVATION_SOURCE = "calf-share/src/iosTest/kotlin/com/mohamedrejeb/calf/share/internal/ShareTerminalInputObservation.kt"
+UI_APPLICATION_FOCUS_SPECS[IOS_SHARE_REMEMBERED_FAILURE_FOCUS] = {
+    "module": "calf-share",
+    "groups": ({"classname": IOS_SHARE_PRESENTATION_CLASS, "source": IOS_SHARE_PRESENTATION_SOURCE,
+                "methods": (IOS_SHARE_REMEMBERED_FAILURE_METHOD,),
+                "declared_methods": IOS_SHARE_PRESENTATION_METHODS},),
+    "scope": "Only the previously failed Share188 public-remembered method: four NEW explicitly controlled Request terminal/barrier regressions, then original Main/Default/IO/current-callback/reentry/disposal/Completed assertions. The fixture now supplies its deliberately controlled FIRST true activity input while presented, never after an earlier native cancellation; production must acknowledge genuine UIKit dismissal before release and callback. No OS-recipient success is inferred. The accepted twelve methods stay enabled and unselected. The unchanged test-owned observation forwards all arguments once and emits finite failure-only main-thread bool/count/phase observations; block identity/timing changes and origin remains unknown. Original native/owner/root/Worker/deadline/refusal gates remain. No accepted replay, late-block restoration, forced Completed, #88/#81/#48/#100 closure or consumer/API-ABI/security/readiness/publishing certification.",
+}
+
+IOS_WEBVIEW_LIFECYCLE_FOCUS = "webview-ios-native-lifecycle"
+IOS_WEBVIEW_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewLifecycleAcceptanceTest"
+IOS_WEBVIEW_LIFECYCLE_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt"
+IOS_WEBVIEW_LIFECYCLE_METHODS = (
+    "creationHookSeesConfiguredCurrentNativeOwnerAndRemountCannotExposeThePriorView",
+    "stableCompositionReplacementRebindsCallbacksStateNavigatorAndRealDocument",
+    "realWebKitResultsDispatchOffMainAndDetachedCallbacksRemainExactlyOnce",
+    "gesturePrecedenceSurvivesEverySettingCombinationRecompositionAndRealContentLoad",
+    "creationOnlyInlineMediaSettingIsAppliedBeforeConstructionAndRejectsRuntimeMutation",
+    "stateAndNavigatorUnicodeHtmlShareNativeBaseUrlAndUnsupportedOptionsFailVisibly",
+)
+IOS_WEBVIEW_BRIDGE_METHOD = "nativeBridgeOwnershipAcceptsCurrentKvoAndDelegateButRejectsForeignAndNullViews"
+IOS_WEBVIEW_LIFECYCLE_DECLARATIONS = (IOS_WEBVIEW_BRIDGE_METHOD, *IOS_WEBVIEW_LIFECYCLE_METHODS)
+IOS_WEBVIEW_APPLICATION_SOURCES = (
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt",
+)
+IOS_APPLICATION_HOST_SOURCES["calf-webview"] = IOS_WEBVIEW_APPLICATION_SOURCES
+IOS_WEBVIEW_LIFECYCLE_GROUPS = (
+    {"classname": "com.mohamedrejeb.calf.ui.web.internal.NativeWebViewApplicationHostTest",
+     "source": IOS_WEBVIEW_APPLICATION_SOURCES[1],
+     "methods": ("generatedBodyRunsOnOwnedWorkerWithActiveAttachedApplication",
+                 "nativeObjectIdentityRejectsNullAndEqualButDistinctObjects",
+                 "repeatedRealComposeRootsRecomposeDisposeAndRestoreTheirOwner",
+                 "failedAssertionPreservesCauseAndReleasesRealCompositionAndPresenter")},
+    {"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+     "methods": IOS_WEBVIEW_LIFECYCLE_METHODS, "declared_methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},
+)
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_LIFECYCLE_FOCUS] = {
+    "module": "calf-webview", "groups": IOS_WEBVIEW_LIFECYCLE_GROUPS,
+    "scope": "Ten actual library UIKit-host/WebKit creation, replacement, Unicode HTML, JavaScript and configuration cases. Native configuration flags are not physical swipes/video playback; no network/authentication, full host/device/minimum/ABI/consumer/security/release certification. Accepted UIImage, picker, Android history and desktop/browser methods are not replayed.",
+}
+IOS_WEBVIEW_RECOVERY_FOCUS = "webview-ios-native-lifecycle-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS] = {
+    "module": "calf-webview",
+    "groups": ({"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+                "methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},),
+    "scope": "Six failed real WebKit lifecycle/document/value/configuration methods and one new controlled native bridge ownership method only. The four accepted unchanged application-host methods are reused, not replayed. All actual Worker/runtime/binary/install/owned cleanup and real document predicates remain required. No assertion/timeout relaxation, physical swipes/video/network/authentication/minimum/ABI/consumer/security/release certification.",
+}
+IOS_WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-ios-native-remount-recovery"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REMOUNT_RECOVERY_FOCUS] = {
+    "module": "calf-webview",
+    "groups": ({"classname": IOS_WEBVIEW_LIFECYCLE_CLASS, "source": IOS_WEBVIEW_LIFECYCLE_SOURCE,
+                "methods": IOS_WEBVIEW_LIFECYCLE_METHODS[:1], "declared_methods": IOS_WEBVIEW_LIFECYCLE_DECLARATIONS},),
+    "scope": "Only the failed real native creation/remount method with deterministic final native child detachment and a retained actual Compose wrapper. All original null-parent/disposal/remount/configuration assertions remain. Six accepted native methods and four accepted host methods are reused, not replayed. Actual Worker/runtime/binary/install/owned cleanup remains required; no physical/network/playback/minimum/ABI/consumer/security/release certification.",
+}
+IOS_WEBVIEW_REQUEST_FOCUS = "webview-ios-native-request-state"
+IOS_WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewRequestAcceptanceTest"
+IOS_WEBVIEW_REQUEST_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt"
+IOS_WEBVIEW_REQUEST_FIXTURE = "scripts/ci/ios_webview_request_fixture.py"
+IOS_WEBVIEW_REQUEST_METHODS = (
+    "nativeProvisionalTlsFailFailSuccessAndReloadResetOnlyCurrentPublicErrors",
+    "nativeLinkRedirectAndStoppedPrecommitHttpRequestFinishWithoutFalseSuccess",
+)
+IOS_WEBVIEW_REQUEST_GROUP = {"classname": IOS_WEBVIEW_REQUEST_CLASS, "source": IOS_WEBVIEW_REQUEST_SOURCE,
+                             "methods": IOS_WEBVIEW_REQUEST_METHODS}
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REQUEST_FOCUS] = {
+    "module": "calf-webview", "groups": (IOS_WEBVIEW_REQUEST_GROUP,),
+    "scope": "Exactly two new genuine UIApplication/library-WK methods: certificate-free actual provisional TLS fail/fail, public state/native link/recovery/Reload, native-link HTTP302 and precommit Stop/client EOF/recovery. Accepted eleven WK/application-host methods reused, not selected. Owned localhost only; no DNS/system-offline, certificate trust, physical/minimum/ABI/consumer/security/release certification.",
+}
+IOS_WEBVIEW_DNS_FOCUS = "webview-ios-native-provisional-dns"
+IOS_WEBVIEW_DNS_CLASS = "com.mohamedrejeb.calf.ui.web.IosWebViewProvisionalDnsAcceptanceTest"
+IOS_WEBVIEW_DNS_SOURCE = "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt"
+IOS_WEBVIEW_DNS_METHOD = "nativeProvisionalDnsFailFailResetsPreviousErrorBeforeCommitOnSameDocument"
+IOS_WEBVIEW_DNS_GROUP = {"classname": IOS_WEBVIEW_DNS_CLASS, "source": IOS_WEBVIEW_DNS_SOURCE,
+                         "methods": (IOS_WEBVIEW_DNS_METHOD,)}
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_DNS_FOCUS] = {
+    "module": "calf-webview", "groups": (IOS_WEBVIEW_DNS_GROUP,),
+    "scope": "Exactly one genuine UIApplication/library-WK provisional DNS fail/fail method from two fresh reserved-nonce HTTPS .invalid document links. Actual forwarded NSURLErrorDomain/CannotFindHost/-1003, previous-error reset before zero commits, retained native document/current WK owner and exact delegate/Compose/application cleanup are required. Existing system resolver is nondeterministic; timeout/offline/TLS/other errors refuse. No controlled resolver, resolver override, injected NSError, localhost TLS replay, physical/minimum/ABI/consumer/security/release certification. The thirteen other WK/application-host methods are compiled but not selected.",
+}
+IOS_WEBVIEW_REQUEST_DNS_FOCUS = "webview-ios-native-request-dns"
+UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REQUEST_DNS_FOCUS] = {
+    "module": "calf-webview", "groups": (IOS_WEBVIEW_REQUEST_GROUP, IOS_WEBVIEW_DNS_GROUP),
+    "scope": "Exactly three unexecuted genuine UIApplication/library-WK methods in one existing iPhone/Mac job: the unchanged two localhost request/TLS/Stop/redirect/Reload methods and one reserved-nonce provisional DNS fail/fail method. The localhost fixture/ATS lease is required only for the request group; DNS keeps its existing HTTPS .invalid/system-resolver and actual NSURLErrorDomain/CannotFindHost/-1003/zero-commit/previous-error-reset criteria. Eleven accepted WK/application-host methods are compiled but not selected. Exact Worker/runtime/binary/install/native/XML/owned application and fixture cleanup gates remain. No controlled resolver, resolver override, injected errors, arbitrary loads/certificate trust bypass, physical/minimum/ABI/consumer/security/release certification.",
+}
+UI_APPLICATION_FOCUS_SPECS[content_policy.IOS_FOCUS] = {
+    "module": "calf-webview", "groups": content_policy.groups(content_policy.IOS_FOCUS),
+    "scope": content_policy.scope(content_policy.IOS_FOCUS),
+}
+IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
+    IOS_WEBVIEW_LIFECYCLE_GROUPS[0],
+    UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
+    IOS_WEBVIEW_REQUEST_GROUP,
+    IOS_WEBVIEW_DNS_GROUP,
+)
+
+ANDROID_NAV_BACK_FOCUS = "android-adaptive-navigation-back"
+ANDROID_NAV_BACK_CLASS = "com.mohamedrejeb.calf.navigation.AndroidAdaptiveNavigationBackTest"
+ANDROID_NAV_BACK_SOURCE = "calf-navigation/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/navigation/AndroidAdaptiveNavigationBackTest.kt"
+ANDROID_NAV_BACK_METHOD = "nativeSystemBackPopsOneVisitUsesCurrentOwnerAndUnregistersOnDispose"
+
+
+def android_nav_back_identities() -> list[dict]:
+    return [{"classname": ANDROID_NAV_BACK_CLASS, "name": ANDROID_NAV_BACK_METHOD}]
+
+
+ANDROID_GEO_OWNERSHIP_FOCUS = "geo-android-owner-lifetime"
+ANDROID_GEO_OWNERSHIP_CLASS = "com.mohamedrejeb.calf.geo.AndroidLocationOwnershipTest"
+ANDROID_GEO_OWNERSHIP_SOURCE = "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationOwnershipTest.kt"
+ANDROID_GEO_OWNERSHIP_METHOD = "nativeRebindingRestartAndTerminalCleanupReleaseOwnersDespiteRetainedCallbacks"
+
+
+def android_geo_ownership_identities() -> list[dict]:
+    return [{"classname": ANDROID_GEO_OWNERSHIP_CLASS, "name": ANDROID_GEO_OWNERSHIP_METHOD}]
+
+
+ANDROID_GEO_PROVIDER_FOCUS = "geo-android-provider-contracts"
+ANDROID_GEO_PREREQUISITES_FOCUS = "geo-android-real-prerequisites"
+ANDROID_GEO_PROVIDER_FOCUSES = (ANDROID_GEO_PROVIDER_FOCUS, ANDROID_GEO_PREREQUISITES_FOCUS)
+ANDROID_GEO_PROVIDER_CLASS = "com.mohamedrejeb.calf.geo.AndroidLocationProviderTest"
+ANDROID_GEO_PROVIDER_SOURCE = "calf-geo/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/geo/AndroidLocationProviderTest.kt"
+ANDROID_GEO_PREREQUISITES_ANNOTATION = "com.mohamedrejeb.calf.geo.AndroidGeoPrerequisiteVerification"
+ANDROID_GEO_PROVIDER_METHODS = (
+    "nativeForegroundDeniedCoarseAndFinePermissionsUseRealGmsRegistration",
+    "nativeRevocationKillsOnlyOwnedProbeAndRestartReportsDenied",
+    "nativeMissingDisabledPlayServicesAndLocationSettingsBlockStartAndRecover",
+    "nativeProviderTaskErrorsRemovalRetryAndRecoveryAreObservable",
+    "nativeBackgroundCancellationAndQueuedOldCallbacksCannotOwnANewStart",
+)
+
+
+def android_geo_provider_identities(focus: str = ANDROID_GEO_PROVIDER_FOCUS) -> list[dict]:
+    if focus not in ANDROID_GEO_PROVIDER_FOCUSES:
+        raise ValueError("Unknown Android geo provider selection")
+    methods = ANDROID_GEO_PROVIDER_METHODS[:3] if focus == ANDROID_GEO_PREREQUISITES_FOCUS else ANDROID_GEO_PROVIDER_METHODS
+    return [{"classname": ANDROID_GEO_PROVIDER_CLASS, "name": method} for method in methods]
+
+
+def android_geo_provider_filter(focus: str) -> str:
+    cases = android_geo_provider_identities(focus)
+    return ANDROID_GEO_PREREQUISITES_ANNOTATION if focus == ANDROID_GEO_PREREQUISITES_FOCUS else ANDROID_GEO_PROVIDER_CLASS
+
+
+def android_geo_probe_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            test_plan.get("explicit_test_focus") != ANDROID_GEO_OWNERSHIP_FOCUS and
+            any(item.get("module") == "calf-geo" for item in test_plan["expected"]))
+
+
+ANDROID_CAMERA_PROVIDER_FOCUS = "android-camera-provider-contracts"
+ANDROID_CAMERA_NO_HANDLER_FOCUS = "android-camera-no-handler-recovery"
+ANDROID_CAMERA_PROVIDER_FOCUSES = (ANDROID_CAMERA_PROVIDER_FOCUS, ANDROID_CAMERA_NO_HANDLER_FOCUS)
+ANDROID_CAMERA_PROVIDER_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraNativeProviderTest"
+ANDROID_CAMERA_PROVIDER_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraProviderTest.kt"
+ANDROID_CAMERA_PROVIDER_METHODS = (
+    "nativeCustomAndLegacyProvidersGrantForeignUidOutputAndRetainExactlyOneSuccess",
+    "nativeMissingAuthorityWrongRootAndAbsentCameraHandlerFailWithoutOrphanOrDelivery",
+    "nativeNarrowProviderExcludesSiblingCacheAndCancellationCleansOnlyItsOutput",
+    "nativeNoAvailableImplicitCameraHandlerReportsLaunchFailureWithoutOwnedOutput",
+)
+
+
+def android_camera_provider_identities(focus: str = ANDROID_CAMERA_PROVIDER_FOCUS) -> list[dict]:
+    if focus not in ANDROID_CAMERA_PROVIDER_FOCUSES:
+        raise ValueError("Unknown finite Android camera provider selection")
+    methods = ANDROID_CAMERA_PROVIDER_METHODS[-1:] if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS else ANDROID_CAMERA_PROVIDER_METHODS
+    return [{"classname": ANDROID_CAMERA_PROVIDER_CLASS, "name": method} for method in methods]
+
+
+def android_camera_provider_filter(focus: str) -> str:
+    android_camera_provider_identities(focus)  # Reject unknown focus, never broaden a filter.
+    return (ANDROID_CAMERA_PROVIDER_CLASS + "#" + ANDROID_CAMERA_PROVIDER_METHODS[-1]
+            if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS else ANDROID_CAMERA_PROVIDER_CLASS)
+
+
+ANDROID_CAMERA_RESTORATION_FOCUS = "android-camera-real-restoration"
+ANDROID_CAMERA_DONT_KEEP_FOCUS = "android-camera-real-restoration-dont-keep"
+ANDROID_CAMERA_RESTORATION_FOCUSES = (ANDROID_CAMERA_RESTORATION_FOCUS, ANDROID_CAMERA_DONT_KEEP_FOCUS)
+ANDROID_CAMERA_RESTORATION_CLASS = "com.mohamedrejeb.calf.camerapicker.AndroidCameraRestorationTest"
+ANDROID_CAMERA_RESTORATION_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/AndroidCameraRestorationTest.kt"
+ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/CameraRestorationVerificationActivity.kt"
+ANDROID_CAMERA_ALWAYS_FINISH_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedAlwaysFinish.kt"
+ANDROID_CAMERA_SETTINGS_UI_SOURCE = "calf-camera-picker/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/camerapicker/OwnedDeveloperSettingsUi.kt"
+ANDROID_CAMERA_RESTORATION_METHODS = (
+    "nativeDontKeepActivitiesRestoresOneReadableCapturedFile",
+    "nativeRotationRecreatesCallerWhileExternalCaptureIsForeground",
+    "nativeKernelProcessDeathRestoresPendingUriAndExactlyOneSuccess",
+    "nativeCancelledProcessRestorationRemovesOnlyItsFileAndNeverDeliversStaleUri",
+)
+ANDROID_CAMERA_FOCUSES = (*ANDROID_CAMERA_PROVIDER_FOCUSES, *ANDROID_CAMERA_RESTORATION_FOCUSES, camera_callback.FOCUS)
+
+
+def android_camera_restoration_identities(focus: str = ANDROID_CAMERA_RESTORATION_FOCUS) -> list[dict]:
+    if focus not in ANDROID_CAMERA_RESTORATION_FOCUSES:
+        raise ValueError("Unknown finite Android camera restoration selection")
+    methods = ANDROID_CAMERA_RESTORATION_METHODS[:1] if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_METHODS
+    return [{"classname": ANDROID_CAMERA_RESTORATION_CLASS, "name": method} for method in methods]
+
+
+def android_camera_restoration_filter(focus: str) -> str:
+    android_camera_restoration_identities(focus)  # Never broaden an unknown focus.
+    return (ANDROID_CAMERA_RESTORATION_CLASS + "#" + ANDROID_CAMERA_RESTORATION_METHODS[0]
+            if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS else ANDROID_CAMERA_RESTORATION_CLASS)
+
+
+def android_camera_receiver_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            any(item.get("module") == "calf-camera-picker" for item in test_plan["expected"]))
+
+
+ANDROID_SHARE_GRANT_FOCUS = "android-share-uri-grants"
+ANDROID_SHARE_GRANT_CLASS = "com.mohamedrejeb.calf.share.AndroidShareGrantTest"
+ANDROID_SHARE_GRANT_SOURCE = "calf-share/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/share/AndroidShareGrantTest.kt"
+ANDROID_SHARE_GRANT_METHODS = (
+    "nativeLocalFileConversionIsReadableAfterPresentationAndRevocationIsEnforced",
+    "nativeSafDocumentsAndMixedMimeClipDataRetainReadOnlyAccessAndCloseRealDescriptors",
+    "nativeInvalidProviderAndUngrantableUrisFailWithoutReceivingOrDeletingData",
+)
+
+
+def android_share_grant_identities() -> list[dict]:
+    return [{"classname": ANDROID_SHARE_GRANT_CLASS, "name": method} for method in ANDROID_SHARE_GRANT_METHODS]
+
+
+def android_share_recipient_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            any(item.get("module") == "calf-share" for item in test_plan["expected"]))
+
+
+ANDROID_POPUP_FOCUS = "android-webview-popup-policy"
+ANDROID_POPUP_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewPopupPolicyTest"
+ANDROID_POPUP_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt"
+ANDROID_POPUP_METHODS = (
+    "defaultPolicyRejectsSameCrossOriginAndUntrustedBlankLinksAndKeepsParentHistory",
+    "javascriptAutomaticAndMultipleWindowCombinationsHaveExplicitNativeOutcomes",
+    "rawCurrentViewFallbackAndReplacementRetainIndependentRejectionStateAndCleanup",
+)
+
+
+def android_popup_identities() -> list[dict]:
+    return [{"classname": ANDROID_POPUP_CLASS, "name": method} for method in ANDROID_POPUP_METHODS]
+
+
+ANDROID_WEBVIEW_REQUEST_FOCUS = "android-webview-request-state"
+ANDROID_WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestStateDeviceTest"
+ANDROID_WEBVIEW_REQUEST_ANNOTATION = "com.mohamedrejeb.calf.ui.web.AndroidWebViewRequestVerification"
+ANDROID_WEBVIEW_REQUEST_SOURCE = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt"
+ANDROID_WEBVIEW_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetErrorsAndNativeReloadUsesCurrentOwnerUrl"
+ANDROID_WEBVIEW_REQUEST_METHODS = (
+    ANDROID_WEBVIEW_REQUEST_METHOD,
+    "publicNavigatorStopClosesHeldTransportAndActual302RedirectReloadUsesCurrentOwner",
+)
+ANDROID_WEBVIEW_REQUEST_HELPER = "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt"
+ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS = "android-webview-stop-redirect-recovery"
+ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD = ANDROID_WEBVIEW_REQUEST_METHODS[1]
+
+
+def android_webview_request_identities() -> list[dict]:
+    return [{"classname": ANDROID_WEBVIEW_REQUEST_CLASS, "name": method} for method in ANDROID_WEBVIEW_REQUEST_METHODS]
+
+
+def android_webview_request_filter() -> str:
+    # AGP9.4.0 maps arguments to CSV and ATE1.0.1 splits it without escaping.
+    # One runtime method annotation is lossless; the exact two XML cases remain required.
+    return ANDROID_WEBVIEW_REQUEST_ANNOTATION
+
+
+def validate_android_webview_request_annotation(root: Path, test_sources: list[str]) -> None:
+    """Bind the lossless runtime selector to only the two reviewed native methods."""
+    if ANDROID_WEBVIEW_REQUEST_SOURCE not in test_sources:
+        raise ValueError("Missing Android WebView request runtime annotation source")
+    package, name = ANDROID_WEBVIEW_REQUEST_ANNOTATION.rsplit(".", 1)
+    annotated = []
+    for relative in test_sources:
+        source = safe_path(root, relative).read_text(encoding="utf-8")
+        if name not in source:
+            continue
+        if relative != ANDROID_WEBVIEW_REQUEST_SOURCE:
+            raise ValueError("Android WebView request selector appears in an unreviewed source")
+        declarations = list(re.finditer(r"(?m)^@Target\(AnnotationTarget.FUNCTION\)\s+"
+                                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+"
+                                        r"annotation class " + re.escape(name) + r"$", source))
+        methods = re.findall(r"@" + re.escape(name) + r"\s+@Test\s+fun\s+"
+                             r"([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(declarations) != 1 or any(brace in source[:declarations[0].start()] for brace in "{}") or
+                source.count(name) != 1 + len(ANDROID_WEBVIEW_REQUEST_METHODS) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                methods != list(ANDROID_WEBVIEW_REQUEST_METHODS)):
+            raise ValueError("Android WebView request selector requires exact FUNCTION/RUNTIME declaration and two method uses")
+        annotated.extend(methods)
+    if annotated != list(ANDROID_WEBVIEW_REQUEST_METHODS):
+        raise ValueError("Android WebView request annotation inventory differs from the exact two identities")
+
+
+def android_webview_stop_redirect_recovery_identities() -> list[dict]:
+    return [{"classname": ANDROID_WEBVIEW_REQUEST_CLASS, "name": ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD}]
+
+
+def android_webview_stop_redirect_recovery_filter() -> str:
+    # Exactly one Class#method has no comma for AGP/ATE transport; do not select the accepted request method.
+    return ANDROID_WEBVIEW_REQUEST_CLASS + "#" + ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_METHOD
+
+
+def android_webview_request_fixtures() -> list[str]:
+    return [*WEBVIEW_DEVICE_FIXTURES, ANDROID_WEBVIEW_REQUEST_HELPER]
+
+
+WEBVIEW_CONTENT_FOCUS = "webview-browser-content-transitions"
+WEBVIEW_CONTENT_MODULE = "calf-webview"
+WEBVIEW_CONTENT_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentAcceptanceTest"
+WEBVIEW_CONTENT_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt"
+WEBVIEW_CONTENT_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js"
+WEBVIEW_CONTENT_METHODS = (
+    "directAndRememberedContentTransitionsMatchNavigatorAttributesAndDocuments",
+    "realCrossOriginCspAndFrameOptionsRefusalsCannotRetainOrReportTheOldDocument",
+)
+
+
+def webview_content_identities() -> list[dict]:
+    return [{"classname": WEBVIEW_CONTENT_CLASS, "name": method} for method in WEBVIEW_CONTENT_METHODS]
+
+
+def webview_content_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"}:
+        return False
+    classname = SUITES[suite][0] + "." + WEBVIEW_CONTENT_CLASS
+    target = "js" if suite == "js" else "wasmJs"
+    methods = []
+    for case in cases:
+        method, separator, suffix = case["name"].partition("[")
+        if (case["classname"] != classname or not separator or not re.fullmatch(
+                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
+            return False
+        methods.append(method)
+    return len(methods) == len(WEBVIEW_CONTENT_METHODS) and set(methods) == set(WEBVIEW_CONTENT_METHODS)
+
+
+WEBVIEW_REQUEST_FOCUS = "webview-browser-request-state"
+WEBVIEW_REQUEST_MODULE = "calf-webview"
+WEBVIEW_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewRequestAcceptanceTest"
+WEBVIEW_REQUEST_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt"
+WEBVIEW_REQUEST_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-request-fixture.js"
+WEBVIEW_REQUEST_METHODS = (
+    "rejectedOptionsRetryAndNativeReloadResetErrorsAndRequestedMetadata",
+    "realRedirectReloadAndOwnedNativeStopHaveDistinctRequestAndTerminalMetadata",
+    "repeatedActualTransportRefusalsCannotRetainOldMetadataOrErrorsDuringRecovery",
+)
+
+
+def webview_request_identities() -> list[dict]:
+    return [{"classname": WEBVIEW_REQUEST_CLASS, "name": method} for method in WEBVIEW_REQUEST_METHODS]
+
+
+def webview_request_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"}:
+        return False
+    classname = SUITES[suite][0] + "." + WEBVIEW_REQUEST_CLASS
+    target = "js" if suite == "js" else "wasmJs"
+    methods = []
+    for case in cases:
+        method, separator, suffix = case["name"].partition("[")
+        if (case["classname"] != classname or not separator or not re.fullmatch(
+                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
+            return False
+        methods.append(method)
+    return len(methods) == len(WEBVIEW_REQUEST_METHODS) and set(methods) == set(WEBVIEW_REQUEST_METHODS)
+
+
+WEBVIEW_OFFLINE_FOCUS = "webview-browser-offline-destination"
+WEBVIEW_OFFLINE_CLASS = "com.mohamedrejeb.calf.ui.web.BrowserWebViewOfflineDestinationAcceptanceTest"
+WEBVIEW_OFFLINE_METHOD = "previouslyReachableOwnedDestinationBecomesOfflineWithoutStoppingKarmaOrRetainingRequestState"
+WEBVIEW_OFFLINE_SOURCE = "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt"
+WEBVIEW_OFFLINE_SOURCE_SHA256 = "3e58d2a06a083c66ba4ce04071bca3f37bb96a21f45a1fbad212b01166c8d885"
+WEBVIEW_OFFLINE_FIXTURE = "calf-webview/karma.config.d/nativecmpkit-offline-fixture.js"
+WEBVIEW_OFFLINE_FIXTURE_SHA256 = "176fed5c2c7661cd4a0b9ad9171d156ac1fc43f4922c0e947d2040d6b57f8111"
+
+
+def webview_offline_identities() -> list[dict]:
+    return [{"classname": WEBVIEW_OFFLINE_CLASS, "name": WEBVIEW_OFFLINE_METHOD}]
+
+
+def webview_offline_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"} or len(cases) != 1:
+        return False
+    target = "js" if suite == "js" else "wasmJs"
+    case, = cases
+    return (case["classname"] == SUITES[suite][0] + "." + WEBVIEW_OFFLINE_CLASS and
+            re.fullmatch(re.escape(WEBVIEW_OFFLINE_METHOD) + r"\[" + re.escape(target) +
+                         r", browser, [^\[\]\r\n]+\]", case["name"]) is not None)
+
+
+SHARE_CLIPBOARD_NATIVE_FOCUS = "web-share-clipboard-native-contexts"
+SHARE_CLIPBOARD_NATIVE_CLASS = "com.mohamedrejeb.calf.share.WebClipboardEnvironmentAcceptanceTest"
+SHARE_CLIPBOARD_NATIVE_METHODS = (
+    "secureContextWithAbsentClipboardApiReportsUnavailableWithoutPlatformCalls",
+    "genuinelyInsecureHttpContextHasNoClipboardApiAndReportsUnavailable",
+    "actualDeniedClipboardPermissionRejectsOneTrustedGestureWriteWithoutSuccess",
+    "directTrustedGesturePreservesActivationAndCompletesOneActualOwnedTextWrite",
+)
+SHARE_CLIPBOARD_NATIVE_SOURCE = "calf-share/src/webTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardEnvironmentAcceptanceTest.kt"
+SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256 = "10bf06a15f4d840779aa494122d42c24ed6bbd76ec6926d72eedf982c7cebc60"
+SHARE_CLIPBOARD_NATIVE_FIXTURE = "calf-share/karma.config.d/nativecmpkit-clipboard-fixture.js"
+SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256 = "e2f95d99ff2dd89fa95bd4de8fbedf9f3b60748284fed87ae6fe2ab3d2278a89"
+SHARE_CLIPBOARD_NATIVE_HELPERS = {
+    "js": ("calf-share/src/jsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.js.kt", "9d33398d366466f41a3d4a46198a7c8e02e3c23fbfd73af1216aa6b0915ebc05"),
+    "wasm": ("calf-share/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/share/WebClipboardNativeHarness.wasmJs.kt", "b24a367d8c3e45e896559f1ce7a44d627c8825023ebfd9e9f66c6eb34c64ba59"),
+}
+
+
+def share_clipboard_native_sources(suite: str) -> dict[str, str]:
+    if suite not in SHARE_CLIPBOARD_NATIVE_HELPERS:
+        raise ValueError("Native clipboard context focus supports only exact JS/Wasm slots")
+    helper, digest = SHARE_CLIPBOARD_NATIVE_HELPERS[suite]
+    return {SHARE_CLIPBOARD_NATIVE_SOURCE: SHARE_CLIPBOARD_NATIVE_SOURCE_SHA256,
+            helper: digest, SHARE_CLIPBOARD_NATIVE_FIXTURE: SHARE_CLIPBOARD_NATIVE_FIXTURE_SHA256}
+
+
+def share_clipboard_native_identities() -> list[dict]:
+    return [{"classname": SHARE_CLIPBOARD_NATIVE_CLASS, "name": method}
+            for method in SHARE_CLIPBOARD_NATIVE_METHODS]
+
+
+def share_clipboard_native_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"} or len(cases) != len(SHARE_CLIPBOARD_NATIVE_METHODS):
+        return False
+    target = "js" if suite == "js" else "wasmJs"
+    names = []
+    for case in cases:
+        if case["classname"] != SUITES[suite][0] + "." + SHARE_CLIPBOARD_NATIVE_CLASS:
+            return False
+        match = re.fullmatch("(" + "|".join(map(re.escape, SHARE_CLIPBOARD_NATIVE_METHODS)) +
+                             r")\[" + re.escape(target) + r", browser, [^\[\]\r\n]+\]", case["name"])
+        if match is None:
+            return False
+        names.append(match.group(1))
+    return Counter(names) == Counter(SHARE_CLIPBOARD_NATIVE_METHODS)
+
+
+WEBVIEW_DESKTOP_REQUEST_FOCUS = "webview-desktop-request-state"
+WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS = "webview-desktop-request-state-stop"
+WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS = "webview-desktop-request-state-stop-redirect"
+WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS = "webview-desktop-stop-windows-recovery"
+WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS = "webview-desktop-stop-linux-arm64-recovery"
+WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS = "webview-desktop-stop-macos-recovery"
+WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES = (WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS,
+                                   WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS,
+                                   WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS)
+WEBVIEW_DESKTOP_REQUEST_FOCUSES = (WEBVIEW_DESKTOP_REQUEST_FOCUS, WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS,
+                                 WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS,
+                                 *WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES)
+WEBVIEW_DESKTOP_REQUEST_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
+WEBVIEW_DESKTOP_REQUEST_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
+WEBVIEW_DESKTOP_REQUEST_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
+WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256 = "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13"
+WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest"
+WEBVIEW_DESKTOP_STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
+WEBVIEW_DESKTOP_REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
+WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256 = "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+WEBVIEW_DESKTOP_AWT_OWNER_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt"
+WEBVIEW_DESKTOP_AWT_OWNER_SHA256 = "c7bccc89f020490ea6198b837c7a9e386b051a0926ec22e17b3557699420b082"
+# Same five classifier identities as DesktopJavaFx.kt; declaration, not runtime acceptance.
+WEBVIEW_DESKTOP_REQUEST_HOSTS = frozenset({
+    ("Linux", "x64"), ("Linux", "arm64"), ("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64"),
+})
+# Literal missing cells only. Linux x64 Stop and four-host redirect/Reload stay
+# accepted/reused; disposal cancellation is not a public Stop substitute.
+WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS = {
+    WEBVIEW_DESKTOP_REQUEST_FOCUS: WEBVIEW_DESKTOP_REQUEST_HOSTS,
+    WEBVIEW_DESKTOP_REQUEST_STOP_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64"), ("Windows", "x64")}),
+    WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS: frozenset({("Linux", "arm64")}),
+    WEBVIEW_DESKTOP_STOP_WINDOWS_RECOVERY_FOCUS: frozenset({("Windows", "x64")}),
+    WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS: frozenset({("Linux", "arm64")}),
+    WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS: frozenset({("Darwin", "x64"), ("Darwin", "arm64")}),
+}
+
+
+def webview_desktop_request_specs(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
+    if focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        raise ValueError("Unknown finite Desktop request-state focus; no full-suite fallback")
+    if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES:
+        # Only the failed host's Stop method. Accepted request/redirect must not replay.
+        return [{"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_STOP_METHOD,
+                 "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256}]
+    specs = [{"classname": WEBVIEW_DESKTOP_REQUEST_CLASS, "method": WEBVIEW_DESKTOP_REQUEST_METHOD,
+              "source": WEBVIEW_DESKTOP_REQUEST_SOURCE, "sha256": WEBVIEW_DESKTOP_REQUEST_SOURCE_SHA256}]
+    if focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
+        specs.append({"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_STOP_METHOD,
+                      "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256})
+    if focus == WEBVIEW_DESKTOP_REQUEST_STOP_REDIRECT_FOCUS:
+        specs.append({"classname": WEBVIEW_DESKTOP_STOP_REDIRECT_CLASS, "method": WEBVIEW_DESKTOP_REDIRECT_METHOD,
+                      "source": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE, "sha256": WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE_SHA256})
+    return specs
+
+
+def webview_desktop_request_identities(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> list[dict]:
+    return [{"classname": spec["classname"], "name": spec["method"] + "[desktop]"}
+            for spec in webview_desktop_request_specs(focus)]
+
+
+def webview_desktop_request_sources(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> dict[str, str]:
+    sources = {spec["source"]: spec["sha256"] for spec in webview_desktop_request_specs(focus)}
+    if WEBVIEW_DESKTOP_STOP_REDIRECT_SOURCE in sources:
+        sources[WEBVIEW_DESKTOP_AWT_OWNER_SOURCE] = WEBVIEW_DESKTOP_AWT_OWNER_SHA256
+    return sources
+
+
+def webview_desktop_request_filter(focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> str:
+    return ",".join(spec["classname"] + "." + spec["method"] for spec in webview_desktop_request_specs(focus))
+
+
+def validate_webview_desktop_request_host(system: str, architecture: str,
+                                         focus: str = WEBVIEW_DESKTOP_REQUEST_FOCUS) -> None:
+    if (focus not in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
+            not isinstance(system, str) or not isinstance(architecture, str)):
+        raise ValueError("Exact supported Desktop request-state focus and host identity are required")
+    architecture = architecture.lower()
+    architecture = {"amd64": "x64", "x86_64": "x64", "aarch64": "arm64"}.get(architecture, architecture)
+    if (system, architecture) not in WEBVIEW_DESKTOP_REQUEST_HOSTS_BY_FOCUS[focus]:
+        raise ValueError("Desktop request-state runtime is unsupported for this finite focus; no other-host or full-suite fallback")
+
+
+WEBVIEW_IDENTITY_FOCUS = "webview-public-identity-values"
+WEBVIEW_IDENTITY_RECOVERY_FOCUS = "webview-public-identity-recovery"
+WEBVIEW_REMOUNT_RECOVERY_FOCUS = "webview-public-remount-recovery"
+WEBVIEW_IDENTITY_FOCUSES = (WEBVIEW_IDENTITY_FOCUS, WEBVIEW_IDENTITY_RECOVERY_FOCUS, WEBVIEW_REMOUNT_RECOVERY_FOCUS)
+WEBVIEW_IDENTITY_METHOD = "publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentNativeOwner"
+WEBVIEW_IDENTITY_SPECS = {
+    "desktop": {
+        "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewIdentityAcceptanceTest",
+        "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt",
+        "methods": (WEBVIEW_IDENTITY_METHOD,
+                    "rapidReplacementBeforeRealFxCreationAndNavigationCannotResurrectDiscardedOwners",
+                    "actualFxTypedValuesOffMainAndThrowingOrDetachedCallbacksAreExactlyOnce"),
+    },
+    "android-device": {
+        "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewIdentityAcceptanceTest",
+        "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt",
+        "methods": (WEBVIEW_IDENTITY_METHOD, "actualChromiumTypedValuesOffMainAndDetachedCallbacksAreExactlyOnce"),
+    },
+}
+_BROWSER_IDENTITY_SPEC = {
+    "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewIdentityAcceptanceTest",
+    "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt",
+    "methods": ("publicCreationReplacementAndRetainedRemountUseOnlyTheCurrentIframeOwner",
+                "actualTrustedIframeTypedValuesAndCurrentOrDetachedCallbacksAreExactlyOnce"),
+}
+WEBVIEW_IDENTITY_SPECS.update(js=_BROWSER_IDENTITY_SPEC, wasm=_BROWSER_IDENTITY_SPEC)
+
+
+def webview_identity_methods(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> tuple[str, ...]:
+    if (focus not in WEBVIEW_IDENTITY_FOCUSES or
+            (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite not in {"desktop", "android-device"}) or
+            (focus == WEBVIEW_REMOUNT_RECOVERY_FOCUS and suite != "android-device")):
+        raise ValueError("Unknown finite WebView identity recovery selection")
+    methods = WEBVIEW_IDENTITY_SPECS[suite]["methods"]
+    return methods[:1] if (focus == WEBVIEW_REMOUNT_RECOVERY_FOCUS or
+                           (focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS and suite == "desktop")) else methods
+
+
+def webview_identity_filter(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> str:
+    methods = webview_identity_methods(suite, focus)
+    classname = WEBVIEW_IDENTITY_SPECS[suite]["classname"]
+    return classname + ("#" if suite == "android-device" else ".") + methods[0] if len(methods) == 1 else classname
+
+
+def webview_identity_identities(suite: str, focus: str = WEBVIEW_IDENTITY_FOCUS) -> list[dict]:
+    spec = WEBVIEW_IDENTITY_SPECS[suite]
+    suffix = "[desktop]" if suite == "desktop" else ""
+    return [{"classname": spec["classname"], "name": method + suffix} for method in webview_identity_methods(suite, focus)]
+
+
+def webview_identity_case_inventory(suite: str, cases: list[dict], focus: str = WEBVIEW_IDENTITY_FOCUS) -> bool:
+    spec = WEBVIEW_IDENTITY_SPECS[suite]
+    methods = webview_identity_methods(suite, focus)
+    if suite not in {"js", "wasm"}:
+        return (len(cases) == len(methods) and
+                {(c["classname"], c["name"]) for c in cases} ==
+                {(c["classname"], c["name"]) for c in webview_identity_identities(suite, focus)})
+    actual = []
+    target = "js" if suite == "js" else "wasmJs"
+    for case in cases:
+        method, separator, suffix = case["name"].partition("[")
+        if (case["classname"] != SUITES[suite][0] + "." + spec["classname"] or not separator or
+                not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix)):
+            return False
+        actual.append(method)
+    return len(actual) == len(methods) and set(actual) == set(methods)
+
+
+BROWSER_COIL_READ_FOCUS = "browser-file-read-coil"
+BROWSER_COIL_READ_MODULE = "calf-file-picker-coil"
+BROWSER_COIL_READ_CLASS = "com.mohamedrejeb.calf.picker.coil.BrowserFileReadCoilAcceptanceTest"
+BROWSER_COIL_READ_SOURCE = "calf-file-picker-coil/src/webTest/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserFileReadCoilAcceptanceTest.kt"
+BROWSER_COIL_READ_METHODS = (
+    "publicEmptyAndAllByteValuesCompleteOnceDespiteLateLoadAndAbort",
+    "disposingActualCoilRequestDuringLargeReadAbortsAndDetachesTheRealReader",
+    "actualCoilNotReadableAndSecurityErrorsKeepOnlyTheNameAndCannotCompleteTwice",
+    "browserCapRefusesThePublicFetcherBeforeCreatingAnyReader",
+)
+
+
+def browser_coil_read_identities() -> list[dict]:
+    return [{"classname": BROWSER_COIL_READ_CLASS, "name": method} for method in BROWSER_COIL_READ_METHODS]
+
+
+def browser_coil_read_fixture(suite: str) -> str:
+    target = "jsTest" if suite == "js" else "wasmJsTest"
+    return BROWSER_COIL_READ_MODULE + "/src/" + target + "/kotlin/com/mohamedrejeb/calf/picker/coil/BrowserReaderProbe.kt"
+
+
+def browser_coil_read_case_inventory(suite: str, cases: list[dict]) -> bool:
+    if suite not in {"js", "wasm"}:
+        return False
+    classname = SUITES[suite][0] + "." + BROWSER_COIL_READ_CLASS
+    target = "js" if suite == "js" else "wasmJs"
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname or not separator or not re.fullmatch(
+                re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
+            return False
+        actual.append(name)
+    return len(actual) == len(BROWSER_COIL_READ_METHODS) and set(actual) == set(BROWSER_COIL_READ_METHODS)
+
+
+PICKER_LIFETIME_FOCUS = "picker-native-lifetime"
+PICKER_LIFETIME_CLASS = native_test_policy.PICKER_COMPOSE_CLASS
+PICKER_LIFETIME_SOURCE = native_test_policy.PICKER_COMPOSE_SOURCE
+PICKER_LIFETIME_METHODS = native_test_policy.PICKER_COMPOSE_METHODS
+
+DESKTOP_SAVER_STATE_FOCUS = picker_dialog_context.SAVER_STATE_FOCUS
+DESKTOP_SAVER_STATE_CLASS = "com.mohamedrejeb.calf.picker.NativeDesktopSaverStateTest"
+DESKTOP_SAVER_STATE_SOURCE = "calf-file-picker/src/desktopTest/kotlin/com/mohamedrejeb/calf/picker/NativeDesktopSaverStateTest.kt"
+DESKTOP_SAVER_STATE_METHOD = "retainedSaverSnapshotsExplicitAndCompositionLocalParentsSettingsAndCurrentCallbacks"
+
+LINUX_PICKER_PORTAL_FOCUS = "picker-linux-portal-functionality"
+LINUX_PICKER_PORTAL_CLASS = native_test_policy.PICKER_PORTAL_CLASS
+LINUX_PICKER_PORTAL_SOURCE = native_test_policy.PICKER_PORTAL_SOURCE
+LINUX_PICKER_PORTAL_METHODS = native_test_policy.PICKER_PORTAL_METHODS
+LINUX_PICKER_PORTAL_SAVE_FOCUS = "picker-linux-portal-save"
+LINUX_PICKER_PORTAL_FOCUSES = {LINUX_PICKER_PORTAL_FOCUS, LINUX_PICKER_PORTAL_SAVE_FOCUS}
+
+
+def linux_picker_portal_identities(focus: str = LINUX_PICKER_PORTAL_FOCUS) -> list[dict]:
+    if focus not in LINUX_PICKER_PORTAL_FOCUSES:
+        raise ValueError("Unknown finite Linux GTK focus")
+    methods = LINUX_PICKER_PORTAL_METHODS if focus == LINUX_PICKER_PORTAL_FOCUS else LINUX_PICKER_PORTAL_METHODS[1:2]
+    return [{"classname": LINUX_PICKER_PORTAL_CLASS, "name": method + "[desktop]"} for method in methods]
+
+
+def linux_picker_portal_filter(focus: str) -> str:
+    linux_picker_portal_identities(focus)
+    return LINUX_PICKER_PORTAL_CLASS if focus == LINUX_PICKER_PORTAL_FOCUS else LINUX_PICKER_PORTAL_CLASS + "." + LINUX_PICKER_PORTAL_METHODS[1]
+
+
+def desktop_saver_state_identities() -> list[dict]:
+    return [{"classname": DESKTOP_SAVER_STATE_CLASS, "name": DESKTOP_SAVER_STATE_METHOD + "[desktop]"}]
+
+
+def picker_lifetime_identities() -> list[dict]:
+    return [{"classname": PICKER_LIFETIME_CLASS, "name": method + "[desktop]"} for method in PICKER_LIFETIME_METHODS]
+
+
+WEBVIEW_LIFETIME_FOCUS = "webview-native-lifetime"
+WEBVIEW_MEDIA_FOCUS = "webview-native-media"
+WEBVIEW_ANDROID_MEDIA_FOCUS = "webview-android-native-media"
+WEBVIEW_LIFETIME_FOCUSES = {WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS}
+WEBVIEW_LIFETIME_MODULE = "calf-webview"
+WEBVIEW_DEVICE_FIXTURES = (
+    "calf-webview/src/androidDeviceTest/AndroidManifest.xml",
+    "calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml",
+)
+WEBVIEW_LIFETIME_SPECS = {
+    "desktop": (
+        {"classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewLifetimeTest",
+         "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt",
+         "methods": (
+             "retainedStateCannotRetainRepeatedRealNativeViewsOrEngines",
+             "throwingDisposeCannotKeepItsViewOrStopAnotherRealWindow",
+             "disposingARealWindowClosesItsSlowConnectionAndStopsTheLiveMediaDocument",
+         )},
+        {"classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest",
+         "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt",
+         "methods": ("disposalBeforeQueuedCreationCannotResurrectState",
+                     "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent"),
+         "declared_methods": (
+             "customUserAgentCanBeRestoredAndNativeStateIsReleased", "javascriptUsesActualEngineAndTypedJsonResults",
+             "stopCancelsRealSlowLoadWithoutFeedbackLoop", "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
+             "nativeLinkRedirectReloadAndHistoryKeepRequestedAndRestoredUrlsCurrent",
+             "disposalBeforeQueuedCreationCannotResurrectState", "evaluationQueuedAfterDisposalReportsUnavailableNotAScriptError",
+             "throwingCreationCallbackReleasesActualEngineAndScene",
+         )},
+    ),
+    "android-device": (
+        {"classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest",
+         "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt",
+         "methods": (
+             "retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+             "compositionDisposalClosesItsRealSlowConnectionAndStopsTheLiveMediaDocument",
+             "throwingNativeReleaseCannotRetainItsActivityViewOrClearTheLiveReplacement",
+         )},
+    ),
+}
+
+
+def webview_lifetime_groups(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> tuple[dict, ...]:
+    if focus == WEBVIEW_LIFETIME_FOCUS:
+        return WEBVIEW_LIFETIME_SPECS[suite]
+    if focus == WEBVIEW_ANDROID_MEDIA_FOCUS and suite == "android-device":
+        group = WEBVIEW_LIFETIME_SPECS[suite][0]
+        return ({**group, "methods": (group["methods"][1],), "declared_methods": group["methods"]},)
+    if focus != WEBVIEW_MEDIA_FOCUS or suite != "desktop":
+        raise ValueError("The failure-only real media focus is desktop-only")
+    group = WEBVIEW_LIFETIME_SPECS["desktop"][0]
+    return ({**group, "methods": (group["methods"][2],), "declared_methods": group["methods"]},)
+
+
+def webview_lifetime_identities(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> list[dict]:
+    suffix = "[desktop]" if suite == "desktop" else ""
+    return [{"classname": group["classname"], "name": method + suffix}
+            for group in webview_lifetime_groups(suite, focus) for method in group["methods"]]
+
+
+def webview_lifetime_filter(suite: str, focus: str = WEBVIEW_LIFETIME_FOCUS) -> str:
+    groups = webview_lifetime_groups(suite, focus)
+    if suite == "android-device":
+        # One real class avoids AGP9.4.0/ATE1.0.1's lossy comma-map transport.
+        return groups[0]["classname"] + ("#" + groups[0]["methods"][0] if focus == WEBVIEW_ANDROID_MEDIA_FOCUS else "")
+    return ",".join(group["classname"] + "." + method
+                    for group in groups for method in group["methods"])
+
+
+def validate_webview_device_network_fixture(root: Path) -> None:
+    documents = []
+    for relative in WEBVIEW_DEVICE_FIXTURES:
+        path = safe_path(root, relative)
+        if not path.is_file() or path.stat().st_size > 65536:
+            raise ValueError("Required bounded real device host/network fixture is missing")
+        documents.append(ET.fromstring(path.read_bytes(), parser=ET.XMLParser(target=NoDtdBuilder())))
+    manifest, security = documents
+    ns = "{http://schemas.android.com/apk/res/android}"
+    apps = manifest.findall("application")
+    activities = apps[0].findall("activity") if len(apps) == 1 else []
+    if (len(apps) != 1 or apps[0].get(ns + "usesCleartextTraffic") != "false" or
+            apps[0].get(ns + "networkSecurityConfig") != "@xml/nativecmpkit_webview_test_network_security" or
+            not any(a.get(ns + "name") == "com.mohamedrejeb.calf.ui.web.WebViewLifetimeActivity" and
+                    a.get(ns + "exported") == "false" for a in activities) or
+            not any(p.get(ns + "name") == "android.permission.INTERNET" for p in manifest.findall("uses-permission"))):
+        raise ValueError("Device networking must remain test-only with a nonexported real Activity")
+    base, domain = security.find("base-config"), security.find("domain-config")
+    if (security.tag != "network-security-config" or [c.tag for c in security] != ["base-config", "domain-config"] or
+            base is None or base.attrib != {"cleartextTrafficPermitted": "false"} or len(base) or
+            domain is None or domain.attrib != {"cleartextTrafficPermitted": "true"} or len(domain) != 1 or
+            domain[0].tag != "domain" or domain[0].attrib != {"includeSubdomains": "false"} or
+            (domain[0].text or "").strip() != "127.0.0.1" or len(domain[0])):
+        raise ValueError("Never replace the exact loopback fixture with global/domain-subtree cleartext allowances")
+
+
+
+# These incompatible API/flavor methods are finite-only, never a hidden skipped
+# addition to unrestricted API35/default authored-suite execution.
+ANDROID_STORAGE_MODULE = storage_plan.MODULE
+ANDROID_STORAGE_PROJECT = ":calf-permissions:calf-permissions-core"
+ANDROID_STORAGE_CLASS = storage_plan.CLASS
+ANDROID_STORAGE_FOCUSES = frozenset(row.profile for row in storage_plan.ROWS)
+ANDROID_STORAGE_SOURCE = ANDROID_STORAGE_MODULE + "/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/AndroidStorageCompatibilityTest.kt"
+ANDROID_STORAGE_SOURCES = tuple(ANDROID_STORAGE_MODULE + "/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/permissions/" + name + ".kt"
+    for name in ("AndroidStorageCompatibilityTest", "OwnedStorageProbe", "StorageTestDocumentsProvider"))
+FINITE_ONLY_DEVICE_MODULES = (ANDROID_STORAGE_MODULE,)
+# Shared core hosts require one exact storage or permission/media focus.
+ANDROID_FINITE_CORE_DEVICE_FOCUSES = ANDROID_STORAGE_FOCUSES | frozenset(ANDROID_PERMISSION_DEVICE_SPECS)
+
+
+def android_storage_probe_required(test_plan: dict) -> bool:
+    return test_plan.get("suite") == "android-device" and test_plan.get("explicit_test_focus") in ANDROID_STORAGE_FOCUSES
+
+
+def android_storage_identities(focus: str) -> list[dict]:
+    row = storage_plan.row_for(focus)
+    return [{"classname": ANDROID_STORAGE_CLASS, "name": row.method}]
+
+
+def validate_android_storage_probe_plan(test_plan: dict) -> None:
+    contract = test_plan.get("android_storage_probe")
+    if not android_storage_probe_required(test_plan):
+        if contract is not None:
+            raise ValueError("No storage helper/source contract for unrelated/default methods")
+        if test_plan.get("suite") == "android-device":
+            if (any(item.get("module") in FINITE_ONLY_DEVICE_MODULES for item in test_plan.get("expected", [])) and
+                    test_plan.get("explicit_test_focus") not in ANDROID_PERMISSION_DEVICE_SPECS):
+                raise ValueError("The finite-only core host cannot run without one exact profile")
+            if (ANDROID_STORAGE_MODULE in test_plan.get("test_bearing_modules_not_requested", []) and
+                    test_plan.get("complete_suite_requested") is not False):
+                raise ValueError("Unrequested finite storage methods cannot become complete authored-suite coverage")
+        return
+    import android_storage_probe
+    row = storage_plan.row_for(test_plan["explicit_test_focus"])
+    if (not isinstance(contract, dict) or set(contract) != {"package", "source_fixture", "profile", "verification_api_level", "target_sdk", "flavor", "source_contract"} or
+            contract.get("package") != android_storage_probe.PACKAGE or contract.get("source_fixture") != android_storage_probe.FIXTURE or
+            contract.get("profile") != row.profile or type(contract.get("verification_api_level")) is not int or
+            contract["verification_api_level"] != row.api or type(contract.get("target_sdk")) is not int or
+            contract["target_sdk"] != row.target or contract.get("flavor") != row.flavor):
+        raise ValueError("Missing exact storage API/flavor/target/source plan")
+    android_storage_probe.validate_source_receipt(contract["source_contract"])
+
+
+def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
+    return ((focus in ANDROID_STORAGE_FOCUSES and suite == "android-device" and modules == (ANDROID_STORAGE_MODULE,)) or
+            content_policy.allowed(suite, modules, focus) or
+            (focus == calendar_native.FOCUS and suite == "ios" and modules == (calendar_native.MODULE,)) or
+            (focus == macos_share_native.FOCUS and suite == "desktop" and modules == (macos_share_native.MODULE,)) or
+            (focus == share_missing.FOCUS and suite == "desktop" and modules == (share_missing.MODULE,)) or
+            (focus == PICKER_LIFETIME_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus in ANDROID_PERMISSION_DEVICE_SPECS and suite == "android-device" and modules == ("calf-permissions/core",)) or
+            (focus == ANDROID_NAV_BACK_FOCUS and suite == "android-device" and modules == ("calf-navigation",)) or
+            (focus == ANDROID_GEO_OWNERSHIP_FOCUS and suite == "android-device" and modules == ("calf-geo",)) or
+            (focus in ANDROID_GEO_PROVIDER_FOCUSES and suite == "android-device" and modules == ("calf-geo",)) or
+            (focus in ANDROID_CAMERA_FOCUSES and suite == "android-device" and modules == ("calf-camera-picker",)) or
+            (focus == ANDROID_SHARE_GRANT_FOCUS and suite == "android-device" and modules == ("calf-share",)) or
+            (focus == ANDROID_POPUP_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
+            (focus == ANDROID_WEBVIEW_REQUEST_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
+            (focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS and suite == "android-device" and modules == ("calf-webview",)) or
+            (focus == WEBVIEW_CONTENT_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_CONTENT_MODULE,)) or
+            (focus == WEBVIEW_REQUEST_FOCUS and suite in {"js", "wasm"} and modules == (WEBVIEW_REQUEST_MODULE,)) or
+            (focus == WEBVIEW_OFFLINE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-webview",)) or
+            (focus == SHARE_CLIPBOARD_NATIVE_FOCUS and suite in {"js", "wasm"} and modules == ("calf-share",)) or
+            (focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
+            (focus in desktop_security_plan.FOCUSES and suite == "desktop" and modules == ("calf-webview",)) or
+            (focus in WEBVIEW_IDENTITY_FOCUSES and suite in WEBVIEW_IDENTITY_SPECS and modules == ("calf-webview",) and
+             (focus != WEBVIEW_IDENTITY_RECOVERY_FOCUS or suite in {"desktop", "android-device"}) and
+             (focus != WEBVIEW_REMOUNT_RECOVERY_FOCUS or suite == "android-device")) or
+            (focus == DESKTOP_SAVER_STATE_FOCUS and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus in LINUX_PICKER_PORTAL_FOCUSES and suite == "desktop" and modules == ("calf-file-picker",)) or
+            (focus == WEBVIEW_LIFETIME_FOCUS and suite in WEBVIEW_LIFETIME_SPECS and
+             modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == WEBVIEW_MEDIA_FOCUS and suite == "desktop" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == WEBVIEW_ANDROID_MEDIA_FOCUS and suite == "android-device" and modules == (WEBVIEW_LIFETIME_MODULE,)) or
+            (focus == NATIVE_SHARE_BOUNDARY_FOCUS and suite == "desktop" and
+             modules == (NATIVE_SHARE_BOUNDARY_MODULE,)) or
+            (focus == DATE_TRANSACTION_FOCUS and suite in DATE_TRANSACTION_SOURCE_SETS and
+             modules == (DATE_TRANSACTION_MODULE,)) or
+            (focus == UI_DATE_YEAR_MATERIAL_FOCUS and suite == "desktop" and modules == ("calf-ui",)) or
+            (focus in DROPDOWN_FOCUSES and suite in DROPDOWN_SOURCE_SETS and modules == ("calf-ui",) and
+             (focus != DROPDOWN_ANDROID_RECOVERY_FOCUS or suite == "android-device")) or
+            (focus in ANDROID_IO_REMOTE_FOCUSES and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_PROVIDER_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_UNAVAILABLE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_DEFAULT_DECODE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_REFERENCE_FOCUS and suite == "android-device" and modules == ("calf-io",)) or
+            (focus == ANDROID_IO_OVERSIZE_FOCUS and suite == "android-device" and
+             modules == ("calf-io",)) or
+            (focus in ANDROID_SAVE_IDENTITY_FOCUSES and suite == "android-device" and
+             modules == ("calf-file-picker",)) or
+            (focus == UNSUPPORTED_PERMISSION_FOCUS and suite in UNSUPPORTED_PERMISSION_SOURCE_SETS and
+             modules == (UNSUPPORTED_PERMISSION_MODULE,)) or
+            ((focus == IOS_PERMISSION_FOCUS or focus in IOS_PERMISSION_SAFETY_SPECS) and suite == "ios" and
+             modules == (IOS_PERMISSION_MODULE,)) or
+            (focus == ANDROID_PERMISSION_COMPLETION_FOCUS and suite == "android-host" and
+             modules == (IOS_PERMISSION_MODULE,)) or
+            (focus == IOS_SAVE_WRITE_FOCUS and suite == "ios" and modules == ("calf-file-picker",)) or
+            (focus == BROWSER_COIL_READ_FOCUS and suite in {"js", "wasm"} and modules == (BROWSER_COIL_READ_MODULE,)) or
+            (focus in UI_APPLICATION_FOCUS_SPECS and suite == "ios" and
+             modules == (UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui"),)))
+
+
+def unsupported_permission_source(suite: str) -> str:
+    return ("calf-permissions/core/src/" + UNSUPPORTED_PERMISSION_SOURCE_SETS[suite] +
+            "/kotlin/com/mohamedrejeb/calf/permissions/UnsupportedPublicFactoryTest.kt")
+
+
+def unsupported_permission_identities() -> list[dict]:
+    return [{"classname": UNSUPPORTED_PERMISSION_CLASS, "name": method} for method in UNSUPPORTED_PERMISSION_METHODS]
+
+
+def unsupported_permission_case_inventory(suite: str, cases: list[dict]) -> bool:
+    classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + UNSUPPORTED_PERMISSION_CLASS
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname:
+            return False
+        if suite == "desktop":
+            if separator + suffix != "[desktop]":
+                return False
+        else:
+            target = "js" if suite == "js" else "wasmJs"
+            if not separator or not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
+                return False
+        actual.append(name)
+    return len(actual) == len(UNSUPPORTED_PERMISSION_METHODS) and set(actual) == set(UNSUPPORTED_PERMISSION_METHODS)
+
+
+def date_transaction_source(suite: str) -> str:
+    return ("calf-ui/src/" + DATE_TRANSACTION_SOURCE_SETS[suite] + "/" +
+            DATE_TRANSACTION_PACKAGE_PATH + "CompactDateTransactionAcceptanceTest.kt")
+
+
+def date_transaction_identities() -> list[dict]:
+    """Canonical names; actual target/browser suffixes are checked separately."""
+    return [{"classname": DATE_TRANSACTION_CLASS, "name": method} for method in DATE_TRANSACTION_METHODS]
+
+
+def dropdown_source(suite: str) -> str:
+    return "calf-ui/src/" + DROPDOWN_SOURCE_SETS[suite] + DROPDOWN_PACKAGE_PATH + "MaterialDropdownAcceptanceTest.kt"
+
+
+def dropdown_platform_source(suite: str) -> str:
+    return "calf-ui/src/" + DROPDOWN_SOURCE_SETS[suite] + DROPDOWN_PACKAGE_PATH + "MaterialDropdownPlatformTest.kt"
+
+
+def dropdown_methods(focus: str = DROPDOWN_FOCUS) -> tuple[str, ...]:
+    if focus not in DROPDOWN_FOCUSES:
+        raise ValueError("Unknown finite dropdown selection")
+    return DROPDOWN_METHODS[-1:] if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS else DROPDOWN_METHODS
+
+
+def dropdown_filter(focus: str = DROPDOWN_FOCUS) -> str:
+    methods = dropdown_methods(focus)
+    # The sole method recovery is Android-only: AndroidJUnitRunner uses '#',
+    # not the desktop Gradle Test 'Class.method' syntax.
+    return DROPDOWN_CLASS + "#" + methods[0] if len(methods) == 1 else DROPDOWN_CLASS
+
+
+def dropdown_identities(focus: str = DROPDOWN_FOCUS) -> list[dict]:
+    return [{"classname": DROPDOWN_CLASS, "name": method} for method in dropdown_methods(focus)]
+
+
+def dropdown_case_inventory(suite: str, cases: list[dict], focus: str = DROPDOWN_FOCUS) -> bool:
+    if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS and suite != "android-device":
+        return False
+    classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + DROPDOWN_CLASS
+    names = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname:
+            return False
+        if suite == "android-device":
+            if separator:
+                return False
+        elif suite == "desktop":
+            if separator + suffix != "[desktop]":
+                return False
+        else:
+            target = "js" if suite == "js" else "wasmJs"
+            if not separator or not re.fullmatch(re.escape(target) + r", browser, [^\[\]\r\n]+\]", suffix):
+                return False
+        names.append(name)
+    methods = dropdown_methods(focus)
+    return len(names) == len(methods) and set(names) == set(methods)
+
+
+def android_io_provider_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_PROVIDER_CLASS, "name": method} for method in ANDROID_IO_PROVIDER_METHODS]
+
+
+def android_io_unavailable_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_UNAVAILABLE_CLASS, "name": ANDROID_IO_UNAVAILABLE_METHOD}]
+
+
+def android_io_default_decode_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_DEFAULT_DECODE_CLASS, "name": method} for method in ANDROID_IO_DEFAULT_DECODE_METHODS]
+
+
+def android_io_named_system_identities(focus: str = ANDROID_IO_NAMED_SYSTEM_FOCUS) -> list[dict]:
+    if focus not in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
+        raise ValueError("Unknown named-system-provider focus")
+    methods = ANDROID_IO_NAMED_SYSTEM_METHODS if focus == ANDROID_IO_NAMED_SYSTEM_FOCUS else ANDROID_IO_NAMED_SYSTEM_METHODS[:1]
+    return [{"classname": ANDROID_IO_NAMED_SYSTEM_CLASS, "name": method} for method in methods]
+
+
+def android_io_named_system_filter(focus: str = ANDROID_IO_NAMED_SYSTEM_FOCUS) -> str:
+    identities = android_io_named_system_identities(focus)
+    return (ANDROID_IO_NAMED_SYSTEM_CLASS if focus == ANDROID_IO_NAMED_SYSTEM_FOCUS else
+            ANDROID_IO_NAMED_SYSTEM_CLASS + "#" + identities[0]["name"])
+
+
+def android_io_reference_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_REFERENCE_CLASS, "name": method} for method in ANDROID_IO_REFERENCE_METHODS]
+
+
+def android_io_remote_documents_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+            test_plan.get("explicit_test_focus") in ANDROID_IO_REMOTE_FOCUSES)
+
+
+def validate_android_io_remote_documents_plan(test_plan: dict) -> None:
+    contract = test_plan.get("android_io_remote_documents")
+    if not android_io_remote_documents_required(test_plan):
+        if contract is not None:
+            raise ValueError("A remote helper/source receipt cannot replace an unrelated or accepted IO route")
+        return
+    import android_io_remote_documents as remote
+    focus = test_plan["explicit_test_focus"]
+    expected = test_plan.get("expected")
+    if (type(contract) is not dict or set(contract) != {"package", "source_fixture", "verification_api_level", "source_contract"} or
+            contract.get("package") != remote.PACKAGE or contract.get("source_fixture") != remote.FIXTURE or
+            type(contract.get("verification_api_level")) is not int or contract["verification_api_level"] != 35 or
+            type(expected) is not list or len(expected) != 1 or test_plan.get("explicit_module_subset") != ["calf-io"] or
+            test_plan.get("complete_suite_requested") is not False or test_plan.get("android_io_documents") is not None):
+        raise ValueError("Only the separate exact API35 calf-io remote source/fixture plan is admitted")
+    item = expected[0]
+    dependencies = tuple(remote.KOTLIN + name + ".kt" for name in remote.KOTLIN_NAMES) + tuple(remote.REUSED_PINS)
+    if (type(item) is not dict or item.get("module") != "calf-io" or item.get("project") != ":calf-io" or
+            item.get("task") != ":calf-io:connectedAndroidDeviceTest" or
+            item.get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+            item.get("utp_results_directory") != item.get("report_directory") or
+            item.get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+            item.get("test_filter") != remote.instrumentation_filter(focus) or item.get("test_filter_argument") != "class" or
+            item.get("test_exclusion_annotation") is not None or item.get("required_testcases") != list(remote.identities(focus)) or
+            type(item.get("verification_api_level")) is not int or item["verification_api_level"] != 35 or
+            type(item.get("required_original_xml")) is not int or item["required_original_xml"] != 1 or
+            any(relative not in item.get("test_source_files", []) for relative in dependencies)):
+        raise ValueError("Invalid exact remote class/two-or-one-method/API35/task/XML plan")
+    remote.validate_source_receipt(contract["source_contract"])
+
+
+def android_io_documents_required(test_plan: dict) -> bool:
+    # The accepted pre-open oversize recovery must not acquire this new helper or
+    # replay any lifecycle/Coil cases. Full/unfocused authored IO keeps them all.
+    return (test_plan.get("suite") == "android-device" and
+            (test_plan.get("explicit_test_focus") in {ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS} or
+             (test_plan.get("explicit_test_focus") is None and any(
+                 item.get("module") == "calf-io" and ANDROID_IO_PROVIDER_SOURCE in item.get("test_source_files", [])
+                 for item in test_plan.get("expected", [])))))
+
+
+def validate_android_io_documents_plan(test_plan: dict) -> None:
+    contract = test_plan.get("android_io_documents")
+    if not android_io_documents_required(test_plan):
+        if contract is not None:
+            raise ValueError("Owned IO helper cannot be supplied to an unrelated or accepted recovery focus")
+        return
+    import android_io_documents
+    if (not isinstance(contract, dict) or set(contract) != {"package", "source_fixture", "verification_api_level", "source_contract"} or
+            contract.get("package") != android_io_documents.PACKAGE or contract.get("source_fixture") != android_io_documents.FIXTURE or
+            contract.get("verification_api_level") != 35):
+        raise ValueError("Missing exact API35 owned IO helper/source plan")
+    android_io_documents.validate_source_receipt(contract["source_contract"])
+
+
+def android_io_oversize_identities() -> list[dict]:
+    return [{"classname": ANDROID_IO_DEVICE_CLASS, "name": ANDROID_IO_OVERSIZE_METHOD}]
+
+
+def date_transaction_case_inventory(suite: str, cases: list[dict]) -> bool:
+    classname = (SUITES[suite][0] + "." if suite in {"js", "wasm"} else "") + DATE_TRANSACTION_CLASS
+    actual = []
+    for case in cases:
+        name, separator, suffix = case["name"].partition("[")
+        if case["classname"] != classname:
+            return False
+        if suite in {"android-host", "android-device"}:
+            if separator:
+                return False
+        elif suite == "desktop":
+            if separator + suffix != "[desktop]":
+                return False
+        else:
+            target = "js" if suite == "js" else "wasmJs"
+            if (not separator or not suffix.startswith(target + ", browser, ") or
+                    not suffix.endswith("]") or "[" in suffix or "]" in suffix[:-1]):
+                return False
+        actual.append((DATE_TRANSACTION_CLASS, name))
+    required = {(c["classname"], c["name"]) for c in date_transaction_identities()}
+    return len(actual) == len(required) and set(actual) == required
+
+
+def utc_now() -> str:
+    return dt.datetime.now(dt.timezone.utc).isoformat()
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def input_digest(files: dict[str, str]) -> str:
+    return hashlib.sha256("".join(f"{value}  {name}\n" for name, value in sorted(files.items())).encode()).hexdigest()
+
+
+def safe_path(root: Path, relative: str) -> Path:
+    """Reject traversal and symlinks before inspecting or mutating owned outputs."""
+    parts = Path(relative).parts
+    if not parts or Path(relative).is_absolute() or any(part in {".", ".."} for part in parts):
+        raise ValueError("Expected a confined repository-relative path")
+    current = root
+    for part in parts:
+        current = current / part
+        if current.is_symlink():
+            raise ValueError(f"Symlink is outside the test receipt contract: {relative}")
+    if not current.resolve().is_relative_to(root.resolve()):
+        raise ValueError("Test path escapes the checkout")
+    return current
+
+
+def source_files(root: Path, relative: str) -> list[Path]:
+    folder = safe_path(root, relative)
+    if not folder.exists():
+        return []
+    if not folder.is_dir():
+        raise ValueError(f"Expected source directory: {relative}")
+    result = []
+    for base, directories, names in os.walk(folder, followlinks=False):
+        directories[:] = sorted(name for name in directories if name not in IGNORED_INPUT_DIRS)
+        for name in [*directories, *names]:
+            path = Path(base) / name
+            if path.is_symlink():
+                raise ValueError(f"Symlinked source input: {path.relative_to(root).as_posix()}")
+        for name in sorted(names):
+            path = Path(base) / name
+            if not path.is_file():
+                raise ValueError("Non-regular source input")
+            result.append(path)
+    return result
+
+
+def projects(root: Path) -> dict[str, str]:
+    """Read this repository's literal include/rename idiom; fail on changed syntax.
+
+    This is not a general Gradle parser. A computed include/rename or different
+    source hierarchy requires a deliberate update and new fixture, not guessing.
+    """
+    settings = safe_path(root, "settings.gradle.kts").read_text(encoding="utf-8")
+    blocks = re.findall(r"(?ms)^include\(\s*(.*?)^\)", settings)
+    if len(blocks) != 1:
+        raise ValueError("Expected one literal settings include block; review CI project discovery")
+    block = re.sub(r"(?m)//[^\n]*", "", blocks[0])
+    paths = re.findall(r'"([^"\n]+)"', block)
+    remainder = re.sub(r'"[^"\n]+"', "", block)
+    if not paths or remainder.strip(" \t\r\n,") or len(paths) != len(set(paths)):
+        raise ValueError("Computed or duplicate settings includes require explicit review")
+    renames = dict(re.findall(r'(?m)^project\("([^"\n]+)"\)\.name = "([a-z][a-z0-9-]*)"\s*$', settings))
+    if len(renames) != len(re.findall(r'(?m)^project\([^\n]+\)\.name\s*=', settings)):
+        raise ValueError("Computed or duplicate project renames require explicit review")
+    result = {}
+    for original in paths:
+        if not PROJECT_PATH.fullmatch(original):
+            raise ValueError("Unrecognized included Gradle project path")
+        if original.startswith(":sample:"):
+            continue
+        if not original.startswith(":calf-"):
+            raise ValueError("Unknown non-sample project; classify its library test coverage explicitly")
+        parts = original[1:].split(":")
+        module = "/".join(parts)
+        if not safe_path(root, module + "/build.gradle.kts").is_file():
+            raise ValueError(f"Included library build file is missing: {module}")
+        target = ":" + ":".join(renames.get(":" + ":".join(parts[:i + 1]), part)
+                                 for i, part in enumerate(parts))
+        if target in result.values():
+            raise ValueError("Duplicate renamed library Gradle path")
+        result[module] = target
+    if set(renames) - set(paths):
+        raise ValueError("Rename refers to a non-included project")
+    return dict(sorted(result.items()))
+
+
+def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
+         only_modules: tuple[str, ...] | None = None, *, focus: str | None = None) -> dict:
+    if focus is not None and not allowed_test_focus(suite, only_modules, focus):
+        raise ValueError("Test focus requires its exact reviewed suite and single module")
+    if minimum_modules is None or only_modules:
+        camera_callback.validate_discovery(suite, only_modules, focus, ANDROID_CAMERA_FOCUSES)
+    if suite == "android-device" and only_modules and ANDROID_STORAGE_MODULE in only_modules and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:
+        raise ValueError("Explicit storage device requests require one exact finite API/flavor profile")
+    if suite == "android-device" and focus is None and (not only_modules or "calf-io" in only_modules):
+        # Requested-domain admission is independent of class/file existence or a synthetic minimum.
+        raise ValueError("Unfiltered Android discovery requires a qualified remote IO fixture route; full aggregate is blocked")
+    task_name, inherited = SUITES[suite]
+    declared_projects = projects(root)
+    camera_callback.validate_discovery(
+        suite, only_modules, focus, ANDROID_CAMERA_FOCUSES,
+        declared_modules=tuple(declared_projects), minimum_modules=minimum_modules)
+    selected, uncovered = [], []
+    for module, project in declared_projects.items():
+        source_root = safe_path(root, module + "/src")
+        if source_root.is_dir():
+            unknown = {path.name for path in source_root.iterdir()
+                       if path.name.endswith("Test") and path.name not in KNOWN_TEST_SETS
+                       # This owner-only opt-in input tree is excluded from ordinary
+                       # source-set inheritance. Its exact four-file init script and
+                       # geometry focus must admit it explicitly before compilation.
+                       and not (module == "calf-ui" and path.name == "iosGeometryTest")
+                       and source_files(root, path.relative_to(root).as_posix())}
+            if unknown:
+                raise ValueError(f"Unknown test source sets in {module}: {sorted(unknown)}; update hierarchy mapping")
+        if suite == "android-device" and not any(
+                path.suffix in {".kt", ".java"}
+                for path in source_files(root, f"{module}/src/androidDeviceTest")):
+            uncovered.append({"module": module,
+                              "reason": "No authored Android-device test host; common/host tests do not establish instrumented execution"})
+            continue
+        inputs, source_sets = [], []
+        for source_set in inherited:
+            files = [path for path in source_files(root, f"{module}/src/{source_set}") if path.suffix in {".kt", ".java"}]
+            if files:
+                inputs.extend(path.relative_to(root).as_posix() for path in files)
+                source_sets.append(source_set)
+        if suite == "ios" and module == secure_alert.MODULE:
+            inputs.extend(secure_alert.external_test_sources(root))
+        if inputs:
+            # Actual AGP9.4.0/UTP run40434024680 writes TEST-*.xml in the public
+            # getResultsDir tree. Its separately inspected getXmlResultsDirectory
+            # is an empty intermediate. Preserve both contracts explicitly;
+            # do not discover arbitrary XML or count protobuf inventories as tests.
+            actual_task = (IOS_APPLICATION_TASK if suite == "ios" and (
+                           (module in IOS_APPLICATION_HOST_SOURCES and not (module == "calf-file-picker" and focus == IOS_SAVE_WRITE_FOCUS)) or
+                           (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)
+            if suite == "ios" and module == ui_related.MODULE and focus in ui_related.SPLIT_FOCUSES:
+                actual_task = ui_related.task_name(focus)
+            report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
+                                if suite == "android-device" else f"{module}/build/test-results/{actual_task}")
+            item = {"module": module, "project": project, "task": f"{project}:{actual_task}",
+                    "report_directory": report_directory,
+                    "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
+            if actual_task == IOS_APPLICATION_TASK or (suite == "ios" and module == ui_related.MODULE and
+                                                       focus in ui_related.SPLIT_FOCUSES):
+                application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS
+                                       else IOS_APPLICATION_HOST_SOURCES[module])
+                if not all(source in inputs for source in application_sources):
+                    raise ValueError("Required genuine UIKit application host/tests are missing; a Skiko/zero-suite fallback is not allowed")
+                item["native_test_host"] = "genuine-uikit-application"
+            if suite == "android-device":
+                item["agp_declared_xml_directory"] = f"{module}/build/intermediates/android_test_results/androidMain/{task_name}"
+                item["utp_results_directory"] = report_directory
+            selected.append(item)
+        else:
+            uncovered.append({"module": module, "reason": f"No inherited test source files for {suite}; not executed or counted as passing"})
+    finite_unrequested = []
+    if suite == "android-device" and focus not in ANDROID_FINITE_CORE_DEVICE_FOCUSES:
+        finite_unrequested = sorted(item["module"] for item in selected if item["module"] in FINITE_ONLY_DEVICE_MODULES)
+        selected = [item for item in selected if item["module"] not in FINITE_ONLY_DEVICE_MODULES]
+    not_selected = list(finite_unrequested)
+    if only_modules:
+        if len(only_modules) != len(set(only_modules)):
+            raise ValueError("Duplicate explicitly selected module")
+        missing_selection = set(only_modules) - {item["module"] for item in selected}
+        if missing_selection:
+            raise ValueError(f"Selected modules do not have {suite} library test sources: {sorted(missing_selection)}")
+        not_selected = sorted(set(finite_unrequested) | {item["module"] for item in selected if item["module"] not in only_modules})
+        selected = [item for item in selected if item["module"] in only_modules]
+        uncovered = [item for item in uncovered if item["module"] in only_modules]
+    minimum = set((only_modules or MINIMUM_MODULES[suite]) if minimum_modules is None else minimum_modules)
+    if minimum_modules is None and not only_modules:
+        # Omit only a discovered finite host; deleting that host still fails the minimum inventory guard.
+        minimum.difference_update(finite_unrequested)
+    missing = minimum - {item["module"] for item in selected}
+    if missing:
+        raise ValueError(f"Required {suite} library test modules are absent: {sorted(missing)}")
+    if not selected:
+        raise ValueError(f"No library test sources for {suite}; a zero-test plan is not success")
+    if suite == "android-device":
+        # Instrumented suites are serial. Exercise data/descriptor/provider
+        # ownership first, so a later UI-engine hang cannot hide its outcomes.
+        priorities = {module: index for index, module in enumerate(MINIMUM_MODULES[suite])}
+        selected.sort(key=lambda item: (priorities.get(item["module"], len(priorities)), item["module"]))
+    if suite == "desktop":
+        for item in selected:
+            if item["module"] == native_test_policy.MODULE and native_test_policy.SOURCE not in item["test_source_files"]:
+                raise ValueError("Required native share scenario source is missing; do not silently reduce native coverage")
+            if item["module"] == "calf-file-picker" and PICKER_LIFETIME_SOURCE not in item["test_source_files"]:
+                raise ValueError("Required picker Compose/JNI scenario source is missing; do not silently reduce native coverage")
+    result = {"schema_version": 1, "suite": suite, "inherited_test_source_sets": list(inherited),
+            "expected": selected, "uncovered": uncovered,
+            "complete_suite_requested": not bool(only_modules) and not finite_unrequested, "explicit_module_subset": list(only_modules or ()),
+            "finite_only_device_modules_not_requested": finite_unrequested,
+            "test_bearing_modules_not_requested": not_selected,
+            "scope": "Library tests only; discovery is source-set-aware, not a promise of native/device integration coverage"}
+    if focus in ANDROID_STORAGE_FOCUSES:
+        import android_storage_probe
+        row = storage_plan.row_for(focus)
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_STORAGE_CLASS + "#" + row.method
+        selected[0]["required_testcases"] = android_storage_identities(focus)
+        result["android_storage_probe"] = {"package": android_storage_probe.PACKAGE, "source_fixture": android_storage_probe.FIXTURE,
+            "profile": row.profile, "verification_api_level": row.api, "target_sdk": row.target, "flavor": row.flavor,
+            "source_contract": android_storage_probe.source_contract(root)}
+        result["scope"] = "One exact finite storage API/flavor/target method, not unrestricted Android/default-suite coverage. Separate-UID public WriteStorage, real normal-UID descriptor bytes, actual system SAF and native WRITE/all-files restoration remain required. No manual URI grant, source/sample substitution, physical/vendor/settings-dialog/process-restoration/consumer/API-ABI/security/release certification."
+    elif focus == UI_DATE_YEAR_MATERIAL_FOCUS:
+        source = safe_path(root, UI_DATE_YEAR_MATERIAL_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = UI_DATE_YEAR_MATERIAL_CLASS.rsplit(".", 1)
+        if (methods != list(UI_DATE_YEAR_MATERIAL_METHODS) or
+                "class " + classname not in source or "package " + package not in source or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                any(path not in selected[0]["test_source_files"] for path in UI_DATE_YEAR_MATERIAL_SOURCES)):
+            raise ValueError("New important Material year declarations changed; require both exact methods and their owned helpers")
+        shared = safe_path(root, UI_DATE_YEAR_SHARED_SOURCE).read_text(encoding="utf-8")
+        if re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", shared):
+            raise ValueError("New important Material year declarations changed; shared assertions must remain zero-test and enabled")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = UI_DATE_YEAR_MATERIAL_CLASS
+        selected[0]["required_testcases"] = ui_date_year_material_identities()
+        result["scope"] = "Two new important public Material year-policy companions only: actual rule-change setter retention/in-range snapping and actual disabled/enabled single/range calendar click policy. The shared zero-test assertions execute against this Material actual independently of the same-host UIKit application. Never replay accepted date-transaction/bounds/month/dropdown/old alert methods or claim native/physical/older/all-OS/consumer/API-ABI/dependency/security/release certification."
+    elif focus in content_policy.FOCUSES and focus != content_policy.IOS_FOCUS:
+        content_policy.configure_item(root, selected[0], focus)
+        result["explicit_test_focus"] = focus
+        result["scope"] = content_policy.scope(focus)
+    elif focus in UI_APPLICATION_FOCUS_SPECS:
+        spec = UI_APPLICATION_FOCUS_SPECS[focus]
+        if focus == content_policy.IOS_FOCUS:
+            content_policy.configure_item(root, selected[0], focus)
+        if focus == camera_ios.FOCUS:
+            camera_ios.validate_sources(root)
+            selected[0]["test_source_files"] = sorted(camera_ios.SOURCES)
+            selected[0]["test_source_sets"] = ["iosTest"]
+            selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)
+            selected[0]["required_original_xml"] = 1
+        if focus in ui_related.ALL_FOCUSES:
+            ui_related.validate_sources(root, focus)
+            selected[0]["test_source_files"] = sorted(ui_related.sources(focus))
+            selected[0]["test_source_sets"] = ["iosTest"]
+            selected[0]["ui_related_source_contract"] = ui_related.source_contract(root, focus)
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            geometry_plan.validate_sources(root)
+            # Opt-in library test inputs, not a new public target or ordinary source-set mutation.
+            selected[0]["test_source_files"] = sorted(set((*selected[0]["test_source_files"],
+                IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)))
+        for group in ui_application_focus_groups(focus):
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            declared = group.get("declared_methods", group["methods"])
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(declared) or set(methods) != set(declared) or
+                    not set(group["methods"]) <= set(declared) or
+                    "class " + classname not in source or "package " + package not in source):
+                raise ValueError("Native date declarations changed; review the exact finite application selection")
+            if focus in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS, IOS_MODAL_WORKER_MEMORY_FOCUS, IOS_MODAL_XCUI_FOCUS, IOS_SHEET_REPEAT_FOCUS, IOS_MODAL_COMPLETION_FOCUS, IOS_POPOVER_ANCHOR_FOCUS, IOS_POPOVER_BAR_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New modal lifecycle source must retain all enabled native declarations")
+            if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New Share application declarations must remain enabled")
+            if (focus in UI_DATE_YEAR_NATIVE_FOCUSES or focus == UI_ALERT_RECOVERY_FOCUS) and re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+                raise ValueError("New important alert/year source must retain all enabled native declarations")
+        if focus in UI_DATE_YEAR_NATIVE_FOCUSES:
+            if UI_DATE_YEAR_SHARED_SOURCE not in selected[0]["test_source_files"]:
+                raise ValueError("New important alert/year source requires its exact shared zero-test assertions")
+            shared = safe_path(root, UI_DATE_YEAR_SHARED_SOURCE).read_text(encoding="utf-8")
+            if re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", shared):
+                raise ValueError("New important alert/year source shared assertions must remain zero-test and enabled")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ui_application_focus_filter(focus)
+        selected[0]["required_testcases"] = ui_application_focus_identities(focus)
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and any(
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", safe_path(root, name).read_text(encoding="utf-8"))
+                for name in (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE)):
+            raise ValueError("OS geometry requires enabled exact native inputs, not skipped/disabled declarations")
+        if focus == IOS_MODAL_XCUI_FOCUS:
+            import native_ui_input
+            if native_ui_input.NATIVE not in selected[0]["test_source_files"]:
+                raise ValueError("Native modal input requires its exact enabled zero-test Kotlin helper")
+            native_ui_input.validate_sources(root)
+        if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS:
+            observer = safe_path(root, IOS_SHARE_TERMINAL_OBSERVATION_SOURCE)
+            if (IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in selected[0]["test_source_files"] or
+                    not observer.is_file() or observer.stat().st_nlink != 1 or
+                    re.search(r"@(Test|Ignore|Disabled|IgnoredTest)\b", observer.read_text(encoding="utf-8"))):
+                raise ValueError("The exact failed Share method requires its enabled zero-test observation helper")
+        if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):
+            fixture = safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE)
+            if not fixture.is_file() or fixture.stat().st_nlink != 1:
+                raise ValueError("The new native WK request selection requires its exact owned loopback fixture")
+            selected[0]["ios_webview_request_fixture"] = IOS_WEBVIEW_REQUEST_FIXTURE
+            selected[0]["ios_webview_request_fixture_sha256"] = sha256(fixture)
+            selected[0]["test_source_files"] = sorted(set((*selected[0]["test_source_files"], IOS_WEBVIEW_REQUEST_FIXTURE)))
+        if focus == secure_alert.FOCUS:
+            selected[0]["secure_alert_input_contract"] = secure_alert.source_contract(root)
+            secure_alert.validate_contract(selected[0]["secure_alert_input_contract"], selected[0]["test_source_files"])
+        result["scope"] = spec["scope"]
+    elif focus == camera_callback.FOCUS:
+        camera_callback.configure_item(root, selected[0])
+        result["explicit_test_focus"] = focus
+        result["scope"] = camera_callback.SCOPE
+    elif focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
+        source = safe_path(root, ANDROID_CAMERA_RESTORATION_SOURCE).read_text(encoding="utf-8")
+        client = safe_path(root, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_CAMERA_RESTORATION_METHODS) or
+                "class AndroidCameraRestorationTest" not in source or
+                "package com.mohamedrejeb.calf.camerapicker" not in source or
+                "class CameraRestorationVerificationActivity" not in client or
+                any(name not in selected[0]["test_source_files"] for name in
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE, ANDROID_CAMERA_SETTINGS_UI_SOURCE)) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source + client)):
+            raise ValueError("Android camera restoration declarations changed; review the exact four-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_camera_restoration_filter(focus)
+        selected[0]["required_testcases"] = android_camera_restoration_identities(focus)
+        result["scope"] = "Four new real public Compose/ActivityResultRegistry camera-restoration methods on owned API35: don't-keep-activities, real display rotation, actual same-UID kernel process death and restored cancellation, with native foreign-UID grants/closed descriptors/nonce-bound task/PID/temp/output/setting/component ownership. Bytes and external recipient are synthetic; no manually injected restored result/state/grant. Accepted provider/host/portable methods are not replayed; not hardware/vendor/physical/minimum-API/packaged/API-ABI/heap/security/release certification."
+        if focus == ANDROID_CAMERA_DONT_KEEP_FOCUS:
+            result["scope"] = "Only the failed native don't-keep-activities method from41242704209. Three accepted rotation/kernel-process-death/cancellation methods are reused by exact applicable source, not replayed. Genuine native service toggle/readback and exact original scalar/runtime restoration preserve the unchanged Activity destruction/public launcher/registry/grants/readable-file criteria. The scalar/cache contract gap is distinct from the unknown actual timeout cause. No forced Activity destruction, manual state/result/grant, hardware/vendor/physical/minimum/packaged/API-ABI/heap/security/release certification."
+    elif focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
+        source = safe_path(root, ANDROID_CAMERA_PROVIDER_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_CAMERA_PROVIDER_METHODS) or
+                "class AndroidCameraNativeProviderTest" not in source or
+                "package com.mohamedrejeb.calf.camerapicker" not in source or
+                ANDROID_CAMERA_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android camera declarations changed; review the exact four-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_camera_provider_filter(focus)
+        selected[0]["required_testcases"] = android_camera_provider_identities(focus)
+        result["scope"] = "Four actual public Compose camera-provider methods: installed signature-protected separate native UID/system-created grants, and an actual implicit capture intent with no available native handler and exact owned-AVD system-camera state restoration. Controlled recipient writes synthetic bytes; not camera hardware/vendor UX, process-death/restoration, physical-device, packaged Maven/API-ABI or release/security certification. Minimum API23 is a separately requested and independently reviewed execution."
+        if focus == ANDROID_CAMERA_NO_HANDLER_FOCUS:
+            result["scope"] = "Only the failed actual implicit no-camera-handler/restoration method from41087017676. Three accepted API23 provider methods and four API35 methods are reused, not replayed. Exact original state restoration, native launch failure/no orphan, fresh XML, owned UID/AVD cleanup and every refusal remain required. No camera hardware/process-death/physical/packaged/API-ABI/security/release certification."
+    elif focus == ANDROID_SHARE_GRANT_FOCUS:
+        source = safe_path(root, ANDROID_SHARE_GRANT_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_SHARE_GRANT_METHODS) or
+                "class AndroidShareGrantTest" not in source or
+                "package com.mohamedrejeb.calf.share" not in source or
+                ANDROID_SHARE_GRANT_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android sharing declarations changed; review the exact three-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_SHARE_GRANT_CLASS
+        selected[0]["required_testcases"] = android_share_grant_identities()
+        result["scope"] = "Three actual library Android URI intent/provider methods with a signature-protected separate-UID recipient. Android owns grants, revocation and descriptor reads; only chooser recipient selection is redirected. Not chooser UX, DocumentsUI/cloud/photo-picker/vendor, physical/minimum-platform, heap, packaged consumer, ABI or release/security certification."
+    elif focus in ANDROID_GEO_PROVIDER_FOCUSES:
+        source = safe_path(root, ANDROID_GEO_PROVIDER_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_GEO_PROVIDER_METHODS) or
+                "class AndroidLocationProviderTest" not in source or
+                "package com.mohamedrejeb.calf.geo" not in source or
+                ANDROID_GEO_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android geo provider declarations changed; review the exact five-method inventory and finite subset")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_geo_provider_filter(focus)
+        selected[0]["required_testcases"] = android_geo_provider_identities(focus)
+        result["scope"] = ("Actual Android separate-UID source-consumer denied/coarse/fine/revoked permission, disabled Play Services/system-location prerequisites and real default registration; no replay of the two accepted injected Task/Looper/cancellation methods."
+                           if focus == ANDROID_GEO_PREREQUISITES_FOCUS else
+                           "Three actual Android source-consumer prerequisites/default registration and two explicitly injected native Task/Looper/error/cancellation methods.") + " No GPS/fix accuracy, physical/minimum/power/heap, packaged Maven consumer/ABI/security/release certification."
+    elif focus == ANDROID_GEO_OWNERSHIP_FOCUS:
+        source = safe_path(root, ANDROID_GEO_OWNERSHIP_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [ANDROID_GEO_OWNERSHIP_METHOD] or
+                "class AndroidLocationOwnershipTest" not in source or
+                "package com.mohamedrejeb.calf.geo" not in source or
+                ANDROID_GEO_OWNERSHIP_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android geo declarations changed; review the exact one-method ownership selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_GEO_OWNERSHIP_CLASS
+        selected[0]["required_testcases"] = android_geo_ownership_identities()
+        result["scope"] = "One actual Android Looper/LifecycleRegistry/GMS Task/ART owner-GC method with an explicitly injected provider transport. Retains obsolete callbacks while checking rebind, destruction/restart and terminal cleanup. Reuses accepted unchanged geo tests; not live GMS/GPS, Activity/process recreation, physical/minimum-platform/power/ABI/packaged-consumer/security/release certification."
+    elif focus == ANDROID_NAV_BACK_FOCUS:
+        source = safe_path(root, ANDROID_NAV_BACK_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [ANDROID_NAV_BACK_METHOD] or
+                "class AndroidAdaptiveNavigationBackTest" not in source or
+                "package com.mohamedrejeb.calf.navigation" not in source or
+                ANDROID_NAV_BACK_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android navigation declarations changed; review the exact one-method native selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_NAV_BACK_CLASS
+        selected[0]["required_testcases"] = android_nav_back_identities()
+        result["scope"] = "One genuine Android system BACK/public adaptive host/factory/duplicate-visit/current-owner/disposal method only. Predictive progress/animations, native UIKit stacks, desktop shortcuts and browser history remain unsupported. No accepted unchanged test replay, physical/minimum-platform/ABI/packaged-consumer/security/release certification."
+    elif focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+        source = safe_path(root, ANDROID_WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_WEBVIEW_REQUEST_METHODS) or
+                "class AndroidWebViewRequestStateDeviceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.web" not in source or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(selected[0]["test_source_files"]) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android WebView Stop recovery retains both original declarations; review the exact one-method API35 selection")
+        validate_webview_device_network_fixture(root)
+        validate_android_webview_request_annotation(root, selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_webview_stop_redirect_recovery_filter()
+        selected[0]["test_filter_argument"] = "class"
+        selected[0]["required_testcases"] = android_webview_stop_redirect_recovery_identities()
+        selected[0]["native_fixture_paths"] = android_webview_request_fixtures()
+        selected[0]["verification_api_level"] = 35
+        result["scope"] = "One remaining original actual API35 Chromium method only: public navigator Stop with pre-cleanup peer EOF, real matching native finish, actual owned302 redirect and current-final-URL Reload on one unchanged Activity/Compose owner. Declarative content stays the seed; requested/current native URL and genuine callback metadata/error resets remain independent. The accepted held fail/fail/recovery/native-Reload method remains authored and unselected. No accepted method replay, DNS/TLS/offline/all-target/minimum/physical/API-ABI/consumer/security/release certification."
+    elif focus == ANDROID_WEBVIEW_REQUEST_FOCUS:
+        source = safe_path(root, ANDROID_WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_WEBVIEW_REQUEST_METHODS) or
+                "class AndroidWebViewRequestStateDeviceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.web" not in source or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(selected[0]["test_source_files"]) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android WebView request declarations changed; review the exact two-method API35 selection")
+        validate_webview_device_network_fixture(root)
+        validate_android_webview_request_annotation(root, selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_webview_request_filter()
+        selected[0]["test_filter_argument"] = "annotation"
+        selected[0]["required_testcases"] = android_webview_request_identities()
+        selected[0]["native_fixture_paths"] = android_webview_request_fixtures()
+        selected[0]["verification_api_level"] = 35
+        result["scope"] = "Two new actual API35 Chromium methods: held zero-response fail/fail/recovery/native-Reload, and public navigator Stop with pre-cleanup peer EOF plus actual owned302 redirect/current-final-URL Reload on the unchanged real Activity/Compose owner. Normal callbacks forward before same-owner observations; actual starts reset metadata/errors, and Reload must use the native current URL rather than retained declarative content. No accepted test replay, DNS/TLS/offline/all-target/minimum/physical/ABI/consumer/security/release certification."
+    elif focus == ANDROID_POPUP_FOCUS:
+        source = safe_path(root, ANDROID_POPUP_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(ANDROID_POPUP_METHODS) or set(methods) != set(ANDROID_POPUP_METHODS) or
+                "class AndroidWebViewPopupPolicyTest" not in source or
+                "package com.mohamedrejeb.calf.ui.web" not in source or
+                ANDROID_POPUP_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android popup declarations changed; review the exact three-method native selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_POPUP_CLASS
+        selected[0]["required_testcases"] = android_popup_identities()
+        result["scope"] = "Three actual public Android Chromium popup/link/script/settings/back/replacement/cleanup methods only. Explicit deny-only default; raw false multiple-window mode navigates the current view. No child-window UI, accepted unrelated test replay, physical/minimum-platform/ABI/consumer/security/release certification."
+    elif focus == WEBVIEW_CONTENT_FOCUS:
+        source = safe_path(root, WEBVIEW_CONTENT_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = WEBVIEW_CONTENT_CLASS.rsplit(".", 1)
+        if (len(methods) != len(WEBVIEW_CONTENT_METHODS) or set(methods) != set(WEBVIEW_CONTENT_METHODS) or
+                not re.search(r"\bclass\s+" + re.escape(classname) + r"\b", source) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                WEBVIEW_CONTENT_SOURCE not in selected[0]["test_source_files"] or
+                not safe_path(root, WEBVIEW_CONTENT_FIXTURE).is_file()):
+            raise ValueError("Browser WebView content declarations or owned HTTP fixture changed; review the exact two methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = WEBVIEW_CONTENT_CLASS
+        selected[0]["required_testcases"] = webview_content_identities()
+        selected[0]["browser_http_fixture"] = WEBVIEW_CONTENT_FIXTURE
+        result["scope"] = "Two exact public Compose iframe direct/remembered/navigator transition and genuine second-loopback-origin CSP/X-Frame-Options refusal methods only. Local Karma HTTP responses and native load/postMessage/DOM observations; no accepted browser replay, full suite, other engine, production server, packaged consumer, ABI, security or release certification."
+    elif focus == WEBVIEW_REQUEST_FOCUS:
+        source = safe_path(root, WEBVIEW_REQUEST_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = WEBVIEW_REQUEST_CLASS.rsplit(".", 1)
+        if (len(methods) != len(WEBVIEW_REQUEST_METHODS) or set(methods) != set(WEBVIEW_REQUEST_METHODS) or
+                not re.search(r"\bclass\s+" + re.escape(classname) + r"\b", source) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                WEBVIEW_REQUEST_SOURCE not in selected[0]["test_source_files"] or
+                not safe_path(root, WEBVIEW_REQUEST_FIXTURE).is_file()):
+            raise ValueError("Browser request-state declarations or owned HTTP fixture changed; review the exact three methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = WEBVIEW_REQUEST_CLASS
+        selected[0]["required_testcases"] = webview_request_identities()
+        selected[0]["browser_http_fixture"] = WEBVIEW_REQUEST_FIXTURE
+        result["scope"] = "Three exact public Compose browser request-state methods: rejected options/retry/native reload, genuine owned HTTP redirect/native stop, and real pre-header TCP-response refusal/native metadata recovery. No accepted #63/#65/#11 replay, system-offline/DNS/TLS or reliable iframe-error claim, other target/engine, full-suite, packaged consumer, ABI, security or release certification."
+    elif focus == SHARE_CLIPBOARD_NATIVE_FOCUS:
+        sources = share_clipboard_native_sources(suite)
+        if any((relative != SHARE_CLIPBOARD_NATIVE_FIXTURE and relative not in selected[0]["test_source_files"]) or
+               sha256(safe_path(root, relative)) != digest for relative, digest in sources.items()):
+            raise ValueError("Native clipboard context owning method/helper/fixture changed; review the exact four C3 paths")
+        source = safe_path(root, SHARE_CLIPBOARD_NATIVE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if methods != list(SHARE_CLIPBOARD_NATIVE_METHODS) or re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source):
+            raise ValueError("Native clipboard context declarations are not the exact four unignored methods")
+        result["explicit_test_focus"] = focus
+        selected[0].update(test_filter=SHARE_CLIPBOARD_NATIVE_CLASS,
+                           required_testcases=share_clipboard_native_identities(), required_original_xml=1,
+                           test_source_files=list(sources), test_source_sets=["webTest", "jsTest" if suite == "js" else "wasmJsTest"],
+                           test_source_sha256=sources, browser_http_fixture=SHARE_CLIPBOARD_NATIVE_FIXTURE)
+        result["scope"] = "Only four missing literal #82 C3 library methods: secure capability absence, genuine non-trustworthy HTTP context, native document-policy denied permission/NotAllowedError, and trusted active native input with one actual owned-text write. Same emitted JS/Wasm library test bundle, exact new child method only; accepted controlled-Promise methods are not selected/replayed. No clipboard reads, persistent site/UI permission claim, other browser/OS, full-suite, packaged consumer/ABI/security/release certification."
+    elif focus == WEBVIEW_OFFLINE_FOCUS:
+        if (WEBVIEW_OFFLINE_SOURCE not in selected[0]["test_source_files"] or
+                sha256(safe_path(root, WEBVIEW_OFFLINE_SOURCE)) != WEBVIEW_OFFLINE_SOURCE_SHA256 or
+                sha256(safe_path(root, WEBVIEW_OFFLINE_FIXTURE)) != WEBVIEW_OFFLINE_FIXTURE_SHA256):
+            raise ValueError("Browser offline-destination owning source/fixture changed; review the exact native method")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = WEBVIEW_OFFLINE_CLASS + "." + WEBVIEW_OFFLINE_METHOD
+        selected[0]["required_testcases"] = webview_offline_identities()
+        selected[0]["test_source_files"] = [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE]
+        selected[0]["test_source_sets"] = ["webTest"]
+        selected[0]["test_source_sha256"] = {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,
+                                              WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256}
+        selected[0]["browser_http_fixture"] = WEBVIEW_OFFLINE_FIXTURE
+        result["scope"] = "One new public Compose browser method only: actual previously reachable leased loopback destination becomes unreachable after its exact listener closes; exact-port native ECONNREFUSED plus trusted Karma controls/native callbacks/metadata and inline recovery. Accepted request/content methods are not selected or replayed. No system-offline/DNS/TLS, fabricated iframe errors, reliable iframe-error reporting, other engine/target, full-suite, consumer/ABI/security/release claim."
+    elif focus in desktop_security_plan.FOCUSES:
+        route = desktop_security_plan.focus_selection(focus)
+        sources = desktop_security_plan.selected_sources(focus)
+        if any(relative not in selected[0]["test_source_files"] for relative in sources):
+            raise ValueError("Exact selected Desktop security source/fixture is missing")
+        result["explicit_test_focus"] = focus
+        result["desktop_security_fixture"] = desktop_security_plan.fixture_contract(root, focus)
+        selected[0].update(test_filter=",".join(route["selectors"]),
+                           required_testcases=list(route["required_testcases"]),
+                           required_original_xml=route["required_original_xml"],
+                           test_source_files=list(sources), test_source_sets=["desktopTest"],
+                           test_source_sha256=sources)
+        result["scope"] = "Only missing BUILD-002 Desktop cells: one new native trusted-HTTPS/invalid-certificate/same-owner recovery and painted snapshots method on each supported host; unchanged cookie and public JS policy only on four non-Linux-x64 hosts; unchanged media only Linux arm64. Exact finite focus, fresh single-selected-class forks, original per-class XML and owned cleanup required. Accepted Linux x64 cookie/policy and four-host media are reused, not replayed. No request/Stop, browser/mobile/consumer, sandbox, differing-host dependency/advisory, whole-library security or release acceptance."
+    elif focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        sources = webview_desktop_request_sources(focus)
+        for relative, digest in sources.items():
+            if (relative not in selected[0]["test_source_files"] or sha256(safe_path(root, relative)) != digest):
+                raise ValueError("Desktop request-state owning source changed; review the exact selected native methods and fixtures")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = webview_desktop_request_filter(focus)
+        selected[0]["required_testcases"] = webview_desktop_request_identities(focus)
+        # Selected-case inventory only. Inherited compilation and snapshot_inputs stay
+        # complete; accepted source declarations are compiled, never selected to run.
+        # This non-media focus must not infer audio work from unselected source files.
+        selected[0]["test_source_files"] = list(sources)
+        selected[0]["test_source_sets"] = ["desktopTest"]
+        selected[0]["test_source_sha256"] = sources
+        result["scope"] = "One new real public Compose/JavaFX held pre-header native fail-to-fail-to-success method on the selected supported Desktop host only. Existing accepted stop/reload/redirect and browser fragments are reused, not replayed. Owned loopback transport refusal, not system-offline/DNS/TLS, media, another engine, full-suite, consumer, ABI, security or release certification."
+        if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES:
+            selected[0]["required_original_xml"] = 1
+            result["scope"] = "One failed Windows x64 public Stop method only, retaining the original six native/library/actual pre-header peer-EOF predicates and 10s deadline. Bounded owned AWT setup/disposal and FX listener cleanup preserve late-return ownership and do not preempt blocked native calls. Scalar-only last-poll/after-timeout diagnostics do not supply success, socket teardown or a root-cause diagnosis. Accepted Windows fail/fail/recovery, redirects/Reload, Linux TLS, mobile/browser/other accepted cases are not selected or replayed. Exact source/filter/task/one fresh original XML/runtime and owned cleanup remain required; no full-suite, consumer, ABI, dependency/security or release certification."
+            if focus == WEBVIEW_DESKTOP_STOP_ARM64_RECOVERY_FOCUS:
+                result["scope"] = "One failed Linux ARM64 public Stop method only after an owning cancellation correction. Original10s/six native/library/precleanup peer-EOF predicates, same-owner recovery and owned cleanup remain. Accepted Linux ARM64 request/302-Reload, Linux x64/Windows/mobile/browser cases are excluded. Actual Linux ARM64 host, exact source/filter/task/one fresh original XML required; no private route override, default dependency adoption, consumer/API-ABI/security/legal/release certification."
+            if focus == WEBVIEW_DESKTOP_STOP_MACOS_RECOVERY_FOCUS:
+                result["scope"] = "One failed public Stop method on the exact selected macOS architecture after an owning cancellation correction. Original10s/six native/library/precleanup peer-EOF predicates, same-owner recovery and owned cleanup remain. Accepted both macOS request methods, Linux/Windows/mobile/browser cases are excluded. Actual Darwin architecture, exact source/filter/task/one fresh original XML required; no private route override, default dependency adoption, consumer/API-ABI/security/legal/release certification."
+        elif focus != WEBVIEW_DESKTOP_REQUEST_FOCUS:
+            result["scope"] = "Only literal missing real public Compose/JavaFX Desktop cells: unchanged held pre-header fail/fail/recovery plus public held-request Stop on Windows/both Macs; Linux arm64 additionally actual HTTP302/native-link/public Reload. Accepted Linux x64 Stop and four-host redirect/Reload are reused, not selected. Exact finite host/class/source/XML and owned cleanup required; no browser, media, system-offline/DNS/TLS, other engine, full-suite, consumer, ABI, security or release certification."
+    elif focus in WEBVIEW_IDENTITY_FOCUSES:
+        spec = WEBVIEW_IDENTITY_SPECS[suite]
+        source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = spec["classname"].rsplit(".", 1)
+        if (len(methods) != len(spec["methods"]) or set(methods) != set(spec["methods"]) or
+                not re.search(r"\bclass\s+" + re.escape(classname) + r"\b", source) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                spec["source"] not in selected[0]["test_source_files"]):
+            raise ValueError("Public WebView identity/value declarations changed; review the exact finite native selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = webview_identity_filter(suite, focus)
+        selected[0]["required_testcases"] = webview_identity_identities(suite, focus)
+        result["scope"] = "Only new real public WebView creation, state/navigator/current-callback replacement, retained remount and typed engine values; desktop also holds actual queued FX creation/navigation. Browser uses explicit host-controlled Trusted content, not isolated/cross-origin access. Accepted other-method/native-host suites are not replayed. No physical/minimum-platform/other-engine/network/authentication/ABI/consumer/security/release certification."
+        if focus == WEBVIEW_IDENTITY_RECOVERY_FOCUS:
+            result["scope"] = "Only the failed Desktop public cold-start/remount method or two unexecuted Android public creation/value methods. Two accepted FX and four accepted browser executions are reused, not replayed. Original source declaration, real native, exact XML/fresh-task/runtime/input gates remain; no physical/minimum/other-engine/network/ABI/consumer/security/release certification."
+    elif focus in ANDROID_SAVE_IDENTITY_FOCUSES:
+        for group in ANDROID_SAVE_IDENTITY_GROUPS:
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(group["declared_methods"]) or
+                    set(methods) != set(group["declared_methods"]) or
+                    not set(group["methods"]) <= set(group["declared_methods"]) or
+                    "class " + classname not in source or "package " + package not in source):
+                raise ValueError("Android saver declarations changed; review the exact finite selection")
+        result["explicit_test_focus"] = focus
+        validate_save_identity_annotations(root, selected[0]["test_source_files"])
+        selected[0]["test_filter"] = android_save_identity_filter()
+        selected[0]["test_filter_argument"] = "annotation"
+        selected[0]["test_exclusion_annotation"] = (ANDROID_SAVE_CALIBRATION_ANNOTATION
+                if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else None)
+        selected[0]["required_testcases"] = android_save_identity_identities(focus)
+        result["scope"] = ("Nine missing real Android inode/provider/refusal/Activity-recreation methods; separately accepted descriptor calibration not replayed; "
+                if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else "Ten exact real Android inode/provider/refusal/Activity-recreation methods only; ") + "original hardlink and full native suite remain separate gates, no policy weakening or process-death/device/release certification"
+    elif focus in ANDROID_IO_REMOTE_FOCUSES:
+        import android_io_remote_documents as remote
+        remote.validate_direct_native_population(safe_path(root, ANDROID_IO_REMOTE_SOURCE).read_text(encoding="utf-8"))
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = remote.instrumentation_filter(focus)
+        selected[0]["test_filter_argument"] = "class"
+        selected[0]["required_testcases"] = list(remote.identities(focus))
+        selected[0]["verification_api_level"] = 35
+        selected[0]["required_original_xml"] = 1
+        result["android_io_remote_documents"] = {"package": remote.PACKAGE, "source_fixture": remote.FIXTURE,
+            "verification_api_level": 35, "source_contract": remote.source_contract(root)}
+        validate_android_io_remote_documents_plan(result)
+        result["scope"] = "Only the two NEW controlled-loopback TCP DocumentsProvider methods, or one justified missing-only follow-up, on exact owned API35 calf-io. Real system tree grants/live HTTP/public bounded source and separate framework pending-open CancellationSignal before PFD transfer remain native assertions. Not commercial cloud/account, Downloads, process restart, automatic coroutine/post-transfer cancellation, TLS/security, full IO/device/consumer/API-ABI or issue/release acceptance; Downloads remains unresolved, not N/A."
+    elif focus == ANDROID_IO_PROVIDER_FOCUS:
+        source = safe_path(root, ANDROID_IO_PROVIDER_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_PROVIDER_METHODS) or
+                "class AndroidIoProviderLifecycleTest" not in source or "package com.mohamedrejeb.calf.io" not in source or
+                ANDROID_IO_PROVIDER_SOURCE not in selected[0]["test_source_files"] or
+                ANDROID_IO_DEVICE_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android IO lifecycle declarations changed; review the exact five new methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_PROVIDER_CLASS
+        selected[0]["required_testcases"] = android_io_provider_identities()
+        result["scope"] = "Five new actual API35 library IO/Coil methods only: Activity-result read/persistable/prefix tree grants, owned secondary-client restart, owner revocation, real unstable Binder death/recovery and native Coil source closure after decoder failure/cancellation. No accepted pre-open oversize/other runtime replay; directory null-size metadata is not an unknown-size stream. No DocumentsUI/system/cloud provider, device reboot, default bitmap decoder, iCloud/scopes, memory/key benchmark, packaged consumer/API-ABI or security/release certification."
+    elif focus == ANDROID_IO_UNAVAILABLE_FOCUS:
+        source = safe_path(root, ANDROID_IO_UNAVAILABLE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [ANDROID_IO_UNAVAILABLE_METHOD] or
+                not re.search(r"\bclass\s+AndroidIoUnavailableProviderTest\b", source) or
+                not re.search(r"(?m)^package\s+com\.mohamedrejeb\.calf\.io\s*$", source) or
+                any(relative not in selected[0]["test_source_files"] for relative in ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                source.count("= runBlocking(Dispatchers.IO)") != 1):
+            raise ValueError("Android unavailable-provider declarations or native dependencies changed; review the exact one-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_UNAVAILABLE_CLASS + "#" + ANDROID_IO_UNAVAILABLE_METHOD
+        selected[0]["required_testcases"] = android_io_unavailable_identities()
+        result["scope"] = "One missing actual API35/user0 public IO unavailable-provider method only: genuine read/persistable/prefix tree grant, pre-outage nested provider identity, exact own-component disabled/default lease, acknowledged real provider-process Binder death, absent ordinary authority and unchanged tree/child grants during false/null metadata and strict Android15-source-qualified public read/source refusal. Exact restoration precedes all stats/reset. A bounded restoration read is setup, not accepted lifecycle5/default3/reference3/oversize/host/common/parity replay; post-restart counters cannot prove zero opens during outage. No ExternalStorage/Downloads/DocumentsUI/cloud matrix, historical failure cause, provider hardware, reboot, minimum/vendor, Coil key/invalidation, peak memory, Apple, packaged consumer/API-ABI or security/release certification."
+    elif focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+        source = safe_path(root, ANDROID_IO_DEFAULT_DECODE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_DEFAULT_DECODE_METHODS) or
+                "class AndroidIoDefaultDecodeTest" not in source or "package com.mohamedrejeb.calf.io" not in source or
+                ANDROID_IO_DEFAULT_DECODE_SOURCE not in selected[0]["test_source_files"] or
+                ANDROID_IO_DEVICE_SOURCE not in selected[0]["test_source_files"] or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source) or
+                "decoderFactory(" in source or "imageDecoderEnabled(" in source):
+            raise ValueError("Android default decode declarations changed; review the exact three new methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_DEFAULT_DECODE_CLASS
+        selected[0]["required_testcases"] = android_io_default_decode_identities()
+        result["scope"] = "Three new actual API35 default Coil BitmapFactoryDecoder library methods only: native PNG binary unknown-size/encoded streaming/pixel parity, native JPEG EXIF rotation/reflection/bounds replay and repeated corrupt-image cross-UID descriptor closure. No injected decoder or replay of the five provider-lifecycle/accepted oversize methods. Local PNG/JPEG provider is separate-process same-UID; corrupt bytes use the existing separate-UID actual tree grant. No kernel seek/ImageDecoder metadata route, physical/min23/vendor/cloud, peak memory, request-key/invalidation, packaged consumer/API-ABI, other-platform or security/release certification."
+    elif focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
+        import android_io_named_system_documents as named_system
+        source = safe_path(root, ANDROID_IO_NAMED_SYSTEM_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_NAMED_SYSTEM_METHODS) or
+                any(relative not in selected[0]["test_source_files"] for relative in ANDROID_IO_NAMED_SYSTEM_SOURCE_DEPENDENCIES)):
+            raise ValueError("The two named local-system-provider declarations or native dependencies changed")
+        result["android_io_named_system_source"] = named_system.source_contract(root)
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_io_named_system_filter(focus)
+        selected[0]["required_testcases"] = android_io_named_system_identities(focus)
+        result["scope"] = "Only missing IO-019/#55 C1 local named-provider methods on stock API35: ExternalStorageProvider and Downloads folder URIs acquired by genuine system DocumentsUI, uniquely owned MediaStore seed rows, public KmpFile tree/child metadata and bounded native reads with explicit descriptor close ownership, persisted grant release and exact conditional row cleanup. No helper provider or manual URI/runtime grant; no accepted restart/reference/outage/Coil replay. Cloud folders, API23-28 seeded bootstrap, physical/vendor/minimum/consumer/API-ABI/security/release remain unverified. Empty unique directories are removed only by the existing controller-owned guest disposal, never recursive storage deletion."
+        if focus == ANDROID_IO_NAMED_EXTERNAL_FOCUS:
+            result["scope"] = "Only the missing ExternalStorageProvider method from IO-019/#55 C1 on stock API35: genuine system DocumentsUI acquisition of one uniquely owned MediaStore-seeded folder, exact tree/child metadata, bounded public reads, actual descriptor close ownership, persistence and release/denial, conditional row cleanup. The unchanged failed Downloads method is deliberately not selected; Downloads/root navigation and cloudC1 remain unverified, not skipped or passed. No helper/manual grant, accepted-case replay, broad storage privilege, minimum/vendor/consumer/API-ABI/security/release inference."
+    elif focus == ANDROID_IO_REFERENCE_FOCUS:
+        source = safe_path(root, ANDROID_IO_REFERENCE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(ANDROID_IO_REFERENCE_METHODS) or
+                not re.search(r"\bclass\s+AndroidIoReferenceRegressionTest\b", source) or
+                not re.search(r"(?m)^package\s+com\.mohamedrejeb\.calf\.io\s*$", source) or
+                any(relative not in selected[0]["test_source_files"] for relative in ANDROID_IO_REFERENCE_SOURCE_DEPENDENCIES) or
+                re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Android IO reference declarations or native dependencies changed; review the exact three methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_IO_REFERENCE_CLASS
+        selected[0]["required_testcases"] = android_io_reference_identities()
+        result["scope"] = "Three new actual API35 reference methods only: ordinary same-UID separate-process FileProvider metadata/nonpersistable access, sandbox file URI metadata/bookmarks/real missing reads and one cross-UID ordinary document read/persistable Activity result followed by owner revoke. No replay of accepted lifecycle5/oversize/host or pending default-Coil methods. Post-revoke ordinary-document release is idempotent revoked release, not live-release proof; FileProvider opens count successfully returned PFDs, not provider entries. No system/cloud/ExternalStorage/Downloads/DocumentsUI, reboot/whole-app restart, default decoder, memory/key, Apple scopes, packaged consumer/API-ABI or security/release certification."
+    elif focus == ANDROID_IO_OVERSIZE_FOCUS:
+        source = safe_path(root, ANDROID_IO_DEVICE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(ANDROID_IO_DEVICE_METHODS) or
+                set(methods) != set(ANDROID_IO_DEVICE_METHODS) or
+                "class KmpFileDeviceTest" not in source or
+                "package com.mohamedrejeb.calf.io" not in source):
+            raise ValueError("Android IO declarations changed; review the exact failed-method selection")
+        result["explicit_test_focus"] = focus
+        # AndroidJUnitRunner's supported class#method form, not a KGP filter or
+        # a new wrapper which could omit the original failed metadata assertion.
+        selected[0]["test_filter"] = ANDROID_IO_DEVICE_CLASS + "#" + ANDROID_IO_OVERSIZE_METHOD
+        selected[0]["required_testcases"] = android_io_oversize_identities()
+        result["scope"] = "Only the failed known-size/no-native-open FileProvider method; no accepted IO/picker/UI replay or device-suite certification"
+    elif focus in ANDROID_PERMISSION_DEVICE_SPECS:
+        spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]
+        source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != list(spec.get("declared_methods", spec["methods"])) or spec["source"] not in selected[0]["test_source_files"] or
+                "class " + spec["classname"].rsplit(".", 1)[1] not in source or
+                "package com.mohamedrejeb.calf.permissions" not in source or re.search(r"@(Ignore|Disabled|IgnoredTest)\b", source)):
+            raise ValueError("Native permission declarations changed; review the exact new finite selection")
+        if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
+            validate_android_permission_demo_recovery_annotation(root, selected[0]["test_source_files"])
+            selected[0]["test_filter_argument"] = "annotation"
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = android_permission_device_filter(focus)
+        selected[0]["required_testcases"] = android_permission_device_identities(focus)
+        result["scope"] = spec["scope"]
+    elif focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
+        source = safe_path(root, ANDROID_PERMISSION_COMPLETION_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(ANDROID_PERMISSION_COMPLETION_METHODS) or
+                set(methods) != set(ANDROID_PERMISSION_COMPLETION_METHODS) or
+                "class AndroidPermissionCompletionAcceptanceTest" not in source or
+                "@Config(sdk = [29, 33], manifest = Config.NONE)" not in source):
+            raise ValueError("Android completion declarations changed; review the exact three methods/two SDKs")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = ANDROID_PERMISSION_COMPLETION_CLASS
+        selected[0]["required_testcases"] = android_permission_completion_identities()
+        result["scope"] = "Three exact public Android completion methods on API29/33 only; Robolectric grants, not device privacy UI"
+    elif focus == calendar_native.FOCUS:
+        calendar_native.validate_source(safe_path(root, calendar_native.SOURCE).read_text(encoding="utf-8"),
+                                        selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = calendar_native.CLASS
+        selected[0]["required_testcases"] = calendar_native.identities()
+        result["scope"] = calendar_native.SCOPE
+    elif focus == macos_share_native.FOCUS:
+        macos_share_native.validate_source(safe_path(root, macos_share_native.SOURCE).read_text(encoding="utf-8"),
+                                           selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = macos_share_native.CLASS + ".*"
+        selected[0]["required_testcases"] = macos_share_native.identities()
+        result["scope"] = macos_share_native.SCOPE
+    elif focus == share_missing.FOCUS:
+        selected[0][share_missing.CONTRACT_KEY] = share_missing.source_contract(root, selected[0]["test_source_files"])
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = share_missing.FILTER
+        selected[0]["required_testcases"] = share_missing.identities()
+        result["scope"] = share_missing.SCOPE
+    elif focus in IOS_PERMISSION_SAFETY_SPECS:
+        spec = IOS_PERMISSION_SAFETY_SPECS[focus]
+        source = safe_path(root, spec["source"]).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        package, classname = spec["classname"].rsplit(".", 1)
+        if (len(methods) != len(spec["methods"]) or set(methods) != set(spec["methods"]) or
+                "class " + classname not in source or "package " + package not in source):
+            raise ValueError("iOS permission safety declarations changed; review the exact finite selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = spec["classname"]
+        selected[0]["required_testcases"] = ios_permission_safety_identities(focus)
+        result["scope"] = spec["scope"]
+    elif focus == IOS_SAVE_WRITE_FOCUS:
+        source = safe_path(root, IOS_SAVE_WRITE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(IOS_SAVE_WRITE_DECLARATIONS) or set(methods) != set(IOS_SAVE_WRITE_DECLARATIONS) or
+                "class FileSaverStagingTest" not in source or "package com.mohamedrejeb.calf.picker" not in source):
+            raise ValueError("iOS saver declarations changed; review the exact native failure selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = IOS_SAVE_WRITE_CLASS + "." + IOS_SAVE_WRITE_METHOD
+        selected[0]["required_testcases"] = ios_save_write_identities()
+        result["scope"] = "One new real Foundation false-write/private-staging cleanup method only; no mocked native result, UIKit sheet, device or release certification"
+    elif focus == IOS_PERMISSION_FOCUS:
+        source = safe_path(root, IOS_PERMISSION_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(IOS_PERMISSION_METHODS) or set(methods) != set(IOS_PERMISSION_METHODS) or
+                "class IOSPublicPermissionFactoryTest" not in source or
+                "package com.mohamedrejeb.calf.permissions" not in source):
+            raise ValueError("iOS public permission declarations changed; review the seven-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = IOS_PERMISSION_CLASS
+        selected[0]["required_testcases"] = ios_permission_identities()
+        result["scope"] = "Seven exact real iOS public factory/Compose/Darwin queue/registry methods only; no privacy UI or unrelated suite pass"
+    elif focus in DROPDOWN_FOCUSES:
+        source = safe_path(root, dropdown_source(suite)).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(DROPDOWN_METHODS) or set(methods) != set(DROPDOWN_METHODS) or
+                "class MaterialDropdownAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.dropdown" not in source or "@Ignore" in source or
+                DROPDOWN_SCENARIOS_SOURCE not in selected[0]["test_source_files"] or
+                dropdown_platform_source(suite) not in selected[0]["test_source_files"]):
+            raise ValueError("Dropdown contract declarations changed; review the exact four-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = dropdown_filter(focus)
+        selected[0]["required_testcases"] = dropdown_identities(focus)
+        result["scope"] = ("One previously failed Android native keyboard/pointer dismissal method only; fifteen accepted matrix executions are not replayed, not a complete UI/minimum-platform/release pass"
+                           if focus == DROPDOWN_ANDROID_RECOVERY_FOCUS else
+                           "Four actual public Material popup input/scroll/raster contracts only; Android native windows versus actual Skiko scene APIs, not OS accessibility/minimum-platform/whole-UI/release certification")
+    elif focus == DATE_TRANSACTION_FOCUS:
+        source = safe_path(root, date_transaction_source(suite)).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(DATE_TRANSACTION_METHODS) or set(methods) != set(DATE_TRANSACTION_METHODS) or
+                "class CompactDateTransactionAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.ui.datepicker" not in source or
+                DATE_TRANSACTION_SCENARIOS_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Date transaction declarations changed; review the exact four-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = DATE_TRANSACTION_CLASS
+        selected[0]["required_testcases"] = date_transaction_identities()
+        result["scope"] = "Four exact public Material date-dialog transactions only; unrelated UI/common suites are not requested or counted"
+    elif focus in WEBVIEW_LIFETIME_FOCUSES:
+        for group in webview_lifetime_groups(suite, focus):
+            if group["source"] not in selected[0]["test_source_files"]:
+                raise ValueError("Required real WebView lifetime source is missing from the selected module")
+            source = safe_path(root, group["source"]).read_text(encoding="utf-8")
+            methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+            declared = group.get("declared_methods", group["methods"])
+            package, classname = group["classname"].rsplit(".", 1)
+            if (len(methods) != len(declared) or set(methods) != set(declared) or
+                    not set(group["methods"]) <= set(declared) or "class " + classname not in source or
+                    "package " + package not in source or group["source"] not in selected[0]["test_source_files"]):
+                raise ValueError("WebView lifetime declarations changed; review the exact real native selection")
+        if suite == "android-device":
+            validate_webview_device_network_fixture(root)
+            selected[0]["native_fixture_paths"] = list(WEBVIEW_DEVICE_FIXTURES)
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = webview_lifetime_filter(suite, focus)
+        selected[0]["required_testcases"] = webview_lifetime_identities(suite, focus)
+        result["scope"] = ("One failed real Compose/JavaFX media/slow connection method only; no replay or certification of four accepted same-host methods, "
+                           "no engine/decoder/clock substitution or missing-native waiver"
+                           if focus == WEBVIEW_MEDIA_FOCUS else
+                           "One failed real Android unmounted media/native-collection method only; optional private failure heap capture never supplies a passing result, "
+                           "no replay of two accepted methods or physical/minimum-device/release certification"
+                           if focus == WEBVIEW_ANDROID_MEDIA_FOCUS else
+                           "Five exact real public Compose/JavaFX lifetime, saved URL/history and delayed-creation methods only; "
+                           "Linux audio uses an owned clocked software sink, not an engine/decoder mock or audible hardware check"
+                           if suite == "desktop" else
+                           "Three exact real Android Activity/provider/Compose lifetime, media/slow socket and serialized-state methods only; "
+                           "direct throwing-release boundary and ownership handoff are controlled; no OS process death, physical-device or minimum-API certification")
+    elif focus == DESKTOP_SAVER_STATE_FOCUS:
+        source = safe_path(root, DESKTOP_SAVER_STATE_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (methods != [DESKTOP_SAVER_STATE_METHOD] or "class NativeDesktopSaverStateTest" not in source or
+                "package com.mohamedrejeb.calf.picker" not in source or DESKTOP_SAVER_STATE_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Desktop saver state declarations changed; review the exact owning method")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = DESKTOP_SAVER_STATE_CLASS
+        selected[0]["required_testcases"] = desktop_saver_state_identities()
+        result["scope"] = "One new real Compose-window/JNI config/owning-writer saver snapshot method on each selected desktop host; controlled scheduling/result transport and native parent0, not native parent modality/lease/chooser UI or a replay of six accepted picker methods"
+    elif focus in LINUX_PICKER_PORTAL_FOCUSES:
+        source = safe_path(root, LINUX_PICKER_PORTAL_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (tuple(methods) != LINUX_PICKER_PORTAL_METHODS or "class NativeLinuxPortalFunctionalityTest" not in source or
+                "package com.mohamedrejeb.calf.picker" not in source or LINUX_PICKER_PORTAL_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Real Linux GTK functionality declarations changed; review all three owning methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = linux_picker_portal_filter(focus)
+        selected[0]["required_testcases"] = linux_picker_portal_identities(focus)
+        result["scope"] = ("Three exact real Linux GTK portal/JNI owning open/multiple/folder/save/cancel methods; " if focus == LINUX_PICKER_PORTAL_FOCUS else
+                           "Only the remaining failed real Linux GTK folder/empty/binary-save method; accepted open/multiple/cancellation methods not replayed; ") + "no native parent/Wayland/other backend or full dependency/consumer/security/release claim"
+    elif focus == PICKER_LIFETIME_FOCUS:
+        source = safe_path(root, PICKER_LIFETIME_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(PICKER_LIFETIME_METHODS) or set(methods) != set(PICKER_LIFETIME_METHODS) or
+                "class NativePickerComposeLifetimeTest" not in source or
+                "package com.mohamedrejeb.calf.picker" not in source or PICKER_LIFETIME_SOURCE not in selected[0]["test_source_files"]):
+            raise ValueError("Picker Compose/JNI declarations changed; review the exact six-method batch")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = PICKER_LIFETIME_CLASS
+        selected[0]["required_testcases"] = picker_lifetime_identities()
+        result["scope"] = "Six exact related Compose/JNI ownership/cancellation/settings methods; three actual private GTK dialogs only on Linux, explicitly N/A elsewhere; raw-parent/Wayland/AppKit/Windows-dialog acquisition remains independent IO-023"
+    elif focus == BROWSER_COIL_READ_FOCUS:
+        source = safe_path(root, BROWSER_COIL_READ_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(BROWSER_COIL_READ_METHODS) or set(methods) != set(BROWSER_COIL_READ_METHODS) or
+                "class BrowserFileReadCoilAcceptanceTest" not in source or
+                "package com.mohamedrejeb.calf.picker.coil" not in source or
+                browser_coil_read_fixture(suite) not in selected[0]["test_source_files"]):
+            raise ValueError("Browser IO/Coil declarations or real reader fixture changed; review the exact four methods")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = BROWSER_COIL_READ_CLASS
+        selected[0]["required_testcases"] = browser_coil_read_identities()
+        result["scope"] = "Four new real browser FileReader/public Coil read/disposal/error/cap methods only; error-event injection is not OS-grant denial, no accepted IO/picker replay or full consumer/release certification"
+    elif focus == UNSUPPORTED_PERMISSION_FOCUS:
+        source = safe_path(root, unsupported_permission_source(suite)).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(methods) != len(UNSUPPORTED_PERMISSION_METHODS) or set(methods) != set(UNSUPPORTED_PERMISSION_METHODS) or
+                "class UnsupportedPublicFactoryTest" not in source or
+                "package com.mohamedrejeb.calf.permissions" not in source or
+                UNSUPPORTED_PERMISSION_FIXTURE not in selected[0]["test_source_files"]):
+            raise ValueError("Public unsupported permission declarations changed; review the six-method selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = UNSUPPORTED_PERMISSION_CLASS
+        selected[0]["required_testcases"] = unsupported_permission_identities()
+        result["scope"] = "Six exact public nonmobile permission-factory scenarios only; no mobile/service-authorization or unrelated suite pass"
+    elif focus is not None:
+        source = safe_path(root, NATIVE_SHARE_BOUNDARY_SOURCE).read_text(encoding="utf-8")
+        methods = re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(", source)
+        if (len(methods) != len(NATIVE_SHARE_BOUNDARY_METHODS) or
+                set(methods) != set(NATIVE_SHARE_BOUNDARY_METHODS) or
+                "class NativeLoaderBoundaryIntegrationTest" not in source or
+                "package com.mohamedrejeb.calf.share.platform" not in source):
+            raise ValueError("Native boundary test declarations changed; review the exact finite selection")
+        result["explicit_test_focus"] = focus
+        selected[0]["test_filter"] = NATIVE_SHARE_BOUNDARY_CLASS
+        selected[0]["required_testcases"] = native_share_boundary_identities()
+        result["scope"] = "Five exact actual native loader boundary methods only; other share/JNI suites are NOT requested or counted"
+    if android_io_documents_required(result):
+        import android_io_documents
+        # Pure source refusal before controller output, AVD/helper/reporter cost.
+        result["android_io_documents"] = {"package": android_io_documents.PACKAGE,
+            "source_fixture": android_io_documents.FIXTURE, "verification_api_level": 35,
+            "source_contract": android_io_documents.source_contract(root)}
+    if android_permission_demo_required(result):
+        import android_permission_demo
+        result["android_permission_demo"] = {"package": android_permission_demo.PACKAGE,
+            "source_fixture": android_permission_demo.FIXTURE, "source_contract": android_permission_demo.source_contract(root)}
+    return result
+
+
+def android_permission_device_filter(focus: str) -> str:
+    spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]  # Unknown focus must never become a whole-class fallback.
+    if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS:
+        # One FUNCTION/RUNTIME marker survives ATE CSV transport; exact XML identities stay required.
+        return ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION
+    if focus == ANDROID_PERMISSION_DEMO_DENIAL_RECOVERY_FOCUS:
+        # Supported class#method transport: one original method, never a whole-class fallback.
+        return spec["classname"] + "#" + spec["methods"][0]
+    return spec["classname"]
+
+
+def validate_android_permission_demo_recovery_annotation(root: Path, test_sources: list[str]) -> None:
+    """Bind the runtime selector to only the two original Call/denial methods."""
+    spec = ANDROID_PERMISSION_DEVICE_SPECS[ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS]
+    if spec["source"] not in test_sources:
+        raise ValueError("Missing permission recovery runtime annotation source")
+    package, name = ANDROID_PERMISSION_DEMO_RECOVERY_ANNOTATION.rsplit(".", 1)
+    annotated = []
+    for relative in test_sources:
+        source = safe_path(root, relative).read_text(encoding="utf-8")
+        if name not in source:
+            continue
+        if relative != spec["source"]:
+            raise ValueError("Permission recovery selector appears in an unreviewed source")
+        declarations = list(re.finditer(r"(?m)^@Target\(AnnotationTarget.FUNCTION\)\s+"
+                                        r"@Retention\(AnnotationRetention.RUNTIME\)\s+"
+                                        r"annotation class " + re.escape(name) + r"$", source))
+        methods = re.findall(r"@" + re.escape(name) + r"\s+@Test\s+fun\s+"
+                             r"([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", source)
+        if (len(declarations) != 1 or any(brace in source[:declarations[0].start()] for brace in "{}") or
+                source.count(name) != 1 + len(spec["methods"]) or
+                not re.search(r"(?m)^package\s+" + re.escape(package) + r"\s*$", source) or
+                methods != list(spec["methods"])):
+            raise ValueError("Permission recovery selector requires exact FUNCTION/RUNTIME declaration and two method uses")
+        annotated.extend(methods)
+    if annotated != list(spec["methods"]):
+        raise ValueError("Permission recovery annotation inventory differs from the exact two identities")
+
+
+def android_permission_device_identities(focus: str) -> list[dict]:
+    spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]
+    return [{"classname": spec["classname"], "name": method} for method in spec["methods"]]
+
+
+def android_permission_demo_required(test_plan: dict) -> bool:
+    return (test_plan.get("suite") == "android-device" and
+        test_plan.get("explicit_test_focus") in ANDROID_PERMISSION_DEVICE_SPECS and any(
+            item.get("module") == "calf-permissions/core" for item in test_plan.get("expected", [])))
+
+
+def validate_android_permission_demo_plan(test_plan: dict) -> None:
+    helper = test_plan.get("android_permission_demo")
+    if not android_permission_demo_required(test_plan):
+        if helper is not None:
+            raise ValueError("No permission fixture on unrelated or accepted suites")
+        return
+    if (not isinstance(helper, dict) or helper.get("package") != "io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo" or
+            helper.get("source_fixture") != "tests/consumer/android-permission-demo" or
+            not isinstance(helper.get("source_contract"), dict) or helper["source_contract"].get("source_policy_verified") is not True or
+            helper["source_contract"].get("native_or_compile_success_inferred") is not False or
+            helper["source_contract"].get("source_inputs_sha256") != input_digest(helper["source_contract"].get("source_inputs", {}))):
+        raise ValueError("Exact native permission source contract is required")
+
+
+def native_share_boundary_identities() -> list[dict]:
+    return [{"classname": NATIVE_SHARE_BOUNDARY_CLASS, "name": method + "[desktop]"}
+            for method in NATIVE_SHARE_BOUNDARY_METHODS]
+
+
+def validate_test_focus(test_plan: dict) -> bool:
+    """No arbitrary Gradle filters, module escape, skip list or broad pass claim."""
+    validate_android_io_documents_plan(test_plan)
+    validate_android_io_remote_documents_plan(test_plan)
+    validate_android_permission_demo_plan(test_plan)
+    validate_android_storage_probe_plan(test_plan)
+    focus = test_plan.get("explicit_test_focus")
+    camera_callback.validate_contract_placement(test_plan, ANDROID_CAMERA_FOCUSES)
+    if focus != camera_ios.FOCUS and any(camera_ios.CONTRACT_KEY in item for item in test_plan["expected"]):
+        raise ValueError("No Camera application/Photos source contract on unrelated or unfocused plans")
+    if focus not in content_policy.FOCUSES and any(content_policy.CONTRACT_FIELD in item for item in test_plan["expected"]):
+        raise ValueError("No content-policy source or fixture contract on an unrelated or unfocused suite")
+    if focus != secure_alert.FOCUS and any("secure_alert_input_contract" in item for item in test_plan["expected"]):
+        raise ValueError("No secure-input source fixture on an unrelated or accepted focus")
+    if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
+        raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
+    if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan["expected"]):
+        raise ValueError("No Share630 recovery source fixture on an unrelated or accepted focus")
+    if focus == camera_callback.FOCUS:
+        return camera_callback.validate_plan(test_plan)
+    if focus in content_policy.FOCUSES:
+        return content_policy.validate_plan(test_plan)
+    if focus is None:
+        if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
+            raise ValueError("Test filters require the finite reviewed focus")
+        return False
+    expected = test_plan["expected"]
+    if focus in ANDROID_PERMISSION_DEVICE_SPECS:
+        spec = ANDROID_PERMISSION_DEVICE_SPECS[focus]
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-permissions/core" or
+                expected[0].get("project") != ":calf-permissions:calf-permissions-core" or
+                expected[0].get("task") != ":calf-permissions:calf-permissions-core:connectedAndroidDeviceTest" or
+                expected[0].get("report_directory") != "calf-permissions/core/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != android_permission_device_filter(focus) or
+                expected[0].get("test_filter_argument") != ("annotation" if focus == ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS else None) or
+                expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_permission_device_identities(focus) or
+                spec["source"] not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid exact native permission/media plan")
+        return True
+    if focus in ANDROID_STORAGE_FOCUSES:
+        row = storage_plan.row_for(focus)
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != ANDROID_STORAGE_MODULE or expected[0].get("project") != ANDROID_STORAGE_PROJECT or
+                expected[0]["task"] != ANDROID_STORAGE_PROJECT + ":" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != ANDROID_STORAGE_MODULE + "/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != ANDROID_STORAGE_CLASS + "#" + row.method or
+                expected[0].get("required_testcases") != android_storage_identities(focus) or
+                any(source not in expected[0].get("test_source_files", []) for source in ANDROID_STORAGE_SOURCES)):
+            raise ValueError("Invalid finite storage method/API/flavor/module plan")
+        return True
+    if focus in ANDROID_IO_REMOTE_FOCUSES:
+        return True  # The separate strict remote plan validator above already owns every finite operand.
+    if focus == ANDROID_IO_PROVIDER_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != ANDROID_IO_PROVIDER_CLASS or
+                expected[0].get("required_testcases") != android_io_provider_identities() or
+                any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_PROVIDER_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
+            raise ValueError("Invalid finite Android IO provider/Coil plan")
+        return True
+    if focus == ANDROID_IO_UNAVAILABLE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != ANDROID_IO_UNAVAILABLE_CLASS + "#" + ANDROID_IO_UNAVAILABLE_METHOD or
+                expected[0].get("test_filter_argument") is not None or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_io_unavailable_identities() or
+                any(relative not in expected[0]["test_source_files"] for relative in ANDROID_IO_UNAVAILABLE_SOURCE_DEPENDENCIES)):
+            raise ValueError("Invalid finite one-method Android unavailable-provider plan")
+        return True
+    if focus == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != ANDROID_IO_DEFAULT_DECODE_CLASS or
+                expected[0].get("required_testcases") != android_io_default_decode_identities() or
+                any(source not in expected[0]["test_source_files"] for source in (ANDROID_IO_DEFAULT_DECODE_SOURCE, ANDROID_IO_DEVICE_SOURCE))):
+            raise ValueError("Invalid finite Android default Coil decode plan")
+        return True
+    if focus in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
+        import android_io_named_system_documents as named_system
+        named_system.validate_source_receipt(test_plan.get("android_io_named_system_source"))
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != android_io_named_system_filter(focus) or
+                expected[0].get("test_filter_argument") is not None or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_io_named_system_identities(focus) or
+                any(relative not in expected[0]["test_source_files"] for relative in ANDROID_IO_NAMED_SYSTEM_SOURCE_DEPENDENCIES) or
+                test_plan.get("android_io_documents") is not None):
+            raise ValueError("Invalid finite named local-system-provider plan")
+        return True
+    if focus == ANDROID_IO_REFERENCE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or expected[0].get("project") != ":calf-io" or
+                expected[0]["task"] != ":calf-io:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-io/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-io/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != ANDROID_IO_REFERENCE_CLASS or
+                expected[0].get("test_filter_argument") is not None or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_io_reference_identities() or
+                any(relative not in expected[0]["test_source_files"] for relative in ANDROID_IO_REFERENCE_SOURCE_DEPENDENCIES)):
+            raise ValueError("Invalid finite three-method Android IO reference plan")
+        return True
+    if focus in ANDROID_CAMERA_RESTORATION_FOCUSES:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != android_camera_restoration_filter(focus) or
+                expected[0].get("required_testcases") != android_camera_restoration_identities(focus) or
+                any(name not in expected[0]["test_source_files"] for name in
+                    (ANDROID_CAMERA_RESTORATION_SOURCE, ANDROID_CAMERA_RESTORATION_CLIENT_SOURCE, ANDROID_CAMERA_ALWAYS_FINISH_SOURCE, ANDROID_CAMERA_SETTINGS_UI_SOURCE))):
+            raise ValueError("Invalid finite Android camera real-restoration plan")
+        return True
+    if focus in ANDROID_CAMERA_PROVIDER_FOCUSES:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-camera-picker" or expected[0]["task"] != ":calf-camera-picker:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != android_camera_provider_filter(focus) or
+                expected[0].get("required_testcases") != android_camera_provider_identities(focus) or
+                ANDROID_CAMERA_PROVIDER_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android camera provider plan")
+        return True
+    if focus == ANDROID_SHARE_GRANT_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-share" or expected[0]["task"] != ":calf-share:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_SHARE_GRANT_CLASS or
+                expected[0].get("required_testcases") != android_share_grant_identities() or
+                ANDROID_SHARE_GRANT_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android sharing URI plan")
+        return True
+    if focus in ANDROID_GEO_PROVIDER_FOCUSES:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-geo" or expected[0]["task"] != ":calf-geo:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != android_geo_provider_filter(focus) or
+                expected[0].get("required_testcases") != android_geo_provider_identities(focus) or
+                ANDROID_GEO_PROVIDER_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android geo provider plan")
+        return True
+    if focus == ANDROID_GEO_OWNERSHIP_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-geo" or expected[0]["task"] != ":calf-geo:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_GEO_OWNERSHIP_CLASS or
+                expected[0].get("required_testcases") != android_geo_ownership_identities() or
+                ANDROID_GEO_OWNERSHIP_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android geo owner-lifetime plan")
+        return True
+    if focus == ANDROID_NAV_BACK_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-navigation" or expected[0]["task"] != ":calf-navigation:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_NAV_BACK_CLASS or
+                expected[0].get("required_testcases") != android_nav_back_identities() or
+                ANDROID_NAV_BACK_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android adaptive navigation back plan")
+        return True
+    if focus == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
+                expected[0].get("report_directory") != "calf-webview/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("utp_results_directory") != expected[0].get("report_directory") or
+                expected[0].get("agp_declared_xml_directory") != "calf-webview/build/intermediates/android_test_results/androidMain/connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != android_webview_stop_redirect_recovery_filter() or
+                expected[0].get("test_filter_argument") != "class" or expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != android_webview_stop_redirect_recovery_identities() or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(expected[0]["test_source_files"]) or
+                expected[0].get("native_fixture_paths") != android_webview_request_fixtures() or
+                type(expected[0].get("verification_api_level")) is not int or expected[0]["verification_api_level"] != 35):
+            raise ValueError("Invalid finite one-method API35 Android WebView Stop/redirect recovery plan")
+        return True
+    if focus == ANDROID_WEBVIEW_REQUEST_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or
+                expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
+                expected[0]["report_directory"] != "calf-webview/build/outputs/androidTest-results/connected/androidMain" or
+                expected[0].get("test_filter") != android_webview_request_filter() or
+                expected[0].get("test_filter_argument") != "annotation" or
+                expected[0].get("required_testcases") != android_webview_request_identities() or
+                not {ANDROID_WEBVIEW_REQUEST_SOURCE, ANDROID_WEBVIEW_REQUEST_HELPER} <= set(expected[0]["test_source_files"]) or
+                expected[0].get("native_fixture_paths") != android_webview_request_fixtures() or
+                type(expected[0].get("verification_api_level")) is not int or expected[0]["verification_api_level"] != 35):
+            raise ValueError("Invalid finite API35 Android WebView request-state plan")
+        return True
+    if focus == ANDROID_POPUP_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0]["task"] != ":calf-webview:" + SUITES["android-device"][0] or
+                expected[0].get("test_filter") != ANDROID_POPUP_CLASS or
+                expected[0].get("required_testcases") != android_popup_identities() or
+                ANDROID_POPUP_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android popup policy plan")
+        return True
+    if focus == WEBVIEW_CONTENT_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != WEBVIEW_CONTENT_MODULE or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != WEBVIEW_CONTENT_CLASS or
+                expected[0].get("required_testcases") != webview_content_identities() or
+                WEBVIEW_CONTENT_SOURCE not in expected[0]["test_source_files"] or
+                expected[0].get("browser_http_fixture") != WEBVIEW_CONTENT_FIXTURE):
+            raise ValueError("Invalid finite browser WebView content/HTTP-fixture plan")
+        return True
+    if focus == WEBVIEW_REQUEST_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != WEBVIEW_REQUEST_MODULE or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != WEBVIEW_REQUEST_CLASS or
+                expected[0].get("required_testcases") != webview_request_identities() or
+                WEBVIEW_REQUEST_SOURCE not in expected[0]["test_source_files"] or
+                expected[0].get("browser_http_fixture") != WEBVIEW_REQUEST_FIXTURE):
+            raise ValueError("Invalid finite browser WebView request-state/HTTP-fixture plan")
+        return True
+    if focus == SHARE_CLIPBOARD_NATIVE_FOCUS:
+        suite = test_plan["suite"]
+        sources = share_clipboard_native_sources(suite)
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-share" or expected[0].get("project") != ":calf-share" or
+                expected[0]["task"] != ":calf-share:" + SUITES[suite][0] or
+                expected[0].get("report_directory") != "calf-share/build/test-results/" + SUITES[suite][0] or
+                expected[0].get("test_filter") != SHARE_CLIPBOARD_NATIVE_CLASS or
+                expected[0].get("required_testcases") != share_clipboard_native_identities() or
+                type(expected[0].get("required_original_xml")) is not int or expected[0]["required_original_xml"] != 1 or
+                expected[0].get("test_source_files") != list(sources) or
+                expected[0].get("test_source_sets") != ["webTest", "jsTest" if suite == "js" else "wasmJsTest"] or
+                expected[0].get("test_source_sha256") != sources or
+                expected[0].get("browser_http_fixture") != SHARE_CLIPBOARD_NATIVE_FIXTURE or
+                test_plan.get("inherited_test_source_sets") != list(SUITES[suite][1])):
+            raise ValueError("Invalid finite native clipboard context method/helper/fixture selection plan")
+        return True
+
+    if focus == WEBVIEW_OFFLINE_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("report_directory") != "calf-webview/build/test-results/" + SUITES[suite][0] or
+                expected[0].get("test_filter") != WEBVIEW_OFFLINE_CLASS + "." + WEBVIEW_OFFLINE_METHOD or
+                expected[0].get("required_testcases") != webview_offline_identities() or
+                expected[0].get("test_source_files") != [WEBVIEW_OFFLINE_SOURCE, WEBVIEW_OFFLINE_FIXTURE] or
+                expected[0].get("test_source_sets") != ["webTest"] or
+                expected[0].get("test_source_sha256") != {WEBVIEW_OFFLINE_SOURCE: WEBVIEW_OFFLINE_SOURCE_SHA256,
+                                                       WEBVIEW_OFFLINE_FIXTURE: WEBVIEW_OFFLINE_FIXTURE_SHA256} or
+                expected[0].get("browser_http_fixture") != WEBVIEW_OFFLINE_FIXTURE or
+                test_plan.get("inherited_test_source_sets") != list(SUITES[suite][1])):
+            raise ValueError("Invalid finite browser offline-destination source/fixture/selection plan")
+        return True
+
+    if focus in desktop_security_plan.FOCUSES:
+        route = desktop_security_plan.focus_selection(focus)
+        sources = desktop_security_plan.selected_sources(focus)
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:desktopTest" or
+                expected[0].get("report_directory") != "calf-webview/build/test-results/desktopTest" or
+                expected[0].get("test_filter") != ",".join(route["selectors"]) or
+                expected[0].get("required_testcases") != list(route["required_testcases"]) or
+                type(expected[0].get("required_original_xml")) is not int or
+                expected[0]["required_original_xml"] != route["required_original_xml"] or
+                expected[0].get("test_source_files") != list(sources) or
+                expected[0].get("test_source_sets") != ["desktopTest"] or
+                expected[0].get("test_source_sha256") != sources or
+                test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
+            raise ValueError("Invalid exact missing-only Desktop security plan")
+        desktop_security_plan.validate_fixture_contract(test_plan.get("desktop_security_fixture"), focus)
+        return True
+    if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        sources = webview_desktop_request_sources(focus)
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0].get("project") != ":calf-webview" or
+                expected[0]["task"] != ":calf-webview:desktopTest" or
+                expected[0].get("report_directory") != "calf-webview/build/test-results/desktopTest" or
+                expected[0].get("test_filter") != webview_desktop_request_filter(focus) or
+                expected[0].get("required_testcases") != webview_desktop_request_identities(focus) or
+                expected[0].get("test_source_files") != list(sources) or
+                expected[0].get("test_source_sets") != ["desktopTest"] or
+                expected[0].get("test_source_sha256") != sources or
+                test_plan.get("inherited_test_source_sets") != list(SUITES["desktop"][1])):
+            raise ValueError("Invalid exact finite Desktop request-state plan")
+        if focus in WEBVIEW_DESKTOP_STOP_ONLY_FOCUSES and (
+                type(expected[0].get("required_original_xml")) is not int or expected[0]["required_original_xml"] != 1):
+            raise ValueError("Stop recovery requires exactly one fresh original XML; no accepted-method replay")
+        return True
+    if focus in WEBVIEW_IDENTITY_FOCUSES:
+        suite = test_plan["suite"]
+        spec = WEBVIEW_IDENTITY_SPECS.get(suite)
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or spec is None or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-webview" or expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != webview_identity_filter(suite, focus) or
+                expected[0].get("required_testcases") != webview_identity_identities(suite, focus) or
+                spec["source"] not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite public WebView identity/value plan")
+        return True
+    if focus == DESKTOP_SAVER_STATE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
+                expected[0].get("test_filter") != DESKTOP_SAVER_STATE_CLASS or
+                expected[0].get("required_testcases") != desktop_saver_state_identities() or
+                DESKTOP_SAVER_STATE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite desktop saver snapshot plan")
+        return True
+    if focus in LINUX_PICKER_PORTAL_FOCUSES:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
+                expected[0].get("test_filter") != linux_picker_portal_filter(focus) or
+                expected[0].get("required_testcases") != linux_picker_portal_identities(focus) or
+                LINUX_PICKER_PORTAL_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Linux GTK functionality plan")
+        return True
+    if focus == PICKER_LIFETIME_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or expected[0]["task"] != ":calf-file-picker:desktopTest" or
+                expected[0].get("test_filter") != PICKER_LIFETIME_CLASS or
+                expected[0].get("required_testcases") != picker_lifetime_identities() or
+                PICKER_LIFETIME_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite related picker lifetime batch plan")
+        return True
+    if focus == BROWSER_COIL_READ_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != BROWSER_COIL_READ_MODULE or
+                expected[0]["task"] != ":calf-file-picker-coil:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != BROWSER_COIL_READ_CLASS or
+                expected[0].get("required_testcases") != browser_coil_read_identities() or
+                BROWSER_COIL_READ_SOURCE not in expected[0]["test_source_files"] or
+                browser_coil_read_fixture(suite) not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite four-method browser IO/Coil plan")
+        return True
+    if focus in ANDROID_SAVE_IDENTITY_FOCUSES:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or
+                expected[0]["task"] != ":calf-file-picker:connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != android_save_identity_filter() or
+                expected[0].get("test_filter_argument") != "annotation" or
+                expected[0].get("test_exclusion_annotation") != (ANDROID_SAVE_CALIBRATION_ANNOTATION
+                        if focus == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS else None) or
+                expected[0].get("required_testcases") != android_save_identity_identities(focus) or
+                ANDROID_SAVE_ANNOTATION_SOURCE not in expected[0]["test_source_files"] or
+                any(group["source"] not in expected[0]["test_source_files"] for group in ANDROID_SAVE_IDENTITY_GROUPS)):
+            raise ValueError("Invalid finite Android saver identity/lifecycle plan")
+        return True
+    if focus == ANDROID_IO_OVERSIZE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-io" or
+                expected[0]["task"] != ":calf-io:connectedAndroidDeviceTest" or
+                expected[0].get("test_filter") != ANDROID_IO_DEVICE_CLASS + "#" + ANDROID_IO_OVERSIZE_METHOD or
+                expected[0].get("required_testcases") != android_io_oversize_identities() or
+                ANDROID_IO_DEVICE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Android known-size/no-native-open plan")
+        return True
+    if focus == UI_DATE_YEAR_MATERIAL_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-ui" or expected[0].get("project") != ":calf-ui" or
+                expected[0].get("task") != ":calf-ui:desktopTest" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/desktopTest" or
+                expected[0].get("native_test_host") is not None or
+                expected[0].get("test_filter") != UI_DATE_YEAR_MATERIAL_CLASS or
+                expected[0].get("required_testcases") != ui_date_year_material_identities() or
+                any(path not in expected[0].get("test_source_files", []) for path in UI_DATE_YEAR_MATERIAL_SOURCES)):
+            raise ValueError("Invalid finite two-method important Material year-policy plan")
+        return True
+    if focus in UI_APPLICATION_FOCUS_SPECS:
+        if focus == camera_ios.FOCUS:
+            camera_ios.validate_plan(test_plan)
+        if focus in ui_related.ALL_FOCUSES:
+            ui_related.validate_plan(test_plan)
+        if focus == secure_alert.FOCUS:
+            if len(expected) != 1:
+                raise ValueError("The new secure-input source fixture requires exactly one library module")
+            secure_alert.validate_contract(expected[0].get("secure_alert_input_contract"), expected[0].get("test_source_files", []))
+        if focus in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS) and (len(expected) != 1 or
+                expected[0].get("ios_webview_request_fixture") != IOS_WEBVIEW_REQUEST_FIXTURE or
+                not isinstance(expected[0].get("ios_webview_request_fixture_sha256"), str) or
+                re.fullmatch(r"[0-9a-f]{64}", expected[0]["ios_webview_request_fixture_sha256"]) is None or
+                IOS_WEBVIEW_REQUEST_FIXTURE not in expected[0].get("test_source_files", [])):
+            raise ValueError("Invalid finite two-method native WK loopback fixture identity")
+        if focus in UI_DATE_YEAR_NATIVE_FOCUSES and (len(expected) != 1 or
+                UI_DATE_YEAR_SHARED_SOURCE not in expected[0].get("test_source_files", []) or
+                expected[0].get("project") != ":calf-ui" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
+            raise ValueError("Invalid finite important alert/year application source/report plan")
+        if focus == UI_ALERT_RECOVERY_FOCUS and (len(expected) != 1 or
+                expected[0].get("project") != ":calf-ui" or
+                expected[0].get("report_directory") != "calf-ui/build/test-results/" + IOS_APPLICATION_TASK):
+            raise ValueError("Invalid finite four-method important alert recovery source/report plan")
+        if focus in (IOS_SHARE_PRESENTATION_FOCUS, IOS_SHARE_REMEMBERED_FAILURE_FOCUS) and (len(expected) != 1 or
+                expected[0].get("project") != ":calf-share" or
+                expected[0].get("report_directory") != "calf-share/build/test-results/" + IOS_APPLICATION_TASK or
+                any(path not in expected[0].get("test_source_files", []) for path in IOS_SHARE_APPLICATION_SOURCES)):
+            raise ValueError("New Share disposal plan requires its exact owning app sources/project/report tree")
+        if focus == IOS_SHARE_REMEMBERED_FAILURE_FOCUS and (len(expected) != 1 or
+                IOS_SHARE_TERMINAL_OBSERVATION_SOURCE not in expected[0].get("test_source_files", [])):
+            raise ValueError("Failed Share observation plan requires its exact zero-test helper source")
+        if focus in IOS_POPOVER_GEOMETRY_FOCUSES and (len(expected) != 1 or
+                any(name not in expected[0].get("test_source_files", []) for name in
+                    (IOS_POPOVER_GEOMETRY_SOURCE, IOS_POPOVER_GEOMETRY_SCENE_SOURCE))):
+            raise ValueError("OS geometry plan requires both exact opt-in library test inputs")
+        application_module = UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui")
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != application_module or
+                expected[0]["task"] != (ui_related.task(focus) if focus in ui_related.SPLIT_FOCUSES else
+                                       ":" + application_module + ":" + IOS_APPLICATION_TASK) or
+                expected[0].get("native_test_host") != "genuine-uikit-application" or
+                expected[0].get("test_filter") != ui_application_focus_filter(focus) or
+                expected[0].get("required_testcases") != ui_application_focus_identities(focus) or
+                any(group["source"] not in expected[0]["test_source_files"]
+                    for group in ui_application_focus_groups(focus))):
+            raise ValueError("Invalid finite attached UIKit date plan")
+        return True
+    if focus == ANDROID_PERMISSION_COMPLETION_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != IOS_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:testAndroidHostTest" or
+                expected[0].get("test_filter") != ANDROID_PERMISSION_COMPLETION_CLASS or
+                expected[0].get("required_testcases") != android_permission_completion_identities() or
+                ANDROID_PERMISSION_COMPLETION_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite two-SDK Android permission completion plan")
+        return True
+    if focus == calendar_native.FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != calendar_native.MODULE or
+                expected[0]["task"] != calendar_native.TASK or
+                expected[0].get("test_filter") != calendar_native.CLASS or
+                expected[0].get("required_testcases") != calendar_native.identities() or
+                calendar_native.SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite five-method native calendar configuration plan")
+        return True
+    if focus == macos_share_native.FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != macos_share_native.MODULE or
+                expected[0]["task"] != macos_share_native.TASK or
+                expected[0].get("test_filter") != macos_share_native.CLASS + ".*" or
+                expected[0].get("required_testcases") != macos_share_native.identities() or
+                macos_share_native.SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite three-method macOS AppKit coroutine plan")
+        return True
+    if focus == share_missing.FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != share_missing.MODULE or expected[0].get("project") != ":calf-share" or
+                expected[0]["task"] != share_missing.TASK or
+                expected[0].get("report_directory") != "calf-share/build/test-results/desktopTest" or
+                expected[0].get("test_filter") != share_missing.FILTER or
+                expected[0].get("test_filter_argument") is not None or
+                expected[0].get("test_exclusion_annotation") is not None or
+                expected[0].get("required_testcases") != share_missing.identities() or
+                share_missing.SOURCE not in expected[0]["test_source_files"] or
+                test_plan.get("scope") != share_missing.SCOPE):
+            raise ValueError("Invalid exact one-method missing Share630 timeout plan")
+        share_missing.validate_contract(expected[0].get(share_missing.CONTRACT_KEY))
+        return True
+    if focus in IOS_PERMISSION_SAFETY_SPECS:
+        spec = IOS_PERMISSION_SAFETY_SPECS[focus]
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != IOS_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test" or
+                expected[0].get("test_filter") != spec["classname"] or
+                expected[0].get("required_testcases") != ios_permission_safety_identities(focus) or
+                spec["source"] not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS permission safety plan")
+        return True
+    if focus in WEBVIEW_LIFETIME_FOCUSES:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != WEBVIEW_LIFETIME_MODULE or
+                expected[0]["task"] != ":calf-webview:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != webview_lifetime_filter(suite, focus) or
+                expected[0].get("required_testcases") != webview_lifetime_identities(suite, focus) or
+                not all(g["source"] in expected[0]["test_source_files"] for g in webview_lifetime_groups(suite, focus)) or
+                (suite == "android-device" and expected[0].get("native_fixture_paths") != list(WEBVIEW_DEVICE_FIXTURES))):
+            raise ValueError("Invalid finite real WebView lifetime plan")
+        return True
+    if focus == IOS_SAVE_WRITE_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-file-picker" or
+                expected[0]["task"] != ":calf-file-picker:iosSimulatorArm64Test" or
+                expected[0].get("test_filter") != IOS_SAVE_WRITE_CLASS + "." + IOS_SAVE_WRITE_METHOD or
+                expected[0].get("required_testcases") != ios_save_write_identities() or
+                IOS_SAVE_WRITE_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS native staging failure plan")
+        return True
+    if focus == IOS_PERMISSION_FOCUS:
+        if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != IOS_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:iosSimulatorArm64Test" or
+                expected[0].get("test_filter") != IOS_PERMISSION_CLASS or
+                expected[0].get("required_testcases") != ios_permission_identities() or
+                IOS_PERMISSION_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite iOS public permission factory plan")
+        return True
+    if focus == UNSUPPORTED_PERMISSION_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != UNSUPPORTED_PERMISSION_MODULE or
+                expected[0]["task"] != ":calf-permissions:calf-permissions-core:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != UNSUPPORTED_PERMISSION_CLASS or
+                expected[0].get("required_testcases") != unsupported_permission_identities() or
+                unsupported_permission_source(suite) not in expected[0]["test_source_files"] or
+                UNSUPPORTED_PERMISSION_FIXTURE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite public unsupported permission plan")
+        return True
+    if focus in DROPDOWN_FOCUSES:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != "calf-ui" or expected[0]["task"] != ":calf-ui:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != dropdown_filter(focus) or
+                expected[0].get("required_testcases") != dropdown_identities(focus) or
+                dropdown_source(suite) not in expected[0]["test_source_files"] or
+                DROPDOWN_SCENARIOS_SOURCE not in expected[0]["test_source_files"] or
+                dropdown_platform_source(suite) not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite Material dropdown contract/recovery plan")
+        return True
+    if focus == DATE_TRANSACTION_FOCUS:
+        suite = test_plan["suite"]
+        if (not allowed_test_focus(suite, tuple(test_plan["explicit_module_subset"]), focus) or
+                test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
+                expected[0]["module"] != DATE_TRANSACTION_MODULE or
+                expected[0]["task"] != ":calf-ui:" + SUITES[suite][0] or
+                expected[0].get("test_filter") != DATE_TRANSACTION_CLASS or
+                expected[0].get("required_testcases") != date_transaction_identities() or
+                date_transaction_source(suite) not in expected[0]["test_source_files"] or
+                DATE_TRANSACTION_SCENARIOS_SOURCE not in expected[0]["test_source_files"]):
+            raise ValueError("Invalid finite four-method date transaction plan")
+        return True
+    if (focus != NATIVE_SHARE_BOUNDARY_FOCUS or test_plan["suite"] != "desktop" or
+            test_plan["complete_suite_requested"] is not False or
+            test_plan["explicit_module_subset"] != [NATIVE_SHARE_BOUNDARY_MODULE] or len(expected) != 1 or
+            expected[0]["module"] != NATIVE_SHARE_BOUNDARY_MODULE or expected[0]["task"] != ":calf-share:desktopTest" or
+            expected[0].get("test_filter") != NATIVE_SHARE_BOUNDARY_CLASS or
+            expected[0].get("required_testcases") != native_share_boundary_identities() or
+            NATIVE_SHARE_BOUNDARY_SOURCE not in expected[0]["test_source_files"]):
+        raise ValueError("Invalid finite native boundary test plan; no arbitrary selection is allowed")
+    return True
+
+
+def snapshot_inputs(root: Path) -> dict[str, str]:
+    inputs = set()
+    for relative in ROOT_INPUTS:
+        path = safe_path(root, relative)
+        if path.is_file():
+            inputs.add(path)
+    for tree in ("gradle", "convention-plugins", "scripts/ci", "scripts/native", "kotlin-js-store",
+                 "tests/native-ui-input",
+                 "tests/consumer/android-geo-probe", "tests/consumer/android-share-recipient", "tests/consumer/android-share-documents", "tests/consumer/android-camera-receiver", "tests/consumer/android-io-documents", "tests/consumer/android-permission-demo", "tests/consumer/android-storage-probe"):
+        inputs.update(source_files(root, tree))
+    for module in projects(root):
+        # KGP appends module-owned Karma config fragments to browser task inputs.
+        # Hold the actual HTTP framing fixture, not only its Kotlin caller.
+        for relative in (f"{module}/src", f"{module}/native", f"{module}/.cargo", f"{module}/gradle", f"{module}/karma.config.d"):
+            inputs.update(source_files(root, relative))
+        for name in ("build.gradle.kts", "gradle.properties", "gradle.lockfile"):
+            path = safe_path(root, f"{module}/{name}")
+            if path.is_file():
+                inputs.add(path)
+    # Sample build configuration is evaluated even in a library-only invocation;
+    # sample source/tests are deliberately not substitutes for library execution.
+    for path in safe_path(root, "sample").glob("*/build.gradle.kts"):
+        inputs.add(safe_path(root, path.relative_to(root).as_posix()))
+    # Exception is only the one isolated iosTest helper plus its originating
+    # screen's provenance bytes. The screen is never an external compile input
+    # and sample applications/tests remain no substitute for library execution.
+    for relative in secure_alert.held_provenance_sources(root):
+        inputs.add(safe_path(root, relative))
+    result = {}
+    for path in sorted(inputs):
+        before = path.stat()
+        value = sha256(path)
+        after = path.stat()
+        if (before.st_size, before.st_mtime_ns, before.st_ino) != (after.st_size, after.st_mtime_ns, after.st_ino):
+            raise ValueError("Source input changed while capturing its hash")
+        result[path.relative_to(root).as_posix()] = value
+    return result
+
+
+class NoDtdBuilder(ET.TreeBuilder):
+    def doctype(self, name, public_id, system_id):
+        raise ValueError("DTD/entity declarations are not JUnit evidence")
+
+
+def junit_cases(payload: bytes) -> list[dict]:
+    if len(payload) > MAX_REPORT_BYTES:
+        raise ValueError("JUnit report exceeds bounded input size")
+    document = ET.fromstring(payload, parser=ET.XMLParser(target=NoDtdBuilder()))
+
+    def visit(suite: ET.Element, depth: int = 0) -> list[dict]:
+        if depth > 32:
+            raise ValueError("JUnit nesting exceeds bounded report depth")
+        if suite.tag not in {"testsuite", "testsuites"}:
+            raise ValueError("Unrecognized JUnit root or nested suite")
+        cases = []
+        for item in suite:
+            if item.tag in {"testsuite", "testsuites"}:
+                cases.extend(visit(item, depth + 1))
+            elif item.tag == "testcase" and suite.tag == "testsuite":
+                name, classname = item.get("name", ""), item.get("classname", suite.get("name", ""))
+                if not name or not classname or len(name) > 4096 or len(classname) > 4096:
+                    raise ValueError("Missing or invalid actual testcase identity")
+                statuses = [child.tag for child in item if child.tag in {"skipped", "failure", "error"}]
+                if len(statuses) > 1:
+                    raise ValueError("Conflicting or duplicate testcase outcome elements")
+                if any(child.tag not in {"skipped", "failure", "error", "system-out", "system-err", "properties"} for child in item):
+                    raise ValueError("Unrecognized testcase content")
+                cases.append({"classname": classname, "name": name,
+                              "status": {"failure": "failed", "error": "error", "skipped": "skipped"}.get(next(iter(statuses), ""), "passed")})
+            elif item.tag not in {"properties", "system-out", "system-err"}:
+                raise ValueError("Unrecognized JUnit suite content")
+            if len(cases) > MAX_CASES:
+                raise ValueError("JUnit testcase count exceeds bounded input size")
+        counts = case_counts(cases)
+        for key in COUNTS:
+            declared = suite.get(key)
+            if declared is not None and (not re.fullmatch(r"[0-9]+", declared) or int(declared) != counts[key]):
+                raise ValueError("Declared JUnit summary differs from actual testcase elements")
+        return cases
+
+    cases = visit(document)
+    identities = [(item["classname"], item["name"]) for item in cases]
+    if len(identities) != len(set(identities)):
+        raise ValueError("Duplicate testcase identity in JUnit document")
+    return cases
+
+
+def case_counts(cases: list[dict]) -> dict[str, int]:
+    statuses = Counter(case["status"] for case in cases)
+    not_applicable = sum(case.get("disposition") == "not-applicable" for case in cases)
+    return {"tests": len(cases), "failures": statuses["failed"], "errors": statuses["error"],
+            "skipped": statuses["skipped"], "passed": statuses["passed"],
+            "executed": len(cases) - statuses["skipped"], "not_applicable": not_applicable,
+            "unexpected_skipped": statuses["skipped"] - not_applicable}
+
+
+def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int, marker_counts: Counter,
+                    host_system: str | None = None, native_ui_opt_in: bool = False) -> dict:
+    boundary_focus = validate_test_focus(test_plan)
+    modules, errors, total_bytes, file_count = [], [], 0, 0
+    for expected in test_plan["expected"]:
+        module_cases, identities, reports, cases_by_report = [], set(), [], []
+        task = expected["task"]
+        if marker_counts[task] != 1:
+            errors.append({"module": expected["module"], "error": "Expected exactly one fresh task execution marker", "markers": marker_counts[task]})
+        folder = safe_path(root, expected["report_directory"])
+        paths = []
+        for base, directories, names in os.walk(folder, followlinks=False):
+            directories.sort()
+            for name in [*directories, *names]:
+                safe_path(root, (Path(base) / name).relative_to(root).as_posix())
+            paths.extend(Path(base) / name for name in sorted(names) if name.startswith("TEST-") and name.endswith(".xml"))
+            if len(paths) + file_count > MAX_REPORTS:
+                raise ValueError("JUnit report tree exceeds bounded file count")
+        for path in paths:
+            relative = path.relative_to(root).as_posix()
+            try:
+                path = safe_path(root, relative)
+                stat = path.stat()
+                if not path.is_file() or stat.st_nlink > 1:
+                    raise ValueError("Non-regular or hardlinked JUnit evidence")
+                if not started_ns - 2_000_000_000 <= stat.st_mtime_ns <= ended_ns + 2_000_000_000:
+                    raise ValueError("Stale or future-dated JUnit report")
+                total_bytes += stat.st_size
+                file_count += 1
+                if stat.st_size > MAX_REPORT_BYTES or total_bytes > MAX_TOTAL_REPORT_BYTES or file_count > MAX_REPORTS:
+                    raise ValueError("JUnit evidence exceeds bounded input size")
+                payload = path.read_bytes()
+                after_read = path.stat()
+                if (stat.st_size, stat.st_mtime_ns, stat.st_ino) != (after_read.st_size, after_read.st_mtime_ns, after_read.st_ino):
+                    raise ValueError("JUnit report changed during evidence capture")
+                cases = junit_cases(payload)
+                keys = {(item["classname"], item["name"]) for item in cases}
+                if keys & identities:
+                    raise ValueError("Duplicate testcase identity across reports for one task")
+                identities.update(keys)
+                module_cases.extend(cases)
+                if len(module_cases) > MAX_CASES:
+                    raise ValueError("JUnit testcase total exceeds bounded input size")
+                reports.append({"path": relative, "sha256": hashlib.sha256(payload).hexdigest(), **case_counts(cases)})
+                cases_by_report.append(cases)
+            except (OSError, ET.ParseError, ValueError) as error:
+                # Do not export XML/system-out/failure bodies or machine paths.
+                errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
+        if boundary_focus and test_plan["explicit_test_focus"] in content_policy.FOCUSES:
+            focus = test_plan["explicit_test_focus"]
+            policy_errors = ([] if content_policy.case_inventory(focus, module_cases) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 else
+                             ["Content-policy XML requires exactly the finite NEW/affected native cases in one fresh original target report; no missing/duplicate/skipped/foreign or accepted-replay cases"])
+            required_host = "macos" if focus == content_policy.IOS_FOCUS else "linux"
+            if native_test_policy.canonical_host(host_system or platform.system()) != required_host:
+                policy_errors.append("Content-policy XML requires its one registered actual host slot")
+            try:
+                content_policy.validate_host(focus, host_system or platform.system(), platform.machine())
+            except ValueError:
+                policy_errors.append("Desktop content-policy XML requires the actual Linux x64 host")
+            prefix = expected["task"].rsplit(":", 1)[1] + "." if test_plan["suite"] in {"ios", "js", "wasm"} else ""
+            sources = {prefix + group["classname"]: group["source"] for group in content_policy.groups(focus)}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "selection": "source-affected-existing" if c["classname"] == content_policy.ANDROID_AFFECTED_CLASS else "new-missing-criterion",
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_STORAGE_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
+                             ["Storage XML must contain exactly the selected one method in one fresh report, no missing/duplicate/unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_STORAGE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == UI_DATE_YEAR_MATERIAL_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 2 and len(reports) == 1 and len(paths) == 1 else
+                             ["Important Material year XML must contain exactly both new methods in one fresh report; no missing/duplicate/foreign/empty cases"])
+            scenarios = [{**c, "source": UI_DATE_YEAR_MATERIAL_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in (*UI_DATE_YEAR_NATIVE_FOCUSES, UI_ALERT_RECOVERY_FOCUS):
+            groups = ui_application_focus_groups(test_plan["explicit_test_focus"])
+            sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"] for group in groups}
+            group_inventories = [{(IOS_APPLICATION_TASK + "." + group["classname"], method + "[iosSimulatorArm64]")
+                                 for method in group["methods"]} for group in groups]
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(groups) and len(paths) == len(groups) and
+                             all({(c["classname"], c["name"]) for c in cases} in group_inventories
+                                 for cases in cases_by_report) else
+                             [f"Important alert/year application XML must contain exactly all {len(required)} selected methods, one fresh report per selected class; no missing/duplicate/foreign/empty cases"])
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == camera_ios.FOCUS:
+            scenarios, policy_errors = camera_ios.outcomes(module_cases, host_system or platform.system(),
+                cases_by_report=cases_by_report)
+            if len(paths) != 1 or len(reports) != 1:
+                policy_errors.append("Camera requires one original fresh five-case class XML, no extra empty reports")
+        elif boundary_focus and test_plan["explicit_test_focus"] in ui_related.ALL_FOCUSES:
+            scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),
+                test_plan["explicit_test_focus"], cases_by_report=cases_by_report)
+        elif boundary_focus and test_plan["explicit_test_focus"] in UI_APPLICATION_FOCUS_SPECS:
+            sources = {IOS_APPLICATION_TASK + "." + group["classname"]: group["source"]
+                       for group in ui_application_focus_groups(test_plan["explicit_test_focus"])}
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"Native date XML must contain exactly all {len(required)} selected application methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == camera_callback.FOCUS:
+            scenarios, policy_errors = camera_callback.outcomes(module_cases, host_system or platform.system())
+            if len(paths) != 1 or len(reports) != 1:
+                policy_errors.append("Callback requires exactly one fresh original one-method XML; no extra empty report")
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_RESTORATION_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"Android camera XML must contain exactly all {len(required)} selected real-restoration methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_CAMERA_RESTORATION_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_CAMERA_PROVIDER_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"Android camera XML must contain exactly all {len(required)} selected provider methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_CAMERA_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_SHARE_GRANT_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android sharing XML must contain exactly all three selected URI methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_SHARE_GRANT_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_GEO_PROVIDER_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"Android geo XML must contain exactly all {len(required)} selected provider methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_GEO_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_GEO_OWNERSHIP_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android geo XML must contain exactly the selected owner-GC method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_GEO_OWNERSHIP_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_NAV_BACK_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android navigation XML must contain exactly the selected native method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_NAV_BACK_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
+                             ["Android WebView Stop recovery XML must contain exactly the one remaining method in one fresh report, no missing/duplicate/unrelated or accepted replay cases"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Android WebView Stop recovery acceptance requires the explicit Linux API35 enforcing-emulator slot")
+            scenarios = [{**c, "source": ANDROID_WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_WEBVIEW_REQUEST_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(ANDROID_WEBVIEW_REQUEST_METHODS) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android WebView request XML must contain exactly both new native methods, no missing/duplicate or unrelated cases"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Android WebView request acceptance requires the explicit Linux API35 enforcing-emulator slot")
+            scenarios = [{**c, "source": ANDROID_WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_POPUP_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android popup XML must contain exactly all three selected native methods, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_POPUP_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_CONTENT_FOCUS:
+            policy_errors = ([] if webview_content_case_inventory(test_plan["suite"], module_cases) else
+                             ["Browser WebView content XML must contain exactly both methods with actual target identities"])
+            scenarios = [{**c, "source": WEBVIEW_CONTENT_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_REQUEST_FOCUS:
+            policy_errors = ([] if webview_request_case_inventory(test_plan["suite"], module_cases) else
+                             ["Browser WebView request-state XML must contain exactly all three methods with actual target identities"])
+            scenarios = [{**c, "source": WEBVIEW_REQUEST_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == SHARE_CLIPBOARD_NATIVE_FOCUS:
+            policy_errors = ([] if share_clipboard_native_case_inventory(test_plan["suite"], module_cases) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 else
+                             ["Native clipboard context XML needs exactly four new target methods in one fresh original report; no accepted/foreign/duplicate/missing methods"])
+            scenarios = [{**c, "source": SHARE_CLIPBOARD_NATIVE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == WEBVIEW_OFFLINE_FOCUS:
+            policy_errors = ([] if webview_offline_case_inventory(test_plan["suite"], module_cases) and
+                             len(reports) == 1 and len(paths) == 1 else
+                             ["Browser offline-destination XML must contain exactly the new method in one fresh target report; no accepted/foreign/duplicate methods"])
+            scenarios = [{**c, "source": WEBVIEW_OFFLINE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in desktop_security_plan.FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            classes = {classname for classname, _ in required}
+            class_reports = Counter(frozenset(c["classname"] for c in cases) for cases in cases_by_report)
+            exact = Counter(frozenset({classname}) for classname in classes)
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == expected["required_original_xml"] and class_reports == exact else
+                             ["Desktop security XML needs exactly one selected native method per class and one nonempty fresh original per class; no missing/duplicate/empty/mixed/foreign cases"])
+            route = desktop_security_plan.focus_selection(test_plan["explicit_test_focus"])
+            sources = {desktop_security_plan.SPECS[name][0]: desktop_security_plan.SOURCE_PATHS[name]
+                       for name in route["selected"]}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            required_classes = {classname for classname, _ in required}
+            report_classes = [frozenset(c["classname"] for c in cases) for cases in cases_by_report]
+            # Exactly one nonempty original XML per selected class. Mere report
+            # count cannot accept a mixed-class document plus an empty extra XML.
+            exact_class_reports = Counter(report_classes) == Counter(frozenset({classname}) for classname in required_classes)
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == len(required_classes) and exact_class_reports else
+                             ["Desktop request-state XML must contain exactly the selected native methods, one nonempty fresh report per class, no missing/duplicate/empty/mixed/foreign cases"])
+            sources = {spec["classname"]: spec["source"]
+                       for spec in webview_desktop_request_specs(test_plan["explicit_test_focus"])}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_IDENTITY_FOCUSES:
+            policy_errors = ([] if webview_identity_case_inventory(test_plan["suite"], module_cases, test_plan["explicit_test_focus"]) else
+                             ["WebView identity/value XML must contain exactly every new method with actual target identities"])
+            scenarios = [{**c, "source": WEBVIEW_IDENTITY_SPECS[test_plan["suite"]]["source"], "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"Android saver XML must contain exactly all {len(required)} selected methods, no missing or unrelated cases"])
+            sources = {group["classname"]: group["source"] for group in ANDROID_SAVE_IDENTITY_GROUPS}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_IO_REMOTE_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 and
+                             all(c["status"] == "passed" for c in module_cases) else
+                             ["Controlled remote IO XML requires only the exact selected NEW identities in one fresh original report; duplicate/skipped/stale/missing/foreign cases refuse"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Controlled remote IO requires the exact Linux API35 owned-emulator slot")
+            scenarios = [{**c, "source": ANDROID_IO_REMOTE_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_PROVIDER_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android IO XML must contain exactly all five selected new methods in one fresh report, no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_PROVIDER_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_UNAVAILABLE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
+                             ["Android unavailable-provider XML must contain exactly the one missing method in one fresh report, no missing, duplicate or unrelated cases"])
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Android unavailable-provider acceptance requires the exact Linux API35 enforcing-emulator slot")
+            scenarios = [{**c, "source": ANDROID_IO_UNAVAILABLE_SOURCE, "required_on_host": True,
+                          "verification_api_level": 35,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_DEFAULT_DECODE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android default decode XML must contain exactly all three new methods in one fresh report, no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_DEFAULT_DECODE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_IO_NAMED_SYSTEM_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Named system-provider XML must contain exactly the selected missing methods in one fresh report; no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_NAMED_SYSTEM_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_REFERENCE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required and len(module_cases) == len(required) and len(reports) == 1 and len(paths) == 1 else
+                             ["Android IO reference XML must contain exactly all three new methods in one fresh report, no missing, duplicate or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_REFERENCE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_IO_OVERSIZE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android IO XML must contain exactly the failed known-size/no-native-open method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": ANDROID_IO_DEVICE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_PERMISSION_DEVICE_SPECS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if len(reports) == 1 and actual == required and len(module_cases) == len(required) else
+                ["Native permission XML must contain exactly every new selected method in one fresh report"])
+            scenarios = [{**c, "source": ANDROID_PERMISSION_DEVICE_SPECS[test_plan["explicit_test_focus"]]["source"],
+                "required_on_host": True, "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == ANDROID_PERMISSION_COMPLETION_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["Android completion XML must contain exactly all three methods on both API29/33"])
+            scenarios = [{**c, "source": ANDROID_PERMISSION_COMPLETION_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == IOS_SAVE_WRITE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             ["iOS saver XML must contain exactly the new native write-failure method, no missing or unrelated cases"])
+            scenarios = [{**c, "source": IOS_SAVE_WRITE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == calendar_native.FOCUS:
+            scenarios, policy_errors = calendar_native.outcomes(module_cases, host_system or platform.system())
+            if len(reports) != 1 or len(paths) != 1:
+                policy_errors.append("Calendar configuration needs one fresh original report for its exact five native methods")
+        elif boundary_focus and test_plan["explicit_test_focus"] == macos_share_native.FOCUS:
+            scenarios, policy_errors = macos_share_native.outcomes(module_cases, host_system or platform.system(),
+                                                                   native_ui_opt_in)
+            if len(reports) != 1 or len(paths) != 1:
+                policy_errors.append("AppKit coroutine focus needs one fresh original report for its exact three methods")
+        elif boundary_focus and test_plan["explicit_test_focus"] == share_missing.FOCUS:
+            scenarios, policy_errors = share_missing.outcomes(module_cases, host_system or platform.system(),
+                                                             native_ui_opt_in)
+            if len(reports) != 1 or len(paths) != 1:
+                policy_errors.append("Share630 timeout needs one fresh original report for only the missing JNI method")
+        elif boundary_focus and (test_plan["explicit_test_focus"] == IOS_PERMISSION_FOCUS or
+                                 test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS):
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if actual == required else
+                             [f"iOS public permission XML must contain exactly all {len(required)} methods, no missing or unrelated cases"])
+            owning_source = (IOS_PERMISSION_SAFETY_SPECS[test_plan["explicit_test_focus"]]["source"]
+                             if test_plan["explicit_test_focus"] in IOS_PERMISSION_SAFETY_SPECS else IOS_PERMISSION_SOURCE)
+            scenarios = [{**c, "source": owning_source, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == DESKTOP_SAVER_STATE_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if len(module_cases) == 1 and actual == required else
+                             ["Desktop saver XML must contain exactly the new owning state method, no duplicate/foreign/missing methods"])
+            scenarios = [{**c, "source": DESKTOP_SAVER_STATE_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in LINUX_PICKER_PORTAL_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            if test_plan["explicit_test_focus"] == LINUX_PICKER_PORTAL_SAVE_FOCUS:
+                policy_errors = []
+                scenarios = [{**c, "source": LINUX_PICKER_PORTAL_SOURCE, "required_on_host": True,
+                              "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                             for c in module_cases]
+            else:
+                scenarios, policy_errors = native_test_policy.picker_portal_cases(module_cases, host_system or platform.system())
+            if native_test_policy.canonical_host(host_system or platform.system()) != "linux":
+                policy_errors.append("Focused GTK functionality requires actual Linux; another host is not N/A")
+            if len(module_cases) != len(required) or actual != required:
+                policy_errors.append("GTK functionality XML must contain exactly every finite selected method")
+        elif boundary_focus and test_plan["explicit_test_focus"] == PICKER_LIFETIME_FOCUS:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            scenarios, policy_errors = native_test_policy.picker_compose_cases(module_cases, host_system or platform.system())
+            if len(module_cases) != len(required) or actual != required:
+                policy_errors.append("Picker XML must contain exactly all six selected methods, no duplicate/foreign/missing methods")
+        elif boundary_focus and test_plan["explicit_test_focus"] in WEBVIEW_LIFETIME_FOCUSES:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = ([] if len(module_cases) == len(required) and actual == required else
+                             [f"WebView XML must contain exactly all {len(required)} selected real native methods, no missing, duplicate or foreign cases"])
+            sources = {g["classname"]: g["source"] for g in webview_lifetime_groups(test_plan["suite"], test_plan["explicit_test_focus"])}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == BROWSER_COIL_READ_FOCUS:
+            policy_errors = ([] if browser_coil_read_case_inventory(test_plan["suite"], module_cases) else
+                             ["Browser IO/Coil XML must contain exactly all four methods with actual target identities"])
+            scenarios = [{**c, "source": BROWSER_COIL_READ_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == UNSUPPORTED_PERMISSION_FOCUS:
+            policy_errors = ([] if unsupported_permission_case_inventory(test_plan["suite"], module_cases) else
+                             ["Public unsupported permission XML must contain exactly all six methods with actual target identities"])
+            scenarios = [{**c, "source": UNSUPPORTED_PERMISSION_FIXTURE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in DROPDOWN_FOCUSES:
+            policy_errors = ([] if dropdown_case_inventory(test_plan["suite"], module_cases, test_plan["explicit_test_focus"]) else
+                             ["Focused dropdown XML must contain exactly the selected methods with actual target identities"])
+            scenarios = [{**c, "source": DROPDOWN_SCENARIOS_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] == DATE_TRANSACTION_FOCUS:
+            policy_errors = ([] if date_transaction_case_inventory(test_plan["suite"], module_cases) else
+                             ["Focused date transaction XML must contain exactly all four declared methods with the actual target identities"])
+            scenarios = [{**c, "source": DATE_TRANSACTION_SCENARIOS_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus:
+            required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
+            actual = {(c["classname"], c["name"]) for c in module_cases}
+            policy_errors = [] if actual == required else ["Focused native boundary XML must contain exactly all five declared methods, no missing or unrelated cases"]
+            scenarios = [{**c, "source": NATIVE_SHARE_BOUNDARY_SOURCE, "required_on_host": True,
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+            # Do NOT classify the unrequested AppKit/bridge methods N/A or pass.
+            # A full share suite retains its original strict native policy.
+        else:
+            scenarios, policy_errors = native_test_policy.apply(expected["module"], test_plan["suite"], module_cases,
+                                                               host_system or platform.system(), native_ui_opt_in)
+        errors.extend({"module": expected["module"], "error": error} for error in policy_errors)
+        for report, cases in zip(reports, cases_by_report):
+            report.update(case_counts(cases))
+        counts = case_counts(module_cases)
+        if not reports or not counts["executed"]:
+            errors.append({"module": expected["module"], "error": "No actual non-skipped library testcases"})
+        if counts["failures"] or counts["errors"] or counts["unexpected_skipped"]:
+            errors.append({"module": expected["module"], "error": "Failed, errored or unexpected skipped tests are not accepted by this verification gate"})
+        modules.append({"module": expected["module"], "task": task, **counts, "reports": reports,
+                        "testcases": module_cases, "native_scenarios": scenarios})
+    return {"modules": modules, "errors": errors,
+            "native_matrix_scope": "Current host only; exact N/A cases are not passed and do not establish other host scenarios",
+            "totals": {key: sum(module[key] for module in modules) for key in (*COUNTS, "passed", "executed", "not_applicable", "unexpected_skipped")}}
+
+
+def quarantine_reports(root: Path, output: Path, test_plan: dict) -> list[str]:
+    """Move only selected generated task-report trees, never caches or sources."""
+    paths = []
+    for item in test_plan["expected"]:
+        source = safe_path(root, item["report_directory"])
+        if source.exists() and not source.is_dir():
+            raise ValueError("Selected generated report path is not a directory")
+        # Validate all existing report-tree entries before the first mutation.
+        if source.exists():
+            for base, directories, names in os.walk(source, followlinks=False):
+                for name in [*directories, *names]:
+                    safe_path(root, (Path(base) / name).relative_to(root).as_posix())
+        paths.append(source)
+    moved = []
+    for source in paths:
+        if source.exists():
+            relative = source.relative_to(root)
+            destination = output / "previous-reports" / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(source), str(destination))
+            moved.append(relative.as_posix())
+    return moved
+
+
+def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
+                   kotlin_user_home: str | None = None, root: Path = ROOT,
+                   android_serial: str | None = None, android_io_documents_receipt: dict | None = None,
+                   android_io_remote_documents_receipt: dict | None = None,
+                   android_permission_demo_receipt: dict | None = None,
+                   for_assembly: bool = False, android_storage_probe_receipt: dict | None = None) -> list[str]:
+    boundary_focus = validate_test_focus(test_plan)
+    if for_assembly and suite != "android-device":
+        raise ValueError("Only the device controller may request an assembly-only command")
+    io_required = android_io_documents_required(test_plan)
+    remote_required = android_io_remote_documents_required(test_plan)
+    if android_io_remote_documents_receipt is not None and (not remote_required or for_assembly):
+        raise ValueError("No remote prepared receipt on unrelated or assembly-only commands")
+    if remote_required:
+        import android_io_remote_documents as remote
+        if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+            raise ValueError("Remote current source/fixture/controller identities changed before the owning command")
+        if not for_assembly:
+            remote.validate_prepared_receipt(android_io_remote_documents_receipt,
+                test_plan["android_io_remote_documents"]["source_contract"])
+    permission_required = android_permission_demo_required(test_plan)
+    if android_permission_demo_receipt is not None and not permission_required:
+        raise ValueError("No permission preparation on unrelated or accepted suites")
+    if permission_required and not for_assembly:
+        import android_permission_demo
+        android_permission_demo.validate_prepared_receipt(android_permission_demo_receipt,
+            test_plan["android_permission_demo"]["source_contract"])
+    if android_io_documents_receipt is not None and not io_required:
+        raise ValueError("No owned IO preparation for unrelated or accepted recovery methods")
+    if io_required and not for_assembly:
+        import android_io_documents
+        android_io_documents.validate_prepared_receipt(android_io_documents_receipt,
+            test_plan["android_io_documents"]["source_contract"])
+    storage_required = android_storage_probe_required(test_plan)
+    if android_storage_probe_receipt is not None and not storage_required:
+        raise ValueError("No owned storage receipt for unrelated/default methods")
+    if storage_required and not for_assembly:
+        import android_storage_probe
+        android_storage_probe.validate_prepared_receipt(android_storage_probe_receipt,
+            test_plan["android_storage_probe"]["source_contract"])
+        if android_storage_probe_receipt["profile"] != test_plan["explicit_test_focus"]:
+            raise ValueError("Prepared storage row differs from the selected native method")
+    if boundary_focus and suite != test_plan["suite"]:
+        raise ValueError("A focused test plan cannot run as another suite")
+    if test_plan.get("explicit_test_focus") == camera_callback.FOCUS:
+        camera_callback.validate_serial(android_serial)
+        if camera_callback.source_contract(root) != test_plan["expected"][0][camera_callback.CONTRACT_KEY]:
+            raise ValueError("Exact callback source/recipient/filter identity changed before the command")
+    if test_plan.get("explicit_test_focus") in content_policy.FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        content_policy.validate_host(focus, platform.system(), platform.machine())
+        if content_policy.source_contract(root, focus) != test_plan["expected"][0][content_policy.CONTRACT_FIELD]:
+            raise ValueError("Exact content-policy source/fixture/filter identity changed before the native command")
+    if test_plan.get("explicit_test_focus") == secure_alert.FOCUS:
+        if secure_alert.source_contract(root) != test_plan["expected"][0]["secure_alert_input_contract"]:
+            raise ValueError("Exact secure-input helper/native/origin/build source changed before the owning command")
+    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        desktop_security_plan.validate_host(platform.system(), platform.machine(), focus)
+        if desktop_security_plan.fixture_contract(root, focus) != test_plan["desktop_security_fixture"]:
+            raise ValueError("Desktop security source/fixture changed before the owning command")
+    if test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+        validate_webview_desktop_request_host(platform.system(), platform.machine(), test_plan["explicit_test_focus"])
+    if test_plan.get("explicit_test_focus") == macos_share_native.FOCUS:
+        macos_share_native.validate_host(platform.system(), platform.machine())
+    if test_plan.get("explicit_test_focus") == share_missing.FOCUS:
+        share_missing.validate_host(platform.system(), platform.machine())
+        if os.environ.get("NATIVECMPKIT_NATIVE_UI_TESTS") != "true":
+            raise ValueError("Share630 timeout execution requires the exact native GUI opt-in")
+        if (share_missing.source_contract(root, test_plan["expected"][0]["test_source_files"]) !=
+                test_plan["expected"][0][share_missing.CONTRACT_KEY]):
+            raise ValueError("Share630 exact recovery inputs changed before the owning JNI command")
+    if suite == "ios" and (not simulator or not runtime_context.UUID.fullmatch(simulator)):
+        raise ValueError("iOS execution requires an explicitly selected, recorded simulator UDID")
+    if suite != "ios" and simulator:
+        raise ValueError("A simulator must not be supplied to a non-iOS test plan")
+    if suite == "android-device":
+        runtime_context.validate_emulator_serial(android_serial)
+    elif android_serial is not None:
+        raise ValueError("An Android emulator must not be supplied to another test suite")
+    command = [".\\gradlew.bat" if os.name == "nt" else "./gradlew", "--continue", "--no-daemon",
+               "--console=plain", "--no-configuration-cache", f"--max-workers={1 if suite == 'ios' else 2}",
+               "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+               "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m",
+               "--init-script", "scripts/ci/fresh-tests.init.gradle.kts",
+               "--init-script", "scripts/ci/daemon-jvm.init.gradle.kts"]
+    if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+        if platform.system() != "Darwin" or platform.machine().lower() not in {"arm64", "aarch64"}:
+            raise ValueError("Camera native command requires actual Arm64 Apple host; Linux KLIB is separate")
+        if camera_ios.source_contract(root) != test_plan["expected"][0][camera_ios.CONTRACT_KEY]:
+            raise ValueError("Camera exact inputs changed before the owning native command")
+        command.extend(["--init-script", camera_ios.INIT_SCRIPT,
+                        "-P" + camera_ios.FOCUS_PROPERTY + "=" + camera_ios.FOCUS])
+    if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        if ui_related.source_contract(root, focus) != test_plan["expected"][0]["ui_related_source_contract"]:
+            raise ValueError("Related UI exact source admission changed before the native command")
+        command.extend(["--init-script", ui_related.init_script(focus),
+                        "-P" + ui_related.focus_property(focus) + "=" + focus])
+    if test_plan.get("explicit_test_focus") in (IOS_MODAL_LIFECYCLE_FOCUS, IOS_MODAL_LIFECYCLE_MEMORY_FOCUS):
+        command.extend(["--init-script", "scripts/ci/ios_modal_focused_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_WORKER_MEMORY_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_worker_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_xcui_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_SHEET_REPEAT_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_sheet_repeat_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_MODAL_COMPLETION_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_modal_completion_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_popover_anchor_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") == IOS_POPOVER_BAR_RECOVERY_FOCUS:
+        command.extend(["--init-script", "scripts/ci/ios_popover_bar_compile.init.gradle.kts"])
+    if test_plan.get("explicit_test_focus") in IOS_POPOVER_GEOMETRY_FOCUSES:
+        command.extend(["--init-script", "scripts/ci/ios_popover_geometry_compile.init.gradle.kts",
+                        "-PnativecmpkitPopoverGeometryFocus=" + test_plan["explicit_test_focus"]])
+    if test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES:
+        command.extend(["--init-script", desktop_security_plan.INIT_SCRIPT,
+                        "-PnativecmpkitDesktopSecurityFocus=" + test_plan["explicit_test_focus"]])
+    if simulator:
+        command.append(f"-PnativecmpkitSimulatorDevice={simulator}")
+    if test_plan.get("explicit_test_focus") == IOS_IMAGE_MEMORY_FOCUS:
+        command.append("-PnativecmpkitImageMemoryDiagnostics=true")
+    elif test_plan.get("explicit_test_focus") in IOS_IMAGE_DARWIN_FOCUSES:
+        command.append("-PnativecmpkitImageMemoryDiagnostics=darwin-tools")
+    if android_serial:
+        # AGP9.4.0's inspected ProjectOptions reads this exact runner-argument
+        # prefix. A native hang becomes a reported failure, never a passing skip.
+        command.extend(["--no-parallel", "--stacktrace", f"-PnativecmpkitAndroidDeviceSerial={android_serial}",
+                        "-Pandroid.testInstrumentationRunnerArguments.timeout_msec=120000"])
+        if android_geo_probe_required(test_plan):
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedGeoProbe=true")
+        if android_camera_receiver_required(test_plan):
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedCameraReceiver=true")
+        if test_plan.get("explicit_test_focus") == camera_callback.FOCUS:
+            command.append("-P" + camera_callback.GRADLE_PROPERTY + "=" + camera_callback.FOCUS)
+        if android_share_recipient_required(test_plan):
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedShareRecipient=true")
+        if io_required and not for_assembly:
+            # This bit is only emitted after exact source/APK/manifest/private-key
+            # identity passed, never for an assembly-only or standalone command.
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedIoDocuments=true")
+        if remote_required and not for_assembly:
+            # Preparation identity only; neither this argument nor a source receipt proves native success.
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedRemoteIoDocuments=true")
+        if permission_required and not for_assembly:
+            command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitOwnedPermissionDemo=true")
+        if storage_required and not for_assembly:
+            receipt = android_storage_probe_receipt
+            fields = {"nativecmpkitOwnedStorageProbe": "true", "nativecmpkitStorageProfile": receipt["profile"],
+                "nativecmpkitStorageApi": str(receipt["verification_api_level"]), "nativecmpkitStorageFlavor": receipt["flavor"],
+                "nativecmpkitStorageTarget": str(receipt["target_sdk"]), "nativecmpkitStorageInstalledUid": str(receipt["installed_uid"]),
+                "nativecmpkitStorageApkSha256": receipt["source_apk_sha256"],
+                "nativecmpkitStorageReporterApkSha256": receipt["reporter_policy"]["source_apk_sha256"],
+                "nativecmpkitStorageCertificateSha256": receipt["apk_policy"]["certificate_sha256"],
+                "nativecmpkitStorageCaseNonce": receipt["case_nonce"]}
+            command.extend("-Pandroid.testInstrumentationRunnerArguments." + key + "=" + value for key, value in fields.items())
+        if boundary_focus:
+            item = test_plan["expected"][0]
+            argument = "filter" if test_plan["explicit_test_focus"] == content_policy.ANDROID_FOCUS else "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
+                                        test_plan["explicit_test_focus"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS,
+                                                                             ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS}) else "class"
+            command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
+            if test_plan["explicit_test_focus"] == WEBVIEW_ANDROID_MEDIA_FOCUS:
+                command.append("-Pandroid.testInstrumentationRunnerArguments.nativecmpkitWebViewHeapDiagnostic=true")
+            if test_plan["explicit_test_focus"] == ANDROID_SAVE_IDENTITY_RECOVERY_FOCUS:
+                command.append("-Pandroid.testInstrumentationRunnerArguments.notAnnotation=" + ANDROID_SAVE_CALIBRATION_ANNOTATION)
+    if kotlin_user_home is not None:
+        if suite not in {"js", "wasm"}:
+            raise ValueError("A Kotlin user home may only be requested for JS/Wasm runs")
+        home = safe_path(root, kotlin_user_home).resolve()
+        build = safe_path(root, "build").resolve()
+        if home == build or not home.is_relative_to(build):
+            raise ValueError("Use a dedicated Kotlin user home strictly below the repository build directory")
+        for entry in (home, *home.parents):
+            if entry.is_relative_to(build) and entry.exists() and not entry.is_dir():
+                raise ValueError("Kotlin user home path components must be directories")
+        # Keep prepared contents; this records a request, not effective KGP use,
+        # dependency integrity, recursive cache validation or filesystem isolation.
+        command.append(f"-Pkotlin.user.home={home}")
+    for item in test_plan["expected"]:
+        command.append(item["project"] + ":assembleAndroidDeviceTest" if for_assembly else item["task"])
+        if boundary_focus and suite != "android-device":
+            # KGP2.4.20 KotlinJsTest inherits AbstractTestTask's --tests filter.
+            # Android instrumentation instead consumes its supported class argument.
+            # Only the finite native registry permits multiple exact method
+            # selectors; KGP joins these into one canonical gradle-filter argument.
+            filters = (item["test_filter"].split(",")
+                       if test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS or
+                       test_plan.get("explicit_test_focus") in WEBVIEW_DESKTOP_REQUEST_FOCUSES or
+                       test_plan.get("explicit_test_focus") in desktop_security_plan.FOCUSES or
+                       (test_plan.get("explicit_test_focus") == WEBVIEW_LIFETIME_FOCUS and suite == "desktop")
+                       else (item["test_filter"],))
+            for selector in filters:
+                command.extend(["--tests", selector])
+    return command
+
+
+def terminate_owned(process: subprocess.Popen) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        # PID belongs to this invocation. /T includes only its descendants.
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30)
+    else:
+        os.killpg(process.pid, signal.SIGTERM)
+        try:
+            process.wait(timeout=10)
+        except subprocess.TimeoutExpired:
+            os.killpg(process.pid, signal.SIGKILL)
+    process.wait(timeout=30)
+
+
+def execute(root: Path, command: list[str], log_path: Path, timeout: int, reserve_mib: int,
+            *, env: dict[str, str] | None = None) -> dict:
+    reserve = reserve_mib * 1024 * 1024
+    if shutil.disk_usage(root).free < reserve:
+        return {"exit_code": 75, "stop_reason": "Disk reserve unavailable; command not started"}
+    started = time.monotonic()
+    result = {}
+    with log_path.open("w", encoding="utf-8") as log:
+        kwargs = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {"start_new_session": True}
+        process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT, env=env, **kwargs)
+        try:
+            while process.poll() is None:
+                if shutil.disk_usage(root).free < reserve:
+                    result["stop_reason"] = "Disk reserve reached; terminated only this invocation's process group"
+                elif time.monotonic() - started > timeout:
+                    result["stop_reason"] = "Timeout; terminated only this invocation's process group"
+                if result:
+                    terminate_owned(process)
+                    break
+                time.sleep(1)
+        except BaseException:
+            terminate_owned(process)
+            raise
+        result.update(exit_code=process.returncode, elapsed_seconds=round(time.monotonic() - started, 2))
+    return result
+
+
+def execution_markers(log: Path) -> Counter:
+    markers = Counter()
+    if log.is_file():
+        with log.open(encoding="utf-8", errors="replace") as handle:
+            for line in handle:
+                match = re.match(r"^NATIVECMPKIT_TEST_RUNTIME task=(:[a-zA-Z0-9:_-]+) gradle=", line)
+                if match:
+                    markers[match.group(1)] += 1
+    return markers
+
+
+def write_json(path: Path, value: dict) -> None:
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def git_revision(root: Path) -> str:
+    value = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True, timeout=30).strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", value):
+        raise ValueError("Unable to establish full source revision")
+    return value
+
+
+def android_device_environment(serial: str) -> dict[str, str]:
+    """Select only the verified emulator in this child, without mutating its caller.
+
+    AGP9.4.0's serial-option ListProperty is immutable but its device filter
+    removes matching entries. Its supported ANDROID_SERIAL provider path uses
+    a private mutable set instead. Reject conflicting inherited selection before
+    report quarantine or process launch; never export the environment to receipts.
+    """
+    runtime_context.validate_emulator_serial(serial)
+    environment = os.environ.copy()
+    if environment.get("ANDROID_SERIAL") not in (None, serial):
+        raise ValueError("Inherited Android selector differs from the explicitly owned emulator")
+    environment["ANDROID_SERIAL"] = serial
+    return environment
+
+
+def ios_application_environment(root: Path, output: Path, test_plan: dict) -> dict[str, str] | None:
+    """Real UI/picker iOS application tasks get fresh separate owned child paths.
+
+    Never mutate/export the caller's environment or let an inherited receipt path
+    point the task at another run. Non-application targets retain their commands.
+    """
+    if test_plan["suite"] != "ios" or not any(i.get("native_test_host") == "genuine-uikit-application" for i in test_plan["expected"]):
+        return None
+    focus = test_plan.get("explicit_test_focus")
+    subdirectory = ui_related.receipt_subdirectory(focus) if focus in ui_related.SPLIT_FOCUSES else "native-ui-application"
+    relative = (output / subdirectory).relative_to(root).as_posix()
+    safe_path(root, relative)
+    environment = os.environ.copy()
+    if environment.get("NATIVECMPKIT_UIKIT_RESULT_ROOT") not in (None, relative):
+        raise ValueError("Inherited UIKit receipt selector differs from this fresh owned output")
+    environment["NATIVECMPKIT_UIKIT_RESULT_ROOT"] = relative
+    return environment
+
+
+class IosApplicationEvidenceError(ValueError):
+    """Only fixed contract messages, not native/exception/environment bodies."""
+
+
+def collect_ios_application_receipts(root: Path, test_plan: dict, output: Path, started_ns: int, ended_ns: int,
+                                     context: dict, modules: list[dict]) -> dict:
+    result = {"ios_applications": [], "errors": []}
+    if test_plan["suite"] != "ios":
+        return result
+    # Full iOS plans can own both independent UI and picker test applications.
+    # Never merge their protocol/XML/binary/session identities or count them twice.
+    for expected in test_plan["expected"]:
+        if (expected["module"] == "calf-ui" or
+                (expected["module"] == "calf-file-picker" and test_plan.get("explicit_test_focus") != IOS_SAVE_WRITE_FOCUS) or
+                expected.get("native_test_host") == "genuine-uikit-application"):
+            review = collect_one_ios_application_receipt(root, test_plan, output, started_ns, ended_ns,
+                                                         context, modules, expected)
+            for key in result:
+                result[key].extend(review[key])
+    return result
+
+
+def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Path, started_ns: int, ended_ns: int,
+                                        context: dict, modules: list[dict], expected: dict) -> dict:
+    """Cross-check the real app lifecycle against actual KGP XML and runtime.
+
+    This reads the owned transport witness; it is not a trusted-builder attestation.
+    Cases are never added to totals here, normalized broadly, synthesized or
+    promoted from failed/skipped to passing. The normal JUnit gate still owns
+    failures, including KGP's intentional native runner-exit-zero protocol.
+    """
+    result = {"ios_applications": [], "errors": []}
+    def need(condition, message):
+        if not condition:
+            raise IosApplicationEvidenceError(message)
+
+    def unique_object(pairs):
+        value = {}
+        for key, item in pairs:
+            need(key not in value, "Duplicate JSON keys in application evidence")
+            value[key] = item
+        return value
+
+    def identities(cases, xml=False):
+        need(isinstance(cases, list) and 0 < len(cases) <= MAX_CASES, "Empty or unbounded application testcase set")
+        values = {}
+        for case in cases:
+            need(isinstance(case, dict) and set(case) == {"classname", "name", "status"}, "Invalid application testcase fields")
+            classname, name, status = (case[k] for k in ("classname", "name", "status"))
+            need(all(isinstance(v, str) and 0 < len(v) <= 4096 and not any(c in v for c in "\r\n")
+                     for v in (classname, name)), "Invalid application testcase identity")
+            need(status in {"passed", "failed", "error", "skipped"}, "Unknown application testcase status")
+            if xml:
+                focus = test_plan.get("explicit_test_focus")
+                prefix = (ui_related.task_name(focus) if focus in ui_related.SPLIT_FOCUSES else IOS_APPLICATION_TASK) + "."
+                suffix = "[iosSimulatorArm64]"
+                need(classname.startswith(prefix) and name.endswith(suffix), "XML lacks the exact observed KGP task prefix/target suffix")
+                classname, name = classname[len(prefix):], name[:-len(suffix)]
+            key = (classname, name)
+            need(key not in values, "Duplicate application testcase identity")
+            values[key] = status
+        return values
+
+    path = None
+    try:
+        import ios_ui_application as app
+        host = app.APPLICATION_HOSTS[expected["module"]]
+        if test_plan.get("explicit_test_focus") in ui_related.SPLIT_FOCUSES:
+            host = app.application_host(host["binary_directory"] + "/application.kexe", test_plan["explicit_test_focus"])
+        task = host["task"]
+        need(expected["task"] == task and expected.get("native_test_host") == "genuine-uikit-application",
+             "The iOS UI plan must use the genuine application task, not a Skiko fallback")
+        folder = safe_path(root, (output / host["receipt_subdirectory"]).relative_to(root).as_posix())
+        need(folder.is_dir(), "Missing owned UIKit application receipt output")
+        sessions = []
+        for entry in folder.iterdir():
+            need(len(sessions) == 0 and re.fullmatch(r"[0-9a-f]{32}", entry.name), "Expected exactly one fresh application session")
+            session = safe_path(root, entry.relative_to(root).as_posix())
+            need(session.is_dir(), "Invalid application session directory")
+            import apple_image_sidecar_evidence as image_sidecar
+            image_sidecar.require_session_membership(session, expected["module"], test_plan.get("explicit_test_focus"))
+            sessions.append(session)
+        need(len(sessions) == 1, "Missing fresh application session")
+        path = safe_path(root, (sessions[0] / "receipt.json").relative_to(root).as_posix())
+        stat = path.stat()
+        need(path.is_file() and stat.st_nlink == 1 and 0 < stat.st_size <= 2 * 1024**2, "Invalid or unbounded application receipt file")
+        need(started_ns - 2_000_000_000 <= stat.st_mtime_ns <= ended_ns + 2_000_000_000, "Stale or future application receipt")
+        payload = path.read_bytes()
+        after = path.stat()
+        need((stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns) == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns),
+             "Application receipt changed while reading")
+        document = json.loads(payload, object_pairs_hook=unique_object,
+                              parse_constant=lambda _: need(False, "Nonfinite JSON number"))
+        need(isinstance(document, dict) and type(document.get("schema_version")) is int and
+             document["schema_version"] == 1 and document.get("task") == task,
+             "Unexpected application receipt schema or task")
+        image_sidecar.validate_retained(sessions[0], document, context, started_ns, ended_ns,
+            expected["module"], test_plan.get("explicit_test_focus"), receipt_payload=payload)
+        need(document.get("transport_passed") is True and "error" not in document and
+             "startup_failure_observation" not in document and "application_protocol_partial" not in document and
+             "owned_crash_diagnostics" not in document and "owned_launch_diagnostics" not in document,
+             "Application transport failed or incomplete")
+        need(document.get("explicit_test_focus") == test_plan.get("explicit_test_focus"),
+             "Application selection differs from its reviewed plan")
+        if test_plan.get("explicit_test_focus") in IOS_IMAGE_DARWIN_FOCUSES:
+            need(document.get("image_diagnostics_mode") == "darwin-tools" and
+                 document.get("strict_runtime_assertions_attested") is False,
+                 "Independent Darwin attempt must retain its explicit non-strict diagnostic scope")
+        else:
+            need("image_diagnostics_mode" not in document and "strict_runtime_assertions_attested" not in document,
+                 "Unexpected diagnostic-mode claim on another application selection")
+        focused_ui = test_plan.get("explicit_test_focus") in UI_APPLICATION_FOCUS_SPECS
+        if focused_ui:
+            validate_test_focus(test_plan)
+        if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+            need(camera_ios.validate_admission(root, started_ns, ended_ns),
+                 "Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution")
+        else:
+            need("camera_photos" not in document, "No Camera Photos lease claim on unrelated application")
+        if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
+            need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
+                 "Related UI requires fresh exact source/selection admission, not a historical KLIB receipt")
+        if test_plan.get("explicit_test_focus") in ui_related.SPLIT_FOCUSES:
+            accounting = ui_related.timeout_accounting(test_plan["explicit_test_focus"])
+            transport = document.get("application_transport")
+            need(document.get("ui_split_timeout_accounting") == accounting and
+                 all(type(document["ui_split_timeout_accounting"].get(key)) is int for key in accounting) and
+                 type(transport) is dict and type(transport.get("timeout_seconds")) is int and
+                 transport["timeout_seconds"] == accounting["transport_timeout_seconds"],
+                 "Split UI requires its independent exact transport/native-task timeout accounting")
+        if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
+            import ios_popover_anchor_plan
+            need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),
+                 "Native popover anchor cases require their fresh exact four-source compiler receipt")
+        if test_plan.get("explicit_test_focus") in IOS_POPOVER_GEOMETRY_FOCUSES:
+            import ios_popover_geometry_plan as geometry_plan
+            need(geometry_plan.validate_compilation(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
+                 "OS geometry requires its fresh exact four-source compiler receipt")
+            need(geometry_plan.validate_application_fixture(document.get("popover_geometry"), root, context["simulator"],
+                    test_plan["explicit_test_focus"]), "OS geometry requires its exact scene manifest and owned launch mode")
+        if test_plan.get("explicit_test_focus") == IOS_POPOVER_BAR_RECOVERY_FOCUS:
+            import ios_popover_bar_recovery_plan
+            need(ios_popover_bar_recovery_plan.validate_compilation(root, started_ns, ended_ns),
+                 "The failed bar-anchor case requires its fresh exact four-source compiler receipt")
+        need(document.get("packages_published") is False and document.get("release_readiness_certified") is False,
+             "Verification must not claim publication or release certification")
+        need(context.get("source_tree_dirty") is False and document.get("source_tree_dirty") is False and
+             document.get("source_revision") == context.get("source_revision"), "Application source revision/cleanliness mismatch")
+        for when in ("runtime_before", "runtime_after"):
+            observed = document.get(when)
+            need(isinstance(observed, dict) and observed.get("source_revision") == context["source_revision"] and
+                 observed.get("source_tree_dirty") is False, "Application runtime source identity changed")
+            if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
+                ui_related.validate_context(observed, test_plan["explicit_test_focus"], udid=context["simulator"]["udid"])
+            for key in ("host", "java", "rust", "xcode", "apple_sdks", "simulator"):
+                need(key in context and observed.get(key) == context[key], "Application compiler/SDK/selected-simulator runtime mismatch")
+        need(context["host"].get("system") == "Darwin" and context["host"].get("architecture") == "arm64" and
+             context["simulator"].get("state") == "Booted" and runtime_context.UUID.fullmatch(context["simulator"].get("udid", "")),
+             "A genuine booted Arm64 Apple application runtime is required")
+        times = [dt.datetime.fromisoformat(document[key]) for key in ("started_at_utc", "finished_at_utc")]
+        need(all(t.utcoffset() is not None for t in times), "Naive application timestamps do not establish freshness")
+        start, end = (int(t.timestamp() * 1_000_000_000) for t in times)
+        need(started_ns - 2_000_000_000 <= start <= end <= ended_ns + 2_000_000_000, "Application lifecycle lies outside the fresh run")
+        token = sessions[0].name
+        need(document.get("bundle_id") == "io.github.apdelrahman1911.nativecmpkit.verification.ui.r" +
+             context["source_revision"][:12] + ".t" + token, "Application bundle is not this owned source/session")
+        # Import after this module is fully loaded; the transport uses the same
+        # safe-path/hash contract and the real Mach-O load-command reader.
+        import ios_ui_application as app
+        binary = safe_path(root, document["binary_path"])
+        need(binary.parent == safe_path(root, host["binary_directory"]) and binary.suffix == ".kexe" and
+             os.access(binary, os.X_OK), "Wrong linked application binary")
+        binary_hash = sha256(binary)
+        need(document.get("binary_sha256") == document.get("binary_sha256_after") == binary_hash and
+             document.get("macho") == app.macho_simulator_identity(binary), "Linked binary bytes or Mach-O identity changed")
+        need(all(isinstance(document.get(k), str) and re.fullmatch(r"[0-9a-f]{64}", document[k])
+                 for k in ("signed_application_executable_sha256", "application_plist_sha256")), "Missing installed app-byte identities")
+        steps, cleanup = document.get("steps"), document.get("cleanup")
+        need(isinstance(steps, dict) and isinstance(cleanup, dict), "Missing application install/cleanup steps")
+        need(all(isinstance(steps.get(k), dict) for k in
+                 ("foreign-app-preflight", "adhoc-sign-local-verification-app", "install-owned-app")),
+             "Invalid application step record shapes")
+        need(all(type(steps[k].get("exit_code")) is int for k in
+                 ("foreign-app-preflight", "adhoc-sign-local-verification-app", "install-owned-app")),
+             "Application control exit codes must be actual integer observations")
+        need(steps.get("foreign-app-preflight", {}).get("preexisting_app_absence_verified") is True and
+             steps.get("adhoc-sign-local-verification-app", {}).get("exit_code") == 0 and
+             steps.get("adhoc-sign-local-verification-app", {}).get("remote_signing_or_publication") is False and
+             steps.get("install-owned-app", {}).get("exit_code") == 0 and
+             steps.get("install-owned-app", {}).get("installed_owned_bytes_verified") is True, "Owned app install/sign/readback did not pass")
+        need(not any("error" in k for k in cleanup) and type(cleanup.get("uninstall_exit_code")) is int and
+             cleanup["uninstall_exit_code"] == 0 and all(cleanup.get(k) is True for k in
+                 ("owned_app_identity_reverified", "owned_app_stopped_verified", "owned_app_absence_verified", "owned_local_bundle_removed")),
+             "Owned app/native/local cleanup did not complete")
+        protocol = document.get("application_protocol")
+        need(isinstance(protocol, dict) and type(protocol.get("process_exit")) is int and protocol["process_exit"] == 0,
+             "App crash or missing real console process exit")
+        need("lifecycle_failure_observation" not in protocol, "Failed owned native lifecycle cannot be accepted")
+        if test_plan.get("explicit_test_focus") == camera_ios.FOCUS:
+            import ios_camera_photo_fixture as camera_photo
+            import plistlib
+            info = app.app_information(document["bundle_id"], document["macho"]["minimum_os"])
+            info.update(camera_photo.privacy_information())
+            need(document["application_plist_sha256"] == hashlib.sha256(plistlib.dumps(info, sort_keys=True)).hexdigest(),
+                 "Camera requires its exact ordinary plist/privacy keys and no ATS/scene/debug/foreign fixture lease")
+            need(camera_photo.validate_receipt(document.get("camera_photos"),
+                    simulator=context["simulator"]["udid"], bundle_id=document["bundle_id"],
+                    source_revision=context["source_revision"], session_nonce=token,
+                    signed_hash=document["signed_application_executable_sha256"], plist_hash=document["application_plist_sha256"],
+                    native_pid=protocol.get("observed_launch_pid")) and
+                 document["camera_photos"]["native_status"] == protocol.get("camera_photo_authorization"),
+                 "Camera requires owned official photos grant/reset plus actual same-source/nonce/PID Main Authorized readback")
+            need(not any(key in document for key in ("webview_request_fixture", "webview_content_policy_fixture",
+                 "image_memory_profile", "native_xctest_input", "system_appearance_driver", "popover_geometry")),
+                 "Camera may not reuse any accepted UI/Share/WebView/profile/input fixture")
+        else:
+            need("camera_photo_authorization" not in protocol, "No Camera native-status claim on unrelated application")
+        active, complete = protocol.get("activation"), protocol.get("completion")
+        need(isinstance(active, dict) and all(type(active.get(k)) is int and active[k] > 0 for k in ("main_worker", "owned_worker")) and
+             active["main_worker"] != active["owned_worker"], "Missing distinct main/owned-worker execution witness")
+        need(isinstance(complete, dict) and type(complete.get("runner_exit")) is int and complete["runner_exit"] == 0 and
+             complete.get("worker_terminated") is True, "Generated test Worker did not terminate before app completion")
+        need(type(protocol.get("stream_bytes")) is int and 0 < protocol["stream_bytes"] <= app.MAX_STREAM_BYTES,
+             "Invalid application console byte witness")
+        cases = identities(protocol.get("testcases"))
+        module = next(m for m in modules if m["module"] == expected["module"])
+        need(module["task"] == task and cases == identities(module["testcases"], xml=True), "Actual KGP XML and app protocol disagree")
+        counts = case_counts(protocol["testcases"])
+        need(protocol.get("counts") == counts and all(type(v) is int for v in protocol["counts"].values()) and counts["executed"] > 0,
+             "Application counts differ from complete actual testcase elements")
+        full_groups = ({"calf-file-picker": IOS_PICKER_BOUNDARY_GROUPS,
+                        "calf-webview": IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS,
+                        "calf-share": IOS_SHARE_APPLICATION_REQUIRED_GROUPS}.get(expected["module"], ()))
+        required = ({(group["classname"], name)
+                     for group in ui_application_focus_groups(test_plan["explicit_test_focus"])
+                     for name in group["methods"]} if focused_ui else
+                    {(group["classname"], name) for group in full_groups for name in group["methods"]}
+                    if full_groups else {("com.mohamedrejeb.calf.ui." + c, n) for c, n in IOS_APPLICATION_CASES})
+        if focused_ui:
+            need(cases.keys() == required, "Focused application must execute exactly all selected methods")
+        need(required <= cases.keys(), "Required native presenter/host/identity/image-lifetime cases were not discovered")
+        if test_plan.get("explicit_test_focus") == IOS_MODAL_XCUI_FOCUS:
+            import native_ui_input
+            need(native_ui_input.validate_receipt(document.get("native_xctest_input"), root, IOS_MODAL_XCUI_METHODS,
+                    bundle_id=document["bundle_id"], device=context["simulator"]["udid"],
+                    native_pid=protocol.get("observed_launch_pid"),
+                    signed_hash=document["signed_application_executable_sha256"], plist_hash=document["application_plist_sha256"]),
+                 "Native modal interaction cases require independent owned public XCTest input and cleanup")
+        if any((IOS_WEBVIEW_REQUEST_CLASS, method) in cases for method in IOS_WEBVIEW_REQUEST_METHODS):
+            import ios_webview_request_fixture as wk_requests
+            fixture_hash = sha256(safe_path(root, IOS_WEBVIEW_REQUEST_FIXTURE))
+            native_hash = sha256(safe_path(root, IOS_WEBVIEW_REQUEST_SOURCE))
+            if test_plan.get("explicit_test_focus") in (IOS_WEBVIEW_REQUEST_FOCUS, IOS_WEBVIEW_REQUEST_DNS_FOCUS):
+                need(expected.get("ios_webview_request_fixture_sha256") == fixture_hash,
+                     "Native WK request fixture changed from its exact preflight identity")
+            need(wk_requests.validate_receipt(document.get("webview_request_fixture"),
+                    bundle_id=document["bundle_id"], signed_hash=document["signed_application_executable_sha256"],
+                    plist_hash=document["application_plist_sha256"], native_pid=protocol.get("observed_launch_pid"),
+                    fixture_hash=fixture_hash, native_hash=native_hash),
+                 "Native WK request cases lack actual localhost/TLS/client-EOF/owned-cleanup evidence")
+        if any((content_policy.spec(content_policy.IOS_FOCUS)["classname"], method) in cases
+               for method in content_policy.spec(content_policy.IOS_FOCUS)["methods"]):
+            need(test_plan.get("explicit_test_focus") == content_policy.IOS_FOCUS,
+                 "New WK content cases require their exact finite owned fixture admission; generic ios/all is not prepared")
+            current_content = content_policy.source_contract(root, content_policy.IOS_FOCUS)
+            need(expected.get(content_policy.CONTRACT_FIELD) == current_content,
+                 "Native WK content fixture/helper/owner differs from the exact preflight source identity")
+            import webview_content_policy_fixture as wk_content
+            nonce_hash = document.get("webview_content_policy_nonce_sha256")
+            need(type(nonce_hash) is str and re.fullmatch(r"[0-9a-f]{64}", nonce_hash) is not None,
+                 "Native WK content fixture lacks its original prelaunch nonce digest")
+            need(wk_content.validate_receipt(document.get("webview_content_policy_fixture"),
+                    bundle_id=document["bundle_id"], signed_hash=document["signed_application_executable_sha256"],
+                    plist_hash=document["application_plist_sha256"], native_pid=protocol.get("observed_launch_pid"),
+                    fixture_hash=current_content["source_hashes"][wk_content.SOURCE],
+                    native_hash=current_content["source_hashes"][wk_content.NATIVE_SOURCE],
+                    helper_hash=current_content["source_hashes"][wk_content.NATIVE_HELPER], nonce_hash=nonce_hash),
+                 "Native WK content cases lack complete nonce/process/install/source/wire/independent-owned-cleanup evidence")
+        if cases.get(app.IMAGE_PROFILE_CASE) == "passed":
+            import apple_image_profile
+            observations = protocol.get("image_profile_observations")
+            profile = document.get("image_memory_profile")
+            native_pid = protocol.get("observed_launch_pid")
+            need(type(native_pid) is int and 0 < native_pid < 2**31 and
+                 isinstance(observations, list) and len(observations) == 2 and
+                 observations[0] == {"phase": "ready", "process_id": native_pid} and isinstance(observations[1], dict) and
+                 set(observations[1]) == {"phase", "rounds"} and observations[1]["phase"] == "complete" and
+                 type(observations[1]["rounds"]) is int and 1 <= observations[1]["rounds"] <= 4096,
+                 "Passing image-profile workload lacks complete bounded native phases")
+            need(isinstance(profile, dict) and apple_image_profile.validate_attempt(profile, context["simulator"]["udid"], document["bundle_id"]) and
+                 profile.get("process_id") == native_pid and
+                 profile.get("signed_application_executable_sha256") == document["signed_application_executable_sha256"] and
+                 profile.get("application_plist_sha256") == document["application_plist_sha256"],
+                 "Passing image-profile workload lacks its exact owned tool-attempt/cleanup evidence")
+            # supported/profile_passed are independently reviewed findings gates,
+            # not invented native test outcomes. Unsupported remains explicit.
+        if cases.get(app.IMAGE_LIFETIME_CASE) == "passed":
+            observation = protocol.get("image_lifetime_observation")
+            need(isinstance(observation, dict) and type(observation.get("marker_count")) is int and
+                 observation["marker_count"] == len(app.IMAGE_LIFETIME_STEPS) and observation.get("last_phase") == "verified" and
+                 observation.get("last_iteration") is None and observation.get("main_thread") is True and
+                 observation.get("retained_image_bytes_verified") is True,
+                 "Passing image-lifetime case lacks complete finite actual main-thread diagnostics")
+        for renderer, key in app.SLIDER_TAP_CASES.items():
+            if cases.get(key) == "passed":
+                observations = protocol.get("slider_tap_observations")
+                need(isinstance(observations, dict), "Missing or invalid native slider tap observations")
+                observation = observations.get(renderer)
+                need(isinstance(observation, list) and
+                     all(isinstance(row, dict) and set(row) == {"phase"} for row in observation) and
+                     tuple(row["phase"] for row in observation) == app.SLIDER_TAP_STEPS,
+                     "Passing slider tap lacks complete actual input/clock/cancellation phases")
+        if cases.get((IOS_VECTOR_THEME_CLASS, IOS_VECTOR_THEME_METHODS[0])) == "passed":
+            observations = protocol.get("vector_scale_observations")
+            need(isinstance(observations, list) and len(observations) == 1,
+                 "Passing vector hierarchy case lacks its actual native screen witness")
+            scale = observations[0]
+            need(isinstance(scale, dict) and set(scale) == {"density", "native_screen", "view", "layer"} and
+                 all(type(v) in (int, float) and v in (2.0, 3.0) for v in scale.values()) and
+                 len(set(scale.values())) == 1,
+                 "Passing vector hierarchy case used an unwitnessed or resampled native screen")
+        if cases.get(app.SYSTEM_APPEARANCE_CASE) == "passed":
+            import simulator_appearance
+            observations = protocol.get("system_appearance_observations")
+            need(isinstance(observations, list) and
+                 all(isinstance(row, dict) and set(row) == {"phase", "step", "style"} and
+                     type(row.get("step")) is int for row in observations) and
+                 tuple((row["phase"], row["step"], row["style"]) for row in observations) == app.SYSTEM_APPEARANCE_STEPS,
+                 "Passing system appearance lacks both actual native requested/verified changes")
+            need(simulator_appearance.validate_receipt(document.get("system_appearance_driver"), context["simulator"]["udid"]),
+                 "Passing system appearance lacks actual simctl changes/readback/original restoration")
+        if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS:
+            observation = protocol.get("compact_appearance_observation")
+            fields = {"background_matches", "tint_matches", "attached", "enabled", "rtl", "dark", "main_thread"}
+            need(isinstance(observation, list) and len(observation) == len(app.COMPACT_APPEARANCE_PHASES),
+                 "Focused compact case lacks complete actual native appearance diagnostics")
+            need(all(isinstance(step, dict) and set(step) == fields | {"phase"} and
+                     step["phase"] == app.COMPACT_APPEARANCE_PHASES[index] and
+                     all(type(step[k]) is bool for k in fields) and step["main_thread"] is True and
+                     step["attached"] == (index in range(2, 7))
+                     for index, step in enumerate(observation)),
+                 "Focused compact diagnostic shape/order/thread/owned attachment is invalid")
+        if test_plan.get("explicit_test_focus") == IOS_PICKER_ADMISSION_FOCUS:
+            observation = protocol.get("picker_host_observations")
+            need(isinstance(observation, list) and len(observation) == len(app.PICKER_HOST_STEPS) and
+                 all(isinstance(step, dict) and set(step) == {"phase", "iteration", "main_thread"} and
+                     type(step["iteration"]) is int and type(step["main_thread"]) is bool and
+                     (step["phase"], step["iteration"], step["main_thread"]) == app.PICKER_HOST_STEPS[index]
+                     for index, step in enumerate(observation)),
+                 "Focused picker host lacks its complete actual phase/thread sequence")
+        result["ios_applications"].append({"module": expected["module"], "task": task, "receipt_path": path.relative_to(root).as_posix(),
+            "receipt_sha256": hashlib.sha256(payload).hexdigest(), "protocol_xml_agreement": True,
+            "counts": counts, "required_native_cases_found": len(required), "binary_sha256": binary_hash,
+            "bundle_id": document["bundle_id"], "selected_simulator": context["simulator"]["udid"],
+            "activation": active, "completion": complete,
+            "scope": "Same-source real application/Worker/cleanup witness cross-checked against fresh KGP XML; not physical-device, ABI or release certification",
+            **({"compact_appearance_observation": protocol["compact_appearance_observation"]}
+               if test_plan.get("explicit_test_focus") == UI_DATE_COMPACT_FOCUS else {}),
+            **({"picker_host_observations": protocol["picker_host_observations"]}
+               if test_plan.get("explicit_test_focus") == IOS_PICKER_ADMISSION_FOCUS else {})})
+    except (OSError, ValueError, TypeError, KeyError, StopIteration, RecursionError) as error:
+        record = {"module": expected["module"], "error": "Genuine UIKit application evidence rejected",
+                  "contract": str(error) if isinstance(error, IosApplicationEvidenceError) else type(error).__name__}
+        if path is not None:
+            record["path"] = path.relative_to(root).as_posix()
+        result["errors"].append(record)
+    return result
+
+
+def run(root: Path, suite: str, output_relative: str, simulator: str | None, timeout: int, reserve_mib: int,
+        only_modules: tuple[str, ...] | None = None, *, kotlin_user_home: str | None = None,
+        android_serial: str | None = None, android_user_home: str | None = None, focus: str | None = None,
+        android_io_documents_receipt: dict | None = None,
+        android_io_remote_documents_receipt: dict | None = None,
+        android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:
+    output = safe_path(root, output_relative)
+    allowed = root / "build/ci-verification"
+    if output == allowed or not output.is_relative_to(allowed) or output.exists():
+        raise ValueError("Use a new, dedicated output directory below build/ci-verification; old evidence must not be overwritten")
+    test_plan = plan(root, suite, only_modules=only_modules, **({"focus": focus} if focus is not None else {}))
+    if android_io_remote_documents_required(test_plan) and android_user_home is None:
+        raise ValueError("Remote instrumentation requires the controller's same existing private signing home")
+    if android_io_documents_required(test_plan) and android_user_home is None:
+        raise ValueError("Owned IO instrumentation requires the controller's existing private signing home")
+    if android_permission_demo_required(test_plan) and android_user_home is None:
+        raise ValueError("Native permission instrumentation requires the controller's exact private signing home")
+    if android_storage_probe_required(test_plan) and android_user_home is None:
+        raise ValueError("Owned storage instrumentation requires the controller private signing home")
+    command = gradle_command(suite, test_plan, simulator, kotlin_user_home=kotlin_user_home, root=root,
+                             android_serial=android_serial, android_io_documents_receipt=android_io_documents_receipt,
+                             android_io_remote_documents_receipt=android_io_remote_documents_receipt,
+                             android_permission_demo_receipt=android_permission_demo_receipt,
+                             android_storage_probe_receipt=android_storage_probe_receipt)
+    execution_environment = android_device_environment(android_serial) if android_serial else None
+    if android_user_home is not None:
+        if android_serial is None:
+            raise ValueError("A private Android signing home requires the explicitly owned emulator")
+        user_home = safe_path(root, android_user_home)
+        if not user_home.is_relative_to(allowed) or not user_home.is_dir():
+            raise ValueError("Use the controller's existing private verification signing directory")
+        # Assembly, separate-UID source consumer and connected task must use the
+        # same debug signer. Do not mutate the caller or export this environment.
+        execution_environment["ANDROID_USER_HOME"] = str(user_home)
+    application_environment = ios_application_environment(root, output, test_plan)
+    if application_environment is not None:
+        execution_environment = application_environment
+    allowed.mkdir(parents=True, exist_ok=True)
+    lock = allowed / ".library-tests.lock"
+    # Do not auto-remove an existing lock: another coordinated run may own it.
+    audio = None
+    picker_portal = None
+    descriptor = os.open(lock, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    try:
+        os.write(descriptor, f"{os.getpid()}\n".encode())
+        output.mkdir(parents=True)
+        revision_before = git_revision(root)
+        before = snapshot_inputs(root)
+        write_json(output / "inputs-before.json", before)
+        write_json(output / "plan.json", test_plan)
+        # Every configured Gradle build includes Android projects, including
+        # desktop/browser/Apple verification. Match the workflow's official SDK
+        # context instead of dropping it from the actual library-run receipt.
+        context = runtime_context.capture(apple=suite == "ios", device=simulator,
+                                          require_booted=suite == "ios",
+                                          android_package="android-37.0",
+                                          android_serial=android_serial,
+                                          browser=suite in {"js", "wasm"},
+                                          **({"adaptive_focus": ui_related.runtime_focus(focus), "require_clean": True,
+                                              "expected_arch": "arm64"} if focus in ui_related.ALL_FOCUSES else {}))
+        if focus in ui_related.ALL_FOCUSES:
+            ui_related.validate_context(context, focus, udid=simulator)
+        if focus == camera_callback.FOCUS:
+            camera_callback.validate_context(context, android_serial)
+        if android_io_remote_documents_required(test_plan):
+            import android_io_remote_documents as remote
+            if context.get("android_emulator", {}).get("api_level") != "35":
+                raise ValueError("Remote controlled-loopback native execution requires actual API35")
+            remote.validate_prepared_receipt(android_io_remote_documents_receipt,
+                test_plan["android_io_remote_documents"]["source_contract"])
+            if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+                raise ValueError("Remote current source map changed before native execution")
+        if android_permission_demo_required(test_plan):
+            import android_permission_demo
+            actual_api = context["android_emulator"]["api_level"]
+            if actual_api not in {"33", "34", "35"}:
+                raise ValueError("Native permission fixture requires an actual authorized Android SDK")
+            android_permission_demo.validate_prepared_receipt(android_permission_demo_receipt,
+                test_plan["android_permission_demo"]["source_contract"], int(actual_api))
+        if context["source_revision"] != revision_before:
+            raise ValueError("Source revision changed while preparing the test invocation")
+        if focus in desktop_security_plan.FOCUSES:
+            desktop_security_plan.validate_host(context["host"].get("system"), context["host"].get("architecture"), focus)
+        if focus in WEBVIEW_DESKTOP_REQUEST_FOCUSES:
+            validate_webview_desktop_request_host(context["host"].get("system"), context["host"].get("architecture"), focus)
+        audio = desktop_media_context.OwnedAudio(root, output, test_plan).start()
+        if audio.environment is not None:
+            execution_environment = audio.environment
+            context["desktop_audio"] = dict(audio.receipt)
+        picker_portal = picker_dialog_context.OwnedPickerPortal(root, output, test_plan)
+        picker_portal.start()
+        if picker_portal.environment is not None:
+            # Current finite focus never combines WebView/media and picker dialogs.
+            # Full suites retain both owned contexts instead of losing audio settings.
+            execution_environment = picker_dialog_context.merge_owned_environments(
+                dict(os.environ), execution_environment, picker_portal.environment)
+            context["desktop_picker_portal"] = dict(picker_portal.receipt)
+        write_json(output / "runtime.json", context)
+        moved = quarantine_reports(root, output, test_plan)
+        started_ns = time.time_ns()
+        started_utc = utc_now()
+        try:
+            execution = execute(root, command, output / "gradle.log", timeout, reserve_mib,
+                                **({"env": execution_environment} if execution_environment is not None else {}))
+        finally:
+            try:
+                picker_portal.close()
+            finally:
+                audio.close()
+        ended_ns = time.time_ns()
+        receipt = {"schema_version": 1, "suite": suite, "started_at_utc": started_utc, "finished_at_utc": utc_now(),
+                   "source_revision": context["source_revision"], "source_tree_dirty": context["source_tree_dirty"],
+                   "command": command, "execution": execution, "quarantined_prior_reports": moved,
+                   "inputs_before_sha256": input_digest(before), "runtime_receipt_sha256": sha256(output / "runtime.json"),
+                   "uncovered": test_plan["uncovered"],
+                   "finite_only_device_modules_not_requested": test_plan.get("finite_only_device_modules_not_requested", []),
+                   "complete_suite_requested": test_plan["complete_suite_requested"],
+                   "explicit_module_subset": test_plan["explicit_module_subset"],
+                   "test_bearing_modules_not_requested": test_plan["test_bearing_modules_not_requested"],
+                   "scope": "Fresh source-bound library suite executions; not whole-library/device/ABI/release certification"}
+        if audio.receipt is not None:
+            receipt["desktop_audio"] = audio.receipt
+            write_json(output / "desktop-audio" / "receipt.json", audio.receipt)
+        if picker_portal.receipt is not None:
+            receipt["desktop_picker_portal"] = picker_portal.receipt
+            (output / "desktop-picker-portal").mkdir(exist_ok=True)
+            write_json(output / "desktop-picker-portal" / "receipt.json", picker_portal.receipt)
+        if focus is not None:
+            receipt["explicit_test_focus"] = focus
+            receipt["required_focused_testcases"] = test_plan["expected"][0]["required_testcases"]
+            receipt["scope"] = test_plan["scope"]
+        if android_io_remote_documents_required(test_plan):
+            receipt["android_io_remote_documents"] = dict(android_io_remote_documents_receipt)
+        if android_permission_demo_required(test_plan):
+            receipt["android_permission_demo"] = dict(android_permission_demo_receipt)
+        try:
+            after = snapshot_inputs(root)
+            write_json(output / "inputs-after.json", after)
+            receipt["inputs_after_sha256"] = input_digest(after)
+            receipt["changed_inputs"] = sorted(name for name in set(before) | set(after) if before.get(name) != after.get(name))
+            receipt["source_revision_after"] = git_revision(root)
+            if receipt["source_revision_after"] != revision_before:
+                receipt["input_capture_error"] = "Git source revision changed during test invocation"
+        except (OSError, ValueError):
+            receipt["input_capture_error"] = "Unable to establish unchanged source inputs after execution"
+        if android_serial:
+            receipt["android_device_selection"] = {"mechanism": "ANDROID_SERIAL", "serial": android_serial,
+                                                   "agp_target_serial_options": "empty"}
+            try:
+                after_context = runtime_context.capture(android_serial=android_serial)
+                receipt["android_emulator_after"] = after_context["android_emulator"]
+                if receipt["android_emulator_after"] != context["android_emulator"]:
+                    receipt["device_context_error"] = "Selected Android emulator identity or security/boot state changed during execution"
+            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError):
+                receipt["device_context_error"] = "Selected Android emulator identity/security state could not be re-established after execution"
+        if android_io_remote_documents_required(test_plan):
+            try:
+                import android_io_remote_documents as remote
+                if remote.source_contract(root) != test_plan["android_io_remote_documents"]["source_contract"]:
+                    receipt["remote_source_capture_error"] = "Remote source/fixture/controller inputs changed after native execution"
+            except (OSError, ValueError, UnicodeError):
+                receipt["remote_source_capture_error"] = "Unable to establish the exact remote source map after execution"
+        markers = execution_markers(output / "gradle.log")
+        receipt["task_execution_markers"] = {item["task"]: markers[item["task"]] for item in test_plan["expected"]}
+        receipt.update(collect_reports(root, test_plan, started_ns, ended_ns, markers,
+                                       host_system=context["host"]["system"],
+                                       native_ui_opt_in=os.environ.get("NATIVECMPKIT_NATIVE_UI_TESTS") == "true"))
+        applications = collect_ios_application_receipts(root, test_plan, output, started_ns, ended_ns, context, receipt["modules"])
+        receipt["ios_applications"] = applications["ios_applications"]
+        receipt["errors"].extend(applications["errors"])
+        try:
+            receipt["gradle_daemon"] = daemon_jvm.observation(output / "gradle.log")
+            if context.get("java", {}).get("major") != receipt["gradle_daemon"]["major"]:
+                receipt["errors"].append({"error": "Actual daemon major differs from the recorded setup Java runtime"})
+        except (OSError, ValueError, UnicodeError) as error:
+            receipt["errors"].append({"error": "Actual root-daemon observation rejected", "reason": type(error).__name__})
+        if focus in desktop_security_plan.FOCUSES:
+            try:
+                receipt["desktop_security_workers"] = desktop_security_plan.worker_observation(output / "gradle.log", focus)
+            except (OSError, ValueError, UnicodeError) as error:
+                receipt["errors"].append({"error": "Exact public security-only worker boundaries incomplete or rejected",
+                                          "reason": type(error).__name__})
+        if audio.requested and not audio.passed():
+            receipt["errors"].append({"error": "Owned clocked audio context/configuration/cleanup failed"})
+        if picker_portal.requested and not picker_portal.receipt.get("clean_owned_shutdown"):
+            receipt["errors"].append({"error": "Owned real picker portal startup/runtime/shutdown failed"})
+        receipt["passed"] = (execution["exit_code"] == 0 and not execution.get("stop_reason") and not receipt["errors"]
+                             and not receipt.get("input_capture_error") and not receipt.get("changed_inputs")
+                             and not receipt.get("device_context_error") and not receipt.get("remote_source_capture_error"))
+        write_json(output / "receipt.json", receipt)
+        return receipt
+    finally:
+        try:
+            try:
+                if picker_portal is not None:
+                    picker_portal.close()
+                    if picker_portal.receipt is not None:
+                        folder = output / "desktop-picker-portal"
+                        folder.mkdir(exist_ok=True)
+                        write_json(folder / "receipt.json", picker_portal.receipt)
+            finally:
+                if audio is not None:
+                    audio.close()
+        finally:
+            os.close(descriptor)
+            lock.unlink()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("operation", choices=["plan", "run"])
+    parser.add_argument("--suite", choices=sorted(SUITES), required=True)
+    parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
+    parser.add_argument("--focus", choices=list(dict.fromkeys([*content_policy.FOCUSES, *ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
+                                           WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, SHARE_CLIPBOARD_NATIVE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
+                                           IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, calendar_native.FOCUS, macos_share_native.FOCUS, share_missing.FOCUS, IOS_SAVE_WRITE_FOCUS,
+                                           IOS_SWITCH_CANCELLATION_FOCUS,
+                                           IOS_SWITCH_OWNERSHIP_FOCUS,
+                                           IOS_SLIDER_NUMERIC_FOCUS,
+                                           IOS_UI_STATE_FOCUS,
+                                           IOS_TIME_STATE_RECOVERY_FOCUS,
+                                           IOS_SLIDER_LIFECYCLE_FOCUS,
+                                           IOS_PICKER_BOUNDARY_FOCUS,
+                                           IOS_PICKER_RECOVERY_FOCUS,
+                                           IOS_PICKER_ADMISSION_FOCUS,
+                                           BROWSER_COIL_READ_FOCUS, PICKER_LIFETIME_FOCUS, DESKTOP_SAVER_STATE_FOCUS, *LINUX_PICKER_PORTAL_FOCUSES, WEBVIEW_LIFETIME_FOCUS, WEBVIEW_MEDIA_FOCUS, WEBVIEW_ANDROID_MEDIA_FOCUS,
+                                           ANDROID_PERMISSION_COMPLETION_FOCUS, *ANDROID_IO_REMOTE_FOCUSES, ANDROID_IO_PROVIDER_FOCUS, ANDROID_IO_UNAVAILABLE_FOCUS, ANDROID_IO_DEFAULT_DECODE_FOCUS, ANDROID_IO_REFERENCE_FOCUS, *ANDROID_IO_NAMED_SYSTEM_FOCUSES, ANDROID_IO_OVERSIZE_FOCUS, *ANDROID_SAVE_IDENTITY_FOCUSES, UI_DATE_BOUNDS_FOCUS,
+                                           UI_DATE_REPLACEMENT_FOCUS, UI_DATE_COMPACT_FOCUS, UI_DATE_IMPORTANT_FOCUS, UI_DATE_YEAR_MATERIAL_FOCUS,
+                                           *UI_APPLICATION_FOCUS_SPECS])),
+                        help="Finite source-reviewed important tests only; never complete suite coverage")
+    parser.add_argument("--output", help="A new repository-relative directory below build/ci-verification (run only)")
+    parser.add_argument("--simulator", help="The actual selected and booted iOS simulator UDID")
+    parser.add_argument("--android-emulator", help="Explicit owned, booted and enforcing emulator serial (Android-device run only)")
+    parser.add_argument("--kotlin-user-home", help="JS/Wasm run only: repository-relative directory strictly below build; records an explicit Gradle property request, not proof of effective use; prepared contents are retained")
+    parser.add_argument("--timeout", type=int, default=3600)
+    parser.add_argument("--reserve-mib", type=int, default=8192)
+    args = parser.parse_args()
+    if args.timeout < 1 or args.reserve_mib < 1024:
+        parser.error("Require a positive timeout and at least a 1GiB disk reserve")
+    if args.kotlin_user_home is not None and (args.operation != "run" or args.suite not in {"js", "wasm"}):
+        parser.error("--kotlin-user-home is available only for JS/Wasm run")
+    if args.android_emulator is not None and (args.operation != "run" or args.suite != "android-device"):
+        parser.error("--android-emulator is available only for Android-device run")
+    if args.focus is not None and not allowed_test_focus(args.suite, tuple(args.module or ()), args.focus):
+        parser.error("--focus requires its exact reviewed suite and single --module")
+    if args.operation == "plan":
+        if args.output or args.simulator:
+            parser.error("plan is read-only and takes neither output nor simulator")
+        print(json.dumps(plan(ROOT, args.suite, only_modules=tuple(args.module or ()),
+                              **({"focus": args.focus} if args.focus is not None else {})), indent=2, sort_keys=True))
+        return 0
+    if not args.output:
+        parser.error("run requires a new --output directory")
+    options = {"kotlin_user_home": args.kotlin_user_home}
+    if args.android_emulator is not None:
+        options["android_serial"] = args.android_emulator
+    if args.focus is not None:
+        options["focus"] = args.focus
+    receipt = run(ROOT, args.suite, args.output, args.simulator, args.timeout, args.reserve_mib, tuple(args.module or ()),
+                  **options)
+    print(json.dumps({key: receipt[key] for key in ("suite", "source_revision", "passed", "complete_suite_requested", "explicit_module_subset", "execution", "totals", "errors")}, indent=2, sort_keys=True))
+    return 0 if receipt["passed"] else 1
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+        print(f"Library test verification refused: {type(error).__name__}: {error}", file=sys.stderr)
+        sys.exit(2)

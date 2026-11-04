@@ -1,0 +1,137 @@
+{
+  "added_inputs": {
+    "docs/testing/macos-share650-appkit-only.md": "1050a027e620a4da0f8014b0afc32600d3a905c885ce4a402554b00e7715645b",
+    "scripts/ci/macos_share_appkit_only_route.py": "c9c01b6a608480db75f7e97573e75880198f6d3bf66ad80da0d072389279ad27",
+    "scripts/ci/test_macos_share_appkit_only_route607.py": "d1e4624ca07d5fa6af3bb892f41c628e9b9d12a5951ba02f2023bbd784af8734"
+  },
+  "bindings": {
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 409466,
+      "after_sha256": "038ffa83f883f24396b35103edafa47a9b4a13fe4df6faf88175e56768819299",
+      "before_bytes": 409120,
+      "before_sha256": "ddd7b38615bef7ec99bfefddb625bf0816d9c90c297604d7baaea898a6e90aa6",
+      "fragments": [
+        {
+          "after": "        android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:\n    if focus == share_missing.FOCUS:\n        raise ValueError(\"Accepted Share JNI3 are retired from live execution; use the existing-profile same-job AppKit6-only CLI reference\")\n    output = safe_path(root, output_relative)\n",
+          "after_fragment_sha256": "9ba1e539ca326f86ca655bd93f00688517c444005013364b4b0ff19fcf0530f6",
+          "before": "        android_permission_demo_receipt: dict | None = None, android_storage_probe_receipt: dict | None = None) -> dict:\n    output = safe_path(root, output_relative)\n",
+          "before_fragment_sha256": "7d9cbee8fdd6295f6132a8f2b7b4b758eddca07d865a079d9817634a05b86e6f"
+        },
+        {
+          "after": "        parser.error(\"--focus requires its exact reviewed suite and single --module\")\n    if args.focus == share_missing.FOCUS:\n        import macos_share_appkit_only_route as appkit_only\n        return appkit_only.main_for_existing_profile(ROOT, args)\n    if args.operation == \"plan\":\n",
+          "after_fragment_sha256": "bbb3d98d6b9384865d2cc45bad0e4ace0792e5cd2b7b4ea3726f8cfc8cc67f0a",
+          "before": "        parser.error(\"--focus requires its exact reviewed suite and single --module\")\n    if args.operation == \"plan\":\n",
+          "before_fragment_sha256": "86395c140098fc587d68ced5f1caa852854cbca118e5cdc3e8ae5f9e0995af80"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_appkit_lifecycle.py": {
+      "after_bytes": 54117,
+      "after_sha256": "6c9deafdb60a1103d16425446a10073fec2abde53f3381a7987041b87cf9c6be",
+      "before_bytes": 53955,
+      "before_sha256": "1305179f1294ffa894c02ccedec1c17e5d096d3233f20d58db5d60195ede0c6e",
+      "fragments": [
+        {
+          "after": "    locked, environment, before, native_before, baseline, artifact_path, artifact = False, None, None, None, None, None, None\n    try:\n        if missing_only:\n            import macos_share_appkit_only_route as appkit_only\n            receipt[\"workflow_context\"] = appkit_only.workflow_context()\n        relative_path(root, lock.relative_to(root).as_posix())\n",
+          "after_fragment_sha256": "f2b15b8333a4bb1de8a9b495a61c9479d7b009c45fbc0c235e460dde51954fce",
+          "before": "    locked, environment, before, native_before, baseline, artifact_path, artifact = False, None, None, None, None, None, None\n    try:\n        relative_path(root, lock.relative_to(root).as_posix())\n",
+          "before_fragment_sha256": "53a9af59860daa4fdf298f66ee38575dc93bb686547503d1f5132d3b6613dabe"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_key_wait_observation.py": {
+      "after_bytes": 15565,
+      "after_sha256": "7743c02df0d95e7eb32fd58daae69a796ab8aab6a108711a5315005d45fae600",
+      "before_bytes": 15033,
+      "before_sha256": "da9f07cf9cebf56133186d6310850325b29dd70cfc94d98153bfc49ea9ad988a",
+      "fragments": [
+        {
+          "after": "from ios_popover_anchor_plan import _ordinary_bytes\nimport macos_share_appkit_only_source_projection as appkit_only\n\nROOT",
+          "after_fragment_sha256": "21581948536632f4aa7a3dbe519e3b30136e6fc3575cda4ea884b74d955d4ab7",
+          "before": "from ios_popover_anchor_plan import _ordinary_bytes\n\nROOT",
+          "before_fragment_sha256": "9223bb8708b9a042d6722c0fd9eb4966ca1c00f2adc7c502596951c08b06976d"
+        },
+        {
+          "after": "OWNER_SHA256 = sha(appkit_only.peel_appkit_only_for_history(\n    OWNER_RELATIVE, _ordinary_bytes(ROOT, OWNER_RELATIVE)[0], ROOT))",
+          "after_fragment_sha256": "b7d6b57099f43f4992f7cb4b09cd162f8988a749e4e92e3642e030c886dd293f",
+          "before": "OWNER_SHA256 = sha(_ordinary_bytes(ROOT, OWNER_RELATIVE)[0])",
+          "before_fragment_sha256": "2ecd547d39c752ae78f0506da9f4e00ab0d07f1134f77be7634a85292ab03127"
+        },
+        {
+          "after": "    _identity(relative, payload)\n    payload = appkit_only.peel_appkit_only_for_history(relative, payload, ROOT)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n",
+          "after_fragment_sha256": "5123242011121a0060c3b22b0b7a7aa4b925ac9b38b2e2d4f71b104fa4d9c60a",
+          "before": "    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n    if row is None:\n",
+          "before_fragment_sha256": "b588e28300f8fabee2775750a2c859c6fbd1e10b49aece6ab6648baa794fa676"
+        },
+        {
+          "after": "    \"\"\"One raw current local ingress; ancestors/partial/drift cannot replace current.\"\"\"\n    _identity(relative, payload)\n    payload = appkit_only.current_source_before_appkit_only(relative, payload, ROOT)\n    row = _document()[\"bindings\"].get(relative)\n",
+          "after_fragment_sha256": "2e796bd7644f3eb4e42c91c6b1ec21a101889eddbb7c71c8a5ffcf6f380414f9",
+          "before": "    \"\"\"One raw current local ingress; ancestors/partial/drift cannot replace current.\"\"\"\n    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n",
+          "before_fragment_sha256": "b2e39a655fb0de24e52973cd5e3b0926a59471594d85bffcc80b44b2bb923551"
+        },
+        {
+          "after": "    \"\"\"Only a complete exact local afterimage is peeled; unknown still needs old pins.\"\"\"\n    _identity(relative, payload)\n    payload = appkit_only.peel_appkit_only_for_history(relative, payload, ROOT)\n    row = _document()[\"bindings\"].get(relative)\n",
+          "after_fragment_sha256": "39a57597449c45ef38b388a844a149a788f10a0b866dcbf64a98d6d6e0f99120",
+          "before": "    \"\"\"Only a complete exact local afterimage is peeled; unknown still needs old pins.\"\"\"\n    _identity(relative, payload)\n    row = _document()[\"bindings\"].get(relative)\n",
+          "before_fragment_sha256": "b762a4ab712bd33e8a4ea5cd0dd0eaa52593787c3bf05f69256f8f639a11ca3c"
+        },
+        {
+          "after": "def validate_current_sources(root: Path):\n    appkit_only.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "3d93ba0cde33240a67c320e9eb0c28ef7ce0aca47d248be31e93638740f72e9a",
+          "before": "def validate_current_sources(root: Path):\n    document = _document()\n",
+          "before_fragment_sha256": "b468591c7496d3a3f6b3c62c65d5875a1347e12868478fb0ab1bd9d522bba4a9"
+        },
+        {
+          "after": "    for name, digest in expected.items():\n        raw = _ordinary_bytes(root, name)[0]\n        if sha(appkit_only.peel_appkit_only_for_history(name, raw, root)) != digest:\n",
+          "after_fragment_sha256": "1f1a930cb358e547b0beb8413fd3a8ef590858152700ec607e192e619437d429",
+          "before": "    for name, digest in expected.items():\n        if sha(_ordinary_bytes(root, name)[0]) != digest:\n",
+          "before_fragment_sha256": "8f71f66ec8317f67d7a5fe9ae3060bf6f72834095bf6e9c80ee318a7f5f1695f"
+        },
+        {
+          "after": "    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, OWNER_RELATIVE} | appkit_only.fixture_inputs(ROOT))",
+          "after_fragment_sha256": "01b53401db859c076a75a9c8461effb2160efe682197da96d17147eff489d347",
+          "before": "    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, OWNER_RELATIVE})",
+          "before_fragment_sha256": "6315e89fe54ad1ed2b4230fb3ae1aa2df4a8b2c432a0d4093b9b3811a40c03ff"
+        }
+      ]
+    }
+  },
+  "predecessor609": {
+    "manifest_sha256": "dd5872cb1a7e23beb064dfcad7ef10544e0b547d734498b564dd73ae5ee3a0e6",
+    "native_cause_verified": false,
+    "native_readiness_fix_included": false,
+    "seal_sha256": "7a1d599ee6b1d79e215fb2dea1d1802bcd49ac2373e870be908517c5248133b3"
+  },
+  "schema_version": 1,
+  "scope": "Exact AppKit6-only current CLI/source custody; zero native/JNI/Gradle acceptance",
+  "unchanged_inputs": {
+    ".github/workflows/gradle.yml": "46de0540c5e252a1bb9016e96758e79de2f0e728ca4ba2a746b709b88652106b",
+    "calf-share/build.gradle.kts": "29c9995c8b4fb47fb1fd31d6da1a9d5fb92b5a5a5a830356a0082a51b3c7d5ac",
+    "calf-share/native/Cargo.lock": "7fea5aabe033699e86fee2f91635d5b2279a16321682c77fe7f3d818b4dd0f6d",
+    "calf-share/native/Cargo.toml": "f632ec5d71d244d3e9bb67af643a0f8a2f037ec3dcb3055b3989493305397ffd",
+    "calf-share/native/src/lib.rs": "4b96f5eff772da84c92dfda167353e97faa5f569abb295c85b02d7678a19deff",
+    "calf-share/native/src/macos.rs": "22c545dcc5c999f513b04990978fe0a157cdcd2a3e6c1a97ba7e7d3b6ef27e51",
+    "calf-share/native/src/operation.rs": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942",
+    "calf-share/native/tests/appkit_lifecycle/cases.rs": "2ee076e833b1cdc619a5aa94194d5d23e3b62d2da1a9797ebe37ac377361b790",
+    "calf-share/native/tests/appkit_lifecycle_main.rs": "b31cad1ca8403b8649b33f43067d778459fe5816099c90c40059465d6b6bbd79",
+    "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt": "ac2c199aae4c24359905a9ddeb2951b9babedd2919b035d437087e71ebef64c9",
+    "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridge.kt": "e146cab08a36acbc356f0283868150ad0ed12b786146bb5fe3a4bf58f82757af",
+    "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/MacOsShareCoroutineLifecycleTest.kt": "43bcc488ed94c0568b9fba1448c278d8438e6d4c7536ab3035063102820970a2",
+    "convention-plugins/src/main/kotlin/NativeLibraries.kt": "45556959ab2a17e1742f6718d13358d3dbd354fd7aa1acdcbec3d36c7169115d",
+    "docs/testing/macos-share-key-wait-observation.md": "539efcfa88bc0e4f5e5b16bae07b2ec8303b0f3c27f73ab00efec62463aa8ee1",
+    "rust-toolchain.toml": "e879701472a698533f43f54989bbf5f3101eb0503472159d32633f3bb8a13fdf",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/fixtures/macos-share-key-wait-observation-source-inverse.json": "dd5872cb1a7e23beb064dfcad7ef10544e0b547d734498b564dd73ae5ee3a0e6",
+    "scripts/ci/fixtures/macos-share-missing-ci-source-inverse.json": "79fa2b0394b10026402bef72992385c38684f19b70414606ed1833b40e3178b9",
+    "scripts/ci/fresh-tests.init.gradle.kts": "e0c82a5c9c2461e5e18ce4e71e495c5cbdf5f3694d2bd19bbfbe855134112ffb",
+    "scripts/ci/ios_popover_anchor_plan.py": "ce5a6ea9a1589f8d8bad2c6bfa8b745cf51679b417496822edf9b576a9d53b70",
+    "scripts/ci/macos_share_missing_ci.py": "dafee8cc888caf3b3d840cccb6576846dd14b7aa06bd2225fe9d6c5988d5d633",
+    "scripts/ci/macos_share_missing_only.py": "26946c343deec7337310b9ee880c8d5eb39732e5ce7d557dd1630088d5a0a4a8",
+    "scripts/ci/runtime_context.py": "56a3072e2164c3ff9d8113a94e68dd400a609c0040cf8ce0514d0c1ef1e79a96",
+    "scripts/ci/test_macos_share_appkit_lifecycle_runner.py": "dc9f44d2fb1d88e71a9959b4a86a02f704bdbc07f4b31fa82ec9367212937970",
+    "scripts/ci/test_macos_share_key_wait_observation.py": "bb68efbec88bd3a572abee3f5f2067750314d9918a7e9d3917b66a6499008e9a",
+    "scripts/ci/test_macos_share_missing_only.py": "93b69767337d4a224a9624e7ca431b3b3a5c96bdbd2909f33c6c6d8d8475f01d",
+    "scripts/ci/workflow_matrix.py": "7f5b8c8404c4ec83a9c634b0a6e0636957e4e080b30a24ff272c4df79d306df9",
+    "scripts/native/artifacts.py": "d8b4f7ba5924cc2087d5d46068f6d017baa8765e4f70ccc0284a7ab2169d8a00"
+  }
+}

@@ -16,6 +16,7 @@ import unittest
 from unittest.mock import patch
 
 import macos_share_appkit_lifecycle as runner
+import macos_share_key_wait_observation as key_wait
 
 
 def execution(*, passed=True, pid=4242, started=0, ended=None):
@@ -86,7 +87,8 @@ class SourceAndAdmission(unittest.TestCase):
         self.assertNotRegex(" ".join(command), r"--case|stress|publish|\bbuild --release\b")
 
     def test_exact_reviewed_source_gate_does_not_invent_exported_flag_or_visibility(self):
-        value = runner.source_contract(runner.ROOT, runner.HARNESS_PINS)
+        value = runner.source_contract(runner.ROOT, {
+            name: hashlib.sha256((runner.ROOT / name).read_bytes()).hexdigest() for name in runner.HARNESS_PINS})
         self.assertTrue(value["source_bound_failed_control_gate_verified"])
         self.assertFalse(value["raw_control_flag_exported"])
         self.assertFalse(value["raw_control_flag_independently_observed"])
@@ -96,7 +98,8 @@ class SourceAndAdmission(unittest.TestCase):
         self.assertIn("result.is_ok() && cleanup.is_ok() && !CONTROL_FAILED.load(AtomicOrdering::Acquire)", source)
         self.assertIn("CONTROL_FAILED.store(true, AtomicOrdering::Release)", source)
         self.assertNotIn("raw-control-flag=", source)
-        self.assertEqual(runner.HARNESS_PINS[runner.CASES_SOURCE], hashlib.sha256(source.encode()).hexdigest())
+        self.assertEqual(runner.HARNESS_PINS[runner.CASES_SOURCE],
+            hashlib.sha256(key_wait.source_before_key_wait(runner.CASES_SOURCE, source.encode())).hexdigest())
 
     def test_changed_harness_hash_is_refused_before_native(self):
         altered = {**runner.HARNESS_PINS, runner.CASES_SOURCE: "0" * 64}

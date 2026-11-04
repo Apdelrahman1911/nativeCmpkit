@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "kind": "owned-cookie-wire-v1",
+  "namespace": "/nativecmpkit-cookie-wire/",
+  "host_pattern": "r[0-9a-f]{32}.nativecmpkit.test",
+  "subhost_prefix": "sub.",
+  "paths": [
+    "foo",
+    "foo/child",
+    "foobar",
+    "private",
+    "public"
+  ],
+  "groups": [
+    [
+      "scope",
+      "root"
+    ],
+    [
+      "scope",
+      "foo"
+    ],
+    [
+      "scope",
+      "child"
+    ],
+    [
+      "host",
+      "host"
+    ],
+    [
+      "domain",
+      "domain"
+    ],
+    [
+      "auth",
+      "auth"
+    ],
+    [
+      "session",
+      "session"
+    ],
+    [
+      "future",
+      "future"
+    ],
+    [
+      "past",
+      "past"
+    ],
+    [
+      "secure",
+      "secure"
+    ],
+    [
+      "managed",
+      "managed"
+    ],
+    [
+      "equal",
+      "same"
+    ]
+  ],
+  "cookies": [
+    {
+      "group": 0,
+      "path": ""
+    },
+    {
+      "group": 1,
+      "path": "foo"
+    },
+    {
+      "group": 2,
+      "path": "foo/child"
+    },
+    {
+      "group": 1,
+      "path": "private"
+    },
+    {
+      "group": 3,
+      "path": ""
+    },
+    {
+      "group": 4,
+      "path": "",
+      "domain": true
+    },
+    {
+      "group": 5,
+      "path": "",
+      "http_only": true
+    },
+    {
+      "group": 6,
+      "path": ""
+    },
+    {
+      "group": 7,
+      "path": "",
+      "future": true
+    },
+    {
+      "group": 8,
+      "path": "",
+      "past": true
+    },
+    {
+      "group": 9,
+      "path": "",
+      "secure": true
+    },
+    {
+      "group": 10,
+      "path": "",
+      "managed": true
+    },
+    {
+      "group": 11,
+      "path": ""
+    },
+    {
+      "group": 11,
+      "path": "foo"
+    }
+  ],
+  "limits": {
+    "live_sessions": 16,
+    "spent_sessions": 64,
+    "connections": 128,
+    "request_header_bytes": 8192,
+    "response_bytes": 2048,
+    "lifetime_seconds": 180
+  },
+  "security": "Dummy fixture cookies only; no Cookie/Host header injection by native clients, no trust/hostname bypass. Keep server/private keys and raw native headers ephemeral and uncommitted."
+}

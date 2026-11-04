@@ -1,0 +1,37 @@
+{
+  "ROOT_source_writes": 0,
+  "after_bytes": 21208,
+  "after_sha256": "6c9db9a3b50b03a16aafe9065221151619361ecf797cbba4a4951e317913b4cb",
+  "assertions_of_other_methods_unchanged": true,
+  "before_bytes": 19364,
+  "before_sha256": "c15d05979c26976f07e8a71e0002d0ca394b0633b8c3467cf2c8e700771ecab9",
+  "candidate_imports": 0,
+  "candidate_path": "/root/nativecmpkit-source-proposals-20261104/lead-ci-affected-controls708/candidate/scripts/ci/test_offline_tooling_failure_inventory.py",
+  "fragments": [
+    {
+      "after": "def _owner_sources():\n    # Portable repository control: exact707 data peel, never external proposals.\n    from macos_share_ci668_composition import peel_budget707_for_history\n    after = peel_budget707_for_history(\n        \"scripts/ci/offline_tooling_reuse.py\", AFTER.read_bytes(), AFTER.parents[2])\n    if after.count(NEW_FAILED_PATH) != 1:\n        raise AssertionError(\"One exact new failed-observation span is required\")\n    return after.replace(NEW_FAILED_PATH, OLD_FAILED_PATH), after\n",
+      "after_fragment_sha256": "bdc49ca067fcb74e8a7932cb28b3fc63ede54aea0b4457b7ac2528971f351fae",
+      "before": "def _owner_sources():\n    # Portable repository control: only its sibling, no external proposal files.\n    after = AFTER.read_bytes()\n    if after.count(NEW_FAILED_PATH) != 1:\n        raise AssertionError(\"One exact new failed-observation span is required\")\n    return after.replace(NEW_FAILED_PATH, OLD_FAILED_PATH), after\n",
+      "before_fragment_sha256": "5aa62e4f3c8cab98481d820824b5dfce47e83c73d3854ea8d854c99fe3cd16e5",
+      "name": "_owner_sources"
+    },
+    {
+      "after": "def _run_failed_block(output, passed=False, stream=None):\n    # Compile only the actual inventory helper and failed branch, never execute_scope.\n    module, _, failed = _branch(AFTER)\n    helpers = [node for node in module.body if isinstance(node, ast.FunctionDef)\n               and node.name == \"emit_scope_failure_inventory\"]\n    if len(helpers) != 1:\n        raise AssertionError(\"One actual sibling inventory helper is required\")\n    caps = [node for node in module.body if isinstance(node, ast.Assign)\n            and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)\n            and node.targets[0].id == \"MAX_FAILURE_METADATA_BYTES\"]\n    if len(caps) != 1 or ast.literal_eval(caps[0].value) != 65536:\n        raise AssertionError(\"The actual bounded inventory cap is required\")\n    summary = {\"passed\": passed, \"returncode\": 9, \"tests\": 2, \"output_sha256\": \"unchanged\"}\n    stream = io.StringIO() if stream is None else stream\n    namespace = {\"summary\": summary, \"output\": output, \"sys\": SimpleNamespace(stderr=stream), \"re\": re,\n                 \"MAX_FAILURE_METADATA_BYTES\": ast.literal_eval(caps[0].value)}\n    executable = ast.fix_missing_locations(ast.Module(body=[helpers[0], failed], type_ignores=[]))\n    exec(compile(executable, \"<new-failed-observation-block-only>\", \"exec\"), namespace)\n    return namespace[\"summary\"], summary, stream\n",
+      "after_fragment_sha256": "08cd40451ea8a7dd634bb6ddd2d358fb5795069b743a56bc98781d73547c433d",
+      "before": "def _run_failed_block(output, passed=False, stream=None):\n    # Compile only the observation/tail branch, never execute_scope or its child.\n    _, _, failed = _branch(AFTER)\n    summary = {\"passed\": passed, \"returncode\": 9, \"tests\": 2, \"output_sha256\": \"unchanged\"}\n    stream = io.StringIO() if stream is None else stream\n    namespace = {\"summary\": summary, \"output\": output, \"sys\": SimpleNamespace(stderr=stream), \"re\": re}\n    executable = ast.fix_missing_locations(ast.Module(body=[failed], type_ignores=[]))\n    exec(compile(executable, \"<new-failed-observation-block-only>\", \"exec\"), namespace)\n    return namespace[\"summary\"], summary, stream\n",
+      "before_fragment_sha256": "ee6db620f0ce36286d35d9546d814468e0a61119f8963116f0c204df2b79d82d",
+      "name": "_run_failed_block"
+    },
+    {
+      "after": "    def test_repository_controls_need_only_sibling_source_not_external_proposal(self):\n        import macos_share_ci668_composition as joint\n        # Preload repository path/custody helpers before observing source reads.\n        import macos_share_appkit_only_source_projection  # noqa: F401\n        original_read = Path.read_bytes\n        original_ordinary = joint._ordinary\n        observed, manifest_reads = [], []\n\n        def sibling_only(path):\n            self.assertEqual(AFTER, path)\n            observed.append(path)\n            return original_read(path)\n\n        def one_repository_manifest(root, relative, maximum):\n            self.assertEqual(AFTER.parents[2], root)\n            self.assertEqual(joint.SPEC, relative)\n            self.assertEqual(joint.MAX_SPEC, maximum)\n            manifest_reads.append(relative)\n            return original_ordinary(root, relative, maximum)\n\n        with mock.patch.object(Path, \"read_bytes\", sibling_only), \\\n             mock.patch.object(joint, \"_ordinary\", new=one_repository_manifest), \\\n             mock.patch.object(joint, \"_document\", side_effect=AssertionError(\"No named predecessor traversal\")), \\\n             mock.patch.object(joint, \"_view\", side_effect=AssertionError(\"No historical view search\")):\n            before, after = _owner_sources()\n        self.assertEqual([AFTER], observed)\n        self.assertEqual([joint.SPEC], manifest_reads)\n        self.assertEqual(OLD_OWNER_SHA256, hashlib.sha256(before).hexdigest())\n        self.assertEqual(after, before.replace(OLD_FAILED_PATH, NEW_FAILED_PATH))\n        self.assertEqual(\"offline_tooling_reuse.py\", AFTER.name)\n",
+      "after_fragment_sha256": "6a0d0d3374ce25fdf81f4913ca006850669b233501003a69530bc0a33d69ca0e",
+      "before": "    def test_repository_controls_need_only_sibling_source_not_external_proposal(self):\n        original_read = Path.read_bytes\n        observed = []\n\n        def sibling_only(path):\n            self.assertEqual(AFTER, path)\n            observed.append(path)\n            return original_read(path)\n\n        with mock.patch.object(Path, \"read_bytes\", sibling_only):\n            before, after = _owner_sources()\n        self.assertEqual([AFTER], observed)\n        self.assertEqual(OLD_OWNER_SHA256, hashlib.sha256(before).hexdigest())\n        self.assertEqual(after, before.replace(OLD_FAILED_PATH, NEW_FAILED_PATH))\n        self.assertEqual(\"offline_tooling_reuse.py\", AFTER.name)\n",
+      "before_fragment_sha256": "d807b045c02573082d8b1761e065ad928d70a8e7fc185a07b8677490d64df000",
+      "name": "test_repository_controls_need_only_sibling_source_not_external_proposal"
+    }
+  ],
+  "mode": 420,
+  "new_control_execution_harness": "Only actual sibling inventory helper AST and failed If; no execute_scope or Popen",
+  "relative": "scripts/ci/test_offline_tooling_failure_inventory.py",
+  "tests": 0
+}

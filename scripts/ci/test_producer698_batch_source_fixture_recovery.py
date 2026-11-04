@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 
 import ci668_outer_source_projection as ci668
+import macos_share_ci668_composition as joint
 import producer698_source_fixture_recovery as recovery
 import tooling_recovery671_source_projection as tooling
 
@@ -52,6 +53,7 @@ class Producer698BatchSourceFixtureRecoveryControls(unittest.TestCase):
         self.assertEqual((12, 27), (len(document["bindings"]), sum(len(row["fragments"]) for row in document["bindings"].values())))
         for name, row in document["bindings"].items():
             raw = (ROOT / name).read_bytes()
+            named190 = joint.current_source_in_view(name, raw, joint.PRODUCER_VIEW)
             ancestor = recovery.current_source_before_producer698(name, raw)
             self.assertEqual((row["before_sha256"], row["before_bytes"]), (sha(ancestor), len(ancestor)), name)
             self.assertEqual(ancestor, recovery.source_before_producer698(name, raw), name)
@@ -61,7 +63,11 @@ class Producer698BatchSourceFixtureRecoveryControls(unittest.TestCase):
                 before, after = span["before"].encode(), span["after"].encode()
                 self.assertEqual(1, forward.count(before), name)
                 forward = forward.replace(before, after, 1)
-            self.assertEqual(raw, forward, name)
+            self.assertEqual(named190, forward, name)
+            self.assertEqual((row["after_sha256"], row["after_bytes"]), (sha(named190), len(named190)), name)
+            if named190 != raw:
+                with self.assertRaises(ValueError):
+                    recovery.current_source_before_producer698(name, named190)
             for bad in (ancestor, raw + b"\n", raw[:-1], bytearray(raw), memoryview(raw), None):
                 with self.subTest(name=name, kind=type(bad).__name__), self.assertRaises(ValueError):
                     recovery.current_source_before_producer698(name, bad)
@@ -86,7 +92,9 @@ class Producer698BatchSourceFixtureRecoveryControls(unittest.TestCase):
     def test_raw_current190_and_named_original175_are_distinct_truthful_complete_ordinary_views(self):
         latest = recovery.current_input_hashes()
         original = recovery.original_ci668_input_hashes()
-        self.assertEqual((190, 175), (len(latest), len(original)))
+        producer190 = recovery.original_producer190_input_hashes()
+        self.assertEqual((280, 190, 175), (len(latest), len(producer190), len(original)))
+        self.assertEqual(producer190, joint.predecessor_input_hashes(joint.PRODUCER_VIEW))
         self.assertEqual(latest, ci668.current_input_hashes())
         self.assertEqual(latest, tooling.current_input_hashes())
         self.assertEqual(set(latest), recovery.fixture_inputs())
@@ -98,9 +106,14 @@ class Producer698BatchSourceFixtureRecoveryControls(unittest.TestCase):
         self.assertNotEqual(latest[UI_SPLIT], original[UI_SPLIT])
         self.assertNotEqual(latest[ci668.SOURCE_RELATIVE], original[ci668.SOURCE_RELATIVE])
         self.assertEqual(original[ci668.SOURCE_RELATIVE], recovery.ORIGINAL_CI668_SOURCE_SHA256)
-        self.assertEqual(ci668.WORKFLOW_AFTER_SHA256, latest[ci668.WORKFLOW])
-        self.assertTrue(all(latest[name] == digest for name, digest in original.items()
+        self.assertEqual("7c9af733acf8ac35aad36012870a9ba2895a36646d04743dbf709b911d6d1566", latest[ci668.WORKFLOW])
+        workflow = (ROOT / ci668.WORKFLOW).read_bytes()
+        named_ci175 = joint.current_source_in_view(ci668.WORKFLOW, workflow, joint.CI_VIEW, ROOT)
+        self.assertEqual(ci668.WORKFLOW_AFTER_SHA256, sha(named_ci175))
+        self.assertTrue(all(producer190[name] == digest for name, digest in original.items()
                             if name not in recovery.BOUND_PATHS))
+        self.assertTrue(all(sha(joint.current_source_in_view(name, (ROOT / name).read_bytes(), joint.CI_VIEW)) == digest
+                            for name, digest in original.items()))
 
     def test_history_peels_only_named_complete_afterimages_and_never_unknown_current_or_global_content(self):
         for name in recovery.BOUND_PATHS:
@@ -184,12 +197,19 @@ class Producer698BatchSourceFixtureRecoveryControls(unittest.TestCase):
         new_pins = {node.targets[0].id: ast.dump(node.value, include_attributes=False) for node in current_tree.body
                     if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name) and "SHA256" in node.targets[0].id}
         self.assertEqual(old_pins, new_pins)
-        source = (ROOT / CI_CONTROL).read_bytes(); prior = recovery.source_before_producer698(CI_CONTROL, source)
-        old, new = methods(prior), methods(source)
+        source = (ROOT / CI_CONTROL).read_bytes()
+        named190 = joint.current_source_in_view(CI_CONTROL, source, joint.PRODUCER_VIEW, ROOT)
+        self.assertEqual(("ff1f2ac9530135089b55d1f5f82079c2ed17f5a2eea4e9ad35ff4088b639635d", 7780),
+                         (sha(named190), len(named190)))
+        prior = recovery.source_before_producer698(CI_CONTROL, source)
+        self.assertEqual(("8e6d2e76f9de755f5d53bdc6a5a29aeb7161e9777ffcf7b5a0a163164889dfce", 7650),
+                         (sha(prior), len(prior)))
+        old, new = methods(prior), methods(named190)
         self.assertEqual(set(old), set(new))
         self.assertEqual({"test_current_hash_and_path_apis_report_actual175_not_ancestor_hashes", "test_new_ci_guard_template_and_manifest_partial_drift_refuse"},
                          {name for name in old if ast.dump(old[name], include_attributes=False) != ast.dump(new[name], include_attributes=False)})
-        self.assertEqual([ast.unparse(node.func) for node in assertions(prior)], [ast.unparse(node.func) for node in assertions(source)])
+        self.assertEqual([ast.unparse(node.func) for node in assertions(prior)],
+                         [ast.unparse(node.func) for node in assertions(named190)])
         self.assertEqual(sha(raw), ci668._validate_own_guard(ROOT, ci668._document()))
 
     def test_current_outer_routes_old_ui_geometry_and_webview_source_owners_without_native_or_restored_execution(self):

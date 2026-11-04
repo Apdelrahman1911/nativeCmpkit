@@ -14,6 +14,7 @@ import datetime as dt
 import hashlib
 import io
 import json
+import math
 import os
 from pathlib import Path, PurePosixPath
 import platform
@@ -49,6 +50,14 @@ TOOLS = {"python3": ("--version",), "git": ("--version",), "bash": ("--version",
 MAX_JSON_BYTES = 16 * 1024**2
 MAX_ARCHIVE_BYTES = 32 * 1024**2
 MAX_LOG_BYTES = 16 * 1024**2
+# One complete producer is amortized by authenticated same-HEAD reuse. The
+# previous CI scope alone reported 771.198s; reserve time for all ten scopes
+# and leave a separate five-minute workflow margin for setup/cleanup/evidence.
+TOTAL_SCOPE_SECONDS = 1500
+SCOPE_HEARTBEAT_SECONDS = 60
+MAX_SCOPE_HEARTBEATS = 32
+MAX_SCOPE_EVENT_BYTES = 4096
+MAX_FAILURE_METADATA_BYTES = 65536
 MAX_SOURCE_FILES = 100000
 MAX_INPUT_BYTES = 128 * 1024**2
 SHA = re.compile(r"[0-9a-f]{40}\Z")
@@ -425,10 +434,128 @@ def scope_summary(scope: tuple[str, str], returncode: int, output: bytes) -> dic
             "tests": count, "passed": passed, "output_sha256": digest(output), "output_bytes": len(output)}
 
 
+def emit_scope_event(scope, event, observation=None, *, phase="startup", summary=None):
+    """Fixed, nullable metadata only; never a result/receipt or a hard deadline."""
+    try:
+        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)
+                or scope not in SCOPES or type(event) is not str or type(phase) is not str
+                or event not in {"started", "heartbeat", "refused", "cleanup-refused", "completed"}
+                or phase not in {"startup", "retain-child", "wait-clock", "wait-output", "wait-guard", "wait-sleep", "cleanup", "post-cleanup-summary"}):
+            return
+        values = observation if type(observation) is dict else {}
+        record = {"schema": "nativecmpkit-offline-scope-observation-v1", "diagnostic_only": True,
+                  "event": event, "phase": phase, "directory": scope[0], "pattern": scope[1],
+                  "original_child_group_disposal_completed": phase == "post-cleanup-summary",
+                  "elapsed_excludes_startup_and_cleanup": True,
+                  "observations_are_not_cause_inferences": True,
+                  "scope_index": SCOPES.index(scope) + 1, "scope_count": len(SCOPES),
+                  "bounds_are_cooperative": True, "reusable_certificate": False,
+                  "elapsed_seconds": None, "allocated_seconds": None,
+                  "time_admitted": None, "output_admitted": None, "guard_output_bytes": None}
+        for field in ("elapsed_seconds", "allocated_seconds"):
+            value = values.get(field)
+            if type(value) in (int, float) and math.isfinite(value) and 0 <= value <= 2**53:
+                record[field] = value
+        for field in ("time_admitted", "output_admitted"):
+            value = values.get(field)
+            if type(value) is bool:
+                record[field] = value
+        value = values.get("guard_output_bytes")
+        if type(value) is int and 0 <= value <= 2**63 - 1:
+            record["guard_output_bytes"] = value
+        value = values.get("heartbeat_count")
+        record["heartbeat_count"] = value if type(value) is int and 0 <= value <= MAX_SCOPE_HEARTBEATS else None
+        if type(summary) is dict:
+            count, passed, returncode = (summary.get(key) for key in ("tests", "passed", "returncode"))
+            record["reported_tests"] = count if type(count) is int and 0 <= count <= MAX_SOURCE_FILES else None
+            record["summary_passed"] = passed if type(passed) is bool else None
+            record["direct_returncode"] = returncode if type(returncode) is int and -255 <= returncode <= 255 else None
+        public = "[offline-scope] " + canonical(record).decode("ascii")
+        if len(public.encode("ascii")) <= MAX_SCOPE_EVENT_BYTES:
+            print(public, file=sys.stderr, flush=True)
+    except BaseException:
+        pass  # Secondary metadata I/O cannot replace an outcome or owned cleanup.
+
+
+def emit_scope_failure_inventory(output, *, include_tail=False):
+    """One same-execution capped buffer; incomplete inventory is never eligibility."""
+    try:
+        from offline_tooling_failure_inventory import failure_inventory_line
+        inventory = failure_inventory_line(output)
+        if (type(inventory) is not str or not inventory.isascii()
+                or not inventory.startswith("[offline-failure-inventory] ")
+                or len(inventory.encode("ascii")) > MAX_FAILURE_METADATA_BYTES):
+            raise ValueError("Bounded fixed inventory metadata is required")
+    except BaseException:
+        inventory = ('[offline-failure-inventory] {"schema":"nativecmpkit-offline-failure-inventory-v1",'
+                     '"diagnostic_only":true,"status":"unknown",'
+                     '"reason_codes":["inventory-helper-unavailable"],"records":[]}')
+    try:
+        print(inventory, file=sys.stderr, flush=True)
+    except BaseException:
+        pass
+    if include_tail:
+        try:
+            for line in output.decode("utf-8", errors="replace").splitlines()[-100:]:
+                print("[redacted diagnostic]" if re.search(r"(?i)password|secret|token|credential|authorization|PRIVATE KEY", line)
+                      else line[:2000], file=sys.stderr, flush=True)
+        except BaseException:
+            pass  # The existing red tail remains secondary to the failed summary.
+
+
+def emit_scope_buffer_metadata(scope, output, *, phase, sampled_after_refusal):
+    """A capped prefix only; never a completed-log or failure-cause assertion."""
+    try:
+        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)
+                or scope not in SCOPES or type(output) is not bytes or len(output) > MAX_LOG_BYTES + 1
+                or type(phase) is not str
+                or phase not in {"startup", "retain-child", "wait-clock", "wait-output", "wait-guard", "wait-sleep", "cleanup", "post-cleanup-summary"}
+                or type(sampled_after_refusal) is not bool):
+            return
+        scope = SCOPES[SCOPES.index(scope)]
+        sample = {"schema": "nativecmpkit-offline-scope-buffer-v1", "diagnostic_only": True,
+                  "directory": scope[0], "pattern": scope[1], "phase": phase,
+                  "original_child_group_disposal_completed": phase == "post-cleanup-summary",
+                  "buffered_prefix_bytes": len(output), "buffered_prefix_sha256": digest(output),
+                  "complete_output": False, "sample_is_after_refusal": sampled_after_refusal,
+                  "metadata_recorded_after_refusal": True, "shared_file_offset_changed": False}
+        try:
+            print("[offline-scope-buffer] " + canonical(sample).decode("ascii"), file=sys.stderr, flush=True)
+        except BaseException:
+            pass
+        emit_scope_failure_inventory(output)
+    except BaseException:
+        pass
+
+
+def emit_scope_refusal(log, scope, observation, *, phase, event="refused"):
+    """One phased refusal sample without changing the child-shared file offset."""
+    try:
+        if (type(scope) is not tuple or len(scope) != 2 or any(type(value) is not str for value in scope)
+                or scope not in SCOPES or type(event) is not str or event not in {"refused", "cleanup-refused"}
+                or type(phase) is not str
+                or phase not in {"startup", "retain-child", "wait-clock", "wait-output", "wait-guard", "wait-sleep", "cleanup", "post-cleanup-summary"}):
+            return
+        scope = SCOPES[SCOPES.index(scope)]  # Export owning constants, never caller-controlled strings.
+        emit_scope_event(scope, event, observation, phase=phase)
+        # pread is mandatory on this Linux-only owner. A child can still write:
+        # this is a capped subsequent prefix sample, not an atomic completed log
+        # or a retroactive observation of a short-circuited guard operand.
+        output = os.pread(log.fileno(), MAX_LOG_BYTES + 1, 0)
+        emit_scope_buffer_metadata(scope, output, phase=phase, sampled_after_refusal=True)
+    except BaseException:
+        try:
+            print('[offline-scope-buffer] {"schema":"nativecmpkit-offline-scope-buffer-v1",'
+                  '"diagnostic_only":true,"complete_output":false,"buffer_available":false}',
+                  file=sys.stderr, flush=True)
+        except BaseException:
+            pass
+
+
 def execute_scope(root: Path, scope: tuple[str, str], seconds: float) -> dict:
     """Cooperatively bound/dispose only the proven original Linux child group."""
     require(platform.system() == "Linux" and all(hasattr(os, name) for name in
-            ("waitid", "P_PID", "WEXITED", "WNOHANG", "WNOWAIT", "getpgid", "getsid", "killpg")),
+            ("waitid", "P_PID", "WEXITED", "WNOHANG", "WNOWAIT", "getpgid", "getsid", "killpg", "pread")),
             "Owned offline scope disposal requires Linux waitid/WNOWAIT")
     with tempfile.TemporaryDirectory(prefix="offline-tooling-") as private, tempfile.TemporaryFile() as log:
         home, temporary = Path(private) / "home", Path(private) / "tmp"
@@ -467,40 +594,95 @@ def execute_scope(root: Path, scope: tuple[str, str], seconds: float) -> dict:
                 for later in failures[1:]:
                     failures[0].add_note("Further owned offline cleanup refusal: " + type(later).__name__)
                 raise failures[0]
+        observation, phase, heartbeats = None, "startup", 0
         try:
-            deadline = time.monotonic() + max(0, seconds)
+            started = time.monotonic()
+            allocated = max(0, seconds)
+            deadline, heartbeat = started + allocated, started + SCOPE_HEARTBEAT_SECONDS
+            observation = {"elapsed_seconds": 0, "allocated_seconds": allocated, "heartbeat_count": heartbeats}
+            try:
+                emit_scope_event(scope, "started", observation, phase="startup")
+            except BaseException:
+                pass
+            phase = "retain-child"
             while retain_child() is None:
-                require(time.monotonic() < deadline and os.fstat(log.fileno()).st_size <= MAX_LOG_BYTES,
+                phase = "wait-clock"
+                now = time.monotonic()
+                time_admitted = now < deadline
+                observation = {"elapsed_seconds": now - started, "allocated_seconds": allocated,
+                               "heartbeat_count": heartbeats, "time_admitted": time_admitted,
+                               "output_admitted": None, "guard_output_bytes": None}
+                output_admitted = None
+                if time_admitted:
+                    # Retain the original short circuit: an expired time guard
+                    # does not observe/admit the output-size operand.
+                    phase = "wait-output"
+                    output_bytes = os.fstat(log.fileno()).st_size
+                    output_admitted = output_bytes <= MAX_LOG_BYTES
+                    observation.update(output_admitted=output_admitted, guard_output_bytes=output_bytes)
+                phase = "wait-guard"
+                require(time_admitted and output_admitted is True,
                         "Offline scope exceeded its total time/output bound")
+                if now >= heartbeat:
+                    if heartbeats < MAX_SCOPE_HEARTBEATS:
+                        heartbeats += 1
+                        observation["heartbeat_count"] = heartbeats
+                        try:
+                            emit_scope_event(scope, "heartbeat", observation, phase="wait-guard")
+                        except BaseException:
+                            pass
+                    heartbeat = now + SCOPE_HEARTBEAT_SECONDS
+                phase = "wait-sleep"
                 time.sleep(0.05)
+                # A next retain/clock refusal must not carry old guard operands
+                # as observations of the new failing operation.
+                observation = {"allocated_seconds": allocated, "heartbeat_count": heartbeats}
+                phase = "retain-child"
+        except BaseException:
+            try:
+                emit_scope_refusal(log, scope, observation, phase=phase)
+            except BaseException:
+                pass
+            raise
         finally:
             primary = sys.exc_info()[1]
             try:
                 dispose_group()
             except BaseException as cleanup_error:
                 if primary is None:
+                    try:
+                        emit_scope_refusal(log, scope, None, phase="cleanup", event="cleanup-refused")
+                    except BaseException:
+                        pass
                     raise
                 primary.add_note("Owned offline child-group cleanup also refused: " + type(cleanup_error).__name__)
         log.seek(0)
         output = log.read(MAX_LOG_BYTES + 1)
-    summary = scope_summary(scope, process.returncode, output)
+    # Preserve the original resource ordering: both owned temporary contexts
+    # have disposed before summary validation. A context failure still prevents
+    # any summary or green result, exactly as before this diagnostic addition.
+    try:
+        summary = scope_summary(scope, process.returncode, output)
+    except BaseException:
+        try:
+            emit_scope_event(scope, "refused", phase="post-cleanup-summary")
+            # The bounded bytes were read before this summary refusal, after
+            # child-group disposal. No closed FD is reopened or sampled here.
+            emit_scope_buffer_metadata(scope, output, phase="post-cleanup-summary", sampled_after_refusal=False)
+        except BaseException:
+            pass
+        raise
+    try:
+        # No new duration claim: completion includes disposal, unlike loop clocks.
+        emit_scope_event(scope, "completed", {"allocated_seconds": allocated, "heartbeat_count": heartbeats},
+                         phase="post-cleanup-summary", summary=summary)
+    except BaseException:
+        pass
     if not summary["passed"]:
-        # Metadata-only inventory supplements this same output, never eligibility.
         try:
-            from offline_tooling_failure_inventory import failure_inventory_line
-            inventory = failure_inventory_line(output)
+            emit_scope_failure_inventory(output, include_tail=True)
         except BaseException:
-            inventory = ('[offline-failure-inventory] {"schema":"nativecmpkit-offline-failure-inventory-v1",'
-                         '"diagnostic_only":true,"status":"unknown",'
-                         '"reason_codes":["inventory-helper-unavailable"],"records":[]}')
-        try:
-            print(inventory, file=sys.stderr)
-        except BaseException:
-            pass  # Secondary inventory I/O never replaces the known failed outcome.
-        # Bounded failure tail from the same refusing execution, never a retry.
-        for line in output.decode("utf-8", errors="replace").splitlines()[-100:]:
-            print("[redacted diagnostic]" if re.search(r"(?i)password|secret|token|credential|authorization|PRIVATE KEY", line)
-                  else line[:2000], file=sys.stderr)
+            pass
     return summary
 
 def producer_context(signature: dict) -> dict:
@@ -519,7 +701,7 @@ def run_scopes(root: Path, expected: dict, resolutions: dict | None = None) -> d
     validate_signature(expected)
     require(capture(root, resolutions) == expected, "Current source/runtime differs before scope execution")
     producer = producer_context(expected)
-    results, deadline = [], time.monotonic() + 840
+    results, deadline = [], time.monotonic() + TOTAL_SCOPE_SECONDS
     for scope in SCOPES:
         result = execute_scope(root, scope, deadline - time.monotonic())
         results.append(result)

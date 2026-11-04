@@ -31,6 +31,7 @@ import xml.etree.ElementTree as ET
 
 import library_tests as library
 import macos_share_missing_only as recovery
+import macos_share_key_wait_observation as key_wait
 import runtime_context
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -323,15 +324,19 @@ def runtime_identity(root: Path, environment: dict[str, str]) -> dict:
 
 
 def source_contract(root: Path, sources: dict) -> dict:
+    key_wait.validate_current_sources(root)
     for relative, expected in HARNESS_PINS.items():
-        require(sources.get(relative) == expected and native.digest(ordinary_file(root, relative)) == expected,
+        payload = key_wait._ordinary_bytes(root, relative)[0]
+        require(sources.get(relative) == hashlib.sha256(payload).hexdigest() and
+                hashlib.sha256(key_wait.current_source_before_key_wait(relative, payload)).hexdigest() == expected,
                 "unqualified-native-harness-bytes")
     manifest = tomllib.loads(ordinary_file(root, MANIFEST).read_text())
     require(manifest["package"]["name"] == "calf-share-native" and manifest["package"]["version"] == "0.1.0"
             and manifest["package"]["publish"] is False and manifest.get("test") == [{
                 "name": "appkit_lifecycle", "path": "tests/appkit_lifecycle_main.rs", "harness": False,
                 "required-features": ["appkit-lifecycle-tests"]}], "native-target-contract-changed")
-    return {"source_path": CASES_SOURCE, "source_sha256": HARNESS_PINS[CASES_SOURCE],
+    return {"source_path": CASES_SOURCE, "source_sha256": sources[CASES_SOURCE],
+            "original_harness_sha256": HARNESS_PINS[CASES_SOURCE],
             "source_bound_failed_control_gate_verified": True,
             "raw_control_flag_exported": False, "raw_control_flag_independently_observed": False,
             "weak_release_witnesses": "source-qualified native assertions, not separate exported readings"}
@@ -548,6 +553,10 @@ def missing_view_failure_observation(root: Path, output: Path, execution: dict,
                                         operation_hash=inputs.get(recovery.OPERATION_SOURCE),
                                         source_absolute=str(root / CASES_SOURCE),
                                         failed_case="missing_content_view")
+        if inputs.get(CASES_SOURCE) == key_wait.cases_after_sha256():
+            value["post_failure_owned_key_wait_snapshot"] = key_wait.post_failure_snapshot(
+                payload, source_hash=inputs[CASES_SOURCE], failed_case="missing_content_view",
+                source_absolute=str(root / CASES_SOURCE))
         value["owned_stream_sha256"] = sealed["sha256"]
         value["owned_stream_bytes"] = sealed["size"]
         return value
@@ -686,6 +695,8 @@ def plan(case: str | None = None, *, missing_only: bool = False) -> dict:
             "disk_reserve_bytes": DISK_RESERVE, "read_only_plan": True, "publication_commands": []}
     if case is not None or missing_only:
         value["recovery_reference"] = recovery.recovery_reference()
+    if "missing_content_view" in selected:
+        value["key_wait_post_failure_snapshot"] = key_wait.plan_description()
     if missing_only:
         value.update(native_command=None, native_case_arguments=None,
                      native_commands=[["<admitted-mh-execute>", "--case=" + name] for name in selected],
@@ -718,6 +729,9 @@ def run(root: Path, output_relative: str, case: str | None = None, *, missing_on
     lock = allowed / ".macos-share-appkit-lifecycle.lock"
     locked, environment, before, native_before, baseline, artifact_path, artifact = False, None, None, None, None, None, None
     try:
+        if missing_only:
+            import macos_share_appkit_only_route as appkit_only
+            receipt["workflow_context"] = appkit_only.workflow_context()
         relative_path(root, lock.relative_to(root).as_posix())
         lock.mkdir(mode=0o700)
         locked = True

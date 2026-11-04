@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Genuine UI union compiled; Calendar originals accepted — 2026-11-04
+
+[Owning635](docs/development/evidence/current-platform-recovery-20261101/ui-native-wiring-compiler635/README.md)
+integrates42676852→5a60984: nine existing/36 fragments/seven additions, genuine
+26+10/11files and separate pre26four/sixfiles. First39=38pass/one fixture red;
+onlyfailed1+changed3=4/4;35 accepted reused, not fresh39green. Fresh exact-union
+testKLIB Gradle0/40.01s/wrapper40.474924/JDK17.0.20/Gradle9.7.1/1,394held;
+production FROM-CACHE, Linux native/cinterop warnings retained, ZERO Apple/native.
+Reuse relevant unchanged compiler bytes; next only genuine26+10, pre26 remains.
+Calendar41775507254 at6fb5/5/onefreshXML/Gradle0/772.65s/1,373held accepted by
+independent+lead original source/result review. No consent/grant/Settings/denial/
+restricted/old/minimum-link inference;#22/#110open. Preserve boot Data Migration
+Failed, hosted warning, missing Gradle log/final simulator-restoration receipt.
+Image633 sole reservation at checkpoint; disjoint batches continue while CI runs.
+103closed/69open/172total;22implemented/36partial/101verified/five unresolved,
+ZERO new closure/publication. Lead Git/integration/dispatch/acceptance/closure;
+serial-local8GiB/max2combinedhosted INCLUDINGqueued/reserved/read-only Actions/
+all/no mandatory SHA pinning and every publishing/Pages/main/history/native/
+consumer/API–ABI/dependency/legal/security/readiness gate remain unchanged.
+
 ## Parallel UI/resource patch integrated; native originals retained — 2026-11-04
 
 [Owning632](docs/development/evidence/current-platform-recovery-20261101/parallel-runtime-resource632/README.md)

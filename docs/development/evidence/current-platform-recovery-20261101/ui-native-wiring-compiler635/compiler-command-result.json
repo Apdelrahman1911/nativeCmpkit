@@ -1,0 +1,24 @@
+{
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--console=plain",
+    "--no-configuration-cache",
+    "--max-workers=1",
+    "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "-Pkotlin.native.jvmArgs=-Xmx2048m",
+    "--init-script",
+    "/root/nativecmpkit-source-proposals-20261104/ui-native-wiring631/UI-UNION11-COMPILER-PROPOSAL.init.gradle.kts",
+    ":calf-ui:compileTestKotlinIosSimulatorArm64"
+  ],
+  "cwd": "/root/projects/nativeCmpKit",
+  "timeout_seconds": 600,
+  "reserve_mib": 8192,
+  "started_utc": "2026-11-04T05:33:21.637699+00:00",
+  "free_bytes_before": 9934483456,
+  "exit_code": 0,
+  "elapsed_seconds": 40.01,
+  "free_bytes_after": 9931886592
+}

@@ -1,0 +1,91 @@
+{
+  "Gradle_executions": 0,
+  "commands": [
+    {
+      "command": [
+        "python3",
+        "scripts/ci/workflow_matrix.py",
+        "ios-ui-adaptive-pre26"
+      ],
+      "elapsed_seconds": 0.08981843199580908,
+      "exit_code": 0,
+      "output": "MATRIX-PRE26.json",
+      "output_sha256": "de81143c534e2678c7b689f4890c60a5f4ddc290d4d0c53223883f624592ed04",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/ci/workflow_matrix.py",
+        "ios-ui-adaptive-drag-shader-ios26plus"
+      ],
+      "elapsed_seconds": 0.08885074290446937,
+      "exit_code": 0,
+      "output": "MATRIX-IOS26PLUS.json",
+      "output_sha256": "276a12315e2f3ff9a76e4118a8e8e311f857de889030786685a0c57d5ede6eb1",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-adaptive-pre26"
+      ],
+      "elapsed_seconds": 0.251317247049883,
+      "exit_code": 0,
+      "output": "LIBRARY-PLAN-PRE26.json",
+      "output_sha256": "a9091a6d0f389b0ba905a92cbdf72ffbe365eb3f0000ed1ecf50fc20d85c4c2e",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/ci/library_tests.py",
+        "plan",
+        "--suite",
+        "ios",
+        "--module",
+        "calf-ui",
+        "--focus",
+        "ui-native-adaptive-drag-shader-ios26plus"
+      ],
+      "elapsed_seconds": 0.28479363094083965,
+      "exit_code": 0,
+      "output": "LIBRARY-PLAN-IOS26PLUS.json",
+      "output_sha256": "ded6d9c16689fd7aff8564b10adab3f918c49e7fcc4fa01848fd42db1cc041f5",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/nativecmpkit-actionlint-1.7.12/actionlint",
+        ".github/workflows/gradle.yml"
+      ],
+      "elapsed_seconds": 0.008953185053542256,
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "",
+      "tool_sha256": "c872d6db8c6bf83a8eaa704fc93999f027d55dffbc63b8a6abdccb47df5f4cd4"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "input_count": 1392,
+  "native_executions": 0,
+  "schema_version": 1,
+  "source_inputs_held": true,
+  "stage": "ui-native-wiring631-four-source-cli-plans-actionlint-and-whitespace"
+}

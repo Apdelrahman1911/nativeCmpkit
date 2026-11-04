@@ -238,7 +238,9 @@ class UiRelatedSourceProjectionControls(unittest.TestCase):
                          "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4")
 
     def test_original_application_launch_argv_deadlines_finally_sdk_and_native_bodies_are_unchanged(self):
-        name = "scripts/ci/ios_ui_application.py"; current = (ROOT / name).read_bytes()
+        from webview_content_policy_source_projection import source_before_content_policy
+        name = "scripts/ci/ios_ui_application.py"
+        current = source_before_content_policy(name, (ROOT / name).read_bytes())
         old = history.source_before_ui_related(name, current)
         old_functions = {node.name: node for node in ast.parse(old).body if isinstance(node, ast.FunctionDef)}
         new_functions = {node.name: node for node in ast.parse(current).body if isinstance(node, ast.FunctionDef)}

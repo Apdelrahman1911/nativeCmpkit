@@ -37,6 +37,7 @@ import secure_alert_input_plan as secure_alert
 import ios_calendar_native_focus as calendar_native
 import macos_share_native_focus as macos_share_native
 import ios_ui_related_native_focus as ui_related
+import webview_content_policy_native_focus as content_policy
 import macos_share_missing_ci as share_missing
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -1176,6 +1177,10 @@ UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_REQUEST_DNS_FOCUS] = {
     "module": "calf-webview", "groups": (IOS_WEBVIEW_REQUEST_GROUP, IOS_WEBVIEW_DNS_GROUP),
     "scope": "Exactly three unexecuted genuine UIApplication/library-WK methods in one existing iPhone/Mac job: the unchanged two localhost request/TLS/Stop/redirect/Reload methods and one reserved-nonce provisional DNS fail/fail method. The localhost fixture/ATS lease is required only for the request group; DNS keeps its existing HTTPS .invalid/system-resolver and actual NSURLErrorDomain/CannotFindHost/-1003/zero-commit/previous-error-reset criteria. Eleven accepted WK/application-host methods are compiled but not selected. Exact Worker/runtime/binary/install/native/XML/owned application and fixture cleanup gates remain. No controlled resolver, resolver override, injected errors, arbitrary loads/certificate trust bypass, physical/minimum/ABI/consumer/security/release certification.",
 }
+UI_APPLICATION_FOCUS_SPECS[content_policy.IOS_FOCUS] = {
+    "module": "calf-webview", "groups": content_policy.groups(content_policy.IOS_FOCUS),
+    "scope": content_policy.scope(content_policy.IOS_FOCUS),
+}
 IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (
     IOS_WEBVIEW_LIFECYCLE_GROUPS[0],
     UI_APPLICATION_FOCUS_SPECS[IOS_WEBVIEW_RECOVERY_FOCUS]["groups"][0],
@@ -1896,6 +1901,7 @@ def validate_android_storage_probe_plan(test_plan: dict) -> None:
 
 def allowed_test_focus(suite: str, modules: tuple[str, ...] | None, focus: str) -> bool:
     return ((focus in ANDROID_STORAGE_FOCUSES and suite == "android-device" and modules == (ANDROID_STORAGE_MODULE,)) or
+            content_policy.allowed(suite, modules, focus) or
             (focus == calendar_native.FOCUS and suite == "ios" and modules == (calendar_native.MODULE,)) or
             (focus == macos_share_native.FOCUS and suite == "desktop" and modules == (macos_share_native.MODULE,)) or
             (focus == share_missing.FOCUS and suite == "desktop" and modules == (share_missing.MODULE,)) or
@@ -2332,8 +2338,14 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
         selected[0]["test_filter"] = UI_DATE_YEAR_MATERIAL_CLASS
         selected[0]["required_testcases"] = ui_date_year_material_identities()
         result["scope"] = "Two new important public Material year-policy companions only: actual rule-change setter retention/in-range snapping and actual disabled/enabled single/range calendar click policy. The shared zero-test assertions execute against this Material actual independently of the same-host UIKit application. Never replay accepted date-transaction/bounds/month/dropdown/old alert methods or claim native/physical/older/all-OS/consumer/API-ABI/dependency/security/release certification."
+    elif focus in content_policy.FOCUSES and focus != content_policy.IOS_FOCUS:
+        content_policy.configure_item(root, selected[0], focus)
+        result["explicit_test_focus"] = focus
+        result["scope"] = content_policy.scope(focus)
     elif focus in UI_APPLICATION_FOCUS_SPECS:
         spec = UI_APPLICATION_FOCUS_SPECS[focus]
+        if focus == content_policy.IOS_FOCUS:
+            content_policy.configure_item(root, selected[0], focus)
         if focus in ui_related.FOCUSES:
             ui_related.validate_sources(root, focus)
             selected[0]["test_source_files"] = sorted(ui_related.sources(focus))
@@ -3039,12 +3051,16 @@ def validate_test_focus(test_plan: dict) -> bool:
     validate_android_permission_demo_plan(test_plan)
     validate_android_storage_probe_plan(test_plan)
     focus = test_plan.get("explicit_test_focus")
+    if focus not in content_policy.FOCUSES and any(content_policy.CONTRACT_FIELD in item for item in test_plan["expected"]):
+        raise ValueError("No content-policy source or fixture contract on an unrelated or unfocused suite")
     if focus != secure_alert.FOCUS and any("secure_alert_input_contract" in item for item in test_plan["expected"]):
         raise ValueError("No secure-input source fixture on an unrelated or accepted focus")
     if focus not in desktop_security_plan.FOCUSES and test_plan.get("desktop_security_fixture") is not None:
         raise ValueError("No security-only trust/isolation fixture on an unrelated or default focus")
     if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan["expected"]):
         raise ValueError("No Share630 recovery source fixture on an unrelated or accepted focus")
+    if focus in content_policy.FOCUSES:
+        return content_policy.validate_plan(test_plan)
     if focus is None:
         if any("test_filter" in item or "required_testcases" in item for item in test_plan["expected"]):
             raise ValueError("Test filters require the finite reviewed focus")
@@ -3747,7 +3763,25 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
             except (OSError, ET.ParseError, ValueError) as error:
                 # Do not export XML/system-out/failure bodies or machine paths.
                 errors.append({"module": expected["module"], "path": relative, "error": type(error).__name__})
-        if boundary_focus and test_plan["explicit_test_focus"] in ANDROID_STORAGE_FOCUSES:
+        if boundary_focus and test_plan["explicit_test_focus"] in content_policy.FOCUSES:
+            focus = test_plan["explicit_test_focus"]
+            policy_errors = ([] if content_policy.case_inventory(focus, module_cases) and
+                             len(reports) == len(paths) == expected["required_original_xml"] == 1 else
+                             ["Content-policy XML requires exactly the finite NEW/affected native cases in one fresh original target report; no missing/duplicate/skipped/foreign or accepted-replay cases"])
+            required_host = "macos" if focus == content_policy.IOS_FOCUS else "linux"
+            if native_test_policy.canonical_host(host_system or platform.system()) != required_host:
+                policy_errors.append("Content-policy XML requires its one registered actual host slot")
+            try:
+                content_policy.validate_host(focus, host_system or platform.system(), platform.machine())
+            except ValueError:
+                policy_errors.append("Desktop content-policy XML requires the actual Linux x64 host")
+            prefix = expected["task"].rsplit(":", 1)[1] + "." if test_plan["suite"] in {"ios", "js", "wasm"} else ""
+            sources = {prefix + group["classname"]: group["source"] for group in content_policy.groups(focus)}
+            scenarios = [{**c, "source": sources.get(c["classname"], "unselected"), "required_on_host": True,
+                          "selection": "source-affected-existing" if c["classname"] == content_policy.ANDROID_AFFECTED_CLASS else "new-missing-criterion",
+                          "disposition": "required-executed" if c["status"] == "passed" else "required-not-passed"}
+                         for c in module_cases]
+        elif boundary_focus and test_plan["explicit_test_focus"] in ANDROID_STORAGE_FOCUSES:
             required = {(c["classname"], c["name"]) for c in expected["required_testcases"]}
             actual = {(c["classname"], c["name"]) for c in module_cases}
             policy_errors = ([] if actual == required and len(module_cases) == 1 and len(reports) == 1 and len(paths) == 1 else
@@ -4186,6 +4220,11 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Prepared storage row differs from the selected native method")
     if boundary_focus and suite != test_plan["suite"]:
         raise ValueError("A focused test plan cannot run as another suite")
+    if test_plan.get("explicit_test_focus") in content_policy.FOCUSES:
+        focus = test_plan["explicit_test_focus"]
+        content_policy.validate_host(focus, platform.system(), platform.machine())
+        if content_policy.source_contract(root, focus) != test_plan["expected"][0][content_policy.CONTRACT_FIELD]:
+            raise ValueError("Exact content-policy source/fixture/filter identity changed before the native command")
     if test_plan.get("explicit_test_focus") == secure_alert.FOCUS:
         if secure_alert.source_contract(root) != test_plan["expected"][0]["secure_alert_input_contract"]:
             raise ValueError("Exact secure-input helper/native/origin/build source changed before the owning command")
@@ -4280,7 +4319,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             command.extend("-Pandroid.testInstrumentationRunnerArguments." + key + "=" + value for key, value in fields.items())
         if boundary_focus:
             item = test_plan["expected"][0]
-            argument = "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
+            argument = "filter" if test_plan["explicit_test_focus"] == content_policy.ANDROID_FOCUS else "annotation" if (test_plan["explicit_test_focus"] in ANDROID_SAVE_IDENTITY_FOCUSES or
                                         test_plan["explicit_test_focus"] in {ANDROID_GEO_PREREQUISITES_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS,
                                                                              ANDROID_PERMISSION_DEMO_RECOVERY_FOCUS}) else "class"
             command.append("-Pandroid.testInstrumentationRunnerArguments." + argument + "=" + item["test_filter"])
@@ -4637,6 +4676,24 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                     plist_hash=document["application_plist_sha256"], native_pid=protocol.get("observed_launch_pid"),
                     fixture_hash=fixture_hash, native_hash=native_hash),
                  "Native WK request cases lack actual localhost/TLS/client-EOF/owned-cleanup evidence")
+        if any((content_policy.spec(content_policy.IOS_FOCUS)["classname"], method) in cases
+               for method in content_policy.spec(content_policy.IOS_FOCUS)["methods"]):
+            need(test_plan.get("explicit_test_focus") == content_policy.IOS_FOCUS,
+                 "New WK content cases require their exact finite owned fixture admission; generic ios/all is not prepared")
+            current_content = content_policy.source_contract(root, content_policy.IOS_FOCUS)
+            need(expected.get(content_policy.CONTRACT_FIELD) == current_content,
+                 "Native WK content fixture/helper/owner differs from the exact preflight source identity")
+            import webview_content_policy_fixture as wk_content
+            nonce_hash = document.get("webview_content_policy_nonce_sha256")
+            need(type(nonce_hash) is str and re.fullmatch(r"[0-9a-f]{64}", nonce_hash) is not None,
+                 "Native WK content fixture lacks its original prelaunch nonce digest")
+            need(wk_content.validate_receipt(document.get("webview_content_policy_fixture"),
+                    bundle_id=document["bundle_id"], signed_hash=document["signed_application_executable_sha256"],
+                    plist_hash=document["application_plist_sha256"], native_pid=protocol.get("observed_launch_pid"),
+                    fixture_hash=current_content["source_hashes"][wk_content.SOURCE],
+                    native_hash=current_content["source_hashes"][wk_content.NATIVE_SOURCE],
+                    helper_hash=current_content["source_hashes"][wk_content.NATIVE_HELPER], nonce_hash=nonce_hash),
+                 "Native WK content cases lack complete nonce/process/install/source/wire/independent-owned-cleanup evidence")
         if cases.get(app.IMAGE_PROFILE_CASE) == "passed":
             import apple_image_profile
             observations = protocol.get("image_profile_observations")
@@ -4918,7 +4975,7 @@ def main() -> int:
     parser.add_argument("operation", choices=["plan", "run"])
     parser.add_argument("--suite", choices=sorted(SUITES), required=True)
     parser.add_argument("--module", action="append", help="Explicit module-directory subset for investigation only; never reported as the complete CI suite")
-    parser.add_argument("--focus", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
+    parser.add_argument("--focus", choices=list(dict.fromkeys([*content_policy.FOCUSES, *ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS, DATE_TRANSACTION_FOCUS, *DROPDOWN_FOCUSES, UNSUPPORTED_PERMISSION_FOCUS, ANDROID_POPUP_FOCUS, ANDROID_WEBVIEW_REQUEST_FOCUS, ANDROID_WEBVIEW_STOP_REDIRECT_RECOVERY_FOCUS, ANDROID_NAV_BACK_FOCUS, ANDROID_GEO_OWNERSHIP_FOCUS, *ANDROID_GEO_PROVIDER_FOCUSES, ANDROID_SHARE_GRANT_FOCUS, *ANDROID_CAMERA_FOCUSES, *ANDROID_PERMISSION_DEVICE_SPECS,
                                            WEBVIEW_CONTENT_FOCUS, WEBVIEW_REQUEST_FOCUS, WEBVIEW_OFFLINE_FOCUS, SHARE_CLIPBOARD_NATIVE_FOCUS, *WEBVIEW_DESKTOP_REQUEST_FOCUSES, *desktop_security_plan.FOCUSES, *WEBVIEW_IDENTITY_FOCUSES,
                                            IOS_PERMISSION_FOCUS, IOS_PERMISSION_SAFETY_FOCUS, IOS_PERMISSION_BATCH_FOCUS, calendar_native.FOCUS, macos_share_native.FOCUS, share_missing.FOCUS, IOS_SAVE_WRITE_FOCUS,
                                            IOS_SWITCH_CANCELLATION_FOCUS,

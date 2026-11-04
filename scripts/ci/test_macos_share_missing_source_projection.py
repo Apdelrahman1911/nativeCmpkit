@@ -11,6 +11,7 @@ import android_external328_source_projection as bridge
 import camera_home_affinity_source_projection as camera
 import ios_ui_related_source_projection as ui
 import macos_share_missing_source_projection as history
+import webview_content_policy_source_projection as content_history
 
 ROOT = Path(__file__).resolve().parents[2]
 GUARD = "scripts/ci/macos_share_missing_source_projection.py"
@@ -26,10 +27,11 @@ class MissingShare630SourceControls(unittest.TestCase):
     def test_exact_six_path_inverse_roundtrip_and_one_newest_raw_ingress(self):
         document = history._document()
         self.assertEqual(6, len(document["bindings"]))
-        self.assertEqual(GUARD_SHA256, sha((ROOT / GUARD).read_bytes()))
+        self.assertEqual(GUARD_SHA256, sha(content_history.source_before_content_policy(GUARD, (ROOT / GUARD).read_bytes())))
         for name, binding in document["bindings"].items():
-            current = (ROOT / name).read_bytes()
-            old = history.current_source_before_share_missing_ci(name, current)
+            raw_current = (ROOT / name).read_bytes()
+            current = content_history.source_before_content_policy(name, raw_current)
+            old = history.current_source_before_share_missing_ci(name, raw_current)
             self.assertEqual((binding["before_sha256"], binding["before_bytes"]), (sha(old), len(old)))
             self.assertIs(old, history.source_before_share_missing_ci(name, old))
             self.assertIs(old, history.peel_share_missing_ci_for_history(name, old))
@@ -140,7 +142,8 @@ class MissingShare630SourceControls(unittest.TestCase):
                 "test_owning_validator_requires_all_four_added_inputs_and_ordinary_current_images"},
         }
         for name, changed in affected.items():
-            current = (ROOT / name).read_bytes(); old = history.source_before_share_missing_ci(name, current)
+            current = content_history.source_before_content_policy(name, (ROOT / name).read_bytes())
+            old = history.source_before_share_missing_ci(name, current)
             before = {node.name: node for node in ast.walk(ast.parse(old)) if isinstance(node, ast.FunctionDef)}
             after = {node.name: node for node in ast.walk(ast.parse(current)) if isinstance(node, ast.FunctionDef)}
             self.assertEqual(set(before), set(after))

@@ -91,6 +91,8 @@ def _identity(relative, payload):
 def source_before_share_missing_ci(relative, payload):
     """Complete exact inverse or its one exact preimage; never current admission."""
     _identity(relative, payload)
+    from webview_content_policy_source_projection import peel_content_policy_for_history
+    payload = peel_content_policy_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, guessed or executed.
@@ -124,6 +126,8 @@ def source_before_share_missing_ci(relative, payload):
 def current_source_before_share_missing_ci(relative, payload):
     """One raw newest ingress; old/partial/unknown images cannot be current."""
     _identity(relative, payload)
+    from webview_content_policy_source_projection import current_source_before_content_policy
+    payload = current_source_before_content_policy(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current missing Share630 source")
@@ -133,6 +137,8 @@ def current_source_before_share_missing_ci(relative, payload):
 def peel_share_missing_ci_for_history(relative, payload):
     """Peel only the complete latest image; unknown bytes still need old strict pins."""
     _identity(relative, payload)
+    from webview_content_policy_source_projection import peel_content_policy_for_history
+    payload = peel_content_policy_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_share_missing_ci(relative, payload)
@@ -141,12 +147,14 @@ def peel_share_missing_ci_for_history(relative, payload):
 
 def validate_current_sources(root: Path):
     """Source custody only. Own guard/control pins are independent held-review inputs."""
+    import webview_content_policy_source_projection as content_history
+    content_history.validate_current_sources(root)
     document = _document()
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(content_history.source_before_content_policy(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current missing Share630 input differs from its complete owning image: " + name)
     return True
 
@@ -154,6 +162,7 @@ def validate_current_sources(root: Path):
 def fixture_inputs():
     """Only exact source fixtures required by the new owning validator; no execution."""
     document = _document()
+    from webview_content_policy_source_projection import fixture_inputs as content_fixture_inputs
     return (set(document["bindings"]) | set(document["added_inputs"]) | set(document["unchanged_inputs"]) |
             {SPEC_RELATIVE, "scripts/ci/macos_share_missing_source_projection.py",
-             "scripts/ci/test_macos_share_missing_source_projection.py"})
+             "scripts/ci/test_macos_share_missing_source_projection.py"} | content_fixture_inputs())

@@ -1143,8 +1143,11 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     appearance_driver = None
     image_profile_driver = None
     request_fixture = None
+    content_fixture = None
+    content_nonce_hash = None
     native_input_driver = None
     request_fixture_requested = host["module"] == "calf-webview" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)
+    content_fixture_requested = host["module"] == "calf-webview" and focus == lt.content_policy.IOS_FOCUS
     native_environment = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
@@ -1169,7 +1172,7 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             raise OSError("Application staging would violate the owned disk reserve")
         app.mkdir()
         shutil.copy2(binary, app / APP_EXECUTABLE)
-        information = app_information(bundle_id, identity["minimum_os"], local_webview_requests=request_fixture_requested)
+        information = app_information(bundle_id, identity["minimum_os"], local_webview_requests=request_fixture_requested or content_fixture_requested)
         if host["module"] == "calf-ui" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:
             import ios_popover_geometry_plan as geometry_plan
             geometry_plan.validate_sources(root)
@@ -1237,6 +1240,15 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
             phase = "prepare-owned-localhost-wk-request-fixture"
             request_fixture = wk_requests.RequestFixture(root, bundle_id, signed_hash, plist_hash)
             native_environment = request_fixture.prepare()
+        if content_fixture_requested:
+            import webview_content_policy_fixture as wk_content
+            phase = "prepare-owned-localhost-wk-content-policy-fixture"
+            lt.content_policy.source_contract(root, focus)
+            content_fixture = wk_content.OwnedContentPolicyFixture()
+            content_fixture.bind_application(root, bundle_id=bundle_id, signed_hash=signed_hash, plist_hash=plist_hash)
+            content_nonce_hash = content_fixture.nonce_sha256
+            receipt["webview_content_policy_nonce_sha256"] = content_nonce_hash
+            native_environment = content_fixture.launch_environment(os.environ.copy())
         if host["module"] == "calf-ui" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:
             import ios_popover_geometry_plan as geometry_plan
             native_environment = geometry_plan.process_launch_environment(before["simulator"], focus)
@@ -1320,6 +1332,29 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                 receipt["webview_request_fixture"] = {"cleanup_error_type": type(cleanup).__name__}
                 receipt["transport_passed"] = False
                 receipt.setdefault("error", {"phase": "owned-localhost-wk-request-fixture-cleanup", "type": type(cleanup).__name__})
+        if content_fixture is not None:
+            # Close and receipt/validation are independent: even a close failure
+            # must retain its sanitized receipt and never skip other owned cleanup.
+            try:
+                content_fixture.close()
+            except Exception as cleanup:
+                receipt["webview_content_policy_fixture_cleanup_error_type"] = type(cleanup).__name__
+                receipt["transport_passed"] = False
+                receipt.setdefault("error", {"phase": "owned-localhost-wk-content-policy-fixture-cleanup", "type": type(cleanup).__name__})
+            try:
+                content_receipt = content_fixture.receipt()
+                receipt["webview_content_policy_fixture"] = content_receipt
+                if not wk_content.validate_receipt(content_receipt,
+                        bundle_id=bundle_id, signed_hash=signed_hash, plist_hash=plist_hash,
+                        native_pid=protocol.observed_launch_pid, fixture_hash=lt.sha256(root / wk_content.SOURCE),
+                        native_hash=lt.sha256(root / wk_content.NATIVE_SOURCE),
+                        helper_hash=lt.sha256(root / wk_content.NATIVE_HELPER), nonce_hash=content_nonce_hash):
+                    receipt["transport_passed"] = False
+                    receipt.setdefault("error", {"phase": "owned-localhost-wk-content-policy-fixture", "type": "EvidenceError"})
+            except Exception as content_receipt_error:
+                receipt["webview_content_policy_fixture"] = {"receipt_error_type": type(content_receipt_error).__name__}
+                receipt["transport_passed"] = False
+                receipt.setdefault("error", {"phase": "owned-localhost-wk-content-policy-fixture-receipt", "type": type(content_receipt_error).__name__})
         if image_profile_driver is not None:
             image_profile_driver.close()
             receipt["image_memory_profile"] = image_profile_driver.receipt

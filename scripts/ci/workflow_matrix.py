@@ -73,6 +73,11 @@ PROFILES = {
     "webview-browser": ("browser-js", "browser-wasm"),
     "webview-content-transitions": ("browser-js", "browser-wasm"),
     "webview-request-state": ("browser-js", "browser-wasm"),
+    "webview-content-policy-linux": ("desktop-linux-x64",),
+    "webview-content-policy-android": ("android-device-api35",),
+    "webview-content-policy-js": ("browser-js",),
+    "webview-content-policy-wasm": ("browser-wasm",),
+    "ios-webview-content-policy": ("ios-iphone",),
     "webview-offline-destination": ("browser-js", "browser-wasm"),
     "webview-desktop-request-state": ("desktop-linux-x64", "desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
     "webview-desktop-security-regressions": ("desktop-macos-arm64", "desktop-windows-x64", "desktop-linux-arm64", "desktop-macos-x64"),
@@ -287,6 +292,11 @@ MODULE_SUBSETS = {
     # Two missing original iframe criteria methods only; accepted Browser004 stays reusable.
     "webview-content-transitions": "calf-webview",
     "webview-request-state": "calf-webview",
+    "webview-content-policy-linux": "calf-webview",
+    "webview-content-policy-android": "calf-webview",
+    "webview-content-policy-js": "calf-webview",
+    "webview-content-policy-wasm": "calf-webview",
+    "ios-webview-content-policy": "calf-webview",
     "webview-offline-destination": "calf-webview",
     "webview-desktop-request-state": "calf-webview",
     "webview-desktop-security-regressions": "calf-webview",
@@ -574,6 +584,10 @@ def matrix(profile: str) -> dict:
     if profile in ("share-clipboard-native", "share-clipboard-native-wasm"):
         for row in rows:
             row["test-focus"] = "web-share-clipboard-native-contexts"
+    if profile in ("webview-content-policy-linux", "webview-content-policy-android",
+                   "webview-content-policy-js", "webview-content-policy-wasm", "ios-webview-content-policy"):
+        for row in rows:
+            row["test-focus"] = profile
     if profile == "webview-content-transitions":
         for row in rows:
             row["test-focus"] = "webview-browser-content-transitions"

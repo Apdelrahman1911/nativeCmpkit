@@ -1,0 +1,459 @@
+{
+  "added_inputs": {
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidContentPolicyVerificationFilter.kt": "592151fdea1302aece7c93f8f84d5287af9c68649698df76e6e8bc62d55ca47d",
+    "scripts/ci/test_webview_content_policy_application_routing.py": "c344452142bdcb3d9a5b7bcc174ac7e95b9d6ed5d32994e55b8f0955d61719ec",
+    "scripts/ci/test_webview_content_policy_native_focus.py": "185ceac66b0b5b75158f7a053b380e27c1d3824bfdac7e278388722c7691b6bd",
+    "scripts/ci/webview_content_policy_native_focus.py": "df0c8b999555504750139606b24770a22674b80f9caf3dbb7162fe37a37e6400"
+  },
+  "bindings": {
+    ".github/workflows/gradle.yml": {
+      "after_bytes": 68489,
+      "after_sha256": "4d0d32d5a5e9c10407089ad9c30c6126d2e4ded27b66de9339d3d110929fb068",
+      "before_bytes": 68343,
+      "before_sha256": "45510cb8c9907127c5d5232c2a10d770a60772b77eafd876ebf7f23ef341190b",
+      "fragments": [
+        {
+          "after": "webview-content-transitions, webview-request-state, webview-content-policy-linux, webview-content-policy-android, webview-content-policy-js, webview-content-policy-wasm, ios-webview-content-policy, webview-offline-destination",
+          "after_fragment_sha256": "1e378921d9fb9a103f4d1a34511b3d6e2139affdec2d2daee93e4d2100bfeaff",
+          "before": "webview-content-transitions, webview-request-state, webview-offline-destination",
+          "before_fragment_sha256": "70e70d26ad57af185218c107fbbea1591b95477111f55e90c71f871edcabdaa9",
+          "obligation": "Register exactly five finite literal workflow profiles; no all-host alias"
+        }
+      ]
+    },
+    "scripts/ci/android_device_tests.py": {
+      "after_bytes": 47872,
+      "after_sha256": "183c8f6752bb2aeac9f468c0b0e9ad72b8fffe68f4023e7a67b4779fde5128ec",
+      "before_bytes": 47573,
+      "before_sha256": "f096609a3731628c02966b7f6edd40641d7c0ff8119d0922605f6c7e6e99d7d8",
+      "fragments": [
+        {
+          "after": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n    if focus == lt.content_policy.ANDROID_FOCUS:\n        if type(api_level) is not int or api_level != 35 or modules != (\"calf-webview\",):\n            raise ValueError(\"Content-policy NEW4 plus affected saver1 requires exact API35 calf-webview only\")\n        return\n",
+          "after_fragment_sha256": "e4a88eeaa3a549d2e6b01edb1d8a11cb067671e8a652d1a1364c001bc60210aa",
+          "before": "def validate_api_selection(api_level: int, modules: tuple[str, ...] | None, focus: str | None) -> None:\n",
+          "before_fragment_sha256": "faeb440daa2638fd7dd4ccfe9437c0111021cb9d6a920a2ff16cc1038980659c",
+          "obligation": "Exact API35 enforcing owned emulator selection for new Android5"
+        },
+        {
+          "after": "    parser.add_argument(\"--focus\", choices=[lt.content_policy.ANDROID_FOCUS, *lt.ANDROID_STORAGE_FOCUSES,",
+          "after_fragment_sha256": "7fc7ff1624cb5c5860edfa7c7f5c430f97977af16d31ad4ca0ee6b51a7985050",
+          "before": "    parser.add_argument(\"--focus\", choices=[*lt.ANDROID_STORAGE_FOCUSES,",
+          "before_fragment_sha256": "b93fa821d3f0386d6e0eae4c40af7b97d0bab68d0f4403d10997239c9ecc7596",
+          "obligation": "Expose one approved Android content focus, no arbitrary filter"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_bytes": 97993,
+      "after_sha256": "24b341d598c547626936b8b59c04ab94a885dbe1c0a2faf5f1aec0da1b0e2dec",
+      "before_bytes": 95365,
+      "before_sha256": "1965495c575933f2b933c3093862b9d9a9638cd7b94620c2d2900610f42db131",
+      "fragments": [
+        {
+          "after": "    request_fixture = None\n    content_fixture = None\n    content_nonce_hash = None\n    native_input_driver = None\n",
+          "after_fragment_sha256": "149b36d9baebaa71f98958acdd6868b6981987e9f16698b63e3442ec628dfcff",
+          "before": "    request_fixture = None\n    native_input_driver = None\n",
+          "before_fragment_sha256": "c04ebd2715f5ce2caa215da8d1b847906dd2d8493609284b1abd5de072822f8f",
+          "obligation": "Separate owned content fixture and original nonce witness; no old fixture reuse"
+        },
+        {
+          "after": "    request_fixture_requested = host[\"module\"] == \"calf-webview\" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)\n    content_fixture_requested = host[\"module\"] == \"calf-webview\" and focus == lt.content_policy.IOS_FOCUS\n",
+          "after_fragment_sha256": "9171c50e145fcb7f989772568ed3f505b1387a7bca704030489b493ec3dac834",
+          "before": "    request_fixture_requested = host[\"module\"] == \"calf-webview\" and focus in (None, lt.IOS_WEBVIEW_REQUEST_FOCUS, lt.IOS_WEBVIEW_REQUEST_DNS_FOCUS)\n",
+          "before_fragment_sha256": "fbe2c69f3138a8cf202e21fb9f4dddbb099bbca6dbcce283978f33503c87aef2",
+          "obligation": "Content fixture requested only by exact new focus; generic and existing request/DNS semantics stay"
+        },
+        {
+          "after": "        information = app_information(bundle_id, identity[\"minimum_os\"], local_webview_requests=request_fixture_requested or content_fixture_requested)\n",
+          "after_fragment_sha256": "f6780c638495101201394680731869e13cbf5017c0d3e16813265980c610b1c2",
+          "before": "        information = app_information(bundle_id, identity[\"minimum_os\"], local_webview_requests=request_fixture_requested)\n",
+          "before_fragment_sha256": "817ae8a50cdd232f8705358489afebd96dccfc74a46bf9be39e1cc07d59b6bbf",
+          "obligation": "Only existing local-network ATS lease applies to exact new disposable WebView app; arbitrary loads remain forbidden"
+        },
+        {
+          "after": "        if content_fixture_requested:\n            import webview_content_policy_fixture as wk_content\n            phase = \"prepare-owned-localhost-wk-content-policy-fixture\"\n            lt.content_policy.source_contract(root, focus)\n            content_fixture = wk_content.OwnedContentPolicyFixture()\n            content_fixture.bind_application(root, bundle_id=bundle_id, signed_hash=signed_hash, plist_hash=plist_hash)\n            content_nonce_hash = content_fixture.nonce_sha256\n            receipt[\"webview_content_policy_nonce_sha256\"] = content_nonce_hash\n            native_environment = content_fixture.launch_environment(os.environ.copy())\n        if host[\"module\"] == \"calf-ui\" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            native_environment = geometry_plan.process_launch_environment(before[\"simulator\"], focus)\n",
+          "after_fragment_sha256": "337839f14e2bae3baf7fa30fed045d462e54f24d0e4a414a1b099b13529d28b6",
+          "before": "        if host[\"module\"] == \"calf-ui\" and focus in lt.IOS_POPOVER_GEOMETRY_FOCUSES:\n            import ios_popover_geometry_plan as geometry_plan\n            native_environment = geometry_plan.process_launch_environment(before[\"simulator\"], focus)\n",
+          "before_fragment_sha256": "711b2abb3b34dba42768b9262d6775a0be3b34759ad6fef545ff51e8c8b89ab4",
+          "obligation": "Bind only after actual install/readback, freeze original nonce, one copied SIMCTL_CHILD process handoff; no ambient mutation"
+        },
+        {
+          "after": "        if content_fixture is not None:\n            # Close and receipt/validation are independent: even a close failure\n            # must retain its sanitized receipt and never skip other owned cleanup.\n            try:\n                content_fixture.close()\n            except Exception as cleanup:\n                receipt[\"webview_content_policy_fixture_cleanup_error_type\"] = type(cleanup).__name__\n                receipt[\"transport_passed\"] = False\n                receipt.setdefault(\"error\", {\"phase\": \"owned-localhost-wk-content-policy-fixture-cleanup\", \"type\": type(cleanup).__name__})\n            try:\n                content_receipt = content_fixture.receipt()\n                receipt[\"webview_content_policy_fixture\"] = content_receipt\n                if not wk_content.validate_receipt(content_receipt,\n                        bundle_id=bundle_id, signed_hash=signed_hash, plist_hash=plist_hash,\n                        native_pid=protocol.observed_launch_pid, fixture_hash=lt.sha256(root / wk_content.SOURCE),\n                        native_hash=lt.sha256(root / wk_content.NATIVE_SOURCE),\n                        helper_hash=lt.sha256(root / wk_content.NATIVE_HELPER), nonce_hash=content_nonce_hash):\n                    receipt[\"transport_passed\"] = False\n                    receipt.setdefault(\"error\", {\"phase\": \"owned-localhost-wk-content-policy-fixture\", \"type\": \"EvidenceError\"})\n            except Exception as content_receipt_error:\n                receipt[\"webview_content_policy_fixture\"] = {\"receipt_error_type\": type(content_receipt_error).__name__}\n                receipt[\"transport_passed\"] = False\n                receipt.setdefault(\"error\", {\"phase\": \"owned-localhost-wk-content-policy-fixture-receipt\", \"type\": type(content_receipt_error).__name__})\n        if image_profile_driver is not None:\n            image_profile_driver.close()\n",
+          "after_fragment_sha256": "e0260d16b7f2d3d59f56560a7dad69bbe4859603874891c8878c5166daf7018e",
+          "before": "        if image_profile_driver is not None:\n            image_profile_driver.close()\n",
+          "before_fragment_sha256": "0c252755a5896cdacf926474ee80d3a5d82202b7b8633b159a3bc995977145b2",
+          "obligation": "Unconditional independent content close plus independent sanitized receipt/strict actual witnesses; all old cleanup remains"
+        }
+      ]
+    },
+    "scripts/ci/library_tests.py": {
+      "after_bytes": 391661,
+      "after_sha256": "fc8509e3788efee3ca37d70052d6d6862516199cf709839c9f249a623cf24846",
+      "before_bytes": 386607,
+      "before_sha256": "c1d188e137fe2bdda8cd4be41f2c99c0cc00d6c080166ce51d97b107a26f07d7",
+      "fragments": [
+        {
+          "after": "import ios_ui_related_native_focus as ui_related\nimport webview_content_policy_native_focus as content_policy\n",
+          "after_fragment_sha256": "a0c8269f3bcc1f2385833b51abef5e1fbed8c90d10c76516657c478809a069d4",
+          "before": "import ios_ui_related_native_focus as ui_related\n",
+          "before_fragment_sha256": "eea9ba69a3e69110b4d0b96e3fd3820cff1d2c01d2cad1f397865d57108b3a82",
+          "obligation": "Register one exact content-policy source/selector owner"
+        },
+        {
+          "after": "UI_APPLICATION_FOCUS_SPECS[content_policy.IOS_FOCUS] = {\n    \"module\": \"calf-webview\", \"groups\": content_policy.groups(content_policy.IOS_FOCUS),\n    \"scope\": content_policy.scope(content_policy.IOS_FOCUS),\n}\nIOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (\n",
+          "after_fragment_sha256": "51a7d15d0ca4c9f492c05335f1d11d07d91e6cca22919c13d32e522a0b18f3ce",
+          "before": "IOS_WEBVIEW_APPLICATION_REQUIRED_GROUPS = (\n",
+          "before_fragment_sha256": "5de61fe49ce0b084348cdf2abc688737212d9e04f3d895b1ed0eb6ab37a825ff",
+          "obligation": "Only NEW iOS content4 joins the finite UIKit registry; full historical groups stay unchanged"
+        },
+        {
+          "after": "    return ((focus in ANDROID_STORAGE_FOCUSES and suite == \"android-device\" and modules == (ANDROID_STORAGE_MODULE,)) or\n            content_policy.allowed(suite, modules, focus) or\n",
+          "after_fragment_sha256": "69dd1c5954aa1c434736f89de88b0089ac6faa218fd4e13e7c6ce7594548f5b1",
+          "before": "    return ((focus in ANDROID_STORAGE_FOCUSES and suite == \"android-device\" and modules == (ANDROID_STORAGE_MODULE,)) or\n",
+          "before_fragment_sha256": "231bb0d6380ce0ba388d433e9c9e9818248314e5e45a4fa3c01744ef60fd7613",
+          "obligation": "Only exact suite/single-module content-policy admission"
+        },
+        {
+          "after": "    elif focus in content_policy.FOCUSES and focus != content_policy.IOS_FOCUS:\n        content_policy.configure_item(root, selected[0], focus)\n        result[\"explicit_test_focus\"] = focus\n        result[\"scope\"] = content_policy.scope(focus)\n    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n        if focus == content_policy.IOS_FOCUS:\n            content_policy.configure_item(root, selected[0], focus)\n",
+          "after_fragment_sha256": "6c811e529386dbf74609c9ab2ff190bae2f97f28301dcd09a78241f67bddb723",
+          "before": "    elif focus in UI_APPLICATION_FOCUS_SPECS:\n        spec = UI_APPLICATION_FOCUS_SPECS[focus]\n",
+          "before_fragment_sha256": "9684982d6a6231330468f74b7d878f808a47efc74ce846facd146bc866cd4b44",
+          "obligation": "New desktop/browser/Android finite plans and iOS exact source-bound fixture contract; source inheritance remains"
+        },
+        {
+          "after": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus not in content_policy.FOCUSES and any(content_policy.CONTRACT_FIELD in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No content-policy source or fixture contract on an unrelated or unfocused suite\")\n    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n    if focus != secure_alert.FOCUS and any(\"secure_alert_input_contract\" in item for item in test_plan[\"expected\"]):\n",
+          "after_fragment_sha256": "163591491b94c6436cdb740a3888776d638c2d82b5d74d649acc23c2909f382d",
+          "before": "    focus = test_plan.get(\"explicit_test_focus\")\n    if focus != secure_alert.FOCUS and any(\"secure_alert_input_contract\" in item for item in test_plan[\"expected\"]):\n",
+          "before_fragment_sha256": "3bc474fbaf1ed43e7e5af38a7a40705579f627d0b5d8e3f02472ca8740fca84b",
+          "obligation": "Strict finite plan revalidation and refusal of content contracts on generic/old focuses"
+        },
+        {
+          "after": "        if boundary_focus and test_plan[\"explicit_test_focus\"] in content_policy.FOCUSES:\n            focus = test_plan[\"explicit_test_focus\"]\n            policy_errors = ([] if content_policy.case_inventory(focus, module_cases) and\n                             len(reports) == len(paths) == expected[\"required_original_xml\"] == 1 else\n                             [\"Content-policy XML requires exactly the finite NEW/affected native cases in one fresh original target report; no missing/duplicate/skipped/foreign or accepted-replay cases\"])\n            required_host = \"macos\" if focus == content_policy.IOS_FOCUS else \"linux\"\n            if native_test_policy.canonical_host(host_system or platform.system()) != required_host:\n                policy_errors.append(\"Content-policy XML requires its one registered actual host slot\")\n            try:\n                content_policy.validate_host(focus, host_system or platform.system(), platform.machine())\n            except ValueError:\n                policy_errors.append(\"Desktop content-policy XML requires the actual Linux x64 host\")\n            prefix = expected[\"task\"].rsplit(\":\", 1)[1] + \".\" if test_plan[\"suite\"] in {\"ios\", \"js\", \"wasm\"} else \"\"\n            sources = {prefix + group[\"classname\"]: group[\"source\"] for group in content_policy.groups(focus)}\n            scenarios = [{**c, \"source\": sources.get(c[\"classname\"], \"unselected\"), \"required_on_host\": True,\n                          \"selection\": \"source-affected-existing\" if c[\"classname\"] == content_policy.ANDROID_AFFECTED_CLASS else \"new-missing-criterion\",\n                          \"disposition\": \"required-executed\" if c[\"status\"] == \"passed\" else \"required-not-passed\"}\n                         for c in module_cases]\n        elif boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_STORAGE_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n",
+          "after_fragment_sha256": "3c826eacbb42e02b4efd02b3fdfd08fb258d8a8833c74f5b158bc513c70d787a",
+          "before": "        if boundary_focus and test_plan[\"explicit_test_focus\"] in ANDROID_STORAGE_FOCUSES:\n            required = {(c[\"classname\"], c[\"name\"]) for c in expected[\"required_testcases\"]}\n",
+          "before_fragment_sha256": "15c7a8bdfdeb1020d96e6e842c4e892c05ab54d83312f1f695b82ed4c088601d",
+          "obligation": "Exactly original XML3/5/3/3/4 with real target identities and original failure/marker policy"
+        },
+        {
+          "after": "    if test_plan.get(\"explicit_test_focus\") in content_policy.FOCUSES:\n        focus = test_plan[\"explicit_test_focus\"]\n        content_policy.validate_host(focus, platform.system(), platform.machine())\n        if content_policy.source_contract(root, focus) != test_plan[\"expected\"][0][content_policy.CONTRACT_FIELD]:\n            raise ValueError(\"Exact content-policy source/fixture/filter identity changed before the native command\")\n    if test_plan.get(\"explicit_test_focus\") == secure_alert.FOCUS:\n        if secure_alert.source_contract(root) != test_plan[\"expected\"][0][\"secure_alert_input_contract\"]:\n",
+          "after_fragment_sha256": "6ac2cd2914282ba8cd974b36a7d027ceb4b1e95bbdc8bb6c8b3159efdfea37a7",
+          "before": "    if test_plan.get(\"explicit_test_focus\") == secure_alert.FOCUS:\n        if secure_alert.source_contract(root) != test_plan[\"expected\"][0][\"secure_alert_input_contract\"]:\n",
+          "before_fragment_sha256": "edcbd791caa783cd4578caec43647c96982484988c0367cbab366350439eb48a",
+          "obligation": "Current exact source contract and Desktop single-host check before native command"
+        },
+        {
+          "after": "            argument = \"filter\" if test_plan[\"explicit_test_focus\"] == content_policy.ANDROID_FOCUS else \"annotation\" if (test_plan[\"explicit_test_focus\"] in ANDROID_SAVE_IDENTITY_FOCUSES or\n",
+          "after_fragment_sha256": "654cfdf3a16f1e266759c6bc1cf76b25f24e8ddc5680f03846c2c069c786aafe",
+          "before": "            argument = \"annotation\" if (test_plan[\"explicit_test_focus\"] in ANDROID_SAVE_IDENTITY_FOCUSES or\n",
+          "before_fragment_sha256": "1258f9dafdba3772b413ffb3fdd721cafea7ad3eba017ee8704400f71f3fb543",
+          "obligation": "Single lossless AndroidJUnitRunner filter argument; old annotation/class transport unchanged"
+        },
+        {
+          "after": "        if any((content_policy.spec(content_policy.IOS_FOCUS)[\"classname\"], method) in cases\n               for method in content_policy.spec(content_policy.IOS_FOCUS)[\"methods\"]):\n            need(test_plan.get(\"explicit_test_focus\") == content_policy.IOS_FOCUS,\n                 \"New WK content cases require their exact finite owned fixture admission; generic ios/all is not prepared\")\n            current_content = content_policy.source_contract(root, content_policy.IOS_FOCUS)\n            need(expected.get(content_policy.CONTRACT_FIELD) == current_content,\n                 \"Native WK content fixture/helper/owner differs from the exact preflight source identity\")\n            import webview_content_policy_fixture as wk_content\n            nonce_hash = document.get(\"webview_content_policy_nonce_sha256\")\n            need(type(nonce_hash) is str and re.fullmatch(r\"[0-9a-f]{64}\", nonce_hash) is not None,\n                 \"Native WK content fixture lacks its original prelaunch nonce digest\")\n            need(wk_content.validate_receipt(document.get(\"webview_content_policy_fixture\"),\n                    bundle_id=document[\"bundle_id\"], signed_hash=document[\"signed_application_executable_sha256\"],\n                    plist_hash=document[\"application_plist_sha256\"], native_pid=protocol.get(\"observed_launch_pid\"),\n                    fixture_hash=current_content[\"source_hashes\"][wk_content.SOURCE],\n                    native_hash=current_content[\"source_hashes\"][wk_content.NATIVE_SOURCE],\n                    helper_hash=current_content[\"source_hashes\"][wk_content.NATIVE_HELPER], nonce_hash=nonce_hash),\n                 \"Native WK content cases lack complete nonce/process/install/source/wire/independent-owned-cleanup evidence\")\n        if cases.get(app.IMAGE_PROFILE_CASE) == \"passed\":\n",
+          "after_fragment_sha256": "2f6e3184392845966a76e64d5ff75de91b7c745102fc13e86a226ac0c0f9bcab",
+          "before": "        if cases.get(app.IMAGE_PROFILE_CASE) == \"passed\":\n",
+          "before_fragment_sha256": "4ec66ca45558fc93c9f8d83c7897b560d10fd344fd0b96e14ebbd472ca2f7d68",
+          "obligation": "Actual content native cases additionally require finite focus, current hashes and full fixture receipt; Worker/XML/runtime/install gates stay"
+        },
+        {
+          "after": "    parser.add_argument(\"--focus\", choices=list(dict.fromkeys([*content_policy.FOCUSES, *ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS,",
+          "after_fragment_sha256": "240967b00896f5f74610a2d8c9223de4e53d852e662bbbdec322062f28d95344",
+          "before": "    parser.add_argument(\"--focus\", choices=list(dict.fromkeys([*ANDROID_STORAGE_FOCUSES, NATIVE_SHARE_BOUNDARY_FOCUS,",
+          "before_fragment_sha256": "8b38e8d6d6cdecc913c37518a80072d3fc618d6a5b7bc70db6759ed96c295e7b",
+          "obligation": "Expose only five exact finite content-policy CLI focuses"
+        },
+        {
+          "after": "    if focus != secure_alert.FOCUS and any(\"secure_alert_input_contract\" in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No secure-input source fixture on an unrelated or accepted focus\")\n    if focus not in desktop_security_plan.FOCUSES and test_plan.get(\"desktop_security_fixture\") is not None:\n        raise ValueError(\"No security-only trust/isolation fixture on an unrelated or default focus\")\n    if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No Share630 recovery source fixture on an unrelated or accepted focus\")\n    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n",
+          "after_fragment_sha256": "ab438e1185c1cf1339b0d2bd621253acc0e9b5abc78e351387de41b3f07b1033",
+          "before": "    if focus in content_policy.FOCUSES:\n        return content_policy.validate_plan(test_plan)\n    if focus != secure_alert.FOCUS and any(\"secure_alert_input_contract\" in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No secure-input source fixture on an unrelated or accepted focus\")\n    if focus not in desktop_security_plan.FOCUSES and test_plan.get(\"desktop_security_fixture\") is not None:\n        raise ValueError(\"No security-only trust/isolation fixture on an unrelated or default focus\")\n    if focus != share_missing.FOCUS and any(share_missing.CONTRACT_KEY in item for item in test_plan[\"expected\"]):\n        raise ValueError(\"No Share630 recovery source fixture on an unrelated or accepted focus\")\n",
+          "before_fragment_sha256": "70191befbf012f572232351d6efd6bb20f8249457c0d3fc919723c364cb247bd",
+          "obligation": "Only finite WebView return moves below unchanged secure-alert, Desktop-security and ecff Share630 unrelated-fixture refusal guards"
+        }
+      ]
+    },
+    "scripts/ci/macos_share_missing_source_projection.py": {
+      "after_bytes": 9633,
+      "after_sha256": "cf2a8a84617d0cca6437ff43ae9bf71755e9543c24a85b7e135c2eaedea112d5",
+      "before_bytes": 8862,
+      "before_sha256": "0b1f39f890df7cdb68db70d027b23340c2da1dd234b4387f68f2c8be41d8d3ad",
+      "fragments": [
+        {
+          "after": "    _identity(relative, payload)\n    from webview_content_policy_source_projection import peel_content_policy_for_history\n    payload = peel_content_policy_for_history(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n",
+          "after_fragment_sha256": "7db10145529b6b8530b68a4a1bd00c73234f088d13396e6dc272757d5f2675e6",
+          "before": "    _identity(relative, payload)\n    binding = _document()[\"bindings\"].get(relative)\n    if binding is None:\n",
+          "before_fragment_sha256": "e595dec5740a256557d089f4b17a35ee32fed15b22053a6fe66a2bed39e2bcd6",
+          "obligation": "Only exact outer WebView ancestor operands precede the unchanged Share inverse domain"
+        },
+        {
+          "after": "    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n    from webview_content_policy_source_projection import current_source_before_content_policy\n    payload = current_source_before_content_policy(relative, payload)\n",
+          "after_fragment_sha256": "c545ccacbf6ea0432ce7e7f21496188ac74a5b7ea34c6f4e3c173c7988cb60fb",
+          "before": "    \"\"\"One raw newest ingress; old/partial/unknown images cannot be current.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "b153e37178c03232bd6955f241403cf8dc892d21f19d45dda032eb3a77699da2",
+          "obligation": "Exactly one newest WebView raw ingress precedes existing Share to UI current custody"
+        },
+        {
+          "after": "    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n    from webview_content_policy_source_projection import peel_content_policy_for_history\n    payload = peel_content_policy_for_history(relative, payload)\n",
+          "after_fragment_sha256": "aa1f1e57274b0e3624141197dffbb201665162d37cfec671a1d6d619bd70a103",
+          "before": "    \"\"\"Peel only the complete latest image; unknown bytes still need old strict pins.\"\"\"\n    _identity(relative, payload)\n",
+          "before_fragment_sha256": "85fb84b82ec6e144bd278d29256c4aa389e51bc03f42b1be42627284cd1bdfea",
+          "obligation": "Nested Share and UI readers peel exact WebView afterimages only; no duplicate current admission"
+        },
+        {
+          "after": "    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    import webview_content_policy_source_projection as content_history\n    content_history.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "42b86744c0f964e5efeed3eebe88bb1fa794814ff64503f7d0289897ac5fd403",
+          "before": "    \"\"\"Source custody only. Own guard/control pins are independent held-review inputs.\"\"\"\n    document = _document()\n",
+          "before_fragment_sha256": "61d9445a85aff38f98c0b206c8d7a2a84803e7d6b42d5f664ac33574f9c454ec",
+          "obligation": "Current WebView sources validated before unchanged Share and UI owning manifests"
+        },
+        {
+          "after": "        if sha(content_history.source_before_content_policy(name, _ordinary_bytes(root, name)[0])) != digest:\n",
+          "after_fragment_sha256": "9a0880736bfcdb69cabf3875ba931e6c9240e1e61cdf71d93bd5e6a4d01f001c",
+          "before": "        if sha(_ordinary_bytes(root, name)[0]) != digest:\n",
+          "before_fragment_sha256": "3cbe03c9bba0eb1c26329f2fd5829ee4158468e45898da40a98f33d9466c2694",
+          "obligation": "Every old Share hash operand is its exact latest WebView inverse; all dated Share pins stay"
+        },
+        {
+          "after": "    from webview_content_policy_source_projection import fixture_inputs as content_fixture_inputs\n    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, \"scripts/ci/macos_share_missing_source_projection.py\",\n             \"scripts/ci/test_macos_share_missing_source_projection.py\"} | content_fixture_inputs())\n",
+          "after_fragment_sha256": "52e5351d32e48ecd2473d9d9d30734648f2a0525883e51337435b8120e022a0f",
+          "before": "    return (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) | set(document[\"unchanged_inputs\"]) |\n            {SPEC_RELATIVE, \"scripts/ci/macos_share_missing_source_projection.py\",\n             \"scripts/ci/test_macos_share_missing_source_projection.py\"})\n",
+          "before_fragment_sha256": "992bde9da1f6734c1b3c5c85ef64b4d728ed663fb4c20fb9bc3188ee3abfae60",
+          "obligation": "Existing UI fixture union obtains the finite newest WebView fixtures through its one Share export"
+        }
+      ]
+    },
+    "scripts/ci/test_ios_ui_related_source_projection.py": {
+      "after_bytes": 21321,
+      "after_sha256": "39a14cc6b00790d4954ae9c116e6487206f0ce6b9234903837a6bee80c817f64",
+      "before_bytes": 21188,
+      "before_sha256": "ccb6ac82c33e1fb9093961714e25f9fa7e84e63d87501f7a4e5a6ab81301c920",
+      "fragments": [
+        {
+          "after": "        from webview_content_policy_source_projection import source_before_content_policy\n        name = \"scripts/ci/ios_ui_application.py\"\n        current = source_before_content_policy(name, (ROOT / name).read_bytes())\n",
+          "after_fragment_sha256": "77ff4d99073884dd872cd875a32ec7d779f6f6f3ac7abdd4aa8ce996ed0b60c1",
+          "before": "        name = \"scripts/ci/ios_ui_application.py\"; current = (ROOT / name).read_bytes()\n",
+          "before_fragment_sha256": "88ab3fef31e7cf0eb82de65ef857885c9527a2ce197237e8bd3cc61fd0e9fd47",
+          "obligation": "The one old UI application/finally comparison retains its exact ancestor before new independent WebView cleanup"
+        }
+      ]
+    },
+    "scripts/ci/test_macos_share_missing_source_projection.py": {
+      "after_bytes": 10618,
+      "after_sha256": "63a38ca4066dfb88ab597375583430cfcba639487718709606f643dfd77c4405",
+      "before_bytes": 10341,
+      "before_sha256": "a557c159f9de779b0a1ffbb945f5d9dd5f33b7c5b242067484cfe84aa825e051",
+      "fragments": [
+        {
+          "after": "import macos_share_missing_source_projection as history\nimport webview_content_policy_source_projection as content_history\n",
+          "after_fragment_sha256": "2eda48939433647e3528d2e35829b435462a822e4dc8412634bc59a325fb3dc1",
+          "before": "import macos_share_missing_source_projection as history\n",
+          "before_fragment_sha256": "6faa7863699953567f0b79e83b4bdf2418070a5ed3bf411147927f2e83ca0b0f",
+          "obligation": "Owning Share controls receive exact newest inverse operands without executing reconstructed source"
+        },
+        {
+          "after": "        self.assertEqual(GUARD_SHA256, sha(content_history.source_before_content_policy(GUARD, (ROOT / GUARD).read_bytes())))\n",
+          "after_fragment_sha256": "b71690bf7eb098f49c2fcc87cdce9212fa8e8393d15a4b3653ea934bbb2fd273",
+          "before": "        self.assertEqual(GUARD_SHA256, sha((ROOT / GUARD).read_bytes()))\n",
+          "before_fragment_sha256": "080644355d1fc01d47d021b681760763dff543db4ffa68986404325b51769c0d",
+          "obligation": "Original complete Share guard assertion remains at its exact ecff preimage"
+        },
+        {
+          "after": "            raw_current = (ROOT / name).read_bytes()\n            current = content_history.source_before_content_policy(name, raw_current)\n            old = history.current_source_before_share_missing_ci(name, raw_current)\n",
+          "after_fragment_sha256": "83873ee3737f1893b2bd28e7fc4d63bf7e3984b451182b28fa7ede6cad4c644d",
+          "before": "            current = (ROOT / name).read_bytes()\n            old = history.current_source_before_share_missing_ci(name, current)\n",
+          "before_fragment_sha256": "e0ce493ef07269c3864108483549c77911c73c599db6927ec448f049921a17eb",
+          "obligation": "Share whole-image/forward assertions keep exact old afterimages while raw ingress qualifies latest bytes once"
+        },
+        {
+          "after": "        for name, changed in affected.items():\n            current = content_history.source_before_content_policy(name, (ROOT / name).read_bytes())\n            old = history.source_before_share_missing_ci(name, current)\n",
+          "after_fragment_sha256": "57cf5b25e3f283d14c9da804123766f9bec9488ce72a1ee7dd8e80e64627a0a6",
+          "before": "        for name, changed in affected.items():\n            current = (ROOT / name).read_bytes(); old = history.source_before_share_missing_ci(name, current)\n",
+          "before_fragment_sha256": "7a3d4f51b289966877104ac46342f6939003ee530e37548f66a783119a2005b8",
+          "obligation": "Owning old Share narrow-control AST assertions compare exact ecff operands, not new WebView cleanup"
+        }
+      ]
+    },
+    "scripts/ci/workflow_matrix.py": {
+      "after_bytes": 59433,
+      "after_sha256": "56692cfbfa5b7c057149708f18be38dcb2058c71cb9daaa00f239fd0863882d9",
+      "before_bytes": 58637,
+      "before_sha256": "a6d0c8d9d871e570ac21102422d6d38d169cb68e0f1a9b0b43628115b4101367",
+      "fragments": [
+        {
+          "after": "    \"webview-request-state\": (\"browser-js\", \"browser-wasm\"),\n    \"webview-content-policy-linux\": (\"desktop-linux-x64\",),\n    \"webview-content-policy-android\": (\"android-device-api35\",),\n    \"webview-content-policy-js\": (\"browser-js\",),\n    \"webview-content-policy-wasm\": (\"browser-wasm\",),\n    \"ios-webview-content-policy\": (\"ios-iphone\",),\n",
+          "after_fragment_sha256": "71baabbce2124d6047ec3a3ddd1e6bf4d3a4e7b541899857282e69a09cfece61",
+          "before": "    \"webview-request-state\": (\"browser-js\", \"browser-wasm\"),\n",
+          "before_fragment_sha256": "e92559e3a867aaf73588f7abaae31c96253cf256b2ff2ea161cd4e5e9eef457f",
+          "obligation": "One exact existing host slot per proposed WebView focus"
+        },
+        {
+          "after": "    \"webview-request-state\": \"calf-webview\",\n    \"webview-content-policy-linux\": \"calf-webview\",\n    \"webview-content-policy-android\": \"calf-webview\",\n    \"webview-content-policy-js\": \"calf-webview\",\n    \"webview-content-policy-wasm\": \"calf-webview\",\n    \"ios-webview-content-policy\": \"calf-webview\",\n",
+          "after_fragment_sha256": "328c91ad608eb1e9ea4fa9e6256469f78f5b5b8a04482ef92fa2e057f4978623",
+          "before": "    \"webview-request-state\": \"calf-webview\",\n",
+          "before_fragment_sha256": "c9ca82650749db65fec7b08ce06f24d9204a63f40c41b09314b7a6e0e63f3451",
+          "obligation": "Each new profile selects only calf-webview"
+        },
+        {
+          "after": "    if profile in (\"webview-content-policy-linux\", \"webview-content-policy-android\",\n                   \"webview-content-policy-js\", \"webview-content-policy-wasm\", \"ios-webview-content-policy\"):\n        for row in rows:\n            row[\"test-focus\"] = profile\n    if profile == \"webview-content-transitions\":\n",
+          "after_fragment_sha256": "fffa3b14c92a3460bf198175745200db466320e02fb14064e52dbc04bdad3a7d",
+          "before": "    if profile == \"webview-content-transitions\":\n",
+          "before_fragment_sha256": "d6533b1415baaafc39e30e170ac12dd1d7b8b6535838097d1130e37743329d6d",
+          "obligation": "Profile equals exact finite focus; unrelated rows remain untouched"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "Exact WebView source/history custody only; no compiler/native acceptance",
+  "unchanged_inputs": {
+    "AGENTS.md": "b47c57fd660bad2db29ff53f0383e842109b32c5aaa2cbad2d4214bde34a69f2",
+    "calf-share/native/src/operation.rs": "926b8c1fd41c2039e6bb8a81e9d05333165ed459aa10b9381ab28d140ed62942",
+    "calf-share/native/tests/appkit_lifecycle/cases.rs": "9e038b83b4e2e4d3d4718869ec05c9eaa198ce1f3c886a38b97b7c13ff83842b",
+    "calf-share/native/tests/appkit_lifecycle_main.rs": "b31cad1ca8403b8649b33f43067d778459fe5816099c90c40059465d6b6bbd79",
+    "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt": "ac2c199aae4c24359905a9ddeb2951b9babedd2919b035d437087e71ebef64c9",
+    "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeShareBridge.kt": "e146cab08a36acbc356f0283868150ad0ed12b786146bb5fe3a4bf58f82757af",
+    "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/MacOsShareCoroutineLifecycleTest.kt": "43bcc488ed94c0568b9fba1448c278d8438e6d4c7536ab3035063102820970a2",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt": "68c1d422b0994aeadbd9ac443ea273eac8410b0446cc751f39864552a9be68a3",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt": "efc57f78749bcf4fe81f7fd0e9746159a5edbfaf38596cbd8176f920af400895",
+    "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt": "7b111cf30b994374f5780175b790682e75f20f9df8f5aae283103dd5522c14c5",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt": "1b417a078d26c7d2f09dcaa5c5e17ac9be0806fd4f8a88dffb5e616978207954",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "c792203a97cc8bdea914856b5cd53195f7a623170820fbc3f91a4ef9fd55d61d",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/PointerCancellation.kt": "5e9aef0d114a3e4b9d992ce3be2fd5fd96951443a527e68f1c6f87f78d6a1b2b",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt": "9ed073effcf3b5399f4838887d271a1b893a2a9bb123afc6771fcd15d2ca87d4",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt": "c7cfac7363f93e1fa880378f5e38c7289faa9e0b3570e3999c9fe11b2bdc2207",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt": "d1e96296dce57bb817a08abca87a2943d9924745d1208fd7591751ed9d5dd3e8",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt": "701f5d1ae8e91f8d4419d8781f9b0554251e427b338cf22ee3567b52ec6f841c",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt": "9ded1ba61f6702ef2b6f28312b6971a37a112564c1d030dbe22b0f25419fefbf",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt": "7ce8cef67a1d4df0430852e77d37967574d42fd039b76a0a6ebb347f93b8cb8c",
+    "calf-webview/build.gradle.kts": "6e924d26f988f960ff828383a41901b79d7692d3eea6a07cb38230866b86e908",
+    "calf-webview/karma.config.d/nativecmpkit-content-policy-fixture.js": "c78874d7622fa8a507d68735305a989a5fc21b0a072098532473e6c586212d81",
+    "calf-webview/karma.config.d/nativecmpkit-iframe-fixture.js": "f2ca0584cb9959d047f84500a26291a3bab096e31e062393bdc1bed040cee106",
+    "calf-webview/karma.config.d/nativecmpkit-offline-fixture.js": "176fed5c2c7661cd4a0b9ad9171d156ac1fc43f4922c0e947d2040d6b57f8111",
+    "calf-webview/karma.config.d/nativecmpkit-request-fixture.js": "f79642ffe053d4ba4b2eb56743bb636cbd0f9663acf1bdf0741731c5e7a0f6f0",
+    "calf-webview/src/androidDeviceTest/AndroidManifest.xml": "4bb4a2e939562f0ca2f2973ba2438c52ccdd54be1eb500e8afa78d5a5e1b1966",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewContentPolicyAcceptanceTest.kt": "d292df9838fd7a208d97db9adf69d1b61466b0a5848955bf5e989f2467ab3564",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewHistoryDeviceTest.kt": "78a2e89d2cdb996b24be6a81e10feba9681dcf318630febf59f8a93c3767096a",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewIdentityAcceptanceTest.kt": "fe0c7abf830e2287be56c1d179a2b3bad0d34c343a62a6fd6f8cc502da10dac5",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt": "eae30dcbcb7b5df1fc3fb38384b9238e23acdd75d90b8f40c27eef31c8a6db23",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewPopupPolicyTest.kt": "f860c983f012e7896caafa8b5b9c0ee3527de14ab146009741460919e0d65bff",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewRequestStateDeviceTest.kt": "a9512c990faade65b6a57b3045e4c0651ecd18380485164c44b8f59cf4fe5aa4",
+    "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt": "6b3b15646abec07088135e0de306c10c7fd577eb20a73fc1b3c2ba21df8b8499",
+    "calf-webview/src/androidDeviceTest/res/xml/nativecmpkit_webview_test_network_security.xml": "d41572dbbaf67ec740c28ed69a8c5fce4223329c4c96d726f1df9a08f95de71d",
+    "calf-webview/src/androidHostTest/kotlin/android/webkit/NativeCmpKitControlledResourceError.kt": "18a92be817afad9f5dfaab8fbbc9dfcbe0199b1be9318e32870581414b39c67b",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidJavascriptEvaluationTest.kt": "3e474057c0bd001d5a1a2e756612a9150f727068e492a1129cbeaae4ad407357",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidPopupRejectionTest.kt": "b0f4599f1862326292370ce721715d5378d5579f979a15daa83071acbc98a1d8",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidResourceErrorBenchmarkTest.kt": "176a154a16929ab80e49ffac22a61b0448bd208317de366eb6edcd6691493599",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewCompositionTest.kt": "a4917a720ff86e6443c9304b0dad084ad6c93ce18e4e15a51011307378eeccc6",
+    "calf-webview/src/androidHostTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifecycleTest.kt": "f11d285be3695144d7623e88c68fdf1c1210f9300084a860f4bb0cb46c2d352a",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/CookieManager.android.kt": "4b031e26a52804f4e176dc45985c2e0983e0c3ed30eba201dbb69e10ea0feeab",
+    "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt": "e7f3e127d3f3293d21f1bc2d84d9dd6761d26f65b1b77102237521197bb045a2",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/AndroidPopupRejection.kt": "e507bfdbc413b62e68f3c14b2ca6aef244bf37a75bfa9a43a9a8f4c084fcb83b",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt": "057241c17e64a4556f8dd568168aec53314caa6e72f29745077010c038869eda",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt": "7d36187b99f9381c883fbb8e0f5484d0c407d1695e9980970d2c19900eddd93c",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieRules.kt": "5d539000c0c9f755d28fe031468bd9f0410cedb460302d18cf600a66d2102343",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt": "05d60ea7470f486cac176046b4b3dd5752f501e8a6cc55e291cf01cd649190db",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt": "36891159184df5bcd03b724b81070698c878022796a5b563994c58591c763791",
+    "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewCleanupTest.kt": "1b833efe533d30dd6bc5c38b1b8781dbe97cd65e5c22233170db361fcd786c73",
+    "calf-webview/src/commonTest/kotlin/com/mohamedrejeb/calf/ui/web/WebViewContractsTest.kt": "536eb3d5b167e32c5a1e3cb3baf1406b1d6244b660a919b6bc3b52940bc8eab4",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt": "e1150ad896682e8ab1cc94042cace63917ab1e84d52dc7d70d840ea69ea4800f",
+    "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindow.kt": "c7bccc89f020490ea6198b837c7a9e386b051a0926ec22e17b3557699420b082",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/BoundedDesktopAwtWindowTest.kt": "0ab669d606bc6416e892f8509a694758c5a24447f904ed439de763886597bdc5",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopContentPolicyWindow.kt": "e90b00f604cc16db8f26a0b8210d0fb815c0faa1af9d1d5edc11aca8ef9eb007",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopCookieManagerTest.kt": "9e4d01f207fec6bf8e3c4547074c8957223a93f64fbc5ca477774b7443de43c3",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopTlsFinishedWriteClassifierTest.kt": "5621c38baa2e59fa14dd9c167c1d22f262fa107cd03cbdcaf2c86bf726a5297b",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt": "8f92e2fb89cf9da4fdb6f8f68d93bef8a339c49e9ba9be3c5d9012c6ea2f8b3c",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewIdentityAcceptanceTest.kt": "cb8366e5283b8d1fb4a2e06970fdad85c7bf2e4ba30b86fbbaaab968aeb400ad",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewLifetimeTest.kt": "aa57d7b6475b3b2b5931af90e22a77440e71a5fae3fe5edf2d31874facac8456",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt": "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopFailureResources.kt": "d643487bffff3ab744e7eb770faf60552e82e49d90982249dc26bcdccef088c5",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt": "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewTlsRenderingAcceptanceTest.kt": "00698c638a729549c890240b000e64cbd88be9f6ac32d4ca067b304b1443187c",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxCookieIntegrationTest.kt": "d5b1da0a1b2c18c65cf4fff35b63d07138f0f631e6cd8b64464c9ebeeaa02183",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxSettingsIntegrationTest.kt": "9f852f3edb22b7032e1d440bcdcfb0701f861620d6fff9890343713e7596fbfb",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxUserAgentIntegrationTest.kt": "122c7e733861f19083a59452db4945f0ef6e274ced89eb03d2247602b05c6ebd",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedDesktopTlsFixture.kt": "6855ecb7610ba617efd04ab404e183dd05128c829765caecc66c4ba04fcff6ee",
+    "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt": "6b3b15646abec07088135e0de306c10c7fd577eb20a73fc1b3c2ba21df8b8499",
+    "calf-webview/src/iosMain/cinterop/nskeyvalueobserving.def": "7871691d3ea50a934671887bfd60c40feddb8ea83ee3c7a0b95b6ec483ab4abe",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt": "bb2d453725767f8f333398221f50d8919fd7eb756edba383f9d4c59d0c1df360",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/NativeWebViewIdentity.ios.kt": "bda4db0a5a9a6524dcc9212124e1190f236ae0aa0cfc52941dffbf7b214f2264",
+    "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt": "508c28c1fe336e01537e8ff62bd6249712c3d0eaa4fb591c89b1289f972b773f",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosContentPolicyFixture.kt": "fcb6ab01848cd2b4caaa4ac2274aab6062e16cc3b29103e6da4f748aabcac7c4",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt": "36713f1ccec7c2b19ed9abba86dd502f4108485889f7e8bb0719a735f05aead9",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewLifecycleAcceptanceTest.kt": "49c98aa532e14a75e1b3c09b5404727b426e3c4b859ab16f4af5a4fe9979a381",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewProvisionalDnsAcceptanceTest.kt": "25efe05ca6ce4cc2f027dc74eaf22a3a74cd4213d315940be9b64bdf7f0fe594",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewRequestAcceptanceTest.kt": "594eb2139ad98961b06edcf0d6d9dc36efaa3dcad394e3b3ea458db75476aacf",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt": "f8a5b13a21a0b3adcea5e5c27def54a03ad486574a552e6439a71852f0ba4b42",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt": "0a98d085f6ce1b97392c0387e6dbbc77a3a41d0e9e3bc707ef1ced462c1bdb7f",
+    "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHostTest.kt": "7fe27bd89424c033d4f2f319fe209d90af8156f2bef7ff3c4cf5da0e328c45c7",
+    "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.js.kt": "1bc982b0be882c3099bf48d4512d8effcb86ca4b730dc4656aa1879fa0f4c1c4",
+    "calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+    "calf-webview/src/jsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.js.kt": "002a00e9c569c74c4deb5db62dd86e6d5fb5d2a0fe3db689d0710eb6ab2e8e9b",
+    "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.wasmJs.kt": "46e1bf0ac32ad9951a9a891968462bff243db123b64321e081fe473c6e18cd1a",
+    "calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt": "19858326b808d4571a82bbec433fabf6f263c9969af3dc811124232a758bb0a7",
+    "calf-webview/src/wasmJsTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserListenerProbe.wasmJs.kt": "b22d68ef65ba4bd90f869fd9009366ac6b2b3203f3f1e8d47cd7e652187cd38a",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt": "813703946e6633a1f491abf4eb0aa9743127100c391987cdac73f13eb42154c4",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/PlatformUtils.web.kt": "12f429833664d24b0e859f81d905473adbe3fd07d3476927a277e4ef80534d58",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt": "de86ddba0726fcf6897cf664ccc093151d18400d69f9db84d67333c6666206c1",
+    "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt": "798710ff9b6ce32685e25f3cd13042d13e3568fc36d5e1438bf2e6df6991727f",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt": "94e13cf71742536efa828c737861c94063b3a35b8df0ceb9d37bad7f7e80f749",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt": "30cec328094e265740c9ab471d2df8a6f0604664e49a250fb18ddcc076871fb8",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt": "8f9a5584bb16618ec2057e6ef2b4405ba2330114dd3ad5b095a5c7ebf9b67d0a",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt": "82607c7c2782127efdff8c46e55e6f983896521a8274b37cc549a9c132921083",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentPolicyAcceptanceTest.kt": "e31efb65ee40ba0f22c6e5c3f7dd39ce88356d35cfa7e469824f28a325e49d2d",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt": "7e3c1848642120c9788038d3fb99be067890dce57aa1afedfd12298f1468c2a8",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt": "3e58d2a06a083c66ba4ce04071bca3f37bb96a21f45a1fbad212b01166c8d885",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt": "d8b9783cd3e1d4401d7a9a1a867dfc345ce66a16d16b4392a3cd751e5eed060e",
+    "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt": "ab282a6e472a7d42639b80cdf34e29f517cdcfe9a2e537a3552c631a3d7f1cb6",
+    "docs/testing/macos-share630-missing-ci.md": "0c304eaee8e970a004722391bd70ddcf72b9e803fffaa1235b85ea7dce49e11e",
+    "docs/testing/macos-share630-missing-only.md": "3742d9747c8810fd48ee7e80593fa0e5843ed88ca1298517f1acace2846f55b8",
+    "docs/testing/webview-content-policy-focuses.json": "cf70ed69ca2a88c96c4c17cd2bae9587778e6f64e1eaa2c3d009dfeaf4e16943",
+    "docs/testing/webview-content-policy.md": "8118e3eb38795aee8f31c8e16e889f6be30b1f35f3555c46ee2cb3e83026f49d",
+    "gradle/libs.versions.toml": "88b87d830087e6f63ebe6211f8f30b85d33e89322f837c27810b9091c1469449",
+    "gradle/wrapper/gradle-wrapper.properties": "d0bebe8133babb74ab29a31ee6616c56ef8985fc801e1fd16c61b5ed2189e907",
+    "scripts/ci/adaptive_controls_compile.init.gradle.kts": "29787a01ed76e780c0054102f276d683280799bdc9733a113360dc6b2440f866",
+    "scripts/ci/android_external328_source_projection.py": "d931688dd5f1bd196c6ee358a35e3c7664e1ee24639320cdecefa7057a2358f9",
+    "scripts/ci/apple_appinfo_capability.py": "d5d091757a7996d8265667b2c1dfc0f6d977b6b6c1c0f4d9e6d61d565c7fe263",
+    "scripts/ci/apple_appinfo_shape.py": "d3c9624c8e3b51c8e1b50c7f560df7a9ab67766d2255bc70cb804ea4301e1508",
+    "scripts/ci/apple_appinfo_shape_route.py": "eff38992e587037d848eb6c93fcd50496bf269d072c8060abef852c82025efc7",
+    "scripts/ci/apple_image_launch_readiness.py": "bafea0957404052acfb3a6f6ec56dabb96319448ae736f6b81f9ebdfeae18fc5",
+    "scripts/ci/apple_image_launcher_source_projection.py": "95243d48e83e420670925440491808908b8f662036c26a1a8e5e4750b4f0cabb",
+    "scripts/ci/calendar_share_selector_source_projection.py": "93bd15445b9c0bb404f3c830be5fc32c81f80f52a65261b903c28fbd0a1a5bab",
+    "scripts/ci/camera_home_affinity_source_projection.py": "313d05b5be8c8c223f547baf7b69b5fe2ec07d9c975d2e2ae09572e18814aefe",
+    "scripts/ci/fixtures/apple-image-launcher-source-inverse.json": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/fixtures/ios-ui-related-source-inverse.json": "5511b49eb4e164735508ccb596013a7ac59a3dadfe8adf2ce2acac710a2393f8",
+    "scripts/ci/fixtures/macos-share-missing-ci-source-inverse.json": "79fa2b0394b10026402bef72992385c38684f19b70414606ed1833b40e3178b9",
+    "scripts/ci/fresh-tests.init.gradle.kts": "bc14e3ac5105e6a337c896f4f7e88dd565e8862b2b2dc0d8ff055f40ab8cb9d4",
+    "scripts/ci/ios_adaptive_controls_native.init.gradle.kts": "90ac4d7f46ee8f88192eb23a3da5b3ce62ef1c00c9a8003a89800b47e305e8e8",
+    "scripts/ci/ios_adaptive_controls_native_focus.py": "696826bbdf9dfff7142f0e5f905d6114a7e0f9fda06c25e155e86d3aa9914a28",
+    "scripts/ci/ios_adaptive_controls_runtime.py": "420ba61013fc790d03fadc00360642fd7d65651b0da3b358027b90b49a2ce67e",
+    "scripts/ci/ios_owned_geometry_fixture_recovery.py": "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
+    "scripts/ci/ios_ui_adaptive_drag_shader_native.init.gradle.kts": "6f11a305e3ffbe778d4b3aaa6e8a83e50b51c30af63666d2515f26250839e3c8",
+    "scripts/ci/ios_ui_related_native_focus.py": "2ea4e6e41c4304bd9272460780216030368b6ef3ecbeaa929d7012146d67757e",
+    "scripts/ci/ios_ui_related_source_projection.py": "19b33c0174e52ab85e603f6f0c7be45dd5b83cff93b278a2430c527692cc1c53",
+    "scripts/ci/macos_share_appkit_lifecycle.py": "b04a67a0a8b80e6d335ee6408e6149db0f3616f353b38b984b6cf39406415455",
+    "scripts/ci/macos_share_missing_ci.py": "dafee8cc888caf3b3d840cccb6576846dd14b7aa06bd2225fe9d6c5988d5d633",
+    "scripts/ci/macos_share_missing_only.py": "26946c343deec7337310b9ee880c8d5eb39732e5ce7d557dd1630088d5a0a4a8",
+    "scripts/ci/runtime_context.py": "56a3072e2164c3ff9d8113a94e68dd400a609c0040cf8ce0514d0c1ef1e79a96",
+    "scripts/ci/test_apple_image_launch_readiness.py": "d7b4bcb1a8c1efa61baa64498d39e908da809520e9c19cdb40a946233727f1b7",
+    "scripts/ci/test_apple_image_launcher_source_projection.py": "9d7870ffcd1cf584c7e2914143d93066defba889638df05f0f91781ab5dd2fa9",
+    "scripts/ci/test_calendar_share_selector_source_projection.py": "714e8c7bd6342be0d37c7f0f0e7527b371ae3358400109dca5c982bb9322e792",
+    "scripts/ci/test_ios_adaptive_controls_native_focus.py": "7fa4ceb016c7ef1e39829e9b2e1bf4ef05df9253512b933597c9305d1e3c9e50",
+    "scripts/ci/test_ios_adaptive_controls_runtime.py": "f12533841037f7ea6e8c9e672a2eee56a55be6fd0b93c9b5a307ac997b4131c3",
+    "scripts/ci/test_ios_ui_related_native_focus.py": "36d395e8d564f76a446b7495532bd489f46e0cad5cb7312c7a61c99509ab8c42",
+    "scripts/ci/test_ios_ui_related_native_wiring.py": "8633759ebb37c23f3b6141271ef9ee7a398d5be9d3c69b9f7eb0edadbd05dde4",
+    "scripts/ci/test_macos_share_missing_ci.py": "22c98c921727d64dd24f93864432a2a1178ee0bc5ec4be924e773328a75fb645",
+    "scripts/ci/test_macos_share_missing_only.py": "167c6f047a73ccb1657091a427ada91fd29afd97cfbcc9f87de2c12ed82045d9",
+    "scripts/ci/test_webview_content_policy_browser_fixture.js": "f6c5d221f581c278754c755d110541dcabbc38ffc197f8e5b44415613f7e5623",
+    "scripts/ci/test_webview_content_policy_fixture.py": "cf6226058490a585e78cdf06132466ef6fd3080628b65f86b20f07354b5ffbe8",
+    "scripts/ci/test_webview_content_policy_source.py": "01c85c5270cb0cdc7a6007d8764d5362a95dd5a689840a26123e83a97225b475",
+    "scripts/ci/ui_drag_shader_compile.init.gradle.kts": "bc8045f3893de119925546703cf59c4006a9e5013e41a17a16fd4d37941893c7",
+    "scripts/ci/webview_content_policy_fixture.py": "7ef8dfd4e8eee68a8d584e91d3ea231daa46b15a68f36cf762ee4409c8b4d571",
+    "settings.gradle.kts": "773bee85a4fba6c19262dfd1bf4eca80726b1378dcba79d526ac1a515aa60f7c"
+  }
+}

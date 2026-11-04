@@ -1,3 +1,4 @@
+// Modified for NativeCmpKit (2026-11-04): current custom-thumb icon color parity.
 package com.mohamedrejeb.calf.ui.toggle
 
 import androidx.compose.animation.animateColorAsState
@@ -16,7 +17,9 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -70,7 +73,14 @@ fun CupertinoSwitch(
                 .background(colors.thumbColor(enabled, checked))
                 .align(BiasAlignment.Horizontal(animatedAlignment))
         ) {
-            thumbContent?.invoke()
+            if (thumbContent != null) {
+                val iconColor = if (enabled) {
+                    if (checked) colors.checkedIconColor else colors.uncheckedIconColor
+                } else {
+                    if (checked) colors.disabledCheckedIconColor else colors.disabledUncheckedIconColor
+                }
+                CompositionLocalProvider(LocalContentColor provides iconColor) { thumbContent() }
+            }
         }
     }
 }

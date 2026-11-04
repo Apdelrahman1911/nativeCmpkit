@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "ac487941316626cc4b19546ab70f939d98c1c52d",
+  "branch": "development/batch-adaptive-controls-20261104",
+  "scope": "Minimal current Cupertino custom-thumb color fix plus NEW public OS-branch controls; no issue closure/publication or native execution",
+  "original_refusals": [
+    {
+      "file": "desktop-loader-reflection-red.log",
+      "exit_code": 1,
+      "gradle_seconds": 28,
+      "executed_library_tests": 0,
+      "cause": "Native-only getCommonSources getter absent on JVM KotlinCompile"
+    },
+    {
+      "file": "desktop-filter-red.log",
+      "exit_code": 1,
+      "gradle_seconds": 42,
+      "executed_library_tests": 0,
+      "cause": "Configured includePatterns differs from actual separate CLI --tests patterns; one test source compiled"
+    }
+  ],
+  "desktop_red": {
+    "exit_code": 1,
+    "gradle_seconds": 34,
+    "tests": 2,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "xml_seconds": 0.965,
+    "expected_failures": [
+      "java.lang.AssertionError: expected:<Color(1.0, 0.0, 1.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)>",
+      "java.lang.AssertionError: current caller colors enabled=true checked=false replaced=false expected:<Color(1.0, 0.0, 0.0, 1.0, sRGB IEC61966-2.1)> but was:<Color(0.5411765, 0.34117648, 0.19215687, 1.0, sRGB IEC61966-2.1)>"
+    ]
+  },
+  "desktop_green": {
+    "exit_code": 0,
+    "gradle_seconds": 45,
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xml_seconds": 1.206,
+    "same_test_bodies": true,
+    "input_count": 136,
+    "only_changed_red_input": "calf-ui/src/commonMain/kotlin/com/mohamedrejeb/calf/ui/toggle/CupertinoSwitch.kt",
+    "after_inputs_held": true
+  },
+  "ios_compiler": {
+    "exit_code": 0,
+    "gradle_seconds": 53,
+    "production_task": ":calf-ui:compileKotlinIosSimulatorArm64",
+    "test_task": ":calf-ui:compileTestKotlinIosSimulatorArm64",
+    "focused_test_sources": [
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/slider/AdaptiveSliderNativeMatrixTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/toolbar/AdaptiveToolbarFallbackNativeTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+    ],
+    "input_count": 167,
+    "before_after_inputs_held": true,
+    "apple_links": 0,
+    "native_tests": 0
+  },
+  "new_source_controls": {
+    "unique_methods": 7,
+    "first_invocations": 7,
+    "seconds": 0.003,
+    "passed": 7,
+    "subsequent_changed_native_fixture_only": {
+      "invocations": 1,
+      "passed": 1,
+      "seconds": 0.001
+    },
+    "not_library_tests": true
+  },
+  "limitations": [
+    "#133 requires actual public matrix and invalid-steps execution on genuine pre26 and26+ hosts",
+    "#138 requires the NEW native customization matrix on both actual OS branches; Desktop is not iOS evidence",
+    "#129 remains partial: native populated26+ toolbar, actual safe-area/keyboard/OS orientation and native-bottom-bar integration missing",
+    "Initial loader/filter maps included uncompiled iOS drafts; only the later scoped Desktop map is actual frozen Desktop evidence",
+    "Existing accepted LiquidGlassControlTest first-eight prefix remains byte-identical; none replayed",
+    "All native/consumer/API-ABI/dependency/legal/security/readiness/publication gates remain"
+  ],
+  "retained_original_file_sha256": {
+    "desktop-loader-reflection-red.log": "5b541230b4256b7ecf4a93391237ad5c73e54d51c6c1d7043644430d2e668c6c",
+    "desktop-filter-red.log": "60f7f80aca6156b1e85a70f4b8e54b93bea082aa331d838890591877d03fa621",
+    "desktop-red.log": "49bd9c9a10a8d61acd8e28e3931a019e3be9ffebed3eb4d6f125e0b0126d0448",
+    "desktop-green.log": "7133cdf4d968d8645b173cf70a6df478574a25e39e9b028a3f7fa9989e4edc25",
+    "ios-compiler.log": "6ba0336f994191b19c40af33d4c76227daadc5c5193fe336bef15355a55bd1d5",
+    "desktop-red.xml": "1fbb92f016d29d66f3193057408b19c1cb5ba32be9de6882cf205c9d3fc5f5c2",
+    "desktop-green.xml": "ec9f2a1cb10334dc0c2219d7f57640e45e4f4e0a80c5e8010d5468fb3eed45c8",
+    "loader-red-inputs.json": "a8e25504852639241e2de61799dec3125e0d1360291c20e7fa085cf515a6d5a1",
+    "filter-red-inputs.json": "c82825480f505ce2354b9cdd8fec49d8fd62ddaaef7b0b41dd092a89aea3928c",
+    "red-inputs.json": "3dfe2475974af9bd8d338f338ed09e8ee31f7f82bbcd2c7904f27463310377ac",
+    "green-inputs.json": "2404bb991a805985b61afd9cda39d6e89e52416ac70d01a409068875c66ba352",
+    "ios-compiler-inputs.json": "c97ffde93e674e2b512b35afec394842250506bed45368174ab86a5b3469c6fa",
+    "desktop-first-compilation.json": "8fe799d2af3a0854a8eb7cb353ae22a74d4caeaf14c41da05c703ef88c09af6f",
+    "desktop-red-compilation.json": "8fe799d2af3a0854a8eb7cb353ae22a74d4caeaf14c41da05c703ef88c09af6f",
+    "new-source-controls.log": "f6a68f245a720f033270f97d44b322aba558df0ab9eee1155491bd320a509a22",
+    "customization-fixture-affected-control.log": "f5047b3e36f5b4de17bc65a16b846d3a830fcb86c15b9b2c85586bf360fd1b23",
+    "CupertinoSwitch-before.kt": "264df97d1bb459a71d6c662eaa9d3cefa2e0e5cc20c83cb49d930b68c3b46916",
+    "ios-focused-compilation.json": "fe61bc28fdff0aa817ddac8e500ed64e4f5da269caf2970504bf09ced26dddff"
+  }
+}

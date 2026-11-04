@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.asSkiaBitmap
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
@@ -71,7 +72,15 @@ class AdaptiveControlCustomizationMatrixTest {
 
     private fun row(branch: AdaptiveControlBranch, dark: Boolean, fontScale: Float): Float {
         var labelHeight = 0f
+        // Fixed first-row caller phases only; no pixels, private runtime state or inferred success.
+        fun firstRowPhase(phase: String) {
+            if (!dark && fontScale == 1f) {
+                println("NATIVECMPKIT_ADAPTIVE_CUSTOM_PHASE branch=${branch.label} dark=$dark fontScale=$fontScale phase=$phase")
+            }
+        }
+        firstRowPhase("compose-enter")
         runComposeUiTest {
+            firstRowPhase("compose-body-entered")
             val enabled = mutableStateOf(true)
             val checked = mutableStateOf(false)
             val sliderValue = mutableStateOf(.5f)
@@ -83,6 +92,7 @@ class AdaptiveControlCustomizationMatrixTest {
             var density = 0f
             var buttonCalls = 0; var iconCalls = 0; var switchCalls = 0; var sliderCalls = 0
             var sliderFinished = 0
+            firstRowPhase("set-content-enter")
             setContent {
                 MaterialTheme(colorScheme = if (dark) darkColorScheme() else lightColorScheme()) {
                     val originalDensity = LocalDensity.current.density
@@ -137,6 +147,7 @@ class AdaptiveControlCustomizationMatrixTest {
                     }
                 }
             }
+            firstRowPhase("set-content-returned")
             assertEquals(fontScale, observedFontScale)
             val button = onNodeWithTag("button").fetchSemanticsNode().boundsInRoot
             val label = onNodeWithTag("label", useUnmergedTree = true).fetchSemanticsNode().boundsInRoot
@@ -147,11 +158,14 @@ class AdaptiveControlCustomizationMatrixTest {
             assertTrue(abs(button.height - label.height - 68f * density) <= 1f, "Supplied vertical padding")
             assertEquals(Color.Green, observedColors["button"])
             assertEquals(Color.Blue, observedColors["icon"])
+            firstRowPhase("enabled-captures-enter")
             assertOpaqueSurface("button", Color.Red, corner = true)
             assertOpaqueSurface("icon", Color.Yellow)
             assertSliderTracks(Color.Red, Color.Blue)
             assertThumbGlyph(Color.Red, observedColors)
+            firstRowPhase("enabled-captures-returned")
 
+            firstRowPhase("paired-taps-enter")
             for (name in listOf("button", "icon", "switch")) {
                 onNodeWithTag(name).performTouchInput { click() }
                 waitForIdle()
@@ -164,8 +178,10 @@ class AdaptiveControlCustomizationMatrixTest {
                 assertEquals(1, events.filterIsInstance<PressInteraction.Release>().count { it.press === press }, name)
             }
             assertEquals(1, buttonCalls); assertEquals(1, iconCalls); assertEquals(1, switchCalls)
+            firstRowPhase("paired-taps-returned")
             assertTrue(checked.value)
             assertThumbGlyph(Color.Green, observedColors)
+            firstRowPhase("slider-drag-enter")
             onNodeWithTag("slider").performTouchInput {
                 swipe(Offset(1f, centerY), Offset(width - 1f, centerY), durationMillis = 240)
             }
@@ -181,11 +197,13 @@ class AdaptiveControlCustomizationMatrixTest {
             assertTrue(sliderCalls > 0, "Actual drag must reach the caller through its supplied interaction source")
             assertEquals(1, sliderFinished)
             assertEquals(1f, sliderValue.value)
+            firstRowPhase("slider-drag-returned")
 
             runOnIdle { enabled.value = false; sliderValue.value = .5f }
             waitForIdle()
             assertEquals(Color.Magenta, observedColors["button"])
             assertEquals(Color.Red, observedColors["icon"])
+            firstRowPhase("disabled-captures-enter")
             assertOpaqueSurface("button", Color.Blue, corner = true)
             assertOpaqueSurface("icon", Color.Cyan)
             assertSliderTracks(Color.Green, Color.Magenta)
@@ -193,40 +211,59 @@ class AdaptiveControlCustomizationMatrixTest {
             runOnIdle { checked.value = false }
             waitForIdle()
             assertThumbGlyph(Color.Blue, observedColors)
+            firstRowPhase("disabled-captures-returned")
             val sliderCallsAtDisable = sliderCalls
             val eventCountsAtDisable = interactions.mapValues { it.value.size }
+            firstRowPhase("disabled-input-enter")
             for (name in names) onNodeWithTag(name).performTouchInput { click() }
             waitForIdle()
             assertEquals(1, buttonCalls); assertEquals(1, iconCalls); assertEquals(1, switchCalls)
             assertEquals(sliderCallsAtDisable, sliderCalls); assertEquals(1, sliderFinished)
             assertEquals(eventCountsAtDisable, interactions.mapValues { it.value.size },
                 "Disabled custom controls cannot emit an enabled press/drag")
+            firstRowPhase("disabled-input-returned")
             println("NATIVECMPKIT_ADAPTIVE_CUSTOM_ROW branch=${branch.label} dark=$dark fontScale=$fontScale " +
                 "labelHeight=$labelHeight colorsVerified=true interactionsPaired=true disabledInert=true")
         }
+        firstRowPhase("compose-returned")
         return labelHeight
     }
 
     private fun ComposeUiTest.assertOpaqueSurface(tag: String, expected: Color, corner: Boolean = false) {
-        val pixels = onNodeWithTag(tag).captureToImage().toPixelMap()
-        val actual = if (corner) pixels[2, 2] else pixels[pixels.width / 2, pixels.height / 2]
-        assertColor(expected, actual, "$tag actual surface")
+        val screenshot = onNodeWithTag(tag).captureToImage()
+        try {
+            val pixels = screenshot.toPixelMap()
+            val actual = if (corner) pixels[2, 2] else pixels[pixels.width / 2, pixels.height / 2]
+            assertColor(expected, actual, "$tag actual surface")
+        } finally {
+            screenshot.asSkiaBitmap().close()
+        }
     }
 
     private fun ComposeUiTest.assertSliderTracks(active: Color, inactive: Color) {
-        val pixels = onNodeWithTag("slider").captureToImage().toPixelMap()
-        assertColor(active, pixels[pixels.width / 4, pixels.height / 2], "Actual active track")
-        assertColor(inactive, pixels[pixels.width * 3 / 4, pixels.height / 2], "Actual inactive track")
+        val screenshot = onNodeWithTag("slider").captureToImage()
+        try {
+            val pixels = screenshot.toPixelMap()
+            assertColor(active, pixels[pixels.width / 4, pixels.height / 2], "Actual active track")
+            assertColor(inactive, pixels[pixels.width * 3 / 4, pixels.height / 2], "Actual inactive track")
+        } finally {
+            screenshot.asSkiaBitmap().close()
+        }
     }
 
     private fun ComposeUiTest.assertThumbGlyph(expected: Color, observed: Map<String, Color>) {
         assertEquals(expected, observed["switch"], "Actual supplied custom thumb local")
-        val pixels = onNodeWithTag("thumb", useUnmergedTree = true).captureToImage().toPixelMap()
-        assertTrue((0 until pixels.width).any { x -> (0 until pixels.height).any { y ->
-            val actual = pixels[x, y]
-            abs(actual.red - expected.red) < .1f && abs(actual.green - expected.green) < .1f &&
-                abs(actual.blue - expected.blue) < .1f && actual.alpha > .9f
-        } }, "The actual custom thumb glyph must draw $expected")
+        val screenshot = onNodeWithTag("thumb", useUnmergedTree = true).captureToImage()
+        try {
+            val pixels = screenshot.toPixelMap()
+            assertTrue((0 until pixels.width).any { x -> (0 until pixels.height).any { y ->
+                val actual = pixels[x, y]
+                abs(actual.red - expected.red) < .1f && abs(actual.green - expected.green) < .1f &&
+                    abs(actual.blue - expected.blue) < .1f && actual.alpha > .9f
+            } }, "The actual custom thumb glyph must draw $expected")
+        } finally {
+            screenshot.asSkiaBitmap().close()
+        }
     }
 
     private fun assertColor(expected: Color, actual: Color, label: String) {

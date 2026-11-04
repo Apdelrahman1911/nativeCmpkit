@@ -1,0 +1,106 @@
+{
+  "actual_source_compiler_native_apple_link_executions": 0,
+  "admission_path": "build/ci-verification/adaptive-customization-native-source-admission.json",
+  "all_native_methods_still_require_fresh_exact_task_XML_protocol_runtime_worker_and_owned_cleanup": true,
+  "candidate_patch_sha256": "1b8a1335101375340d7bd6fd32d89ca7bc63a235f9f7a24d42380d620da172e9",
+  "child_receipt_subdirectory": "native-adaptive-customization-application",
+  "expected": [
+    {
+      "module": "calf-ui",
+      "native_test_host": "genuine-uikit-application",
+      "project": ":calf-ui",
+      "report_directory": "calf-ui/build/test-results/iosSimulatorArm64AdaptiveCustomizationApplicationTest",
+      "required_testcases": [
+        {
+          "classname": "iosSimulatorArm64AdaptiveCustomizationApplicationTest.com.mohamedrejeb.calf.ui.controls.AdaptiveControlCustomizationMatrixTest",
+          "name": "ios26CustomColorsContentAndInteractionsSurviveDarkAndLargeText[iosSimulatorArm64]"
+        }
+      ],
+      "task": ":calf-ui:iosSimulatorArm64AdaptiveCustomizationApplicationTest",
+      "test_filter": "com.mohamedrejeb.calf.ui.controls.AdaptiveControlCustomizationMatrixTest.ios26CustomColorsContentAndInteractionsSurviveDarkAndLargeText",
+      "test_source_files": [
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt",
+        "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt"
+      ],
+      "test_source_sets": [
+        "iosTest"
+      ],
+      "ui_related_source_contract": {
+        "apple_links_attested": 0,
+        "common_sources": [],
+        "compiler_executions_attested": 0,
+        "effective_sources": [
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt"
+        ],
+        "focus": "ui-native-adaptive-customization-ios26plus",
+        "focus_property": "nativecmpkitUiSplitFocus",
+        "init_script": "scripts/ci/ios_ui_split_native.init.gradle.kts",
+        "init_sha256": "93bdd4ec3bbd3fac3db6d2e60709bd6945eb96c8cb05b7bdc50d7c3d7b689a9d",
+        "module": "calf-ui",
+        "native_task_timeout_seconds": 2400,
+        "native_tests_executed": 0,
+        "receipt_subdirectory": "native-adaptive-customization-application",
+        "runtime_focus": "ui-native-adaptive-ios26plus",
+        "schema_version": 1,
+        "selected_methods": [
+          "com.mohamedrejeb.calf.ui.controls.AdaptiveControlCustomizationMatrixTest.ios26CustomColorsContentAndInteractionsSurviveDarkAndLargeText"
+        ],
+        "source_sha256": {
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+          "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f"
+        },
+        "task": ":calf-ui:iosSimulatorArm64AdaptiveCustomizationApplicationTest",
+        "transport_timeout_seconds": 600
+      }
+    }
+  ],
+  "matrix": {
+    "include": [
+      {
+        "arch": "arm64",
+        "python": "python3",
+        "runner": "macos-26",
+        "simulator-kind": "iphone",
+        "slot": "ios-iphone",
+        "suite": "ios",
+        "test-focus": "ui-native-adaptive-customization-ios26plus",
+        "test-modules": "calf-ui"
+      }
+    ]
+  },
+  "native_request": [
+    ":calf-ui:iosSimulatorArm64AdaptiveCustomizationApplicationTest",
+    "--tests",
+    "com.mohamedrejeb.calf.ui.controls.AdaptiveControlCustomizationMatrixTest.ios26CustomColorsContentAndInteractionsSurviveDarkAndLargeText"
+  ],
+  "no_hang_cause_diagnosis_or_issue_acceptance": true,
+  "original_UI650_exact_ten_status": "FAILED/incomplete; no old native result reclassified",
+  "predecessor": "044d9aa83ad19fa77ddf94f36a7700f3b52de4b1",
+  "profile": "ios-ui-adaptive-customization-ios26plus",
+  "required_actual_runtime": {
+    "device_type": "actual available iPhone",
+    "host": "Darwin Arm64",
+    "mapped_focus": "ui-native-adaptive-ios26plus",
+    "os_major_minimum": 26,
+    "state": "Booted",
+    "uuid": "same fresh explicitly recorded UUID before/after"
+  },
+  "schema_version": 1,
+  "scope": "Authored exact source-only request; FIRST approved NEW source controls checked actual library plan/command validators. This JSON is not another CLI/compiler/native execution or outcome.",
+  "separate_genuine_pre26_four_retained": true,
+  "source_hashes": {
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlCustomizationMatrixTest.kt": "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/controls/AdaptiveControlNativeHost.kt": "5132474a968f50ce40e161049b32700c28d1709d0e6b1bbd6fecb239f6fd9e20",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeObjectIdentity.kt": "d3cccfc654399598abf00e04d6f40529a3802e9488448afde120da8180932df0",
+    "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/internal/NativeUiApplicationHost.kt": "ea18a76b5270fee0c95e953e6a4d280cc00b4fc2b64538a6ca23f7097ca43a0f"
+  },
+  "transport_timeout_still_failure": true,
+  "unchanged_native_assertions_inner_waits_and_owned_cleanup_required": true
+}

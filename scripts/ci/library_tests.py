@@ -567,6 +567,8 @@ UI_APPLICATION_FOCUS_SPECS[UI_DATE_YEAR_PREDICATE_RED_FOCUS] = {
 UI_APPLICATION_FOCUS_SPECS[camera_ios.FOCUS] = camera_ios.focus_spec()
 UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-pre26"] = ui_related.focus_spec("ui-native-adaptive-pre26")
 UI_APPLICATION_FOCUS_SPECS["ui-native-adaptive-drag-shader-ios26plus"] = ui_related.focus_spec("ui-native-adaptive-drag-shader-ios26plus")
+for _focus in ui_related.SPLIT_FOCUSES:
+    UI_APPLICATION_FOCUS_SPECS[_focus] = ui_related.focus_spec(_focus)
 
 
 UI_APPLICATION_FOCUS_SPECS[secure_alert.FOCUS] = {
@@ -592,6 +594,8 @@ def ui_application_focus_filter(focus: str) -> str:
 
 
 def ui_application_focus_identities(focus: str) -> list[dict]:
+    if focus in ui_related.SPLIT_FOCUSES:
+        return ui_related.identities(focus)
     return [{"classname": IOS_APPLICATION_TASK + "." + group["classname"],
              "name": method + "[iosSimulatorArm64]"}
             for group in ui_application_focus_groups(focus) for method in group["methods"]]
@@ -2260,12 +2264,15 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             actual_task = (IOS_APPLICATION_TASK if suite == "ios" and (
                            (module in IOS_APPLICATION_HOST_SOURCES and not (module == "calf-file-picker" and focus == IOS_SAVE_WRITE_FOCUS)) or
                            (module == camera_ios.MODULE and focus == camera_ios.FOCUS)) else task_name)
+            if suite == "ios" and module == ui_related.MODULE and focus in ui_related.SPLIT_FOCUSES:
+                actual_task = ui_related.task_name(focus)
             report_directory = (f"{module}/build/outputs/androidTest-results/connected/androidMain"
                                 if suite == "android-device" else f"{module}/build/test-results/{actual_task}")
             item = {"module": module, "project": project, "task": f"{project}:{actual_task}",
                     "report_directory": report_directory,
                     "test_source_sets": source_sets, "test_source_files": sorted(inputs)}
-            if actual_task == IOS_APPLICATION_TASK:
+            if actual_task == IOS_APPLICATION_TASK or (suite == "ios" and module == ui_related.MODULE and
+                                                       focus in ui_related.SPLIT_FOCUSES):
                 application_sources = (camera_ios.SOURCES if module == camera_ios.MODULE and focus == camera_ios.FOCUS
                                        else IOS_APPLICATION_HOST_SOURCES[module])
                 if not all(source in inputs for source in application_sources):
@@ -2357,7 +2364,7 @@ def plan(root: Path, suite: str, minimum_modules: tuple[str, ...] | None = None,
             selected[0]["test_source_sets"] = ["iosTest"]
             selected[0][camera_ios.CONTRACT_KEY] = camera_ios.source_contract(root)
             selected[0]["required_original_xml"] = 1
-        if focus in ui_related.FOCUSES:
+        if focus in ui_related.ALL_FOCUSES:
             ui_related.validate_sources(root, focus)
             selected[0]["test_source_files"] = sorted(ui_related.sources(focus))
             selected[0]["test_source_sets"] = ["iosTest"]
@@ -3454,7 +3461,7 @@ def validate_test_focus(test_plan: dict) -> bool:
     if focus in UI_APPLICATION_FOCUS_SPECS:
         if focus == camera_ios.FOCUS:
             camera_ios.validate_plan(test_plan)
-        if focus in ui_related.FOCUSES:
+        if focus in ui_related.ALL_FOCUSES:
             ui_related.validate_plan(test_plan)
         if focus == secure_alert.FOCUS:
             if len(expected) != 1:
@@ -3491,7 +3498,8 @@ def validate_test_focus(test_plan: dict) -> bool:
         if (not allowed_test_focus(test_plan["suite"], tuple(test_plan["explicit_module_subset"]), focus) or
                 test_plan["complete_suite_requested"] is not False or len(expected) != 1 or
                 expected[0]["module"] != application_module or
-                expected[0]["task"] != ":" + application_module + ":" + IOS_APPLICATION_TASK or
+                expected[0]["task"] != (ui_related.task(focus) if focus in ui_related.SPLIT_FOCUSES else
+                                       ":" + application_module + ":" + IOS_APPLICATION_TASK) or
                 expected[0].get("native_test_host") != "genuine-uikit-application" or
                 expected[0].get("test_filter") != ui_application_focus_filter(focus) or
                 expected[0].get("required_testcases") != ui_application_focus_identities(focus) or
@@ -3832,7 +3840,7 @@ def collect_reports(root: Path, test_plan: dict, started_ns: int, ended_ns: int,
                 cases_by_report=cases_by_report)
             if len(paths) != 1 or len(reports) != 1:
                 policy_errors.append("Camera requires one original fresh five-case class XML, no extra empty reports")
-        elif boundary_focus and test_plan["explicit_test_focus"] in ui_related.FOCUSES:
+        elif boundary_focus and test_plan["explicit_test_focus"] in ui_related.ALL_FOCUSES:
             scenarios, policy_errors = ui_related.outcomes(module_cases, host_system or platform.system(),
                 test_plan["explicit_test_focus"], cases_by_report=cases_by_report)
         elif boundary_focus and test_plan["explicit_test_focus"] in UI_APPLICATION_FOCUS_SPECS:
@@ -4285,7 +4293,7 @@ def gradle_command(suite: str, test_plan: dict, simulator: str | None = None, *,
             raise ValueError("Camera exact inputs changed before the owning native command")
         command.extend(["--init-script", camera_ios.INIT_SCRIPT,
                         "-P" + camera_ios.FOCUS_PROPERTY + "=" + camera_ios.FOCUS])
-    if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+    if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
         focus = test_plan["explicit_test_focus"]
         if ui_related.source_contract(root, focus) != test_plan["expected"][0]["ui_related_source_contract"]:
             raise ValueError("Related UI exact source admission changed before the native command")
@@ -4473,7 +4481,9 @@ def ios_application_environment(root: Path, output: Path, test_plan: dict) -> di
     """
     if test_plan["suite"] != "ios" or not any(i.get("native_test_host") == "genuine-uikit-application" for i in test_plan["expected"]):
         return None
-    relative = (output / "native-ui-application").relative_to(root).as_posix()
+    focus = test_plan.get("explicit_test_focus")
+    subdirectory = ui_related.receipt_subdirectory(focus) if focus in ui_related.SPLIT_FOCUSES else "native-ui-application"
+    relative = (output / subdirectory).relative_to(root).as_posix()
     safe_path(root, relative)
     environment = os.environ.copy()
     if environment.get("NATIVECMPKIT_UIKIT_RESULT_ROOT") not in (None, relative):
@@ -4535,7 +4545,9 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                      for v in (classname, name)), "Invalid application testcase identity")
             need(status in {"passed", "failed", "error", "skipped"}, "Unknown application testcase status")
             if xml:
-                prefix, suffix = IOS_APPLICATION_TASK + ".", "[iosSimulatorArm64]"
+                focus = test_plan.get("explicit_test_focus")
+                prefix = (ui_related.task_name(focus) if focus in ui_related.SPLIT_FOCUSES else IOS_APPLICATION_TASK) + "."
+                suffix = "[iosSimulatorArm64]"
                 need(classname.startswith(prefix) and name.endswith(suffix), "XML lacks the exact observed KGP task prefix/target suffix")
                 classname, name = classname[len(prefix):], name[:-len(suffix)]
             key = (classname, name)
@@ -4547,6 +4559,8 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
     try:
         import ios_ui_application as app
         host = app.APPLICATION_HOSTS[expected["module"]]
+        if test_plan.get("explicit_test_focus") in ui_related.SPLIT_FOCUSES:
+            host = app.application_host(host["binary_directory"] + "/application.kexe", test_plan["explicit_test_focus"])
         task = host["task"]
         need(expected["task"] == task and expected.get("native_test_host") == "genuine-uikit-application",
              "The iOS UI plan must use the genuine application task, not a Skiko fallback")
@@ -4597,9 +4611,17 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
                  "Camera requires fresh exact three-source native-task admission; not historical KLIB or compiler execution")
         else:
             need("camera_photos" not in document, "No Camera Photos lease claim on unrelated application")
-        if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+        if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
             need(ui_related.validate_admission(root, started_ns, ended_ns, test_plan["explicit_test_focus"]),
                  "Related UI requires fresh exact source/selection admission, not a historical KLIB receipt")
+        if test_plan.get("explicit_test_focus") in ui_related.SPLIT_FOCUSES:
+            accounting = ui_related.timeout_accounting(test_plan["explicit_test_focus"])
+            transport = document.get("application_transport")
+            need(document.get("ui_split_timeout_accounting") == accounting and
+                 all(type(document["ui_split_timeout_accounting"].get(key)) is int for key in accounting) and
+                 type(transport) is dict and type(transport.get("timeout_seconds")) is int and
+                 transport["timeout_seconds"] == accounting["transport_timeout_seconds"],
+                 "Split UI requires its independent exact transport/native-task timeout accounting")
         if test_plan.get("explicit_test_focus") == IOS_POPOVER_ANCHOR_FOCUS:
             import ios_popover_anchor_plan
             need(ios_popover_anchor_plan.validate_compilation(root, started_ns, ended_ns),
@@ -4622,7 +4644,7 @@ def collect_one_ios_application_receipt(root: Path, test_plan: dict, output: Pat
             observed = document.get(when)
             need(isinstance(observed, dict) and observed.get("source_revision") == context["source_revision"] and
                  observed.get("source_tree_dirty") is False, "Application runtime source identity changed")
-            if test_plan.get("explicit_test_focus") in ui_related.FOCUSES:
+            if test_plan.get("explicit_test_focus") in ui_related.ALL_FOCUSES:
                 ui_related.validate_context(observed, test_plan["explicit_test_focus"], udid=context["simulator"]["udid"])
             for key in ("host", "java", "rust", "xcode", "apple_sdks", "simulator"):
                 need(key in context and observed.get(key) == context[key], "Application compiler/SDK/selected-simulator runtime mismatch")
@@ -4894,8 +4916,8 @@ def run(root: Path, suite: str, output_relative: str, simulator: str | None, tim
                                           android_serial=android_serial,
                                           browser=suite in {"js", "wasm"},
                                           **({"adaptive_focus": ui_related.runtime_focus(focus), "require_clean": True,
-                                              "expected_arch": "arm64"} if focus in ui_related.FOCUSES else {}))
-        if focus in ui_related.FOCUSES:
+                                              "expected_arch": "arm64"} if focus in ui_related.ALL_FOCUSES else {}))
+        if focus in ui_related.ALL_FOCUSES:
             ui_related.validate_context(context, focus, udid=simulator)
         if android_permission_demo_required(test_plan):
             import android_permission_demo

@@ -1,0 +1,22 @@
+{
+  "scope": "Passive literal operand/readback review, not invoking Reporter.freeze or changing historical pins",
+  "source_revision": "044d9aa83ad19fa77ddf94f36a7700f3b52de4b1",
+  "source_guard": "scripts/ci/android_camera_developer_prerequisite.py:689-691",
+  "operands": [
+    {
+      "operand": "convention",
+      "source": "convention-plugins/src/main/kotlin/Android.kt",
+      "literal_expected_sha256": "204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256",
+      "committed_actual_sha256": "204b7b0bb30e33144794ffda1d993f925f670cac87c809155d81fe9f09f7a256",
+      "equal": true
+    },
+    {
+      "operand": "module",
+      "source": "calf-camera-picker/build.gradle.kts",
+      "literal_expected_sha256": "f074767f7042ac6e07955b361400e672ae43209f99b17986acd27cf5078428c7",
+      "committed_actual_sha256": "e37eb7a4fab11a6af0ed0ff6af7dea57e081241d41efb9fa7f1dd06f7367192f",
+      "equal": false
+    }
+  ],
+  "causal_claim": "At exact committed source bytes, the Android.kt convention literal holds; only the Camera module build.gradle.kts literal is false. The original Reporter.freeze error and downstream blocked observations are retained. No actual namespace/native implementation failure is inferred."
+}

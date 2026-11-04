@@ -1,5 +1,25 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared CI failures retained; UI batch integrated — 2026-11-04
+
+[670/UI664](docs/development/evidence/current-platform-recovery-20261101/tooling670-ui664-recovery671/README.md)
+preserves Camera41810510161 and Android41810768827 at044d FAILED before platform:
+3,194 source tests each,70 failures/56 errors across82 methods plus one setup
+refusal/four blocked methods. ZERO compiler/APK/Apple/native/XML/artifacts. Their
+originals were acquired once; do not retry unchanged native requests. Camera's
+convention holds; its module-build historical hash is stale, not a proved namespace
+change. One shared recovery owns the related source/fixture causes.
+UI664 integrates13 paths/63 exact inverse-forward fragments after lead+609 review.
+Reuse FIRST20 pass plus onlyfailed2 recovery, not a fresh22-green claim. Independent
+nine/one tasks and screenshot finally-close remain source-only, not a native hang
+fix. IO remote/callback and safe CI-reuse patches remain isolated until acceptance.
+103closed/69open/172;22implemented/36partial/101verified/five unresolved unchanged.
+Lead integration/Git/dispatch/acceptance/closure; isolated parallel patches, serial
+local>=8GiB free disk/compiler>=6GiB MemAvailable, max2 combined hosted INCLUDING
+queued/reserved. Actions/all/no mandatory SHA pinning/minimum read permissions and
+every publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remain. No package/release/deployment publication.
+
 ## Shared current-owner routing repaired and ready for native checks — 2026-11-04
 
 [Current667](docs/development/evidence/current-platform-recovery-20261101/camera-webview659-667/current-contract667/README.md)

@@ -238,6 +238,7 @@ class UiRelatedSourceProjectionControls(unittest.TestCase):
                          "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4")
 
     def test_original_application_launch_argv_deadlines_finally_sdk_and_native_bodies_are_unchanged(self):
+        from ios_ui_split664_source_projection import current_source_before_ui_split664
         from webview_content_policy_source_projection import source_before_content_policy
         name = "scripts/ci/ios_ui_application.py"
         current = source_before_content_policy(name, (ROOT / name).read_bytes())
@@ -253,14 +254,15 @@ class UiRelatedSourceProjectionControls(unittest.TestCase):
                        for node in ast.walk(new_functions["run"]) if isinstance(node, ast.Try) and node.finalbody]
         self.assertEqual(old_finally, new_finally)
         for source in related.sources(related.FOCUSES[1]):
-            self.assertEqual(READONLY_SHA256[source], sha((ROOT / source).read_bytes()))
+            self.assertEqual(READONLY_SHA256[source], sha(current_source_before_ui_split664(source, (ROOT / source).read_bytes())))
         self.assertEqual(READONLY_SHA256[related.init_script(related.FOCUSES[0])],
                          sha((ROOT / related.init_script(related.FOCUSES[0])).read_bytes()))
 
     def test_camera_bridge_175c_and_runtime620_inputs_are_not_edited_or_replayed(self):
+        from ios_ui_split664_source_projection import current_source_before_ui_split664
         self.assertFalse(set(READONLY_SHA256) & history.BOUND_PATHS)
         for name, digest in READONLY_SHA256.items():
-            self.assertEqual(digest, sha((ROOT / name).read_bytes()), name)
+            self.assertEqual(digest, sha(current_source_before_ui_split664(name, (ROOT / name).read_bytes())), name)
         self.assertEqual("420ba61013fc790d03fadc00360642fd7d65651b0da3b358027b90b49a2ce67e",
                          READONLY_SHA256["scripts/ci/ios_adaptive_controls_runtime.py"])
         self.assertEqual("f12533841037f7ea6e8c9e672a2eee56a55be6fd0b93c9b5a307ac997b4131c3",

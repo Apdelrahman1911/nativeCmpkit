@@ -1,0 +1,338 @@
+"""New literal Desktop missing-cell guards: source/tooling models, never native acceptance."""
+from collections import Counter
+import ast
+import copy
+import hashlib
+import io
+import json
+import os
+from pathlib import Path
+import re
+import tempfile
+import time
+import unittest
+from unittest.mock import patch
+from xml.etree import ElementTree as ET
+
+import library_tests as lt
+import workflow_matrix as matrix
+
+FOCUS = "webview-desktop-request-state"
+STOP_FOCUS = FOCUS + "-stop"
+ALL_FOCUS = STOP_FOCUS + "-redirect"
+FOCUSES = (FOCUS, STOP_FOCUS, ALL_FOCUS)
+OLD_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewRequestStateAcceptanceTest"
+OLD_METHOD = "twoHeldNativeTransportFailuresResetOldErrorsAndRecoverOnTheSameOwner"
+OLD_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewRequestStateAcceptanceTest.kt"
+OLD_SHA256 = "c08bcdc062d18d24c5a370aaa818a8171c352d06acca35af1202fd4eb2c13f13"
+NEW_CLASS = "com.mohamedrejeb.calf.ui.web.DesktopWebViewStopRedirectAcceptanceTest"
+STOP_METHOD = "publicStopCancelsOneHeldNativeRequestBeforeAnyResponseAndRecoversOnTheSameOwner"
+REDIRECT_METHOD = "actual302RedirectAndPublicReloadKeepNativeRequestAndTerminalMetadataDistinct"
+NEW_SOURCE = "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewStopRedirectAcceptanceTest.kt"
+NEW_SHA256 = "8eb3cbe9e91974c423998eb3007ed64ed9d98863dcc27d0b72da901caad411a3"
+ROWS = (
+    ("desktop-linux-x64", FOCUS, "Linux", "x86_64", 1, 1),
+    ("desktop-macos-arm64", STOP_FOCUS, "Darwin", "arm64", 2, 2),
+    ("desktop-windows-x64", STOP_FOCUS, "Windows", "AMD64", 2, 2),
+    ("desktop-linux-arm64", ALL_FOCUS, "Linux", "aarch64", 3, 2),
+    ("desktop-macos-x64", STOP_FOCUS, "Darwin", "x86_64", 2, 2),
+)
+
+
+def selected_pairs(focus):
+    return [(OLD_CLASS, OLD_METHOD)] + ([] if focus == FOCUS else [(NEW_CLASS, STOP_METHOD)]) + (
+        [(NEW_CLASS, REDIRECT_METHOD)] if focus == ALL_FOCUS else [])
+
+
+def selected_cases(focus):
+    return [{"classname": classname, "name": method + "[desktop]"} for classname, method in selected_pairs(focus)]
+
+
+def source_hashes(focus):
+    return {OLD_SOURCE: OLD_SHA256, **({NEW_SOURCE: NEW_SHA256,
+        lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE: lt.WEBVIEW_DESKTOP_AWT_OWNER_SHA256} if focus != FOCUS else {})}
+
+
+def code_only(source):
+    return re.sub(r"(?m)//[^\n]*", "", re.sub(r"(?s)/\*.*?\*/", "", source))
+
+
+class DesktopWebViewLiteralMatrixTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Source-only plans over partial copied inputs; no compiler/task/SDK/native work.
+        cls.plans = {focus: lt.plan(lt.ROOT, "desktop", only_modules=("calf-webview",), focus=focus) for focus in FOCUSES}
+
+    def plan(self, focus):
+        return copy.deepcopy(self.plans[focus])
+
+    def source_root(self, directory):
+        root = Path(directory).resolve()
+        (root / "settings.gradle.kts").write_text('include(\n    ":calf-webview",\n)\n')
+        build = root / "calf-webview/build.gradle.kts"
+        build.parent.mkdir()
+        build.write_text("// Explicitly synthetic discovery root; never compiled\n")
+        for relative in (OLD_SOURCE, NEW_SOURCE, lt.WEBVIEW_DESKTOP_AWT_OWNER_SOURCE):
+            path = root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes((lt.ROOT / relative).read_bytes())
+        return root
+
+    def collect(self, focus, reports=None, outcome="", stale=False, markers=1):
+        plan = self.plan(focus)
+        expected, = plan["expected"]
+        if reports is None:
+            groups = {}
+            for case in selected_cases(focus):
+                groups.setdefault(case["classname"], []).append(case)
+            reports = list(groups.values())
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            folder = root / expected["report_directory"]
+            folder.mkdir(parents=True)
+            files = []
+            for index, cases in enumerate(reports):
+                xml = ET.Element("testsuite")
+                for case in cases:
+                    node = ET.SubElement(xml, "testcase", **case)
+                    if outcome:
+                        ET.SubElement(node, outcome)
+                file = folder / ("TEST-explicitly-synthetic-%s.xml" % index)
+                file.write_bytes(ET.tostring(xml)); files.append(file)
+            now = time.time_ns()
+            if stale and files:
+                os.utime(files[0], ns=(now - 20_000_000_000, now - 20_000_000_000))
+            return lt.collect_reports(root, plan, now - 1_000_000_000, now + 1_000_000_000,
+                                      Counter({expected["task"]: markers}), host_system="Linux")
+
+    def test_exact_five_row_literal_matrix_requires_ten_executions_of_three_unaccepted_methods(self):
+        rows = matrix.matrix(FOCUS)["include"]
+        self.assertEqual([row[0] for row in ROWS], [row["slot"] for row in rows])
+        self.assertEqual([row[1] for row in ROWS], [row["test-focus"] for row in rows])
+        cases = []
+        report_total = 0
+        for row, (_, focus, system, architecture, count, reports) in zip(rows, ROWS):
+            self.assertEqual("desktop", row["suite"])
+            self.assertEqual("calf-webview", row["test-modules"])
+            plan = self.plan(focus)
+            expected, = plan["expected"]
+            self.assertEqual(selected_cases(focus), expected["required_testcases"])
+            self.assertEqual(count, len(expected["required_testcases"]))
+            self.assertEqual(reports, len({case["classname"] for case in expected["required_testcases"]}))
+            lt.validate_webview_desktop_request_host(system, architecture, focus)
+            cases.extend((case["classname"], case["name"]) for case in expected["required_testcases"])
+            report_total += reports
+        self.assertEqual(10, len(cases)); self.assertEqual(3, len(set(cases))); self.assertEqual(9, report_total)
+        self.assertEqual(selected_cases(FOCUS), self.plans[rows[0]["test-focus"]]["expected"][0]["required_testcases"])
+        self.assertNotIn(NEW_CLASS + "." + REDIRECT_METHOD, lt.webview_desktop_request_filter(STOP_FOCUS))
+        self.assertTrue(all("JavaFxWebViewTest" not in classname for classname, _ in cases))
+        for focus in (STOP_FOCUS, ALL_FOCUS):
+            with self.assertRaises(ValueError):
+                matrix.matrix(focus)  # Finite row focuses are not new public dispatch profiles.
+
+    def test_exact_one_two_three_case_hash_filter_task_report_plans_and_owning_mutations(self):
+        for focus in FOCUSES:
+            plan = self.plan(focus); expected, = plan["expected"]
+            self.assertFalse(plan["complete_suite_requested"])
+            self.assertEqual(["calf-webview"], plan["explicit_module_subset"])
+            self.assertEqual(list(lt.SUITES["desktop"][1]), plan["inherited_test_source_sets"])
+            self.assertEqual(list(source_hashes(focus)), expected["test_source_files"])
+            self.assertEqual(source_hashes(focus), expected["test_source_sha256"])
+            self.assertEqual(["desktopTest"], expected["test_source_sets"])
+            self.assertEqual(":calf-webview", expected["project"])
+            self.assertEqual(":calf-webview:desktopTest", expected["task"])
+            self.assertEqual("calf-webview/build/test-results/desktopTest", expected["report_directory"])
+            self.assertEqual(",".join(classname + "." + method for classname, method in selected_pairs(focus)), expected["test_filter"])
+            self.assertTrue(lt.validate_test_focus(plan))
+            for key, value in (("test_filter", "*"), ("test_filter", NEW_CLASS), ("required_testcases", selected_cases(focus) * 2),
+                               ("test_source_files", []), ("test_source_sets", ["commonTest"]), ("test_source_sha256", {}),
+                               ("task", ":calf-webview:publish"), ("report_directory", "calf-io/build/test-results/desktopTest"),
+                               ("project", ":calf-io"), ("module", "calf-io")):
+                changed = self.plan(focus); changed["expected"][0][key] = value
+                with self.assertRaises(ValueError):
+                    lt.validate_test_focus(changed)
+            for key, value in (("complete_suite_requested", True), ("suite", "ios"), ("inherited_test_source_sets", ["iosTest"])):
+                changed = self.plan(focus); changed[key] = value
+                with self.assertRaises(ValueError):
+                    lt.validate_test_focus(changed)
+        for focus in (STOP_FOCUS, ALL_FOCUS):
+            with tempfile.TemporaryDirectory() as directory:
+                root = self.source_root(directory)
+                self.assertTrue(lt.validate_test_focus(lt.plan(root, "desktop", only_modules=("calf-webview",), focus=focus)))
+                for relative, needle in ((OLD_SOURCE, OLD_METHOD), (NEW_SOURCE, STOP_METHOD), (NEW_SOURCE, REDIRECT_METHOD)):
+                    source = root / relative; original = source.read_bytes()
+                    source.write_bytes(original.replace(needle.encode(), b"unreviewedMethod", 1))
+                    with self.assertRaises(ValueError):
+                        lt.plan(root, "desktop", only_modules=("calf-webview",), focus=focus)
+                    source.write_bytes(original)
+                source = root / NEW_SOURCE; original = source.read_bytes(); source.unlink()
+                with self.assertRaises(ValueError):
+                    lt.plan(root, "desktop", only_modules=("calf-webview",), focus=focus)
+                source.write_bytes(original)
+                source.unlink(); source.symlink_to(root / "calf-webview/build.gradle.kts")
+                with self.assertRaises(ValueError):
+                    lt.plan(root, "desktop", only_modules=("calf-webview",), focus=focus)
+
+    def test_focus_specific_host_aliases_commands_cli_and_cross_host_suite_module_refusals(self):
+        authorized = {
+            FOCUS: (("Linux", "x64"), ("Linux", "x86_64"), ("Linux", "aarch64"), ("Linux", "arm64"),
+                    ("Darwin", "arm64"), ("Darwin", "x86_64"), ("Windows", "AMD64")),
+            STOP_FOCUS: (("Darwin", "arm64"), ("Darwin", "aarch64"), ("Darwin", "x86_64"), ("Windows", "AMD64")),
+            ALL_FOCUS: (("Linux", "arm64"), ("Linux", "aarch64")),
+        }
+        refused = {
+            STOP_FOCUS: (("Linux", "x64"), ("Linux", "arm64"), ("Windows", "arm64"), ("FreeBSD", "x64")),
+            ALL_FOCUS: (("Linux", "x64"), ("Darwin", "arm64"), ("Darwin", "x64"), ("Windows", "AMD64")),
+        }
+        for focus in FOCUSES:
+            for system, architecture in authorized[focus]:
+                lt.validate_webview_desktop_request_host(system, architecture, focus)
+                with patch("library_tests.platform.system", return_value=system), patch("library_tests.platform.machine", return_value=architecture):
+                    command = lt.gradle_command("desktop", self.plan(focus))
+                wanted = [classname + "." + method for classname, method in selected_pairs(focus)]
+                self.assertEqual(wanted, [command[index + 1] for index, token in enumerate(command) if token == "--tests"])
+                self.assertEqual(len(wanted), command.count("--tests"))
+                self.assertIn(":calf-webview:desktopTest", command)
+                self.assertNotIn("publish", " ".join(command))
+            for system, architecture in refused.get(focus, ()):
+                with self.assertRaises(ValueError):
+                    lt.validate_webview_desktop_request_host(system, architecture, focus)
+                with patch("library_tests.platform.system", return_value=system), patch("library_tests.platform.machine", return_value=architecture):
+                    with self.assertRaises(ValueError):
+                        lt.gradle_command("desktop", self.plan(focus))
+            args = ["library_tests.py", "plan", "--suite", "desktop", "--module", "calf-webview", "--focus", focus]
+            stream = io.StringIO()
+            with patch("sys.argv", args), patch("sys.stdout", stream):
+                self.assertEqual(0, lt.main())
+            self.assertEqual(self.plan(focus), json.loads(stream.getvalue()))
+            for suite in ("android-host", "android-device", "ios", "js", "wasm"):
+                with self.assertRaises(ValueError):
+                    lt.plan(lt.ROOT, suite, only_modules=("calf-webview",), focus=focus)
+            for modules in (None, (), ("calf-ui",), ("calf-webview", "calf-ui"), ("calf-webview", "calf-webview")):
+                with self.assertRaises(ValueError):
+                    lt.plan(lt.ROOT, "desktop", only_modules=modules, focus=focus)
+        for focus, system, architecture in (("unknown-desktop-cells", "Linux", "x64"), (STOP_FOCUS, None, "x64"),
+                                            (ALL_FOCUS, "Linux", None), (ALL_FOCUS, "Linux", "riscv64")):
+            with self.assertRaises(ValueError):
+                lt.validate_webview_desktop_request_host(system, architecture, focus)
+        with self.assertRaises(ValueError):
+            lt.webview_desktop_request_specs("unknown-desktop-cells")
+        with patch("sys.argv", args[:-1] + ["unknown-desktop-cells"]), patch("sys.stderr", io.StringIO()), self.assertRaises(SystemExit) as error:
+            lt.main()
+        self.assertEqual(2, error.exception.code)
+
+    def test_fresh_exact_per_class_xml_rejects_empty_mixed_split_duplicate_foreign_skip_stale_and_task_mutations(self):
+        for focus in FOCUSES:
+            result = self.collect(focus)
+            self.assertEqual([], result["errors"], result["errors"])
+            self.assertEqual(len(selected_pairs(focus)), result["totals"]["passed"])
+            self.assertEqual(0, result["totals"]["not_applicable"])
+            sources = {OLD_CLASS: OLD_SOURCE, NEW_CLASS: NEW_SOURCE}
+            for scenario in result["modules"][0]["native_scenarios"]:
+                self.assertEqual(sources[scenario["classname"]], scenario["source"])
+                self.assertTrue(scenario["required_on_host"])
+                self.assertEqual("required-executed", scenario["disposition"])
+        for focus in (STOP_FOCUS, ALL_FOCUS):
+            cases = selected_cases(focus); normal = [[cases[0]], cases[1:]]
+            mutations = ([], [cases], [cases, []], [[], cases], normal + [[]],
+                         normal + [[cases[0]]], [[cases[0]], []], [[cases[0]], [cases[0], *cases[1:]]],
+                         [[cases[0]], [{"classname": "Foreign.Test", "name": STOP_METHOD + "[desktop]"}]],
+                         [[cases[0]], [{"classname": NEW_CLASS, "name": STOP_METHOD}]],
+                         [[cases[0]], [{"classname": NEW_CLASS, "name": STOP_METHOD + "[iosSimulatorArm64]"}]],
+                         normal + [[{"classname": "com.mohamedrejeb.calf.ui.web.JavaFxWebViewTest", "name": "stopCancelsRealSlowLoadWithoutFeedbackLoop[desktop]"}]])
+            for reports in mutations:
+                self.assertTrue(self.collect(focus, reports=reports)["errors"])
+            for changed in ({"outcome": "failure"}, {"outcome": "error"}, {"outcome": "skipped"}, {"stale": True}, {"markers": 0}, {"markers": 2}):
+                self.assertTrue(self.collect(focus, **changed)["errors"])
+        cases = selected_cases(ALL_FOCUS)
+        self.assertTrue(self.collect(ALL_FOCUS, reports=[[case] for case in cases])["errors"], "One class cannot be split over two original XML")
+        self.assertTrue(self.collect(ALL_FOCUS, reports=[[cases[0], cases[1]], [cases[2]]])["errors"], "Two nonempty reports cannot mix selected classes")
+
+    def test_native_sources_prove_public_held_stop_and_actual302_link_public_reload_without_synthetic_state_or_direct_commands(self):
+        source = (lt.ROOT / NEW_SOURCE).read_text()
+        code = code_only(source)
+        self.assertEqual([STOP_METHOD, REDIRECT_METHOD], re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", code))
+        self.assertIn("class DesktopWebViewStopRedirectAcceptanceTest", code)
+        self.assertIn("WebView(state, Modifier.fillMaxSize(), navigator = navigator,", code)
+        self.assertIn("view.isVisible = true; assertTrue(view.isVisible && view.isShowing)", code)
+        stop = code.split("@Test fun " + STOP_METHOD + "()", 1)[1].split("@Test fun " + REDIRECT_METHOD + "()", 1)[0]
+        redirect = code.split("@Test fun " + REDIRECT_METHOD + "()", 1)[1].split("private suspend fun awaitFx", 1)[0]
+        for text in ("navigator.stopLoading()", "server.pending(Endpoint.StopHeld) == 1", "Worker.State.RUNNING", "Worker.State.CANCELLED",
+                     "cancellations.get() == 1", "server.peerEofs(Endpoint.StopHeld) == 1", "assertEquals(0, server.responses(Endpoint.StopHeld))",
+                     "navigator.loadUrl(server.url(Endpoint.Recovery))", "assertSame(native, state.webView); assertSame(owner, state.owner)",
+                     "assertFalse(server.isClosing()", "removeListener(observer)"):
+            self.assertIn(text, stop)
+        self.assertLess(stop.index("navigator.stopLoading()"), stop.index("server.peerEofs(Endpoint.StopHeld) == 1"))
+        self.assertLess(stop.index("server.peerEofs(Endpoint.StopHeld) == 1"), stop.index("finally"))
+        for text in ("document.getElementById('nativecmpkit-next').click()", "heldTarget(1, server.url(Endpoint.Redirect))",
+                     "completedTarget(1, server.url(Endpoint.Redirect))", "navigator.reload()", "heldTarget(2, server.url(Endpoint.Target))",
+                     "completedTarget(2, server.url(Endpoint.Target))", "server.responses(Endpoint.Redirect) == 1",
+                     "native.engine.location == server.url(Endpoint.Target)", "state.lastLoadedUrl == server.url(Endpoint.Target)",
+                     "native.engine.executeScript(\"document.title\")", "state.pageTitle == server.title(Endpoint.Target, attempt)"):
+            self.assertIn(text, redirect)
+        for forbidden in (r"consumeNavigationEvents\s*\(", r"\.engine\.(load|loadContent|reload)\s*\(", r"loadWorker\.cancel\s*\(",
+                          r"state\.(content|requestedUrl|lastLoadedUrl|pageTitle|errorsForCurrentRequest|loadingState)\s*=(?!=)",
+                          r"\.(beginRequest|acceptContent)\s*\(", r"\bWebViewError\s*\(", r"@(Ignore|Disabled|IgnoredTest)\b"):
+            self.assertNotRegex(code, forbidden)
+        held = code.split("Endpoint.StopHeld -> {", 1)[1].split("Endpoint.Redirect -> {", 1)[0]
+        self.assertIn("check(input.read() == -1)", held)
+        self.assertIn("current.peerEofs.incrementAndGet(); return", held)
+        self.assertNotIn("respond(", held); self.assertNotIn("closeOwnedSocket(", held)
+        self.assertNotIn("SocketException", held)
+        self.assertIn("respond(socket, 302, byteArrayOf(), path(Endpoint.Target))", code)
+        self.assertIn('"Location: $it\\r\\n"', code)
+        self.assertIn("id='nativecmpkit-next' href='${path(Endpoint.Redirect)}'", code)
+
+    def test_owning_fixture_bounds_cleanup_and_preserved_old_method_and_production_hashes_are_source_pinned(self):
+        source = (lt.ROOT / NEW_SOURCE).read_bytes(); code = code_only(source.decode())
+        self.assertEqual(NEW_SHA256, hashlib.sha256(source).hexdigest())
+        self.assertEqual(OLD_SHA256, hashlib.sha256((lt.ROOT / OLD_SOURCE).read_bytes()).hexdigest())
+        self.assertEqual([OLD_METHOD], re.findall(r"@Test\s+fun\s+([A-Za-z_][A-Za-z0-9_]*)\s*\(\s*\)", (lt.ROOT / OLD_SOURCE).read_text()))
+        preserved = {
+            "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/JavaFxWebViewTest.kt": "0c061f3ee9acc0d7d188d8604105349f0afe3fc1e61f743361eaf9cba38963ae",
+            "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt": "598bd8a18431882e68b96a28ff70f65c641bf2a1d36486aeff0aae12b999ae39",
+            "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebViewContracts.kt": "4a87aa4a7a17252f817f8bdc9b8de8fcda62fb6093bfed624db0bc5c6875647f",
+        }
+        for relative, expected in preserved.items():
+            self.assertEqual(expected, hashlib.sha256((lt.ROOT / relative).read_bytes()).hexdigest())
+        # This proposal changes no YAML. Authorized unrelated option additions
+        # must not be blocked by a whole-workflow preimage hash. Row focus tokens
+        # stay internal to the existing public Desktop dispatch profile only.
+        workflow = (lt.ROOT / ".github/workflows/gradle.yml").read_text()
+        options = re.search(r"options: \[([^\n]+)\]", workflow)
+        self.assertIsNotNone(options)
+        choices = [option.strip() for option in options.group(1).split(",")]
+        self.assertEqual(1, choices.count(FOCUS))
+        self.assertNotIn(STOP_FOCUS, choices)
+        self.assertNotIn(ALL_FOCUS, choices)
+        for text in ('ServerSocket(0, 8, InetAddress.getByName("127.0.0.1"))', "connections.incrementAndGet() <= 64",
+                     "bytes.size() < 8_192", "TimeUnit.SECONDS.toNanos(5)", "TimeUnit.SECONDS.toNanos(15)", "socket.soTimeout = 100",
+                     "ThreadPoolExecutor(4, 4, 0", "ArrayBlockingQueue<Runnable>(8)", "ThreadPoolExecutor.AbortPolicy()",
+                     "request[0] == \"GET\"", "hosts.size == 1", "127.0.0.1:${listener.localPort}", "Cache-Control: no-store",
+                     "Connection: close", "if (kind == Endpoint.Target) 2 else 1", "CountDownLatch(1)",
+                     "withTimeout(10_000)", "withTimeout(30_000)"):
+            self.assertIn(text, code)
+        close = code.split("override fun close() {", 2)[2].split("companion object", 1)[0]
+        for text in ("closing.compareAndSet(false, true)", "listener.close(); assertTrue(listener.isClosed)", "acceptor.join(5_000)",
+                     "sockets.toList()", "workers.shutdownNow()", "workers.awaitTermination(5, TimeUnit.SECONDS)",
+                     "assertTrue(sockets.isEmpty())", "it.pending.get() == 0", "assertHealthy()"):
+            self.assertIn(text, close)
+        self.assertLess(close.index("listener.close()"), close.index("acceptor.join"))
+        self.assertLess(close.index("acceptor.join"), close.index("sockets.toList()"))
+        self.assertLess(close.index("sockets.toList()"), close.index("workers.shutdownNow()"))
+        self.assertIn("socket.close(); check(socket.isClosed); sockets -= socket", code)
+        self.assertIn("catch (error: Throwable) { failure.compareAndSet(null, error); throw error }", code)
+        self.assertNotRegex(code, r"(?:URL|HttpClient|ProcessBuilder)\s*\(|setDefault\s*\(|Platform\.exit\s*\(")
+        # The old ten accepted guard methods are inspected, not executed again.
+        old_guard = (lt.ROOT / "scripts/ci/test_desktop_webview_request_focus.py").read_text()
+        tree = ast.parse(old_guard)
+        cls = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "DesktopWebViewRequestFocusTests")
+        hashes = {node.name: hashlib.sha256(ast.get_source_segment(old_guard, node).encode()).hexdigest()
+                  for node in cls.body if isinstance(node, ast.FunctionDef) and node.name.startswith("test_")}
+        expected_unchanged = {'test_plan_and_command_pin_one_method_one_source_and_preserve_inherited_compilation': '6e760fb18ad6a30a96752187fa7b795968b45bf6eb9152f865366a3c669f0468', 'test_real_cli_plans_exact_focus_and_refuses_wrong_suite_module_or_unknown_focus': '5454a8ce9e0135acfc6d8c2f5244adb0eb6e7ac740e649577bd702dc76d9fd6e', 'test_supported_runtime_aliases_pass_and_unknown_host_architecture_is_refused': '01ef654a7a54881705b66343039c3d26760821bbacf359afaaa704563aaf5d7c', 'test_source_calibration_precedes_any_renamed_ignored_extra_or_changed_fixture_refusal': '471de94611d34bb43b5c6b43d94473fa5544cd0f35270ed49a6058255ca84d40', 'test_filter_source_case_task_report_or_complete_suite_mutations_cannot_fall_back': '233f6ac75229cd0c9e05ef36b6440d6597b519be7cc4d451a346ae7f35062143', 'test_only_one_fresh_exact_success_is_required_without_host_na_or_accepted_cases': '4ac7b7bbc90930c4b15aff293acb97df446814edf7044417f13db0b8ca9bf7f4', 'test_empty_extra_duplicate_foreign_or_wrong_target_xml_stays_red': 'a042ef38dbc22fece7bb8608a1830439cb9fe38a0d9978ddc0e0e385b3d68876', 'test_failed_errored_skipped_stale_or_nonfresh_task_evidence_is_not_accepted': 'fe24197d2fca29c95dceb62e7d9eda61ac25779feaf814c2c2babbbf41e0a6b6', 'test_nonmedia_selection_does_not_start_source_inferred_audio_or_change_full_source_inventory': 'e79420bd19e4b5467dc26553a3671a691eb82c59e7d7553de73f9b84884590fd', 'test_only_profile_option_is_added_without_permissions_upload_or_parallel_policy_expansion': '15c9c10c3016b70137379b12a39ec2ac6e9c9fa6dece700acdf45b2e603ade7d'}
+        self.assertEqual(expected_unchanged, {name: digest for name, digest in hashes.items() if name in expected_unchanged})
+        self.assertEqual({"test_profile_selects_only_missing_literal_cells_on_all_five_declared_desktop_hosts", *expected_unchanged}, set(hashes))
+
+
+if __name__ == "__main__":
+    unittest.main()

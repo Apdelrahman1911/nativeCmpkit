@@ -1,0 +1,1614 @@
+[
+  {
+    "id": "NATIVE-001",
+    "title": "Desktop stopLoading re-enqueues itself instead of cancelling WebEngine loading",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "225-248",
+        "symbol": "WebViewNavigator.handleNavigationEvents / StopLoading"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "lines": "248-249",
+        "symbol": "WebViewNavigator.stopLoading"
+      }
+    ],
+    "root_cause": "Inside with(webView.engine), unqualified stopLoading() has no matching WebEngine member and resolves to the enclosing WebViewNavigator.stopLoading(). That emits another StopLoading event, which queues another Platform.runLater callback.",
+    "impact": "One stop request produces an unbounded coroutine/FX event feedback loop while the collector lives, consumes CPU, and does not stop the network/page load. Replayed commands can restart it after attachment.",
+    "recommendation": "Call webView.engine.loadWorker.cancel() explicitly on the FX thread. Use explicit native receivers for each branch and ensure stop produces no new navigation event.",
+    "risks": "Probe replaces the FX engine and queue, not a running JavaFX GUI; the exact handler and navigator bodies were compiled. Public JavaFX19 source confirms absence of stopLoading. Do not describe this as a passed Desktop integration test.",
+    "required_tests": [
+      "Assert a single stop request calls the native worker cancel once and emits no further commands.",
+      "Run slow-page loading, stop, detach/reattach, and repeated-stop cases in an actual JavaFX/Compose window."
+    ],
+    "evidence": [
+      "docs/testing/native-features-probes/results-baseline.json: STOP_FEEDBACK steps=100 queued=1 nativeCancels=0.",
+      "Dependency evidence identifies JavaFX19 WebEngine private stop(), reached by loadWorker.cancel(), not a public stopLoading API.",
+      "git log -S stopLoading() traces the call back to the initial separate webview artifact; later FX-thread fixes retained it."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/203",
+      "https://github.com/MohamedRejeb/Calf/pull/428"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-002",
+    "title": "Android and Desktop WebViews retain live native views after composition disposal",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "194-215,405-408",
+        "symbol": "AndroidView.factory/onRelease and WebViewState.webView"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "52-108,211-212",
+        "symbol": "DisposableEffect/onDispose and WebViewState.webView"
+      }
+    ],
+    "root_cause": "Android onRelease only calls the user callback; it neither stops/destroys the WebView nor clears state.webView/clients. Desktop onDispose only calls the user callback; it leaves scene, engine load, listeners and state.webView connected, with implicit FX exit disabled.",
+    "impact": "When callers retain WebViewState, it retains the Android Activity/view or the entire Desktop WebView/scene and callbacks after the UI is removed. Loading, audio/timers and native resources may outlive the screen; old views can be observed during remount.",
+    "recommendation": "Define ownership and teardown ordering: save state first, cancel load, detach clients/listeners, remove scene/native references, destroy Android WebView after removal, and clear state.webView if it still denotes that instance. Put cleanup in finally so a throwing user onDispose cannot skip it. Manage FX runtime lifetime independently rather than exiting per view.",
+    "risks": "Missing teardown and retained references are source-confirmed; actual retained heap size, active playback and host process shutdown depend on engine/application behavior. Do not invoke private JavaFX dispose APIs without support analysis.",
+    "required_tests": [
+      "Retain state, mount/unmount repeatedly and verify Activity/native view collectability with weak references/profilers.",
+      "Verify teardown cancels a slow request and media and does not clear a replacement instance.",
+      "Test onDispose throwing, delayed Platform.runLater initialization, process-state save and multiwindow operation."
+    ],
+    "evidence": [
+      "Android line209 stores state.webView; line213 is the sole onRelease action.",
+      "Desktop line101 stores state.webView and lines60-98 register strong closures; lines105-107 do not undo either."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/203",
+      "https://github.com/MohamedRejeb/Calf/pull/426"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-003",
+    "title": "Android and iOS onCreated run before the advertised native WebView reference exists",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "47-48,194-209",
+        "symbol": "WebView factory/onCreated"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "48-49,111-125",
+        "symbol": "UIKitView.factory"
+      }
+    ],
+    "root_cause": "Both mobile factories call the public zero-argument onCreated callback before assigning state.webView. Documentation explicitly directs callers to that property inside onCreated. Android additionally applies settings and replaces clients after the callback.",
+    "impact": "First creation callbacks see null and silently fail to customize the native view; remount can expose a stale old Android view. Cross-platform configuration code works on Desktop/Web but not the advertised mobile hook.",
+    "recommendation": "Assign the native instance before invoking the public callback and document settings/client ordering. Prefer an additive platform-typed customization hook if native callbacks must remain internally owned.",
+    "risks": "Reordering may alter applications relying on current settings precedence; lock down behavior rather than simply moving callbacks past every configuration write.",
+    "required_tests": [
+      "Assert native reference identity inside onCreated on all targets.",
+      "Configure a native setting and verify whether common settings intentionally override it.",
+      "Retain state across remount and verify callback never observes the previous instance."
+    ],
+    "evidence": [
+      "Android invokes onCreated at197 then assigns state.webView at209.",
+      "iOS invokes onCreated at114 then assigns state.webView at123."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/428"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-004",
+    "title": "Web state-driven URL loading does not clear existing iframe srcdoc",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "50-59,220-226",
+        "symbol": "state.content collector versus navigation LoadUrl"
+      }
+    ],
+    "root_cause": "WebContent.Data sets iframe.srcdoc. A later WebContent.Url only sets src; HTML iframe srcdoc takes precedence over src until the attribute is removed. The navigator LoadUrl branch already removes srcdoc but the state branch does not.",
+    "impact": "Switching from inline HTML to a URL through state/content recomposition leaves old HTML displayed and can expose stale authenticated or sensitive content despite the host believing a new URL was loaded.",
+    "recommendation": "Use one shared content loader for navigator and state paths and remove srcdoc before assigning src for every URL transition.",
+    "risks": "Chrome DOM reproduction mirrors exact source operations rather than compiling Compose Web; verify JS and Wasm integration after correction. Preserve inline HTML reload semantics.",
+    "required_tests": [
+      "Data→Url→Data transitions via direct state assignment and remembered-state updates.",
+      "Navigator and state loaders produce the same iframe attributes and page.",
+      "Cross-origin destination with CSP/X-Frame-Options failure does not leave old content falsely reported as new."
+    ],
+    "evidence": [
+      "Real Chrome153 probe stateUrlLeavesSrcdoc=true; navigatorUrlClearsSrcdoc=true."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/429",
+      "https://github.com/MohamedRejeb/Calf/pull/431"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-005",
+    "title": "WebView request state is not reset consistently on Desktop, iOS and Web",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "60-90",
+        "symbol": "loadWorker state listener"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "208-247,345-383",
+        "symbol": "WKNavigationDelegate and KVO"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "50-65,76-95,183-228",
+        "symbol": "content/navigation loaders and iframe listeners"
+      }
+    ],
+    "root_cause": "Desktop RUNNING does not clear errorsForCurrentRequest. iOS clears errors only at didCommitNavigation, so consecutive provisional failures accumulate old errors. Web never sets Loading when changing src/srcdoc and never clears prior errors/title; its cross-origin load handler cannot read URL/title and leaves old values. Web navigation capability flags are unconditionally false.",
+    "impact": "A successful retry can retain an old error, a new request can appear Finished, and cross-origin content may display a previous page title/URL. Consumers deriving loading/error/security UI from common state receive inconsistent or stale signals.",
+    "recommendation": "Centralize begin-request state reset and terminal-state handling; separate requested URL from observable final URL; explicitly represent unknown cross-origin title/history. Clear errors at provisional request start on iOS and RUNNING on Desktop. Do not infer iframe load success from the load event alone.",
+    "risks": "Browser deliberately hides many iframe errors and cross-origin metadata; do not promise reliable progress/final URL or bypass same-origin policy. History capability may need an explicit unsupported state rather than invented booleans.",
+    "required_tests": [
+      "Fail→success, fail→fail, reload, stop and redirects on every target.",
+      "Browser same-origin→cross-origin→inline transitions; blocked framing and offline destination.",
+      "iOS provisional DNS/TLS failure before commit resets the previous request errors."
+    ],
+    "evidence": [
+      "Android onPageStarted resets errors/title, providing the existing comparison behavior.",
+      "Desktop writes errors only on FAILED; iOS reset is didCommit only; Web event source has no Loading assignment anywhere."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/426",
+      "https://github.com/MohamedRejeb/Calf/pull/466",
+      "https://github.com/MohamedRejeb/Calf/issues/39"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-006",
+    "title": "Web WebView never invokes onDispose and retains iframe/listener references",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "35-42,69-106,162-166",
+        "symbol": "WebView lifecycle and WebViewState.iframe"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.web.kt",
+        "lines": "7-12",
+        "symbol": "CalfWebElementView signature"
+      }
+    ],
+    "root_cause": "The public onDispose parameter is never used. The wrapper exposes only factory/update, with no release callback/effect that clears state.iframe or unregisters its load/error listeners.",
+    "impact": "Caller cleanup is skipped on JS/Wasm and retained WebViewState keeps a detached DOM node plus captured state/navigator closures. A remount can briefly operate on an old node; lifecycle behavior differs from every native implementation.",
+    "recommendation": "Add a disposal path using the supported Compose Web interop lifecycle or an explicit DisposableEffect bound to the node. Remove listeners, stop/detach as appropriate, clear only the matching node and deliver onDispose once.",
+    "risks": "Compose WebElementView removes its own rendered element; this finding does not claim the DOM remains mounted. The retained state reference and missing user callback are the library defects.",
+    "required_tests": [
+      "Mount/unmount with a callback counter; verify exactly one onDispose.",
+      "Retained state no longer references the old iframe after removal.",
+      "Queued load/error events after disposal do not update a replacement view."
+    ],
+    "evidence": [
+      "No occurrence of onDispose in the function body after its declaration.",
+      "factory assigns state.iframe at97 and no branch clears it."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/429",
+      "https://github.com/MohamedRejeb/Calf/pull/431"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-007",
+    "title": "Non-Android saveable WebView state restores metadata but no content",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "lines": "319-331",
+        "symbol": "rememberSaveableWebViewState"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "251-268",
+        "symbol": "WebStateSaver"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "388-405",
+        "symbol": "WebStateSaver"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "232-250",
+        "symbol": "WebStateSaver"
+      }
+    ],
+    "root_cause": "Desktop, iOS and Web savers store title and lastLoadedUrl but restore WebContent.NavigatorOnly. No native history or pending load is restored, and no platform factory consumes lastLoadedUrl to initiate a load. NavigatorOnly is explicitly a no-op.",
+    "impact": "After restoration the visible native/browser view is blank while metadata still describes the former page. Saved history/scroll/form state are not portable despite the common saveable helper.",
+    "recommendation": "Define an honest per-platform persistence contract. Restore at least a safe requested URL with an explicit reload policy where native history is unavailable; document lost POST/form/history/scroll state and protect sensitive URL serialization. Keep full Android Bundle restore separate.",
+    "risks": "The current common comment mentions activity recreation; non-Android full session restore is not promised in detail. A change that automatically reloads URLs could repeat side effects or leak secrets, so expose/document the policy.",
+    "required_tests": [
+      "Save/restore URL, HTML, navigator-only, redirect and null URL states on each target.",
+      "Check restored content actually loads and title/history do not falsely describe a blank view.",
+      "Ensure form submissions and one-time URLs are not automatically repeated without intended semantics."
+    ],
+    "evidence": [
+      "All three non-Android restorers construct WebViewState(WebContent.NavigatorOnly) and only assign metadata."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-008",
+    "title": "Replay-one navigation flow replays transient back/forward/stop commands on reattachment",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "lines": "159-179,227-249",
+        "symbol": "NavigationEvent and navigationEvents"
+      },
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "157-160",
+        "symbol": "navigation collector"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "112-115",
+        "symbol": "navigation collector"
+      }
+    ],
+    "root_cause": "All navigation commands share MutableSharedFlow(replay=1). A new collector receives the last command even after it was already consumed by an old native view; no acknowledgement/reset distinguishes retained content from one-shot actions.",
+    "impact": "Recreating/rebinding a WebView can repeat Back, Forward, Reload or StopLoading unexpectedly. With NATIVE-001, a retained StopLoading can restart the feedback loop. Sharing a navigator across views broadcasts commands to both without an ownership contract.",
+    "recommendation": "Separate persistent desired content from one-shot commands, or add an explicit owner/acknowledgement strategy. Choose and document what happens to commands sent before attachment rather than replacing replay=1 blindly.",
+    "risks": "Changing to replay=0 without buffering breaks pre-attachment loadUrl/loadHtml calls, including saveable-state patterns. Preserve these intentionally with tests.",
+    "required_tests": [
+      "Consume Back then replace collector; second collector must not repeat it.",
+      "A load sent before first attachment is processed exactly once.",
+      "Two WebViews with one navigator are either rejected/documented or have deliberate broadcast behavior."
+    ],
+    "evidence": [
+      "Exact common Navigator compiled in standalone probe; first() subscriptions observed Back twice after one navigateBack call."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-009",
+    "title": "iOS captureBackPresses=false is overridden by settings and URL loads",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "83-92,111-124,251-258",
+        "symbol": "URL load, factory and applySettings"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "lines": "140-146",
+        "symbol": "IosSettings.allowsBackForwardNavigationGestures"
+      }
+    ],
+    "root_cause": "Factory first assigns allowsBackForwardNavigationGestures=captureBackPresses, then applySettings assigns the independent setting whose default is true. Every state-driven URL load also unconditionally sets the property true.",
+    "impact": "Disabling captureBackPresses cannot reliably disable swipe navigation; setting the iOS flag false is undone by subsequent URL content changes. Applications with sensitive/special back navigation may unexpectedly leave a page.",
+    "recommendation": "Define precedence (for example captureBackPresses AND the iOS option), apply it from a single update path, and remove the unconditional URL-load assignment. Observe captureBackPresses changes on recomposition.",
+    "risks": "Fixing precedence changes behavior for consumers accidentally relying on the override; document the intended combined contract.",
+    "required_tests": [
+      "All combinations of captureBackPresses and iOS setting at creation, mutation, URL load and recomposition.",
+      "Swipe-back/forward test on real iPhone/iPad confirms false actually disables gestures."
+    ],
+    "evidence": [
+      "Default true settings overwrite captureBackPresses at factory time; line91 forces true again."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/428"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-010",
+    "title": "Enabling Web JavaScript removes all iframe isolation for inline HTML",
+    "priority": "High",
+    "status": "risk",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "57-58,169-176,225-226",
+        "symbol": "HTML content and iframe.applySettings"
+      }
+    ],
+    "root_cause": "javaScriptEnabled=true removes the sandbox attribute entirely. srcdoc then inherits the host origin; scripts in supplied inline HTML can access the parent DOM, same-origin storage and host-page capabilities. There is no separate sandbox/origin policy in the common API.",
+    "impact": "If an application renders untrusted HTML with JavaScript enabled, content that would be isolated inside a native WebView instead obtains the browser host application origin. A browser probe changed the host DOM using only child script; exploitation requires attacker-controlled HTML and the explicit JS opt-in.",
+    "recommendation": "Expose a distinct sandbox/trusted-content policy with safe defaults; for untrusted HTML use an opaque-origin sandbox allowing only needed capabilities and a validated postMessage bridge. Warn that enabling scripts is not merely toggling execution in an isolated native container.",
+    "risks": "This is not an unconditional XSS or sandbox bypass: default JavaScript is false, normal cross-origin pages still have same-origin restrictions, and browser CSP may constrain effects. allow-scripts plus allow-same-origin for same-origin/srcdoc content is not robust isolation.",
+    "required_tests": [
+      "Untrusted inline script cannot read/mutate parent DOM or storage under isolated mode.",
+      "Trusted mode preserves deliberate integration and is explicitly opted into.",
+      "Test popups/forms/top navigation, nested frames, postMessage origin validation and CSP."
+    ],
+    "evidence": [
+      "Real Chrome153 probe unsandboxedSrcdocCanModifyHost=true using a local harmless parent attribute change.",
+      "Disabled mode sets sandbox without allow-scripts; enabled mode removes every sandbox restriction."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/431"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-011",
+    "title": "Browser CookieManager silently misrepresents URL, expiry, HttpOnly and deletion support",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt",
+        "lines": "12-45",
+        "symbol": "setCookie/getCookies/removeAllCookies"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/Cookie.kt",
+        "lines": "10-22",
+        "symbol": "Cookie contract"
+      }
+    ],
+    "root_cause": "Web setters append numeric epoch milliseconds directly as expires, whereas cookies require an HTTP date. URL parameters are ignored in favor of host document.cookie. JavaScript cannot set HttpOnly; the implementation appends that attribute anyway. Deletion always uses path=/ and has no original domain/path.",
+    "impact": "An already-expired cookie can become a session cookie, requested HttpOnly writes can be rejected, cross-origin URL queries return host cookies, and logout-style removeAllCookies leaves non-root-path/domain/HttpOnly cookies. Callers receive Unit/normal lists rather than capability/error information.",
+    "recommendation": "Format expiry as UTC HTTP date or valid Max-Age; reject unsupported foreign-origin/HttpOnly operations explicitly; scope browser cookie APIs to the actual document context; document that complete domain/path/HttpOnly clearing requires server cooperation and/or tracked cookie identities.",
+    "risks": "Chrome rejected the entire HttpOnly assignment; do not claim it created an insecure non-HttpOnly cookie. Browsers may vary. Reading HttpOnly cookies via JavaScript is intentionally impossible and must not be bypassed.",
+    "required_tests": [
+      "Past/future expiry and session cookies in Chromium/Firefox/WebKit.",
+      "Verify HttpOnly requests surface unsupported status rather than silent success.",
+      "URL mismatch, path-specific/domain cookies and server-set HttpOnly logout cases.",
+      "Cookie names/values containing delimiters are validated rather than changing attributes."
+    ],
+    "evidence": [
+      "Chrome153: invalidExpiresRetainsExpiredCookie=true; httpOnlyAttemptRejected=true; rootOnlyDeletionLeavesPathCookie=true.",
+      "Both url parameters are unused. Common CookieManager documentation still says Web is no-op, while source actively writes host cookies."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/425",
+      "https://github.com/MohamedRejeb/Calf/pull/429"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-012",
+    "title": "Desktop and iOS getCookies do not implement full request-URL cookie matching",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+        "lines": "42-57",
+        "symbol": "getCookies"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+        "lines": "75-103",
+        "symbol": "getCookies domain-only filtering"
+      }
+    ],
+    "root_cause": "Desktop returns CookieStore.get(uri), which does not apply request-path matching performed by CookieManager.get. iOS fetches all cookies and filters only on host/domain suffix, ignoring path and secure scheme, and cannot express host-only scope in the public Cookie model.",
+    "impact": "Returned cookies may not be applicable to the requested URL. Callers copying results into request headers can leak a path-restricted token or, on iOS, a Secure cookie into a non-HTTPS request. This API does not itself send the cookie or alter WebKit request filtering.",
+    "recommendation": "Specify whether the method lists storage metadata or cookies applicable to a request. If request matching is intended, implement RFC6265 host-only/domain/path/secure/expiry rules or use the native request-cookie API; otherwise rename/add a scoped method and document restrictions.",
+    "risks": "Desktop path mismatch was executed; iOS matching was source-reviewed only. Native browser cookie enforcement itself is not shown to be broken. Cookie path is not a general same-origin security boundary, but callers still must not forward inappropriate credentials.",
+    "required_tests": [
+      "Domain exact/subdomain/host-only, /private versus /public, /foo versus /foobar paths.",
+      "Secure cookie queried over HTTP versus HTTPS and expiry boundary.",
+      "Compare returned set with actual native HTTP request headers, including duplicate names on different paths."
+    ],
+    "evidence": [
+      "Actual Desktop CookieManager standalone probe returned a cookie restricted to /private for https://audit.invalid/public/.",
+      "iOS filter at86-92 uses only host/domain; no scheme/path predicates occur."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/425"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-013",
+    "title": "Desktop CookieManager overwrites JavaFX and application-global cookie handlers",
+    "priority": "High",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+        "lines": "13-20",
+        "symbol": "cookieManager getter"
+      }
+    ],
+    "root_cause": "Any default CookieHandler not deriving from java.net.CookieManager is replaced by a new empty java.net.CookieManager. JavaFX19 WebPage normally installs com.sun.webkit.network.CookieManager, which extends CookieHandler directly, so even a first read can replace the active WebKit cookie store. Application custom handlers are likewise replaced.",
+    "impact": "Cookie operations can discard access to existing login cookies and change networking behavior for every component using the process-global handler. JavaFX uses special javascript/javascripts schemes for document.cookie filtering, so substituting an unrelated handler also requires semantic compatibility review.",
+    "recommendation": "Do not mutate global state during a getter. Establish explicit cookie-store ownership at toolkit initialization, preserve/adapt compatible handlers, or expose a deliberate application-supplied backend. Handle JavaFX’s store and concurrent access without silently replacing it.",
+    "risks": "A custom-handler replacement was executed against the actual Kotlin cookie class. JavaFX default installation/type were verified in the exact 19 source archive; loss of a real logged-in JavaFX session remains a required GUI integration test. No private com.sun API adoption without maintenance assessment.",
+    "required_tests": [
+      "Login in a real WebEngine, call getCookies, then ensure session and handler identity remain valid.",
+      "Install a custom CookieHandler before creation and verify library does not overwrite it.",
+      "Two managers accessed concurrently and secure/HttpOnly document.cookie behavior under the chosen backend."
+    ],
+    "evidence": [
+      "Standalone actual CookieManager probe COOKIE_HANDLER_REPLACED true.",
+      "JavaFX19 WebPage.java141-146 installs com.sun.webkit.network.CookieManager; that class extends CookieHandler, not java.net.CookieManager."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/425"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-014",
+    "title": "Desktop cookie expiry is recalculated from read time and drifts into the future",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.desktop.kt",
+        "lines": "30-37,50-54",
+        "symbol": "setCookie/getCookies expiresDate mapping"
+      }
+    ],
+    "root_cause": "HttpCookie.maxAge is a lifetime measured from creation, not remaining time. getCookies converts it to epoch expiry using current time on every read rather than preserving the creation timestamp/original expiry.",
+    "impact": "Repeated reads report later and later expiration while the Java cookie store still expires at the original time. Code persisting or copying those returned cookies can extend sessions unintentionally and show misleading session lifetime.",
+    "recommendation": "Preserve an absolute expiry in controlled metadata or use a backend exposing creation/expiry; otherwise explicitly mark expiry unavailable rather than inventing it. Keep session/maxAge=0 distinctions.",
+    "risks": "The store itself still expires cookies; this finding concerns exposed metadata and downstream copying. Avoid relying on inaccessible JDK internals to read creation time.",
+    "required_tests": [
+      "Set a cookie with a known future expiry; reads separated in time remain at the same absolute expiry.",
+      "Roundtrip returned cookie to another store without increasing lifetime.",
+      "Session, already-expired, near-second-boundary and overflow-sized timestamps."
+    ],
+    "evidence": [
+      "Actual Desktop CookieManager probe reported +1201ms expiry drift after ~1.2s without rewriting the cookie."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/425"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-015",
+    "title": "JavaScript evaluation has inconsistent failure, result and thread semantics",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "375-378",
+        "symbol": "evaluateJavascript"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "188-195",
+        "symbol": "evaluateJavascript"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "204-208",
+        "symbol": "evaluateJavascript"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "152-159",
+        "symbol": "evaluateJavascript"
+      }
+    ],
+    "root_cause": "Android/iOS call native APIs on the caller thread and silently omit callback when no view exists. Desktop queues to FX but does not catch executeScript exceptions. iOS sends localized error text through the same String channel as success. Android returns native JSON-encoded values while other targets use toString; Web catches errors as null.",
+    "impact": "Portable client code cannot reliably distinguish null, error text, quoted string and successful string, and may wait forever for callbacks or cause UI-thread violations/uncaught FX exceptions. A callback throwing inside the Web try block can itself trigger a second callback(null).",
+    "recommendation": "Add a typed result/error API with documented serialization and exactly-once callback/suspend semantics; route native execution to the correct UI dispatcher, handle absent/disposed views and script errors explicitly. Preserve the old function as a documented compatibility adapter.",
+    "risks": "Do not expose a universal unsafe bridge to untrusted pages while adding functionality. Existing consumers may depend on Android JSON encoding; changes need additive compatibility treatment.",
+    "required_tests": [
+      "Evaluate string, number, object, null, undefined and throwing scripts on all targets.",
+      "Call before attach, after dispose, off main thread and after callback substitution.",
+      "Callback exceptions are not misreported as script failures or delivered twice."
+    ],
+    "evidence": [
+      "Source methods differ in both dispatch and error handling; no common result normalization exists.",
+      "The Android JavascriptInterface annotation does not itself register a JS bridge; no addJavascriptInterface call exists in the module."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/2",
+      "https://github.com/MohamedRejeb/Calf/pull/16"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-016",
+    "title": "Common WebContent options are silently ignored on several targets",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt",
+        "lines": "46-58,165-176,264-267",
+        "symbol": "WebContent, navigation payloads and header documentation"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "120-132,240-243",
+        "symbol": "load/loadContent"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "94-100,272-289",
+        "symbol": "HTML data loaders"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "50-59,220-226",
+        "symbol": "iframe loads"
+      }
+    ],
+    "root_cause": "Desktop drops additionalHttpHeaders, baseUrl, encoding and historyUrl. Web drops URL headers and HTML base/mime/encoding/history entirely. iOS state-driven HTML only calls loadHTMLString, while navigator HTML with a base URL encodes bytes as UTF8 regardless of the requested encoding label. Common documentation claims headers apply to all subsequent requests although mobile code only sets them on the requested load.",
+    "impact": "Authentication/header-dependent pages or relative HTML resources can fail silently; iOS non-UTF8 labels can mismatch UTF8 data. Applications cannot infer parity from the common signatures. Automatic forwarding of credential headers would itself need an origin policy.",
+    "recommendation": "Document and expose capability restrictions; validate/reject unsupported options rather than implying support. Share consistent state/navigator loaders. If implementing headers/base URLs, do not leak authorization across origins; encode bytes consistently with the declared encoding.",
+    "risks": "Browser cannot attach arbitrary headers to iframe navigation; a proxy/fetch workaround changes origin, cookies, CSP and security and is not a routine fix. Do not promise full web/native parity.",
+    "required_tests": [
+      "Authenticated URL with custom header, redirect to same/different origin and subsequent links/subresources.",
+      "Inline relative URLs with baseUrl and non-ASCII data under supported encodings.",
+      "State versus navigator content produce the same semantics per platform."
+    ],
+    "evidence": [
+      "Desktop engine.load receives only content.url/event.url. Web assigns only src/srcdoc.",
+      "iOS navigator line275 always dataUsingEncoding(NSUTF8StringEncoding), but line282 uses caller event.encoding."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/428",
+      "https://github.com/MohamedRejeb/Calf/pull/429"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-017",
+    "title": "iOS inline-media configuration is changed only after WKWebView construction",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "111-124,251-258",
+        "symbol": "WKWebView factory and applySettings"
+      },
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "lines": "149-155",
+        "symbol": "IosSettings.allowsInlineMediaPlayback"
+      }
+    ],
+    "root_cause": "The factory constructs WKWebView() with default configuration, then sets configuration.allowsInlineMediaPlayback. Apple’s configuration property returns a copy and changing that configuration does not affect the existing web view. Dynamic changes repeat the same ineffective scalar assignment.",
+    "impact": "The common default/setting can report inline playback enabled while iPhone behavior remains the native default. Consumers cannot reliably opt into inline playback using the exposed API.",
+    "recommendation": "Create WKWebViewConfiguration before native view initialization and pass it to WKWebView(frame, configuration). Clearly separate creation-only options from mutable preferences; recreate deliberately or reject unsupported runtime changes.",
+    "risks": "No iOS playback run was possible. Evidence concerns the scalar configuration field, not an assumption that every nested preferences property is copied or that all JavaScript toggles fail.",
+    "required_tests": [
+      "iPhone video with playsinline under true/false initial settings.",
+      "Changing creation-only configuration after mount has explicitly tested documented behavior.",
+      "Ensure initialization order does not regress onCreated, navigation delegate or default website data store."
+    ],
+    "evidence": [
+      "Apple WKWebView.configuration documentation retrieved2026-10-24: returns a copy; changes do not affect the web view configuration.",
+      "The code uses WKWebView() then configuration.allowsInlineMediaPlayback; no prepared configuration initializer exists."
+    ],
+    "upstream_refs": [
+      "https://developer.apple.com/documentation/webkit/wkwebview/configuration"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-018",
+    "title": "Desktop initializes JFXPanel during composition despite historical nested-event-loop crashes",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "50-54",
+        "symbol": "remember JFXPanel initialization"
+      }
+    ],
+    "root_cause": "JFXPanel() is created synchronously inside remember. The first panel can bootstrap JavaFX and enter a nested AWT event loop while Compose is composing/rendering; archived issue346 shows exactly this stack path. There is no coordinated preinitialization or failure UI.",
+    "impact": "On affected runtime/host combinations first WebView composition may re-enter Compose rendering and throw Reentry into ignoringRedrawRequests. Missing graphics/native prerequisites can also abort toolkit startup, but their exact root causes differ.",
+    "recommendation": "Reproduce on current supported hosts/Compose first. Establish a documented toolkit startup stage outside an active composition and an error/capability path; marshal UI objects to their required threads and preserve multiwindow lifecycle.",
+    "risks": "Historical stack is evidence of a reported prior failure, not proof that current Compose1.12 reproduces it. JavaFX19 classifiers/prerequisites are separately tracked by build findings. Do not blindly move JFXPanel construction to a worker thread.",
+    "required_tests": [
+      "Cold first WebView creation during recomposition with FX initially uninitialized.",
+      "macOS AWT/Metal and Linux X11/Wayland graphics matrices; repeated removal/recreation.",
+      "Explicit unsupported/headless environment result rather than unexplained renderer exception."
+    ],
+    "evidence": [
+      "Archived issue346 stack includes SwingInteropContainer reentry via JFXPanel.initFx and library WebView creation.",
+      "Current source retains direct remember { JFXPanel() }. Issue344 setting-thread failure is different and has a source fix (Platform.runLater at215-221)."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/346",
+      "https://github.com/MohamedRejeb/Calf/issues/39",
+      "https://github.com/MohamedRejeb/Calf/issues/151",
+      "https://github.com/MohamedRejeb/Calf/issues/344"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-019",
+    "title": "Android camera loses its output URI across Activity/process recreation",
+    "priority": "High",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "28,35-48,59-73",
+        "symbol": "imageUri and rememberCameraPickerLauncher"
+      }
+    ],
+    "root_cause": "The pending image URI is stored only inside a newly remembered CameraPickerLauncherAndroidImpl. ActivityResultRegistry can deliver a restored TakePicture Boolean, but the recreated instance has imageUri=null and drops the successful result.",
+    "impact": "Capturing a photo while the host Activity is recreated or process is reclaimed loses the application result and leaves the camera-created file orphaned. The most important user action can appear to succeed in the camera app but disappear on return.",
+    "recommendation": "Persist the pending output URI/request state with saveable state or an explicit saved-state owner before launching. Restore it before result delivery, clear it after terminal completion and handle interrupted requests deliberately.",
+    "risks": "This is a source-traced lifecycle defect; no Android device/emulator Activity recreation test was run by this reviewer. Do not persist a granted URI longer than its actual access lifetime without an ownership policy.",
+    "required_tests": [
+      "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+      "Rotate/recreate and simulate process death while external camera is foreground.",
+      "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI."
+    ],
+    "evidence": [
+      "imageUri initializes null at28; only launch assigns it at42; handleResult requires non-null at47.",
+      "remember rather than rememberSaveable is used for both holder and launcher."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/274",
+      "https://github.com/MohamedRejeb/Calf/pull/302"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-020",
+    "title": "Camera callback/lifetime handling is unstable across recomposition",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "22-25,59-73",
+        "symbol": "CameraPickerLauncherAndroidImpl and remember factory"
+      },
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "29-30,100-105",
+        "symbol": "pickerDelegate and remember(viewController,onResult)"
+      }
+    ],
+    "root_cause": "Android remember has no keys and permanently captures the first onResult/context. iOS keys the whole launcher on onResult, so replacing an inline callback replaces the object that owns the strong UIImagePicker delegate reference during an in-flight operation.",
+    "impact": "Android can call a stale handler capturing an obsolete item/navigation identity. iOS has a conditional delegate-lifetime risk when old launcher ownership is lost on recomposition; the existing strong-reference fix is only effective while that launcher remains retained.",
+    "recommendation": "Remember one launcher per platform host, keep onResult current via rememberUpdatedState, and explicitly retain/clear active operation delegates independent of changing callbacks. Define which callback receives an in-flight request result.",
+    "risks": "Android stale capture is source-confirmed. Premature iOS deallocation under Kotlin/Native GC is a risk, not reproduced; do not undo the original strong delegate retention from PR326.",
+    "required_tests": [
+      "Change callback from A to B while capture is active and assert agreed callback semantics.",
+      "Repeated ordinary recompositions do not replace iOS active operation owner.",
+      "Force Kotlin/Native GC/memory pressure during presentation and verify delegate callbacks still arrive."
+    ],
+    "evidence": [
+      "Android launcher construction closes over onResult only once at70.",
+      "iOS remember(viewController,onResult) creates a new launcher for changed function identity; UIKit delegate is weak."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/326"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-021",
+    "title": "Camera API silently drops unsupported, cancelled and failed operations",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/commonMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.kt",
+        "lines": "7-14",
+        "symbol": "CameraPickerLauncher and onResult contract"
+      },
+      {
+        "path": "calf-camera-picker/src/desktopMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.desktop.kt",
+        "lines": "8-19",
+        "symbol": "Desktop no-op launcher"
+      },
+      {
+        "path": "calf-camera-picker/src/webMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.web.kt",
+        "lines": "8-19",
+        "symbol": "Web no-op launcher"
+      },
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "30-49",
+        "symbol": "launch/handleResult"
+      },
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "57-76",
+        "symbol": "finish/cancel delegate"
+      }
+    ],
+    "root_cause": "Only a non-null KmpFile success callback is modeled. Desktop/Web launch are Unit no-ops; Android no-camera/cancel returns nothing; iOS cancel, image-conversion and write failures all disappear without an outcome. Other launch exceptions escape instead.",
+    "impact": "Callers cannot reliably clear busy UI, distinguish denial/cancellation/unavailable from a pending picker, or feature-detect desktop/web. Common availability is misleading despite compilation succeeding.",
+    "recommendation": "Add a result/capability API covering success, cancellation, unavailable and categorized failure, while keeping the legacy success-only callback as an adapter. Do not pretend unsupported platforms captured an image. Document permission requirements and iOS photo-library fallback.",
+    "risks": "Adding cases to existing public sealed types can break exhaustive callers; this API currently has no result type, so use an additive overload/type and migration guidance. Do not silently implement a major camera engine during this audit.",
+    "required_tests": [
+      "Every platform produces one defined terminal outcome for cancel/unavailable/error.",
+      "No camera app, feature absent, permission denied and iOS simulator library fallback.",
+      "Desktop/Web capability checks align with launcher behavior."
+    ],
+    "evidence": [
+      "Desktop/Web launch bodies are literally Unit; error/cancel paths in mobile have no callback.",
+      "Upstream request288 is source-satisfied for basic mobile capture, not desktop/web."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/28",
+      "https://github.com/MohamedRejeb/Calf/issues/288",
+      "https://github.com/MohamedRejeb/Calf/pull/274"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-022",
+    "title": "Android camera hardcodes a host FileProvider authority without public setup or validation",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "35-43",
+        "symbol": "launch FileProvider URI creation"
+      },
+      {
+        "path": "sample/android/src/main/AndroidManifest.xml",
+        "lines": "58-66",
+        "symbol": "sample FileProvider registration"
+      },
+      {
+        "path": "sample/android/src/main/res/xml/filepaths.xml",
+        "lines": "2-6",
+        "symbol": "whole-cache provider path"
+      }
+    ],
+    "root_cause": "API24+ requires ${context.packageName}.provider and a provider path covering cacheDir, but the library ships no manifest/provider contract or dedicated camera setup guide. getUriForFile and launcher.launch are outside error handling. A device camera feature does not ensure an installed intent handler.",
+    "impact": "A host adding only the artifact can crash on first launch with missing provider metadata or unmatched path. Authority collisions or host-custom providers cannot be selected. Copying the sample exposes the whole cache tree as grantable rather than a camera-only subdirectory.",
+    "recommendation": "Document/validate a configurable authority/output provider, reserve a narrow camera cache subdirectory, and return explicit configuration/launch failure. If a manifest provider is bundled later, use a namespaced authority and preserve host override/backward compatibility.",
+    "risks": "The sample provider is exported=false with temporary grants: whole-cache path is not proof all cache files are publicly readable. Treat narrowing as defense in depth, not an existing unauthenticated data leak.",
+    "required_tests": [
+      "Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.",
+      "Host with its own provider authority and no installed camera intent handler.",
+      "Only camera-owned files can be granted through recommended provider configuration."
+    ],
+    "evidence": [
+      "No camera AndroidManifest.xml exists in the baseline.",
+      "Setup details survive in upstream PR274 body, while the current sample is the only in-repository provider example."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/274"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-023",
+    "title": "iOS camera has no in-flight presentation guard or lifecycle-bound cleanup",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "29-32,49-95",
+        "symbol": "launch, delegate storage and presentation"
+      }
+    ],
+    "root_cause": "Each launch replaces the single pickerDelegate field and schedules another presentation without checking an already-presented controller or active request. Delegate completion calls onResult before dismissal/clearing; a reentrant launch or throwing callback can skip cleanup or overwrite the new operation delegate. Composition disposal is not handled.",
+    "impact": "Rapid/reentrant launch can cause UIKit presentation rejection, lost/weak delegates or results; leaving the screen can leave a controller/work active. A throwing callback can leave the original picker undismissed. These cases are not safely serialized.",
+    "recommendation": "Represent an explicit active request with a single-flight guard and stable owner, dismiss/clear in finally using instance identity, and define cancellation on owner disposal. Deliver user callbacks after internal lifecycle cleanup when appropriate.",
+    "risks": "UIKit/device timing and GC outcomes were not reproduced. The source shows missing guards/order, not guaranteed crash for every double tap. Coordinate callback ownership with NATIVE-020.",
+    "required_tests": [
+      "Double tap launch, callback launches again, callback throws, owner navigates away.",
+      "Denied permissions, camera unavailable, simulator fallback and presentation over another modal.",
+      "Exactly one active picker and no old delegate cleanup clears a replacement operation."
+    ],
+    "evidence": [
+      "launch unconditionally overwrites pickerDelegate at88; completion invokes onResult at64 then clears shared field at70.",
+      "No DisposableEffect/close/in-flight flag exists in the iOS launcher."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/326"
+    ],
+    "effort": "M",
+    "dependencies": [
+      "NATIVE-020"
+    ]
+  },
+  {
+    "id": "NATIVE-024",
+    "title": "Camera capture does synchronous full-resolution PNG work and has no temporary-file ownership policy",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-camera-picker"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "57-83",
+        "symbol": "UIImagePNGRepresentation and saveTempImageFile"
+      },
+      {
+        "path": "calf-camera-picker/src/androidMain/kotlin/com/mohamedrejeb/calf/camerapicker/CameraPickerLauncher.android.kt",
+        "lines": "35-49",
+        "symbol": "cache output and handleResult"
+      }
+    ],
+    "root_cause": "The iOS delegate synchronously encodes the original full-resolution UIImage as PNG and atomically writes the whole NSData before dismissing/calling success. iOS random-named and Android timestamp-named temporary files have no cleanup/ownership contract; cancelled/abandoned Android captures are not deleted.",
+    "impact": "Large photos can stall the main thread and temporarily retain decoded image plus PNG buffer plus file-write resources. Repeated captures can accumulate sensitive photos/cache space until external cleanup; callers do not know when returned files may disappear.",
+    "recommendation": "Measure representative large images, move safe encoding/file work off the UI thread, offer bounded format/quality/resolution policy, and define explicit ownership/TTL for returned files. Delete only failed/cancelled library-owned outputs; successful files must remain valid for documented consumption.",
+    "risks": "Latency/OOM/disk growth magnitude is workload/device-dependent and was not benchmarked. Temporary directories are OS-managed but not immediate guaranteed cleanup. JPEG/HEIF choices affect transparency, quality, orientation and metadata.",
+    "required_tests": [
+      "Real-device 12/48MP capture latency, peak resident memory and UI responsiveness.",
+      "Disk-full/write-failure/cancel/repeated capture and cache eviction.",
+      "File remains readable for expected consumer lifetime; cleanup never deletes another request file."
+    ],
+    "evidence": [
+      "UIImagePNGRepresentation, NSData writeToFile and callback all execute inside the UIKit result delegate synchronously.",
+      "Neither platform has a delete/close/TTL path for capture outputs."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/311",
+      "https://github.com/MohamedRejeb/Calf/pull/326"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-025",
+    "title": "ShareResult.Success means chooser launch/service selection rather than completed sharing on some targets",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+        "lines": "26-30",
+        "symbol": "rememberShareLauncher result callback"
+      },
+      {
+        "path": "calf-share/native/src/lib.rs",
+        "lines": "136-162",
+        "symbol": "did_choose delegate"
+      },
+      {
+        "path": "calf-share/src/commonMain/kotlin/com/mohamedrejeb/calf/share/ShareResult.kt",
+        "lines": "11-19",
+        "symbol": "Success/Dismissed semantics"
+      }
+    ],
+    "root_cause": "Android reports Success immediately after startActivity(chooser), before user selection or cancellation. macOS returns Success when NSSharingServicePicker didChooseSharingService reports a non-null service, not when that service completes or fails.",
+    "impact": "Consumers may erase source files, show false success, count completed shares or navigate away even if a user cancels or a service later fails. Android Dismissed cannot be produced by this implementation; macOS success is only service selection.",
+    "recommendation": "Make result semantics explicit per platform and distinguish Presented/Selected from Completed where native APIs permit. Android cannot generally prove a recipient delivered content; macOS should observe the service delegate for actual completion if claiming it. Preserve existing API through a documented additive result model.",
+    "risks": "Do not promise actual delivery through share targets that expose no completion API. A compatibility change to Success meaning requires migration notes. Files must remain available while the recipient/service still reads them.",
+    "required_tests": [
+      "Dismiss Android chooser and cancel/fail a selected macOS service without reporting completed share.",
+      "Verify callbacks occur at documented stages and exactly once.",
+      "Delay recipient file reads past chooser selection to validate file lifetime."
+    ],
+    "evidence": [
+      "Android callback at28 follows startActivity immediately.",
+      "Rust chosen=!service.is_null() directly maps to RESULT_SUCCESS.",
+      "iOS completionWithItemsHandler uses the completed flag, illustrating nonuniform semantics."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-026",
+    "title": "Web clipboard fallback reports success before its promise resolves",
+    "priority": "Medium",
+    "status": "confirmed-test",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.web.kt",
+        "lines": "58-93",
+        "symbol": "shareText/shareUrl clipboard fallback"
+      },
+      {
+        "path": "calf-share/src/jsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.js.kt",
+        "lines": "35-37",
+        "symbol": "copyToClipboard"
+      },
+      {
+        "path": "calf-share/src/wasmJsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.wasmJs.kt",
+        "lines": "80-81,126-128",
+        "symbol": "jsCopyToClipboard"
+      }
+    ],
+    "root_cause": "copyToClipboard discards navigator.clipboard.writeText Promise and returns Unit. The caller immediately reports Success in a synchronous try/catch; asynchronous permission/insecure-context rejections bypass that catch and have no rejection handler.",
+    "impact": "Unsupported native sharing can falsely report a successful copy while nothing reaches the clipboard and an unhandled rejection is emitted. The user loses a fallback action without useful feedback.",
+    "recommendation": "Return/await clipboard completion via callback/promise/suspend interop and map rejection to a real unavailable/failure outcome. Check secure context/API support and preserve user activation requirements.",
+    "risks": "The Node proof uses the exact Wasm JS body with a mocked rejection, not real clipboard permission UI. Browser integration must test both JS/Wasm and real activation. Never read unrelated clipboard contents in tests.",
+    "required_tests": [
+      "Rejected NotAllowedError promise produces no Success and no unhandled rejection.",
+      "Resolved promise produces one Success only after completion.",
+      "Missing clipboard API, insecure context, denied permission and direct user gesture."
+    ],
+    "evidence": [
+      "Standalone Node result outcomes=[Success], unhandledRejection=true for a rejected writeText promise."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-027",
+    "title": "Desktop share fallback opens arbitrary files/URLs instead of offering an explicit sharing fallback",
+    "priority": "High",
+    "status": "risk",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
+        "lines": "51-64,108-155",
+        "symbol": "handleShare/shareUrlFallback/shareFileFallback/shareFilesFallback"
+      }
+    ],
+    "root_cause": "On Windows/Linux or any native-share failure, URLs are sent to Desktop.browse and files to Desktop.open with no MIME, URI-scheme or executable/handler policy. This occurs automatically after swallowed native errors, not after a separate open/preview decision.",
+    "impact": "A user asking to share can instead launch a registered URL handler or open an untrusted file in an associated application. Depending on OS associations, opening executable/script/shortcut content can run code; many files can launch many apps. No code execution exploit was demonstrated and user-supplied content/control of the call are required.",
+    "recommendation": "Make fallback behavior explicit/opt-in. Prefer Unavailable, copying shareable data, or a documented export/open-location action over automatically opening content. Validate supported URL schemes and avoid executing/previewing untrusted files as an incidental share operation.",
+    "risks": "Current docs disclose opening default apps on Windows/Linux, so this is a safety/design risk rather than hidden malicious behavior. Removing it can be a user-visible compatibility change; offer a policy parameter and deprecation path.",
+    "required_tests": [
+      "With OS open/browse calls mocked, file share does not execute/open without chosen policy.",
+      "Native-loader failure follows the same safe fallback as unsupported OS.",
+      "Untrusted file extensions/custom URI schemes and multi-file partial failure produce a truthful result without unintended handlers."
+    ],
+    "evidence": [
+      "shareFileFallback calls desktop.open(file) at132; Files repeats it at147.",
+      "MIME type passed in ShareContent.File/Files is not used by Desktop fallback."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-028",
+    "title": "Android file sharing forwards file:// URIs without FileProvider conversion",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share",
+      "calf-io"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+        "lines": "65-85",
+        "symbol": "createFileShareIntent/createMultipleFilesShareIntent"
+      },
+      {
+        "path": "calf-io/src/androidMain/kotlin/com/mohamedrejeb/calf/io/KmpFile.android.kt",
+        "lines": "8-10,59-62",
+        "symbol": "KmpFile constructor/File.toKmpFile"
+      }
+    ],
+    "root_cause": "Sharing forwards KmpFile.uri directly into EXTRA_STREAM with a read flag. Public KmpFile accepts arbitrary Uri and java.io.File.toKmpFile explicitly constructs Uri.fromFile; that file:// path is not made shareable by FLAG_GRANT_READ_URI_PERMISSION.",
+    "impact": "A natural File.toKmpFile→ShareContent.File path fails on modern Android with file URI exposure or an unreadable recipient path, instead of sharing. Android catch usually reduces the launch failure to Unavailable with no diagnostic.",
+    "recommendation": "Require/validate content URIs or convert library-owned local files through an explicitly configured FileProvider before launching. Preserve document-provider URI grants and avoid granting write/all-cache access unnecessarily; surface meaningful failure.",
+    "risks": "The API also correctly supports content:// KmpFiles. Do not blanket-copy arbitrary provider files or broaden grants merely to support file://. Device intent behavior still requires instrumented validation.",
+    "required_tests": [
+      "Internal File.toKmpFile on API24+ produces a recipient-readable content URI.",
+      "SAF photo/document URIs retain least-privilege read access and correct multi-file ClipData/extra grants.",
+      "Revoked/ungrantable URI, empty list, mixed MIME and provider exceptions."
+    ],
+    "evidence": [
+      "KmpFile.android.kt File.toKmpFile returns Uri.fromFile(this).",
+      "Share construction does no URI scheme check/conversion before creating ACTION_SEND/ACTION_SEND_MULTIPLE."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-029",
+    "title": "macOS share leaks both the Objective-C delegate and its Arc completion state on every presented picker",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/native/src/lib.rs",
+        "lines": "148-162,255-259,294-295",
+        "symbol": "did_choose, Arc::into_raw and mem::forget(delegate)"
+      }
+    ],
+    "root_cause": "A cloned Arc is converted into a raw pointer in the delegate ivar, but no dealloc or completion cleanup ever consumes that owning raw reference. did_choose reconstructs it and immediately forgets it. The Objective-C delegate itself is mem::forget-ed permanently with no owner to release it.",
+    "impact": "Each picker that reaches delegate creation leaks a native object and its Rust mutex/condition-variable allocation, including dismissal and timeout. The source leak is definite, while the per-request memory size is not measured.",
+    "recommendation": "Use an explicit retained operation owner and balanced lifetime/teardown. Release the raw Arc exactly once from delegate dealloc or a safely synchronized completion path, clear the pointer, and release delegate/picker after callbacks can no longer occur. Handle late callbacks after timeout without use-after-free.",
+    "risks": "Naively dropping the delegate immediately or Arc after the waiting thread wakes risks a weak-delegate loss or use-after-free. ObjC callback lifetime, picker retention and duplicate callbacks require a real macOS design/test, not a one-line mem::forget removal.",
+    "required_tests": [
+      "Thousands of share/cancel cycles show stable allocations under Instruments/leaks.",
+      "Success, cancellation, timeout, no-window and late/duplicate callbacks drop each owner exactly once.",
+      "ASan/native stress with concurrent requests validates no UAF or double-free after cleanup."
+    ],
+    "evidence": [
+      "Arc::into_raw(ctx.pair.clone()) increments ownership at256; no matching owning drop exists.",
+      "std::mem::forget(delegate) at295 has no later Retained::from_raw/release counterpart."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-030",
+    "title": "macOS sharing blocks a coroutine worker for up to five minutes without cancellation integration",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
+        "lines": "24-35,74-85",
+        "symbol": "rememberShareLauncher/showNativeShare"
+      },
+      {
+        "path": "calf-share/native/src/lib.rs",
+        "lines": "180-198,298-324",
+        "symbol": "dispatch_async_f and Condvar wait"
+      }
+    ],
+    "root_cause": "The JNI function schedules AppKit work then synchronously waits on Condvar with a 300-second timeout. withContext(Dispatchers.IO) does not make this native blocking call cancellable. There is no native cancellation handle or single-flight request guard; spurious wakes restart a full timeout window.",
+    "impact": "Leaving composition cancels the coroutine result delivery but cannot close the picker or immediately release the worker. Repeated launches can occupy many workers and show overlapping native UI. Missing/late callbacks turn into Dismissed after a long delay unrelated to actual user dismissal.",
+    "recommendation": "Expose asynchronous native completion or a cancellable operation handle, serialize appropriate UI requests, and use an absolute deadline with a distinct timeout/error outcome. Keep all AppKit calls on main and ensure completion-state lifetime handles cancellation/late callbacks.",
+    "risks": "The existing implementation correctly keeps the blocking wait off the ordinary Compose UI thread. No macOS missing-callback event was reproduced; the non-cancellable wait and timeout behavior are source-confirmed. Avoid waiting on the AppKit main queue through any new entry point.",
+    "required_tests": [
+      "Cancel scope while picker open and verify prompt cleanup without occupying an IO worker until timeout.",
+      "Repeated requests, unavailable keyWindow/contentView, timeout, spurious wake and late callback.",
+      "Stress a bounded pool and assert exactly-once terminal result with balanced native lifetime."
+    ],
+    "evidence": [
+      "Rust uses Duration::from_secs(300) and wait_timeout in a loop; Kotlin wraps it only with Dispatchers.IO."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "L",
+    "dependencies": [
+      "NATIVE-029"
+    ]
+  },
+  {
+    "id": "NATIVE-031",
+    "title": "Desktop native share extraction uses one mutable filename across versions, architectures and processes",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/platform/NativeLibLoader.kt",
+        "lines": "47-84",
+        "symbol": "cache directory/extraction/System.load"
+      }
+    ],
+    "root_cause": "Resources are OS/architecture-specific but every version/architecture extracts into the same per-user basename. Atomic move prevents partially written files, but there is no lock or immutable content-addressed identity between move and System.load. mkdirs results/ownership/symlink constraints are not validated.",
+    "impact": "Concurrent JVMs or versions may load the other process artifact; architecture changes can collide. Windows can refuse replacing a DLL already loaded by another process, forcing a fallback. A writable/redirected cache/system library path is a trust boundary, but same-user control alone is not a demonstrated privilege escalation.",
+    "recommendation": "Use version/OS/architecture/content-digest immutable filenames in a verified private cache directory; validate bytes/path, extract atomically without overwriting loaded versions, and document cleanup. Preserve intentional System.loadLibrary-first support for external packagers as an explicit trusted override. Reuse/adapt the content-addressed NativeLibCache already implemented in calf-file-picker rather than duplicating a new extraction design.",
+    "risks": "No wrong-binary or arbitrary-code execution was performed. The move-to-load race and Windows replacement outcome depend on concurrent launches/platform rules; cache and native library trust should be tested without claiming an exploitable CVE.",
+    "required_tests": [
+      "Two versions/architectures race between extraction and loading and each receives its own digest.",
+      "Concurrent Windows process with loaded DLL does not lose native functionality.",
+      "Read-only home, failed mkdirs, symlinked cache, interrupted extraction, no resource and trusted external packager library."
+    ],
+    "evidence": [
+      "ResourcePath includes osPart/archPart at47; targetFile uses only libFileName at60.",
+      "Source performs mutable rename then loads path at84 with no intervening identity check.",
+      "calf-file-picker has a newer immutable content-hashed NativeLibCache (commit befc455); the equivalent share loader was not migrated to that cache strategy."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/commit/6331db22d2018c1a1ea2b52a291da2d8ee78138d",
+      "https://github.com/MohamedRejeb/Calf/commit/befc455"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-032",
+    "title": "Share callbacks can be delivered twice when application result handling throws",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+        "lines": "26-30",
+        "symbol": "share launch try/catch"
+      },
+      {
+        "path": "calf-share/src/jsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.js.kt",
+        "lines": "45-55",
+        "symbol": "handleSharePromise"
+      },
+      {
+        "path": "calf-share/src/wasmJsMain/kotlin/com/mohamedrejeb/calf/share/WebShareApi.wasmJs.kt",
+        "lines": "10-18,29-37,48-54,64-70",
+        "symbol": "then/catch chains"
+      }
+    ],
+    "root_cause": "Android includes currentOnResult(Success) inside the try that handles startActivity; a callback exception is caught as a launch failure and the callback is invoked again with Unavailable. Browser promise.then invokes the callback before a trailing catch that treats the callback exception as a share rejection and invokes another outcome.",
+    "impact": "One operation can produce conflicting duplicate results; user bugs are hidden as platform failures and destructive callback side effects can repeat. A second throwing invocation may escape in a different place as an unhandled error.",
+    "recommendation": "Catch only platform operation errors, then invoke user callbacks outside that catch boundary. Use promise.then(onFulfilled,onRejected) or equivalent separate settlement handling so result callback exceptions are not remapped to share outcomes.",
+    "risks": "Application callbacks are normally expected not to throw, but library error boundaries must not manufacture a second terminal platform event. Preserve crash reporting for the original application exception.",
+    "required_tests": [
+      "Callback deliberately throws after recording Success; exactly one callback invocation is observed.",
+      "Platform start/share rejection invokes one failure and is distinct from callback failure.",
+      "JS/Wasm resolved/rejected promises and Android ActivityNotFoundException paths."
+    ],
+    "evidence": [
+      "Android currentOnResult at28 lies inside catch Exception. JS/Wasm append catch after then handlers that invoke callbacks."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-033",
+    "title": "Public mobile launch/evaluation operations lack an explicit main-thread contract or enforcement",
+    "priority": "Medium",
+    "status": "risk",
+    "modules": [
+      "calf-camera-picker",
+      "calf-share",
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-camera-picker/src/iosMain/kotlin/com.mohamedrejeb.calf/camerapicker/CameraPickerLauncher.ios.kt",
+        "lines": "32-36,92-95",
+        "symbol": "camera construction/presentation"
+      },
+      {
+        "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt",
+        "lines": "49-100",
+        "symbol": "presentShareSheet"
+      },
+      {
+        "path": "calf-share/src/androidMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.android.kt",
+        "lines": "20-30",
+        "symbol": "context.startActivity"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.ios.kt",
+        "lines": "35-65,75-83,110-123",
+        "symbol": "WKHTTPCookieStore access"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "184-195",
+        "symbol": "settings/JavaScript calls"
+      }
+    ],
+    "root_cause": "Only iOS camera presentation is dispatched to main; it still constructs/configures UIImagePickerController before dispatch. iOS sharing and WebView settings/evaluation/cookie-store access run on the caller coroutine/thread. Public launch functions and suspend cookie API do not document/enforce UI affinity.",
+    "impact": "Calls from background application coroutines can violate UIKit/WebKit expectations, produce warnings/failures or missing completion. Most normal Compose click handlers are already on UI, so this is conditional rather than a failure of ordinary usage.",
+    "recommendation": "Document required affinity and marshal the entire native UI operation to the proper main dispatcher where safe. For suspend APIs, use withContext(Main) around thread-confined native calls; avoid dispatching just the final present call while constructing UI off-thread.",
+    "risks": "No mobile thread sanitizer/device run was available. Confirm each underlying native API requirement individually; do not claim all Foundation or all cookie processing must execute on main. Ensure result callbacks have a stable documented dispatcher.",
+    "required_tests": [
+      "Call supported public APIs from Dispatchers.Default/IO and main; observe deterministic safe dispatch/result.",
+      "UIKit Main Thread Checker and Kotlin/Native concurrency tests.",
+      "Cancellation before dispatch, after presentation and before callback cannot orphan work."
+    ],
+    "evidence": [
+      "Camera comment says Always present controller on main, but UIImagePickerController is constructed earlier outside dispatch.",
+      "Share presentShareSheet calls UIActivityViewController creation/present directly without any dispatch or caller check."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/326",
+      "https://github.com/MohamedRejeb/Calf/pull/508"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-034",
+    "title": "Share subject is not delivered consistently and iOS assigns controller title instead of item subject",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-share"
+    ],
+    "locations": [
+      {
+        "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.ios.kt",
+        "lines": "61-70",
+        "symbol": "subject mapping"
+      },
+      {
+        "path": "calf-share/src/iosMain/kotlin/com/mohamedrejeb/calf/share/ShareContentExt.ios.kt",
+        "lines": "9-24",
+        "symbol": "activity item conversion"
+      },
+      {
+        "path": "calf-share/src/webMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.web.kt",
+        "lines": "96-109",
+        "symbol": "web file sharing"
+      },
+      {
+        "path": "calf-share/src/desktopMain/kotlin/com/mohamedrejeb/calf/share/ShareLauncher.desktop.kt",
+        "lines": "66-80,91-96",
+        "symbol": "native/fallback content conversion"
+      }
+    ],
+    "root_cause": "iOS assigns activityViewController.title rather than supplying an activity item subject. Raw items do not implement UIActivityItemSource subjectForActivityType. Desktop drops all subject fields; web text/URL use title but file/multiple-file subject is discarded.",
+    "impact": "Apps relying on the advertised optional email subject do not get consistent mail/share metadata. This is a functional parity gap rather than a security defect.",
+    "recommendation": "Supply native item-source subject where supported, pass file title/subject to Web Share where applicable, and document which platforms cannot honor the field. Avoid implying MIME override support on systems deriving file type from the URL.",
+    "risks": "Email target behavior varies; UIActivityViewController title is not documented as the mail subject API. Verify actual mail/service integrations rather than assuming one native workaround works universally.",
+    "required_tests": [
+      "iOS Mail subject for text, URL, single and multiple files.",
+      "Web payload inspection verifies title/file fields; unsupported metadata is documented.",
+      "Desktop native/fallback subject behavior is explicit and tested where implementable."
+    ],
+    "evidence": [
+      "Apple UIActivityItemSource subjectForActivityType documentation identifies the supported subject hook; no item source exists here.",
+      "Desktop tuple conversion and browser file helpers accept no subject."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/pull/508",
+      "https://developer.apple.com/documentation/uikit/uiactivityitemsource/activityviewcontroller(_:subjectforactivitytype:)"
+    ],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-035",
+    "title": "Maps, media and notification scaffolds must not be represented as implemented features",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "calf-maps",
+      "calf-media",
+      "calf-notifications"
+    ],
+    "locations": [
+      {
+        "path": "calf-maps/build.gradle.kts",
+        "lines": "1-13",
+        "symbol": "empty maps module"
+      },
+      {
+        "path": "calf-media/build.gradle.kts",
+        "lines": "1-47",
+        "symbol": "excluded stale build script"
+      },
+      {
+        "path": "calf-notifications/build.gradle.kts",
+        "lines": "1-47",
+        "symbol": "excluded stale build script"
+      },
+      {
+        "path": "calf-notifications/src/iosMain/kotlin/com.mohamedrejeb.calf/notifications/Main.kt",
+        "lines": "1-26",
+        "symbol": "uncompilable notification experiment"
+      },
+      {
+        "path": "settings.gradle.kts",
+        "lines": "28-61",
+        "symbol": "included project list"
+      }
+    ],
+    "root_cause": "Maps is included but contains no source/API. Media has only an excluded old build script. Notifications is excluded and contains a top-level experiment with missing imports/undefined scope; both excluded scripts reference a removed androidLibrary plugin alias and old Android DSL.",
+    "impact": "Directory presence or stale roadmap checkboxes can imply usable functionality that does not exist. Enabling excluded modules without review will not simply produce functioning published libraries. Notification permissions are implemented in a different module and should not be confused with scheduling/delivery.",
+    "recommendation": "Mark availability explicitly in docs/artifact matrices; preserve these historical stubs as such. Open scoped design/discovery work for maps, media and notification delivery with target/provider/licensing/privacy decisions before implementation.",
+    "risks": "No requirement to implement these major new subsystems during the audit. Keep imported history; removal/reorganization needs a maintainer decision and should not turn old scaffolds into silently published artifacts.",
+    "required_tests": [
+      "Source/module inventory verifies empty/excluded status and published artifacts exclude incomplete APIs.",
+      "Future enabling requires fresh supported Gradle configuration, actual API contract, platform privacy/provider setup and device tests.",
+      "Roadmap links maps27 and media245 without claiming they are fixed."
+    ],
+    "evidence": [
+      "47-file native feature baseline inventory includes one build-only maps file and no media source.",
+      "Notification Main.kt references scope, Dispatchers and UN symbols without definitions/imports; settings does not include media/notifications."
+    ],
+    "upstream_refs": [
+      "https://github.com/MohamedRejeb/Calf/issues/27",
+      "https://github.com/MohamedRejeb/Calf/issues/245"
+    ],
+    "effort": "L",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-036",
+    "title": "Desktop customUserAgent cannot be reset to its documented default using null",
+    "priority": "Low",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "lines": "162-169",
+        "symbol": "DesktopSettings.customUserAgent"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "215-221",
+        "symbol": "WebView.applySettings"
+      }
+    ],
+    "root_cause": "The nullable setting documents null as the default user agent, but applySettings only assigns engine.userAgent inside customUserAgent?.let. After a custom value is installed, assigning null notifies settings but never restores the original value.",
+    "impact": "A state reused across pages/accounts continues advertising an obsolete custom user agent despite its public setting being null. Host-specific authentication/content negotiation behavior can persist unexpectedly.",
+    "recommendation": "Capture the engine default user agent at creation or use a supported reset strategy and assign that value when the public setting becomes null. Document initial versus runtime semantics.",
+    "risks": "This is a source-confirmed missing reset, not a measured JavaFX integration behavior. Changing null behavior is a corrective API change but can affect applications accidentally relying on stale headers.",
+    "required_tests": [
+      "Set custom A, change to B, reset null and inspect actual request User-Agent/default engine value.",
+      "Multiple WebView instances preserve their individual defaults."
+    ],
+    "evidence": [
+      "DesktopSettings documentation says If null, the default user agent is used; native setter has no else branch."
+    ],
+    "upstream_refs": [],
+    "effort": "S",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-037",
+    "title": "Replacing WebViewState or native lifecycle callbacks at the same composable identity is not safely rebound",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "151-162,190-215",
+        "symbol": "state reference, client rebind and AndroidView factory"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "50-108,110-141",
+        "symbol": "Unit-keyed DisposableEffect and factory captures"
+      },
+      {
+        "path": "calf-webview/src/iosMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.ios.kt",
+        "lines": "63-80,111-135",
+        "symbol": "state reference and UIKitView factory"
+      },
+      {
+        "path": "calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt",
+        "lines": "43-50,69-105",
+        "symbol": "state reference and iframe factory listeners"
+      }
+    ],
+    "root_cause": "Native view creation occurs once in interop factories/effects; effects read the native reference from the currently supplied state, but a replacement WebViewState starts with null. Factories do not rerun or transfer the native view when state changes. Several listeners/onCreated/onDispose lambdas capture the original state/navigator/callback because effects are Unit-keyed or factories are one-shot.",
+    "impact": "Passing a new state object to an existing WebView composition can leave the rendered old view attached while new content/navigation/evaluation has no native target. Desktop/iOS/Web listeners can keep updating the old state or navigator; callback substitution is not consistently observed.",
+    "recommendation": "Either explicitly key the native view lifecycle on its state owner, with proper disposal, or implement safe rebinding/update callbacks and rememberUpdatedState for callbacks. Document one-state-per-native-view ownership and behavior of navigator replacement.",
+    "risks": "The normal rememberWebViewState helper retains one state, so ordinary URL recomposition is not this failure. This is a source-traced edge case requiring Compose interop tests, not a claim every recomposition breaks WebView.",
+    "required_tests": [
+      "At a stable composition location replace stateA with stateB and verify content, native identity, observed state and disposal semantics.",
+      "Replace navigator and callback lambdas without recreating the screen; only current owners receive updates.",
+      "Rapid replacement during queued FX initialization/navigation does not resurrect stale state."
+    ],
+    "evidence": [
+      "Android updates client.state on each composition but assigns state.webView only in factory; Desktop initialization effect is keyed Unit.",
+      "iOS factory installs navigationDelegate=state once; browser event listeners close over initial state/navigator."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": [
+      "NATIVE-002",
+      "NATIVE-006"
+    ]
+  },
+  {
+    "id": "NATIVE-038",
+    "title": "Android enables multiple WebView windows but supplies no window-creation handler",
+    "priority": "Medium",
+    "status": "confirmed-source",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "lines": "99-103",
+        "symbol": "AndroidSettings.supportMultipleWindows default"
+      },
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "104-106,233-239,309-328",
+        "symbol": "settings and AccompanistWebChromeClient"
+      }
+    ],
+    "root_cause": "supportMultipleWindows defaults true and is applied to Android WebSettings, but the installed WebChromeClient implements only title, icon and progress callbacks. It never overrides onCreateWindow; Android defaults reject creation. The public common WebView API also does not accept a custom chrome client.",
+    "impact": "Pages using target=_blank or window.open can request a new window that is never displayed, even with javaScriptCanOpenWindowsAutomatically=true. Browser/payment/login flows depending on popup navigation can silently fail.",
+    "recommendation": "Choose and document a safe popup policy: reject explicitly, load allowed same-view requests, or expose/manage child windows with a trusted host callback. Do not enable multiple-window support without a handler and do not automatically open untrusted external schemes.",
+    "risks": "Source confirms the missing handler/configuration mismatch; exact Android link fallback behavior is WebView/version/content-dependent and needs device reproduction. Creating windows adds origin, lifecycle and phishing concerns; policy must be explicit.",
+    "required_tests": [
+      "target=_blank link and user-initiated/scripted window.open with JavaScript/settings combinations.",
+      "Accepted and denied popup origins/schemes yield documented outcomes.",
+      "Child window closure, back navigation and dispose release all resources."
+    ],
+    "evidence": [
+      "AccompanistWebChromeClient overrides only onReceivedTitle, onReceivedIcon, onProgressChanged.",
+      "AndroidSettings defaults supportMultipleWindows=true; native applySettings calls setSupportMultipleWindows."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  },
+  {
+    "id": "NATIVE-039",
+    "title": "WebView settings changes and error accumulation perform avoidable full updates",
+    "priority": "Low",
+    "status": "improvement",
+    "modules": [
+      "calf-webview"
+    ],
+    "locations": [
+      {
+        "path": "calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebSettings.kt",
+        "lines": "6-169",
+        "symbol": "all property setters"
+      },
+      {
+        "path": "calf-webview/src/androidMain/kotlin/com/mohamedrejeb/calf/ui/web/WebView.android.kt",
+        "lines": "221-245,292-296",
+        "symbol": "full applySettings and error snapshots"
+      },
+      {
+        "path": "calf-webview/src/desktopMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.desktop.kt",
+        "lines": "187-221",
+        "symbol": "applySetting/runLater"
+      }
+    ],
+    "root_cause": "Every setter invokes a full native settings reapply even when assigning the same value; Desktop queues one FX task per setter and each task reads the whole live settings object. Android records each resource error by copying the entire accumulated list with toList().",
+    "impact": "Configuration batches cause redundant native/JNI/FX work; many failed resources allocate quadratically many error-list elements over a request. No benchmark demonstrates a user-visible slowdown yet, so this is an optimization candidate rather than a release-blocking defect.",
+    "recommendation": "Skip equal-value notifications, batch/transaction settings changes or apply field deltas on the correct UI thread, and choose a bounded/batched immutable error reporting strategy that preserves diagnostics. Measure before and after.",
+    "risks": "Coalescing updates may alter observable timing; mutable collections must not leak through supposedly immutable UI state. Bounded diagnostics need an explicit truncation/count indicator rather than silently discarding errors.",
+    "required_tests": [
+      "Assign identical settings repeatedly and apply a multi-setting batch; assert bounded native/FX calls.",
+      "Thousands of resource failures: benchmark allocation/time and preserve required error metadata.",
+      "Concurrent/UI-thread application still sees a coherent settings snapshot."
+    ],
+    "evidence": [
+      "All setters call onSettingsChanged unconditionally. Android onReceivedError calls mutableErrorsForCurrentRequest.toList after each addition."
+    ],
+    "upstream_refs": [],
+    "effort": "M",
+    "dependencies": []
+  }
+]

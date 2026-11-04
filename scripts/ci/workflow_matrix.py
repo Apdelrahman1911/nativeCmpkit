@@ -147,6 +147,8 @@ PROFILES = {
     "ios-ui": ("ios-iphone",),
     "ios-ui-adaptive-pre26": ("ios-iphone",),
     "ios-ui-adaptive-drag-shader-ios26plus": ("ios-iphone",),
+    "ios-ui-related-nine-ios26plus": ("ios-iphone",),
+    "ios-ui-adaptive-customization-ios26plus": ("ios-iphone",),
     "ios-secure-alert-input": ("ios-iphone",),
     "ios-date-bounds": ("ios-iphone",),
     "ios-date-replacement": ("ios-iphone",),
@@ -387,6 +389,8 @@ MODULE_SUBSETS = {
     "ios-ui": "calf-ui",
     "ios-ui-adaptive-pre26": "calf-ui",
     "ios-ui-adaptive-drag-shader-ios26plus": "calf-ui",
+    "ios-ui-related-nine-ios26plus": "calf-ui",
+    "ios-ui-adaptive-customization-ios26plus": "calf-ui",
     "ios-date-bounds": "calf-ui",
     "ios-date-replacement": "calf-ui",
     "ios-date-compact": "calf-ui",
@@ -670,6 +674,13 @@ def matrix(profile: str) -> dict:
             raise ValueError("Related adaptive UI verification requires its exact single iPhone native row")
         rows[0]["test-focus"] = ("ui-native-adaptive-pre26" if profile == "ios-ui-adaptive-pre26" else
                                 "ui-native-adaptive-drag-shader-ios26plus")
+    if profile in {"ios-ui-related-nine-ios26plus", "ios-ui-adaptive-customization-ios26plus"}:
+        canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
+                     "python": "python3", "simulator-kind": "iphone", "test-modules": "calf-ui"}
+        if PROFILES[profile] != ("ios-iphone",) or MODULE_SUBSETS.get(profile) != "calf-ui" or rows != [canonical]:
+            raise ValueError("Split UI650 verification requires its exact independent single iPhone native row")
+        rows[0]["test-focus"] = ("ui-native-related-nine-ios26plus" if profile == "ios-ui-related-nine-ios26plus" else
+                                "ui-native-adaptive-customization-ios26plus")
     if profile == calendar_native.PROFILE:
         canonical = {"slot": "ios-iphone", "suite": "ios", "runner": "macos-26", "arch": "arm64",
                      "python": "python3", "simulator-kind": "iphone", "test-modules": calendar_native.MODULE}

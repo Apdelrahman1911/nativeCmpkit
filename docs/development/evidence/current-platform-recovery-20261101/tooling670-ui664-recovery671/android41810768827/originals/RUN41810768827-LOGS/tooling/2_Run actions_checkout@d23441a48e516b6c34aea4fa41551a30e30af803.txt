@@ -1,0 +1,236 @@
+﻿2026-11-04T09:55:34.8526770Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-11-04T09:55:34.8527288Z with:
+2026-11-04T09:55:34.8527538Z   fetch-depth: 0
+2026-11-04T09:55:34.8527793Z   persist-credentials: false
+2026-11-04T09:55:34.8528087Z   repository: Apdelrahman1911/nativeCmpkit
+2026-11-04T09:55:34.8530231Z   token: ***
+2026-11-04T09:55:34.8530464Z   ssh-strict: true
+2026-11-04T09:55:34.8530704Z   ssh-user: git
+2026-11-04T09:55:34.8530938Z   clean: true
+2026-11-04T09:55:34.8531369Z   sparse-checkout-cone-mode: true
+2026-11-04T09:55:34.8531651Z   fetch-tags: false
+2026-11-04T09:55:34.8531898Z   show-progress: true
+2026-11-04T09:55:34.8532141Z   lfs: false
+2026-11-04T09:55:34.8532369Z   submodules: false
+2026-11-04T09:55:34.8532618Z   set-safe-directory: true
+2026-11-04T09:55:34.8532895Z   allow-unsafe-pr-checkout: false
+2026-11-04T09:55:34.8533257Z ##[endgroup]
+2026-11-04T09:55:35.0295249Z Syncing repository: Apdelrahman1911/nativeCmpkit
+2026-11-04T09:55:35.0296515Z ##[group]Getting Git version info
+2026-11-04T09:55:35.0297191Z Working directory is '/home/runner/work/nativeCmpkit/nativeCmpkit'
+2026-11-04T09:55:35.0298013Z [command]/usr/bin/git version
+2026-11-04T09:55:35.0346363Z git version 2.56.0
+2026-11-04T09:55:35.0359779Z ##[endgroup]
+2026-11-04T09:55:35.0370472Z Temporarily overriding HOME='/home/runner/work/_temp/4e658bb8-b205-4b8a-bb93-aa0dcbe82541' before making global git config changes
+2026-11-04T09:55:35.0371918Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-04T09:55:35.0373902Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/nativeCmpkit/nativeCmpkit
+2026-11-04T09:55:35.0416822Z Deleting the contents of '/home/runner/work/nativeCmpkit/nativeCmpkit'
+2026-11-04T09:55:35.0420408Z ##[group]Determining repository object format
+2026-11-04T09:55:35.0422360Z ##[endgroup]
+2026-11-04T09:55:35.0423001Z ##[group]Initializing the repository
+2026-11-04T09:55:35.0425792Z [command]/usr/bin/git init /home/runner/work/nativeCmpkit/nativeCmpkit
+2026-11-04T09:55:35.0591684Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-04T09:55:35.0592792Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-04T09:55:35.0593361Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-04T09:55:35.0593795Z hint: call:
+2026-11-04T09:55:35.0594039Z hint:
+2026-11-04T09:55:35.0594341Z hint: 	git config --global init.defaultBranch <name>
+2026-11-04T09:55:35.0594722Z hint:
+2026-11-04T09:55:35.0595050Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-04T09:55:35.0595588Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-04T09:55:35.0596022Z hint:
+2026-11-04T09:55:35.0596266Z hint: 	git branch -m <name>
+2026-11-04T09:55:35.0596528Z hint:
+2026-11-04T09:55:35.0596909Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-04T09:55:35.0606550Z Initialized empty Git repository in /home/runner/work/nativeCmpkit/nativeCmpkit/.git/
+2026-11-04T09:55:35.0617799Z [command]/usr/bin/git remote add origin https://github.com/Apdelrahman1911/nativeCmpkit
+2026-11-04T09:55:35.0660281Z ##[endgroup]
+2026-11-04T09:55:35.0660849Z ##[group]Disabling automatic garbage collection
+2026-11-04T09:55:35.0663683Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-04T09:55:35.0699687Z ##[endgroup]
+2026-11-04T09:55:35.0700753Z ##[group]Setting up auth
+2026-11-04T09:55:35.0707977Z Removing SSH command configuration
+2026-11-04T09:55:35.0711908Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-04T09:55:35.0742584Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-04T09:55:35.1037318Z Removing HTTP extra header
+2026-11-04T09:55:35.1042895Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-04T09:55:35.1079732Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-04T09:55:35.1257985Z Removing includeIf entries pointing to credentials config files
+2026-11-04T09:55:35.1262387Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-04T09:55:35.1297364Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-04T09:55:35.1481693Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-04T09:55:35.1519352Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git.path /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:35.1553083Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:35.1587836Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:35.1621932Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:35.1677202Z ##[endgroup]
+2026-11-04T09:55:35.1677821Z ##[group]Fetching the repository
+2026-11-04T09:55:35.1683376Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-11-04T09:55:41.6035407Z From https://github.com/Apdelrahman1911/nativeCmpkit
+2026-11-04T09:55:41.6037000Z  * [new branch]        0.1.x                  -> origin/0.1.x
+2026-11-04T09:55:41.6038329Z  * [new branch]        0.10.x                 -> origin/0.10.x
+2026-11-04T09:55:41.6039597Z  * [new branch]        0.11.x                 -> origin/0.11.x
+2026-11-04T09:55:41.6040705Z  * [new branch]        0.12.x                 -> origin/0.12.x
+2026-11-04T09:55:41.6041730Z  * [new branch]        0.14.x                 -> origin/0.14.x
+2026-11-04T09:55:41.6042554Z  * [new branch]        0.2.x                  -> origin/0.2.x
+2026-11-04T09:55:41.6043484Z  * [new branch]        0.3.1                  -> origin/0.3.1
+2026-11-04T09:55:41.6044451Z  * [new branch]        0.3.x                  -> origin/0.3.x
+2026-11-04T09:55:41.6045552Z  * [new branch]        0.4.x                  -> origin/0.4.x
+2026-11-04T09:55:41.6046644Z  * [new branch]        0.5.x                  -> origin/0.5.x
+2026-11-04T09:55:41.6047740Z  * [new branch]        0.6.x                  -> origin/0.6.x
+2026-11-04T09:55:41.6048848Z  * [new branch]        0.7.x                  -> origin/0.7.x
+2026-11-04T09:55:41.6050002Z  * [new branch]        0.8.x                  -> origin/0.8.x
+2026-11-04T09:55:41.6051392Z  * [new branch]        0.9.x                  -> origin/0.9.x
+2026-11-04T09:55:41.6052849Z  * [new branch]        MohamedRejeb-patch-1   -> origin/MohamedRejeb-patch-1
+2026-11-04T09:55:41.6054331Z  * [new branch]        create-ios-temp-file   -> origin/create-ios-temp-file
+2026-11-04T09:55:41.6055940Z  * [new branch]        development/preview-hardening -> origin/development/preview-hardening
+2026-11-04T09:55:41.6057792Z  * [new branch]        feat/compact-date-picker -> origin/feat/compact-date-picker
+2026-11-04T09:55:41.6059211Z  * [new branch]        feat/date-range-picker -> origin/feat/date-range-picker
+2026-11-04T09:55:41.6060526Z  * [new branch]        feat/kmpfile-streaming-source -> origin/feat/kmpfile-streaming-source
+2026-11-04T09:55:41.6062173Z  * [new branch]        feature/adaptive-navigation-bar -> origin/feature/adaptive-navigation-bar
+2026-11-04T09:55:41.6063819Z  * [new branch]        feature/button         -> origin/feature/button
+2026-11-04T09:55:41.6065088Z  * [new branch]        feature/drop-down      -> origin/feature/drop-down
+2026-11-04T09:55:41.6066352Z  * [new branch]        feature/fab            -> origin/feature/fab
+2026-11-04T09:55:41.6067642Z  * [new branch]        feature/liquid-glass   -> origin/feature/liquid-glass
+2026-11-04T09:55:41.6069310Z  * [new branch]        feature/sms-permission -> origin/feature/sms-permission
+2026-11-04T09:55:41.6070960Z  * [new branch]        feature/toolbar        -> origin/feature/toolbar
+2026-11-04T09:55:41.6072608Z  * [new branch]        feature/web-cookie-management -> origin/feature/web-cookie-management
+2026-11-04T09:55:41.6074390Z  * [new branch]        feature/web-view-web-support -> origin/feature/web-view-web-support
+2026-11-04T09:55:41.6076158Z  * [new branch]        fix/alert-dialog-single-button -> origin/fix/alert-dialog-single-button
+2026-11-04T09:55:41.6078002Z  * [new branch]        fix/date-picker-selectable-dates -> origin/fix/date-picker-selectable-dates
+2026-11-04T09:55:41.6080017Z  * [new branch]        fix/desktop-native-lib-cache-collision -> origin/fix/desktop-native-lib-cache-collision
+2026-11-04T09:55:41.6082531Z  * [new branch]        fix/file-picker-export-and-path -> origin/fix/file-picker-export-and-path
+2026-11-04T09:55:41.6084532Z  * [new branch]        fix/nav-host-state-restore -> origin/fix/nav-host-state-restore
+2026-11-04T09:55:41.6086440Z  * [new branch]        gh-pages               -> origin/gh-pages
+2026-11-04T09:55:41.6088128Z  * [new branch]        kotlin-2.1.10-RC       -> origin/kotlin-2.1.10-RC
+2026-11-04T09:55:41.6089722Z  * [new branch]        kotlin-2.2.0-RC3       -> origin/kotlin-2.2.0-RC3
+2026-11-04T09:55:41.6090928Z  * [new branch]        kotlin-2.3.21-RC       -> origin/kotlin-2.3.21-RC
+2026-11-04T09:55:41.6093101Z  * [new branch]        kotlin-2.4.0-Beta1     -> origin/kotlin-2.4.0-Beta1
+2026-11-04T09:55:41.6094723Z  * [new branch]        license                -> origin/license
+2026-11-04T09:55:41.6096146Z  * [new branch]        main                   -> origin/main
+2026-11-04T09:55:41.6097816Z  * [new branch]        release/0.12.0         -> origin/release/0.12.0
+2026-11-04T09:55:41.6099376Z  * [new branch]        release/0.13.0         -> origin/release/0.13.0
+2026-11-04T09:55:41.6100925Z  * [new branch]        release/0.14.0         -> origin/release/0.14.0
+2026-11-04T09:55:41.6103234Z  * [new branch]        task/modularize-calf-permissions -> origin/task/modularize-calf-permissions
+2026-11-04T09:55:41.6104708Z  * [new branch]        task/sample-rework     -> origin/task/sample-rework
+2026-11-04T09:55:41.6105788Z  * [new branch]        webview                -> origin/webview
+2026-11-04T09:55:41.6106708Z  * [new tag]           v0.1.1                 -> v0.1.1
+2026-11-04T09:55:41.6107555Z  * [new tag]           v0.10.0                -> v0.10.0
+2026-11-04T09:55:41.6108404Z  * [new tag]           v0.11.0                -> v0.11.0
+2026-11-04T09:55:41.6109262Z  * [new tag]           v0.12.0                -> v0.12.0
+2026-11-04T09:55:41.6110106Z  * [new tag]           v0.13.0                -> v0.13.0
+2026-11-04T09:55:41.6110955Z  * [new tag]           v0.14.0                -> v0.14.0
+2026-11-04T09:55:41.6111992Z  * [new tag]           v0.2.0                 -> v0.2.0
+2026-11-04T09:55:41.6113084Z  * [new tag]           v0.3.0                 -> v0.3.0
+2026-11-04T09:55:41.6114288Z  * [new tag]           v0.3.1                 -> v0.3.1
+2026-11-04T09:55:41.6115202Z  * [new tag]           v0.4.0                 -> v0.4.0
+2026-11-04T09:55:41.6116047Z  * [new tag]           v0.4.1                 -> v0.4.1
+2026-11-04T09:55:41.6116898Z  * [new tag]           v0.5.0                 -> v0.5.0
+2026-11-04T09:55:41.6117732Z  * [new tag]           v0.5.1                 -> v0.5.1
+2026-11-04T09:55:41.6118571Z  * [new tag]           v0.5.2                 -> v0.5.2
+2026-11-04T09:55:41.6119411Z  * [new tag]           v0.5.3                 -> v0.5.3
+2026-11-04T09:55:41.6120644Z  * [new tag]           v0.5.4                 -> v0.5.4
+2026-11-04T09:55:41.6121796Z  * [new tag]           v0.5.5                 -> v0.5.5
+2026-11-04T09:55:41.6123033Z  * [new tag]           v0.6.0                 -> v0.6.0
+2026-11-04T09:55:41.6124254Z  * [new tag]           v0.6.1                 -> v0.6.1
+2026-11-04T09:55:41.6125487Z  * [new tag]           v0.7.0                 -> v0.7.0
+2026-11-04T09:55:41.6126714Z  * [new tag]           v0.7.1                 -> v0.7.1
+2026-11-04T09:55:41.6127942Z  * [new tag]           v0.8.0                 -> v0.8.0
+2026-11-04T09:55:41.6129207Z  * [new tag]           v0.9.0                 -> v0.9.0
+2026-11-04T09:55:41.6132657Z [command]/usr/bin/git branch --list --remote origin/development/preview-hardening
+2026-11-04T09:55:41.6134239Z   origin/development/preview-hardening
+2026-11-04T09:55:41.6136775Z [command]/usr/bin/git rev-parse refs/remotes/origin/development/preview-hardening
+2026-11-04T09:55:41.6138420Z 044d9aa83ad19fa77ddf94f36a7700f3b52de4b1
+2026-11-04T09:55:41.6140880Z ##[endgroup]
+2026-11-04T09:55:41.6141947Z ##[group]Determining the checkout info
+2026-11-04T09:55:41.6142966Z ##[endgroup]
+2026-11-04T09:55:41.6143545Z [command]/usr/bin/git sparse-checkout disable
+2026-11-04T09:55:41.6178113Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-04T09:55:41.6210889Z ##[group]Checking out the ref
+2026-11-04T09:55:41.6213424Z [command]/usr/bin/git checkout --progress --force -B development/preview-hardening refs/remotes/origin/development/preview-hardening
+2026-11-04T09:55:42.6571606Z Updating files:  50% (17033/33499)
+2026-11-04T09:55:42.6884605Z Updating files:  51% (17085/33499)
+2026-11-04T09:55:42.7024850Z Updating files:  52% (17420/33499)
+2026-11-04T09:55:42.7157709Z Updating files:  53% (17755/33499)
+2026-11-04T09:55:42.7353919Z Updating files:  54% (18090/33499)
+2026-11-04T09:55:42.7482801Z Updating files:  55% (18425/33499)
+2026-11-04T09:55:42.7617925Z Updating files:  56% (18760/33499)
+2026-11-04T09:55:42.7756000Z Updating files:  57% (19095/33499)
+2026-11-04T09:55:42.7893524Z Updating files:  58% (19430/33499)
+2026-11-04T09:55:42.8037250Z Updating files:  59% (19765/33499)
+2026-11-04T09:55:42.8225058Z Updating files:  60% (20100/33499)
+2026-11-04T09:55:42.8552435Z Updating files:  61% (20435/33499)
+2026-11-04T09:55:42.8934079Z Updating files:  62% (20770/33499)
+2026-11-04T09:55:43.1486857Z Updating files:  63% (21105/33499)
+2026-11-04T09:55:43.1684323Z Updating files:  64% (21440/33499)
+2026-11-04T09:55:43.1795016Z Updating files:  65% (21775/33499)
+2026-11-04T09:55:43.2139545Z Updating files:  66% (22110/33499)
+2026-11-04T09:55:43.2309515Z Updating files:  67% (22445/33499)
+2026-11-04T09:55:43.2501684Z Updating files:  68% (22780/33499)
+2026-11-04T09:55:43.2750805Z Updating files:  69% (23115/33499)
+2026-11-04T09:55:43.2862034Z Updating files:  70% (23450/33499)
+2026-11-04T09:55:43.2970900Z Updating files:  71% (23785/33499)
+2026-11-04T09:55:43.3087238Z Updating files:  72% (24120/33499)
+2026-11-04T09:55:43.3203312Z Updating files:  73% (24455/33499)
+2026-11-04T09:55:43.3332353Z Updating files:  74% (24790/33499)
+2026-11-04T09:55:43.4568370Z Updating files:  75% (25125/33499)
+2026-11-04T09:55:43.4768685Z Updating files:  76% (25460/33499)
+2026-11-04T09:55:43.4927321Z Updating files:  77% (25795/33499)
+2026-11-04T09:55:43.5316309Z Updating files:  78% (26130/33499)
+2026-11-04T09:55:43.5513661Z Updating files:  79% (26465/33499)
+2026-11-04T09:55:43.5710897Z Updating files:  80% (26800/33499)
+2026-11-04T09:55:43.5898154Z Updating files:  81% (27135/33499)
+2026-11-04T09:55:43.6105139Z Updating files:  82% (27470/33499)
+2026-11-04T09:55:43.6248885Z Updating files:  83% (27805/33499)
+2026-11-04T09:55:43.6393088Z Updating files:  84% (28140/33499)
+2026-11-04T09:55:43.6515772Z Updating files:  85% (28475/33499)
+2026-11-04T09:55:43.6537774Z Updating files:  85% (28758/33499)
+2026-11-04T09:55:43.6685034Z Updating files:  86% (28810/33499)
+2026-11-04T09:55:43.6858534Z Updating files:  87% (29145/33499)
+2026-11-04T09:55:43.7022771Z Updating files:  88% (29480/33499)
+2026-11-04T09:55:43.7211792Z Updating files:  89% (29815/33499)
+2026-11-04T09:55:43.7388156Z Updating files:  90% (30150/33499)
+2026-11-04T09:55:43.7580248Z Updating files:  91% (30485/33499)
+2026-11-04T09:55:43.7778870Z Updating files:  92% (30820/33499)
+2026-11-04T09:55:43.8031526Z Updating files:  93% (31155/33499)
+2026-11-04T09:55:43.8232432Z Updating files:  94% (31490/33499)
+2026-11-04T09:55:43.8509894Z Updating files:  95% (31825/33499)
+2026-11-04T09:55:44.1697491Z Updating files:  96% (32160/33499)
+2026-11-04T09:55:44.1940487Z Updating files:  97% (32495/33499)
+2026-11-04T09:55:44.2174646Z Updating files:  98% (32830/33499)
+2026-11-04T09:55:44.2399207Z Updating files:  99% (33165/33499)
+2026-11-04T09:55:44.2400345Z Updating files: 100% (33499/33499)
+2026-11-04T09:55:44.2400686Z Updating files: 100% (33499/33499), done.
+2026-11-04T09:55:44.2747243Z Switched to a new branch 'development/preview-hardening'
+2026-11-04T09:55:44.2751157Z branch 'development/preview-hardening' set up to track 'origin/development/preview-hardening'.
+2026-11-04T09:55:44.2873944Z ##[endgroup]
+2026-11-04T09:55:44.2921470Z [command]/usr/bin/git log -1 --format=%H
+2026-11-04T09:55:44.2950033Z 044d9aa83ad19fa77ddf94f36a7700f3b52de4b1
+2026-11-04T09:55:44.2957763Z ##[group]Removing auth
+2026-11-04T09:55:44.2958174Z Removing SSH command configuration
+2026-11-04T09:55:44.2961640Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-04T09:55:44.2995014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-04T09:55:44.3226841Z Removing HTTP extra header
+2026-11-04T09:55:44.3229511Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-04T09:55:44.3262439Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-04T09:55:44.3492983Z Removing includeIf entries pointing to credentials config files
+2026-11-04T09:55:44.3496072Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-04T09:55:44.3526653Z includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git.path
+2026-11-04T09:55:44.3527124Z includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path
+2026-11-04T09:55:44.3527498Z includeif.gitdir:/github/workspace/.git.path
+2026-11-04T09:55:44.3527794Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-04T09:55:44.3533998Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git.path
+2026-11-04T09:55:44.3560506Z /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3567562Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git.path /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3603611Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path
+2026-11-04T09:55:44.3629932Z /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3637735Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/nativeCmpkit/nativeCmpkit/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3678846Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-04T09:55:44.3705120Z /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3710449Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3747478Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-04T09:55:44.3775119Z /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3780167Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config
+2026-11-04T09:55:44.3815265Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-04T09:55:44.4052528Z Removing credentials config '/home/runner/work/_temp/git-credentials-a9ea9b32-cdad-4ad4-a746-7fc84583fa56.config'
+2026-11-04T09:55:44.4058861Z ##[endgroup]

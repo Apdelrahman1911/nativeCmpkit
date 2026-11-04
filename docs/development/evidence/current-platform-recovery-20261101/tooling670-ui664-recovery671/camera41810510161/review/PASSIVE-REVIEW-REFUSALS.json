@@ -1,0 +1,25 @@
+{
+  "scope": "Passive reviewer reporter corrections; not candidate execution",
+  "observations": [
+    {
+      "stage": "first broad cached-log stdout printer",
+      "observation": "397 overlapping contexts produced truncated terminal output; complete original file remained held, no original GET repeated",
+      "recovery": "Bounded cached-original structured parsing"
+    },
+    {
+      "stage": "first exact-only failure-header parser",
+      "observation": "Matched76 of126 reported entries, missing50 subtest tails; refused using it as final complete index",
+      "recovery": "Optional subtest-tail parsing matches exactly70FAIL+56ERROR=126,50subtest entries; no fixture/controller/candidate test execution"
+    },
+    {
+      "stage": "additional static source snapshot",
+      "observation": "One initially guessed calf.library.gradle.kts path was absent in the exact commit and was not treated as source evidence",
+      "recovery": "Parsed actual CONVENTION assignment statically: convention-plugins/src/main/kotlin/Android.kt"
+    },
+    {
+      "stage": "namespace operand descriptive text",
+      "observation": "Initial descriptive text said both namespace-freeze operands false; actual recorded operands showed convention true/module false, so text refused",
+      "recovery": "Corrected descriptive text only; exact operand hashes and original log unchanged, no candidate execution"
+    }
+  ]
+}

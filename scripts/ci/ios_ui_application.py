@@ -67,6 +67,8 @@ SLIDER_TIMEOUT_SECONDS = 300
 def application_timeout_seconds(focus: str | None) -> int:
     if focus is not None and focus not in lt.UI_APPLICATION_FOCUS_SPECS:
         raise ValueError("Unknown finite application focus")
+    if focus in lt.ui_related.SPLIT_FOCUSES:
+        return lt.ui_related.timeout_accounting(focus)["transport_timeout_seconds"]
     if focus in {lt.IOS_IMAGE_MEMORY_FOCUS, *lt.IOS_IMAGE_DARWIN_FOCUSES}:
         return 360
     return (SLIDER_TIMEOUT_SECONDS if focus in (
@@ -1021,6 +1023,9 @@ def application_host(binary_relative: str, focus: str | None) -> dict:
         raise ValueError("Camera application is exact NEW5-only, never a generic/full or SDK fixture")
     if focus is not None and lt.UI_APPLICATION_FOCUS_SPECS[focus].get("module", "calf-ui") != module:
         raise ValueError("Application test selection belongs to a different owning module")
+    if focus in lt.ui_related.SPLIT_FOCUSES:
+        host = {**host, "task": lt.ui_related.task(focus),
+                "receipt_subdirectory": lt.ui_related.receipt_subdirectory(focus)}
     return {"module": module, **host}
 
 
@@ -1119,6 +1124,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
         raise ValueError("Expected the distinct linked application test executable")
     result_relative = os.environ.get("NATIVECMPKIT_UIKIT_RESULT_ROOT", "")
     result_root = lt.safe_path(root, result_relative)
+    if focus in lt.ui_related.SPLIT_FOCUSES and result_root.name != host["receipt_subdirectory"]:
+        raise ValueError("Split UI receipts require their exact independent owned application output")
     if host["module"] in {"calf-file-picker", "calf-webview", "calf-share", lt.camera_ios.MODULE}:
         if result_root.name not in {"native-ui-application", host["receipt_subdirectory"]}:
             raise ValueError("Library receipts require their finite owning application output")
@@ -1134,6 +1141,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                "explicit_test_focus": focus,
                "scope": "Owned real UIKit application transport. Real KGP TeamCity/JUnit decides testcase failures; launch/completion alone never establishes library/release success.",
                "steps": {}, "cleanup": {}, "application_protocol": None}
+    if focus in lt.ui_related.SPLIT_FOCUSES:
+        receipt["ui_split_timeout_accounting"] = lt.ui_related.timeout_accounting(focus)
     if appinfo_shape_only:
         receipt.update(sdk_prerequisite_only=True, sdk_signing_mode="ordinary-adhoc",
                        native_launch_attempted=False, native_tests_executed=0,
@@ -1159,8 +1168,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
     camera_photos = None
     try:
         before = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
-            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))
-        if focus in lt.ui_related.FOCUSES:
+            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.ALL_FOCUSES else {}))
+        if focus in lt.ui_related.ALL_FOCUSES:
             lt.ui_related.validate_context(before, focus, udid=device)
         receipt.update(source_revision=before["source_revision"], source_tree_dirty=before["source_tree_dirty"], runtime_before=before)
         binary_hash = lt.sha256(binary)
@@ -1316,8 +1325,8 @@ def run(binary_relative: str, arguments: list[str], *, image_diagnostics: str | 
                     raise ValueError("Passing native system appearance lacks actual control/readback/restoration evidence")
         phase = "post-runtime-and-binary"
         after = runtime.capture(expected_arch="arm64", apple=True, device=device, require_booted=True, require_clean=True,
-            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.FOCUSES else {}))
-        if focus in lt.ui_related.FOCUSES:
+            **({"adaptive_focus": lt.ui_related.runtime_focus(focus)} if focus in lt.ui_related.ALL_FOCUSES else {}))
+        if focus in lt.ui_related.ALL_FOCUSES:
             lt.ui_related.validate_context(after, focus, udid=device)
         receipt["runtime_after"] = after
         receipt["binary_sha256_after"] = lt.sha256(binary)

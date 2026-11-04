@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "reviewer": "/root/camera_final_review658",
+  "reviewed_utc": "2026-11-04T10:11:41.203094+00:00",
+  "run_id": 41810510161,
+  "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/actions/runs/41810510161",
+  "source_revision": "044d9aa83ad19fa77ddf94f36a7700f3b52de4b1",
+  "requested_profile": "ios-camera-ownership-memory-callback",
+  "profile_selection_executed": false,
+  "run_status": "completed",
+  "run_conclusion": "failure",
+  "run_attempt": 1,
+  "originals": {
+    "available_executed_job_logs": 1,
+    "available_executed_job_log_bytes": 1285655,
+    "available_executed_job_log_sha256": "85dc6aa20943b617c4a8dcd317df0197c7c301bfe3f9a790c6b1aa6fde5a7905",
+    "skipped_zero_step_jobs": 7,
+    "distinct_skipped_endpoint_refusals_queried_once": 7,
+    "skipped_response": "HTTP404/BlobNotFound,215B each; refusal receipts, not executed logs",
+    "artifacts": 0,
+    "original_request_retries": 0,
+    "late_owner_stop_instruction": "Remaining six distinct skipped endpoint requests had already completed before stop instruction arrived. Owner informed; no further network requests thereafter."
+  },
+  "tooling_results": {
+    "standalone_runs": [
+      {
+        "reported_tests": 35,
+        "seconds": 0.061,
+        "result": "OK"
+      },
+      {
+        "reported_tests": 80,
+        "seconds": 0.188,
+        "result": "OK"
+      },
+      {
+        "reported_tests": 96,
+        "seconds": 1.628,
+        "result": "OK"
+      }
+    ],
+    "main_reported_tests": 3194,
+    "main_seconds": 499.788,
+    "reported_failures": 70,
+    "reported_errors": 56,
+    "complete_failed_entries": 126,
+    "subtest_entries": 50,
+    "distinct_failed_methods": 82,
+    "class_setup_refusals": 1,
+    "failed_module_groups": {
+      "test_android_camera_developer_prerequisite": {
+        "ERROR": 31
+      },
+      "test_android_camera_home_baseline": {
+        "ERROR": 1
+      },
+      "test_android_camera_pre_reporter_fail_fast": {
+        "ERROR": 4,
+        "FAIL": 6
+      },
+      "test_android_camera_settings_activity_boundary": {
+        "ERROR": 11
+      },
+      "test_android_camera_startup_readiness": {
+        "ERROR": 5,
+        "FAIL": 55
+      },
+      "test_android_webview_stop_redirect_recovery": {
+        "FAIL": 1
+      },
+      "test_apple_image_launcher_source_projection": {
+        "FAIL": 1
+      },
+      "test_camera_handoff_fixture_recovery": {
+        "ERROR": 1
+      },
+      "test_camera_recents_fixture_recovery": {
+        "ERROR": 3,
+        "FAIL": 1
+      },
+      "test_desktop_webview_literal_matrix": {
+        "FAIL": 1
+      },
+      "test_desktop_webview_stop_windows_recovery": {
+        "FAIL": 1
+      },
+      "test_image_profile_readiness": {
+        "FAIL": 1
+      },
+      "test_ios_webview_current_request_metadata": {
+        "FAIL": 1
+      },
+      "test_webview_content_policy_source": {
+        "FAIL": 2
+      }
+    },
+    "all_passed_population_inferred": false,
+    "scope": "Offline CI/adversarial fixtures only, not library passes"
+  },
+  "source_review": {
+    "exact_committed_camera_contract_inputs_held": 9,
+    "exact_declared_methods": [
+      "publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback",
+      "doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner",
+      "compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown",
+      "actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter",
+      "controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner"
+    ],
+    "reviewed_committed_source_snapshot_paths": 22,
+    "actual_native_before_after_input_maps_available": false,
+    "actual_native_source_input_count_claimed": 0,
+    "namespace_freeze": "Android.kt convention literal holds204b7b0b; only Camera module build operand expects historicalf074767f but committed actuale37eb7a4. No namespace implementation change/native cause inferred.",
+    "historical_pins_changed_by_reviewer": false,
+    "source_patch_proposed_or_applied": false
+  },
+  "native_results": {
+    "compiler_executions": 0,
+    "apple_links": 0,
+    "library_native_tests": 0,
+    "fresh_native_xml_reports": 0,
+    "apk_outputs": 0,
+    "sdk_xcode_cinterop_install_launch_observed": false,
+    "application_worker_or_photo_fixture_handoff_observed": false,
+    "native_application_or_simulator_cleanup_observed": false,
+    "accepted_method_identities": [],
+    "selected_unexecuted_methods": [
+      "publicOwnerSurvivesOrdinaryRecompositionAndNativeGcAndDeliversToLatestCallback",
+      "doubleLaunchDuplicateTerminalInputAndReentrantReplacementKeepOneNativeOwner",
+      "compositionDisposalDuringObservedPresentingAndPresentedPhasesFinishesOwnedTeardown",
+      "actualSimulatorUnavailableAndCompetingModalOutcomesPreserveForeignPresenter",
+      "controlledOriginalNativeImageWritesRealPngAndJpegAndSuccessOutlivesOwner"
+    ],
+    "scope": "Tooling blocked before every platform job; zero native evidence. Prior accepted/compiler results remain separate historical/unchanged evidence, not fresh executions."
+  },
+  "original_issue_criteria": [
+    {
+      "id": "NATIVE-019",
+      "original_required_tests": [
+        "Enable dont-keep-activities, launch camera, capture, return and receive exactly one readable KmpFile.",
+        "Rotate/recreate and simulate process death while external camera is foreground.",
+        "Cancelled/restored requests remove only library-owned temporary files and do not deliver stale URI."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "Android Dont-keep original criterion cannot be fulfilled by an iOS run; previously accepted camera009 criteria remain separate, not replayed"
+    },
+    {
+      "id": "NATIVE-020",
+      "original_required_tests": [
+        "Change callback from A to B while capture is active and assert agreed callback semantics.",
+        "Repeated ordinary recompositions do not replace iOS active operation owner.",
+        "Force Kotlin/Native GC/memory pressure during presentation and verify delegate callbacks still arrive."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "Five controlled iOS methods were not executed. No new callback A-to-B, recomposition-owner or GC criterion acceptance"
+    },
+    {
+      "id": "NATIVE-021",
+      "original_required_tests": [
+        "Every platform produces one defined terminal outcome for cancel/unavailable/error.",
+        "No camera app, feature absent, permission denied and iOS simulator library fallback.",
+        "Desktop/Web capability checks align with launcher behavior."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "No new Cancelled/Unavailable/Failed/simulator-fallback native outcomes; full platform/denial/capability criteria remain separate"
+    },
+    {
+      "id": "NATIVE-022",
+      "original_required_tests": [
+        "Minimal consuming app with correct/missing/wrong provider setup on API23 and24+.",
+        "Host with its own provider authority and no installed camera intent handler.",
+        "Only camera-owned files can be granted through recommended provider configuration."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "Android provider/consumer criteria are outside this iOS scope and unchanged"
+    },
+    {
+      "id": "NATIVE-023",
+      "original_required_tests": [
+        "Double tap launch, callback launches again, callback throws, owner navigates away.",
+        "Denied permissions, camera unavailable, simulator fallback and presentation over another modal.",
+        "Exactly one active picker and no old delegate cleanup clears a replacement operation."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "No new real UIKit presentation/disposal/reentry/late-input/foreign-modal acceptance; native throwing callbacks and denied permissions remain separate"
+    },
+    {
+      "id": "NATIVE-024",
+      "original_required_tests": [
+        "Real-device 12/48MP capture latency, peak resident memory and UI responsiveness.",
+        "Disk-full/write-failure/cancel/repeated capture and cache eviction.",
+        "File remains readable for expected consumer lifetime; cleanup never deletes another request file."
+      ],
+      "new_accepted_criteria": [],
+      "scope": "No new PNG/JPEG/file lifetime native acceptance; physical12/48MP profiling, disk-full/cache eviction and observed writer-entry cancellation remain separate"
+    }
+  ],
+  "reviewer_execution": {
+    "tests": 0,
+    "builds": 0,
+    "candidate_source_imports_or_function_calls": 0,
+    "native_runs": 0,
+    "git_mutations": 0,
+    "github_mutations": 0,
+    "dispatches": 0,
+    "publications": 0,
+    "subagents": 0
+  },
+  "lead_decision_required": "Lead owns original acceptance/integration/recovery/dispatch/issue status. No issue closure or new dispatch against known-failed tooling is justified."
+}

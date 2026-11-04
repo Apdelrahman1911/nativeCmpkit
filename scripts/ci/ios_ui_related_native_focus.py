@@ -18,6 +18,10 @@ import ios_adaptive_controls_runtime as adaptive_runtime
 from ios_popover_anchor_plan import _ordinary_bytes, _unique_object
 
 FOCUSES = ("ui-native-adaptive-pre26", "ui-native-adaptive-drag-shader-ios26plus")
+# Legacy four/ten are immutable selections. These two disjoint requests are
+# diagnostic isolation, not acceptance of any outcome from the failed UI650 ten.
+SPLIT_FOCUSES = ("ui-native-related-nine-ios26plus", "ui-native-adaptive-customization-ios26plus")
+ALL_FOCUSES = FOCUSES + SPLIT_FOCUSES
 MODULE = "calf-ui"
 TASK_NAME = "iosSimulatorArm64ApplicationTest"
 TASK = ":calf-ui:" + TASK_NAME
@@ -117,10 +121,45 @@ SOURCE_SHA256 = {'calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/Liq
  'calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt': '7ce8cef67a1d4df0430852e77d37967574d42fd039b76a0a6ebb347f93b8cb8c'}
 INIT_SHA256 = {'ui-native-adaptive-drag-shader-ios26plus': '6f11a305e3ffbe778d4b3aaa6e8a83e50b51c30af63666d2515f26250839e3c8',
  'ui-native-adaptive-pre26': '90ac4d7f46ee8f88192eb23a3da5b3ce62ef1c00c9a8003a89800b47e305e8e8'}
+# Retain every original source pin above; only the exact lead-owned screenshot
+# finally/phase derivative is a current native input. Its complete sixteen-site
+# inverse must still recover the original customization source, never a repin.
+CURRENT_CUSTOM_SOURCE_SHA256 = "b58eafaa3f097de27d0e8babe1059ce818fca903d954a77cdbd2a4c1a73252b9"
+_RELATED_TEN = _SELECTIONS[FOCUSES[1]]
+_CUSTOM_SOURCE = adaptive.CUSTOM_SOURCE
+_SELECTIONS[SPLIT_FOCUSES[0]] = {
+    **_RELATED_TEN,
+    "groups": [group for group in _RELATED_TEN["groups"] if group["source"] != _CUSTOM_SOURCE],
+    "test_sources": [name for name in _RELATED_TEN["test_sources"] if name != _CUSTOM_SOURCE],
+    "task_name": "iosSimulatorArm64UiNineApplicationTest",
+    "init_script": "scripts/ci/ios_ui_split_native.init.gradle.kts",
+    "focus_property": "nativecmpkitUiSplitFocus",
+    "admission_path": "build/ci-verification/ui-nine-native-source-admission.json",
+    "receipt_subdirectory": "native-ui-nine-application",
+    "transport_timeout_seconds": 1920,
+    "native_task_timeout_seconds": 2400,
+    "scope": "Only nine missing UI650 iOS26+ methods, excluding adaptive customization: public slider2/toolbar1 plus actual drag3/highlight2/button-construction1. One exact ten-source/common0 application and fresh task-specific XML/runtime/Worker/owned cleanup decide these nine alone. Adaptive customization1 has an independent application/task/receipt/budget; legacy related10 and genuine pre26four remain intact. No accepted native replay, missing-outcome waiver, compiler/link/native/issue/physical/consumer/API-ABI/security/release inference.",
+}
+_SELECTIONS[SPLIT_FOCUSES[1]] = {
+    **_RELATED_TEN,
+    "groups": [group for group in _RELATED_TEN["groups"] if group["source"] == _CUSTOM_SOURCE],
+    "test_sources": [name for name in _RELATED_TEN["test_sources"] if name in (
+        adaptive.BRANCH_SOURCE, _CUSTOM_SOURCE, adaptive.HOST_SOURCE, adaptive.IDENTITY_SOURCE)],
+    "task_name": "iosSimulatorArm64AdaptiveCustomizationApplicationTest",
+    "init_script": "scripts/ci/ios_ui_split_native.init.gradle.kts",
+    "focus_property": "nativecmpkitUiSplitFocus",
+    "admission_path": "build/ci-verification/adaptive-customization-native-source-admission.json",
+    "receipt_subdirectory": "native-adaptive-customization-application",
+    "transport_timeout_seconds": 600,
+    "native_task_timeout_seconds": 2400,
+    "scope": "Only the one missing UI650 genuine iOS26+ customization method, exact four-source/common0 application, unchanged actual assertions/waits plus first-row scalar caller phases and fresh screenshot finally-close. Independent600s cooperative console transport bound still fails on timeout; the dedicated2400s native task preserves original owned cleanup. No hang-cause diagnosis, synthetic success, inner-wait relaxation or acceptance of the separate nine/legacy10/pre26four; actual fresh XML/runtime/Worker/owned cleanup remain mandatory. No compiler/link/native/issue/physical/consumer/API-ABI/security/release inference.",
+}
+for _focus in SPLIT_FOCUSES:
+    INIT_SHA256[_focus] = "93bdd4ec3bbd3fac3db6d2e60709bd6945eb96c8cb05b7bdc50d7c3d7b689a9d"
 
 
 def _selection(focus: str) -> dict:
-    if type(focus) is not str or focus not in FOCUSES:
+    if type(focus) is not str or focus not in ALL_FOCUSES:
         raise ValueError("Select only the related iOS26+ ten or independent pre26 four")
     return _SELECTIONS[focus]
 
@@ -129,7 +168,7 @@ def focus_spec(focus: str) -> dict:
     return {"groups": tuple({**group, "methods": tuple(group["methods"]),
                               "declared_methods": tuple(group["declared_methods"])}
                              for group in _selection(focus)["groups"]),
-            "module": MODULE, "scope": SCOPE}
+            "module": MODULE, "scope": _selection(focus).get("scope", SCOPE)}
 
 
 def sources(focus: str) -> tuple[str, ...]:
@@ -142,7 +181,7 @@ def selectors(focus: str) -> tuple[str, ...]:
 
 
 def native_request(focus: str) -> list[str]:
-    return [TASK, *(argument for selector in selectors(focus) for argument in ("--tests", selector))]
+    return [task(focus), *(argument for selector in selectors(focus) for argument in ("--tests", selector))]
 
 
 def validate_request(task_names: list[str], focus: str) -> bool:
@@ -163,8 +202,31 @@ def focus_property(focus: str) -> str:
     return _selection(focus)["focus_property"]
 
 
+def task_name(focus: str) -> str:
+    return _selection(focus).get("task_name", TASK_NAME)
+
+
+def task(focus: str) -> str:
+    return ":" + MODULE + ":" + task_name(focus)
+
+
+def receipt_subdirectory(focus: str) -> str:
+    return _selection(focus).get("receipt_subdirectory", "native-ui-application")
+
+
+def timeout_accounting(focus: str) -> dict[str, int]:
+    selection = _selection(focus)
+    return {"transport_timeout_seconds": selection.get("transport_timeout_seconds", 1920),
+            "native_task_timeout_seconds": selection.get("native_task_timeout_seconds", 2400)}
+
+
+def source_sha256(focus: str) -> dict[str, str]:
+    return {name: CURRENT_CUSTOM_SOURCE_SHA256 if name == _CUSTOM_SOURCE else SOURCE_SHA256[name]
+            for name in sources(focus)}
+
+
 def identities(focus: str) -> list[dict]:
-    return [{"classname": TASK_NAME + "." + group["classname"],
+    return [{"classname": task_name(focus) + "." + group["classname"],
              "name": method + "[iosSimulatorArm64]"}
             for group in focus_spec(focus)["groups"] for method in group["methods"]]
 
@@ -175,7 +237,7 @@ def validate_sources(root: Path, focus: str, test_sources: list[str] | None = No
         raise ValueError("Related UI requires its exact ordinary eleven/six source list, not a superset")
     text = {name: _ordinary_bytes(root, name)[0].decode("utf-8") for name in wanted}
     # Reuse the unchanged actual-UIDevice branch checker; do not replay its old controls.
-    adaptive.validate_sources(root, list(wanted))
+    adaptive.validate_sources(root, None if focus in SPLIT_FOCUSES else list(wanted))
     for group in focus_spec(focus)["groups"]:
         source = text[group["source"]]
         package, classname = group["classname"].rsplit(".", 1)
@@ -195,8 +257,13 @@ def validate_sources(root: Path, focus: str, test_sources: list[str] | None = No
     if drag_host in text and "onApplicationMain { requireOwnedApplicationWindow(); Unit }" not in text[drag_host]:
         raise ValueError("Drag/shader admission must require the real owned application window on Main")
     for name in wanted:
-        if hashlib.sha256(text[name].encode()).hexdigest() != SOURCE_SHA256[name]:
+        raw = text[name].encode()
+        if hashlib.sha256(raw).hexdigest() != source_sha256(focus)[name]:
             raise ValueError("Related UI authored source differs from its unchanged reviewed input: " + name)
+        if name == _CUSTOM_SOURCE:
+            from ios_ui_split664_source_projection import current_source_before_ui_split664
+            if hashlib.sha256(current_source_before_ui_split664(name, raw)).hexdigest() != SOURCE_SHA256[name]:
+                raise ValueError("The exact UI609 screenshot/phase derivative must retain its original source pin")
     if hashlib.sha256(_ordinary_bytes(root, init_script(focus))[0]).hexdigest() != INIT_SHA256[focus]:
         raise ValueError("Related UI native-only init differs from its exact reviewed source admission")
     return True
@@ -204,11 +271,13 @@ def validate_sources(root: Path, focus: str, test_sources: list[str] | None = No
 
 def _contract(focus: str) -> dict:
     return {"schema_version": 1, "focus": focus, "runtime_focus": runtime_focus(focus),
-            "module": MODULE, "task": TASK, "init_script": init_script(focus),
+            "module": MODULE, "task": task(focus), "init_script": init_script(focus),
             "focus_property": focus_property(focus), "init_sha256": INIT_SHA256[focus],
             "selected_methods": list(selectors(focus)), "effective_sources": list(sources(focus)),
-            "common_sources": [], "source_sha256": {name: SOURCE_SHA256[name] for name in sources(focus)},
-            "compiler_executions_attested": 0, "apple_links_attested": 0, "native_tests_executed": 0}
+            "common_sources": [], "source_sha256": source_sha256(focus),
+            "compiler_executions_attested": 0, "apple_links_attested": 0, "native_tests_executed": 0,
+            **({"receipt_subdirectory": receipt_subdirectory(focus), **timeout_accounting(focus)}
+               if focus in SPLIT_FOCUSES else {})}
 
 
 def source_contract(root: Path, focus: str) -> dict:
@@ -227,14 +296,16 @@ def validate_plan(test_plan: dict) -> bool:
         raise ValueError("Related UI requires one explicit finite iOS calf-ui application module")
     item = expected[0]
     if (type(item) is not dict or item.get("module") != MODULE or item.get("project") != ":calf-ui" or
-            item.get("task") != TASK or item.get("report_directory") != "calf-ui/build/test-results/" + TASK_NAME or
+            item.get("task") != task(focus) or item.get("report_directory") != "calf-ui/build/test-results/" + task_name(focus) or
             item.get("native_test_host") != "genuine-uikit-application" or item.get("test_source_sets") != ["iosTest"] or
             item.get("test_source_files") != sorted(sources(focus)) or
             item.get("test_filter") != ",".join(selectors(focus)) or item.get("required_testcases") != identities(focus) or
             item.get("ui_related_source_contract") != wanted or
             type(item["ui_related_source_contract"].get("schema_version")) is not int or
             any(type(item["ui_related_source_contract"].get(key)) is not int
-                for key in ("compiler_executions_attested", "apple_links_attested", "native_tests_executed"))):
+                for key in ("compiler_executions_attested", "apple_links_attested", "native_tests_executed")) or
+            (focus in SPLIT_FOCUSES and any(type(item["ui_related_source_contract"].get(key)) is not int
+                for key in timeout_accounting(focus)))):
         raise ValueError("Related UI source/task/module/focus/hash admission must equal its exact native plan")
     return True
 
@@ -246,20 +317,24 @@ def validate_context(context: dict, focus: str, *, udid: str) -> bool:
 
 
 def admission_path(focus: str) -> str:
-    _selection(focus)
+    selection = _selection(focus)
+    if focus in SPLIT_FOCUSES:
+        return selection["admission_path"]
     return ("build/ci-verification/adaptive-controls-native-source-admission.json" if focus == FOCUSES[0]
             else "build/ci-verification/ui-related-native-source-admission.json")
 
 
 def _admission(focus: str) -> dict:
-    result = {"task": TASK, "focus": focus, "selected_methods": list(selectors(focus)),
+    result = {"task": task(focus), "focus": focus, "selected_methods": list(selectors(focus)),
               "effective_sources": list(sources(focus)),
-              "source_sha256": {name: SOURCE_SHA256[name] for name in sources(focus)},
+              "source_sha256": source_sha256(focus),
               "excluded_unrelated_test_sources": True, "production_source_sets_changed": False,
               "compiler_executions_attested": 0, "apple_links_attested": 0, "native_tests_executed": 0,
               "scope": "Source/selection admission only; original fresh native XML/runtime/cleanup decide results"}
-    if focus == FOCUSES[1]:
+    if focus != FOCUSES[0]:
         result["common_sources"] = []
+    if focus in SPLIT_FOCUSES:
+        result.update(receipt_subdirectory=receipt_subdirectory(focus), **timeout_accounting(focus))
     return result
 
 
@@ -278,7 +353,9 @@ def validate_admission(root: Path, started_ns: int, ended_ns: int, focus: str) -
                 all(type(document.get(key)) is int for key in
                     ("compiler_executions_attested", "apple_links_attested", "native_tests_executed")) and
                 type(document.get("excluded_unrelated_test_sources")) is bool and
-                type(document.get("production_source_sets_changed")) is bool)
+                type(document.get("production_source_sets_changed")) is bool and
+                (focus not in SPLIT_FOCUSES or all(type(document.get(key)) is int
+                    for key in timeout_accounting(focus))))
     except (OSError, ValueError, UnicodeError, TypeError, RecursionError):
         return False
 
@@ -308,7 +385,7 @@ def outcomes(cases: list[dict], system: str, focus: str, *,
     exact = valid and actual == wanted and reports_ok
     if not exact:
         errors.append("Related UI XML must contain exactly ten/four selected methods and one fresh report per class")
-    source_by_class = {TASK_NAME + "." + group["classname"]: group["source"]
+    source_by_class = {task_name(focus) + "." + group["classname"]: group["source"]
                        for group in focus_spec(focus)["groups"]}
     scenarios = []
     for item in expected:
@@ -317,7 +394,7 @@ def outcomes(cases: list[dict], system: str, focus: str, *,
         passed = exact and host_ok and len(matching) == 1 and matching[0]["status"] == "passed"
         if not passed:
             errors.append("Related UI native method must pass exactly once: " + item["name"])
-        scenarios.append({**item, "source": source_by_class[item["classname"]], "task": TASK_NAME,
+        scenarios.append({**item, "source": source_by_class[item["classname"]], "task": task_name(focus),
                           "target": "iosSimulatorArm64", "actual_os_branch_required": adaptive_runtime.branch(runtime_focus(focus)),
                           "required_on_host": True,
                           "disposition": "required-executed" if passed else "required-not-passed"})

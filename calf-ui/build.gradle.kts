@@ -124,5 +124,50 @@ kotlin {
                 logger.lifecycle("NATIVECMPKIT_TEST_SIMULATOR task=$path device=$identifier host=genuine-uikit-application")
             }
         }
+        // Opt-in UI650 outcome isolation only. Reuse the same unchanged genuine
+        // application binary/transport, but never share the nine/one XML task,
+        // binary result tree, receipt root or timeout with the legacy ten task.
+        val splitApplications = mapOf(
+            "iosSimulatorArm64UiNineApplicationTest" to
+                ("ui-native-related-nine-ios26plus" to "native-ui-nine-application"),
+            "iosSimulatorArm64AdaptiveCustomizationApplicationTest" to
+                ("ui-native-adaptive-customization-ios26plus" to "native-adaptive-customization-application"),
+        )
+        splitApplications.forEach { (taskName, binding) ->
+            tasks.register<KotlinNativeHostTest>(taskName) {
+                group = "verification"
+                description = "Independent exact UI650 nine or customization-one outcomes in an owned genuine UIKit application."
+                executable(rootProject.file("scripts/ci/ios_ui_application.py"))
+                dependsOn(application.linkTaskProvider)
+                args = listOf("--binary", application.outputFile.absolutePath)
+                targetName = "iosSimulatorArm64"
+                ignoreFailures = false
+                ignoreRunFailures = false
+                binaryResultsDirectory.set(layout.buildDirectory.dir("test-results/$name/binary"))
+                reports.html.outputLocation.set(layout.buildDirectory.dir("reports/tests/$name"))
+                reports.junitXml.required.set(true)
+                reports.junitXml.outputLocation.set(layout.buildDirectory.dir("test-results/$name"))
+                timeout.set(Duration.ofSeconds(2400))
+                outputs.upToDateWhen { false }
+                outputs.doNotCacheIf("Split UIKit outcomes require their independent actual fresh execution") { true }
+                onlyIf("UIKit simulator applications require macOS") { System.getProperty("os.name") == "Mac OS X" }
+                doFirst {
+                    check(providers.gradleProperty("nativecmpkitUiSplitFocus").orNull == binding.first &&
+                        imageMemoryMode == null) {
+                        "Each split task requires only its exact UI650 focus, not another diagnostic fixture"
+                    }
+                    val identifier = providers.gradleProperty("nativecmpkitSimulatorDevice").orNull
+                        ?: error("Select an actual booted simulator with nativecmpkitSimulatorDevice")
+                    check(Regex("[0-9A-Fa-f]{8}(-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}").matches(identifier)) {
+                        "Use the task-recorded UDID, not a default device alias"
+                    }
+                    environment("NATIVECMPKIT_UIKIT_SIMULATOR", identifier)
+                    environment("NATIVECMPKIT_UIKIT_RESULT_ROOT",
+                        providers.environmentVariable("NATIVECMPKIT_UIKIT_RESULT_ROOT").orNull
+                            ?: "build/ci-verification/${binding.second}")
+                    logger.lifecycle("NATIVECMPKIT_TEST_SIMULATOR task=$path device=$identifier host=genuine-uikit-application")
+                }
+            }
+        }
     }
 }

@@ -159,6 +159,8 @@ def _identity(relative, payload):
 def source_before_contract667(relative, payload):
     """Exact complete inverse or its approved30db preimage; never current admission."""
     _identity(relative, payload)
+    from ios_ui_split664_source_projection import peel_ui_split664_for_history
+    payload = peel_ui_split664_for_history(relative, payload)
     binding = _qualified_document()["bindings"].get(relative)
     if binding is None:
         return payload  # Unlisted bytes are not certified, guessed or executed.
@@ -192,6 +194,8 @@ def source_before_contract667(relative, payload):
 def current_source_before_contract667(relative, payload):
     """One exact raw current ingress; old/partial/unknown bound images must refuse."""
     _identity(relative, payload)
+    from ios_ui_split664_source_projection import current_source_before_ui_split664
+    payload = current_source_before_ui_split664(relative, payload)
     binding = _qualified_document()["bindings"].get(relative)
     if binding is not None and (sha(payload) != binding["after_sha256"] or len(payload) != binding["after_bytes"]):
         raise ValueError("An old or unknown image cannot replace exact current WebView contract667 source")
@@ -201,6 +205,8 @@ def current_source_before_contract667(relative, payload):
 def peel_contract667_for_history(relative, payload):
     """Only peel complete latest images; pass-through never certifies current."""
     _identity(relative, payload)
+    from ios_ui_split664_source_projection import peel_ui_split664_for_history
+    payload = peel_ui_split664_for_history(relative, payload)
     binding = _qualified_document()["bindings"].get(relative)
     if binding is not None and sha(payload) == binding["after_sha256"]:
         return source_before_contract667(relative, payload)
@@ -210,38 +216,48 @@ def peel_contract667_for_history(relative, payload):
 def _validate_own_guard(root, document):
     """Bind all companion bytes; only its unique manifest-SHA literal is normalized."""
     from ios_popover_anchor_plan import _ordinary_bytes
-    raw = _ordinary_bytes(root, SOURCE_RELATIVE)[0]
+    raw_current = _ordinary_bytes(root, SOURCE_RELATIVE)[0]
+    from ios_ui_split664_source_projection import current_source_before_ui_split664
+    raw = current_source_before_ui_split664(SOURCE_RELATIVE, raw_current)
     needle = ('SPEC_SHA256 = "' + SPEC_SHA256 + '"\n').encode()
     template = ('SPEC_SHA256 = "' + "0" * 64 + '"\n').encode()
     if (len(raw) != document["own_guard"]["bytes"] or raw.count(needle) != 1 or
             sha(raw.replace(needle, template, 1)) != document["own_guard"]["template_sha256"]):
         raise ValueError("Current WebView contract667 own guard differs from its exact singleton template")
-    return sha(raw)  # This raw digest is qualified by the complete sealed singleton template.
+    return sha(raw_current)  # Exact UI664 raw identity above; the sealed667 ancestor still binds its unchanged template.
 
 
 def contract_input_paths():
     """Only ordinary source-contract operands; not a native/compiler selection."""
-    return frozenset({SOURCE, SOURCE_RELATIVE, SPEC_RELATIVE, PRIOR_GUARD, *ORIGIN_MANIFESTS})
+    from ios_ui_split664_source_projection import fixture_inputs as split_fixture_inputs
+    return frozenset({SOURCE, SOURCE_RELATIVE, SPEC_RELATIVE, PRIOR_GUARD, *ORIGIN_MANIFESTS}) | split_fixture_inputs()
 
 
 def current_contract_hashes():
     """Expected raw-current identities, qualified before any checkout equality test."""
     document = _qualified_document()
     guard_digest = _validate_own_guard(ROOT, document)
+    from ios_ui_split664_source_projection import current_input_hashes
+    split_hashes = current_input_hashes()
+    if split_hashes[SOURCE_RELATIVE] != guard_digest:
+        raise ValueError("Current UI664 WebView companion identity must equal its separately qualified raw source")
     return {SOURCE: document["bindings"][SOURCE]["after_sha256"],
             PRIOR_GUARD: document["bindings"][PRIOR_GUARD]["after_sha256"],
-            SOURCE_RELATIVE: guard_digest, SPEC_RELATIVE: SPEC_SHA256, **ORIGIN_MANIFESTS}
+            SOURCE_RELATIVE: guard_digest, SPEC_RELATIVE: SPEC_SHA256, **ORIGIN_MANIFESTS,
+            **split_hashes}
 
 
 def validate_current_sources(root: Path):
     """Source custody only; nothing here attests compiler or native execution."""
+    import ios_ui_split664_source_projection as split
+    split.validate_current_sources(root)
     document = _qualified_document()
     _validate_own_guard(root, document)
     expected = ({name: row["after_sha256"] for name, row in document["bindings"].items()} |
                 document["added_inputs"] | ORIGIN_MANIFESTS | {SPEC_RELATIVE: SPEC_SHA256})
     from ios_popover_anchor_plan import _ordinary_bytes
     for name, digest in expected.items():
-        if sha(_ordinary_bytes(root, name)[0]) != digest:
+        if sha(split.source_before_ui_split664(name, _ordinary_bytes(root, name)[0])) != digest:
             raise ValueError("Current WebView contract667 input differs from its reviewed raw image: " + name)
     return True
 

@@ -1,0 +1,47 @@
+{
+  "cargo_command": [
+    "rustup",
+    "run",
+    "1.98.0",
+    "cargo",
+    "test",
+    "--locked",
+    "--features",
+    "appkit-lifecycle-tests",
+    "--test",
+    "appkit_lifecycle",
+    "--manifest-path",
+    "calf-share/native/Cargo.toml",
+    "--no-run",
+    "--message-format=json",
+    "--target",
+    "aarch64-apple-darwin",
+    "--target-dir",
+    "<fresh-owned-target>"
+  ],
+  "compile_timeout_seconds": 1200,
+  "disk_reserve_bytes": 8589934592,
+  "exact_native_cases": [
+    "cancel_before_dispatch",
+    "no_key_window",
+    "missing_content_view",
+    "real_picker_cancel",
+    "controlled_picker_dismissal",
+    "controlled_success_duplicate_late",
+    "controlled_service_failure",
+    "bounded_concurrent_requests"
+  ],
+  "filesystem_wallclock_envelope_ns": 2000000000,
+  "native_case_arguments": [],
+  "native_command": [
+    "<admitted-mh-execute>"
+  ],
+  "native_timeout_seconds": 240,
+  "platform": "macos-arm64",
+  "publication_commands": [],
+  "read_only_plan": true,
+  "rust_target": "aarch64-apple-darwin",
+  "rust_toolchain": "1.98.0",
+  "schema_version": 1,
+  "stress_selected": false
+}

@@ -1807,12 +1807,16 @@
       "InteractiveHighlight creates its optional shader only on a nonzero pressed draw; constructor/gesture-only button path does not compile it.",
       "Replaced hardcoded support predicate with cached actual SkSL compilation probe; optional shader factory failure uses flat highlight fallback.",
       "Button owns highlight disposal/cancellation; per-draw native shaders are closed and builder disposed; zero-size deformation guarded.",
-      "Authored100-instance gesture-only lazy-construction and actual drawing/disposal tests, but not executed and not a profiling trace."
+      "Authored100-instance gesture-only lazy-construction and actual drawing/disposal tests, but not executed and not a profiling trace.",
+      "2026-11-04: highlight terminal disposal blocks retained input/drawing, clears shader ownership before native close and exposes internal read-only actual-resource tracing. Two NEW real shader lifecycle/pixel cases and one public100-button construction trace are authored/candidate-KLIB compiled, not native/profiler executed; effects-budget/older-hardware/policy requirements remain unresolved."
     ],
     "affected_paths": [
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlight.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/button/LiquidGlassButton.kt",
-      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt"
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/InteractiveHighlightResourceLifecycleTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/button/LiquidButtonConstructionTraceTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt"
     ],
     "tests": [
       {
@@ -1846,6 +1850,15 @@
         "evidence": [
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+        ]
+      },
+      {
+        "command": "Dated candidate UI607 production/seven-source test-KLIB compiler and independent current-root source comparison; exact commands/source/custody in retained evidence. No Apple/native execution or old accepted-control replay.",
+        "result": "COMPILATION ONLY: first included-build initialization ordering failed before tasks, retained. Only new init ordering repaired; candidate recovery compiler0/203s, wrapper205.179449488s,232 held inputs/21 warnings. Six NEW native methods remain unexecuted. Current root has two captured build-config differences, so this is not a fresh combined-current compiler pass. CupertinoSwitch bytes are identical; commit identity is not source drift. Status and original remaining requirements unchanged.",
+        "evidence": [
+          "docs/development/ui-drag-shader-20261104/README.md",
+          "docs/development/ui-drag-shader-20261104/compiler-recovery1-run.json",
+          "docs/development/evidence/current-platform-recovery-20261101/parallel-runtime-resource632/README.md"
         ]
       }
     ],
@@ -1863,12 +1876,15 @@
     "changes": [
       "Damped helper owns at most two cancellable top-level lanes for value and feedback; re-press replaces delayed release and programmatic animation.",
       "No per-frame coroutine/velocity animation launches; monotonic timestamps and normalized positions avoid wall-clock/span overflow.",
-      "cancel() stops only helper jobs; observer cancellation releases feedback without business completion; fixed constant/invalid domain policy."
+      "cancel() stops only helper jobs; observer cancellation releases feedback without business completion; fixed constant/invalid domain policy.",
+      "2026-11-04: cancellation-generation checks prevent real pointer start/stop/finally callbacks from recreating feedback after owner cancellation; cancel clears only owned lanes. Three NEW callback/disposal/sustained-job-tree native methods are authored and candidate-KLIB compiled, not Apple-executed."
     ],
     "affected_paths": [
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragAnimation.kt",
       "calf-ui/src/iosMain/kotlin/com/mohamedrejeb/calf/ui/utils/DragGestureInspector.kt",
-      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt"
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DragAnimationAndHighlightTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/DampedDragLifecycleRegressionTest.kt",
+      "calf-ui/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/utils/UiDragShaderTestHost.kt"
     ],
     "tests": [
       {
@@ -1902,6 +1918,15 @@
         "evidence": [
           "docs/development/evidence/github-actions/40522929974/attempt-2/lead-independent-review.json",
           "docs/development/evidence/github-actions/40522929974/attempt-2/raw/12745087819.zip"
+        ]
+      },
+      {
+        "command": "Dated candidate UI607 production/seven-source test-KLIB compiler and independent current-root source comparison; exact commands/source/custody in retained evidence. No Apple/native execution or old accepted-control replay.",
+        "result": "COMPILATION ONLY: first included-build initialization ordering failed before tasks, retained. Only new init ordering repaired; candidate recovery compiler0/203s, wrapper205.179449488s,232 held inputs/21 warnings. Six NEW native methods remain unexecuted. Current root has two captured build-config differences, so this is not a fresh combined-current compiler pass. CupertinoSwitch bytes are identical; commit identity is not source drift. Status and original remaining requirements unchanged.",
+        "evidence": [
+          "docs/development/ui-drag-shader-20261104/README.md",
+          "docs/development/ui-drag-shader-20261104/compiler-recovery1-run.json",
+          "docs/development/evidence/current-platform-recovery-20261101/parallel-runtime-resource632/README.md"
         ]
       }
     ],

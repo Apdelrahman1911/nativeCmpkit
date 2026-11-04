@@ -1,5 +1,32 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Parallel UI/resource patch integrated; native originals retained — 2026-11-04
+
+[Owning632](docs/development/evidence/current-platform-recovery-20261101/parallel-runtime-resource632/README.md)
+integrates the finite runtime620 helpers, UI607 cancellation-generation/terminal
+highlight-disposal fixes and image609/624 exact launcher ingress. Image independent
+review28 accepts three paths/eight inverse fragments and35 held inputs; NEW18 and
+20 qualified image obligations are reused, not replayed. Current1,385 inputs are
+a separate integration snapshot, not fresh native/compiler results. Dated UI232
+compiler remains historical: at current root only Coil Desktop-test and captured
+consumer build files differ. CupertinoSwitch source is byte-identical, correcting
+the earlier commit-identity drift suspicion. The combined native UI batch needs
+11 unique test files/ten iOS26+ methods; separate pre26 adaptive4 remains required,
+and available26.2/26.4.1/26.5 simulators cannot stand in for pre26.
+
+Camera41774084823 at6fb remains FAILED: CI2,896 green; actual1,373 controller inputs
+hold, but parse_live_tasks349 refuses before APK/Gradle/native/XML. Which of the
+three leaf-admission operands failed is unknown. Original-state cleanup1405 fails
+separately; owned guest disposal/graceful shutdown pass. #13 stays open, no blind
+retry. Sole reviewers own cached originals; Calendar5 is requested once in
+41775507254 at6fb, still pending actual native acceptance. Share630 failed and its
+original review is pending. No new closure:103closed/69open/172total and22implemented/
+36partial/101verified/five unresolved remain. Lead integrates/Git/dispatch/accepts/
+closes; isolated related patches continue during CI. Serial-local8GiB/max2 combined
+hosted INCLUDING queued/reserved/read-only Actions/all/no mandatory SHA and every
+publication/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/
+release-readiness gate remain. No release/package/deployment publication.
+
 ## Shared CI blocker repaired; Coil runtime accepted — 2026-11-04
 
 [Originals628/repair629](docs/development/evidence/current-platform-recovery-20261101/matrix-alias-repair628-629/README.md)

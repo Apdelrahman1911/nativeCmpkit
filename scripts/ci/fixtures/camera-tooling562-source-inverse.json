@@ -1,0 +1,97 @@
+{
+  "bindings": {
+    "scripts/ci/arm64_stop_candidate_source_projection.py": {
+      "after_sha256": "02892878100a823314064e650e7f93e79381289b0bc9eee55c31466300d201f3",
+      "before_sha256": "621a79f887dc7d299ad9d361522049f31b836cf3b2e00d5f98b4018d880e34de",
+      "fragments": [
+        {
+          "after": "def source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ARM64 Stop source identity and ordinary bytes are required\")\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n    # Retain this stage's original complete-preimage idempotence before newer admission.\n    if (binding is not None and 0 < len(payload) <= MAX_SOURCE_BYTES and\n",
+          "after_fragment_sha256": "9d706f9515e4376d03189f8d84d1a7d722128e2207288b6f8902c37f3f186225",
+          "before": "def source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ARM64 Stop source identity and ordinary bytes are required\")\n    binding = _bindings().get(relative)\n    # Retain this stage's original complete-preimage idempotence before newer admission.\n    if (binding is not None and 0 < len(payload) <= MAX_SOURCE_BYTES and\n",
+          "before_fragment_sha256": "3c9ec4bb6854bf8d3387d0ed8c18df314aee42625155f61b8d1fc92447c88edc"
+        },
+        {
+          "after": "def current_source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current ARM64 Stop source identity and ordinary bytes are required\")\n    from camera_tooling562_source_projection import current_source_before_tooling\n    payload = current_source_before_tooling(relative, payload)\n    from desktop_policy_creation_source_projection import current_source_before_policy_creation\n    payload = current_source_before_policy_creation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "25c74830df0ff3debf8f4d60584caad77c6dc53a0466208d05b97677a0e7857e",
+          "before": "def current_source_before_arm64_stop_candidate(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current ARM64 Stop source identity and ordinary bytes are required\")\n    from desktop_policy_creation_source_projection import current_source_before_policy_creation\n    payload = current_source_before_policy_creation(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "f915788c0a507ce9519e687171e113044da47c82c058603f62f945bb5ef5888e"
+        }
+      ]
+    },
+    "scripts/ci/camera_recents_fixture_source_projection.py": {
+      "after_sha256": "f7eb886d2f81893a13f6ae5d96c4d5bb06c3fb64d09978ca11ebe5e7e094ad20",
+      "before_sha256": "c26143fd9068fb597bb83678d7e28a7ff51bbd2335767b4838ab2f1bbef24938",
+      "fragments": [
+        {
+          "after": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_tooling562_source_projection import peel_current_tooling_for_older_history\n    payload = peel_current_tooling_for_older_history(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "34c431980417b3650ac88ba2ab206fe4e6aff75086aef756abe191440ffbc00f",
+          "before": "def source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact recents-fixture source identity and ordinary bytes required\")\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "776c54990334d9a7a6d69abeb8e89711720fb760d749330f59c53170788930b7"
+        },
+        {
+          "after": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from camera_tooling562_source_projection import current_source_before_tooling\n    payload = current_source_before_tooling(relative, payload)\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "after_fragment_sha256": "37eb5ff159fc8684e8f60b3c0602b2f639ff6be7207712db686922ed96a4137e",
+          "before": "def current_source_before_recents_fixture(relative, payload):\n    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current recents-fixture identity and ordinary bytes required\")\n    from camera_boot_busy_source_projection import peel_current_boot_busy_for_older_history\n    payload = peel_current_boot_busy_for_older_history(relative, payload)\n    binding = _bindings().get(relative)\n",
+          "before_fragment_sha256": "eca6ff865056e49f7de7cba6910cc46db797dcbfe26bfcd9a17f95002e3ee7d7"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_scalar_control_refusal.py": {
+      "after_sha256": "fe38e9c055746fdc2624ba8db6f95990c3c9fb1904eca5a4f4d1b35828c0fdf2",
+      "before_sha256": "e0ca6710cf89cb68ec21e91996ae49ee072e477dfc17b0eb0206794872444ffe",
+      "fragments": [
+        {
+          "after": "    return hashlib.sha256(path.read_bytes()).hexdigest()\n\n\ndef source_binding_digest(path):\n    # Current checkout admission is distinct from this preserved scalar stage.\n    # Raw held-source/result digests below continue to describe actual bytes.\n    if TREE == Path(__file__).resolve().parents[2] and path == HELPER_PATH:\n        from android_external328_source_projection import current_source_for_history\n        payload = current_source_for_history(path.relative_to(TREE).as_posix(), path.read_bytes())\n        return hashlib.sha256(payload).hexdigest()\n    return digest(path)  # Explicit private historical fixture, not live admission.\n\n\ndef forbidden(*args, **kwargs):\n    FORBIDDEN_ACTIONS.append(\"forbidden-sdk-process-network-or-native-action\")\n    raise AssertionError(\"No process, SDK, network, build or native action is admitted\")\n",
+          "after_fragment_sha256": "7bb55fa116591d4183275308f7330d6e3dfa4913b5006bd0d28e9ed967ccdeb6",
+          "before": "    return hashlib.sha256(path.read_bytes()).hexdigest()\n\n\ndef forbidden(*args, **kwargs):\n    FORBIDDEN_ACTIONS.append(\"forbidden-sdk-process-network-or-native-action\")\n    raise AssertionError(\"No process, SDK, network, build or native action is admitted\")\n",
+          "before_fragment_sha256": "197dd3bf196b328855717fc143fdbfd2ed886b0a7cbdf3470c01a0f317d89a71"
+        },
+        {
+          "after": "                stack.enter_context(patch.object(module, name, forbidden))\n\n\nif HELPER_PATH.is_symlink() or source_binding_digest(HELPER_PATH) != EXPECTED_HELPER_SHA256:\n    raise AssertionError(\"Exact scalar-observer helper source binding is changed\")\nSOURCE_BEFORE = digest(HELPER_PATH)\nSPEC = importlib.util.spec_from_file_location(\"nativecmpkit_camera_scalar_new_controls_helper\", HELPER_PATH)\n",
+          "after_fragment_sha256": "c71ff008c536eea0ce6f2916b0ea0968f74d83470e853ec62a9e14fda8c7c321",
+          "before": "                stack.enter_context(patch.object(module, name, forbidden))\n\n\nif HELPER_PATH.is_symlink() or digest(HELPER_PATH) != EXPECTED_HELPER_SHA256:\n    raise AssertionError(\"Exact scalar-observer helper source binding is changed\")\nSOURCE_BEFORE = digest(HELPER_PATH)\nSPEC = importlib.util.spec_from_file_location(\"nativecmpkit_camera_scalar_new_controls_helper\", HELPER_PATH)\n",
+          "before_fragment_sha256": "1d6cf72dab8ba3960193ead105a4d298a35eb68e20f1f4eb38d45b4df86c977a"
+        }
+      ]
+    },
+    "scripts/ci/test_android_camera_settings_activity_reference_prefix_diagnostics.py": {
+      "after_sha256": "607bb6f4ea621a99832b24447144b95b7b864e25a8f580f04193c74f5e31d7c0",
+      "before_sha256": "9c2ee35603ccc5c30a49fd91d438fa88584386637bb550ab2557d44760d1bbe5",
+      "fragments": [
+        {
+          "after": "        for name in names:\n            stack.enter_context(patch.object(module, name, forbidden))\n\ndef source_binding_digest(path):\n    # Qualify the latest complete checkout before this dated observer-stage pin.\n    # Do not relabel raw custody hashes or the actual imported helper as old.\n    if TREE == Path(__file__).resolve().parents[2] and path == HELPER_PATH:\n        from android_external328_source_projection import current_source_for_history\n        payload = current_source_for_history(path.relative_to(TREE).as_posix(), path.read_bytes())\n        return hashlib.sha256(payload).hexdigest()\n    return digest(path)  # Only an explicitly private historical fixture may be old.\n\n\nfor source_path, expected in ((HELPER_PATH, EXPECTED_HELPER_SHA256),\n                              (GUARD_PATH, EXPECTED_GUARD_SHA256),\n                              (FIXTURE_PATH, EXPECTED_FIXTURE_SHA256),\n                              (STARTUP_FIXTURE_PATH, EXPECTED_STARTUP_FIXTURE_SHA256)):\n    if source_path.is_symlink() or source_binding_digest(source_path) != expected:\n        raise AssertionError(\"Exact source-bound candidate input is changed\")\nexpected_test = os.environ.get(\"NATIVECMPKIT_CAMERA_PREFIX_EXPECTED_TEST_SHA256\")\nif expected_test and digest(Path(__file__)) != expected_test:\n",
+          "after_fragment_sha256": "bb0ba5764bd65ee3d5a2eaf2e0545788fdffe78f28e102fc389f2432ded03d78",
+          "before": "        for name in names:\n            stack.enter_context(patch.object(module, name, forbidden))\n\nfor source_path, expected in ((HELPER_PATH, EXPECTED_HELPER_SHA256),\n                              (GUARD_PATH, EXPECTED_GUARD_SHA256),\n                              (FIXTURE_PATH, EXPECTED_FIXTURE_SHA256),\n                              (STARTUP_FIXTURE_PATH, EXPECTED_STARTUP_FIXTURE_SHA256)):\n    if source_path.is_symlink() or digest(source_path) != expected:\n        raise AssertionError(\"Exact source-bound candidate input is changed\")\nexpected_test = os.environ.get(\"NATIVECMPKIT_CAMERA_PREFIX_EXPECTED_TEST_SHA256\")\nif expected_test and digest(Path(__file__)) != expected_test:\n",
+          "before_fragment_sha256": "42aecce7653cc417aaf57427df192da5c67b62efcc13942d25b8f722d5946395"
+        }
+      ]
+    },
+    "scripts/ci/test_android_external337_fixture_recovery.py": {
+      "after_sha256": "7b804c91cf958b3101b3545e64dee56fd50e66727b266c706e4217aeb39ca1c5",
+      "before_sha256": "496d9a45261f5856c98e8ac4fa505f3700c51a063bb07cab3bec3462715a2683",
+      "fragments": [
+        {
+          "after": "            current = path.read_bytes()\n            for payload in (bridge.current_source_for_history(relative, current), current + b\"\\n\"):\n                path.write_bytes(payload)\n                with self.assertRaisesRegex(ValueError, \"^A historical image cannot replace the exact current preserved-HOME source$\"):\n                    boundary(self, FF, root)\n            path.write_bytes(current)\n\n",
+          "after_fragment_sha256": "ff087a0c20c6c5e64e10e526294552d467dd5835e31682a199fccad9f2a4e7ce",
+          "before": "            current = path.read_bytes()\n            for payload in (bridge.current_source_for_history(relative, current), current + b\"\\n\"):\n                path.write_bytes(payload)\n                with self.assertRaisesRegex(ValueError, \"exact current source\"):\n                    boundary(self, FF, root)\n            path.write_bytes(current)\n\n",
+          "before_fragment_sha256": "644a64ed1b5dd92e8fe0d14a47d00cd4b39acb12118caadff47ec4beedf02fc6"
+        }
+      ]
+    },
+    "scripts/ci/test_camera_recents_fixture_recovery.py": {
+      "after_sha256": "13874c149b9d7d46ae5a4d7c64f5635968bf77b5fe8adcf046a301ff405ff713",
+      "before_sha256": "a346f4f32def3b8601b5d4fe069505c461a9734eb2748f5582b5f966f079bf9e",
+      "fragments": [
+        {
+          "after": "        self.assertFalse(any(path.startswith(\"calf-\") for path in self.bindings))\n\n    def test_exact_current_inverse_and_forward_composition_keep_older_stage_separate(self):\n        from camera_tooling562_source_projection import current_source_before_tooling\n        for relative, binding in self.bindings.items():\n            actual_current = self.current[relative]\n            previous = recovery.current_source_before_recents_fixture(relative, actual_current)\n            current = current_source_before_tooling(relative, actual_current)\n            self.assertEqual(binding[\"after_sha256\"], sha(current))\n            self.assertEqual(binding[\"before_sha256\"], sha(previous))\n            self.assertEqual(binding[\"before_bytes\"], len(previous))\n            self.assertEqual(previous, recents.current_source_before_recents_observation(relative, actual_current))\n            self.assertIs(previous, recovery.source_before_recents_fixture(relative, previous))\n            forward = previous\n            for fragment in binding[\"fragments\"]:\n",
+          "after_fragment_sha256": "1718fac062b6e0deecb967adf5deefe5320443ea721c14daebdb3e7bc20a707d",
+          "before": "        self.assertFalse(any(path.startswith(\"calf-\") for path in self.bindings))\n\n    def test_exact_current_inverse_and_forward_composition_keep_older_stage_separate(self):\n        for relative, binding in self.bindings.items():\n            current = self.current[relative]\n            previous = recovery.current_source_before_recents_fixture(relative, current)\n            self.assertEqual(binding[\"after_sha256\"], sha(current))\n            self.assertEqual(binding[\"before_sha256\"], sha(previous))\n            self.assertEqual(binding[\"before_bytes\"], len(previous))\n            self.assertEqual(previous, recents.current_source_before_recents_observation(relative, current))\n            self.assertIs(previous, recovery.source_before_recents_fixture(relative, previous))\n            forward = previous\n            for fragment in binding[\"fragments\"]:\n",
+          "before_fragment_sha256": "89f716b0abae59f484ef7957cdeb48af6de85acf88ee86f4c5a225e6953e0c8f"
+        }
+      ]
+    }
+  },
+  "schema_version": 1,
+  "scope": "six exact source-only CI562 fixture ingress/ancestor/domain repairs; never new HOME/native certification",
+  "source_sha": "b7ab66baed00c9eb2746dfb538eddf02b9afc9ff"
+}

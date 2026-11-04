@@ -65,13 +65,15 @@ class CameraRecentsFixtureRecoveryControls(unittest.TestCase):
         self.assertFalse(any(path.startswith("calf-") for path in self.bindings))
 
     def test_exact_current_inverse_and_forward_composition_keep_older_stage_separate(self):
+        from camera_tooling562_source_projection import current_source_before_tooling
         for relative, binding in self.bindings.items():
-            current = self.current[relative]
-            previous = recovery.current_source_before_recents_fixture(relative, current)
+            actual_current = self.current[relative]
+            previous = recovery.current_source_before_recents_fixture(relative, actual_current)
+            current = current_source_before_tooling(relative, actual_current)
             self.assertEqual(binding["after_sha256"], sha(current))
             self.assertEqual(binding["before_sha256"], sha(previous))
             self.assertEqual(binding["before_bytes"], len(previous))
-            self.assertEqual(previous, recents.current_source_before_recents_observation(relative, current))
+            self.assertEqual(previous, recents.current_source_before_recents_observation(relative, actual_current))
             self.assertIs(previous, recovery.source_before_recents_fixture(relative, previous))
             forward = previous
             for fragment in binding["fragments"]:

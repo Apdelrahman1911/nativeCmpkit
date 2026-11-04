@@ -1,0 +1,49 @@
+test_ca205_01_current_pins_admit_at_exact_preimport_statements (test_android_camera205_owning_admission.Camera205OwningAdmissionNewOnlyTests.test_ca205_01_current_pins_admit_at_exact_preimport_statements) ... ok
+test_ca205_02_missing_stale_mutated_foreign_bytes_and_symlinks_refuse (test_android_camera205_owning_admission.Camera205OwningAdmissionNewOnlyTests.test_ca205_02_missing_stale_mutated_foreign_bytes_and_symlinks_refuse) ... ok
+test_ca205_06_existing_bodies_projection_prefix_and_complete_lf_fixture_stay_exact (test_android_camera205_owning_admission.Camera205OwningAdmissionNewOnlyTests.test_ca205_06_existing_bodies_projection_prefix_and_complete_lf_fixture_stay_exact) ... ok
+test_cn08_exact_full_source_inverse_refuses_partial_and_displaced_repairs (test_android_camera_owned_avd_console_name.OwnedAvdConsoleNameNewOnlyTests.test_cn08_exact_full_source_inverse_refuses_partial_and_displaced_repairs) ... ok
+test_cn09_owning194_and_operational_native_bindings_are_not_rebased (test_android_camera_owned_avd_console_name.OwnedAvdConsoleNameNewOnlyTests.test_cn09_owning194_and_operational_native_bindings_are_not_rebased) ... ok
+setUpClass (test_camera_handoff_fixture_recovery.CameraHandoffFixtureRecoveryControls) ... ERROR
+test_exact_current_inverse_and_forward_composition_keep_older_stage_separate (test_camera_recents_fixture_recovery.CameraRecentsFixtureRecoveryControls.test_exact_current_inverse_and_forward_composition_keep_older_stage_separate) ... ERROR
+test_current_callers_admit_actual_bytes_before_older_roundtrip_or_message_checks (test_camera_recents_fixture_recovery.CameraRecentsFixtureRecoveryControls.test_current_callers_admit_actual_bytes_before_older_roundtrip_or_message_checks) ... ERROR
+test_current_admission_refuses_old_partial_unknown_oversize_types_and_identity_guessing (test_arm64_stop_candidate_source_projection.Arm64StopHistoryTests.test_current_admission_refuses_old_partial_unknown_oversize_types_and_identity_guessing) ... ok
+test_actual_current_composes_old_inverse_without_ever_admitting_an_old_source_as_current (test_arm64_stop_candidate_source_projection.Arm64StopHistoryTests.test_actual_current_composes_old_inverse_without_ever_admitting_an_old_source_as_current) ... ok
+test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment (test_android_external337_fixture_recovery.External337FixtureRecoveryControls.test_manifest_adds_only_three_repairs_and_retains_every_prior_binding_and_fragment) ... ok
+
+======================================================================
+ERROR: setUpClass (test_camera_handoff_fixture_recovery.CameraHandoffFixtureRecoveryControls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_camera_handoff_fixture_recovery.py", line 37, in setUpClass
+    cls.current = {relative: current_source_before_recents_fixture(relative, payload)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/camera_recents_fixture_source_projection.py", line 77, in current_source_before_recents_fixture
+    raise ValueError("A historical image cannot replace exact current recents-fixture source")
+ValueError: A historical image cannot replace exact current recents-fixture source
+
+======================================================================
+ERROR: test_exact_current_inverse_and_forward_composition_keep_older_stage_separate (test_camera_recents_fixture_recovery.CameraRecentsFixtureRecoveryControls.test_exact_current_inverse_and_forward_composition_keep_older_stage_separate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_camera_recents_fixture_recovery.py", line 70, in test_exact_current_inverse_and_forward_composition_keep_older_stage_separate
+    previous = recovery.current_source_before_recents_fixture(relative, current)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/camera_recents_fixture_source_projection.py", line 77, in current_source_before_recents_fixture
+    raise ValueError("A historical image cannot replace exact current recents-fixture source")
+ValueError: A historical image cannot replace exact current recents-fixture source
+
+======================================================================
+ERROR: test_current_callers_admit_actual_bytes_before_older_roundtrip_or_message_checks (test_camera_recents_fixture_recovery.CameraRecentsFixtureRecoveryControls.test_current_callers_admit_actual_bytes_before_older_roundtrip_or_message_checks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/projects/nativeCmpKit/scripts/ci/test_camera_recents_fixture_recovery.py", line 143, in test_current_callers_admit_actual_bytes_before_older_roundtrip_or_message_checks
+    prior = recovery.source_before_recents_fixture(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/projects/nativeCmpKit/scripts/ci/camera_recents_fixture_source_projection.py", line 48, in source_before_recents_fixture
+    raise ValueError("Unreviewed recents-fixture postimage")
+ValueError: Unreviewed recents-fixture postimage
+
+----------------------------------------------------------------------
+Ran 10 tests in 5.042s
+
+FAILED (errors=3)

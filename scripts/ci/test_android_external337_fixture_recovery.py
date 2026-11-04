@@ -147,7 +147,7 @@ class External337FixtureRecoveryControls(unittest.TestCase):
             current = path.read_bytes()
             for payload in (bridge.current_source_for_history(relative, current), current + b"\n"):
                 path.write_bytes(payload)
-                with self.assertRaisesRegex(ValueError, "exact current source"):
+                with self.assertRaisesRegex(ValueError, "^A historical image cannot replace the exact current preserved-HOME source$"):
                     boundary(self, FF, root)
             path.write_bytes(current)
 

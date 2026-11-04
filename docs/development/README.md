@@ -1,5 +1,27 @@
 # NativeCmpKit development after the audit
 
+## Camera shared CI fixture recovery qualified — 2026-11-04
+
+[560–564](evidence/current-platform-recovery-20261101/camera-home-tooling560-564/README.md)
+pushes HOME patchb7ab66ba on development; main held.41746019912 remains FAILED
+before platform:2690CI/one real failure/two loader placeholders/137.822s/eightlogs/
+zero artifacts or Gradle/APK/native/XML. Once-acquired originals stay; first
+headings-only trace printer is retained, not an original download repeat.
+Six tooling paths/nine reversible fragments/three additions repair latest helper
+ingress and exact refusal/ancestor domain; raw hashes/21 bodies/native/Kotlin/
+helper/workflow/dependencies remain.28first27pass/one Git-vs-library-map error,
+only failed1 passes.12affected selections initially10methods/eightpass/two method
+errors+class error blocking2; only failed/new6 gives5pass/one stage-domain fail,
+then only failed/changed3 passes3/3/0.028s.26passive checks/1323held;1314 prior
+compiled-map inputs unchanged. ZERO new compiler/native, #13 open/C1 only next
+after development freeze/fresh capacity. Camera009C2/C3/accepted JVM/APK excluded.
+iOS555 host-specific startup causes remain unknown; no startup/geometry fix inferred.
+103closed69open/172,22implemented36partial101verified/five unresolved unchanged.
+SOLO/serial-local8GiB/max2 INCLUDINGqueued/read-only Actions/all/no mandatorySHA;
+every release/package/deployment/Pages/main/history/native/consumer/API–ABI/
+dependency/legal/security/readiness gate remains. No new closure or publication.
+
+
 ## Shared camera safety patch qualified; actual iOS startup blockers reviewed — 2026-11-04
 
 [Camera556–559](evidence/current-platform-recovery-20261101/camera-home-baseline556-559/README.md)

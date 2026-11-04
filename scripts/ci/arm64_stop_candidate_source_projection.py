@@ -34,6 +34,8 @@ def _bindings():
 def source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ARM64 Stop source identity and ordinary bytes are required")
+    from camera_tooling562_source_projection import peel_current_tooling_for_older_history
+    payload = peel_current_tooling_for_older_history(relative, payload)
     binding = _bindings().get(relative)
     # Retain this stage's original complete-preimage idempotence before newer admission.
     if (binding is not None and 0 < len(payload) <= MAX_SOURCE_BYTES and
@@ -74,6 +76,8 @@ def source_before_arm64_stop_candidate(relative, payload):
 def current_source_before_arm64_stop_candidate(relative, payload):
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current ARM64 Stop source identity and ordinary bytes are required")
+    from camera_tooling562_source_projection import current_source_before_tooling
+    payload = current_source_before_tooling(relative, payload)
     from desktop_policy_creation_source_projection import current_source_before_policy_creation
     payload = current_source_before_policy_creation(relative, payload)
     binding = _bindings().get(relative)

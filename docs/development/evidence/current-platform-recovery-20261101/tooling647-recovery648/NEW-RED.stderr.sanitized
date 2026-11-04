@@ -1,0 +1,23 @@
+test_current_exact_one_hop_share_alias_qualifies_all_literals_without_execution (test_native_matrix_share_missing_aliases.NativeMatrixShareMissingAliasTests.test_current_exact_one_hop_share_alias_qualifies_all_literals_without_execution) ... FAIL
+test_current_share_profile_and_module_are_coherent_with_unchanged_finite_matrix (test_native_matrix_share_missing_aliases.NativeMatrixShareMissingAliasTests.test_current_share_profile_and_module_are_coherent_with_unchanged_finite_matrix) ... FAIL
+
+======================================================================
+FAIL: test_current_exact_one_hop_share_alias_qualifies_all_literals_without_execution (test_native_matrix_share_missing_aliases.NativeMatrixShareMissingAliasTests.test_current_exact_one_hop_share_alias_qualifies_all_literals_without_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<owning-checkout>/scripts/ci/test_native_matrix_share_missing_aliases.py", line 30, in test_current_exact_one_hop_share_alias_qualifies_all_literals_without_execution
+    self.assertIn("share_missing", actual)
+AssertionError: 'share_missing' not found in {'calendar_native': namespace(PROFILE='permissions-ios-calendar-configuration', MODULE='calf-permissions/calendar', FOCUS='permission-ios-calendar-configuration'), 'macos_share_native': namespace(PROFILE='macos-share-lifecycle', MODULE='calf-share', FOCUS='macos-share-coroutine-lifecycle')}
+
+======================================================================
+FAIL: test_current_share_profile_and_module_are_coherent_with_unchanged_finite_matrix (test_native_matrix_share_missing_aliases.NativeMatrixShareMissingAliasTests.test_current_share_profile_and_module_are_coherent_with_unchanged_finite_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<owning-checkout>/scripts/ci/test_native_matrix_share_missing_aliases.py", line 36, in test_current_share_profile_and_module_are_coherent_with_unchanged_finite_matrix
+    self.assertIn("share_missing", actual)
+AssertionError: 'share_missing' not found in {'calendar_native': namespace(PROFILE='permissions-ios-calendar-configuration', MODULE='calf-permissions/calendar', FOCUS='permission-ios-calendar-configuration'), 'macos_share_native': namespace(PROFILE='macos-share-lifecycle', MODULE='calf-share', FOCUS='macos-share-coroutine-lifecycle')}
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.056s
+
+FAILED (failures=2)

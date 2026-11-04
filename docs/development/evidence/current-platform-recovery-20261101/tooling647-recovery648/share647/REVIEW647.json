@@ -1,0 +1,736 @@
+{
+  "actual_failure_interpretation": {
+    "declarative": "Exact new macos_share_missing_ci as share_missing import and PROFILE/MODULE references are outside actual finite reader known two aliases; actual six refusals remain failed offline fixture results, not platform failures.",
+    "partial_http": "Actual Ubuntu peer.recv(1) raises ConnectionResetError [Errno104] where the exact original fixture expects EOF. Host wire/underlying transport cause unproved; native Share deadline/callback cause not inferred."
+  },
+  "archive_inventory": [
+    {
+      "bytes": 1026260,
+      "compressed_bytes": 159102,
+      "crc32": 3684424795,
+      "member": "7_tooling.txt",
+      "sha256": "6d28f7ec53089acdd5fe0049b5220b1a59fb6c4b9aa7dbffe003eefeac754477"
+    },
+    {
+      "bytes": 882,
+      "compressed_bytes": 383,
+      "crc32": 1769473483,
+      "member": "tooling/system.txt",
+      "sha256": "17bd8de57e7a6ba7873823227d1282f814cb7e37dfd1104bbdff783cd58a7d1d"
+    },
+    {
+      "bytes": 1934,
+      "compressed_bytes": 769,
+      "crc32": 1453215305,
+      "member": "tooling/1_Set up job.txt",
+      "sha256": "1f1181278cf23a6b33d37602bec1feb7f60012699da82e177a5632b92b9eed2e"
+    },
+    {
+      "bytes": 22315,
+      "compressed_bytes": 4385,
+      "crc32": 3833650522,
+      "member": "tooling/2_Run actions_checkout@d23441a48e516b6c34aea4fa41551a30e30af803.txt",
+      "sha256": "9efc44b241fe72357bf83a060200dd7f8f2c0e76c9545eee2680bef890e73805"
+    },
+    {
+      "bytes": 168334,
+      "compressed_bytes": 20497,
+      "crc32": 3052255155,
+      "member": "tooling/3_Verify complete history, audit and current development indexes.txt",
+      "sha256": "425bf6b3cddda1a3a3b58907434a292c4619cf9e347fe6e10118495d986ecfa3"
+    },
+    {
+      "bytes": 831822,
+      "compressed_bytes": 133043,
+      "crc32": 995692975,
+      "member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sha256": "2af9d2e967086d42ed763067c96724e2059a8899c2499d1d63e46938ff4baf9b"
+    },
+    {
+      "bytes": 1751,
+      "compressed_bytes": 613,
+      "crc32": 1590978434,
+      "member": "tooling/10_Post Run actions_checkout@d23441a48e516b6c34aea4fa41551a30e30af803.txt",
+      "sha256": "eb625e3ca6bf752755be10f177fbd990ac47621f34b4f975070df7fcdc065fe9"
+    },
+    {
+      "bytes": 119,
+      "compressed_bytes": 105,
+      "crc32": 1946548670,
+      "member": "tooling/11_Complete job.txt",
+      "sha256": "16fa15b311daf817bb0848b8a4abf0778fc6fd5ebc4ba87624f4f0ed3ba72020"
+    }
+  ],
+  "executed_job": {
+    "completed_at": "2026-11-04T06:40:33Z",
+    "id": 126430251075,
+    "labels": [
+      "ubuntu-24.04"
+    ],
+    "name": "tooling",
+    "started_at": "2026-11-04T06:36:38Z",
+    "steps": [
+      {
+        "completed_at": "2026-11-04T06:36:39Z",
+        "conclusion": "success",
+        "name": "Set up job",
+        "number": 1,
+        "started_at": "2026-11-04T06:36:38Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:36:51Z",
+        "conclusion": "success",
+        "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+        "number": 2,
+        "started_at": "2026-11-04T06:36:39Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:37:05Z",
+        "conclusion": "success",
+        "name": "Verify complete history, audit and current development indexes",
+        "number": 3,
+        "started_at": "2026-11-04T06:36:51Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:40:31Z",
+        "conclusion": "failure",
+        "name": "Offline verification-tool adversarial fixtures (not library passes)",
+        "number": 4,
+        "started_at": "2026-11-04T06:37:05Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:40:31Z",
+        "conclusion": "skipped",
+        "name": "Select only the requested verification profile",
+        "number": 5,
+        "started_at": "2026-11-04T06:40:31Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:40:31Z",
+        "conclusion": "success",
+        "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+        "number": 10,
+        "started_at": "2026-11-04T06:40:31Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-04T06:40:31Z",
+        "conclusion": "success",
+        "name": "Complete job",
+        "number": 11,
+        "started_at": "2026-11-04T06:40:31Z",
+        "status": "completed"
+      }
+    ]
+  },
+  "failures": [
+    {
+      "exception": "ConnectionResetError: [Errno 104] Connection reset by peer",
+      "identity": "test_webview_content_policy_fixture.WebViewContentPolicyFixtureTest.test_cleanup_closes_only_own_listeners_and_partial_socket_leases",
+      "kind": "ERROR",
+      "method": "test_cleanup_closes_only_own_listeners_and_partial_socket_leases",
+      "original_first_line": 3336,
+      "original_last_line": 3343,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "ERROR: test_cleanup_closes_only_own_listeners_and_partial_socket_leases (test_webview_content_policy_fixture.WebViewContentPolicyFixtureTest.test_cleanup_closes_only_own_listeners_and_partial_socket_leases)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_webview_content_policy_fixture.py\", line 299, in test_cleanup_closes_only_own_listeners_and_partial_socket_leases\n    self.assertEqual(b\"\", peer.recv(1))\n                          ^^^^^^^^^^^^\nConnectionResetError: [Errno 104] Connection reset by peer\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_new_profile_is_one_api35_core_slot_with_literal_sdk_and_no_batch_or_serial_fallback",
+      "kind": "FAIL",
+      "method": "test_new_profile_is_one_api35_core_slot_with_literal_sdk_and_no_batch_or_serial_fallback",
+      "original_first_line": 3345,
+      "original_last_line": 3370,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_new_profile_is_one_api35_core_slot_with_literal_sdk_and_no_batch_or_serial_fallback (test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_new_profile_is_one_api35_core_slot_with_literal_sdk_and_no_batch_or_serial_fallback)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 300, in test_new_profile_is_one_api35_core_slot_with_literal_sdk_and_no_batch_or_serial_fallback\n    env = matrix_environment()\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 140, in matrix_environment\n    validate_literal_matrix_declarations(tree, aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 103, in validate_literal_matrix_declarations\n    literal_metadata(declaration(\"MODULE_SUBSETS\"), aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 483, in generic_visit\n    value = self.visit(value)\n            ^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_original_three_method_media_and_serial_batch_profiles_remain_unmodified",
+      "kind": "FAIL",
+      "method": "test_original_three_method_media_and_serial_batch_profiles_remain_unmodified",
+      "original_first_line": 3372,
+      "original_last_line": 3397,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_original_three_method_media_and_serial_batch_profiles_remain_unmodified (test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_original_three_method_media_and_serial_batch_profiles_remain_unmodified)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 210, in test_original_three_method_media_and_serial_batch_profiles_remain_unmodified\n    workflow = matrix_environment()\n               ^^^^^^^^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 140, in matrix_environment\n    validate_literal_matrix_declarations(tree, aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 103, in validate_literal_matrix_declarations\n    literal_metadata(declaration(\"MODULE_SUBSETS\"), aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 483, in generic_visit\n    value = self.visit(value)\n            ^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_recovery_uses_existing_complete_helper_sources_cli_and_exact_api_admission",
+      "kind": "FAIL",
+      "method": "test_recovery_uses_existing_complete_helper_sources_cli_and_exact_api_admission",
+      "original_first_line": 3399,
+      "original_last_line": 3424,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_recovery_uses_existing_complete_helper_sources_cli_and_exact_api_admission (test_android_permission_demo_call_denial_recovery.AndroidPermissionDemoCallDenialRecoveryTests.test_recovery_uses_existing_complete_helper_sources_cli_and_exact_api_admission)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 331, in test_recovery_uses_existing_complete_helper_sources_cli_and_exact_api_admission\n    workflow = matrix_environment()\n               ^^^^^^^^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/test_android_permission_demo_call_denial_recovery.py\", line 140, in matrix_environment\n    validate_literal_matrix_declarations(tree, aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 103, in validate_literal_matrix_declarations\n    literal_metadata(declaration(\"MODULE_SUBSETS\"), aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 483, in generic_visit\n    value = self.visit(value)\n            ^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_android_permission_demo_denial_absence.AndroidPermissionDemoDenialAbsenceSourceGuards.test_one_original_denial_method_and_api35_route_preserve_complete_old_and_ios50_declarations",
+      "kind": "FAIL",
+      "method": "test_one_original_denial_method_and_api35_route_preserve_complete_old_and_ios50_declarations",
+      "original_first_line": 3426,
+      "original_last_line": 3443,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_one_original_denial_method_and_api35_route_preserve_complete_old_and_ios50_declarations (test_android_permission_demo_denial_absence.AndroidPermissionDemoDenialAbsenceSourceGuards.test_one_original_denial_method_and_api35_route_preserve_complete_old_and_ios50_declarations)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_android_permission_demo_denial_absence.py\", line 415, in test_one_original_denial_method_and_api35_route_preserve_complete_old_and_ios50_declarations\n    validate_denial_route(*self.route_sources())\n  File \"<checkout>/scripts/ci/test_android_permission_demo_denial_absence.py\", line 218, in validate_denial_route\n    profile_names = [literal_metadata(key, aliases) for key in profile_nodes.keys]\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_android_permission_demo_denial_absence.AndroidPermissionDemoDenialAbsenceSourceGuards.test_route_refuses_class_fallback_accepted_replay_wrong_api_module_or_duplicate_dispatch",
+      "kind": "FAIL",
+      "method": "test_route_refuses_class_fallback_accepted_replay_wrong_api_module_or_duplicate_dispatch",
+      "original_first_line": 3445,
+      "original_last_line": 3462,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_route_refuses_class_fallback_accepted_replay_wrong_api_module_or_duplicate_dispatch (test_android_permission_demo_denial_absence.AndroidPermissionDemoDenialAbsenceSourceGuards.test_route_refuses_class_fallback_accepted_replay_wrong_api_module_or_duplicate_dispatch)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_android_permission_demo_denial_absence.py\", line 419, in test_route_refuses_class_fallback_accepted_replay_wrong_api_module_or_duplicate_dispatch\n    validate_denial_route(library, matrix, workflow)\n  File \"<checkout>/scripts/ci/test_android_permission_demo_denial_absence.py\", line 218, in validate_denial_route\n    profile_names = [literal_metadata(key, aliases) for key in profile_nodes.keys]\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    },
+    {
+      "exception": "AssertionError: Unknown declarative matrix alias or attribute",
+      "identity": "test_native_matrix_declarative_aliases.NativeMatrixDeclarativeAliasTests.test_current_all_slots_and_both_native_profile_modules_remain_coherent",
+      "kind": "FAIL",
+      "method": "test_current_all_slots_and_both_native_profile_modules_remain_coherent",
+      "original_first_line": 3464,
+      "original_last_line": 3486,
+      "original_member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "sanitized_failure_body": "FAIL: test_current_all_slots_and_both_native_profile_modules_remain_coherent (test_native_matrix_declarative_aliases.NativeMatrixDeclarativeAliasTests.test_current_all_slots_and_both_native_profile_modules_remain_coherent)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<checkout>/scripts/ci/test_native_matrix_declarative_aliases.py\", line 39, in test_current_all_slots_and_both_native_profile_modules_remain_coherent\n    reader.validate_literal_matrix_declarations(tree, actual)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 103, in validate_literal_matrix_declarations\n    literal_metadata(declaration(\"MODULE_SUBSETS\"), aliases)\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 82, in literal_metadata\n    resolved = Resolve().visit(deepcopy(node))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 483, in generic_visit\n    value = self.visit(value)\n            ^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.12/ast.py\", line 407, in visit\n    return visitor(node)\n           ^^^^^^^^^^^^^\n  File \"<checkout>/scripts/ci/native_matrix_declarative_aliases.py\", line 75, in visit_Attribute\n    raise AssertionError(\"Unknown declarative matrix alias or attribute\")\nAssertionError: Unknown declarative matrix alias or attribute\n"
+    }
+  ],
+  "first_terminal_observed_at": "2026-11-04T06:47:02.996423+00:00",
+  "github_mutations_or_control": false,
+  "head_sha": "80e762f6848284488151a25f355a7c5e107887f5",
+  "issue_closure_publication_release_acceptance": false,
+  "limitations": [
+    "The six AppKit cases and one JNI timeout method were requested only and remain unexecuted in this run.",
+    "Original630 remains failed; individual active/live/outcome and native cause remain unknown.",
+    "No thousands-of-cycle Instruments/leaks stability, ASan concurrent stress, bounded coroutine pool lifetime stress or subject payload results. #84/#85/#150 remain open regardless of a future finite6+1 result.",
+    "Raw private native output does not exist in these originals; none reconstructed.",
+    "Lead alone accepts/integrates/dispatches/closes; this reviewer does not publish or mutate GitHub."
+  ],
+  "main_ci_report": {
+    "errors": 1,
+    "failures": 6,
+    "reported_seconds": 200.152,
+    "reported_tests": 3078,
+    "scope": "Actual offline verification-tool unittest scope, not library/native passes"
+  },
+  "new_test_compiler_native_or_helper_execution": false,
+  "original_acquisitions": [
+    {
+      "completed_at_utc": "2026-11-04T06:47:04.066124+00:00",
+      "exit_code": 0,
+      "receipt": "metadata-000.json.acquisition.json",
+      "request": "GET https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/actions/runs/41786661331",
+      "scope": "Once-acquired original response; no job mutation, automatic download retry or acceptance",
+      "started_at_utc": "2026-11-04T06:47:02.996423+00:00",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 13468,
+      "stdout_sha256": "17c753febe1fa9f65a7cfa0502e30ab729bc0d0dd35aff9586f393e03bddd451",
+      "wall_seconds": 1.0697109771426767
+    },
+    {
+      "completed_at_utc": "2026-11-04T06:47:06.359394+00:00",
+      "exit_code": 0,
+      "receipt": "terminal-artifacts-page1.json.acquisition.json",
+      "request": "GET https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/actions/runs/41786661331/artifacts?per_page=100&page=1",
+      "scope": "Once-acquired original response; no job mutation, automatic download retry or acceptance",
+      "started_at_utc": "2026-11-04T06:47:05.290017+00:00",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 32,
+      "stdout_sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+      "wall_seconds": 1.0693833471741527
+    },
+    {
+      "completed_at_utc": "2026-11-04T06:47:05.288566+00:00",
+      "exit_code": 0,
+      "receipt": "terminal-jobs-page1.json.acquisition.json",
+      "request": "GET https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/actions/runs/41786661331/jobs?filter=all&per_page=100&page=1",
+      "scope": "Once-acquired original response; no job mutation, automatic download retry or acceptance",
+      "started_at_utc": "2026-11-04T06:47:04.067454+00:00",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 8765,
+      "stdout_sha256": "f159a088febd9da3ffceb49fbb364301cfd335d48e9eb4afc331aabe92c8b7f4",
+      "wall_seconds": 1.2211282011121511
+    },
+    {
+      "completed_at_utc": "2026-11-04T06:47:08.835107+00:00",
+      "exit_code": 0,
+      "receipt": "terminal-logs.zip.acquisition.json",
+      "request": "GET https://api.github.com/repos/Apdelrahman1911/nativeCmpkit/actions/runs/41786661331/logs",
+      "scope": "Once-acquired original response; no job mutation, automatic download retry or acceptance",
+      "started_at_utc": "2026-11-04T06:47:06.360762+00:00",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 320445,
+      "stdout_sha256": "760169d6242a69a3b0843602b0873c0db7001c2fd48d1b90bf284d61319d34d8",
+      "wall_seconds": 2.4743484559003264
+    }
+  ],
+  "passive_review_conditions": [
+    {
+      "condition": "Exact terminal run, producer and attempt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Terminal original failed; no success laundering",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Workflow dispatch/development/source path identity",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Terminal metadata observation reused without second GET",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Exclusive monitor and terminal acquisition claims",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "120-second metadata cadence authorized; first observation already terminal",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Once-only GET original custody: metadata-000.json",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Once-only GET original custody: terminal-artifacts-page1.json",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Once-only GET original custody: terminal-jobs-page1.json",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Once-only GET original custody: terminal-logs.zip",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Only four authorized original GETs; no artifacts to download",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Acquisition complete is acquisition only",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "One complete jobs metadata set with eight unique attempt-1 identities",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Only executed job is completed failed ubuntu tooling",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Seven skipped zero-step unassigned placeholders are not platform execution",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Library job has no executed platform/native/compiler steps",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "History/index verification succeeded separately",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Offline fixtures failed and exact profile selection was not reached",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "One complete artifacts metadata set confirms zero retained artifacts",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Bounded eight-member archive inventory; no extraction or execution",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Archive member identities ordinary, unique, unencrypted and nontraversing",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: 7_tooling.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/system.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/1_Set up job.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/2_Run actions_checkout@d23441a48e516b6c34aea4fa41551a30e30af803.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/3_Verify complete history, audit and current development indexes.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/10_Post Run actions_checkout@d23441a48e516b6c34aea4fa41551a30e30af803.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Original log member CRC/bytes readable: tooling/11_Complete job.txt",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Unique step logs distinguish four reported offline scopes, never native passes",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Actual main CI scope duration and six failures/one error",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Seven exact original method outcomes; no loader/native placeholders mistaken as tests",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "All six failures end at the finite declarative alias refusal",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Actual partial-HTTP cleanup peer reset, not a Share native timeout",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Actual producer checkout logs contain exact full SHA twice",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Exact predispatch immutable frozen map has 1415 inputs",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Producer tree agrees with frozen predispatch source",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "All 1415 frozen map digests agree with actual immutable producer Git blobs",
+      "detail": {
+        "scope": "Frozen Git source inputs, NOT actual platform/native/compiler before/after maps"
+      },
+      "qualified": true
+    },
+    {
+      "condition": "Previously saved frozen source copy reused unchanged",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "New exact one-hop matrix import is macos_share_missing_ci as share_missing",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Actual finite reader permits only historical two aliases, not share_missing",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Actual matrix declaration attributes fall outside finite reader allowance",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Exact recovery one-hop import source, without helper execution",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Imported new helper constants exactly match requested missing profile",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Exact producer cleanup fixture insists on orderly EOF at line 299",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Cached source plan requested one exact desktop GUI slot only",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Source plan requested six missing AppKit cases in exact serial stop-first order",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Source plan requested only missing JNI timeout method, not accepted replay",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Nine source-contract bytes agree with producer freeze",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Workflow source retained separate Git custody, not added to library-map count",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Unchanged accepted compiler644 map reusable, never fresh execution",
+      "detail": {
+        "scope": "Exact cached byte comparison only; no compiler rerun; producer commit identity differs"
+      },
+      "qualified": true
+    },
+    {
+      "condition": "Sealed original630 failure retained and read only as cached evidence",
+      "detail": null,
+      "qualified": true
+    },
+    {
+      "condition": "Qualified cached closure contract reused; no green6+1 closure inference",
+      "detail": null,
+      "qualified": true
+    }
+  ],
+  "platform_result": {
+    "artifacts": 0,
+    "fresh_appkit_compile_link": 0,
+    "fresh_gradle_library_tasks": 0,
+    "fresh_jni_or_appkit_native_cases": 0,
+    "missing_xml_alone_not_used_as_proof_of_no_native_action": true,
+    "native_xml_members": 0,
+    "platform_started": false,
+    "source_frozen_maps_are_not_actual_native_maps": true
+  },
+  "predispatch_source_custody": {
+    "all_exact_producer_git_blob_matches": true,
+    "checkout_sha_original_lines": [
+      143,
+      222
+    ],
+    "checkout_sha_original_member": "tooling/2_Run actions_checkout@d23441a48e516b6c34aea4fa41551a30e30af803.txt",
+    "map_inputs": 1415,
+    "map_original": "/root/nativecmpkit-source-proposals-20261104/lead-native-dispatch647/INPUTS-FROZEN.json",
+    "map_sha256": "aeb96ab4e244b4d382d20ed2b29920fbf2238c572020cb27f1da4ef5165bb300",
+    "platform_map_observed": false,
+    "workflow_map_scope": "Separate immutable Git workflow input, not counted as library source input",
+    "workflow_sha256": "45510cb8c9907127c5d5232c2a10d770a60772b77eafd876ebf7f23ef341190b"
+  },
+  "producer_tree": "d2f0039d82cc3b353e22ae3e7f686e4037d55344",
+  "profile": "macos-share-missing-lifecycle",
+  "qualified_passive_review_condition_count": 53,
+  "reported_offline_scopes": [
+    {
+      "line": 45,
+      "member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "reported_seconds": 0.046,
+      "reported_tests": 35
+    },
+    {
+      "line": 130,
+      "member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "reported_seconds": 0.164,
+      "reported_tests": 80
+    },
+    {
+      "line": 231,
+      "member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "reported_seconds": 1.435,
+      "reported_tests": 96
+    },
+    {
+      "line": 3488,
+      "member": "tooling/4_Offline verification-tool adversarial fixtures (not library passes).txt",
+      "reported_seconds": 200.152,
+      "reported_tests": 3078
+    }
+  ],
+  "requested_but_unexecuted": {
+    "accepted_four_bodies_not_selected_again": {
+      "original_failures_unwaived": true,
+      "original_run": 41774113636,
+      "original_source": "6fb368eb77a0863cd3d725f75e85d59b41caee71",
+      "release_readiness_certified": false,
+      "unchanged_passed_appkit_cases_reused_not_replayed": [
+        "cancel_before_dispatch",
+        "no_key_window"
+      ],
+      "unchanged_passed_jni_methods_reused_not_replayed": [
+        "independentRealNativeOwnersRejectOverlapWithoutReplacingTheRetainedRequest",
+        "cancellingRetainedAppKitRequestFreesOwnersAndDoesNotOccupySingleCoroutineWorker"
+      ]
+    },
+    "matrix": {
+      "include": [
+        {
+          "arch": "arm64",
+          "native-ui": "true",
+          "python": "python3",
+          "runner": "macos-26",
+          "slot": "desktop-macos-arm64",
+          "suite": "desktop",
+          "test-focus": "macos-share-timeout-retention-recovery",
+          "test-modules": "calf-share"
+        }
+      ]
+    },
+    "missing_appkit_cases": [
+      "missing_content_view",
+      "real_picker_cancel",
+      "controlled_picker_dismissal",
+      "controlled_success_duplicate_late",
+      "controlled_service_failure",
+      "bounded_concurrent_requests"
+    ],
+    "missing_jni_testcases": [
+      {
+        "classname": "com.mohamedrejeb.calf.share.MacOsShareCoroutineLifecycleTest",
+        "name": "realNativeTimeoutReportsOnceWithoutFallbackAndAllowsFreshRequestAfterMainCleanup[desktop]"
+      }
+    ],
+    "native_ui_opt_in": "NATIVECMPKIT_NATIVE_UI_TESTS=true"
+  },
+  "reservation_terminal_releasable": true,
+  "reused_unchanged_acceptance": {
+    "closure_contract644": {
+      "issues_84_85_150_not_closed_or_certified": true,
+      "path": "/root/nativecmpkit-native-reviews-20261101/agent610-share-missing-preparation644/SHARE-CLOSURE-CONTRACT644-QUALIFIED.json",
+      "sha256": "f313ee9cb004e8601fcc08b312a64c5cedb8cc8e74d02d16c04074db8d588dde"
+    },
+    "compiler644": {
+      "execution_repeated": false,
+      "input_maps_byte_equal_only": true,
+      "native_executed": false
+    },
+    "original630": {
+      "execution_or_acquisition_repeated": false,
+      "native_failure_cause_still_unknown": true,
+      "path": "/root/nativecmpkit-native-reviews-20261101/share-original630-41774113636/REVIEW-original630.json",
+      "sha256": "d27931e577a5e830733d2180c87eb248552dff28e34dafd76651c39bedc8e756"
+    }
+  },
+  "review_completed_at_utc": "2026-11-04T06:53:05.018429+00:00",
+  "reviewer_refusals_preserved": [
+    {
+      "detail": "Own passive review draft ast.literal_eval refused recovery.JNI_FOCUS; direct-literal assumption was false. Original draft and REVIEWER-FIRST-REFUSAL647.json retained. Corrected finite one-hop AST reads qualify exact local source without producer import or original reacquisition.",
+      "kind": "one_hop_classifier_draft_refusal"
+    },
+    {
+      "detail": "First locally authored log printer matched ordinary unknown/alias test names and its terminal display truncated. Same already-acquired ZIP subsequently read with bounded failure-only selection; no original GET repeated.",
+      "kind": "overbroad_trace_print"
+    },
+    {
+      "detail": "First immutable source peek used guessed scripts/ci/native_matrix.py, git show exited128. Actual scripts/ci/workflow_matrix.py was then identified from producer source test; no checkout/source change or helper execution.",
+      "kind": "wrong_source_path"
+    }
+  ],
+  "run_attempt": 1,
+  "run_id": 41786661331,
+  "schema_version": 1,
+  "skipped_unexecuted_jobs": [
+    {
+      "conclusion": "skipped",
+      "id": 126431634547,
+      "name": "apple-appinfo-capability",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431634841,
+      "name": "webview-consumer",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431634971,
+      "name": "consumer-core-io",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431635052,
+      "name": "sample-platforms",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431635137,
+      "name": "apple-xctest-startup",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431635733,
+      "name": "apple-appinfo-shape",
+      "runner_name": null,
+      "steps": []
+    },
+    {
+      "conclusion": "skipped",
+      "id": 126431635956,
+      "name": "library-tests",
+      "runner_name": null,
+      "steps": []
+    }
+  ],
+  "terminal_conclusion": "failure",
+  "terminal_status": "completed",
+  "terminal_updated_at": "2026-11-04T06:40:34Z"
+}

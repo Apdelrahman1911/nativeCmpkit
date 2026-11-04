@@ -1,5 +1,28 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Shared UI/Share tooling recovered; native still missing — 2026-11-04
+
+[647–648](docs/development/evidence/current-platform-recovery-20261101/tooling647-recovery648/README.md)
+preserves UI41786401768/Share41786661331 at80e762f6 FAILED before platform:
+3,078methods/six finite-alias failures/one exact ECONNRESET each, ZERO native/
+Gradle/XML/artifacts. Both terminal reservations freed; each originals once.
+Owning648 keeps direct old2 literals, adds only bounded exact one-hop Share source
+qualification, and repairs EOF-only test portability while adding owning1 and
+independent cleanup contexts; all teardown/foreign assertions remain strict.
+NEWRED2; first26=25pass/one NEW synthetic-history refusal; onlyfailed1 passes;
+1,417maps held/no accepted25 replay. Seven lead/26 independent passive obligations
+accept2cf6; wrong workflow pathname/reviewer count refusals retained. Actual fixture/
+library/workflow/matrix/17denial/8alias bodies unchanged, ZERO new compiler/native/
+closure. Next missing-only UI10/Share6+1 after freeze/push/fresh capacity; no replay
+of accepted native subsets. Unintegrated WebView43058 guard overbinds unrelated
+AGENTS and needs exact648 test-fixture predecessor; author corrects NEW contract,
+historical pins stay. Retained103closed69open172/22implemented36partial101verified/
+five unresolved unchanged. Parallel disjoint source work/lead integration/Git/
+dispatch/acceptance/closure; serial-local8GiB/max2combinedhosted INCLUDINGqueued/
+reserved/read-onlyActions/all/no mandatory SHA pinning and every publication/
+Pages/main/history/native/consumer/API–ABI/dependency/legal/security/readiness
+gate remain. No release/package/deployment publication; earlier dates retain scope.
+
 ## Share missing-only batch compiled; shared UI index repaired — 2026-11-04
 
 [643–645](docs/development/evidence/current-platform-recovery-20261101/share643-644-ui642-ledger645/README.md)

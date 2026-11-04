@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated Android permission/lifecycle source batch adopted — 2026-11-04
+
+[712–716](docs/development/evidence/current-platform-recovery-20261101/android-permission-lifecycle712-716/README.md)
+accepts exact18/six existing/36 reversible fragments/twelveNEW0644 on the isolated
+`development/android-permission-lifecycle` branch. Lead admits already-prepared
+exact postimages without rewriting source, proves six HEAD preimages/inverses and
+twelve untracked additions; storage_probe mode-only600→644 preserves canonical
+ROOT policy, other five existing600/twelveNEW644 held. ROOT714 untouched.
+Original RED14 remains failed; source23 passes23/23 once. Saved XML correction
+NEW3+affected5 passes8/8 once/0.080s/43held. Independent604 accepts251 passive
+checks and exact two-path/three-fragment malformed-XML/encoded-DTD repair. Review
+is post-execution: no retroactive independent pre-GREEN or original outer-wrapper
+source is claimed. No accepted23/8 replay;144 archival records preserve originals.
+Three real API35 dialog/Settings/same-PID/Binder/Activity/public-state methods are
+prepared, ZERO compiler/native/planner/controller executions. #19/#107 remain
+open for their original SDK/target matrix, other revocations/one-time expiry and
+remaining criteria.103closed/69open/172 and every release/security gate unchanged.
+Next qualify current branch tooling/compiler, then finite missing-only API35
+requests with fresh originals/cleanup and max2combined hosted reservations.
+Lead integration/Git/dispatch/closure; serial local8GiB/compiler6GiB memory,
+max2INCLUDINGqueued/reserved; Actions/all/no mandatorySHA/minimumpermissions and
+every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remain. No package/release/deployment publication.
+
 ## Grouped CI recovery accepted and integrated — 2026-11-04
 
 [707–708](docs/development/evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)

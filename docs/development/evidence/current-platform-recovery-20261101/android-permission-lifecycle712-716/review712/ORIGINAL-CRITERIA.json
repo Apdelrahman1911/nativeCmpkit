@@ -1,0 +1,169 @@
+{
+  "archive": "/root/projects/nativeCmpKit/docs/migration/upstream-updates/20261104T134400Z/destination/issues.json",
+  "archive_sha256": "4339da8f3ab266a010dccede2f3a9dc53a38a64bd283c2ae4111115f88b5b0f1",
+  "current_resolution_statements": [
+    {
+      "affected_paths": [
+        "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRequestPlan.kt",
+        "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+        "docs/permissions.md"
+      ],
+      "changes": [
+        "Request coarse alongside fine on Android31+; interpret approximate-only grants without claiming precision.",
+        "Stage Android29 background only after foreground success; Android30+ requires explicit educational/settings flow.",
+        "Background-only requests never silently escalate foreground."
+      ],
+      "compatibility": [
+        "Existing factories preserved; unsafe implicit background batching is intentionally corrected."
+      ],
+      "id": "PERM-004",
+      "remaining": [
+        "Android23/29/30/31/34+ device permission/target-SDK/manifest/settings matrix pending.",
+        "Settings navigation is explicit; a background request by itself intentionally returns false/RequiresSettings or RequiresForeground."
+      ],
+      "status": "partially-verified"
+    },
+    {
+      "affected_paths": [
+        "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+        "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt",
+        "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/CallbackPermissionState.kt",
+        "calf-permissions/wifi/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/helper/WifiPermissionHelper.kt"
+      ],
+      "changes": [
+        "Refresh previously granted as well as denied states on lifecycle resume; key observers by requested event.",
+        "Suppress stale asynchronous observations by generation; local-network passive refresh invalidates certainty without probing."
+      ],
+      "compatibility": [
+        "Mutable legacy status retained; manual assignments do not override actual OS observations."
+      ],
+      "id": "PERM-006",
+      "remaining": [
+        "SDK34 Robolectric resume revocation/disposal passed; physical-device one-time grants, OS lifecycle and process-recreation checks remain pending.",
+        "iOS has no definitive passive local-network query; resume reports Unknown, not a cached guaranteed grant."
+      ],
+      "status": "partially-verified"
+    }
+  ],
+  "issues": [
+    {
+      "body": "<!-- nativecmpkit-item:audit:PERM-004 -->\n## Classification\n- **Finding:** PERM-004\n- **Priority:** High\n- **Evidence status:** `confirmed-source` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-permissions/core`, `calf-permissions/location`, `calf-permissions/background-location`\n- **Estimated complexity:** L\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt:90-99`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt#L90-L99) \u2014 `launchPermissionRequest`\n- [`calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt:130-138`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt#L130-L138) \u2014 `launchMultiplePermissionRequest`\n- [`calf-permissions/location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.android.kt:5-21`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.android.kt#L5-L21) \u2014 `registerFineLocationPermission/registerCoarseLocationPermission`\n- [`calf-permissions/background-location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.android.kt:5-12`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/background-location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.android.kt#L5-L12) \u2014 `registerBackgroundLocationPermission`\n- [`docs/permissions.md:113-120,291-329`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/docs/permissions.md#L113-L120) \u2014 `location examples`\n\n## Root cause\nA logical permission maps to exactly one string; FineLocation alone requests only ACCESS_FINE_LOCATION. Bulk dispatch sends all strings together without separating background location from foreground permissions or checking prerequisites.\n\n## Impact and preconditions\nAndroid12+ requires requesting FINE together with COARSE for precise access; requesting fine alone may be ignored. Android11+ foreground and background location cannot be requested together; background requires an already-granted foreground path and settings-oriented UX. Common single-fine/sample bulk patterns do not implement these rules.\n\n## Supporting evidence\n- Source sends one native string for FineLocation and an unpartitioned array for all bulk permissions.\n- Android platform guidance: https://developer.android.com/develop/sensors-and-location/location/permissions/runtime and /background.\n\n## Recommended solution\nAdd a tested location request strategy (fine+coarse in one foreground step, then a separate background step with target-SDK-appropriate education/settings); or explicitly reject/document unsupported combinations until that API exists. Preserve approximate grants rather than treating coarse-only as total failure.\n\n## Risks and compatibility\nOS and target-SDK dependent; precise dialog/device behavior was not executed in this Linux audit. Never silently escalate a coarse-only request to precise/background access.\n\n## Required tests / acceptance criteria\n- API23,29,30,31,33+ with both current and legacy targetSdk: fine alone, coarse alone, fine+coarse, foreground+background.\n- Accept approximate, deny precise, deny background and return from Settings.\n- Verify manifest omissions and location services disabled are distinguished.\n\n## Dependencies\n- PERM-003\n\n## Historical context\n- https://github.com/MohamedRejeb/Calf/issues/281\n- https://github.com/MohamedRejeb/Calf/pull/298\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/PERM.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/PERM.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/19",
+      "number": 19,
+      "state": "open",
+      "title": "[High][PERM-004] Android location requests do not orchestrate fine/coarse and foreground/background prerequisites"
+    },
+    {
+      "body": "<!-- nativecmpkit-item:audit:PERM-006 -->\n## Classification\n- **Finding:** PERM-006\n- **Priority:** Medium\n- **Evidence status:** `confirmed-source` (source/test evidence is not automatically a demonstrated exploit)\n- **Affected modules:** `calf-permissions/core`\n- **Estimated complexity:** M\n- **Reviewed upstream baseline:** `af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6`; original commit preserved in this repository.\n\n## Exact code / symbols\n- [`calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt:22-29,53-61`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt#L22-L29) \u2014 `PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect`\n- [`calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt:29-36,60-68`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/af388bd3ad0325b2afdd8c0149cb7ff6f24c5da6/calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt#L29-L36) \u2014 `PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect`\n\n## Root cause\nON_RESUME refresh is conditional on cached status not being Granted. The comment assumes revocations cause process restart; that is not a valid blanket guarantee across iOS permission types or notification settings.\n\n## Impact and preconditions\nWhen the app survives a settings change from granted to denied, the state remains granted until a later explicit request/recreation. Notification settings are an especially important iOS scenario. Cache status must not be treated as authorization enforcement.\n\n## Supporting evidence\n- Both platform observers explicitly guard refresh with status != Granted.\n- Archived #313/#331 added iOS resume support; #411 later reports settings-return staleness, not proof of this exact grant-to-deny path.\n\n## Recommended solution\nRefresh all tracked permissions on resume, with lightweight per-type status queries and asynchronous generation ordering. Remove the process-restart assumption; avoid re-triggering Wi-Fi prompts while fixing refresh.\n\n## Risks and compatibility\nUnconditional refresh currently invokes the intrusive Wi-Fi status getter; fix PERM-013 or exempt side-effecting probes first. Revocation process behavior differs by OS and permission and needs devices.\n\n## Required tests / acceptance criteria\n- Granted notification/camera/location toggled off in Settings then resume without process death.\n- Denied-to-granted, one-time grant expiry, repeated resumes, batched permissions and lifecycle disposal.\n\n## Dependencies\n- PERM-013\n\n## Historical context\n- https://github.com/MohamedRejeb/Calf/issues/313\n- https://github.com/MohamedRejeb/Calf/pull/331\n- https://github.com/MohamedRejeb/Calf/issues/411\nOriginal upstream records (authors, IDs, timestamps, comments, reviews and public revisions) are archived in [`docs/migration/upstream-metadata/`](https://github.com/Apdelrahman1911/nativeCmpkit/tree/main/docs/migration/upstream-metadata). Links above are attribution; this issue is newly created for the independent project, not an impersonated original.\n\n## Persistent technical record\n[`docs/audit/findings/PERM.json`](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/findings/PERM.json) \u00b7 [Audit](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/audit/README.md) \u00b7 [Roadmap](https://github.com/Apdelrahman1911/nativeCmpkit/blob/main/docs/roadmap/README.md)\n",
+      "html_url": "https://github.com/Apdelrahman1911/nativeCmpkit/issues/107",
+      "number": 107,
+      "state": "open",
+      "title": "[Medium][PERM-006] Permission lifecycle refresh skips previously granted permissions, leaving revocations stale"
+    }
+  ],
+  "original_findings": [
+    {
+      "dependencies": [
+        "PERM-003"
+      ],
+      "effort": "L",
+      "evidence": [
+        "Source sends one native string for FineLocation and an unpartitioned array for all bulk permissions.",
+        "Android platform guidance: https://developer.android.com/develop/sensors-and-location/location/permissions/runtime and /background."
+      ],
+      "id": "PERM-004",
+      "impact": "Android12+ requires requesting FINE together with COARSE for precise access; requesting fine alone may be ignored. Android11+ foreground and background location cannot be requested together; background requires an already-granted foreground path and settings-oriented UX. Common single-fine/sample bulk patterns do not implement these rules.",
+      "locations": [
+        {
+          "lines": "90-99",
+          "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt",
+          "symbol": "launchPermissionRequest"
+        },
+        {
+          "lines": "130-138",
+          "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt",
+          "symbol": "launchMultiplePermissionRequest"
+        },
+        {
+          "lines": "5-21",
+          "path": "calf-permissions/location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/LocationPermissions.android.kt",
+          "symbol": "registerFineLocationPermission/registerCoarseLocationPermission"
+        },
+        {
+          "lines": "5-12",
+          "path": "calf-permissions/background-location/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/BackgroundLocationPermissions.android.kt",
+          "symbol": "registerBackgroundLocationPermission"
+        },
+        {
+          "lines": "113-120,291-329",
+          "path": "docs/permissions.md",
+          "symbol": "location examples"
+        }
+      ],
+      "modules": [
+        "calf-permissions/core",
+        "calf-permissions/location",
+        "calf-permissions/background-location"
+      ],
+      "priority": "High",
+      "recommendation": "Add a tested location request strategy (fine+coarse in one foreground step, then a separate background step with target-SDK-appropriate education/settings); or explicitly reject/document unsupported combinations until that API exists. Preserve approximate grants rather than treating coarse-only as total failure.",
+      "required_tests": [
+        "API23,29,30,31,33+ with both current and legacy targetSdk: fine alone, coarse alone, fine+coarse, foreground+background.",
+        "Accept approximate, deny precise, deny background and return from Settings.",
+        "Verify manifest omissions and location services disabled are distinguished."
+      ],
+      "risks": "OS and target-SDK dependent; precise dialog/device behavior was not executed in this Linux audit. Never silently escalate a coarse-only request to precise/background access.",
+      "root_cause": "A logical permission maps to exactly one string; FineLocation alone requests only ACCESS_FINE_LOCATION. Bulk dispatch sends all strings together without separating background location from foreground permissions or checking prerequisites.",
+      "status": "confirmed-source",
+      "title": "Android location requests do not orchestrate fine/coarse and foreground/background prerequisites",
+      "upstream_refs": [
+        "https://github.com/MohamedRejeb/Calf/issues/281",
+        "https://github.com/MohamedRejeb/Calf/pull/298"
+      ]
+    },
+    {
+      "dependencies": [
+        "PERM-013"
+      ],
+      "effort": "M",
+      "evidence": [
+        "Both platform observers explicitly guard refresh with status != Granted.",
+        "Archived #313/#331 added iOS resume support; #411 later reports settings-return staleness, not proof of this exact grant-to-deny path."
+      ],
+      "id": "PERM-006",
+      "impact": "When the app survives a settings change from granted to denied, the state remains granted until a later explicit request/recreation. Notification settings are an especially important iOS scenario. Cache status must not be treated as authorization enforcement.",
+      "locations": [
+        {
+          "lines": "22-29,53-61",
+          "path": "calf-permissions/core/src/iosMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionsUtil.ios.kt",
+          "symbol": "PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect"
+        },
+        {
+          "lines": "29-36,60-68",
+          "path": "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt",
+          "symbol": "PermissionLifecycleCheckerEffect/PermissionsLifecycleCheckerEffect"
+        }
+      ],
+      "modules": [
+        "calf-permissions/core"
+      ],
+      "priority": "Medium",
+      "recommendation": "Refresh all tracked permissions on resume, with lightweight per-type status queries and asynchronous generation ordering. Remove the process-restart assumption; avoid re-triggering Wi-Fi prompts while fixing refresh.",
+      "required_tests": [
+        "Granted notification/camera/location toggled off in Settings then resume without process death.",
+        "Denied-to-granted, one-time grant expiry, repeated resumes, batched permissions and lifecycle disposal."
+      ],
+      "risks": "Unconditional refresh currently invokes the intrusive Wi-Fi status getter; fix PERM-013 or exempt side-effecting probes first. Revocation process behavior differs by OS and permission and needs devices.",
+      "root_cause": "ON_RESUME refresh is conditional on cached status not being Granted. The comment assumes revocations cause process restart; that is not a valid blanket guarantee across iOS permission types or notification settings.",
+      "status": "confirmed-source",
+      "title": "Permission lifecycle refresh skips previously granted permissions, leaving revocations stale",
+      "upstream_refs": [
+        "https://github.com/MohamedRejeb/Calf/issues/313",
+        "https://github.com/MohamedRejeb/Calf/pull/331",
+        "https://github.com/MohamedRejeb/Calf/issues/411"
+      ]
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Original archived #19/#107 criteria and readback only; not an independent closure or current GitHub query"
+}

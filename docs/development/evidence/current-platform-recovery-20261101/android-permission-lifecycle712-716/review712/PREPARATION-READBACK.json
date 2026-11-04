@@ -1,0 +1,27 @@
+{
+  "candidate_received_frozen": false,
+  "compiler_native_executions": 0,
+  "issues_closed": 0,
+  "schema_version": 1,
+  "scope": "Passive current ROOT filesystem observation only; NO Git use and NOT base086 immutable checkout qualification",
+  "source_contract_executions": 0,
+  "source_hashes": {
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/AndroidPermissionRequestPlan.kt": "3a419e5426b1fc7d32c834b8a71678debd5576a4757065ffd332460a6dfc28cf",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutableMultiplePermissionsState.android.kt": "3670615ec3070d14afb3c4696e3299db0ef072a3490221d3b3892ff7c48feb0c",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/MutablePermissionState.android.kt": "763c6292b2e3f1ceb23124b591594aeb5c29b73927da6846d9e43b6b6be646b0",
+    "calf-permissions/core/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/PermissionsUtil.android.kt": "9c817dea514997521ea97a81c5704676471402c80a1cce5f33d88b4f1a43cb51",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/MultiplePermissionsState.kt": "ddd5bfa3b0ad2c8be1354e04f019deba08a553d4395f722dbb5855de7530aee1",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionDetails.kt": "62e41140b46905643854ee302773e5b3df45b3d8a37ca93abdf22bb261e1f447",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionRequestGate.kt": "818a69d15ace9aea79643bb6df246b5567ecec4eeeca1fe17af32f32ef3c8c70",
+    "calf-permissions/core/src/commonMain/kotlin/com.mohamedrejeb.calf/permissions/PermissionState.kt": "39ed62ebbe446b54001b227edf4c2fff2884037d23767b6cc0955b696b35f549",
+    "calf-permissions/notifications/src/androidMain/kotlin/com/mohamedrejeb/calf/permissions/NotificationPermissions.android.kt": "4734c2f7432180e3c1889e83730a42ac72b62cc6c376ff60ba50b020f92c99a3"
+  },
+  "source_notes": [
+    "Single and list ON_RESUME observers refresh every tracked state and remove the exact observer on disposal.",
+    "Real public rememberPermissionState/rememberMultiplePermissionsState delegate to Android states unless LocalInspectionMode is active; native candidate must prove ordinary real Activity composition.",
+    "Android31+ Fine expands to COARSE+FINE; Android29 background staged after foreground; Android30+ explicit app Settings path, no silent foreground escalation.",
+    "Notification maps to POST_NOTIFICATIONS on Android33+; openAppSettings selects ACTION_APP_NOTIFICATION_SETTINGS/EXTRA_APP_PACKAGE on Android26+.",
+    "Main-thread request gate tracks one prompt and callbacks, handles disposal and preserves legacy common public API."
+  ],
+  "utc": "2026-11-04T18:43:25.730809+00:00"
+}

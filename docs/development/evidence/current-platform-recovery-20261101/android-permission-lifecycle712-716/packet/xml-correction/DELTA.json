@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "initial_source_map": "FROZEN-MAP.json",
+  "final_source_map": "FINAL-FROZEN-MAP.json",
+  "changed_path_count": 2,
+  "correction_fragment_count": 3,
+  "changed_paths": [
+    {
+      "path": "scripts/ci/android_permission_lifecycle_contract.py",
+      "before": {
+        "sha256": "accac8ede7b09edbcc70d34de7105c50c050d052b8748eb65c3c7bfa3960181d",
+        "bytes": 23260,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "3aa790a5487445a30f62dd5926f7ba165f12164dd2dc6c663d3e9f934f9648a3",
+        "bytes": 23874,
+        "mode": "0o644"
+      },
+      "before_source": "frozen/scripts/ci/android_permission_lifecycle_contract.py",
+      "after_source": "xml-correction/frozen/scripts/ci/android_permission_lifecycle_contract.py",
+      "fragments": [
+        {
+          "id": "xml-correction:scripts/ci/android_permission_lifecycle_contract.py:1",
+          "before": "    name = row.get(\"outputFile\")\n    require(row.get(\"type\") == \"SINGLE\" and row.get(\"filters\") == [] and isinstance(name, str) and\n            re.fullmatch(r\"[A-Za-z0-9_.-]+\\.apk\", name) and \"..\" not in name, \"Unsplit own APK basename required\")\n    return name\n\n\ndef validate_reporter_source(payload: bytes) -> None:\n    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536 and\n            b\"<!DOCTYPE\" not in payload and b\"<!ENTITY\" not in payload, \"Bounded entity-free reporter source required\")\n    root = ET.fromstring(payload)\n    names = [node.get(ANDROID + \"name\") for node in root.findall(\"uses-permission\")]\n    controls = {PERMISSION, \"io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO\",\n                \"io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE\"}\n    require(root.tag == \"manifest\" and root.get(ANDROID + \"sharedUserId\") is None and\n            root.get(ANDROID + \"sharedUserMaxSdkVersion\") is None and len(names) == len(set(names)) and set(names) == controls and\n            all(set(n.attrib) == {ANDROID + \"name\"} and not list(n) for n in root.findall(\"uses-permission\")) and\n",
+          "after": "    name = row.get(\"outputFile\")\n    require(row.get(\"type\") == \"SINGLE\" and row.get(\"filters\") == [] and isinstance(name, str) and\n            re.fullmatch(r\"[A-Za-z0-9_.-]+\\.apk\", name) and \"..\" not in name, \"Unsplit own APK basename required\")\n    return name\n\n\nclass EntityFreeManifestBuilder(ET.TreeBuilder):\n    \"\"\"Reject actual parsed DTDs, including encodings invisible to UTF8 byte guards.\"\"\"\n    def doctype(self, _name, _public_id, _system_id):\n        raise ValueError(\"Manifest DTD/entity declarations are forbidden\")\n\n\ndef validate_reporter_source(payload: bytes) -> None:\n    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536 and\n            b\"<!DOCTYPE\" not in payload and b\"<!ENTITY\" not in payload, \"Bounded entity-free reporter source required\")\n    try:\n        root = ET.fromstring(payload, parser=ET.XMLParser(target=EntityFreeManifestBuilder()))\n    except ET.ParseError:\n        raise ValueError(\"Malformed bounded reporter manifest XML\") from None\n    names = [node.get(ANDROID + \"name\") for node in root.findall(\"uses-permission\")]\n    controls = {PERMISSION, \"io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO\",\n                \"io.github.apdelrahman1911.nativecmpkit.verification.storageprobe.CONTROL_STORAGE\"}\n    require(root.tag == \"manifest\" and root.get(ANDROID + \"sharedUserId\") is None and\n            root.get(ANDROID + \"sharedUserMaxSdkVersion\") is None and len(names) == len(set(names)) and set(names) == controls and\n            all(set(n.attrib) == {ANDROID + \"name\"} and not list(n) for n in root.findall(\"uses-permission\")) and\n",
+          "before_line": 103,
+          "after_line": 103
+        },
+        {
+          "id": "xml-correction:scripts/ci/android_permission_lifecycle_contract.py:2",
+          "before": "    return CLASS + \"#\" + SPECS[focus][\"methods\"][0]\n\n\ndef validate_manifest(payload: bytes, *, compiled: bool) -> dict:\n    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536 and\n            b\"<!DOCTYPE\" not in payload and b\"<!ENTITY\" not in payload, \"Bounded entity-free manifest required\")\n    root = ET.fromstring(payload)\n    require(root.tag == \"manifest\" and root.get(\"package\") in ({PACKAGE} if compiled else {None, PACKAGE}) and\n            root.get(ANDROID + \"sharedUserId\") is None and root.get(ANDROID + \"sharedUserMaxSdkVersion\") is None,\n            \"Exact separate-UID fixture required\")\n    requested = root.findall(\"uses-permission\")\n    names = [node.get(ANDROID + \"name\") for node in requested]\n    dynamic = PACKAGE + \".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION\"\n",
+          "after": "    return CLASS + \"#\" + SPECS[focus][\"methods\"][0]\n\n\ndef validate_manifest(payload: bytes, *, compiled: bool) -> dict:\n    require(isinstance(payload, bytes) and 0 < len(payload) <= 65536 and\n            b\"<!DOCTYPE\" not in payload and b\"<!ENTITY\" not in payload, \"Bounded entity-free manifest required\")\n    try:\n        root = ET.fromstring(payload, parser=ET.XMLParser(target=EntityFreeManifestBuilder()))\n    except ET.ParseError:\n        raise ValueError(\"Malformed bounded helper manifest XML\") from None\n    require(root.tag == \"manifest\" and root.get(\"package\") in ({PACKAGE} if compiled else {None, PACKAGE}) and\n            root.get(ANDROID + \"sharedUserId\") is None and root.get(ANDROID + \"sharedUserMaxSdkVersion\") is None,\n            \"Exact separate-UID fixture required\")\n    requested = root.findall(\"uses-permission\")\n    names = [node.get(ANDROID + \"name\") for node in requested]\n    dynamic = PACKAGE + \".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION\"\n",
+          "before_line": 129,
+          "after_line": 138
+        }
+      ]
+    },
+    {
+      "path": "scripts/ci/test_android_permission_lifecycle_source.py",
+      "before": {
+        "sha256": "0694eaaba8c8c4ff88105daa2833ffb134bd3e7c01b3a0d837dcee9acea5539f",
+        "bytes": 25075,
+        "mode": "0o644"
+      },
+      "after": {
+        "sha256": "797a60036440024d61bd73c538f188966934b0f8351df6d23e611bebe94f2c6b",
+        "bytes": 28377,
+        "mode": "0o644"
+      },
+      "before_source": "frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "after_source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "fragments": [
+        {
+          "id": "xml-correction:scripts/ci/test_android_permission_lifecycle_source.py:1",
+          "before": "        self.assertNotIn(\"maven-publish\", build)\n        self.assertNotIn(\"calf-sample\", settings)\n        workflow = source(ROOT / \".github/workflows/gradle.yml\")\n        self.assertIn(\"build/ci-verification/${{ matrix.slot }}/permission-lifecycle/receipt.json\", workflow)\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+          "after": "        self.assertNotIn(\"maven-publish\", build)\n        self.assertNotIn(\"calf-sample\", settings)\n        workflow = source(ROOT / \".github/workflows/gradle.yml\")\n        self.assertIn(\"build/ci-verification/${{ matrix.slot }}/permission-lifecycle/receipt.json\", workflow)\n\n\n    def test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain(self):\n        c = contract()\n        for domain in (\"source\", \"compiled\", \"reporter\"):\n            with self.subTest(domain=domain):\n                with self.assertRaises(ValueError) as failure:\n                    payload = b\"<manifest><application></manifest>\"\n                    if domain == \"reporter\": c.validate_reporter_source(payload)\n                    else: c.validate_manifest(payload, compiled=domain == \"compiled\")\n                expected = \"Malformed bounded reporter manifest XML\" if domain == \"reporter\" else \"Malformed bounded helper manifest XML\"\n                self.assertEqual(expected, str(failure.exception))\n                self.assertNotIn(\"mismatched tag\", str(failure.exception))\n                self.assertTrue(failure.exception.__suppress_context__)\n\n    def test_new_utf16_dtd_cannot_bypass_source_compiled_or_reporter_entity_refusals(self):\n        c = contract()\n        for domain in (\"source\", \"compiled\", \"reporter\"):\n            with self.subTest(domain=domain):\n                relative = c.MODULE + \"/src/androidDeviceTest/AndroidManifest.xml\" if domain == \"reporter\" else c.FIXTURE + \"/src/main/AndroidManifest.xml\"\n                root = ET.fromstring((ROOT / relative).read_bytes())\n                if domain == \"compiled\":\n                    root.set(\"package\", c.PACKAGE)\n                    root.find(\"application\").set(c.ANDROID + \"debuggable\", \"true\")\n                    ET.SubElement(root, \"uses-sdk\", {c.ANDROID + \"minSdkVersion\": \"35\", c.ANDROID + \"targetSdkVersion\": \"37\"})\n                body = ET.tostring(root, encoding=\"unicode\")\n                encoded = ('<?xml version=\"1.0\" encoding=\"utf-16\"?><!DOCTYPE manifest [<!ENTITY unused \"inert\">]>' + body).encode(\"utf-16\")\n                self.assertNotIn(b\"<!DOCTYPE\", encoded)  # A byte scan alone cannot enforce this policy.\n                with self.assertRaises(ValueError) as failure:\n                    if domain == \"reporter\": c.validate_reporter_source(encoded)\n                    else: c.validate_manifest(encoded, compiled=domain == \"compiled\")\n                self.assertEqual(\"Manifest DTD/entity declarations are forbidden\", str(failure.exception))\n\n\n    def test_new_entity_free_compiled_api35_helper_manifest_keeps_signature_and_sdk_policy(self):\n        c = contract()\n        root = ET.fromstring((FIXTURE / \"src/main/AndroidManifest.xml\").read_bytes())\n        root.set(\"package\", c.PACKAGE)\n        root.find(\"application\").set(c.ANDROID + \"debuggable\", \"true\")\n        ET.SubElement(root, \"uses-sdk\", {c.ANDROID + \"minSdkVersion\": \"35\", c.ANDROID + \"targetSdkVersion\": \"37\"})\n        policy = c.validate_manifest(ET.tostring(root), compiled=True)  # Inert policy input, not a compiled APK.\n        for key in (\"compiled_manifest_inspected\", \"signature_control_only\", \"separate_uid_manifest\", \"five_runtime_permissions_only\"):\n            self.assertTrue(policy[key])\n        for attribute, value in ((\"minSdkVersion\", \"34\"), (\"targetSdkVersion\", \"35\")):\n            altered = copy.deepcopy(root)\n            altered.find(\"uses-sdk\").set(c.ANDROID + attribute, value)\n            with self.assertRaises(ValueError): c.validate_manifest(ET.tostring(altered), compiled=True)\n\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+          "before_line": 359,
+          "after_line": 359
+        }
+      ]
+    }
+  ],
+  "scope": "Two NEW owning XML source/control files only; unchanged original six existing/36 fragments and ten other additions.",
+  "private_forward_inverse_exact": true,
+  "compiled_native_issue_closure_or_security_success_inferred": false
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Apache-2.0. Only this disposable native library test host requests these permissions. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <permission android:name="io.github.apdelrahman1911.nativecmpkit.verification.permissionlifecycle.CONTROL_LIFECYCLE"
+        android:protectionLevel="signature" />
+    <queries><package android:name="com.mohamedrejeb.calf.calfpermissions.calfpermissionscore.test" /></queries>
+    <application android:allowBackup="false" android:label="NativeCmpKit permission lifecycle verification">
+        <activity android:name=".PermissionLifecycleActivity" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.permissionlifecycle.CONTROL_LIFECYCLE"
+            android:theme="@android:style/Theme.Material.Light.NoActionBar" />
+        <service android:name=".PermissionLifecycleService" android:exported="true"
+            android:permission="io.github.apdelrahman1911.nativecmpkit.verification.permissionlifecycle.CONTROL_LIFECYCLE" />
+    </application>
+</manifest>

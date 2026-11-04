@@ -26,6 +26,7 @@ FIXTURE = "tests/consumer/android-storage-probe"
 PERMISSION = PACKAGE + ".CONTROL_STORAGE"
 # Known separate signature-protected permission-demo control, not a runtime storage grant.
 PERMISSION_DEMO_BIND = "io.github.apdelrahman1911.nativecmpkit.verification.permissiondemo.BIND_DEMO"
+PERMISSION_LIFECYCLE_CONTROL = "io.github.apdelrahman1911.nativecmpkit.verification.permissionlifecycle.CONTROL_LIFECYCLE"
 AUTHORITY = PACKAGE + ".control"
 WRITE = "android.permission.WRITE_EXTERNAL_STORAGE"
 ALL_FILES = "android.permission.MANAGE_EXTERNAL_STORAGE"
@@ -232,7 +233,7 @@ def validate_reporter_manifest(payload: bytes) -> dict:
             instrumentation[0].get(ANDROID + "targetPackage") == REPORTER,
             "Reporter must be the actual min23/target37 library AndroidJUnitRunner")
     requested = [node.get(ANDROID + "name") for node in manifest.findall("uses-permission")]
-    allowed = {PERMISSION, PERMISSION_DEMO_BIND, "android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE",
+    allowed = {PERMISSION, PERMISSION_DEMO_BIND, PERMISSION_LIFECYCLE_CONTROL, "android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE",
                REPORTER + ".DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"}
     require(PERMISSION in requested and len(requested) == len(set(requested)) and set(requested) <= allowed and
             not manifest.findall("uses-permission-sdk-23"), "Reporter cannot bypass another UID's native storage or SAF grant")
@@ -283,7 +284,7 @@ def source_contract(root: Path) -> dict:
     reporter = xml(texts[MODULE + "/src/androidDeviceTest/AndroidManifest.xml"].encode())
     requested = [node.get(ANDROID + "name") for node in reporter.findall("uses-permission")]
     require(PERMISSION in requested and len(requested) == len(set(requested)) and
-            set(requested) <= {PERMISSION, PERMISSION_DEMO_BIND} and not reporter.findall("uses-permission-sdk-23") and
+            set(requested) <= {PERMISSION, PERMISSION_DEMO_BIND, PERMISSION_LIFECYCLE_CONTROL} and not reporter.findall("uses-permission-sdk-23") and
             reporter.get(ANDROID + "sharedUserId") is None, "Reporter source cannot acquire native storage permissions")
     app = reporter.find("application")
     require(app is not None and app.get(ANDROID + "permission") is None and app.get(ANDROID + "process") is None and

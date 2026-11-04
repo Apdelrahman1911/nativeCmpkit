@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "selection_review_timing": "post-execution",
+  "pre_GREEN_independent_qualification": false,
+  "reason": "Actual FIRST8 had already executed before the reviewer continuation requested pre-GREEN selection qualification. It is not replayed or relabeled.",
+  "exact_saved_child_command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "-v",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_utf16_dtd_cannot_bypass_source_compiled_or_reporter_entity_refusals",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_entity_free_compiled_api35_helper_manifest_keeps_signature_and_sdk_policy",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_manifest_exact_five_runtime_permissions_and_signature_only_control",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_manifest_refuses_extra_permission_shared_uid_and_unprotected_component",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_reporter_permission_exception_is_exact_signature_only_not_native_grant",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_complete_source_readback_and_receipt_refuse_missing_forged_native_inputs",
+    "scripts.ci.test_android_permission_lifecycle_source.AndroidPermissionLifecycleSourceTests.test_new_request_refuses_boolean_old_api_wrong_module_broad_focus_and_unbound_plan"
+  ],
+  "working_directory": "/root/nativecmpkit-worktrees/android-permission-lifecycle",
+  "candidate_test_source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+  "child_runner": "Python standard library unittest through python3 -B -m unittest -v",
+  "original_outer_capture_wrapper_source": "Not retained as a separate file; only the saved exact child command, outputs, before/after maps and outer elapsed receipt are available. No wrapper is reconstructed as original execution evidence.",
+  "new_methods": [
+    "test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain",
+    "test_new_utf16_dtd_cannot_bypass_source_compiled_or_reporter_entity_refusals",
+    "test_new_entity_free_compiled_api35_helper_manifest_keeps_signature_and_sdk_policy"
+  ],
+  "directly_affected_methods": [
+    "test_manifest_exact_five_runtime_permissions_and_signature_only_control",
+    "test_manifest_refuses_extra_permission_shared_uid_and_unprotected_component",
+    "test_new_reporter_permission_exception_is_exact_signature_only_not_native_grant",
+    "test_new_complete_source_readback_and_receipt_refuse_missing_forged_native_inputs",
+    "test_new_request_refuses_boolean_old_api_wrong_module_broad_focus_and_unbound_plan"
+  ],
+  "obligations": [
+    {
+      "method": "test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain",
+      "kind": "NEW",
+      "rationale": "NEW three-domain malformed XML must yield exact bounded ValueError with parser context suppressed.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 365,
+      "end_line": 376,
+      "method_body_sha256": "3da31fc28c26702e65dcd3a0776f092a285e22f6906b5425cd24a041647e0ccf"
+    },
+    {
+      "method": "test_new_utf16_dtd_cannot_bypass_source_compiled_or_reporter_entity_refusals",
+      "kind": "NEW",
+      "rationale": "NEW three-domain inert UTF16 DTD cannot bypass parser-level entity/DTD refusal.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 378,
+      "end_line": 394,
+      "method_body_sha256": "5046505211fda516cf47de6c965d9dcc0f361dd164213d30066d34fd291fcab5"
+    },
+    {
+      "method": "test_new_entity_free_compiled_api35_helper_manifest_keeps_signature_and_sdk_policy",
+      "kind": "NEW",
+      "rationale": "NEW inert compiled-positive manifest exercises the changed helper parser with API35/target37 signature policy and wrong-SDK refusals; not an actual APK.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 397,
+      "end_line": 409,
+      "method_body_sha256": "462c157e6ac994950f491e3b18b31039da90a6d9c70ae86e3ae89b0d56fafd69"
+    },
+    {
+      "method": "test_manifest_exact_five_runtime_permissions_and_signature_only_control",
+      "kind": "directly_affected",
+      "rationale": "Direct helper parser valid-source path preserves exact runtime permission/signature control policy.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 56,
+      "end_line": 64,
+      "method_body_sha256": "6d096feafbef551e45ef3ec667b0b62a4493742a3100677c13eba8f32ed82d1e"
+    },
+    {
+      "method": "test_manifest_refuses_extra_permission_shared_uid_and_unprotected_component",
+      "kind": "directly_affected",
+      "rationale": "Direct helper parser negative policy branches must keep permission/shared-UID/component/API/target refusals.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 66,
+      "end_line": 85,
+      "method_body_sha256": "2f28f403877bfbf6b926f40a57bab0bc36b4e0dbd558dbdf6b61749415126e54"
+    },
+    {
+      "method": "test_new_reporter_permission_exception_is_exact_signature_only_not_native_grant",
+      "kind": "directly_affected",
+      "rationale": "Direct reporter parser admission/refusal preserves the exact named signature-only exception.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 287,
+      "end_line": 300,
+      "method_body_sha256": "1d8174704d6b8eed148bf72521f8af35c2b1a3a3c2c1d4c196f08655c050cf77"
+    },
+    {
+      "method": "test_new_complete_source_readback_and_receipt_refuse_missing_forged_native_inputs",
+      "kind": "directly_affected",
+      "rationale": "Transitive source_contract calls both changed parsers before exact source receipt validation and native-claim refusals.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 199,
+      "end_line": 217,
+      "method_body_sha256": "fb803ab3f5ee4b771954977f04a1590b3e5d126836c6622249d908e112f3b169"
+    },
+    {
+      "method": "test_new_request_refuses_boolean_old_api_wrong_module_broad_focus_and_unbound_plan",
+      "kind": "directly_affected",
+      "rationale": "Transitive source_contract calls both changed parsers before focus-bound request/plan refusal checks.",
+      "source": "xml-correction/frozen/scripts/ci/test_android_permission_lifecycle_source.py",
+      "line": 249,
+      "end_line": 266,
+      "method_body_sha256": "cd9649c9e50c9254a67e5e4966efe0541b0745c4149208d5bae35ac737d2adc5"
+    }
+  ],
+  "initial23_bodies_AST_identical": true,
+  "initial23_total_replayed": false,
+  "accepted8_replayed_now": false,
+  "actual_saved_results": {
+    "methods": 8,
+    "passed": 8,
+    "exit_code": 0,
+    "suite_seconds": 0.08,
+    "outer_seconds": 0.19028190895915031,
+    "held_finite_inputs": 43
+  },
+  "not_a_fresh_26_green_or_native_certificate": true
+}

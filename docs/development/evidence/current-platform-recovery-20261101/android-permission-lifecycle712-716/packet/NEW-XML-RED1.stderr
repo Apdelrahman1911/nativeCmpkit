@@ -1,0 +1,51 @@
+test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) ... 
+  test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='source') ... ERROR
+  test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='compiled') ... ERROR
+  test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='reporter') ... ERROR
+
+======================================================================
+ERROR: test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/test_xml_error_domain_new.py", line 21, in test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain
+    else: c.validate_manifest(payload, compiled=domain == 'compiled')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/frozen/scripts/ci/android_permission_lifecycle_contract.py", line 135, in validate_manifest
+    root = ET.fromstring(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/xml/etree/ElementTree.py", line 1335, in XML
+    parser.feed(text)
+xml.etree.ElementTree.ParseError: mismatched tag: line 1, column 25
+
+======================================================================
+ERROR: test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='compiled')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/test_xml_error_domain_new.py", line 21, in test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain
+    else: c.validate_manifest(payload, compiled=domain == 'compiled')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/frozen/scripts/ci/android_permission_lifecycle_contract.py", line 135, in validate_manifest
+    root = ET.fromstring(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/xml/etree/ElementTree.py", line 1335, in XML
+    parser.feed(text)
+xml.etree.ElementTree.ParseError: mismatched tag: line 1, column 25
+
+======================================================================
+ERROR: test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain (__main__.NewPermissionXmlErrorDomainTests.test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain) (domain='reporter')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/test_xml_error_domain_new.py", line 20, in test_new_malformed_source_compiled_and_reporter_xml_normalize_into_named_failure_domain
+    if domain == 'reporter': c.validate_reporter_source(payload)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4/frozen/scripts/ci/android_permission_lifecycle_contract.py", line 112, in validate_reporter_source
+    root = ET.fromstring(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/xml/etree/ElementTree.py", line 1335, in XML
+    parser.feed(text)
+xml.etree.ElementTree.ParseError: mismatched tag: line 1, column 25
+
+----------------------------------------------------------------------
+Ran 1 test in 0.021s
+
+FAILED (errors=3)

@@ -1,0 +1,153 @@
+{
+  "actions_now": {
+    "Git_network_GitHub_builds_compiler_native": 0,
+    "ROOT_source_mutations": 0,
+    "accepted_executions_replayed": 0,
+    "candidate_imports_executions_source_contracts_planners_controllers": 0,
+    "issues_closed": 0,
+    "publication": 0,
+    "subdelegation": 0
+  },
+  "confirmed_findings": [
+    {
+      "adoption_condition": "Review exact correction/failed-test recovery and preserved affected controls before lead source adoption/dispatch decisions.",
+      "change_risks": "Do not catch broad BaseException, turn malformed input into default/pass, relax XML bounds/permissions, emit raw payloads, or alter accepted native bodies.",
+      "code_locations": [
+        "scripts/ci/android_permission_lifecycle_contract.py:112 validate_reporter_source ET.fromstring",
+        "scripts/ci/android_permission_lifecycle_contract.py:135 validate_manifest ET.fromstring",
+        "scripts/ci/android_permission_lifecycle.py:126-128 prepare error domain",
+        "scripts/ci/android_device_tests.py:505 controller error domain",
+        "scripts/ci/android_device_tests.py:655-660 source recheck error domain before final receipt at709-710"
+      ],
+      "evidence": "NEW one-method/three-domain saved RED returns exactly three ParseError mismatched-tag errors at contract135/135/112, with all43 finite source/control inputs unchanged; saved accepted23 is not replayed.",
+      "evidence_status": "confirmed-source plus genuinely NEW inert malformed-XML saved regression",
+      "id": "REVIEW712-XML-ERROR-DOMAIN",
+      "impact": "Malformed source or inspector XML can bypass prepare_status=failed/named phase and bounded controller_error reporting. A malformed post-cleanup source parse can escape before controller.json is written.",
+      "not_demonstrated": "Cleanup finally still runs. No cleanup leak, false native pass, real device malfunction, or untrusted XML exploit is inferred.",
+      "priority": "Medium",
+      "recommended_minimal_fix": "Normalize only these two NEW ET.fromstring ParseError paths into bounded ValueError (suppress raw parser/body details, e.g. raise ValueError with a fixed domain message from None). Retain all current size/entity/manifest/signature/native/receipt assertions and caller error domains.",
+      "required_verification": "Run only the genuinely NEW malformed source/compiled/reporter XML regression against the corrected owning parser delta and essential affected valid/bounded/entity/permission controls. Freeze exact corrected inputs and retain this RED. Do not rerun unchanged accepted23/native populations.",
+      "root_cause": "The two NEW validator parsers propagate xml.etree.ElementTree.ParseError, which is outside the named caller error domains; byte/entity bounds do not prove XML syntax."
+    }
+  ],
+  "disposition": {
+    "additional_confirmed_source_blockers_identified": 0,
+    "compiler_native_dispatch_or_issue_readiness": "not certified; lead owns further frozen integration/compiler/device/original-results gates",
+    "complete_source_adoption": "refused pending minimal XML normalization correction and genuinely NEW failed/affected-only verification",
+    "finite_source_design_and_preserved_saved_source_results": "accepted within stated passive scope, except one confirmed owning XML error-domain defect",
+    "whole_issue_closure": [
+      {
+        "allowed": false,
+        "issue": 19
+      },
+      {
+        "allowed": false,
+        "issue": 107
+      }
+    ]
+  },
+  "frozen_source_utc": "2026-11-04T18:52:46Z",
+  "lead_next_action": "Coordinate author minimal XML correction and failed/affected-only result packet. Then qualify immutable integrated source/important compiler controls before any of the three missing native profiles; retain original whole-issue gaps.",
+  "new_XML_saved_RED_passive_review": {
+    "accepted": 0,
+    "accepted23_replayed": 0,
+    "artifact": "NEW-XML-RED-PASSIVE-REVIEW.json",
+    "before_after_equal_to_FROZEN_MAP": 43,
+    "evidence_sha256": {
+      "NEW-XML-RED1.json": "1c8d0f369177b04370dc0acbc9c4917c7705856a2505c71c7999d3aac765fdd5",
+      "NEW-XML-RED1.stderr": "e5bcca6678110de74ee89c92b6a760bcb2c5baa0b5bdccc72a314a4f0ef26460",
+      "NEW-XML-RED1.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_xml_error_domain_new.py": "5a6fae57242b51b31d9e9a7a05652da67817d5eff2cdc517f57243ca2eaa75c3"
+    },
+    "exit_code": 1,
+    "methods": 1,
+    "outer_seconds": 0.09685101010836661,
+    "sha256": "6f90fb62fbe70e5e84065043781c902af26fbf4e59068b22e353dc98226b3230",
+    "subtest_errors": 3,
+    "suite_seconds": 0.021
+  },
+  "original_issue_criteria_remaining": {
+    "107": [
+      "Same-process Camera/location Settings revocation, one-time expiry and additional permission transition coverage",
+      "Pending-dialog/concurrency, physical/broader Android and applicable iOS lifecycle criteria",
+      "Prepared grant route covers Camera Settings grant/repeated resumes and grant with disposed state; revoke route covers Notifications only",
+      "Binder/process death fails; never restart, rebind, force grants via AppOps or fabricate resume/status callbacks"
+    ],
+    "19": [
+      "API23/29/30/31/33+, current and legacy targets",
+      "Fresh fine-alone, coarse-alone and fine+coarse, including approximate/precise/background denial",
+      "Actual background Settings round trip, omitted manifests and disabled location-service distinctions",
+      "Prepared API35 location route is a partial matrix; its coarse request already has coarse granted, not a fresh coarse-only dialog"
+    ]
+  },
+  "packet": "/root/nativecmpkit-source-proposals-20261104/android-permission-lifecycle-api35-ygaa_ud4",
+  "provided_base_not_independently_Git_qualified": "086224e97cf74c1cc30277b4c6b321867de725df",
+  "review": "Independent essential implementation-level source/results review712",
+  "reviewed_implementation_scopes": [
+    "All three AndroidPermissionLifecycleDeviceTest bodies and exact API35 CLASS#method routes",
+    "Public Compose consumer factories, two batches, real framework callback arrays/pause/resume and retained disposed references",
+    "Exact signature/Binder caller UID and generation/nonce checks; one bind and strict death/disconnect/PID/Activity generation failure",
+    "Absolute native reply/UI waits, real Settings round trips, primary/suppressed cleanup, reply-thread join, node recycling and system-package ancestry",
+    "Disposable public-source consumer build and manifest, own source/APK/certificate/fresh-install/readback, prepared-receipt and failure/owned-cleanup gates",
+    "All 36 exact reversible fragments; library/device/matrix/storage/workflow routes; seven Python ASTs without candidate imports",
+    "Complete archived original #19/PERM-004 and #107/PERM-006 descriptions and unchanged current production readbacks"
+  ],
+  "reviewer_refusals_preserved_not_candidate_defects": [
+    {
+      "artifact": "SETUP-PATH-REFUSAL.json",
+      "reason": "Reviewer assumed metadata under frozen; actually packet parent; no candidate checks/tests before correction"
+    },
+    {
+      "artifact": "FIRST-PASSIVE-CUSTODY-REFUSAL.json",
+      "reason": "Reviewer assumed addition source embedded text; it is a capsule path. Previously accepted43/six/36 categories reused; only refused/unreached reviewer categories recovered"
+    }
+  ],
+  "saved_executions_reused_not_rerun": {
+    "FIRST23": {
+      "errors": 0,
+      "failures": 0,
+      "held_inputs": 43,
+      "outer_seconds": 0.36633494193665683,
+      "passes": 23,
+      "rerun_now": false,
+      "suite_seconds": 0.28
+    },
+    "RED14": {
+      "errors": 13,
+      "failures": 1,
+      "held_inputs": 7,
+      "outer_seconds": 0.0873944740742445,
+      "passes": 0,
+      "rerun_now": false,
+      "suite_seconds": 0.007
+    }
+  },
+  "schema_version": 1,
+  "source_custody_reused_not_reexecuted": {
+    "changed_paths": 18,
+    "current_important_production_readbacks_unchanged": 9,
+    "exact_finite_input_matches": 43,
+    "existing": 6,
+    "existing_modes_preserved_on_integration_required": true,
+    "existing_reversible_fragments": 36,
+    "new_0644": 12,
+    "original_pre_refusal_accepted_categories_reused_not_rerun": true,
+    "unchanged_dependency_copies": 25
+  },
+  "supporting_reviewer_artifacts_sha256": {
+    "CUSTODY-AND-RESULTS-REVIEW.json": "bffa3de3ebffc1c81d2586a95eb9794b0645e4f5f58b3a8d974ddf197d5583ac",
+    "FIRST-PASSIVE-CUSTODY-REFUSAL.json": "66e9c6a6b80df897e84f81ff1b05e114ec61785d1681830852efcb91bca23e0f",
+    "NEW-XML-RED-PASSIVE-REVIEW.json": "6f90fb62fbe70e5e84065043781c902af26fbf4e59068b22e353dc98226b3230",
+    "ORIGINAL-CRITERIA.json": "3f441ccb4c38e5dc8f1a12534c6c99542aa51d08a7c9a669e449324cd94e18d4",
+    "PREPARATION-READBACK.json": "6ff031a886b34220b3b8140b879668047d4d5e3a54b68c9449f6ad788d485dee",
+    "SETUP-PATH-REFUSAL.json": "da7fee34ea62dd72c2028eaf9ddd5ea05a5f65fdfbc93024672631b8e48fe49a"
+  },
+  "unverified_risks_and_gates": [
+    "No Kotlin/Gradle/device/native execution, APK production, platform XML or actual same-process Settings transition has been certified for this packet",
+    "English-only API35 live UI IDs and genuine dialog/Settings behavior remain runtime assumptions to be tested, not confirmed bugs",
+    "Finite43 maps are not global/compiler/native custody; provided base and current ROOT production observations are not independently immutable Git qualification",
+    "Existing sparse0600 modes are capsule custody only: lead preserves actual ROOT existing modes; twelve additions0644",
+    "All production/API\u2013ABI/dependency/legal/security/release-readiness, native/consumer, main/history/Pages/publishing gates remain unchanged"
+  ],
+  "utc": "2026-11-04T19:06:41.582575+00:00"
+}

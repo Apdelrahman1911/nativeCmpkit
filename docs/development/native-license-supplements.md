@@ -5,6 +5,25 @@ Contained **single-agent** development on `development/preview-hardening`;
 with read-only permissions, all actions allowed and no mandatory SHA pinning.
 **No release, package, snapshot, deployment or Pages is authorized by this result.**
 
+## 2026-11-04: genuine current graph and legacy WinAPI prerequisites
+
+The [current source-prerequisite packet](evidence/current-platform-recovery-20261101/native-stage-prerequisites20261104/README.md)
+records new clean7d6 locked/offline metadata: picker93/Share48 packages. Genuine
+existing-collector results remain **failed**, picker17/Share15 gaps; the earlier
+87-package picker/15-gap result below is historical, not current. Two additional
+GNU WinAPI0.4.0 gaps arise via the test-only JNI invocation dependency union;
+production linker reachability is not inferred. Both archives lack VCS metadata
+and notice texts, so v1 is correctly unchanged/fail-closed.
+
+Exact earlier source9497609e/root8146a2db qualifies all2,809 once-recorded
+non-normalized archive payload fingerprints, with original failed source views
+retained and genuine older MIT/Apache/copyright bytes. These are correspondence
+observations, not tests, collector recovery, authenticity or legal approval. The
+lead authorized a separately qualified narrow no-VCS adapter next; **this source
+packet does not implement it**, stage native artifacts or clear any release gate.
+Current work is lead-coordinated parallel development; the dated single-agent
+statements below retain their original historical scope.
+
 ## Owning contract and implementation
 
 The [2026-10-24 collection](evidence/native-license-material-20261024T193225Z/README.md)

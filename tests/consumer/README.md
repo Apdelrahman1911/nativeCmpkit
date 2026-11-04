@@ -15,12 +15,12 @@ in [`docs/development/evidence/`](../../docs/development/evidence/).
 
 | Check | What it does | What it does not prove |
 |---|---|---|
-| `verify_artifacts.py` | POM/module identity, exact internal versions, target redirects, file hashes/sizes, safe archives, notices, no duplicate desktop classes, native byte/header/provenance contract | Correct runtime behavior, signing identity, legal clearance, release readiness |
+| `verify_artifacts.py` | POM/module identity, exact internal versions, target redirects, file hashes/sizes, safe archives, notices, no duplicate desktop classes, native byte/header/independent revision/clean-producer contract | Correct runtime behavior, trusted-builder attestation, signing identity, legal clearance, release readiness |
 | `verifyCandidateResolution` | Resolves selected classpaths to all 21 Maven roots; rejects original Calf/project substitutions | Any function was executed |
 | `PublicApiConsumer.kt` | Compiles representative public Compose/Coil/core/IO/picker/camera/share/WebView and every modular permission API; retains exhaustive legacy sealed consumers | Rendering, permission prompts, launch/dismiss or all API/ABI compatibility |
 | `PublishedCommonContractTest` | Eight executable packaged value/identity/default/API-linking tests | Native feature parity |
 | `PublishedIoConsumerTest` | Six real filesystem/stream boundary, empty, Unicode, independent-concurrency and repeated-close tests | iOS security scope, Android providers, native save-dialog outcomes, exhaustive leak/sanitizer campaign |
-| `PublishedNativeConsumerTest` | Three tests load real staged JNI libraries, initialize bridges, query native share capability and create/destroy 100 valid picker configurations | Displaying/cancelling a dialog, real AppKit sharing, stale/invalid handles, physical device behavior |
+| `PublishedNativeConsumerTest` | Three tests require exact staged loaded-bridge JAR names/hashes and same-owning-JAR native resources, then initialize bridges, query native share capability and create/destroy 100 valid picker configurations | Displaying/cancelling a dialog, real AppKit sharing, stale/invalid handles, physical device behavior; the full packaged run is still pending |
 | `jvm_abi.py` | Public/protected JVM descriptors, class declarations and constants from actual JARs; reviewable before/after delta | Kotlin metadata/nullability/default/inline semantics, Swift ABI, Android/JS/Wasm/Native ABI |
 | `binary_linkage.py` | Compiles a six-case Java fixture against source-bound baseline JARs; runs unchanged class bytes on baseline and staged artifacts, or explicitly separate receipt-bound local-JAR diagnostics | Complete Kotlin/default/inline/Compose or non-JVM ABI certification; two local candidates passed 6 cases / 31 assertions, but staged Maven execution remains pending |
 | `collect_native_licenses.py` | Raw texts from checksum-verified public `.crate` archives; optional explicit reviewed pinned-VCS missing-text supplements retain exact origin/proofs | Signed authenticity, native functionality, or a legal determination that every obligation has been discharged |
@@ -92,6 +92,7 @@ From the repository root, after successful staging:
 python3 tests/consumer/verify_artifacts.py \
   --repository "$PWD/build/verification-repo" --version 0.1.0-preview.1 \
   --target desktop --native-platform linux-x64 \
+  --expected-native-revision "$REVIEWED_PRODUCER_REVISION" \
   --output build/consumer-static-linux.json
 ```
 
@@ -100,6 +101,28 @@ still checks every publication root. Omit target/native-platform filters for the
 full static 21 × 7-coordinate / five-native-slot matrix, after all host artifacts
 are assembled. Timestamped SNAPSHOT repositories are deliberately excluded from
 the static release check; use an exact non-SNAPSHOT local candidate version.
+
+`REVIEWED_PRODUCER_REVISION` must be the full commit independently obtained from
+the inspected producer source/run/input receipt, **not read from the candidate's
+manifest**. Native desktop inspection now fails if it is absent, any selected
+slot records a different revision, or the producer records a dirty tree. The
+source inventory and bytes must still match; these checks establish consistency,
+not builder authenticity. Nonnative Core/IO and WebView partial controllers do
+not need this option and retain their existing accepted scopes.
+
+For a specifically authorized **local dirty diagnostic**, add
+`--allow-dirty-native-diagnostic` and explicitly select fewer than all five native
+slots. The dirty provenance is retained and the receipt identifies that mode;
+the flag is refused for a complete native matrix. Such a diagnostic is not a
+trusted producer/full packaged consumer/release pass. Never supply it to an
+actual release-readiness consumer or reuse its receipt as a clean producer.
+
+[Batch606](../../docs/development/evidence/current-platform-recovery-20261101/native-package-provenance606/README.md)
+records NEW15 + affected2 packaged-source controls, NEW6 runtime-wiring controls
+and compilation of the exact modified reflective Kotlin test. These are **not**
+executions of any of its three JNI methods. The Gradle runtime-property wiring,
+real candidate origins, full21 consumer and native/minimum-platform cells remain
+to be executed after genuine producer/notice/material prerequisites.
 
 Additional target selection (same repository/version arguments):
 

@@ -463,7 +463,8 @@ checksum = "''' + "3" * 64 + '"\n')
             "bytes": len(self.notice_bytes), "sha256": hashlib.sha256(self.notice_bytes).hexdigest()}]
 
     def verifier(self):
-        return gate.ArtifactVerifier(self.root, self.repo, self.VERSION, targets=["desktop"], native_platforms=["linux-x64"])
+        return gate.ArtifactVerifier(self.root, self.repo, self.VERSION, targets=["desktop"], native_platforms=["linux-x64"],
+                                     expected_native_revision="a" * 40, allow_dirty_native_diagnostic=True)
 
     def check_native(self, without=None):
         entries = {"native/linux-x64/libcalf_filepicker_native.so": self.payload,

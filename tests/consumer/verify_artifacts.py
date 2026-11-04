@@ -65,6 +65,7 @@ SAFE_VERSION = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9]+(?:[.-][A-Za-z
 CRATE_NAME = re.compile(r"[A-Za-z0-9_-]+\Z")
 CRATE_VERSION = re.compile(r"[0-9]+\.[0-9]+\.[0-9]+(?:-[A-Za-z0-9.-]+)?(?:\+[A-Za-z0-9.-]+)?\Z")
 CHECKSUM = re.compile(r"[0-9a-f]{64}\Z")
+GIT_REVISION = re.compile(r"[0-9a-f]{40}\Z")
 NATIVE_CRATE_NAMES = {"calf-file-picker": "calf-filepicker-native", "calf-share": "calf-share-native"}
 NATIVE_METADATA_SCOPE = "Conservative unfiltered locked Cargo union; no compile or license certification"
 NATIVE_LICENSE_NAME = re.compile(r"(?:LICEN[CS]E|COPYING|NOTICE|COPYRIGHT|UNLICENSE)(?:[._ -].*)?\Z", re.I)
@@ -324,7 +325,9 @@ def source_digest(files: dict[str, str]) -> str:
 class ArtifactVerifier:
     def __init__(self, source_root: Path, repository: Path, version: str,
                  modules: list[str] | None = None, targets: list[str] | None = None,
-                 native_platforms: list[str] | None = None):
+                 native_platforms: list[str] | None = None, *,
+                 expected_native_revision: str | None = None,
+                 allow_dirty_native_diagnostic: bool = False):
         self.root = source_root.resolve()
         self.repository = repository.resolve()
         if not self.repository.is_dir():
@@ -345,6 +348,17 @@ class ArtifactVerifier:
             raise InvalidArtifact("Unknown selected target")
         if not set(self.native_platforms).issubset(NATIVE_PLATFORMS):
             raise InvalidArtifact("Unsupported selected native platform")
+        if expected_native_revision is not None and (
+                not isinstance(expected_native_revision, str) or not GIT_REVISION.fullmatch(expected_native_revision)):
+            raise InvalidArtifact("Expected native producer revision must be a full Git commit SHA")
+        if type(allow_dirty_native_diagnostic) is not bool:
+            raise InvalidArtifact("Dirty native diagnostic selection must be an explicit boolean")
+        if allow_dirty_native_diagnostic and set(self.native_platforms) == set(NATIVE_PLATFORMS):
+            raise InvalidArtifact("Dirty native diagnostics require an explicit partial native-platform scope")
+        if "desktop" in self.targets and set(self.modules).intersection(NATIVE_MODULES) and expected_native_revision is None:
+            raise InvalidArtifact("Native desktop inspection requires an independently supplied expected producer revision")
+        self.expected_native_revision = expected_native_revision
+        self.allow_dirty_native_diagnostic = allow_dirty_native_diagnostic
         self.expected_coordinates = {
             module + TARGET_SUFFIXES[target]
             for module in self.modules for target in self.targets
@@ -493,11 +507,20 @@ class ArtifactVerifier:
                     self.check(label + ":native-source-complete:" + platform, False, "Native source completeness oracle missing")
             self.check(label + ":native-release-profile:" + platform, manifest.get("cargoProfile") == "release" and manifest.get("rustFlags") == [], "Unmodified release profile payload")
             self.check(label + ":native-revision:" + platform,
-                       isinstance(manifest.get("sourceRevision"), str) and bool(re.fullmatch("[0-9a-f]{40}", manifest["sourceRevision"])),
-                       "Full source revision recorded; source-tree dirtiness separately retained")
+                       isinstance(manifest.get("sourceRevision"), str)
+                       and bool(GIT_REVISION.fullmatch(manifest["sourceRevision"]))
+                       and self.expected_native_revision is not None
+                       and manifest["sourceRevision"] == self.expected_native_revision,
+                       "Native revision equals the independently supplied producer revision; not builder attestation")
             self.check(label + ":native-dirty-flag:" + platform, isinstance(manifest.get("sourceTreeDirty"), bool), "Source dirtiness explicitly recorded")
+            self.check(label + ":native-clean-producer:" + platform,
+                       manifest.get("sourceTreeDirty") is False
+                       or (self.allow_dirty_native_diagnostic and manifest.get("sourceTreeDirty") is True),
+                       "Clean producer required unless this is an explicitly partial dirty-native diagnostic")
             self.native_receipts.append({"module": module, "platform": platform, "sourceRevision": manifest.get("sourceRevision"),
-                                         "sourceTreeDirty": manifest.get("sourceTreeDirty"), "sha256": manifest.get("sha256")})
+                                         "sourceTreeDirty": manifest.get("sourceTreeDirty"), "sha256": manifest.get("sha256"),
+                                         "expectedSourceRevision": self.expected_native_revision,
+                                         "dirtyDiagnosticAllowed": self.allow_dirty_native_diagnostic})
         except (ValueError, AttributeError, KeyError, TypeError, OSError, ImportError) as exc:
             self.check(label + ":native-manifest-parse:" + platform, False, str(exc))
 
@@ -645,14 +668,21 @@ class ArtifactVerifier:
                     self.derived_apache_sources(archive, names, module, target, label)
                 # KLIBs are not mutated to insert legal text; the verified same-coordinate ZIP accompanies them.
                 native_entries = {name for name in names if name.startswith("native/") and not name.endswith("/")}
+                native_manifests = {name for name in names if name.startswith("META-INF/nativecmpkit/native/")
+                                    and not name.endswith("/")}
                 if target == "desktop" and primary and module in NATIVE_MODULES:
                     native_module = NATIVE_MODULES[module]
                     permitted = {f"native/{platform}/{native_filename(native_module, platform)}" for platform in NATIVE_PLATFORMS}
                     self.check(label + ":native-module-isolation", native_entries.issubset(permitted), "No foreign module/unknown-platform native payload")
+                    permitted_manifests = {f"META-INF/nativecmpkit/native/{native_module}/{platform}.json"
+                                           for platform in NATIVE_PLATFORMS}
+                    self.check(label + ":native-manifest-module-isolation", native_manifests.issubset(permitted_manifests),
+                               "No foreign module/unknown-platform native provenance manifest")
                     for platform in self.native_platforms:
                         self.native(archive, names, native_module, platform, label)
                 elif target == "desktop" and primary:
-                    self.check(label + ":no-unrelated-native", not native_entries, "Only owning modules package native JNI payloads")
+                    self.check(label + ":no-unrelated-native", not native_entries and not native_manifests,
+                               "Only owning modules package native JNI payloads or provenance manifests")
                 if target == "desktop" and primary:
                     for name in names:
                         if name.endswith(".class") and not name.startswith("META-INF/"):
@@ -819,6 +849,8 @@ class ArtifactVerifier:
             "scope": "Static staged Maven package inspection; not runtime, ABI or release certification",
             "group": GROUP, "version": self.version, "modules": self.modules, "targets": self.targets,
             "native_platforms_requested": self.native_platforms,
+            "expected_native_revision": self.expected_native_revision,
+            "dirty_native_diagnostic_requested": self.allow_dirty_native_diagnostic,
             "complete_declared_artifact_matrix_requested": set(self.modules) == set(self.all_modules)
                 and set(self.targets) == set(TARGET_SUFFIXES) and set(self.native_platforms) == set(NATIVE_PLATFORMS),
             "success": bool(self.checks) and all(check["passed"] for check in self.checks),
@@ -837,10 +869,14 @@ def main() -> int:
     parser.add_argument("--module", action="append", help="Explicit partial scope; defaults to all 21 identity modules")
     parser.add_argument("--target", action="append", choices=list(TARGET_SUFFIXES), help="Explicit partial scope; metadata always included")
     parser.add_argument("--native-platform", action="append", choices=NATIVE_PLATFORMS, help="Explicit partial scope; defaults to all five intended slots")
+    parser.add_argument("--expected-native-revision", help="Independent reviewed producer commit, required for native desktop inspection; never read from a candidate manifest")
+    parser.add_argument("--allow-dirty-native-diagnostic", action="store_true", help="Explicit partial-slot local diagnostic only; never full-matrix/release verification")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
-        result = ArtifactVerifier(args.source_root, args.repository, args.version, args.module, args.target, args.native_platform).run()
+        result = ArtifactVerifier(args.source_root, args.repository, args.version, args.module, args.target, args.native_platform,
+                                  expected_native_revision=args.expected_native_revision,
+                                  allow_dirty_native_diagnostic=args.allow_dirty_native_diagnostic).run()
     except (InvalidArtifact, OSError, KeyError, TypeError) as exc:
         result = {"schema_version": 1, "success": False, "release_readiness_certified": False, "error": str(exc)}
     args.output.parent.mkdir(parents=True, exist_ok=True)

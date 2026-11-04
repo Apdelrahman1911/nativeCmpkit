@@ -208,6 +208,27 @@ tasks.withType<Test>().configureEach {
         nativeHome.get().asFile.mkdirs()
         emptyLibraryPath.get().asFile.mkdirs()
         check(emptyLibraryPath.get().asFile.listFiles()?.isEmpty() == true)
+        if (name == "desktopTest") {
+            // Bind the actual test runtime bridge JARs to independently staged
+            // Maven bytes, not merely a .jar suffix or a producer build path.
+            val runtimeArtifacts = configurations.getByName("desktopTestRuntimeClasspath").incoming.artifacts.artifacts
+            for (module in listOf("file-picker", "share")) {
+                val selected = runtimeArtifacts.filter { artifact ->
+                    val id = artifact.id.componentIdentifier
+                    id is ModuleComponentIdentifier && id.group == candidateGroup &&
+                        id.module == "nativecmpkit-$module-desktop" && id.version == candidateVersion
+                }
+                check(selected.size == 1) { "Exactly one owning native bridge artifact must enter the test runtime: $module" }
+                val artifact = selected.single()
+                val id = artifact.id.componentIdentifier as ModuleComponentIdentifier
+                val binding = bindCandidateArtifact(id, artifact.file)
+                check(classpath.files.any { it.canonicalFile == artifact.file.canonicalFile }) {
+                    "Resolved native bridge JAR is not on the actual Test task classpath: $module"
+                }
+                systemProperty("nativecmpkit.expected.$module.name", artifact.file.name)
+                systemProperty("nativecmpkit.expected.$module.sha256", binding.getValue("sha256"))
+            }
+        }
     }
     testLogging { events("passed", "skipped", "failed") }
 }

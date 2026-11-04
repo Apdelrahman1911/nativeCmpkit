@@ -1,5 +1,9 @@
 package nativecmpkit.consumer
 
+import java.net.JarURLConnection
+import java.nio.file.Files
+import java.nio.file.Path
+import java.security.MessageDigest
 import kotlin.test.*
 
 /**
@@ -8,7 +12,7 @@ import kotlin.test.*
  * Original JNI entry points are compatibility-sensitive despite not being public Kotlin APIs.
  */
 class PublishedNativeConsumerTest {
-    private fun bridge(name: String, library: String): Class<*> {
+    private fun bridge(name: String, library: String, module: String): Class<*> {
         val loader = PublishedNativeConsumerTest::class.java.classLoader
         val os = System.getProperty("os.name").lowercase()
         val arch = System.getProperty("os.arch").lowercase()
@@ -32,17 +36,38 @@ class PublishedNativeConsumerTest {
         assertEquals(1, resources.size, "Native payload must exist exactly once in the candidate classpath")
         assertEquals("jar", resources.single().protocol, "Do not substitute loose producer resource directories")
         val type = Class.forName(name, false, loader)
-        assertTrue(type.protectionDomain.codeSource.location.path.endsWith(".jar"), "Bridge must come from an artifact JAR")
+        val origin = assertNotNull(type.protectionDomain.codeSource?.location)
+        assertEquals("file", origin.protocol, "Bridge must come from the resolved candidate file")
+        val jar = Path.of(origin.toURI())
+        assertTrue(Files.isRegularFile(jar), "A producer class directory must not satisfy this consumer")
+        assertEquals(assertNotNull(System.getProperty("nativecmpkit.expected.$module.name")), jar.fileName.toString())
+        val expected = assertNotNull(System.getProperty("nativecmpkit.expected.$module.sha256"))
+        assertTrue(Regex("[0-9a-f]{64}").matches(expected), "Expected staged bridge JAR hash must be explicit")
+        val hash = MessageDigest.getInstance("SHA-256")
+        Files.newInputStream(jar).use { stream ->
+            val buffer = ByteArray(64 * 1024)
+            while (true) {
+                val count = stream.read(buffer)
+                if (count < 0) break
+                hash.update(buffer, 0, count)
+            }
+        }
+        assertEquals(expected, hash.digest().joinToString("") { "%02x".format(it) },
+            "Actual loaded bridge must match independently staged Maven JAR bytes")
+        val resource = resources.single().openConnection() as JarURLConnection
+        resource.useCaches = false
+        assertEquals(jar.toRealPath(), Path.of(resource.jarFileURL.toURI()).toRealPath(),
+            "Bundled payload and loaded bridge must originate in the same verified candidate JAR")
         return type
     }
 
     @Test fun pickerNativeLibraryLoadsAndInitializes() {
-        val type = bridge("com.mohamedrejeb.calf.picker.platform.NativeFilePickerBridge", "calf_filepicker_native")
+        val type = bridge("com.mohamedrejeb.calf.picker.platform.NativeFilePickerBridge", "calf_filepicker_native", "file-picker")
         type.getMethod("init").invoke(null)
     }
 
     @Test fun packagedPickerCreatesAndReleasesValidHandles() {
-        val type = bridge("com.mohamedrejeb.calf.picker.platform.NativeFilePickerBridge", "calf_filepicker_native")
+        val type = bridge("com.mohamedrejeb.calf.picker.platform.NativeFilePickerBridge", "calf_filepicker_native", "file-picker")
         val create = type.getMethod("createDirectoryDialog", String::class.java, String::class.java, Long::class.javaPrimitiveType)
         val destroy = type.getMethod("destroyDialog", Long::class.javaPrimitiveType)
         repeat(100) {
@@ -53,7 +78,7 @@ class PublishedNativeConsumerTest {
     }
 
     @Test fun shareNativeLibraryLoadsAndReportsActualHostCapability() {
-        val type = bridge("com.mohamedrejeb.calf.share.platform.NativeShareBridge", "calf_share_native")
+        val type = bridge("com.mohamedrejeb.calf.share.platform.NativeShareBridge", "calf_share_native", "share")
         type.getMethod("init").invoke(null)
         val supported = type.getMethod("isNativeShareSupported").invoke(null) as Boolean
         val os = System.getProperty("os.name").lowercase()

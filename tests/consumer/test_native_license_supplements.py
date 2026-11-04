@@ -20,6 +20,10 @@ from _native_test_fixtures import metadata_fixture
 
 
 class VcsLicenseSupplementTest(unittest.TestCase):
+    # Independent synthetic NativeCmpKit producer identity, not the dependency's
+    # VCS revision or proof of a real Git/native build. This fixture checks notices.
+    NATIVE_FIXTURE_REVISION = "c" * 40
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         # Canonicalize only this trusted, freshly created fixture root. macOS
@@ -144,7 +148,8 @@ class VcsLicenseSupplementTest(unittest.TestCase):
                 archive.writestr(path, payload)
         repository = self.root / "staged-fixture"
         repository.mkdir(exist_ok=True)
-        verifier = gate.ArtifactVerifier(self.source, repository, "0.1.0-preview.1", targets=["desktop"], native_platforms=["linux-x64"])
+        verifier = gate.ArtifactVerifier(self.source, repository, "0.1.0-preview.1", targets=["desktop"], native_platforms=["linux-x64"],
+                                         expected_native_revision=self.NATIVE_FIXTURE_REVISION)
         with zipfile.ZipFile(io.BytesIO(memory.getvalue())) as archive:
             verifier.native_notices(archive, gate.archive_names(archive), "calf-file-picker", "fixture")
         return verifier.checks

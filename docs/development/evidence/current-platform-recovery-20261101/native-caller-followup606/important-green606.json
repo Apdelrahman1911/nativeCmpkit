@@ -1,0 +1,51 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "test_native_verifier_caller_wiring",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_independent_notice_gate_accepts_exact_source_bound_material_only",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_changed_external_repository",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_missing_external_origin_record",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_external_text_reclassified_as_archive_material",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_self_rehashed_license_text_substitute",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_missing_original_manifest_proof",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_self_rehashed_catalog_provenance",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_external_material_without_approved_catalog",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_rejects_unrecorded_stale_provenance_material",
+    "test_native_license_supplements.VcsLicenseSupplementTest.test_notice_gate_retains_fail_closed_missing_text_requirement",
+    "-v"
+  ],
+  "cwd": "tests/consumer",
+  "exit_code": 0,
+  "wall_seconds": 6.174845354165882,
+  "source_inputs": {
+    "tests/consumer/test_native_verifier_caller_wiring.py": "4decd003b89f9d526dbef556b4b8ed38653bf25e4d3438d037d3b626fb6c2dde",
+    "tests/consumer/test_native_license_supplements.py": "731070a61364c0b2b6d67c18f8a72f6b9d920472bc003a33392b23ed179fc078",
+    "tests/consumer/verify_artifacts.py": "37d7cfdc03792c5ac0801968fa7b49e2cfd9548e955ec2d8b1bbbf4e27a99490",
+    "tests/consumer/test_native_package_provenance.py": "04b7585d3a0de8485f0b58365f046cc1171963861a425545493d4800fc020bf4",
+    "tests/consumer/test_verify_artifacts.py": "6b7ac5dd3ce4d23ee8b1270f0cf728df4214fcace1326bd67913b3113f5c3d2b",
+    "tests/consumer/test_gradle_module_identity.py": "0a8ea66844bb21f4b13acacc63c1ab8f515de39a2592b0c2771adc7ece11ff25",
+    "tests/consumer/test_derived_apache_notices.py": "cc5d449f2dd2f11855f7888648fbb11ce173cbeb5da6191b89ef44c062c460ad",
+    "scripts/ci/core_io_consumer.py": "a938dd4eafde9f7f5847328016b8528d46ceb14a66c9b85d66f76913a938525b",
+    "scripts/ci/webview_consumer.py": "9b8b12e8d1cbc039fde718d19683a7fd96056884f0495ecf730c3e779ea483d1"
+  },
+  "before_equals_after": true,
+  "affected_original_method_count": 10,
+  "new_regression_method_count": 5,
+  "affected_original_methods": [
+    "test_independent_notice_gate_accepts_exact_source_bound_material_only",
+    "test_notice_gate_rejects_changed_external_repository",
+    "test_notice_gate_rejects_missing_external_origin_record",
+    "test_notice_gate_rejects_external_text_reclassified_as_archive_material",
+    "test_notice_gate_rejects_self_rehashed_license_text_substitute",
+    "test_notice_gate_rejects_missing_original_manifest_proof",
+    "test_notice_gate_rejects_self_rehashed_catalog_provenance",
+    "test_notice_gate_rejects_external_material_without_approved_catalog",
+    "test_notice_gate_rejects_unrecorded_stale_provenance_material",
+    "test_notice_gate_retains_fail_closed_missing_text_requirement"
+  ],
+  "unaffected_original_supplement_methods_not_run": 40,
+  "scope": "Affected10 original notice methods plus NEW5 (including failed NEW1) caller controls; no accepted unchanged23/compiler/native/Gradle/network/GitHub/publication replay"
+}

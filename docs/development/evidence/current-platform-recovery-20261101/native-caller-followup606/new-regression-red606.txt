@@ -1,0 +1,29 @@
+test_native_supplement_helper_uses_independent_fixture_revision_and_default_clean_mode (test_native_verifier_caller_wiring.NativeVerifierCallerWiringTest.test_native_supplement_helper_uses_independent_fixture_revision_and_default_clean_mode) ... ERROR
+
+======================================================================
+ERROR: test_native_supplement_helper_uses_independent_fixture_revision_and_default_clean_mode (test_native_verifier_caller_wiring.NativeVerifierCallerWiringTest.test_native_supplement_helper_uses_independent_fixture_revision_and_default_clean_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<worktree>/tests/consumer/test_native_verifier_caller_wiring.py", line 106, in test_native_supplement_helper_uses_independent_fixture_revision_and_default_clean_mode
+    checks = sample.notice_checks(entries)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<worktree>/tests/consumer/test_native_license_supplements.py", line 147, in notice_checks
+    verifier = gate.ArtifactVerifier(self.source, repository, "0.1.0-preview.1", targets=["desktop"], native_platforms=["linux-x64"])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1134, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1138, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/unittest/mock.py", line 1211, in _execute_mock_call
+    return self._mock_wraps(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<worktree>/tests/consumer/verify_artifacts.py", line 359, in __init__
+    raise InvalidArtifact("Native desktop inspection requires an independently supplied expected producer revision")
+verify_artifacts.InvalidArtifact: Native desktop inspection requires an independently supplied expected producer revision
+
+----------------------------------------------------------------------
+Ran 1 test in 0.016s
+
+FAILED (errors=1)

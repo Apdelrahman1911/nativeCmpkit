@@ -1,0 +1,55 @@
+{
+  "addition_count": 2,
+  "additions": [
+    {
+      "bytes": 19086,
+      "path": "tests/consumer/native_consumer_carriage.py",
+      "sha256": "31eeb425dc2ce36bcf1f4c6b045f1bbf41edb6ccf40f7f1ce87e645ffa2357bc"
+    },
+    {
+      "bytes": 11969,
+      "path": "tests/consumer/test_native_consumer_carriage.py",
+      "sha256": "ee8a0c7bc939f1a9df91418483239052ac77c97db3e0e5adb2e62a0feca7ecf9"
+    }
+  ],
+  "base_revision": "663239975f28a6330c9aec750e7d77dafcc01946",
+  "fragments": [
+    {
+      "name": "only-explicit17th-inert-material-constructor",
+      "new": "    (\"tests/consumer/test_gradle_module_identity.py\", \"GradleOwningComponentTest.target_identity_passes\", 1): \"nonnative\",\n    (\"tests/consumer/test_native_license_legacy_winapi.py\", \"LegacyWinapiLicenseTest.inspect_notices\", 1): \"material-only\",\n",
+      "old": "    (\"tests/consumer/test_gradle_module_identity.py\", \"GradleOwningComponentTest.target_identity_passes\", 1): \"nonnative\",\n",
+      "path": "tests/consumer/test_native_verifier_caller_wiring.py"
+    },
+    {
+      "name": "new-material-only-cannot-clear-native-gates-control",
+      "new": "    def test_schema3_material_only_site_cannot_waive_original_native_revision_gates(self):\n        identity = (\"tests/consumer/test_native_license_legacy_winapi.py\", \"LegacyWinapiLicenseTest.inspect_notices\", 1)\n        self.assertEqual({identity}, {key for key, scope in CALLER_SCOPES.items() if scope == \"material-only\"})\n        call = constructor_sites()[identity]\n        keywords = {keyword.arg: keyword.value for keyword in call.keywords}\n        self.assertEqual([\"nativecmpkit-file-picker\"], ast.literal_eval(keywords[\"modules\"]))\n        self.assertEqual([\"metadata\"], ast.literal_eval(keywords[\"targets\"]))\n        self.assertEqual([\"linux-x64\"], ast.literal_eval(keywords[\"native_platforms\"]))\n        self.assertNotIn(\"expected_native_revision\", keywords)  # No fabricated native producer claim.\n        source = ast.parse((ROOT / identity[0]).read_text())\n        owner = next(node for node in ast.walk(source) if isinstance(node, ast.FunctionDef)\n                     and node.name == \"inspect_notices\")\n        calls = [node for node in ast.walk(owner) if isinstance(node, ast.Call)\n                 and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name)\n                 and node.func.value.id == \"inspector\"]\n        self.assertEqual([\"native_notices\"], [node.func.attr for node in calls])\n        returned = [ast.unparse(node.value) for node in ast.walk(owner) if isinstance(node, ast.Return)]\n        self.assertEqual([\"inspector.checks\"], returned)\n        self.assertEqual(\"native\", CALLER_SCOPES[(\"tests/consumer/verify_artifacts.py\", \"main\", 1)])\n\n    def test_actual_cli_passes_independent_revision_and_explicit_diagnostic_fields(self):\n",
+      "old": "    def test_actual_cli_passes_independent_revision_and_explicit_diagnostic_fields(self):\n",
+      "path": "tests/consumer/test_native_verifier_caller_wiring.py"
+    },
+    {
+      "name": "explicit-carriage-and-inert-context-documentation",
+      "new": "Use `native_consumer_carriage.py` to prepare an independently copied full fixture\nwithout silently omitting the lazy schema3 checker helper:\n\n```sh\npython3 -B tests/consumer/native_consumer_carriage.py \\\n  --source-root \"$REVIEWED_CARRIER_SOURCE_ROOT\" \\\n  --expected-source-revision \"$REVIEWED_CARRIER_SOURCE_REVISION\" \\\n  --output \"$FRESH_EXTERNAL_INDEPENDENT_BUNDLE\"\n```\n\nThis copies exactly13 consumer/config/checker files, including\n`native_license_legacy_winapi.py`, without altering the full21 dependency or\noriginal17 desktop-method source. Its separate `inert-material-context/` contains\nonly the exact20 legacy catalog files and original clean7d6 full93/48 metadata;\nthat archival context is **not** a native producer source root or a complete\ncurrent collection. Point the copied consumer's native preflight at the actual\nindependently reviewed clean producer checkout, never this inert directory.\nThe carrier source revision is not inferred from metadata or a candidate.\nPreparation/readback imports no native code or material loader, stages nothing,\nand leaves every consumer/native/material/legal/security/readiness gate open.\nSee [the bounded carriage and remaining15 source prerequisites](../../docs/development/evidence/current-platform-recovery-20261101/native-carriage20261104/README.md).\n\nNative-only focus disables UP-TO-DATE/build-cache reuse and uses a new UUID XML\n",
+      "old": "Native-only focus disables UP-TO-DATE/build-cache reuse and uses a new UUID XML\n",
+      "path": "tests/consumer/README.md"
+    }
+  ],
+  "modified_parent_paths": [
+    {
+      "current_sha256": "440ee3291f15f52c9424d15a214bfdc84d9456b9ff08773ca53841a21047c9a7",
+      "exact_inverse": true,
+      "parent_sha256": "4decd003b89f9d526dbef556b4b8ed38653bf25e4d3438d037d3b626fb6c2dde",
+      "path": "tests/consumer/test_native_verifier_caller_wiring.py"
+    },
+    {
+      "current_sha256": "24ee1507dc88272eea3e26fd12e1c2add46f5367cb51d5e147c17f4f664d6ad9",
+      "exact_inverse": true,
+      "parent_sha256": "8f2b46c6e29ed94e73e23c2532987b22698b95de710785e4cc4dc21e5f486dd9",
+      "path": "tests/consumer/README.md"
+    }
+  ],
+  "native_tests_executed": 0,
+  "release_readiness_certified": false,
+  "schema_version": 1,
+  "scope": "Three exact reversible fragments in two existing tooling/doc paths, two new carriage/control paths; original16 caller/native gates/helper/workflows/consumer/native/ABI/dependencies/legal/readiness unchanged",
+  "stage_executions": 0
+}

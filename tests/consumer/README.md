@@ -113,6 +113,28 @@ Copied consumers must retain the checker and its native notice/helper modules.
 All native/material/notice checks remain strict and no dirty diagnostic or
 reduced-module flag enters this task's command.
 
+Use `native_consumer_carriage.py` to prepare an independently copied full fixture
+without silently omitting the lazy schema3 checker helper:
+
+```sh
+python3 -B tests/consumer/native_consumer_carriage.py \
+  --source-root "$REVIEWED_CARRIER_SOURCE_ROOT" \
+  --expected-source-revision "$REVIEWED_CARRIER_SOURCE_REVISION" \
+  --output "$FRESH_EXTERNAL_INDEPENDENT_BUNDLE"
+```
+
+This copies exactly13 consumer/config/checker files, including
+`native_license_legacy_winapi.py`, without altering the full21 dependency or
+original17 desktop-method source. Its separate `inert-material-context/` contains
+only the exact20 legacy catalog files and original clean7d6 full93/48 metadata;
+that archival context is **not** a native producer source root or a complete
+current collection. Point the copied consumer's native preflight at the actual
+independently reviewed clean producer checkout, never this inert directory.
+The carrier source revision is not inferred from metadata or a candidate.
+Preparation/readback imports no native code or material loader, stages nothing,
+and leaves every consumer/native/material/legal/security/readiness gate open.
+See [the bounded carriage and remaining15 source prerequisites](../../docs/development/evidence/current-platform-recovery-20261101/native-carriage20261104/README.md).
+
 Native-only focus disables UP-TO-DATE/build-cache reuse and uses a new UUID XML
 directory. The result checker is both an explicit task depending on desktopTest
 and its finalizer: missing/NO-SOURCE, failed, skipped, foreign or stale directory

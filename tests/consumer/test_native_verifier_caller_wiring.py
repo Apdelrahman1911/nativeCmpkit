@@ -38,6 +38,7 @@ CALLER_SCOPES = {
     ("tests/consumer/test_derived_apache_notices.py", "DerivedApacheArtifactTest.verifier", 2): "nonnative",
     ("tests/consumer/test_derived_apache_notices.py", "DerivedApacheArtifactTest.test_navigation_model_identity_is_scoped_and_default_rejection_remains", 1): "invalid",
     ("tests/consumer/test_gradle_module_identity.py", "GradleOwningComponentTest.target_identity_passes", 1): "nonnative",
+    ("tests/consumer/test_native_license_legacy_winapi.py", "LegacyWinapiLicenseTest.inspect_notices", 1): "material-only",
     ("tests/consumer/test_native_license_supplements.py", "VcsLicenseSupplementTest.notice_checks", 1): "native",
     ("tests/consumer/test_native_package_provenance.py", "NativePackageProvenanceTest.verifier", 1): "native",
     ("tests/consumer/test_verify_artifacts.py", "CupertinoFontResourceTest.test_owning_maven_verifier_rejects_empty_android_and_resource_archives", 1): "nonnative",
@@ -135,6 +136,26 @@ class NativeVerifierCallerWiringTest(unittest.TestCase):
             self.assertEqual(expected, declared)
             self.assertFalse(NATIVE_OWNERS.intersection(declared if isinstance(declared, tuple) else [declared]))
             self.assertEqual(expression, ast.unparse(sites[(source, function, 1)].args[3]))
+
+    def test_schema3_material_only_site_cannot_waive_original_native_revision_gates(self):
+        identity = ("tests/consumer/test_native_license_legacy_winapi.py", "LegacyWinapiLicenseTest.inspect_notices", 1)
+        self.assertEqual({identity}, {key for key, scope in CALLER_SCOPES.items() if scope == "material-only"})
+        call = constructor_sites()[identity]
+        keywords = {keyword.arg: keyword.value for keyword in call.keywords}
+        self.assertEqual(["nativecmpkit-file-picker"], ast.literal_eval(keywords["modules"]))
+        self.assertEqual(["metadata"], ast.literal_eval(keywords["targets"]))
+        self.assertEqual(["linux-x64"], ast.literal_eval(keywords["native_platforms"]))
+        self.assertNotIn("expected_native_revision", keywords)  # No fabricated native producer claim.
+        source = ast.parse((ROOT / identity[0]).read_text())
+        owner = next(node for node in ast.walk(source) if isinstance(node, ast.FunctionDef)
+                     and node.name == "inspect_notices")
+        calls = [node for node in ast.walk(owner) if isinstance(node, ast.Call)
+                 and isinstance(node.func, ast.Attribute) and isinstance(node.func.value, ast.Name)
+                 and node.func.value.id == "inspector"]
+        self.assertEqual(["native_notices"], [node.func.attr for node in calls])
+        returned = [ast.unparse(node.value) for node in ast.walk(owner) if isinstance(node, ast.Return)]
+        self.assertEqual(["inspector.checks"], returned)
+        self.assertEqual("native", CALLER_SCOPES[("tests/consumer/verify_artifacts.py", "main", 1)])
 
     def test_actual_cli_passes_independent_revision_and_explicit_diagnostic_fields(self):
         source = (ROOT / "tests/consumer/verify_artifacts.py").read_text()

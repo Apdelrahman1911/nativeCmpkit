@@ -75,10 +75,10 @@ policy (SHA256 `7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54
 Git blob `540ae4c81adb5f64a9f61e222b688880da24300e`), not complete notice texts.
 The original normalized/package/workspace manifests, actual Cargo VCS proofs and
 policy bytes are already archived. Do not synthesize missing text from SPDX or
-claim that later texts were in the published archive.
+claim that distinct-origin texts were in the published archive.
 
 The [existing separate inert v2 context](../../consumer-material-v2-20261031/README.md)
-uses later material origin `ee9a7ada2131f5944b8750428e265c15632f2a19`, independent
+uses distinct material origin `ee9a7ada2131f5944b8750428e265c15632f2a19`, independent
 raw actual commit/tree/blob proofs, a separately reviewed index and exact
 manifest inheritance. It remains untouched/inert here. API ancestry context is
 not raw full-history proof. SSheldon/rust-objc attribution applicability, exact
@@ -93,6 +93,22 @@ No complete collector, v2 activation, material adoption, staging or native pass
 may precede that reviewed decision. A later authorized complete collector would
 still need original full graphs and actual producer/source/registry custody;
 it must not replay unchanged accepted package scans or mislabel partial output.
+
+**Chronology clarification, 2026-11-04:** the existing
+[public derivative036](../legal-material-derivative036/chronology-corrections.public.json)
+records ee9a author2026-03-18 versus objc2@0.6.5 d7d source author2026-10-05,
+with a diverged comparison. Universal "later text" is incorrect; distinct
+text-origin records are not chronology, ancestry or release applicability.
+Earlier sealed table field names/results remain historical originals, not new
+chronological/legal proof. See the [bounded corrected exact15 plan](../objc2-source-applicability20261104/README.md).
+
+**Graph custody clarification, 2026-11-04:** the retained full93/48 graphs belong
+to producer7d6b6d5b, not a fresh current-carrier collection. Share Cargo.toml at
+carrier4ab differs by the producer's opt-in AppKit test feature/custom-test
+declarations; the lock is unchanged. This does not prove a dependency graph
+change or certify current Cargo/native/consumer behavior. The corrected exact15
+plan preserves the producer distinction and requires current lock/graph/index
+qualification before integration.
 
 ## Predetermined important verification
 

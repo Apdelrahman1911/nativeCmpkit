@@ -1,0 +1,22 @@
+{
+  "after_input_count": 1340,
+  "before_input_count": 1340,
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    ":calf-share:compileTestKotlinDesktop",
+    "--dry-run"
+  ],
+  "compiler_executions": 0,
+  "elapsed_seconds": 21.713096901075915,
+  "exit_code": 0,
+  "inputs_held": true,
+  "native_runtime_executions": 0
+}

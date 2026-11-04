@@ -1,0 +1,46 @@
+{
+  "after_input_count": 1340,
+  "before_input_count": 1340,
+  "changed_inputs": [],
+  "classpath_receipts": [
+    {
+      "exists": false,
+      "phase": "before",
+      "sha256": null
+    },
+    {
+      "exists": false,
+      "phase": "after",
+      "sha256": null
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "$PRIVATE_REVIEW/classpath604.init.gradle.kts",
+    ":calf-share:compileTestKotlinDesktop",
+    "-x",
+    ":calf-share:buildNativeLib",
+    "-x",
+    ":calf-share:prepareNativeResources"
+  ],
+  "daemon_observations": [],
+  "elapsed_seconds": 11.221367914928123,
+  "exit_code": 1,
+  "inputs_held": true,
+  "minimum_observed_disk_bytes": 10907856896,
+  "native_runtime_executions": 0,
+  "private_classpath_init_held": true,
+  "private_classpath_init_sha256": "49f3c4f97c2608871313d56888823e315bece8840074186f537d46579a1f35f1",
+  "reserve_bytes": 8589934592,
+  "scope": "Only actual desktop Kotlin test compilation; explicitly excluded native library build/resource preparation, no test packaging/JNI/AppKit/runtime acceptance",
+  "stopped": null
+}

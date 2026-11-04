@@ -1,6 +1,7 @@
 """Exact, source-bound native JNI scenario eligibility; never a general skip list.
 
-Only two logically host-inapplicable cases may remain skipped. A required macOS
+For Share, only the two original host-inapplicable cases and the three exact NEW
+macOS-only lifecycle methods may receive opposite-host N/A. A required macOS
 AppKit case must execute with explicit GUI opt-in; headless/opt-out is not N/A.
 Single-host evidence cannot establish the complete cross-host native matrix.
 The new iOS IO/Coil regressions have no skip/N/A allowance: every exact required
@@ -18,6 +19,13 @@ ALL_HOSTS = (
 NON_MAC = "unsupportedHostRequestsAndCancellationNeverRetainNativeOwners"
 MAC_GUI = "macOsPickerCancellationReleasesRealMainThreadOwners"
 REQUIRED_CASES = (*ALL_HOSTS, NON_MAC, MAC_GUI)
+MAC_LIFECYCLE_CLASS = "com.mohamedrejeb.calf.share.MacOsShareCoroutineLifecycleTest"
+MAC_LIFECYCLE_SOURCE = "calf-share/src/desktopTest/kotlin/com/mohamedrejeb/calf/share/MacOsShareCoroutineLifecycleTest.kt"
+MAC_LIFECYCLE_METHODS = (
+    "cancellingRetainedAppKitRequestFreesOwnersAndDoesNotOccupySingleCoroutineWorker",
+    "realNativeTimeoutReportsOnceWithoutFallbackAndAllowsFreshRequestAfterMainCleanup",
+    "independentRealNativeOwnersRejectOverlapWithoutReplacingTheRetainedRequest",
+)
 DESKTOP_WEBVIEW_STOP_CASES = (
     "stopCancelsRealSlowLoadWithoutFeedbackLoop",
     "repeatedStopsAfterDetachAndReattachCancelOnlyTheCurrentRealLoad",
@@ -105,6 +113,48 @@ def canonical_host(system: str) -> str:
     if not isinstance(system, str) or system.strip().lower() not in aliases:
         raise ValueError("Unrecognized native scenario host; do not guess applicability")
     return aliases[system.strip().lower()]
+
+
+def macos_lifecycle_cases(cases: list[dict], system: str,
+                         native_ui_opt_in: bool) -> tuple[list[dict], list[str]]:
+    """Exact NEW macOS JNI/coroutine methods; finite selectors must call this directly.
+
+    Other classes never receive a skip exception. In a complete suite `apply` also classifies
+    these three when their class is present. The original four-case required registry is not
+    silently broadened in old focused fixtures, and no missing new population counts as green
+    finite evidence. Retained-operation counts are not visible-picker/recipient receipts.
+    """
+    host = canonical_host(system)
+    scenarios, errors = [], []
+    known_names = {name for method in MAC_LIFECYCLE_METHODS for name in (method, method + "[desktop]")}
+    if any(case.get("classname") == MAC_LIFECYCLE_CLASS and case.get("name") not in known_names for case in cases):
+        errors.append("Unregistered macOS lifecycle name/suffix; do not broaden the native skip exception")
+    for method in MAC_LIFECYCLE_METHODS:
+        matching = [case for case in cases if case.get("classname") == MAC_LIFECYCLE_CLASS and
+                    case.get("name") in {method, method + "[desktop]"}]
+        required = host == "macos"
+        scenario = {"classname": MAC_LIFECYCLE_CLASS, "method": method, "source": MAC_LIFECYCLE_SOURCE,
+                    "host": host, "required_on_host": required, "task": "desktopTest",
+                    "native_ui_opt_in_requested": native_ui_opt_in if required else None}
+        if len(matching) != 1:
+            errors.append(f"New macOS lifecycle method {method} must appear exactly once in fresh desktop XML")
+            scenario["disposition"] = "missing-or-duplicate"
+        elif not required:
+            if matching[0].get("status") != "skipped":
+                errors.append(f"MacOS-only lifecycle method {method} must be exact opposite-host N/A, not counted passed")
+                scenario["disposition"] = "invalid-host-outcome"
+            else:
+                matching[0].update(disposition="not-applicable",
+                                   not_applicable_reason="Exact NEW AppKit/JNI coroutine method on non-macOS")
+                scenario["disposition"] = "not-applicable"
+        else:
+            scenario["disposition"] = "required-executed" if matching[0].get("status") == "passed" else "required-not-passed"
+            if matching[0].get("status") != "passed":
+                errors.append(f"Required macOS lifecycle method {method} did not pass; missing UI/opt-out is not N/A")
+            if native_ui_opt_in is not True:
+                errors.append(f"Required macOS lifecycle method {method} needs explicit NATIVECMPKIT_NATIVE_UI_TESTS=true")
+        scenarios.append(scenario)
+    return scenarios, errors
 
 
 PICKER_COMPOSE_CLASS = "com.mohamedrejeb.calf.picker.NativePickerComposeLifetimeTest"
@@ -264,4 +314,8 @@ def apply(module: str, suite: str, cases: list[dict], system: str,
                 if method == MAC_GUI and native_ui_opt_in is not True:
                     errors.append("The required macOS AppKit GUI scenario needs explicit NATIVECMPKIT_NATIVE_UI_TESTS=true")
         scenarios.append(scenario)
+    if any(case.get("classname") == MAC_LIFECYCLE_CLASS for case in cases):
+        lifecycle_scenarios, lifecycle_errors = macos_lifecycle_cases(cases, system, native_ui_opt_in)
+        scenarios.extend(lifecycle_scenarios)
+        errors.extend(lifecycle_errors)
     return scenarios, errors

@@ -1,0 +1,57 @@
+{
+  "after_input_count": 1340,
+  "before_input_count": 1340,
+  "changed_inputs": [],
+  "classpath_receipts": [
+    {
+      "exists": true,
+      "phase": "before",
+      "sha256": "751e073f2b277a7403f50ab5611b52a3d1389be3e940319a6d2dcf7cda199d8f"
+    },
+    {
+      "exists": true,
+      "phase": "after",
+      "sha256": "5483b625e43e7458f7f6d870d0cb535f7c0bc8c4ae7dd9d0adb63626f5243e25"
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "$PRIVATE_REVIEW/classpath604.init.gradle.kts",
+    ":calf-share:compileTestKotlinDesktop",
+    "-x",
+    ":calf-share:buildNativeLib",
+    "-x",
+    ":calf-share:prepareNativeResources"
+  ],
+  "daemon_observations": [
+    {
+      "gradle_version": "9.7.1",
+      "java_vendor": "Ubuntu",
+      "java_version": "17.0.20",
+      "launcher_home_configured": true,
+      "launcher_home_matches_daemon": true,
+      "major": 17,
+      "runtime_version": "17.0.20+8-1-24.04-Ubuntu",
+      "schema_version": 1
+    }
+  ],
+  "elapsed_seconds": 40.29463297990151,
+  "exit_code": 0,
+  "inputs_held": true,
+  "minimum_observed_disk_bytes": 10859827200,
+  "native_runtime_executions": 0,
+  "private_classpath_init_held": true,
+  "private_classpath_init_sha256": "d65f8463cf79ef374abc73fbf15fe5f762e0f012d4d9b76f31b5ae6ec430607e",
+  "reserve_bytes": 8589934592,
+  "scope": "Failed-only desktop test compiler recovery; actual compiler/classpath scope evaluated from original log, native build/resource preparation excluded; zero test packaging/JNI/AppKit/runtime acceptance",
+  "stopped": null
+}

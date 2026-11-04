@@ -1,0 +1,46 @@
+{
+  "after_input_count": 1340,
+  "before_input_count": 1340,
+  "changed_inputs": [],
+  "classpath_receipts": [
+    {
+      "exists": false,
+      "phase": "before",
+      "sha256": null
+    },
+    {
+      "exists": false,
+      "phase": "after",
+      "sha256": null
+    }
+  ],
+  "command": [
+    "./gradlew",
+    "--offline",
+    "--no-daemon",
+    "--max-workers=2",
+    "--no-parallel",
+    "--no-configuration-cache",
+    "-Pkotlin.compiler.execution.strategy=in-process",
+    "--init-script",
+    "scripts/ci/daemon-jvm.init.gradle.kts",
+    "--init-script",
+    "$PRIVATE_REVIEW/classpath604.init.gradle.kts",
+    ":calf-share:compileTestKotlinDesktop",
+    "-x",
+    ":calf-share:buildNativeLib",
+    "-x",
+    ":calf-share:prepareNativeResources"
+  ],
+  "daemon_observations": [],
+  "elapsed_seconds": 13.198022739961743,
+  "exit_code": 1,
+  "inputs_held": true,
+  "minimum_observed_disk_bytes": 10918653952,
+  "native_runtime_executions": 0,
+  "private_classpath_init_held": true,
+  "private_classpath_init_sha256": "33a590c18d8cf20eae8331dfaeced2ccce9fbe916b1e06c020bcc292b4e09fb9",
+  "reserve_bytes": 8589934592,
+  "scope": "Failed-only recovery of private init type inference, actual desktop Kotlin test compile only; unchanged authorized native build/resource exclusions; no packaging/JNI/AppKit/runtime acceptance",
+  "stopped": null
+}

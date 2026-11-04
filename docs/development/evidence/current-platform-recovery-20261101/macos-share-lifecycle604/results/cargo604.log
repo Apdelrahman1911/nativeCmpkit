@@ -1,0 +1,62 @@
+    Checking calf-share-native v0.1.0 ($REPOSITORY/calf-share/native)
+warning: unused import: `super::*`
+  --> tests/../src/operation.rs:83:9
+   |
+83 |     use super::*;
+   |         ^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0599]: the associated function or constant `alloc` exists for struct `objc2_app_kit::NSWindow`, but its trait bounds were not satisfied
+   --> tests/../src/../tests/appkit_lifecycle_cases.rs:138:23
+    |
+138 |               NSWindow::alloc(main),
+    |                         ^^^^^ associated function or constant cannot be called on `objc2_app_kit::NSWindow` due to unsatisfied trait bounds
+    |
+   ::: /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-0.6.5/src/macros/extern_class.rs:251:9
+    |
+251 | /         $v struct $class $(<$($generic $(: $($bounds)+)? $(= $default)?),*>)? {
+252 | |             __superclass: $crate::__fallback_if_not_set! {
+253 | |                 ($($superclass)?)
+...   |
+261 | |             $(__generics: $crate::__macro_helpers::PhantomData<($(*mut $generic),+)>,)?
+262 | |         }
+    | |_________- doesn't satisfy `<_ as ClassType>::ThreadKind = dyn AnyThread` or `objc2_app_kit::NSWindow: AnyThread`
+    |
+    = note: the following trait bounds were not satisfied:
+            `<objc2_app_kit::NSWindow as ClassType>::ThreadKind = dyn AnyThread`
+            which is required by `objc2_app_kit::NSWindow: AnyThread`
+            `<&objc2_app_kit::NSWindow as ClassType>::ThreadKind = dyn AnyThread`
+            which is required by `&objc2_app_kit::NSWindow: AnyThread`
+            `&objc2_app_kit::NSWindow: ClassType`
+            which is required by `&objc2_app_kit::NSWindow: AnyThread`
+            `<&mut objc2_app_kit::NSWindow as ClassType>::ThreadKind = dyn AnyThread`
+            which is required by `&mut objc2_app_kit::NSWindow: AnyThread`
+            `&mut objc2_app_kit::NSWindow: ClassType`
+            which is required by `&mut objc2_app_kit::NSWindow: AnyThread`
+    = help: items from traits can only be used if the trait is in scope
+help: trait `MainThreadOnly` which provides `alloc` is implemented but not in scope; perhaps you want to import it
+    |
+  3 + use objc2::MainThreadOnly;
+    |
+
+error[E0061]: this method takes 1 argument but 0 arguments were supplied
+   --> tests/../src/../tests/appkit_lifecycle_cases.rs:268:37
+    |
+268 |                     assert!(service.delegate().is_none(), "Selected service still holds its native delegate");
+    |                                     ^^^^^^^^-- argument #1 of type `objc2::MainThreadMarker` is missing
+    |
+note: method defined here
+   --> /root/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/objc2-app-kit-0.3.2/src/generated/NSSharingService.rs:154:16
+    |
+154 |         pub fn delegate(
+    |                ^^^^^^^^
+help: provide the argument
+    |
+268 |                     assert!(service.delegate(/* objc2::MainThreadMarker */).is_none(), "Selected service still holds its native delegate");
+    |                                              +++++++++++++++++++++++++++++
+
+Some errors have detailed explanations: E0061, E0599.
+For more information about an error, try `rustc --explain E0061`.
+warning: `calf-share-native` (test "appkit_lifecycle") generated 1 warning
+error: could not compile `calf-share-native` (test "appkit_lifecycle") due to 2 previous errors; 1 warning emitted

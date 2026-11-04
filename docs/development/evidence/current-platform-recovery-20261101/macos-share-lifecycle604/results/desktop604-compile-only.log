@@ -1,0 +1,24 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+e: file://$PRIVATE_REVIEW/classpath604.init.gradle.kts:26:24: Type mismatch: inferred type is 'String!', but 'List<Map<String, Comparable<*> & Serializable>>' was expected.
+
+FAILURE: Build failed with an exception.
+
+* Where:
+Initialization script '$PRIVATE_REVIEW/classpath604.init.gradle.kts' line: 26
+
+* What went wrong:
+Script compilation error:
+
+  Line 26:             val rows = libraries.files.sortedBy { it.absolutePath }.map { file ->
+                                  ^ Type mismatch: inferred type is 'String!', but 'List<Map<String, Comparable<*> & Serializable>>' was expected.
+
+1 error
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 10s

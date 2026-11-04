@@ -15,6 +15,12 @@ use std::ffi::c_void;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::{Arc, OnceLock};
 
+// The explicit harness runs on the process Main thread; ordinary Rust #[test] workers do not.
+// No test helper or callback input is included in the shipped cdylib.
+#[cfg(all(test, feature = "appkit-lifecycle-tests"))]
+#[path = "../tests/appkit_lifecycle/cases.rs"]
+pub(crate) mod lifecycle_tests;
+
 struct UiOperation {
     picker: Retained<NSSharingServicePicker>,
     delegate: Retained<AnyObject>,

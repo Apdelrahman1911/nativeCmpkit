@@ -10,6 +10,16 @@ repository = "https://github.com/Apdelrahman1911/nativeCmpkit"
 [lib]
 crate-type = ["cdylib"]
 
+[features]
+# Native lifecycle verification is explicit and never part of a release build by default.
+appkit-lifecycle-tests = []
+
+[[test]]
+name = "appkit_lifecycle"
+path = "tests/appkit_lifecycle_main.rs"
+harness = false
+required-features = ["appkit-lifecycle-tests"]
+
 [dependencies]
 jni = "0.21"
 

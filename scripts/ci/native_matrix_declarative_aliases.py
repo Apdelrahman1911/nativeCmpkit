@@ -1,9 +1,10 @@
 # SPDX-License-Identifier: Apache-2.0
-"""Read two finite matrix aliases without importing native controllers.
+"""Read finite matrix aliases without importing native controllers.
 
 This is an offline source-fixture reader, not a workflow/native test selector.
-Only the literal PROFILE/MODULE/FOCUS declarations of the two known helpers may
-be used. Unknown aliases, expressions, imports and duplicate declarations fail.
+Two original helpers use literal PROFILE/MODULE/FOCUS declarations. The sole new
+Share recovery helper uses two exact, source-backed one-hop forwards plus its
+literal MODULE. Unknown aliases, expressions, imports and duplicates fail.
 """
 from __future__ import annotations
 
@@ -26,7 +27,73 @@ _DECLARATIONS = {
          "FOCUS": "macos-share-coroutine-lifecycle"},
     ),
 }
+_FORWARDED_DECLARATIONS = {
+    "share_missing": (
+        "macos_share_missing_ci",
+        {"PROFILE": "macos-share-missing-lifecycle", "MODULE": "calf-share",
+         "FOCUS": "macos-share-timeout-retention-recovery"},
+        "recovery", "macos_share_missing_only",
+        {"PROFILE": "JNI_PROFILE", "FOCUS": "JNI_FOCUS"},
+    ),
+}
 MAX_DECLARATION_BYTES = 131072
+
+
+def _exact_import(tree: ast.Module, alias: str, module: str) -> None:
+    imports = [item for node in tree.body if isinstance(node, ast.Import)
+               for item in node.names if item.asname == alias or item.name == alias]
+    if (len(imports) != 1 or imports[0].name != module or imports[0].asname != alias or
+            any(isinstance(node, ast.ImportFrom) and any(item.asname == alias or item.name == alias
+                for item in node.names) for node in tree.body)):
+        raise AssertionError("An exact known declarative matrix import is required: " + alias)
+    if any(isinstance(node, (ast.Name, ast.Attribute)) and isinstance(node.ctx, ast.Store) and
+           (node.id if isinstance(node, ast.Name) else ast.unparse(node)).split(".")[0] == alias
+           for node in ast.walk(tree)):
+        raise AssertionError("Matrix aliases must not be reassigned or mutated")
+
+
+def _bounded_tree(module: str, read_source) -> ast.Module:
+    source = read_source("scripts/ci/" + module + ".py")
+    if not isinstance(source, str) or not source or len(source.encode("utf-8")) > MAX_DECLARATION_BYTES:
+        raise AssertionError("A bounded declarative helper source is required")
+    return ast.parse(source)
+
+
+def _single_value(tree: ast.Module, name: str) -> ast.expr:
+    declarations = [node for node in tree.body if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign))
+                    and any(isinstance(target, ast.Name) and target.id == name
+                        for target in (node.targets if isinstance(node, ast.Assign) else [node.target]))]
+    if len(declarations) != 1 or not isinstance(declarations[0], ast.Assign) or len(declarations[0].targets) != 1:
+        raise AssertionError("One exact native matrix declaration is required: " + name)
+    return declarations[0].value
+
+
+def _forwarded_aliases(matrix_tree: ast.Module, read_source) -> dict[str, SimpleNamespace]:
+    result = {}
+    for alias, (module, expected, upstream_alias, upstream_module, forwards) in _FORWARDED_DECLARATIONS.items():
+        requested = any(isinstance(node, ast.Name) and node.id == alias or
+                        isinstance(node, (ast.Import, ast.ImportFrom)) and
+                        any(item.asname == alias or item.name == alias for item in node.names)
+                        for node in ast.walk(matrix_tree))
+        if not requested:
+            continue  # Older source fixtures have no new alias or new helper dependency.
+        _exact_import(matrix_tree, alias, module)
+        helper = _bounded_tree(module, read_source)
+        _exact_import(helper, upstream_alias, upstream_module)
+        upstream = _bounded_tree(upstream_module, read_source)
+        values = {}
+        for name, expected_value in expected.items():
+            value = _single_value(helper, name)
+            if name in forwards:
+                if (not isinstance(value, ast.Attribute) or not isinstance(value.value, ast.Name) or
+                        value.value.id != upstream_alias or value.attr != forwards[name]):
+                    raise AssertionError("Only one exact source-backed native declaration hop is allowed")
+                value = _single_value(upstream, forwards[name])
+            if not isinstance(value, ast.Constant) or type(value.value) is not str or value.value != expected_value:
+                raise AssertionError("One exact literal native matrix declaration is required: " + alias + "." + name)
+            values[name] = value.value
+        result[alias] = SimpleNamespace(**values)
+    return result
 
 
 def native_aliases(matrix_tree: ast.Module, read_source) -> dict[str, SimpleNamespace]:
@@ -61,6 +128,7 @@ def native_aliases(matrix_tree: ast.Module, read_source) -> dict[str, SimpleName
                 raise AssertionError("One exact literal native matrix declaration is required: " + alias + "." + name)
             values[name] = declarations[0].value.value
         aliases[alias] = SimpleNamespace(**values)
+    aliases.update(_forwarded_aliases(matrix_tree, read_source))
     return aliases
 
 
@@ -68,12 +136,13 @@ def literal_metadata(node: ast.AST, aliases: dict[str, SimpleNamespace]):
     """Literal-only AST evaluation with an explicit, finite attribute allowance."""
     class Resolve(ast.NodeTransformer):
         def visit_Attribute(self, attribute):
+            declarations = {**_DECLARATIONS, **_FORWARDED_DECLARATIONS}
             if (not isinstance(attribute.value, ast.Name) or
-                    attribute.value.id not in _DECLARATIONS or
-                    attribute.attr not in _DECLARATIONS[attribute.value.id][1] or
+                    attribute.value.id not in declarations or
+                    attribute.attr not in declarations[attribute.value.id][1] or
                     attribute.value.id not in aliases):
                 raise AssertionError("Unknown declarative matrix alias or attribute")
-            expected = _DECLARATIONS[attribute.value.id][1][attribute.attr]
+            expected = declarations[attribute.value.id][1][attribute.attr]
             value = getattr(aliases[attribute.value.id], attribute.attr, None)
             if type(value) is not str or value != expected:
                 raise AssertionError("Unqualified declarative matrix alias metadata")

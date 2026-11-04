@@ -3,6 +3,7 @@
 """NEW bounded socket/protocol controls. These are never native WebView executions."""
 import contextlib
 import copy
+import errno
 import hashlib
 import http.client
 import importlib.util
@@ -23,6 +24,14 @@ spec.loader.exec_module(fixture_module)
 Fixture = fixture_module.OwnedContentPolicyFixture
 Refusal = fixture_module.FixtureRefusal
 PID = 612
+
+
+def assert_owned_peer_closed(case, peer):
+    """Only EOF or this platform's exact connection-reset closure shape is valid."""
+    try:
+        case.assertEqual(b"", peer.recv(1))
+    except ConnectionResetError as failure:
+        case.assertEqual(errno.ECONNRESET, failure.errno)
 
 
 def round_trip(url, method="GET", body=None, headers=None):
@@ -280,25 +289,25 @@ class WebViewContentPolicyFixtureTest(unittest.TestCase):
 
     def test_cleanup_closes_only_own_listeners_and_partial_socket_leases(self):
         foreign = socket.socket()
-        foreign.bind(("127.0.0.1", 0))
-        foreign.listen(1)
-        fixture = Fixture(methods=("restore",))
-        peer = socket.create_connection(("127.0.0.1", fixture.port(0)), timeout=4)
-        peer.sendall(b"GET /incomplete")
-        deadline = time.monotonic() + 2
-        while fixture.receipt()["owned_sockets"] != 1 and time.monotonic() < deadline:
-            time.sleep(0.005)
         try:
-            fixture.close()
-            fixture.close()  # idempotent only after actual own cleanup
-            self.assertTrue(fixture.receipt()["closed"])
-            self.assertEqual(0, fixture.receipt()["owned_sockets"])
-            self.assertTrue(all(listener.fileno() == -1 for listener in fixture._listeners))
-            self.assertTrue(all(not thread.is_alive() for thread in fixture._threads))
-            self.assertNotEqual(-1, foreign.fileno())
-            self.assertEqual(b"", peer.recv(1))
+            foreign.bind(("127.0.0.1", 0))
+            foreign.listen(1)
+            with Fixture(methods=("restore",)) as fixture:
+                with socket.create_connection(("127.0.0.1", fixture.port(0)), timeout=4) as peer:
+                    peer.sendall(b"GET /incomplete")
+                    deadline = time.monotonic() + 2
+                    while fixture.receipt()["owned_sockets"] != 1 and time.monotonic() < deadline:
+                        time.sleep(0.005)
+                    self.assertEqual(1, fixture.receipt()["owned_sockets"], "The partial socket must actually be owned")
+                    fixture.close()
+                    fixture.close()  # idempotent only after actual own cleanup
+                    self.assertTrue(fixture.receipt()["closed"])
+                    self.assertEqual(0, fixture.receipt()["owned_sockets"])
+                    self.assertTrue(all(listener.fileno() == -1 for listener in fixture._listeners))
+                    self.assertTrue(all(not thread.is_alive() for thread in fixture._threads))
+                    self.assertNotEqual(-1, foreign.fileno())
+                    assert_owned_peer_closed(self, peer)
         finally:
-            peer.close()
             foreign.close()
 
     def test_first_cleanup_error_retains_failure_but_later_listener_and_workers_still_close(self):

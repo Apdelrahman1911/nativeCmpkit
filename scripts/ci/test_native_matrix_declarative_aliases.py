@@ -10,8 +10,10 @@ import native_matrix_declarative_aliases as reader
 
 ROOT = Path(__file__).resolve().parents[2]
 MATRIX = (ROOT / "scripts/ci/workflow_matrix.py").read_text(encoding="utf-8")
+SOURCE_MODULES = tuple(module for module, _ in reader._DECLARATIONS.values()) + (
+    "macos_share_missing_ci", "macos_share_missing_only")
 SOURCES = {"scripts/ci/" + module + ".py": (ROOT / ("scripts/ci/" + module + ".py")).read_text(encoding="utf-8")
-           for module, _ in reader._DECLARATIONS.values()}
+           for module in SOURCE_MODULES}
 
 
 def aliases(matrix=MATRIX, sources=SOURCES):

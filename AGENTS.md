@@ -1,5 +1,27 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## UI owning fixture recovered; WebView compilers accepted — 2026-11-04
+
+[636/638/640](docs/development/evidence/current-platform-recovery-20261101/ui-ci636-recovery640-webview638/README.md)
+preserves41781230007 FAILED before native: CI2998/2997pass/one obsolete profile
+adjacency failure/237.203s, no Gradle/XML/artifacts. Only owning fixture changes;
+NEW2+onlyfailed1 pass3/3 once0.017s/1,408held, independent606 accepted without
+replay. Literal/unique required choices/native assertions stay strict. Next only
+genuine26+10; pre26four separate; applicable UI635 compiler reused, not rebuilt.
+Actual WebView Desktop/JS/Wasm test compilers at9004ac53 execute0/73.01s/
+wrapper73.342s/1,408held/clean tree. Two pre-spawn memory refusals stay ZERO Gradle;
+warnings stay, ZERO new tests/browser/native/Apple. Android waits exact JUnit
+Filter5/iOS macOS cinterop;#66/#73open. Calendar accepted5 docs integrate68a17695;
+#22/#110open, no accepted native replay. Image633 FAILED/zero native/profile/
+unknown-10814/whole-session gate failed; sidecar compatibility separately owned.
+Both prior hosted reservations freed at original readback; read capacity fresh
+before dispatch. Retained103closed/69open/172 and22implemented/36partial/101verified/
+five unresolved, ZERO closure/publication. Disjoint parallel patches/lead-only
+Git/integration/dispatch/acceptance/closure, serial local8GiB/max2combinedhosted
+INCLUDINGqueued/reserved/read-only Actions/all/no mandatory SHA pinning and every
+publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/security/
+readiness gate remain unchanged. Earlier checkpoints retain their dated scope.
+
 ## Genuine UI union compiled; Calendar originals accepted — 2026-11-04
 
 [Owning635](docs/development/evidence/current-platform-recovery-20261101/ui-native-wiring-compiler635/README.md)

@@ -1,0 +1,197 @@
+{"command": ["./gradlew", "--offline", "--continue", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m", ":calf-webview:compileTestKotlinDesktop", ":calf-webview:compileTestKotlinJs", ":calf-webview:compileTestKotlinWasmJs"], "cwd": "<checkout>", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-11-04T06:04:33.043429+00:00", "free_bytes_before": 36304859136}
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.7.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Type-safe project accessors is an incubating feature.
+> Task :convention-plugins:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :convention-plugins:generateExternalPluginSpecBuilders UP-TO-DATE
+> Task :convention-plugins:extractPrecompiledScriptPluginPlugins UP-TO-DATE
+> Task :convention-plugins:compilePluginsBlocks UP-TO-DATE
+> Task :convention-plugins:generatePrecompiledScriptPluginAccessors UP-TO-DATE
+> Task :convention-plugins:generateScriptPluginAdapters UP-TO-DATE
+> Task :convention-plugins:compileKotlin UP-TO-DATE
+> Task :convention-plugins:compileJava NO-SOURCE
+> Task :convention-plugins:pluginDescriptors UP-TO-DATE
+> Task :convention-plugins:processResources UP-TO-DATE
+> Task :convention-plugins:classes UP-TO-DATE
+> Task :convention-plugins:jar UP-TO-DATE
+
+> Configure project :calf-camera-picker
+w: ⚠️ Native task 'iosSimulatorArm64Test' is disabled
+Task 'iosSimulatorArm64Test' for target 'ios_simulator_arm64' cannot run on the current host (linux-x86_64).
+Reason: simulator tests require macOS
+Solution: To suppress this warning, add 'kotlin.native.ignoreDisabledTargets=true' to gradle.properties.
+
+
+> Configure project :calf-webview
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Cross Compilation with Cinterop Not Supported in Project 'calf-webview'
+In project 'calf-webview', cross compilation to target 'iosSimulatorArm64' has been disabled because it contains cinterops: 'nskeyvalueobserving' which cannot be processed on host 'linux_x64'.
+Cinterop libraries require platform-specific native toolchains that aren't available on the current host system.
+Solutions:
+ * Remove the cinterop dependencies 'nskeyvalueobserving' from target 'iosSimulatorArm64'
+ * Build on a compatible host platform for this target/cinterop combination
+ * To disable klib cross compilation entirely, add 'kotlin.native.enableKlibsCrossCompilation=false' to your Gradle properties
+
+w: ⚠️ Disabled Kotlin/Native Targets
+The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64
+Solution: To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+
+> Task :calf-webview:checkDesktopTestComposeLibrariesCompatibility
+> Task :calf-webview:kmpPartiallyResolvedDependenciesChecker
+> Task :calf-webview:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :calf-webview:checkDesktopMainComposeLibrariesCompatibility
+> Task :calf-webview:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForDesktopMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForNonAndroidMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForDesktopMain SKIPPED
+> Task :calf-webview:generateComposeResClass SKIPPED
+> Task :calf-webview:generateExpectResourceCollectorsForCommonMain SKIPPED
+> Task :calf-webview:compileKotlinDesktop UP-TO-DATE
+> Task :calf-webview:compileDesktopMainJava NO-SOURCE
+> Task :calf-webview:assembleDesktopMainResources UP-TO-DATE
+> Task :calf-webview:desktopProcessResources UP-TO-DATE
+> Task :calf-webview:processDesktopMainResources SKIPPED
+> Task :calf-webview:desktopMainClasses UP-TO-DATE
+> Task :calf-webview:prepareEmbeddedPublicationNotices
+> Task :calf-webview:desktopJar
+> Task :calf-webview:convertXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForCommonTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForCommonTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForCommonTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForDesktopTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForDesktopTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForDesktopTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForMaterialTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForMaterialTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForMaterialTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForNonAndroidTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForNonAndroidTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForNonAndroidTest SKIPPED
+> Task :calf-webview:compileTestKotlinDesktop
+> Task :calf-webview:checkJsTestComposeLibrariesCompatibility
+> Task :calf-webview:checkJsMainComposeLibrariesCompatibility
+> Task :calf-webview:convertXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForJsMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForJsMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForJsMain SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForWebMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForWebMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForWebMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForJsMain SKIPPED
+
+> Task :calf-webview:compileKotlinJs
+w: file://<checkout>/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt:97:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/jsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.js.kt:16:5 'fun <T : HTMLElement> WebElementView(factory: () -> T, modifier: Modifier = ..., update: (T) -> Unit = ..., onRelease: (T) -> Unit = ..., onReset: ((T) -> Unit)? = ...): Unit' is deprecated. Use HtmlElementView instead.
+w: file://<checkout>/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt:9:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt:197:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-webview:convertXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForJsTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForJsTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForJsTest SKIPPED
+> Task :calf-webview:convertXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForWebTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForWebTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForWebTest SKIPPED
+> Task :calf-webview:jsResolveResourcesFromDependencies
+> Task :calf-webview:assembleJsMainResources
+> Task :calf-webview:jsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-webview:jsAggregateResources
+> Task :calf-webview:unpackSkikoWasmRuntime
+> Task :calf-webview:jsProcessResources UP-TO-DATE
+> Task :calf-webview:jsMainClasses
+
+> Task :calf-webview:compileTestKotlinJs
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt:82:34 Elvis operator (?:) always returns the left operand of non-nullable type 'Window'.
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt:3:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+
+> Task :calf-webview:checkWasmJsTestComposeLibrariesCompatibility
+> Task :calf-webview:checkWasmJsMainComposeLibrariesCompatibility
+> Task :calf-webview:convertXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForWasmJsMain NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForWasmJsMain NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForWasmJsMain SKIPPED
+> Task :calf-webview:generateActualResourceCollectorsForWasmJsMain SKIPPED
+
+> Task :calf-webview:compileKotlinWasmJs
+w: file://<checkout>/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.kt:17:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/commonMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.kt:97:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/wasmJsMain/kotlin/com.mohamedrejeb.calf/ui/web/WebElementView.wasmJs.kt:16:5 'fun <T : HTMLElement> WebElementView(factory: () -> T, modifier: Modifier = ..., update: (T) -> Unit = ..., onRelease: (T) -> Unit = ..., onReset: ((T) -> Unit)? = ...): Unit' is deprecated. Use HtmlElementView instead.
+w: file://<checkout>/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/CookieManager.web.kt:9:8 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file://<checkout>/calf-webview/src/webMain/kotlin/com.mohamedrejeb.calf/ui/web/WebView.web.kt:197:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes' flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+> Task :calf-webview:convertXmlValueResourcesForWasmJsTest NO-SOURCE
+> Task :calf-webview:copyNonXmlValueResourcesForWasmJsTest NO-SOURCE
+> Task :calf-webview:prepareComposeResourcesTaskForWasmJsTest NO-SOURCE
+> Task :calf-webview:generateResourceAccessorsForWasmJsTest SKIPPED
+> Task :calf-webview:wasmJsResolveResourcesFromDependencies
+> Task :calf-webview:assembleWasmJsMainResources
+> Task :calf-webview:wasmJsResolveSelfResourcesCopyHierarchicalMultiplatformResources
+> Task :calf-webview:wasmJsAggregateResources
+> Task :calf-webview:wasmJsProcessResources UP-TO-DATE
+> Task :calf-webview:wasmJsMainClasses
+
+> Task :calf-webview:compileTestKotlinWasmJs
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt:50:66 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt:87:40 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt:82:34 Elvis operator (?:) always returns the left operand of non-nullable type 'Window'.
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt:122:41 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt:240:38 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserSandboxSecurityTest.kt:358:34 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewCompositionTest.kt:173:44 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt:121:45 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt:239:70 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentAcceptanceTest.kt:269:44 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt:3:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewIdentityAcceptanceTest.kt:183:44 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt:146:25 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt:240:68 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewOfflineDestinationAcceptanceTest.kt:268:44 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt:2:36 Suppression of error 'INVISIBLE_REFERENCE' might compile and work, but the compiler behavior is UNSPECIFIED and WILL NOT BE PRESERVED. Please report your use case to the Kotlin issue tracker instead: https://kotl.in/issue
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt:240:37 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt:335:68 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewRequestAcceptanceTest.kt:361:44 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+w: file://<checkout>/calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewTest.kt:49:84 This declaration needs opt-in. Its usage should be marked with '@kotlin.js.ExperimentalWasmJsInterop' or '@OptIn(kotlin.js.ExperimentalWasmJsInterop::class)'
+
+[Incubating] Problems report is available at: file://<checkout>/build/reports/problems/problems-report.html
+
+BUILD SUCCESSFUL in 1m 12s
+37 actionable tasks: 23 executed, 14 up-to-date
+
+AUDIT_RESULT={"command": ["./gradlew", "--offline", "--continue", "--no-daemon", "--console=plain", "--no-configuration-cache", "--max-workers=1", "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8", "-Pkotlin.compiler.execution.strategy=in-process", "-Pkotlin.native.jvmArgs=-Xmx2048m", ":calf-webview:compileTestKotlinDesktop", ":calf-webview:compileTestKotlinJs", ":calf-webview:compileTestKotlinWasmJs"], "cwd": "<checkout>", "timeout_seconds": 900, "reserve_mib": 8192, "started_utc": "2026-11-04T06:04:33.043429+00:00", "free_bytes_before": 36304859136, "exit_code": 0, "elapsed_seconds": 73.01}

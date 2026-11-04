@@ -1,0 +1,38 @@
+{
+  "compiler_first_unexecuted_proposal_not_a_build_failure": true,
+  "compiler_memory_refusals": [
+    {
+      "gradle_or_native_executions": 0,
+      "no_other_process_interference": true,
+      "refusal": "less than six-GiB actual MemAvailable during other-project activity",
+      "stage": "before BEGIN/source snapshot/Gradle spawn",
+      "utc": "2026-11-04T05:50:37.974073+00:00"
+    },
+    {
+      "compiler_or_native_executions": 0,
+      "no_cache_or_other_process_mutation": true,
+      "refusal": "six-GiB available guard still failed",
+      "stage": "second resource check, before any BEGIN/source snapshot/spawn",
+      "time_ns": 1793771740629979456
+    }
+  ],
+  "image633_separate_original": {
+    "conclusion": "failure",
+    "console_exit": 1,
+    "console_seconds": 4.11,
+    "directory_inventory_available": false,
+    "gradle_exit": 1,
+    "gradle_seconds": 1742.24,
+    "head": "e593d55695b9a4b803bac72eb70e4ab009babef7",
+    "independent_review_sha256": "e3e33f3df61b9f647d70d046fa2586f9b688fe8e61deccf94b58cb74c73b5400",
+    "issue141": "open",
+    "launch_observation": "NSOSStatusErrorDomain -10814/service-delegate-denial; cause unknown",
+    "native_cases": 0,
+    "profile_record_export_leaks_operations": 0,
+    "run": 41776849543,
+    "whole_session_cleanup_accepted": false,
+    "xml": 0
+  },
+  "release_packages_publication": false,
+  "zero_gradle_executions_in_these_refusals": true
+}

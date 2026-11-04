@@ -1,0 +1,153 @@
+# Private artifact verification only. No default adoption or binary publication.
+name: NativeCmpKit JavaFX library candidate
+
+on:
+  # Historical registration trigger retained. Native jobs are manual-only below:
+  # adding another classifier must never replay the accepted Windows Stop case.
+  push:
+    branches: [development/preview-hardening]
+    paths:
+      - tests/dependency/javafx-http2-cancellation/build_runtime_candidate.py
+      - tests/dependency/javafx-http2-cancellation/library-runtime-candidate.init.gradle.kts
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Failed-only exact host (accepted Windows result is reused)
+        type: choice
+        required: true
+        default: linux-arm64
+        options: [linux-arm64, macos-arm64, macos-x64, windows]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nativecmpkit-javafx-library-candidate-${{ github.ref }}-${{ inputs.platform || 'windows' }}
+  cancel-in-progress: false
+
+jobs:
+  public-stop:
+    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/preview-hardening' && github.event_name == 'workflow_dispatch' && contains(fromJSON('["linux-arm64","macos-arm64","macos-x64","windows"]'), inputs.platform)
+    runs-on: ${{ inputs.platform == 'linux-arm64' && 'ubuntu-24.04-arm' || inputs.platform == 'macos-arm64' && 'macos-26' || inputs.platform == 'macos-x64' && 'macos-26-intel' || 'windows-2025' }}
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      GIT_CONFIG_COUNT: '2'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+      GIT_CONFIG_KEY_1: core.longpaths
+      GIT_CONFIG_VALUE_1: 'true'
+      CARGO_BUILD_JOBS: '1'
+      CANDIDATE_PLATFORM: ${{ inputs.platform }}
+      CANDIDATE_FOCUS: ${{ inputs.platform == 'linux-arm64' && 'webview-desktop-stop-linux-arm64-recovery' || (inputs.platform == 'macos-arm64' || inputs.platform == 'macos-x64') && 'webview-desktop-stop-macos-recovery' || 'webview-desktop-stop-windows-recovery' }}
+      EXPECTED_ARCH: ${{ (inputs.platform == 'linux-arm64' || inputs.platform == 'macos-arm64') && 'arm64' || 'x64' }}
+      CANDIDATE_SLOT: ${{ inputs.platform == 'linux-arm64' && 'desktop-linux-arm64' || inputs.platform == 'macos-arm64' && 'desktop-macos-arm64' || inputs.platform == 'macos-x64' && 'desktop-macos-x64' || 'desktop-windows-x64' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      # Voluntary reuse of the existing verification revision, not a SHA policy.
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961
+        with:
+          distribution: temurin
+          java-version: '17'
+          verify-signature: true
+          overwrite-settings: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: gradle/actions/wrapper-validation@v4
+        with:
+          min-wrapper-count: 1
+          allow-snapshots: false
+      - name: Linux ARM64 display and native GTK prerequisites only
+        if: inputs.platform == 'linux-arm64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y xvfb xauth libgtk-3-0 libasound2t64 libegl1 libegl-mesa0 libgl1-mesa-dri
+          ldconfig -p | grep -F 'libEGL.so.1'
+      - name: Exact Rust compiler setup (no bootstrap script)
+        run: |
+          command -v rustup
+          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'cmdline-tools;23.0 platforms;android-37.0'
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+      - name: Select official SDK23 and current held source plan
+        run: |
+          mkdir -p build/ci-runtime
+          python -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          manager = Path(os.environ['ANDROID_HOME']) / ('cmdline-tools/23.0/bin/sdkmanager.bat' if os.name == 'nt' else 'cmdline-tools/23.0/bin/sdkmanager')
+          present = manager.is_file()
+          Path('build/ci-runtime/javafx-candidate-sdk.json').write_text(
+              json.dumps({'package': 'cmdline-tools;23.0', 'manager_present': present}) + '\n')
+          if not present:
+              raise SystemExit('Official SDK23 setup is incomplete')
+          with open(os.environ['GITHUB_PATH'], 'a') as output:
+              output.write(str(manager.parent) + '\n')
+          PY
+          python -B scripts/development/validate_resolutions.py --check \
+            2>&1 | tee build/ci-runtime/javafx-candidate-index-check.log
+          python -B scripts/ci/library_tests.py plan --suite desktop --module calf-webview \
+            --focus "$CANDIDATE_FOCUS" > build/javafx-library-candidate-plan.json
+      - name: Exact configured dependency and runtime cache identity
+        id: cache-inputs
+        run: |
+          mkdir -p build/ci-runtime
+          python -B scripts/ci/runtime_context.py --expected-arch "$EXPECTED_ARCH" --require-clean \
+            --android-platform android-37.0 --output build/ci-runtime/javafx-candidate-runtime.json
+          digest="$(python -B scripts/ci/dependency_cache_inputs.py --scope libraries --selection calf-webview \
+            --output build/ci-runtime/library-dependencies.json)"
+          python -B - "$digest" <<'PY'
+          import json, os, re, sys
+          if not re.fullmatch('[0-9a-f]{64}', sys.argv[1]):
+              raise SystemExit('Invalid configured dependency digest')
+          runtime = json.load(open('build/ci-runtime/javafx-candidate-runtime.json'))
+          deps = json.load(open('build/ci-runtime/library-dependencies.json'))
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('digest=' + sys.argv[1] + '\n')
+              output.write('selection=' + deps['selection_cache_key'] + '\n')
+              output.write('runtime=' + runtime['compiler_runtime_fingerprint'] + '\n')
+          PY
+      - name: Restore only the exact established dependency cache, never test results
+        uses: actions/cache/restore@v4
+        with:
+          key: nativecmpkit-deps-v2-${{ runner.os }}-${{ runner.arch }}-${{ env.CANDIDATE_SLOT }}-desktop-${{ steps.cache-inputs.outputs.selection }}-${{ steps.cache-inputs.outputs.runtime }}-${{ steps.cache-inputs.outputs.digest }}
+          enableCrossOsArchive: false
+          path: |
+            ~/.gradle/wrapper/dists
+            ~/.gradle/caches/modules-2
+            ~/.cargo/registry/cache
+            ~/.cargo/registry/index
+            ~/.konan/dependencies
+      - name: Validate restored cache without deleting or trusting changed bytes
+        run: python -B scripts/ci/library_dependency_cache.py --phase restore --selection calf-webview
+      - name: Full-JAR candidate and only the original failed public Stop method on the selected host
+        run: |
+          python -B tests/dependency/javafx-http2-cancellation/run_library_candidate.py \
+            --platform "$CANDIDATE_PLATFORM" --download --output build/ci-verification/javafx-library-candidate
+      - name: Preserve verification receipts only (no JARs, sources packages or classes)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: javafx-library-candidate-${{ inputs.platform }}-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            build/ci-runtime/javafx-candidate-*.json
+            build/ci-runtime/javafx-candidate-*.log
+            build/ci-runtime/library-dependencies.json
+            build/ci-runtime/library-cache-restore.json
+            build/javafx-library-candidate-plan.json
+            build/ci-verification/javafx-library-candidate/*.json
+            build/ci-verification/javafx-library-candidate/gradle.log
+            build/ci-verification/javafx-library-candidate/reports/**/*.xml
+            build/ci-verification/javafx-library-candidate/runtime-candidate/*.json
+            build/ci-verification/javafx-library-candidate/runtime-candidate/*.stdout
+            build/ci-verification/javafx-library-candidate/runtime-candidate/*.stderr

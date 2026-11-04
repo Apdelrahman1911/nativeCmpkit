@@ -1,0 +1,97 @@
+{
+  "after": {
+    "bytes": 29624,
+    "sha256": "0f50efea95a5bc0ebbb2809e8fcbdbca35a637c8ba9169aa45754c956e4e905c"
+  },
+  "before": {
+    "bytes": 28842,
+    "sha256": "f865aa0ed69bccd74470983f54974417407855295906dcec7f6bf8dc3b733282"
+  },
+  "controller_helper_native_build_or_Git_execution": 0,
+  "driver_pin": {
+    "bytes": 32397,
+    "sha256": "29135be819a82ece8dd8037efc38fcdc2aa15346ce0843982d59e5bb553d6fe0"
+  },
+  "driver_workflow_doc_and12_donors_unchanged": true,
+  "exact_passing_NEW_method_unchanged": true,
+  "forward_and_inverse_exact": true,
+  "fragments": [
+    {
+      "postimage": "        expected_signatures = ast.parse('{mode: graph_signature(graphs[mode]) for mode in MODES}', mode='eval').body\n        signature_assignments = [node for node in ast.walk(run) if isinstance(node, ast.Assign)\n                                 and any(isinstance(target, ast.Name) and target.id == 'signatures' for target in node.targets)]\n        self.assertEqual(len(signature_assignments), 1)\n        signatures = signature_assignments[0]\n        self.assertEqual(ast.dump(signatures.value, include_attributes=False),\n                         ast.dump(expected_signatures, include_attributes=False))\n",
+      "preimage": "        signatures = assigned(run, 'signatures')\n",
+      "scope": "Only failed owning graph1: locate the sole nested signatures assignment and bind its exact complete DictComp structurally, without changing assigned helper"
+    },
+    {
+      "postimage": "        returned = [node for node in capture.body if isinstance(node, ast.Return)]\n        self.assertEqual(len(returned), 1)\n        expected_return = ast.parse('observed, custody', mode='eval').body\n        self.assertEqual(ast.dump(returned[0].value, include_attributes=False),\n                         ast.dump(expected_return, include_attributes=False))\n",
+      "preimage": "        self.assertEqual(ast.unparse([node for node in capture.body if isinstance(node, ast.Return)][0].value), 'observed, custody')\n",
+      "scope": "Only failed NEW raw-capture1: strict returned tuple AST equality instead of ast.unparse parenthesis spelling"
+    }
+  ],
+  "new_AST_pins": {
+    "JavafxOrdinaryMavenRouteSourceTests.setUp": "db43a74cfc90146718201a6178dc559c8f3d59ecf0d7aa2352b52b56b4595a00",
+    "JavafxOrdinaryMavenRouteSourceTests.test_accepted_public_stop_job_and_whitelist_are_unchanged": "a96c21072e972cffb86d74ad524c6498665a4926703a34ad357cfb4a2afac117",
+    "JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request": "2bb696747f0d357a11d04ff26abe74ff39697838ded167ca497dfed0c6a78149",
+    "JavafxOrdinaryMavenRouteSourceTests.test_exact_twelve_source_pins_match_authoritative_recipe": "3afb53ff4d1aa7ffbcbb09f95a74d7a715320dab4902ecb6f28743845d6f6084",
+    "JavafxOrdinaryMavenRouteSourceTests.test_exact_two_manual_development_refs_have_positive_source_admission": "83b7ae7d75ad200c9e0be0403d55559732d96a246920d7abb02f8f1ff5c61e8d",
+    "JavafxOrdinaryMavenRouteSourceTests.test_final_custody_and_material_gates_keep_missing_scope_unqualified": "487a9afe0c5483c5dd148ec37377bcf27e3e710b8d4b2fd6aa497539ad969aeb",
+    "JavafxOrdinaryMavenRouteSourceTests.test_finite_choice_reconstructs_exact_historical_workflow": "ae98ed355b211303b2305bc7d6187381ac4f9037b16df7bf4ebcae1d61084e92",
+    "JavafxOrdinaryMavenRouteSourceTests.test_main_tags_foreign_and_near_match_refs_have_no_source_admission": "e8a96b9975dbb0d1dd8cb0d0c26915dd280e9e4faf6260b3d54988287cc52607",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_each_verifier_consumes_only_held_retained_report_and_finalization_preserves_changes": "3340b22e3472961bd3bd3b90d5eeeea7f31201ec0863089e17c64330ee7e8453",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_job_is_separate_manual_windows_and_read_only": "95cdeaf7eaab8f26fdf2ff301e239e899a60e8bdb4a8acf685e193426ed9eca8",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation": "7e76ad92df510f77d78c023203fd1532df60a4cdc1cce42e19ca09b17c11cae8",
+    "JavafxOrdinaryMavenRouteSourceTests.test_ordinary_command_has_only_two_tasks_without_runtime_fallback": "8ccb0584a25766c50617e8ffee787f2a6d4d4133d8f9b173b9f9db894de5de3a",
+    "JavafxOrdinaryMavenRouteSourceTests.test_original_failed_xml_is_captured_before_native_acceptance": "30b45c0d72a10e93be516bf8898fbf4df2a7cdd6292c527b2797dbaeb80c8818",
+    "assigned": "6f1ae5e6008b6a02f574a1b93ea40abad6a9e50449743b1476cec57593589833",
+    "call_name": "73e58a197d2186c9c598d9cb2d31666fc22f38e4d3e89ad1aaca45961babb6c8",
+    "calls": "c58bdebdb9b211bc32f2f0c616538748c81a6f82eb9656253e153247a8837e20",
+    "literal": "8162b6a6be14995b3a58de5767f81c1a9a01a5a5e475f10018c4f6ceb2f808ca",
+    "passive_text": "0e6724f444c36d9b6ac10072b6e7446d99349fefa1e798f4d58c2d9679a913bc",
+    "strings": "343648f00df0f8b87030a1422d73095b7b41385b70d3568cdc451d6702612fd9"
+  },
+  "old_AST_pins": {
+    "JavafxOrdinaryMavenRouteSourceTests.setUp": "db43a74cfc90146718201a6178dc559c8f3d59ecf0d7aa2352b52b56b4595a00",
+    "JavafxOrdinaryMavenRouteSourceTests.test_accepted_public_stop_job_and_whitelist_are_unchanged": "a96c21072e972cffb86d74ad524c6498665a4926703a34ad357cfb4a2afac117",
+    "JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request": "22393e4a2496a4705b8c8d6222c0f923cad28b1598721561881415bf402a3463",
+    "JavafxOrdinaryMavenRouteSourceTests.test_exact_twelve_source_pins_match_authoritative_recipe": "3afb53ff4d1aa7ffbcbb09f95a74d7a715320dab4902ecb6f28743845d6f6084",
+    "JavafxOrdinaryMavenRouteSourceTests.test_exact_two_manual_development_refs_have_positive_source_admission": "83b7ae7d75ad200c9e0be0403d55559732d96a246920d7abb02f8f1ff5c61e8d",
+    "JavafxOrdinaryMavenRouteSourceTests.test_final_custody_and_material_gates_keep_missing_scope_unqualified": "487a9afe0c5483c5dd148ec37377bcf27e3e710b8d4b2fd6aa497539ad969aeb",
+    "JavafxOrdinaryMavenRouteSourceTests.test_finite_choice_reconstructs_exact_historical_workflow": "ae98ed355b211303b2305bc7d6187381ac4f9037b16df7bf4ebcae1d61084e92",
+    "JavafxOrdinaryMavenRouteSourceTests.test_main_tags_foreign_and_near_match_refs_have_no_source_admission": "e8a96b9975dbb0d1dd8cb0d0c26915dd280e9e4faf6260b3d54988287cc52607",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_each_verifier_consumes_only_held_retained_report_and_finalization_preserves_changes": "3340b22e3472961bd3bd3b90d5eeeea7f31201ec0863089e17c64330ee7e8453",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_job_is_separate_manual_windows_and_read_only": "95cdeaf7eaab8f26fdf2ff301e239e899a60e8bdb4a8acf685e193426ed9eca8",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation": "60a1189f6f23b7b8c7fbceaa2dcd349aa38e5f9e7ed6c7cd47c3cebc07085f17",
+    "JavafxOrdinaryMavenRouteSourceTests.test_ordinary_command_has_only_two_tasks_without_runtime_fallback": "8ccb0584a25766c50617e8ffee787f2a6d4d4133d8f9b173b9f9db894de5de3a",
+    "JavafxOrdinaryMavenRouteSourceTests.test_original_failed_xml_is_captured_before_native_acceptance": "30b45c0d72a10e93be516bf8898fbf4df2a7cdd6292c527b2797dbaeb80c8818",
+    "assigned": "6f1ae5e6008b6a02f574a1b93ea40abad6a9e50449743b1476cec57593589833",
+    "call_name": "73e58a197d2186c9c598d9cb2d31666fc22f38e4d3e89ad1aaca45961babb6c8",
+    "calls": "c58bdebdb9b211bc32f2f0c616538748c81a6f82eb9656253e153247a8837e20",
+    "literal": "8162b6a6be14995b3a58de5767f81c1a9a01a5a5e475f10018c4f6ceb2f808ca",
+    "passive_text": "0e6724f444c36d9b6ac10072b6e7446d99349fefa1e798f4d58c2d9679a913bc",
+    "strings": "343648f00df0f8b87030a1422d73095b7b41385b70d3568cdc451d6702612fd9"
+  },
+  "only_changed_AST_methods": [
+    "JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation"
+  ],
+  "only_selected_methods": [
+    "JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request",
+    "JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation"
+  ],
+  "original_other9_and_all_helpers_unchanged": true,
+  "original_source3_result": {
+    "bytes": 3127,
+    "path": "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/CHANGED1-NEW2-SOURCE658/result.json",
+    "sha256": "4b509328642b13fc8ae93dc91ea7f4f23427b3d210cd3cc44a288e3abd8ede3c"
+  },
+  "parent_closed_baseline_recipe": {
+    "bytes": 57253,
+    "path": "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/EXACT-REPORT-CUSTODY-CLOSED-BASELINE-CORRECTION658.json",
+    "sha256": "34090afea91d10fe1a49f1d94902142186ceafa99b11bd3b9b8876d1cdfffd38"
+  },
+  "passed": true,
+  "retained_preimage": "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/retained/test_javafx_ordinary_maven_route.before-onlyfailed2-structural-recovery658.py",
+  "schema": "nativecmpkit-javafx-report-custody-onlyfailed2-structural-source-control-recovery658-v1",
+  "scope": "Prepare only failed owning graph1+failed NEW raw-capture1 structural controls; no driver assertion weakening, passing NEW coupling1 or accepted other9/lint/Stop replay",
+  "source_control_recovery_tests_yet": 0,
+  "utc": "2026-11-04T18:56:26.077732+00:00"
+}

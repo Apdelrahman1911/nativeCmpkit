@@ -1,5 +1,29 @@
 # NativeCmpKit — persistent maintainer and agent context
 
+## Isolated ordinary Windows consumer verification prepared — 2026-11-04
+
+[658/705/715](docs/development/evidence/current-platform-recovery-20261101/windows-ordinary-consumer658-715/README.md)
+adopts sixteen exact sources/244940 bytes on `development/javafx-ordinary-consumer1`
+only: one workflow derivative retains0644 and fifteen additions explicitly0644.
+Independent705 final source/results receipt7e6fb477 qualifies exclusive retained
+report bytes, graph/verifier byte bindings and closed-file identity baselines.
+Original FIRST10 remains9pass/1fail; failed/changed2 passes2/2 separately. Original
+report-custody3 remains1pass/1error/1fail; onlyfailed2 passes2/2 once/0.046s suite/
+0.165125s wrapper,61 finite inputs/17 absences. Accepted controls/lint/private
+Windows Stop are reused, not replayed.170 byte-identical evidence files retain
+originals, inverses, refusals and reviewer acceptance; ZERO compiler/native/consumer.
+Lead prewrite confirms clean base086/treecabac and exact workflow/15 absences;
+ROOT714 source endpoints held and no ROOT integration. Sparse local prerequisite
+absences are not missing committed sources or runtime qualification. #64 remains
+open;103closed/69open/172 and all whole-issue/security/readiness gates unchanged.
+Next applicable compiler/complete successful ROOT producer and same-HEAD Camera/
+Android cohort, then exact manual `windows-ordinary-consumer1` on this isolated
+branch with actual head/input readback and fresh max2combined hosted capacity.
+Lead integration/Git/dispatch/closure; serial local8GiB disk/compiler6GiB memory,
+max2INCLUDINGqueued/reserved; Actions/all/no mandatorySHA/minimumpermissions and
+every publishing/Pages/main/history/native/consumer/API–ABI/dependency/legal/
+security/release-readiness gate remain. No packages/releases/deployments published.
+
 ## Grouped CI recovery accepted and integrated — 2026-11-04
 
 [707–708](docs/development/evidence/current-platform-recovery-20261101/tooling-cookie-share707-708/README.md)

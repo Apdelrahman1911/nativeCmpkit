@@ -1,0 +1,70 @@
+{
+  "Git_queries": 0,
+  "ROOT_writes": 0,
+  "build_native_or_dispatch_executions": 0,
+  "controller": {
+    "after_sha256": "628bb308bbaabf3f4d4e35063c0253d28439746d5a4ce54846fec092ea8f0a14",
+    "before_sha256": "6683a79aa07d2f9b291811c5d029a47e2dc729c21df7552e326b3914ae733002",
+    "bytes": 28533
+  },
+  "destination": ".github/workflows/javafx-library-candidate.yml",
+  "destination_action": "Exact-predecessor derivative; lead integration only",
+  "doc": {
+    "after_sha256": "f4e7a54782f7d8b25402394b62a2140acb55669dad4218ddea7159ccf7443c20",
+    "before_sha256": "0dfa58a7ab0feabbba2c4240e4b531dec2f8a3caa80a2946fa8f47b7f7cc238c",
+    "bytes": 9934
+  },
+  "earlier_registered_derivative_postimage_retained_path": "retained/javafx-library-candidate.before-finite-refs.yml",
+  "expected_destination_mode": "0644",
+  "finite_manual_refs": [
+    "refs/heads/development/preview-hardening",
+    "refs/heads/development/javafx-ordinary-consumer1"
+  ],
+  "fragments": [
+    {
+      "kind": "replace-exact-once",
+      "postimage": "        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1]\n",
+      "preimage": "        options: [linux-arm64, macos-arm64, macos-x64, windows]\n"
+    },
+    {
+      "kind": "append-at-exact-predecessor-EOF",
+      "postimage": "  ordinary-windows-consumer1:\n    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && contains(fromJSON('[\"refs/heads/development/preview-hardening\",\"refs/heads/development/javafx-ordinary-consumer1\"]'), github.ref) && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-ordinary-consumer1'\n    runs-on: windows-2025\n    timeout-minutes: 120\n    defaults:\n      run:\n        shell: bash\n    env:\n      GIT_CONFIG_COUNT: '2'\n      GIT_CONFIG_KEY_0: core.autocrlf\n      GIT_CONFIG_VALUE_0: 'false'\n      GIT_CONFIG_KEY_1: core.longpaths\n      GIT_CONFIG_VALUE_1: 'true'\n      CARGO_BUILD_JOBS: '1'\n      NATIVECMPKIT_ORDINARY_PLATFORM: ${{ inputs.platform }}\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          persist-credentials: false\n      # Action references are allowed; no mandatory SHA pinning policy.\n      - uses: actions/setup-java@v4\n        with:\n          distribution: temurin\n          java-version: '17'\n          verify-signature: true\n          overwrite-settings: false\n      - uses: actions/setup-python@v5\n        with:\n          python-version: '3.12'\n      - uses: gradle/actions/wrapper-validation@v4\n        with:\n          min-wrapper-count: 1\n          allow-snapshots: false\n      - name: Exact existing Rust compiler, no bootstrap or dependency refresh\n        run: |\n          command -v rustup\n          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy\n      - uses: android-actions/setup-android@v3\n        with:\n          packages: 'cmdline-tools;23.0 platforms;android-37.0'\n          accept-android-sdk-licenses: true\n          log-accepted-android-sdk-licenses: false\n      - name: Qualify SDK23 and current generated source index, not old native tests\n        run: |\n          set -euo pipefail\n          python -B - <<'PY'\n          import os\n          from pathlib import Path\n          manager = Path(os.environ['ANDROID_HOME']) / 'cmdline-tools/23.0/bin/sdkmanager.bat'\n          if not manager.is_file():\n              raise SystemExit('Official SDK23 setup is incomplete')\n          with open(os.environ['GITHUB_PATH'], 'a') as output:\n              output.write(str(manager.parent) + '\\n')\n          PY\n          python -B scripts/development/validate_resolutions.py --check\n      - name: Actual private ordinary module and POM graphs, then only NEW Windows consumer1\n        run: |\n          set -euo pipefail\n          python -B scripts/ci/javafx_ordinary_maven_consumer.py --timeout 6600\n      - name: Preserve verification receipts and exact NEW XML, never staged packages or full terminal logs\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: javafx-ordinary-windows-consumer1-${{ github.run_id }}-${{ github.run_attempt }}\n          if-no-files-found: error\n          retention-days: 14\n          path: |\n            build/ci-verification/javafx-ordinary-windows/*.json\n            build/ci-verification/javafx-ordinary-windows/module/*.json\n            build/ci-verification/javafx-ordinary-windows/pom/*.json\n            build/ci-verification/javafx-ordinary-windows/native/*.json\n            build/ci-verification/javafx-ordinary-windows/native/junit/TEST-*.xml\n            build/ci-verification/javafx-ordinary-windows/runtime-candidate/*.json\n",
+      "preimage": ""
+    }
+  ],
+  "isolated_lead_source_branch_may_follow_frozen_CI707_HEAD_without_mutating_cohort_HEAD": true,
+  "new_finite_input_job_adopted_or_dispatch_HEAD_verified": false,
+  "new_job_sha256": "b2c2eb896f0f21b6a12edd8ddb296b2c3c967450c69e8f5bce09b031afbddf18",
+  "old_public_stop_job_sha256": "b52eb257b7c5dc8cc65152c901303afa613a90a78e4c07a3e54a3cd5bd716675",
+  "old_public_stop_job_whitelist_push_permissions_concurrency_and_all_other_old_bytes_unchanged": true,
+  "postimage": {
+    "bytes": 11637,
+    "sha256": "d1aef6e7372b0dd1be9338a44a280266c61997e00fb0921c1c4b9903af807363",
+    "source_path": "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-current2ee707-route658/proposed/.github/workflows/javafx-library-candidate.yml"
+  },
+  "preimage": {
+    "bytes": 8268,
+    "retained_path": "retained/javafx-library-candidate.preimage.yml",
+    "sha256": "4e3bec6b1ae93414ad1e663d232d2d264ab191908fb9493ff0f787c0278df5e8"
+  },
+  "registered_existing_workflow_observation": {
+    "name": "NativeCmpKit Windows JavaFX library candidate",
+    "returned_active_workflows": 4,
+    "reused_not_reacquired": true,
+    "sha256": "6bd756c3fc5491bd9544470bc31336f05ac50d0fd5436ee46bbf8ccfbf94a020",
+    "source_path": "/root/nativecmpkit-source-proposals-20261104/lead-workflow-registration-20261104/WORKFLOW-REGISTRATION.json",
+    "state": "active",
+    "workflow_id": 404301928
+  },
+  "schema": "nativecmpkit-javafx-registered-file-two-exact-manual-refs658-v1",
+  "scope": "Canonical external derivative after lead two-ref amendment, source-only/not adoption or native/dispatch",
+  "source_controls": {
+    "NEW_methods": 10,
+    "after_sha256": "08ff18873b84f8d78a28c689d3cf2466583add6baba3235d98542d6f43a125f4",
+    "before_sha256": "86900fdac65295f8b3c3112daf4f9035bca7ffcd7a9699f1e265dadc53b02d2f",
+    "bytes": 19980,
+    "executions_yet": 0
+  },
+  "target_imports": 0,
+  "utc": "2026-11-04T17:57:16.627940+00:00"
+}

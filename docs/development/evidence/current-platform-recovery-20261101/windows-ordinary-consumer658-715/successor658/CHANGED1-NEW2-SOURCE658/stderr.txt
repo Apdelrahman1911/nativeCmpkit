@@ -1,0 +1,31 @@
+test_both_complete_graphs_bind_before_single_new_native_request (__main__.JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request) ... ERROR
+test_new_each_verifier_consumes_only_held_retained_report_and_finalization_preserves_changes (__main__.JavafxOrdinaryMavenRouteSourceTests.test_new_each_verifier_consumes_only_held_retained_report_and_finalization_preserves_changes) ... ok
+test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation (__main__.JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation) ... FAIL
+
+======================================================================
+ERROR: test_both_complete_graphs_bind_before_single_new_native_request (__main__.JavafxOrdinaryMavenRouteSourceTests.test_both_complete_graphs_bind_before_single_new_native_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/proposed/scripts/ci/test_javafx_ordinary_maven_route.py", line 245, in test_both_complete_graphs_bind_before_single_new_native_request
+    signatures = assigned(run, 'signatures')
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/proposed/scripts/ci/test_javafx_ordinary_maven_route.py", line 49, in assigned
+    raise ValueError('One exact named source assignment required')
+ValueError: One exact named source assignment required
+
+======================================================================
+FAIL: test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation (__main__.JavafxOrdinaryMavenRouteSourceTests.test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-report-custody-successor658/proposed/scripts/ci/test_javafx_ordinary_maven_route.py", line 352, in test_new_retained_resolution_uses_one_raw_payload_for_exclusive_report_and_strict_observation
+    self.assertEqual(ast.unparse([node for node in capture.body if isinstance(node, ast.Return)][0].value), 'observed, custody')
+AssertionError: '(observed, custody)' != 'observed, custody'
+- (observed, custody)
+? -                 -
++ observed, custody
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.059s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,66 @@
+{
+  "Git_queries": 0,
+  "ROOT_writes": 0,
+  "controller_draft_derivative": {
+    "after_sha256": "6683a79aa07d2f9b291811c5d029a47e2dc729c21df7552e326b3914ae733002",
+    "before_sha256": "99fd6103f7a4743b430b41cfa9fb0ad5e7d1a7eac5102642a20571be1124e130",
+    "changes": [
+      "Existing workflow pathname only",
+      "Reuse one passive production-resolution receipt predicate before and after native",
+      "Confined fresh module-mode post-native graph and independent production pin binding"
+    ]
+  },
+  "destination": ".github/workflows/javafx-library-candidate.yml",
+  "destination_action": "Exact-predecessor derivative; lead integration only",
+  "expected_destination_mode": "0644",
+  "fragments": [
+    {
+      "kind": "replace-exact-once",
+      "postimage": "        options: [linux-arm64, macos-arm64, macos-x64, windows, windows-ordinary-consumer1]\n",
+      "preimage": "        options: [linux-arm64, macos-arm64, macos-x64, windows]\n"
+    },
+    {
+      "kind": "append-at-exact-predecessor-EOF",
+      "postimage": "  ordinary-windows-consumer1:\n    if: github.repository == 'Apdelrahman1911/nativeCmpkit' && github.ref == 'refs/heads/development/preview-hardening' && github.event_name == 'workflow_dispatch' && inputs.platform == 'windows-ordinary-consumer1'\n    runs-on: windows-2025\n    timeout-minutes: 120\n    defaults:\n      run:\n        shell: bash\n    env:\n      GIT_CONFIG_COUNT: '2'\n      GIT_CONFIG_KEY_0: core.autocrlf\n      GIT_CONFIG_VALUE_0: 'false'\n      GIT_CONFIG_KEY_1: core.longpaths\n      GIT_CONFIG_VALUE_1: 'true'\n      CARGO_BUILD_JOBS: '1'\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          persist-credentials: false\n      # Action references are allowed; no mandatory SHA pinning policy.\n      - uses: actions/setup-java@v4\n        with:\n          distribution: temurin\n          java-version: '17'\n          verify-signature: true\n          overwrite-settings: false\n      - uses: actions/setup-python@v5\n        with:\n          python-version: '3.12'\n      - uses: gradle/actions/wrapper-validation@v4\n        with:\n          min-wrapper-count: 1\n          allow-snapshots: false\n      - name: Exact existing Rust compiler, no bootstrap or dependency refresh\n        run: |\n          command -v rustup\n          rustup toolchain install 1.98.0 --profile minimal --no-self-update --component rustfmt --component clippy\n      - uses: android-actions/setup-android@v3\n        with:\n          packages: 'cmdline-tools;23.0 platforms;android-37.0'\n          accept-android-sdk-licenses: true\n          log-accepted-android-sdk-licenses: false\n      - name: Qualify SDK23 and current generated source index, not old native tests\n        run: |\n          set -euo pipefail\n          python -B - <<'PY'\n          import os\n          from pathlib import Path\n          manager = Path(os.environ['ANDROID_HOME']) / 'cmdline-tools/23.0/bin/sdkmanager.bat'\n          if not manager.is_file():\n              raise SystemExit('Official SDK23 setup is incomplete')\n          with open(os.environ['GITHUB_PATH'], 'a') as output:\n              output.write(str(manager.parent) + '\\n')\n          PY\n          python -B scripts/development/validate_resolutions.py --check\n      - name: Actual private ordinary module and POM graphs, then only NEW Windows consumer1\n        run: |\n          set -euo pipefail\n          python -B scripts/ci/javafx_ordinary_maven_consumer.py --timeout 6600\n      - name: Preserve verification receipts and exact NEW XML, never staged packages or full terminal logs\n        if: always()\n        uses: actions/upload-artifact@v4\n        with:\n          name: javafx-ordinary-windows-consumer1-${{ github.run_id }}-${{ github.run_attempt }}\n          if-no-files-found: error\n          retention-days: 14\n          path: |\n            build/ci-verification/javafx-ordinary-windows/*.json\n            build/ci-verification/javafx-ordinary-windows/module/*.json\n            build/ci-verification/javafx-ordinary-windows/pom/*.json\n            build/ci-verification/javafx-ordinary-windows/native/*.json\n            build/ci-verification/javafx-ordinary-windows/native/junit/TEST-*.xml\n            build/ci-verification/javafx-ordinary-windows/runtime-candidate/*.json\n",
+      "preimage": ""
+    }
+  ],
+  "live_workflow_id_path_enabled_and_input_metadata_confirmed": false,
+  "native_or_build_or_dispatch_executions": 0,
+  "new_job_sha256": "2a085bf2e77f671560b91f1dfbe9688071d5ec8ca75027081cf4ec437dcbf6a2",
+  "old_public_stop_job": {
+    "accepted_whitelist": [
+      "linux-arm64",
+      "macos-arm64",
+      "macos-x64",
+      "windows"
+    ],
+    "bytes": 7294,
+    "sha256": "b52eb257b7c5dc8cc65152c901303afa613a90a78e4c07a3e54a3cd5bd716675",
+    "unchanged": true
+  },
+  "only_new_choice": "windows-ordinary-consumer1",
+  "only_new_job": "ordinary-windows-consumer1",
+  "original_registration_trigger_permissions_concurrency_and_existing_job_unchanged": true,
+  "postimage": {
+    "bytes": 11503,
+    "sha256": "23786c9a0ad877416567333ccb5c3d18439edb1a268d94ff9a9d0e8873fad99d",
+    "source_path": "/root/nativecmpkit-source-proposals-20261104/javafx-ordinary-maven-current2ee707-route658/proposed/.github/workflows/javafx-library-candidate.yml"
+  },
+  "preimage": {
+    "bytes": 8268,
+    "retained_path": "retained/javafx-library-candidate.preimage.yml",
+    "sha256": "4e3bec6b1ae93414ad1e663d232d2d264ab191908fb9493ff0f787c0278df5e8"
+  },
+  "schema": "nativecmpkit-javafx-registered-file-exact-derivative658-v1",
+  "scope": "External source-only derivative of the named existing workflow file, not live registration, Git/native execution, dispatch or adoption",
+  "standalone_alternative": {
+    "bytes": 4005,
+    "canonical_or_adoptable_delivery": false,
+    "path": "retained/javafx-ordinary-maven-consumer.standalone-unadopted.yml",
+    "sha256": "4d0c9b42d915b9e642b75bcb80d0d6f052081d56ec4593ad47c10e91111e50f2"
+  },
+  "target_imports": 0,
+  "test_or_lint_executions": 0,
+  "utc": "2026-11-04T17:46:05.206411+00:00"
+}

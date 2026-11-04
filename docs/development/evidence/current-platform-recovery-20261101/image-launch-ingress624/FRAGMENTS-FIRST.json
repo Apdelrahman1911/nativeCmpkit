@@ -1,0 +1,133 @@
+{
+  "accepted_image_controls_replayed": false,
+  "added_inputs": {
+    "scripts/ci/apple_image_launch_readiness.py": "bafea0957404052acfb3a6f6ec56dabb96319448ae736f6b81f9ebdfeae18fc5",
+    "scripts/ci/test_apple_image_launch_readiness.py": "d7b4bcb1a8c1efa61baa64498d39e908da809520e9c19cdb40a946233727f1b7"
+  },
+  "bindings": {
+    "scripts/ci/calendar_share_selector_source_projection.py": {
+      "after_bytes": 7711,
+      "after_sha256": "bf22ff7bf51de408042052693afc5cf970206e511becb7faf8b8cd361e1f194c",
+      "before_bytes": 7141,
+      "before_sha256": "9e08ae99513cc2c29688b69668f78a5ba319d1e40a7b615519382f14ad728a64",
+      "fragments": [
+        {
+          "after": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact calendar/share selector identity and ordinary source bytes are required\")\n    from apple_image_launcher_source_projection import peel_image_launch_for_history\n    payload = peel_image_launch_for_history(relative, payload)\n",
+          "after_fragment_sha256": "df900e8e900d43b82a06805842ce57ae916bddfe2fe436f77c692225b0b69c60",
+          "before": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact calendar/share selector identity and ordinary source bytes are required\")\n",
+          "before_fragment_sha256": "afc9059d1024dd3a7c79d5fcfc33c1593ddc47cfccb830d8c851bc9a3fe45d74",
+          "id": "source_before_calendar_share_selectors-transparent-image-stage"
+        },
+        {
+          "after": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current calendar/share selector identity and ordinary bytes are required\")\n    from apple_image_launcher_source_projection import current_source_before_image_launch\n    payload = current_source_before_image_launch(relative, payload)\n",
+          "after_fragment_sha256": "07f8da8a85587952b520c6148ba300a51a4b4d65f5bd4d6fb15c524f4a2375c6",
+          "before": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact current calendar/share selector identity and ordinary bytes are required\")\n",
+          "before_fragment_sha256": "6bca859321d040d4bb26b605e3ec822fe1b9f9ac962cc4ed20f9725f435433b8",
+          "id": "current_source_before_calendar_share_selectors-transparent-image-stage"
+        },
+        {
+          "after": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor calendar/share selector identity and ordinary bytes are required\")\n    from apple_image_launcher_source_projection import peel_image_launch_for_history\n    payload = peel_image_launch_for_history(relative, payload)\n",
+          "after_fragment_sha256": "04d4bfa7fc4371c365bb5efadee5ac4be4ec770edcff1a9f91fd169aae17fddf",
+          "before": "    if type(relative) is not str or type(payload) is not bytes:\n        raise ValueError(\"Exact ancestor calendar/share selector identity and ordinary bytes are required\")\n",
+          "before_fragment_sha256": "4bdacb80469571988b9c40404b704ba7e4ef81d090f9f7d693a24b252a459ba5",
+          "id": "peel_calendar_share_selectors_for_history-transparent-image-stage"
+        },
+        {
+          "after": "independent explicit pins in the new controls and the lead's held input map.\n\"\"\"\n    import apple_image_launcher_source_projection as image_history\n    image_history.validate_current_sources(root)\n    document = _document()\n",
+          "after_fragment_sha256": "462e51d18634e6bc4e7b7bae368b2a3401a245011d51662f65bed1224e28caa4",
+          "before": "independent explicit pins in the new controls and the lead's held input map.\n\"\"\"\n    document = _document()\n",
+          "before_fragment_sha256": "426be5f3dfab2f8bf7731dc45bbb748086f0a1e31069cae250bdb066ccd85297",
+          "id": "newest-owning-input-validator-before-unchanged-calendar-inputs"
+        }
+      ]
+    },
+    "scripts/ci/ios_ui_application.py": {
+      "after_bytes": 94910,
+      "after_sha256": "5cd8bc716484a7f1b1f65e41d0832e3855825d505dc78b24e7602980c4a8cee3",
+      "before_bytes": 94080,
+      "before_sha256": "4e407426bc8535ea547eb5fbee74f7a801c87f222add88de94e26966f65690ae",
+      "fragments": [
+        {
+          "after": "            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if host[\"module\"] == \"calf-ui\" and focus == lt.IOS_IMAGE_PROFILE_RECOVERY_FOCUS:\n            import apple_appinfo_shape as appinfo_shape\n            import apple_image_launch_readiness as launch_readiness\n            phase = \"observe-owned-image-prelaunch-readiness\"\n            context = appinfo_shape.OwnedInstallation(root, output, device, bundle_id, token,\n                before[\"source_revision\"], signed_hash, plist_hash, before, preexisting, result, container)\n            receipt[\"owned_image_launch_readiness\"] = launch_readiness.observe(context)\n            # Unknown syntax/query observations cannot replace the original\n            # launch. Positive identity drift must never launch unowned bytes.\n            launch_readiness.require_current_owned_identity(context, receipt[\"owned_image_launch_readiness\"])\n        if request_fixture_requested:\n",
+          "after_fragment_sha256": "65541c4dda1daff931ee7697b55183829b0b27c2c7ccdad99df6d0db85eede44",
+          "before": "            # Return through the original finally. Never fall through to launch,\n            # Worker, WK/profile preparation, transport pass or native test output.\n            return receipt\n        if request_fixture_requested:\n",
+          "before_fragment_sha256": "71d1b3092af3f4701b869019abbe15eb843431a8d0768af7273eb79f5418f4c7",
+          "id": "unchanged-image609-ten-line-hook"
+        }
+      ]
+    },
+    "scripts/ci/test_calendar_share_selector_source_projection.py": {
+      "after_bytes": 13001,
+      "after_sha256": "5561a43899c80aca255c70a092a8a365fd8b592b7c962314ae8a31caf4fca7a9",
+      "before_bytes": 12685,
+      "before_sha256": "fb735fb5cf86d3e0ef11bc13d6ace15fa64f8400aafd6843f40ae8634c0a4cef",
+      "fragments": [
+        {
+          "after": "import android_external328_source_projection as bridge\nimport apple_image_launcher_source_projection as image_history\n",
+          "after_fragment_sha256": "412b84273de9a28753c8b5e23c16c79dcc1446e6893384b4d0316b8d6c6cc468",
+          "before": "import android_external328_source_projection as bridge\n",
+          "before_fragment_sha256": "4cf6612481add23569f52ca3f13cd2da38e329fa85b3c09f33d49d25e6a83ef6",
+          "id": "owning-control-exact-image-stage-import"
+        },
+        {
+          "after": "        self.assertEqual(LAYER_SHA256, sha(image_history.current_source_before_image_launch(LAYER, (ROOT / LAYER).read_bytes())))\n",
+          "after_fragment_sha256": "4e3b53120dbef783e8e1ffbb0127296b22ccc15898d34b592410c820745c9de0",
+          "before": "        self.assertEqual(LAYER_SHA256, sha((ROOT / LAYER).read_bytes()))\n",
+          "before_fragment_sha256": "73c0300a81454c7598b0b8c13b55b234e8c000b70441c01808d6a5120c8f9380",
+          "id": "retain-original-nine-e-zero-eight-hash-operand-through-exact-image-inverse"
+        },
+        {
+          "after": "        paths = (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) |\n                 set(document[\"unchanged_inputs\"]) | {selectors.SPEC_RELATIVE})\n        image = image_history._document()\n        paths |= (set(image[\"bindings\"]) | set(image[\"added_inputs\"]) |\n                  set(image[\"unchanged_inputs\"]) | {image_history.SPEC_RELATIVE})\n",
+          "after_fragment_sha256": "c60c4dbdb78e836081ae238f2030d61c1acc65a8f848cf55dfb56272fbbef7dc",
+          "before": "        paths = (set(document[\"bindings\"]) | set(document[\"added_inputs\"]) |\n                 set(document[\"unchanged_inputs\"]) | {selectors.SPEC_RELATIVE})\n",
+          "before_fragment_sha256": "969c4efc66b953c782747d11383ad71adab424e339d78dc9d0b5d1e58a8eda44",
+          "id": "synthetic-mirror-retains-unchanged-old-inputs-and-adds-exact-newest-image-inputs"
+        }
+      ]
+    }
+  },
+  "image_commit_reused": "b013cbd04997a229ee8796fca34b53d3bffab6f9",
+  "issue141_closed": false,
+  "native_tests_executed": 0,
+  "packages_published": false,
+  "schema_version": 1,
+  "scope": "NEW exact outer image-launch source ingress only; fixed whole-postimage inverses and dated ancestor pins, no old pin/native/compiler/SDK/profile/result replay or launch-cause/readiness claim",
+  "source_before_revision": "7d6b6d5b43f93ae085dc66a3377b3c7967400bf7",
+  "unchanged_inputs": {
+    "scripts/ci/android_external328_source_projection.py": "d931688dd5f1bd196c6ee358a35e3c7664e1ee24639320cdecefa7057a2358f9",
+    "scripts/ci/apple_appinfo_capability.py": "d5d091757a7996d8265667b2c1dfc0f6d977b6b6c1c0f4d9e6d61d565c7fe263",
+    "scripts/ci/apple_appinfo_shape.py": "d3c9624c8e3b51c8e1b50c7f560df7a9ab67766d2255bc70cb804ea4301e1508",
+    "scripts/ci/apple_appinfo_shape_route.py": "eff38992e587037d848eb6c93fcd50496bf269d072c8060abef852c82025efc7",
+    "scripts/ci/camera_home_affinity_source_projection.py": "313d05b5be8c8c223f547baf7b69b5fe2ec07d9c975d2e2ae09572e18814aefe",
+    "scripts/ci/fixtures/android-external328-source-inverse.json": "ec166c161309144efd8ffc2b5726a7fa98cbd0f83a6becbfd37ea539562a2c7a",
+    "scripts/ci/fixtures/calendar-share-selector-source-inverse.json": "0a9267ec0455668688ce3a4a76dc20f534294bf2d48edf1f4c80fd3e43a34bab",
+    "scripts/ci/fixtures/camera-home-affinity-source-inverse.json": "51cc224488eb366034f8edea83f1a31465f8818059bad96a802a1fff0aa655ca",
+    "scripts/ci/fixtures/camera-home-baseline-source-inverse.json": "b968373d8de34a53525efd291055ad61f8d034a17236f663d8c58ba4c0716dcb",
+    "scripts/ci/fixtures/camera-home571-fixture-recovery.json": "681d4eb39370cfff45de265f9baf0913e9e60f04a29f3a331e6fe1b61de9923b",
+    "scripts/ci/fixtures/camera-tooling562-source-inverse.json": "e91e9f3ccbf98238d7fcb7f82a6cedce492451fb15bfcb381ace6616cd43dfdc",
+    "scripts/ci/fixtures/camera-tooling566-source-inverse.json": "04fe85ecea2e04df03f05386250168b1b12fe1d3c1aae0783e3b22fa6344ee6e",
+    "scripts/ci/fixtures/ios-modal-ownership-source-inverse.json": "541e0e1f5d08dc699a8a450361ef00780de2e5c92607b0a141c487fd1156c72f",
+    "scripts/ci/fixtures/ios-modal-worker-source-inverse.json": "8a1f2c4b0f418b9aab96f9d3c8f615acff5efce31fe457886204559fd2448d48",
+    "scripts/ci/fixtures/ios-modal-xcui-source-inverse.json": "fc3be730f172f6f7e1b22d3fa1b8d84095e268540525722a7c95b73d39180014",
+    "scripts/ci/fixtures/ios-owned-geometry575-source-inverse.json": "736ef0e38d1e89baa0c7cbdd0707189d28a197b08fb11500943d94cede28efdd",
+    "scripts/ci/fixtures/ios-owned-geometry581-fixture-recovery.json": "441995a9a586509700a8359c744c6a2d7420abed2df2924333c6f111598dcd58",
+    "scripts/ci/fixtures/ios-popover-anchor-source-inverse.json": "145287111a3c12354efa3b30c2df93ee3a8120f3a42a37f2193a02d17065544f",
+    "scripts/ci/fixtures/ios-popover-geometry-source-inverse.json": "a19b28201b2e77644109c97f636323865ff7a250b2e58474a6ac567a36cbc723",
+    "scripts/ci/fixtures/ios-sheet-repeat-source-inverse.json": "a821c1b93c44e71afa2142b4ba10d84e0117bbf017f790130a38c565890c971a",
+    "scripts/ci/fixtures/ios-worker-completion-source-inverse.json": "5e08c7a05137b117d080b74f698a13a0fe6cd25c439eab40750de0e260faef60",
+    "scripts/ci/ios_modal_ownership_source_projection.py": "50ac763e93bd6f690e4fdc524291bf78ec8f5e70484f13b063ea665c04446a59",
+    "scripts/ci/ios_modal_worker_source_projection.py": "6eb5457267767a590cc5ded4de58d7e120d5c766c9961f54a1179a7426934fd8",
+    "scripts/ci/ios_modal_xcui_source_projection.py": "b721b19b2e8aa92637fb66d7010fbd4a5d90ff18ce455e0840d3c3af33749e72",
+    "scripts/ci/ios_owned_geometry_fixture_recovery.py": "175c69071fa0bf8bbf106b6cc127ae6cd90344512d70f960b5447a4d2b9dc3c4",
+    "scripts/ci/ios_popover_anchor_source_projection.py": "91a735dab67366dbc39b70156549058ff061f5eb7f8dac4432fecd2e894dd36b",
+    "scripts/ci/ios_popover_geometry_source_projection.py": "a6d892d99c1c051aba8b3dca8b2e456457a730c2f66e4d417507f76b9e626e13",
+    "scripts/ci/ios_sheet_repeat_source_projection.py": "f750f542b360d43819428c83f7867ee163089a28bc0ea040bb179699520464b5",
+    "scripts/ci/ios_worker_completion_source_projection.py": "6dfd60ae064aeb25c9eee7727770a87b769ecd66a41106003f98f773b7fe0ac2",
+    "scripts/ci/test_camera_home_affinity_source_projection.py": "d894b092b54022a22e297556661a7f4aaf68cf495e1aebb993aa846051711585",
+    "scripts/ci/test_camera_home_baseline_source_projection.py": "1afc43d19e87da2f8f66c98a75ea54c45e083b40dc804928c57dcab67738c405",
+    "scripts/ci/test_ios_owned_geometry_fixture_recovery.py": "4e0e88839096d4d4e2d581ed68f5c919c32443229b644eff995a84047300d9dc",
+    "scripts/ci/test_ios_owned_geometry_mirror_recovery.py": "dcb6d89962a44cfb16c341e2bafd2d4b07242a7a6d8268ac0bfe139fd820d90e",
+    "scripts/ci/test_ios_popover_geometry.py": "734e2dbfa3c86ae32e73043054c25918e46f4723822de7e8f98c86f810f1cdab",
+    "scripts/ci/test_ui_alert_important_recovery.py": "78a84a1c849ac8487644329e4293cf65064b7ea2580475a23e2c23a00bff0efa"
+  }
+}

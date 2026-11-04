@@ -1,0 +1,533 @@
+{
+  "actual_final_input_count": 1375,
+  "actual_final_input_digest": "a592c0b2d625a0a26ae85a3a2e16ea7e2578c84f5bcfbfa7cdc3640cd3248787",
+  "artifacts": {
+    "BASE-INPUTS-7D6B.json": {
+      "bytes": 209664,
+      "sha256": "6e77351df1723d83923e945443220fb753e0dbd154fa8872bbdd8b42605b223f"
+    },
+    "CHERRY-INPUTS-BEFORE-INGRESS.json": {
+      "bytes": 209893,
+      "sha256": "2dc83cf01c0e6c75fa698b0d5be767428d2abfe0b009f61bc3c6fa2b4fbd83a7"
+    },
+    "FRAGMENTS-FIRST.json": {
+      "bytes": 13257,
+      "sha256": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef"
+    },
+    "HARNESS-FIRST.py": {
+      "bytes": 5348,
+      "sha256": "78da2b78a50679475d9eaeda927066f151259e79e640fa6c9c5031a0cb3c238e"
+    },
+    "HARNESS-RECOVERY1.py": {
+      "bytes": 5564,
+      "sha256": "8331dc6992e9a5dc1548684b483dd135a592c5e7c29b9fd05d29a10d873b4162"
+    },
+    "IMPORTANT-FIRST.json": {
+      "bytes": 12802,
+      "sha256": "3e23fece27692dd46695e39cc3d176e804e471bd2bd0fb25fb751f7c3954db07"
+    },
+    "IMPORTANT-FIRST.log": {
+      "bytes": 5642,
+      "sha256": "0001cb4fe488922b5aa8190b5d6dd5c1073f750b18ec1c74712c395b47644e75"
+    },
+    "IMPORTANT-RECOVERY1.json": {
+      "bytes": 2620,
+      "sha256": "d6d1eb492a639fa4777a3f25c9bc21ef2282e391d6b8da74d6edf593ddbe7963"
+    },
+    "IMPORTANT-RECOVERY1.log": {
+      "bytes": 805,
+      "sha256": "6d3b004abea847dd6e1f8e46e70760c5412ba205c714fe6ee57330c24d55072a"
+    },
+    "INPUTS-FIRST-AFTER.json": {
+      "bytes": 210234,
+      "sha256": "dc7daee9cf70f50d970099e11c3f3ae23fa3c89b88549c90a493a8c49600aa65"
+    },
+    "INPUTS-FIRST-BEFORE.json": {
+      "bytes": 210235,
+      "sha256": "516db1f7e688791b609d5827a1e20c9e147e9588107e29f30c4dadd3abe70276"
+    },
+    "INPUTS-RECOVERY1-AFTER.json": {
+      "bytes": 210247,
+      "sha256": "a39daf0a99397ba05991592045363f44ff6cbc0569281d9e0b8b9319fa6d9049"
+    },
+    "INPUTS-RECOVERY1-BEFORE.json": {
+      "bytes": 210248,
+      "sha256": "6888360829bdeecbdfb04aa93b55e2dad8daa76fa618caa05c85b96c92fda0d3"
+    },
+    "PASSIVE-REVIEW-FIRST-REFUSAL.json": {
+      "bytes": 3298,
+      "sha256": "fa086f717e78bea1844279c5ff5414043db42ca551d07ec39c01799bf411c278"
+    },
+    "PASSIVE-REVIEW-FIRST.py": {
+      "bytes": 23608,
+      "sha256": "5151a17a3c4ff2835ab6e4a562b29255178170ddc7618a788a003f71b984e8a4"
+    },
+    "PASSIVE-REVIEW-RECOVERY1.py": {
+      "bytes": 18719,
+      "sha256": "fef03d1dba1517a0baef95fbce6147f9972c81d1beac0b36dbdf59abd19c6038"
+    },
+    "PLAN-APPROVED.json": {
+      "bytes": 805,
+      "sha256": "11b63707a88e6042500218d1e2b62ad0e11903657109c8b33176fac750ed0146"
+    },
+    "PLAN-FIRST-REFUSAL.json": {
+      "bytes": 1708,
+      "sha256": "afc8f8b3e0018c8ed9a174d585553cbd581b3555754e34d0f9dcd5f596584c71"
+    },
+    "PLAN-FIRST.json": {
+      "bytes": 4957,
+      "sha256": "62222e8f6df18dd8d215d1ca95cdaa105cd6e1f0ad76c49e7c35d9c6222e5725"
+    },
+    "PLAN-REVISED.json": {
+      "bytes": 6937,
+      "sha256": "2198bb6785de9404421349bd8b5063d67a9f5c3aea0c92d0acae7c998a1040e7"
+    },
+    "RECOVERY-EXACT-DIFF.patch": {
+      "bytes": 1695,
+      "sha256": "564dd8809a3febd16950a8fab29f383cb084b143ca55dcee4f476215db04998b"
+    },
+    "RECOVERY-PLAN.json": {
+      "bytes": 1763,
+      "sha256": "e12525176b341a7a4d9a0282cca8ea6f55ac16eef299c536ddfc02152c26dd19"
+    }
+  },
+  "base_revision": "7d6b6d5b43f93ae085dc66a3377b3c7967400bf7",
+  "checks": [
+    {
+      "detail": null,
+      "name": "exact-head-and-base",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "approved-scope-before-first-execution",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "first-planning-refusal-preserved-before-edits",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": {
+        "added": [
+          "scripts/ci/apple_image_launcher_source_projection.py",
+          "scripts/ci/fixtures/apple-image-launcher-source-inverse.json",
+          "scripts/ci/test_apple_image_launcher_source_projection.py"
+        ],
+        "modified": [
+          "scripts/ci/calendar_share_selector_source_projection.py",
+          "scripts/ci/test_calendar_share_selector_source_projection.py"
+        ]
+      },
+      "name": "only-two-approved-old-paths-and-three-new-source-paths",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all-six-recorded-map-digests",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "first-and-recovery-before-after-holds",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "base-cherry-first-final-map-counts",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "cherry-adds-only-original-image609-source-inputs",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "ingress-adds-three-inputs-and-modifies-only-two-current-tooling-inputs",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "recovery-changes-only-new-helper-and-new-owning-control",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all1370-base-map-members-are-exact-Git-blobs",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all1370-Git-source-hashes-exact",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all1375-current-individual-inputs-match-final-ordinary-held-map",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "passive-inventory-complete-and-held-with-no-process",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "exact-manifest-is-first-immutable-copy",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "finite-three-path-eight-fragment-two-addition-thirtyfive-unchanged-manifest",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-bf22ff7bf5",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-5cd8bc7164",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-5561a43899",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all-three-complete-inverses-and-forward-roundtrips-restore-exact7d-parent-bytes",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "all35-dated-unchanged-inputs-and-two-original-image609-inputs-held",
+      "passed": true,
+      "reused_from": "PASSIVE-REVIEW-FIRST-REFUSAL.json"
+    },
+    {
+      "detail": null,
+      "name": "image609-four-fragment-fields-exact-new-id-metadata-only-original-source-hashes-held",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "original-image609-evidence-bytes-unchanged",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-4e407426bc",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-edc4e95464",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-8b86b780e6",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "complete-after-hash-92f2ce889f",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "exact-five-already-pinned-launcher-ancestors-no-arbitrary-Git-fallback",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "recovery-helper-diff-is-one-refusal-string-only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "recovery-control-diff-is-only-owning-helper-pin-and-one-strengthened-assertion",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "all-ten-unaffected-new-method-ASTs-unchanged-after-recovery",
+      "passed": true
+    },
+    {
+      "detail": {
+        "original_assertions": 41,
+        "original_methods": 6
+      },
+      "name": "every-original-calendar-control-method-and-assertion-retained",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "original-all-finally-launch-argv-and360second-focus-deadline-AST-retained",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "new-helper-never-executes-reconstructed-source-model-observer-or-process",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "new-confined-path-wrapper-delegates-one-unchanged-bridge-call",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "first-exact20-selection-and-recorded19pass-one-regex-failure",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "first-real-failure-is-retained-old-exact-current-regex-not-admission",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "recovery-exact-failed1-and-changed-owning-new2-only",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "twenty-unique-qualified-obligations-over23-invocations-with17unchanged-results-reused",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "zero-recorded-subprocess-compiler-SDK-native-profile-and-accepted-image609-replay",
+      "passed": true
+    },
+    {
+      "detail": null,
+      "name": "source-whitespace-check",
+      "passed": true
+    }
+  ],
+  "first_passive_review_refusal_sha256": "fa086f717e78bea1844279c5ff5414043db42ca551d07ec39c01799bf411c278",
+  "head_before_ingress_overlay": "ddf19b1545eb05c46c7e69c087d216b03face61a",
+  "important_execution": {
+    "accepted_image609_NEW18_replayed": false,
+    "accepted_obligations": {
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_complete_image_calendar_and_control_inverses_restore_exact_parents_and_forward": {
+        "elapsed_seconds": 0.006772841094061732,
+        "receipt": "IMPORTANT-RECOVERY1.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_confined_raw_read_rejects_foreign_symlink_and_hardlink_paths": {
+        "elapsed_seconds": 0.04583042417652905,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_current_rejects_old_partial_displaced_drifted_and_foreign_payloads": {
+        "elapsed_seconds": 0.03692359407432377,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_exact_bound_identity_never_guesses_foreign_relative_paths": {
+        "elapsed_seconds": 0.0031577078625559807,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_fragment_hashes_unique_sites_and_complete_restoration_are_mandatory": {
+        "elapsed_seconds": 0.010412895120680332,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_image609_sources_hook_finally_launch_argv_and_deadline_are_unchanged": {
+        "elapsed_seconds": 0.09073537378571928,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_latest_three_hooks_and_mirror_qualification_preserve_original_bodies": {
+        "elapsed_seconds": 0.03165350714698434,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_manifest_drift_schema_and_alias_links_refuse": {
+        "elapsed_seconds": 0.0034950440749526024,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_old_pins_and_guard_bodies_are_not_refreshed_or_replayed": {
+        "elapsed_seconds": 0.005926678888499737,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_one_raw_ingress_precedes_only_ancestor_nested_readers": {
+        "elapsed_seconds": 0.18119581788778305,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_only_fixed_pinned_launcher_ancestors_are_transparent": {
+        "elapsed_seconds": 0.028855632059276104,
+        "receipt": "IMPORTANT-RECOVERY1.json",
+        "status": "passed"
+      },
+      "test_apple_image_launcher_source_projection.ImageLauncherSourceProjectionControls.test_unchanged_launcher_pin_chain_reaches_worker_and_modal": {
+        "elapsed_seconds": 0.1251380150206387,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_calendar_share_selector_source_projection.CalendarShareSelectorSourceControls.test_only_three_transparent_camera_hooks_and_unchanged_recovery_mirror_pins": {
+        "elapsed_seconds": 0.008943289052695036,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_calendar_share_selector_source_projection.CalendarShareSelectorSourceControls.test_owning_validator_requires_all_four_added_inputs_and_ordinary_current_images": {
+        "elapsed_seconds": 0.1415722998790443,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_calendar_share_selector_source_projection.CalendarShareSelectorSourceControls.test_raw_selector_admission_occurs_once_before_camera_and_unchanged_dated_pins": {
+        "elapsed_seconds": 0.1687128129415214,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_ios_modal_xcui_batch.IosModalXcuiBatchControls.test_exact_six_path_history_restores_prior_bytes_preserves_old_pins_and_refuses_tampering": {
+        "elapsed_seconds": 0.321750293020159,
+        "receipt": "IMPORTANT-RECOVERY1.json",
+        "status": "passed"
+      },
+      "test_ios_popover_geometry.PopoverGeometryControls.test_current_source_validation_refuses_drift_or_symlink": {
+        "elapsed_seconds": 0.35675764991901815,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_ios_popover_geometry.PopoverGeometryControls.test_exact_fragment_roundtrip_preserves_every_existing_input_preimage": {
+        "elapsed_seconds": 0.07254286902025342,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_ios_worker_completion.WorkerCompletionControls.test_exact_additive_history_preserves_all_old_pins_without_recursive_readmission": {
+        "elapsed_seconds": 0.37981105386279523,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      },
+      "test_ui_alert_important_recovery.AlertImportantRecoveryNewOnlyTests.test_original_four_bodies_gate_public_activation_deadline_host_and_parser_are_byte_retained": {
+        "elapsed_seconds": 0.21908758906647563,
+        "receipt": "IMPORTANT-FIRST.json",
+        "status": "passed"
+      }
+    },
+    "compiler_SDK_native_profile_executions": 0,
+    "first_counts": {
+      "errors": 0,
+      "failures": 1,
+      "passed": 19,
+      "skipped": 0
+    },
+    "first_elapsed_seconds": 2.123286260990426,
+    "invocations": 23,
+    "recovery_counts": {
+      "errors": 0,
+      "failures": 0,
+      "passed": 3,
+      "skipped": 0
+    },
+    "recovery_elapsed_seconds": 0.35818815720267594,
+    "subprocess_attempts": 0,
+    "unchanged_first_passes_reused": 17,
+    "unique_obligations": 20
+  },
+  "input_maps": {
+    "BASE-INPUTS-7D6B.json": {
+      "count": 1370,
+      "input_digest": "04e7890a75289ff1cc4e5a05066c2ad5b820fdd5d2a0064ec4a2e544d91f1a95",
+      "sha256": "6e77351df1723d83923e945443220fb753e0dbd154fa8872bbdd8b42605b223f"
+    },
+    "CHERRY-INPUTS-BEFORE-INGRESS.json": {
+      "count": 1372,
+      "input_digest": "240adf7108593b37d06b12110d4579fb602be9e4eb9bdbe5ba0dda12f108f407",
+      "sha256": "2dc83cf01c0e6c75fa698b0d5be767428d2abfe0b009f61bc3c6fa2b4fbd83a7"
+    },
+    "INPUTS-FIRST-AFTER.json": {
+      "count": 1375,
+      "input_digest": "efc1858815968129dc74c7ba84bf6a029cd2444e0a34abc38aad3a71a5aec158",
+      "sha256": "dc7daee9cf70f50d970099e11c3f3ae23fa3c89b88549c90a493a8c49600aa65"
+    },
+    "INPUTS-FIRST-BEFORE.json": {
+      "count": 1375,
+      "input_digest": "efc1858815968129dc74c7ba84bf6a029cd2444e0a34abc38aad3a71a5aec158",
+      "sha256": "516db1f7e688791b609d5827a1e20c9e147e9588107e29f30c4dadd3abe70276"
+    },
+    "INPUTS-RECOVERY1-AFTER.json": {
+      "count": 1375,
+      "input_digest": "a592c0b2d625a0a26ae85a3a2e16ea7e2578c84f5bcfbfa7cdc3640cd3248787",
+      "sha256": "a39daf0a99397ba05991592045363f44ff6cbc0569281d9e0b8b9319fa6d9049"
+    },
+    "INPUTS-RECOVERY1-BEFORE.json": {
+      "count": 1375,
+      "input_digest": "a592c0b2d625a0a26ae85a3a2e16ea7e2578c84f5bcfbfa7cdc3640cd3248787",
+      "sha256": "6888360829bdeecbdfb04aa93b55e2dad8daa76fa618caa05c85b96c92fda0d3"
+    }
+  },
+  "limitations": {
+    "issue141_remains_open": true,
+    "lead_integration_push_dispatch_result_acceptance_and_issue_closure_pending": true,
+    "native_consumer_API_ABI_dependency_legal_security_publication_readiness_gates_unchanged": true,
+    "native_launch_Worker_XML_Instruments_leaks_schema_registration_readiness_acceptance": false,
+    "original_image609_NEW18_results_are_historical_not_current1375_execution": true,
+    "original_launch_cause_known": false
+  },
+  "new_or_failed_only_passive_checks": 20,
+  "original_image_commit_reused": "b013cbd04997a229ee8796fca34b53d3bffab6f9",
+  "passed_checks": 41,
+  "passive_activity": {
+    "compiler_SDK_native_profile_executions": 0,
+    "control_model_observer_executions": 0,
+    "local_readonly_git_queries": 9,
+    "network_GitHub_dispatch_publication_mutations": 0,
+    "passive_source_inventory_processes": 0,
+    "source_edits": 0
+  },
+  "recorded_at_utc": "2026-11-04T04:40:38.694165+00:00",
+  "retained_refusals": [
+    "First passive fragment-dictionary equality refused the new harmless id metadata field. All four original before/after byte/hash fields were equal; failed-only review qualifies only that new fixed metadata ID and unchanged original fields. No source or control changes.",
+    "First planning inspection used old b013-parent tooling rather than exact7d; refused before implementation/tests; revised outer layer preserves recovery175c, Camera, bridge and old manifests/pins.",
+    "First important20 correctly refused unknown launcher bytes but its NEW message missed the unchanged modal exact-current regex; only failed1 plus owning/changed NEW2 recovered.",
+    "A passive metadata printer used unavailable python alias and stopped before executing any review code; python3 read the same existing records. No source or test changes.",
+    "Combined passive source display exceeded output budget; remaining owning source portions were read in bounded slices without control execution."
+  ],
+  "reused_first_passive_checks": 21,
+  "reviewer": "/root/calendar_independent609",
+  "schema_version": 1,
+  "scope": "Passive source/AST/Git-blob/recorded-result custody only. No important-control, observer, model, compiler, SDK, native or profile replay.",
+  "source_inputs_sha256": {
+    "scripts/ci/apple_image_launcher_source_projection.py": "5f13a039c95d4a9f0ce7fbf3026da3de572370aaf2bb80bb0dd60bfe6c65875a",
+    "scripts/ci/calendar_share_selector_source_projection.py": "bf22ff7bf51de408042052693afc5cf970206e511becb7faf8b8cd361e1f194c",
+    "scripts/ci/fixtures/apple-image-launcher-source-inverse.json": "7fd94a3f2249840fb61a6cbe835bc8d3fe0809951dd3e3ed77cb33f422f55cef",
+    "scripts/ci/ios_ui_application.py": "5cd8bc716484a7f1b1f65e41d0832e3855825d505dc78b24e7602980c4a8cee3",
+    "scripts/ci/test_apple_image_launcher_source_projection.py": "aab2f66523fef969837ed6db125ab6c68c6b18a7c76fe8872d978904db954b79",
+    "scripts/ci/test_calendar_share_selector_source_projection.py": "5561a43899c80aca255c70a092a8a365fd8b592b7c962314ae8a31caf4fca7a9"
+  }
+}

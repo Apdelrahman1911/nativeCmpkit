@@ -13,6 +13,7 @@ import camera_home_affinity_source_projection as camera
 import ios_owned_geometry_fixture_recovery as recovery
 import ios_geometry_simulator_source_projection as owned
 import android_external328_source_projection as bridge
+import apple_image_launcher_source_projection as image_history
 
 ROOT = Path(__file__).resolve().parents[2]
 LAYER = "scripts/ci/calendar_share_selector_source_projection.py"
@@ -116,9 +117,12 @@ class CalendarShareSelectorSourceControls(unittest.TestCase):
         self.assertEqual({"scripts/ci/ios_calendar_native_focus.py", "scripts/ci/macos_share_native_focus.py",
                           "scripts/ci/test_ios_calendar_native_focus.py", "scripts/ci/test_macos_share_native_focus.py"},
                          set(document["added_inputs"]))
-        self.assertEqual(LAYER_SHA256, sha((ROOT / LAYER).read_bytes()))
+        self.assertEqual(LAYER_SHA256, sha(image_history.current_source_before_image_launch(LAYER, (ROOT / LAYER).read_bytes())))
         paths = (set(document["bindings"]) | set(document["added_inputs"]) |
                  set(document["unchanged_inputs"]) | {selectors.SPEC_RELATIVE})
+        image = image_history._document()
+        paths |= (set(image["bindings"]) | set(image["added_inputs"]) |
+                  set(image["unchanged_inputs"]) | {image_history.SPEC_RELATIVE})
         with tempfile.TemporaryDirectory(prefix="nativecmpkit-selectors617-") as temporary:
             root = Path(temporary)
             for name in paths:

@@ -1,0 +1,31 @@
+--- scripts/ci/apple_image_launcher_source_projection.py.first-tested
++++ scripts/ci/apple_image_launcher_source_projection.py.recovery-tested
+@@ -140,7 +140,7 @@
+         return payload
+     if relative == LAUNCHER and observed in PINNED_LAUNCHER_ANCESTORS:
+         return payload  # Its next unchanged dated reader still owns acceptance.
+-    raise ValueError("Unknown image-launch bytes are not a fixed pinned ancestor")
++    raise ValueError("Unknown image-launch bytes cannot satisfy exact current source or a fixed pinned ancestor")
+ 
+ 
+ def read_current_source_for_history(path: Path, root: Path):
+--- scripts/ci/test_apple_image_launcher_source_projection.py.first-tested
++++ scripts/ci/test_apple_image_launcher_source_projection.py.recovery-tested
+@@ -23,7 +23,7 @@
+ 
+ ROOT = Path(__file__).resolve().parents[2]
+ HELPER = "scripts/ci/apple_image_launcher_source_projection.py"
+-HELPER_SHA256 = "410b489bd44efa7428438ad68ac6fd1385fb70452503d130bcdee48b71c4f053"
++HELPER_SHA256 = "5f13a039c95d4a9f0ce7fbf3026da3de572370aaf2bb80bb0dd60bfe6c65875a"
+ 
+ 
+ def sha(raw):
+@@ -114,7 +114,7 @@
+             with self.assertRaises(ValueError):
+                 history.current_source_before_image_launch(history.LAUNCHER, raw)
+             for bad in (raw + b"\n", raw[:-1], raw.replace(b"\n", b"\r\n")):
+-                with self.assertRaises(ValueError):
++                with self.assertRaisesRegex(ValueError, "exact current source or a fixed pinned ancestor"):
+                     history.peel_image_launch_for_history(history.LAUNCHER, bad)
+         for name in (history.SELECTOR, history.CONTROL):
+             raw = history.source_before_image_launch(name, (ROOT / name).read_bytes())

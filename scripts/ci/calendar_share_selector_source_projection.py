@@ -62,6 +62,8 @@ def source_before_calendar_share_selectors(relative, payload):
     """Exact inverse or exact idempotent ancestor; never current admission."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact calendar/share selector identity and ordinary source bytes are required")
+    from apple_image_launcher_source_projection import peel_image_launch_for_history
+    payload = peel_image_launch_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is None:
         return payload  # An unlisted identity is not certified or digest-guessed.
@@ -98,6 +100,8 @@ def current_source_before_calendar_share_selectors(relative, payload):
     """Only the outer raw-checkout boundary admits a listed latest image."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact current calendar/share selector identity and ordinary bytes are required")
+    from apple_image_launcher_source_projection import current_source_before_image_launch
+    payload = current_source_before_image_launch(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() != binding["after_sha256"]:
         raise ValueError("An old/unknown image cannot replace current calendar/share selector source")
@@ -108,6 +112,8 @@ def peel_calendar_share_selectors_for_history(relative, payload):
     """No admission: unknown/older bytes remain subject to their next dated pin."""
     if type(relative) is not str or type(payload) is not bytes:
         raise ValueError("Exact ancestor calendar/share selector identity and ordinary bytes are required")
+    from apple_image_launcher_source_projection import peel_image_launch_for_history
+    payload = peel_image_launch_for_history(relative, payload)
     binding = _document()["bindings"].get(relative)
     if binding is not None and hashlib.sha256(payload).hexdigest() == binding["after_sha256"]:
         return source_before_calendar_share_selectors(relative, payload)
@@ -122,6 +128,8 @@ helper/control input. The exact manifest is checked both at the loaded source
 location and at the requested root. Its new implementation/control source has
 independent explicit pins in the new controls and the lead's held input map.
 """
+    import apple_image_launcher_source_projection as image_history
+    image_history.validate_current_sources(root)
     document = _document()
     expected = ({name: binding["after_sha256"] for name, binding in document["bindings"].items()} |
                 document["added_inputs"] | document["unchanged_inputs"] | {SPEC_RELATIVE: SPEC_SHA256})

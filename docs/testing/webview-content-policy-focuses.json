@@ -1,0 +1,120 @@
+{
+  "schema": "nativecmpkit-webview-content-policy-focus-proposal-v1",
+  "proposal_base": "788c4a8eaa8052e1ab90f608b876802610af974c",
+  "kind": "finite-source-proposal-not-runner-registration",
+  "issues": [
+    66,
+    73
+  ],
+  "module": "calf-webview",
+  "authored_classes": 4,
+  "authored_methods": 14,
+  "target_executions": 17,
+  "compiler_executions_by_this_patch": 0,
+  "native_executions_by_this_patch": 0,
+  "profiles": [
+    {
+      "profile": "webview-content-policy-linux",
+      "focus": "webview-content-policy-linux",
+      "slot": "desktop-linux-x64",
+      "suite": "desktop",
+      "task": ":calf-webview:desktopTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.DesktopWebViewContentPolicyAcceptanceTest",
+      "source": "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopWebViewContentPolicyAcceptanceTest.kt",
+      "methods": [
+        "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+        "documentedGetReplayAndNonSaveablePostOneTimeOptOutAreObserved",
+        "unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints"
+      ],
+      "helpers": [
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/DesktopContentPolicyWindow.kt",
+        "calf-webview/src/desktopTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt"
+      ],
+      "required_native_cases": 3
+    },
+    {
+      "profile": "webview-content-policy-android",
+      "focus": "webview-content-policy-android",
+      "slot": "android-device-api35",
+      "suite": "android-device",
+      "task": ":calf-webview:connectedAndroidDeviceTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.AndroidWebViewContentPolicyAcceptanceTest",
+      "source": "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewContentPolicyAcceptanceTest.kt",
+      "methods": [
+        "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+        "documentedGetReplayAndNonSaveablePostOneTimeOptOutAreObserved",
+        "initialHeadersRedirectsAndSubresourcesMatchStateAndNavigatorPolicy",
+        "relativeResourcesPreserveSupportedUnicodeEncoding"
+      ],
+      "helpers": [
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/OwnedWebViewContentPolicyHttpFixture.kt",
+        "calf-webview/src/androidDeviceTest/kotlin/com/mohamedrejeb/calf/ui/web/AndroidWebViewLifetimeDeviceTest.kt"
+      ],
+      "required_native_cases": 4
+    },
+    {
+      "profile": "webview-content-policy-js",
+      "focus": "webview-content-policy-js",
+      "slot": "browser-js",
+      "suite": "js",
+      "task": ":calf-webview:jsBrowserTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentPolicyAcceptanceTest",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentPolicyAcceptanceTest.kt",
+      "methods": [
+        "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+        "documentedGetReplayAndNonSaveablePostOneTimeOptOutAreObserved",
+        "unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints"
+      ],
+      "helpers": [
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt",
+        "calf-webview/karma.config.d/nativecmpkit-content-policy-fixture.js"
+      ],
+      "required_native_cases": 3
+    },
+    {
+      "profile": "webview-content-policy-wasm",
+      "focus": "webview-content-policy-wasm",
+      "slot": "browser-wasm",
+      "suite": "wasm",
+      "task": ":calf-webview:wasmJsBrowserTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.BrowserWebViewContentPolicyAcceptanceTest",
+      "source": "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserWebViewContentPolicyAcceptanceTest.kt",
+      "methods": [
+        "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+        "documentedGetReplayAndNonSaveablePostOneTimeOptOutAreObserved",
+        "unsupportedHeadersAndBaseUrlRefuseBeforeNetworkForBothEntryPoints"
+      ],
+      "helpers": [
+        "calf-webview/src/webTest/kotlin/com/mohamedrejeb/calf/ui/web/BrowserContentPolicyFixture.kt",
+        "calf-webview/karma.config.d/nativecmpkit-content-policy-fixture.js"
+      ],
+      "required_native_cases": 3
+    },
+    {
+      "profile": "ios-webview-content-policy",
+      "focus": "ios-webview-content-policy",
+      "slot": "ios-iphone",
+      "suite": "ios",
+      "task": ":calf-webview:iosSimulatorArm64ApplicationTest",
+      "classname": "com.mohamedrejeb.calf.ui.web.IosWebViewContentPolicyAcceptanceTest",
+      "source": "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosWebViewContentPolicyAcceptanceTest.kt",
+      "methods": [
+        "savedRemainingStatesRemountWithoutBlankTitleOrFalseHistory",
+        "documentedGetReplayAndNonSaveablePostOneTimeOptOutAreObserved",
+        "initialHeadersRedirectsAndSubresourcesMatchStateAndNavigatorPolicy",
+        "relativeResourcesPreserveSupportedUnicodeEncoding"
+      ],
+      "helpers": [
+        "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/IosContentPolicyFixture.kt",
+        "scripts/ci/webview_content_policy_fixture.py",
+        "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeWebViewApplicationHost.kt",
+        "calf-webview/src/iosTest/kotlin/com/mohamedrejeb/calf/ui/web/internal/NativeObjectIdentity.kt"
+      ],
+      "required_native_cases": 4
+    }
+  ],
+  "excluded_existing_native_methods": "Every existing accepted WebView/application/request/DNS method is compiled normally but not part of this missing-criteria proposal.",
+  "important_affected_existing_saver_seam": "com.mohamedrejeb.calf.ui.web.AndroidWebViewLifetimeDeviceTest.retainedStateReleasesRepeatedRealActivitiesAndViewsAndRestoresSerializedNativeState",
+  "affected_existing_native_selection": "Lead decision after source review; reuse historical observations honestly and do not call them a fresh result at the changed saver.",
+  "capacity": "Lead alone dispatches; no all-host alias. Maximum two combined hosted-heavy reservations including queued/reserved; local heavy compilation remains serial with at least 8 GiB free."
+}

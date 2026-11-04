@@ -609,8 +609,8 @@ actual val WebStateSaver: Saver<WebViewState, Any> = run {
         },
         restore = {
             WebViewState(WebContent.NavigatorOnly).apply {
-                this.pageTitle = it[pageTitleKey] as String?
-                this.lastLoadedUrl = it[lastLoadedUrlKey] as String?
+                // Native history is not a displayed document. Actual native callbacks
+                // repopulate metadata; never paint an old title/URL over a new blank view.
                 this.viewState = it[stateBundle] as Bundle?
             }
         }
